@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 
 /**
  * Class LoadFormValues
@@ -12,7 +12,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class LoadFormValues implements SelfHandling
+class LoadFormValues
 {
 
     /**

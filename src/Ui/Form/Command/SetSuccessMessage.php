@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 use Illuminate\Translation\Translator;
 
 /**
@@ -13,7 +13,7 @@ use Illuminate\Translation\Translator;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class SetSuccessMessage implements SelfHandling
+class SetSuccessMessage
 {
 
     /**

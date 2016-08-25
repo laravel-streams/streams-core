@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 use Illuminate\Filesystem\Filesystem;
 
 /**
@@ -13,7 +13,7 @@ use Illuminate\Filesystem\Filesystem;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Stream\Command
  */
-class DeleteStreamEntryModels implements SelfHandling
+class DeleteStreamEntryModels
 {
 
     /**

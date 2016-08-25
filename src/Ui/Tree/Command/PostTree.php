@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Tree\Command;
 
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -12,7 +12,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Tree\Command
  */
-class PostTree implements SelfHandling
+class PostTree
 {
 
     use DispatchesJobs;

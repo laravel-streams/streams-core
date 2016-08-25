@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 
 /**
  * Class SetActiveAction
@@ -11,7 +11,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action\Command
  */
-class SetActiveAction implements SelfHandling
+class SetActiveAction
 {
 
     /**

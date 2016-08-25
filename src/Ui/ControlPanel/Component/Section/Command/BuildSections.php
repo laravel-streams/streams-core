@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 
 /**
  * Class BuildSections
@@ -12,7 +12,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command
  */
-class BuildSections implements SelfHandling
+class BuildSections
 {
 
     /**

@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Field\Command;
 
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 
 /**
  * Class DeleteFieldTranslations
@@ -11,7 +11,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Field\Command
  */
-class DeleteFieldTranslations implements SelfHandling
+class DeleteFieldTranslations
 {
 
     /**

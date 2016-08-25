@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Anomaly\Streams\Platform\Ui\Table\TablePagination;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 
 /**
  * Class LoadTablePagination
@@ -12,7 +12,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Command
  */
-class LoadTablePagination implements SelfHandling
+class LoadTablePagination
 {
 
     /**

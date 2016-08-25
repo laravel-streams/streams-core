@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 
 /**
  * Class GetTableEntries
@@ -12,7 +12,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Command
  */
-class GetTableEntries implements SelfHandling
+class GetTableEntries
 {
 
     /**

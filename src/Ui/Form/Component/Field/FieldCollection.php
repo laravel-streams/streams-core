@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Support\Collection;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 
 /**
  * Class FieldCollection

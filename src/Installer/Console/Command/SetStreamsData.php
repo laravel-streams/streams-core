@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Installer\Console\Command;
 
 use Anomaly\Streams\Platform\Support\Collection;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 use Illuminate\Contracts\Config\Repository;
 
 /**
@@ -12,7 +12,7 @@ use Illuminate\Contracts\Config\Repository;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Installer\Console\Command
  */
-class SetStreamsData implements SelfHandling
+class SetStreamsData
 {
 
     /**

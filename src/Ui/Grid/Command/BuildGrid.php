@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Grid\Component\Item\Command\BuildItems;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -13,7 +13,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Grid\Command
  */
-class BuildGrid implements SelfHandling
+class BuildGrid
 {
 
     use DispatchesJobs;

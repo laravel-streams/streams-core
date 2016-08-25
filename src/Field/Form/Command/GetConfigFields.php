@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Config\Repository;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 use Illuminate\Translation\Translator;
 
 /**
@@ -15,7 +15,7 @@ use Illuminate\Translation\Translator;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Field\Form\Command
  */
-class GetConfigFields implements SelfHandling
+class GetConfigFields
 {
 
     /**

@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
@@ -16,7 +16,7 @@ use Illuminate\Contracts\Events\Dispatcher;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Module\Command
  */
-class InstallModule implements SelfHandling
+class InstallModule
 {
 
     /**

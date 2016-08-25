@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionExecutor;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 
 /**
  * Class ExecuteAction
@@ -12,7 +12,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action\Command
  */
-class ExecuteAction implements SelfHandling
+class ExecuteAction
 {
 
     /**

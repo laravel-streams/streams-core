@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Console\Command;
 
 use Anomaly\Streams\Platform\Support\Parser;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 use Illuminate\Filesystem\Filesystem;
 
 /**
@@ -12,7 +12,7 @@ use Illuminate\Filesystem\Filesystem;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Console\Command
  */
-class WriteAddonComposer implements SelfHandling
+class WriteAddonComposer
 {
 
     /**

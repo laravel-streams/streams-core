@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 use Illuminate\Filesystem\Filesystem;
 
 /**
@@ -13,7 +13,7 @@ use Illuminate\Filesystem\Filesystem;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Console\Command
  */
-class MakeAddonPaths implements SelfHandling
+class MakeAddonPaths
 {
 
     /**

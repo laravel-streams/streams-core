@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Entry\EntryTableRepository;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentTableRepository;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 use Illuminate\Contracts\Container\Container;
 
 /**
@@ -16,7 +16,7 @@ use Illuminate\Contracts\Container\Container;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Table\Command
  */
-class SetRepository implements SelfHandling
+class SetRepository
 {
 
     /**

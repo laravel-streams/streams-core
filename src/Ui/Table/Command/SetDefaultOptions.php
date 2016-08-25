@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 
 /**
  * Class SetDefaultOptions
@@ -12,7 +12,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Table\Command
  */
-class SetDefaultOptions implements SelfHandling
+class SetDefaultOptions
 {
 
     /**

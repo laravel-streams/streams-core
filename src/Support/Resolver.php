@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Illuminate\Contracts\Bus\SelfHandling;
+
 use Illuminate\Contracts\Container\Container;
 
 /**

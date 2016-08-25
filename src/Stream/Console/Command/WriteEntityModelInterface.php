@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Support\Parser;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 use Illuminate\Filesystem\Filesystem;
 
 /**
@@ -13,7 +13,7 @@ use Illuminate\Filesystem\Filesystem;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Stream\Console\Command
  */
-class WriteEntityModelInterface implements SelfHandling
+class WriteEntityModelInterface
 {
 
     /**

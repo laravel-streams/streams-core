@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Image\Command;
 
 use Anomaly\Streams\Platform\Image\Image;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 
 /**
  * Class MakeImageUrl
@@ -11,7 +11,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Image\Command
  */
-class MakeImageUrl implements SelfHandling
+class MakeImageUrl
 {
 
     /**

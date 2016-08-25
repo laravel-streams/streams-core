@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Tree\Contract\TreeRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 
 /**
  * Class GetTreeEntries
@@ -12,7 +12,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Tree\Command
  */
-class GetTreeEntries implements SelfHandling
+class GetTreeEntries
 {
 
     /**

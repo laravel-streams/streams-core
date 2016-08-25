@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 use Illuminate\Session\Store;
 
 /**
@@ -13,7 +13,7 @@ use Illuminate\Session\Store;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class FlashFormErrors implements SelfHandling
+class FlashFormErrors
 {
 
     /**

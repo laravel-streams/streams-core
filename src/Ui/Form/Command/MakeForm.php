@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 
 /**
  * Class MakeForm
@@ -11,7 +11,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class MakeForm implements SelfHandling
+class MakeForm
 {
 
     /**

@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
-use Illuminate\Contracts\Bus\SelfHandling;
+
 use Illuminate\Contracts\Config\Repository;
 
 /**
@@ -11,7 +11,7 @@ use Illuminate\Contracts\Config\Repository;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Database\Command\Handler
  */
-class SetCoreConnection implements SelfHandling
+class SetCoreConnection
 {
 
     /**

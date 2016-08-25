@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasPosted;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -14,7 +14,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class PostForm implements SelfHandling
+class PostForm
 {
 
     use DispatchesJobs;

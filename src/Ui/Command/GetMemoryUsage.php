@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Command;
 
-use Illuminate\Contracts\Bus\SelfHandling;
+
 
 /**
  * Class GetMemoryUsage
@@ -10,7 +10,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Command
  */
-class GetMemoryUsage implements SelfHandling
+class GetMemoryUsage
 {
 
     /**

@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Application\Application;
 use Composer\Autoload\ClassLoader;
-use Illuminate\Contracts\Bus\SelfHandling;
+
 
 /**
  * Class AutoloadEntryModels
@@ -12,7 +12,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Entry\Command
  */
-class AutoloadEntryModels implements SelfHandling
+class AutoloadEntryModels
 {
 
     /**
