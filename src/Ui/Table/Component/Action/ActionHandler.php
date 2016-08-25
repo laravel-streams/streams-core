@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Message\MessageBag;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -12,7 +12,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action
  */
-abstract class ActionHandler implements SelfHandling
+abstract class ActionHandler
 {
 
     use DispatchesJobs;

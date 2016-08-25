@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 use Illuminate\Routing\ResponseFactory;
 
 /**
@@ -14,7 +14,7 @@ use Illuminate\Routing\ResponseFactory;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler
  */
-class Export extends ActionHandler implements SelfHandling
+class Export extends ActionHandler
 {
 
     /**

@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 
 /**
  * Class NavigationHandler
@@ -13,7 +13,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@pyrocms.com>
  * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation
  */
-class NavigationHandler implements SelfHandling
+class NavigationHandler
 {
 
     /**

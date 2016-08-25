@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Ui\Form\FormCriteria;
 use Anomaly\Streams\Platform\Ui\Form\FormFactory;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 
 /**
  * Class GetFormCriteria
@@ -14,7 +14,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class GetFormCriteria implements SelfHandling
+class GetFormCriteria
 {
 
     /**

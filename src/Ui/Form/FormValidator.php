@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Ui\Form\Command\RepopulateFields;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetErrorMessages;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasValidated;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Validation\Validator;
@@ -16,7 +16,7 @@ use Illuminate\Validation\Validator;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form
  */
-class FormValidator implements SelfHandling
+class FormValidator
 {
 
     use DispatchesJobs;

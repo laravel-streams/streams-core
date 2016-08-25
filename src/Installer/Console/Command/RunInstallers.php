@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Installer\Installer;
 use Anomaly\Streams\Platform\Installer\InstallerCollection;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 use Illuminate\Contracts\Container\Container;
 
 /**
@@ -14,7 +14,7 @@ use Illuminate\Contracts\Container\Container;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Installer\Console\Command
  */
-class RunInstallers implements SelfHandling
+class RunInstallers
 {
 
     /**

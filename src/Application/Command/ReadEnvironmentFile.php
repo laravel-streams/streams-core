@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 
 /**
  * Class ReadEnvironmentFile
@@ -10,7 +10,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Application\Command
  */
-class ReadEnvironmentFile implements SelfHandling
+class ReadEnvironmentFile
 {
 
     /**

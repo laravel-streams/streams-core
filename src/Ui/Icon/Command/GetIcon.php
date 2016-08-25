@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Icon\Icon;
 use Anomaly\Streams\Platform\Ui\Icon\IconRegistry;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 
 /**
  * Class GetIcon
@@ -12,7 +12,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Icon\Command
  */
-class GetIcon implements SelfHandling
+class GetIcon
 {
 
     /**

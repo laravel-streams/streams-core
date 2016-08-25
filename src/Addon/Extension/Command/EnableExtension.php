@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasEnabled;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
@@ -14,7 +14,7 @@ use Illuminate\Contracts\Events\Dispatcher;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Extension\Command
  */
-class EnableExtension implements SelfHandling
+class EnableExtension
 {
 
     /**

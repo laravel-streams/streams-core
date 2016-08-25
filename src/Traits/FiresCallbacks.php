@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Traits;
 
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 
 /**
  * Class FiresCallbacks

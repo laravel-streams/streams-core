@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormHandler;
 use Anomaly\Streams\Platform\Ui\Form\FormValidator;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 
 /**
  * Class SetDefaultParameters
@@ -13,7 +13,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Form\Command
  */
-class SetDefaultParameters implements SelfHandling
+class SetDefaultParameters
 {
 
     /**

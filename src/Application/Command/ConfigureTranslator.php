@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Lang\Loader;
 use Illuminate\Config\Repository;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 use Illuminate\Foundation\Application;
 use Illuminate\Translation\Translator;
 
@@ -14,7 +14,7 @@ use Illuminate\Translation\Translator;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Application\Command
  */
-class ConfigureTranslator implements SelfHandling
+class ConfigureTranslator
 {
 
     /**

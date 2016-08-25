@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 
 /**
  * Class BuildNavigation
@@ -12,7 +12,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@pyrocms.com>
  * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command
  */
-class BuildNavigation implements SelfHandling
+class BuildNavigation
 {
 
     /**

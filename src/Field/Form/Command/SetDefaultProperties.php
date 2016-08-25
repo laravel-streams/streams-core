@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Field\Form\Command;
 
 use Anomaly\Streams\Platform\Field\Form\FieldAssignmentFormBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 
 /**
  * Class SetDefaultProperties
@@ -11,7 +11,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\FieldAssignment\Form\Command
  */
-class SetDefaultProperties implements SelfHandling
+class SetDefaultProperties
 {
 
     /**

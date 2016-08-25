@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 
 /**
  * Class DropAssignmentColumn
@@ -12,7 +12,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Assignment\Command
  */
-class DropAssignmentColumn implements SelfHandling
+class DropAssignmentColumn
 {
 
     /**

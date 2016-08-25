@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 use Illuminate\Routing\ResponseFactory;
 
 /**
@@ -12,7 +12,7 @@ use Illuminate\Routing\ResponseFactory;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Command
  */
-class SetTableResponse implements SelfHandling
+class SetTableResponse
 {
 
     /**

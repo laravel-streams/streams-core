@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 
 /**
  * Class RestoreAssignmentData
@@ -13,7 +13,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Assignment\Command
  */
-class RestoreAssignmentData implements SelfHandling
+class RestoreAssignmentData
 {
 
     /**

@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Installer\Console\Command;
 
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 use Illuminate\Contracts\Config\Repository;
 use Michelf\Markdown;
 
@@ -13,7 +13,7 @@ use Michelf\Markdown;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Installer\Console\Command
  */
-class ConfirmLicense implements SelfHandling
+class ConfirmLicense
 {
 
     /**

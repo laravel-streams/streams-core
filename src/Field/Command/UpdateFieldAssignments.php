@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Assignment\Command\UpdateAssignmentColumn;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -13,7 +13,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Field\Command
  */
-class UpdateFieldAssignments implements SelfHandling
+class UpdateFieldAssignments
 {
 
     use DispatchesJobs;

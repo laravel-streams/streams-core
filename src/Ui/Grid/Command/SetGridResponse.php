@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Grid\Command;
 
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 use Illuminate\Routing\ResponseFactory;
 
 /**
@@ -12,7 +12,7 @@ use Illuminate\Routing\ResponseFactory;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Grid\Command
  */
-class SetGridResponse implements SelfHandling
+class SetGridResponse
 {
 
     /**

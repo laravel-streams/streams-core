@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Routing\Command;
 
 use Anomaly\Streams\Platform\Application\Application;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 
 /**
  * Class IncludeRoutes
@@ -11,7 +11,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@pyrocms.com>
  * @package       Anomaly\Streams\Platform\Routing\Command
  */
-class IncludeRoutes implements SelfHandling
+class IncludeRoutes
 {
 
     /**

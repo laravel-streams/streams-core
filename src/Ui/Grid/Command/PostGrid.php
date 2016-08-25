@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Grid\Command;
 
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -12,7 +12,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Grid\Command
  */
-class PostGrid implements SelfHandling
+class PostGrid
 {
 
     use DispatchesJobs;

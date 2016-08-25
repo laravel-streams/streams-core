@@ -2,10 +2,10 @@
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 use Illuminate\Database\Query\Builder;
 
-class SetMetaInformation implements SelfHandling
+class SetMetaInformation
 {
 
     /**

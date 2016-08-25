@@ -9,7 +9,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Row\Command\BuildRows;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Command\BuildViews;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Command\SetActiveView;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -20,7 +20,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Command
  */
-class BuildTable implements SelfHandling
+class BuildTable
 {
 
     use DispatchesJobs;

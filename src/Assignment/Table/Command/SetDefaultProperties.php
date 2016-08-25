@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Table\Command;
 
 use Anomaly\Streams\Platform\Assignment\Table\AssignmentTableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
+;
 
 /**
  * Class SetDefaultProperties
@@ -11,7 +11,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Assignment\Table\Command
  */
-class SetDefaultProperties implements SelfHandling
+class SetDefaultProperties
 {
 
     /**
