@@ -10,7 +10,6 @@
     "require": {
         "laravel/framework": "5.3.*",
         "laravel/envoy": "1.2.*",
-        "laravelcollective/html": "5.2.*",
         "doctrine/dbal": "2.5.*",
         "intervention/image": "2.3.*",
         "twig/twig": "1.24.*",
