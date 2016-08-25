@@ -11,7 +11,6 @@ use Illuminate\Database\Seeder as BaseSeeder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Seeder
  */
 class Seeder extends BaseSeeder
 {
@@ -58,7 +57,7 @@ class Seeder extends BaseSeeder
     /**
      * Seed the given connection from the given path.
      *
-     * @param  string $class
+     * @param string $class
      *
      * @return void
      */

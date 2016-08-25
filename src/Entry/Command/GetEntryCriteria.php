@@ -2,14 +2,12 @@
 
 use Anomaly\Streams\Platform\Entry\EntryFactory;
 
-
 /**
  * Class GetEntryCriteria
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Entry\Command
  */
 class GetEntryCriteria
 {
@@ -51,7 +49,7 @@ class GetEntryCriteria
     /**
      * Handle the command.
      *
-     * @param EntryFactory $factory
+     * @param  EntryFactory                                  $factory
      * @return \Anomaly\Streams\Platform\Entry\EntryCriteria
      */
     public function handle(EntryFactory $factory)

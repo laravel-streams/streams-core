@@ -9,7 +9,6 @@ use Closure;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Plugin
  */
 class PluginCriteria
 {
@@ -57,8 +56,8 @@ class PluginCriteria
     /**
      * Return an option value.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function option($key, $default = null)
@@ -127,7 +126,7 @@ class PluginCriteria
      * @param $name
      * @return mixed
      */
-    function __get($name)
+    public function __get($name)
     {
         return $this->__call($name, []);
     }
@@ -137,14 +136,14 @@ class PluginCriteria
      * @param $arguments
      * @return mixed|$this
      */
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
         if ($name == $this->trigger) {
             return app()->call(
                 $this->callback,
                 [
                     'options'  => $this->newCollection(),
-                    'criteria' => $this
+                    'criteria' => $this,
                 ]
             );
         }
@@ -163,7 +162,7 @@ class PluginCriteria
      *
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         return $this->{$this->trigger};
     }

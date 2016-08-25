@@ -9,7 +9,6 @@ use Illuminate\Contracts\Container\Container;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section
  */
 class SectionFactory
 {
@@ -49,7 +48,7 @@ class SectionFactory
     /**
      * Make the section from it's parameters.
      *
-     * @param array $parameters
+     * @param  array $parameters
      * @return mixed
      */
     public function make(array $parameters)

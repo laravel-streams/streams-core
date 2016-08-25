@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Grid\Component\View
  */
 class ButtonResolver
 {

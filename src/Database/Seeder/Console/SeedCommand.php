@@ -10,11 +10,9 @@ use Symfony\Component\Console\Input\InputOption;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Seeder\Console
  */
 class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
 {
-
     use DispatchesJobs;
 
     /**
@@ -49,7 +47,7 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
         return array_merge(
             parent::getOptions(),
             [
-                ['addon', null, InputOption::VALUE_OPTIONAL, 'The addon to seed.']
+                ['addon', null, InputOption::VALUE_OPTIONAL, 'The addon to seed.'],
             ]
         );
     }

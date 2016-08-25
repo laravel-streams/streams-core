@@ -10,7 +10,6 @@ use Asm89\Twig\CacheExtension\CacheStrategyInterface;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\View\Cache
  */
 class CacheStrategy implements CacheStrategyInterface
 {

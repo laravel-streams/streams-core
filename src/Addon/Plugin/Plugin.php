@@ -11,7 +11,6 @@ use Twig_NodeVisitorInterface;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\Plugin
  */
 class Plugin extends Addon implements Twig_ExtensionInterface
 {

@@ -10,11 +10,9 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Field\Form
  */
 class FieldFormFields
 {
-
     use DispatchesJobs;
 
     /**
@@ -37,8 +35,8 @@ class FieldFormFields
                     'translatable' => true,
                     'config'       => [
                         'max'       => 64,
-                        'suggested' => 20
-                    ]
+                        'suggested' => 20,
+                    ],
                 ],
                 'slug'         => [
                     'label'        => 'streams::field.slug.name',
@@ -48,37 +46,37 @@ class FieldFormFields
                     'config'       => [
                         'slugify' => 'name',
                         'type'    => '_',
-                        'max'     => 64
+                        'max'     => 64,
                     ],
                     'rules'        => [
                         'valid_slug',
-                        'unique:streams_fields,slug,' . $id . ',id,namespace,' . $namespace
+                        'unique:streams_fields,slug,' . $id . ',id,namespace,' . $namespace,
                     ],
                     'validators'   => [
                         'valid_slug' => [
                             'handler' => SlugValidator::class,
-                            'message' => 'streams::validation.invalid'
-                        ]
-                    ]
+                            'message' => 'streams::validation.invalid',
+                        ],
+                    ],
                 ],
                 'placeholder'  => [
                     'label'        => 'streams::field.placeholder.name',
                     'instructions' => 'streams::field.placeholder.instructions',
                     'type'         => 'anomaly.field_type.text',
-                    'translatable' => true
+                    'translatable' => true,
                 ],
                 'instructions' => [
                     'label'        => 'streams::field.instructions.name',
                     'instructions' => 'streams::field.instructions.instructions',
                     'type'         => 'anomaly.field_type.textarea',
-                    'translatable' => true
+                    'translatable' => true,
                 ],
                 'warning'      => [
                     'label'        => 'streams::field.warning.name',
                     'instructions' => 'streams::field.warning.instructions',
                     'type'         => 'anomaly.field_type.text',
-                    'translatable' => true
-                ]
+                    'translatable' => true,
+                ],
             ]
         );
 

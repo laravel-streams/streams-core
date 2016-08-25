@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\Extension
  */
 class ExtensionCollection extends AddonCollection
 {
@@ -16,8 +15,8 @@ class ExtensionCollection extends AddonCollection
     /**
      * Search for and return matching extensions.
      *
-     * @param mixed $pattern
-     * @param bool  $strict
+     * @param  mixed               $pattern
+     * @param  bool                $strict
      * @return ExtensionCollection
      */
     public function search($pattern, $strict = false)
@@ -40,7 +39,7 @@ class ExtensionCollection extends AddonCollection
      *
      * Example: extension.users::authenticator.default
      *
-     * @param  mixed $key
+     * @param  mixed          $key
      * @return null|Extension
      */
     public function find($key)

@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Migration\Command
  */
 class MigrateFieldsHandler
 {
@@ -35,7 +34,7 @@ class MigrateFieldsHandler
     /**
      * Handle the command.
      *
-     * @param MigrateFields $command
+     * @param  MigrateFields $command
      * @return bool
      */
     public function handle(MigrateFields $command)
@@ -48,7 +47,6 @@ class MigrateFieldsHandler
         $namespace = $migration->getNamespace();
 
         foreach ($fields as $slug => $field) {
-
             if (is_string($field)) {
                 $field = ['type' => $field];
             }
@@ -57,7 +55,7 @@ class MigrateFieldsHandler
             $field['type']      = array_get($field, 'type');
             $field['namespace'] = array_get($field, 'namespace', $namespace ?: ($addon ? $addon->getSlug() : null));
 
-            /**
+            /*
              * If the name exists in the base array
              * then move it to the translated array
              * for the default locale.
@@ -66,7 +64,7 @@ class MigrateFieldsHandler
                 $field = array_add($field, config('app.fallback_locale') . '.name', $name);
             }
 
-            /**
+            /*
              * If the name is not set then make one
              * based on a standardized pattern.
              */
@@ -78,7 +76,7 @@ class MigrateFieldsHandler
                 );
             }
 
-            /**
+            /*
              * If the instructions exists in the base array
              * then move it to the translated array
              * for the default locale.
@@ -87,7 +85,7 @@ class MigrateFieldsHandler
                 $field = array_add($field, config('app.fallback_locale') . '.instructions', $instructions);
             }
 
-            /**
+            /*
              * If the instructions is not set then make one
              * based on a standardized pattern.
              */
@@ -99,7 +97,7 @@ class MigrateFieldsHandler
                 );
             }
 
-            /**
+            /*
              * If the placeholder exists in the base array
              * then move it to the translated array
              * for the default locale.
@@ -108,7 +106,7 @@ class MigrateFieldsHandler
                 $field = array_add($field, config('app.fallback_locale') . '.placeholder', $placeholder);
             }
 
-            /**
+            /*
              * If the placeholder is not set then make one
              * based on a standardized pattern.
              */
@@ -120,7 +118,7 @@ class MigrateFieldsHandler
                 );
             }
 
-            /**
+            /*
              * If the warning exists in the base array
              * then move it to the translated array
              * for the default locale.
@@ -129,7 +127,7 @@ class MigrateFieldsHandler
                 $field = array_add($field, config('app.fallback_locale') . '.warning', $warning);
             }
 
-            /**
+            /*
              * If the instructions is not set then make one
              * based on a standardized pattern.
              */

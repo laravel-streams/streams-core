@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\View\Guesser
  */
 class QueryGuesser
 {
@@ -38,8 +37,8 @@ class QueryGuesser
     /**
      * Guess the query class from the builder.
      *
-     * @param TableBuilder $builder
-     * @param array        $view
+     * @param  TableBuilder $builder
+     * @param  array        $view
      * @return string
      */
     protected function guessClass(TableBuilder $builder, array $view)

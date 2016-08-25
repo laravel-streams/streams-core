@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Filter
  */
 class FilterNormalizer
 {
@@ -25,7 +24,7 @@ class FilterNormalizer
 
         foreach ($filters as $slug => &$filter) {
 
-            /**
+            /*
              * If the filter is a string then use
              * it for everything.
              */
@@ -33,43 +32,43 @@ class FilterNormalizer
                 $filter = [
                     'slug'   => $filter,
                     'field'  => $filter,
-                    'filter' => 'field'
+                    'filter' => 'field',
                 ];
             }
 
-            /**
+            /*
              * If the filter is a class string then use
              * it for the filter.
              */
             if (is_string($filter) && str_contains($filter, '/')) {
                 $filter = [
                     'slug'   => $slug,
-                    'filter' => $filter
+                    'filter' => $filter,
                 ];
             }
 
-            /**
+            /*
              * Move the slug into the filter.
              */
             if (!isset($filter['slug'])) {
                 $filter['slug'] = $slug;
             }
 
-            /**
+            /*
              * Move the slug to the filter.
              */
             if (!isset($filter['filter'])) {
                 $filter['filter'] = $filter['slug'];
             }
 
-            /**
+            /*
              * Fallback the field.
              */
             if (!isset($filter['field']) && $stream && $stream->hasAssignment($filter['slug'])) {
                 $filter['field'] = $filter['slug'];
             }
 
-            /**
+            /*
              * If there is no filter type
              * then assume it's the slug.
              */
@@ -77,7 +76,7 @@ class FilterNormalizer
                 $filter['filter'] = $filter['slug'];
             }
 
-            /**
+            /*
              * Set the table's stream.
              */
             if ($stream) {

@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputOption;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Migration\Console
  */
 class RefreshCommand extends \Illuminate\Database\Console\Migrations\RefreshCommand
 {
@@ -39,12 +38,12 @@ class RefreshCommand extends \Illuminate\Database\Console\Migrations\RefreshComm
 
         $this->call(
             'migrate:reset',
-            array(
+            [
                 '--database'  => $database,
                 '--force'     => $force,
                 '--addon'     => $addon,
-                '--no-addons' => $noAddons
-            )
+                '--no-addons' => $noAddons,
+            ]
         );
 
         // House keeping!
@@ -55,22 +54,22 @@ class RefreshCommand extends \Illuminate\Database\Console\Migrations\RefreshComm
         // them in succession. We'll also see if we need to re-seed the database.
         $this->call(
             'migrate',
-            array(
+            [
                 '--database'  => $database,
                 '--force'     => $force,
                 '--addon'     => $addon,
-                '--no-addons' => $noAddons
-            )
+                '--no-addons' => $noAddons,
+            ]
         );
 
         if ($this->input->getOption('seed')) {
             $this->call(
                 'db:seed',
-                array(
+                [
                     '--database' => $database,
                     '--force'    => $force,
-                    '--addon'    => $addon
-                )
+                    '--addon'    => $addon,
+                ]
             );
         }
     }

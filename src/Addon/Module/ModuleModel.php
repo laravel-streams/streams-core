@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\Module
  */
 class ModuleModel extends EloquentModel implements ModuleInterface
 {
@@ -94,7 +93,7 @@ class ModuleModel extends EloquentModel implements ModuleInterface
     /**
      * Return a new collection.
      *
-     * @param array $items
+     * @param  array              $items
      * @return EloquentCollection
      */
     public function newCollection(array $items = [])

@@ -11,7 +11,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Entry\Parser
  */
 class EntryStreamParser
 {
@@ -44,7 +43,6 @@ class EntryStreamParser
     protected function parseStream(StreamInterface $stream, &$string)
     {
         foreach ($stream->getAttributes() as $key => $value) {
-
             if (is_string($value)) {
                 $value = addslashes($value);
             }
@@ -161,7 +159,6 @@ class EntryStreamParser
         $string .= "\n[";
 
         foreach ($translation->getAttributes() as $key => $value) {
-
             $value = $translation->getAttribute($key);
 
             if (is_string($value)) {

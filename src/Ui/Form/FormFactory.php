@@ -8,7 +8,6 @@ use Illuminate\Contracts\Container\Container;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form
  */
 class FormFactory
 {
@@ -33,8 +32,8 @@ class FormFactory
     /**
      * Make the form.
      *
-     * @param null  $builder
-     * @param array $parameters
+     * @param  null         $builder
+     * @param  array        $parameters
      * @return FormCriteria
      */
     public function make(array $parameters = [])
@@ -53,25 +52,24 @@ class FormFactory
             $criteria,
             [
                 'builder'    => $builder,
-                'parameters' => $parameters
+                'parameters' => $parameters,
             ]
         );
     }
 
     /**
-     * @param array $parameters
+     * @param  array $parameters
      * @return array
      */
     protected function resolve(array $parameters)
     {
 
-        /**
+        /*
          * Set the default builder and model based
          * a stream and namespace parameter provided.
          */
         if (!$builder = array_get($parameters, 'builder')) {
             if (!$model = array_get($parameters, 'model')) {
-
                 $stream    = ucfirst(camel_case(array_get($parameters, 'stream')));
                 $namespace = ucfirst(camel_case(array_get($parameters, 'namespace')));
 

@@ -11,7 +11,6 @@ use Illuminate\Contracts\Support\Arrayable;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\View\Cache
  */
 class CacheKey implements KeyGeneratorInterface
 {

@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
 use Anomaly\Streams\Platform\Application\Application;
-
 use Illuminate\Contracts\Foundation\Application as Laravel;
 use Symfony\Component\Console\Input\ArgvInput;
 

@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\Contract\SegmentInterface
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Tree\Component\Segment
  */
 class Segment implements SegmentInterface
 {
@@ -91,7 +90,7 @@ class Segment implements SegmentInterface
     /**
      * Set the attributes.
      *
-     * @param array $attributes
+     * @param  array $attributes
      * @return $this
      */
     public function setAttributes(array $attributes)

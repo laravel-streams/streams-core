@@ -13,11 +13,9 @@ use Illuminate\Http\Request;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form
  */
 class FormCriteria
 {
-
     use FiresCallbacks;
 
     /**
@@ -112,7 +110,7 @@ class FormCriteria
     public function build()
     {
 
-        /**
+        /*
          * Hide breadcrumbs by default.
          */
         array_set(
@@ -125,12 +123,12 @@ class FormCriteria
             )
         );
 
-        /**
+        /*
          * Cache and hash!
          */
         array_set($this->parameters, 'key', md5(json_encode($this->parameters)));
 
-        /**
+        /*
          * Set the forms URL after obtaining
          * our parameter hash for the form.
          */
@@ -188,7 +186,7 @@ class FormCriteria
     /**
      * Set the form builder.
      *
-     * @param FormBuilder $builder
+     * @param  FormBuilder $builder
      * @return $this
      */
     public function setBuilder($builder)
@@ -222,23 +220,19 @@ class FormCriteria
      */
     public function __call($name, $arguments)
     {
-
         if (method_exists($this->builder, camel_case('set_' . $name))) {
-
             array_set($this->parameters, $name, array_shift($arguments));
 
             return $this;
         }
 
         if (method_exists($this->builder, camel_case('add_' . $name))) {
-
             array_set($this->parameters, $name, array_shift($arguments));
 
             return $this;
         }
 
         if (!method_exists($this->builder, camel_case($name)) && count($arguments) === 1) {
-
             $key = snake_case($name);
 
             array_set($this->parameters, "options.{$key}", array_shift($arguments));
@@ -247,7 +241,6 @@ class FormCriteria
         }
 
         if (!method_exists($this->builder, camel_case($name)) && count($arguments) === 0) {
-
             $key = snake_case($name);
 
             // Helpful for form.disableLabels().disableFoo() ...

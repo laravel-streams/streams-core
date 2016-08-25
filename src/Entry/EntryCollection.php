@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Support\Decorator;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Entry
  */
 class EntryCollection extends EloquentCollection
 {
@@ -18,7 +17,7 @@ class EntryCollection extends EloquentCollection
     /**
      * Return the sorted entries.
      *
-     * @param bool|false $reverse
+     * @param  bool|false $reverse
      * @return static
      */
     public function sorted($direction = 'asc')
@@ -42,9 +41,9 @@ class EntryCollection extends EloquentCollection
     /**
      * Return labels for each entry.
      *
-     * @param null   $text
-     * @param string $context
-     * @param string $size
+     * @param  null   $text
+     * @param  string $context
+     * @param  string $size
      * @return array
      */
     public function labels($text = null, $context = null, $size = null)

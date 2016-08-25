@@ -2,14 +2,12 @@
 
 use Anomaly\Streams\Platform\Assignment\Table\AssignmentTableBuilder;
 
-
 /**
  * Class SetDefaultProperties
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Assignment\Table\Command
  */
 class SetDefaultProperties
 {
@@ -37,7 +35,6 @@ class SetDefaultProperties
     public function handle()
     {
         if (!$this->builder->getStream()) {
-
             $parts = explode('\\', str_replace('AssignmentTableBuilder', 'Model', get_class($this->builder)));
 
             unset($parts[count($parts) - 2]);

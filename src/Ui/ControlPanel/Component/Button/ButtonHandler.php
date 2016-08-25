@@ -2,14 +2,12 @@
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
-
 /**
  * Class ButtonHandler
  *
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button
  */
 class ButtonHandler
 {
@@ -22,7 +20,6 @@ class ButtonHandler
     public function handle(ControlPanelBuilder $builder)
     {
         if (!$section = $builder->getControlPanelActiveSection()) {
-
             $builder->setButtons([]);
 
             return;

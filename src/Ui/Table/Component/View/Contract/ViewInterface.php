@@ -6,7 +6,6 @@
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\View\Contract
  */
 interface ViewInterface
 {
@@ -21,7 +20,7 @@ interface ViewInterface
     /**
      * Set the attributes.
      *
-     * @param array $attributes
+     * @param  array $attributes
      * @return $this
      */
     public function setAttributes(array $attributes);
@@ -59,7 +58,7 @@ interface ViewInterface
     /**
      * Set the active flag.
      *
-     * @param bool $active
+     * @param  bool  $active
      * @return $this
      */
     public function setActive($active);
@@ -104,7 +103,7 @@ interface ViewInterface
     /**
      * Set the view text.
      *
-     * @param string $text
+     * @param  string $text
      * @return $this
      */
     public function setText($text);

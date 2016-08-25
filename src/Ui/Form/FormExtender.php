@@ -11,7 +11,6 @@ use Illuminate\Validation\Validator;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form
  */
 class FormExtender
 {
@@ -56,7 +55,6 @@ class FormExtender
     protected function registerValidators(Factory $factory, FormBuilder $builder, FieldType $fieldType)
     {
         foreach ($fieldType->getValidators() as $rule => $validator) {
-
             $handler = array_get($validator, 'handler');
 
             if (is_string($handler) && !str_contains($handler, '@')) {

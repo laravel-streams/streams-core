@@ -12,7 +12,6 @@ use Illuminate\Database\MigrationServiceProvider as BaseMigrationServiceProvider
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Migration
  */
 class MigrationServiceProvider extends BaseMigrationServiceProvider
 {
@@ -27,7 +26,6 @@ class MigrationServiceProvider extends BaseMigrationServiceProvider
         $this->app->singleton(
             'migration.repository',
             function ($app) {
-
                 $table = $app['config']['database.migrations'];
 
                 return new MigrationRepository($app['db'], $table);
@@ -48,7 +46,6 @@ class MigrationServiceProvider extends BaseMigrationServiceProvider
         $this->app->singleton(
             'migrator',
             function ($app) {
-
                 $repository = $app['migration.repository'];
 
                 return new Migrator($repository, $app['db'], $app['files']);

@@ -14,7 +14,6 @@ use TwigBridge\Bridge;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\View\Listener
  */
 class LoadTemplateData
 {
@@ -68,7 +67,6 @@ class LoadTemplateData
         }
 
         if (!$this->template->isLoaded()) {
-
             $this->events->fire(new RegisteringTwigPlugins($this->twig));
             $this->events->fire(new TemplateDataIsLoading($this->template));
 

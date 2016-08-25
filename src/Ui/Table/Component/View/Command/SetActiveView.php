@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewHandler;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Http\Request;
 
@@ -12,7 +11,6 @@ use Illuminate\Http\Request;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\View\Command
  */
 class SetActiveView
 {

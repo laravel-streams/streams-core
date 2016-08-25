@@ -3,14 +3,12 @@
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\ButtonBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
-
 /**
  * Class BuildButtons
  *
  * @link          http://anomaly.is/streams-Platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Command
  */
 class BuildButtons
 {

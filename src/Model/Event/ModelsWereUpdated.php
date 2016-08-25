@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Model\Event
  */
 class ModelsWereUpdated
 {
@@ -25,7 +24,7 @@ class ModelsWereUpdated
      *
      * @param EloquentModel $model
      */
-    function __construct(EloquentModel $model)
+    public function __construct(EloquentModel $model)
     {
         $this->model = $model;
     }

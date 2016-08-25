@@ -11,7 +11,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Migration\Command
  */
 class MigrateAssignmentsHandler
 {
@@ -44,7 +43,7 @@ class MigrateAssignmentsHandler
      * @param StreamRepositoryInterface     $streams
      * @param AssignmentRepositoryInterface $assignments
      */
-    function __construct(
+    public function __construct(
         FieldRepositoryInterface $fields,
         StreamRepositoryInterface $streams,
         AssignmentRepositoryInterface $assignments
@@ -63,8 +62,8 @@ class MigrateAssignmentsHandler
     {
         $migration = $command->getMigration();
 
-        $stream = $migration->getStream();
-        $fields = $migration->getAssignments();
+        $stream    = $migration->getStream();
+        $fields    = $migration->getAssignments();
         $namespace = $migration->getNamespace();
 
         if (!$fields) {
@@ -79,7 +78,6 @@ class MigrateAssignmentsHandler
         );
 
         foreach ($fields as $field => $assignment) {
-
             if (is_numeric($field)) {
                 $field      = $assignment;
                 $assignment = [];
@@ -89,7 +87,7 @@ class MigrateAssignmentsHandler
                 throw new \Exception('The assignment must be an array or field_slug value.');
             }
 
-            /**
+            /*
              * If the label exists in the base array
              * then move it to the translated array
              * for the default locale.
@@ -98,7 +96,7 @@ class MigrateAssignmentsHandler
                 $assignment = array_add($assignment, config('app.fallback_locale') . '.label', $label);
             }
 
-            /**
+            /*
              * If the label is not set then make one
              * based on a standardized pattern.
              */
@@ -110,7 +108,7 @@ class MigrateAssignmentsHandler
                 );
             }
 
-            /**
+            /*
              * If the instructions exists in the base array
              * then move it to the translated array
              * for the default locale.
@@ -119,7 +117,7 @@ class MigrateAssignmentsHandler
                 $assignment = array_add($assignment, config('app.fallback_locale') . '.instructions', $instructions);
             }
 
-            /**
+            /*
              * If the instructions is not set then make one
              * based on a standardized pattern.
              */
@@ -131,7 +129,7 @@ class MigrateAssignmentsHandler
                 );
             }
 
-            /**
+            /*
              * If the placeholder exists in the base array
              * then move it to the translated array
              * for the default locale.
@@ -140,7 +138,7 @@ class MigrateAssignmentsHandler
                 $assignment = array_add($assignment, config('app.fallback_locale') . '.placeholder', $placeholder);
             }
 
-            /**
+            /*
              * If the placeholder is not set then make one
              * based on a standardized pattern.
              */
@@ -152,7 +150,7 @@ class MigrateAssignmentsHandler
                 );
             }
 
-            /**
+            /*
              * If the warning exists in the base array
              * then move it to the translated array
              * for the default locale.
@@ -161,7 +159,7 @@ class MigrateAssignmentsHandler
                 $assignment = array_add($assignment, config('app.fallback_locale') . '.warning', $warning);
             }
 
-            /**
+            /*
              * If the instructions is not set then make one
              * based on a standardized pattern.
              */

@@ -14,7 +14,6 @@ use Illuminate\Support\Collection;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Tree
  */
 class Tree
 {
@@ -108,7 +107,7 @@ class Tree
     /**
      * Set the tree response.
      *
-     * @param null|Response $response
+     * @param  null|Response $response
      * @return $this
      */
     public function setResponse(Response $response = null)
@@ -164,7 +163,7 @@ class Tree
     /**
      * Set the tree repository.
      *
-     * @param TreeRepositoryInterface $repository
+     * @param  TreeRepositoryInterface $repository
      * @return $this
      */
     public function setRepository(TreeRepositoryInterface $repository)
@@ -177,7 +176,7 @@ class Tree
     /**
      * Set the tree stream.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return $this
      */
     public function setStream(StreamInterface $stream)
@@ -200,7 +199,7 @@ class Tree
     /**
      * Set the tree content.
      *
-     * @param string $content
+     * @param  string $content
      * @return $this
      */
     public function setContent($content)
@@ -223,7 +222,7 @@ class Tree
     /**
      * Set the tree options.
      *
-     * @param Collection $options
+     * @param  Collection $options
      * @return $this
      */
     public function setOptions(Collection $options)
@@ -260,8 +259,8 @@ class Tree
     /**
      * Get an option value.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function getOption($key, $default = null)
@@ -272,7 +271,7 @@ class Tree
     /**
      * Set the tree entries.
      *
-     * @param Collection $entries
+     * @param  Collection $entries
      * @return $this
      */
     public function setEntries(Collection $entries)
@@ -309,7 +308,7 @@ class Tree
     /**
      * Set the tree data.
      *
-     * @param Collection $data
+     * @param  Collection $data
      * @return $this
      */
     public function setData(Collection $data)
@@ -332,7 +331,7 @@ class Tree
     /**
      * Add a item to the item collection.
      *
-     * @param ItemInterface $item
+     * @param  ItemInterface $item
      * @return $this
      */
     public function addItem(ItemInterface $item)
@@ -345,7 +344,7 @@ class Tree
     /**
      * Set the tree items.
      *
-     * @param ItemCollection $items
+     * @param  ItemCollection $items
      * @return $this
      */
     public function setItems(ItemCollection $items)

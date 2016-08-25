@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -12,7 +11,6 @@ use Illuminate\Database\Eloquent\Builder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Filter
  */
 class FilterQuery
 {
@@ -43,12 +41,11 @@ class FilterQuery
      */
     public function filter(TableBuilder $builder, FilterInterface $filter, Builder $query)
     {
-        /**
+        /*
          * If the filter is self handling then let
          * it filter the query itself.
          */
         if ($filter instanceof SelfHandling) {
-
             $this->container->call([$filter, 'handle'], compact('builder', 'query', 'filter'));
 
             return;
@@ -61,7 +58,7 @@ class FilterQuery
             $handler .= '@handle';
         }
 
-        /**
+        /*
          * If the handler is a callable string or Closure
          * then call it using the IoC container.
          */

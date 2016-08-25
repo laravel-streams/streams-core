@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-
 use Illuminate\Http\Request;
 
 /**
@@ -12,7 +11,6 @@ use Illuminate\Http\Request;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler
  */
 class Reorder extends ActionHandler
 {
@@ -31,9 +29,7 @@ class Reorder extends ActionHandler
 
         /* @var EloquentModel $entry */
         foreach ($request->get($builder->getTableOption('prefix') . 'order', []) as $k => $id) {
-
             if ($entry = $model->find($id)) {
-
                 $entry->sort_order = $k + 1;
 
                 $entry->save();

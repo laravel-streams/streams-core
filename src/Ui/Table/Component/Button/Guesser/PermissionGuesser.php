@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser
  */
 class PermissionGuesser
 {
@@ -49,12 +48,11 @@ class PermissionGuesser
         }
 
         foreach ($buttons as &$button) {
-
             if (isset($button['permission'])) {
                 continue;
             }
 
-            /**
+            /*
              * Try and guess the permission value.
              */
             switch (array_get($button, 'button')) {

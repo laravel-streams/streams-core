@@ -11,7 +11,6 @@ use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Tree\Component\Button
  */
 class ButtonBuilder
 {
@@ -63,8 +62,8 @@ class ButtonBuilder
     /**
      * Build the buttons.
      *
-     * @param TreeBuilder  $builder
-     * @param              $entry
+     * @param  TreeBuilder      $builder
+     * @param                   $entry
      * @return ButtonCollection
      */
     public function build(TreeBuilder $builder, $entry)
@@ -76,7 +75,6 @@ class ButtonBuilder
         $this->input->read($builder, $entry);
 
         foreach ($builder->getButtons() as $button) {
-
             if (!array_get($button, 'enabled', true)) {
                 continue;
             }

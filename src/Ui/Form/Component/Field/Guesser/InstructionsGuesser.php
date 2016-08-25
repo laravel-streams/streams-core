@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser
  */
 class InstructionsGuesser
 {
@@ -26,14 +25,12 @@ class InstructionsGuesser
         $stream = $builder->getFormStream();
 
         foreach ($fields as &$field) {
-
             $locale = array_get($field, 'locale');
 
-            /**
+            /*
              * If the instructions are already set then use it.
              */
             if (isset($field['instructions'])) {
-
                 if (str_is('*::*', $field['instructions'])) {
                     $field['instructions'] = trans($field['instructions'], [], null, $locale);
                 }
@@ -41,7 +38,7 @@ class InstructionsGuesser
                 continue;
             }
 
-            /**
+            /*
              * If we don't have a field then we
              * can not really guess anything here.
              */
@@ -49,7 +46,7 @@ class InstructionsGuesser
                 continue;
             }
 
-            /**
+            /*
              * No stream means we can't
              * really do much here.
              */
@@ -60,7 +57,7 @@ class InstructionsGuesser
             $assignment = $stream->getAssignment($field['field']);
             $object     = $stream->getField($field['field']);
 
-            /**
+            /*
              * No assignment means we still do
              * not have anything to do here.
              */
@@ -68,7 +65,7 @@ class InstructionsGuesser
                 continue;
             }
 
-            /**
+            /*
              * Next try using the fallback assignment
              * instructions system as generated verbatim.
              */
@@ -82,7 +79,7 @@ class InstructionsGuesser
                 $field['instructions'] = trans($instructions, [], null, $locale);
             }
 
-            /**
+            /*
              * Next try using the default assignment
              * instructions system as generated verbatim.
              */
@@ -97,14 +94,14 @@ class InstructionsGuesser
                 $field['instructions'] = $translated;
             }
 
-            /**
+            /*
              * Check if it's just a standard string.
              */
             if (!isset($field['instructions']) && $instructions && !str_is('*::*', $instructions)) {
                 $field['instructions'] = $instructions;
             }
 
-            /**
+            /*
              * Next try using the default field
              * instructions system as generated verbatim.
              */
@@ -119,7 +116,7 @@ class InstructionsGuesser
                 $field['instructions'] = $translated;
             }
 
-            /**
+            /*
              * Check if it's just a standard string.
              */
             if (!isset($field['instructions']) && $instructions && !str_is('*::*', $instructions)) {

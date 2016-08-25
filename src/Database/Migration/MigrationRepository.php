@@ -9,7 +9,6 @@ use Illuminate\Database\Migrations\DatabaseMigrationRepository;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Migration
  */
 class MigrationRepository extends DatabaseMigrationRepository
 {
@@ -17,8 +16,8 @@ class MigrationRepository extends DatabaseMigrationRepository
     /**
      * Find many migrations by an addon namespace.
      *
-     * @param        $namespace
-     * @param string $order
+     * @param                   $namespace
+     * @param  string           $order
      * @return array|Collection
      */
     public function findManyByNamespace($namespace, $order = 'desc')
@@ -33,8 +32,8 @@ class MigrationRepository extends DatabaseMigrationRepository
     /**
      * Find many migrations by an addon namespace.
      *
-     * @param array  $files
-     * @param string $order
+     * @param  array            $files
+     * @param  string           $order
      * @return array|Collection
      */
     public function findManyByFiles(array $files, $order = 'desc')

@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Console\Command;
-
 use Illuminate\Filesystem\Filesystem;
 
 /**
@@ -11,7 +10,6 @@ use Illuminate\Filesystem\Filesystem;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Console\Command
  */
 class MakeAddonPaths
 {
@@ -63,8 +61,8 @@ class MakeAddonPaths
     /**
      * Handle the command.
      *
-     * @param Filesystem  $filesystem
-     * @param Application $application
+     * @param  Filesystem  $filesystem
+     * @param  Application $application
      * @return string
      */
     public function handle(Filesystem $filesystem, Application $application)

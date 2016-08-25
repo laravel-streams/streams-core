@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Button
  */
 class ButtonNormalizer
 {
@@ -32,7 +31,7 @@ class ButtonNormalizer
 
     protected function process($key, $button)
     {
-        /**
+        /*
          * If the button is a string then use
          * it as the button parameter.
          */
@@ -42,7 +41,7 @@ class ButtonNormalizer
             ];
         }
 
-        /**
+        /*
          * If the key is a string and the button
          * is an array without a button param then
          * move the key into the button as that param.
@@ -51,26 +50,26 @@ class ButtonNormalizer
             $button['button'] = $key;
         }
 
-        /**
+        /*
          * Make sure some default parameters exist.
          */
         $button['attributes'] = array_get($button, 'attributes', []);
 
-        /**
+        /*
          * Move the HREF if any to the attributes.
          */
         if (isset($button['href'])) {
             array_set($button['attributes'], 'href', array_pull($button, 'href'));
         }
 
-        /**
+        /*
          * Move the target if any to the attributes.
          */
         if (isset($button['target'])) {
             array_set($button['attributes'], 'target', array_pull($button, 'target'));
         }
 
-        /**
+        /*
          * Move all data-* keys
          * to attributes.
          */
@@ -80,7 +79,7 @@ class ButtonNormalizer
             }
         }
 
-        /**
+        /*
          * Make sure the HREF is absolute.
          */
         if (

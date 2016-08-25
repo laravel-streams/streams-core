@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Builder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Entry\Plugin
  */
 class EntryCriteria extends EloquentCriteria
 {
@@ -39,7 +38,7 @@ class EntryCriteria extends EloquentCriteria
     /**
      * Return sorted entries.
      *
-     * @param string $direction
+     * @param  string $direction
      * @return $this
      */
     public function sorted($direction = 'ASC')
@@ -55,10 +54,9 @@ class EntryCriteria extends EloquentCriteria
      * @param $name
      * @return Builder|null
      */
-    function __get($name)
+    public function __get($name)
     {
         if ($assignment = $this->stream->getAssignment(snake_case($name))) {
-
             $this->query->where($assignment->getColumnName(), null);
 
             return $this;
@@ -74,10 +72,9 @@ class EntryCriteria extends EloquentCriteria
      * @param $arguments
      * @return Builder|null
      */
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
         if ($assignment = $this->stream->getAssignment(snake_case($name))) {
-
             $this->query->where($assignment->getColumnName(), $arguments ? array_shift($arguments) : null);
 
             return $this;

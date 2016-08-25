@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Action
  */
 class Action extends Button implements ActionInterface
 {
@@ -104,7 +103,7 @@ class Action extends Button implements ActionInterface
     /**
      * Set the active flag.
      *
-     * @param bool $active
+     * @param  bool  $active
      * @return $this
      */
     public function setActive($active)
@@ -137,7 +136,7 @@ class Action extends Button implements ActionInterface
     /**
      * Set the action prefix.
      *
-     * @param string $prefix
+     * @param  string $prefix
      * @return $this
      */
     public function setPrefix($prefix)
@@ -160,7 +159,7 @@ class Action extends Button implements ActionInterface
     /**
      * Set the action slug.
      *
-     * @param string $slug
+     * @param  string $slug
      * @return $this
      */
     public function setSlug($slug)

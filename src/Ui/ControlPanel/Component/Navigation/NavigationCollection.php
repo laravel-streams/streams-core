@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\Navig
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation
  */
 class NavigationCollection extends Collection
 {
@@ -34,8 +33,8 @@ class NavigationCollection extends Collection
     /**
      * Get a navigation link.
      *
-     * @param mixed $key
-     * @param null  $default
+     * @param  mixed                   $key
+     * @param  null                    $default
      * @return NavigationLinkInterface
      */
     public function get($key, $default = null)

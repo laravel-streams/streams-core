@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Support\Presenter;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Stream
  */
 class StreamPresenter extends Presenter
 {
@@ -24,7 +23,7 @@ class StreamPresenter extends Presenter
     /**
      * Return the flag labels.
      *
-     * @param string $size
+     * @param  string $size
      * @return string
      */
     public function labels($size = 'sm')
@@ -34,7 +33,7 @@ class StreamPresenter extends Presenter
             [
                 $this->translatableLabel($size),
                 $this->trashableLabel($size),
-                $this->sortableLabel($size)
+                $this->sortableLabel($size),
             ]
         );
     }
@@ -42,7 +41,7 @@ class StreamPresenter extends Presenter
     /**
      * Return the translatable label.
      *
-     * @param string $size
+     * @param  string      $size
      * @return null|string
      */
     protected function translatableLabel($size = 'sm')
@@ -59,7 +58,7 @@ class StreamPresenter extends Presenter
     /**
      * Return the trashable label.
      *
-     * @param string $size
+     * @param  string      $size
      * @return null|string
      */
     protected function trashableLabel($size = 'sm')
@@ -76,7 +75,7 @@ class StreamPresenter extends Presenter
     /**
      * Return the sortable label.
      *
-     * @param string $size
+     * @param  string      $size
      * @return null|string
      */
     protected function sortableLabel($size = 'sm')
@@ -89,5 +88,4 @@ class StreamPresenter extends Presenter
 
         return null;
     }
-
 }

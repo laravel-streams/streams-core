@@ -10,7 +10,6 @@ use Illuminate\Contracts\Support\Arrayable;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Support
  */
 class Value
 {
@@ -62,42 +61,42 @@ class Value
     /**
      * Make a value from the parameters and entry.
      *
-     * @param       $parameters
-     * @param       $payload
-     * @param array $payload
+     * @param               $parameters
+     * @param               $payload
+     * @param  array        $payload
      * @return mixed|string
      */
     public function make($parameters, $entry, $term = 'entry', $payload = [])
     {
         $payload[$term] = $entry;
 
-        /**
+        /*
          * If a flat value was sent in
          * then convert it to an array.
          */
         if (!is_array($parameters)) {
             $parameters = [
-                'value' => $parameters
+                'value' => $parameters,
             ];
         }
 
         $value = array_get($parameters, 'value');
 
-        /**
+        /*
          * If the value is a view path then return a view.
          */
         if ($view = array_get($parameters, 'view')) {
             return view($view, ['value' => $value, $term => $entry]);
         }
 
-        /**
+        /*
          * If the value uses a template then parse it.
          */
         if ($template = array_get($parameters, 'template')) {
             return $this->template->render($template, ['value' => $value, $term => $entry]);
         }
 
-        /**
+        /*
          * If the entry is an instance of EntryInterface
          * then try getting the field value from the entry.
          */
@@ -113,14 +112,14 @@ class Value
             }
         }
 
-        /**
+        /*
          * Decorate the entry object before
          * sending to decorate so that data_get()
          * can get into the presenter methods.
          */
         $payload[$term] = $entry = $this->decorator->decorate($entry);
 
-        /**
+        /*
          * If the value matches a dot notation
          * then parse it as a template.
          */
@@ -128,7 +127,7 @@ class Value
             $value = $this->template->render("{{ {$value}|raw }}", $payload);
         }
 
-        /**
+        /*
          * If the value matches a method in the presenter.
          */
         if (is_string($value) && preg_match("/^{$term}.([a-zA-Z\\_]+)/", $value, $match)) {
@@ -139,13 +138,13 @@ class Value
 
         $payload[$term] = $entry;
 
-        /**
+        /*
          * By default we can just pass the value through
          * the evaluator utility and be done with it.
          */
         $value = $this->evaluator->evaluate($value, $payload);
 
-        /**
+        /*
          * Lastly, prepare the entry to be
          * parsed into the string.
          */
@@ -153,7 +152,7 @@ class Value
             $entry = $entry->toArray();
         }
 
-        /**
+        /*
          * Parse the value with the entry.
          */
         if ($wrapper = array_get($parameters, 'wrapper')) {
@@ -163,7 +162,7 @@ class Value
             );
         }
 
-        /**
+        /*
          * Parse the value with the value too.
          */
         if (is_string($value)) {
@@ -171,12 +170,12 @@ class Value
                 $value,
                 [
                     'value' => $value,
-                    $term   => $entry
+                    $term   => $entry,
                 ]
             );
         }
 
-        /**
+        /*
          * If the value looks like a language
          * key then try translating it.
          */
@@ -184,7 +183,7 @@ class Value
             $value = trans($value);
         }
 
-        /**
+        /*
          * If the value looks like a render-able
          * string then render it.
          */

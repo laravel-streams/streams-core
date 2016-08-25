@@ -13,11 +13,9 @@ use Robbo\Presenter\Presenter;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon
  */
 class Addon implements PresentableInterface, Arrayable
 {
-
     use FiresCallbacks;
     use DispatchesJobs;
 
@@ -149,7 +147,7 @@ class Addon implements PresentableInterface, Arrayable
     /**
      * Get a namespaced key string.
      *
-     * @param  null $key
+     * @param  null   $key
      * @return string
      */
     public function getNamespace($key = null)
@@ -165,7 +163,7 @@ class Addon implements PresentableInterface, Arrayable
      * Get the transformed
      * class to another suffix.
      *
-     * @param null $suffix
+     * @param  null   $suffix
      * @return string
      */
     public function getTransformedClass($suffix = null)
@@ -189,7 +187,7 @@ class Addon implements PresentableInterface, Arrayable
      * Return whether an addon has
      * config matching the key.
      *
-     * @param string $key
+     * @param  string  $key
      * @return boolean
      */
     public function hasConfig($key = '*')
@@ -201,7 +199,7 @@ class Addon implements PresentableInterface, Arrayable
      * Return whether an addon has
      * config matching any key.
      *
-     * @param array $keys
+     * @param  array $keys
      * @return bool
      */
     public function hasAnyConfig(array $keys = ['*'])
@@ -345,7 +343,7 @@ class Addon implements PresentableInterface, Arrayable
      * @param $name
      * @return mixed
      */
-    function __get($name)
+    public function __get($name)
     {
         $method = camel_case('get_' . $name);
 
@@ -368,7 +366,7 @@ class Addon implements PresentableInterface, Arrayable
      * @param $name
      * @return bool
      */
-    function __isset($name)
+    public function __isset($name)
     {
         $method = camel_case('get_' . $name);
 
@@ -390,7 +388,7 @@ class Addon implements PresentableInterface, Arrayable
      *
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         return $this->getNamespace();
     }
@@ -406,7 +404,7 @@ class Addon implements PresentableInterface, Arrayable
             'id'        => $this->getNamespace(),
             'name'      => $this->getName(),
             'namespace' => $this->getNamespace(),
-            'type'      => $this->getType()
+            'type'      => $this->getType(),
         ];
     }
 }

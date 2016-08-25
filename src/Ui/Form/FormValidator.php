@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Ui\Form\Command\RepopulateFields;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetErrorMessages;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasValidated;
-
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Validation\Validator;
@@ -14,11 +13,9 @@ use Illuminate\Validation\Validator;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form
  */
 class FormValidator
 {
-
     use DispatchesJobs;
 
     /**
@@ -125,7 +122,6 @@ class FormValidator
     protected function setResponse(Validator $validator, FormBuilder $builder)
     {
         if (!$validator->passes()) {
-
             $builder->setSave(false);
 
             $bag = $validator->getMessageBag();

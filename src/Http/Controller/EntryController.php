@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Support\Authorizer;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Http\Controller
  */
 class EntryController extends AdminController
 {
@@ -83,7 +82,7 @@ class EntryController extends AdminController
         /* @var StreamInterface $stream */
         $stream = $this->streams->findBySlugAndNamespace($stream, $namespace);
 
-        /**
+        /*
          * Resolve the model and set
          * it on the repository.
          */
@@ -96,7 +95,6 @@ class EntryController extends AdminController
         }
 
         if (!$entry->isRestorable()) {
-
             $this->messages->error('streams::message.restore_failed');
 
             return $this->redirect->back();
@@ -124,7 +122,7 @@ class EntryController extends AdminController
         /* @var StreamInterface $stream */
         $stream = $this->streams->findBySlugAndNamespace($stream, $namespace);
 
-        /**
+        /*
          * Resolve the model and set
          * it on the repository.
          */
@@ -139,15 +137,13 @@ class EntryController extends AdminController
             'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
             'Content-type'        => 'text/csv',
             'Pragma'              => 'public',
-            'Expires'             => '0'
+            'Expires'             => '0',
         ];
 
         $callback = function () {
-
             $output = fopen('php://output', 'w');
 
             foreach ($this->repository->all() as $k => $entry) {
-
                 if ($k == 0) {
                     fputcsv($output, array_keys($entry->toArray()));
                 }

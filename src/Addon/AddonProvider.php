@@ -17,7 +17,6 @@ use Illuminate\Routing\Router;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon
  */
 class AddonProvider
 {
@@ -160,7 +159,6 @@ class AddonProvider
     public function boot()
     {
         foreach ($this->providers as $provider) {
-
             if (method_exists($provider, 'boot')) {
                 $this->application->call([$provider, 'boot']);
             }
@@ -250,9 +248,7 @@ class AddonProvider
         }
 
         foreach ($listen as $event => $listeners) {
-
             foreach ($listeners as $key => $listener) {
-
                 if (is_integer($listener)) {
                     $listener = $key;
                     $priority = $listener;
@@ -283,7 +279,7 @@ class AddonProvider
 
         foreach ($routes as $uri => $route) {
 
-            /**
+            /*
              * If the route definition is an
              * not an array then let's make it one.
              * Array type routes give us more control
@@ -292,7 +288,7 @@ class AddonProvider
              */
             if (!is_array($route)) {
                 $route = [
-                    'uses' => $route
+                    'uses' => $route,
                 ];
             }
 
@@ -323,7 +319,6 @@ class AddonProvider
         $this->events->listen(
             'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
             function (RegisteringTwigPlugins $event) use ($plugins) {
-
                 $twig = $event->getTwig();
 
                 foreach ($plugins as $plugin) {
@@ -413,7 +408,7 @@ class AddonProvider
             try {
                 $this->application->call([$provider, 'map']);
             } catch (\Exception $e) {
-                /**
+                /*
                  * If, for whatever reason, this fails let
                  * it fail silently. Mapping additional routes
                  * could be volatile at certain application states.

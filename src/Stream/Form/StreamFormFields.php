@@ -1,14 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Form;
 
-
-
 /**
  * Class StreamFormFields
  *
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Stream\Form
  */
 class StreamFormFields
 {
@@ -33,8 +30,8 @@ class StreamFormFields
                     'type'         => 'anomaly.field_type.text',
                     'config'       => [
                         'max'       => 60,
-                        'suggested' => 20
-                    ]
+                        'suggested' => 20,
+                    ],
                 ],
                 'slug'         => [
                     'label'        => 'streams::field.slug.name',
@@ -45,36 +42,36 @@ class StreamFormFields
                     'config'       => [
                         'slugify' => 'name',
                         'type'    => '_',
-                        'max'     => 60
+                        'max'     => 60,
                     ],
                     'rules'        => [
-                        'unique' => 'streams_streams,slug,' . $id . ',id,namespace,' . $namespace
-                    ]
+                        'unique' => 'streams_streams,slug,' . $id . ',id,namespace,' . $namespace,
+                    ],
                 ],
                 'description'  => [
                     'label'        => 'streams::field.description.name',
                     'instructions' => 'streams::field.description.instructions',
                     'translatable' => true,
-                    'type'         => 'anomaly.field_type.textarea'
+                    'type'         => 'anomaly.field_type.textarea',
                 ],
                 'translatable' => [
                     'label'        => 'streams::field.translatable.name',
                     'instructions' => 'streams::field.translatable.instructions',
                     'translatable' => true,
                     'disabled'     => 'edit',
-                    'type'         => 'anomaly.field_type.boolean'
+                    'type'         => 'anomaly.field_type.boolean',
                 ],
                 'trashable'    => [
                     'label'        => 'streams::field.trashable.name',
                     'instructions' => 'streams::field.trashable.instructions',
                     'translatable' => true,
-                    'type'         => 'anomaly.field_type.boolean'
+                    'type'         => 'anomaly.field_type.boolean',
                 ],
                 'sortable'     => [
                     'label'        => 'streams::field.sortable.name',
                     'instructions' => 'streams::field.sortable.instructions',
                     'translatable' => true,
-                    'type'         => 'anomaly.field_type.boolean'
+                    'type'         => 'anomaly.field_type.boolean',
                 ],
                 'config'       => [
                     'label'        => 'streams::field.config.name',
@@ -82,9 +79,9 @@ class StreamFormFields
                     'translatable' => true,
                     'type'         => 'anomaly.field_type.editor',
                     'config'       => [
-                        'mode' => 'json'
-                    ]
-                ]
+                        'mode' => 'json',
+                    ],
+                ],
             ]
         );
     }

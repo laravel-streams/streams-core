@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Component\Column
  */
 class ColumnBuilder
 {
@@ -61,8 +60,8 @@ class ColumnBuilder
     /**
      * Build the columns.
      *
-     * @param TableBuilder $builder
-     * @param              $entry
+     * @param  TableBuilder     $builder
+     * @param                   $entry
      * @return ColumnCollection
      */
     public function build(TableBuilder $builder, $entry)
@@ -74,7 +73,6 @@ class ColumnBuilder
         $this->input->read($builder);
 
         foreach ($builder->getColumns() as $column) {
-
             array_set($column, 'entry', $entry);
 
             $column = $this->evaluator->evaluate($column, compact('entry', 'table'));

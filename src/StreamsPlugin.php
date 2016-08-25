@@ -38,7 +38,6 @@ use Jenssegers\Agent\Agent;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform
  */
 class StreamsPlugin extends Plugin
 {
@@ -226,7 +225,7 @@ class StreamsPlugin extends Plugin
                     return $this->dispatch(new MakeImageTag($image));
                 },
                 [
-                    'is_safe' => ['html']
+                    'is_safe' => ['html'],
                 ]
             ),
             new \Twig_SimpleFunction(
@@ -235,13 +234,12 @@ class StreamsPlugin extends Plugin
                     return $this->dispatch(new MakeImageTag($image));
                 },
                 [
-                    'is_safe' => ['html']
+                    'is_safe' => ['html'],
                 ]
             ),
             new \Twig_SimpleFunction(
                 'form',
                 function () {
-
                     $arguments = func_get_args();
 
                     if (count($arguments) >= 2) {
@@ -259,7 +257,7 @@ class StreamsPlugin extends Plugin
                     return $this->dispatch(new GetFormCriteria($arguments));
                 },
                 [
-                    'is_safe' => ['html']
+                    'is_safe' => ['html'],
                 ]
             ),
             new \Twig_SimpleFunction(
@@ -268,7 +266,7 @@ class StreamsPlugin extends Plugin
                     return (new Decorator())->decorate($this->dispatch(new GetIcon($type, $class)));
                 },
                 [
-                    'is_safe' => ['html']
+                    'is_safe' => ['html'],
                 ]
             ),
             new \Twig_SimpleFunction(
@@ -277,7 +275,7 @@ class StreamsPlugin extends Plugin
                     return $this->dispatch(new GetView($view, $data))->render();
                 },
                 [
-                    'is_safe' => ['html']
+                    'is_safe' => ['html'],
                 ]
             ),
             new \Twig_SimpleFunction(
@@ -286,7 +284,7 @@ class StreamsPlugin extends Plugin
                     return $this->dispatch(new GetButtons($buttons))->render();
                 },
                 [
-                    'is_safe' => ['html']
+                    'is_safe' => ['html'],
                 ]
             ),
             new \Twig_SimpleFunction(
@@ -295,7 +293,7 @@ class StreamsPlugin extends Plugin
                     return $this->dispatch(new GetConstants())->render();
                 },
                 [
-                    'is_safe' => ['html']
+                    'is_safe' => ['html'],
                 ]
             ),
             new \Twig_SimpleFunction(
@@ -337,7 +335,6 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'request_*',
                 function ($name) {
-
                     $arguments = array_slice(func_get_args(), 1);
 
                     return call_user_func_array([$this->request, camel_case($name)], $arguments);
@@ -352,7 +349,6 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'str_*',
                 function ($name) {
-
                     $arguments = array_slice(func_get_args(), 1);
 
                     return call_user_func_array([$this->str, camel_case($name)], $arguments);
@@ -361,7 +357,6 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'url_*',
                 function ($name) {
-
                     $arguments = array_slice(func_get_args(), 1);
 
                     return call_user_func_array([$this->url, camel_case($name)], $arguments);
@@ -370,7 +365,6 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'asset_*',
                 function ($name) {
-
                     $arguments = array_slice(func_get_args(), 1);
 
                     return call_user_func_array([$this->asset, camel_case($name)], $arguments);
@@ -385,7 +379,6 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'addons',
                 function ($type = null) {
-
                     $addons = app(AddonCollection::class);
 
                     if ($type) {
@@ -426,7 +419,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction('agent_is_robot', [$this->agent, 'isRobot']),
             new \Twig_SimpleFunction('agent_is_tablet', [$this->agent, 'isTablet']),
             new \Twig_SimpleFunction('agent_is_mobile', [$this->agent, 'isMobile']),
-            new \Twig_SimpleFunction('agent_is_desktop', [$this->agent, 'isDesktop'])
+            new \Twig_SimpleFunction('agent_is_desktop', [$this->agent, 'isDesktop']),
         ];
     }
 
@@ -445,7 +438,6 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFilter(
                 'str_*',
                 function ($name) {
-
                     $arguments = array_slice(func_get_args(), 1);
 
                     return call_user_func_array([$this->str, camel_case($name)], $arguments);
@@ -457,9 +449,9 @@ class StreamsPlugin extends Plugin
     /**
      * Return a URL.
      *
-     * @param null  $path
-     * @param array $parameters
-     * @param null  $secure
+     * @param  null   $path
+     * @param  array  $parameters
+     * @param  null   $secure
      * @return string
      */
     public function url($path = null, $parameters = [], $secure = null)

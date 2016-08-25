@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation
  */
 class NavigationNormalizer
 {
@@ -24,30 +23,30 @@ class NavigationNormalizer
 
         foreach ($links as $path => &$link) {
 
-            /**
+            /*
              * If the link is a string
              * then it must be in the
              * $path => $title format.
              */
             if (is_string($link)) {
                 $link = [
-                    'href' => $path
+                    'href' => $path,
                 ];
             }
 
-            /**
+            /*
              * Make sure we have attributes.
              */
             $link['attributes'] = array_get($link, 'attributes', []);
 
-            /**
+            /*
              * Move the HREF into attributes.
              */
             if (isset($link['href'])) {
                 $link['attributes']['href'] = array_pull($link, 'href');
             }
 
-            /**
+            /*
              * Move all data-* keys
              * to attributes.
              */
@@ -57,7 +56,7 @@ class NavigationNormalizer
                 }
             }
 
-            /**
+            /*
              * Make sure the HREF is absolute.
              */
             if (

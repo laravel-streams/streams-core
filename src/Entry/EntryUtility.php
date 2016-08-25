@@ -11,11 +11,9 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Entry
  */
 class EntryUtility
 {
-
     use DispatchesJobs;
 
     /**
@@ -28,7 +26,7 @@ class EntryUtility
         // Generate the base model.
         $this->dispatch(new GenerateEntryModel($stream));
 
-        /**
+        /*
          * If the stream is translatable generate
          * the translations model too.
          */

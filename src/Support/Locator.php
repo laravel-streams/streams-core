@@ -9,7 +9,6 @@ use Illuminate\Contracts\Config\Repository;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Support
  */
 class Locator
 {
@@ -60,7 +59,6 @@ class Locator
 
         foreach ($this->config->get('streams::addons.types') as $type) {
             if (ends_with($addon, $type)) {
-
                 $addon = str_replace('_' . $type, '', $addon);
 
                 $namespace = "{$vendor}.{$type}.{$addon}";

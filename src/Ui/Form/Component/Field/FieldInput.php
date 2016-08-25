@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Field
  */
 class FieldInput
 {
@@ -89,7 +88,7 @@ class FieldInput
      * @param FieldNormalizer $normalizer
      * @param FieldTranslator $translator
      */
-    function __construct(
+    public function __construct(
         FieldFiller $filler,
         FieldParser $parser,
         FieldGuesser $guesser,

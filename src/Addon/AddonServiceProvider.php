@@ -13,11 +13,9 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon
  */
 class AddonServiceProvider
 {
-
     use DispatchesJobs;
 
     /**
@@ -238,7 +236,6 @@ class AddonServiceProvider
         $routes = [];
 
         foreach (glob($this->addon->getPath('resources/routes/*')) as $include) {
-
             $include = require $include;
 
             if (!is_array($include)) {

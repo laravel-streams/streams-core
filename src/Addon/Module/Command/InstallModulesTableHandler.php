@@ -9,7 +9,6 @@ use Illuminate\Database\Schema\Builder;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\Module\Command
  */
 class InstallModulesTableHandler
 {
@@ -39,7 +38,6 @@ class InstallModulesTableHandler
         $this->schema->create(
             'addons_modules',
             function (Blueprint $table) {
-
                 $table->increments('id');
                 $table->string('slug');
                 $table->boolean('installed')->default(0);

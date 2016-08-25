@@ -7,7 +7,6 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Field\Command\BuildFields;
 use Anomaly\Streams\Platform\Ui\Form\Component\Section\Command\BuildSections;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasBuilt;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -17,11 +16,9 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
 class BuildForm
 {
-
     use DispatchesJobs;
 
     /**
@@ -49,7 +46,7 @@ class BuildForm
     public function handle(Dispatcher $events)
     {
 
-        /**
+        /*
          * Setup some objects and options using
          * provided input or sensible defaults.
          */
@@ -61,12 +58,12 @@ class BuildForm
         $this->dispatch(new SetFormOptions($this->builder));
         $this->dispatch(new SetDefaultOptions($this->builder));
 
-        /**
+        /*
          * Load anything we need that might be flashed.
          */
         $this->dispatch(new LoadFormErrors($this->builder));
 
-        /**
+        /*
          * Before we go any further, authorize the request.
          */
         $this->dispatch(new AuthorizeForm($this->builder));
@@ -76,18 +73,18 @@ class BuildForm
          */
         $this->dispatch(new BuildFields($this->builder));
 
-        /**
+        /*
          * Build form sections.
          */
         $this->dispatch(new BuildSections($this->builder));
 
-        /**
+        /*
          * Build form actions and flag active.
          */
         $this->dispatch(new BuildActions($this->builder));
         $this->dispatch(new SetActiveAction($this->builder));
 
-        /**
+        /*
          * Build form buttons.
          */
         $this->dispatch(new BuildButtons($this->builder));

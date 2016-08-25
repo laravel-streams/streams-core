@@ -3,14 +3,12 @@
 use Anomaly\Streams\Platform\Ui\Icon\Icon;
 use Anomaly\Streams\Platform\Ui\Icon\IconRegistry;
 
-
 /**
  * Class GetIcon
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Icon\Command
  */
 class GetIcon
 {
@@ -43,7 +41,7 @@ class GetIcon
     /**
      * Handle the command.
      *
-     * @param IconRegistry $registry
+     * @param  IconRegistry $registry
      * @return string
      */
     public function handle(IconRegistry $registry)

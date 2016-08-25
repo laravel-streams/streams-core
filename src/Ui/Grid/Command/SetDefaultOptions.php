@@ -6,14 +6,12 @@ use Anomaly\Streams\Platform\Model\EloquentGridRepository;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 
-
 /**
  * Class SetDefaultOptions
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Grid\Command
  */
 class SetDefaultOptions
 {
@@ -42,13 +40,12 @@ class SetDefaultOptions
     {
         $grid = $this->builder->getGrid();
 
-        /**
+        /*
          * Set the default options handler based
          * on the builder class. Defaulting to
          * no handler.
          */
         if (!$grid->getOption('options')) {
-
             $options = str_replace('GridBuilder', 'GridOptions', get_class($this->builder));
 
             if (class_exists($options)) {
@@ -56,13 +53,12 @@ class SetDefaultOptions
             }
         }
 
-        /**
+        /*
          * Set the default data handler based
          * on the builder class. Defaulting to
          * no handler.
          */
         if (!$grid->getOption('data')) {
-
             $options = str_replace('GridBuilder', 'GridData', get_class($this->builder));
 
             if (class_exists($options)) {
@@ -70,14 +66,13 @@ class SetDefaultOptions
             }
         }
 
-        /**
+        /*
          * Set a optional entries handler based
          * on the builder class. Defaulting to
          * no handler in which case we will use
          * the model and included repositories.
          */
         if (!$grid->getOption('entries')) {
-
             $entries = str_replace('GridBuilder', 'GridEntries', get_class($this->builder));
 
             if (class_exists($entries)) {
@@ -85,13 +80,12 @@ class SetDefaultOptions
             }
         }
 
-        /**
+        /*
          * Set the default options handler based
          * on the builder class. Defaulting to
          * no handler.
          */
         if (!$grid->getOption('repository')) {
-
             $model = $grid->getModel();
 
             if (!$grid->getOption('repository') && $model instanceof EntryModel) {

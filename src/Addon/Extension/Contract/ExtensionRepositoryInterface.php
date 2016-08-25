@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\Extension\Contract
  */
 interface ExtensionRepositoryInterface
 {
@@ -25,7 +24,7 @@ interface ExtensionRepositoryInterface
     /**
      * Create a extension record.
      *
-     * @param Extension $extension
+     * @param  Extension $extension
      * @return bool
      */
     public function create(Extension $extension);
@@ -33,7 +32,7 @@ interface ExtensionRepositoryInterface
     /**
      * Delete a extension record.
      *
-     * @param Extension $extension
+     * @param  Extension      $extension
      * @return ExtensionModel
      */
     public function delete(Extension $extension);
@@ -41,7 +40,7 @@ interface ExtensionRepositoryInterface
     /**
      * Mark a extension as installed.
      *
-     * @param Extension $extension
+     * @param  Extension $extension
      * @return bool
      */
     public function install(Extension $extension);
@@ -49,7 +48,7 @@ interface ExtensionRepositoryInterface
     /**
      * Mark a extension as uninstalled.
      *
-     * @param Extension $extension
+     * @param  Extension $extension
      * @return bool
      */
     public function uninstall(Extension $extension);
@@ -57,7 +56,7 @@ interface ExtensionRepositoryInterface
     /**
      * Mark a extension as disabled.
      *
-     * @param Extension $extension
+     * @param  Extension $extension
      * @return bool
      */
     public function disable(Extension $extension);
@@ -65,7 +64,7 @@ interface ExtensionRepositoryInterface
     /**
      * Mark a extension as enabled.
      *
-     * @param Extension $extension
+     * @param  Extension $extension
      * @return bool
      */
     public function enabled(Extension $extension);

@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterfa
 use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasInstalled;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Illuminate\Contracts\Console\Kernel;
-
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
@@ -14,7 +13,6 @@ use Illuminate\Contracts\Events\Dispatcher;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\Extension\Command
  */
 class InstallExtension
 {
@@ -39,7 +37,7 @@ class InstallExtension
      * @param Extension $extension
      * @param bool      $seed
      */
-    function __construct(Extension $extension, $seed = false)
+    public function __construct(Extension $extension, $seed = false)
     {
         $this->seed      = $seed;
         $this->extension = $extension;
@@ -48,10 +46,10 @@ class InstallExtension
     /**
      * Handle the command.
      *
-     * @param InstallExtension|Kernel      $console
-     * @param AddonManager                 $manager
-     * @param Dispatcher                   $dispatcher
-     * @param ExtensionRepositoryInterface $extensions
+     * @param  InstallExtension|Kernel      $console
+     * @param  AddonManager                 $manager
+     * @param  Dispatcher                   $dispatcher
+     * @param  ExtensionRepositoryInterface $extensions
      * @return bool
      */
     public function handle(
@@ -64,7 +62,7 @@ class InstallExtension
 
         $options = [
             '--addon' => $this->extension->getNamespace(),
-            '--force' => true
+            '--force' => true,
         ];
 
         $console->call('migrate:refresh', $options);

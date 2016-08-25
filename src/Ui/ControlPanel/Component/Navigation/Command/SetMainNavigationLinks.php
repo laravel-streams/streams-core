@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-
 use Illuminate\Contracts\Config\Repository;
 
 /**
@@ -11,7 +10,6 @@ use Illuminate\Contracts\Config\Repository;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command
  */
 class SetMainNavigationLinks
 {

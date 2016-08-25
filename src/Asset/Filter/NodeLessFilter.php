@@ -9,7 +9,6 @@ use Assetic\Asset\AssetInterface;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Asset\Filter
  */
 class NodeLessFilter extends \Assetic\Filter\LessFilter
 {
@@ -34,7 +33,7 @@ class NodeLessFilter extends \Assetic\Filter\LessFilter
             '/usr/local/bin/node',
             [
                 '/usr/local/lib/node_modules',
-                '/usr/local/lib/node_modules/less/bin/lessc'
+                '/usr/local/lib/node_modules/less/bin/lessc',
             ]
         );
     }

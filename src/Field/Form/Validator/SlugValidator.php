@@ -8,7 +8,6 @@ use Illuminate\Contracts\Config\Repository;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Field\Form\Validator
  */
 class SlugValidator
 {

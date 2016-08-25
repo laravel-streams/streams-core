@@ -6,7 +6,6 @@ use Illuminate\Database\SeedServiceProvider;
 /**
  * Class SeederServiceProvider
  *
- * @package Anomaly\Streams\Platform\Database\Seeder
  */
 class SeederServiceProvider extends SeedServiceProvider
 {

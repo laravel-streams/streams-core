@@ -13,7 +13,6 @@ use Anomaly\Streams\Platform\Support\Parser;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Entry\Command
  */
 class GenerateEntryTranslationsModelHandler
 {
@@ -38,7 +37,7 @@ class GenerateEntryTranslationsModelHandler
      * @param Parser      $parser
      * @param Application $application
      */
-    function __construct(Parser $parser, Application $application)
+    public function __construct(Parser $parser, Application $application)
     {
         $this->parser      = $parser;
         $this->application = $application;

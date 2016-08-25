@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Model;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Model
  */
 class EloquentObserver extends Observer
 {

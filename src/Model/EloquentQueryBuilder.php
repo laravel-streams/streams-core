@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Builder;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Model
  */
 class EloquentQueryBuilder extends Builder
 {
@@ -27,7 +26,7 @@ class EloquentQueryBuilder extends Builder
     /**
      * Execute the query as a "select" statement.
      *
-     * @param  array $columns
+     * @param  array                                             $columns
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function get($columns = ['*'])
@@ -35,7 +34,6 @@ class EloquentQueryBuilder extends Builder
         $this->orderByDefault();
 
         if (env('DB_CACHE')) {
-
             $this->rememberIndex();
 
             if ($this->model->getTtl()) {
@@ -150,7 +148,7 @@ class EloquentQueryBuilder extends Builder
     /**
      * Update a record in the database.
      *
-     * @param array $values
+     * @param  array $values
      * @return int
      */
     public function update(array $values)
@@ -195,7 +193,6 @@ class EloquentQueryBuilder extends Builder
                 if ($model->getStream()->isSortable()) {
                     $query->orderBy('sort_order', 'ASC');
                 } elseif ($model->titleColumnIsTranslatable()) {
-
                     if (!$this->hasJoin($model->getTranslationsTableName())) {
                         $this->query->leftJoin(
                             $model->getTranslationsTableName(),

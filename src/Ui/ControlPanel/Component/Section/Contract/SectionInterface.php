@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract
  */
 interface SectionInterface
 {
@@ -53,7 +52,7 @@ interface SectionInterface
     /**
      * Set the title.
      *
-     * @param string $title
+     * @param  string $title
      * @return $this
      */
     public function setTitle($title);
@@ -83,7 +82,7 @@ interface SectionInterface
     /**
      * Set the active flag.
      *
-     * @param boolean $active
+     * @param  boolean $active
      * @return $this
      */
     public function setActive($active);
@@ -143,7 +142,7 @@ interface SectionInterface
     /**
      * Set the highlighted flag.
      *
-     * @param boolean $active
+     * @param  boolean $active
      * @return $this
      */
     public function setHighlighted($highlighted);
@@ -232,7 +231,7 @@ interface SectionInterface
     /**
      * Get the HREF attribute.
      *
-     * @param null $path
+     * @param  null   $path
      * @return string
      */
     public function getHref($path = null);

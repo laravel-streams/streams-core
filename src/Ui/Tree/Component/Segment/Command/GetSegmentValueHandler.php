@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\SegmentValue;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Tree\Component\Segment\Command
  */
 class GetSegmentValueHandler
 {
@@ -34,7 +33,7 @@ class GetSegmentValueHandler
     /**
      * Handle the command.
      *
-     * @param GetSegmentValue $command
+     * @param  GetSegmentValue $command
      * @return mixed
      */
     public function handle(GetSegmentValue $command)

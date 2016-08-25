@@ -10,11 +10,9 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Migration\Command
  */
 class CreateAddonMigrationFolderHandler
 {
-
     use DispatchesJobs;
 
     /**
@@ -44,7 +42,7 @@ class CreateAddonMigrationFolderHandler
     /**
      * Handle the command.
      *
-     * @param CreateAddonMigrationFolder $command
+     * @param  CreateAddonMigrationFolder $command
      * @return string|null
      */
     public function handle(CreateAddonMigrationFolder $command)
@@ -52,7 +50,6 @@ class CreateAddonMigrationFolderHandler
         $path = null;
 
         if ($addon = $this->addons->get($command->getAddon())) {
-
             $path = $addon->getPath('migrations');
 
             if (!$this->files->isDirectory($path)) {

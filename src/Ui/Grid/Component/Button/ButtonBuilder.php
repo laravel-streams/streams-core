@@ -11,7 +11,6 @@ use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Grid\Component\Button
  */
 class ButtonBuilder
 {
@@ -63,8 +62,8 @@ class ButtonBuilder
     /**
      * Build the buttons.
      *
-     * @param GridBuilder  $builder
-     * @param              $entry
+     * @param  GridBuilder      $builder
+     * @param                   $entry
      * @return ButtonCollection
      */
     public function build(GridBuilder $builder, $entry)
@@ -76,7 +75,6 @@ class ButtonBuilder
         $this->input->read($builder, $entry);
 
         foreach ($builder->getButtons() as $button) {
-
             if (!array_get($button, 'enabled', true)) {
                 continue;
             }

@@ -12,11 +12,9 @@ use Symfony\Component\Console\Input\InputOption;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Migration\Console
  */
 class ResetCommand extends BaseResetCommand
 {
-
     use DispatchesJobs;
 
     /**
@@ -35,15 +33,12 @@ class ResetCommand extends BaseResetCommand
     {
         // Reset a specific addon(s).
         if ($addon = $this->input->getOption('addon')) {
-
             $pretend = $this->input->getOption('pretend');
 
             $namespaces = explode(',', $addon);
 
             foreach ($namespaces as $namespace) {
-
                 while (true) {
-
                     $count = $this->migrator->rollbackNamespace($namespace, $pretend);
 
                     // Once the migrator has run we will grab the note output and send it out to

@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
 use Anomaly\Streams\Platform\Http\Routing\Matching\CaseInsensitiveUriValidator;
-
 use Illuminate\Routing\Matching\UriValidator;
 use Illuminate\Routing\Route;
 
@@ -11,7 +10,6 @@ use Illuminate\Routing\Route;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Application\Command
  */
 class ConfigureUriValidator
 {

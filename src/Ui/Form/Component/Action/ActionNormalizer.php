@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Action
  */
 class ActionNormalizer
 {
@@ -42,7 +41,7 @@ class ActionNormalizer
      */
     protected function process($prefix, $slug, $action)
     {
-        /**
+        /*
          * If the slug is numeric and the action is
          * a string then treat the string as both the
          * action and the slug. This is OK as long as
@@ -56,7 +55,7 @@ class ActionNormalizer
             ];
         }
 
-        /**
+        /*
          * If the slug is NOT numeric and the action is a
          * string then use the slug as the slug and the
          * action as the action.
@@ -68,7 +67,7 @@ class ActionNormalizer
             ];
         }
 
-        /**
+        /*
          * If the slug is not numeric and the action is an
          * array without a slug then use the slug for
          * the slug for the action.
@@ -77,7 +76,7 @@ class ActionNormalizer
             $action['slug'] = $slug;
         }
 
-        /**
+        /*
          * If the slug is not numeric and the action is an
          * array without a action then use the slug for
          * the action for the action.
@@ -86,12 +85,12 @@ class ActionNormalizer
             $action['action'] = $slug;
         }
 
-        /**
+        /*
          * Make sure the attributes array is set.
          */
         $action['attributes'] = array_get($action, 'attributes', []);
 
-        /**
+        /*
          * Move all data-* keys
          * to attributes.
          */
@@ -101,7 +100,7 @@ class ActionNormalizer
             }
         }
 
-        /**
+        /*
          * If the HREF is present outside of the attributes
          * then pull it and put it in the attributes array.
          */
@@ -109,7 +108,7 @@ class ActionNormalizer
             $action['attributes']['url'] = array_pull($action, 'url');
         }
 
-        /**
+        /*
          * Make sure the HREF is absolute.
          */
         if (
@@ -120,7 +119,7 @@ class ActionNormalizer
             $action['redirect'] = url($action['redirect']);
         }
 
-        /**
+        /*
          * Set defaults as expected for actions.
          */
         $action['size'] = 'sm';

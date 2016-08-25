@@ -3,14 +3,12 @@
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Field\Form\FieldFormBuilder;
 
-
 /**
  * Class AutoAssignField
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Field\Form\Command
  */
 class AutoAssignField
 {
@@ -40,14 +38,13 @@ class AutoAssignField
     public function handle(AssignmentRepositoryInterface $assignments)
     {
         if ($this->builder->getFormOption('auto_assign') === true && $this->builder->getFormMode() === 'create') {
-
             $field  = $this->builder->getFormEntry();
             $stream = $this->builder->getStream();
 
             $assignments->create(
                 [
                     'stream_id' => $stream->getId(),
-                    'field_id'  => $field->getId()
+                    'field_id'  => $field->getId(),
                 ]
             );
         }

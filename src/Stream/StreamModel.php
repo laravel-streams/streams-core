@@ -26,7 +26,6 @@ use Robbo\Presenter\Robbo;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Stream
  */
 class StreamModel extends EloquentModel implements StreamInterface, PresentableInterface
 {
@@ -59,7 +58,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
      */
     protected $translatedAttributes = [
         'name',
-        'description'
+        'description',
     ];
 
     /**
@@ -89,7 +88,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
     /**
      * Make a Stream instance from the provided compile data.
      *
-     * @param  array $data
+     * @param  array           $data
      * @return StreamInterface
      */
     public function make(array $data)
@@ -100,7 +99,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
             return $stream;
         }
 
-        $assignments = array();
+        $assignments = [];
 
         $streamModel        = new StreamModel();
         $streamTranslations = new EloquentCollection();
@@ -109,7 +108,6 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
 
         if ($translations = array_pull($data, 'translations')) {
             foreach ($translations as $attributes) {
-
                 $translation = new StreamModelTranslation();
                 $translation->setRawAttributes($attributes);
 
@@ -124,11 +122,8 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
         unset($this->translations);
 
         if (array_key_exists('assignments', $data)) {
-
             foreach ($data['assignments'] as $assignment) {
-
                 if (isset($assignment['field'])) {
-
                     $assignment['field']['config'] = unserialize($assignment['field']['config']);
 
                     $fieldModel        = new FieldModel();
@@ -136,7 +131,6 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
 
                     if (isset($assignment['field']['translations'])) {
                         foreach (array_pull($assignment['field'], 'translations') as $attributes) {
-
                             $translation = new FieldModelTranslation();
                             $translation->setRawAttributes($attributes);
 
@@ -157,7 +151,6 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
 
                     if (isset($assignment['translations'])) {
                         foreach (array_pull($assignment, 'translations') as $attributes) {
-
                             $translation = new AssignmentModelTranslation();
                             $translation->setRawAttributes($attributes);
 
@@ -218,7 +211,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
      * but not all streams are translatable. This helps avoid
      * the translatable conflict during specific procedures.
      *
-     * @param  array $attributes
+     * @param  array  $attributes
      * @return static
      */
     public static function create(array $attributes = [])
@@ -293,8 +286,8 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
     /**
      * Get the config.
      *
-     * @param null $key
-     * @param null $default
+     * @param  null  $key
+     * @param  null  $default
      * @return mixed
      */
     public function getConfig($key = null, $default = null)
@@ -315,7 +308,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
     /**
      * Merge configuration.
      *
-     * @param array $config
+     * @param  array $config
      * @return $this
      */
     public function mergeConfig(array $config)
@@ -408,7 +401,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
     /**
      * Get the field slugs for assigned fields.
      *
-     * @param null $prefix
+     * @param  null  $prefix
      * @return array
      */
     public function getAssignmentFieldSlugs($prefix = null)
@@ -531,9 +524,9 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
     /**
      * Get a field's type by the field's slug.
      *
-     * @param                $fieldSlug
-     * @param EntryInterface $entry
-     * @param null|string    $locale
+     * @param                 $fieldSlug
+     * @param  EntryInterface $entry
+     * @param  null|string    $locale
      * @return FieldType
      */
     public function getFieldType($fieldSlug, EntryInterface $entry = null, $locale = null)
@@ -548,9 +541,9 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
     /**
      * Get a field's query utility by the field's slug.
      *
-     * @param                $fieldSlug
-     * @param EntryInterface $entry
-     * @param null|string    $locale
+     * @param                 $fieldSlug
+     * @param  EntryInterface $entry
+     * @param  null|string    $locale
      * @return FieldTypeQuery
      */
     public function getFieldTypeQuery($fieldSlug, EntryInterface $entry = null, $locale = null)

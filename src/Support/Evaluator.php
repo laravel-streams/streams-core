@@ -9,7 +9,6 @@ use Illuminate\Contracts\Container\Container;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Support
  */
 class Evaluator
 {
@@ -40,7 +39,7 @@ class Evaluator
      */
     public function evaluate($target, array $arguments = [])
     {
-        /**
+        /*
          * If the target is an instance of Closure then
          * call through the IoC it with the arguments.
          */
@@ -48,7 +47,7 @@ class Evaluator
             return $this->container->call($target, $arguments);
         }
 
-        /**
+        /*
          * If the target is an array then evaluate
          * each of it's values.
          */
@@ -58,7 +57,7 @@ class Evaluator
             }
         }
 
-        /**
+        /*
          * if the target is a string and is in a traversable
          * format then traverse the target using the arguments.
          */

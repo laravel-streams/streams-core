@@ -8,7 +8,6 @@ use Symfony\Component\Console\Input\InputOption;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Console
  */
 class Application extends \Illuminate\Console\Application
 {

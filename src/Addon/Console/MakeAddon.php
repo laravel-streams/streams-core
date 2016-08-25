@@ -18,11 +18,9 @@ use Symfony\Component\Console\Input\InputOption;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Console
  */
 class MakeAddon extends Command
 {
-
     use DispatchesJobs;
 
     /**
@@ -74,7 +72,7 @@ class MakeAddon extends Command
                 [
                     'name'     => 'create_' . $slug . '_fields',
                     '--addon'  => "{$vendor}.{$type}.{$slug}",
-                    '--fields' => true
+                    '--fields' => true,
                 ]
             );
         }
@@ -88,7 +86,7 @@ class MakeAddon extends Command
     protected function getArguments()
     {
         return [
-            ['namespace', InputArgument::REQUIRED, 'The addon\'s desired dot namespace.']
+            ['namespace', InputArgument::REQUIRED, 'The addon\'s desired dot namespace.'],
         ];
     }
 
@@ -101,7 +99,7 @@ class MakeAddon extends Command
     {
         return [
             ['shared', null, InputOption::VALUE_NONE, 'Indicates if the addon should be created in shared addons.'],
-            ['migration', null, InputOption::VALUE_NONE, 'Indicates if a fields migration should be created.']
+            ['migration', null, InputOption::VALUE_NONE, 'Indicates if a fields migration should be created.'],
         ];
     }
 }

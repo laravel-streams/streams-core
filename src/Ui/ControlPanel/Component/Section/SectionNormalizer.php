@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section
  */
 class SectionNormalizer
 {
@@ -40,23 +39,23 @@ class SectionNormalizer
     {
         $sections = $builder->getSections();
 
-        /**
+        /*
          * Loop over each section and make sense of the input
          * provided for the given module.
          */
         foreach ($sections as $slug => &$section) {
 
-            /**
+            /*
              * If the slug is not valid and the section
              * is a string then use the section as the slug.
              */
             if (is_numeric($slug) && is_string($section)) {
                 $section = [
-                    'slug' => $section
+                    'slug' => $section,
                 ];
             }
 
-            /**
+            /*
              * If the slug is a string and the title is not
              * set then use the slug as the slug.
              */
@@ -64,19 +63,19 @@ class SectionNormalizer
                 $section['slug'] = $slug;
             }
 
-            /**
+            /*
              * Make sure we have attributes.
              */
             $section['attributes'] = array_get($section, 'attributes', []);
 
-            /**
+            /*
              * Move the HREF into attributes.
              */
             if (isset($section['href'])) {
                 $section['attributes']['href'] = array_pull($section, 'href');
             }
 
-            /**
+            /*
              * Move all data-* keys
              * to attributes.
              */
@@ -86,7 +85,7 @@ class SectionNormalizer
                 }
             }
 
-            /**
+            /*
              * Move the data-href into the permalink.
              *
              * @deprecated as of v3.2
@@ -95,7 +94,7 @@ class SectionNormalizer
                 $section['permalink'] = array_pull($section, 'attributes.data-href');
             }
 
-            /**
+            /*
              * Make sure the HREF and permalink are absolute.
              */
             if (
@@ -114,12 +113,11 @@ class SectionNormalizer
                 $section['permalink'] = url($section['permalink']);
             }
 
-            /**
+            /*
              * Move child sections into main array.
              */
             if (isset($section['sections'])) {
                 foreach ($section['sections'] as $key => &$child) {
-
                     $child['parent'] = array_get($section, 'slug');
                     $child['slug']   = array_get($child, 'slug', $key);
 

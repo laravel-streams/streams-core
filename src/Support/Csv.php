@@ -6,7 +6,6 @@
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Support
  */
 class Csv
 {
@@ -66,7 +65,6 @@ class Csv
                 $this->getEnclosure(),
                 $this->getEscape()
             )) !== false) {
-
             if ($this->hasHeader() && !$header) {
                 $header = $row;
             } elseif ($this->hasHeader()) {

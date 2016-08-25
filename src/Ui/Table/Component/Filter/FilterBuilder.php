@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Component\Filter
  */
 class FilterBuilder
 {
@@ -51,7 +50,6 @@ class FilterBuilder
         $this->input->read($builder);
 
         foreach ($builder->getFilters() as $filter) {
-
             if (array_get($filter, 'enabled') === false) {
                 continue;
             }

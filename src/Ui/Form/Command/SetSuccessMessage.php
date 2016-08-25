@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-
 use Illuminate\Translation\Translator;
 
 /**
@@ -11,7 +10,6 @@ use Illuminate\Translation\Translator;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
 class SetSuccessMessage
 {
@@ -60,7 +58,7 @@ class SetSuccessMessage
 
         $parameters = [
             'title' => is_object($entry) ? $entry->getTitle() : null,
-            'name'  => is_object($stream) ? $stream->getName() : null
+            'name'  => is_object($stream) ? $stream->getName() : null,
         ];
 
         // If the name doesn't exist we need to be clever.
@@ -72,7 +70,7 @@ class SetSuccessMessage
             $parameters['name'] = trans('streams::entry.name');
         }
 
-        /**
+        /*
          * Set the default success message.
          */
         if ($this->builder->getFormOption('success_message') === null) {

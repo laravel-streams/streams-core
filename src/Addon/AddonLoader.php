@@ -8,7 +8,6 @@ use Composer\Autoload\ClassLoader;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon
  */
 class AddonLoader
 {
@@ -44,7 +43,6 @@ class AddonLoader
     public function load($path)
     {
         if (file_exists($autoload = $path . '/vendor/autoload.php')) {
-
             include $autoload;
 
             return;

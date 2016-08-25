@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Database\Migration\Command\TransformMigrationNameTo
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Migration\Command
  */
 class TransformMigrationNameToClassHandler
 {
@@ -16,7 +15,7 @@ class TransformMigrationNameToClassHandler
     /**
      * Handle the command.
      *
-     * @param TransformMigrationNameToClass $command
+     * @param  TransformMigrationNameToClass $command
      * @return string
      */
     public function handle(TransformMigrationNameToClass $command)
@@ -29,7 +28,6 @@ class TransformMigrationNameToClassHandler
 
         // Insert the version number if there are three segments or more
         if (count($segments) >= 3) {
-
             $key       = $segments[0];
             $version   = $segments[1];
             $migration = $segments[2];

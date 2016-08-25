@@ -2,14 +2,12 @@
 
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 
-
 /**
  * Class SetTreeRepository
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Tree\Command
  */
 class SetTreeRepository
 {
@@ -39,7 +37,7 @@ class SetTreeRepository
         $tree  = $this->builder->getTree();
         $model = $tree->getModel();
 
-        /**
+        /*
          * If a repository is set
          * then we don't have
          * anything to do.
@@ -50,7 +48,7 @@ class SetTreeRepository
 
         $repository = $tree->getOption('repository');
 
-        /**
+        /*
          * If there is no repository
          * then skip this step.
          */
@@ -58,7 +56,7 @@ class SetTreeRepository
             return;
         }
 
-        /**
+        /*
          * Set the repository on the form!
          */
         $tree->setRepository(app()->make($repository, compact('model', 'tree')));

@@ -10,7 +10,6 @@ use Illuminate\Translation\FileLoader;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Lang
  */
 class Loader extends FileLoader
 {
@@ -39,10 +38,10 @@ class Loader extends FileLoader
      * Load namespaced overrides from
      * system AND application paths.
      *
-     * @param array $lines
-     * @param string $locale
-     * @param string $group
-     * @param string $namespace
+     * @param  array  $lines
+     * @param  string $locale
+     * @param  string $group
+     * @param  string $namespace
      * @return array
      */
     protected function loadNamespaceOverrides(array $lines, $locale, $group, $namespace)
@@ -56,16 +55,15 @@ class Loader extends FileLoader
     /**
      * Load system overrides.
      *
-     * @param array $lines
-     * @param       $locale
-     * @param       $group
-     * @param       $namespace
+     * @param  array $lines
+     * @param        $locale
+     * @param        $group
+     * @param        $namespace
      * @return array
      */
     protected function loadSystemOverrides(array $lines, $locale, $group, $namespace)
     {
         if ($namespace == 'streams') {
-
             $file = base_path("resources/core/lang/streams/{$locale}/{$group}.php");
 
             if ($this->files->exists($file)) {
@@ -74,7 +72,6 @@ class Loader extends FileLoader
         }
 
         if (str_is('*.*.*', $namespace)) {
-
             list($vendor, $type, $slug) = explode('.', $namespace);
 
             $file = base_path("resources/core/lang/addons/{$vendor}/{$slug}-{$type}/{$locale}/{$group}.php");
@@ -90,16 +87,15 @@ class Loader extends FileLoader
     /**
      * Load system overrides.
      *
-     * @param array $lines
-     * @param       $locale
-     * @param       $group
-     * @param       $namespace
+     * @param  array $lines
+     * @param        $locale
+     * @param        $group
+     * @param        $namespace
      * @return array
      */
     protected function loadApplicationOverrides(array $lines, $locale, $group, $namespace)
     {
         if ($namespace == 'streams') {
-
             $file = $this->application->getResourcesPath("lang/streams/{$locale}/{$group}.php");
 
             if ($this->files->exists($file)) {
@@ -108,7 +104,6 @@ class Loader extends FileLoader
         }
 
         if (str_is('*.*.*', $namespace)) {
-
             list($vendor, $type, $slug) = explode('.', $namespace);
 
             $file = $this->application->getResourcesPath(
@@ -122,5 +117,4 @@ class Loader extends FileLoader
 
         return $lines;
     }
-
 }

@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action
  */
 class ActionLookup
 {
@@ -50,7 +49,6 @@ class ActionLookup
         $actions = $builder->getActions();
 
         foreach ($actions as &$parameters) {
-
             $action = $original = array_pull($parameters, 'action');
 
             if ($action && $action = $this->actions->get($action)) {

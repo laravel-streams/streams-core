@@ -9,7 +9,7 @@ use Illuminate\Session\SessionInterface;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Routing\UrlGenerator;
 
-class FormBuilder
+class Html
 {
     use Macroable, Componentable {
         Macroable::__call as macroCall;

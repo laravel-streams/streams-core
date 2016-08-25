@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Model\EloquentPresenter;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Assignment
  */
 class AssignmentPresenter extends EloquentPresenter
 {
@@ -25,7 +24,7 @@ class AssignmentPresenter extends EloquentPresenter
     /**
      * Return the flag labels.
      *
-     * @param string $size
+     * @param  string $size
      * @return string
      */
     public function labels($size = 'sm')
@@ -35,7 +34,7 @@ class AssignmentPresenter extends EloquentPresenter
             [
                 $this->requiredLabel($size),
                 $this->uniqueLabel($size),
-                $this->translatableLabel($size)
+                $this->translatableLabel($size),
             ]
         );
     }
@@ -43,7 +42,7 @@ class AssignmentPresenter extends EloquentPresenter
     /**
      * Return the required label.
      *
-     * @param string $size
+     * @param  string      $size
      * @return null|string
      */
     protected function requiredLabel($size = 'sm')
@@ -60,7 +59,7 @@ class AssignmentPresenter extends EloquentPresenter
     /**
      * Return the unique label.
      *
-     * @param string $size
+     * @param  string      $size
      * @return null|string
      */
     protected function uniqueLabel($size = 'sm')
@@ -77,7 +76,7 @@ class AssignmentPresenter extends EloquentPresenter
     /**
      * Return the translatable label.
      *
-     * @param string $size
+     * @param  string      $size
      * @return null|string
      */
     protected function translatableLabel($size = 'sm')

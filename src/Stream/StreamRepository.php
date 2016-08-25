@@ -12,7 +12,6 @@ use Illuminate\Database\Schema\Builder;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Stream
  */
 class StreamRepository extends EloquentRepository implements StreamRepositoryInterface
 {
@@ -46,7 +45,7 @@ class StreamRepository extends EloquentRepository implements StreamRepositoryInt
     /**
      * Create a new Stream.
      *
-     * @param array $attributes
+     * @param  array           $attributes
      * @return StreamInterface
      */
     public function create(array $attributes = [])

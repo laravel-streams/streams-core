@@ -4,14 +4,12 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
-
 /**
  * Class DeleteActionHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler
  */
 class Delete extends ActionHandler
 {
@@ -30,11 +28,9 @@ class Delete extends ActionHandler
 
         /* @var EloquentModel $entry */
         foreach ($selected as $id) {
-
             $entry = $model->find($id);
 
             if ($entry && $entry->isDeletable() && $entry->delete()) {
-
                 $builder->fire('row_deleted', compact('builder', 'model', 'entry'));
 
                 $count++;

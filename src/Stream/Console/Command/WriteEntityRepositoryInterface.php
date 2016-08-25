@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Support\Parser;
-
 use Illuminate\Filesystem\Filesystem;
 
 /**
@@ -11,7 +10,6 @@ use Illuminate\Filesystem\Filesystem;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Stream\Console\Command
  */
 class WriteEntityRepositoryInterface
 {

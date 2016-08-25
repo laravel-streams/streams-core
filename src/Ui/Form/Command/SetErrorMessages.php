@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-
 use Illuminate\Http\Request;
 use Illuminate\Translation\Translator;
 
@@ -13,7 +12,6 @@ use Illuminate\Translation\Translator;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
 class SetErrorMessages
 {
@@ -38,7 +36,7 @@ class SetErrorMessages
     /**
      * Handle the command.
      *
-     * @param Request $request
+     * @param Request    $request
      * @param MessageBag $messages
      * @param Translator $translator
      */
@@ -61,7 +59,7 @@ class SetErrorMessages
                         $translator->trans(
                             'streams::validation.unique_trash',
                             [
-                                'attribute' => '"' . $translator->trans($assignment->getFieldName()) . '"'
+                                'attribute' => '"' . $translator->trans($assignment->getFieldName()) . '"',
                             ]
                         )
                     );

@@ -9,7 +9,6 @@ use Illuminate\Contracts\Events\Dispatcher;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Field\Command
  */
 class UnassignFieldHandler
 {
@@ -43,7 +42,7 @@ class UnassignFieldHandler
     /**
      * Handle the command.
      *
-     * @param  UnassignField $command
+     * @param UnassignField $command
      */
     public function handle(UnassignField $command)
     {

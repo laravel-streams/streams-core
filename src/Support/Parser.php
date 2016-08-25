@@ -11,7 +11,6 @@ use StringTemplate\Engine;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Support
  */
 class Parser
 {
@@ -54,15 +53,15 @@ class Parser
     /**
      * Parse data into the target recursively.
      *
-     * @param       $target
-     * @param array $data
+     * @param        $target
+     * @param  array $data
      * @return mixed
      */
     public function parse($target, array $data = [])
     {
         $data = $this->prepareData($data);
 
-        /**
+        /*
          * If the target is an array
          * then parse it recursively.
          */
@@ -72,7 +71,7 @@ class Parser
             }
         }
 
-        /**
+        /*
          * if the target is a string and is in a parsable
          * format then parse the target with the payload.
          */
@@ -86,7 +85,7 @@ class Parser
     /**
      * Prepare the data.
      *
-     * @param array $data
+     * @param  array $data
      * @return array
      */
     protected function prepareData(array $data)
@@ -97,7 +96,7 @@ class Parser
     /**
      * Merge default data.
      *
-     * @param array $data
+     * @param  array $data
      * @return array
      */
     protected function mergeDefaultData(array $data)
@@ -111,7 +110,7 @@ class Parser
     /**
      * Prep data for parsing.
      *
-     * @param array $data
+     * @param  array $data
      * @return array
      */
     protected function toArray(array $data)
@@ -133,7 +132,7 @@ class Parser
     protected function urlData()
     {
         return [
-            'previous' => $this->url->previous()
+            'previous' => $this->url->previous(),
         ];
     }
 
@@ -150,7 +149,6 @@ class Parser
         ];
 
         if ($route = $this->request->route()) {
-
             $request['route'] = [
                 'uri'                      => $route->getUri(),
                 'parameters'               => $route->parameters(),
@@ -167,8 +165,8 @@ class Parser
                         $route->getCompiled()->getStaticPrefix(),
                         '',
                         $this->request->getRequestUri()
-                    )
-                ]
+                    ),
+                ],
             ];
         }
 

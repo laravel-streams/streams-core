@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Stream\Form
  */
 class StreamFormBuilder extends FormBuilder
 {
@@ -117,5 +116,4 @@ class StreamFormBuilder extends FormBuilder
 
         return $this;
     }
-
 }

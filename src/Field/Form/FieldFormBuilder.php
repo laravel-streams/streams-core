@@ -11,7 +11,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Field\Form
  */
 class FieldFormBuilder extends FormBuilder
 {
@@ -94,7 +93,7 @@ class FieldFormBuilder extends FormBuilder
     /**
      * Set the stream.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return $this
      */
     public function setStream(StreamInterface $stream)
@@ -140,7 +139,7 @@ class FieldFormBuilder extends FormBuilder
     /**
      * Set the field type.
      *
-     * @param FieldType $fieldType
+     * @param  FieldType $fieldType
      * @return $this
      */
     public function setFieldType(FieldType $fieldType)

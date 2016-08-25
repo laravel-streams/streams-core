@@ -10,7 +10,6 @@ use Illuminate\Filesystem\Filesystem;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Stream\Console
  */
 class Clear extends Command
 {

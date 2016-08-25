@@ -4,14 +4,12 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
-
 /**
  * Class SetActiveFilters
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Multiple\Command
  */
 class SetActiveFilters
 {
@@ -62,9 +60,7 @@ class SetActiveFilters
     {
         /* @var FilterInterface $filter */
         foreach ($builder->getTableFilters() as $filter) {
-
             if ($filter->getSlug() === $slug) {
-
                 $filter->setPrefix($builder->getTableOption('prefix'));
                 $filter->setActive(true);
 

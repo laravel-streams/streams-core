@@ -9,7 +9,6 @@ use Closure;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract
  */
 interface FilterInterface
 {
@@ -53,7 +52,7 @@ interface FilterInterface
     /**
      * Set the exact flag.
      *
-     * @param bool $exact
+     * @param  bool  $exact
      * @return $this
      */
     public function setExact($exact);
@@ -68,7 +67,7 @@ interface FilterInterface
     /**
      * Set the active flag.
      *
-     * @param bool $active
+     * @param  bool  $active
      * @return $this
      */
     public function setActive($active);
@@ -98,7 +97,7 @@ interface FilterInterface
     /**
      * Set the field stream.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return mixed
      */
     public function setStream(StreamInterface $stream);
@@ -113,7 +112,7 @@ interface FilterInterface
     /**
      * Set the filter prefix.
      *
-     * @param string $prefix
+     * @param  string $prefix
      * @return $this
      */
     public function setPrefix($prefix);

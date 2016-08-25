@@ -2,14 +2,12 @@
 
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 
-
 /**
  * Class SetDefaultParameters
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Tree\Command
  */
 class SetDefaultParameters
 {
@@ -36,13 +34,12 @@ class SetDefaultParameters
      */
     public function handle()
     {
-        /**
+        /*
          * Set the default buttons handler based
          * on the builder class. Defaulting to
          * no handler.
          */
         if (!$this->builder->getButtons()) {
-
             $buttons = str_replace('TreeBuilder', 'TreeButtons', get_class($this->builder));
 
             if (class_exists($buttons)) {
@@ -50,13 +47,12 @@ class SetDefaultParameters
             }
         }
 
-        /**
+        /*
          * Set the default segments handler based
          * on the builder class. Defaulting to
          * no handler.
          */
         if (!$this->builder->getSegments()) {
-
             $segments = str_replace('TreeBuilder', 'TreeSegments', get_class($this->builder));
 
             if (class_exists($segments)) {

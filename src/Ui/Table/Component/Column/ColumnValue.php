@@ -11,7 +11,6 @@ use Illuminate\View\View;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Column
  */
 class ColumnValue
 {
@@ -36,9 +35,9 @@ class ColumnValue
     /**
      * Return the column value.
      *
-     * @param Table $table
-     * @param array $column
-     * @param       $entry
+     * @param  Table           $table
+     * @param  array           $column
+     * @param                  $entry
      * @return View|mixed|null
      */
     public function make(Table $table, $column, $entry)

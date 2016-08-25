@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Config\Repository;
-
 use Illuminate\Translation\Translator;
 
 /**
@@ -13,7 +12,6 @@ use Illuminate\Translation\Translator;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Field\Form\Command
  */
 class GetConfigFields
 {
@@ -59,7 +57,7 @@ class GetConfigFields
 
         foreach ($fields as $slug => $field) {
 
-            /**
+            /*
              * Determine the field label.
              */
             $label = $this->fieldType->getNamespace('config.' . $slug . '.label');
@@ -70,7 +68,7 @@ class GetConfigFields
 
             $field['label'] = array_get($field, 'label', $label);
 
-            /**
+            /*
              * Determine the instructions.
              */
             $instructions = $this->fieldType->getNamespace('config.' . $slug . '.instructions');
@@ -79,7 +77,7 @@ class GetConfigFields
                 $field['instructions'] = $instructions;
             }
 
-            /**
+            /*
              * Determine the placeholder.
              */
             $placeholder = $this->fieldType->getNamespace('config.' . $slug . '.placeholder');
@@ -88,7 +86,7 @@ class GetConfigFields
                 $field['placeholder'] = $placeholder;
             }
 
-            /**
+            /*
              * Determine the warning.
              */
             $warning = $this->fieldType->getNamespace('config.' . $slug . '.warning');
@@ -97,7 +95,7 @@ class GetConfigFields
                 $field['warning'] = $warning;
             }
 
-            /**
+            /*
              * Set the configuration value.
              */
             $field['value'] = array_get($this->fieldType->getConfig(), $slug);

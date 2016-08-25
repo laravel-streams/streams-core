@@ -6,14 +6,12 @@ use Anomaly\Streams\Platform\Installer\Installer;
 use Anomaly\Streams\Platform\Installer\InstallerCollection;
 use Illuminate\Contracts\Console\Kernel;
 
-
 /**
  * Class LoadModuleSeeders
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Installer\Console\Command
  */
 class LoadModuleSeeders
 {
@@ -44,7 +42,6 @@ class LoadModuleSeeders
     {
         /* @var Module $module */
         foreach ($modules as $module) {
-
             if ($module->getNamespace() == 'anomaly.module.installer') {
                 continue;
             }
@@ -57,7 +54,7 @@ class LoadModuleSeeders
                             'db:seed',
                             [
                                 '--addon' => $module->getNamespace(),
-                                '--force' => true
+                                '--force' => true,
                             ]
                         );
                     }

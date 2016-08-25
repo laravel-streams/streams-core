@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Lang\Loader;
 use Illuminate\Config\Repository;
-
 use Illuminate\Foundation\Application;
 use Illuminate\Translation\Translator;
 
@@ -12,7 +11,6 @@ use Illuminate\Translation\Translator;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Application\Command
  */
 class ConfigureTranslator
 {
@@ -26,7 +24,7 @@ class ConfigureTranslator
     public function handle(Repository $config, Application $application)
     {
 
-        /**
+        /*
          * Change the lang loader so we can
          * add a few more necessary override
          * paths to the API.
@@ -38,7 +36,7 @@ class ConfigureTranslator
             }
         );
 
-        /**
+        /*
          * Re-bind the translator so we can use
          * the new loader defined above.
          */
@@ -60,7 +58,7 @@ class ConfigureTranslator
             }
         );
 
-        /**
+        /*
          * Set the locale if LOCALE is defined.
          *
          * LOCALE is defined first thing in our

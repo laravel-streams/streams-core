@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Entry\EntryTableRepository;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentTableRepository;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-
 use Illuminate\Contracts\Container\Container;
 
 /**
@@ -14,7 +13,6 @@ use Illuminate\Contracts\Container\Container;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Command
  */
 class SetRepository
 {
@@ -43,13 +41,12 @@ class SetRepository
      */
     public function handle(Container $container)
     {
-        /**
+        /*
          * Set the default options handler based
          * on the builder class. Defaulting to
          * no handler.
          */
         if (!$this->builder->getRepository()) {
-
             $model = $this->builder->getTableModel();
 
             if (!$this->builder->getRepository() && $model instanceof EntryModel) {

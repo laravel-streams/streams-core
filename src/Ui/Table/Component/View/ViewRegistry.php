@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\Trash;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Component\View
  */
 class ViewRegistry
 {
@@ -31,17 +30,17 @@ class ViewRegistry
             'text'    => 'streams::view.trash',
             'view'    => Trash::class,
             'buttons' => [
-                'restore' => []
+                'restore' => [],
             ],
             'actions' => [
-                'force_delete' => []
-            ]
+                'force_delete' => [],
+            ],
         ],
         'recently_created' => [
             'slug' => 'recently_created',
             'text' => 'streams::view.recently_created',
             'view' => RecentlyCreated::class,
-        ]
+        ],
     ];
 
     /**
@@ -62,8 +61,8 @@ class ViewRegistry
     /**
      * Register a view.
      *
-     * @param       $view
-     * @param array $parameters
+     * @param        $view
+     * @param  array $parameters
      * @return $this
      */
     public function register($view, array $parameters)

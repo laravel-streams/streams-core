@@ -1,14 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
-
-
 /**
  * Class ReadEnvironmentFile
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Application\Command
  */
 class ReadEnvironmentFile
 {
@@ -32,7 +29,6 @@ class ReadEnvironmentFile
             if (starts_with($line, '#')) {
                 $data[] = $line;
             } elseif (strpos($line, '=')) {
-
                 list($key, $value) = explode('=', $line);
 
                 $data[$key] = $value;

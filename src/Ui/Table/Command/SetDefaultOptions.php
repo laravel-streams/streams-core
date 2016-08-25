@@ -3,14 +3,12 @@
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
-
 /**
  * Class SetDefaultOptions
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Command
  */
 class SetDefaultOptions
 {
@@ -41,11 +39,10 @@ class SetDefaultOptions
     {
         $table = $this->builder->getTable();
 
-        /**
+        /*
          * Set the default sortable option.
          */
         if ($table->getOption('sortable') === null) {
-
             $stream = $table->getStream();
 
             if ($stream && $stream->isSortable()) {
@@ -53,21 +50,21 @@ class SetDefaultOptions
             }
         }
 
-        /**
+        /*
          * Sortable tables have no pages.
          */
         if ($table->getOption('sortable') === true) {
             $table->setOption('limit', $table->getOption('limit', 99999));
         }
 
-        /**
+        /*
          * Set the default breadcrumb.
          */
         if ($table->getOption('breadcrumb') === null && $title = $table->getOption('title')) {
             $table->setOption('breadcrumb', $title);
         }
 
-        /**
+        /*
          * If the table ordering is currently being overridden
          * then set the values from the request on the builder
          * last so it actually has an effect.
@@ -76,7 +73,7 @@ class SetDefaultOptions
             $table->setOption('order_by', [$orderBy => $this->builder->getRequestValue('sort', 'asc')]);
         }
 
-        /**
+        /*
          * If the permission is not set then
          * try and automate it.
          */

@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Action
  */
 class ActionDefaults
 {
@@ -25,14 +24,14 @@ class ActionDefaults
                 $builder->setActions(
                     [
                         'save',
-                        'save_create'
+                        'save_create',
                     ]
                 );
             } else {
                 $builder->setActions(
                     [
                         'update',
-                        'save_exit'
+                        'save_exit',
                     ]
                 );
             }

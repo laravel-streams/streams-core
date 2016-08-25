@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Migration\Command
  */
 class RollbackStreamHandler
 {
@@ -48,7 +47,7 @@ class RollbackStreamHandler
 
         if (is_string($stream)) {
             $stream = [
-                'slug' => $stream
+                'slug' => $stream,
             ];
         }
 

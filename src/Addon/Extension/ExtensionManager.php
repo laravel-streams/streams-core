@@ -10,18 +10,16 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\Extension
  */
 class ExtensionManager
 {
-
     use DispatchesJobs;
 
     /**
      * Install a module.
      *
-     * @param Extension $module
-     * @param bool      $seed
+     * @param  Extension $module
+     * @param  bool      $seed
      * @return bool
      */
     public function install(Extension $module, $seed = false)
@@ -32,7 +30,7 @@ class ExtensionManager
     /**
      * Uninstall a module.
      *
-     * @param Extension $module
+     * @param  Extension $module
      * @return bool
      */
     public function uninstall(Extension $module)

@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Grid\Command;
 
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
-
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -10,11 +9,9 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Grid\Command
  */
 class PostGrid
 {
-
     use DispatchesJobs;
 
     /**

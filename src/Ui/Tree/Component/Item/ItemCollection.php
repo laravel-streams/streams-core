@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Tree\Component\Item
  */
 class ItemCollection extends Collection
 {
@@ -36,7 +35,7 @@ class ItemCollection extends Collection
     /**
      * Return only children of the provided item.
      *
-     * @param ItemInterface $parent
+     * @param  ItemInterface  $parent
      * @return ItemCollection
      */
     public function children(ItemInterface $parent)

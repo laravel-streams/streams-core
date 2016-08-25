@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  * @link    http://anomaly.is/streams-Platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button
  */
 class ButtonBuilder
 {

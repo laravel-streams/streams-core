@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Builder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\FieldType
  */
 class FieldTypeQuery
 {
@@ -55,7 +54,6 @@ class FieldTypeQuery
         $translations = $stream->getEntryTranslationsTableName();
 
         if ($assignment->isTranslatable()) {
-
             if ($query instanceof EloquentQueryBuilder && !$query->hasJoin($translations)) {
                 $query->leftJoin(
                     $stream->getEntryTranslationsTableName(),
@@ -70,7 +68,6 @@ class FieldTypeQuery
 
             $query->{$this->where()}(
                 function (Builder $query) use ($stream, $filter, $column) {
-
                     $query->where($stream->getEntryTranslationsTableName() . '.locale', config('app.fallback_locale'));
                     $query->where(
                         $stream->getEntryTranslationsTableName() . '.' . $column,
@@ -80,7 +77,6 @@ class FieldTypeQuery
                 }
             );
         } else {
-
             $query->{$this->where()}(
                 function (Builder $query) use ($stream, $filter, $column) {
                     $query->where(
@@ -107,8 +103,8 @@ class FieldTypeQuery
      * Order a query in the given direction
      * by a field using this field type.
      *
-     * @param  Builder $query
-     * @param          $direction
+     * @param Builder $query
+     * @param         $direction
      */
     public function orderBy(Builder $query, $direction)
     {

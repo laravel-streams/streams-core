@@ -10,7 +10,6 @@ use Illuminate\Translation\Translator;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Filter\Guesser
  */
 class PlaceholdersGuesser
 {
@@ -61,7 +60,7 @@ class PlaceholdersGuesser
             // Get the placeholder off the assignment.
             if ($stream && $assignment = $stream->getAssignment(array_get($filter, 'field'))) {
 
-                /**
+                /*
                  * Always use the field name
                  * as the placeholder. Placeholders
                  * that are assigned otherwise usually

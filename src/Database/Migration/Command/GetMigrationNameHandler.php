@@ -10,11 +10,9 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Migration\Command
  */
 class GetMigrationNameHandler
 {
-
     use DispatchesJobs;
 
     /**
@@ -37,7 +35,7 @@ class GetMigrationNameHandler
     /**
      * Handle the command.
      *
-     * @param GetMigrationName $command
+     * @param  GetMigrationName $command
      * @return string
      */
     public function handle(GetMigrationName $command)
@@ -47,13 +45,11 @@ class GetMigrationNameHandler
         $name = $originalName = $command->getName();
 
         if ($addon = $this->addons->get($namespace)) {
-
             $name = "{$namespace}__{$originalName}";
 
             // Append the package version if there is one.
             if ($json = $addon->getComposerJson()) {
                 if (property_exists($json, 'version')) {
-
                     $version = str_slug(str_replace(['.', '-'], '_', $json->version), '_');
 
                     $name = "{$namespace}__{$version}__{$originalName}";

@@ -11,11 +11,9 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Migration\Console
  */
 class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\MigrateMakeCommand
 {
-
     use DispatchesJobs;
 
     /**
@@ -66,10 +64,10 @@ class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\Migrate
     /**
      * Write the migration file to disk.
      *
-     * @param string $name
-     * @param string $table
-     * @param bool   $create
-     * @param null   $addon
+     * @param  string $name
+     * @param  string $table
+     * @param  bool   $create
+     * @param  null   $addon
      * @return string
      */
     protected function writeMigration($name, $table, $create, $addon = null)

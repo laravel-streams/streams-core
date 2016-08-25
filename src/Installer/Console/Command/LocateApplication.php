@@ -2,14 +2,12 @@
 
 use Anomaly\Streams\Platform\Application\Application;
 
-
 /**
  * Class LocateApplication
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Installer\Console\Command
  */
 class LocateApplication
 {
@@ -25,5 +23,4 @@ class LocateApplication
             ->setReference(env('APPLICATION_REFERENCE'))
             ->locate();
     }
-
 }

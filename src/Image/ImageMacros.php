@@ -9,7 +9,6 @@ use Illuminate\Contracts\Container\Container;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Image
  */
 class ImageMacros
 {
@@ -43,8 +42,8 @@ class ImageMacros
     /**
      * Run a macro.
      *
-     * @param       $macro
-     * @param Image $image
+     * @param             $macro
+     * @param  Image      $image
      * @return Image
      * @throws \Exception
      */
@@ -80,7 +79,7 @@ class ImageMacros
     /**
      * Set the macros.
      *
-     * @param array $macros
+     * @param  array $macros
      * @return $this
      */
     public function setMacros(array $macros)

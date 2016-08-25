@@ -11,7 +11,6 @@ use Illuminate\Contracts\Events\Dispatcher;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon
  */
 class AddonManager
 {
@@ -76,7 +75,7 @@ class AddonManager
      * @param AddonIntegrator $integrator
      * @param AddonCollection $addons
      */
-    function __construct(
+    public function __construct(
         AddonPaths $paths,
         AddonLoader $loader,
         ModuleModel $modules,
@@ -104,7 +103,7 @@ class AddonManager
 
         $paths = $this->paths->all();
 
-        /**
+        /*
          * First load all the addons
          * so they're available.
          */
@@ -114,7 +113,7 @@ class AddonManager
 
         $this->loader->register();
 
-        /**
+        /*
          * Then register all of the addons now
          * that they're all PSR autoloaded.
          */
@@ -125,7 +124,7 @@ class AddonManager
         // Sort all addons.
         $this->addons = $this->addons->sort();
 
-        /**
+        /*
          * Disperse addons to their
          * respective collections and
          * finish the integration service.

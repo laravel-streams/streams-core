@@ -10,7 +10,6 @@ use Illuminate\Filesystem\Filesystem;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Support
  */
 class Template
 {
@@ -53,8 +52,8 @@ class Template
     /**
      * Render a string template.
      *
-     * @param       $template
-     * @param array $payload
+     * @param             $template
+     * @param  array      $payload
      * @return string
      * @throws \Exception
      */

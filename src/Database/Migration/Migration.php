@@ -17,11 +17,9 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Migration
  */
 abstract class Migration extends \Illuminate\Database\Migrations\Migration
 {
-
     use DispatchesJobs;
 
     /**
@@ -62,8 +60,8 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     /**
      * Create fields.
      *
-     * @param array       $fields
-     * @param string|null $namespace
+     * @param  array       $fields
+     * @param  string|null $namespace
      * @return array
      */
     public function createFields(array $fields = [], $namespace = null)
@@ -74,8 +72,8 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     /**
      * Delete fields.
      *
-     * @param array       $fields
-     * @param null|string $namespace
+     * @param  array       $fields
+     * @param  null|string $namespace
      * @return mixed
      */
     public function deleteFields(array $fields = [], $namespace = null)
@@ -86,7 +84,7 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     /**
      * Create a stream.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return StreamInterface
      */
     public function createStream(StreamInterface $stream = null)
@@ -97,8 +95,8 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     /**
      * Delete a stream.
      *
-     * @param string $namespace
-     * @param string $stream
+     * @param  string $namespace
+     * @param  string $stream
      * @return mixed
      */
     public function deleteStream($namespace = null, $stream = null)
@@ -109,8 +107,8 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     /**
      * Assign fields to a stream.
      *
-     * @param array           $fields
-     * @param StreamInterface $stream
+     * @param  array           $fields
+     * @param  StreamInterface $stream
      * @return mixed
      */
     public function assignFields(array $fields = [], StreamInterface $stream = null)

@@ -16,7 +16,6 @@ use Mobile_Detect;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Support
  */
 class ViewComposer
 {
@@ -100,7 +99,7 @@ class ViewComposer
      * @param ViewOverrides       $overrides
      * @param ViewMobileOverrides $mobiles
      */
-    function __construct(
+    public function __construct(
         Factory $view,
         Mobile_Detect $agent,
         Dispatcher $events,
@@ -134,7 +133,6 @@ class ViewComposer
     public function compose(View $view)
     {
         if (!$this->theme || !env('INSTALLED')) {
-
             $this->events->fire(new ViewComposed($view));
 
             return $view;
@@ -150,7 +148,6 @@ class ViewComposer
         }
 
         if ($this->module) {
-
             $mobile    = $this->mobiles->get($this->module->getNamespace(), []);
             $overrides = $this->overrides->get($this->module->getNamespace(), []);
 
@@ -179,7 +176,7 @@ class ViewComposer
     public function getOverloadPath(View $view)
     {
 
-        /**
+        /*
          * We can only overload namespaced
          * views right now.
          */
@@ -187,7 +184,7 @@ class ViewComposer
             return null;
         }
 
-        /**
+        /*
          * Split the view into it's
          * namespace and path.
          */
@@ -195,7 +192,7 @@ class ViewComposer
 
         $path = str_replace('.', '/', $path);
 
-        /**
+        /*
          * If the module is shorthand
          * then check to see if we have
          * an active module to use for it.
@@ -204,7 +201,7 @@ class ViewComposer
             $namespace = $this->module->getNamespace();
         }
 
-        /**
+        /*
          * If the view is already in
          * the theme then skip it.
          */
@@ -212,7 +209,7 @@ class ViewComposer
             return null;
         }
 
-        /**
+        /*
          * If the view is a streams view then
          * it's real easy to guess what the
          * override path should be.
@@ -221,7 +218,7 @@ class ViewComposer
             $path = $this->theme->getNamespace('streams/' . $path);
         }
 
-        /**
+        /*
          * If the view uses a dot syntax namespace then
          * transform it all into the override view path.
          */
@@ -235,7 +232,7 @@ class ViewComposer
             return $path;
         }
 
-        /**
+        /*
          * If the view uses a dot syntax namespace then
          * transform it all into the override view path.
          *

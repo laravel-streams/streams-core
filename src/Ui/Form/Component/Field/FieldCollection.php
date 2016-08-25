@@ -3,14 +3,12 @@
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Support\Collection;
 
-
 /**
  * Class FieldCollection
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Field
  */
 class FieldCollection extends Collection
 {
@@ -67,8 +65,8 @@ class FieldCollection extends Collection
     /**
      * Get a field.
      *
-     * @param mixed $key
-     * @param null  $default
+     * @param  mixed     $key
+     * @param  null      $default
      * @return FieldType
      */
     public function get($key, $default = null)
@@ -211,7 +209,6 @@ class FieldCollection extends Collection
         /* @var FieldType $item */
         foreach ($this->items as $index => $item) {
             if ($item->getField() == $key) {
-
                 unset($this->items[$index]);
 
                 break;

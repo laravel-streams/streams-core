@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Migration\Command
  */
 class RollbackFieldsHandler
 {
@@ -54,7 +53,6 @@ class RollbackFieldsHandler
         $namespace = $migration->getNamespace();
 
         foreach ($migration->getFields() as $slug => $field) {
-
             $namespace = array_get($field, 'namespace', $namespace ?: ($addon ? $addon->getSlug() : null));
 
             if ($field = $this->fields->findBySlugAndNamespace($slug, $namespace)) {

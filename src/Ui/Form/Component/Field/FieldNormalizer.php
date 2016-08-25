@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Field
  */
 class FieldNormalizer
 {
@@ -24,7 +23,7 @@ class FieldNormalizer
 
         foreach ($fields as $slug => &$field) {
 
-            /**
+            /*
              * If the field is a wild card marker
              * then just continue.
              */
@@ -32,17 +31,17 @@ class FieldNormalizer
                 continue;
             }
 
-            /**
+            /*
              * If the slug is numeric and the field
              * is a string then use the field as is.
              */
             if (is_numeric($slug) && is_string($field)) {
                 $field = [
-                    'field' => $field
+                    'field' => $field,
                 ];
             }
 
-            /**
+            /*
              * If the slug is a string and the field
              * is a string too then use the field as the
              * type and the field as well.
@@ -50,11 +49,11 @@ class FieldNormalizer
             if (!is_numeric($slug) && is_string($slug) && is_string($field)) {
                 $field = [
                     'field' => $slug,
-                    'type'  => $field
+                    'type'  => $field,
                 ];
             }
 
-            /**
+            /*
              * If the field is an array and does not
              * have the field parameter set then
              * use the slug.
@@ -63,7 +62,7 @@ class FieldNormalizer
                 $field['field'] = $slug;
             }
 
-            /**
+            /*
              * If the field is required then it must have
              * the rule as well.
              */

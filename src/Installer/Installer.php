@@ -8,7 +8,6 @@ use Closure;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Installer
  */
 class Installer
 {
@@ -33,7 +32,7 @@ class Installer
      * @param          $message
      * @param callable $task
      */
-    function __construct($message, Closure $task)
+    public function __construct($message, Closure $task)
     {
         $this->task    = $task;
         $this->message = $message;

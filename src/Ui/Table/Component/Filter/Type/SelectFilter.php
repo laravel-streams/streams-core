@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type
  */
 class SelectFilter extends Filter implements SelectFilterInterface
 {
@@ -36,7 +35,7 @@ class SelectFilter extends Filter implements SelectFilterInterface
             ->setValue($this->getValue())
             ->mergeConfig(
                 [
-                    'options' => $this->getOptions()
+                    'options' => $this->getOptions(),
                 ]
             )->getFilter();
     }

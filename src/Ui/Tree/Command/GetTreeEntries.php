@@ -3,14 +3,12 @@
 use Anomaly\Streams\Platform\Ui\Tree\Contract\TreeRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 
-
 /**
  * Class GetTreeEntries
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Tree\Command
  */
 class GetTreeEntries
 {
@@ -39,13 +37,12 @@ class GetTreeEntries
     {
         $model = $this->builder->getModel();
 
-        /**
+        /*
          * If the builder has an entries handler
          * then call it through the container and
          * let it load the entries itself.
          */
         if ($handler = $this->builder->getTreeOption('entries')) {
-
             app()->call($handler, ['builder' => $this->builder]);
 
             return;
@@ -53,7 +50,7 @@ class GetTreeEntries
 
         $entries = $this->builder->getTreeEntries();
 
-        /**
+        /*
          * If the entries have already been set on the
          * tree then return. Nothing to do here.
          *
@@ -64,12 +61,12 @@ class GetTreeEntries
             return;
         }
 
-        /**
+        /*
          * Resolve the model out of the container.
          */
         $repository = $this->builder->getTreeRepository();
 
-        /**
+        /*
          * If the repository is an instance of
          * TreeRepositoryInterface use it.
          */

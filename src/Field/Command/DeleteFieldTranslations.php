@@ -2,14 +2,12 @@
 
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 
-
 /**
  * Class DeleteFieldTranslations
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Field\Command
  */
 class DeleteFieldTranslations
 {

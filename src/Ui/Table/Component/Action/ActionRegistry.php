@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Reorder;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Component\Action
  */
 class ActionRegistry
 {
@@ -24,10 +23,10 @@ class ActionRegistry
      */
     protected $actions = [
         'delete'       => [
-            'handler' => Delete::class
+            'handler' => Delete::class,
         ],
         'prompt'       => [
-            'handler' => Delete::class
+            'handler' => Delete::class,
         ],
         'force_delete' => [
             'button'  => 'prompt',
@@ -38,18 +37,18 @@ class ActionRegistry
             'button'  => 'info',
             'icon'    => 'download',
             'handler' => Export::class,
-            'text'    => 'streams::button.export'
+            'text'    => 'streams::button.export',
         ],
         'edit'         => [
-            'handler' => Edit::class
+            'handler' => Edit::class,
         ],
         'reorder'      => [
             'handler' => Reorder::class,
             'text'    => 'streams::button.reorder',
             'icon'    => 'fa fa-sort-amount-asc',
             'class'   => 'reorder',
-            'type'    => 'success'
-        ]
+            'type'    => 'success',
+        ],
     ];
 
     /**
@@ -70,8 +69,8 @@ class ActionRegistry
     /**
      * Register a action.
      *
-     * @param       $action
-     * @param array $parameters
+     * @param        $action
+     * @param  array $parameters
      * @return $this
      */
     public function register($action, array $parameters)

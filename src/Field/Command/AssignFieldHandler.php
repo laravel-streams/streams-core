@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Field\Command
  */
 class AssignFieldHandler
 {
@@ -26,7 +25,7 @@ class AssignFieldHandler
      *
      * @param AssignmentRepositoryInterface $assignments
      */
-    function __construct(AssignmentRepositoryInterface $assignments)
+    public function __construct(AssignmentRepositoryInterface $assignments)
     {
         $this->assignments = $assignments;
     }
@@ -34,7 +33,7 @@ class AssignFieldHandler
     /**
      * Handle the command.
      *
-     * @param AssignField $command
+     * @param  AssignField         $command
      * @return AssignmentInterface
      */
     public function handle(AssignField $command)

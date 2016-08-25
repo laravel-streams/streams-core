@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Contracts\Auth\Guard;
-
 use Illuminate\Database\Query\Builder;
 
 class SetMetaInformation

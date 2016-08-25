@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Model\EloquentRepository;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Field
  */
 class FieldRepository extends EloquentRepository implements FieldRepositoryInterface
 {
@@ -35,7 +34,7 @@ class FieldRepository extends EloquentRepository implements FieldRepositoryInter
     /**
      * Create a new field.
      *
-     * @param array $attributes
+     * @param  array          $attributes
      * @return FieldInterface
      */
     public function create(array $attributes = [])

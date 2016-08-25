@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
-
 use Illuminate\Http\Request;
 
 /**
@@ -11,7 +10,6 @@ use Illuminate\Http\Request;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Multiple\Command
  */
 class PostForms
 {
@@ -48,7 +46,6 @@ class PostForms
 
         /* @var FormBuilder $builder */
         foreach ($forms = $this->builder->getForms() as $slug => $builder) {
-
             $this->builder->fire('posting_' . $slug, compact('builder', 'forms'));
 
             $builder->post();

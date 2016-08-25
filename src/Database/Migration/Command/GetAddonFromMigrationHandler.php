@@ -12,11 +12,9 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Migration\Command
  */
 class GetAddonFromMigrationHandler
 {
-
     use DispatchesJobs;
 
     /**
@@ -39,7 +37,7 @@ class GetAddonFromMigrationHandler
     /**
      * Handle the command.
      *
-     * @param GetAddonFromMigration $command
+     * @param  GetAddonFromMigration $command
      * @return Addon|null
      */
     public function handle(GetAddonFromMigration $command)

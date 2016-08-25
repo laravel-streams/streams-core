@@ -10,7 +10,6 @@ use SplFileInfo;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Support
  */
 class Configurator
 {
@@ -35,7 +34,7 @@ class Configurator
      * @param Filesystem $files
      * @param Repository $config
      */
-    function __construct(Filesystem $files, Repository $config)
+    public function __construct(Filesystem $files, Repository $config)
     {
         $this->files  = $files;
         $this->config = $config;
@@ -55,7 +54,6 @@ class Configurator
 
         /* @var SplFileInfo $file */
         foreach ($this->files->allFiles($directory) as $file) {
-
             $key = trim(
                 str_replace(
                     $directory,
@@ -86,7 +84,6 @@ class Configurator
 
         /* @var SplFileInfo $file */
         foreach ($this->files->allFiles($directory) as $file) {
-
             $key = trim(
                 str_replace(
                     $directory,

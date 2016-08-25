@@ -3,14 +3,12 @@
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionResponder;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
-
 /**
  * Class SetActionResponse
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
 class SetActionResponse
 {

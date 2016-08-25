@@ -2,14 +2,12 @@
 
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 
-
 /**
  * Class SetGridRepository
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Grid\Command
  */
 class SetGridRepository
 {
@@ -41,7 +39,7 @@ class SetGridRepository
 
         $repository = $grid->getOption('repository');
 
-        /**
+        /*
          * If there is no repository
          * then skip this step.
          */
@@ -49,7 +47,7 @@ class SetGridRepository
             return;
         }
 
-        /**
+        /*
          * Set the repository on the form!
          */
         $grid->setRepository(app()->make($repository, compact('model', 'grid')));

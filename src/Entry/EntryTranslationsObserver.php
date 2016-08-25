@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Support\Observer;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Entry
  */
 class EntryTranslationsObserver extends Observer
 {
@@ -17,7 +16,7 @@ class EntryTranslationsObserver extends Observer
     /**
      * Fired just after a record is created.
      *
-     * @param  EntryTranslationsModel $entry
+     * @param EntryTranslationsModel $entry
      */
     public function created(EntryTranslationsModel $entry)
     {
@@ -27,7 +26,7 @@ class EntryTranslationsObserver extends Observer
     /**
      * Fired just before a record saves.
      *
-     * @param  EntryTranslationsModel $entry
+     * @param EntryTranslationsModel $entry
      */
     public function saving(EntryTranslationsModel $entry)
     {
@@ -37,7 +36,7 @@ class EntryTranslationsObserver extends Observer
     /**
      * Fired just after a record is saved.
      *
-     * @param  EntryTranslationsModel $entry
+     * @param EntryTranslationsModel $entry
      */
     public function saved(EntryTranslationsModel $entry)
     {
@@ -47,7 +46,7 @@ class EntryTranslationsObserver extends Observer
     /**
      * Fired just after a record is updated.
      *
-     * @param  EntryTranslationsModel $entry
+     * @param EntryTranslationsModel $entry
      */
     public function updated(EntryTranslationsModel $entry)
     {

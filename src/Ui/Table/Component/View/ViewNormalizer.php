@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\View
  */
 class ViewNormalizer
 {
@@ -24,7 +23,7 @@ class ViewNormalizer
 
         foreach ($views as $slug => &$view) {
 
-            /**
+            /*
              * If the slug is numeric and the view is
              * a string then treat the string as both the
              * view and the slug. This is OK as long as
@@ -38,7 +37,7 @@ class ViewNormalizer
                 ];
             }
 
-            /**
+            /*
              * If the slug is NOT numeric and the view is a
              * string then use the slug as the slug and the
              * view as the view.
@@ -50,7 +49,7 @@ class ViewNormalizer
                 ];
             }
 
-            /**
+            /*
              * If the slug is not numeric and the view is an
              * array without a slug then use the slug for
              * the slug for the view.
@@ -59,33 +58,33 @@ class ViewNormalizer
                 $view['slug'] = $slug;
             }
 
-            /**
+            /*
              * Make sure we have a view property.
              */
             if (is_array($view) && !isset($view['view'])) {
                 $view['view'] = $view['slug'];
             }
 
-            /**
+            /*
              * Make sure some default parameters exist.
              */
             $view['attributes'] = array_get($view, 'attributes', []);
 
-            /**
+            /*
              * Move the HREF if any to the attributes.
              */
             if (isset($view['href'])) {
                 array_set($view['attributes'], 'href', array_pull($view, 'href'));
             }
 
-            /**
+            /*
              * Move the target if any to the attributes.
              */
             if (isset($view['target'])) {
                 array_set($view['attributes'], 'target', array_pull($view, 'target'));
             }
 
-            /**
+            /*
              * Make sure the HREF is absolute.
              */
             if (

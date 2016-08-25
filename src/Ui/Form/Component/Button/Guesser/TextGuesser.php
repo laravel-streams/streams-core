@@ -14,7 +14,6 @@ use Illuminate\Translation\Translator;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser
  */
 class TextGuesser
 {
@@ -88,7 +87,7 @@ class TextGuesser
 
         $module = $this->modules->active();
 
-        /**
+        /*
          * This will break if we can't figure
          * out what the active module is.
          */
@@ -97,7 +96,6 @@ class TextGuesser
         }
 
         foreach ($buttons as &$button) {
-
             if (isset($button['text'])) {
                 continue;
             }

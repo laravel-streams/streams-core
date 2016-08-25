@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
 use Anomaly\Streams\Platform\Application\Application;
-
 use Illuminate\Contracts\Filesystem\Filesystem;
 
 /**
@@ -10,7 +9,6 @@ use Illuminate\Contracts\Filesystem\Filesystem;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Application\Command
  */
 class LoadEnvironmentOverrides
 {

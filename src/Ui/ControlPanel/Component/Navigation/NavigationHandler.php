@@ -4,14 +4,12 @@ use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
-
 /**
  * Class NavigationHandler
  *
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation
  */
 class NavigationHandler
 {
@@ -37,7 +35,6 @@ class NavigationHandler
 
         foreach ($navigation as $key => $module) {
             if ($module->getNamespace() == 'anomaly.module.dashboard') {
-
                 $navigation = [$key => $module] + $navigation;
 
                 break;

@@ -12,7 +12,6 @@ use Illuminate\Contracts\Config\Repository;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser
  */
 class LabelsGuesser
 {
@@ -54,14 +53,12 @@ class LabelsGuesser
         $stream = $builder->getFormStream();
 
         foreach ($fields as &$field) {
-
             $locale = array_get($field, 'locale');
 
-            /**
+            /*
              * If the label are already set then use it.
              */
             if (isset($field['label'])) {
-
                 if (str_is('*::*', $field['label'])) {
                     $field['label'] = trans($field['label'], [], null, $locale);
                 }
@@ -69,7 +66,7 @@ class LabelsGuesser
                 continue;
             }
 
-            /**
+            /*
              * If we don't have a field then we
              * can not really guess anything here.
              */
@@ -77,7 +74,7 @@ class LabelsGuesser
                 continue;
             }
 
-            /**
+            /*
              * No stream means we can't
              * really do much here.
              */
@@ -88,7 +85,7 @@ class LabelsGuesser
             $assignment = $stream->getAssignment($field['field']);
             $object     = $stream->getField($field['field']);
 
-            /**
+            /*
              * No assignment means we still do
              * not have anything to do here.
              */
@@ -96,7 +93,7 @@ class LabelsGuesser
                 continue;
             }
 
-            /**
+            /*
              * Next try using the fallback assignment
              * label system as generated verbatim.
              */
@@ -110,7 +107,7 @@ class LabelsGuesser
                 $field['label'] = trans($label, [], null, $locale);
             }
 
-            /**
+            /*
              * Next try using the default assignment
              * label system as generated verbatim.
              */
@@ -125,14 +122,14 @@ class LabelsGuesser
                 $field['label'] = $translated;
             }
 
-            /**
+            /*
              * Check if it's just a standard string.
              */
             if (!isset($field['label']) && $label && !str_is('*::*', $label)) {
                 $field['label'] = $label;
             }
 
-            /**
+            /*
              * Next try using the generic assignment
              * label system without the stream identifier.
              */
@@ -151,14 +148,14 @@ class LabelsGuesser
                 $field['label'] = $translated;
             }
 
-            /**
+            /*
              * Check if it's just a standard string.
              */
             if (!isset($field['label']) && $label && !str_is('*::*', $label)) {
                 $field['label'] = $label;
             }
 
-            /**
+            /*
              * Next try using the default field
              * label system as generated verbatim.
              */
@@ -173,14 +170,14 @@ class LabelsGuesser
                 $field['label'] = $translated;
             }
 
-            /**
+            /*
              * Check if it's just a standard string.
              */
             if (!isset($field['label']) && $label && !str_is('*::*', $label)) {
                 $field['label'] = $label;
             }
 
-            /**
+            /*
              * If the field is still untranslated and
              * we're not debugging then humanize the slug
              * in leu of displaying an untranslated key.

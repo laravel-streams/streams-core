@@ -10,7 +10,6 @@ use Symfony\Component\Console\Input\InputArgument;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Stream\Console
  */
 class Destroy extends Command
 {

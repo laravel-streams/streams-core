@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Command;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-
 use Illuminate\Contracts\Container\Container;
 
 /**
@@ -10,7 +9,6 @@ use Illuminate\Contracts\Container\Container;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Stream\Command
  */
 class GetStream
 {
@@ -44,7 +42,7 @@ class GetStream
     /**
      * Handle the command.
      *
-     * @param Container $container
+     * @param  Container                                                      $container
      * @return \Anomaly\Streams\Platform\Stream\Contract\StreamInterface|null
      */
     public function handle(Container $container)

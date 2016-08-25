@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Field\Command
  */
 class AssignField
 {
@@ -42,7 +41,7 @@ class AssignField
      * @param StreamInterface $stream
      * @param array           $attributes
      */
-    function __construct(FieldInterface $field, StreamInterface $stream, array $attributes)
+    public function __construct(FieldInterface $field, StreamInterface $stream, array $attributes)
     {
         $this->field      = $field;
         $this->stream     = $stream;

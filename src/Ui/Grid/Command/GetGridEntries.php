@@ -3,14 +3,12 @@
 use Anomaly\Streams\Platform\Ui\Grid\Contract\GridRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 
-
 /**
  * Class GetGridEntries
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Grid\Command
  */
 class GetGridEntries
 {
@@ -40,13 +38,12 @@ class GetGridEntries
         $grid  = $this->builder->getGrid();
         $model = $this->builder->getModel();
 
-        /**
+        /*
          * If the builder has an entries handler
          * then call it through the container and
          * let it load the entries itself.
          */
         if ($handler = $grid->getOption('entries')) {
-
             app()->call($handler, ['builder' => $this->builder]);
 
             return;
@@ -54,7 +51,7 @@ class GetGridEntries
 
         $entries = $grid->getEntries();
 
-        /**
+        /*
          * If the entries have already been set on the
          * grid then return. Nothing to do here.
          *
@@ -65,12 +62,12 @@ class GetGridEntries
             return;
         }
 
-        /**
+        /*
          * Resolve the model out of the container.
          */
         $repository = $grid->getRepository();
 
-        /**
+        /*
          * If the repository is an instance of
          * GridRepositoryInterface use it.
          */

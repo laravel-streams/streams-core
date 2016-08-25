@@ -32,11 +32,9 @@ use Symfony\Component\HttpFoundation\Response;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Form
  */
 class FormBuilder
 {
-
     use DispatchesJobs;
     use FiresCallbacks;
 
@@ -165,7 +163,7 @@ class FormBuilder
     /**
      * Build the form.
      *
-     * @param null $entry
+     * @param  null  $entry
      * @return $this
      */
     public function build($entry = null)
@@ -186,7 +184,7 @@ class FormBuilder
     /**
      * Make the form.
      *
-     * @param null $entry
+     * @param  null  $entry
      * @return $this
      */
     public function make($entry = null)
@@ -208,7 +206,7 @@ class FormBuilder
     /**
      * Handle the form post.
      *
-     * @param null $entry
+     * @param  null       $entry
      * @throws \Exception
      */
     public function handle($entry = null)
@@ -230,7 +228,6 @@ class FormBuilder
     public function post()
     {
         if (app('request')->isMethod('post')) {
-
             $this->fire('post', ['builder' => $this]);
 
             if ($this->hasPostData()) {
@@ -257,7 +254,7 @@ class FormBuilder
     /**
      * Render the form.
      *
-     * @param  null $entry
+     * @param  null     $entry
      * @return Response
      */
     public function render($entry = null)
@@ -395,7 +392,7 @@ class FormBuilder
     /**
      * Set the form repository.
      *
-     * @param FormRepositoryInterface $repository
+     * @param  FormRepositoryInterface $repository
      * @return $this
      */
     public function setRepository(FormRepositoryInterface $repository)
@@ -477,7 +474,7 @@ class FormBuilder
     /**
      * Add a field.
      *
-     * @param      $field
+     * @param   $field
      */
     public function addField($field)
     {
@@ -546,8 +543,8 @@ class FormBuilder
     /**
      * Add an action.
      *
-     * @param       $slug
-     * @param array $definition
+     * @param        $slug
+     * @param  array $definition
      * @return $this
      */
     public function addAction($slug, array $definition = [])
@@ -607,7 +604,7 @@ class FormBuilder
     /**
      * Set the options.
      *
-     * @param array|string $options
+     * @param  array|string $options
      * @return $this
      */
     public function setOptions($options)
@@ -620,7 +617,7 @@ class FormBuilder
     /**
      * Merge in options.
      *
-     * @param array|string $options
+     * @param  array|string $options
      * @return $this
      */
     public function mergeOptions($options)
@@ -643,7 +640,7 @@ class FormBuilder
     /**
      * Set the sections.
      *
-     * @param array|Closure $sections
+     * @param  array|Closure $sections
      * @return $this
      */
     public function setSections($sections)
@@ -656,8 +653,8 @@ class FormBuilder
     /**
      * Add a section.
      *
-     * @param       $slug
-     * @param array $section
+     * @param        $slug
+     * @param  array $section
      * @return $this
      */
     public function addSection($slug, array $section)
@@ -670,9 +667,9 @@ class FormBuilder
     /**
      * Add a section tab.
      *
-     * @param       $section
-     * @param       $slug
-     * @param array $tab
+     * @param        $section
+     * @param        $slug
+     * @param  array $tab
      * @return $this
      */
     public function addSectionTab($section, $slug, array $tab)
@@ -685,8 +682,8 @@ class FormBuilder
     /**
      * Get an option value.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function getOption($key, $default = null)
@@ -762,8 +759,8 @@ class FormBuilder
     /**
      * Get a form option value.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function getFormOption($key, $default = null)
@@ -867,8 +864,8 @@ class FormBuilder
     /**
      * Get a form value.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function getFormValue($key, $default = null)
@@ -949,7 +946,7 @@ class FormBuilder
     /**
      * Set the form response.
      *
-     * @param null|false|Response $response
+     * @param  null|false|Response $response
      * @return $this
      */
     public function setFormResponse(Response $response)
@@ -1031,7 +1028,7 @@ class FormBuilder
     /**
      * Get the form field slugs.
      *
-     * @param null $prefix
+     * @param  null  $prefix
      * @return array
      */
     public function getFormFieldSlugs($prefix = null)
@@ -1061,7 +1058,7 @@ class FormBuilder
     /**
      * Add a form field.
      *
-     * @param FieldType $field
+     * @param  FieldType $field
      * @return $this
      */
     public function addFormField(FieldType $field)
@@ -1074,7 +1071,7 @@ class FormBuilder
     /**
      * Set the form errors.
      *
-     * @param MessageBag $errors
+     * @param  MessageBag $errors
      * @return $this
      */
     public function setFormErrors(MessageBag $errors)
@@ -1146,7 +1143,7 @@ class FormBuilder
     /**
      * Add a form button.
      *
-     * @param ButtonInterface $button
+     * @param  ButtonInterface $button
      * @return $this
      */
     public function addFormButton(ButtonInterface $button)
@@ -1159,8 +1156,8 @@ class FormBuilder
     /**
      * Add a form section.
      *
-     * @param       $slug
-     * @param array $section
+     * @param        $slug
+     * @param  array $section
      * @return $this
      */
     public function addFormSection($slug, array $section)
@@ -1186,8 +1183,8 @@ class FormBuilder
     /**
      * Get a request value.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function getRequestValue($key, $default = null)
@@ -1198,8 +1195,8 @@ class FormBuilder
     /**
      * Get a post value.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function getPostValue($key, $default = null)
@@ -1210,8 +1207,8 @@ class FormBuilder
     /**
      * Return a post key flag.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function hasPostedInput($key)
@@ -1239,7 +1236,7 @@ class FormBuilder
     /**
      * Set the save flag.
      *
-     * @param bool $save
+     * @param  bool  $save
      * @return $this
      */
     public function setSave($save)

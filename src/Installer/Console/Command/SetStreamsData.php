@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Installer\Console\Command;
 
 use Anomaly\Streams\Platform\Support\Collection;
-
 use Illuminate\Contracts\Config\Repository;
 
 /**
@@ -10,7 +9,6 @@ use Illuminate\Contracts\Config\Repository;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Installer\Console\Command
  */
 class SetStreamsData
 {
@@ -27,7 +25,7 @@ class SetStreamsData
      *
      * @param Collection $data
      */
-    function __construct(Collection $data)
+    public function __construct(Collection $data)
     {
         $this->data = $data;
     }

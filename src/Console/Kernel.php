@@ -8,7 +8,6 @@ use Illuminate\Contracts\Events\Dispatcher;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Console
  */
 class Kernel extends \Illuminate\Foundation\Console\Kernel
 {

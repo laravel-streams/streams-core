@@ -10,7 +10,6 @@ use Illuminate\Contracts\Cache\Store;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\View\Cache
  */
 class CacheAdapter implements CacheProviderInterface
 {
@@ -35,7 +34,7 @@ class CacheAdapter implements CacheProviderInterface
     /**
      * Get the cached value.
      *
-     * @param string $key
+     * @param  string $key
      * @return mixed
      */
     public function fetch($key)

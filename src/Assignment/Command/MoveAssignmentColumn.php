@@ -4,14 +4,12 @@ use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 
-
 /**
  * Class MoveAssignmentColumn
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Assignment\Command
  */
 class MoveAssignmentColumn
 {
@@ -50,7 +48,7 @@ class MoveAssignmentColumn
             return;
         }
 
-        /**
+        /*
          * If it's NOW translatable then move it from
          * the main table to the translations table.
          */
@@ -59,7 +57,7 @@ class MoveAssignmentColumn
             $schema->addColumn($stream->getEntryTranslationsTableName(), $assignment->getFieldType(true), $assignment);
         }
 
-        /**
+        /*
          * If it's NOT translatable then move it from
          * the translations table to the main table.
          */

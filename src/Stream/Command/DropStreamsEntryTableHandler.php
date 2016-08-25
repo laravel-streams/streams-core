@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Stream\StreamSchema;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Stream\Command
  */
 class DropStreamsEntryTableHandler
 {
@@ -45,7 +44,6 @@ class DropStreamsEntryTableHandler
         $this->schema->dropTable($table);
 
         if ($stream->isTranslatable()) {
-
             $table = $stream->getEntryTranslationsTableName();
 
             $this->schema->dropTable($table);

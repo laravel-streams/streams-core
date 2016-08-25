@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-
 use Illuminate\Routing\ResponseFactory;
 
 /**
@@ -10,7 +9,6 @@ use Illuminate\Routing\ResponseFactory;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
 class SetJsonResponse
 {
@@ -46,7 +44,7 @@ class SetJsonResponse
                     'redirect' => $this->builder->getFormOption(
                         'redirect',
                         $this->builder->getFormActions()->active()->getRedirect()
-                    )
+                    ),
                 ]
             )
         );

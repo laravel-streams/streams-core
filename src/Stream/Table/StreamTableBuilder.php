@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Builder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Stream\Table
  */
 class StreamTableBuilder extends TableBuilder
 {
@@ -39,9 +38,9 @@ class StreamTableBuilder extends TableBuilder
             'columns' => [
                 'name',
                 'slug',
-                'description'
-            ]
-        ]
+                'description',
+            ],
+        ],
     ];
 
     /**
@@ -52,20 +51,20 @@ class StreamTableBuilder extends TableBuilder
     protected $columns = [
         [
             'heading' => 'streams::field.name.name',
-            'value'   => 'entry.name'
+            'value'   => 'entry.name',
         ],
         [
             'heading'     => 'streams::field.slug.name',
             'value'       => 'entry.slug',
-            'sort_column' => 'slug'
+            'sort_column' => 'slug',
         ],
         [
             'heading' => 'streams::field.description.name',
-            'value'   => 'entry.description'
+            'value'   => 'entry.description',
         ],
         [
-            'value' => 'entry.labels'
-        ]
+            'value' => 'entry.labels',
+        ],
     ];
 
     /**
@@ -74,7 +73,7 @@ class StreamTableBuilder extends TableBuilder
      * @var array
      */
     protected $actions = [
-        'prompt'
+        'prompt',
     ];
 
     /**
@@ -111,5 +110,4 @@ class StreamTableBuilder extends TableBuilder
 
         return $this;
     }
-
 }

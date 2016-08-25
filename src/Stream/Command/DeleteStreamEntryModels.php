@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-
 use Illuminate\Filesystem\Filesystem;
 
 /**
@@ -11,7 +10,6 @@ use Illuminate\Filesystem\Filesystem;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Stream\Command
  */
 class DeleteStreamEntryModels
 {
@@ -36,8 +34,8 @@ class DeleteStreamEntryModels
     /**
      * Handle the command.
      *
-     * @param Filesystem  $files
-     * @param Application $application
+     * @param  Filesystem  $files
+     * @param  Application $application
      * @return string
      */
     public function handle(Filesystem $files, Application $application)

@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-
 use Illuminate\Http\Request;
 
 /**
@@ -13,7 +12,6 @@ use Illuminate\Http\Request;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command
  */
 class SetActiveSection
 {
@@ -47,7 +45,7 @@ class SetActiveSection
         $controlPanel = $this->builder->getControlPanel();
         $sections     = $controlPanel->getSections();
 
-        /**
+        /*
          * If we already have an active section
          * then we don't need to do this.
          */
@@ -57,12 +55,11 @@ class SetActiveSection
 
         /* @var SectionInterface $section */
         foreach ($sections as $section) {
-
             if (($matcher = $section->getMatcher()) && str_is($matcher, $request->path())) {
                 $active = $section;
             }
 
-            /**
+            /*
              * Get the HREF for both the active
              * and loop iteration section.
              */
@@ -73,7 +70,7 @@ class SetActiveSection
                 $activeHref = $active->getPermalink() ?: array_get($active->getAttributes(), 'href');
             }
 
-            /**
+            /*
              * If the request URL does not even
              * contain the HREF then skip it.
              */
@@ -81,7 +78,7 @@ class SetActiveSection
                 continue;
             }
 
-            /**
+            /*
              * Compare the length of the active HREF
              * and loop iteration HREF. The longer the
              * HREF the more detailed and exact it is and
@@ -105,7 +102,6 @@ class SetActiveSection
          */
         if ($active) {
             if ($active->getParent()) {
-
                 $active->setActive(true);
 
                 $section = $sections->get($active->getParent(), $sections->first());

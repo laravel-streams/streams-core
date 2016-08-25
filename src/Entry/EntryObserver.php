@@ -19,7 +19,6 @@ use Anomaly\Streams\Platform\Support\Observer;
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  *
- * @package Anomaly\Streams\Platform\Entry
  */
 class EntryObserver extends Observer
 {
@@ -112,7 +111,7 @@ class EntryObserver extends Observer
     /**
      * Run before a record is deleted.
      *
-     * @param EntryInterface $entry
+     * @param  EntryInterface $entry
      * @return bool
      */
     public function deleting(EntryInterface $entry)

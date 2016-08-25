@@ -13,7 +13,6 @@ use Illuminate\Routing\Redirector;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Http\Middleware
  */
 class SetLocale
 {
@@ -62,13 +61,11 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next)
     {
-
         if (defined('LOCALE')) {
             return $next($request);
         }
 
         if ($locale = $request->get('_locale')) {
-
             if ($locale) {
                 $request->session()->put('_locale', $locale);
             } else {
@@ -79,7 +76,6 @@ class SetLocale
         }
 
         if ($locale = $request->session()->get('_locale')) {
-
             $this->application->setLocale($locale);
 
             $this->config->set('_locale', $locale);

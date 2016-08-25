@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
-
 class SetFormOptions
 {
 

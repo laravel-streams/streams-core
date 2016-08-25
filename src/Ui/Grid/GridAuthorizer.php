@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Support\Authorizer;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Grid
  */
 class GridAuthorizer
 {
@@ -50,7 +49,7 @@ class GridAuthorizer
         // Try the option first.
         $permission = $builder->getGridOption('permission');
 
-        /**
+        /*
          * If the option is not set then
          * try and automate the permission.
          */

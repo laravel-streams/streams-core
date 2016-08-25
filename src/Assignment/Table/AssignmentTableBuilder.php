@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Builder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Assignment\Table
  */
 class AssignmentTableBuilder extends TableBuilder
 {
@@ -31,20 +30,20 @@ class AssignmentTableBuilder extends TableBuilder
     protected $columns = [
         [
             'heading' => 'streams::field.name.name',
-            'value'   => 'entry.field.name'
+            'value'   => 'entry.field.name',
         ],
         [
             'heading' => 'streams::field.slug.name',
-            'value'   => 'entry.field.slug'
+            'value'   => 'entry.field.slug',
         ],
         [
             'heading' => 'streams::field.type.name',
             'wrapper' => '{value}::addon.title',
-            'value'   => 'entry.field.type'
+            'value'   => 'entry.field.type',
         ],
         [
-            'value' => 'entry.labels'
-        ]
+            'value' => 'entry.labels',
+        ],
     ];
 
     /**
@@ -54,8 +53,8 @@ class AssignmentTableBuilder extends TableBuilder
      */
     protected $buttons = [
         'edit' => [
-            'href' => '{request.path}/edit/{entry.id}'
-        ]
+            'href' => '{request.path}/edit/{entry.id}',
+        ],
     ];
 
     /**
@@ -65,7 +64,7 @@ class AssignmentTableBuilder extends TableBuilder
      */
     protected $actions = [
         'reorder',
-        'prompt'
+        'prompt',
     ];
 
     /**
@@ -77,11 +76,11 @@ class AssignmentTableBuilder extends TableBuilder
         'sortable' => true,
         'limit'    => 500,
         'eager'    => [
-            'field'
+            'field',
         ],
         'order_by' => [
-            'sort_order' => 'ASC'
-        ]
+            'sort_order' => 'ASC',
+        ],
     ];
 
     /**
@@ -132,7 +131,7 @@ class AssignmentTableBuilder extends TableBuilder
     /**
      * Set the stream.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return $this
      */
     public function setStream(StreamInterface $stream)

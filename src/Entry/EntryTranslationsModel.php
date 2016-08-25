@@ -10,7 +10,6 @@ use Carbon\Carbon;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Entry
  */
 class EntryTranslationsModel extends EloquentModel
 {
@@ -62,7 +61,7 @@ class EntryTranslationsModel extends EloquentModel
     /**
      * Get an attribute.
      *
-     * @param string $key
+     * @param  string $key
      * @return mixed
      */
     public function getAttribute($key)
@@ -119,7 +118,6 @@ class EntryTranslationsModel extends EloquentModel
         $assignment = $parent->getAssignment($key);
 
         if (!$assignment) {
-
             parent::setAttribute($key, $value);
 
             return;
@@ -152,7 +150,6 @@ class EntryTranslationsModel extends EloquentModel
 
         /* @var AssignmentInterface $assignment */
         foreach ($assignments->translatable() as $assignment) {
-
             $fieldType = $assignment->getFieldType();
 
             $fieldType->setValue($parent->getFieldValue($assignment->getFieldSlug()));
@@ -177,11 +174,11 @@ class EntryTranslationsModel extends EloquentModel
     /**
      * Let the parent handle calls if they don't exist here.
      *
-     * @param string $name
-     * @param array  $arguments
+     * @param  string $name
+     * @param  array  $arguments
      * @return mixed
      */
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
         return call_user_func_array([$this->getParent(), $name], $arguments);
     }
@@ -190,7 +187,7 @@ class EntryTranslationsModel extends EloquentModel
      * Get the attribute from the parent
      * if it does not exist here.
      *
-     * @param string $key
+     * @param  string $key
      * @return mixed
      */
     public function __get($key)

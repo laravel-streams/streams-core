@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-
 use Illuminate\Contracts\Container\Container;
 
 /**
@@ -14,7 +13,6 @@ use Illuminate\Contracts\Container\Container;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Support
  */
 class Resolver
 {
@@ -40,8 +38,8 @@ class Resolver
      * Resolve the target.
      *
      * @param        $target
-     * @param array  $arguments
-     * @param array  $options
+     * @param  array $arguments
+     * @param  array $options
      * @return mixed
      */
     public function resolve($target, array $arguments = [], array $options = [])

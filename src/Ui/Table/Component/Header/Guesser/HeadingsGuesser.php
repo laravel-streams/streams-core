@@ -14,7 +14,6 @@ use Illuminate\Translation\Translator;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser
  */
 class HeadingsGuesser
 {
@@ -77,7 +76,7 @@ class HeadingsGuesser
 
         foreach ($columns as &$column) {
 
-            /**
+            /*
              * If the heading is already set then
              * we don't have anything to do.
              */
@@ -85,7 +84,7 @@ class HeadingsGuesser
                 continue;
             }
 
-            /**
+            /*
              * If the heading is false, then no
              * header is desired at all.
              */
@@ -93,7 +92,7 @@ class HeadingsGuesser
                 continue;
             }
 
-            /**
+            /*
              * No stream means we can't
              * really do much here.
              */
@@ -105,7 +104,7 @@ class HeadingsGuesser
                 $column['field'] = $column['value'];
             }
 
-            /**
+            /*
              * If the heading matches a field
              * with dot format then reduce it.
              */
@@ -113,21 +112,19 @@ class HeadingsGuesser
                 $column['field'] = $match[1];
             }
 
-            /**
+            /*
              * Detect some built in columns.
              */
             if (in_array($column['field'], ['id', 'created_at', 'created_by', 'updated_at', 'updated_by'])) {
-
                 $column['heading'] = 'streams::entry.' . $column['field'];
 
                 continue;
             }
 
-            /**
+            /*
              * Detect entry title.
              */
             if (in_array($column['field'], ['view_link', 'edit_link']) && $field = $stream->getTitleField()) {
-
                 $column['heading'] = $field->getName();
 
                 continue;
@@ -135,7 +132,7 @@ class HeadingsGuesser
 
             $field = $stream->getField(array_get($column, 'field'));
 
-            /**
+            /*
              * Detect the title column.
              */
             $title = $stream->getTitleField();
@@ -149,14 +146,14 @@ class HeadingsGuesser
                 $column['heading'] = $heading;
             }
 
-            /**
+            /*
              * Use the name from the field.
              */
             if ($field && $heading = $field->getName()) {
                 $column['heading'] = $heading;
             }
 
-            /**
+            /*
              * If no field look for
              * a name anyways.
              */
@@ -167,7 +164,7 @@ class HeadingsGuesser
                 $column['heading'] = $heading;
             }
 
-            /**
+            /*
              * If no translatable heading yet and
              * the heading matches the value (default)
              * then humanize the heading value.
@@ -176,7 +173,7 @@ class HeadingsGuesser
                 $column['heading'] = $this->string->humanize($column['field']);
             }
 
-            /**
+            /*
              * If we have a translatable heading and
              * the heading does not have a translation
              * then humanize the heading value.
@@ -190,7 +187,7 @@ class HeadingsGuesser
                 $column['heading'] = $this->string->humanize($column['field']);
             }
 
-            /**
+            /*
              * Last resort.
              */
             if ($module && !isset($column['heading'])) {

@@ -1,14 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Traits;
 
-
-
 /**
  * Class FiresCallbacks
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Traits
  */
 trait FiresCallbacks
 {
@@ -68,18 +65,17 @@ trait FiresCallbacks
     /**
      * Fire a set of closures by trigger.
      *
-     * @param       $trigger
-     * @param array $parameters
+     * @param        $trigger
+     * @param  array $parameters
      * @return $this
      */
     public function fire($trigger, array $parameters = [])
     {
 
-        /**
+        /*
          * First, fire global listeners.
          */
         foreach (array_get(self::$listeners, $trigger, []) as $callback) {
-
             if (is_string($callback) || $callback instanceof \Closure) {
                 app()->call($callback, $parameters);
             }
@@ -89,7 +85,7 @@ trait FiresCallbacks
             }
         }
 
-        /**
+        /*
          * Next, check if the method
          * exists and run it if it does.
          */
@@ -99,12 +95,11 @@ trait FiresCallbacks
             app()->call([$this, $method], $parameters);
         }
 
-        /**
+        /*
          * Finally, run through all of
          * the registered callbacks.
          */
         foreach (array_get($this->callbacks, $trigger, []) as $callback) {
-
             if (is_string($callback) || $callback instanceof \Closure) {
                 app()->call($callback, $parameters);
             }

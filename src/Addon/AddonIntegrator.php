@@ -18,7 +18,6 @@ use Twig_ExtensionInterface;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon
  */
 class AddonIntegrator
 {
@@ -183,16 +182,14 @@ class AddonIntegrator
         $this->views->addNamespace($addon->getNamespace(), $addon->getPath('resources/views'));
         $this->translator->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));
 
-        /**
+        /*
          * If the addon is a plugin then
          * load it into Twig when appropriate.
          */
         if ($addon->getType() === 'plugin') {
-
             $this->events->listen(
                 'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
                 function (RegisteringTwigPlugins $event) use ($addon) {
-
                     $twig = $event->getTwig();
 
                     $twig->addExtension($addon);

@@ -4,14 +4,12 @@ use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 
-
 /**
  * Class RestoreAssignmentData
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Assignment\Command
  */
 class RestoreAssignmentData
 {
@@ -50,7 +48,7 @@ class RestoreAssignmentData
             return;
         }
 
-        /**
+        /*
          * If it's NOW translatable then
          * restore it to the main table.
          */
@@ -58,7 +56,7 @@ class RestoreAssignmentData
             $schema->restoreColumn($stream->getEntryTranslationsTableName(), $assignment->getFieldType(true));
         }
 
-        /**
+        /*
          * If it's NOT translatable then back
          * it up from the translations table.
          */

@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\Tree\Tree;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Tree\Command
  */
 class GetSegmentValue
 {
@@ -42,7 +41,7 @@ class GetSegmentValue
      * @param SegmentInterface $segment
      * @param                  $entry
      */
-    function __construct(Tree $tree, SegmentInterface $segment, $entry)
+    public function __construct(Tree $tree, SegmentInterface $segment, $entry)
     {
         $this->entry   = $entry;
         $this->tree    = $tree;

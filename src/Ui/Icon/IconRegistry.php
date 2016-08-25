@@ -6,7 +6,6 @@
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Icon
  */
 class IconRegistry
 {
@@ -169,8 +168,8 @@ class IconRegistry
     /**
      * Register a button.
      *
-     * @param       $icon
-     * @param array $parameters
+     * @param        $icon
+     * @param  array $parameters
      * @return $this
      */
     public function register($icon, array $parameters)

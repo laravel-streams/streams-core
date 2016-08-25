@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Console\Command;
-
 use Illuminate\Contracts\Config\Repository;
 
 /**
@@ -11,7 +10,6 @@ use Illuminate\Contracts\Config\Repository;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Installer\Console\Command
  */
 class SetDatabaseData
 {
@@ -36,7 +34,7 @@ class SetDatabaseData
      * @param Collection $data
      * @param Command    $command
      */
-    function __construct(Collection $data, Command $command)
+    public function __construct(Collection $data, Command $command)
     {
         $this->data    = $data;
         $this->command = $command;
@@ -55,7 +53,7 @@ class SetDatabaseData
                     'mysql',
                     'postgres',
                     'sqlite',
-                    'sqlsrv'
+                    'sqlsrv',
                 ],
                 env('DB_DRIVER', 'mysql')
             )

@@ -11,7 +11,6 @@ use Illuminate\Session\Store;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Field
  */
 class FieldPopulator
 {
@@ -45,7 +44,7 @@ class FieldPopulator
 
         foreach ($fields as &$field) {
 
-            /**
+            /*
              * If the field is not already set
              * then get the value off the entry.
              */
@@ -57,7 +56,7 @@ class FieldPopulator
                 }
             }
 
-            /**
+            /*
              * If the field has a default value
              * and the entry does not exist yet
              * then use the default value.
@@ -66,7 +65,7 @@ class FieldPopulator
                 $field['value'] = $field['config']['default_value'];
             }
 
-            /**
+            /*
              * If the field has a default value
              * and there is no entry then
              * use the default value.
@@ -75,7 +74,7 @@ class FieldPopulator
                 $field['value'] = $field['config']['default_value'];
             }
 
-            /**
+            /*
              * If the field is an assignment then
              * use it's config for the default value.
              */
@@ -86,7 +85,7 @@ class FieldPopulator
                 $field['value'] = array_get($type->getConfig(), 'default_value');
             }
 
-            /**
+            /*
              * Lastly if we have flashed data from a front end
              * form handler then use that value for the field.
              */

@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\Contract\SegmentInterface
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Tree\Component\Segment
  */
 class SegmentFactory
 {
@@ -41,7 +40,7 @@ class SegmentFactory
     /**
      * Make a segment.
      *
-     * @param  array $parameters
+     * @param  array            $parameters
      * @return SegmentInterface
      */
     public function make(array $parameters)

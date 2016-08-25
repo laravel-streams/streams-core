@@ -11,7 +11,6 @@ use Closure;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Component\Filter
  */
 class Filter implements FilterInterface
 {
@@ -161,7 +160,7 @@ class Filter implements FilterInterface
     /**
      * Set the filter prefix.
      *
-     * @param string $prefix
+     * @param  string $prefix
      * @return $this
      */
     public function setPrefix($prefix)
@@ -197,7 +196,7 @@ class Filter implements FilterInterface
     /**
      * Set the exact flag.
      *
-     * @param bool $exact
+     * @param  bool  $exact
      * @return $this
      */
     public function setExact($exact)
@@ -220,7 +219,7 @@ class Filter implements FilterInterface
     /**
      * Set the active flag.
      *
-     * @param bool $active
+     * @param  bool  $active
      * @return $this
      */
     public function setActive($active)

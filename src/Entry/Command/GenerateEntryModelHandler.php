@@ -25,7 +25,6 @@ use Illuminate\Filesystem\Filesystem;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Entry\Command
  */
 class GenerateEntryModelHandler
 {
@@ -58,7 +57,7 @@ class GenerateEntryModelHandler
      * @param Parser      $parser
      * @param Application $application
      */
-    function __construct(Filesystem $files, Parser $parser, Application $application)
+    public function __construct(Filesystem $files, Parser $parser, Application $application)
     {
         $this->files       = $files;
         $this->parser      = $parser;
@@ -123,7 +122,7 @@ class GenerateEntryModelHandler
             'relationships'           => (new EntryRelationshipsParser())->parse($stream),
             'translation_model'       => (new EntryTranslationModelParser())->parse($stream),
             'translated_attributes'   => (new EntryTranslatedAttributesParser())->parse($stream),
-            'translation_foreign_key' => (new EntryTranslationForeignKeyParser())->parse($stream)
+            'translation_foreign_key' => (new EntryTranslationForeignKeyParser())->parse($stream),
         ];
     }
 }

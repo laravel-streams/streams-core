@@ -12,11 +12,9 @@ use Illuminate\Database\Eloquent\Builder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Model
  */
 class EloquentRepository implements EloquentRepositoryInterface
 {
-
     use FiresCallbacks;
     use Hookable;
 
@@ -44,7 +42,7 @@ class EloquentRepository implements EloquentRepositoryInterface
     /**
      * Find all records by IDs.
      *
-     * @param array $ids
+     * @param  array              $ids
      * @return EloquentCollection
      */
     public function findAll(array $ids)
@@ -70,7 +68,7 @@ class EloquentRepository implements EloquentRepositoryInterface
     /**
      * Create a new record.
      *
-     * @param array $attributes
+     * @param  array         $attributes
      * @return EloquentModel
      */
     public function create(array $attributes)
@@ -111,7 +109,7 @@ class EloquentRepository implements EloquentRepositoryInterface
     /**
      * Return a paginated collection.
      *
-     * @param array $parameters
+     * @param  array                $parameters
      * @return LengthAwarePaginator
      */
     public function paginate(array $parameters = [])
@@ -122,20 +120,19 @@ class EloquentRepository implements EloquentRepositoryInterface
         /* @var Builder $query */
         $query = $this->model->newQuery();
 
-        /**
+        /*
          * First apply any desired scope.
          */
         if ($scope = array_pull($parameters, 'scope')) {
             call_user_func([$query, camel_case($scope)], array_pull($parameters, 'scope_arguments', []));
         }
 
-        /**
+        /*
          * Lastly we need to loop through all of the
          * parameters and assume the rest are methods
          * to call on the query builder.
          */
         foreach ($parameters as $method => $arguments) {
-
             $method = camel_case($method);
 
             if (in_array($method, ['update', 'delete'])) {
@@ -161,7 +158,7 @@ class EloquentRepository implements EloquentRepositoryInterface
     /**
      * Save a record.
      *
-     * @param EloquentModel $entry
+     * @param  EloquentModel $entry
      * @return bool
      */
     public function save(EloquentModel $entry)
@@ -172,7 +169,7 @@ class EloquentRepository implements EloquentRepositoryInterface
     /**
      * Update multiple records.
      *
-     * @param array $attributes
+     * @param  array $attributes
      * @return bool
      */
     public function update(array $attributes = [])
@@ -183,7 +180,7 @@ class EloquentRepository implements EloquentRepositoryInterface
     /**
      * Delete a record.
      *
-     * @param EloquentModel $entry
+     * @param  EloquentModel $entry
      * @return bool
      */
     public function delete(EloquentModel $entry)
@@ -194,14 +191,14 @@ class EloquentRepository implements EloquentRepositoryInterface
     /**
      * Force delete a record.
      *
-     * @param EloquentModel $entry
+     * @param  EloquentModel $entry
      * @return bool
      */
     public function forceDelete(EloquentModel $entry)
     {
         $entry->forceDelete();
 
-        /**
+        /*
          * If we were not able to force delete
          */
         return !$entry->exists;
@@ -210,7 +207,7 @@ class EloquentRepository implements EloquentRepositoryInterface
     /**
      * Restore a trashed record.
      *
-     * @param EloquentModel $entry
+     * @param  EloquentModel $entry
      * @return bool
      */
     public function restore(EloquentModel $entry)
@@ -234,7 +231,6 @@ class EloquentRepository implements EloquentRepositoryInterface
         $this->model->truncate(); // Clear trash
 
         if ($this->model->isTranslatable() && $translation = $this->model->getTranslationModel()) {
-
             $translation->flushCache();
 
             foreach ($translation->all() as $entry) {
@@ -250,7 +246,7 @@ class EloquentRepository implements EloquentRepositoryInterface
     /**
      * Set the model.
      *
-     * @param EloquentModel $model
+     * @param  EloquentModel $model
      * @return $this
      */
     public function setModel(EloquentModel $model)

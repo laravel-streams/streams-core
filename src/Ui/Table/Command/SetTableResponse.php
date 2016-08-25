@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-
 use Illuminate\Routing\ResponseFactory;
 
 /**
@@ -10,7 +9,6 @@ use Illuminate\Routing\ResponseFactory;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Command
  */
 class SetTableResponse
 {

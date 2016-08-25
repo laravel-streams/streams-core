@@ -3,14 +3,12 @@
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Support\Configurator;
 
-
 /**
  * Class LoadStreamsConfiguration
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Application\Command
  */
 class LoadStreamsConfiguration
 {

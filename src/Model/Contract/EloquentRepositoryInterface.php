@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Builder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Model\Contract
  */
 interface EloquentRepositoryInterface
 {
@@ -34,7 +33,7 @@ interface EloquentRepositoryInterface
     /**
      * Find all records by IDs.
      *
-     * @param array $ids
+     * @param  array              $ids
      * @return EloquentCollection
      */
     public function findAll(array $ids);
@@ -50,7 +49,7 @@ interface EloquentRepositoryInterface
     /**
      * Create a new record.
      *
-     * @param array $attributes
+     * @param  array         $attributes
      * @return EloquentModel
      */
     public function create(array $attributes);
@@ -79,7 +78,7 @@ interface EloquentRepositoryInterface
     /**
      * Return a paginated collection.
      *
-     * @param array $parameters
+     * @param  array                $parameters
      * @return LengthAwarePaginator
      */
     public function paginate(array $parameters = []);
@@ -87,7 +86,7 @@ interface EloquentRepositoryInterface
     /**
      * Save a record.
      *
-     * @param EloquentModel $entry
+     * @param  EloquentModel $entry
      * @return bool
      */
     public function save(EloquentModel $entry);
@@ -95,7 +94,7 @@ interface EloquentRepositoryInterface
     /**
      * Update multiple records.
      *
-     * @param array $attributes
+     * @param  array $attributes
      * @return bool
      */
     public function update(array $attributes = []);
@@ -103,7 +102,7 @@ interface EloquentRepositoryInterface
     /**
      * Delete a record.
      *
-     * @param EloquentModel $entry
+     * @param  EloquentModel $entry
      * @return bool
      */
     public function delete(EloquentModel $entry);
@@ -111,7 +110,7 @@ interface EloquentRepositoryInterface
     /**
      * Force delete a record.
      *
-     * @param EloquentModel $entry
+     * @param  EloquentModel $entry
      * @return bool
      */
     public function forceDelete(EloquentModel $entry);
@@ -119,7 +118,7 @@ interface EloquentRepositoryInterface
     /**
      * Restore a trashed record.
      *
-     * @param EloquentModel $entry
+     * @param  EloquentModel $entry
      * @return bool
      */
     public function restore(EloquentModel $entry);
@@ -134,7 +133,7 @@ interface EloquentRepositoryInterface
     /**
      * Set the repository model.
      *
-     * @param EloquentModel $model
+     * @param  EloquentModel $model
      * @return $this
      */
     public function setModel(EloquentModel $model);

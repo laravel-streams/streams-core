@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Component\Header
  */
 class HeaderBuilder
 {
@@ -55,7 +54,6 @@ class HeaderBuilder
         }
 
         foreach ($builder->getColumns() as $column) {
-
             $column['builder'] = $builder;
 
             $table->addHeader($this->factory->make($column));

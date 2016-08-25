@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Model;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Seeder\Command
  */
 class SeedHandler
 {
@@ -58,7 +57,7 @@ class SeedHandler
         $class = $command->getClass();
         $addon = $this->addons->get($command->getAddon());
 
-        /**
+        /*
          * Depending on when this is called, and
          * how seeding uses the view layer the addon's
          * could be decorated, so un-decorate them real
@@ -68,7 +67,7 @@ class SeedHandler
             $addon = $addon->getObject();
         }
 
-        /**
+        /*
          * If the addon was passed then
          * get it and seed it.
          */
@@ -76,7 +75,7 @@ class SeedHandler
             $this->call($this->getSeederClass($addon));
         }
 
-        /**
+        /*
          * If a seeder class was passed then
          * call it from the seeder utility.
          */
@@ -100,7 +99,7 @@ class SeedHandler
     /**
      * Get the seeder class for an addon.
      *
-     * @param Addon $addon
+     * @param  Addon  $addon
      * @return string
      */
     protected function getSeederClass(Addon $addon)

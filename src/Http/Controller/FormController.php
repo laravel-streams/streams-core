@@ -12,7 +12,6 @@ use Illuminate\Routing\Redirector;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Http\Controller
  */
 class FormController extends PublicController
 {
@@ -20,9 +19,9 @@ class FormController extends PublicController
     /**
      * Handle the form.
      *
-     * @param Repository $cache
-     * @param Redirector $redirect
-     * @param            $key
+     * @param  Repository                                 $cache
+     * @param  Redirector                                 $redirect
+     * @param                                             $key
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle(Repository $cache, Redirector $redirect, $key)

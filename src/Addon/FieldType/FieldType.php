@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Support\Presenter;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\FieldType
  */
 class FieldType extends Addon
 {
@@ -225,8 +224,8 @@ class FieldType extends Addon
     /**
      * Return a config value.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function config($key, $default = null)
@@ -293,7 +292,7 @@ class FieldType extends Addon
     /**
      * Merge rules.
      *
-     * @param array $rules
+     * @param  array $rules
      * @return $this
      */
     public function mergeRules(array $rules)
@@ -306,7 +305,7 @@ class FieldType extends Addon
     /**
      * Extend the rule set.
      *
-     * @param array $rules
+     * @param  array $rules
      * @return array
      */
     public function extendRules(array $rules)
@@ -329,7 +328,7 @@ class FieldType extends Addon
     /**
      * Merge validators.
      *
-     * @param array $validators
+     * @param  array $validators
      * @return $this
      */
     public function mergeValidators(array $validators)
@@ -352,7 +351,7 @@ class FieldType extends Addon
     /**
      * Merge messages.
      *
-     * @param array $messages
+     * @param  array $messages
      * @return $this
      */
     public function mergeMessages(array $messages)
@@ -375,7 +374,7 @@ class FieldType extends Addon
     /**
      * Merge configuration.
      *
-     * @param array $config
+     * @param  array $config
      * @return $this
      */
     public function mergeConfig(array $config)
@@ -401,8 +400,8 @@ class FieldType extends Addon
     /**
      * Get a config value.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function configGet($key, $default = null)
@@ -483,7 +482,7 @@ class FieldType extends Addon
     /**
      * Get the post value.
      *
-     * @param null $default
+     * @param  null  $default
      * @return mixed
      */
     public function getPostValue($default = null)
@@ -510,7 +509,7 @@ class FieldType extends Addon
     /**
      * Get the value to validate.
      *
-     * @param null $default
+     * @param  null  $default
      * @return mixed
      */
     public function getValidationValue($default = null)
@@ -521,7 +520,7 @@ class FieldType extends Addon
     /**
      * Get the input value.
      *
-     * @param null $default
+     * @param  null  $default
      * @return mixed
      */
     public function getInputValue($default = null)
@@ -667,7 +666,7 @@ class FieldType extends Addon
     /**
      * Set the attributes.
      *
-     * @param array $attributes
+     * @param  array $attributes
      * @return $this
      */
     public function setAttributes(array $attributes)
@@ -856,7 +855,7 @@ class FieldType extends Addon
     /**
      * Render the input and wrapper.
      *
-     * @param array $payload
+     * @param  array  $payload
      * @return string
      */
     public function render($payload = [])
@@ -1093,7 +1092,7 @@ class FieldType extends Addon
     /**
      * Decorate the value.
      *
-     * @param           $value
+     * @param            $value
      * @return Presenter
      */
     public function decorate($value)
@@ -1106,7 +1105,7 @@ class FieldType extends Addon
      *
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         return $this->render();
     }

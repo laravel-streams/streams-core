@@ -11,11 +11,9 @@ use Symfony\Component\Console\Input\InputOption;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Migration\Console
  */
 class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateCommand
 {
-
     use DispatchesJobs;
 
     /**
@@ -33,13 +31,11 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
     public function fire()
     {
         if (!$this->input->getOption('no-addons') && !$this->input->getOption('path')) {
-
             $this->prepareDatabase();
 
             $addons = app('Anomaly\Streams\Platform\Addon\AddonCollection');
 
             if ($namespaces = $this->input->getOption('addon')) {
-
                 $namespaces = explode(',', $namespaces);
 
                 $addons = $addons->filter(
@@ -59,7 +55,6 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
 
             /** @var Addon $addon */
             foreach ($addons as $addon) {
-
                 $this->migrator->setNamespace($addon->getNamespace())->run($addon->getPath('migrations'), $pretend);
 
                 // Finally, if the "seed" option has been given, we will re-run the database
@@ -83,7 +78,6 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
                 }
             }
         } else {
-
             $this->migrator->setNamespace('laravel');
 
             parent::fire();

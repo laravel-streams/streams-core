@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\Module
  */
 class ModuleRepository implements ModuleRepositoryInterface
 {
@@ -43,7 +42,7 @@ class ModuleRepository implements ModuleRepositoryInterface
     /**
      * Create a module record.
      *
-     * @param Module $module
+     * @param  Module $module
      * @return bool
      */
     public function create(Module $module)
@@ -60,7 +59,7 @@ class ModuleRepository implements ModuleRepositoryInterface
     /**
      * Delete a module record.
      *
-     * @param  Module $module
+     * @param  Module      $module
      * @return ModuleModel
      */
     public function delete(Module $module)
@@ -109,7 +108,7 @@ class ModuleRepository implements ModuleRepositoryInterface
     /**
      * Mark a module as disabled.
      *
-     * @param Module $module
+     * @param  Module $module
      * @return bool
      */
     public function disable(Module $module)
@@ -124,7 +123,7 @@ class ModuleRepository implements ModuleRepositoryInterface
     /**
      * Mark a module as enabled.
      *
-     * @param Module $module
+     * @param  Module $module
      * @return bool
      */
     public function enabled(Module $module)

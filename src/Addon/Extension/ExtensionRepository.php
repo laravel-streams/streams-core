@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterfa
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\Extension
  */
 class ExtensionRepository implements ExtensionRepositoryInterface
 {
@@ -43,7 +42,7 @@ class ExtensionRepository implements ExtensionRepositoryInterface
     /**
      * Create a extension record.
      *
-     * @param Extension $extension
+     * @param  Extension $extension
      * @return bool
      */
     public function create(Extension $extension)
@@ -60,7 +59,7 @@ class ExtensionRepository implements ExtensionRepositoryInterface
     /**
      * Delete a extension record.
      *
-     * @param  Extension $extension
+     * @param  Extension      $extension
      * @return ExtensionModel
      */
     public function delete(Extension $extension)
@@ -109,7 +108,7 @@ class ExtensionRepository implements ExtensionRepositoryInterface
     /**
      * Mark a extension as disabled.
      *
-     * @param Extension $extension
+     * @param  Extension $extension
      * @return bool
      */
     public function disable(Extension $extension)
@@ -124,7 +123,7 @@ class ExtensionRepository implements ExtensionRepositoryInterface
     /**
      * Mark a extension as enabled.
      *
-     * @param Extension $extension
+     * @param  Extension $extension
      * @return bool
      */
     public function enabled(Extension $extension)

@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Field\Contract
  */
 interface FieldInterface
 {
@@ -74,7 +73,7 @@ interface FieldInterface
     /**
      * Get the field type.
      *
-     * @param bool $fresh
+     * @param  bool      $fresh
      * @return FieldType
      */
     public function getType($fresh = false);

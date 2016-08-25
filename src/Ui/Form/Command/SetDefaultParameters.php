@@ -4,14 +4,12 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormHandler;
 use Anomaly\Streams\Platform\Ui\Form\FormValidator;
 
-
 /**
  * Class SetDefaultParameters
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Form\Command
  */
 class SetDefaultParameters
 {
@@ -23,7 +21,7 @@ class SetDefaultParameters
      */
     protected $skips = [
         'model',
-        'repository'
+        'repository',
     ];
 
     /**
@@ -33,7 +31,7 @@ class SetDefaultParameters
      */
     protected $defaults = [
         'handler'   => FormHandler::class,
-        'validator' => FormValidator::class
+        'validator' => FormValidator::class,
     ];
 
     /**
@@ -60,7 +58,7 @@ class SetDefaultParameters
      */
     public function handle()
     {
-        /**
+        /*
          * Set the form mode according
          * to the builder's entry.
          */
@@ -68,26 +66,25 @@ class SetDefaultParameters
             $this->builder->setFormMode($this->builder->getEntry() ? 'edit' : 'create');
         }
 
-        /**
+        /*
          * Next we'll loop each property and look for a handler.
          */
         $reflection = new \ReflectionClass($this->builder);
 
         /* @var \ReflectionProperty $property */
         foreach ($reflection->getProperties(\ReflectionProperty::IS_PROTECTED) as $property) {
-
             if (in_array($property->getName(), $this->skips)) {
                 continue;
             }
 
-            /**
+            /*
              * If there is no getter then skip it.
              */
             if (!method_exists($this->builder, $method = 'get' . ucfirst($property->getName()))) {
                 continue;
             }
 
-            /**
+            /*
              * If the parameter already
              * has a value then skip it.
              */
@@ -95,7 +92,7 @@ class SetDefaultParameters
                 continue;
             }
 
-            /**
+            /*
              * Check if we can transform the
              * builder property into a handler.
              * If it exists, then go ahead and use it.
@@ -104,7 +101,7 @@ class SetDefaultParameters
 
             if (class_exists($handler)) {
 
-                /**
+                /*
                  * Make sure the handler is
                  * formatted properly.
                  */
@@ -117,7 +114,7 @@ class SetDefaultParameters
                 continue;
             }
 
-            /**
+            /*
              * If the handler does not exist and
              * we have a default handler, use it.
              */

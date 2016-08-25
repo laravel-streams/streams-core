@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Assignment\Command\UpdateAssignmentColumn;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -11,11 +10,9 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Field\Command
  */
 class UpdateFieldAssignments
 {
-
     use DispatchesJobs;
 
     /**

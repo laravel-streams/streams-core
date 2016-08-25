@@ -14,7 +14,6 @@ use Illuminate\Translation\Translator;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser
  */
 class TextGuesser
 {
@@ -88,7 +87,7 @@ class TextGuesser
 
         $module = $this->modules->active();
 
-        /**
+        /*
          * This will break if we can't figure
          * out what the active module is.
          */
@@ -97,7 +96,6 @@ class TextGuesser
         }
 
         foreach ($buttons as &$button) {
-
             if (isset($button['text'])) {
                 continue;
             }

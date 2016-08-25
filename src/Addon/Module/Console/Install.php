@@ -13,7 +13,6 @@ use Symfony\Component\Console\Input\InputOption;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Stream\Console
  */
 class Install extends Command
 {
@@ -56,7 +55,7 @@ class Install extends Command
     protected function getArguments()
     {
         return [
-            ['module', InputArgument::REQUIRED, 'The module\'s dot namespace.']
+            ['module', InputArgument::REQUIRED, 'The module\'s dot namespace.'],
         ];
     }
 
@@ -68,7 +67,7 @@ class Install extends Command
     protected function getOptions()
     {
         return [
-            ['seed', null, InputOption::VALUE_NONE, 'Seed the module after installing?']
+            ['seed', null, InputOption::VALUE_NONE, 'Seed the module after installing?'],
         ];
     }
 }

@@ -12,11 +12,9 @@ use Symfony\Component\Console\Input\InputArgument;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Application\Console
  */
 class EnvSet extends Command
 {
-
     use DispatchesJobs;
 
     /**
@@ -57,7 +55,7 @@ class EnvSet extends Command
     protected function getArguments()
     {
         return [
-            ['line', InputArgument::REQUIRED, 'The line to update.']
+            ['line', InputArgument::REQUIRED, 'The line to update.'],
         ];
     }
 }

@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Button
  */
 class ButtonNormalizer
 {
@@ -24,7 +23,7 @@ class ButtonNormalizer
 
         foreach ($buttons as $key => &$button) {
 
-            /**
+            /*
              * If the button is a string then use
              * it as the button parameter.
              */
@@ -34,7 +33,7 @@ class ButtonNormalizer
                 ];
             }
 
-            /**
+            /*
              * If the key is a string and the button
              * is an array without a button param then
              * move the key into the button as that param.
@@ -43,26 +42,26 @@ class ButtonNormalizer
                 $button['button'] = $key;
             }
 
-            /**
+            /*
              * Make sure some default parameters exist.
              */
             $button['attributes'] = array_get($button, 'attributes', []);
 
-            /**
+            /*
              * Move the HREF if any to the attributes.
              */
             if (isset($button['href'])) {
                 array_set($button['attributes'], 'href', array_pull($button, 'href'));
             }
 
-            /**
+            /*
              * Move the target if any to the attributes.
              */
             if (isset($button['target'])) {
                 array_set($button['attributes'], 'target', array_pull($button, 'target'));
             }
 
-            /**
+            /*
              * Make sure the HREF is absolute.
              */
             if (
@@ -73,7 +72,7 @@ class ButtonNormalizer
                 $button['attributes']['href'] = url($button['attributes']['href']);
             }
 
-            /**
+            /*
              * Use small buttons for grids.
              */
             $button['size'] = array_get($button, 'size', 'xs');

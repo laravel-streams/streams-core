@@ -13,7 +13,6 @@ use Robbo\Presenter\PresentableInterface;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Assignment
  */
 class AssignmentModel extends EloquentModel implements AssignmentInterface, PresentableInterface
 {
@@ -31,7 +30,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
      * @var array
      */
     protected $attributes = [
-        'config' => 'a:0:{}'
+        'config' => 'a:0:{}',
     ];
 
     /**
@@ -57,7 +56,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
         'label',
         'warning',
         'placeholder',
-        'instructions'
+        'instructions',
     ];
 
     /**
@@ -80,7 +79,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
      * but not all assignment are translatable. This helps avoid
      * the translatable conflict during specific procedures.
      *
-     * @param  array $attributes
+     * @param  array  $attributes
      * @return static
      */
     public static function create(array $attributes = [])
@@ -131,7 +130,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
     /**
      * Get the assignment's field's type.
      *
-     * @param bool $fresh
+     * @param  bool           $fresh
      * @return FieldType|null
      */
     public function getFieldType($fresh = false)
@@ -405,10 +404,10 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
     }
 
     /**
-     * @param array $items
+     * @param  array                $items
      * @return AssignmentCollection
      */
-    public function newCollection(array $items = array())
+    public function newCollection(array $items = [])
     {
         return new AssignmentCollection($items);
     }

@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
-/**
+/*
  * Class Header
  *
  * @link          http://anomaly.is/streams-platform
@@ -17,7 +17,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Header
  */
 class Header implements HeaderInterface
 {
@@ -82,7 +81,7 @@ class Header implements HeaderInterface
     /**
      * Set the table builder.
      *
-     * @param TableBuilder $builder
+     * @param  TableBuilder $builder
      * @return $this
      */
     public function setBuilder(TableBuilder $builder)
@@ -96,7 +95,7 @@ class Header implements HeaderInterface
      * Get the current direction
      * defaulting to ascending.
      *
-     * @param null $default
+     * @param  null        $default
      * @return string|null
      */
     public function getDirection($default = null)
@@ -125,7 +124,7 @@ class Header implements HeaderInterface
     /**
      * Set the sort column.
      *
-     * @param string $sortColumn
+     * @param  string $sortColumn
      * @return $this
      */
     public function setSortColumn($sortColumn)
@@ -171,7 +170,7 @@ class Header implements HeaderInterface
     /**
      * Set the sortable flag.
      *
-     * @param boolean $sortable
+     * @param  boolean $sortable
      * @return $this
      */
     public function setSortable($sortable)

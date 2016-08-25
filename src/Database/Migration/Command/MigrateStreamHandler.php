@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Migration\Command
  */
 class MigrateStreamHandler
 {
@@ -35,7 +34,7 @@ class MigrateStreamHandler
     /**
      * Handle the command.
      *
-     * @param MigrateStream $command
+     * @param  MigrateStream   $command
      * @return StreamInterface
      */
     public function handle(MigrateStream $command)
@@ -50,7 +49,7 @@ class MigrateStreamHandler
 
         if (is_string($stream)) {
             $stream = [
-                'slug' => $stream
+                'slug' => $stream,
             ];
         }
 
@@ -63,7 +62,7 @@ class MigrateStreamHandler
             return null;
         }
 
-        /**
+        /*
          * If the name exists in the base array
          * then move it to the translated array
          * for the default locale.
@@ -72,7 +71,7 @@ class MigrateStreamHandler
             $stream = array_add($stream, config('app.fallback_locale') . '.name', $name);
         }
 
-        /**
+        /*
          * If the name is not set then make one
          * based on a standardized pattern.
          */
@@ -84,7 +83,7 @@ class MigrateStreamHandler
             );
         }
 
-        /**
+        /*
          * If the description exists in the base array
          * then move it to the translated array
          * for the default locale.
@@ -93,7 +92,7 @@ class MigrateStreamHandler
             $stream = array_add($stream, config('app.fallback_locale') . '.description', $description);
         }
 
-        /**
+        /*
          * If the name is not set then make one
          * based on a standardized pattern.
          */

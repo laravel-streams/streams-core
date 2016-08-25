@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Stream
  */
 class StreamStore
 {
@@ -34,7 +33,7 @@ class StreamStore
     /**
      * Get the cache key.
      *
-     * @param array $data
+     * @param  array  $data
      * @return string
      */
     protected function getCacheKey(array $data)
