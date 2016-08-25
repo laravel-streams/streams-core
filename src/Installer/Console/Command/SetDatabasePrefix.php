@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Installer\Console\Command;
 
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -12,7 +12,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Installer\Console\Command
  */
-class SetDatabasePrefix
+class SetDatabasePrefix implements SelfHandling
 {
 
     use DispatchesJobs;

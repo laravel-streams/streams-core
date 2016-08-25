@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Command;
 
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Translation\Translator;
 
 /**
@@ -11,7 +11,7 @@ use Illuminate\Translation\Translator;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Command
  */
-class GetTranslatedString
+class GetTranslatedString implements SelfHandling
 {
 
     /**

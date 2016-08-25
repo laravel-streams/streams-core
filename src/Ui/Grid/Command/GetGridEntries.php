@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Grid\Contract\GridRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class GetGridEntries
@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Grid\Command
  */
-class GetGridEntries
+class GetGridEntries implements SelfHandling
 {
 
     /**

@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Field\Form\FieldFormBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class AutoAssignField
@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Field\Form\FieldFormBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Field\Form\Command
  */
-class AutoAssignField
+class AutoAssignField implements SelfHandling
 {
 
     /**

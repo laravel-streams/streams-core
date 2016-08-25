@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Asset\Event\ThemeVariablesHaveLoaded;
 use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Config\Repository;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
@@ -15,7 +15,7 @@ use Illuminate\Contracts\Events\Dispatcher;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Asset\Command
  */
-class LoadThemeVariables
+class LoadThemeVariables implements SelfHandling
 {
 
     /**

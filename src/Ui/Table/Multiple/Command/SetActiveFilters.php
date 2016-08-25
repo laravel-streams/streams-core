@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class SetActiveFilters
@@ -13,7 +13,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Multiple\Command
  */
-class SetActiveFilters
+class SetActiveFilters implements SelfHandling
 {
 
     /**

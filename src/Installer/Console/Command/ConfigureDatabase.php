@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Installer\Console\Command;
 
 use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -13,7 +13,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Installer\Console\Command
  */
-class ConfigureDatabase
+class ConfigureDatabase implements SelfHandling
 {
 
     use DispatchesJobs;

@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class BuildFilters
@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command
  */
-class BuildFilters
+class BuildFilters implements SelfHandling
 {
 
     /**

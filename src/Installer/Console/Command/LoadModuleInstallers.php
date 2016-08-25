@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Installer\Installer;
 use Anomaly\Streams\Platform\Installer\InstallerCollection;
 use Illuminate\Contracts\Console\Kernel;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class LoadModuleInstallers
@@ -15,7 +15,7 @@ use Illuminate\Contracts\Console\Kernel;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Installer\Console\Command
  */
-class LoadModuleInstallers
+class LoadModuleInstallers implements SelfHandling
 {
 
     /**

@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Http\Request;
 use Illuminate\Translation\Translator;
 
@@ -15,7 +15,7 @@ use Illuminate\Translation\Translator;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class SetErrorMessages
+class SetErrorMessages implements SelfHandling
 {
 
     /**

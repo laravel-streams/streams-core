@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class AddAssets
@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Tree\Command
  */
-class AddAssets
+class AddAssets implements SelfHandling
 {
 
     /**

@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Form;
 
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class StreamFormFields
@@ -10,7 +10,7 @@
  * @author        Ryan Thompson <ryan@pyrocms.com>
  * @package       Anomaly\Streams\Platform\Stream\Form
  */
-class StreamFormFields
+class StreamFormFields implements SelfHandling
 {
 
     /**

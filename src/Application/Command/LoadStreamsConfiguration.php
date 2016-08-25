@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Support\Configurator;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class LoadStreamsConfiguration
@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Support\Configurator;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Application\Command
  */
-class LoadStreamsConfiguration
+class LoadStreamsConfiguration implements SelfHandling
 {
 
     /**

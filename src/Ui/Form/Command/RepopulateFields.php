@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class RepopulateFields
@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class RepopulateFields
+class RepopulateFields implements SelfHandling
 {
 
     /**

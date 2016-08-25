@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 
 /**
@@ -11,7 +11,7 @@
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Application\Command
  */
-class WriteEnvironmentFile
+class WriteEnvironmentFile implements SelfHandling
 {
 
     /**

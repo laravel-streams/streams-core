@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\TableAuthorizer;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class AuthorizeTable
@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Command
  */
-class AuthorizeTable
+class AuthorizeTable implements SelfHandling
 {
 
     /**

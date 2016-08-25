@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasEnabled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
@@ -14,7 +14,7 @@ use Illuminate\Contracts\Events\Dispatcher;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Module\Command
  */
-class EnableModule
+class EnableModule implements SelfHandling
 {
 
     /**

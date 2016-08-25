@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Entry\EntryTreeRepository;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentTreeRepository;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class SetDefaultOptions
@@ -15,7 +15,7 @@ use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Tree\Command
  */
-class SetDefaultOptions
+class SetDefaultOptions implements SelfHandling
 {
 
     /**

@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class SetDefaultParameters
@@ -11,7 +11,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Table\Command
  */
-class SetDefaultParameters
+class SetDefaultParameters implements SelfHandling
 {
 
     /**

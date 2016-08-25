@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class CleanupStreams
@@ -13,7 +13,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Stream\Command
  */
-class CleanupStreams
+class CleanupStreams implements SelfHandling
 {
 
     /**

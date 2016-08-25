@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class SetGridStream
@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Grid\Command
  */
-class SetGridStream
+class SetGridStream implements SelfHandling
 {
 
     /**

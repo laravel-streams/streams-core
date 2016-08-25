@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Support\MessageBag;
 
 /**
@@ -13,7 +13,7 @@ use Illuminate\Support\MessageBag;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Multiple\Command
  */
-class HandleErrors
+class HandleErrors implements SelfHandling
 {
 
     /**

@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Form;
 
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class AssignmentFormFields
@@ -10,7 +10,7 @@
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Assignment\Form
  */
-class AssignmentFormFields
+class AssignmentFormFields implements SelfHandling
 {
 
     /**

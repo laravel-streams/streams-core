@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\EloquentGridRepository;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class SetDefaultOptions
@@ -15,7 +15,7 @@ use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Grid\Command
  */
-class SetDefaultOptions
+class SetDefaultOptions implements SelfHandling
 {
 
     /**

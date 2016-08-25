@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class BuildActions
@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action\Command
  */
-class BuildActions
+class BuildActions implements SelfHandling
 {
 
     /**

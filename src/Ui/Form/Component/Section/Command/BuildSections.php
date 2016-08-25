@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Section\SectionBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class BuildSections
@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Component\Section\Command
  */
-class BuildSections
+class BuildSections implements SelfHandling
 {
 
     /**

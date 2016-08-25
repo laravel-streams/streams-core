@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class SetGridOptions
@@ -13,7 +13,7 @@ use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Grid\Command
  */
-class SetGridOptions
+class SetGridOptions implements SelfHandling
 {
 
     /**

@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
 use Anomaly\Streams\Platform\Application\Application;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
 /**
@@ -12,7 +12,7 @@ use Illuminate\Contracts\Filesystem\Filesystem;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Application\Command
  */
-class LoadEnvironmentOverrides
+class LoadEnvironmentOverrides implements SelfHandling
 {
 
     /**

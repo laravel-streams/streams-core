@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Command;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Container\Container;
 
 /**
@@ -12,7 +12,7 @@ use Illuminate\Contracts\Container\Container;
  * @author        Ryan Thompson <ryan@pyrocms.com>
  * @package       Anomaly\Streams\Platform\Stream\Command
  */
-class GetStream
+class GetStream implements SelfHandling
 {
 
     /**

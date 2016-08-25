@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Grid\GridAuthorizer;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class AuthorizeGrid
@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Grid\Command
  */
-class AuthorizeGrid
+class AuthorizeGrid implements SelfHandling
 {
 
     /**

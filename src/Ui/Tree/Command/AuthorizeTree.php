@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Tree\TreeAuthorizer;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class AuthorizeTree
@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Tree\Command
  */
-class AuthorizeTree
+class AuthorizeTree implements SelfHandling
 {
 
     /**

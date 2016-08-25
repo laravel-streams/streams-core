@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Config\Repository;
 
 /**
@@ -13,7 +13,7 @@ use Illuminate\Contracts\Config\Repository;
  * @author        Ryan Thompson <ryan@pyrocms.com>
  * @package       Anomaly\Streams\Platform\Stream\Command
  */
-class MergeStreamConfig
+class MergeStreamConfig implements SelfHandling
 {
 
     /**

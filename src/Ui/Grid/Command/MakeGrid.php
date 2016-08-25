@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Grid\Command;
 
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class MakeGrid
@@ -11,7 +11,7 @@ use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Grid\Command
  */
-class MakeGrid
+class MakeGrid implements SelfHandling
 {
 
     /**

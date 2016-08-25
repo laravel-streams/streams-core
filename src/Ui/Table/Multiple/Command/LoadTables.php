@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class LoadTables
@@ -11,7 +11,7 @@ use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Multiple\Command
  */
-class LoadTables
+class LoadTables implements SelfHandling
 {
 
     /**

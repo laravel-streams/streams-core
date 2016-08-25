@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class MergeFields
@@ -13,7 +13,7 @@ use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Multiple\Command
  */
-class MergeFields
+class MergeFields implements SelfHandling
 {
 
     /**

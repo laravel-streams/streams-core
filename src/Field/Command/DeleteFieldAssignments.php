@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class DeleteFieldAssignments
@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Field\Command
  */
-class DeleteFieldAssignments
+class DeleteFieldAssignments implements SelfHandling
 {
 
     /**

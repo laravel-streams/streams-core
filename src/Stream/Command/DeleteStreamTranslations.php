@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Command;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class DeleteStreamTranslations
@@ -11,7 +11,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Stream\Command
  */
-class DeleteStreamTranslations
+class DeleteStreamTranslations implements SelfHandling
 {
 
     /**

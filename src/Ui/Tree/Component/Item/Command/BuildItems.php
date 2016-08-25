@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Tree\Component\Item\ItemBuilder;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class BuildItems
@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Tree\Component\Item\Command
  */
-class BuildItems
+class BuildItems implements SelfHandling
 {
 
     /**

@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterfa
 use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasInstalled;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Illuminate\Contracts\Console\Kernel;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
@@ -16,7 +16,7 @@ use Illuminate\Contracts\Events\Dispatcher;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Extension\Command
  */
-class InstallExtension
+class InstallExtension implements SelfHandling
 {
 
     /**

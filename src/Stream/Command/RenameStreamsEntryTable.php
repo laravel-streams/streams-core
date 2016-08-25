@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Anomaly\Streams\Platform\Stream\StreamSchema;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class RenameStreamsEntryTable
@@ -13,7 +13,7 @@ use Anomaly\Streams\Platform\Stream\StreamSchema;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Stream\Command
  */
-class RenameStreamsEntryTable
+class RenameStreamsEntryTable implements SelfHandling
 {
 
     /**

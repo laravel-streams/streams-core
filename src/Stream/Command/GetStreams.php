@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Command;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class GetStreams
@@ -11,7 +11,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
  * @author        Ryan Thompson <ryan@pyrocms.com>
  * @package       Anomaly\Streams\Platform\Stream\Command
  */
-class GetStreams
+class GetStreams implements SelfHandling
 {
 
     /**

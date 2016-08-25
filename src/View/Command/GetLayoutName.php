@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\View\Command;
 
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\View\Factory;
 
 /**
@@ -11,7 +11,7 @@ use Illuminate\Contracts\View\Factory;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\View\Command
  */
-class GetLayoutName
+class GetLayoutName implements SelfHandling
 {
 
     /**

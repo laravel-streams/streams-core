@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class ButtonHandler
@@ -11,7 +11,7 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  * @author        Ryan Thompson <ryan@pyrocms.com>
  * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button
  */
-class ButtonHandler
+class ButtonHandler implements SelfHandling
 {
 
     /**
