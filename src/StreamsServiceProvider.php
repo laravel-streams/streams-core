@@ -284,7 +284,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register(\Intervention\Image\ImageServiceProvider::class);
 
         if (env('APP_DEBUG')) {
-            $this->app->register('Barryvdh\Debugbar\ServiceProvider');
+            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
         }
 
         // Register bindings.

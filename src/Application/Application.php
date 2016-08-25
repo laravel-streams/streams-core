@@ -8,11 +8,9 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Application
  */
 class Application
 {
-
     use DispatchesJobs;
 
     /**
@@ -92,7 +90,7 @@ class Application
     /**
      * Get the storage path for the application.
      *
-     * @param string $path
+     * @param  string $path
      * @return string
      */
     public function getStoragePath($path = '')
@@ -103,7 +101,7 @@ class Application
     /**
      * Get the public assets path for the application.
      *
-     * @param string $path
+     * @param  string $path
      * @return string
      */
     public function getAssetsPath($path = '')
@@ -114,7 +112,7 @@ class Application
     /**
      * Get the resources path for the application.
      *
-     * @param string $path
+     * @param  string $path
      * @return string
      */
     public function getResourcesPath($path = '')
@@ -141,9 +139,7 @@ class Application
     public function locate()
     {
         if (app('db')->getSchemaBuilder()->hasTable('applications')) {
-
             if ($app = $this->applications->findByDomain(app('request')->root())) {
-
                 $this->installed = true;
                 $this->reference = $app->reference;
 

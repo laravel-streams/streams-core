@@ -255,20 +255,14 @@ class EloquentModel extends Model implements Arrayable
     }
 
     /**
-     * Get a new query builder for the model's table.
+     * Create a new Eloquent query builder for the model.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  \Illuminate\Database\Query\Builder           $query
+     * @return \Illuminate\Database\Eloquent\Builder|static
      */
-    public function newQuery()
+    public function newEloquentBuilder($query)
     {
-        $builder = new EloquentQueryBuilder($this->newBaseQueryBuilder());
-
-        // Once we have the query builders, we will set the model instances so the
-        // builder can easily access any information it may need from the model
-        // while it is constructing and executing various queries against it.
-        $builder->setModel($this)->with($this->with);
-
-        return $this->applyGlobalScopes($builder);
+        return new EloquentQueryBuilder($query);
     }
 
     /*

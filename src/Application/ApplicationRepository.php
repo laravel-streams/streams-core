@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Model\EloquentRepository;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Application
  */
 class ApplicationRepository extends EloquentRepository
 {
@@ -39,7 +38,7 @@ class ApplicationRepository extends EloquentRepository
     public function findByDomain($domain)
     {
         $domain = trim(str_replace(['http://', 'https://'], '', $domain), '/');
-
+        
         return $this->model
             ->leftJoin('applications_domains', 'applications.id', '=', 'applications_domains.application_id')
             ->where('applications.domain', $domain)
