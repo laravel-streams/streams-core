@@ -80,6 +80,16 @@ class Module extends Addon
     }
 
     /**
+     * Set the module's sections.
+     *
+     * @param $sections
+     */
+    public function setSections($sections)
+    {
+        $this->sections = $sections;
+    }
+
+    /**
      * Get the module's menu.
      *
      * @return array|string

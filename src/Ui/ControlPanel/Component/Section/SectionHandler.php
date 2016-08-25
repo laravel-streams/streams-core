@@ -59,16 +59,16 @@ class SectionHandler implements SelfHandling
         }
 
         /**
-         * Default to the module's sections.
-         */
-        $builder->setSections($sections = $module->getSections());
-
-        /**
          * If the module has a sections handler
          * let that HANDLE the sections.
          */
-        if (!$sections && class_exists($sections = get_class($module) . 'Sections')) {
+        if (class_exists($sections = get_class($module) . 'Sections')) {
             $this->resolver->resolve($sections . '@handle', compact('builder'));
         }
+
+        /**
+         * Then set the builders's sections from the module.
+         */
+        $builder->setSections($module->getSections());
     }
 }
