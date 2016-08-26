@@ -90,7 +90,7 @@ class ActionExecutor
         $handler = $action->getHandler();
 
         // Self handling implies @handle
-        if (is_string($handler) && !str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
+        if (is_string($handler) && !str_contains($handler, '@')) {
             $handler .= '@handle';
         }
 
@@ -113,11 +113,7 @@ class ActionExecutor
          * then call it using the IoC container.
          */
         if (is_string($handler) || $handler instanceof \Closure) {
-            if (is_string($handler) && class_exists($handler) && class_implements(
-                    $handler,
-                    'Illuminate\Contracts\Bus\SelfHandling'
-                )
-            ) {
+            if (is_string($handler) && class_exists($handler)) {
                 $handler .= '@handle';
             }
 

@@ -162,7 +162,7 @@ class FieldCollection extends Collection
     }
 
     /**
-     * Return non-SelfHandling fields.
+     * Return non-self handling fields.
      *
      * @return FieldCollection
      */
@@ -172,7 +172,7 @@ class FieldCollection extends Collection
 
         /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if (!$item->isDisabled() && !$item instanceof SelfHandling) {
+            if (!$item->isDisabled() && !method_exists($item, 'handle')) {
                 $allowed[] = $item;
             }
         }
@@ -181,7 +181,7 @@ class FieldCollection extends Collection
     }
 
     /**
-     * Return SelfHandling fields.
+     * Return self hanling fields.
      *
      * @return FieldCollection
      */
@@ -191,7 +191,7 @@ class FieldCollection extends Collection
 
         /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if ($item instanceof SelfHandling) {
+            if (method_exists($item, 'handle')) {
                 $selfHandling[] = $item;
             }
         }

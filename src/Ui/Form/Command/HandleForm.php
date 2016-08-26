@@ -43,7 +43,7 @@ class HandleForm
 
         $handler = $this->builder->getHandler();
 
-        if ($handler && !str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
+        if ($handler && !str_contains($handler, '@')) {
             $handler .= '@handle';
         }
 

@@ -13,7 +13,7 @@
 - [Table Models](#models)
 - [Table Repositories](#repositories)
 - [Including Assets](#including-assets)
-    
+
 <hr>
 
 <a name="introduction"></a>
@@ -28,11 +28,11 @@ To get started use `php artisan make:stream stream_slug vendor.module.slug` to c
 
     php artisan make:stream movies anomaly.module.tv
 
-You can create a table builder manually anywhere but for the sake of demonstration we will use the `Streams Workflow`. 
+You can create a table builder manually anywhere but for the sake of demonstration we will use the `Streams Workflow`.
 
 ##### Configuring the table
 
-Every component listed below with have at least a setter and a getter. Some components will have additional methods to insert one definition at a time. An IDE that suggests OOP methods is highly encouraged. 
+Every component listed below with have at least a setter and a getter. Some components will have additional methods to insert one definition at a time. An IDE that suggests OOP methods is highly encouraged.
 
     $builder
         ->setButtons(['edit'])
@@ -50,9 +50,9 @@ To render the table you simply need to return `render()` from your controller.
 The `build()` method will take the component definitions and build the table object and it's component objects.
 
     $builder->build();
-    
+
     $table = $builder->getTable();
-    
+
     foreach ($table->getRows() as $row) {
         foreach ($row->getColumns() as $column) {
             echo $column->getValue();
@@ -66,9 +66,9 @@ All the properties for the table builder except for the `$model` and the `$repos
 
     protected $columns = MyColumnsHandler::class
 
-Your `MyColumnsHandler` class should be `SelfHandling` since you did not include a `@method` in the handler.
+Your `MyColumnsHandler` should include a `@method` otherwise `@handle` is assumed.
 
-    class MyColumnsHandler implements SelfHandling
+    class MyColumnsHandler
     {
         public function handle(TableBuilder $builder)
         {
@@ -109,7 +109,7 @@ To specify filters from the entry stream being used simply include the filter sl
 ##### Defining manual filters
 
 You can also define filters manually.
- 
+
     protected $filters = [
         'title' => [
             'type' => 'text',
@@ -226,7 +226,7 @@ Just like other UI definitions you can override automation and defaults by inclu
 ##### Defining manual columns
 
 You can also define columns manually. Take a look at how the `FileTableBuilder` does it.
- 
+
     protected $columns = [
         'entry.preview' => [
             'heading' => 'anomaly.module.files::field.preview.name'
@@ -254,7 +254,7 @@ You can also define columns manually. Take a look at how the `FileTableBuilder` 
         'mime_type',
         'folder'
     ];
-    
+
 <div class="alert alert-primary">
 <strong>Pro Tip:</strong> Even automated stream columns can be completely overridden.
 </div>
@@ -323,7 +323,7 @@ Actions determine available mass actions for the table when 1 or more rows are s
 ##### Using registered actions
 
 There are a number of actions registered in the `Anomaly\Streams\Plattable\Ui\Table\Component\Action\ActionRegistry` class. To use any of these actions simply include their string slug.
- 
+
     protected $actions = [
         'delete',
     ];
@@ -357,7 +357,7 @@ Below is a list of all action specific definition properties available. Since ac
         <th>Description</th>
     </tr>
     <tr>
-        <td><code>slug</code> <span class="text-danger">*</span></td>
+        <td><code>slug</code> <span class="text-danger">\*</span></td>
         <td>The definition key.</td>
         <td>The action becomes the submit button's name.</td>
     </tr>
@@ -411,7 +411,7 @@ Registered actions can be found in `Anomaly\Streams\Plattable\Ui\Table\Component
 
 Below is an example of the action handler.
 
-    class ExampleHandler extends ActionHandler implements SelfHandling
+    class ExampleHandler extends ActionHandler
     {
 
         public function handle(ExampleTableBuilder $builder, array $selected)
@@ -440,7 +440,7 @@ Table options help configure the behavior in general of the table. Anything from
         'title' => 'My awesome table!',
         'table_view' => 'module::my/custom/table'
     ];
-    
+
 You can also set/add options from the API.
 
     $builder->addOption('title', 'Example Title');
@@ -456,7 +456,7 @@ Below is a list of all available options for tables.
         <th>Description</th>
     </tr>
     <tr>
-        <td><code>table_view</code> <span class="text-danger">*</span></td>
+        <td><code>table_view</code> <span class="text-danger">\*</span></td>
         <td>streams::table/table</td>
         <td>The table view is the primary table layout view.</td>
     </tr>
@@ -489,7 +489,7 @@ Ajax tables are designed to be included in a modal by default but you can config
 ## Table Models
 
 Table models are used to determine the table repository to use and provide the model for the system to use when creating and updating an entry.
- 
+
 Table models are guessed based on the table builders position first. If using `php artisan make:stream` the model does not need to be set.
 
 If an entry object is set the model will be pulled off of that next.

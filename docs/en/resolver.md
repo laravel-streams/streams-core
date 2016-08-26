@@ -30,7 +30,7 @@ Consider a field for a form that we want to use a handler for the default value:
 
 And the handler class could look like this:
 
-    class DefaultValueHandler implements SelfHandling
+    class DefaultValueHandler
     {
         public function handle(Request $request) {
             return $request->get('default', 'foo');

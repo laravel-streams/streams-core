@@ -45,7 +45,7 @@ class FilterQuery
          * If the filter is self handling then let
          * it filter the query itself.
          */
-        if ($filter instanceof SelfHandling) {
+        if (method_exists($filter, 'handle')) {
             $this->container->call([$filter, 'handle'], compact('builder', 'query', 'filter'));
 
             return;
@@ -54,7 +54,7 @@ class FilterQuery
         $handler = $filter->getQuery();
 
         // Self handling implies @handle
-        if (is_string($handler) && !str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
+        if (is_string($handler) && !str_contains($handler, '@')) {
             $handler .= '@handle';
         }
 

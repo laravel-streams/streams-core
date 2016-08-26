@@ -44,7 +44,7 @@ class ActionResponder
         $handler = $action->getHandler();
 
         // Self handling implies @handle
-        if (is_string($handler) && !str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
+        if (is_string($handler) && !str_contains($handler, '@')) {
             $handler .= '@handle';
         }
 

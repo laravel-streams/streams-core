@@ -42,7 +42,7 @@ class ValidateForm
         /*
          * If it's self handling just add @handle
          */
-        if ($validator && !str_contains($validator, '@') && class_implements($validator, SelfHandling::class)) {
+        if ($validator && !str_contains($validator, '@')) {
             $validator .= '@handle';
         }
 

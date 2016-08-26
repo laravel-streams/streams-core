@@ -80,7 +80,7 @@ trait FiresCallbacks
                 app()->call($callback, $parameters);
             }
 
-            if ($callback instanceof SelfHandling) {
+            if (method_exists($callback, 'handle')) {
                 app()->call([$callback, 'handle'], $parameters);
             }
         }
@@ -104,7 +104,7 @@ trait FiresCallbacks
                 app()->call($callback, $parameters);
             }
 
-            if ($callback instanceof SelfHandling) {
+            if (method_exists($callback, 'handle')) {
                 app()->call([$callback, 'handle'], $parameters);
             }
         }

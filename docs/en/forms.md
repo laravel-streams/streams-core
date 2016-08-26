@@ -16,13 +16,13 @@
 - [Form Repositories](#repositories)
 - [Including Assets](#including-assets)
 - [Read-only Forms](#readonly)
-    
+
 <hr>
 
 <a name="introduction"></a>
 ## Introduction
 
-Forms let you easily create and update stream entries. They can also be used without streams using regular Eloquent models or without any database backend at all as in an API powered form. 
+Forms let you easily create and update stream entries. They can also be used without streams using regular Eloquent models or without any database backend at all as in an API powered form.
 
 <a name="basic-usage"></a>
 ### Basic Usage
@@ -31,11 +31,11 @@ To get started use `php artisan make:stream stream_slug vendor.module.slug` to c
 
     php artisan make:stream movies anomaly.module.tv
 
-You can create a form builder manually anywhere but for the sake of demonstration we will use the `Streams Workflow`. 
+You can create a form builder manually anywhere but for the sake of demonstration we will use the `Streams Workflow`.
 
 ##### Configuring the form
 
-Every component listed below with have at least a setter and a getter. Some components will have additional methods to insert one definition at a time. An IDE that suggests OOP methods is highly encouraged. 
+Every component listed below with have at least a setter and a getter. Some components will have additional methods to insert one definition at a time. An IDE that suggests OOP methods is highly encouraged.
 
     $builder
         ->setActions(['save'])
@@ -53,9 +53,9 @@ To render the form you simply need to return `render()` from your controller. Yo
 The `build()` method will take the component definitions and build the form object and it's component objects. You can also pass along an optional entry `$id`.
 
     $builder->build();
-    
+
     $form = $builder->getForm();
-    
+
     foreach ($form->getFields() as $field) {
         if ($field->isRequired()) {
             echo "{$field->getInputName()} is required!";
@@ -69,9 +69,9 @@ All the properties for the form builder except for the `$model` and the `$reposi
 
     protected $fields = MyFieldsHandler::class
 
-Your `MyFieldsHandler` class should be `SelfHandling` since you did not include a `@method` in the handler.
+Your `MyFieldsHandler` class include a `@method` in the handler otherwise `@handle` is assumed.
 
-    class MyFieldsHandler implements SelfHandling
+    class MyFieldsHandler
     {
         public function handle(FormBuilder $builder)
         {
@@ -105,7 +105,7 @@ Most forms will either create or edit an entry. To create an entry simply exclud
 You can also set the actual object itself.
 
     $builder->setEntry($entry);
-    
+
 As a short cut you can also simply include an ID in the various build methods.
 
     $builder->build($id);
@@ -150,7 +150,7 @@ If you would like to include all default fields but make changes to only specifi
             'disabled' => true
         ],
     ];
-    
+
 <div class="alert alert-info">
 <strong>Note:</strong> Forms using streams without defined fields will default to all fields.
 </div>
@@ -158,7 +158,7 @@ If you would like to include all default fields but make changes to only specifi
 ##### Defining manual fields
 
 The `InstallerFormBuilder` is a great example of a form that both defines custom fields manually and does not use a database.
- 
+
     protected $fields = [
         'database_driver'       => [
             'label'        => 'anomaly.module.installer::field.database_driver.label',
@@ -185,9 +185,9 @@ The `InstallerFormBuilder` is a great example of a form that both defines custom
             ],
         ],
     ];
-    
+
 <div class="alert alert-primary">
-<strong>Pro Tip:</strong> Even automated stream fields can be completely overridden including the field type. 
+<strong>Pro Tip:</strong> Even automated stream fields can be completely overridden including the field type.
 </div>
 
 ##### Skipping fields
@@ -214,17 +214,17 @@ Custom validation required both the rule and the validator to be defined:
         ]
     ],
 
-Note the message is false because this rule will add it later if failed. You could also define a string or translation key. 
+Note the message is false because this rule will add it later if failed. You could also define a string or translation key.
 
 Now all that is left is to define your database validator. The validator is called from the service container and is passed the `$builder`.
 
     class DatabaseValidator
     {
-    
+
         public function handle(Repository $config, Request $request, Container $container, InstallerFormBuilder $builder)
         {
             $input = $request->all();
-    
+
             $config->set(
                 'database.connections.install',
                 [
@@ -238,20 +238,20 @@ Now all that is left is to define your database validator. The validator is call
                     'prefix'    => ''
                 ]
             );
-    
+
             try {
-    
+
                 $container->make('db')->connection('install');
-    
+
             } catch (\Exception $e) {
-    
+
                 $error = $e->getMessage();
-    
+
                 $builder->addFormError('database_driver', trans('module::message.database_error', compact('error')));
-    
+
                 return false;
             }
-    
+
             return true;
         }
     }
@@ -380,7 +380,7 @@ Sections help you organize your fields into different field groups.
 
 ##### Standard sections
 
-Standard sections simply stack fields on top of each other in a single group. 
+Standard sections simply stack fields on top of each other in a single group.
 
     protected $sections = [
         'database'      => [
@@ -533,7 +533,7 @@ Actions determine what your form does when submitted. Most actions assume the fo
 ##### Using registered actions
 
 There are a number of actions registered in the `Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionRegistry` class. To use any of these actions simply include their string slug.
- 
+
     protected $actions = [
         'save',
     ];
@@ -636,7 +636,7 @@ Form options help configure the behavior in general of the form. Anything from t
         'title' => 'My awesome form!',
         'form_view' => 'module::my/custom/form'
     ];
-    
+
 You can also set/add options from the API.
 
     $builder->addOption('url', 'http://domain.com/example/api');
@@ -693,15 +693,15 @@ Form handlers are responsible for handling the end result of the form. Generally
 
 The default form handler for example looks like this:
 
-    class FormHandler implements SelfHandling
+    class FormHandler
     {
-    
+
         public function handle(FormBuilder $builder)
         {
             if (!$builder->canSave()) {
                 return;
             }
-    
+
             $builder->saveForm();
         }
     }
@@ -710,19 +710,19 @@ The default form handler for example looks like this:
 
 You can use your own form handler by defining it in your form builder. Simply define the self handling class or a callable class string.
 
-    protected $handler = MyCustomHandler::class; // SelfHandling
-     
+    protected $handler = MyCustomHandler::class; // Assumes @handle
+
 Now in your form handler you can add your own logic.
 
-    class MyCustomHandler implements SelfHandling
+    class MyCustomHandler
     {
-    
+
         public function handle(MyCustomFormBuilder $builder)
         {
             if ($builder->hasFormErrors()) {
                 return; // We have errors..
             }
-            
+
             // Do lots of amazing stuff!
         }
     }
@@ -731,7 +731,7 @@ Now in your form handler you can add your own logic.
 ## Form Models
 
 Form models are used to determine the form repository to use and provide the model for the system to use when creating and updating an entry.
- 
+
 Form models are guessed based on the form builders position first. If using `php artisan make:stream` the model does not need to be set.
 
 If an entry object is set the model will be pulled off of that next.
