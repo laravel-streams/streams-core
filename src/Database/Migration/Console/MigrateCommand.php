@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\Command\GetAddon;
+use Anomaly\Streams\Platform\Database\Migration\Console\Command\SetAddonPath;
 use Symfony\Component\Console\Input\InputOption;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -14,30 +15,13 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
      */
     public function fire()
     {
-
-        /*
-         * Catch the addon flag in order to
-         * inject our addon layer behavior.
-         */
-        if ($identifier = $this->input->getOption('addon')) {
-
-            /*
-             * Make sure we have a valid addon to migrate.
-             *
-             * @var Addon $addon
-             */
-            if (!$addon = $this->dispatch(new GetAddon($identifier))) {
-                throw new \Exception("$identifier addon could not be found.");
-            }
-
-            $this->migrator->setAddon($addon);
-
-            /*
-             * Just set the path since
-             * Laravel bases on it anyways.
-             */
-            $this->input->setOption('path', $addon->getAppPath('migrations'));
-        }
+        $this->dispatch(
+            new SetAddonPath(
+                $this,
+                $this->input,
+                $this->migrator
+            )
+        );
 
         parent::fire();
     }

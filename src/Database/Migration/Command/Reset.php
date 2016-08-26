@@ -2,8 +2,11 @@
 
 use Illuminate\Cache\CacheManager;
 use Anomaly\Streams\Platform\Database\Migration\Migration;
+use Anomaly\Streams\Platform\Database\Migration\Field\FieldMigrator;
+use Anomaly\Streams\Platform\Database\Migration\Stream\StreamMigrator;
+use Anomaly\Streams\Platform\Database\Migration\Assignment\AssignmentMigrator;
 
-class Rollback
+class Reset
 {
 
     /**
@@ -37,9 +40,9 @@ class Rollback
         StreamMigrator $streams,
         AssignmentMigrator $assignments
     ) {
-        $assignments->rollback($this->migration);
-        $fields->rollback($this->migration);
-        $streams->rollback($this->migration);
+        $assignments->reset($this->migration);
+        $fields->reset($this->migration);
+        $streams->reset($this->migration);
 
         $cache->flush();
     }

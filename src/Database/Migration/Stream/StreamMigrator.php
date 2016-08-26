@@ -31,4 +31,14 @@ class StreamMigrator
     {
         //dd($migration->getStream());
     }
+    
+    /**
+     * Reset the migration.
+     *
+     * @param Migration $migration
+     */
+    public function reset(Migration $migration)
+    {
+        //dd($migration->getStream());
+    }
 }

@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Database\Migration\MigrationName;
 use Anomaly\Streams\Platform\Database\Migration\Command\Migrate;
-use Anomaly\Streams\Platform\Database\Migration\Command\Rollback;
+use Anomaly\Streams\Platform\Database\Migration\Command\Reset;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
 
@@ -17,6 +17,20 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
      * @var Addon
      */
     protected $addon  = null;
+
+    /**
+     * Rolls all of the currently applied migrations back.
+     *
+     * @param  array|string $paths
+     * @param  bool         $pretend
+     * @return array
+     */
+    public function reset($paths = [], $pretend = false)
+    {
+        $this->repository->setAddon($this->getAddon());
+
+        return parent::reset($paths, $pretend);
+    }
 
     /**
      * Run "up" a migration instance.
@@ -78,7 +92,7 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
             $migration->setAddon($addon);
         }
 
-        $this->dispatch(new Rollback($migration));
+        $this->dispatch(new Reset($migration));
 
         parent::runDown($file, $migration, $pretend);
     }
@@ -91,7 +105,11 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
      */
     public function resolve($file)
     {
-        return app((new MigrationName($file))->className());
+        $migration = app((new MigrationName($file))->className());
+
+        $migration->migration = (new MigrationName($file))->migration();
+
+        return $migration;
     }
 
     /**

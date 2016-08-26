@@ -61,4 +61,14 @@ class MigrationName
     {
         return studly_case(str_replace('.', '_', basename($this->withoutDatePrefix(), '.php')));
     }
+
+    /**
+     * Return the migration name for the migration file.
+     *
+     * @return string
+     */
+    public function migration()
+    {
+        return basename($this->file, '.php');
+    }
 }

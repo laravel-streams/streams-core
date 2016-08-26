@@ -44,4 +44,20 @@ class FieldMigrator
             $this->fields->create($field);
         }
     }
+
+    /**
+     * Reset the migration.
+     *
+     * @param Migration $migration
+     */
+    public function reset(Migration $migration)
+    {
+        $this->input->read($migration);
+
+        foreach ($migration->getFields() as $field) {
+            if ($field = $this->fields->findBySlugAndNamespace($field['slug'], $field['namespace'])) {
+                $this->fields->delete($field);
+            }
+        }
+    }
 }
