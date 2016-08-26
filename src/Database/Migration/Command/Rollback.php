@@ -1,14 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Command;
 
+use Illuminate\Cache\CacheManager;
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 
-/**
- * Class Rollback
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class Rollback
 {
 
@@ -30,12 +24,16 @@ class Rollback
     }
 
     /**
-     * Get the migration.
+     * Handle the command.
      *
-     * @return Migration
+     * @param CacheManager $cache
      */
-    public function getMigration()
+    public function handle(CacheManager $cache)
     {
-        return $this->migration;
+        $this->migration->unassignFields();
+        $this->migration->deleteStream();
+        $this->migration->deleteFields();
+
+        $cache->flush();
     }
 }

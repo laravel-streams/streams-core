@@ -1,12 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Command;
 
-/**
- * Class GetMigrationName
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
+use Anomaly\Streams\Platform\Addon\AddonCollection;
+
 class GetMigrationName
 {
 
@@ -37,22 +32,28 @@ class GetMigrationName
     }
 
     /**
-     * Get the name.
+     * Handle the command.
      *
+     * @param  AddonCollection $addons
      * @return string
      */
-    public function getName()
+    public function handle(AddonCollection $addons)
     {
-        return $this->name;
-    }
+        $name = $original = $this->name;
 
-    /**
-     * Get the namespace.
-     *
-     * @return string|null
-     */
-    public function getNamespace()
-    {
-        return $this->namespace;
+        if ($addon = $addons->get($this->namespace)) {
+            $name = "{$this->namespace}__{$original}";
+
+            // Append the package version if there is one.
+            if ($json = $addon->getComposerJson()) {
+                if (property_exists($json, 'version')) {
+                    $version = str_slug(str_replace(['.', '-'], '_', $json->version), '_');
+
+                    $name = "{$this->namespace}__{$version}__{$original}";
+                }
+            }
+        }
+
+        return $name;
     }
 }

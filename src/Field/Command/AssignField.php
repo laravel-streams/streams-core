@@ -2,14 +2,8 @@
 
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 
-/**
- * Class AutoAssignField
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class AssignField
 {
 
@@ -49,32 +43,13 @@ class AssignField
     }
 
     /**
-     * The assignment attributes.
+     * Handle the command.
      *
-     * @return array
+     * @param  AssignmentRepositoryInterface $assignments
+     * @return AssignmentInterface
      */
-    public function getAttributes()
+    public function handle(AssignmentRepositoryInterface $assignments)
     {
-        return $this->attributes;
-    }
-
-    /**
-     * Get the stream.
-     *
-     * @return StreamInterface
-     */
-    public function getStream()
-    {
-        return $this->stream;
-    }
-
-    /**
-     * Get the field.
-     *
-     * @return FieldInterface
-     */
-    public function getField()
-    {
-        return $this->field;
+        return $assignments->create($this->stream, $this->field, $this->attributes);
     }
 }

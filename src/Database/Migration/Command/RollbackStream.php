@@ -2,14 +2,8 @@
 
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 
-/**
- * Class RollbackStream
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class RollbackStream
 {
 
@@ -34,22 +28,29 @@ class RollbackStream
     }
 
     /**
-     * Get the migration.
+     * Handle the command.
      *
-     * @return Migration
+     * @param StreamRepositoryInterface $streams
      */
-    public function getMigration()
+    public function handle(StreamRepositoryInterface $streams)
     {
-        return $this->migration;
-    }
+        if (!$this->stream) {
+            return;
+        }
 
-    /**
-     * Get the stream.
-     *
-     * @return StreamInterface
-     */
-    public function getStream()
-    {
-        return $this->stream;
+        if (is_string($this->stream)) {
+            $stream = [
+                'slug' => $this->stream,
+            ];
+        }
+
+        $addon = $this->migration->getAddon();
+
+        $stream['slug']      = array_get($stream, 'slug', $addon ? $addon->getSlug() : null);
+        $stream['namespace'] = array_get($stream, 'namespace', $addon ? $addon->getSlug() : null);
+
+        if ($stream = $streams->findBySlugAndNamespace($stream['slug'], $stream['namespace'])) {
+            $streams->delete($stream);
+        }
     }
 }

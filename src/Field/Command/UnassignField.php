@@ -41,22 +41,14 @@ class UnassignField
     }
 
     /**
-     * Get the field.
+     * Handle the command.
      *
-     * @return FieldInterface
+     * @param AssignmentRepositoryInterface $assignments
      */
-    public function getField()
+    public function handle(AssignmentRepositoryInterface $assignments)
     {
-        return $this->field;
-    }
-
-    /**
-     * Get the stream.
-     *
-     * @return StreamInterface
-     */
-    public function getStream()
-    {
-        return $this->stream;
+        if ($assignment = $assignments->findByStreamAndField($this->stream, $this->field)) {
+            $assignments->delete($assignment);
+        }
     }
 }
