@@ -3,13 +3,6 @@
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Migrations\DatabaseMigrationRepository;
 
-/**
- * Class MigrationRepository
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class MigrationRepository extends DatabaseMigrationRepository
 {
 

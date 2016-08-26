@@ -1,87 +1,45 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Console;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Database\Migration\Migrator;
-use Illuminate\Foundation\Bus\DispatchesJobs;
+use Anomaly\Streams\Platform\Addon\Command\GetAddon;
 use Symfony\Component\Console\Input\InputOption;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
-/**
- * Class MigrateCommand
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateCommand
 {
     use DispatchesJobs;
 
     /**
-     * The migrator utility.
-     *
-     * @var Migrator
-     */
-    protected $migrator;
-
-    /**
      * Execute the console command.
-     *
-     * @return void
      */
     public function fire()
     {
-        if (!$this->input->getOption('no-addons') && !$this->input->getOption('path')) {
-            $this->prepareDatabase();
 
-            $addons = app('Anomaly\Streams\Platform\Addon\AddonCollection');
+        /*
+         * Catch the addon flag in order to
+         * inject our addon layer behavior.
+         */
+        if ($identifier = $this->input->getOption('addon')) {
 
-            if ($namespaces = $this->input->getOption('addon')) {
-                $namespaces = explode(',', $namespaces);
-
-                $addons = $addons->filter(
-                    function (Addon $addon) use ($namespaces) {
-                        return in_array($addon->getNamespace(), $namespaces) || in_array(
-                            $addon->getSlug(),
-                            $namespaces
-                        );
-                    }
-                );
+            /*
+             * Make sure we have a valid addon to migrate.
+             *
+             * @var Addon $addon
+             */
+            if (!$addon = $this->dispatch(new GetAddon($identifier))) {
+                throw new \Exception("$identifier addon could not be found.");
             }
 
-            // The pretend option can be used for "simulating" the migration and grabbing
-            // the SQL queries that would fire if the migration were to be run against
-            // a database for real, which is helpful for double checking migrations.
-            $pretend = $this->input->getOption('pretend');
+            $this->migrator->setAddon($addon);
 
-            /** @var Addon $addon */
-            foreach ($addons as $addon) {
-                $this->migrator->setNamespace($addon->getNamespace())->run($addon->getPath('migrations'), $pretend);
-
-                // Finally, if the "seed" option has been given, we will re-run the database
-                // seed task to re-populate the database, which is convenient when adding
-                // a migration and a seed at the same time, as it is only this command.
-                if ($this->input->getOption('seed')) {
-                    $this->call(
-                        'db:seed',
-                        [
-                            '--addon' => $addon->getNamespace(),
-                            '--force' => true,
-                        ]
-                    );
-                }
-
-                // Once the migrator has run we will grab the note output and send it out to
-                // the console screen, since the migrator itself functions without having
-                // any instances of the OutputInterface contract passed into the class.
-                foreach ($this->migrator->getNotes() as $note) {
-                    $this->output->writeln($note);
-                }
-            }
-        } else {
-            $this->migrator->setNamespace('laravel');
-
-            parent::fire();
+            /*
+             * Just set the path since
+             * Laravel bases on it anyways.
+             */
+            $this->input->setOption('path', $addon->getAppPath('migrations'));
         }
+
+        parent::fire();
     }
 
     /**
@@ -95,7 +53,6 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
             parent::getOptions(),
             [
                 ['addon', null, InputOption::VALUE_OPTIONAL, 'The addon to migrate.'],
-                ['no-addons', null, InputOption::VALUE_NONE, 'Don\'t run addon migrations, only laravel migrations.'],
             ]
         );
     }

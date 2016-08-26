@@ -6,20 +6,11 @@ use Anomaly\Streams\Platform\Database\Migration\Console\RefreshCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\ResetCommand;
 use Illuminate\Database\MigrationServiceProvider as BaseMigrationServiceProvider;
 
-/**
- * Class MigrationServiceProvider
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class MigrationServiceProvider extends BaseMigrationServiceProvider
 {
 
     /**
      * Register the migration repository service.
-     *
-     * @return void
      */
     protected function registerRepository()
     {

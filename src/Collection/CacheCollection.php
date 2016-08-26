@@ -103,8 +103,9 @@ class CacheCollection extends Collection
      * Return only unique items from the collection array.
      *
      * @param null $key
+     * @param bool $strict
      */
-    public function unique($key = null)
+    public function unique($key = null, $strict = false)
     {
         $this->items = array_unique($this->items);
 

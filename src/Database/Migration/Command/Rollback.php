@@ -26,13 +26,20 @@ class Rollback
     /**
      * Handle the command.
      *
-     * @param CacheManager $cache
+     * @param CacheManager       $cache
+     * @param FieldMigrator      $fields
+     * @param StreamMigrator     $streams
+     * @param AssignmentMigrator $assignments
      */
-    public function handle(CacheManager $cache)
-    {
-        $this->migration->unassignFields();
-        $this->migration->deleteStream();
-        $this->migration->deleteFields();
+    public function handle(
+        CacheManager $cache,
+        FieldMigrator $fields,
+        StreamMigrator $streams,
+        AssignmentMigrator $assignments
+    ) {
+        $assignments->rollback($this->migration);
+        $fields->rollback($this->migration);
+        $streams->rollback($this->migration);
 
         $cache->flush();
     }
