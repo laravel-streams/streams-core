@@ -41,7 +41,11 @@ class FieldMigrator
         $this->input->read($migration);
 
         foreach ($migration->getFields() as $field) {
-            $this->fields->create($field);
+            try {
+                $this->fields->create($field);
+            } catch (\Exception $e) {
+                // Shhh..
+            }
         }
     }
 

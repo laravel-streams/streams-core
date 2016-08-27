@@ -1,10 +1,18 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Stream;
 
 use Anomaly\Streams\Platform\Database\Migration\Migration;
+use Anomaly\Streams\Platform\Database\Migration\Stream\StreamInput;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 
 class StreamMigrator
 {
+    /**
+     * The stream input reader.
+     *
+     * @var StreamInput
+     */
+    protected $input;
+
     /**
      * The stream repository.
      *
@@ -17,8 +25,9 @@ class StreamMigrator
      *
      * @param StreamRepositoryInterface $streams
      */
-    public function __construct(StreamRepositoryInterface $streams)
+    public function __construct(StreamInput $input, StreamRepositoryInterface $streams)
     {
+        $this->input   = $input;
         $this->streams = $streams;
     }
 
@@ -29,9 +38,15 @@ class StreamMigrator
      */
     public function migrate(Migration $migration)
     {
-        //dd($migration->getStream());
+        $this->input->read($migration);
+
+        try {
+            $this->streams->create($migration->getStream());
+        } catch (\Exception $e) {
+            // Shhhh...
+        }
     }
-    
+
     /**
      * Reset the migration.
      *
@@ -39,6 +54,14 @@ class StreamMigrator
      */
     public function reset(Migration $migration)
     {
-        //dd($migration->getStream());
+        $this->input->read($migration);
+
+        if (!$stream = $migration->getStream()) {
+            return;
+        }
+
+        if ($stream = $this->streams->findBySlugAndNamespace($stream['slug'], $stream['namespace'])) {
+            $this->streams->delete($stream);
+        }
     }
 }

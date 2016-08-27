@@ -1,27 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Console;
 
-use Anomaly\Streams\Platform\Database\Migration\Migrator;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
+use Anomaly\Streams\Platform\Database\Migration\Console\Command\SetAddonPath;
 
-/**
- * Class RefreshCommand
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class RefreshCommand extends \Illuminate\Database\Console\Migrations\RefreshCommand
 {
-
-    /**
-     * The migrator utility.
-     *
-     * @var Migrator
-     */
-    protected $migrator;
+    use DispatchesJobs;
 
     /**
      * Execute the console command.
+     * This is an exact copy of the base command
+     * except that it includes the --addon option.
      *
      * @return void
      */
@@ -31,46 +21,38 @@ class RefreshCommand extends \Illuminate\Database\Console\Migrations\RefreshComm
             return;
         }
 
+        $path     = $this->input->getOption('path');
         $addon    = $this->input->getOption('addon');
         $force    = $this->input->getOption('force');
         $database = $this->input->getOption('database');
-        $noAddons = $this->input->getOption('no-addons');
 
-        $this->call(
-            'migrate:reset',
-            [
-                '--database'  => $database,
-                '--force'     => $force,
-                '--addon'     => $addon,
-                '--no-addons' => $noAddons,
-            ]
-        );
+        // If the "step" option is specified it means we only want to rollback a small
+        // number of migrations before migrating again. For example, the user might
+        // only rollback and remigrate the latest four migrations instead of all.
+        $step = $this->input->getOption('step', $addon) ?: 0;
 
-        // House keeping!
-        $this->call('streams:cleanup');
+        if ($step > 0) {
+            $this->call('migrate:rollback', [
+                '--database' => $database, '--addon' => $addon, '--force' => $force, '--step' => $step,
+            ]);
+        } else {
+            $this->call('migrate:reset', [
+                '--database' => $database, '--addon' => $addon, '--force' => $force,
+            ]);
+        }
 
         // The refresh command is essentially just a brief aggregate of a few other of
         // the migration commands and just provides a convenient wrapper to execute
         // them in succession. We'll also see if we need to re-seed the database.
-        $this->call(
-            'migrate',
-            [
-                '--database'  => $database,
-                '--force'     => $force,
-                '--addon'     => $addon,
-                '--no-addons' => $noAddons,
-            ]
-        );
+        $this->call('migrate', [
+            '--database' => $database,
+            '--addon'    => $addon,
+            '--force'    => $force,
+            '--path'     => $path,
+        ]);
 
-        if ($this->input->getOption('seed')) {
-            $this->call(
-                'db:seed',
-                [
-                    '--database' => $database,
-                    '--force'    => $force,
-                    '--addon'    => $addon,
-                ]
-            );
+        if ($this->needsSeeding()) {
+            $this->runSeeder($database);
         }
     }
 
@@ -85,7 +67,6 @@ class RefreshCommand extends \Illuminate\Database\Console\Migrations\RefreshComm
             parent::getOptions(),
             [
                 ['addon', null, InputOption::VALUE_OPTIONAL, 'The addon to reset migrations.'],
-                ['no-addons', null, InputOption::VALUE_NONE, 'Don\'t run addon migrations, only laravel migrations.'],
             ]
         );
     }

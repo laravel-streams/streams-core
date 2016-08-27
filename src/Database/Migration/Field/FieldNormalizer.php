@@ -36,7 +36,7 @@ class FieldNormalizer
         foreach ($fields as $slug => &$field) {
 
             /*
-             * if the field is a simple string then
+             * If the field is a simple string then
              * the $slug is used as is and the field
              * must be the field type.
              */

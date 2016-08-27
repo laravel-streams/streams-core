@@ -1,10 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Console;
 
-use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Addon\Command\GetAddon;
-use Anomaly\Streams\Platform\Database\Migration\Console\Command\SetAddonPath;
-use Symfony\Component\Console\Input\InputOption;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Symfony\Component\Console\Input\InputOption;
+use Anomaly\Streams\Platform\Database\Migration\Console\Command\SetAddonPath;
 
 class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateCommand
 {

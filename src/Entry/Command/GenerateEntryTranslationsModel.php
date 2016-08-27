@@ -2,20 +2,13 @@
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
-/**
- * Class GenerateEntryTranslationsModel
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- */
 class GenerateEntryTranslationsModel
 {
 
     /**
      * The stream interface.
      *
-     * @var \Anomaly\Streams\Platform\Stream\Contract\StreamInterface
+     * @var StreamInterface
      */
     protected $stream;
 
@@ -30,12 +23,40 @@ class GenerateEntryTranslationsModel
     }
 
     /**
-     * Get the stream interface.
+     * Create a new GenerateEntryTranslationsModelHandler instance.
      *
-     * @return StreamInterface
+     * @param Parser      $parser
+     * @param Application $application
      */
-    public function getStream()
+    public function __construct(Parser $parser, Application $application)
     {
-        return $this->stream;
+        $this->parser      = $parser;
+        $this->application = $application;
+    }
+
+    /**
+     * Handle the command.
+     *
+     * @param GenerateEntryTranslationsModel $command
+     */
+    public function handle(GenerateEntryTranslationsModel $command)
+    {
+        $data = [
+            'namespace' => (new EntryNamespaceParser())->parse($this->stream),
+            'class'     => (new EntryTranslationsClassParser())->parse($this->stream),
+            'table'     => (new EntryTranslationsTableParser())->parse($this->stream),
+        ];
+
+        $template = file_get_contents(__DIR__ . '/../../../resources/stubs/models/translation.stub');
+
+        $path = $this->application->getStoragePath('models/' . studly_case($this->stream->getNamespace()));
+
+        $path .= '/' . studly_case($this->stream->getNamespace()) . studly_case($this->stream->getSlug());
+
+        $file = $path . 'EntryTranslationsModel.php';
+
+        @unlink($file); // Don't judge me..
+
+        file_put_contents($file, $this->parser->parse($template, $data));
     }
 }
