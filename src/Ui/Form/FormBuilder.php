@@ -1039,7 +1039,7 @@ class FormBuilder
             function ($slug) use ($prefix) {
                 return $prefix . $slug;
             },
-            array_unique($fields->lists('field')->all())
+            array_unique($fields->pluck('field')->all())
         );
     }
 
@@ -1052,7 +1052,7 @@ class FormBuilder
     {
         $fields = $this->form->getFields();
 
-        return $fields->lists('field_name')->all();
+        return $fields->pluck('field_name')->all();
     }
 
     /**

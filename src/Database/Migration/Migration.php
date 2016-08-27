@@ -1,26 +1,21 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Database\Migration\Command\GetAddonFromMigration;
-use Anomaly\Streams\Platform\Database\Migration\Command\MigrateAssignments;
-use Anomaly\Streams\Platform\Database\Migration\Command\MigrateFields;
-use Anomaly\Streams\Platform\Database\Migration\Command\MigrateStream;
-use Anomaly\Streams\Platform\Database\Migration\Command\RollbackAssignments;
-use Anomaly\Streams\Platform\Database\Migration\Command\RollbackFields;
-use Anomaly\Streams\Platform\Database\Migration\Command\RollbackStream;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
-/**
- * Class Migration
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 abstract class Migration extends \Illuminate\Database\Migrations\Migration
 {
     use DispatchesJobs;
+
+    /**
+     * The addon instance.
+     *
+     * This is set by the migrator when
+     * an addon is being migrated.
+     *
+     * @var Addon
+     */
+    protected $addon = null;
 
     /**
      * The stream namespace.
@@ -58,83 +53,35 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     protected $delete = true;
 
     /**
-     * Create fields.
+     * Return the migration namespace.
      *
-     * @param  array       $fields
-     * @param  string|null $namespace
-     * @return array
+     * @return string
      */
-    public function createFields(array $fields = [], $namespace = null)
+    public function namespace()
     {
-        return $this->dispatch(new MigrateFields($this, $fields, $namespace));
+        return $this->getNamespace() ?: $this->addon->getSlug();
     }
 
     /**
-     * Delete fields.
+     * Set the addon.
      *
-     * @param  array       $fields
-     * @param  null|string $namespace
-     * @return mixed
+     * @param Addon $addon
      */
-    public function deleteFields(array $fields = [], $namespace = null)
+    public function setAddon(Addon $addon)
     {
-        return $this->dispatch(new RollbackFields($this, $fields, $namespace));
+        $this->addon = $addon;
+
+        return $this;
     }
 
     /**
-     * Create a stream.
+     * Get the addon.
      *
-     * @param  StreamInterface $stream
-     * @return StreamInterface
-     */
-    public function createStream(StreamInterface $stream = null)
-    {
-        return $this->dispatch(new MigrateStream($this, $stream));
-    }
-
-    /**
-     * Delete a stream.
-     *
-     * @param  string $namespace
-     * @param  string $stream
-     * @return mixed
-     */
-    public function deleteStream($namespace = null, $stream = null)
-    {
-        return $this->delete ? $this->dispatch(new RollbackStream($this, $namespace, $stream)) : false;
-    }
-
-    /**
-     * Assign fields to a stream.
-     *
-     * @param  array           $fields
-     * @param  StreamInterface $stream
-     * @return mixed
-     */
-    public function assignFields(array $fields = [], StreamInterface $stream = null)
-    {
-        return $this->dispatch(new MigrateAssignments($this, $fields, $stream));
-    }
-
-    /**
-     * Unassign fields from a stream.
-     *
-     * @param array           $fields
-     * @param StreamInterface $stream
-     */
-    public function unassignFields(array $fields = [], StreamInterface $stream = null)
-    {
-        $this->dispatch(new RollbackAssignments($this, $fields, $stream));
-    }
-
-    /**
-     * Get addon from the migration name.
-     *
-     * @return Addon|null
+     * @return Addon
      */
     public function getAddon()
     {
-        return $this->dispatch(new GetAddonFromMigration($this));
+        return $this->addon;
     }
 
     /**
@@ -148,6 +95,19 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     }
 
     /**
+     * Set the fields.
+     *
+     * @param  array $fields
+     * @return $this
+     */
+    public function setFields(array $fields)
+    {
+        $this->fields = $fields;
+
+        return $this;
+    }
+
+    /**
      * Get the fields.
      *
      * @return array
@@ -158,6 +118,19 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     }
 
     /**
+     * Set the stream.
+     *
+     * @param  array $stream
+     * @return $this
+     */
+    public function setStream(array $stream)
+    {
+        $this->stream = $stream;
+
+        return $this;
+    }
+
+    /**
      * Get the stream.
      *
      * @return array
@@ -165,6 +138,19 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     public function getStream()
     {
         return $this->stream;
+    }
+
+    /**
+     * Set the assignments.
+     *
+     * @param  array $assignments
+     * @return $this
+     */
+    public function setAssignments(array $assignments)
+    {
+        $this->assignments = $assignments;
+
+        return $this;
     }
 
     /**

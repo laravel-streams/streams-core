@@ -4,13 +4,6 @@ use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
-/**
- * Class ModuleModel
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- */
 class ModuleModel extends EloquentModel implements ModuleInterface
 {
 
@@ -77,7 +70,7 @@ class ModuleModel extends EloquentModel implements ModuleInterface
      */
     public function getEnabledNamespaces()
     {
-        return $this->where('installed', true)->where('enabled', true)->get()->lists('namespace');
+        return $this->where('installed', true)->where('enabled', true)->get()->pluck('namespace');
     }
 
     /**
@@ -87,7 +80,7 @@ class ModuleModel extends EloquentModel implements ModuleInterface
      */
     public function getInstalledNamespaces()
     {
-        return $this->where('installed', true)->get()->lists('namespace');
+        return $this->where('installed', true)->get()->pluck('namespace');
     }
 
     /**

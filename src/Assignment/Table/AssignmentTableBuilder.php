@@ -112,8 +112,8 @@ class AssignmentTableBuilder extends TableBuilder
      */
     public function onQuerying(Builder $query)
     {
-        $locked      = $this->stream->getAssignments()->locked()->lists('id')->all();
-        $assignments = $this->stream->getAssignments()->withFields($this->getOption('skip', []))->lists('id')->all();
+        $locked      = $this->stream->getAssignments()->locked()->pluck('id')->all();
+        $assignments = $this->stream->getAssignments()->withFields($this->getOption('skip', []))->pluck('id')->all();
 
         $query->where('stream_id', $this->stream->getId())->whereNotIn('id', array_merge($locked, $assignments));
     }

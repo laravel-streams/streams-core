@@ -7,13 +7,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Robbo\Presenter\PresentableInterface;
 use Robbo\Presenter\Presenter;
 
-/**
- * Class Addon
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- */
 class Addon implements PresentableInterface, Arrayable
 {
     use FiresCallbacks;
@@ -257,7 +250,7 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function getAppPath($path = null)
     {
-        return str_replace(base_path(), '', $this->getPath($path));
+        return ltrim(str_replace(base_path(), '', $this->getPath($path)), DIRECTORY_SEPARATOR);
     }
 
     /**

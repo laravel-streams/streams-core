@@ -94,7 +94,7 @@ class Install extends Command
             new Installer(
                 'streams::installer.running_migrations',
                 function (Kernel $console) {
-                    $console->call('migrate', ['--force' => true, '--no-addons' => true]);
+                    $console->call('migrate', ['--force' => true]);
                 }
             )
         );

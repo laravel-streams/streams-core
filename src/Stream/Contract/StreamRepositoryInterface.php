@@ -4,13 +4,6 @@ use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Stream\StreamCollection;
 
-/**
- * Interface StreamRepositoryInterface
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- */
 interface StreamRepositoryInterface extends EloquentRepositoryInterface
 {
 
