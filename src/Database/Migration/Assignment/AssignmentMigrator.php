@@ -61,7 +61,10 @@ class AssignmentMigrator
     {
         $this->input->read($migration);
 
-        $stream      = $migration->getStream();
+        if (!$stream = $migration->getStream()) {
+            return;
+        }
+
         $assignments = $migration->getAssignments();
 
         $stream = $this->streams->findBySlugAndNamespace(
@@ -80,7 +83,7 @@ class AssignmentMigrator
 
             $assignment['field']  = $field;
             $assignment['stream'] = $stream;
-            
+
             try {
                 $this->assignments->create($assignment);
             } catch (\Exception $e) {
@@ -98,7 +101,10 @@ class AssignmentMigrator
     {
         $this->input->read($migration);
 
-        $stream      = $migration->getStream();
+        if (!$stream = $migration->getStream()) {
+            return;
+        }
+        
         $assignments = $migration->getAssignments();
 
         $stream = $this->streams->findBySlugAndNamespace(

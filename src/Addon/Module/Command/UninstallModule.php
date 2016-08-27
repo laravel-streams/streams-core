@@ -6,13 +6,6 @@ use Anomaly\Streams\Platform\Addon\Module\Module;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Events\Dispatcher;
 
-/**
- * Class UninstallModule
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- */
 class UninstallModule
 {
 

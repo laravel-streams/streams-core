@@ -6,13 +6,6 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleManager;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 
-/**
- * Class Uninstall
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class Uninstall extends Command
 {
 

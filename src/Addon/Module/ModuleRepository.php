@@ -2,13 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 
-/**
- * Class ModuleRepository
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- */
 class ModuleRepository implements ModuleRepositoryInterface
 {
 
@@ -81,7 +74,9 @@ class ModuleRepository implements ModuleRepositoryInterface
      */
     public function install(Module $module)
     {
-        $module = $this->model->findByNamespaceOrNew($module->getNamespace());
+        if (!$module = $this->model->findByNamespaceOrNew($module->getNamespace())) {
+            return false;
+        }
 
         $module->installed = true;
         $module->enabled   = true;
@@ -97,7 +92,9 @@ class ModuleRepository implements ModuleRepositoryInterface
      */
     public function uninstall(Module $module)
     {
-        $module = $this->model->findByNamespace($module->getNamespace());
+        if (!$module = $this->model->findByNamespace($module->getNamespace())) {
+            return false;
+        }
 
         $module->installed = false;
         $module->enabled   = false;

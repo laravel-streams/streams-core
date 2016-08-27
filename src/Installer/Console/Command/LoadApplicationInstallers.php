@@ -43,9 +43,8 @@ class LoadApplicationInstallers
                     $console->call(
                         'migrate',
                         [
-                            '--force'     => true,
-                            '--no-addons' => true,
-                            '--path'      => 'vendor/anomaly/streams-platform/migrations/application',
+                            '--force' => true,
+                            '--path'  => 'vendor/anomaly/streams-platform/migrations/application',
                         ]
                     );
                 }

@@ -2,13 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface;
 
-/**
- * Class ExtensionRepository
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- */
 class ExtensionRepository implements ExtensionRepositoryInterface
 {
 
@@ -64,7 +57,9 @@ class ExtensionRepository implements ExtensionRepositoryInterface
      */
     public function delete(Extension $extension)
     {
-        $extension = $this->model->findByNamespace($extension->getNamespace());
+        if (!$extension = $this->model->findByNamespace($extension->getNamespace())) {
+            return false;
+        }
 
         if ($extension) {
             $extension->delete();
@@ -81,7 +76,9 @@ class ExtensionRepository implements ExtensionRepositoryInterface
      */
     public function install(Extension $extension)
     {
-        $extension = $this->model->findByNamespaceOrNew($extension->getNamespace());
+        if (!$extension = $this->model->findByNamespaceOrNew($extension->getNamespace())) {
+            return false;
+        }
 
         $extension->installed = true;
         $extension->enabled   = true;
