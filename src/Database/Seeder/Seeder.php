@@ -1,18 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Database\Seeder;
 
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
-use Illuminate\Database\Seeder as BaseSeeder;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 
-/**
- * Class Seeder
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
-class Seeder extends BaseSeeder
+class Seeder extends \Illuminate\Database\Seeder
 {
 
     /**
@@ -37,14 +29,6 @@ class Seeder extends BaseSeeder
     protected $assignments;
 
     /**
-     * The environment this seeder
-     * applies too if any.
-     *
-     * @var string
-     */
-    protected $env = null;
-
-    /**
      * Create a new Seeder instance.
      */
     public function __construct()
@@ -55,35 +39,10 @@ class Seeder extends BaseSeeder
     }
 
     /**
-     * Seed the given connection from the given path.
-     *
-     * @param string $class
-     *
-     * @return void
+     * Run the seeder.
      */
-    public function call($class)
+    public function run()
     {
-        /** @var Seeder $seeder */
-        $seeder = $this->resolve($class);
-        $env    = method_exists($seeder, 'isEnvironment') ? $seeder->isEnvironment() : null;
-
-        $seeder->setCommand($this->command);
-
-        if ($env !== false) {
-            $seeder->run();
-        }
-
-        $this->command->getOutput()->writeln("<info>Seeded:</info> $class");
-    }
-
-    /**
-     * Return whether the seeder applies to
-     * the current environment or not.
-     *
-     * @return bool|null
-     */
-    public function isEnvironment()
-    {
-        return $this->env ? ($this->env === env('APP_ENV')) : null;
+        # code...
     }
 }

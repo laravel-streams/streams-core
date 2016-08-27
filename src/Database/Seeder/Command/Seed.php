@@ -1,9 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Database\Seeder\Command;
 
-use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Model;
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Support\Presenter;
+use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Anomaly\Streams\Platform\Database\Seeder\Seeder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Console\Command;
 
 class Seed
 {

@@ -67,7 +67,7 @@ class TranslationGuesser
         $assignments = $migration->getAssignments();
 
         foreach ($assignments as &$assignment) {
-            foreach (['name', 'warning', 'instructions'] as $key) {
+            foreach (['label', 'warning', 'instructions', 'placeholder'] as $key) {
                 if (!array_get($assignment, $locale . '.' . $key)) {
                     $assignment = array_add(
                         $assignment,

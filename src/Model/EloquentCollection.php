@@ -12,7 +12,7 @@ class EloquentCollection extends Collection
      */
     public function ids()
     {
-        return $this->lists('id')->all();
+        return $this->pluck('id')->all();
     }
 
     /**

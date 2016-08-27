@@ -40,10 +40,12 @@ class StreamMigrator
     {
         $this->input->read($migration);
 
-        try {
+        if (!$stream = $migration->getStream()) {
+            return;
+        }
+
+        if (!$this->streams->findBySlugAndNamespace($stream['slug'], $stream['namespace'])) {
             $this->streams->create($migration->getStream());
-        } catch (\Exception $e) {
-            // Shhhh...
         }
     }
 

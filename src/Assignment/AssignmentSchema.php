@@ -5,13 +5,6 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
-/**
- * Class AssignmentSchema
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- */
 class AssignmentSchema
 {
 

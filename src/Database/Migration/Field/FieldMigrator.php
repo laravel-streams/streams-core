@@ -41,10 +41,8 @@ class FieldMigrator
         $this->input->read($migration);
 
         foreach ($migration->getFields() as $field) {
-            try {
+            if (!$this->fields->findBySlugAndNamespace($field['slug'], $field['namespace'])) {
                 $this->fields->create($field);
-            } catch (\Exception $e) {
-                // Shhh..
             }
         }
     }

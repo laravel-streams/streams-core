@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Assignment;
 
+use Anomaly\Streams\Platform\Field\FieldInterface;
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
@@ -77,18 +78,29 @@ class AssignmentMigrator
         }
 
         foreach ($assignments as $assignment) {
+
+            /*
+             * Make sure that we can find the
+             * field before we try assigning it.
+             *
+             * @var FieldInterface
+             */
             if (!$field = $this->fields->findBySlugAndNamespace($assignment['field'], $stream->getNamespace())) {
-                return;
+                continue;
             }
 
             $assignment['field']  = $field;
             $assignment['stream'] = $stream;
 
-            try {
-                $this->assignments->create($assignment);
-            } catch (\Exception $e) {
-                // Shhhh..
+            /*
+             * Check if the field is already
+             * assigned to the stream first.
+             */
+            if ($this->assignments->findByStreamAndField($stream, $field)) {
+                continue;
             }
+
+            $this->assignments->create($assignment);
         }
     }
 
@@ -104,7 +116,7 @@ class AssignmentMigrator
         if (!$stream = $migration->getStream()) {
             return;
         }
-        
+
         $assignments = $migration->getAssignments();
 
         $stream = $this->streams->findBySlugAndNamespace(
@@ -117,13 +129,26 @@ class AssignmentMigrator
         }
 
         foreach ($assignments as $assignment) {
+
+            /*
+             * If there is no field to be
+             * found then the assignment
+             * needs to be cleaned out.
+             *
+             * @var FieldInterface
+             */
             if (!$field = $this->fields->findBySlugAndNamespace($assignment['field'], $stream->getNamespace())) {
-                return;
+                continue;
             }
 
             $assignment['field']  = $field;
             $assignment['stream'] = $stream;
 
+            /*
+             * Check if the field is already
+             * assigned to the stream and
+             * then go ahead and delete.
+             */
             if ($assignment = $this->assignments->findByStreamAndField($stream, $field)) {
                 $this->assignments->delete($assignment);
             }
