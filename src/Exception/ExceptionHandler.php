@@ -6,13 +6,6 @@ use Illuminate\Http\Response;
 use Symfony\Component\Debug\ExceptionHandler as SymfonyDisplayer;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-/**
- * Class ExceptionHandler
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class ExceptionHandler extends \Illuminate\Foundation\Exceptions\Handler
 {
 

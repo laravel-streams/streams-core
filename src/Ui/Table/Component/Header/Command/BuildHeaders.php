@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\Header\HeaderBuilder;
 
 /**
  * Class BuildHeaders
@@ -30,12 +31,12 @@ class BuildHeaders
     }
 
     /**
-     * Get the table builder.
+     * Handle the command
      *
-     * @return TableBuilder
+     * @param HeaderBuilder $builder
      */
-    public function getBuilder()
+    public function handle(HeaderBuilder $builder)
     {
-        return $this->builder;
+        $builder->build($this->builder);
     }
 }
