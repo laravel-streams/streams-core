@@ -6,13 +6,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
 
-/**
- * Class EloquentTableRepositoryInterface
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class EloquentTableRepository implements TableRepositoryInterface
 {
     use DispatchesJobs;
@@ -73,7 +66,7 @@ class EloquentTableRepository implements TableRepositoryInterface
          * set the total amount of entries possible back
          * on the table so it can be used later.
          */
-        $total = $query->count();
+        $total = $query->count($this->model->getTable() . '.id');
 
         $builder->setTableOption('total_results', $total);
 
