@@ -66,7 +66,12 @@ class EloquentTableRepository implements TableRepositoryInterface
          * set the total amount of entries possible back
          * on the table so it can be used later.
          */
-        $total = $query->count($this->model->getTable() . '.id');
+        $total = clone($query);
+
+        $total = $total
+            ->select($this->model->getTable() . '.id')
+            ->groupBy($this->model->getTable() . '.id')
+            ->count($this->model->getTable() . '.id');
 
         $builder->setTableOption('total_results', $total);
 
