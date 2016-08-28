@@ -6,6 +6,21 @@ class Collection extends \Illuminate\Support\Collection
 {
 
     /**
+     * Alias for pluck.
+     *
+     * @deprecated in 3.1. Will remove in 3.2
+     *
+     * @param string $value
+     * @param string $key
+     *
+     * @return $this
+     */
+    public function lists($value, $key = null)
+    {
+        return self::pluck($value, $key);
+    }
+
+    /**
      * Pad to the specified size with a value.
      *
      * @param        $size
