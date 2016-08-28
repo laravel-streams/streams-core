@@ -10,13 +10,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
-/**
- * Class BuildForm
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class BuildForm
 {
     use DispatchesJobs;

@@ -3,13 +3,6 @@
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
-/**
- * Class BuildFields
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class BuildFields
 {
 

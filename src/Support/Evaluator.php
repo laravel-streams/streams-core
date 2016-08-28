@@ -1,15 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use ArrayAccess;
 use Illuminate\Contracts\Container\Container;
 
-/**
- * Class Evaluator
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- */
 class Evaluator
 {
 
