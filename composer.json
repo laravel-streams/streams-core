@@ -10,6 +10,7 @@
     "require": {
         "laravel/framework": "5.3.*",
         "laravel/envoy": "1.2.*",
+        "laravel/scout": "1.0.*",
         "doctrine/dbal": "2.5.*",
         "intervention/image": "2.3.*",
         "laravelcollective/html": "5.3.*-dev",
