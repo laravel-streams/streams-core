@@ -104,6 +104,9 @@ return [
         'pt'    => [
             'direction' => 'ltr'
         ],
+        'pt-br'    => [
+            'direction' => 'ltr'
+        ],
         'br'    => [
             'direction' => 'ltr'
         ],

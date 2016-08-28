@@ -52,6 +52,9 @@ return [
     'pt'    => [
         'name' => 'Portuguese'
     ],
+    'pt-br'    => [
+        'name' => 'Brazilian Portuguese'
+    ],
     'br'    => [
         'name' => 'Breton'
     ],
