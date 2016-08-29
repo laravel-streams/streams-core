@@ -48,7 +48,7 @@ class TranslationGuesser
 
         foreach ($fields as &$field) {
             foreach (['name', 'warning', 'instructions'] as $key) {
-                if (!array_get($field, $locale . '.' . $key)) {
+                if (is_null(array_get($field, $locale . '.' . $key))) {
                     $field = array_add(
                         $field,
                         $locale . '.' . $key,

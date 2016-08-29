@@ -47,7 +47,7 @@ class TranslationGuesser
         $stream = $migration->getStream();
 
         foreach (['name', 'description'] as $key) {
-            if (!array_get($stream, $locale . '.' . $key)) {
+            if (is_null(array_get($stream, $locale . '.' . $key))) {
                 $stream = array_add(
                     $stream,
                     $locale . '.' . $key,

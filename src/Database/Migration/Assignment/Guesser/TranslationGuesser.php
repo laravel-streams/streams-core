@@ -68,7 +68,7 @@ class TranslationGuesser
 
         foreach ($assignments as &$assignment) {
             foreach (['label', 'warning', 'instructions', 'placeholder'] as $key) {
-                if (!array_get($assignment, $locale . '.' . $key)) {
+                if (is_null(array_get($assignment, $locale . '.' . $key))) {
                     $assignment = array_add(
                         $assignment,
                         $locale . '.' . $key,
