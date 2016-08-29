@@ -34,6 +34,7 @@
         "nicmart/string-template": "0.1.*",
         "phive/twig-extensions-deferred": "0.3.*",
         "league/flysystem-cached-adapter": "1.0.*",
+        "teamtnt/laravel-scout-tntsearch-driver": "1.1.*",
         "symfony/yaml": "3.1.*",
         "jenssegers/agent": "2.3.*",
         "asm89/twig-cache-extension": "1.3.*"
