@@ -26,13 +26,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Contracts\Support\MessageBag;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Class FormBuilder
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- */
 class FormBuilder
 {
     use DispatchesJobs;

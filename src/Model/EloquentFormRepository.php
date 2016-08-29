@@ -4,13 +4,6 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
-/**
- * Class EloquentFormRepositoryInterface
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class EloquentFormRepository implements FormRepositoryInterface
 {
 
@@ -99,7 +92,7 @@ class EloquentFormRepository implements FormRepositoryInterface
          */
         foreach ($allowed->notTranslatable() as $field) {
             if (!$field->getLocale()) {
-                array_set($data, $field->getField(), $form->getValue($field->getInputName()));
+                array_set($data, str_replace('__', '.', $field->getField()), $form->getValue($field->getInputName()));
             }
         }
 

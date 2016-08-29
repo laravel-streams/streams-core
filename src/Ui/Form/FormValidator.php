@@ -7,13 +7,6 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Validation\Validator;
 
-/**
- * Class FormValidator
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class FormValidator
 {
     use DispatchesJobs;
@@ -101,7 +94,7 @@ class FormValidator
         $messages   = $this->messages->make($builder);
         $attributes = $this->attributes->make($builder);
         $rules      = $this->rules->compile($builder);
-
+        
         /* @var Validator $validator */
         $validator = $factory->make($input, $rules);
 

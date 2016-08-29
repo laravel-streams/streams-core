@@ -4,13 +4,6 @@ use Anomaly\Streams\Platform\Field\Form\Command\GetConfigFields;
 use Anomaly\Streams\Platform\Field\Form\Validator\SlugValidator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
-/**
- * Class FieldFormFields
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class FieldFormFields
 {
     use DispatchesJobs;

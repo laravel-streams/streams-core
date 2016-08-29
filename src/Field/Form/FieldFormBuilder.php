@@ -5,13 +5,6 @@ use Anomaly\Streams\Platform\Field\Form\Command\AutoAssignField;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
-/**
- * Class FieldFormBuilder
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class FieldFormBuilder extends FormBuilder
 {
 

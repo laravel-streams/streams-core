@@ -6,13 +6,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Config\Repository;
 use Illuminate\Translation\Translator;
 
-/**
- * Class GetConfigFields
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class GetConfigFields
 {
 
@@ -101,9 +94,9 @@ class GetConfigFields
             $field['value'] = array_get($this->fieldType->getConfig(), $slug);
 
             // Prefix the slugs.
-            $field['field'] = 'config.' . $slug;
+            $field['field'] = 'config__' . $slug;
 
-            $fields['config.' . $slug] = $field;
+            $fields['config__' . $slug] = $field;
 
             $this->builder->addField($field);
         }
