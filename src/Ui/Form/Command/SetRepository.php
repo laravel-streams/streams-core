@@ -48,6 +48,7 @@ class SetRepository
          */
         if (!$this->builder->getRepository()) {
             $model = $this->builder->getFormModel();
+            $entry = $this->builder->getEntry();
             $form  = $this->builder->getForm();
 
             $repository = str_replace('FormBuilder', 'FormRepository', get_class($this->builder));
@@ -61,6 +62,14 @@ class SetRepository
             } elseif (!$this->builder->getRepository() && $model instanceof EloquentModel) {
                 $this->builder->setRepository(
                     $container->make(EloquentFormRepository::class, compact('form', 'model'))
+                );
+            } elseif (!$this->builder->getRepository() && $entry instanceof EntryModel) {
+                $this->builder->setRepository(
+                    $container->make(EntryFormRepository::class, ['form' => $form, 'model' => $entry])
+                );
+            } elseif (!$this->builder->getRepository() && $entry instanceof EloquentModel) {
+                $this->builder->setRepository(
+                    $container->make(EloquentFormRepository::class, ['form' => $form, 'model' => $entry])
                 );
             }
         }
