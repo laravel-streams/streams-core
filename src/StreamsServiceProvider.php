@@ -87,6 +87,8 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Stream\Console\Cleanup',
         'Anomaly\Streams\Platform\Stream\Console\Destroy',
         'Anomaly\Streams\Platform\Addon\Console\MakeAddon',
+        'Anomaly\Streams\Platform\Installer\Console\Install',
+        'Anomaly\Streams\Platform\Application\Console\EnvSet',
         'Anomaly\Streams\Platform\Addon\Console\AddonPublish',
         'Anomaly\Streams\Platform\Addon\Module\Console\Install',
         'Anomaly\Streams\Platform\Addon\Module\Console\Uninstall',
@@ -94,8 +96,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Addon\Extension\Console\Install',
         'Anomaly\Streams\Platform\Addon\Extension\Console\Uninstall',
         'Anomaly\Streams\Platform\Addon\Extension\Console\Reinstall',
-        'Anomaly\Streams\Platform\Installer\Console\Install',
-        'Anomaly\Streams\Platform\Application\Console\EnvSet',
+        'Anomaly\Streams\Platform\Application\Console\StreamsPublish',
     ];
 
     /**

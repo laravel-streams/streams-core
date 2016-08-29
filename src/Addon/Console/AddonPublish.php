@@ -24,7 +24,7 @@ class AddonPublish extends Command
      *
      * @var string
      */
-    protected $description = 'Publish an addon.';
+    protected $description = 'Publish an the configuration and translations for an addon.';
 
     /**
      * Execute the console command.
