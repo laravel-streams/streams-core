@@ -1,21 +1,15 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Entry\EntryPresenter;
-use Anomaly\Streams\Platform\Support\Collection;
+use Anomaly\Streams\Platform\Traits\Hookable;
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Presenter;
-use Anomaly\Streams\Platform\Traits\Hookable;
-use Illuminate\Database\Eloquent\Builder;
+use Anomaly\Streams\Platform\Support\Collection;
+use Anomaly\Streams\Platform\Entry\EntryPresenter;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\Paginator;
 
-/**
- * Class EloquentCriteria
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class EloquentCriteria
 {
     use Hookable;
@@ -60,8 +54,8 @@ class EloquentCriteria
     /**
      * Get the paginated entries.
      *
-     * @param  array                               $columns
-     * @return Collection|Presenter|EntryPresenter
+     * @param  array     $columns
+     * @return Paginator
      */
     public function paginate($perPage = 15, array $columns = ['*'])
     {

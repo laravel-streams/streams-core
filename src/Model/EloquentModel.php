@@ -1,17 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Traits\Hookable;
+use Anomaly\Streams\Platform\Collection\CacheCollection;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 
 class EloquentModel extends Model implements Arrayable
 {
-    use DispatchesJobs;
     use Hookable;
+    use DispatchesJobs;
 
     /**
      * Disable timestamps for this model.

@@ -5,13 +5,6 @@ use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Config\Repository;
 use Illuminate\Http\Request;
 
-/**
- * Class ImagePaths
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class ImagePaths
 {
 

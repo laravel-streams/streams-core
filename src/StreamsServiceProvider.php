@@ -29,6 +29,7 @@ use Anomaly\Streams\Platform\View\Cache\CacheKey;
 use Anomaly\Streams\Platform\View\Cache\CacheStrategy;
 use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
+use Anomaly\Streams\Platform\Search\Command\ConfigureScout;
 use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
 use Aptoma\Twig\Extension\MarkdownExtension;
 use Asm89\Twig\CacheExtension\Extension;
@@ -39,16 +40,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\ServiceProvider;
 
-/**
- * Class StreamsServiceProvider
- *
- * In order to consolidate service providers throughout the
- * Streams Platform, we do all of our bootstrapping here.
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- */
 class StreamsServiceProvider extends ServiceProvider
 {
     use DispatchesJobs;
@@ -215,6 +206,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatch(new AddAssetNamespaces());
         $this->dispatch(new AddImageNamespaces());
         $this->dispatch(new AddViewNamespaces());
+        $this->dispatch(new ConfigureScout());
 
         // Observe our base models.
         EntryModel::observe(EntryObserver::class);
@@ -283,6 +275,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register(\Laravel\Scout\ScoutServiceProvider::class);
         $this->app->register(\Collective\Html\HtmlServiceProvider::class);
         $this->app->register(\Intervention\Image\ImageServiceProvider::class);
+        $this->app->register(\TeamTNT\Scout\TNTSearchScoutServiceProvider::class);
 
         if (env('APP_DEBUG')) {
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);

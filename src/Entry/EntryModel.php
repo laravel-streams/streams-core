@@ -1,28 +1,23 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
-use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
+use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Carbon\Carbon;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Robbo\Presenter\PresentableInterface;
+use Laravel\Scout\ModelObserver;
+use Laravel\Scout\Searchable;
+use Carbon\Carbon;
 
-/**
- * Class EntryModel
- *
- * @method        Builder sorted()
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- */
 class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface
 {
+    use Searchable;
 
     /**
      * The foreign key for translations.
@@ -30,6 +25,13 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      * @var string
      */
     protected $translationForeignKey = 'entry_id';
+
+    /**
+     * By default nothing is searchable.
+     *
+     * @var boolean
+     */
+    protected $searchable = false;
 
     /**
      * The validation rules. These are
@@ -74,6 +76,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         if ($events && class_exists($observer)) {
             self::observe(app($observer));
+        }
+
+        if (!$instance->isSearchable()) {
+            ModelObserver::disableSyncingFor(get_class(new static));
         }
 
         if ($events && !static::$dispatcher->hasListeners('eloquent.' . array_shift($events) . ': ' . $class)) {
@@ -801,6 +807,35 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $criteria = substr(get_class($this), 0, -5) . 'Criteria';
 
         return class_exists($criteria) ? $criteria : EntryCriteria::class;
+    }
+
+    /**
+     * Return whether the model is searchable or not.
+     *
+     * @return boolean
+     */
+    public function isSearchable()
+    {
+        return $this->searchable;
+    }
+
+    /**
+     * Return a searchable array.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        foreach ($array as $key => &$value) {
+            if (is_array($value)) {
+                $value = json_encode($value);
+                continue;
+            }
+        }
+
+        return $array;
     }
 
     /**

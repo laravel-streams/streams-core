@@ -3,13 +3,6 @@
 use Anomaly\Streams\Platform\Support\Collection;
 use Closure;
 
-/**
- * Class PluginCriteria
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class PluginCriteria
 {
 
