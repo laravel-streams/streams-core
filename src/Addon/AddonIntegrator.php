@@ -12,13 +12,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Translation\Translator;
 use Twig_ExtensionInterface;
 
-/**
- * Class AddonIntegrator
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- */
 class AddonIntegrator
 {
 
@@ -157,7 +150,7 @@ class AddonIntegrator
         $this->configurator->addNamespaceOverrides(
             $addon->getNamespace(),
             base_path(
-                'resources/core/config/addons/'
+                'resources/addons/'
                 . $addon->getVendor() . '/'
                 . $addon->getSlug() . '-'
                 . $addon->getType()
@@ -168,10 +161,11 @@ class AddonIntegrator
         $this->configurator->addNamespaceOverrides(
             $addon->getNamespace(),
             $this->application->getResourcesPath(
-                'config/addons/'
+                'addons/'
                 . $addon->getVendor() . '/'
                 . $addon->getSlug() . '-'
                 . $addon->getType()
+                . '/config'
             )
         );
 
@@ -181,7 +175,7 @@ class AddonIntegrator
         // Add the view / translation namespaces.
         $this->views->addNamespace($addon->getNamespace(), $addon->getPath('resources/views'));
         $this->translator->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));
-
+        
         /*
          * If the addon is a plugin then
          * load it into Twig when appropriate.
