@@ -1,12 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-/**
- * Class Str
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class Str extends \Illuminate\Support\Str
 {
 
