@@ -3,13 +3,6 @@
 use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
-/**
- * Class LoadEnvironmentOverrides
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class LoadEnvironmentOverrides
 {
 

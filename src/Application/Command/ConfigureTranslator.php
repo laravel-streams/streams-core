@@ -5,13 +5,6 @@ use Illuminate\Config\Repository;
 use Illuminate\Foundation\Application;
 use Illuminate\Translation\Translator;
 
-/**
- * Class ConfigureTranslator
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class ConfigureTranslator
 {
 
@@ -23,40 +16,36 @@ class ConfigureTranslator
      */
     public function handle(Repository $config, Application $application)
     {
+        // First trigger to resolve.
+        $application->make('translator');
 
         /*
          * Change the lang loader so we can
          * add a few more necessary override
          * paths to the API.
          */
-        $application->singleton(
-            'translation.loader',
-            function () use ($application) {
-                return new Loader($application->make('files'), $application->make('path.lang'));
-            }
-        );
+        $application->singleton('translation.loader', function ($application) {
+            return new Loader($application['files'], $application['path.lang']);
+        });
 
         /*
          * Re-bind the translator so we can use
          * the new loader defined above.
          */
-        $application->singleton(
-            'translator',
-            function () use ($application) {
-                $loader = $application->make('translation.loader');
+         $application->singleton('translator', function ($application) {
+             $loader = $application->make('translation.loader');
 
-                // When registering the translator component, we'll need to set the default
-                // locale as well as the fallback locale. So, we'll grab the application
-                // configuration so we can easily get both of these values from there.
-                $locale = $application->make('config')->get('app.locale');
+            // When registering the translator component, we'll need to set the default
+            // locale as well as the fallback locale. So, we'll grab the application
+            // configuration so we can easily get both of these values from there.
+            $locale = $application['config']['app.locale'];
 
-                $trans = new Translator($loader, $locale);
+             $trans = new Translator($loader, $locale);
 
-                $trans->setFallback($application->make('config')->get('app.fallback_locale'));
+             $trans->setFallback($application['config']['app.fallback_locale']);
 
-                return $trans;
-            }
-        );
+             return $trans;
+         });
 
         /*
          * Set the locale if LOCALE is defined.

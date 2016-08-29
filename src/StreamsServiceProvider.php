@@ -39,6 +39,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Translation\Translator;
 
 class StreamsServiceProvider extends ServiceProvider
 {
@@ -86,14 +87,16 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Stream\Console\Cleanup',
         'Anomaly\Streams\Platform\Stream\Console\Destroy',
         'Anomaly\Streams\Platform\Addon\Console\MakeAddon',
+        'Anomaly\Streams\Platform\Installer\Console\Install',
+        'Anomaly\Streams\Platform\Application\Console\EnvSet',
+        'Anomaly\Streams\Platform\Addon\Console\AddonPublish',
         'Anomaly\Streams\Platform\Addon\Module\Console\Install',
         'Anomaly\Streams\Platform\Addon\Module\Console\Uninstall',
         'Anomaly\Streams\Platform\Addon\Module\Console\Reinstall',
         'Anomaly\Streams\Platform\Addon\Extension\Console\Install',
         'Anomaly\Streams\Platform\Addon\Extension\Console\Uninstall',
         'Anomaly\Streams\Platform\Addon\Extension\Console\Reinstall',
-        'Anomaly\Streams\Platform\Installer\Console\Install',
-        'Anomaly\Streams\Platform\Application\Console\EnvSet',
+        'Anomaly\Streams\Platform\Application\Console\StreamsPublish',
     ];
 
     /**
@@ -202,6 +205,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         // Setup and preparing utilities.
         $this->dispatch(new LoadStreamsConfiguration());
+        $this->dispatch(new ConfigureTranslator());
         $this->dispatch(new AutoloadEntryModels());
         $this->dispatch(new AddAssetNamespaces());
         $this->dispatch(new AddImageNamespaces());
@@ -250,6 +254,7 @@ class StreamsServiceProvider extends ServiceProvider
                     }
                 );
 
+
                 $manager->register();
 
                 $this->dispatch(new IncludeRoutes());
@@ -257,8 +262,6 @@ class StreamsServiceProvider extends ServiceProvider
                 $events->fire(new Ready());
             }
         );
-
-        $this->dispatch(new ConfigureTranslator());
     }
 
     /**
