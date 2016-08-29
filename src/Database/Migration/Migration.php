@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration;
 
 use Anomaly\Streams\Platform\Addon\Addon;
+use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 abstract class Migration extends \Illuminate\Database\Migrations\Migration
@@ -60,6 +63,36 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     public function namespace()
     {
         return $this->getNamespace() ?: $this->addon->getSlug();
+    }
+
+    /**
+     * Return the field repository.
+     *
+     * @return FieldRepositoryInterface
+     */
+    public function fields()
+    {
+        return app(FieldRepositoryInterface::class);
+    }
+
+    /**
+     * Return the stream repository.
+     *
+     * @return StreamRepositoryInterface
+     */
+    public function streams()
+    {
+        return app(StreamRepositoryInterface::class);
+    }
+
+    /**
+     * Return the assignment repository.
+     *
+     * @return AssignmentRepositoryInterface
+     */
+    public function assignments()
+    {
+        return app(AssignmentRepositoryInterface::class);
     }
 
     /**
