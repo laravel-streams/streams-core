@@ -254,7 +254,6 @@ class StreamsServiceProvider extends ServiceProvider
                     }
                 );
 
-
                 $manager->register();
 
                 /*
