@@ -69,7 +69,5 @@ class ConfigureCreator
         if (!is_dir($directory = $addon->getPath('migrations'))) {
             mkdir($directory);
         }
-
-        $this->creator->setInput($this->input);
     }
 }

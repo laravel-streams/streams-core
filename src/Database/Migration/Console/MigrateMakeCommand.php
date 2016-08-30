@@ -41,6 +41,8 @@ class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\Migrate
             )
         );
 
+        $this->creator->setInput($this->input);
+
         parent::fire();
     }
 
