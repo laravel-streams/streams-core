@@ -30,7 +30,7 @@ class RubyScssFilter extends ScssFilter
     {
         $this->parser = $parser;
 
-        parent::__construct('/usr/bin/sass', null);
+        parent::__construct(env('SASS_PATH', '/usr/bin/sass'), null);
     }
 
     /**
