@@ -2,8 +2,8 @@
 
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Addon\Addon;
-use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Console\Command;
 
 class PublishTranslations
 {
@@ -15,13 +15,22 @@ class PublishTranslations
     protected $addon;
 
     /**
+     * The console command.
+     *
+     * @var Command
+     */
+    protected $command;
+
+    /**
      * Create a new PublishConfig instance.
      *
-     * @param Addon $addon
+     * @param Addon   $addon
+     * @param Command $command
      */
-    public function __construct(Addon $addon)
+    public function __construct(Addon $addon, Command $command)
     {
-        $this->addon = $addon;
+        $this->addon   = $addon;
+        $this->command = $command;
     }
 
     /**
@@ -33,14 +42,19 @@ class PublishTranslations
      */
     public function handle(Filesystem $filesystem, Application $application)
     {
-        $destination = 'addons/' .
-            $this->addon->getVendor() . '/' .
-            $this->addon->getSlug() . '-' .
-            $this->addon->getType() . '/lang';
+        $destination = $application->getResourcesPath(
+            'addons/' .
+                $this->addon->getVendor() . '/' .
+                $this->addon->getSlug() . '-' .
+                $this->addon->getType() . '/lang'
+            );
+        
+        if (is_dir($destination) && !$this->command->option('force')) {
+            return $this->command->error("$destination already exists.");
+        }
 
-        $filesystem->copyDirectory(
-            $this->addon->getPath('resources/lang'),
-            $application->getResourcesPath($destination)
-        );
+        $filesystem->copyDirectory($this->addon->getPath('resources/lang'), $destination);
+
+        $this->command->info("Published $destination");
     }
 }

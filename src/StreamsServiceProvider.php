@@ -1,37 +1,37 @@
 <?php namespace Anomaly\Streams\Platform;
 
+use Anomaly\Streams\Platform\Event\Ready;
+use Anomaly\Streams\Platform\Event\Booted;
+use Anomaly\Streams\Platform\Event\Booting;
+use Aptoma\Twig\Extension\MarkdownExtension;
+use Anomaly\Streams\Platform\Field\FieldModel;
+use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Addon\AddonManager;
+use Anomaly\Streams\Platform\Stream\StreamModel;
+use Anomaly\Streams\Platform\Entry\EntryObserver;
+use Anomaly\Streams\Platform\Field\FieldObserver;
+use Anomaly\Streams\Platform\View\Cache\CacheKey;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Stream\StreamObserver;
+use Anomaly\Streams\Platform\Model\EloquentObserver;
+use Anomaly\Streams\Platform\View\Cache\CacheAdapter;
+use Anomaly\Streams\Platform\View\Cache\CacheStrategy;
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
+use Anomaly\Streams\Platform\Routing\Command\IncludeRoutes;
+use Anomaly\Streams\Platform\Search\Command\ConfigureScout;
+use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
+use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
+use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
+use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
+use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
+use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
+use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
 use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
 use Anomaly\Streams\Platform\Application\Command\ConfigureUriValidator;
 use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
 use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
 use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
-use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
-use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
-use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
-use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
-use Anomaly\Streams\Platform\Entry\EntryModel;
-use Anomaly\Streams\Platform\Entry\EntryObserver;
-use Anomaly\Streams\Platform\Event\Booted;
-use Anomaly\Streams\Platform\Event\Booting;
-use Anomaly\Streams\Platform\Event\Ready;
-use Anomaly\Streams\Platform\Field\FieldModel;
-use Anomaly\Streams\Platform\Field\FieldObserver;
-use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Model\EloquentObserver;
-use Anomaly\Streams\Platform\Routing\Command\IncludeRoutes;
-use Anomaly\Streams\Platform\Stream\StreamModel;
-use Anomaly\Streams\Platform\Stream\StreamObserver;
-use Anomaly\Streams\Platform\View\Cache\CacheAdapter;
-use Anomaly\Streams\Platform\View\Cache\CacheKey;
-use Anomaly\Streams\Platform\View\Cache\CacheStrategy;
-use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
-use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
-use Anomaly\Streams\Platform\Search\Command\ConfigureScout;
-use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
-use Aptoma\Twig\Extension\MarkdownExtension;
 use Asm89\Twig\CacheExtension\Extension;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Cache\Repository;
@@ -93,6 +93,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Addon\Module\Console\Install',
         'Anomaly\Streams\Platform\Addon\Module\Console\Uninstall',
         'Anomaly\Streams\Platform\Addon\Module\Console\Reinstall',
+        'Anomaly\Streams\Platform\Application\Console\AppPublish',
         'Anomaly\Streams\Platform\Addon\Extension\Console\Install',
         'Anomaly\Streams\Platform\Addon\Extension\Console\Uninstall',
         'Anomaly\Streams\Platform\Addon\Extension\Console\Reinstall',

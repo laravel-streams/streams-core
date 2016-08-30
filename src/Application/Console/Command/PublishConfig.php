@@ -2,11 +2,28 @@
 
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Addon\Addon;
-use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Console\Command;
 
 class PublishConfig
 {
+    /**
+     * The console command.
+     *
+     * @var Command
+     */
+    protected $command;
+
+    /**
+     * Create a new PublishConfig instance.
+     *
+     * @param Command $command
+     */
+    public function __construct(Command $command)
+    {
+        $this->command = $command;
+    }
+
     /**
      * Handle the command.
      *
@@ -16,11 +33,14 @@ class PublishConfig
      */
     public function handle(Filesystem $filesystem, Application $application)
     {
-        $destination = storage_path('streams/config');
-        
-        $filesystem->copyDirectory(
-            __DIR__ . '/../../../../resources/config',
-            $application->getResourcesPath('streams/config')
-        );
+        $destination = $application->getResourcesPath('streams/config');
+
+        if (is_dir($destination) && !$this->command->option('force')) {
+            return $this->command->error("The $destination directory already exists.");
+        }
+
+        $filesystem->copyDirectory(__DIR__ . '/../../../../resources/config', $destination);
+
+        $this->command->info("Published $destination");
     }
 }

@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Addon\Addon;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Console\Command;
 
-class PublishTranslations
+class PublishRoutes
 {
     /**
      * The console command.
@@ -15,7 +15,7 @@ class PublishTranslations
     protected $command;
 
     /**
-     * Create a new PublishTranslations instance.
+     * Create a new PublishRoutes instance.
      *
      * @param Command $command
      */
@@ -33,13 +33,24 @@ class PublishTranslations
      */
     public function handle(Filesystem $filesystem, Application $application)
     {
-        $destination = $application->getResourcesPath('streams/lang');
+        $destination = $application->getResourcesPath('routes.php');
 
-        if (is_dir($destination) && !$this->command->option('force')) {
+        if (!is_dir($destination)) {
+            $filesystem->makeDirectory($destination, 0777, true, true);
+        }
+
+        if (is_file($destination) && !$this->command->option('force')) {
             return $this->command->error("$destination already exists.");
         }
 
-        $filesystem->copyDirectory(__DIR__ . '/../../../../resources/lang', $destination);
+        $content = "<?php
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+";
+
+        $filesystem->put($destination, $content);
 
         $this->command->info("Published $destination");
     }

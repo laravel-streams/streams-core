@@ -3,10 +3,10 @@
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
-use Anomaly\Streams\Platform\Application\Console\Command\PublishConfig;
-use Anomaly\Streams\Platform\Application\Console\Command\PublishTranslations;
+use Anomaly\Streams\Platform\Application\Console\Command\PublishEnv;
+use Anomaly\Streams\Platform\Application\Console\Command\PublishRoutes;
 
-class StreamsPublish extends Command
+class AppPublish extends Command
 {
     use DispatchesJobs;
 
@@ -15,22 +15,22 @@ class StreamsPublish extends Command
      *
      * @var string
      */
-    protected $name = 'streams:publish';
+    protected $name = 'app:publish';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Publish configuration and translations for streams.';
+    protected $description = 'Publish general application override files.';
 
     /**
      * Execute the console command.
      */
     public function fire()
     {
-        $this->dispatch(new PublishConfig($this));
-        $this->dispatch(new PublishTranslations($this));
+        $this->dispatch(new PublishEnv($this));
+        $this->dispatch(new PublishRoutes($this));
     }
 
     /**

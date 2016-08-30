@@ -4,13 +4,6 @@ use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 
-/**
- * Class MakeAddonPaths
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class MakeAddonPaths
 {
 

@@ -32,7 +32,7 @@ class AddonPublish extends Command
     public function fire(AddonCollection $addons)
     {
         if (!$this->argument('addon')) {
-            foreach ($this->addons as $addon) {
+            foreach ($addons as $addon) {
                 $this->call(
                     'addon:publish',
                     [
@@ -40,12 +40,14 @@ class AddonPublish extends Command
                     ]
                 );
             }
+
+            return;
         }
 
         $addon = $addons->get($this->argument('addon'));
 
-        $this->dispatch(new PublishConfig($addon));
-        $this->dispatch(new PublishTranslations($addon));
+        $this->dispatch(new PublishConfig($addon, $this));
+        $this->dispatch(new PublishTranslations($addon, $this));
     }
 
     /**
@@ -68,8 +70,7 @@ class AddonPublish extends Command
     protected function getOptions()
     {
         return [
-            // ['shared', null, InputOption::VALUE_NONE, 'Indicates if the addon should be created in shared addons.'],
-            // ['migration', null, InputOption::VALUE_NONE, 'Indicates if a fields migration should be created.'],
+            ['force', null, InputOption::VALUE_NONE, 'Force overwriting files.'],
         ];
     }
 }
