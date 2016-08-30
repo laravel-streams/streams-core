@@ -2,13 +2,6 @@
 
 use Anomaly\Streams\Platform\Application\Application;
 
-/**
- * Class IncludeRoutes
- *
- * @link          http://pyrocms.com/
- * @author        PyroCMS, Inc. <support@pyrocms.com>
- * @author        Ryan Thompson <ryan@pyrocms.com>
- */
 class IncludeRoutes
 {
 
@@ -19,7 +12,7 @@ class IncludeRoutes
      */
     public function handle(Application $application)
     {
-        if (file_exists($routes = base_path('resources/core/routes.php'))) {
+        if (file_exists($routes = base_path('resources/streams/routes.php'))) {
             include $routes;
         }
 

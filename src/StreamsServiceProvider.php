@@ -257,6 +257,10 @@ class StreamsServiceProvider extends ServiceProvider
 
                 $manager->register();
 
+                /*
+                 * Do this after addons are registered
+                 * so that they can override named routes.
+                 */
                 $this->dispatch(new IncludeRoutes());
 
                 $events->fire(new Ready());
