@@ -7,7 +7,6 @@ use Anomaly\Streams\Platform\Database\Migration\MigrationCreator;
 use Symfony\Component\Console\Input\InputInterface;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
 
 class ConfigureCreator
 {
@@ -52,9 +51,8 @@ class ConfigureCreator
      * Handle the command.
      *
      * @param AddonCollection $addons
-     * @param Filesystem      $files
      */
-    public function handle(AddonCollection $addons, Filesystem $files)
+    public function handle(AddonCollection $addons)
     {
         if (!$addon = $this->input->getOption('addon')) {
             return;
@@ -68,8 +66,8 @@ class ConfigureCreator
 
         $this->input->setOption('path', $addon->getAppPath('migrations'));
 
-        if (!is_dir($directory = $addon->getAppPath('migrations'))) {
-            $files->makeDirectory($directory);
+        if (!is_dir($directory = $addon->getPath('migrations'))) {
+            mkdir($directory);
         }
 
         $this->creator->setInput($this->input);
