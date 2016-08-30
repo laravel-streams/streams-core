@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
-use Anomaly\Streams\Platform\Database\Migration\Console\Command\SetAddonPath;
+use Anomaly\Streams\Platform\Database\Migration\Console\Command\ConfigureMigrator;
 
 class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateCommand
 {
@@ -14,7 +14,7 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
     public function fire()
     {
         $this->dispatch(
-            new SetAddonPath(
+            new ConfigureMigrator(
                 $this,
                 $this->input,
                 $this->migrator

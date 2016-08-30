@@ -3,7 +3,7 @@
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
 use Anomaly\Streams\Platform\Database\Migration\Migrator;
-use Anomaly\Streams\Platform\Database\Migration\Console\Command\SetAddonPath;
+use Anomaly\Streams\Platform\Database\Migration\Console\Command\ConfigureMigrator;
 
 class ResetCommand extends \Illuminate\Database\Console\Migrations\ResetCommand
 {
@@ -24,7 +24,7 @@ class ResetCommand extends \Illuminate\Database\Console\Migrations\ResetCommand
     public function fire()
     {
         $this->dispatch(
-            new SetAddonPath(
+            new ConfigureMigrator(
                 $this,
                 $this->input,
                 $this->migrator

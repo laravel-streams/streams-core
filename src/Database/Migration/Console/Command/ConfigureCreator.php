@@ -3,11 +3,13 @@
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Command\GetAddon;
 use Anomaly\Streams\Platform\Database\Migration\Migrator;
+use Anomaly\Streams\Platform\Database\Migration\MigrationCreator;
 use Symfony\Component\Console\Input\InputInterface;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
 
-class SetAddonPath
+class ConfigureCreator
 {
     use DispatchesJobs;
 
@@ -26,43 +28,50 @@ class SetAddonPath
     protected $command;
 
     /**
-     * The migrator service.
+     * The creator service.
      *
-     * @var Migrator
+     * @var MigrationCreator
      */
-    protected $migrator;
+    protected $creator;
 
     /**
      * Create a new SetAddonPath instance.
      *
-     * @param ResetCommand   $command
-     * @param InputInterface $input
-     * @param Migrator       $migrator
+     * @param ResetCommand     $command
+     * @param InputInterface   $input
+     * @param MigrationCreator $creator
      */
-    public function __construct(Command $command, InputInterface $input, Migrator $migrator)
+    public function __construct(Command $command, InputInterface $input, MigrationCreator $creator)
     {
         $this->input     = $input;
         $this->command   = $command;
-        $this->migrator  = $migrator;
+        $this->creator   = $creator;
     }
 
     /**
      * Handle the command.
      *
      * @param AddonCollection $addons
+     * @param Filesystem      $files
      */
-    public function handle(AddonCollection $addons)
+    public function handle(AddonCollection $addons, Filesystem $files)
     {
         if (!$addon = $this->input->getOption('addon')) {
             return;
         }
 
         if (!$addon = $this->dispatch(new GetAddon($addon))) {
-            throw new \Exception("$identifier addon could not be found.");
+            throw new \Exception("Addon could not be found.");
         }
 
-        $this->migrator->setAddon($addon);
+        $this->input->setArgument('name', $addon->getNamespace() . '__' . $this->input->getArgument('name'));
 
         $this->input->setOption('path', $addon->getAppPath('migrations'));
+
+        if (!is_dir($directory = $addon->getAppPath('migrations'))) {
+            $files->makeDirectory($directory);
+        }
+
+        $this->creator->setInput($this->input);
     }
 }

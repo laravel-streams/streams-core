@@ -2,7 +2,6 @@
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
-use Anomaly\Streams\Platform\Database\Migration\Console\Command\SetAddonPath;
 
 class RefreshCommand extends \Illuminate\Database\Console\Migrations\RefreshCommand
 {
