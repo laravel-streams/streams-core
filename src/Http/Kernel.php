@@ -3,13 +3,6 @@
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Routing\Router;
 
-/**
- * Class Kernel
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class Kernel extends \Illuminate\Foundation\Http\Kernel
 {
 
