@@ -1,7 +1,6 @@
 <?php
 
 use Anomaly\Streams\Platform\Database\Migration\Migration;
-use Illuminate\Database\Schema\Blueprint;
 
 class CreateNotificationsTable extends Migration
 {
