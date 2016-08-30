@@ -35,8 +35,8 @@ class PublishRoutes
     {
         $destination = $application->getResourcesPath('routes.php');
 
-        if (!is_dir($destination)) {
-            $filesystem->makeDirectory($destination, 0777, true, true);
+        if (!is_dir(dirname($destination))) {
+            $filesystem->makeDirectory(dirname($destination), 0777, true, true);
         }
 
         if (is_file($destination) && !$this->command->option('force')) {
