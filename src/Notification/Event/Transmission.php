@@ -2,7 +2,7 @@
 
 use Illuminate\Notifications\Notification;
 
-class NotificationHasBeenDispatched
+class Transmission
 {
     /**
      * The notification instance.

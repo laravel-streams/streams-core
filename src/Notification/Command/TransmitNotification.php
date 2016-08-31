@@ -2,7 +2,7 @@
 
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Events\Dispatcher;
-use Anomaly\Streams\Platform\Notification\Event\NotificationHasBeenDispatched;
+use Anomaly\Streams\Platform\Notification\Event\Transmission;
 
 class TransmitNotification
 {
@@ -30,6 +30,6 @@ class TransmitNotification
      */
     public function handle(Dispatcher $events)
     {
-        $events->fire(new NotificationHasBeenDispatched($this->notification));
+        $events->fire(new Transmission($this->notification));
     }
 }
