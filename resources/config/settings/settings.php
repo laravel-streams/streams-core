@@ -6,6 +6,8 @@ use Illuminate\Contracts\Foundation\Application;
 
 return [
     'name'            => [
+        'env'    => 'APP_NAME',
+        'bind'   => 'app.name',
         'type'   => 'anomaly.field_type.text',
         'config' => [
             'default_value' => function (Repository $config) {
