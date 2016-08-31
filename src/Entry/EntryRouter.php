@@ -7,13 +7,6 @@ use Anomaly\Streams\Platform\Support\Str;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
-/**
- * Class EntryRouter
- *
- * @link          http://pyrocms.com/
- * @author        PyroCMS, Inc. <support@pyrocms.com>
- * @author        Ryan Thompson <ryan@pyrocms.com>
- */
 class EntryRouter
 {
     use DispatchesJobs;
