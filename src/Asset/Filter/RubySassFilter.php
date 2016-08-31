@@ -1,14 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Asset\Filter;
 
-use Anomaly\Streams\Platform\Asset\AssetParser;
 use Anomaly\Streams\Platform\Asset\Command\LoadThemeVariables;
+use Anomaly\Streams\Platform\Asset\AssetParser;
 use Anomaly\Streams\Platform\Support\Collection;
 use Assetic\Asset\AssetInterface;
-use Assetic\Filter\ScssphpFilter;
+use Assetic\Filter\Sass\SassFilter;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Leafo\ScssPhp\Compiler;
 
-class ScssFilter extends ScssphpFilter
+class RubySassFilter extends SassFilter
 {
     use DispatchesJobs;
 
@@ -27,6 +27,8 @@ class ScssFilter extends ScssphpFilter
     public function __construct(AssetParser $parser)
     {
         $this->parser = $parser;
+
+        parent::__construct(env('SASS_PATH', '/usr/bin/sass'), null);
     }
 
     /**

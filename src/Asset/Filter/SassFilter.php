@@ -4,11 +4,11 @@ use Anomaly\Streams\Platform\Asset\AssetParser;
 use Anomaly\Streams\Platform\Asset\Command\LoadThemeVariables;
 use Anomaly\Streams\Platform\Support\Collection;
 use Assetic\Asset\AssetInterface;
-use Assetic\Filter\ScssphpFilter;
+use Assetic\Filter\SassphpFilter;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Leafo\ScssPhp\Compiler;
 
-class ScssFilter extends ScssphpFilter
+class SassFilter extends SassphpFilter
 {
     use DispatchesJobs;
 

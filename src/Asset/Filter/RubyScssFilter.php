@@ -8,13 +8,6 @@ use Assetic\Filter\Sass\ScssFilter;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Leafo\ScssPhp\Compiler;
 
-/**
- * Class RubyScssFilter
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class RubyScssFilter extends ScssFilter
 {
     use DispatchesJobs;

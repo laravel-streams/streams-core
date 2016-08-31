@@ -36,6 +36,7 @@ return [
         'css' => [
             'less',
             'scss',
+            'sass',
             'styl',
         ],
         'js'  => [
