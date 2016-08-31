@@ -3,13 +3,6 @@
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
-/**
- * Class GetTableEntries
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class GetTableEntries
 {
 
@@ -64,7 +57,7 @@ class GetTableEntries
          * Resolve the model out of the container.
          */
         $repository = $this->builder->getRepository();
-
+        
         /*
          * If the repository is an instance of
          * TableRepositoryInterface use it.

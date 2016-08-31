@@ -1,19 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Entry\EntryModel;
-use Anomaly\Streams\Platform\Entry\EntryTableRepository;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Model\EloquentTableRepository;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\TableRepository;
+use Anomaly\Streams\Platform\Entry\EntryTableRepository;
+use Anomaly\Streams\Platform\Model\EloquentTableRepository;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class SetRepository
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- */
 class SetRepository
 {
 
@@ -53,6 +48,8 @@ class SetRepository
                 $this->builder->setRepository($container->make(EntryTableRepository::class, compact('model')));
             } elseif (!$this->builder->getRepository() && $model instanceof EloquentModel) {
                 $this->builder->setRepository($container->make(EloquentTableRepository::class, compact('model')));
+            } elseif (!$this->builder->getRepository() && $model instanceof Model) {
+                $this->builder->setRepository($container->make(TableRepository::class, compact('model')));
             }
         }
     }
