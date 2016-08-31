@@ -1,8 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Asset\Filter;
 
+use Anomaly\Streams\Platform\Asset\Command\LoadThemeVariables;
 use Anomaly\Streams\Platform\Asset\AssetParser;
+use Anomaly\Streams\Platform\Support\Collection;
 use Assetic\Asset\AssetInterface;
 use Assetic\Filter\Sass\ScssFilter;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Leafo\ScssPhp\Compiler;
 
 /**
  * Class RubyScssFilter
@@ -13,6 +17,7 @@ use Assetic\Filter\Sass\ScssFilter;
  */
 class RubyScssFilter extends ScssFilter
 {
+    use DispatchesJobs;
 
     /**
      * The asset parser utility.
@@ -22,7 +27,7 @@ class RubyScssFilter extends ScssFilter
     protected $parser;
 
     /**
-     * Create a new RubyScssFilter instance.
+     * Create a new LessFilter instance.
      *
      * @param AssetParser $parser
      */
@@ -40,8 +45,26 @@ class RubyScssFilter extends ScssFilter
      */
     public function filterLoad(AssetInterface $asset)
     {
-        $asset->setContent($this->parser->parse($asset->getContent()));
+        //
+    }
 
-        parent::filterLoad($asset);
+    /**
+     * Filters an asset just before it's dumped.
+     *
+     * @param AssetInterface $asset
+     */
+    public function filterDump(AssetInterface $asset)
+    {
+        $this->dispatch(new LoadThemeVariables($variables = new Collection()));
+
+        $compiler = new Compiler();
+
+        if ($dir = $asset->getSourceDirectory()) {
+            $compiler->addImportPath($dir);
+        }
+
+        $compiler->setVariables($variables->all());
+
+        $asset->setContent($this->parser->parse($compiler->compile($asset->getContent())));
     }
 }
