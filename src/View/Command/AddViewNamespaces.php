@@ -27,7 +27,6 @@ class AddViewNamespaces
         $views->addNamespace('storage', $application->getStoragePath());
         $views->addNamespace('shared', base_path('resources/shared/views'));
         $views->addNamespace('root', base_path());
-        $views->addNamespace('notifications', base_path());
         $views->addExtension('html', 'php');
     }
 }
