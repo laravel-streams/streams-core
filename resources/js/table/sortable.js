@@ -7,7 +7,7 @@ $(document).ready(function () {
         placeholder: '<tr class="placeholder"/>',
         afterMove: function ($placeholder) {
 
-            $placeholder.closest('table').find('button.reorder').removeClass('disabled');
+            $placeholder.closest('table').find('button.reorder').removeClass('disabled').removeAttr('disabled');
 
             $placeholder.closest('table').find('.dragged').detach().insertBefore($placeholder);
         }
