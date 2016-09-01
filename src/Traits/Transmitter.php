@@ -1,8 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Traits;
 
 use Illuminate\Notifications\Notification;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Anomaly\Streams\Platform\Notification\Command\TransmitNotification;
+use Anomaly\Streams\Platform\Notification\Event\Transmission;
 
 trait Transmitter
 {
@@ -13,6 +12,6 @@ trait Transmitter
      */
     public function transmit(Notification $notification)
     {
-        $this->dispatch(new TransmitNotification($notification));
+        app('events')->fire(new Transmission($notification));
     }
 }
