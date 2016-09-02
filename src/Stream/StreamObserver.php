@@ -1,16 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
+use Anomaly\Streams\Platform\Support\Observer;
+use Anomaly\Streams\Platform\Search\Command\CheckIndex;
+use Anomaly\Streams\Platform\Stream\Event\StreamWasSaved;
+use Anomaly\Streams\Platform\Stream\Event\StreamWasCreated;
+use Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\Command\DeleteStreamAssignments;
 use Anomaly\Streams\Platform\Stream\Command\DeleteStreamEntryModels;
-use Anomaly\Streams\Platform\Stream\Command\DeleteStreamTranslations;
-use Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\Command\RenameStreamsEntryTable;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Stream\Event\StreamWasCreated;
-use Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted;
-use Anomaly\Streams\Platform\Stream\Event\StreamWasSaved;
-use Anomaly\Streams\Platform\Support\Observer;
+use Anomaly\Streams\Platform\Stream\Command\DeleteStreamTranslations;
 
 /**
  * Class StreamObserver
@@ -31,6 +32,8 @@ class StreamObserver extends Observer
     {
         $model->compile();
         $model->flushCache();
+
+        $this->dispatch(new CheckIndex($model));
 
         $this->events->fire(new StreamWasSaved($model));
     }
