@@ -3,13 +3,6 @@
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
-/**
- * Class RequiredGuesser
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class RequiredGuesser
 {
 
@@ -43,6 +36,11 @@ class RequiredGuesser
             // Guess based on the rules.
             if (in_array('required', array_get($field, 'rules', []))) {
                 $field['required'] = true;
+            }
+
+            // If not required then nullable.
+            if (!isset($field['required']) || $field['required'] == false) {
+                $field['rules'][] = 'nullable';
             }
         }
 

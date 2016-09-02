@@ -4,13 +4,6 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Illuminate\Contracts\Config\Repository;
 
-/**
- * Class FormRules
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class FormRules
 {
 
