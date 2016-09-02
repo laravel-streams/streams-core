@@ -5,21 +5,10 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Plugin\PluginCollection;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
+use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Anomaly\Streams\Platform\Addon\Addon;
 use Illuminate\Support\Collection;
 
-/**
- * Class AddonCollection
- *
- * @method ExtensionCollection extensions();
- * @method FieldTypeCollection fieldTypes();
- * @method ModuleCollection modules();
- * @method PluginCollection plugins();
- * @method ThemeCollection themes();
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- */
 class AddonCollection extends Collection
 {
 
@@ -248,6 +237,18 @@ class AddonCollection extends Collection
                 return ($a->getSlug() < $b->getSlug()) ? -1 : 1;
             }
         );
+    }
+
+    /**
+     * Return only installable addons.
+     *
+     * @return AddonCollection
+     */
+    public function installable()
+    {
+        return $this->filter(function (Addon $addon) {
+            return in_array($addon->getType(), ['module', 'extension']);
+        });
     }
 
     /**

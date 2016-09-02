@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
+use Anomaly\Streams\Platform\Database\Migration\Console\Command\MigrateAllAddons;
 use Anomaly\Streams\Platform\Database\Migration\Console\Command\ConfigureMigrator;
 
 class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateCommand
@@ -13,6 +14,10 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
      */
     public function fire()
     {
+        if ($this->input->hasOption('all-addons')) {
+            return $this->dispatch(new MigrateAllAddons($this));
+        }
+
         $this->dispatch(
             new ConfigureMigrator(
                 $this,
@@ -35,6 +40,7 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
             parent::getOptions(),
             [
                 ['addon', null, InputOption::VALUE_OPTIONAL, 'The addon to migrate.'],
+                ['all-addons', null, InputOption::VALUE_NONE, 'Flag all addons for migration.'],
             ]
         );
     }
