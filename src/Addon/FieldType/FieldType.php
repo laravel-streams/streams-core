@@ -514,7 +514,13 @@ class FieldType extends Addon
      */
     public function getValidationValue($default = null)
     {
-        return $this->getPostValue($default);
+        $value = $this->getPostValue($default);
+
+        if (is_array($value)) {
+            array_filter($value) ?: $default;
+        }
+
+        return $value;
     }
 
     /**
