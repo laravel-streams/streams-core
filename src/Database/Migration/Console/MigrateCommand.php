@@ -14,7 +14,7 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
      */
     public function fire()
     {
-        if ($this->input->hasOption('all-addons')) {
+        if ($this->input->getOption('all-addons')) {
             return $this->dispatch(new MigrateAllAddons($this));
         }
 

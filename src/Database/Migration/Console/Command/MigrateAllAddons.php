@@ -1,10 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Console\Command;
 
-use Illuminate\Console\Command;
-use Illuminate\Foundation\Bus\DispatchesJobs;
+use Anomaly\Streams\Platform\Console\Kernel;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Command\GetAddon;
-use Anomaly\Streams\Platform\Http\Kernel;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Console\Command;
 
 class MigrateAllAddons
 {
@@ -55,9 +55,7 @@ class MigrateAllAddons
                 $options['--database'] = $database;
             }
 
-            $artisan->call('migrate', $options);
-
-            $this->command->info('Migrated ' . $addon->getNamespace());
+            $this->command->call('migrate', $options);
         }
 
         return;

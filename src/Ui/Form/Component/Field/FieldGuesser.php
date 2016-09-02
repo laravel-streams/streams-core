@@ -11,6 +11,7 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\RequiredGuesser;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\TranslatableGuesser;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\UniqueGuesser;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\WarningsGuesser;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\NullableGuesser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 class FieldGuesser
@@ -43,6 +44,13 @@ class FieldGuesser
      * @var WarningsGuesser
      */
     protected $warnings;
+
+    /**
+     * The nullable guesser.
+     *
+     * @var NullableGuesser
+     */
+    protected $nullable;
 
     /**
      * The prefixes guesser.
@@ -100,6 +108,7 @@ class FieldGuesser
      * @param UniqueGuesser       $unique
      * @param EnabledGuesser      $enabled
      * @param WarningsGuesser     $warnings
+     * @param NullableGuesser     $nullable
      * @param PrefixesGuesser     $prefixes
      * @param RequiredGuesser     $required
      * @param DisabledGuesser     $disabled
@@ -113,6 +122,7 @@ class FieldGuesser
         UniqueGuesser $unique,
         EnabledGuesser $enabled,
         WarningsGuesser $warnings,
+        NullableGuesser $nullable,
         PrefixesGuesser $prefixes,
         RequiredGuesser $required,
         DisabledGuesser $disabled,
@@ -125,6 +135,7 @@ class FieldGuesser
         $this->unique       = $unique;
         $this->enabled      = $enabled;
         $this->warnings     = $warnings;
+        $this->nullable     = $nullable;
         $this->prefixes     = $prefixes;
         $this->required     = $required;
         $this->disabled     = $disabled;
@@ -147,6 +158,7 @@ class FieldGuesser
         $this->warnings->guess($builder);
         $this->prefixes->guess($builder);
         $this->required->guess($builder);
+        $this->nullable->guess($builder);
         $this->disabled->guess($builder);
         $this->readOnly->guess($builder);
         $this->translatable->guess($builder);
