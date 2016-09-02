@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Stream\Event\StreamWasSaved;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasCreated;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted;
 use Anomaly\Streams\Platform\Search\Command\CheckEntryIndex;
+use Anomaly\Streams\Platform\Search\Command\DeleteEntryIndex;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTable;
@@ -73,6 +74,7 @@ class StreamObserver extends Observer
         $model->compile();
         $model->flushCache();
 
+        $this->dispatch(new DeleteEntryIndex($model));
         $this->dispatch(new DropStreamsEntryTable($model));
         $this->dispatch(new DeleteStreamEntryModels($model));
         $this->dispatch(new DeleteStreamAssignments($model));
