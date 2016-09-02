@@ -6,7 +6,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
 use Laravel\Scout\EngineManager;
 
-class CheckIndex
+class CheckEntryIndex
 {
     /**
      * The stream instance.
@@ -30,7 +30,7 @@ class CheckIndex
      *
      * @param Application $application
      */
-    public function handle(Application $application)
+    public function handle(Application $application, Filesystem $files)
     {
         if (!class_exists('TeamTNT\TNTSearch\TNTSearch')) {
             return;
@@ -45,8 +45,12 @@ class CheckIndex
         }
 
         if (!$this->stream->isSearchable() && file_exists($index)) {
-            unlink($index);
-            
+            $files->delete($index);
+
+            return;
+        }
+
+        if (!$this->stream->isSearchable()) {
             return;
         }
 

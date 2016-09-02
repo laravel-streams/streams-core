@@ -73,6 +73,12 @@ class StreamFormFields
                     'translatable' => true,
                     'type'         => 'anomaly.field_type.boolean',
                 ],
+                'searchable'     => [
+                    'label'        => 'streams::field.searchable.name',
+                    'instructions' => 'streams::field.searchable.instructions',
+                    'translatable' => true,
+                    'type'         => 'anomaly.field_type.boolean',
+                ],
                 'config'       => [
                     'label'        => 'streams::field.config.name',
                     'instructions' => 'streams::field.config.instructions',
