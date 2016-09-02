@@ -349,6 +349,16 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
     }
 
     /**
+     * Get the searchable flag.
+     *
+     * @return bool
+     */
+    public function isSearchable()
+    {
+        return $this->searchable;
+    }
+
+    /**
      * Get the trashable flag.
      *
      * @return bool

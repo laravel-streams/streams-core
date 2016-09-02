@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Database\Schema\Builder;
 
 abstract class Migration extends \Illuminate\Database\Migrations\Migration
 {
@@ -93,6 +94,16 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     public function assignments()
     {
         return app(AssignmentRepositoryInterface::class);
+    }
+
+    /**
+     * Return the schema builder.
+     *
+     * @return Builder
+     */
+    public function schema()
+    {
+        return app('db')->connection()->getSchemaBuilder();
     }
 
     /**

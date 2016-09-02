@@ -107,6 +107,13 @@ interface StreamInterface
     public function isSortable();
 
     /**
+     * Get the searchable flag.
+     *
+     * @return bool
+     */
+    public function isSearchable();
+
+    /**
      * Get the trashable flag.
      *
      * @return bool
