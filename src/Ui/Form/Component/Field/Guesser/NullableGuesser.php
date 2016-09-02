@@ -26,6 +26,11 @@ class NullableGuesser
             if (isset($field['required']) && $field['required'] == false) {
                 $field['rules'][] = 'nullable';
             }
+
+            // If not specified then it's nullable
+            if (!isset($field['required'])) {
+                $field['rules'][] = 'nullable';
+            }
         }
 
         $builder->setFields($fields);
