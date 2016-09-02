@@ -13,7 +13,7 @@
         "laravel/scout": "1.0.*",
         "doctrine/dbal": "2.5.*",
         "intervention/image": "2.3.*",
-        "laravelcollective/html": "5.3.*-dev",
+        "laravelcollective/html": "5.3.*",
         "twig/twig": "1.24.*",
         "rcrowe/twigbridge": "0.9.*",
         "barryvdh/laravel-debugbar": "2.2.*",
