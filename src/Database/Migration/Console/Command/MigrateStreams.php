@@ -5,9 +5,19 @@ use Anomaly\Streams\Platform\Addon\Command\GetAddon;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Console\Command;
 
-class MigrateAllAddons
+class MigrateStreams
 {
     use DispatchesJobs;
+
+    /**
+     * Streams migration paths.
+     *
+     * @var array
+     */
+    protected $paths = [
+        'vendor/anomaly/streams-platform/migrations/core',
+        'vendor/anomaly/streams-platform/migrations/application',
+    ];
 
     /**
      * The console command.
@@ -33,9 +43,9 @@ class MigrateAllAddons
      */
     public function handle(AddonCollection $addons)
     {
-        foreach ($addons->installable() as $addon) {
+        foreach ($this->paths as $path) {
             $options = [
-                '--addon' => $addon->getNamespace(),
+                '--path' => $path,
             ];
 
             if ($this->command->option('force')) {
