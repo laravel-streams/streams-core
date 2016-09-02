@@ -37,11 +37,6 @@ class RequiredGuesser
             if (in_array('required', array_get($field, 'rules', []))) {
                 $field['required'] = true;
             }
-
-            // If not required then nullable.
-            if (!isset($field['required']) || $field['required'] == false) {
-                $field['rules'][] = 'nullable';
-            }
         }
 
         $builder->setFields($fields);
