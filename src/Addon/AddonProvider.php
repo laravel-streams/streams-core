@@ -189,12 +189,13 @@ class AddonProvider
         if ($commands = $provider->getCommands()) {
 
             // To register the commands with Artisan, we will grab each of the arguments
-            // passed into the method and listen for Artisan "start" event which will
-            // give us the Artisan console instance which we will give commands to.
+            // passed into the method and listen for 'ArtisanStarting' event which will
+            // give us the Artisan console instance wrapped in the event which we will
+            // give commands to.
             $this->events->listen(
-                'artisan.start',
-                function (\Illuminate\Console\Application $artisan) use ($commands) {
-                    $artisan->resolveCommands($commands);
+                'Illuminate\Console\Events\ArtisanStarting',
+                function (\Illuminate\Console\Events\ArtisanStarting $event) use ($commands) {
+                    $event->artisan->resolveCommands($commands);
                 }
             );
         }
