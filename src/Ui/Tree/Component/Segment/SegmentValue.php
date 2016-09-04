@@ -11,7 +11,6 @@ use Illuminate\View\View;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Tree\Component\Segment
  */
 class SegmentValue
 {
@@ -36,9 +35,9 @@ class SegmentValue
     /**
      * Return the segment value.
      *
-     * @param Tree  $tree
-     * @param array $segment
-     * @param       $entry
+     * @param  Tree            $tree
+     * @param  array           $segment
+     * @param                  $entry
      * @return View|mixed|null
      */
     public function make(Tree $tree, array $segment, $entry)

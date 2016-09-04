@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Table\Command;
 
 use Anomaly\Streams\Platform\Assignment\Table\AssignmentTableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class SetDefaultProperties
@@ -9,9 +8,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Assignment\Table\Command
  */
-class SetDefaultProperties implements SelfHandling
+class SetDefaultProperties
 {
 
     /**
@@ -37,7 +35,6 @@ class SetDefaultProperties implements SelfHandling
     public function handle()
     {
         if (!$this->builder->getStream()) {
-
             $parts = explode('\\', str_replace('AssignmentTableBuilder', 'Model', get_class($this->builder)));
 
             unset($parts[count($parts) - 2]);

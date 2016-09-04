@@ -11,7 +11,6 @@ use Anomaly\Streams\Platform\Support\Value;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Entry
  */
 class EntryPresenter extends EloquentPresenter
 {
@@ -75,9 +74,9 @@ class EntryPresenter extends EloquentPresenter
     /**
      * Return a label.
      *
-     * @param        $text
-     * @param string $context
-     * @param string $size
+     * @param         $text
+     * @param  string $context
+     * @param  string $size
      * @return string
      */
     public function label($text = null, $context = null, $size = null)
@@ -119,7 +118,7 @@ class EntryPresenter extends EloquentPresenter
                             $this->object->getStreamNamespace(),
                             $this->object->getStreamSlug(),
                             'edit',
-                            $this->object->getId()
+                            $this->object->getId(),
                         ]
                     )
                 )
@@ -154,7 +153,7 @@ class EntryPresenter extends EloquentPresenter
                             $this->object->getStreamNamespace(),
                             $this->object->getStreamSlug(),
                             'view',
-                            $this->object->getId()
+                            $this->object->getId(),
                         ]
                     )
                 )
@@ -184,11 +183,9 @@ class EntryPresenter extends EloquentPresenter
     public function __get($key)
     {
         if ($assignment = $this->object->getAssignment($key)) {
-
             $type = $assignment->getFieldType();
 
             if ($assignment->isTranslatable() && $locale = config('app.locale')) {
-
                 $entry = $this->object->translateOrDefault($locale);
 
                 $type->setLocale($locale);

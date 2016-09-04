@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Application
  */
 class ApplicationModel extends EloquentModel
 {
@@ -43,7 +42,6 @@ class ApplicationModel extends EloquentModel
         'name',
         'domain',
         'enabled',
-        'reference'
+        'reference',
     ];
-
 }

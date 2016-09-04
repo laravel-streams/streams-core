@@ -7,17 +7,8 @@ use Anomaly\Streams\Platform\Support\Str;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
-/**
- * Class EntryRouter
- *
- * @link          http://pyrocms.com/
- * @author        PyroCMS, Inc. <support@pyrocms.com>
- * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Entry
- */
 class EntryRouter
 {
-
     use DispatchesJobs;
 
     /**
@@ -81,8 +72,8 @@ class EntryRouter
     /**
      * Make a route.
      *
-     * @param       $route
-     * @param array $parameters
+     * @param                    $route
+     * @param  array             $parameters
      * @return mixed|null|string
      */
     public function make($route, array $parameters = [])

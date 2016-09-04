@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Section
  */
 class SectionNormalizer
 {
@@ -23,19 +22,18 @@ class SectionNormalizer
         $sections = $builder->getSections();
 
         foreach ($sections as $slug => &$section) {
-
             if (is_string($section)) {
                 $section = [
-                    'view' => $section
+                    'view' => $section,
                 ];
             }
 
-            /**
+            /*
              * Make sure some default parameters exist.
              */
             $section['attributes'] = array_get($section, 'attributes', []);
 
-            /**
+            /*
              * Move all data-* keys
              * to attributes.
              */

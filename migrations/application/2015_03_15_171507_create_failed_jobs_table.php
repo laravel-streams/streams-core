@@ -3,13 +3,6 @@
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-/**
- * Class CreateFailedJobsTable
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class CreateFailedJobsTable extends Migration
 {
 

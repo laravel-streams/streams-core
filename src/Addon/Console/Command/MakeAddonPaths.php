@@ -2,18 +2,9 @@
 
 use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Filesystem\Filesystem;
 
-/**
- * Class MakeAddonPaths
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Console\Command
- */
-class MakeAddonPaths implements SelfHandling
+class MakeAddonPaths
 {
 
     /**
@@ -63,8 +54,8 @@ class MakeAddonPaths implements SelfHandling
     /**
      * Handle the command.
      *
-     * @param Filesystem  $filesystem
-     * @param Application $application
+     * @param  Filesystem  $filesystem
+     * @param  Application $application
      * @return string
      */
     public function handle(Filesystem $filesystem, Application $application)

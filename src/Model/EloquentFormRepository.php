@@ -4,14 +4,6 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
-/**
- * Class EloquentFormRepositoryInterface
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Model
- */
 class EloquentFormRepository implements FormRepositoryInterface
 {
 
@@ -53,7 +45,7 @@ class EloquentFormRepository implements FormRepositoryInterface
         $entry = $builder->getFormEntry();
 
         $data = $this->prepareValueData($builder);
-
+        
         if ($entry->getId()) {
             $entry->update($data);
         } else {
@@ -68,7 +60,7 @@ class EloquentFormRepository implements FormRepositoryInterface
     /**
      * Prepare the value data for update / create.
      *
-     * @param FormBuilder $builder
+     * @param  FormBuilder $builder
      * @return array
      */
     protected function prepareValueData(FormBuilder $builder)
@@ -81,7 +73,7 @@ class EloquentFormRepository implements FormRepositoryInterface
         $allowed  = $fields->allowed();
         $disabled = $fields->disabled();
 
-        /**
+        /*
          * Set initial data from the
          * entry, minus undesired data.
          */
@@ -100,22 +92,19 @@ class EloquentFormRepository implements FormRepositoryInterface
          */
         foreach ($allowed->notTranslatable() as $field) {
             if (!$field->getLocale()) {
-                array_set($data, $field->getField(), $form->getValue($field->getInputName()));
+                array_set($data, str_replace('__', '.', $field->getField()), $form->getValue($field->getInputName()));
             }
         }
 
-        /**
+        /*
          * Loop through available translations
          * and save translated input.
          *
          * @var FieldType $field
          */
         if ($entry->getTranslationModelName()) {
-
             foreach (config('streams::locales.enabled') as $locale) {
-
                 foreach ($allowed->translatable() as $field) {
-
                     if ($field->getLocale() == $locale) {
                         array_set(
                             $data,

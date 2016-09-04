@@ -4,13 +4,6 @@ use Anomaly\Streams\Platform\Database\Migration\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
-/**
- * Class CreateModulesTable
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class CreateModulesTable extends Migration
 {
 
@@ -28,7 +21,6 @@ class CreateModulesTable extends Migration
             $schema->create(
                 'addons_modules',
                 function (Blueprint $table) {
-
                     $table->increments('id');
                     $table->string('namespace');
                     $table->boolean('installed')->default(0);

@@ -4,14 +4,6 @@ use Anomaly\Streams\Platform\Field\FieldCollection;
 use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
-/**
- * Interface FieldRepositoryInterface
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Field\Contract
- */
 interface FieldRepositoryInterface extends EloquentRepositoryInterface
 {
 

@@ -2,7 +2,6 @@
 
 class ResolverTest extends TestCase
 {
-
     public function testCanBeResolved()
     {
         $this->assertInstanceOf(
@@ -26,9 +25,8 @@ class ResolverTest extends TestCase
     }
 }
 
-class ResolverStub implements \Illuminate\Contracts\Bus\SelfHandling
+class ResolverStub
 {
-
     public function handle($prefix)
     {
         return $prefix . 'test';

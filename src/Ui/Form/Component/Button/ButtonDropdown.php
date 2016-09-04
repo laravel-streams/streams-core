@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Button
  */
 class ButtonDropdown
 {
@@ -25,7 +24,6 @@ class ButtonDropdown
         foreach ($buttons as $key => &$button) {
             if (isset($button['dropdown'])) {
                 foreach (array_pull($button, 'dropdown') as $dropdown) {
-
                     $dropdown['parent'] = $button['button'];
 
                     $buttons[] = $dropdown;
@@ -47,11 +45,8 @@ class ButtonDropdown
 
         foreach ($buttons as $key => &$button) {
             if ($dropdown = array_get($button, 'parent')) {
-
                 foreach ($buttons as &$parent) {
-
                     if (array_get($parent, 'button') == $dropdown) {
-
                         if (!isset($parent['dropdown'])) {
                             $parent['dropdown'] = [];
                         }

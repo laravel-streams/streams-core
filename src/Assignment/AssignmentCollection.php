@@ -4,14 +4,6 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 
-/**
- * Class AssignmentCollection
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Assignment
- */
 class AssignmentCollection extends EloquentCollection
 {
 
@@ -56,7 +48,7 @@ class AssignmentCollection extends EloquentCollection
     /**
      * Return assignments only included the provided fields.
      *
-     * @param array $fields
+     * @param  array                $fields
      * @return AssignmentCollection
      */
     public function withFields(array $fields)
@@ -76,7 +68,7 @@ class AssignmentCollection extends EloquentCollection
     /**
      * Return assignments not included the provided fields.
      *
-     * @param array $fields
+     * @param  array                $fields
      * @return AssignmentCollection
      */
     public function withoutFields(array $fields)
@@ -105,7 +97,6 @@ class AssignmentCollection extends EloquentCollection
         /* @var AssignmentInterface $item */
         /* @var FieldType $type */
         foreach ($this->items as $item) {
-
             $type = $item->getFieldType();
 
             if (method_exists($type, 'getRelation')) {
@@ -125,7 +116,6 @@ class AssignmentCollection extends EloquentCollection
     {
         return $this->filter(
             function (AssignmentInterface $assignment) {
-
                 $type = $assignment->getFieldType();
 
                 return in_array($type->getColumnType(), ['date', 'datetime']);
@@ -192,7 +182,7 @@ class AssignmentCollection extends EloquentCollection
     /**
      * Return an array of field slugs.
      *
-     * @param null $prefix
+     * @param  null  $prefix
      * @return array
      */
     public function fieldSlugs($prefix = null)

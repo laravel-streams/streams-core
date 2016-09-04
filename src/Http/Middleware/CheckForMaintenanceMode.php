@@ -15,7 +15,6 @@ use Illuminate\Http\Response;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Http\Middleware
  */
 class CheckForMaintenanceMode
 {
@@ -51,10 +50,10 @@ class CheckForMaintenanceMode
     /**
      * Create a new CheckForMaintenanceMode instance.
      *
-     * @param  Application $app
-     * @param Guard        $guard
-     * @param Repository   $config
-     * @param Authorizer   $authorizer
+     * @param Application $app
+     * @param Guard       $guard
+     * @param Repository  $config
+     * @param Authorizer  $authorizer
      */
     public function __construct(Application $app, Guard $guard, Repository $config, Authorizer $authorizer)
     {

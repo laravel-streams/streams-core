@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class EagerLoadRelations
@@ -10,9 +9,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Command
  */
-class EagerLoadRelations implements SelfHandling
+class EagerLoadRelations
 {
 
     /**
@@ -53,7 +51,7 @@ class EagerLoadRelations implements SelfHandling
 
         foreach ($this->builder->getColumns() as $column) {
 
-            /**
+            /*
              * If the column value is a string and uses a dot
              * format then check if it's a relation.
              */
@@ -63,7 +61,6 @@ class EagerLoadRelations implements SelfHandling
                 preg_match("/^entry.([a-zA-Z\\_]+)./", $column['value'], $match)
             ) {
                 if ($assignment = $assignments->findByFieldSlug($match[1])) {
-
                     if ($assignment->getFieldType()->getNamespace() == 'anomaly.field_type.polymorphic') {
                         continue;
                     }

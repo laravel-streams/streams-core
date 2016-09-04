@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Ui\Form\FormCriteria;
 use Anomaly\Streams\Platform\Ui\Form\FormFactory;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class GetFormCriteria
@@ -12,9 +11,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class GetFormCriteria implements SelfHandling
+class GetFormCriteria
 {
 
     /**
@@ -37,14 +35,14 @@ class GetFormCriteria implements SelfHandling
     /**
      * Handle the command.
      *
-     * @param FormFactory $factory
+     * @param  FormFactory  $factory
      * @return FormCriteria
      */
     public function handle(FormFactory $factory)
     {
         if (is_string($this->parameters)) {
             $this->parameters = [
-                'builder' => $this->parameters
+                'builder' => $this->parameters,
             ];
         }
 

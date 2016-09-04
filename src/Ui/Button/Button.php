@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Button
  */
 class Button implements ButtonInterface
 {
@@ -134,7 +133,7 @@ class Button implements ButtonInterface
     /**
      * Set the dropdown.
      *
-     * @param array $dropdown
+     * @param  array $dropdown
      * @return $this
      */
     public function setDropdown(array $dropdown)
@@ -157,7 +156,7 @@ class Button implements ButtonInterface
     /**
      * Set the dropdown position.
      *
-     * @param array $position
+     * @param  array $position
      * @return $this
      */
     public function setPosition($position)
@@ -203,7 +202,7 @@ class Button implements ButtonInterface
     /**
      * Set the attributes.
      *
-     * @param array $attributes
+     * @param  array $attributes
      * @return $this
      */
     public function setAttributes(array $attributes)
@@ -295,7 +294,7 @@ class Button implements ButtonInterface
     /**
      * Set the icon.
      *
-     * @param string $icon
+     * @param  string $icon
      * @return $this
      */
     public function setIcon($icon)
@@ -387,7 +386,7 @@ class Button implements ButtonInterface
     /**
      * Set the button type.
      *
-     * @param string $type
+     * @param  string $type
      * @return $this
      */
     public function setType($type)
@@ -410,7 +409,7 @@ class Button implements ButtonInterface
     /**
      * Set the button text.
      *
-     * @param string $text
+     * @param  string $text
      * @return $this
      */
     public function setText($text)

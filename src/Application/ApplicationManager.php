@@ -9,17 +9,15 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Application
  */
 class ApplicationManager
 {
-
     use DispatchesJobs;
 
     /**
      * Create a new application.
      *
-     * @param array $attributes
+     * @param  array            $attributes
      * @return ApplicationModel
      */
     public function create(array $attributes)

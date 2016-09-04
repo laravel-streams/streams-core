@@ -1,15 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Database\Seeder\Command;
 
+use Anomaly\Streams\Platform\Addon\Addon;
+use Anomaly\Streams\Platform\Support\Presenter;
+use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Anomaly\Streams\Platform\Database\Seeder\Seeder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Console\Command;
 
-/**
- * Class Seed
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Seeder\Command
- */
 class Seed
 {
 
@@ -49,32 +46,60 @@ class Seed
     }
 
     /**
-     * Get the addon namespace.
+     * Handle the command.
      *
-     * @return string
+     * @param AddonCollection $addons
+     * @param Seeder          $seeder
      */
-    public function getAddon()
+    public function handle(AddonCollection $addons, Seeder $seeder)
     {
-        return $this->addon;
+        $seeder->setContainer(app());
+        $seeder->setCommand($command->getCommand());
+
+        Model::unguard();
+
+        $class = $command->getClass();
+        $addon = $addons->get($command->getAddon());
+
+        /*
+         * Depending on when this is called, and
+         * how seeding uses the view layer the addon's
+         * could be decorated, so un-decorate them real
+         * quick before proceeding.
+         */
+        if ($addon && $addon instanceof Presenter) {
+            $addon = $addon->getObject();
+        }
+
+        /*
+         * If the addon was passed then
+         * get it and seed it.
+         */
+        if ($addon) {
+            if (class_exists($this->getSeederClass($addon))) {
+                $seeder->call($this->getSeederClass($addon));
+            }
+        }
+
+        /*
+         * If a seeder class was passed then
+         * call it from the seeder utility.
+         */
+        if (!$addon && $class) {
+            if (class_exists($class)) {
+                $seeder->call($class);
+            }
+        }
     }
 
     /**
-     * Get the seeder class.
+     * Get the seeder class for an addon.
      *
+     * @param  Addon  $addon
      * @return string
      */
-    public function getClass()
+    protected function getSeederClass(Addon $addon)
     {
-        return $this->class;
-    }
-
-    /**
-     * Get the console command.
-     *
-     * @return Command
-     */
-    public function getCommand()
-    {
-        return $this->command;
+        return get_class($addon) . 'Seeder';
     }
 }

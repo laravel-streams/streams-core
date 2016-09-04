@@ -11,11 +11,9 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Entry
  */
 class EntryFactory
 {
-
     use DispatchesJobs;
     use FiresCallbacks;
 
@@ -48,9 +46,9 @@ class EntryFactory
     /**
      * Make a new EntryBuilder instance.
      *
-     * @param        $namespace
-     * @param        $stream
-     * @param string $method
+     * @param                     $namespace
+     * @param                     $stream
+     * @param  string             $method
      * @return EntryCriteria|null
      */
     public function make($namespace, $stream, $method = 'get')
@@ -72,7 +70,7 @@ class EntryFactory
             [
                 'query'  => $model->newQuery(),
                 'stream' => $model->getStream(),
-                'method' => $method
+                'method' => $method,
             ]
         );
     }

@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Entry\Contract
  */
 interface EntryRepositoryInterface extends EloquentRepositoryInterface
 {
@@ -17,7 +16,7 @@ interface EntryRepositoryInterface extends EloquentRepositoryInterface
     /**
      * Get the entries by sort order.
      *
-     * @param string $direction
+     * @param  string                 $direction
      * @return EntryCollection|static
      */
     public function sorted($direction = 'asc');
@@ -26,7 +25,7 @@ interface EntryRepositoryInterface extends EloquentRepositoryInterface
      * Get the first entry
      * by it's sort order.
      *
-     * @param string $direction
+     * @param  string              $direction
      * @return EntryInterface|null
      */
     public function first($direction = 'asc');

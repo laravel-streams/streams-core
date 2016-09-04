@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser
  */
 class PermissionGuesser
 {
@@ -59,14 +58,14 @@ class PermissionGuesser
 
         foreach ($actions as &$action) {
 
-            /**
+            /*
              * Nothing to do if set already.
              */
             if (isset($action['permission'])) {
                 continue;
             }
 
-            /**
+            /*
              * Try and guess the permission.
              */
             if ($stream) {

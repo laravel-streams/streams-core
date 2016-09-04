@@ -1,16 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Command;
 
-use Illuminate\Contracts\Bus\SelfHandling;
-
 /**
  * Class GetMemoryUsage
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Command
  */
-class GetMemoryUsage implements SelfHandling
+class GetMemoryUsage
 {
 
     /**
@@ -40,7 +37,7 @@ class GetMemoryUsage implements SelfHandling
     {
         $size = memory_get_usage(true);
 
-        $unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
+        $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
 
         return round($size / pow(1024, ($i = floor(log($size, 1024)))), $this->precision) . ' ' . $unit[$i];
     }

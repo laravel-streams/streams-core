@@ -2,14 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface;
 
-/**
- * Class ExtensionRepository
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\Extension
- */
 class ExtensionRepository implements ExtensionRepositoryInterface
 {
 
@@ -43,7 +35,7 @@ class ExtensionRepository implements ExtensionRepositoryInterface
     /**
      * Create a extension record.
      *
-     * @param Extension $extension
+     * @param  Extension $extension
      * @return bool
      */
     public function create(Extension $extension)
@@ -60,12 +52,14 @@ class ExtensionRepository implements ExtensionRepositoryInterface
     /**
      * Delete a extension record.
      *
-     * @param  Extension $extension
+     * @param  Extension      $extension
      * @return ExtensionModel
      */
     public function delete(Extension $extension)
     {
-        $extension = $this->model->findByNamespace($extension->getNamespace());
+        if (!$extension = $this->model->findByNamespace($extension->getNamespace())) {
+            return false;
+        }
 
         if ($extension) {
             $extension->delete();
@@ -82,7 +76,9 @@ class ExtensionRepository implements ExtensionRepositoryInterface
      */
     public function install(Extension $extension)
     {
-        $extension = $this->model->findByNamespaceOrNew($extension->getNamespace());
+        if (!$extension = $this->model->findByNamespaceOrNew($extension->getNamespace())) {
+            return false;
+        }
 
         $extension->installed = true;
         $extension->enabled   = true;
@@ -109,7 +105,7 @@ class ExtensionRepository implements ExtensionRepositoryInterface
     /**
      * Mark a extension as disabled.
      *
-     * @param Extension $extension
+     * @param  Extension $extension
      * @return bool
      */
     public function disable(Extension $extension)
@@ -124,7 +120,7 @@ class ExtensionRepository implements ExtensionRepositoryInterface
     /**
      * Mark a extension as enabled.
      *
-     * @param Extension $extension
+     * @param  Extension $extension
      * @return bool
      */
     public function enabled(Extension $extension)

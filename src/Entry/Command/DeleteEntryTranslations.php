@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Command;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class DeleteEntryTranslations
@@ -9,9 +8,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Entry\Command
  */
-class DeleteEntryTranslations implements SelfHandling
+class DeleteEntryTranslations
 {
 
     /**

@@ -4,13 +4,6 @@ use Anomaly\Streams\Platform\Database\Migration\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
-/**
- * Class CreateExtensionsTable
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class CreateExtensionsTable extends Migration
 {
 
@@ -28,7 +21,6 @@ class CreateExtensionsTable extends Migration
             $schema->create(
                 'addons_extensions',
                 function (Blueprint $table) {
-
                     $table->increments('id');
                     $table->string('namespace');
                     $table->boolean('installed')->default(0);

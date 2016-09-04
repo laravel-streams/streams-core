@@ -3,17 +3,8 @@
 use Anomaly\Streams\Platform\Installer\Installer;
 use Anomaly\Streams\Platform\Installer\InstallerCollection;
 use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Contracts\Bus\SelfHandling;
 
-/**
- * Class LoadCoreInstallers
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Installer\Console\Command
- */
-class LoadCoreInstallers implements SelfHandling
+class LoadCoreInstallers
 {
 
     /**
@@ -45,9 +36,8 @@ class LoadCoreInstallers implements SelfHandling
                     $console->call(
                         'migrate',
                         [
-                            '--force'     => true,
-                            '--no-addons' => true,
-                            '--path'      => 'vendor/anomaly/streams-platform/migrations/core'
+                            '--force' => true,
+                            '--path'  => 'vendor/anomaly/streams-platform/migrations/core',
                         ]
                     );
                 }

@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class MoveAssignmentColumn
@@ -11,9 +10,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Assignment\Command
  */
-class MoveAssignmentColumn implements SelfHandling
+class MoveAssignmentColumn
 {
 
     /**
@@ -50,7 +48,7 @@ class MoveAssignmentColumn implements SelfHandling
             return;
         }
 
-        /**
+        /*
          * If it's NOW translatable then move it from
          * the main table to the translations table.
          */
@@ -59,7 +57,7 @@ class MoveAssignmentColumn implements SelfHandling
             $schema->addColumn($stream->getEntryTranslationsTableName(), $assignment->getFieldType(true), $assignment);
         }
 
-        /**
+        /*
          * If it's NOT translatable then move it from
          * the translations table to the main table.
          */

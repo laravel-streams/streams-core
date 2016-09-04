@@ -11,7 +11,6 @@ use Illuminate\Support\Collection;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Row
  */
 class Row implements RowInterface
 {
@@ -100,7 +99,7 @@ class Row implements RowInterface
     /**
      * Set the row columns.
      *
-     * @param Collection $columns
+     * @param  Collection $columns
      * @return $this
      */
     public function setColumns(Collection $columns)
@@ -133,7 +132,7 @@ class Row implements RowInterface
     /**
      * Set the table.
      *
-     * @param Table $table
+     * @param  Table $table
      * @return $this
      */
     public function setTable(Table $table)

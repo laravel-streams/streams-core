@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Action\Guesser
  */
 class RedirectGuesser
 {
@@ -58,7 +57,7 @@ class RedirectGuesser
 
         foreach ($actions as $key => &$action) {
 
-            /**
+            /*
              * If we already have an
              * HREF then skip it.
              */
@@ -66,19 +65,18 @@ class RedirectGuesser
                 continue;
             }
 
-            /**
+            /*
              * If this is the first action and the
              * form builder has a redirect option
              * then use it for the action redirect.
              */
             if ($key == $first && $redirect = $builder->getOption('redirect')) {
-
                 $action['redirect'] = $redirect;
 
                 continue;
             }
 
-            /**
+            /*
              * If we're not in admin then just assume we
              * need to head back to the form. No redirect
              * will redirect back in this case.
@@ -104,7 +102,6 @@ class RedirectGuesser
                 case 'save_edit':
                 case 'save_continue':
                     $action['redirect'] = function () use ($section, $builder) {
-
                         if ($section && $builder->getFormMode() == 'create') {
                             return $section->getHref('edit/' . $builder->getContextualId());
                         }

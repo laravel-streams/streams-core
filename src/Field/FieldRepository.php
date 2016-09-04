@@ -1,17 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
+use Anomaly\Streams\Platform\Model\EloquentRepository;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
-use Anomaly\Streams\Platform\Model\EloquentRepository;
 
-/**
- * Class FieldRepository
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Field
- */
 class FieldRepository extends EloquentRepository implements FieldRepositoryInterface
 {
 
@@ -35,7 +28,7 @@ class FieldRepository extends EloquentRepository implements FieldRepositoryInter
     /**
      * Create a new field.
      *
-     * @param array $attributes
+     * @param  array          $attributes
      * @return FieldInterface
      */
     public function create(array $attributes = [])
@@ -74,7 +67,9 @@ class FieldRepository extends EloquentRepository implements FieldRepositoryInter
      */
     public function cleanup()
     {
-        $fieldTypes = app('field_type.collection')->lists('namespace');
+        $fieldTypes = app('field_type.collection')->map(function (FieldType $fieldType) {
+            return $fieldType->getNamespace();
+        })->all();
 
         $this->model
             ->leftJoin('streams_streams', 'streams_fields.namespace', '=', 'streams_streams.namespace')

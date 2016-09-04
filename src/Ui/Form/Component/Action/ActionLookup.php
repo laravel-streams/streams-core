@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Action
  */
 class ActionLookup
 {
@@ -34,7 +33,7 @@ class ActionLookup
      * @param ActionRegistry $actions
      * @param ButtonRegistry $buttons
      */
-    function __construct(ActionRegistry $actions, ButtonRegistry $buttons)
+    public function __construct(ActionRegistry $actions, ButtonRegistry $buttons)
     {
         $this->actions = $actions;
         $this->buttons = $buttons;
@@ -50,7 +49,6 @@ class ActionLookup
         $actions = $builder->getActions();
 
         foreach ($actions as &$parameters) {
-
             $action = $original = array_pull($parameters, 'action');
 
             if ($action && $action = $this->actions->get($action)) {

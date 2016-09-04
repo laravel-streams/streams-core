@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class BackupAssignmentData
@@ -11,9 +10,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Assignment\Command
  */
-class BackupAssignmentData implements SelfHandling
+class BackupAssignmentData
 {
 
     /**
@@ -50,7 +48,7 @@ class BackupAssignmentData implements SelfHandling
             return;
         }
 
-        /**
+        /*
          * If it's NOW translatable then
          * back it up from the main table.
          */
@@ -58,7 +56,7 @@ class BackupAssignmentData implements SelfHandling
             $schema->backupColumn($stream->getEntryTableName(), $assignment->getFieldType(true));
         }
 
-        /**
+        /*
          * If it's NOT translatable then back
          * it up from the translations table.
          */

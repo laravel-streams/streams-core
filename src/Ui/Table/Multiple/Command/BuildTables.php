@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class BuildTables
@@ -10,9 +9,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Multiple\Command
  */
-class BuildTables implements SelfHandling
+class BuildTables
 {
 
     /**
@@ -39,7 +37,6 @@ class BuildTables implements SelfHandling
     {
         /* @var TableBuilder $builder */
         foreach ($this->builder->getTables() as $builder) {
-
             $builder
                 ->setFilters($this->builder->getFilters())
                 ->setButtons($this->builder->getButtons())

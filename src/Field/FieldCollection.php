@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Field
  */
 class FieldCollection extends EloquentCollection
 {
@@ -55,7 +54,7 @@ class FieldCollection extends EloquentCollection
      * Return fields only assigned
      * to the provided stream.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return static
      */
     public function assignedTo(StreamInterface $stream)
@@ -76,7 +75,7 @@ class FieldCollection extends EloquentCollection
      * Return fields only NOT assigned
      * to the provided stream.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return static
      */
     public function notAssignedTo(StreamInterface $stream)

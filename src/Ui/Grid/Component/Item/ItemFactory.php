@@ -10,7 +10,6 @@ use Illuminate\Contracts\Container\Container;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Grid
  */
 class ItemFactory
 {
@@ -44,7 +43,7 @@ class ItemFactory
     /**
      * Make an item.
      *
-     * @param  array $parameters
+     * @param  array         $parameters
      * @return ItemInterface
      */
     public function make(array $parameters)

@@ -1,29 +1,23 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
-use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
+use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Carbon\Carbon;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Robbo\Presenter\PresentableInterface;
+use Laravel\Scout\ModelObserver;
+use Laravel\Scout\Searchable;
+use Carbon\Carbon;
 
-/**
- * Class EntryModel
- *
- * @method        Builder sorted()
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Entry
- */
 class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface
 {
+    use Searchable;
 
     /**
      * The foreign key for translations.
@@ -31,6 +25,13 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      * @var string
      */
     protected $translationForeignKey = 'entry_id';
+
+    /**
+     * By default nothing is searchable.
+     *
+     * @var boolean
+     */
+    protected $searchable = false;
 
     /**
      * The validation rules. These are
@@ -75,6 +76,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         if ($events && class_exists($observer)) {
             self::observe(app($observer));
+        }
+
+        if (!$instance->isSearchable()) {
+            ModelObserver::disableSyncingFor(get_class(new static));
         }
 
         if ($events && !static::$dispatcher->hasListeners('eloquent.' . array_shift($events) . ': ' . $class)) {
@@ -172,8 +177,8 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     /**
      * Get a field value.
      *
-     * @param      $fieldSlug
-     * @param null $locale
+     * @param        $fieldSlug
+     * @param  null  $locale
      * @return mixed
      */
     public function getFieldValue($fieldSlug, $locale = null)
@@ -190,7 +195,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $modifier = $type->getModifier();
 
         if ($assignment->isTranslatable()) {
-
             $entry = $this->translateOrDefault($locale);
 
             $type->setLocale($locale);
@@ -208,7 +212,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
             $assignment->isRequired() &&
             $translation = $this->translate()
         ) {
-
             $type->setEntry($translation);
 
             $value = $modifier->restore($accessor->get());
@@ -220,9 +223,9 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     /**
      * Set a field value.
      *
-     * @param      $fieldSlug
-     * @param      $value
-     * @param null $locale
+     * @param        $fieldSlug
+     * @param        $value
+     * @param  null  $locale
      * @return $this
      */
     public function setFieldValue($fieldSlug, $value, $locale = null)
@@ -236,7 +239,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $type = $assignment->getFieldType($this);
 
         if ($assignment->isTranslatable()) {
-
             $entry = $this->translateOrNew($locale);
 
             $type->setLocale($locale);
@@ -302,7 +304,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $type = $assignment->getFieldType();
 
         if ($assignment->isTranslatable()) {
-
             $entry = $this->translateOrDefault($locale);
 
             $type->setLocale($locale);
@@ -396,8 +397,8 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     /**
      * Get a raw unmodified attribute.
      *
-     * @param      $key
-     * @param bool $process
+     * @param             $key
+     * @param  bool       $process
      * @return mixed|null
      */
     public function getRawAttribute($key, $process = true)
@@ -520,7 +521,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     /**
      * Get the field slugs for assigned fields.
      *
-     * @param null $prefix
+     * @param  null  $prefix
      * @return array
      */
     public function getAssignmentFieldSlugs($prefix = null)
@@ -666,7 +667,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         /* @var AssignmentInterface $assignment */
         foreach ($assignments->notTranslatable() as $assignment) {
-
             $fieldType = $assignment->getFieldType();
 
             $fieldType->setValue($this->getFieldValue($assignment->getFieldSlug()));
@@ -695,7 +695,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * @param array $items
+     * @param  array           $items
      * @return EntryCollection
      */
     public function newCollection(array $items = [])
@@ -787,20 +787,14 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Get a new query builder for the model's table.
+     * Create a new Eloquent query builder for the model.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  \Illuminate\Database\Query\Builder           $query
+     * @return \Illuminate\Database\Eloquent\Builder|static
      */
-    public function newQuery()
+    public function newEloquentBuilder($query)
     {
-        $builder = new EntryQueryBuilder($this->newBaseQueryBuilder());
-
-        // Once we have the query builders, we will set the model instances so the
-        // builder can easily access any information it may need from the model
-        // while it is constructing and executing various queries against it.
-        $builder->setModel($this)->with($this->with);
-
-        return $this->applyGlobalScopes($builder);
+        return new EntryQueryBuilder($query);
     }
 
     /**
@@ -816,9 +810,38 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Return whether the model is searchable or not.
+     *
+     * @return boolean
+     */
+    public function isSearchable()
+    {
+        return $this->searchable;
+    }
+
+    /**
+     * Return a searchable array.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        foreach ($array as $key => &$value) {
+            if (is_array($value)) {
+                $value = json_encode($value);
+                continue;
+            }
+        }
+
+        return $array;
+    }
+
+    /**
      * Override the __get method.
      *
-     * @param string $key
+     * @param  string               $key
      * @return EntryPresenter|mixed
      */
     public function __get($key)

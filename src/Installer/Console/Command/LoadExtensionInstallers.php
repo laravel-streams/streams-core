@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Installer\Installer;
 use Anomaly\Streams\Platform\Installer\InstallerCollection;
 use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class LoadExtensionInstallers
@@ -13,9 +12,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Installer\Console\Command
  */
-class LoadExtensionInstallers implements SelfHandling
+class LoadExtensionInstallers
 {
 
     /**

@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Command;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class DeleteAssignmentTranslations
@@ -9,9 +8,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Assignment\Command
  */
-class DeleteAssignmentTranslations implements SelfHandling
+class DeleteAssignmentTranslations
 {
 
     /**
@@ -40,5 +38,4 @@ class DeleteAssignmentTranslations implements SelfHandling
             $translation->delete();
         }
     }
-
 }

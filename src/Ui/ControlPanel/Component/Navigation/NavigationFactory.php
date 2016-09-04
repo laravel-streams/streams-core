@@ -10,7 +10,6 @@ use Illuminate\Contracts\Container\Container;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation
  */
 class NavigationFactory
 {
@@ -51,7 +50,7 @@ class NavigationFactory
     /**
      * Make the navigation link.
      *
-     * @param array $parameters
+     * @param  array                   $parameters
      * @return NavigationLinkInterface
      */
     public function make(array $parameters)

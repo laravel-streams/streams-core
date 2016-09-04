@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Field
  */
 class FieldFactory
 {
@@ -56,9 +55,9 @@ class FieldFactory
     /**
      * Make a field type.
      *
-     * @param array           $parameters
-     * @param StreamInterface $stream
-     * @param null            $entry
+     * @param  array           $parameters
+     * @param  StreamInterface $stream
+     * @param  null            $entry
      * @return FieldType
      */
     public function make(array $parameters, StreamInterface $stream = null, $entry = null)
@@ -66,7 +65,7 @@ class FieldFactory
         /* @var EntryInterface $entry */
         if ($stream && $entry instanceof EntryInterface && $entry->hasField(array_get($parameters, 'field'))) {
 
-            /**
+            /*
              * Allow overriding the type here
              * should they want to do that.
              */
@@ -85,7 +84,6 @@ class FieldFactory
                 (!is_null($value)) ? $modifier->restore($value) : $entry->getAttribute($field->getField())
             );
         } elseif (is_object($entry)) {
-
             $field    = $this->builder->build($parameters);
             $modifier = $field->getModifier();
 
@@ -93,7 +91,6 @@ class FieldFactory
 
             $field->setValue((!is_null($value)) ? $modifier->restore($value) : $entry->{$field->getField()});
         } else {
-
             $field    = $this->builder->build($parameters);
             $modifier = $field->getModifier();
 

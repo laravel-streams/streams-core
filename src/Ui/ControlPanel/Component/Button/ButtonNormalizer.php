@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Button
  */
 class ButtonNormalizer
 {
@@ -24,18 +23,18 @@ class ButtonNormalizer
 
         foreach ($buttons as $key => &$button) {
 
-            /**
+            /*
              * If the button is a string but the key
              * is numeric then use the button as the
              * button type.
              */
             if (is_numeric($key) && is_string($button)) {
                 $button = [
-                    'button' => $button
+                    'button' => $button,
                 ];
             }
 
-            /**
+            /*
              * If the button AND key are strings then
              * use the key as the button and the
              * button as the text parameters.
@@ -47,7 +46,7 @@ class ButtonNormalizer
                 ];
             }
 
-            /**
+            /*
              * If the key is not numeric and the button
              * is an array without the button key then
              * use the key as the button's type.
@@ -56,26 +55,26 @@ class ButtonNormalizer
                 $button['button'] = $key;
             }
 
-            /**
+            /*
              * Make sure some default parameters exist.
              */
             $button['attributes'] = array_get($button, 'attributes', []);
 
-            /**
+            /*
              * Move the HREF if any to the attributes.
              */
             if (isset($button['href'])) {
                 array_set($button['attributes'], 'href', array_pull($button, 'href'));
             }
 
-            /**
+            /*
              * Move the target if any to the attributes.
              */
             if (isset($button['target'])) {
                 array_set($button['attributes'], 'target', array_pull($button, 'target'));
             }
 
-            /**
+            /*
              * Move all data-* keys
              * to attributes.
              */
@@ -85,7 +84,7 @@ class ButtonNormalizer
                 }
             }
 
-            /**
+            /*
              * Make sure the HREF is absolute.
              */
             if (
@@ -96,17 +95,16 @@ class ButtonNormalizer
                 $button['attributes']['href'] = url($button['attributes']['href']);
             }
 
-            /**
+            /*
              * If we have a dropdown then
              * process those real quick.
              */
             if (isset($button['dropdown'])) {
                 foreach ($button['dropdown'] as $index => &$dropdown) {
-
                     if (is_string($dropdown)) {
                         $dropdown = [
                             'text' => $index,
-                            'href' => $dropdown
+                            'href' => $dropdown,
                         ];
                     }
 

@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Field\Command
  */
 class UnassignField
 {
@@ -35,29 +34,21 @@ class UnassignField
      * @param FieldInterface  $field
      * @param StreamInterface $stream
      */
-    function __construct(FieldInterface $field, StreamInterface $stream)
+    public function __construct(FieldInterface $field, StreamInterface $stream)
     {
         $this->field  = $field;
         $this->stream = $stream;
     }
 
     /**
-     * Get the field.
+     * Handle the command.
      *
-     * @return FieldInterface
+     * @param AssignmentRepositoryInterface $assignments
      */
-    public function getField()
+    public function handle(AssignmentRepositoryInterface $assignments)
     {
-        return $this->field;
-    }
-
-    /**
-     * Get the stream.
-     *
-     * @return StreamInterface
-     */
-    public function getStream()
-    {
-        return $this->stream;
+        if ($assignment = $assignments->findByStreamAndField($this->stream, $this->field)) {
+            $assignments->delete($assignment);
+        }
     }
 }

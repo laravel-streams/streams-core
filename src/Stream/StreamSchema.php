@@ -10,7 +10,6 @@ use Illuminate\Database\Schema\Builder;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Stream
  */
 class StreamSchema
 {
@@ -44,7 +43,6 @@ class StreamSchema
         $this->schema->create(
             $table,
             function (Blueprint $table) use ($stream) {
-
                 $table->increments('id');
                 $table->integer('sort_order')->nullable();
                 $table->datetime('created_at');
@@ -72,7 +70,6 @@ class StreamSchema
         $this->schema->create(
             $table,
             function (Blueprint $table) {
-
                 $table->increments('id');
                 $table->integer('entry_id');
                 $table->datetime('created_at');

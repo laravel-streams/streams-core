@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Support\Authorizer;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\Module
  */
 class ModuleCollection extends AddonCollection
 {
@@ -34,7 +33,6 @@ class ModuleCollection extends AddonCollection
 
         foreach ($navigation as $key => $item) {
             if ($item->getNamespace() == 'anomaly.module.dashboard') {
-
                 $navigation = [$key => $item] + $navigation;
 
                 break;

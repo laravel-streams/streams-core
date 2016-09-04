@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form
  */
 class FormInput
 {
@@ -34,7 +33,7 @@ class FormInput
     /**
      * Return all the input from the form.
      *
-     * @param FormBuilder $builder
+     * @param  FormBuilder $builder
      * @return array
      */
     public function all(FormBuilder $builder)

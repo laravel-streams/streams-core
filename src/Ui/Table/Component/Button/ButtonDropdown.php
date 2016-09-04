@@ -16,11 +16,9 @@ class ButtonDropdown
 
         foreach ($buttons as $key => &$button) {
             if (isset($button['dropdown'])) {
-
                 $button['position'] = 'right';
 
                 foreach (array_pull($button, 'dropdown') as $dropdown) {
-
                     $dropdown['parent'] = $button['button'];
 
                     $buttons[] = $dropdown;
@@ -42,11 +40,8 @@ class ButtonDropdown
 
         foreach ($buttons as $key => &$button) {
             if ($dropdown = array_get($button, 'parent')) {
-
                 foreach ($buttons as &$parent) {
-
                     if (array_get($parent, 'button') == $dropdown) {
-
                         if (!isset($parent['dropdown'])) {
                             $parent['dropdown'] = [];
                         }

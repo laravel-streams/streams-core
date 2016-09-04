@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Installer\Installer;
 use Anomaly\Streams\Platform\Installer\InstallerCollection;
 use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class LoadModuleInstallers
@@ -13,9 +12,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Installer\Console\Command
  */
-class LoadModuleInstallers implements SelfHandling
+class LoadModuleInstallers
 {
 
     /**
@@ -44,7 +42,6 @@ class LoadModuleInstallers implements SelfHandling
     {
         /* @var Module $module */
         foreach ($modules as $module) {
-
             if ($module->getNamespace() == 'anomaly.module.installer') {
                 continue;
             }

@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class NavigationHandler
@@ -11,9 +10,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation
  */
-class NavigationHandler implements SelfHandling
+class NavigationHandler
 {
 
     /**
@@ -37,7 +35,6 @@ class NavigationHandler implements SelfHandling
 
         foreach ($navigation as $key => $module) {
             if ($module->getNamespace() == 'anomaly.module.dashboard') {
-
                 $navigation = [$key => $module] + $navigation;
 
                 break;

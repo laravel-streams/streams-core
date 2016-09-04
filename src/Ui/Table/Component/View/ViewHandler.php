@@ -11,7 +11,6 @@ use Illuminate\Contracts\Container\Container;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\View
  */
 class ViewHandler
 {
@@ -45,7 +44,7 @@ class ViewHandler
             return;
         }
 
-        /**
+        /*
          * If the handler is a callable string or Closure
          * then call it using the IoC container.
          */
@@ -53,7 +52,7 @@ class ViewHandler
             $this->container->call($handler, compact('builder'));
         }
 
-        /**
+        /*
          * If the handle is an instance of ViewHandlerInterface
          * simply call the handle method on it.
          */

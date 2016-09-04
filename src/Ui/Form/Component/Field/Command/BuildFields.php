@@ -2,17 +2,8 @@
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 
-/**
- * Class BuildFields
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Field\Command
- */
-class BuildFields implements SelfHandling
+class BuildFields
 {
 
     /**

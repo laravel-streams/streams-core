@@ -22,7 +22,6 @@ use Robbo\Presenter\Presenter;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Image
  */
 class Image
 {
@@ -123,7 +122,7 @@ class Image
         'rotate',
         'amount',
         'widen',
-        'orientate'
+        'orientate',
     ];
 
     /**
@@ -248,8 +247,8 @@ class Image
     /**
      * Make a new image instance.
      *
-     * @param mixed $image
-     * @param null  $output
+     * @param  mixed $image
+     * @param  null  $output
      * @return $this
      */
     public function make($image, $output = null)
@@ -303,8 +302,8 @@ class Image
     /**
      * Return the URL to an image.
      *
-     * @param array $parameters
-     * @param null  $secure
+     * @param  array  $parameters
+     * @param  null   $secure
      * @return string
      */
     public function url(array $parameters = [], $secure = null)
@@ -315,8 +314,8 @@ class Image
     /**
      * Return the image tag to an image.
      *
-     * @param null  $alt
-     * @param array $attributes
+     * @param  null   $alt
+     * @param  array  $attributes
      * @return string
      */
     public function image($alt = null, array $attributes = [])
@@ -339,8 +338,8 @@ class Image
     /**
      * Return the image tag to an image.
      *
-     * @param null  $alt
-     * @param array $attributes
+     * @param  null   $alt
+     * @param  array  $attributes
      * @return string
      */
     public function img($alt = null, array $attributes = [])
@@ -396,8 +395,8 @@ class Image
     /**
      * Return the image response.
      *
-     * @param null $format
-     * @param int  $quality
+     * @param  null   $format
+     * @param  int    $quality
      * @return String
      */
     public function encode($format = null, $quality = null)
@@ -450,7 +449,7 @@ class Image
     /**
      * Set the width attribute.
      *
-     * @param null $width
+     * @param  null  $width
      * @return Image
      */
     public function width($width = null)
@@ -461,7 +460,7 @@ class Image
     /**
      * Set the height attribute.
      *
-     * @param null $height
+     * @param  null  $height
      * @return Image
      */
     public function height($height = null)
@@ -554,7 +553,6 @@ class Image
         $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
         if ($this->files->extension($path) == 'svg') {
-
             $this->files->put($path, $this->dumpImage());
 
             return;
@@ -569,7 +567,6 @@ class Image
         }
 
         if (!$this->getAlterations() && $content = $this->dumpImage()) {
-
             $this->files->put($this->directory . $path, $content);
 
             return;
@@ -580,7 +577,6 @@ class Image
         }
 
         foreach ($this->getAlterations() as $method => $arguments) {
-
             if ($method == 'resize') {
                 $this->guessResizeArguments($arguments);
             }
@@ -636,7 +632,6 @@ class Image
     public function srcsets(array $srcsets)
     {
         foreach ($srcsets as $descriptor => &$alterations) {
-
             $image = $this->make(array_pull($alterations, 'image', $this->getImage()))->setOutput('url');
 
             foreach ($alterations as $method => $arguments) {
@@ -658,14 +653,13 @@ class Image
     /**
      * Set the sources/alterations.
      *
-     * @param array $sources
-     * @param bool  $merge
+     * @param  array $sources
+     * @param  bool  $merge
      * @return $this
      */
     public function sources(array $sources, $merge = true)
     {
         foreach ($sources as $media => &$alterations) {
-
             if ($merge) {
                 $alterations = array_merge($this->getAlterations(), $alterations);
             }
@@ -695,8 +689,8 @@ class Image
     /**
      * Alter the image based on the user agents.
      *
-     * @param array $agents
-     * @param bool  $exit
+     * @param  array $agents
+     * @param  bool  $exit
      * @return $this
      */
     public function agents(array $agents, $exit = false)
@@ -744,7 +738,6 @@ class Image
 
         // Replace path prefixes.
         if (is_string($image) && str_contains($image, '::')) {
-
             $image = $this->paths->realPath($image);
 
             $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
@@ -898,7 +891,7 @@ class Image
     /**
      * Set the alterations.
      *
-     * @param array $alterations
+     * @param  array $alterations
      * @return $this
      */
     public function setAlterations(array $alterations)
@@ -935,7 +928,7 @@ class Image
     /**
      * Set the attributes.
      *
-     * @param array $attributes
+     * @param  array $attributes
      * @return $this
      */
     public function setAttributes(array $attributes)
@@ -972,7 +965,7 @@ class Image
     /**
      * Set the srcsets.
      *
-     * @param array $srcsets
+     * @param  array $srcsets
      * @return $this
      */
     public function setSrcsets(array $srcsets)
@@ -995,7 +988,7 @@ class Image
     /**
      * Set the sources.
      *
-     * @param array $sources
+     * @param  array $sources
      * @return $this
      */
     public function setSources(array $sources)
@@ -1008,7 +1001,7 @@ class Image
     /**
      * Get the quality.
      *
-     * @param null $default
+     * @param  null $default
      * @return int
      */
     public function getQuality($default = null)
@@ -1165,7 +1158,7 @@ class Image
      * @param $arguments
      * @return $this|mixed
      */
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
         if (in_array($name, $this->getAllowedMethods())) {
             return $this->addAlteration($name, $arguments);
@@ -1176,7 +1169,6 @@ class Image
         }
 
         if (!method_exists($this, $name)) {
-
             array_set($this->attributes, $name, array_shift($arguments));
 
             return $this;

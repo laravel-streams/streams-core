@@ -4,18 +4,9 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Config\Repository;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Translation\Translator;
 
-/**
- * Class GetConfigFields
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Field\Form\Command
- */
-class GetConfigFields implements SelfHandling
+class GetConfigFields
 {
 
     /**
@@ -59,7 +50,7 @@ class GetConfigFields implements SelfHandling
 
         foreach ($fields as $slug => $field) {
 
-            /**
+            /*
              * Determine the field label.
              */
             $label = $this->fieldType->getNamespace('config.' . $slug . '.label');
@@ -70,7 +61,7 @@ class GetConfigFields implements SelfHandling
 
             $field['label'] = array_get($field, 'label', $label);
 
-            /**
+            /*
              * Determine the instructions.
              */
             $instructions = $this->fieldType->getNamespace('config.' . $slug . '.instructions');
@@ -79,7 +70,7 @@ class GetConfigFields implements SelfHandling
                 $field['instructions'] = $instructions;
             }
 
-            /**
+            /*
              * Determine the placeholder.
              */
             $placeholder = $this->fieldType->getNamespace('config.' . $slug . '.placeholder');
@@ -88,7 +79,7 @@ class GetConfigFields implements SelfHandling
                 $field['placeholder'] = $placeholder;
             }
 
-            /**
+            /*
              * Determine the warning.
              */
             $warning = $this->fieldType->getNamespace('config.' . $slug . '.warning');
@@ -97,15 +88,15 @@ class GetConfigFields implements SelfHandling
                 $field['warning'] = $warning;
             }
 
-            /**
+            /*
              * Set the configuration value.
              */
             $field['value'] = array_get($this->fieldType->getConfig(), $slug);
 
             // Prefix the slugs.
-            $field['field'] = 'config.' . $slug;
+            $field['field'] = 'config__' . $slug;
 
-            $fields['config.' . $slug] = $field;
+            $fields['config__' . $slug] = $field;
 
             $this->builder->addField($field);
         }

@@ -16,7 +16,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableCollection;
  * @link          http://anomaly.is/streams-plattable
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Assignment\Table\Multiple
  */
 class MultipleTableBuilder extends TableBuilder
 {
@@ -94,8 +93,8 @@ class MultipleTableBuilder extends TableBuilder
     /**
      * Add a table.
      *
-     * @param              $key
-     * @param TableBuilder $builder
+     * @param               $key
+     * @param  TableBuilder $builder
      * @return $this
      */
     public function addTable($key, TableBuilder $builder)

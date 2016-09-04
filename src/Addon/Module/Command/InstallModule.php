@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
@@ -14,9 +13,8 @@ use Illuminate\Contracts\Events\Dispatcher;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\Module\Command
  */
-class InstallModule implements SelfHandling
+class InstallModule
 {
 
     /**
@@ -39,7 +37,7 @@ class InstallModule implements SelfHandling
      * @param Module $module
      * @param bool   $seed
      */
-    function __construct(Module $module, $seed = false)
+    public function __construct(Module $module, $seed = false)
     {
         $this->seed   = $seed;
         $this->module = $module;
@@ -48,10 +46,10 @@ class InstallModule implements SelfHandling
     /**
      * Handle the command.
      *
-     * @param Kernel                    $console
-     * @param AddonManager              $manager
-     * @param Dispatcher                $dispatcher
-     * @param ModuleRepositoryInterface $modules
+     * @param  Kernel                    $console
+     * @param  AddonManager              $manager
+     * @param  Dispatcher                $dispatcher
+     * @param  ModuleRepositoryInterface $modules
      * @return bool
      */
     public function handle(
@@ -64,14 +62,14 @@ class InstallModule implements SelfHandling
 
         $options = [
             '--addon' => $this->module->getNamespace(),
-            '--force' => true
+            '--force' => true,
         ];
 
         $console->call('migrate:refresh', $options);
 
-        $modules->install($this->module);
-
         $manager->register();
+
+        $modules->install($this->module);
 
         if ($this->seed) {
             $console->call('db:seed', $options);

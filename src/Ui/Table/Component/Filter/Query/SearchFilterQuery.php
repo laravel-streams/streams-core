@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Model\EloquentQueryBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\SearchFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -13,9 +12,8 @@ use Illuminate\Database\Eloquent\Builder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Filter\Handler
  */
-class SearchFilterQuery implements SelfHandling
+class SearchFilterQuery
 {
 
     /**
@@ -64,13 +62,11 @@ class SearchFilterQuery implements SelfHandling
 
         $query->where(
             function (Builder $query) use ($filter, $stream) {
-
                 foreach ($filter->getColumns() as $column) {
                     $query->orWhere($column, 'LIKE', "%{$filter->getValue()}%");
                 }
 
                 foreach ($filter->getFields() as $field) {
-
                     $filter->setField($field);
 
                     $fieldType      = $stream->getFieldType($field);

@@ -4,13 +4,6 @@ use Anomaly\Streams\Platform\Database\Migration\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
-/**
- * Class CreateAssignmentsTables
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class CreateAssignmentsTables extends Migration
 {
 
@@ -28,7 +21,6 @@ class CreateAssignmentsTables extends Migration
             $schema->create(
                 'streams_assignments',
                 function (Blueprint $table) {
-
                     $table->increments('id');
                     $table->integer('sort_order');
                     $table->integer('stream_id');
@@ -47,7 +39,6 @@ class CreateAssignmentsTables extends Migration
             $schema->create(
                 'streams_assignments_translations',
                 function (Blueprint $table) {
-
                     $table->increments('id');
                     $table->integer('assignment_id');
                     $table->string('locale')->index();

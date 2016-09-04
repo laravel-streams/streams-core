@@ -8,7 +8,6 @@ use Illuminate\Support\Collection;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Collection
  */
 class CacheCollection extends Collection
 {
@@ -86,7 +85,7 @@ class CacheCollection extends Collection
     /**
      * Add cached keys.
      *
-     * @param array $keys
+     * @param  array $keys
      * @return $this
      */
     public function addKeys(array $keys = [])
@@ -103,9 +102,10 @@ class CacheCollection extends Collection
     /**
      * Return only unique items from the collection array.
      *
-     * @param  null $key
+     * @param null $key
+     * @param bool $strict
      */
-    public function unique($key = null)
+    public function unique($key = null, $strict = false)
     {
         $this->items = array_unique($this->items);
 
@@ -127,7 +127,7 @@ class CacheCollection extends Collection
     /**
      * Set the collection key.
      *
-     * @param null $key
+     * @param  null  $key
      * @return $this
      */
     public function setKey($key = null)

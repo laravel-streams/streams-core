@@ -26,11 +26,9 @@ use Symfony\Component\Console\Input\InputOption;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Stream\Console
  */
 class Make extends Command
 {
-
     use DispatchesJobs;
 
     /**
@@ -83,7 +81,7 @@ class Make extends Command
             [
                 'name'     => 'create_' . $slug . '_stream',
                 '--addon'  => $addon->getNamespace(),
-                '--stream' => $slug
+                '--stream' => $slug,
             ]
         );
     }
@@ -97,7 +95,7 @@ class Make extends Command
     {
         return [
             ['slug', InputArgument::REQUIRED, 'The entity\'s stream slug.'],
-            ['addon', InputArgument::REQUIRED, 'The addon in which to put the new entity namespace.']
+            ['addon', InputArgument::REQUIRED, 'The addon in which to put the new entity namespace.'],
         ];
     }
 
@@ -110,7 +108,7 @@ class Make extends Command
     {
         return [
             ['namespace', null, InputOption::VALUE_OPTIONAL, 'The stream namespace if not the same as the addon.'],
-            ['migration', null, InputOption::VALUE_NONE, 'Indicates if an stream migration should be created.']
+            ['migration', null, InputOption::VALUE_NONE, 'Indicates if an stream migration should be created.'],
         ];
     }
 }

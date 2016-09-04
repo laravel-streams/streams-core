@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class SectionHandler
@@ -11,9 +10,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section
  */
-class SectionHandler implements SelfHandling
+class SectionHandler
 {
 
     /**
@@ -50,7 +48,7 @@ class SectionHandler implements SelfHandling
     public function handle(ControlPanelBuilder $builder)
     {
 
-        /**
+        /*
          * We have to have a module for
          * the default functionality.
          */
@@ -58,12 +56,12 @@ class SectionHandler implements SelfHandling
             return;
         }
 
-        /**
+        /*
          * Default to the module's sections.
          */
         $builder->setSections($sections = $module->getSections());
 
-        /**
+        /*
          * If the module has a sections handler
          * let that HANDLE the sections.
          */

@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Installer\Installer;
 use Anomaly\Streams\Platform\Installer\InstallerCollection;
 use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class LoadModuleSeeders
@@ -13,9 +12,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Installer\Console\Command
  */
-class LoadModuleSeeders implements SelfHandling
+class LoadModuleSeeders
 {
 
     /**
@@ -44,7 +42,6 @@ class LoadModuleSeeders implements SelfHandling
     {
         /* @var Module $module */
         foreach ($modules as $module) {
-
             if ($module->getNamespace() == 'anomaly.module.installer') {
                 continue;
             }
@@ -57,7 +54,7 @@ class LoadModuleSeeders implements SelfHandling
                             'db:seed',
                             [
                                 '--addon' => $module->getNamespace(),
-                                '--force' => true
+                                '--force' => true,
                             ]
                         );
                     }

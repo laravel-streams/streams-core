@@ -1,15 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionBuilder;
 
-/**
- * Class BuildActions
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Action\Command
- */
 class BuildActions
 {
 
@@ -31,12 +24,12 @@ class BuildActions
     }
 
     /**
-     * Get the form builder.
+     * Build actions and load them to the form.
      *
-     * @return FormBuilder
+     * @param ActionBuilder $builder
      */
-    public function getBuilder()
+    public function handle(ActionBuilder $builder)
     {
-        return $this->builder;
+        $builder->build($this->builder);
     }
 }

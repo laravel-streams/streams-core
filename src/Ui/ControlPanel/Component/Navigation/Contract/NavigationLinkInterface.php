@@ -1,20 +1,18 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract;
 
-    /**
-     * Interface NavigationLinkInterface
-     *
-     * @link          http://pyrocms.com/
-     * @author        PyroCMS, Inc. <support@pyrocms.com>
-     * @author        Ryan Thompson <ryan@pyrocms.com>
-     * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract
-     */
 /**
  * Interface NavigationLinkInterface
  *
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract
+ */
+/**
+ * Interface NavigationLinkInterface
+ *
+ * @link          http://pyrocms.com/
+ * @author        PyroCMS, Inc. <support@pyrocms.com>
+ * @author        Ryan Thompson <ryan@pyrocms.com>
  */
 interface NavigationLinkInterface
 {
@@ -44,7 +42,7 @@ interface NavigationLinkInterface
     /**
      * Set the title.
      *
-     * @param string $title
+     * @param  string $title
      * @return $this
      */
     public function setTitle($title);
@@ -74,7 +72,7 @@ interface NavigationLinkInterface
     /**
      * Set the active flag.
      *
-     * @param boolean $active
+     * @param  boolean $active
      * @return $this
      */
     public function setActive($active);
@@ -140,7 +138,7 @@ interface NavigationLinkInterface
     /**
      * Get the HREF attribute.
      *
-     * @param null $path
+     * @param  null   $path
      * @return string
      */
     public function getHref($path = null);

@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Assignment
  */
 class AssignmentModelTranslation extends EloquentModel
 {
@@ -33,5 +32,4 @@ class AssignmentModelTranslation extends EloquentModel
      * @var string
      */
     protected $table = 'streams_assignments_translations';
-
 }

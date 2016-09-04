@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Header
  */
 class HeaderNormalizer
 {
@@ -24,7 +23,7 @@ class HeaderNormalizer
 
         foreach ($columns as $key => &$column) {
 
-            /**
+            /*
              * If the key is non-numerical then
              * use it as the header and use the
              * column as the column if it's a class.
@@ -32,11 +31,11 @@ class HeaderNormalizer
             if (!is_numeric($key) && !is_array($column) && class_exists($column)) {
                 $column = [
                     'heading' => $key,
-                    'column'  => $column
+                    'column'  => $column,
                 ];
             }
 
-            /**
+            /*
              * If the key is non-numerical then
              * use it as the header and use the
              * column as the value.
@@ -44,22 +43,22 @@ class HeaderNormalizer
             if (!is_numeric($key) && !is_array($column) && !class_exists($column)) {
                 $column = [
                     'heading' => $key,
-                    'value'   => $column
+                    'value'   => $column,
                 ];
             }
 
-            /**
+            /*
              * If the column is just a string then treat
              * it as the header AND the value.
              */
             if (is_string($column)) {
                 $column = [
                     'field' => $column,
-                    'value' => $column
+                    'value' => $column,
                 ];
             }
 
-            /**
+            /*
              * If the key is non-numerical and
              * the column is an array without
              * a heading then use the key.
@@ -68,7 +67,7 @@ class HeaderNormalizer
                 $column['field'] = $key;
             }
 
-            /**
+            /*
              * If the key is non-numerical and
              * the column is an array without
              * a value then use the key.
@@ -77,7 +76,7 @@ class HeaderNormalizer
                 $column['value'] = $key;
             }
 
-            /**
+            /*
              * If there is no value then use NULL
              */
             array_set($column, 'value', array_get($column, 'value', null));

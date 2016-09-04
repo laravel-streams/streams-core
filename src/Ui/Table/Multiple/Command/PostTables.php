@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Http\Request;
 use Illuminate\Routing\ResponseFactory;
 
@@ -12,9 +11,8 @@ use Illuminate\Routing\ResponseFactory;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Multiple\Command
  */
-class PostTables implements SelfHandling
+class PostTables
 {
 
     /**

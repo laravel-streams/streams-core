@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Tree\Component\Item
  */
 class ItemBuilder
 {
@@ -51,7 +50,7 @@ class ItemBuilder
      * @param ItemFactory    $factory
      * @param Evaluator      $evaluator
      */
-    function __construct(
+    public function __construct(
         SegmentBuilder $segments,
         ButtonBuilder $buttons,
         ItemFactory $factory,
@@ -71,7 +70,6 @@ class ItemBuilder
     public function build(TreeBuilder $builder)
     {
         foreach ($builder->getTreeEntries() as $entry) {
-
             $segments = $this->segments->build($builder, $entry);
             $buttons  = $this->buttons->build($builder, $entry);
 

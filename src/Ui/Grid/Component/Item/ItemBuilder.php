@@ -11,7 +11,6 @@ use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Grid\Component\Item
  */
 class ItemBuilder
 {
@@ -50,7 +49,7 @@ class ItemBuilder
      * @param ItemFactory   $factory
      * @param Evaluator     $evaluator
      */
-    function __construct(ItemValue $value, ButtonBuilder $buttons, ItemFactory $factory, Evaluator $evaluator)
+    public function __construct(ItemValue $value, ButtonBuilder $buttons, ItemFactory $factory, Evaluator $evaluator)
     {
         $this->value     = $value;
         $this->buttons   = $buttons;
@@ -66,7 +65,6 @@ class ItemBuilder
     public function build(GridBuilder $builder)
     {
         foreach ($builder->getGridEntries() as $entry) {
-
             $buttons = $this->buttons->build($builder, $entry);
 
             $buttons = $buttons->enabled();

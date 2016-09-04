@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class BuildRows
@@ -10,9 +9,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Row\Command
  */
-class BuildRows implements SelfHandling
+class BuildRows
 {
 
     /**

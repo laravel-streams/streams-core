@@ -1,15 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Command;
 
+use Anomaly\Streams\Platform\Stream\StreamSchema;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
-/**
- * Class DropStreamsEntryTable
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Stream\Command
- */
 class DropStreamsEntryTable
 {
 
@@ -31,12 +24,20 @@ class DropStreamsEntryTable
     }
 
     /**
-     * Get the stream interface.
+     * Handle the command.
      *
-     * @return StreamInterface
+     * @param StreamSchema $schema
      */
-    public function getStream()
+    public function handle(StreamSchema $schema)
     {
-        return $this->stream;
+        $table = $this->stream->getEntryTableName();
+
+        $schema->dropTable($table);
+
+        if ($this->stream->isTranslatable()) {
+            $table = $this->stream->getEntryTranslationsTableName();
+
+            $schema->dropTable($table);
+        }
     }
 }

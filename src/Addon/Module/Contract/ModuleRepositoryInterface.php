@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\Module\Contract
  */
 interface ModuleRepositoryInterface
 {
@@ -25,7 +24,7 @@ interface ModuleRepositoryInterface
     /**
      * Create a module record.
      *
-     * @param Module $module
+     * @param  Module $module
      * @return bool
      */
     public function create(Module $module);
@@ -33,7 +32,7 @@ interface ModuleRepositoryInterface
     /**
      * Delete a module record.
      *
-     * @param Module $module
+     * @param  Module      $module
      * @return ModuleModel
      */
     public function delete(Module $module);
@@ -41,7 +40,7 @@ interface ModuleRepositoryInterface
     /**
      * Mark a module as installed.
      *
-     * @param Module $module
+     * @param  Module $module
      * @return bool
      */
     public function install(Module $module);
@@ -49,7 +48,7 @@ interface ModuleRepositoryInterface
     /**
      * Mark a module as uninstalled.
      *
-     * @param Module $module
+     * @param  Module $module
      * @return bool
      */
     public function uninstall(Module $module);
@@ -57,7 +56,7 @@ interface ModuleRepositoryInterface
     /**
      * Mark a module as disabled.
      *
-     * @param Module $module
+     * @param  Module $module
      * @return bool
      */
     public function disable(Module $module);
@@ -65,7 +64,7 @@ interface ModuleRepositoryInterface
     /**
      * Mark a module as enabled.
      *
-     * @param Module $module
+     * @param  Module $module
      * @return bool
      */
     public function enabled(Module $module);

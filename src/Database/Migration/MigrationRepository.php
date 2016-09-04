@@ -1,48 +1,56 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration;
 
+use Anomaly\Streams\Platform\Addon\Addon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Migrations\DatabaseMigrationRepository;
 
-/**
- * Class MigrationRepository
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Migration
- */
 class MigrationRepository extends DatabaseMigrationRepository
 {
 
     /**
-     * Find many migrations by an addon namespace.
+     * The addon instance.
      *
-     * @param        $namespace
-     * @param string $order
-     * @return array|Collection
+     * @var Addon
      */
-    public function findManyByNamespace($namespace, $order = 'desc')
+    protected $addon  = null;
+
+    /**
+     * Get ran migrations.
+     *
+     * @return array
+     */
+    public function getRan($namespace = null)
     {
-        return $this
-            ->table()
-            ->where('migration', 'like', "%_{$namespace}_%")
-            ->orderBy('migration', $order)
-            ->get();
+        if ($addon = $this->getAddon()) {
+            return $this->table()
+                    ->orderBy('batch', 'asc')
+                    ->orderBy('migration', 'asc')
+                    ->where('migration', 'LIKE', '%' . $addon->getNamespace() . '%')
+                    ->pluck('migration')->all();
+        }
+
+        return parent::getRan();
     }
 
     /**
-     * Find many migrations by an addon namespace.
+     * Set the addon.
      *
-     * @param array  $files
-     * @param string $order
-     * @return array|Collection
+     * @param Addon $addon
      */
-    public function findManyByFiles(array $files, $order = 'desc')
+    public function setAddon(Addon $addon)
     {
-        return $this
-            ->table()
-            ->whereIn('migration', $files)
-            ->orderBy('migration', $order)
-            ->get();
+        $this->addon = $addon;
+
+        return $this;
+    }
+
+    /**
+     * Get the addon.
+     *
+     * @return Addon
+     */
+    public function getAddon()
+    {
+        return $this->addon;
     }
 }

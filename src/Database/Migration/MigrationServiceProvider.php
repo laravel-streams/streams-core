@@ -6,28 +6,17 @@ use Anomaly\Streams\Platform\Database\Migration\Console\RefreshCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\ResetCommand;
 use Illuminate\Database\MigrationServiceProvider as BaseMigrationServiceProvider;
 
-/**
- * Class MigrationServiceProvider
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Migration
- */
 class MigrationServiceProvider extends BaseMigrationServiceProvider
 {
 
     /**
      * Register the migration repository service.
-     *
-     * @return void
      */
     protected function registerRepository()
     {
         $this->app->singleton(
             'migration.repository',
             function ($app) {
-
                 $table = $app['config']['database.migrations'];
 
                 return new MigrationRepository($app['db'], $table);
@@ -48,7 +37,6 @@ class MigrationServiceProvider extends BaseMigrationServiceProvider
         $this->app->singleton(
             'migrator',
             function ($app) {
-
                 $repository = $app['migration.repository'];
 
                 return new Migrator($repository, $app['db'], $app['files']);

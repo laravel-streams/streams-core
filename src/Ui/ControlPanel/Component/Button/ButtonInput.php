@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  * @link          http://anomaly.is/streams-Platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button
  */
 class ButtonInput
 {
@@ -74,7 +73,7 @@ class ButtonInput
     /**
      * Read builder button input.
      *
-     * @param ControlPanelBuilder $builder
+     * @param  ControlPanelBuilder $builder
      * @return array
      */
     public function read(ControlPanelBuilder $builder)

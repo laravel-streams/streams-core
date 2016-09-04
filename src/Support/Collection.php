@@ -2,44 +2,29 @@
 
 use Illuminate\Contracts\Config\Repository;
 
-/**
- * Class Collection
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Support
- */
 class Collection extends \Illuminate\Support\Collection
 {
 
     /**
-     * Return shuffled items.
-     * Preserve the index keys.
+     * Alias for pluck.
      *
-     * @param int $amount
-     * @return static
+     * @deprecated in 3.1. Will remove in 3.2
+     *
+     * @param string $value
+     * @param string $key
+     *
+     * @return $this
      */
-    public function shuffle()
+    public function lists($value, $key = null)
     {
-        $shuffled = [];
-
-        $keys = array_keys($this->items);
-
-        shuffle($keys);
-
-        foreach ($keys as $key) {
-            $shuffled[$key] = $this->items[$key];
-        }
-
-        return new static($shuffled);
+        return self::pluck($value, $key);
     }
 
     /**
      * Pad to the specified size with a value.
      *
-     * @param       $size
-     * @param null  $value
+     * @param        $size
+     * @param  null  $value
      * @return $this
      */
     public function pad($size, $value = null)

@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\Extension
  */
 class ExtensionModel extends EloquentModel implements ExtensionInterface
 {
@@ -78,7 +77,7 @@ class ExtensionModel extends EloquentModel implements ExtensionInterface
      */
     public function getEnabledNamespaces()
     {
-        return $this->where('enabled', true)->get()->lists('namespace');
+        return $this->where('enabled', true)->get()->pluck('namespace');
     }
 
     /**
@@ -88,13 +87,13 @@ class ExtensionModel extends EloquentModel implements ExtensionInterface
      */
     public function getInstalledNamespaces()
     {
-        return $this->where('installed', true)->get()->lists('namespace');
+        return $this->where('installed', true)->get()->pluck('namespace');
     }
 
     /**
      * Return a new collection.
      *
-     * @param array $items
+     * @param  array              $items
      * @return EloquentCollection
      */
     public function newCollection(array $items = [])

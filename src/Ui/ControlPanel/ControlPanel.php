@@ -13,7 +13,6 @@ use Illuminate\Support\Collection;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel
  */
 class ControlPanel
 {
@@ -46,7 +45,7 @@ class ControlPanel
      * @param SectionCollection    $sections
      * @param NavigationCollection $navigation
      */
-    function __construct(Collection $buttons, SectionCollection $sections, NavigationCollection $navigation)
+    public function __construct(Collection $buttons, SectionCollection $sections, NavigationCollection $navigation)
     {
         $this->buttons    = $buttons;
         $this->sections   = $sections;
@@ -56,7 +55,7 @@ class ControlPanel
     /**
      * Add a button to the button collection.
      *
-     * @param ButtonInterface $button
+     * @param  ButtonInterface $button
      * @return $this
      */
     public function addButton(ButtonInterface $button)
@@ -79,7 +78,7 @@ class ControlPanel
     /**
      * Add a section to the section collection.
      *
-     * @param SectionInterface $section
+     * @param  SectionInterface $section
      * @return $this
      */
     public function addSection(SectionInterface $section)
@@ -112,7 +111,7 @@ class ControlPanel
     /**
      * Add a navigation link.
      *
-     * @param NavigationLinkInterface $link
+     * @param  NavigationLinkInterface $link
      * @return $this
      */
     public function addNavigationLink(NavigationLinkInterface $link)

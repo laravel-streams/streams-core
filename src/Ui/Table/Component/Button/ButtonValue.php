@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Support\Value;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Button
  */
 class ButtonValue
 {
@@ -34,8 +33,8 @@ class ButtonValue
      * Replace the entry values
      * in the button property.
      *
-     * @param array $button
-     * @param       $entry
+     * @param  array $button
+     * @param        $entry
      * @return array
      */
     public function replace(array $button, $entry)
@@ -43,7 +42,6 @@ class ButtonValue
         $enabled = array_get($button, 'enabled');
 
         if (is_string($enabled)) {
-
             $enabled = filter_var($this->value->make($enabled, $entry), FILTER_VALIDATE_BOOLEAN);
 
             $button['enabled'] = $enabled;

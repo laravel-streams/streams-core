@@ -5,22 +5,10 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Plugin\PluginCollection;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
+use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Anomaly\Streams\Platform\Addon\Addon;
 use Illuminate\Support\Collection;
 
-/**
- * Class AddonCollection
- *
- * @method ExtensionCollection extensions();
- * @method FieldTypeCollection fieldTypes();
- * @method ModuleCollection modules();
- * @method PluginCollection plugins();
- * @method ThemeCollection themes();
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon
- */
 class AddonCollection extends Collection
 {
 
@@ -33,7 +21,6 @@ class AddonCollection extends Collection
     {
         /* @var Addon $item */
         foreach ($items as $key => $item) {
-
             if ($item instanceof Addon) {
                 $key = $item->getNamespace();
             }
@@ -45,7 +32,7 @@ class AddonCollection extends Collection
     /**
      * Return all addon namespaces.
      *
-     * @param null $key
+     * @param  null  $key
      * @return array
      */
     public function namespaces($key = null)
@@ -100,8 +87,8 @@ class AddonCollection extends Collection
     /**
      * Get an addon.
      *
-     * @param mixed $key
-     * @param null  $default
+     * @param  mixed            $key
+     * @param  null             $default
      * @return Addon|mixed|null
      */
     public function get($key, $default = null)
@@ -135,7 +122,7 @@ class AddonCollection extends Collection
     /**
      * Order addon's by their slug.
      *
-     * @param  string $direction
+     * @param string $direction
      *
      * @return AddonCollection
      */
@@ -170,7 +157,6 @@ class AddonCollection extends Collection
 
             /* @var Addon $addon */
             foreach ($this->items as $addon) {
-
                 if ($addon->getType() !== $type) {
                     continue;
                 }
@@ -217,7 +203,7 @@ class AddonCollection extends Collection
      * Return addons only with any of
      * the provided configuration.
      *
-     * @param array $keys
+     * @param  array           $keys
      * @return AddonCollection
      */
     public function withAnyConfig(array $keys)
@@ -244,7 +230,6 @@ class AddonCollection extends Collection
     {
         return parent::sort(
             $callback ?: function (Addon $a, Addon $b) {
-
                 if ($a->getSlug() == $b->getSlug()) {
                     return 0;
                 }
@@ -255,13 +240,25 @@ class AddonCollection extends Collection
     }
 
     /**
+     * Return only installable addons.
+     *
+     * @return AddonCollection
+     */
+    public function installable()
+    {
+        return $this->filter(function (Addon $addon) {
+            return in_array($addon->getType(), ['module', 'extension']);
+        });
+    }
+
+    /**
      * Call a method.
      *
      * @param $method
      * @param $arguments
      * @return AddonCollection
      */
-    function __call($method, $arguments)
+    public function __call($method, $arguments)
     {
         $type = str_singular($method);
 
@@ -278,7 +275,7 @@ class AddonCollection extends Collection
      * @param $name
      * @return AddonCollection
      */
-    function __get($name)
+    public function __get($name)
     {
         $type = str_singular($name);
 

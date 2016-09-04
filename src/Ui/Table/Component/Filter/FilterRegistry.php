@@ -11,7 +11,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\SelectFilter;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Component\Filter
  */
 class FilterRegistry
 {
@@ -36,7 +35,7 @@ class FilterRegistry
         ],
         'field'  => [
             'filter' => FieldFilter::class,
-        ]
+        ],
     ];
 
     /**
@@ -53,8 +52,8 @@ class FilterRegistry
     /**
      * Register a filter.
      *
-     * @param       $filter
-     * @param array $parameters
+     * @param        $filter
+     * @param  array $parameters
      * @return $this
      */
     public function register($filter, array $parameters)

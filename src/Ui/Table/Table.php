@@ -21,7 +21,6 @@ use Symfony\Component\HttpFoundation\Response;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table
  */
 class Table
 {
@@ -152,7 +151,7 @@ class Table
     /**
      * Set the table response.
      *
-     * @param null|Response $response
+     * @param  null|Response $response
      * @return $this
      */
     public function setResponse(Response $response = null)
@@ -208,7 +207,7 @@ class Table
     /**
      * Set the table repository.
      *
-     * @param TableRepositoryInterface $repository
+     * @param  TableRepositoryInterface $repository
      * @return $this
      */
     public function setRepository(TableRepositoryInterface $repository)
@@ -221,7 +220,7 @@ class Table
     /**
      * Set the table stream.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return $this
      */
     public function setStream(StreamInterface $stream)
@@ -244,7 +243,7 @@ class Table
     /**
      * Set the table content.
      *
-     * @param string $content
+     * @param  string $content
      * @return $this
      */
     public function setContent($content)
@@ -267,7 +266,7 @@ class Table
     /**
      * Add an action to the action collection.
      *
-     * @param ActionInterface $action
+     * @param  ActionInterface $action
      * @return $this
      */
     public function addAction(ActionInterface $action)
@@ -280,7 +279,7 @@ class Table
     /**
      * Set the actions.
      *
-     * @param ActionCollection $actions
+     * @param  ActionCollection $actions
      * @return $this
      */
     public function setActions(ActionCollection $actions)
@@ -303,7 +302,7 @@ class Table
     /**
      * Add a filter to the filter collection.
      *
-     * @param FilterInterface $filter
+     * @param  FilterInterface $filter
      * @return $this
      */
     public function addFilter(FilterInterface $filter)
@@ -316,7 +315,7 @@ class Table
     /**
      * Set the table filters.
      *
-     * @param FilterCollection $filters
+     * @param  FilterCollection $filters
      * @return $this
      */
     public function setFilters(FilterCollection $filters)
@@ -350,7 +349,7 @@ class Table
     /**
      * Set the table options.
      *
-     * @param Collection $options
+     * @param  Collection $options
      * @return $this
      */
     public function setOptions(Collection $options)
@@ -387,8 +386,8 @@ class Table
     /**
      * Get an option value.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function getOption($key, $default = null)
@@ -399,7 +398,7 @@ class Table
     /**
      * Set the table entries.
      *
-     * @param Collection $entries
+     * @param  Collection $entries
      * @return $this
      */
     public function setEntries(Collection $entries)
@@ -422,7 +421,7 @@ class Table
     /**
      * Add a header to the header collection.
      *
-     * @param HeaderInterface $header
+     * @param  HeaderInterface $header
      * @return $this
      */
     public function addHeader(HeaderInterface $header)
@@ -435,7 +434,7 @@ class Table
     /**
      * Set the table headers.
      *
-     * @param Collection $headers
+     * @param  Collection $headers
      * @return $this
      */
     public function setHeaders(Collection $headers)
@@ -458,7 +457,7 @@ class Table
     /**
      * Add a view to the view collection.
      *
-     * @param ViewInterface $view
+     * @param  ViewInterface $view
      * @return $this
      */
     public function addView(ViewInterface $view)
@@ -471,7 +470,7 @@ class Table
     /**
      * Set the table views.
      *
-     * @param ViewCollection $views
+     * @param  ViewCollection $views
      * @return $this
      */
     public function setViews(ViewCollection $views)
@@ -508,7 +507,7 @@ class Table
     /**
      * Set the table data.
      *
-     * @param Collection $data
+     * @param  Collection $data
      * @return $this
      */
     public function setData(Collection $data)
@@ -531,7 +530,7 @@ class Table
     /**
      * Add a row to the row collection.
      *
-     * @param RowInterface $row
+     * @param  RowInterface $row
      * @return $this
      */
     public function addRow(RowInterface $row)
@@ -544,7 +543,7 @@ class Table
     /**
      * Set the table rows.
      *
-     * @param RowCollection $rows
+     * @param  RowCollection $rows
      * @return $this
      */
     public function setRows(RowCollection $rows)

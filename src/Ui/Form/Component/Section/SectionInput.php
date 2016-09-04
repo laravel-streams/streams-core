@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Section
  */
 class SectionInput
 {
@@ -41,7 +40,7 @@ class SectionInput
      * @param SectionEvaluator  $evaluator
      * @param SectionNormalizer $normalizer
      */
-    function __construct(SectionResolver $resolver, SectionEvaluator $evaluator, SectionNormalizer $normalizer)
+    public function __construct(SectionResolver $resolver, SectionEvaluator $evaluator, SectionNormalizer $normalizer)
     {
         $this->resolver   = $resolver;
         $this->evaluator  = $evaluator;

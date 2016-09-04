@@ -8,17 +8,8 @@ use Assetic\Filter\ScssphpFilter;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Leafo\ScssPhp\Compiler;
 
-/**
- * Class ScssFilter
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Asset\Filter
- */
 class ScssFilter extends ScssphpFilter
 {
-
     use DispatchesJobs;
 
     /**

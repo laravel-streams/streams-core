@@ -7,7 +7,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command\SetMai
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command\BuildSections;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command\SetActiveSection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -16,11 +15,9 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Command
  */
-class BuildControlPanel implements SelfHandling
+class BuildControlPanel
 {
-
     use DispatchesJobs;
 
     /**

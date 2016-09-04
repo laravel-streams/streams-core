@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Command;
 
 use Anomaly\Streams\Platform\Entry\EntryFactory;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class GetEntryCriteria
@@ -9,9 +8,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Entry\Command
  */
-class GetEntryCriteria implements SelfHandling
+class GetEntryCriteria
 {
 
     /**
@@ -51,7 +49,7 @@ class GetEntryCriteria implements SelfHandling
     /**
      * Handle the command.
      *
-     * @param EntryFactory $factory
+     * @param  EntryFactory                                  $factory
      * @return \Anomaly\Streams\Platform\Entry\EntryCriteria
      */
     public function handle(EntryFactory $factory)

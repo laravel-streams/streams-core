@@ -6,7 +6,6 @@
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Form\Component\Action
  */
 class ActionRegistry
 {
@@ -19,28 +18,28 @@ class ActionRegistry
     protected $actions = [
         'update'         => [
             'button' => 'update',
-            'text'   => 'streams::button.update'
+            'text'   => 'streams::button.update',
         ],
         'save_exit'      => [
             'button' => 'save',
-            'text'   => 'streams::button.save_exit'
+            'text'   => 'streams::button.save_exit',
         ],
         'save_edit'      => [
             'button' => 'save',
-            'text'   => 'streams::button.save_edit'
+            'text'   => 'streams::button.save_edit',
         ],
         'save_create'    => [
             'button' => 'save',
-            'text'   => 'streams::button.save_create'
+            'text'   => 'streams::button.save_create',
         ],
         'save_continue'  => [
             'button' => 'save',
-            'text'   => 'streams::button.save_continue'
+            'text'   => 'streams::button.save_continue',
         ],
         'save_edit_next' => [
             'button' => 'save',
-            'text'   => 'streams::button.save_edit_next'
-        ]
+            'text'   => 'streams::button.save_edit_next',
+        ],
     ];
 
     /**
@@ -61,8 +60,8 @@ class ActionRegistry
     /**
      * Register a action.
      *
-     * @param       $action
-     * @param array $parameters
+     * @param        $action
+     * @param  array $parameters
      * @return $this
      */
     public function register($action, array $parameters)

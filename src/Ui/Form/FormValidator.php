@@ -3,22 +3,12 @@
 use Anomaly\Streams\Platform\Ui\Form\Command\RepopulateFields;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetErrorMessages;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasValidated;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Validation\Validator;
 
-/**
- * Class FormValidator
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form
- */
-class FormValidator implements SelfHandling
+class FormValidator
 {
-
     use DispatchesJobs;
 
     /**
@@ -104,7 +94,7 @@ class FormValidator implements SelfHandling
         $messages   = $this->messages->make($builder);
         $attributes = $this->attributes->make($builder);
         $rules      = $this->rules->compile($builder);
-
+        
         /* @var Validator $validator */
         $validator = $factory->make($input, $rules);
 
@@ -125,7 +115,6 @@ class FormValidator implements SelfHandling
     protected function setResponse(Validator $validator, FormBuilder $builder)
     {
         if (!$validator->passes()) {
-
             $builder->setSave(false);
 
             $bag = $validator->getMessageBag();

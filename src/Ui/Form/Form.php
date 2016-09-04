@@ -23,7 +23,6 @@ use Symfony\Component\HttpFoundation\Response;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Form
  */
 class Form implements PresentableInterface
 {
@@ -162,7 +161,7 @@ class Form implements PresentableInterface
     /**
      * Set the form response.
      *
-     * @param null|false|Response $response
+     * @param  null|false|Response $response
      * @return $this
      */
     public function setResponse(Response $response)
@@ -195,7 +194,7 @@ class Form implements PresentableInterface
     /**
      * Set the errors.
      *
-     * @param MessageBag $errors
+     * @param  MessageBag $errors
      * @return $this
      */
     public function setErrors(MessageBag $errors)
@@ -251,7 +250,7 @@ class Form implements PresentableInterface
     /**
      * Set the form stream.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return $this
      */
     public function setStream(StreamInterface $stream)
@@ -274,7 +273,7 @@ class Form implements PresentableInterface
     /**
      * Set the entry.
      *
-     * @param mixed $entry
+     * @param  mixed $entry
      * @return $this
      */
     public function setEntry($entry)
@@ -297,7 +296,7 @@ class Form implements PresentableInterface
     /**
      * Set the form content.
      *
-     * @param string $content
+     * @param  string $content
      * @return $this
      */
     public function setContent($content)
@@ -320,7 +319,7 @@ class Form implements PresentableInterface
     /**
      * Add an action to the actions collection.
      *
-     * @param ActionInterface $action
+     * @param  ActionInterface $action
      * @return $this
      */
     public function addAction(ActionInterface $action)
@@ -333,7 +332,7 @@ class Form implements PresentableInterface
     /**
      * Set the form actions.
      *
-     * @param ActionCollection $actions
+     * @param  ActionCollection $actions
      * @return $this
      */
     public function setActions(ActionCollection $actions)
@@ -356,7 +355,7 @@ class Form implements PresentableInterface
     /**
      * Add a button to the buttons collection.
      *
-     * @param ButtonInterface $button
+     * @param  ButtonInterface $button
      * @return $this
      */
     public function addButton(ButtonInterface $button)
@@ -369,7 +368,7 @@ class Form implements PresentableInterface
     /**
      * Set the form buttons.
      *
-     * @param ButtonCollection $buttons
+     * @param  ButtonCollection $buttons
      * @return $this
      */
     public function setButtons(ButtonCollection $buttons)
@@ -392,7 +391,7 @@ class Form implements PresentableInterface
     /**
      * Set the options.
      *
-     * @param Collection $options
+     * @param  Collection $options
      * @return $this
      */
     public function setOptions(Collection $options)
@@ -429,8 +428,8 @@ class Form implements PresentableInterface
     /**
      * Get an option value.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function getOption($key, $default = null)
@@ -451,7 +450,7 @@ class Form implements PresentableInterface
     /**
      * Set the sections.
      *
-     * @param SectionCollection $sections
+     * @param  SectionCollection $sections
      * @return $this
      */
     public function setSections(SectionCollection $sections)
@@ -478,7 +477,7 @@ class Form implements PresentableInterface
     /**
      * Add a field to the collection of fields.
      *
-     * @param FieldType $field
+     * @param  FieldType $field
      * @return $this
      */
     public function addField(FieldType $field)
@@ -519,7 +518,7 @@ class Form implements PresentableInterface
     /**
      * Set the form views.
      *
-     * @param Collection $fields
+     * @param  Collection $fields
      * @return $this
      */
     public function setFields(Collection $fields)
@@ -593,7 +592,7 @@ class Form implements PresentableInterface
     /**
      * Set the form data.
      *
-     * @param Collection $data
+     * @param  Collection $data
      * @return $this
      */
     public function setData(Collection $data)
@@ -627,8 +626,8 @@ class Form implements PresentableInterface
     /**
      * Get a value from the value collection.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function getValue($key, $default = null)
@@ -639,7 +638,7 @@ class Form implements PresentableInterface
     /**
      * Set the form values.
      *
-     * @param Collection $values
+     * @param  Collection $values
      * @return $this
      */
     public function setValues(Collection $values)

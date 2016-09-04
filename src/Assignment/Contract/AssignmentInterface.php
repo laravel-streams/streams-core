@@ -11,7 +11,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Assignment\Contract
  */
 interface AssignmentInterface
 {
@@ -117,7 +116,7 @@ interface AssignmentInterface
     /**
      * Get the assignment's field's type.
      *
-     * @param bool $fresh
+     * @param  bool      $fresh
      * @return FieldType
      */
     public function getFieldType($fresh = false);

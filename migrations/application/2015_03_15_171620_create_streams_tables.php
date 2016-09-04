@@ -4,13 +4,6 @@ use Anomaly\Streams\Platform\Database\Migration\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
-/**
- * Class CreateStreamsTables
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class CreateStreamsTables extends Migration
 {
 
@@ -28,7 +21,6 @@ class CreateStreamsTables extends Migration
             $schema->create(
                 'streams_streams',
                 function (Blueprint $table) {
-
                     $table->increments('id');
                     $table->string('namespace', 150);
                     $table->string('slug', 150);
@@ -51,7 +43,6 @@ class CreateStreamsTables extends Migration
             $schema->create(
                 'streams_streams_translations',
                 function (Blueprint $table) {
-
                     $table->increments('id');
                     $table->integer('stream_id');
                     $table->string('locale')->index();

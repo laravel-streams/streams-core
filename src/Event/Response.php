@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Http\Controller\BaseController;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Event
  */
 class Response
 {
@@ -19,5 +18,4 @@ class Response
      * @var BaseController
      */
     protected $controller;
-
 }

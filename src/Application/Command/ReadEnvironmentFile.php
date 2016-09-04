@@ -1,16 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
-use Illuminate\Contracts\Bus\SelfHandling;
-
 /**
  * Class ReadEnvironmentFile
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Application\Command
  */
-class ReadEnvironmentFile implements SelfHandling
+class ReadEnvironmentFile
 {
 
     /**
@@ -32,7 +29,6 @@ class ReadEnvironmentFile implements SelfHandling
             if (starts_with($line, '#')) {
                 $data[] = $line;
             } elseif (strpos($line, '=')) {
-
                 list($key, $value) = explode('=', $line);
 
                 $data[$key] = $value;

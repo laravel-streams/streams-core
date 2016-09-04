@@ -3,9 +3,8 @@
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 
-class SetFormOptions implements SelfHandling
+class SetFormOptions
 {
 
     /**

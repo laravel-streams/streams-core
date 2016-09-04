@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Asset
  */
 class AssetPaths
 {
@@ -112,7 +111,6 @@ class AssetPaths
     public function realPath($path)
     {
         if (str_contains($path, '::')) {
-
             list($namespace, $path) = explode('::', $path);
 
             if (!isset($this->paths[$namespace])) {
@@ -128,8 +126,8 @@ class AssetPaths
     /**
      * Return the download path for a remote asset.
      *
-     * @param      $url
-     * @param null $path
+     * @param         $url
+     * @param  null   $path
      * @return string
      */
     public function downloadPath($url, $path = null)
@@ -149,7 +147,7 @@ class AssetPaths
      */
     public function outputPath($collection)
     {
-        /**
+        /*
          * If the path is already public
          * then just use it as it is.
          */
@@ -157,12 +155,12 @@ class AssetPaths
             return str_replace(public_path(), '', $collection);
         }
 
-        /**
+        /*
          * Get the real path relative to our installation.
          */
         $path = str_replace(base_path(), '', $this->realPath($collection));
 
-        /**
+        /*
          * Build out path parts.
          */
         $directory   = ltrim(dirname($path), '/\\') . '/';

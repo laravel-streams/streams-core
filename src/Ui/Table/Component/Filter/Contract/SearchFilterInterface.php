@@ -6,7 +6,6 @@
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract
  */
 interface SearchFilterInterface extends FilterInterface
 {
@@ -21,7 +20,7 @@ interface SearchFilterInterface extends FilterInterface
     /**
      * Set the fields.
      *
-     * @param array $fields
+     * @param  array $fields
      * @return $this
      */
     public function setFields(array $fields);
@@ -36,7 +35,7 @@ interface SearchFilterInterface extends FilterInterface
     /**
      * Set the columns.
      *
-     * @param array $columns
+     * @param  array $columns
      * @return $this
      */
     public function setColumns(array $columns);

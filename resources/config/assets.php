@@ -36,11 +36,12 @@ return [
         'css' => [
             'less',
             'scss',
-            'styl'
+            'sass',
+            'styl',
         ],
         'js'  => [
-            'coffee'
-        ]
+            'coffee',
+        ],
     ],
 
     /*
@@ -55,7 +56,7 @@ return [
 
     'filters' => [
         'less' => env('LESS_COMPILER', 'php'),
-        'scss' => env('SCSS_COMPILER', 'php')
+        'sass' => env('SASS_COMPILER', 'php'),
     ],
 
     /*
@@ -71,5 +72,5 @@ return [
     |
     */
 
-    'live' => env('LIVE_ASSETS', false)
+    'live' => env('LIVE_ASSETS', false),
 ];

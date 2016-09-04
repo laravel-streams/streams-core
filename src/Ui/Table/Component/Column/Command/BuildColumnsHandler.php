@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Column\Command\BuildColumns;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Column\Listener\Command
  */
 class BuildColumnsHandler
 {

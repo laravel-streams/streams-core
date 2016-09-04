@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class ForceDeleteActionHandler
@@ -12,9 +11,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler
  */
-class ForceDelete extends ActionHandler implements SelfHandling
+class ForceDelete extends ActionHandler
 {
 
     /**
@@ -33,7 +31,6 @@ class ForceDelete extends ActionHandler implements SelfHandling
         foreach ($selected as $id) {
             if ($entry = $repository->findTrashed($id)) {
                 if ($entry->trashed() && $repository->forceDelete($entry)) {
-
                     $builder->fire('row_deleted', compact('builder', 'model', 'entry'));
 
                     $count++;

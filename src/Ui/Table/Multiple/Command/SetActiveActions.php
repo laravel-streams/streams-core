@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class SetActiveActions
@@ -11,9 +10,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Multiple\Command
  */
-class SetActiveActions implements SelfHandling
+class SetActiveActions
 {
 
     /**
@@ -59,9 +57,7 @@ class SetActiveActions implements SelfHandling
     {
         /* @var ActionInterface $action */
         foreach ($builder->getTableActions() as $action) {
-
             if ($action->getSlug() === $slug) {
-
                 $action->setPrefix($builder->getTableOption('prefix'));
                 $action->setActive(true);
 

@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Container\Container;
 
 /**
@@ -12,7 +11,6 @@ use Illuminate\Contracts\Container\Container;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Action
  */
 class ActionResponder
 {
@@ -46,11 +44,11 @@ class ActionResponder
         $handler = $action->getHandler();
 
         // Self handling implies @handle
-        if (is_string($handler) && !str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
+        if (is_string($handler) && !str_contains($handler, '@')) {
             $handler .= '@handle';
         }
 
-        /**
+        /*
          * If the handler is a closure or callable
          * string then call it using the service container.
          */
@@ -58,7 +56,7 @@ class ActionResponder
             $this->container->call($handler, compact('builder'));
         }
 
-        /**
+        /*
          * If the handle is an instance of ActionHandlerInterface
          * simply call the handle method on it.
          */

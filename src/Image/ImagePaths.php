@@ -5,14 +5,6 @@ use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Config\Repository;
 use Illuminate\Http\Request;
 
-/**
- * Class ImagePaths
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Image
- */
 class ImagePaths
 {
 
@@ -73,7 +65,7 @@ class ImagePaths
     /**
      * Set the paths.
      *
-     * @param array $paths
+     * @param  array $paths
      * @return $this
      */
     public function setPaths(array $paths)
@@ -107,7 +99,6 @@ class ImagePaths
     public function realPath($path)
     {
         if (str_contains($path, '::')) {
-
             list($namespace, $path) = explode('::', $path);
 
             if (!isset($this->paths[$namespace])) {
@@ -134,7 +125,7 @@ class ImagePaths
             $path = $path->path();
         }
 
-        /**
+        /*
          * If the path is already public
          * then just use it as it is.
          */
@@ -142,18 +133,16 @@ class ImagePaths
             return str_replace(public_path(), '', $path);
         }
 
-        /**
+        /*
          * If the path is a file or file path then
          * put it in /app/{$application}/files/disk/folder/filename.ext
          */
         if (is_string($path) && str_is('*://*', $path)) {
-
             $application = $this->application->getReference();
 
             list($disk, $folder, $filename) = explode('/', str_replace('://', '/', $path));
 
             if ($rename = $image->getFilename()) {
-
                 $filename = $rename;
 
                 if (strpos($filename, DIRECTORY_SEPARATOR)) {
@@ -164,12 +153,12 @@ class ImagePaths
             return "/app/{$application}/files/{$disk}/{$folder}/{$filename}";
         }
 
-        /**
+        /*
          * Get the real path relative to our installation.
          */
         $path = str_replace(base_path(), '', $this->realPath($path));
 
-        /**
+        /*
          * Build out path parts.
          */
         $filename    = basename($path);
@@ -183,7 +172,6 @@ class ImagePaths
         }
 
         if ($rename = $image->getFilename()) {
-
             $directory = null;
             $filename  = ltrim($rename, '/\\');
         }

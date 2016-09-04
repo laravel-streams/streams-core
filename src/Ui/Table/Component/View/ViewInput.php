@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\View
  */
 class ViewInput
 {
@@ -74,7 +73,7 @@ class ViewInput
     /**
      * Read builder view input.
      *
-     * @param TableBuilder $builder
+     * @param  TableBuilder $builder
      * @return array
      */
     public function read(TableBuilder $builder)

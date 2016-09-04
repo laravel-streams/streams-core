@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -11,9 +10,8 @@ use Illuminate\Database\Eloquent\Builder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Filter\Handler
  */
-class GenericFilterQuery implements SelfHandling
+class GenericFilterQuery
 {
 
     /**
@@ -44,7 +42,6 @@ class GenericFilterQuery implements SelfHandling
         $stream = $filter->getStream();
 
         if ($stream && $fieldType = $stream->getFieldType($filter->getField())) {
-
             $fieldTypeQuery = $fieldType->getQuery();
 
             $this->container->call([$fieldTypeQuery, 'filter'], compact('query', 'filter', 'builder'));
@@ -53,7 +50,6 @@ class GenericFilterQuery implements SelfHandling
         }
 
         if ($stream && $fieldType = $stream->getFieldType($filter->getSlug())) {
-
             $fieldTypeQuery = $fieldType->getQuery();
 
             $this->container->call([$fieldTypeQuery, 'filter'], compact('query', 'filter', 'builder'));

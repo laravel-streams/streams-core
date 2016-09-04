@@ -1,17 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Routing\Command;
 
 use Anomaly\Streams\Platform\Application\Application;
-use Illuminate\Contracts\Bus\SelfHandling;
 
-/**
- * Class IncludeRoutes
- *
- * @link          http://pyrocms.com/
- * @author        PyroCMS, Inc. <support@pyrocms.com>
- * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Routing\Command
- */
-class IncludeRoutes implements SelfHandling
+class IncludeRoutes
 {
 
     /**
@@ -21,7 +12,7 @@ class IncludeRoutes implements SelfHandling
      */
     public function handle(Application $application)
     {
-        if (file_exists($routes = base_path('resources/core/routes.php'))) {
+        if (file_exists($routes = base_path('resources/streams/routes.php'))) {
             include $routes;
         }
 

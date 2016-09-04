@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Support\MessageBag;
 
 /**
@@ -11,9 +10,8 @@ use Illuminate\Support\MessageBag;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Multiple\Command
  */
-class HandleErrors implements SelfHandling
+class HandleErrors
 {
 
     /**
@@ -45,7 +43,7 @@ class HandleErrors implements SelfHandling
                 // We can't save now!
                 $this->builder->setSave(false);
 
-                /**
+                /*
                  * Merge errors from child forms into the
                  * multiple form builder's form instance.
                  */

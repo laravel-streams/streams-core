@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section
  */
 class SectionInput
 {
@@ -66,7 +65,7 @@ class SectionInput
      * @param SectionEvaluator  $evaluator
      * @param SectionNormalizer $normalizer
      */
-    function __construct(
+    public function __construct(
         SectionParser $parser,
         SectionGuesser $guesser,
         ModuleCollection $modules,

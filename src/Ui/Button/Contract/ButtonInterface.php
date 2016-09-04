@@ -6,7 +6,6 @@
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Button\Contract
  */
 interface ButtonInterface
 {
@@ -14,7 +13,7 @@ interface ButtonInterface
     /**
      * Set the dropdown.
      *
-     * @param array $dropdown
+     * @param  array $dropdown
      * @return $this
      */
     public function setDropdown(array $dropdown);
@@ -29,7 +28,7 @@ interface ButtonInterface
     /**
      * Set the dropdown position.
      *
-     * @param array $position
+     * @param  array $position
      * @return $this
      */
     public function setPosition($position);
@@ -66,7 +65,7 @@ interface ButtonInterface
     /**
      * Set the attributes.
      *
-     * @param array $attributes
+     * @param  array $attributes
      * @return $this
      */
     public function setAttributes(array $attributes);
@@ -141,7 +140,7 @@ interface ButtonInterface
     /**
      * Set the button type.
      *
-     * @param string $type
+     * @param  string $type
      * @return $this
      */
     public function setType($type);

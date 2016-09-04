@@ -1,27 +1,19 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasSaved;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasUpdated;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted;
 use Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumn;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Assignment\Command\BackupAssignmentData;
-use Anomaly\Streams\Platform\Assignment\Command\DeleteAssignmentTranslations;
 use Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumn;
 use Anomaly\Streams\Platform\Assignment\Command\MoveAssignmentColumn;
 use Anomaly\Streams\Platform\Assignment\Command\RestoreAssignmentData;
 use Anomaly\Streams\Platform\Assignment\Command\UpdateAssignmentColumn;
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated;
-use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted;
-use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasSaved;
-use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasUpdated;
+use Anomaly\Streams\Platform\Assignment\Command\DeleteAssignmentTranslations;
 use Anomaly\Streams\Platform\Support\Observer;
 
-/**
- * Class AssignmentObserver
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Assignment
- */
 class AssignmentObserver extends Observer
 {
 

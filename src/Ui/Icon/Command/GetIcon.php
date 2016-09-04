@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Ui\Icon\Icon;
 use Anomaly\Streams\Platform\Ui\Icon\IconRegistry;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class GetIcon
@@ -10,9 +9,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Icon\Command
  */
-class GetIcon implements SelfHandling
+class GetIcon
 {
 
     /**
@@ -43,7 +41,7 @@ class GetIcon implements SelfHandling
     /**
      * Handle the command.
      *
-     * @param IconRegistry $registry
+     * @param  IconRegistry $registry
      * @return string
      */
     public function handle(IconRegistry $registry)

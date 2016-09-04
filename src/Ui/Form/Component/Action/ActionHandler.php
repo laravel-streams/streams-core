@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,9 +14,8 @@ use Illuminate\Session\Store;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Action
  */
-class ActionHandler implements SelfHandling
+class ActionHandler
 {
 
     /**
@@ -71,7 +69,7 @@ class ActionHandler implements SelfHandling
      */
     public function handle(FormBuilder $builder)
     {
-        /**
+        /*
          * If the form already has a response
          * then we're being overridden. Abort!
          */
@@ -91,7 +89,6 @@ class ActionHandler implements SelfHandling
         $redirect = $action->getRedirect();
 
         if ($redirect instanceof RedirectResponse) {
-
             $builder->setFormResponse($redirect);
 
             return;
@@ -103,21 +100,21 @@ class ActionHandler implements SelfHandling
 
         $redirect = $this->parser->parse($redirect, compact('entry'));
 
-        /**
+        /*
          * If the redirect is null then use the current one.
          */
         if ($redirect === null) {
             $redirect = $this->redirector->back()->getTargetUrl();
         }
 
-        /**
+        /*
          * If the URL is a closure then call it.
          */
         if ($redirect instanceof \Closure) {
             $redirect = app()->call($redirect, compact('builder'));
         }
 
-        /**
+        /*
          * Restore the query string prior if
          * we're coming from a table.
          */

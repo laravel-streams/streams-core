@@ -1,25 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Entry\EntryPresenter;
-use Anomaly\Streams\Platform\Support\Collection;
+use Anomaly\Streams\Platform\Traits\Hookable;
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Presenter;
-use Anomaly\Streams\Platform\Traits\Hookable;
-use Illuminate\Database\Eloquent\Builder;
+use Anomaly\Streams\Platform\Support\Collection;
+use Anomaly\Streams\Platform\Entry\EntryPresenter;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\Paginator;
 
-/**
- * Class EloquentCriteria
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Model
- */
 class EloquentCriteria
 {
-
     use Hookable;
     use DispatchesJobs;
 
@@ -62,8 +54,8 @@ class EloquentCriteria
     /**
      * Get the paginated entries.
      *
-     * @param array $columns
-     * @return Collection|Presenter|EntryPresenter
+     * @param  array     $columns
+     * @return Paginator
      */
     public function paginate($perPage = 15, array $columns = ['*'])
     {
@@ -73,7 +65,7 @@ class EloquentCriteria
     /**
      * Get the entries.
      *
-     * @param array $columns
+     * @param  array                               $columns
      * @return Collection|Presenter|EntryPresenter
      */
     public function get(array $columns = ['*'])
@@ -84,7 +76,7 @@ class EloquentCriteria
     /**
      * Get the aggregate sum.
      *
-     * @param array $columns
+     * @param  array $columns
      * @return int
      */
     public function sum(array $columns = ['*'])
@@ -95,7 +87,7 @@ class EloquentCriteria
     /**
      * Get the entry count.
      *
-     * @param array $columns
+     * @param  array $columns
      * @return int
      */
     public function count(array $columns = ['*'])
@@ -106,8 +98,8 @@ class EloquentCriteria
     /**
      * Find an entry.
      *
-     * @param       $identifier
-     * @param array $columns
+     * @param                           $identifier
+     * @param  array                    $columns
      * @return Presenter|EntryPresenter
      */
     public function find($identifier, array $columns = ['*'])
@@ -118,9 +110,9 @@ class EloquentCriteria
     /**
      * Find an entry by column value.
      *
-     * @param       $column
-     * @param       $value
-     * @param array $columns
+     * @param                           $column
+     * @param                           $value
+     * @param  array                    $columns
      * @return Presenter|EntryPresenter
      */
     public function findBy($column, $value, array $columns = ['*'])
@@ -133,7 +125,7 @@ class EloquentCriteria
     /**
      * Return the first entry.
      *
-     * @param array $columns
+     * @param  array                        $columns
      * @return EloquentModel|EntryInterface
      */
     public function first(array $columns = ['*'])
@@ -158,7 +150,7 @@ class EloquentCriteria
      * @param $name
      * @return Builder|null
      */
-    function __get($name)
+    public function __get($name)
     {
         return $this->__call($name, []);
     }
@@ -170,9 +162,8 @@ class EloquentCriteria
      * @param $arguments
      * @return Builder|null
      */
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
-
         if ($this->hasHook($name)) {
             return $this->call($name, $arguments);
         }
@@ -184,7 +175,6 @@ class EloquentCriteria
         }
 
         if (starts_with($name, 'findBy') && $column = snake_case(substr($name, 6))) {
-
             call_user_func_array([$this->query, 'where'], array_merge([$column], $arguments));
 
             return $this->first();

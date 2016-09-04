@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Field
  */
 class FieldModel extends EloquentModel implements FieldInterface
 {
@@ -33,7 +32,7 @@ class FieldModel extends EloquentModel implements FieldInterface
      * @var array
      */
     protected $attributes = [
-        'config' => 'a:0:{}'
+        'config' => 'a:0:{}',
     ];
 
     /**
@@ -59,7 +58,7 @@ class FieldModel extends EloquentModel implements FieldInterface
         'name',
         'warning',
         'placeholder',
-        'instructions'
+        'instructions',
     ];
 
     /**
@@ -106,7 +105,7 @@ class FieldModel extends EloquentModel implements FieldInterface
     /**
      * Get the name.
      *
-     * @param null|string $locale
+     * @param  null|string $locale
      * @return string
      */
     public function getName()
@@ -177,7 +176,7 @@ class FieldModel extends EloquentModel implements FieldInterface
     /**
      * Get the field type.
      *
-     * @param bool $fresh
+     * @param  bool           $fresh
      * @return FieldType|null
      * @throws \Exception
      */

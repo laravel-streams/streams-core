@@ -14,7 +14,6 @@ use Illuminate\Support\Fluent;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\FieldType
  */
 class FieldTypeSchema
 {
@@ -99,7 +98,7 @@ class FieldTypeSchema
             array_filter(
                 [
                     $this->fieldType->getColumnName(),
-                    $this->fieldType->getColumnLength()
+                    $this->fieldType->getColumnLength(),
                 ]
             )
         );
@@ -144,7 +143,7 @@ class FieldTypeSchema
             array_filter(
                 [
                     $this->fieldType->getColumnName(),
-                    $this->fieldType->getColumnLength()
+                    $this->fieldType->getColumnLength(),
                 ]
             )
         );
@@ -155,7 +154,7 @@ class FieldTypeSchema
             $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
         }
 
-        /**
+        /*
          * Mark the column unique if desired and not translatable.
          * Otherwise, drop the unique index.
          */
@@ -166,7 +165,7 @@ class FieldTypeSchema
         // The unique index name.
         $unique = md5('unique_' . $this->fieldType->getColumnName());
 
-        /**
+        /*
          * If the assignment is unique and not translatable
          * and the table does not already have the given the
          * given table index then go ahead and add it.
@@ -175,7 +174,7 @@ class FieldTypeSchema
             $table->unique($this->fieldType->getColumnName(), $unique);
         }
 
-        /**
+        /*
          * If the assignment is NOT unique and not translatable
          * and the table DOES have the given table index
          * then we need to remove.
@@ -266,7 +265,6 @@ class FieldTypeSchema
         $results = $this->cache->get(__CLASS__ . $this->fieldType->getColumnName());
 
         foreach ($results as $result) {
-
             $result = (array)$result;
 
             $this->connection

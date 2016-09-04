@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Container\Container;
 
 /**
@@ -10,9 +9,8 @@ use Illuminate\Contracts\Container\Container;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class ValidateForm implements SelfHandling
+class ValidateForm
 {
 
     /**
@@ -41,14 +39,14 @@ class ValidateForm implements SelfHandling
     {
         $validator = $this->builder->getValidator();
 
-        /**
+        /*
          * If it's self handling just add @handle
          */
-        if ($validator && !str_contains($validator, '@') && class_implements($validator, SelfHandling::class)) {
+        if ($validator && !str_contains($validator, '@')) {
             $validator .= '@handle';
         }
 
-        /**
+        /*
          * If the validator is a string or Closure then it's a handler
          * and we and can resolve it through the service container.
          */

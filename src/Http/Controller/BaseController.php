@@ -16,17 +16,8 @@ use Illuminate\Routing\Controller;
 use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Route;
 
-/**
- * Class BaseController
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Http\Controller
- */
 class BaseController extends Controller
 {
-
     use DispatchesJobs;
 
     /**
@@ -140,10 +131,9 @@ class BaseController extends Controller
         }
 
         // These may be manipulated by the middleware above.
-        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken');
+        $this->middleware('Illuminate\Foundation\Http\Middleware\VerifyCsrfToken');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\ApplicationReady');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\SetLocale');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\PoweredBy');
-        $this->middleware('Barryvdh\HttpCache\Middleware\CacheRequests');
     }
 }

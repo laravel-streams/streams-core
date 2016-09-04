@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionI
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section
  */
 class Section implements SectionInterface
 {
@@ -305,7 +304,7 @@ class Section implements SectionInterface
     /**
      * Set the highlighted flag.
      *
-     * @param boolean $active
+     * @param  boolean $active
      * @return $this
      */
     public function setHighlighted($highlighted)
@@ -438,7 +437,7 @@ class Section implements SectionInterface
     /**
      * Get the HREF attribute.
      *
-     * @param null $path
+     * @param  null   $path
      * @return string
      */
     public function getHref($path = null)

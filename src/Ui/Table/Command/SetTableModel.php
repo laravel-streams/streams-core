@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class SetTableModel
@@ -9,9 +8,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Command
  */
-class SetTableModel implements SelfHandling
+class SetTableModel
 {
 
     /**
@@ -39,23 +37,21 @@ class SetTableModel implements SelfHandling
         $table = $this->builder->getTable();
         $model = $this->builder->getModel();
 
-        /**
+        /*
          * If the model is already instantiated
          * then use it as is.
          */
         if (is_object($model)) {
-
             $table->setModel($model);
 
             return;
         }
 
-        /**
+        /*
          * If no model is set, try guessing the
          * model based on best practices.
          */
         if ($model === null) {
-
             $parts = explode('\\', str_replace('TableBuilder', 'Model', get_class($this->builder)));
 
             unset($parts[count($parts) - 2]);
@@ -65,7 +61,7 @@ class SetTableModel implements SelfHandling
             $this->builder->setModel($model);
         }
 
-        /**
+        /*
          * If the model does not exist or
          * is disabled then skip it.
          */
@@ -73,7 +69,7 @@ class SetTableModel implements SelfHandling
             return;
         }
 
-        /**
+        /*
          * Set the model on the table!
          */
         $table->setModel(app($model));

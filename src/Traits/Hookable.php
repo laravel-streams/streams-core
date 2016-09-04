@@ -1,14 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Traits;
 
-use Illuminate\Contracts\Bus\SelfHandling;
-
 /**
  * Class Hookable
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Traits
  */
 trait Hookable
 {
@@ -23,9 +20,9 @@ trait Hookable
     /**
      * Register a new hook.
      *
-     * @param      $hook
-     * @param      $callback
-     * @param bool $bind
+     * @param        $hook
+     * @param        $callback
+     * @param  bool  $bind
      * @return $this
      */
     public function hook($hook, $callback, $bind = false)
@@ -54,8 +51,8 @@ trait Hookable
     /**
      * Call a hook.
      *
-     * @param       $hook
-     * @param array $parameters
+     * @param        $hook
+     * @param  array $parameters
      * @return mixed
      */
     public function call($hook, array $parameters = [])

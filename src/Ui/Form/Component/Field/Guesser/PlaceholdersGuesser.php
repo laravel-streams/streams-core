@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser
  */
 class PlaceholdersGuesser
 {
@@ -26,14 +25,12 @@ class PlaceholdersGuesser
         $stream = $builder->getFormStream();
 
         foreach ($fields as &$field) {
-
             $locale = array_get($field, 'locale');
 
-            /**
+            /*
              * If the placeholder are already set then use it.
              */
             if (isset($field['placeholder'])) {
-
                 if (str_is('*::*', $field['placeholder'])) {
                     $field['placeholder'] = trans($field['placeholder'], [], null, $locale);
                 }
@@ -41,7 +38,7 @@ class PlaceholdersGuesser
                 continue;
             }
 
-            /**
+            /*
              * If we don't have a field then we
              * can not really guess anything here.
              */
@@ -49,7 +46,7 @@ class PlaceholdersGuesser
                 continue;
             }
 
-            /**
+            /*
              * No stream means we can't
              * really do much here.
              */
@@ -60,7 +57,7 @@ class PlaceholdersGuesser
             $assignment = $stream->getAssignment($field['field']);
             $object     = $stream->getField($field['field']);
 
-            /**
+            /*
              * No assignment means we still do
              * not have anything to do here.
              */
@@ -68,7 +65,7 @@ class PlaceholdersGuesser
                 continue;
             }
 
-            /**
+            /*
              * Next try using the fallback assignment
              * placeholder system as generated verbatim.
              */
@@ -82,7 +79,7 @@ class PlaceholdersGuesser
                 $field['placeholder'] = trans($placeholder, [], null, $locale);
             }
 
-            /**
+            /*
              * Next try using the default assignment
              * placeholder system as generated verbatim.
              */
@@ -97,14 +94,14 @@ class PlaceholdersGuesser
                 $field['placeholder'] = $translated;
             }
 
-            /**
+            /*
              * Check if it's just a standard string.
              */
             if (!isset($field['placeholder']) && $placeholder && !str_is('*::*', $placeholder)) {
                 $field['placeholder'] = $placeholder;
             }
 
-            /**
+            /*
              * Next try using the default field
              * placeholder system as generated verbatim.
              */
@@ -119,7 +116,7 @@ class PlaceholdersGuesser
                 $field['placeholder'] = $translated;
             }
 
-            /**
+            /*
              * Check if it's just a standard string.
              */
             if (!isset($field['placeholder']) && $placeholder && !str_is('*::*', $placeholder)) {

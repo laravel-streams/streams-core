@@ -1,24 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Traits\Hookable;
+use Anomaly\Streams\Platform\Collection\CacheCollection;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 
-/**
- * Class EloquentModel
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- */
 class EloquentModel extends Model implements Arrayable
 {
-    use DispatchesJobs;
     use Hookable;
+    use DispatchesJobs;
 
     /**
      * Disable timestamps for this model.
@@ -255,20 +248,14 @@ class EloquentModel extends Model implements Arrayable
     }
 
     /**
-     * Get a new query builder for the model's table.
+     * Create a new Eloquent query builder for the model.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  \Illuminate\Database\Query\Builder           $query
+     * @return \Illuminate\Database\Eloquent\Builder|static
      */
-    public function newQuery()
+    public function newEloquentBuilder($query)
     {
-        $builder = new EloquentQueryBuilder($this->newBaseQueryBuilder());
-
-        // Once we have the query builders, we will set the model instances so the
-        // builder can easily access any information it may need from the model
-        // while it is constructing and executing various queries against it.
-        $builder->setModel($this)->with($this->with);
-
-        return $this->applyGlobalScopes($builder);
+        return new EloquentQueryBuilder($query);
     }
 
     /*

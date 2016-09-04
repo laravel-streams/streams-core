@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Model;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Component\Row
  */
 class RowBuilder
 {
@@ -73,7 +72,6 @@ class RowBuilder
     public function build(TableBuilder $builder)
     {
         foreach ($builder->getTableEntries() as $entry) {
-
             $columns = $this->columns->build($builder, $entry);
             $buttons = $this->buttons->build($builder, $entry);
 

@@ -73,10 +73,10 @@ To get started in creating a builder first create your builder class that extend
 	<?php namespace Anomaly\ForumModule\Category\Form;
 
 	use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-	
+
 	class CategoryFormBuilder extends FormBuilder
 	{
-	
+
 	}
 
 Please refer to the documentation for specific builders to determine which base builder class to extend with your own.
@@ -96,7 +96,7 @@ The easiest way to configure builders is to simply override the builder's proper
 	<?php namespace Anomaly\ForumModule\Category\Form;
 
 	use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-	
+
 	class CategoryFormBuilder extends FormBuilder
 	{
 		protected $fields = [
@@ -113,21 +113,20 @@ Sometimes you may wish to configure the builder differently based on other logic
 	<?php namespace Anomaly\ForumModule\Category\Form;
 
 	use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-	
+
 	class CategoryFormBuilder extends FormBuilder
 	{
 		protected $fields = CategoryFormFields::class;
 	}
 
-Now we've told the builder to let `CategoryFormBuilder` to handle the setting of the configuration for `fields`. If the class implements `SelfHandling` then the `handle` method will be called however you may also define a full callable class and handler method. Property handlers are called from Laravel's service container and are always passed at least the `$builder` instance itself.
+Now we've told the builder to let `CategoryFormBuilder` to handle the setting of the configuration for `fields`. If a `@method` is not defined then `@handle` will be assumed. Property handlers are called from Laravel's service container and are always passed at least the `$builder` instance itself.
 
 Here is a very straight forward example of how the above `CategoryFormFields` might look:
 
 	<?php namespace Anomaly\ForumModule\Category\Form;
 
 	use Anomaly\ForumModule\Category\Form\CategoryFormBuilder;
-	use Illuminate\Contracts\Bus\SelfHandling;
-	
+
 	class CategoryFormFields
 	{
 		public function handle(CategoryFormBuilder $builder)
@@ -147,7 +146,7 @@ Here is a very straight forward example of how the above `CategoryFormFields` mi
 
 #### Automatic Property Handlers
 
-You can also let the system detect property handlers instead of setting them explicitly. The handler should be in the same namespace and replace `Builder` with the CamelCase version of the property name. For example `FooBarTableBuilder` would look for a column handler in the same namespace named `FooBarTableColumns`. 
+You can also let the system detect property handlers instead of setting them explicitly. The handler should be in the same namespace and replace `Builder` with the CamelCase version of the property name. For example `FooBarTableBuilder` would look for a column handler in the same namespace named `FooBarTableColumns`.
 
 All builder components and options support automatic property handlers.
 

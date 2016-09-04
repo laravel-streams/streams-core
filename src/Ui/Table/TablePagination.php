@@ -8,7 +8,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table
  */
 class TablePagination
 {
@@ -16,7 +15,7 @@ class TablePagination
     /**
      * Return table pagination data.
      *
-     * @param Table $table
+     * @param  Table $table
      * @return array
      */
     public function make(Table $table)

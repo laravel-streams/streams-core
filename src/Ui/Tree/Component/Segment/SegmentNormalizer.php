@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Tree\Component\Segment
  */
 class SegmentNormalizer
 {
@@ -24,7 +23,7 @@ class SegmentNormalizer
 
         foreach ($segments as $key => &$segment) {
 
-            /**
+            /*
              * If the key is non-numerical then
              * use it as the header and use the
              * segment as the segment if it's a class.
@@ -32,11 +31,11 @@ class SegmentNormalizer
             if (!is_numeric($key) && !is_array($segment) && class_exists($segment)) {
                 $segment = [
                     'heading' => $key,
-                    'segment' => $segment
+                    'segment' => $segment,
                 ];
             }
 
-            /**
+            /*
              * If the key is non-numerical then
              * use it as the header and use the
              * segment as the value.
@@ -44,21 +43,21 @@ class SegmentNormalizer
             if (!is_numeric($key) && !is_array($segment) && !class_exists($segment)) {
                 $segment = [
                     'heading' => $key,
-                    'value'   => $segment
+                    'value'   => $segment,
                 ];
             }
 
-            /**
+            /*
              * If the segment is not already an
              * array then treat it as the value.
              */
             if (!is_array($segment)) {
                 $segment = [
-                    'value' => $segment
+                    'value' => $segment,
                 ];
             }
 
-            /**
+            /*
              * Move all data-* keys
              * to attributes.
              */
@@ -68,13 +67,13 @@ class SegmentNormalizer
                 }
             }
 
-            /**
+            /*
              * If no value wrap is set
              * then use a default.
              */
             array_set($segment, 'wrapper', array_get($segment, 'wrapper', '{value}'));
 
-            /**
+            /*
              * If there is no value then use NULL
              */
             array_set($segment, 'value', array_get($segment, 'value', null));

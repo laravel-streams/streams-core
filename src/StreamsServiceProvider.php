@@ -1,38 +1,37 @@
 <?php namespace Anomaly\Streams\Platform;
 
+use Anomaly\Streams\Platform\Event\Ready;
+use Anomaly\Streams\Platform\Event\Booted;
+use Anomaly\Streams\Platform\Event\Booting;
+use Aptoma\Twig\Extension\MarkdownExtension;
+use Anomaly\Streams\Platform\Field\FieldModel;
+use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Addon\AddonManager;
-use Anomaly\Streams\Platform\Application\Command\ConfigureCommandBus;
+use Anomaly\Streams\Platform\Stream\StreamModel;
+use Anomaly\Streams\Platform\Entry\EntryObserver;
+use Anomaly\Streams\Platform\Field\FieldObserver;
+use Anomaly\Streams\Platform\View\Cache\CacheKey;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Stream\StreamObserver;
+use Anomaly\Streams\Platform\Model\EloquentObserver;
+use Anomaly\Streams\Platform\View\Cache\CacheAdapter;
+use Anomaly\Streams\Platform\View\Cache\CacheStrategy;
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
+use Anomaly\Streams\Platform\Routing\Command\IncludeRoutes;
+use Anomaly\Streams\Platform\Search\Command\ConfigureScout;
+use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
+use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
+use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
+use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
+use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
+use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
+use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
 use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
 use Anomaly\Streams\Platform\Application\Command\ConfigureUriValidator;
 use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
 use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
 use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
-use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
-use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
-use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
-use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
-use Anomaly\Streams\Platform\Entry\EntryModel;
-use Anomaly\Streams\Platform\Entry\EntryObserver;
-use Anomaly\Streams\Platform\Event\Booted;
-use Anomaly\Streams\Platform\Event\Booting;
-use Anomaly\Streams\Platform\Event\Ready;
-use Anomaly\Streams\Platform\Field\FieldModel;
-use Anomaly\Streams\Platform\Field\FieldObserver;
-use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
-use Anomaly\Streams\Platform\Mail\Command\RegisterMailer;
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Model\EloquentObserver;
-use Anomaly\Streams\Platform\Routing\Command\IncludeRoutes;
-use Anomaly\Streams\Platform\Stream\StreamModel;
-use Anomaly\Streams\Platform\Stream\StreamObserver;
-use Anomaly\Streams\Platform\View\Cache\CacheAdapter;
-use Anomaly\Streams\Platform\View\Cache\CacheKey;
-use Anomaly\Streams\Platform\View\Cache\CacheStrategy;
-use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
-use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
-use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
-use Aptoma\Twig\Extension\MarkdownExtension;
 use Asm89\Twig\CacheExtension\Extension;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Cache\Repository;
@@ -40,21 +39,10 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Translation\Translator;
 
-/**
- * Class StreamsServiceProvider
- *
- * In order to consolidate service providers throughout the
- * Streams Platform, we do all of our bootstrapping here.
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform
- */
 class StreamsServiceProvider extends ServiceProvider
 {
-
     use DispatchesJobs;
 
     /**
@@ -83,7 +71,7 @@ class StreamsServiceProvider extends ServiceProvider
         'TwigBridge\Extension\Laravel\Form',
         'TwigBridge\Extension\Laravel\Html',
         'Anomaly\Streams\Platform\StreamsPlugin',
-        'Phive\Twig\Extensions\Deferred\DeferredExtension'
+        'Phive\Twig\Extensions\Deferred\DeferredExtension',
     ];
 
     /**
@@ -99,14 +87,17 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Stream\Console\Cleanup',
         'Anomaly\Streams\Platform\Stream\Console\Destroy',
         'Anomaly\Streams\Platform\Addon\Console\MakeAddon',
+        'Anomaly\Streams\Platform\Installer\Console\Install',
+        'Anomaly\Streams\Platform\Application\Console\EnvSet',
+        'Anomaly\Streams\Platform\Addon\Console\AddonPublish',
         'Anomaly\Streams\Platform\Addon\Module\Console\Install',
         'Anomaly\Streams\Platform\Addon\Module\Console\Uninstall',
         'Anomaly\Streams\Platform\Addon\Module\Console\Reinstall',
+        'Anomaly\Streams\Platform\Application\Console\AppPublish',
         'Anomaly\Streams\Platform\Addon\Extension\Console\Install',
         'Anomaly\Streams\Platform\Addon\Extension\Console\Uninstall',
         'Anomaly\Streams\Platform\Addon\Extension\Console\Reinstall',
-        'Anomaly\Streams\Platform\Installer\Console\Install',
-        'Anomaly\Streams\Platform\Application\Console\EnvSet',
+        'Anomaly\Streams\Platform\Application\Console\StreamsPublish',
     ];
 
     /**
@@ -136,7 +127,7 @@ class StreamsServiceProvider extends ServiceProvider
         'extension.collection'                                                           => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection',
         'field_type.collection'                                                          => 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
         'plugin.collection'                                                              => 'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection',
-        'theme.collection'                                                               => 'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection'
+        'theme.collection'                                                               => 'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection',
     ];
 
     /**
@@ -195,7 +186,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\View\ViewMobileOverrides'                                  => 'Anomaly\Streams\Platform\View\ViewMobileOverrides',
         'Anomaly\Streams\Platform\View\Listener\LoadTemplateData'                            => 'Anomaly\Streams\Platform\View\Listener\LoadTemplateData',
         'Anomaly\Streams\Platform\View\Listener\DecorateData'                                => 'Anomaly\Streams\Platform\View\Listener\DecorateData',
-        'Anomaly\Streams\Platform\Support\Template'                                          => 'Anomaly\Streams\Platform\Support\Template'
+        'Anomaly\Streams\Platform\Support\Template'                                          => 'Anomaly\Streams\Platform\Support\Template',
     ];
 
     /**
@@ -210,17 +201,17 @@ class StreamsServiceProvider extends ServiceProvider
 
         // Next take care of core utilities.
         $this->dispatch(new SetCoreConnection());
-        $this->dispatch(new ConfigureCommandBus());
         $this->dispatch(new ConfigureUriValidator());
         $this->dispatch(new InitializeApplication());
 
         // Setup and preparing utilities.
         $this->dispatch(new LoadStreamsConfiguration());
+        $this->dispatch(new ConfigureTranslator());
         $this->dispatch(new AutoloadEntryModels());
         $this->dispatch(new AddAssetNamespaces());
         $this->dispatch(new AddImageNamespaces());
         $this->dispatch(new AddViewNamespaces());
-        $this->dispatch(new RegisterMailer());
+        $this->dispatch(new ConfigureScout());
 
         // Observe our base models.
         EntryModel::observe(EntryObserver::class);
@@ -231,7 +222,6 @@ class StreamsServiceProvider extends ServiceProvider
 
         $this->app->booted(
             function () use ($events) {
-
                 $events->fire(new Booted());
 
                 /* @var AddonManager $manager */
@@ -243,7 +233,6 @@ class StreamsServiceProvider extends ServiceProvider
                 $events->listen(
                     'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
                     function (RegisteringTwigPlugins $event) {
-
                         $twig = $event->getTwig();
 
                         foreach ($this->plugins as $plugin) {
@@ -268,13 +257,15 @@ class StreamsServiceProvider extends ServiceProvider
 
                 $manager->register();
 
+                /*
+                 * Do this after addons are registered
+                 * so that they can override named routes.
+                 */
                 $this->dispatch(new IncludeRoutes());
 
                 $events->fire(new Ready());
             }
         );
-
-        $this->dispatch(new ConfigureTranslator());
     }
 
     /**
@@ -284,16 +275,17 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        /**
+        /*
          * Register all third party packages first.
          */
-        $this->app->register('TwigBridge\ServiceProvider');
-        $this->app->register('Barryvdh\HttpCache\ServiceProvider');
-        $this->app->register('Collective\Html\HtmlServiceProvider');
-        $this->app->register('Intervention\Image\ImageServiceProvider');
+        $this->app->register(\TwigBridge\ServiceProvider::class);
+        $this->app->register(\Laravel\Scout\ScoutServiceProvider::class);
+        $this->app->register(\Collective\Html\HtmlServiceProvider::class);
+        $this->app->register(\Intervention\Image\ImageServiceProvider::class);
+        $this->app->register(\TeamTNT\Scout\TNTSearchScoutServiceProvider::class);
 
         if (env('APP_DEBUG')) {
-            $this->app->register('Barryvdh\Debugbar\ServiceProvider');
+            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
         }
 
         // Register bindings.
@@ -327,7 +319,7 @@ class StreamsServiceProvider extends ServiceProvider
             }
         }
 
-        /**
+        /*
          * Change the default language path so
          * that there MUST be a prefix hint.
          */
@@ -338,7 +330,7 @@ class StreamsServiceProvider extends ServiceProvider
             }
         );
 
-        /**
+        /*
          * Register the path to the streams platform.
          * This is handy for helping load other streams things.
          */
@@ -347,12 +339,11 @@ class StreamsServiceProvider extends ServiceProvider
             $this->app->make('path.base') . '/vendor/anomaly/streams-platform'
         );
 
-        /**
+        /*
          * If we don't have an .env file we need to head
          * to the installer (unless that's where we're at).
          */
         if (!env('INSTALLED') && $this->app->make('request')->segment(1) !== 'installer') {
-
             $this->app->make('router')->any(
                 '{url?}',
                 function (Redirector $redirector) {
@@ -363,7 +354,7 @@ class StreamsServiceProvider extends ServiceProvider
             return;
         }
 
-        /**
+        /*
          * Register system routes.
          */
         $this->app->make('router')->post(

@@ -10,7 +10,6 @@ use Illuminate\Contracts\Container\Container;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Component\Header
  */
 class HeaderFactory
 {
@@ -44,7 +43,7 @@ class HeaderFactory
     /**
      * Make a header.
      *
-     * @param  array $parameters
+     * @param  array           $parameters
      * @return HeaderInterface
      */
     public function make(array $parameters)

@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section
  */
 class SectionGuesser
 {
@@ -53,7 +52,7 @@ class SectionGuesser
      * @param PermissionGuesser  $permission
      * @param DescriptionGuesser $description
      */
-    function __construct(
+    public function __construct(
         HrefGuesser $href,
         TitleGuesser $title,
         PermissionGuesser $permission,

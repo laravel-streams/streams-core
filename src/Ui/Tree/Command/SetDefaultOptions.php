@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Entry\EntryTreeRepository;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentTreeRepository;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class SetDefaultOptions
@@ -13,9 +12,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Tree\Command
  */
-class SetDefaultOptions implements SelfHandling
+class SetDefaultOptions
 {
 
     /**
@@ -42,13 +40,12 @@ class SetDefaultOptions implements SelfHandling
     {
         $tree = $this->builder->getTree();
 
-        /**
+        /*
          * Set the default options handler based
          * on the builder class. Defaulting to
          * no handler.
          */
         if (!$tree->getOption('options')) {
-
             $options = str_replace('TreeBuilder', 'TreeOptions', get_class($this->builder));
 
             if (class_exists($options)) {
@@ -56,13 +53,12 @@ class SetDefaultOptions implements SelfHandling
             }
         }
 
-        /**
+        /*
          * Set the default data handler based
          * on the builder class. Defaulting to
          * no handler.
          */
         if (!$tree->getOption('data')) {
-
             $options = str_replace('TreeBuilder', 'TreeData', get_class($this->builder));
 
             if (class_exists($options)) {
@@ -70,14 +66,13 @@ class SetDefaultOptions implements SelfHandling
             }
         }
 
-        /**
+        /*
          * Set a optional entries handler based
          * on the builder class. Defaulting to
          * no handler in which case we will use
          * the model and included repositories.
          */
         if (!$tree->getOption('entries')) {
-
             $entries = str_replace('TreeBuilder', 'TreeEntries', get_class($this->builder));
 
             if (class_exists($entries)) {
@@ -85,13 +80,12 @@ class SetDefaultOptions implements SelfHandling
             }
         }
 
-        /**
+        /*
          * Set the default options handler based
          * on the builder class. Defaulting to
          * no handler.
          */
         if (!$tree->getOption('repository')) {
-
             $model = $tree->getModel();
 
             if (!$tree->getOption('repository') && $model instanceof EntryModel) {

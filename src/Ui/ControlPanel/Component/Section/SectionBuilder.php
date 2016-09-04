@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section
  */
 class SectionBuilder
 {
@@ -42,7 +41,7 @@ class SectionBuilder
      * @param SectionFactory $factory
      * @param Authorizer     $authorizer
      */
-    function __construct(SectionInput $input, SectionFactory $factory, Authorizer $authorizer)
+    public function __construct(SectionInput $input, SectionFactory $factory, Authorizer $authorizer)
     {
         $this->input      = $input;
         $this->factory    = $factory;
@@ -61,7 +60,6 @@ class SectionBuilder
         $this->input->read($builder);
 
         foreach ($builder->getSections() as $section) {
-
             if (!$this->authorizer->authorize($section['permission'])) {
                 continue;
             }

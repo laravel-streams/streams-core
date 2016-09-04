@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Installer\Installer;
 use Anomaly\Streams\Platform\Installer\InstallerCollection;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Container\Container;
 
 /**
@@ -12,9 +11,8 @@ use Illuminate\Contracts\Container\Container;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Installer\Console\Command
  */
-class RunInstallers implements SelfHandling
+class RunInstallers
 {
 
     /**
@@ -55,7 +53,6 @@ class RunInstallers implements SelfHandling
 
         /* @var Installer $installer */
         while ($installer = $this->installers->shift()) {
-
             if ($this->command) {
                 $this->command->info("{$step}/{$total} " . trans($installer->getMessage()));
             }

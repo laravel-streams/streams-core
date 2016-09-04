@@ -2,14 +2,6 @@
 
 use Illuminate\Foundation\Providers\ConsoleSupportServiceProvider;
 
-/**
- * Class StreamsConsoleProvider
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform
- */
 class StreamsConsoleProvider extends ConsoleSupportServiceProvider
 {
 
@@ -19,13 +11,12 @@ class StreamsConsoleProvider extends ConsoleSupportServiceProvider
      * @var array
      */
     protected $providers = [
-        'Illuminate\Auth\GeneratorServiceProvider',
-        'Illuminate\Console\ScheduleServiceProvider',
-        'Anomaly\Streams\Platform\Database\DatabaseServiceProvider',
-        'Illuminate\Foundation\Providers\ComposerServiceProvider',
+        'Illuminate\Database\SeedServiceProvider',
         'Illuminate\Queue\ConsoleServiceProvider',
-        'Illuminate\Routing\GeneratorServiceProvider',
-        'Illuminate\Session\CommandsServiceProvider',
+        'Illuminate\Console\ScheduleServiceProvider',
+        'Illuminate\Database\MigrationServiceProvider',
+        'Illuminate\Foundation\Providers\ArtisanServiceProvider',
+        'Illuminate\Foundation\Providers\ComposerServiceProvider',
+        'Anomaly\Streams\Platform\Database\DatabaseServiceProvider',
     ];
-
 }

@@ -2,17 +2,8 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 
-/**
- * Class GetTableEntries
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Command
- */
-class GetTableEntries implements SelfHandling
+class GetTableEntries
 {
 
     /**
@@ -40,7 +31,7 @@ class GetTableEntries implements SelfHandling
         $model   = $this->builder->getModel();
         $entries = $this->builder->getEntries();
 
-        /**
+        /*
          * If the builder has an entries handler
          * then call it through the container and
          * let it load the entries itself.
@@ -51,7 +42,7 @@ class GetTableEntries implements SelfHandling
 
         $entries = $this->builder->getTableEntries();
 
-        /**
+        /*
          * If the entries have already been set on the
          * table then return. Nothing to do here.
          *
@@ -62,12 +53,12 @@ class GetTableEntries implements SelfHandling
             return;
         }
 
-        /**
+        /*
          * Resolve the model out of the container.
          */
         $repository = $this->builder->getRepository();
-
-        /**
+        
+        /*
          * If the repository is an instance of
          * TableRepositoryInterface use it.
          */

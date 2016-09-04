@@ -4,14 +4,6 @@ use Anomaly\Streams\Platform\Addon\Module\Module;
 
 class {addon} extends Module
 {
-
-    /**
-     * The navigation icon.
-     *
-     * @var string
-     */
-    protected $icon = 'addon';
-
     /**
      * The module sections.
      *
@@ -20,5 +12,4 @@ class {addon} extends Module
     protected $sections = [
         'example'
     ];
-
 }

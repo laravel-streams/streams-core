@@ -13,5 +13,5 @@ return [
 
     'name'        => 'Streams Platform',
     'description' => 'Streams is an abstracted modular platform for developing web applications.',
-    'version'     => 'v1.0'
+    'version'     => 'v1.1',
 ];

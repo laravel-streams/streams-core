@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Asset\Event\ThemeVariablesHaveLoaded;
 use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Config\Repository;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
@@ -13,9 +12,8 @@ use Illuminate\Contracts\Events\Dispatcher;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Asset\Command
  */
-class LoadThemeVariables implements SelfHandling
+class LoadThemeVariables
 {
 
     /**
@@ -30,7 +28,7 @@ class LoadThemeVariables implements SelfHandling
      *
      * @param ThemeCollection $themes
      */
-    function __construct(Collection $variables)
+    public function __construct(Collection $variables)
     {
         $this->variables = $variables;
     }

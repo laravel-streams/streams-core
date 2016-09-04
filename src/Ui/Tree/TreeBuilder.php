@@ -21,11 +21,9 @@ use Illuminate\Support\Collection;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Tree
  */
 class TreeBuilder
 {
-
     use FiresCallbacks;
     use DispatchesJobs;
 
@@ -76,7 +74,7 @@ class TreeBuilder
      *
      * @param Tree $tree
      */
-    function __construct(Tree $tree)
+    public function __construct(Tree $tree)
     {
         $this->tree = $tree;
     }
@@ -173,7 +171,7 @@ class TreeBuilder
     /**
      * Set the tree model.
      *
-     * @param string $model
+     * @param  string $model
      * @return $this
      */
     public function setModel($model)
@@ -252,7 +250,7 @@ class TreeBuilder
     /**
      * Set the options.
      *
-     * @param array $options
+     * @param  array $options
      * @return $this
      */
     public function setOptions(array $options)
@@ -265,8 +263,8 @@ class TreeBuilder
     /**
      * Get an option value.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function getOption($key, $default = null)
@@ -352,8 +350,8 @@ class TreeBuilder
     /**
      * Get a tree option value.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function getTreeOption($key, $default = null)
@@ -388,7 +386,7 @@ class TreeBuilder
     /**
      * Set the tree entries.
      *
-     * @param Collection $entries
+     * @param  Collection $entries
      * @return $this
      */
     public function setTreeEntries(Collection $entries)
@@ -411,7 +409,7 @@ class TreeBuilder
     /**
      * Add a tree item to the collection.
      *
-     * @param ItemInterface $item
+     * @param  ItemInterface $item
      * @return $this
      */
     public function addTreeItem(ItemInterface $item)
@@ -444,7 +442,7 @@ class TreeBuilder
     /**
      * Set the tree repository.
      *
-     * @param TreeRepositoryInterface $repository
+     * @param  TreeRepositoryInterface $repository
      * @return $this
      */
     public function setTreeRepository(TreeRepositoryInterface $repository)
@@ -477,8 +475,8 @@ class TreeBuilder
     /**
      * Get a request value.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function getRequestValue($key, $default = null)

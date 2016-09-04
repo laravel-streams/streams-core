@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Support\Collection;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class FieldCollection
@@ -10,7 +9,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Field
  */
 class FieldCollection extends Collection
 {
@@ -67,8 +65,8 @@ class FieldCollection extends Collection
     /**
      * Get a field.
      *
-     * @param mixed $key
-     * @param null  $default
+     * @param  mixed     $key
+     * @param  null      $default
      * @return FieldType
      */
     public function get($key, $default = null)
@@ -164,7 +162,7 @@ class FieldCollection extends Collection
     }
 
     /**
-     * Return non-SelfHandling fields.
+     * Return non-self handling fields.
      *
      * @return FieldCollection
      */
@@ -174,7 +172,7 @@ class FieldCollection extends Collection
 
         /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if (!$item->isDisabled() && !$item instanceof SelfHandling) {
+            if (!$item->isDisabled() && !method_exists($item, 'handle')) {
                 $allowed[] = $item;
             }
         }
@@ -183,7 +181,7 @@ class FieldCollection extends Collection
     }
 
     /**
-     * Return SelfHandling fields.
+     * Return self hanling fields.
      *
      * @return FieldCollection
      */
@@ -193,7 +191,7 @@ class FieldCollection extends Collection
 
         /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if ($item instanceof SelfHandling) {
+            if (method_exists($item, 'handle')) {
                 $selfHandling[] = $item;
             }
         }
@@ -211,7 +209,6 @@ class FieldCollection extends Collection
         /* @var FieldType $item */
         foreach ($this->items as $index => $item) {
             if ($item->getField() == $key) {
-
                 unset($this->items[$index]);
 
                 break;

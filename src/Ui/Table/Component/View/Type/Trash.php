@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\View\View;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\View\Type
  */
 class Trash extends View
 {

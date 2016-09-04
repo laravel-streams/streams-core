@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\Grid\Component\Item\Contract\ItemInterface;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Grid\Component\Item
  */
 class Item implements ItemInterface
 {
@@ -122,7 +121,7 @@ class Item implements ItemInterface
     /**
      * Set the buttons.
      *
-     * @param ButtonCollection $buttons
+     * @param  ButtonCollection $buttons
      * @return $this
      */
     public function setButtons(ButtonCollection $buttons)

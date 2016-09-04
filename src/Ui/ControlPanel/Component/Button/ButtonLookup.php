@@ -33,7 +33,6 @@ class ButtonLookup
         $buttons = $builder->getButtons();
 
         foreach ($buttons as &$parameters) {
-
             if (!$button = array_get($parameters, 'button')) {
                 continue;
             }

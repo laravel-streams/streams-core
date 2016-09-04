@@ -11,7 +11,6 @@ use Illuminate\Routing\UrlGenerator;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser
  */
 class HrefGuesser
 {
@@ -67,7 +66,6 @@ class HrefGuesser
         }
 
         foreach ($buttons as &$button) {
-
             if (isset($button['attributes']['href'])) {
                 continue;
             }

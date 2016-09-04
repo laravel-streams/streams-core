@@ -1,16 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
-use Illuminate\Contracts\Bus\SelfHandling;
-
 /**
  * Class ReadEnvironmentFile
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Application\Command
  */
-class ReloadEnvironmentFile implements SelfHandling
+class ReloadEnvironmentFile
 {
 
     /**

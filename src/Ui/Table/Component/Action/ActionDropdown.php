@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action
  */
 class ActionDropdown
 {
@@ -25,7 +24,6 @@ class ActionDropdown
         foreach ($actions as $key => &$action) {
             if (isset($action['dropdown'])) {
                 foreach (array_pull($action, 'dropdown') as $dropdown) {
-
                     $dropdown['parent'] = $action['slug'];
 
                     $actions[] = $dropdown;
@@ -47,11 +45,8 @@ class ActionDropdown
 
         foreach ($actions as $key => &$action) {
             if ($dropdown = array_get($action, 'parent')) {
-
                 foreach ($actions as &$parent) {
-
                     if (array_get($parent, 'slug') == $dropdown) {
-
                         if (!isset($parent['dropdown'])) {
                             $parent['dropdown'] = [];
                         }

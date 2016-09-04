@@ -6,14 +6,6 @@ use Illuminate\Http\Response;
 use Symfony\Component\Debug\ExceptionHandler as SymfonyDisplayer;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-/**
- * Class ExceptionHandler
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Exception
- */
 class ExceptionHandler extends \Illuminate\Foundation\Exceptions\Handler
 {
 
@@ -36,7 +28,6 @@ class ExceptionHandler extends \Illuminate\Foundation\Exceptions\Handler
     public function render($request, Exception $e)
     {
         if ($e instanceof HttpException) {
-
             if (!$e->getStatusCode() == 404) {
                 return $this->renderHttpException($e);
             }

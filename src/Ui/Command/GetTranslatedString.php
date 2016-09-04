@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Command;
 
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Translation\Translator;
 
 /**
@@ -9,9 +8,8 @@ use Illuminate\Translation\Translator;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Command
  */
-class GetTranslatedString implements SelfHandling
+class GetTranslatedString
 {
 
     /**
@@ -52,7 +50,7 @@ class GetTranslatedString implements SelfHandling
     /**
      * Handle the command.
      *
-     * @param Translator $translator
+     * @param  Translator $translator
      * @return string
      */
     public function handle()

@@ -6,7 +6,6 @@
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\FieldType
  */
 class FieldTypeModifier
 {
@@ -53,7 +52,7 @@ class FieldTypeModifier
     /**
      * Set the field type.
      *
-     * @param FieldType $fieldType
+     * @param  FieldType $fieldType
      * @return $this
      */
     public function setFieldType(FieldType $fieldType)

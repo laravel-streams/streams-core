@@ -7,14 +7,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentRepository;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
-/**
- * Class AssignmentRepository
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Assignment
- */
 class AssignmentRepository extends EloquentRepository implements AssignmentRepositoryInterface
 {
 
@@ -38,7 +30,7 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
     /**
      * Create a new assignment.
      *
-     * @param array $attributes
+     * @param  array               $attributes
      * @return AssignmentInterface
      */
     public function create(array $attributes = [])
@@ -51,8 +43,8 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
     /**
      * Find an assignment by stream and field.
      *
-     * @param StreamInterface $stream
-     * @param FieldInterface  $field
+     * @param  StreamInterface                        $stream
+     * @param  FieldInterface                         $field
      * @return null|AssignmentInterface|EloquentModel
      */
     public function findByStreamAndField(StreamInterface $stream, FieldInterface $field)
@@ -63,7 +55,7 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
     /**
      * Find all assignments by stream.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface      $stream
      * @return AssignmentCollection
      */
     public function findByStream(StreamInterface $stream)

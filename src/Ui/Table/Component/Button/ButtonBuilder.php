@@ -11,7 +11,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Component\Button
  */
 class ButtonBuilder
 {
@@ -77,8 +76,8 @@ class ButtonBuilder
     /**
      * Build the buttons.
      *
-     * @param TableBuilder $builder
-     * @param              $entry
+     * @param  TableBuilder     $builder
+     * @param                   $entry
      * @return ButtonCollection
      */
     public function build(TableBuilder $builder, $entry)
@@ -90,7 +89,6 @@ class ButtonBuilder
         $this->input->read($builder, $entry);
 
         foreach ($builder->getButtons() as $button) {
-
             array_set($button, 'entry', $entry);
 
             $button = $this->evaluator->evaluate($button, compact('entry', 'table'));

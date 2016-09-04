@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class SetDefaultOptions
@@ -11,9 +10,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Form\Command
  */
-class SetDefaultOptions implements SelfHandling
+class SetDefaultOptions
 {
 
     /**
@@ -43,7 +41,7 @@ class SetDefaultOptions implements SelfHandling
     {
         $theme = $themes->current();
 
-        /**
+        /*
          * Default the form view based on the request.
          */
         if (!$this->builder->getFormOption('form_view') && $this->builder->isAjax()) {
@@ -62,7 +60,7 @@ class SetDefaultOptions implements SelfHandling
             $this->builder->setFormOption('form_view', 'streams::form/admin/form');
         }
 
-        /**
+        /*
          * Default the form wrapper view as well.
          */
         if (!$this->builder->getFormOption('wrapper_view') && $this->builder->isAjax()) {
@@ -73,7 +71,7 @@ class SetDefaultOptions implements SelfHandling
             $this->builder->setFormOption('wrapper_view', 'streams::blank');
         }
 
-        /**
+        /*
          * If the permission is not set then
          * try and automate it.
          */

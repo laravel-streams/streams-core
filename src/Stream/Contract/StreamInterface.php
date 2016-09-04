@@ -15,7 +15,6 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Stream\Contract
  */
 interface StreamInterface
 {
@@ -72,8 +71,8 @@ interface StreamInterface
     /**
      * Get the config.
      *
-     * @param null $key
-     * @param null $default
+     * @param  null  $key
+     * @param  null  $default
      * @return mixed
      */
     public function getConfig($key = null, $default = null);
@@ -81,7 +80,7 @@ interface StreamInterface
     /**
      * Merge configuration.
      *
-     * @param array $config
+     * @param  array $config
      * @return $this
      */
     public function mergeConfig(array $config);
@@ -106,6 +105,13 @@ interface StreamInterface
      * @return bool
      */
     public function isSortable();
+
+    /**
+     * Get the searchable flag.
+     *
+     * @return bool
+     */
+    public function isSearchable();
 
     /**
      * Get the trashable flag.
@@ -145,7 +151,7 @@ interface StreamInterface
     /**
      * Get the field slugs for assigned fields.
      *
-     * @param null $prefix
+     * @param  null  $prefix
      * @return array
      */
     public function getAssignmentFieldSlugs($prefix = null);
@@ -234,9 +240,9 @@ interface StreamInterface
     /**
      * Get a field's type by the field's slug.
      *
-     * @param                $fieldSlug
-     * @param EntryInterface $entry
-     * @param null|string    $locale
+     * @param                 $fieldSlug
+     * @param  EntryInterface $entry
+     * @param  null|string    $locale
      * @return FieldType
      */
     public function getFieldType($fieldSlug, EntryInterface $entry = null, $locale = null);
@@ -244,9 +250,9 @@ interface StreamInterface
     /**
      * Get a field's query utility by the field's slug.
      *
-     * @param                $fieldSlug
-     * @param EntryInterface $entry
-     * @param null|string    $locale
+     * @param                 $fieldSlug
+     * @param  EntryInterface $entry
+     * @param  null|string    $locale
      * @return FieldTypeQuery
      */
     public function getFieldTypeQuery($fieldSlug, EntryInterface $entry = null, $locale = null);

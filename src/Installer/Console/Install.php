@@ -36,11 +36,9 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Installer\Console
  */
 class Install extends Command
 {
-
     use DispatchesJobs;
 
     /**
@@ -96,7 +94,7 @@ class Install extends Command
             new Installer(
                 'streams::installer.running_migrations',
                 function (Kernel $console) {
-                    $console->call('migrate', ['--force' => true, '--no-addons' => true]);
+                    $console->call('migrate', ['--force' => true]);
                 }
             )
         );

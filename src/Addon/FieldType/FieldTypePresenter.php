@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Addon\AddonPresenter;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\FieldType
  */
 class FieldTypePresenter extends AddonPresenter
 {
@@ -58,7 +57,7 @@ class FieldTypePresenter extends AddonPresenter
      * a much sexier syntax for presenter methods off
      * of entry objects.
      *
-     * @param string $key
+     * @param  string $key
      * @return mixed
      */
     public function __get($key)

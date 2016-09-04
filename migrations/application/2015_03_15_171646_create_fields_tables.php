@@ -4,13 +4,6 @@ use Anomaly\Streams\Platform\Database\Migration\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
-/**
- * Class CreateFieldsTables
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class CreateFieldsTables extends Migration
 {
 
@@ -28,7 +21,6 @@ class CreateFieldsTables extends Migration
             $schema->create(
                 'streams_fields',
                 function (Blueprint $table) {
-
                     $table->increments('id');
                     $table->string('namespace', 150);
                     $table->string('slug', 150);
@@ -45,7 +37,6 @@ class CreateFieldsTables extends Migration
             $schema->create(
                 'streams_fields_translations',
                 function (Blueprint $table) {
-
                     $table->increments('id');
                     $table->integer('field_id');
                     $table->string('locale')->index();

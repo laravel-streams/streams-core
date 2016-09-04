@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Support\Parser;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Button
  */
 class ButtonParser
 {
@@ -33,8 +32,8 @@ class ButtonParser
     /**
      * Parse the button with the entry.
      *
-     * @param array $button
-     * @param       $entry
+     * @param  array $button
+     * @param        $entry
      * @return array
      */
     public function parse(array $button, $entry)

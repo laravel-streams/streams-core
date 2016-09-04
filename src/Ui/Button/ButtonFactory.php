@@ -11,7 +11,6 @@ use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Component\Button
  */
 class ButtonFactory
 {
@@ -74,7 +73,7 @@ class ButtonFactory
     /**
      * Make a button.
      *
-     * @param  array $parameters
+     * @param  array           $parameters
      * @return ButtonInterface
      */
     public function make(array $parameters)

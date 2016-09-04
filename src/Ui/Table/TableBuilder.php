@@ -22,11 +22,9 @@ use Symfony\Component\HttpFoundation\Response;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table
  */
 class TableBuilder
 {
-
     use DispatchesJobs;
     use FiresCallbacks;
 
@@ -235,7 +233,7 @@ class TableBuilder
     /**
      * Set the table model.
      *
-     * @param string $model
+     * @param  string $model
      * @return $this
      */
     public function setModel($model)
@@ -291,7 +289,7 @@ class TableBuilder
     /**
      * Set the repository.
      *
-     * @param TableRepositoryInterface $repository
+     * @param  TableRepositoryInterface $repository
      * @return $this
      */
     public function setRepository(TableRepositoryInterface $repository)
@@ -442,7 +440,7 @@ class TableBuilder
     /**
      * Set the options.
      *
-     * @param array $options
+     * @param  array $options
      * @return $this
      */
     public function setOptions($options)
@@ -455,8 +453,8 @@ class TableBuilder
     /**
      * Get an option value.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function getOption($key, $default = null)
@@ -542,8 +540,8 @@ class TableBuilder
     /**
      * Get a table option value.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function getTableOption($key, $default = null)
@@ -578,7 +576,7 @@ class TableBuilder
     /**
      * Set the table entries.
      *
-     * @param Collection $entries
+     * @param  Collection $entries
      * @return $this
      */
     public function setTableEntries(Collection $entries)
@@ -632,8 +630,8 @@ class TableBuilder
     /**
      * Get a table filter value.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function getTableFilterValue($key, $default = null)
@@ -658,7 +656,7 @@ class TableBuilder
     /**
      * Set the table views.
      *
-     * @param ViewCollection $views
+     * @param  ViewCollection $views
      * @return $this
      */
     public function setTableViews(ViewCollection $views)
@@ -696,7 +694,7 @@ class TableBuilder
     /**
      * Add a row to the table.
      *
-     * @param RowInterface $row
+     * @param  RowInterface $row
      * @return $this
      */
     public function addTableRow(RowInterface $row)
@@ -753,8 +751,8 @@ class TableBuilder
     /**
      * Get a request value.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function getRequestValue($key, $default = null)

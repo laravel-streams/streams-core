@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class AddAssets
@@ -10,9 +9,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Command
  */
-class AddAssets implements SelfHandling
+class AddAssets
 {
 
     /**
@@ -35,19 +33,17 @@ class AddAssets implements SelfHandling
     /**
      * Handle the command.
      *
-     * @param Asset $asset
+     * @param  Asset      $asset
      * @throws \Exception
      */
     public function handle(Asset $asset)
     {
         foreach ($this->builder->getAssets() as $collection => $assets) {
-
             if (!is_array($assets)) {
                 $assets = [$assets];
             }
 
             foreach ($assets as $file) {
-
                 $filters = explode('|', $file);
 
                 $file = array_shift($filters);

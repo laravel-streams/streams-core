@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action
  */
 class ActionFactory
 {
@@ -42,7 +41,7 @@ class ActionFactory
      * @param Hydrator   $hydrator
      * @param Translator $translator
      */
-    function __construct(Hydrator $hydrator, Translator $translator)
+    public function __construct(Hydrator $hydrator, Translator $translator)
     {
         $this->hydrator   = $hydrator;
         $this->translator = $translator;
@@ -51,7 +50,7 @@ class ActionFactory
     /**
      * Make an action.
      *
-     * @param  array $parameters
+     * @param  array           $parameters
      * @return ActionInterface
      */
     public function make(array $parameters)

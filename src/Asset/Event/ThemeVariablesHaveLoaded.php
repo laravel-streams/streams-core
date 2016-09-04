@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Support\Collection;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Asset\Event
  */
 class ThemeVariablesHaveLoaded
 {
@@ -25,7 +24,7 @@ class ThemeVariablesHaveLoaded
      *
      * @param Collection $variables
      */
-    function __construct(Collection $variables)
+    public function __construct(Collection $variables)
     {
         $this->variables = $variables;
     }

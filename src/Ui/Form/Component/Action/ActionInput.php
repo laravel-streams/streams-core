@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Action
  */
 class ActionInput
 {
@@ -81,7 +80,7 @@ class ActionInput
      * @param ActionPredictor  $predictor
      * @param ActionNormalizer $normalizer
      */
-    function __construct(
+    public function __construct(
         ActionParser $parser,
         ActionLookup $lookup,
         ActionGuesser $guesser,

@@ -1,21 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-/**
- * Class Str
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Support
- */
 class Str extends \Illuminate\Support\Str
 {
 
     /**
      * Return a humanized string.
      *
-     * @param        $value
-     * @param string $separator
+     * @param         $value
+     * @param  string $separator
      * @return string
      */
     public function humanize($value, $separator = '_')
@@ -43,7 +35,6 @@ class Str extends \Illuminate\Support\Str
         $length = 0;
 
         for (; $last < $count; ++$last) {
-
             $length += strlen($parts[$last]);
 
             if ($length > $limit) {

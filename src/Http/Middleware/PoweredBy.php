@@ -5,14 +5,6 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 
-/**
- * Class PoweredBy
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Http\Middleware
- */
 class PoweredBy
 {
 
@@ -44,7 +36,7 @@ class PoweredBy
     {
         /* @var \Illuminate\Http\Response $response */
         $response = $next($request);
-
+        
         $response->headers->set('X-Powered-By', 'Streams Platform');
         $response->headers->set(
             'X-Streams-Distribution',

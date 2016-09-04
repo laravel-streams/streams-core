@@ -13,14 +13,6 @@ use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\HandleErrors;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\MergeFields;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\PostForms;
 
-/**
- * Class MultipleFormBuilder
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Support
- */
 class MultipleFormBuilder extends FormBuilder
 {
 
@@ -68,7 +60,6 @@ class MultipleFormBuilder extends FormBuilder
 
         /* @var FormBuilder $builder */
         foreach ($forms = $this->getForms() as $slug => $builder) {
-
             $this->fire('saving_' . $slug, compact('builder', 'forms'));
 
             $builder->saveForm();
@@ -105,8 +96,8 @@ class MultipleFormBuilder extends FormBuilder
     /**
      * Add a form.
      *
-     * @param             $key
-     * @param FormBuilder $builder
+     * @param                      $key
+     * @param  FormBuilder         $builder
      * @return MultipleFormBuilder
      */
     public function addForm($key, FormBuilder $builder)

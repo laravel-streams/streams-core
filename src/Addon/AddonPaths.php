@@ -9,7 +9,6 @@ use Illuminate\Contracts\Config\Repository;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon
  */
 class AddonPaths
 {
@@ -34,7 +33,7 @@ class AddonPaths
      * @param Application $application
      * @param Repository  $config
      */
-    function __construct(Application $application, Repository $config)
+    public function __construct(Application $application, Repository $config)
     {
         $this->config      = $config;
         $this->application = $application;
@@ -61,7 +60,7 @@ class AddonPaths
         // Other configured addons.
         $configured = $this->configured() ?: [];
 
-        /**
+        /*
          * Merge the eager and deferred
          * onto the front and back of
          * the paths respectively.
@@ -125,7 +124,6 @@ class AddonPaths
         $path = base_path('core');
 
         if (!is_dir($path)) {
-
             return false;
         }
 
@@ -161,7 +159,6 @@ class AddonPaths
         $path = base_path('addons/shared');
 
         if (!is_dir($path)) {
-
             return false;
         }
 
@@ -178,7 +175,6 @@ class AddonPaths
         $path = base_path('addons/' . $this->application->getReference());
 
         if (!is_dir($path)) {
-
             return false;
         }
 

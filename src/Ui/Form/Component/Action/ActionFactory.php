@@ -10,7 +10,6 @@ use Illuminate\Contracts\Container\Container;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Action
  */
 class ActionFactory
 {
@@ -35,7 +34,7 @@ class ActionFactory
      * @param Hydrator  $hydrator
      * @param Container $container
      */
-    function __construct(Hydrator $hydrator, Container $container)
+    public function __construct(Hydrator $hydrator, Container $container)
     {
         $this->hydrator  = $hydrator;
         $this->container = $container;
@@ -44,7 +43,7 @@ class ActionFactory
     /**
      * Make an action.
      *
-     * @param  array $parameters
+     * @param  array           $parameters
      * @return ActionInterface
      */
     public function make(array $parameters)

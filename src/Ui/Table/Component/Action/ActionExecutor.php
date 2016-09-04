@@ -6,7 +6,6 @@ use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
@@ -16,7 +15,6 @@ use Illuminate\Http\Request;
  * @link          http://anomaly.is/streams-plattable
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action
  */
 class ActionExecutor
 {
@@ -82,8 +80,8 @@ class ActionExecutor
     /**
      * Execute an action.
      *
-     * @param TableBuilder    $builder
-     * @param ActionInterface $action
+     * @param  TableBuilder    $builder
+     * @param  ActionInterface $action
      * @throws \Exception
      */
     public function execute(TableBuilder $builder, ActionInterface $action)
@@ -92,36 +90,30 @@ class ActionExecutor
         $handler = $action->getHandler();
 
         // Self handling implies @handle
-        if (is_string($handler) && !str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
+        if (is_string($handler) && !str_contains($handler, '@')) {
             $handler .= '@handle';
         }
 
-        /**
+        /*
          * Authorize the action.
          */
         if (!$this->authorizer->authorize($action->getPermission())) {
-
             $this->messages->error('streams::message.403');
 
             return;
         }
 
-        /**
+        /*
          * Get the IDs of the selected rows.
          */
         $selected = $this->request->get($options->get('prefix') . 'id', []);
 
-        /**
+        /*
          * If the handler is a callable string or Closure
          * then call it using the IoC container.
          */
         if (is_string($handler) || $handler instanceof \Closure) {
-
-            if (is_string($handler) && class_exists($handler) && class_implements(
-                    $handler,
-                    'Illuminate\Contracts\Bus\SelfHandling'
-                )
-            ) {
+            if (is_string($handler) && class_exists($handler)) {
                 $handler .= '@handle';
             }
 
@@ -130,12 +122,11 @@ class ActionExecutor
             return;
         }
 
-        /**
+        /*
          * If the handle is an instance of ActionHandlerInterface
          * simply call the handle method on it.
          */
         if ($handler instanceof ActionHandlerInterface) {
-
             $handler->handle($builder, $selected);
 
             return;

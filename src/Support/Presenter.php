@@ -8,11 +8,9 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Support
  */
 class Presenter extends \Robbo\Presenter\Presenter
 {
-
     use DispatchesJobs;
 
     /**
@@ -23,7 +21,7 @@ class Presenter extends \Robbo\Presenter\Presenter
     protected $protected = [
         'delete',
         'save',
-        'update'
+        'update',
     ];
 
     /**
@@ -100,7 +98,7 @@ class Presenter extends \Robbo\Presenter\Presenter
     /**
      * Fetch the presenter method name for the given variable.
      *
-     * @param  string $variable
+     * @param  string      $variable
      * @return string|null
      */
     protected function getPresenterMethodFromVariable($variable)
@@ -115,8 +113,8 @@ class Presenter extends \Robbo\Presenter\Presenter
     /**
      * Call unknown methods if safe.
      *
-     * @param string $method
-     * @param array  $arguments
+     * @param  string $method
+     * @param  array  $arguments
      * @return mixed
      */
     public function __call($method, $arguments)

@@ -1,15 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Command;
 
 use Anomaly\Streams\Platform\Database\Migration\Migration;
+use Anomaly\Streams\Platform\Database\Migration\Field\FieldMigrator;
+use Anomaly\Streams\Platform\Database\Migration\Stream\StreamMigrator;
+use Anomaly\Streams\Platform\Database\Migration\Assignment\AssignmentMigrator;
 
-/**
- * Class Migrate
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Migration\Command
- */
 class Migrate
 {
 
@@ -31,12 +26,19 @@ class Migrate
     }
 
     /**
-     * Get the migration.
+     * Handle the command.
      *
-     * @return Migration
+     * @param FieldMigrator      $fields
+     * @param StreamMigrator     $streams
+     * @param AssignmentMigrator $assignments
      */
-    public function getMigration()
-    {
-        return $this->migration;
+    public function handle(
+        FieldMigrator $fields,
+        StreamMigrator $streams,
+        AssignmentMigrator $assignments
+    ) {
+        $fields->migrate($this->migration);
+        $streams->migrate($this->migration);
+        $assignments->migrate($this->migration);
     }
 }

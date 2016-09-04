@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Column\Command\GetColumnValue;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Column\Command
  */
 class GetColumnValueHandler
 {
@@ -34,7 +33,7 @@ class GetColumnValueHandler
     /**
      * Handle the command.
      *
-     * @param GetColumnValue $command
+     * @param  GetColumnValue $command
      * @return mixed
      */
     public function handle(GetColumnValue $command)

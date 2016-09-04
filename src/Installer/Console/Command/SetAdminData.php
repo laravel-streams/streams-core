@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Config\Repository;
 
 /**
@@ -11,9 +10,8 @@ use Illuminate\Contracts\Config\Repository;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Installer\Console\Command
  */
-class SetAdminData implements SelfHandling
+class SetAdminData
 {
 
     /**
@@ -36,7 +34,7 @@ class SetAdminData implements SelfHandling
      * @param Collection $data
      * @param Command    $command
      */
-    function __construct(Collection $data, Command $command)
+    public function __construct(Collection $data, Command $command)
     {
         $this->data    = $data;
         $this->command = $command;
@@ -65,7 +63,6 @@ class SetAdminData implements SelfHandling
 
         // Validate email.
         if (!filter_var($this->data->get('ADMIN_EMAIL'), FILTER_VALIDATE_EMAIL)) {
-
             $this->command->error('You must provide a valid email for the admin.');
 
             exit;

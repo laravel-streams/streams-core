@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Tree\Component\Segment
  */
 class SegmentBuilder
 {
@@ -61,8 +60,8 @@ class SegmentBuilder
     /**
      * Build the segments.
      *
-     * @param TreeBuilder  $builder
-     * @param              $entry
+     * @param  TreeBuilder       $builder
+     * @param                    $entry
      * @return SegmentCollection
      */
     public function build(TreeBuilder $builder, $entry)
@@ -78,7 +77,6 @@ class SegmentBuilder
         $this->input->read($builder, $entry);
 
         foreach ($builder->getSegments() as $segment) {
-
             array_set($segment, 'entry', $entry);
 
             $segment = $this->evaluator->evaluate($segment, compact('entry', 'tree'));

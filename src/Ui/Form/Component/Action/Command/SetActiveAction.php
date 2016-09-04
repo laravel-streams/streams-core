@@ -2,14 +2,6 @@
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
-/**
- * Class SetActiveAction
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Action\Command
- */
 class SetActiveAction
 {
 
@@ -31,12 +23,19 @@ class SetActiveAction
     }
 
     /**
-     * Get the form builder.
-     *
-     * @return FormBuilder
+     * Set the active action.
      */
-    public function getBuilder()
+    public function handle()
     {
-        return $this->builder;
+        $options = $this->builder->getFormOptions();
+        $actions = $this->builder->getFormActions();
+
+        if ($action = $actions->findBySlug(app('request')->get($options->get('prefix') . 'action'))) {
+            $action->setActive(true);
+        }
+
+        if (!$action && $action = $actions->first()) {
+            $action->setActive(true);
+        }
     }
 }

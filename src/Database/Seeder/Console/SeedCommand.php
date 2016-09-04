@@ -1,42 +1,33 @@
 <?php namespace Anomaly\Streams\Platform\Database\Seeder\Console;
 
-use Anomaly\Streams\Platform\Database\Seeder\Command\Seed;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
+use Anomaly\Streams\Platform\Database\Seeder\Command\Seed;
+use Anomaly\Streams\Platform\Database\Seeder\Console\Command\SetAddonSeederClass;
 
-/**
- * Class SeedCommand
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Seeder\Console
- */
 class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
 {
-
     use DispatchesJobs;
 
     /**
      * Execute the console command.
-     *
-     * @return void
      */
     public function fire()
     {
-        if (!$this->confirmToProceed()) {
-            return;
-        }
-
-        $this->resolver->setDefaultConnection($this->getDatabase());
-
         $this->dispatch(
-            new Seed(
-                $this->input->getOption('addon'),
-                $this->input->getOption('class'),
-                $this
+            new SetAddonSeederClass(
+                $this,
+                $this->input
             )
         );
+
+        $path = $this->input->getOption('class');
+
+        if ($path && !class_exists($path)) {
+            return $this->info('Nothing to seed.');
+        }
+
+        parent::fire();
     }
 
     /**
@@ -49,7 +40,7 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
         return array_merge(
             parent::getOptions(),
             [
-                ['addon', null, InputOption::VALUE_OPTIONAL, 'The addon to seed.']
+                ['addon', null, InputOption::VALUE_OPTIONAL, 'The addon to seed.'],
             ]
         );
     }

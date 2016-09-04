@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasSaved;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
@@ -11,9 +10,8 @@ use Illuminate\Contracts\Events\Dispatcher;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class SaveForm implements SelfHandling
+class SaveForm
 {
 
     /**

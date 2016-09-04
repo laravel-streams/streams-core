@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\SegmentCollection;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Tree\Component\Item
  */
 class Item implements ItemInterface
 {
@@ -102,7 +101,7 @@ class Item implements ItemInterface
     /**
      * Set the segments.
      *
-     * @param SegmentCollection $segments
+     * @param  SegmentCollection $segments
      * @return $this
      */
     public function setSegments(SegmentCollection $segments)
@@ -125,7 +124,7 @@ class Item implements ItemInterface
     /**
      * Set the buttons.
      *
-     * @param ButtonCollection $buttons
+     * @param  ButtonCollection $buttons
      * @return $this
      */
     public function setButtons(ButtonCollection $buttons)
