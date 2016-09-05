@@ -8,6 +8,7 @@ use Anomaly\Streams\Platform\View\ViewMobileOverrides;
 use Anomaly\Streams\Platform\View\ViewOverrides;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Console\Events\ArtisanStarting;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Routing\Router;
 
@@ -192,9 +193,9 @@ class AddonProvider
             // passed into the method and listen for Artisan "start" event which will
             // give us the Artisan console instance which we will give commands to.
             $this->events->listen(
-                'artisan.start',
-                function (\Illuminate\Console\Application $artisan) use ($commands) {
-                    $artisan->resolveCommands($commands);
+                'Illuminate\Console\Events\ArtisanStarting',
+                function (ArtisanStarting $event) use ($commands) {
+                    $event->artisan->resolveCommands($commands);
                 }
             );
         }
