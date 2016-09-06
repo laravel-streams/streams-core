@@ -232,18 +232,6 @@ return [
             'filter' => 'FILTER_VALIDATE_IP',
         ],
     ],
-    'mail_debug'      => [
-        'env'    => 'MAIL_DEBUG',
-        'bind'   => 'mail.debug',
-        'type'   => 'anomaly.field_type.boolean',
-        'config' => [
-            'default_value' => function (Repository $config) {
-                return $config->get('mail.pretend');
-            },
-            'on_text'       => 'ON',
-            'off_text'      => 'OFF',
-        ],
-    ],
     'email'           => [
         'env'      => 'FROM_ADDRESS',
         'bind'     => 'mail.from.address',
