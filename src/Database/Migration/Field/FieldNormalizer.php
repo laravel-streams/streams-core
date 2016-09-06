@@ -49,7 +49,7 @@ class FieldNormalizer
             }
 
             $field['slug']      = array_get($field, 'slug', $slug);
-            $field['namespace'] = array_get($field, 'namespace', $migration->namespace());
+            $field['namespace'] = array_get($field, 'namespace', $migration->contextualNamespace());
 
             /*
              * If any of the translatable items exist
