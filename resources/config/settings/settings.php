@@ -245,6 +245,7 @@ return [
         ],
     ],
     'email'           => [
+        'env'      => 'FROM_ADDRESS',
         'bind'     => 'mail.from.address',
         'type'     => 'anomaly.field_type.email',
         'required' => true,
@@ -255,6 +256,7 @@ return [
         ],
     ],
     'sender'          => [
+        'env'      => 'FROM_NAME',
         'bind'     => 'mail.from.name',
         'type'     => 'anomaly.field_type.text',
         'required' => true,
@@ -262,56 +264,6 @@ return [
             'default_value' => function (Repository $config) {
                 return $config->get('streams::distribution.name');
             },
-        ],
-    ],
-    'mail_driver'     => [
-        'env'      => 'MAIL_DRIVER',
-        'bind'     => 'mail.driver',
-        'type'     => 'anomaly.field_type.select',
-        'required' => true,
-        'config'   => [
-            'default_value' => config('mail.driver'),
-            'options'       => [
-                'smtp'     => 'streams::setting.mail_driver.option.smtp',
-                'mail'     => 'streams::setting.mail_driver.option.mail',
-                'sendmail' => 'streams::setting.mail_driver.option.sendmail',
-                'mailgun'  => 'streams::setting.mail_driver.option.mailgun',
-                'log'      => 'streams::setting.mail_driver.option.log',
-                'ses'      => 'streams::setting.mail_driver.option.ses',
-            ],
-        ],
-    ],
-    'mail_host'       => [
-        'env'    => 'MAIL_HOST',
-        'bind'   => 'mail.host',
-        'type'   => 'anomaly.field_type.text',
-        'config' => [
-            'default_value' => config('mail.host'),
-        ],
-    ],
-    'mail_port'       => [
-        'env'    => 'MAIL_PORT',
-        'bind'   => 'mail.port',
-        'type'   => 'anomaly.field_type.integer',
-        'config' => [
-            'default_value' => config('mail.port'),
-        ],
-    ],
-    'mail_username'   => [
-        'env'    => 'MAIL_USERNAME',
-        'bind'   => 'mail.username',
-        'type'   => 'anomaly.field_type.text',
-        'config' => [
-            'default_value' => config('mail.username'),
-        ],
-    ],
-    'mail_password'   => [
-        'env'    => 'MAIL_PASSWORD',
-        'bind'   => 'mail.password',
-        'type'   => 'anomaly.field_type.text',
-        'config' => [
-            'default_value' => config('mail.password'),
-            'type'          => 'password',
         ],
     ],
 ];
