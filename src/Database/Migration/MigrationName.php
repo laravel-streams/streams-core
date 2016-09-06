@@ -45,7 +45,7 @@ class MigrationName
      *
      * @return string
      */
-    public function namespace()
+    public function addonNamespace()
     {
         $segments = explode('__', $this->withoutDatePrefix());
 
