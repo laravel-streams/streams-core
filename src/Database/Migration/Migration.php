@@ -57,11 +57,11 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     protected $delete = true;
 
     /**
-     * Return the migration namespace.
+     * Return the migration's contextual namespace.
      *
      * @return string
      */
-    public function namespace()
+    public function contextualNamespace()
     {
         return $this->getNamespace() ?: $this->addon->getSlug();
     }
