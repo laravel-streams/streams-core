@@ -6,8 +6,8 @@ return [
         'title'   => 'streams::label.details',
         'fields'  => [
             'name',
-            'description'
-        ]
+            'description',
+        ],
     ],
     'contact'      => [
         'context' => 'primary',
@@ -20,8 +20,8 @@ return [
             'city',
             'state',
             'postal_code',
-            'country'
-        ]
+            'country',
+        ],
     ],
     'display'      => [
         'context' => 'info',
@@ -29,8 +29,8 @@ return [
         'fields'  => [
             'standard_theme',
             'admin_theme',
-            'per_page'
-        ]
+            'per_page',
+        ],
     ],
     'formats'      => [
         'context' => 'danger',
@@ -40,30 +40,24 @@ return [
             'date_format',
             'time_format',
             'unit_system',
-            'currency'
-        ]
+            'currency',
+        ],
     ],
     'localization' => [
         'context' => 'info',
         'title'   => 'streams::label.localization',
         'fields'  => [
             'default_locale',
-            'enabled_locales'
-        ]
+            'enabled_locales',
+        ],
     ],
     'email'        => [
         'context' => 'danger',
         'title'   => 'streams::label.email',
         'fields'  => [
-            'mail_debug',
             'email',
             'sender',
-            'mail_driver',
-            'mail_host',
-            'mail_port',
-            'mail_username',
-            'mail_password'
-        ]
+        ],
     ],
     'maintenance'  => [
         'context' => 'danger',
@@ -72,7 +66,7 @@ return [
             'debug',
             'maintenance',
             'basic_auth',
-            'ip_whitelist'
-        ]
+            'ip_whitelist',
+        ],
     ],
 ];
