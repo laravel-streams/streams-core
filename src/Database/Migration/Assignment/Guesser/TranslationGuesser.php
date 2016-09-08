@@ -73,8 +73,8 @@ class TranslationGuesser
                         $assignment,
                         $locale . '.' . $key,
                         $addon->getNamespace(
-                            'assignment.' . array_get($assignment, 'field') . '.' . $stream->getNamespace() . '.' . $key
-                            )
+                            'field.' . array_get($assignment, 'field') . '.' . $key . '.' . $stream->getSlug()
+                        )
                     );
                 }
             }
