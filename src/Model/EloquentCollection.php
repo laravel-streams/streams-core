@@ -67,7 +67,7 @@ class EloquentCollection extends Collection
     public function findBy($key, $value)
     {
         return $this->first(
-            function ($index, $entry) use ($key, $value) {
+            function ($entry) use ($key, $value) {
                 return $entry->{$key} === $value;
             }
         );
