@@ -1,12 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection;
-use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Addon\Plugin\PluginCollection;
-use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
-use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Anomaly\Streams\Platform\Addon\Addon;
+use Anomaly\Streams\Platform\Addon\Extension\Extension;
+use Anomaly\Streams\Platform\Addon\Module\Module;
 use Illuminate\Support\Collection;
 
 class AddonCollection extends Collection
@@ -32,7 +27,7 @@ class AddonCollection extends Collection
     /**
      * Return all addon namespaces.
      *
-     * @param  null  $key
+     * @param  null $key
      * @return array
      */
     public function namespaces($key = null)
@@ -87,8 +82,8 @@ class AddonCollection extends Collection
     /**
      * Get an addon.
      *
-     * @param  mixed            $key
-     * @param  null             $default
+     * @param  mixed $key
+     * @param  null  $default
      * @return Addon|mixed|null
      */
     public function get($key, $default = null)
@@ -203,7 +198,7 @@ class AddonCollection extends Collection
      * Return addons only with any of
      * the provided configuration.
      *
-     * @param  array           $keys
+     * @param  array $keys
      * @return AddonCollection
      */
     public function withAnyConfig(array $keys)
@@ -246,9 +241,59 @@ class AddonCollection extends Collection
      */
     public function installable()
     {
-        return $this->filter(function (Addon $addon) {
-            return in_array($addon->getType(), ['module', 'extension']);
-        });
+        return $this->filter(
+            function (Addon $addon) {
+                return in_array($addon->getType(), ['module', 'extension']);
+            }
+        );
+    }
+
+    /**
+     * Return enabled addons.
+     *
+     * @return AddonCollection
+     */
+    public function enabled()
+    {
+        return $this->installable()->filter(
+            function ($addon) {
+
+                /* @var Module|Extension $addon */
+                return $addon->isEnabled();
+            }
+        );
+    }
+
+    /**
+     * Return installed addons.
+     *
+     * @return AddonCollection
+     */
+    public function installed()
+    {
+        return $this->installable()->filter(
+            function ($addon) {
+
+                /* @var Module|Extension $addon */
+                return $addon->isInstalled();
+            }
+        );
+    }
+
+    /**
+     * Return uninstalled addons.
+     *
+     * @return AddonCollection
+     */
+    public function uninstalled()
+    {
+        return $this->installable()->filter(
+            function ($addon) {
+
+                /* @var Module|Extension $addon */
+                return !$addon->isInstalled();
+            }
+        );
     }
 
     /**

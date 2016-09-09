@@ -19,7 +19,7 @@ class MigrateAllAddons
     /**
      * Create a new SetAddonPath instance.
      *
-     * @param ResetCommand $command
+     * @param Command $command
      */
     public function __construct(Command $command)
     {
@@ -33,7 +33,8 @@ class MigrateAllAddons
      */
     public function handle(AddonCollection $addons)
     {
-        foreach ($addons->installable() as $addon) {
+        foreach ($addons->enabled() as $addon) {
+
             $options = [
                 '--addon' => $addon->getNamespace(),
             ];
