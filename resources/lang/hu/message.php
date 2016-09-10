@@ -25,7 +25,7 @@ Hatással lehet a rendszer működésére.',
 Minden elemhez köthető adat elveszik.',
     'prompt_delete' => 'Biztosan törölni akarod?
 A művelet nem vonható vissza és károsodást okozhat a rendszer működéséhez.
-Gépeld &amp;quot;igen&amp;quot; a jóváhagyáshoz.',
+Gépeld &amp;quot;:match:&amp;quot; a jóváhagyáshoz.',
     'form_is_read_only' => 'Az űrlap csak olvasható!',
     'restore_success' => 'A bejegyzést sikeresen visszaállítottuk.',
     'restore_failed' => 'A bejegyzést nem lehet visszaállítani.',

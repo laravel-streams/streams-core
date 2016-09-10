@@ -21,7 +21,7 @@ return [
     'edit_success'        => ':name updated successfully.',
     'confirm_delete'      => '<h3>Are you sure you want to delete?</h3><p>This may adversely affect your system.</p>',
     'confirm_uninstall'   => '<h3>Are you sure you want to uninstall?</h3><p>Any associated data will be lost.</p>',
-    'prompt_delete'       => '<h3>Are you sure you want to delete?</h3><p>This action can not be undone and / or may cause permanent damage to your system.</p><p>Type "yes" to confirm.</p>',
+    'prompt_delete'       => '<h3>Are you sure you want to delete?</h3><p>This action can not be undone and / or may cause permanent damage to your system.</p><p>Type ":match:" to confirm.</p>',
     'form_is_read_only'   => 'This form is read only!',
     'restore_success'     => 'The entry was restored successfully.',
     'restore_failed'      => 'The entry could not be restored.'

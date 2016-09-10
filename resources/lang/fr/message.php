@@ -20,6 +20,6 @@ return [
     'edit_success'        => ':name modifié avec succès.',
     'confirm_delete'      => '<h3>Etes-vous sûr de vouloir supprimer ?</h3><p>Il sera impossible de revenir en arrière.</p>',
     'confirm_uninstall'   => '<h3>Etes-vous sûr de vouloir désinstaller ?</h3><p>Les données associées seront perdues.</p>',
-    'prompt_delete'       => '<h3>Etes-vous sûr de vouloir supprimer ?</h3><p>Tapez \"yes\" pour confirmer.</p>',
+    'prompt_delete'       => '<h3>Etes-vous sûr de vouloir supprimer ?</h3><p>Tapez \":match:\" pour confirmer.</p>',
     'form_is_read_only'   => 'Ce formulaire est en lecture seule.',
 ];

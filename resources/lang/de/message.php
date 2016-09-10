@@ -15,5 +15,5 @@ return [
     'create_success'      => ':name erfolgreich erstellt.',
     'edit_success'        => ':name erfolgreich aktualisiert.',
     'confirm_delete'      => 'Möchten Sie wirklich löschen?<br><small>Dies kann nicht rückgängig gemacht werden.</small>',
-    'prompt_delete'       => 'Möchten Sie wirklich löschen?<br><small>Bitte geben Sie \"yes\" zur Bestätigung ein.</small>',
+    'prompt_delete'       => 'Möchten Sie wirklich löschen?<br><small>Bitte geben Sie \":match:\" zur Bestätigung ein.</small>',
 ];

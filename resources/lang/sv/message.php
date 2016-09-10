@@ -16,5 +16,5 @@ return [
     'edit_success'        => ':name uppdaterades.',
     'confirm_delete'      => '<h3>Är du säker på att du vill ta bort?</h3><p>Detta kan inte ångras.</p>',
     'confirm_uninstall'   => '<h3>Är du säker på att du vill avinstallera?</h3><p>All tillhörande data kommer att förloras.</p>',
-    'prompt_delete'       => '<h3>Är du säker på att du vill ta bort?</h3><p>Skriv \"yes\" för att godkänna.</p>',
+    'prompt_delete'       => '<h3>Är du säker på att du vill ta bort?</h3><p>Skriv \":match:\" för att godkänna.</p>',
 ];

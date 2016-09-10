@@ -18,6 +18,6 @@ return [
     'edit_success'        => ':name 成功的更新了。',
     'confirm_delete'      => '<h3>請問確認要 刪除 嗎？</h3><p>這個將無法被還原。</p>',
     'confirm_uninstall'   => '<h3>請問確認要 解除安裝 嗎？</h3><p>任何被關聯的資料將會被刪除。</p>',
-    'prompt_delete'       => '<h3>請問確認要 刪除 嗎？</h3><p>請輸入 \"yes\" 來進行確認。</p>',
+    'prompt_delete'       => '<h3>請問確認要 刪除 嗎？</h3><p>請輸入 \":match:\" 來進行確認。</p>',
     'form_is_read_only'   => '這是個唯讀的表單。',
 ];

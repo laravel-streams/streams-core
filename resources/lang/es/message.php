@@ -17,5 +17,5 @@ return [
     'create_success'      => ':name creado satisfactoriamente.',
     'edit_success'        => ':name actualizado satisfactoriamente.',
     'confirm_delete'      => 'Esta seguro que desea eliminar?<br><small>Esto no se puede deshacer.</small>',
-    'prompt_delete'       => 'Esta seguro que desea eliminar?<br><small>Escriba \"si\" para confirmar.</small>',
+    'prompt_delete'       => 'Esta seguro que desea eliminar?<br><small>Escriba \":match:\" para confirmar.</small>',
 ];
