@@ -51,7 +51,7 @@ class InitializeApplication
          * initialize.
          */
         if ($application->isInstalled()) {
-            if (env('DB_DRIVER')) {
+            if (env('DB_CONNECTION')) {
                 $application->locate();
                 $application->setup();
             }
