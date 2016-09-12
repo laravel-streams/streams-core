@@ -63,10 +63,10 @@ class FormExtender
 
             $factory->extend(
                 $rule,
-                function ($attribute, $value, $parameters, Validator $validator) use ($handler, $builder) {
+                function ($attribute, $value, $parameters, Validator $validator) use ($handler, $builder, $fieldType) {
                     return $this->container->call(
                         $handler,
-                        compact('attribute', 'value', 'parameters', 'builder', 'validator')
+                        compact('attribute', 'value', 'parameters', 'builder', 'validator', 'fieldType')
                     );
                 },
                 array_get($validator, 'message')
