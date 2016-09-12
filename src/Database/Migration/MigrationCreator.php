@@ -35,7 +35,7 @@ class MigrationCreator extends \Illuminate\Database\Migrations\MigrationCreator
             return $this->files->get($this->getStubPath() . '/blank.stub');
         }
 
-        return parent::getStub($trait, $create);
+        return parent::getStub($table, $create);
     }
 
     /**
