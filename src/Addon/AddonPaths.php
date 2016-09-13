@@ -31,7 +31,7 @@ class AddonPaths
      * Create a new AddonPaths instance.
      *
      * @param Application $application
-     * @param Repository  $config
+     * @param Repository $config
      */
     public function __construct(Application $application, Repository $config)
     {
@@ -65,6 +65,7 @@ class AddonPaths
          * onto the front and back of
          * the paths respectively.
          */
+
         return array_unique(
             array_merge(
                 $eager,
@@ -198,17 +199,39 @@ class AddonPaths
     }
 
     /**
+     * Return paths to testing only addons.
+     *
+     * @return array|bool
+     */
+    protected function directory($directory)
+    {
+        $path = base_path($directory);
+
+        if (!is_dir($path)) {
+            return false;
+        }
+
+        return $this->vendorAddons(glob("{$path}/*", GLOB_ONLYDIR));
+    }
+
+    /**
      * Return paths to configured addons.
      *
      * @return array|bool
      */
     protected function configured()
     {
-        return array_map(
+        $paths = array_map(
             function ($path) {
                 return base_path($path);
             },
             $this->config->get('streams::addons.paths', [])
         );
+
+        foreach ($this->config->get('streams::addons.directories', []) as $directory) {
+            $paths = array_merge($paths, (array)$this->directory(trim($directory, '\\/')));
+        }
+
+        return array_unique(array_filter($paths));
     }
 }

@@ -16,7 +16,7 @@ return [
         'extension',
         'module',
         'plugin',
-        'theme'
+        'theme',
     ],
 
     /*
@@ -32,6 +32,21 @@ return [
 
     'paths' => [
         //addons/shared/example-module/addons/anomaly/fancy-field_type'
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Configured Addon Directories
+    |--------------------------------------------------------------------------
+    |
+    | These manually defined addon paths can be helpful
+    | when you need to push an addon path into load
+    | that is shipped IN another addon.
+    |
+    */
+
+    'directories' => [
+        //my-bundle'
     ],
 
     /*
@@ -60,5 +75,5 @@ return [
 
     'deferred' => [
         //'core/anomaly/pages-module'
-    ]
+    ],
 ];
