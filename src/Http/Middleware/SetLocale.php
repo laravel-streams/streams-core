@@ -50,7 +50,6 @@ class SetLocale
         $this->config      = $config;
         $this->redirect    = $redirect;
         $this->application = $application;
-        $this->files       = $files;
     }
 
     /**
