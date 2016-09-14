@@ -6,9 +6,6 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use Anomaly\Streams\Platform\Application\Application as Application2;
-use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
 
 /**
  * Class SetLocale
@@ -42,25 +39,17 @@ class SetLocale
     protected $application;
 
     /**
-     * The laravel application.
-     *
-     * @var files
-     */
-    protected $files;
-
-    /**
      * Create a new SetLocale instance.
      *
      * @param Repository  $config
      * @param Redirector  $redirect
      * @param Application $application
      */
-    public function __construct(Repository $config, Redirector $redirect, Application $application, Application2 $application2,Filesystem $files)
+    public function __construct(Repository $config, Redirector $redirect, Application $application)
     {
         $this->config      = $config;
         $this->redirect    = $redirect;
         $this->application = $application;
-        $this->application2 = $application2;
         $this->files       = $files;
     }
 
@@ -80,7 +69,6 @@ class SetLocale
         if ($locale = $request->get('_locale')) {
             if ($locale) {
                 $request->session()->put('_locale', $locale);
-                $this->files->deleteDirectory($this->application2->getAssetsPath('assets'), true);
             } else {
                 $request->session()->remove('_locale');
             }
