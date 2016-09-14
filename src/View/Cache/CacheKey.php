@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Support\Presenter;
 use Asm89\Twig\CacheExtension\CacheStrategy\KeyGeneratorInterface;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Collection;
 
 /**
  * Class CacheKey
@@ -24,6 +25,17 @@ class CacheKey implements KeyGeneratorInterface
      */
     public function generateKey($value)
     {
+        if ($value instanceof Collection) {
+            return implode(
+                '_',
+                $value->map(
+                    function ($item) {
+                        return $this->generateKey($item);
+                    }
+                )->all()
+            );
+        }
+
         if ($value instanceof Presenter) {
             $value = $value->getObject();
         }
