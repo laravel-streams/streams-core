@@ -57,7 +57,7 @@ class ExceptionHandler extends \Illuminate\Foundation\Exceptions\Handler
         if (!config('app.debug') && view()->exists("streams::errors.{$status}")) {
             return response()->view("streams::errors.{$status}", ['message' => $e->getMessage()], $status);
         } else {
-            return (new SymfonyDisplayer(config('app.debug')))->createResponse($e);
+            return (new SymfonyDisplayer(config('app.debug')))->handle($e);
         }
     }
 }
