@@ -28,6 +28,10 @@ class Str extends \Illuminate\Support\Str
      */
     public function truncate($value, $limit = 100, $end = '...')
     {
+        if (strlen($value) <= $limit) {
+            return $value;
+        }
+        
         $parts = preg_split('/([\s\n\r]+)/', $value, null, PREG_SPLIT_DELIM_CAPTURE);
         $count = count($parts);
 
