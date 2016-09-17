@@ -40,6 +40,7 @@ class MultipleFormBuilder extends FormBuilder
      * Build the form.
      *
      * @param null $entry
+     * @return $this
      */
     public function build($entry = null)
     {
@@ -49,6 +50,8 @@ class MultipleFormBuilder extends FormBuilder
         $this->dispatch(new HandleErrors($this));
 
         parent::build($entry);
+
+        return $this;
     }
 
     /**
