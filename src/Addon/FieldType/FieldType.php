@@ -215,6 +215,13 @@ class FieldType extends Addon
     protected $schema = null;
 
     /**
+     * The parser class.
+     *
+     * @var null|string
+     */
+    protected $parser = null;
+
+    /**
      * The query class.
      *
      * @var null|string
@@ -482,7 +489,7 @@ class FieldType extends Addon
     /**
      * Get the post value.
      *
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getPostValue($default = null)
@@ -509,7 +516,7 @@ class FieldType extends Addon
     /**
      * Get the value to validate.
      *
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getValidationValue($default = null)
@@ -526,7 +533,7 @@ class FieldType extends Addon
     /**
      * Get the input value.
      *
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getInputValue($default = null)
@@ -861,7 +868,7 @@ class FieldType extends Addon
     /**
      * Render the input and wrapper.
      *
-     * @param  array  $payload
+     * @param  array $payload
      * @return string
      */
     public function render($payload = [])
@@ -1040,6 +1047,37 @@ class FieldType extends Addon
     public function setSchema($schema)
     {
         $this->schema = $schema;
+
+        return $this;
+    }
+
+    /**
+     * Get the parser.
+     *
+     * @return FieldTypeParser
+     */
+    public function getParser()
+    {
+        if (!$this->parser) {
+            $this->parser = get_class($this) . 'Parser';
+        }
+
+        if (!class_exists($this->parser)) {
+            $this->parser = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeParser';
+        }
+
+        return app()->make($this->parser, ['fieldType' => $this]);
+    }
+
+    /**
+     * Set the parser.
+     *
+     * @param $parser
+     * @return $this
+     */
+    public function setParser($parser)
+    {
+        $this->parser = $parser;
 
         return $this;
     }

@@ -40,22 +40,10 @@ class EntryRelationsParser
      */
     protected function parseAssignment(AssignmentInterface $assignment, &$string)
     {
-        $fieldSlug = $assignment->getFieldSlug();
+        $fieldType = $assignment->getFieldType();
 
-        $method = camel_case($fieldSlug);
+        $parser = $fieldType->getParser();
 
-        $relationString = '';
-
-        $relationString .= "\npublic function {$method}()";
-
-        $relationString .= "\n{";
-
-        $relationString .= "\n\nreturn \$this->getFieldType('{$fieldSlug}')->getRelation();";
-
-        $relationString .= "\n}";
-
-        $relationString .= "\n";
-
-        $string .= $relationString;
+        $string .= $parser->relation($assignment);
     }
 }
