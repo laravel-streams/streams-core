@@ -47,7 +47,10 @@
     "autoload": {
         "psr-4": {
             "Anomaly\\Streams\\Platform\\": "src/"
-        }
+        },
+        "files": [
+            "src/Support/_helpers.php"
+        ]
     },
     "config": {
         "bin-dir": "bin"
