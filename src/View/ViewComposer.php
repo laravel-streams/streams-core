@@ -244,7 +244,7 @@ class ViewComposer
         }
 
         if ($this->view->exists($override)) {
-            return $path;
+            return $override;
         }
 
         /**
@@ -265,13 +265,13 @@ class ViewComposer
          * @deprecated since v3.0.0
          */
         if ($addon) {
-            $path = $this->theme->getNamespace(
+            $override = $this->theme->getNamespace(
                 "addon/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/" . $path
             );
         }
 
-        if ($this->view->exists($path)) {
-            return $path;
+        if ($this->view->exists($override)) {
+            return $override;
         }
 
         return null;
