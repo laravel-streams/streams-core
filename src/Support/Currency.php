@@ -54,12 +54,7 @@ class Currency
             $suffix = $prefix = $this->symbol($currency);
         }
 
-        return $prefix . number_format(
-            $number,
-            $decimals,
-            $point,
-            $separator/*str_replace('&#160;', ' ', $separator)*/
-        ) . $suffix;
+        return $prefix . number_format($number, $decimals, $point, $separator) . $suffix;
     }
 
     /**
