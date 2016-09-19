@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Theme\Theme;
+use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\View\Event\ViewComposed;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\View\Factory;
@@ -84,6 +85,13 @@ class ViewComposer
     protected $overrides;
 
     /**
+     * The application instance.
+     *
+     * @var Application
+     */
+    protected $application;
+
+    /**
      * The view mobile overrides.
      *
      * @var ViewMobileOverrides
@@ -91,13 +99,16 @@ class ViewComposer
     protected $mobiles;
 
     /**
+     * Create a new ViewComposer instance.
+     *
      * @param Factory             $view
      * @param Mobile_Detect       $agent
      * @param Dispatcher          $events
      * @param AddonCollection     $addons
-     * @param Request             $request
      * @param ViewOverrides       $overrides
+     * @param Request             $request
      * @param ViewMobileOverrides $mobiles
+     * @param Application         $application
      */
     public function __construct(
         Factory $view,
@@ -106,15 +117,17 @@ class ViewComposer
         AddonCollection $addons,
         ViewOverrides $overrides,
         Request $request,
-        ViewMobileOverrides $mobiles
+        ViewMobileOverrides $mobiles,
+        Application $application
     ) {
-        $this->view      = $view;
-        $this->agent     = $agent;
-        $this->events    = $events;
-        $this->addons    = $addons;
-        $this->mobiles   = $mobiles;
-        $this->request   = $request;
-        $this->overrides = $overrides;
+        $this->view        = $view;
+        $this->agent       = $agent;
+        $this->events      = $events;
+        $this->addons      = $addons;
+        $this->mobiles     = $mobiles;
+        $this->request     = $request;
+        $this->overrides   = $overrides;
+        $this->application = $application;
 
         $area = $request->segment(1) == 'admin' ? 'admin' : 'standard';
 
@@ -190,6 +203,8 @@ class ViewComposer
          */
         list($namespace, $path) = explode('::', $view->getName());
 
+        $override = null;
+
         $path = str_replace('.', '/', $path);
 
         /*
@@ -223,13 +238,24 @@ class ViewComposer
          * transform it all into the override view path.
          */
         if ($addon = $this->addons->get($namespace)) {
-            $path = $this->theme->getNamespace(
+            $override = $this->theme->getNamespace(
                 "addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/" . $path
             );
         }
 
-        if ($this->view->exists($path)) {
-            return $path;
+        if ($this->view->exists($override)) {
+            return $override;
+        }
+
+        /**
+         * Check if a published override exists.
+         */
+        if ($addon) {
+            $override = "app::addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/views/" . $path;
+        }
+
+        if ($this->view->exists($override)) {
+            return $override;
         }
 
         /*
@@ -239,13 +265,13 @@ class ViewComposer
          * @deprecated since v3.0.0
          */
         if ($addon) {
-            $path = $this->theme->getNamespace(
+            $override = $this->theme->getNamespace(
                 "addon/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/" . $path
             );
         }
 
-        if ($this->view->exists($path)) {
-            return $path;
+        if ($this->view->exists($override)) {
+            return $override;
         }
 
         return null;

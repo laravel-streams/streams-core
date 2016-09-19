@@ -6,13 +6,13 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 
 /**
- * Class PublishTranslations
+ * Class PublishViews
  *
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
  */
-class PublishTranslations
+class PublishViews
 {
 
     /**
@@ -54,7 +54,7 @@ class PublishTranslations
             'addons/' .
             $this->addon->getVendor() . '/' .
             $this->addon->getSlug() . '-' .
-            $this->addon->getType() . '/lang'
+            $this->addon->getType() . '/views'
         );
 
         if (is_dir($destination) && !$this->command->option('force')) {
@@ -64,7 +64,7 @@ class PublishTranslations
             return;
         }
 
-        $filesystem->copyDirectory($this->addon->getPath('resources/lang'), $destination);
+        $filesystem->copyDirectory($this->addon->getPath('resources/views'), $destination);
 
         $this->command->info("Published $destination");
     }

@@ -221,7 +221,7 @@ class ButtonRegistry
         'prompt'        => [
             'icon'       => 'trash',
             'type'       => 'danger',
-            'button'     => 'delete',
+            'segment'    => 'delete',
             'text'       => 'streams::button.delete',
             'attributes' => [
                 'data-match'   => 'yes',

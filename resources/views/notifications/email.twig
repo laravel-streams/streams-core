@@ -90,7 +90,9 @@
                                                     <!-- Intro -->
                                                     {% for line in introLines %}
                                                         <p style="{{ style['paragraph'] }}">
-                                                            {{ line }}
+                                                            {% autoescape 'js' %}
+                                                                {{ line|raw }}
+                                                            {% endautoescape %}
                                                         </p>
                                                     {% endfor %}
                                                 {% endblock %}
@@ -110,7 +112,9 @@
                                                                     {% endif %}
 
                                                                     <a href="{{ actionUrl }}" style="{{ fontFamily }} {{ style['button'] }} {{ style[actionColor] }}" class="button" target="_blank">
-                                                                        {{ actionText }}
+                                                                        {% autoescape 'js' %}
+                                                                            {{ actionText|raw }}
+                                                                        {% endautoescape %}
                                                                     </a>
                                                                 </td>
                                                             </tr>
@@ -122,7 +126,9 @@
                                                     <!-- Outro -->
                                                     {% for line in outroLines %}
                                                         <p style="{{ style['paragraph'] }}">
-                                                            {{ line }}
+                                                            {% autoescape 'js' %}
+                                                                {{ line|raw }}
+                                                            {% endautoescape %}
                                                         </p>
                                                     {% endfor %}
                                                 {% endblock %}

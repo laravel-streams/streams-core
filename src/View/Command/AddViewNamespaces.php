@@ -23,9 +23,9 @@ class AddViewNamespaces
     {
         $views->composer('*', 'Anomaly\Streams\Platform\View\ViewComposer');
         $views->addNamespace('streams', __DIR__ . '/../../../resources/views');
-        $views->addNamespace('app', $application->getResourcesPath('views'));
-        $views->addNamespace('storage', $application->getStoragePath());
         $views->addNamespace('shared', base_path('resources/shared/views'));
+        $views->addNamespace('storage', $application->getStoragePath());
+        $views->addNamespace('app', $application->getResourcesPath());
         $views->addNamespace('root', base_path());
         $views->addExtension('html', 'php');
     }

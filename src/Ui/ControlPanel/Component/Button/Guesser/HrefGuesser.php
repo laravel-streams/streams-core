@@ -91,8 +91,10 @@ class HrefGuesser
                     break;
             }
 
-            if (!isset($button['attributes']['href']) && isset($button['button'])) {
-                $button['attributes']['href'] = $active->getHref($button['button']);
+            $type = array_get($button, 'segment', array_get($button, 'button'));
+
+            if (!isset($button['attributes']['href']) && $type) {
+                $button['attributes']['href'] = $active->getHref($type);
             }
         }
 
