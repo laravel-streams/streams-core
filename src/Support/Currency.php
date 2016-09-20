@@ -62,7 +62,7 @@ class Currency
      *
      * @param      $number
      * @param null $currency
-     * @return string
+     * @return float
      */
     public function normalize($number, $currency = null)
     {
