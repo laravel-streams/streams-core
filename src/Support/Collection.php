@@ -60,7 +60,11 @@ class Collection extends \Illuminate\Support\Collection
      */
     public function __get($name)
     {
-        return $this->get($name);
+        if ($this->has($name)) {
+            return $this->get($name);
+        }
+
+        return call_user_func([$this, camel_case($name)]);
     }
 
     /**
