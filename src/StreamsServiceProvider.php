@@ -150,6 +150,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Support\Configurator'                                      => 'Anomaly\Streams\Platform\Support\Configurator',
         'Anomaly\Streams\Platform\Support\Authorizer'                                        => 'Anomaly\Streams\Platform\Support\Authorizer',
         'Anomaly\Streams\Platform\Support\Evaluator'                                         => 'Anomaly\Streams\Platform\Support\Evaluator',
+        'Anomaly\Streams\Platform\Support\Currency'                                          => 'Anomaly\Streams\Platform\Support\Currency',
         'Anomaly\Streams\Platform\Support\Parser'                                            => 'Anomaly\Streams\Platform\Support\Parser',
         'Anomaly\Streams\Platform\Support\Hydrator'                                          => 'Anomaly\Streams\Platform\Support\Hydrator',
         'Anomaly\Streams\Platform\Support\Resolver'                                          => 'Anomaly\Streams\Platform\Support\Resolver',

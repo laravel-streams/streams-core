@@ -10,6 +10,7 @@ use Anomaly\Streams\Platform\Image\Command\MakeImageUrl;
 use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Stream\Command\GetStream;
 use Anomaly\Streams\Platform\Stream\Command\GetStreams;
+use Anomaly\Streams\Platform\Support\Currency;
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Support\Template;
@@ -113,6 +114,13 @@ class StreamsPlugin extends Plugin
     protected $session;
 
     /**
+     * The currency utility.
+     *
+     * @var Currency
+     */
+    protected $currency;
+
+    /**
      * The template parser.
      *
      * @var Template
@@ -139,6 +147,7 @@ class StreamsPlugin extends Plugin
      * @param Repository   $config
      * @param Request      $request
      * @param Store        $session
+     * @param Currency     $currency
      * @param Template     $template
      */
     public function __construct(
@@ -152,6 +161,7 @@ class StreamsPlugin extends Plugin
         Repository $config,
         Request $request,
         Store $session,
+        Currency $currency,
         Template $template
     ) {
         $this->url      = $url;
@@ -164,6 +174,7 @@ class StreamsPlugin extends Plugin
         $this->config   = $config;
         $this->request  = $request;
         $this->session  = $session;
+        $this->currency = $currency;
         $this->template = $template;
     }
 
@@ -371,6 +382,14 @@ class StreamsPlugin extends Plugin
                 }, ['is_safe' => ['html']]
             ),
             new \Twig_SimpleFunction(
+                'currency_*',
+                function ($name) {
+                    $arguments = array_slice(func_get_args(), 1);
+
+                    return call_user_func_array([$this->currency, camel_case($name)], $arguments);
+                }
+            ),
+            new \Twig_SimpleFunction(
                 'addon',
                 function ($identifier) {
                     return app(AddonCollection::class)->get($identifier);
@@ -449,9 +468,9 @@ class StreamsPlugin extends Plugin
     /**
      * Return a URL.
      *
-     * @param  null   $path
-     * @param  array  $parameters
-     * @param  null   $secure
+     * @param  null  $path
+     * @param  array $parameters
+     * @param  null  $secure
      * @return string
      */
     public function url($path = null, $parameters = [], $secure = null)
