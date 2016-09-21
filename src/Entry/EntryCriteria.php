@@ -32,27 +32,6 @@ class EntryCriteria extends EloquentCriteria
     }
 
     /**
-     * Get the paginated entries.
-     *
-     * @param  array     $columns
-     * @return Paginator
-     */
-    public function paginate($perPage = 15, array $columns = ['*'])
-    {
-        $paginator = $this->query->paginate($perPage, $columns);
-
-        $model = $this->stream->getEntryModel();
-
-        $data = $paginator->toArray();
-
-        return new Paginator(
-            (new Decorator())->decorate($model->newCollection($paginator->items())),
-            $data['per_page'],
-            $data['current_page']
-        );
-    }
-
-    /**
      * Return sorted entries.
      *
      * @param  string $direction
