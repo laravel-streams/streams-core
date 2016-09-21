@@ -140,6 +140,9 @@ return [
         'th'    => [
             'direction' => 'ltr'
         ],
+        'tr'    => [
+            'direction' => 'ltr'
+        ],
         'bn'    => [
             'direction' => 'ltr'
         ],
