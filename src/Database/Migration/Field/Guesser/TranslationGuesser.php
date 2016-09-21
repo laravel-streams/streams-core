@@ -47,7 +47,7 @@ class TranslationGuesser
         $fields = $migration->getFields();
 
         foreach ($fields as &$field) {
-            foreach (['name', 'warning', 'instructions'] as $key) {
+            foreach (['name', 'warning', 'instructions', 'placeholder'] as $key) {
                 if (is_null(array_get($field, $locale . '.' . $key))) {
                     $field = array_add(
                         $field,
