@@ -54,7 +54,7 @@ class Currency
             $suffix = $prefix = $this->symbol($currency);
         }
 
-        return $prefix . number_format($number, $decimals, $point, $separator) . $suffix;
+        return $prefix . number_format(floor(($number * 100)) / 100, $decimals, $point, $separator) . $suffix;
     }
 
     /**
@@ -71,7 +71,7 @@ class Currency
         $decimals = $this->config->get('streams::currencies.supported.' . $currency . '.decimals', 2);
         $point    = $this->config->get('streams::currencies.supported.' . $currency . '.point' . '.');
 
-        return number_format($number, $decimals, $point, '');
+        return floatval(number_format(floor(($number * 100)) / 100, $decimals, $point, ''));
     }
 
     /**
