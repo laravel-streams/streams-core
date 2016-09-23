@@ -1,7 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Translation\Translator;
 
 /**
@@ -13,6 +15,20 @@ use Illuminate\Translation\Translator;
  */
 class PlaceholdersGuesser
 {
+
+    /**
+     * The string utility.
+     *
+     * @var Str
+     */
+    protected $string;
+
+    /**
+     * The config repository.
+     *
+     * @var Repository
+     */
+    protected $config;
 
     /**
      * The module collection.
@@ -29,13 +45,22 @@ class PlaceholdersGuesser
     protected $translator;
 
     /**
+     * @var Str
+     */
+    private $str;
+
+    /**
      * Create a new PlaceholdersGuesser instance.
      *
+     * @param Str              $string
+     * @param Repository       $config
      * @param ModuleCollection $modules
      * @param Translator       $translator
      */
-    public function __construct(ModuleCollection $modules, Translator $translator)
+    public function __construct(Str $string, Repository $config, ModuleCollection $modules, Translator $translator)
     {
+        $this->string     = $string;
+        $this->config     = $config;
         $this->modules    = $modules;
         $this->translator = $translator;
     }
@@ -69,7 +94,11 @@ class PlaceholdersGuesser
                  * "Choose an option..." in the filter
                  * would just be weird.
                  */
-                $filter['placeholder'] = $assignment->getFieldName();
+                $placeholder = $assignment->getFieldName();
+
+                if ($this->translator->has($placeholder)) {
+                    $filter['placeholder'] = $placeholder;
+                }
             }
 
             if (!$module = $this->modules->active()) {
@@ -90,6 +119,13 @@ class PlaceholdersGuesser
 
             if (!array_get($filter, 'placeholder')) {
                 $filter['placeholder'] = $filter['slug'];
+            }
+
+            if (
+                !$this->translator->has($filter['placeholder'])
+                && $this->config->get('streams::system.lazy_translations')
+            ) {
+                $filter['placeholder'] = ucwords($this->string->humanize($filter['placeholder']));
             }
         }
 
