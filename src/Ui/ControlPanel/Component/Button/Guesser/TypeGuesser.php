@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Illuminate\Translation\Translator;
 
 /**
  * Class TypeGuesser
@@ -22,13 +23,22 @@ class TypeGuesser
     protected $modules;
 
     /**
+     * The translator service.
+     *
+     * @var Translator
+     */
+    protected $translator;
+
+    /**
      * Create a new TypeGuesser instance.
      *
      * @param ModuleCollection $modules
+     * @param Translator       $translator
      */
-    public function __construct(ModuleCollection $modules)
+    public function __construct(ModuleCollection $modules, Translator $translator)
     {
-        $this->modules = $modules;
+        $this->modules    = $modules;
+        $this->translator = $translator;
     }
 
     /**
@@ -58,7 +68,12 @@ class TypeGuesser
              */
             if (isset($button['button']) && starts_with($button['button'], 'new_')) {
                 if (!isset($button['text'])) {
-                    $button['text'] = $module->getNamespace('button.' . $button['button']);
+
+                    $text = $module->getNamespace('button.' . $button['button']);
+
+                    if ($this->translator->has($text)) {
+                        $button['text'] = $text;
+                    }
                 }
 
                 // Change this to slug for later.

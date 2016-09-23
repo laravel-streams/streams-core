@@ -170,7 +170,7 @@ class HeadingsGuesser
              * then humanize the heading value.
              */
             if (!isset($column['heading']) && $this->config->get('streams::system.lazy_translations')) {
-                $column['heading'] = $this->string->humanize($column['field']);
+                $column['heading'] = ucwords($this->string->humanize($column['field']));
             }
 
             /*
@@ -184,7 +184,7 @@ class HeadingsGuesser
                 !$this->translator->has($column['heading']) &&
                 $this->config->get('streams::system.lazy_translations')
             ) {
-                $column['heading'] = $this->string->humanize($column['field']);
+                $column['heading'] = ucwords($this->string->humanize($column['field']));
             }
 
             /*

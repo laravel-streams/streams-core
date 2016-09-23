@@ -183,7 +183,7 @@ class LabelsGuesser
              * in leu of displaying an untranslated key.
              */
             if (!isset($field['label']) && $this->config->get('streams::system.lazy_translations')) {
-                $field['label'] = $this->string->humanize($field['field']);
+                $field['label'] = ucwords($this->string->humanize($field['field']));
             }
         }
 

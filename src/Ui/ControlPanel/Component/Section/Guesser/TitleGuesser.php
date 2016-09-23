@@ -89,7 +89,7 @@ class TitleGuesser
             }
 
             if (!isset($section['title']) && $this->config->get('streams::system.lazy_translations')) {
-                $section['title'] = $this->string->humanize($section['slug']);
+                $section['title'] = ucwords($this->string->humanize($section['slug']));
             }
 
             if (!isset($section['title'])) {
