@@ -53,11 +53,18 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      * Create a new Kernel instance.
      *
      * @param Application $app
-     * @param Router $router
+     * @param Router      $router
      */
     public function __construct(Application $app, Router $router)
     {
         $this->defineLocale();
+
+        $config = require base_path('config/streams.php');
+
+        $this->middleware         = array_get($config, 'middleware') ?: $this->middleware;
+        $this->routeMiddleware    = array_get($config, 'route_middleware') ?: $this->routeMiddleware;
+        $this->middlewareGroups   = array_get($config, 'middleware_groups') ?: $this->middlewareGroups;
+        $this->middlewarePriority = array_get($config, 'middleware_priority') ?: $this->middlewarePriority;
 
         parent::__construct($app, $router);
     }
