@@ -441,6 +441,13 @@ interface EntryInterface
     public function flushCache();
 
     /**
+     * Return the entry as an array.
+     *
+     * @return array
+     */
+    public function toArray();
+    
+    /**
      * Return the routable array.
      *
      * @return array
