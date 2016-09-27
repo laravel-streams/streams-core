@@ -1,9 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
+use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Database\Eloquent\Collection;
 
 class EloquentCollection extends Collection
 {
+
+    use Hookable;
 
     /**
      * Return the item IDs.
@@ -82,5 +85,39 @@ class EloquentCollection extends Collection
     public function skip($offset)
     {
         return $this->slice($offset, null, true);
+    }
+
+    /**
+     * Map to get.
+     *
+     * @param $name
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        if ($this->hasHook($hook = 'get_' . $name)) {
+            return $this->call($hook, []);
+        }
+
+        if ($this->has($name)) {
+            return $this->get($name);
+        }
+
+        return call_user_func([$this, camel_case($name)]);
+    }
+
+    /**
+     * Map to get.
+     *
+     * @param string $method
+     * @param array  $parameters
+     */
+    public function __call($method, $parameters)
+    {
+        if ($this->hasHook($hook = snake_case($method))) {
+            return $this->call($hook, $parameters);
+        }
+
+        return $this->get($method);
     }
 }
