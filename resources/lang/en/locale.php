@@ -106,4 +106,7 @@ return [
     'zh-tw' => [
         'name' => 'Chinese (Taiwan)'
     ],
+    'vi' => [
+        'name' => 'Vietnamese'
+    ],
 ];
