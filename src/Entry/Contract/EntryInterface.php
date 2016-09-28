@@ -155,7 +155,7 @@ interface EntryInterface
      * Get a field value.
      *
      * @param        $fieldSlug
-     * @param  null  $locale
+     * @param  null $locale
      * @return mixed
      */
     public function getFieldValue($fieldSlug, $locale = null);
@@ -165,7 +165,7 @@ interface EntryInterface
      *
      * @param        $fieldSlug
      * @param        $value
-     * @param  null  $locale
+     * @param  null $locale
      * @return $this
      */
     public function setFieldValue($fieldSlug, $value, $locale = null);
@@ -229,7 +229,7 @@ interface EntryInterface
     /**
      * Get the field slugs for assigned fields.
      *
-     * @param  null  $prefix
+     * @param  null $prefix
      * @return array
      */
     public function getAssignmentFieldSlugs($prefix = null);
@@ -412,7 +412,7 @@ interface EntryInterface
      * Get a raw unmodified attribute.
      *
      * @param             $key
-     * @param  bool       $process
+     * @param  bool $process
      * @return mixed|null
      */
     public function getRawAttribute($key, $process = true);
@@ -446,7 +446,14 @@ interface EntryInterface
      * @return array
      */
     public function toArray();
-    
+
+    /**
+     * Return the searchable array.
+     *
+     * @return array
+     */
+    public function toSearchableArray();
+
     /**
      * Return the routable array.
      *
