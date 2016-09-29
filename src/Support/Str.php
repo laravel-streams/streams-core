@@ -1,5 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
+/**
+ * Class Str
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class Str extends \Illuminate\Support\Str
 {
 
@@ -31,7 +38,7 @@ class Str extends \Illuminate\Support\Str
         if (strlen($value) <= $limit) {
             return $value;
         }
-        
+
         $parts = preg_split('/([\s\n\r]+)/', $value, null, PREG_SPLIT_DELIM_CAPTURE);
         $count = count($parts);
 
@@ -47,5 +54,20 @@ class Str extends \Illuminate\Support\Str
         }
 
         return trim(implode(array_slice($parts, 0, $last))) . $end;
+    }
+
+    /**
+     * Linkify the provided text.
+     *
+     * @param $text
+     * @return string
+     */
+    public function linkify($text)
+    {
+        return preg_replace(
+            "~[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]~",
+            "<a href=\"\\0\">\\0</a>",
+            $text
+        );
     }
 }
