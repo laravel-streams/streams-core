@@ -151,6 +151,9 @@ return [
         ],
         'hi'    => [
             'direction' => 'ltr'
+        ],
+        'vi'    => [
+            'direction' => 'ltr'
         ]
     ]
 ];
