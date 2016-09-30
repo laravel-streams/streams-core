@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Entry\Command\GetEntryCriteria;
@@ -32,6 +33,7 @@ use Illuminate\Routing\Router;
 use Illuminate\Session\Store;
 use Illuminate\Translation\Translator;
 use Jenssegers\Agent\Agent;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class StreamsPlugin
@@ -63,6 +65,13 @@ class StreamsPlugin extends Plugin
      * @var Guard
      */
     protected $auth;
+
+    /**
+     * The YAML parser.
+     *
+     * @var Yaml
+     */
+    protected $yaml;
 
     /**
      * The agent utility.
@@ -154,6 +163,7 @@ class StreamsPlugin extends Plugin
         UrlGenerator $url,
         Str $str,
         Guard $auth,
+        Yaml $yaml,
         Agent $agent,
         Asset $asset,
         Image $image,
@@ -167,6 +177,7 @@ class StreamsPlugin extends Plugin
         $this->url      = $url;
         $this->str      = $str;
         $this->auth     = $auth;
+        $this->yaml     = $yaml;
         $this->agent    = $agent;
         $this->asset    = $asset;
         $this->image    = $image;
@@ -387,6 +398,17 @@ class StreamsPlugin extends Plugin
                     $arguments = array_slice(func_get_args(), 1);
 
                     return call_user_func_array([$this->currency, camel_case($name)], $arguments);
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'yaml',
+                function ($input) {
+
+                    if ($input instanceof FieldTypePresenter) {
+                        $input = $input->__toString();
+                    }
+
+                    return $this->yaml->parse($input);
                 }
             ),
             new \Twig_SimpleFunction(
