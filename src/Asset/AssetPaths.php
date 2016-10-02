@@ -66,7 +66,7 @@ class AssetPaths
      */
     public function addPath($namespace, $path)
     {
-        $this->paths[$namespace] = $path;
+        $this->paths[$namespace] = rtrim($path, '/\\');
 
         return $this;
     }
