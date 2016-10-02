@@ -386,13 +386,14 @@ class Asset
      * @param        $collection
      * @param  array $filters
      * @param  array $attributes
+     * @param null   $secure
      * @return array
      */
-    public function urls($collection, array $filters = [], array $attributes = [])
+    public function urls($collection, array $filters = [], array $attributes = [], $secure = null)
     {
         return array_map(
-            function ($path) use ($attributes) {
-                return $this->url($path);
+            function ($path) use ($attributes, $secure) {
+                return $this->url($path, [], $attributes, $secure);
             },
             $this->paths($collection, $filters)
         );
