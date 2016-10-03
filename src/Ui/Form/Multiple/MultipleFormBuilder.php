@@ -45,11 +45,26 @@ class MultipleFormBuilder extends FormBuilder
     public function build($entry = null)
     {
         $this->dispatch(new BuildForms($this));
-        $this->dispatch(new PostForms($this));
         $this->dispatch(new MergeFields($this));
-        $this->dispatch(new HandleErrors($this));
 
         parent::build($entry);
+
+        return $this;
+    }
+
+    /**
+     * Post the form.
+     *
+     * @return $this
+     */
+    public function post()
+    {
+        if (app('request')->isMethod('post')) {
+            $this->dispatch(new PostForms($this));
+            $this->dispatch(new HandleErrors($this));
+        }
+
+        parent::post();
 
         return $this;
     }
