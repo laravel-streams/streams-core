@@ -14,20 +14,30 @@ use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\FlashFieldValues;
 use Anomaly\Streams\Platform\Ui\Form\Command\FlashFormErrors;
 use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\LoadFormValues;
 use Anomaly\Streams\Platform\Ui\Form\Command\MakeForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\PopulateFields;
 use Anomaly\Streams\Platform\Ui\Form\Command\PostForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetFormResponse;
+use Anomaly\Streams\Platform\Ui\Form\Command\ValidateForm;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Closure;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Contracts\Support\MessageBag;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class FormBuilder
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class FormBuilder
 {
+
     use DispatchesJobs;
     use FiresCallbacks;
 
@@ -156,7 +166,7 @@ class FormBuilder
     /**
      * Build the form.
      *
-     * @param  null  $entry
+     * @param  null $entry
      * @return $this
      */
     public function build($entry = null)
@@ -177,7 +187,7 @@ class FormBuilder
     /**
      * Make the form.
      *
-     * @param  null  $entry
+     * @param  null $entry
      * @return $this
      */
     public function make($entry = null)
@@ -199,7 +209,7 @@ class FormBuilder
     /**
      * Handle the form post.
      *
-     * @param  null       $entry
+     * @param  null $entry
      * @throws \Exception
      */
     public function handle($entry = null)
@@ -234,6 +244,19 @@ class FormBuilder
     }
 
     /**
+     * Validate the form.
+     *
+     * @return $this
+     */
+    public function validate()
+    {
+        $this->dispatch(new LoadFormValues($this));
+        $this->dispatch(new ValidateForm($this));
+
+        return $this;
+    }
+
+    /**
      * Flash form information to be
      * used in conjunction with redirect
      * type responses (not self handling).
@@ -247,7 +270,7 @@ class FormBuilder
     /**
      * Render the form.
      *
-     * @param  null     $entry
+     * @param  null $entry
      * @return Response
      */
     public function render($entry = null)
@@ -1021,7 +1044,7 @@ class FormBuilder
     /**
      * Get the form field slugs.
      *
-     * @param  null  $prefix
+     * @param  null $prefix
      * @return array
      */
     public function getFormFieldSlugs($prefix = null)
@@ -1229,7 +1252,7 @@ class FormBuilder
     /**
      * Set the save flag.
      *
-     * @param  bool  $save
+     * @param  bool $save
      * @return $this
      */
     public function setSave($save)

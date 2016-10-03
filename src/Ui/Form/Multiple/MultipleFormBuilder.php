@@ -55,6 +55,26 @@ class MultipleFormBuilder extends FormBuilder
     }
 
     /**
+     * Validate child forms.
+     *
+     * @return $this
+     */
+    public function validate()
+    {
+        $this->forms->map(
+            function ($form) {
+
+                /* @var FormBuilder $form */
+                $form->validate();
+            }
+        );
+
+        $this->dispatch(new HandleErrors($this));
+
+        return $this;
+    }
+
+    /**
      * Save the forms.
      */
     public function saveForm()
