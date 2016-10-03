@@ -210,6 +210,7 @@ class FormBuilder
      * Handle the form post.
      *
      * @param  null $entry
+     * @return $this
      * @throws \Exception
      */
     public function handle($entry = null)
@@ -220,6 +221,8 @@ class FormBuilder
 
         $this->build($entry);
         $this->post();
+
+        return $this;
     }
 
     /**
