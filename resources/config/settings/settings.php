@@ -17,6 +17,7 @@ return [
     ],
     'description'     => [
         'type'   => 'anomaly.field_type.text',
+        'bind'   => 'app.description',
         'config' => [
             'default_value' => function (Repository $config) {
                 return $config->get('streams::distribution.description');
