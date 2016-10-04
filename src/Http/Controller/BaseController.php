@@ -131,7 +131,7 @@ class BaseController extends Controller
         }
 
         // These may be manipulated by the middleware above.
-        $this->middleware('Illuminate\Foundation\Http\Middleware\VerifyCsrfToken');
+        $this->middleware('App\Http\Middleware\VerifyCsrfToken');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\ApplicationReady');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\SetLocale');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\PoweredBy');
