@@ -37,7 +37,6 @@ class PoweredBy
         /* @var \Illuminate\Http\Response $response */
         $response = $next($request);
         
-        $response->headers->set('X-Powered-By', 'Streams Platform');
         $response->headers->set(
             'X-Streams-Distribution',
             $this->config->get('streams::distribution.name') . '-' . $this->config->get('streams::distribution.version')
