@@ -5,745 +5,747 @@ return [
     'common'    => ['US'],
     'available' => [
         'AD' => [
-            'name' => 'Andorra'
+            'name' => 'Andorra',
         ],
         'AE' => [
-            'name' => 'United Arab Emirates'
+            'name' => 'United Arab Emirates',
         ],
         'AF' => [
-            'name' => 'Afghanistan'
+            'name' => 'Afghanistan',
         ],
         'AG' => [
-            'name' => 'Antigua and Barbuda'
+            'name' => 'Antigua and Barbuda',
         ],
         'AI' => [
-            'name' => 'Anguilla'
+            'name' => 'Anguilla',
         ],
         'AL' => [
-            'name' => 'Albania'
+            'name' => 'Albania',
         ],
         'AM' => [
-            'name' => 'Armenia'
+            'name' => 'Armenia',
         ],
         'AN' => [
-            'name' => 'Netherlands Antilles'
+            'name' => 'Netherlands Antilles',
         ],
         'AO' => [
-            'name' => 'Angola'
+            'name' => 'Angola',
         ],
         'AQ' => [
-            'name' => 'Antarctica'
+            'name' => 'Antarctica',
         ],
         'AR' => [
-            'name' => 'Argentina'
+            'name' => 'Argentina',
         ],
         'AS' => [
-            'name' => 'American Samoa'
+            'name' => 'American Samoa',
         ],
         'AT' => [
-            'name' => 'Austria'
+            'name' => 'Austria',
         ],
         'AU' => [
-            'name' => 'Australia'
+            'name' => 'Australia',
         ],
         'AW' => [
-            'name' => 'Aruba'
+            'name' => 'Aruba',
         ],
         'AX' => [
-            'name' => 'Aland Islands'
+            'name' => 'Aland Islands',
         ],
         'AZ' => [
-            'name' => 'Azerbaijan'
+            'name' => 'Azerbaijan',
         ],
         'BA' => [
-            'name' => 'Bosnia and Herzegovina'
+            'name' => 'Bosnia and Herzegovina',
         ],
         'BB' => [
-            'name' => 'Barbados'
+            'name' => 'Barbados',
         ],
         'BD' => [
-            'name' => 'Bangladesh'
+            'name' => 'Bangladesh',
         ],
         'BE' => [
-            'name' => 'Belgium'
+            'name' => 'Belgium',
         ],
         'BF' => [
-            'name' => 'Burkina Faso'
+            'name' => 'Burkina Faso',
         ],
         'BG' => [
-            'name' => 'Bulgaria'
+            'name' => 'Bulgaria',
         ],
         'BH' => [
-            'name' => 'Bahrain'
+            'name' => 'Bahrain',
         ],
         'BI' => [
-            'name' => 'Burundi'
+            'name' => 'Burundi',
         ],
         'BJ' => [
-            'name' => 'Benin'
+            'name' => 'Benin',
         ],
         'BL' => [
-            'name' => 'Saint Barthélemy'
+            'name' => 'Saint Barthélemy',
         ],
         'BM' => [
-            'name' => 'Bermuda'
+            'name' => 'Bermuda',
         ],
         'BN' => [
-            'name' => 'Brunei'
+            'name' => 'Brunei',
         ],
         'BO' => [
-            'name' => 'Bolivia'
+            'name' => 'Bolivia',
         ],
         'BR' => [
-            'name' => 'Brazil'
+            'name' => 'Brazil',
         ],
         'BS' => [
-            'name' => 'Bahamas'
+            'name' => 'Bahamas',
         ],
         'BT' => [
-            'name' => 'Bhutan'
+            'name' => 'Bhutan',
         ],
         'BV' => [
-            'name' => 'Bouvet Island'
+            'name' => 'Bouvet Island',
         ],
         'BW' => [
-            'name' => 'Botswana'
+            'name' => 'Botswana',
         ],
         'BY' => [
-            'name' => 'Belarus'
+            'name' => 'Belarus',
         ],
         'BZ' => [
-            'name' => 'Belize'
+            'name' => 'Belize',
         ],
         'CA' => [
-            'name' => 'Canada'
+            'name' => 'Canada',
         ],
         'CC' => [
-            'name' => 'Cocos (Keeling) Islands'
+            'name' => 'Cocos (Keeling) Islands',
         ],
         'CD' => [
-            'name' => 'Congo (Kinshasa)'
+            'name' => 'Congo (Kinshasa)',
         ],
         'CF' => [
-            'name' => 'Central African Republic'
+            'name' => 'Central African Republic',
         ],
         'CG' => [
-            'name' => 'Congo (Brazzaville)'
+            'name' => 'Congo (Brazzaville)',
         ],
         'CH' => [
-            'name' => 'Switzerland'
+            'name' => 'Switzerland',
         ],
         'CI' => [
-            'name' => 'Ivory Coast'
+            'name' => 'Ivory Coast',
         ],
         'CK' => [
-            'name' => 'Cook Islands'
+            'name' => 'Cook Islands',
         ],
         'CL' => [
-            'name' => 'Chile'
+            'name' => 'Chile',
         ],
         'CM' => [
-            'name' => 'Cameroon'
+            'name' => 'Cameroon',
         ],
         'CN' => [
-            'name' => 'China'
+            'name' => 'China',
         ],
         'CO' => [
-            'name' => 'Colombia'
+            'name' => 'Colombia',
         ],
         'CR' => [
-            'name' => 'Costa Rica'
+            'name' => 'Costa Rica',
         ],
         'CU' => [
-            'name' => 'Cuba'
+            'name' => 'Cuba',
         ],
         'CW' => [
-            'name' => 'Curaçao'
+            'name' => 'Curaçao',
         ],
         'CV' => [
-            'name' => 'Cape Verde'
+            'name' => 'Cape Verde',
         ],
         'CX' => [
-            'name' => 'Christmas Island'
+            'name' => 'Christmas Island',
         ],
         'CY' => [
-            'name' => 'Cyprus'
+            'name' => 'Cyprus',
         ],
         'CZ' => [
-            'name' => 'Czech Republic'
+            'name' => 'Czech Republic',
         ],
         'DE' => [
-            'name' => 'Germany'
+            'name' => 'Germany',
         ],
         'DJ' => [
-            'name' => 'Djibouti'
+            'name' => 'Djibouti',
         ],
         'DK' => [
-            'name' => 'Denmark'
+            'name' => 'Denmark',
         ],
         'DM' => [
-            'name' => 'Dominica'
+            'name' => 'Dominica',
         ],
         'DO' => [
-            'name' => 'Dominican Republic'
+            'name' => 'Dominican Republic',
         ],
         'DZ' => [
-            'name' => 'Algeria'
+            'name' => 'Algeria',
         ],
         'EC' => [
-            'name' => 'Ecuador'
+            'name' => 'Ecuador',
         ],
         'EE' => [
-            'name' => 'Estonia'
+            'name' => 'Estonia',
         ],
         'EG' => [
-            'name' => 'Egypt'
+            'name' => 'Egypt',
         ],
         'EH' => [
-            'name' => 'Western Sahara'
+            'name' => 'Western Sahara',
         ],
         'ER' => [
-            'name' => 'Eritrea'
+            'name' => 'Eritrea',
         ],
         'ES' => [
-            'name' => 'Spain'
+            'name' => 'Spain',
         ],
         'ET' => [
-            'name' => 'Ethiopia'
+            'name' => 'Ethiopia',
         ],
         'FI' => [
-            'name' => 'Finland'
+            'name' => 'Finland',
         ],
         'FJ' => [
-            'name' => 'Fiji'
+            'name' => 'Fiji',
         ],
         'FK' => [
-            'name' => 'Falkland Islands'
+            'name' => 'Falkland Islands',
         ],
         'FM' => [
-            'name' => 'Micronesia'
+            'name' => 'Micronesia',
         ],
         'FO' => [
-            'name' => 'Faroe Islands'
+            'name' => 'Faroe Islands',
         ],
         'FR' => [
-            'name' => 'France'
+            'name' => 'France',
         ],
         'GA' => [
-            'name' => 'Gabon'
+            'name' => 'Gabon',
         ],
         'GB' => [
-            'name' => 'United Kingdom'
+            'name' => 'United Kingdom',
         ],
         'GD' => [
-            'name' => 'Grenada'
+            'name' => 'Grenada',
         ],
         'GE' => [
-            'name' => 'Georgia'
+            'name' => 'Georgia',
         ],
         'GF' => [
-            'name' => 'French Guiana'
+            'name' => 'French Guiana',
         ],
         'GG' => [
-            'name' => 'Guernsey'
+            'name' => 'Guernsey',
         ],
         'GH' => [
-            'name' => 'Ghana'
+            'name' => 'Ghana',
         ],
         'GI' => [
-            'name' => 'Gibraltar'
+            'name' => 'Gibraltar',
         ],
         'GL' => [
-            'name' => 'Greenland'
+            'name' => 'Greenland',
         ],
         'GM' => [
-            'name' => 'Gambia'
+            'name' => 'Gambia',
         ],
         'GN' => [
-            'name' => 'Guinea'
+            'name' => 'Guinea',
         ],
         'GP' => [
-            'name' => 'Guadeloupe'
+            'name' => 'Guadeloupe',
         ],
         'GQ' => [
-            'name' => 'Equatorial Guinea'
+            'name' => 'Equatorial Guinea',
         ],
         'GR' => [
-            'name' => 'Greece'
+            'name' => 'Greece',
         ],
         'GS' => [
-            'name' => 'South Georgia and the South Sandwich Islands'
+            'name' => 'South Georgia and the South Sandwich Islands',
         ],
         'GT' => [
-            'name' => 'Guatemala'
+            'name' => 'Guatemala',
         ],
         'GU' => [
-            'name' => 'Guam'
+            'name' => 'Guam',
         ],
         'GW' => [
-            'name' => 'Guinea-Bissau'
+            'name' => 'Guinea-Bissau',
         ],
         'GY' => [
-            'name' => 'Guyana'
+            'name' => 'Guyana',
         ],
         'HK' => [
-            'name' => 'Hong Kong S.A.R., China'
+            'name' => 'Hong Kong S.A.R., China',
         ],
         'HM' => [
-            'name' => 'Heard Island and McDonald Islands'
+            'name' => 'Heard Island and McDonald Islands',
         ],
         'HN' => [
-            'name' => 'Honduras'
+            'name' => 'Honduras',
         ],
         'HR' => [
-            'name' => 'Croatia'
+            'name' => 'Croatia',
         ],
         'HT' => [
-            'name' => 'Haiti'
+            'name' => 'Haiti',
         ],
         'HU' => [
-            'name' => 'Hungary'
+            'name' => 'Hungary',
         ],
         'ID' => [
-            'name' => 'Indonesia'
+            'name' => 'Indonesia',
         ],
         'IE' => [
-            'name' => 'Ireland'
+            'name' => 'Ireland',
         ],
         'IL' => [
-            'name' => 'Israel'
+            'name' => 'Israel',
         ],
         'IM' => [
-            'name' => 'Isle of Man'
+            'name' => 'Isle of Man',
         ],
         'IN' => [
-            'name' => 'India'
+            'name' => 'India',
         ],
         'IO' => [
-            'name' => 'British Indian Ocean Territory'
+            'name' => 'British Indian Ocean Territory',
         ],
         'IQ' => [
-            'name' => 'Iraq'
+            'name' => 'Iraq',
         ],
         'IR' => [
-            'name' => 'Iran'
+            'name' => 'Iran',
         ],
         'IS' => [
-            'name' => 'Iceland'
+            'name' => 'Iceland',
         ],
         'IT' => [
-            'name' => 'Italy'
+            'name' => 'Italy',
         ],
         'JE' => [
-            'name' => 'Jersey'
+            'name' => 'Jersey',
         ],
         'JM' => [
-            'name' => 'Jamaica'
+            'name' => 'Jamaica',
         ],
         'JO' => [
-            'name' => 'Jordan'
+            'name' => 'Jordan',
         ],
         'JP' => [
-            'name' => 'Japan'
+            'name' => 'Japan',
         ],
         'KE' => [
-            'name' => 'Kenya'
+            'name' => 'Kenya',
         ],
         'KG' => [
-            'name' => 'Kyrgyzstan'
+            'name' => 'Kyrgyzstan',
         ],
         'KH' => [
-            'name' => 'Cambodia'
+            'name' => 'Cambodia',
         ],
         'KI' => [
-            'name' => 'Kiribati'
+            'name' => 'Kiribati',
         ],
         'KM' => [
-            'name' => 'Comoros'
+            'name' => 'Comoros',
         ],
         'KN' => [
-            'name' => 'Saint Kitts and Nevis'
+            'name' => 'Saint Kitts and Nevis',
         ],
         'KP' => [
-            'name' => 'North Korea'
+            'name' => 'North Korea',
         ],
         'KR' => [
-            'name' => 'South Korea'
+            'name' => 'South Korea',
         ],
         'KW' => [
-            'name' => 'Kuwait'
+            'name' => 'Kuwait',
         ],
         'KY' => [
-            'name' => 'Cayman Islands'
+            'name' => 'Cayman Islands',
         ],
         'KZ' => [
-            'name' => 'Kazakhstan'
+            'name' => 'Kazakhstan',
         ],
         'LA' => [
-            'name' => 'Laos'
+            'name' => 'Laos',
         ],
         'LB' => [
-            'name' => 'Lebanon'
+            'name' => 'Lebanon',
         ],
         'LC' => [
-            'name' => 'Saint Lucia'
+            'name' => 'Saint Lucia',
         ],
         'LI' => [
-            'name' => 'Liechtenstein'
+            'name' => 'Liechtenstein',
         ],
         'LK' => [
-            'name' => 'Sri Lanka'
+            'name' => 'Sri Lanka',
         ],
         'LR' => [
-            'name' => 'Liberia'
+            'name' => 'Liberia',
         ],
         'LS' => [
-            'name' => 'Lesotho'
+            'name' => 'Lesotho',
         ],
         'LT' => [
-            'name' => 'Lithuania'
+            'name' => 'Lithuania',
         ],
         'LU' => [
-            'name' => 'Luxembourg'
+            'name' => 'Luxembourg',
         ],
         'LV' => [
-            'name' => 'Latvia'
+            'name' => 'Latvia',
         ],
         'LY' => [
-            'name' => 'Libya'
+            'name' => 'Libya',
         ],
         'MA' => [
-            'name' => 'Morocco'
+            'name' => 'Morocco',
         ],
         'MC' => [
-            'name' => 'Monaco'
+            'name' => 'Monaco',
         ],
         'MD' => [
-            'name' => 'Moldova'
+            'name' => 'Moldova',
         ],
         'ME' => [
-            'name' => 'Montenegro'
+            'name' => 'Montenegro',
         ],
         'MF' => [
-            'name' => 'Saint Martin (French part)'
+            'name' => 'Saint Martin (French part)',
         ],
         'MG' => [
-            'name' => 'Madagascar'
+            'name' => 'Madagascar',
         ],
         'MH' => [
-            'name' => 'Marshall Islands'
+            'name' => 'Marshall Islands',
         ],
         'MK' => [
-            'name' => 'Macedonia'
+            'name' => 'Macedonia',
         ],
         'ML' => [
-            'name' => 'Mali'
+            'name' => 'Mali',
         ],
         'MM' => [
-            'name' => 'Myanmar'
+            'name' => 'Myanmar',
         ],
         'MN' => [
-            'name' => 'Mongolia'
+            'name' => 'Mongolia',
         ],
         'MO' => [
-            'name' => 'Macao S.A.R., China'
+            'name' => 'Macao S.A.R., China',
         ],
         'MP' => [
-            'name' => 'Northern Mariana Islands'
+            'name' => 'Northern Mariana Islands',
         ],
         'MQ' => [
-            'name' => 'Martinique'
+            'name' => 'Martinique',
         ],
         'MR' => [
-            'name' => 'Mauritania'
+            'name' => 'Mauritania',
         ],
         'MS' => [
-            'name' => 'Montserrat'
+            'name' => 'Montserrat',
         ],
         'MT' => [
-            'name' => 'Malta'
+            'name' => 'Malta',
         ],
         'MU' => [
-            'name' => 'Mauritius'
+            'name' => 'Mauritius',
         ],
         'MV' => [
-            'name' => 'Maldives'
+            'name' => 'Maldives',
         ],
         'MW' => [
-            'name' => 'Malawi'
+            'name' => 'Malawi',
         ],
         'MX' => [
-            'name' => 'Mexico'
+            'name' => 'Mexico',
         ],
         'MY' => [
-            'name' => 'Malaysia'
+            'name' => 'Malaysia',
         ],
         'MZ' => [
-            'name' => 'Mozambique'
+            'name' => 'Mozambique',
         ],
         'NA' => [
-            'name' => 'Namibia'
+            'name' => 'Namibia',
         ],
         'NC' => [
-            'name' => 'New Caledonia'
+            'name' => 'New Caledonia',
         ],
         'NE' => [
-            'name' => 'Niger'
+            'name' => 'Niger',
         ],
         'NF' => [
-            'name' => 'Norfolk Island'
+            'name' => 'Norfolk Island',
         ],
         'NG' => [
-            'name' => 'Nigeria'
+            'name' => 'Nigeria',
         ],
         'NI' => [
-            'name' => 'Nicaragua'
+            'name' => 'Nicaragua',
         ],
         'NL' => [
-            'name' => 'Netherlands'
+            'name' => 'Netherlands',
         ],
         'NO' => [
-            'name' => 'Norway'
+            'name' => 'Norway',
         ],
         'NP' => [
-            'name' => 'Nepal'
+            'name' => 'Nepal',
         ],
         'NR' => [
-            'name' => 'Nauru'
+            'name' => 'Nauru',
         ],
         'NU' => [
-            'name' => 'Niue'
+            'name' => 'Niue',
         ],
         'NZ' => [
-            'name' => 'New Zealand'
+            'name' => 'New Zealand',
         ],
         'OM' => [
-            'name' => 'Oman'
+            'name' => 'Oman',
         ],
         'PA' => [
-            'name' => 'Panama'
+            'name' => 'Panama',
         ],
         'PE' => [
-            'name' => 'Peru'
+            'name' => 'Peru',
         ],
         'PF' => [
-            'name' => 'French Polynesia'
+            'name' => 'French Polynesia',
         ],
         'PG' => [
-            'name' => 'Papua New Guinea'
+            'name' => 'Papua New Guinea',
         ],
         'PH' => [
-            'name' => 'Philippines'
+            'name' => 'Philippines',
         ],
         'PK' => [
-            'name' => 'Pakistan'
+            'name' => 'Pakistan',
         ],
         'PL' => [
-            'name' => 'Poland'
+            'name' => 'Poland',
         ],
         'PM' => [
-            'name' => 'Saint Pierre and Miquelon'
+            'name' => 'Saint Pierre and Miquelon',
         ],
         'PN' => [
-            'name' => 'Pitcairn'
+            'name' => 'Pitcairn',
         ],
         'PR' => [
-            'name' => 'Puerto Rico'
+            'name' => 'Puerto Rico',
         ],
         'PS' => [
-            'name' => 'Palestinian Territory'
+            'name' => 'Palestinian Territory',
         ],
         'PT' => [
-            'name' => 'Portugal'
+            'name' => 'Portugal',
         ],
         'PW' => [
-            'name' => 'Palau'
+            'name' => 'Palau',
         ],
         'PY' => [
-            'name' => 'Paraguay'
+            'name' => 'Paraguay',
         ],
         'QA' => [
-            'name' => 'Qatar'
+            'name' => 'Qatar',
         ],
         'RE' => [
-            'name' => 'Reunion'
+            'name' => 'Reunion',
         ],
         'RO' => [
-            'name' => 'Romania'
+            'name' => 'Romania',
         ],
         'RS' => [
-            'name' => 'Serbia'
+            'name' => 'Serbia',
         ],
         'RU' => [
-            'name' => 'Russia'
+            'name' => 'Russia',
         ],
         'RW' => [
-            'name' => 'Rwanda'
+            'name' => 'Rwanda',
         ],
         'SA' => [
-            'name' => 'Saudi Arabia'
+            'name' => 'Saudi Arabia',
         ],
         'SB' => [
-            'name' => 'Solomon Islands'
+            'name' => 'Solomon Islands',
         ],
         'SC' => [
-            'name' => 'Seychelles'
+            'name' => 'Seychelles',
         ],
         'SD' => [
-            'name' => 'Sudan'
+            'name' => 'Sudan',
         ],
         'SE' => [
-            'name' => 'Sweden'
+            'name' => 'Sweden',
         ],
         'SG' => [
-            'name' => 'Singapore'
+            'name' => 'Singapore',
         ],
         'SH' => [
-            'name' => 'Saint Helena'
+            'name' => 'Saint Helena',
         ],
         'SI' => [
-            'name' => 'Slovenia'
+            'name' => 'Slovenia',
         ],
         'SJ' => [
-            'name' => 'Svalbard and Jan Mayen'
+            'name' => 'Svalbard and Jan Mayen',
         ],
         'SK' => [
-            'name' => 'Slovakia'
+            'name' => 'Slovakia',
         ],
         'SL' => [
-            'name' => 'Sierra Leone'
+            'name' => 'Sierra Leone',
         ],
         'SM' => [
-            'name' => 'San Marino'
+            'name' => 'San Marino',
         ],
         'SN' => [
-            'name' => 'Senegal'
+            'name' => 'Senegal',
         ],
         'SO' => [
-            'name' => 'Somalia'
+            'name' => 'Somalia',
         ],
         'SR' => [
-            'name' => 'Suriname'
+            'name' => 'Suriname',
         ],
         'ST' => [
-            'name' => 'Sao Tome and Principe'
+            'name' => 'Sao Tome and Principe',
         ],
         'SV' => [
-            'name' => 'El Salvador'
+            'name' => 'El Salvador',
         ],
         'SY' => [
-            'name' => 'Syria'
+            'name' => 'Syria',
         ],
         'SZ' => [
-            'name' => 'Swaziland'
+            'name' => 'Swaziland',
         ],
         'TC' => [
-            'name' => 'Turks and Caicos Islands'
+            'name' => 'Turks and Caicos Islands',
         ],
         'TD' => [
-            'name' => 'Chad'
+            'name' => 'Chad',
         ],
         'TF' => [
-            'name' => 'French Southern Territories'
+            'name' => 'French Southern Territories',
         ],
         'TG' => [
-            'name' => 'Togo'
+            'name' => 'Togo',
         ],
         'TH' => [
-            'name' => 'Thailand'
+            'name' => 'Thailand',
         ],
         'TJ' => [
-            'name' => 'Tajikistan'
+            'name' => 'Tajikistan',
         ],
         'TK' => [
-            'name' => 'Tokelau'
+            'name' => 'Tokelau',
         ],
         'TL' => [
-            'name' => 'Timor-Leste'
+            'name' => 'Timor-Leste',
         ],
         'TM' => [
-            'name' => 'Turkmenistan'
+            'name' => 'Turkmenistan',
         ],
         'TN' => [
-            'name' => 'Tunisia'
+            'name' => 'Tunisia',
         ],
         'TO' => [
-            'name' => 'Tonga'
+            'name' => 'Tonga',
         ],
         'TR' => [
-            'name' => 'Turkey'
+            'name' => 'Turkey',
         ],
         'TT' => [
-            'name' => 'Trinidad and Tobago'
+            'name' => 'Trinidad and Tobago',
         ],
         'TV' => [
-            'name' => 'Tuvalu'
+            'name' => 'Tuvalu',
         ],
         'TW' => [
-            'name' => 'Taiwan'
+            'name' => 'Taiwan',
         ],
         'TZ' => [
-            'name' => 'Tanzania'
+            'name' => 'Tanzania',
         ],
         'UA' => [
-            'name' => 'Ukraine'
+            'name' => 'Ukraine',
         ],
         'UG' => [
-            'name' => 'Uganda'
+            'name' => 'Uganda',
         ],
         'UM' => [
-            'name' => 'United States Minor Outlying Islands'
+            'name' => 'United States Minor Outlying Islands',
         ],
         'US' => [
-            'name' => 'United States'
+            'name'     => 'United States',
+            'currency' => 'USD',
+            'locale'   => 'en',
         ],
         'UY' => [
-            'name' => 'Uruguay'
+            'name' => 'Uruguay',
         ],
         'UZ' => [
-            'name' => 'Uzbekistan'
+            'name' => 'Uzbekistan',
         ],
         'VA' => [
-            'name' => 'Vatican'
+            'name' => 'Vatican',
         ],
         'VC' => [
-            'name' => 'Saint Vincent and the Grenadines'
+            'name' => 'Saint Vincent and the Grenadines',
         ],
         'VE' => [
-            'name' => 'Venezuela'
+            'name' => 'Venezuela',
         ],
         'VG' => [
-            'name' => 'British Virgin Islands'
+            'name' => 'British Virgin Islands',
         ],
         'VI' => [
-            'name' => 'U.S. Virgin Islands'
+            'name' => 'U.S. Virgin Islands',
         ],
         'VN' => [
-            'name' => 'Vietnam'
+            'name' => 'Vietnam',
         ],
         'VU' => [
-            'name' => 'Vanuatu'
+            'name' => 'Vanuatu',
         ],
         'WF' => [
-            'name' => 'Wallis and Futuna'
+            'name' => 'Wallis and Futuna',
         ],
         'WS' => [
-            'name' => 'Samoa'
+            'name' => 'Samoa',
         ],
         'YE' => [
-            'name' => 'Yemen'
+            'name' => 'Yemen',
         ],
         'YT' => [
-            'name' => 'Mayotte'
+            'name' => 'Mayotte',
         ],
         'ZA' => [
-            'name' => 'South Africa'
+            'name' => 'South Africa',
         ],
         'ZM' => [
-            'name' => 'Zambia'
+            'name' => 'Zambia',
         ],
         'ZW' => [
-            'name' => 'Zimbabwe'
-        ]
-    ]
+            'name' => 'Zimbabwe',
+        ],
+    ],
 ];
