@@ -1,14 +1,20 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Database\Migration\MigrationName;
 use Anomaly\Streams\Platform\Database\Migration\Command\Migrate;
 use Anomaly\Streams\Platform\Database\Migration\Command\Reset;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Support\Collection;
 
+/**
+ * Class Migrator
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class Migrator extends \Illuminate\Database\Migrations\Migrator
 {
+
     use DispatchesJobs;
 
     /**
@@ -16,7 +22,14 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
      *
      * @var Addon
      */
-    protected $addon  = null;
+    protected $addon = null;
+
+    /**
+     * The migration repository.
+     *
+     * @var MigrationRepository
+     */
+    protected $repository;
 
     /**
      * Rolls all of the currently applied migrations back.
@@ -30,6 +43,20 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
         $this->repository->setAddon($this->getAddon());
 
         return parent::reset($paths, $pretend);
+    }
+
+    /**
+     * Rollback the last migration operation.
+     *
+     * @param  array|string $paths
+     * @param  array        $options
+     * @return array
+     */
+    public function rollback($paths = [], array $options = [])
+    {
+        $this->repository->setAddon($this->getAddon());
+
+        return parent::rollback($paths, $options);
     }
 
     /**

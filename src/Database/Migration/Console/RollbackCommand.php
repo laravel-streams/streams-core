@@ -1,19 +1,20 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Console;
 
+use Anomaly\Streams\Platform\Database\Migration\Console\Command\ConfigureMigrator;
+use Anomaly\Streams\Platform\Database\Migration\Migrator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
-use Anomaly\Streams\Platform\Database\Migration\Migrator;
-use Anomaly\Streams\Platform\Database\Migration\Console\Command\ConfigureMigrator;
 
 /**
- * Class ResetCommand
+ * Class RollbackCommand
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class ResetCommand extends \Illuminate\Database\Console\Migrations\ResetCommand
+class RollbackCommand extends \Illuminate\Database\Console\Migrations\RollbackCommand
 {
+
     use DispatchesJobs;
 
     /**
@@ -51,8 +52,7 @@ class ResetCommand extends \Illuminate\Database\Console\Migrations\ResetCommand
         return array_merge(
             parent::getOptions(),
             [
-                ['addon', null, InputOption::VALUE_OPTIONAL, 'The addon to reset migrations for.'],
-                ['path', null, InputOption::VALUE_OPTIONAL, 'The path to migrations to reset.'],
+                ['addon', null, InputOption::VALUE_OPTIONAL, 'The addon to rollback for.'],
             ]
         );
     }

@@ -2,14 +2,21 @@
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Command\GetAddon;
-use Anomaly\Streams\Platform\Database\Migration\Migrator;
 use Anomaly\Streams\Platform\Database\Migration\MigrationCreator;
-use Symfony\Component\Console\Input\InputInterface;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Console\Command;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Symfony\Component\Console\Input\InputInterface;
 
+/**
+ * Class ConfigureCreator
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class ConfigureCreator
 {
+
     use DispatchesJobs;
 
     /**
@@ -36,15 +43,15 @@ class ConfigureCreator
     /**
      * Create a new SetAddonPath instance.
      *
-     * @param ResetCommand     $command
+     * @param Command          $command
      * @param InputInterface   $input
      * @param MigrationCreator $creator
      */
     public function __construct(Command $command, InputInterface $input, MigrationCreator $creator)
     {
-        $this->input     = $input;
-        $this->command   = $command;
-        $this->creator   = $creator;
+        $this->input   = $input;
+        $this->command = $command;
+        $this->creator = $creator;
     }
 
     /**
@@ -52,7 +59,7 @@ class ConfigureCreator
      *
      * @param AddonCollection $addons
      */
-    public function handle(AddonCollection $addons)
+    public function handle()
     {
         if (!$addon = $this->input->getOption('addon')) {
             return;

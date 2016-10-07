@@ -4,8 +4,16 @@ use Anomaly\Streams\Platform\Database\Migration\Console\MigrateCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\MigrateMakeCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\RefreshCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\ResetCommand;
+use Anomaly\Streams\Platform\Database\Migration\Console\RollbackCommand;
 use Illuminate\Database\MigrationServiceProvider as BaseMigrationServiceProvider;
 
+/**
+ * Class MigrationServiceProvider
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class MigrationServiceProvider extends BaseMigrationServiceProvider
 {
 
@@ -109,6 +117,21 @@ class MigrationServiceProvider extends BaseMigrationServiceProvider
             'command.migrate.refresh',
             function () {
                 return new RefreshCommand;
+            }
+        );
+    }
+
+    /**
+     * Register the "rollback" migration command.
+     *
+     * @return void
+     */
+    protected function registerRollbackCommand()
+    {
+        $this->app->singleton(
+            'command.migrate.rollback',
+            function ($app) {
+                return new RollbackCommand($app['migrator']);
             }
         );
     }
