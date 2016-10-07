@@ -414,7 +414,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'addon',
                 function ($identifier) {
-                    return app(AddonCollection::class)->get($identifier);
+                    return (new Decorator())->decorate(app(AddonCollection::class)->get($identifier));
                 }
             ),
             new \Twig_SimpleFunction(
@@ -426,7 +426,7 @@ class StreamsPlugin extends Plugin
                         $addons = $addons->{str_plural($type)}();
                     }
 
-                    return $addons;
+                    return (new Decorator())->decorate($addons);
                 }
             ),
             new \Twig_SimpleFunction('input_get', [$this->request, 'input']),
