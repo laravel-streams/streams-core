@@ -3,9 +3,9 @@
 /**
  * Class IconRegistry
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
+ * @link   http://anomaly.is/streams-platform
+ * @author AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author Ryan Thompson <ryan@anomaly.is>
  */
 class IconRegistry
 {
@@ -175,6 +175,29 @@ class IconRegistry
     public function register($icon, array $parameters)
     {
         array_set($this->icons, $icon, $parameters);
+
+        return $this;
+    }
+
+    /**
+     * Get the icons.
+     *
+     * @return array
+     */
+    public function getIcons()
+    {
+        return $this->icons;
+    }
+
+    /**
+     * Set the icons.
+     *
+     * @param array $icons
+     * @return $this
+     */
+    public function setIcons(array $icons)
+    {
+        $this->icons = $icons;
 
         return $this;
     }
