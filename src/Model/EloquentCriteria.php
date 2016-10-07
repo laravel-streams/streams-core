@@ -74,6 +74,17 @@ class EloquentCriteria
     }
 
     /**
+     * Get the entry count.
+     *
+     * @param  array $columns
+     * @return int
+     */
+    public function count(array $columns = ['*'])
+    {
+        return (new Decorator())->decorate($this->query->count($columns));
+    }
+
+    /**
      * Get the aggregate sum.
      *
      * @param  array $columns
@@ -85,14 +96,36 @@ class EloquentCriteria
     }
 
     /**
-     * Get the entry count.
+     * Get the aggregate max.
      *
-     * @param  array $columns
+     * @param  $column
      * @return int
      */
-    public function count(array $columns = ['*'])
+    public function max($column)
     {
-        return (new Decorator())->decorate($this->query->count($columns));
+        return (new Decorator())->decorate($this->query->max($column));
+    }
+
+    /**
+     * Get the aggregate min.
+     *
+     * @param  $column
+     * @return int
+     */
+    public function min($column)
+    {
+        return (new Decorator())->decorate($this->query->min($column));
+    }
+
+    /**
+     * Get the aggregate avg.
+     *
+     * @param  $column
+     * @return int
+     */
+    public function avg($column)
+    {
+        return (new Decorator())->decorate($this->query->avg($column));
     }
 
     /**

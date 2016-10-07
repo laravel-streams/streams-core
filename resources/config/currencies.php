@@ -38,7 +38,6 @@ return [
     'supported' => [
         'USD' => [
             'name'      => 'US Dollar',
-            'code'      => 'USD',
             'direction' => 'ltr',
             'symbol'    => '$',
             'separator' => ',',
