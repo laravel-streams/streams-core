@@ -1,17 +1,26 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Traits\Hookable;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Entry\EntryPresenter;
+use Anomaly\Streams\Platform\Search\SearchCriteria;
+use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Presenter;
-use Anomaly\Streams\Platform\Support\Collection;
-use Anomaly\Streams\Platform\Entry\EntryPresenter;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Illuminate\Foundation\Bus\DispatchesJobs;
+use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Pagination\Paginator;
 
+/**
+ * Class EloquentCriteria
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class EloquentCriteria
 {
+
     use Hookable;
     use DispatchesJobs;
 
@@ -54,7 +63,7 @@ class EloquentCriteria
     /**
      * Get the paginated entries.
      *
-     * @param  array     $columns
+     * @param  array $columns
      * @return Paginator
      */
     public function paginate($perPage = 15, array $columns = ['*'])
@@ -63,9 +72,23 @@ class EloquentCriteria
     }
 
     /**
+     * Return a new search criteria.
+     *
+     * @param  string $term
+     * @return SearchCriteria
+     */
+    public function search($term)
+    {
+        return new SearchCriteria(
+            $this->query->getModel()->search($term),
+            $this->query->getModel()
+        );
+    }
+
+    /**
      * Get the entries.
      *
-     * @param  array                               $columns
+     * @param  array $columns
      * @return Collection|Presenter|EntryPresenter
      */
     public function get(array $columns = ['*'])
@@ -158,7 +181,7 @@ class EloquentCriteria
     /**
      * Return the first entry.
      *
-     * @param  array                        $columns
+     * @param  array $columns
      * @return EloquentModel|EntryInterface
      */
     public function first(array $columns = ['*'])
