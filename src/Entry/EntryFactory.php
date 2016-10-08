@@ -14,6 +14,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class EntryFactory
 {
+
     use DispatchesJobs;
     use FiresCallbacks;
 
@@ -32,7 +33,7 @@ class EntryFactory
     protected $container;
 
     /**
-     * Create a new StreamPluginFunctions instance.
+     * Create a new EntryFactory instance.
      *
      * @param Hydrator  $hydrator
      * @param Container $container

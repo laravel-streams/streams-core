@@ -9,6 +9,7 @@ use Anomaly\Streams\Platform\Image\Command\MakeImagePath;
 use Anomaly\Streams\Platform\Image\Command\MakeImageTag;
 use Anomaly\Streams\Platform\Image\Command\MakeImageUrl;
 use Anomaly\Streams\Platform\Image\Image;
+use Anomaly\Streams\Platform\Model\Command\GetEloquentCriteria;
 use Anomaly\Streams\Platform\Stream\Command\GetStream;
 use Anomaly\Streams\Platform\Stream\Command\GetStreams;
 use Anomaly\Streams\Platform\Support\Currency;
@@ -38,9 +39,9 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * Class StreamsPlugin
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
+ * @link   http://anomaly.is/streams-platform
+ * @author AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author Ryan Thompson <ryan@anomaly.is>
  */
 class StreamsPlugin extends Plugin
 {
@@ -226,6 +227,14 @@ class StreamsPlugin extends Plugin
                 function ($namespace, $stream = null) {
                     return (new Decorator())->decorate(
                         $this->dispatch(new GetEntryCriteria($namespace, $stream ?: $namespace, 'get'))
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'query',
+                function ($model = null) {
+                    return (new Decorator())->decorate(
+                        $this->dispatch(new GetEloquentCriteria($model, 'get'))
                     );
                 }
             ),

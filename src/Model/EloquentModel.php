@@ -7,8 +7,16 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Robbo\Presenter\PresentableInterface;
 
-class EloquentModel extends Model implements Arrayable
+/**
+ * Class EloquentModel
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
+class EloquentModel extends Model implements Arrayable, PresentableInterface
 {
 
     use Hookable;
@@ -110,6 +118,25 @@ class EloquentModel extends Model implements Arrayable
     public function fireEvent($event)
     {
         return $this->fireModelEvent($event);
+    }
+
+    /**
+     * Return the entry presenter.
+     *
+     * This is against standards but required
+     * by the presentable interface.
+     *
+     * @return EloquentPresenter
+     */
+    public function getPresenter()
+    {
+        $presenter = substr(get_class($this), 0, -5) . 'Presenter';
+
+        if (class_exists($presenter)) {
+            return app()->make($presenter, ['object' => $this]);
+        }
+
+        return new EloquentPresenter($this);
     }
 
     /**
