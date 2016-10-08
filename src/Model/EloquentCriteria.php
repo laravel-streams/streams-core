@@ -110,12 +110,12 @@ class EloquentCriteria
     /**
      * Get the aggregate sum.
      *
-     * @param  array $columns
+     * @param  $column
      * @return int
      */
-    public function sum(array $columns = ['*'])
+    public function sum($column)
     {
-        return (new Decorator())->decorate($this->query->sum($columns));
+        return (new Decorator())->decorate($this->query->sum($column));
     }
 
     /**
