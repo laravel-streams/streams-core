@@ -7,12 +7,14 @@ use Anomaly\Streams\Platform\Stream\Command\DeleteStreamAssignments;
 use Anomaly\Streams\Platform\Stream\Command\DeleteStreamEntryModels;
 use Anomaly\Streams\Platform\Stream\Command\DeleteStreamTranslations;
 use Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTable;
+use Anomaly\Streams\Platform\Stream\Command\RenameAssociatedPivotTables;
 use Anomaly\Streams\Platform\Stream\Command\RenameStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasCreated;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasSaved;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasUpdated;
+use Anomaly\Streams\Platform\Stream\Event\StreamWasUpdating;
 use Anomaly\Streams\Platform\Support\Observer;
 
 /**
@@ -63,6 +65,8 @@ class StreamObserver extends Observer
     public function updating(StreamInterface $model)
     {
         $this->dispatch(new RenameStreamsEntryTable($model));
+
+        $this->dispatch(new StreamWasUpdating($model));
     }
 
     /**
