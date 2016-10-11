@@ -1,18 +1,19 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Support\Observer;
-use Anomaly\Streams\Platform\Stream\Event\StreamWasSaved;
-use Anomaly\Streams\Platform\Stream\Event\StreamWasCreated;
-use Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted;
 use Anomaly\Streams\Platform\Search\Command\CheckEntryIndex;
 use Anomaly\Streams\Platform\Search\Command\DeleteEntryIndex;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\Command\DeleteStreamAssignments;
 use Anomaly\Streams\Platform\Stream\Command\DeleteStreamEntryModels;
-use Anomaly\Streams\Platform\Stream\Command\RenameStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\Command\DeleteStreamTranslations;
+use Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTable;
+use Anomaly\Streams\Platform\Stream\Command\RenameStreamsEntryTable;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Stream\Event\StreamWasCreated;
+use Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted;
+use Anomaly\Streams\Platform\Stream\Event\StreamWasSaved;
+use Anomaly\Streams\Platform\Stream\Event\StreamWasUpdated;
+use Anomaly\Streams\Platform\Support\Observer;
 
 /**
  * Class StreamObserver
@@ -62,6 +63,16 @@ class StreamObserver extends Observer
     public function updating(StreamInterface $model)
     {
         $this->dispatch(new RenameStreamsEntryTable($model));
+    }
+
+    /**
+     * Run after a record is updated.
+     *
+     * @param StreamInterface $model
+     */
+    public function updated(StreamInterface $model)
+    {
+        $this->dispatch(new StreamWasUpdated($model));
     }
 
     /**

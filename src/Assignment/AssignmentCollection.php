@@ -4,6 +4,13 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 
+/**
+ * Class AssignmentCollection
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class AssignmentCollection extends EloquentCollection
 {
 
@@ -48,7 +55,7 @@ class AssignmentCollection extends EloquentCollection
     /**
      * Return assignments only included the provided fields.
      *
-     * @param  array                $fields
+     * @param  array $fields
      * @return AssignmentCollection
      */
     public function withFields(array $fields)
@@ -68,7 +75,7 @@ class AssignmentCollection extends EloquentCollection
     /**
      * Return assignments not included the provided fields.
      *
-     * @param  array                $fields
+     * @param  array $fields
      * @return AssignmentCollection
      */
     public function withoutFields(array $fields)
@@ -182,7 +189,7 @@ class AssignmentCollection extends EloquentCollection
     /**
      * Return an array of field slugs.
      *
-     * @param  null  $prefix
+     * @param  null $prefix
      * @return array
      */
     public function fieldSlugs($prefix = null)
@@ -246,5 +253,25 @@ class AssignmentCollection extends EloquentCollection
     public function unlocked()
     {
         return $this->notLocked();
+    }
+
+    /**
+     * Return the assignment
+     * with column type.
+     *
+     * @param $type
+     * @return AssignmentCollection
+     */
+    public function column($type)
+    {
+        return $this->filter(
+            function ($item) use ($type) {
+
+                /* @var AssignmentInterface $item */
+                $fieldType = $item->getFieldType();
+
+                return $fieldType->getColumnType() == $type;
+            }
+        );
     }
 }
