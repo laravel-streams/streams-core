@@ -67,9 +67,9 @@ class InstallModule
 
         $console->call('migrate:refresh', $options);
 
-        $manager->register();
-
         $modules->install($this->module);
+
+        $manager->register();
 
         if ($this->seed) {
             $console->call('db:seed', $options);

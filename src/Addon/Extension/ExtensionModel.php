@@ -22,13 +22,6 @@ class ExtensionModel extends EloquentModel implements ExtensionInterface
     protected $table = 'addons_extensions';
 
     /**
-     * Cache minutes.
-     *
-     * @var int
-     */
-    protected $cacheMinutes = 99999;
-
-    /**
      * Disable timestamps for extensions.
      *
      * @var bool
@@ -93,7 +86,7 @@ class ExtensionModel extends EloquentModel implements ExtensionInterface
     /**
      * Return a new collection.
      *
-     * @param  array              $items
+     * @param  array $items
      * @return EloquentCollection
      */
     public function newCollection(array $items = [])

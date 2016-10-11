@@ -15,13 +15,6 @@ class ModuleModel extends EloquentModel implements ModuleInterface
     protected $table = 'addons_modules';
 
     /**
-     * Cache minutes.
-     *
-     * @var int
-     */
-    protected $cacheMinutes = 99999;
-
-    /**
      * Disable timestamps for modules.
      *
      * @var bool
