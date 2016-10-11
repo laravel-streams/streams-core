@@ -37,4 +37,14 @@ class BreadcrumbCollection extends Collection
 
         parent::put($key, $value);
     }
+
+    /**
+     * Return the breadcrumb.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string)view('streams::partials/breadcrumb');
+    }
 }

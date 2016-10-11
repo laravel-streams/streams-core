@@ -16,6 +16,7 @@ use Anomaly\Streams\Platform\Support\Currency;
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Support\Template;
+use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\Ui\Button\Command\GetButtons;
 use Anomaly\Streams\Platform\Ui\Command\GetElapsedTime;
 use Anomaly\Streams\Platform\Ui\Command\GetMemoryUsage;
@@ -148,17 +149,17 @@ class StreamsPlugin extends Plugin
      * Create a new AgentPlugin instance.
      *
      * @param UrlGenerator $url
-     * @param Str          $str
-     * @param Guard        $auth
-     * @param Agent        $agent
-     * @param Asset        $asset
-     * @param Image        $image
-     * @param Router       $router
-     * @param Repository   $config
-     * @param Request      $request
-     * @param Store        $session
-     * @param Currency     $currency
-     * @param Template     $template
+     * @param Str $str
+     * @param Guard $auth
+     * @param Agent $agent
+     * @param Asset $asset
+     * @param Image $image
+     * @param Router $router
+     * @param Repository $config
+     * @param Request $request
+     * @param Store $session
+     * @param Currency $currency
+     * @param Template $template
      */
     public function __construct(
         UrlGenerator $url,
@@ -438,6 +439,12 @@ class StreamsPlugin extends Plugin
                     return (new Decorator())->decorate($addons);
                 }
             ),
+            new \Twig_SimpleFunction(
+                'breadcrumb',
+                function () {
+                    return app(BreadcrumbCollection::class);
+                }, ['is_safe' => ['html']]
+            ),
             new \Twig_SimpleFunction('input_get', [$this->request, 'input']),
             new \Twig_SimpleFunction('asset', [$this->url, 'asset'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('action', [$this->url, 'action'], ['is_safe' => ['html']]),
@@ -499,9 +506,9 @@ class StreamsPlugin extends Plugin
     /**
      * Return a URL.
      *
-     * @param  null  $path
+     * @param  null $path
      * @param  array $parameters
-     * @param  null  $secure
+     * @param  null $secure
      * @return string
      */
     public function url($path = null, $parameters = [], $secure = null)
