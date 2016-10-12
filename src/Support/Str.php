@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
+use Misd\Linkify\Linkify;
+
 /**
  * Class Str
  *
@@ -60,10 +62,11 @@ class Str extends \Illuminate\Support\Str
      * Linkify the provided text.
      *
      * @param $text
+     * @param array $options
      * @return string
      */
-    public function linkify($text)
+    public function linkify($text, array $options = [])
     {
-        
+        return (new Linkify($options))->process($text);
     }
 }
