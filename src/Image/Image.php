@@ -296,7 +296,7 @@ class Image
     {
         $path = $this->getCachePath();
 
-        return $this->url->assetFrom('', $path);
+        return $this->url->asset($path);
     }
 
     /**

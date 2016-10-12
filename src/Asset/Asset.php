@@ -285,7 +285,7 @@ class Asset
             $this->add($collection, $collection, $filters);
         }
 
-        return $this->url->assetFrom('', $this->getPath($collection, $filters));
+        return $this->url->asset($this->getPath($collection, $filters));
     }
 
     /**
