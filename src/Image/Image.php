@@ -212,15 +212,15 @@ class Image
     /**
      * Create a new Image instance.
      *
-     * @param UrlGenerator  $url
-     * @param HtmlBuilder   $html
-     * @param Filesystem    $files
+     * @param UrlGenerator $url
+     * @param HtmlBuilder $html
+     * @param Filesystem $files
      * @param Mobile_Detect $agent
-     * @param Repository    $config
-     * @param ImageManager  $manager
-     * @param Application   $application
-     * @param ImagePaths    $paths
-     * @param ImageMacros   $macros
+     * @param Repository $config
+     * @param ImageManager $manager
+     * @param Application $application
+     * @param ImagePaths $paths
+     * @param ImageMacros $macros
      */
     public function __construct(
         UrlGenerator $url,
@@ -248,7 +248,7 @@ class Image
      * Make a new image instance.
      *
      * @param  mixed $image
-     * @param  null  $output
+     * @param  null $output
      * @return $this
      */
     public function make($image, $output = null)
@@ -288,6 +288,18 @@ class Image
     }
 
     /**
+     * Return the asset path to an image.
+     *
+     * @return string
+     */
+    public function asset()
+    {
+        $path = $this->getCachePath();
+
+        return $this->url->assetFrom('', $path);
+    }
+
+    /**
      * Run a macro on the image.
      *
      * @param $macro
@@ -302,8 +314,8 @@ class Image
     /**
      * Return the URL to an image.
      *
-     * @param  array  $parameters
-     * @param  null   $secure
+     * @param  array $parameters
+     * @param  null $secure
      * @return string
      */
     public function url(array $parameters = [], $secure = null)
@@ -314,8 +326,8 @@ class Image
     /**
      * Return the image tag to an image.
      *
-     * @param  null   $alt
-     * @param  array  $attributes
+     * @param  null $alt
+     * @param  array $attributes
      * @return string
      */
     public function image($alt = null, array $attributes = [])
@@ -332,14 +344,14 @@ class Image
 
         $attributes['alt'] = $alt;
 
-        return '<img src="' . $this->path() . '"' . $this->html->attributes($attributes) . '>';
+        return '<img src="' . $this->asset() . '"' . $this->html->attributes($attributes) . '>';
     }
 
     /**
      * Return the image tag to an image.
      *
-     * @param  null   $alt
-     * @param  array  $attributes
+     * @param  null $alt
+     * @param  array $attributes
      * @return string
      */
     public function img($alt = null, array $attributes = [])
@@ -381,7 +393,7 @@ class Image
      */
     public function source()
     {
-        $this->addAttribute('srcset', $this->srcset() ?: $this->path() . ' 2x, ' . $this->path() . ' 1x');
+        $this->addAttribute('srcset', $this->srcset() ?: $this->asset() . ' 2x, ' . $this->asset() . ' 1x');
 
         $attributes = $this->html->attributes($this->getAttributes());
 
@@ -395,8 +407,8 @@ class Image
     /**
      * Return the image response.
      *
-     * @param  null   $format
-     * @param  int    $quality
+     * @param  null $format
+     * @param  int $quality
      * @return String
      */
     public function encode($format = null, $quality = null)
@@ -449,7 +461,7 @@ class Image
     /**
      * Set the width attribute.
      *
-     * @param  null  $width
+     * @param  null $width
      * @return Image
      */
     public function width($width = null)
@@ -460,7 +472,7 @@ class Image
     /**
      * Set the height attribute.
      *
-     * @param  null  $height
+     * @param  null $height
      * @return Image
      */
     public function height($height = null)
@@ -502,7 +514,7 @@ class Image
             return $this->config->get('app.debug', false) ? $e->getMessage() : null;
         }
 
-        return $this->paths->prefix() . $path;
+        return $path;
     }
 
     /**
@@ -618,7 +630,7 @@ class Image
 
         /* @var Image $image */
         foreach ($this->getSrcsets() as $descriptor => $image) {
-            $sources[] = $image->path() . ' ' . $descriptor;
+            $sources[] = $image->asset() . ' ' . $descriptor;
         }
 
         return implode(', ', $sources);
@@ -654,7 +666,7 @@ class Image
      * Set the sources/alterations.
      *
      * @param  array $sources
-     * @param  bool  $merge
+     * @param  bool $merge
      * @return $this
      */
     public function sources(array $sources, $merge = true)
@@ -690,7 +702,7 @@ class Image
      * Alter the image based on the user agents.
      *
      * @param  array $agents
-     * @param  bool  $exit
+     * @param  bool $exit
      * @return $this
      */
     public function agents(array $agents, $exit = false)
