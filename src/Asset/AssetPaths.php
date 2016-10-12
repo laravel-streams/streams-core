@@ -177,14 +177,4 @@ class AssetPaths
 
         return "/app/{$application}/assets/{$directory}{$filename}";
     }
-
-    /**
-     * Return the path prefix.
-     *
-     * @return string
-     */
-    public function prefix()
-    {
-        return rtrim(array_get(parse_url($this->request->root()), 'path'), '/');
-    }
 }

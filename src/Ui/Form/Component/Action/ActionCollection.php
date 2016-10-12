@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
+use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
-use Illuminate\Support\Collection;
 
 /**
  * Class ActionCollection
@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  */
-class ActionCollection extends Collection
+class ActionCollection extends ButtonCollection
 {
 
     /**

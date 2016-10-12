@@ -26,4 +26,14 @@ class ButtonCollection extends Collection
             }
         );
     }
+
+    /**
+     * Render the actions.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return view('streams::buttons/buttons', ['buttons' => $this->items])->render();
+    }
 }

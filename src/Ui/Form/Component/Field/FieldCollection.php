@@ -65,8 +65,8 @@ class FieldCollection extends Collection
     /**
      * Get a field.
      *
-     * @param  mixed     $key
-     * @param  null      $default
+     * @param  mixed $key
+     * @param  null $default
      * @return FieldType
      */
     public function get($key, $default = null)

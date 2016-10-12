@@ -118,16 +118,16 @@ class Asset
     /**
      * Create a new Application instance.
      *
-     * @param Application     $application
+     * @param Application $application
      * @param ThemeCollection $themes
-     * @param MountManager    $manager
-     * @param AssetParser     $parser
-     * @param Repository      $config
-     * @param Filesystem      $files
-     * @param AssetPaths      $paths
-     * @param Request         $request
-     * @param HtmlBuilder     $html
-     * @param UrlGenerator    $url
+     * @param MountManager $manager
+     * @param AssetParser $parser
+     * @param Repository $config
+     * @param Filesystem $files
+     * @param AssetPaths $paths
+     * @param Request $request
+     * @param HtmlBuilder $html
+     * @param UrlGenerator $url
      */
     public function __construct(
         Application $application,
@@ -162,7 +162,7 @@ class Asset
      *
      * @param             $collection
      * @param             $file
-     * @param  array      $filters
+     * @param  array $filters
      * @return $this
      * @throws \Exception
      */
@@ -205,8 +205,8 @@ class Asset
      * Download a file and return it's path.
      *
      * @param              $url
-     * @param  int         $ttl
-     * @param  null        $path
+     * @param  int $ttl
+     * @param  null $path
      * @return null|string
      */
     public function download($url, $ttl = 3600, $path = null)
@@ -228,7 +228,7 @@ class Asset
      * Return the contents of a collection.
      *
      * @param         $collection
-     * @param  array  $filters
+     * @param  array $filters
      * @return string
      */
     public function inline($collection, array $filters = [])
@@ -240,7 +240,7 @@ class Asset
      * Return the URL to a compiled asset collection.
      *
      * @param         $collection
-     * @param  array  $filters
+     * @param  array $filters
      * @return string
      */
     public function url($collection, array $filters = [], array $parameters = [], $secure = null)
@@ -260,7 +260,7 @@ class Asset
      * Return the path to a compiled asset collection.
      *
      * @param         $collection
-     * @param  array  $filters
+     * @param  array $filters
      * @return string
      */
     public function path($collection, array $filters = [])
@@ -273,16 +273,32 @@ class Asset
     }
 
     /**
+     * Return the asset path to a compiled asset collection.
+     *
+     * @param         $collection
+     * @param  array $filters
+     * @return string
+     */
+    public function asset($collection, array $filters = [])
+    {
+        if (!isset($this->collections[$collection])) {
+            $this->add($collection, $collection, $filters);
+        }
+
+        return $this->url->assetFrom('', $this->getPath($collection, $filters));
+    }
+
+    /**
      * Return the script tag for a collection.
      *
      * @param         $collection
-     * @param  array  $filters
-     * @param  array  $attributes
+     * @param  array $filters
+     * @param  array $attributes
      * @return string
      */
     public function script($collection, array $filters = [], array $attributes = [])
     {
-        $attributes['src'] = $this->path($collection, $filters);
+        $attributes['src'] = $this->asset($collection, $filters);
 
         return '<script' . $this->html->attributes($attributes) . '></script>';
     }
@@ -291,8 +307,8 @@ class Asset
      * Return the style tag for a collection.
      *
      * @param         $collection
-     * @param  array  $filters
-     * @param  array  $attributes
+     * @param  array $filters
+     * @param  array $attributes
      * @return string
      */
     public function style($collection, array $filters = [], array $attributes = [])
@@ -301,7 +317,7 @@ class Asset
 
         $attributes = $attributes + $defaults;
 
-        $attributes['href'] = $this->path($collection, $filters);
+        $attributes['href'] = $this->asset($collection, $filters);
 
         return '<link' . $this->html->attributes($attributes) . '>';
     }
@@ -372,7 +388,7 @@ class Asset
                 function ($file, $filters) use ($additionalFilters) {
                     $filters = array_filter(array_unique(array_merge($filters, $additionalFilters)));
 
-                    return $this->path($file, $filters);
+                    return $this->asset($file, $filters);
                 },
                 array_keys($this->collections[$collection]),
                 array_values($this->collections[$collection])
@@ -386,7 +402,7 @@ class Asset
      * @param        $collection
      * @param  array $filters
      * @param  array $attributes
-     * @param null   $secure
+     * @param null $secure
      * @return array
      */
     public function urls($collection, array $filters = [], array $attributes = [], $secure = null)
@@ -419,7 +435,7 @@ class Asset
             $this->publish($path, $collection, $filters);
         }
 
-        return $this->paths->prefix() . $path;
+        return $path;
     }
 
     /**
@@ -729,7 +745,7 @@ class Asset
      * Create asset collection from collection array
      *
      * @param                  $collection
-     * @param  array           $additionalFilters
+     * @param  array $additionalFilters
      * @return AssetCollection
      */
     private function getAssetCollection($collection, $additionalFilters = [])
