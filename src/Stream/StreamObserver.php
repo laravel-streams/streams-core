@@ -72,7 +72,7 @@ class StreamObserver extends Observer
      */
     public function updated(StreamInterface $model)
     {
-        $this->dispatch(new StreamWasUpdated($model));
+        $this->events->fire(new StreamWasUpdated($model));
     }
 
     /**
