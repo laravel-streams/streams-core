@@ -46,6 +46,10 @@ class FormController extends PublicController
             return $response;
         }
 
+        if ($builder->isAjax()) {
+            return $builder->getFormResponse();
+        }
+
         if ($builder->hasFormErrors()) {
             return $redirect->back();
         }

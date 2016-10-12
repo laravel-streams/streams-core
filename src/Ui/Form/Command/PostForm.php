@@ -50,7 +50,7 @@ class PostForm
         $this->dispatch(new SetSuccessMessage($this->builder));
         $this->dispatch(new SetActionResponse($this->builder));
 
-        if ($this->builder->isAjax() && !$this->builder->getFormResponse()) {
+        if ($this->builder->isAjax()) {
             $this->dispatch(new SetJsonResponse($this->builder));
         }
 

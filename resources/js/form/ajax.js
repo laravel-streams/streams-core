@@ -7,17 +7,20 @@ $(function () {
 
         $.post($(this).attr('action'), $(this).serializeArray(), function (data) {
 
-            if (data.errors.length) {
-                alert(data.errors.join('\n'));
+            if (!data.success) {
+
+                messages = '';
+
+                $.each(data.errors, function (field, errors) {
+                    messages += errors.join('/n');
+                });
+
+                alert(messages);
 
                 return false;
             }
 
-            if (data.redirect) {
-                window.location = data.redirect;
-            } else {
-                $('.modal').modal('hide');
-            }
+            window.location = data.redirect;
         });
     });
 });

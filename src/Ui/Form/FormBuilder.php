@@ -22,6 +22,7 @@ use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetFormResponse;
 use Anomaly\Streams\Platform\Ui\Form\Command\ValidateForm;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Closure;
 use Illuminate\Contracts\Support\MessageBag;
@@ -702,7 +703,7 @@ class FormBuilder
      * Get an option value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getOption($key, $default = null)
@@ -779,7 +780,7 @@ class FormBuilder
      * Get a form option value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getFormOption($key, $default = null)
@@ -884,7 +885,7 @@ class FormBuilder
      * Get a form value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getFormValue($key, $default = null)
@@ -1160,6 +1161,24 @@ class FormBuilder
     }
 
     /**
+     * Get the active form action.
+     *
+     * @return null|ActionInterface
+     */
+    public function getActiveFormAction()
+    {
+        if (!$actions = $this->form->getActions()) {
+            return null;
+        }
+
+        if (!$active = $actions->active()) {
+            return null;
+        }
+
+        return $active;
+    }
+
+    /**
      * Add a form button.
      *
      * @param  ButtonInterface $button
@@ -1203,7 +1222,7 @@ class FormBuilder
      * Get a request value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getRequestValue($key, $default = null)
@@ -1215,7 +1234,7 @@ class FormBuilder
      * Get a post value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getPostValue($key, $default = null)
@@ -1227,7 +1246,7 @@ class FormBuilder
      * Return a post key flag.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function hasPostedInput($key)
