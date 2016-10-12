@@ -58,7 +58,30 @@ class AssetPaths
     }
 
     /**
-     * Add an asset path hint.
+     * Get the paths.
+     *
+     * @return array|mixed
+     */
+    public function getPaths()
+    {
+        return $this->paths;
+    }
+
+    /**
+     * Set the paths.
+     *
+     * @param  array $paths
+     * @return $this
+     */
+    public function setPaths(array $paths)
+    {
+        $this->paths = $paths;
+
+        return $this;
+    }
+
+    /**
+     * Add an image path hint.
      *
      * @param $namespace
      * @param $path

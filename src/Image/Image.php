@@ -564,7 +564,8 @@ class Image
 
         $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
-        if ($this->files->extension($path) == 'svg') {
+        if (!$this->supportsType($this->getExtension())) {
+
             $this->files->put($path, $this->dumpImage());
 
             return;
@@ -730,6 +731,17 @@ class Image
         }
 
         return $this;
+    }
+
+    /**
+     * Return if an extension is supported.
+     *
+     * @param $extension
+     * @return bool
+     */
+    protected function supportsType($extension)
+    {
+        return !in_array($extension, ['svg', 'webp']);
     }
 
     /**
@@ -1084,6 +1096,7 @@ class Image
 
         return $this;
     }
+
 
     /**
      * Get the width.
