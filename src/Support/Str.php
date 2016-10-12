@@ -29,7 +29,7 @@ class Str extends \Illuminate\Support\Str
      * https://github.com/laravel/framework/pull/3547/files
      *
      * @param  string $value
-     * @param  int    $limit
+     * @param  int $limit
      * @param  string $end
      * @return string
      */
@@ -64,10 +64,6 @@ class Str extends \Illuminate\Support\Str
      */
     public function linkify($text)
     {
-        return preg_replace(
-            "~[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]~",
-            "<a href=\"\\0\">\\0</a>",
-            $text
-        );
+        
     }
 }
