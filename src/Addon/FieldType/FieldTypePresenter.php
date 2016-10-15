@@ -31,6 +31,31 @@ class FieldTypePresenter extends AddonPresenter
     }
 
     /**
+     * Return a label.
+     *
+     * @param         $text
+     * @param  string $context
+     * @param  string $size
+     * @return string
+     */
+    public function label($text = null, $context = null, $size = null)
+    {
+        if (!$text) {
+            $text = (string)$this->object->getValue();
+        }
+
+        if (!$context) {
+            $context = 'default';
+        }
+
+        if (!$size) {
+            $size = 'sm';
+        }
+
+        return '<span class="label label-' . $context . ' label-' . $size . '">' . trans($text) . '</span>';
+    }
+
+    /**
      * By default return the value.
      * This can be dangerous if used in a loop!
      * There is a PHP bug that caches it's
