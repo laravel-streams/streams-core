@@ -1,6 +1,6 @@
 {% if not table.filters.empty() %}
     <div class="card card-container">
-        {{ form_open({'method': 'get', 'id': 'filters', 'url': url_full(), 'class': 'form-inline'}) }}
+        {{ form_open({'method': 'get', 'id': 'filters', 'url': url_current(), 'class': 'form-inline'}) }}
         <input type="hidden" name="{{ table.options.prefix }}view" value="{{ table.views.active().getSlug() }}">
 
         {% for filter in table.filters %}
