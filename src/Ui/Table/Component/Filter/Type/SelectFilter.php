@@ -58,6 +58,9 @@ class SelectFilter extends Filter implements SelectFilterInterface
      */
     public function setOptions(array $options)
     {
+        if (array_key_exists('handler', $options)) {
+            $options = app()->call($options['handler']);
+        }
         $this->options = $options;
 
         return $this;
