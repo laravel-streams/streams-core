@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
 
 use Anomaly\SelectFieldType\SelectFieldType;
+use Anomaly\Streams\Platform\Support\Evaluator;
+use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\SelectFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 
@@ -13,6 +15,32 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
  */
 class SelectFilter extends Filter implements SelectFilterInterface
 {
+
+    /**
+     * The resolver utility.
+     *
+     * @var Resolver
+     */
+    protected $resolver;
+
+    /**
+     * The evaluator utility.
+     *
+     * @var Evaluator
+     */
+    protected $evaluator;
+
+    /**
+     * Create a new SelectFilter instance.
+     *
+     * @param Resolver $resolver
+     * @param Evaluator $evaluator
+     */
+    public function __construct(Resolver $resolver, Evaluator $evaluator)
+    {
+        $this->resolver  = $resolver;
+        $this->evaluator = $evaluator;
+    }
 
     /**
      * The filter options.
@@ -28,6 +56,8 @@ class SelectFilter extends Filter implements SelectFilterInterface
      */
     public function getInput()
     {
+        $this->resolver->resolve($this->getOptions(), ['filter' => $this]);
+
         return app(SelectFieldType::class)
             ->setPlaceholder($this->getPlaceholder())
             ->setField('filter_' . $this->getSlug())
@@ -35,7 +65,7 @@ class SelectFilter extends Filter implements SelectFilterInterface
             ->setValue($this->getValue())
             ->mergeConfig(
                 [
-                    'options' => $this->getOptions(),
+                    'options' => $this->evaluator->evaluate($this->getOptions(), ['filter' => $this]),
                 ]
             )->getFilter();
     }
