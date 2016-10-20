@@ -21,6 +21,10 @@ return [
         'name'         => 'Placeholder',
         'instructions' => 'If supported, placeholders will display in the input when no input has been entered.',
     ],
+    'title_column' => [
+        'name'         => 'Title Column',
+        'instructions' => 'Specify the field slug that acts as a title?',
+    ],
     'instructions' => [
         'name'         => 'Instructions',
         'instructions' => 'Field instructions will be displayed in forms to assist users.',
@@ -42,7 +46,7 @@ return [
         'name'         => 'Sortable',
         'instructions' => 'Are the entries in this stream manually sortable?',
     ],
-    'searchable'     => [
+    'searchable'   => [
         'name'         => 'Searchable',
         'instructions' => 'Are the entries in this stream searchable?',
     ],

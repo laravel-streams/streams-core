@@ -73,7 +73,7 @@ class StreamFormFields
                     'translatable' => true,
                     'type'         => 'anomaly.field_type.boolean',
                 ],
-                'searchable'     => [
+                'searchable'   => [
                     'label'        => 'streams::field.searchable.name',
                     'instructions' => 'streams::field.searchable.instructions',
                     'translatable' => true,
@@ -86,6 +86,15 @@ class StreamFormFields
                     'type'         => 'anomaly.field_type.editor',
                     'config'       => [
                         'mode' => 'json',
+                    ],
+                ],
+                'title_column' => [
+                    'label'        => 'streams::field.title_column.name',
+                    'instructions' => 'streams::field.title_column.instructions',
+                    'type'         => 'anomaly.field_type.slug',
+                    'required'     => true,
+                    'config'       => [
+                        'default_value' => 'id',
                     ],
                 ],
             ]
