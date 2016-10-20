@@ -46,9 +46,9 @@ class StreamFormBuilder extends FormBuilder
      */
     public function onMake()
     {
-        $editor = $this->getFormField('config');
-
-        $editor->setValue(json_encode($editor->getValue(), JSON_PRETTY_PRINT));
+        if ($editor = $this->getFormField('config')) {
+            $editor->setValue(json_encode($editor->getValue(), JSON_PRETTY_PRINT));
+        }
     }
 
     /**
