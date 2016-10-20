@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasPosted;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -14,6 +15,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class PostForm
 {
+
     use DispatchesJobs;
 
     /**
@@ -44,7 +46,11 @@ class PostForm
         $this->builder->fireFieldEvents('form_posting');
 
         $this->dispatch(new LoadFormValues($this->builder));
-        $this->dispatch(new ValidateForm($this->builder));
+
+        if (!$this->builder instanceof MultipleFormBuilder) {
+            $this->dispatch(new ValidateForm($this->builder));
+        }
+
         $this->dispatch(new RemoveSkippedFields($this->builder));
         $this->dispatch(new HandleForm($this->builder));
         $this->dispatch(new SetSuccessMessage($this->builder));

@@ -70,8 +70,9 @@ class MultipleFormBuilder extends FormBuilder
         if (app('request')->isMethod('post')) {
             $this->dispatch(new PostForms($this));
             $this->dispatch(new HandleErrors($this));
-            $this->dispatch(new SetSuccessMessage($this));
         }
+
+        parent::post();
 
         return $this;
     }
