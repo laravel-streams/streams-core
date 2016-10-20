@@ -47,6 +47,12 @@ class PostForm
 
         $this->dispatch(new LoadFormValues($this->builder));
 
+        /**
+         * Multiple form builders do not get
+         * validated here.. in fact:
+         *
+         * @todo: Decouple validation into it's own method like multiple form builders
+         */
         if (!$this->builder instanceof MultipleFormBuilder) {
             $this->dispatch(new ValidateForm($this->builder));
         }
