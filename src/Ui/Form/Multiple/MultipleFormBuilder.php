@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Form\Command\SetSuccessMessage;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormCollection;
@@ -26,7 +27,7 @@ class MultipleFormBuilder extends FormBuilder
     /**
      * Create a new MultipleFormBuilder instance.
      *
-     * @param Form           $form
+     * @param Form $form
      * @param FormCollection $forms
      */
     public function __construct(Form $form, FormCollection $forms)
@@ -62,9 +63,8 @@ class MultipleFormBuilder extends FormBuilder
         if (app('request')->isMethod('post')) {
             $this->dispatch(new PostForms($this));
             $this->dispatch(new HandleErrors($this));
+            $this->dispatch(new SetSuccessMessage($this));
         }
-
-        parent::post();
 
         return $this;
     }
@@ -135,7 +135,7 @@ class MultipleFormBuilder extends FormBuilder
      * Add a form.
      *
      * @param                      $key
-     * @param  FormBuilder         $builder
+     * @param  FormBuilder $builder
      * @return MultipleFormBuilder
      */
     public function addForm($key, FormBuilder $builder)
