@@ -9,9 +9,9 @@ use Anomaly\Streams\Platform\Support\Authorizer;
 /**
  * Class EntryController
  *
- * @link          http://pyrocms.com/
- * @author        PyroCMS, Inc. <support@pyrocms.com>
- * @author        Ryan Thompson <ryan@pyrocms.com>
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
  */
 class EntryController extends AdminController
 {

@@ -8,9 +8,9 @@ use Twig_NodeVisitorInterface;
 /**
  * Class Plugin
  *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
+ * @link    http://pyrocms.com/
+ * @author  PyroCMS, Inc. <support@pyrocms.com>
+ * @author  Ryan Thompson <ryan@pyrocms.com>
  */
 class Plugin extends Addon implements Twig_ExtensionInterface
 {

@@ -5,9 +5,9 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 /**
  * Class ButtonInput
  *
- * @link          http://anomaly.is/streams-Platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
  */
 class ButtonInput
 {

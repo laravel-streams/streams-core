@@ -7,9 +7,9 @@ use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\Trash;
 /**
  * Class ViewRegistry
  *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
+ * @link    http://pyrocms.com/
+ * @author  PyroCMS, Inc. <support@pyrocms.com>
+ * @author  Ryan Thompson <ryan@pyrocms.com>
  */
 class ViewRegistry
 {

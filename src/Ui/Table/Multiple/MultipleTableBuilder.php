@@ -14,8 +14,8 @@ use Anomaly\Streams\Platform\Ui\Table\TableCollection;
  * Class MultipleTableBuilder
  *
  * @link          http://anomaly.is/streams-plattable
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
  */
 class MultipleTableBuilder extends TableBuilder
 {

@@ -7,9 +7,9 @@ use Asm89\Twig\CacheExtension\CacheStrategyInterface;
 /**
  * Class CacheStrategy
  *
- * @link          http://pyrocms.com/
- * @author        PyroCMS, Inc. <support@pyrocms.com>
- * @author        Ryan Thompson <ryan@pyrocms.com>
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
  */
 class CacheStrategy implements CacheStrategyInterface
 {

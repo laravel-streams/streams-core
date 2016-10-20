@@ -5,9 +5,9 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 /**
  * Class SectionNormalizer
  *
- * @link          http://pyrocms.com/
- * @author        PyroCMS, Inc. <support@pyrocms.com>
- * @author        Ryan Thompson <ryan@pyrocms.com>
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
  */
 class SectionNormalizer
 {

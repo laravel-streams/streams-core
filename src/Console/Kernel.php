@@ -5,9 +5,9 @@ use Illuminate\Contracts\Events\Dispatcher;
 /**
  * Class Kernel
  *
- * @link          http://pyrocms.com/
- * @author        PyroCMS, Inc. <support@pyrocms.com>
- * @author        Ryan Thompson <ryan@pyrocms.com>
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
  */
 class Kernel extends \Illuminate\Foundation\Console\Kernel
 {

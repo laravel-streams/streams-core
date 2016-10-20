@@ -13,8 +13,8 @@ use Illuminate\Http\Request;
  * Class ActionExecutor
  *
  * @link          http://anomaly.is/streams-plattable
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
  */
 class ActionExecutor
 {

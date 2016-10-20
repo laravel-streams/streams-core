@@ -5,9 +5,9 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 /**
  * Class FieldTypeParser
  *
- * @link          http://pyrocms.com/
- * @author        PyroCMS, Inc. <support@pyrocms.com>
- * @author        Ryan Thompson <ryan@pyrocms.com>
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
  * @package       Anomaly\Streams\Platform\Addon\FieldType
  */
 class FieldTypeParser
