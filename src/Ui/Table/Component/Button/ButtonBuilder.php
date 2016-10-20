@@ -53,11 +53,11 @@ class ButtonBuilder
     /**
      * Create a new ButtonBuilder instance.
      *
-     * @param ButtonInput   $input
-     * @param ButtonValue   $value
-     * @param ButtonParser  $parser
+     * @param ButtonInput $input
+     * @param ButtonValue $value
+     * @param ButtonParser $parser
      * @param ButtonFactory $factory
-     * @param Evaluator     $evaluator
+     * @param Evaluator $evaluator
      */
     public function __construct(
         ButtonInput $input,
@@ -76,7 +76,7 @@ class ButtonBuilder
     /**
      * Build the buttons.
      *
-     * @param  TableBuilder     $builder
+     * @param  TableBuilder $builder
      * @param                   $entry
      * @return ButtonCollection
      */
@@ -86,7 +86,7 @@ class ButtonBuilder
 
         $buttons = new ButtonCollection();
 
-        $this->input->read($builder, $entry);
+        $this->input->read($builder);
 
         foreach ($builder->getButtons() as $button) {
             array_set($button, 'entry', $entry);
