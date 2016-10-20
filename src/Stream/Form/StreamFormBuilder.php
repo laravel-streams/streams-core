@@ -66,9 +66,9 @@ class StreamFormBuilder extends FormBuilder
             $entry->namespace = $namespace;
         }
 
-        $editor = $this->getFormField('config');
-
-        $this->setFormValue('config', json_decode($editor->getValue(), true));
+        if ($editor = $this->getFormField('config')) {
+            $this->setFormValue('config', json_decode($editor->getValue(), true));
+        }
     }
 
     /**
