@@ -22,6 +22,7 @@ use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
 use Anomaly\Streams\Platform\Routing\Command\IncludeRoutes;
+use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Search\Command\ConfigureScout;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Stream\StreamObserver;
@@ -37,6 +38,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\ServiceProvider;
 
@@ -357,6 +359,15 @@ class StreamsServiceProvider extends ServiceProvider
 
             return;
         }
+
+        /**
+         * Correct path for Paginator.
+         */
+        Paginator::currentPathResolver(
+            function () {
+                return $this->app->make(UrlGenerator::class)->current();
+            }
+        );
 
         /*
          * Register system routes.
