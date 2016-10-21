@@ -31,6 +31,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Illuminate\Session\Store;
 use Illuminate\Translation\Translator;
@@ -104,6 +105,13 @@ class StreamsPlugin extends Plugin
     protected $image;
 
     /**
+     * The active route.
+     *
+     * @var Route
+     */
+    protected $route;
+
+    /**
      * The router service.
      *
      * @var Router
@@ -149,17 +157,17 @@ class StreamsPlugin extends Plugin
      * Create a new AgentPlugin instance.
      *
      * @param UrlGenerator $url
-     * @param Str $str
-     * @param Guard $auth
-     * @param Agent $agent
-     * @param Asset $asset
-     * @param Image $image
-     * @param Router $router
-     * @param Repository $config
-     * @param Request $request
-     * @param Store $session
-     * @param Currency $currency
-     * @param Template $template
+     * @param Str          $str
+     * @param Guard        $auth
+     * @param Agent        $agent
+     * @param Asset        $asset
+     * @param Image        $image
+     * @param Router       $router
+     * @param Repository   $config
+     * @param Request      $request
+     * @param Store        $session
+     * @param Currency     $currency
+     * @param Template     $template
      */
     public function __construct(
         UrlGenerator $url,
@@ -189,6 +197,8 @@ class StreamsPlugin extends Plugin
         $this->session  = $session;
         $this->currency = $currency;
         $this->template = $template;
+
+        $this->route = $request->route();
     }
 
     /**
@@ -395,6 +405,14 @@ class StreamsPlugin extends Plugin
                 }
             ),
             new \Twig_SimpleFunction(
+                'route_*',
+                function ($name) {
+                    $arguments = array_slice(func_get_args(), 1);
+
+                    return call_user_func_array([$this->route, camel_case($name)], $arguments);
+                }
+            ),
+            new \Twig_SimpleFunction(
                 'asset_*',
                 function ($name) {
                     $arguments = array_slice(func_get_args(), 1);
@@ -506,9 +524,9 @@ class StreamsPlugin extends Plugin
     /**
      * Return a URL.
      *
-     * @param  null $path
+     * @param  null  $path
      * @param  array $parameters
-     * @param  null $secure
+     * @param  null  $secure
      * @return string
      */
     public function url($path = null, $parameters = [], $secure = null)
