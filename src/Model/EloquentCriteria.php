@@ -25,6 +25,25 @@ class EloquentCriteria
     use DispatchesJobs;
 
     /**
+     * Additional available methods.
+     *
+     * @var array
+     */
+    protected $available = [
+        'whereBetween',
+        'whereNotBetween',
+        'whereIn',
+        'whereNotIn',
+        'whereNull',
+        'whereNotNull',
+        'whereDate',
+        'whereMonth',
+        'whereDay',
+        'whereYear',
+        'whereColumn',
+    ];
+
+    /**
      * Safe builder methods.
      *
      * @var array
@@ -201,6 +220,18 @@ class EloquentCriteria
     }
 
     /**
+     * Return whether the method
+     * exists on the query or not.
+     *
+     * @param $name
+     * @return bool
+     */
+    protected function methodExists($name)
+    {
+        return method_exists($this->query, $name) || in_array($name, $this->available);
+    }
+
+    /**
      * Route through __call.
      *
      * @param $name
@@ -224,7 +255,7 @@ class EloquentCriteria
             return $this->call($name, $arguments);
         }
 
-        if (method_exists($this->query, $name) && $this->methodIsSafe($name)) {
+        if ($this->methodExists($name) && $this->methodIsSafe($name)) {
 
             call_user_func_array([$this->query, $name], $arguments);
 
