@@ -228,7 +228,7 @@ class EloquentCriteria
      */
     protected function methodExists($name)
     {
-        return method_exists($this->query, $name) || in_array($name, $this->available);
+        return method_exists($this->query->getQuery(), $name);
     }
 
     /**
