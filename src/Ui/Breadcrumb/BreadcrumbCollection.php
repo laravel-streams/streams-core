@@ -18,7 +18,7 @@ class BreadcrumbCollection extends Collection
      * @param      $key
      * @param null $url
      */
-    public function add($key, $url)
+    public function add($key, $url = null)
     {
         $this->put($key, $url);
     }
@@ -29,8 +29,12 @@ class BreadcrumbCollection extends Collection
      * @param string $key
      * @param string $value
      */
-    public function put($key, $value)
+    public function put($key, $value = null)
     {
+        if (!$value) {
+            $value = url()->current();
+        }
+
         if (!starts_with($value, 'http')) {
             $value = url($value);
         }
