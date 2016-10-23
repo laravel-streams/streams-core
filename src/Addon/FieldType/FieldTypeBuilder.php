@@ -92,7 +92,7 @@ class FieldTypeBuilder
          * If we don't have a field type let em know.
          */
         if (!$type) {
-            throw new \Exception("Field type [{$type}] not found.");
+            throw new \Exception("Field type [{$parameters['type']}] not found.");
         }
 
         $type->mergeRules(array_pull($parameters, 'rules', []));
