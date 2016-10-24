@@ -1,10 +1,18 @@
 <?php namespace Anomaly\Streams\Platform\Traits;
 
-use Illuminate\Notifications\Notification;
 use Anomaly\Streams\Platform\Notification\Event\Transmission;
+use Illuminate\Notifications\Notification;
 
+/**
+ * Class Transmitter
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 trait Transmitter
 {
+
     /**
      * Transmit the notification.
      *

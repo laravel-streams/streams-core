@@ -66,7 +66,9 @@ class Template
             $this->files->makeDirectory($directory, 0777, true);
         }
 
-        $this->files->put($path . '.twig', $template);
+        if (!$this->files->exists($path . '.twig')) {
+            $this->files->put($path . '.twig', $template);
+        }
 
         return $this->view
             ->make('storage::' . $view, $payload)

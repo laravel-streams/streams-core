@@ -2,8 +2,16 @@
 
 use Illuminate\Notifications\Notification;
 
+/**
+ * Class Transmission
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class Transmission
 {
+
     /**
      * The notification instance.
      *
