@@ -6,9 +6,9 @@ use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Anomaly\Streams\Platform\View\ViewMobileOverrides;
 use Anomaly\Streams\Platform\View\ViewOverrides;
+use Illuminate\Console\Events\ArtisanStarting;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Console\Events\ArtisanStarting;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Routing\Router;
 
@@ -342,10 +342,16 @@ class AddonProvider
 
         foreach ($schedules as $frequency => $commands) {
             foreach (array_filter($commands) as $command) {
-                if (str_contains($frequency, ' ')) {
+                if (str_is('* * * *', $frequency)) {
                     $this->schedule->command($command)->cron($frequency);
                 } else {
-                    $this->schedule->command($command)->{camel_case($frequency)}();
+
+                    $parts = explode('|', $frequency);
+
+                    $method    = array_shift($parts);
+                    $arguments = explode(',', array_shift($parts));
+
+                    call_user_func_array([$this->schedule->command($command), $method], $arguments);
                 }
             }
         }
