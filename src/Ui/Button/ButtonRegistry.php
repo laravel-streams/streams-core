@@ -268,4 +268,27 @@ class ButtonRegistry
 
         return $this;
     }
+
+    /**
+     * Get the buttons.
+     *
+     * @return array
+     */
+    public function getButtons()
+    {
+        return $this->buttons;
+    }
+
+    /**
+     * Set the buttons.
+     *
+     * @param array $buttons
+     * @return $this
+     */
+    public function setButtons(array $buttons)
+    {
+        $this->buttons = $buttons;
+
+        return $this;
+    }
 }
