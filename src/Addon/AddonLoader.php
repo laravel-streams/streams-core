@@ -77,6 +77,6 @@ class AddonLoader
      */
     public function register()
     {
-        $this->loader->register('vehicles');
+        $this->loader->register();
     }
 }
