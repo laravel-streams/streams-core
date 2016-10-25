@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModel;
+use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModelAutoloader;
 use Anomaly\Streams\Platform\Entry\Command\GenerateEntryTranslationsModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -14,6 +15,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class EntryUtility
 {
+
     use DispatchesJobs;
 
     /**
@@ -33,5 +35,7 @@ class EntryUtility
         if ($stream->isTranslatable()) {
             $this->dispatch(new GenerateEntryTranslationsModel($stream));
         }
+
+        $this->dispatch(new GenerateEntryModelAutoloader());
     }
 }

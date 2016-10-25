@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Application\Application;
 use Composer\Autoload\ClassLoader;
+use Composer\Autoload\ClassMapGenerator;
 
 /**
  * Class AutoloadEntryModels
@@ -30,6 +31,13 @@ class AutoloadEntryModels
 
         if (!$loader) {
             throw new \Exception("The ClassLoader could not be found.");
+        }
+
+        if (file_exists($classmap = $application->getStoragePath('models/classmap.php'))) {
+
+            $loader->addClassMap(include $classmap);
+
+            return;
         }
 
         /* @var ClassLoader $loader */

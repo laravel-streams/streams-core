@@ -1,0 +1,30 @@
+<?php namespace Anomaly\Streams\Platform\Entry\Command;
+
+use Symfony\Component\ClassLoader\ClassMapGenerator;
+use Illuminate\Filesystem\Filesystem;
+
+/**
+ * Class GenerateEntryModelAutoloader
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
+class GenerateEntryModelAutoloader
+{
+
+    /**
+     * Handle the command.
+     *
+     * @param ClassMapGenerator $generator
+     * @param Filesystem $files
+     */
+    public function handle(ClassMapGenerator $generator, Filesystem $files)
+    {
+        foreach ($files->directories(base_path('storage/streams')) as $directory) {
+            if (is_dir($models = $directory . '/models')) {
+                $generator->dump($files->directories($models), $models . '/classmap.php');
+            }
+        }
+    }
+}

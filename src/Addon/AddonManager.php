@@ -67,11 +67,11 @@ class AddonManager
     /**
      * Create a new AddonManager instance.
      *
-     * @param AddonPaths      $paths
-     * @param AddonLoader     $loader
-     * @param ModuleModel     $modules
-     * @param Dispatcher      $dispatcher
-     * @param ExtensionModel  $extensions
+     * @param AddonPaths $paths
+     * @param AddonLoader $loader
+     * @param ModuleModel $modules
+     * @param Dispatcher $dispatcher
+     * @param ExtensionModel $extensions
      * @param AddonIntegrator $integrator
      * @param AddonCollection $addons
      */
