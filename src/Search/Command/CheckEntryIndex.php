@@ -36,6 +36,10 @@ class CheckEntryIndex
             return;
         }
 
+        if (!class_exists($this->stream->getEntryModelName())) {
+            return;
+        }
+
         $model = $this->stream->getEntryModel();
 
         $index = $application->getStoragePath('search/' . $model->searchableAs() . '.index');
