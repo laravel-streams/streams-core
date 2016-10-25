@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModel;
-use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModelAutoloader;
+use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModelClassmap;
 use Anomaly\Streams\Platform\Entry\Command\GenerateEntryTranslationsModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -36,6 +36,6 @@ class EntryUtility
             $this->dispatch(new GenerateEntryTranslationsModel($stream));
         }
 
-        $this->dispatch(new GenerateEntryModelAutoloader());
+        $this->dispatch(new GenerateEntryModelClassmap());
     }
 }

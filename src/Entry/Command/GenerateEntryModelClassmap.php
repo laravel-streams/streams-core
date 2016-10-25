@@ -4,13 +4,13 @@ use Symfony\Component\ClassLoader\ClassMapGenerator;
 use Illuminate\Filesystem\Filesystem;
 
 /**
- * Class GenerateEntryModelAutoloader
+ * Class GenerateEntryModelClassmap
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class GenerateEntryModelAutoloader
+class GenerateEntryModelClassmap
 {
 
     /**

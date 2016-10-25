@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Application\Application;
 use Composer\Autoload\ClassLoader;
-use Composer\Autoload\ClassMapGenerator;
 
 /**
  * Class AutoloadEntryModels
