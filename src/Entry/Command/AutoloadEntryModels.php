@@ -16,11 +16,23 @@ class AutoloadEntryModels
     /**
      * Handle the command.
      *
-     * @param ClassLoader $loader
      * @param Application $application
      */
-    public function handle(ClassLoader $loader, Application $application)
+    public function handle(Application $application)
     {
+        $loader = null;
+
+        foreach (spl_autoload_functions() as $autoloader) {
+            if ($autoloader[0] instanceof ClassLoader) {
+                $loader = $autoloader[0];
+            }
+        }
+
+        if (!$loader) {
+            throw new \Exception("The ClassLoader could not be found.");
+        }
+
+        /* @var ClassLoader $loader */
         $loader->addPsr4('Anomaly\Streams\Platform\Model\\', $application->getStoragePath('models'));
 
         $loader->register();
