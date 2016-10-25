@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
+use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModelClassmap;
 use Anomaly\Streams\Platform\Search\Command\CheckEntryIndex;
 use Anomaly\Streams\Platform\Search\Command\DeleteEntryIndex;
 use Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTable;
@@ -90,6 +91,7 @@ class StreamObserver extends Observer
         $this->dispatch(new DeleteStreamEntryModels($model));
         $this->dispatch(new DeleteStreamAssignments($model));
         $this->dispatch(new DeleteStreamTranslations($model));
+        $this->dispatch(new GenerateEntryModelClassmap());
 
         $this->events->fire(new StreamWasDeleted($model));
     }
