@@ -34,16 +34,33 @@ class Currency
      *
      * @param      $number
      * @param null $currency
+     * @param array $options
      * @return string
      */
-    public function format($number, $currency = null)
+    public function format($number, $currency = null, array $options = [])
     {
         $currency = strtoupper($currency ?: $this->config->get('streams::currencies.default'));
 
-        $direction = $this->config->get('streams::currencies.supported.' . $currency . '.direction', 'ltr');
-        $separator = $this->config->get('streams::currencies.supported.' . $currency . '.separator', ',');
-        $decimals  = $this->config->get('streams::currencies.supported.' . $currency . '.decimals', 2);
-        $point     = $this->config->get('streams::currencies.supported.' . $currency . '.point' . '.');
+        $direction = array_get(
+            $options,
+            'direction',
+            $this->config->get('streams::currencies.supported.' . $currency . '.direction', 'ltr')
+        );
+        $separator = array_get(
+            $options,
+            'separator',
+            $this->config->get('streams::currencies.supported.' . $currency . '.separator', ',')
+        );
+        $decimals  = array_get(
+            $options,
+            'decimals',
+            $this->config->get('streams::currencies.supported.' . $currency . '.decimals', 2)
+        );
+        $point     = array_get(
+            $options,
+            'point',
+            $this->config->get('streams::currencies.supported.' . $currency . '.point' . '.')
+        );
 
         $prefix = null;
         $suffix = null;
@@ -62,14 +79,23 @@ class Currency
      *
      * @param      $number
      * @param null $currency
+     * @param array $options
      * @return float
      */
-    public function normalize($number, $currency = null)
+    public function normalize($number, $currency = null, array $options = [])
     {
         $currency = strtoupper($currency ?: $this->config->get('streams::currencies.default'));
 
-        $decimals = $this->config->get('streams::currencies.supported.' . $currency . '.decimals', 2);
-        $point    = $this->config->get('streams::currencies.supported.' . $currency . '.point' . '.');
+        $decimals = array_get(
+            $options,
+            'decimals',
+            $this->config->get('streams::currencies.supported.' . $currency . '.decimals', 2)
+        );
+        $point    = array_get(
+            $options,
+            'point',
+            $this->config->get('streams::currencies.supported.' . $currency . '.point' . '.')
+        );
 
         return floatval(number_format(floor(($number * 100)) / 100, $decimals, $point, ''));
     }
