@@ -325,7 +325,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     }
 
     /**
-     * @param  null      $locale
+     * @param  null $locale
      * @param  bool|null $withFallback
      * @return Model|null
      */
@@ -433,7 +433,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      * Set an attribute.
      *
      * @param  string $key
-     * @param  mixed  $value
+     * @param  mixed $value
      * @return $this
      */
     public function setAttribute($key, $value)
@@ -795,5 +795,16 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     public function __toString()
     {
         return json_encode($this->toArray());
+    }
+
+    /**
+     * Remove volatile cache from
+     * objects before serialization.
+     *
+     * @return array
+     */
+    public function __sleep()
+    {
+        return array_diff(array_keys(get_object_vars($this)), ['cache']);
     }
 }
