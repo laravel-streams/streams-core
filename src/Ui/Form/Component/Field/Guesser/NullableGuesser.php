@@ -22,6 +22,14 @@ class NullableGuesser
                 continue;
             }
 
+            // If the field depends on other fields, we not add nullable here
+            // because validation will not be performed at all on this field
+            if (! empty($field['rules'])) {
+                if (preg_grep("/required_.*/", $field['rules'])) {
+                    continue;
+                }
+            }
+
             // If not required then nullable.
             if (isset($field['required']) && $field['required'] == false) {
                 $field['rules'][] = 'nullable';
