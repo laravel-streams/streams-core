@@ -32,12 +32,12 @@ class AutoloadEntryModels
             throw new \Exception("The ClassLoader could not be found.");
         }
 
-        if (file_exists($classmap = $application->getStoragePath('models/classmap.php'))) {
+        /*if (file_exists($classmap = $application->getStoragePath('models/classmap.php'))) {
 
             $loader->addClassMap(include $classmap);
 
             return;
-        }
+        }*/
 
         /* @var ClassLoader $loader */
         $loader->addPsr4('Anomaly\Streams\Platform\Model\\', $application->getStoragePath('models'));
