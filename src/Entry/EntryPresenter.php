@@ -96,9 +96,13 @@ class EntryPresenter extends EloquentPresenter
         /* @var Value $value */
         $value = app(Value::class);
 
-        return '<span class="label label-' . $context . ' label-' . $size . '">' . trans(
-            $value->make($text, $this->object)
-        ) . '</span>';
+        $text = $value->make($text, $this->object);
+
+        if (trans()->has($text) && is_string(trans($text))) {
+            $text = trans($text);
+        }
+
+        return '<span class="label label-' . $context . ' label-' . $size . '">' . $text . '</span>';
     }
 
     /**
