@@ -1,8 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
 
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
+/**
+ * Class NullableGuesser
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class NullableGuesser
 {
 
@@ -22,9 +28,12 @@ class NullableGuesser
                 continue;
             }
 
-            // If the field depends on other fields, we not add nullable here
-            // because validation will not be performed at all on this field
-            if (! empty($field['rules'])) {
+            /**
+             * If the field depends on other fields we
+             * won't add nullable here because validation
+             * will not be performed on this field.
+             */
+            if (!empty($field['rules'])) {
                 if (preg_grep("/required_.*/", $field['rules'])) {
                     continue;
                 }
