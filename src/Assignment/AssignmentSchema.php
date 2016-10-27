@@ -73,7 +73,7 @@ class AssignmentSchema
         $schema = $type->getSchema();
         $from   = $assignment->getFieldType(true);
 
-        if ($type->getColumnType() && $from->getColumnName() === $type->getColumnName()) {
+        if ($from->getColumnName() === $type->getColumnName()) {
             return;
         }
 
