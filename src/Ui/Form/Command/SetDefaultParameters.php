@@ -63,7 +63,7 @@ class SetDefaultParameters
          * to the builder's entry.
          */
         if (!$this->builder->getFormMode()) {
-            $this->builder->setFormMode($this->builder->getEntry() ? 'edit' : 'create');
+            $this->builder->setFormMode($this->builder->getFormEntryId() ? 'edit' : 'create');
         }
 
         /*
