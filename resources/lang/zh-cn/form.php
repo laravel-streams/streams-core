@@ -2,7 +2,7 @@
 
 return [
     'mode' => [
-        'create' => '新建',
+        'create' => '创建',
         'edit'   => '编辑'
     ]
 ];
