@@ -68,7 +68,7 @@ class FieldTypeQuery
 
             $query->{$this->where()}(
                 function (Builder $query) use ($stream, $filter, $column) {
-                    $query->where($stream->getEntryTranslationsTableName() . '.locale', config('app.fallback_locale'));
+                    $query->where($stream->getEntryTranslationsTableName() . '.locale', config('app.locale'));
                     $query->where(
                         $stream->getEntryTranslationsTableName() . '.' . $column,
                         'LIKE',
