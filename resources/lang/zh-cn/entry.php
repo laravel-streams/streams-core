@@ -2,9 +2,9 @@
 
 return [
     'id'         => '编号',
-    'name'       => '名称',
-    'created_at' => '建立 于',
-    'created_by' => '建立 由',
-    'updated_at' => '更新 于',
-    'updated_by' => '更新 由',
+    'name'       => '条目',
+    'created_at' => '创建于',
+    'created_by' => '创建者为',
+    'updated_at' => '更新于',
+    'updated_by' => '更新者为',
 ];

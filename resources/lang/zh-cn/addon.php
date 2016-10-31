@@ -24,6 +24,6 @@ return [
     'enabled'     => '启用',
     'disabled'    => '禁用',
     'active'      => '启动',
-    'admin'       => 'Admin',
+    'admin'       => '管理',
     'public'      => '公开',
 ];
