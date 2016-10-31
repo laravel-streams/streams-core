@@ -1,22 +1,23 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
-use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Robbo\Presenter\PresentableInterface;
 use Laravel\Scout\ModelObserver;
 use Laravel\Scout\Searchable;
-use Carbon\Carbon;
+use Robbo\Presenter\PresentableInterface;
 
 class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface
 {
+
     use Searchable;
 
     /**
@@ -70,11 +71,12 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         $instance = new static;
 
-        $class    = get_class($instance);
-        $events   = $instance->getObservableEvents();
-        $observer = substr($class, 0, -5) . 'Observer';
+        $class     = get_class($instance);
+        $events    = $instance->getObservableEvents();
+        $observer  = substr($class, 0, -5) . 'Observer';
+        $observing = class_exists($observer);
 
-        if ($events && class_exists($observer)) {
+        if ($events && $observing) {
             self::observe(app($observer));
         }
 
@@ -82,7 +84,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
             ModelObserver::disableSyncingFor(get_class(new static));
         }
 
-        if ($events && !static::$dispatcher->hasListeners('eloquent.' . array_shift($events) . ': ' . $class)) {
+        if ($events && !$observing) {
             self::observe(EntryObserver::class);
         }
 
@@ -521,7 +523,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     /**
      * Get the field slugs for assigned fields.
      *
-     * @param  null  $prefix
+     * @param  null $prefix
      * @return array
      */
     public function getAssignmentFieldSlugs($prefix = null)
@@ -695,7 +697,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * @param  array           $items
+     * @param  array $items
      * @return EntryCollection
      */
     public function newCollection(array $items = [])
@@ -789,7 +791,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     /**
      * Create a new Eloquent query builder for the model.
      *
-     * @param  \Illuminate\Database\Query\Builder           $query
+     * @param  \Illuminate\Database\Query\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder|static
      */
     public function newEloquentBuilder($query)
@@ -841,7 +843,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     /**
      * Override the __get method.
      *
-     * @param  string               $key
+     * @param  string $key
      * @return EntryPresenter|mixed
      */
     public function __get($key)
