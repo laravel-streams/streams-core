@@ -58,7 +58,7 @@ class SetJsonResponse
         $data->put('errors', $this->builder->getFormErrors()->toArray());
 
         $this->builder->setFormResponse(
-            $response->json($data)
+            $response = $response->json($data)
         );
     }
 }

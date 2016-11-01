@@ -22,11 +22,11 @@ class ViewComposer
 {
 
     /**
-     * Runtime cache.
+     * Composed views.
      *
      * @var array
      */
-    protected $cache = [];
+    protected $composed = [];
 
     /**
      * The view factory.
@@ -145,7 +145,17 @@ class ViewComposer
      */
     public function compose(View $view)
     {
+
+        /**
+         * If the view has already been composed
+         * then use what we came up with earlier.
+         */
+        if (isset($this->composed[$view->getName()])) {
+            return $this->composed[$view->getName()];
+        }
+
         if (!$this->theme || !env('INSTALLED')) {
+
             $this->events->fire(new ViewComposed($view));
 
             return $view;
@@ -161,6 +171,7 @@ class ViewComposer
         }
 
         if ($this->module) {
+
             $mobile    = $this->mobiles->get($this->module->getNamespace(), []);
             $overrides = $this->overrides->get($this->module->getNamespace(), []);
 
@@ -177,7 +188,7 @@ class ViewComposer
 
         $this->events->fire(new ViewComposed($view));
 
-        return $view;
+        return $this->composed[$view->getName()] = $view;
     }
 
     /**
