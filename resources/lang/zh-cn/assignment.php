@@ -27,7 +27,7 @@ return [
     'translatable' => [
         'name'         => '可翻译',
         'label'        => '为可翻译字段?',
-        'instructions' => '若为可翻译字段则会在所有已启用的语言中可用.'
+        'instructions' => '若为可翻译字段则会在所有已启用的语言中可用.',
         'warning'      => '此关联字段类型不支持翻译的值.'
     ],
     'instructions' => [
