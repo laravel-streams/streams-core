@@ -9,6 +9,8 @@
         {% for section in form.sections %}
             {% if section.view %}
                 {% include section.view %}
+            {% elseif section.html %}
+                {{ section.html|raw }}
             {% elseif section.fields %}
                 {% include "streams::form/ajax/section" %}
             {% elseif section.tabs %}
