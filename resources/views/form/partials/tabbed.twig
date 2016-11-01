@@ -29,7 +29,9 @@
     <div class="card-block">
         {% for slug, tab in section.tabs %}
             <div class="tab-pane {{ loop.first ? 'active' }}" id="tab-{{ slug }}">
-                {% if tab.html %}
+                {% if tab.view %}
+                    {% include tab.view %}
+                {% elseif tab.html %}
                     {{ tab.html|raw }}
                 {% else %}
                     {% if tab.fields is empty %}
