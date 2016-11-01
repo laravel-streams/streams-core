@@ -22,13 +22,6 @@ class ViewComposer
 {
 
     /**
-     * Composed views.
-     *
-     * @var array
-     */
-    protected $composed = [];
-
-    /**
      * The view factory.
      *
      * @var Factory
@@ -101,14 +94,14 @@ class ViewComposer
     /**
      * Create a new ViewComposer instance.
      *
-     * @param Factory             $view
-     * @param Mobile_Detect       $agent
-     * @param Dispatcher          $events
-     * @param AddonCollection     $addons
-     * @param ViewOverrides       $overrides
-     * @param Request             $request
+     * @param Factory $view
+     * @param Mobile_Detect $agent
+     * @param Dispatcher $events
+     * @param AddonCollection $addons
+     * @param ViewOverrides $overrides
+     * @param Request $request
      * @param ViewMobileOverrides $mobiles
-     * @param Application         $application
+     * @param Application $application
      */
     public function __construct(
         Factory $view,
@@ -146,14 +139,6 @@ class ViewComposer
     public function compose(View $view)
     {
 
-        /**
-         * If the view has already been composed
-         * then use what we came up with earlier.
-         */
-        if (isset($this->composed[$view->getName()])) {
-            return $this->composed[$view->getName()];
-        }
-
         if (!$this->theme || !env('INSTALLED')) {
 
             $this->events->fire(new ViewComposed($view));
@@ -188,7 +173,7 @@ class ViewComposer
 
         $this->events->fire(new ViewComposed($view));
 
-        return $this->composed[$view->getName()] = $view;
+        return $view;
     }
 
     /**
