@@ -3,6 +3,7 @@
     {% if section.title %}
         <div class="card-header">
             <h4 class="card-title">
+                {{ section.icon ? icon(section.icon) }}
                 {{ trans(section.title)|raw }}
 
                 {% if section.description %}
@@ -19,6 +20,7 @@
             {% for slug, tab in section.tabs %}
                 <li class="nav-item {{ loop.first ? 'active' }}" style="width: {{ 100/section.tabs|length }}%;">
                     <a href="#tab-{{ slug }}" data-toggle="tab" class="nav-link">
+                        {{ tab.icon ? icon(tab.icon) }}
                         {{ trans(tab.title) }}
                     </a>
                 </li>
