@@ -25,7 +25,7 @@ class Decorator extends \Robbo\Presenter\Decorator
             return $value->getObject();
         }
 
-        if (is_array($value) or ($value instanceof IteratorAggregate and $value instanceof ArrayAccess)) {
+        if (is_array($value) || ($value instanceof IteratorAggregate && $value instanceof ArrayAccess)) {
             foreach ($value as $k => $v) {
                 $value[$k] = $this->undecorate($v);
             }
