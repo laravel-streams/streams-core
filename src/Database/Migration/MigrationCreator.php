@@ -1,12 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration;
 
 use Anomaly\Streams\Platform\Database\Migration\Command\TransformMigrationNameToClass;
-use Anomaly\Streams\Platform\Database\Migration\Console\MigrateMakeCommand;
 use Symfony\Component\Console\Input\InputInterface;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 
 class MigrationCreator extends \Illuminate\Database\Migrations\MigrationCreator
 {
+
     /**
      * The command input.
      *
@@ -48,7 +47,7 @@ class MigrationCreator extends \Illuminate\Database\Migrations\MigrationCreator
      */
     protected function populateStub($name, $stub, $table)
     {
-        $class  = $this->getClassName($name);
+        $class = $this->getClassName($name);
 
         $stream = $this->input->getOption('stream');
 

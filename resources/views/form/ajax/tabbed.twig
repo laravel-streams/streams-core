@@ -3,7 +3,10 @@
     <ul class="nav nav-tabs">
         {% for slug, tab in section.tabs %}
             <li class="{{ loop.first ? 'active' }}">
-                <a href="#tab-{{ slug }}" data-toggle="tab">{{ trans(tab.title) }}</a>
+                <a href="#tab-{{ slug }}" data-toggle="tab">
+                    {{ tab.icon ? icon(tab.icon) }}
+                    {{ trans(tab.title) }}
+                </a>
             </li>
         {% endfor %}
     </ul>
