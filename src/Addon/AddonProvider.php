@@ -88,9 +88,9 @@ class AddonProvider
     /**
      * Create a new AddonProvider instance.
      *
-     * @param Router      $router
-     * @param Dispatcher  $events
-     * @param Schedule    $schedule
+     * @param Router $router
+     * @param Dispatcher $events
+     * @param Schedule $schedule
      * @param Application $application
      */
     public function __construct(
@@ -266,7 +266,7 @@ class AddonProvider
      * Register the addon routes.
      *
      * @param AddonServiceProvider $provider
-     * @param Addon                $addon
+     * @param Addon $addon
      */
     protected function registerRoutes(AddonServiceProvider $provider, Addon $addon)
     {
@@ -294,6 +294,7 @@ class AddonProvider
             }
 
             $verb        = array_pull($route, 'verb', 'any');
+            $middleware  = array_pull($route, 'middleware', []);
             $constraints = array_pull($route, 'constraints', []);
 
             array_set($route, 'streams::addon', $addon->getNamespace());
@@ -301,7 +302,12 @@ class AddonProvider
             if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
                 $this->router->resource($uri, $route['uses']);
             } else {
-                $this->router->{$verb}($uri, $route)->where($constraints);
+
+                $route = $this->router->{$verb}($uri, $route)->where($constraints);
+
+                if ($middleware) {
+                    call_user_func_array([$route, 'middleware'], (array)$middleware);
+                }
             }
         }
     }
@@ -361,7 +367,7 @@ class AddonProvider
      * Register view overrides.
      *
      * @param AddonServiceProvider $provider
-     * @param Addon                $addon
+     * @param Addon $addon
      */
     protected function registerOverrides(AddonServiceProvider $provider, Addon $addon)
     {
