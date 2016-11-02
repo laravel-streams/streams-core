@@ -1,11 +1,20 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Console;
 
-use Anomaly\Streams\Platform\Database\Migration\MigrationCreator;
 use Anomaly\Streams\Platform\Database\Migration\Console\Command\ConfigureCreator;
+use Anomaly\Streams\Platform\Database\Migration\MigrationCreator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Symfony\Component\Console\Input\InputOption;
 
+/**
+ * Class MigrateMakeCommand
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\MigrateMakeCommand
 {
+
     use DispatchesJobs;
 
     /**
@@ -16,7 +25,7 @@ class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\Migrate
     protected $signature = 'make:migration {name : The name of the migration.}
         {--table= : The table to migrate.}
         {--create= : The table to be created.}
-        {--fields= : Create a fields migration.}
+        {--fields : Create a fields migration.}
         {--addon= : The addon to create a migration for.}
         {--stream= : The stream to create a migration for.}
         {--path= : The location where the migration file should be created.}';
@@ -44,22 +53,5 @@ class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\Migrate
         $this->creator->setInput($this->input);
 
         parent::fire();
-    }
-
-    /**
-     * Get the options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return array_merge(
-            parent::getOptions(),
-            [
-                ['addon', null, InputOption::VALUE_OPTIONAL, 'The addon to create a migration for.'],
-                ['stream', null, InputOption::VALUE_NONE, 'The stream to create a migration for.'],
-                ['fields', null, InputOption::VALUE_NONE, 'Create a fields migration.'],
-            ]
-        );
     }
 }
