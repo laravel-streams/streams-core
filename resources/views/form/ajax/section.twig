@@ -2,6 +2,7 @@
 
     {% if section.title %}
         <h2>
+            {{ section.icon ? icon(section.icon) }}
             {{ trans(section.title) }}
         </h2>
     {% endif %}
