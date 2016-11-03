@@ -40,7 +40,7 @@ class EloquentQueryBuilder extends Builder
     {
         $cacheKey = $this->getCacheKey();
 
-        if (!array_key_exists($cacheKey, self::$modelCache)) {
+        if (!array_key_exists($cacheKey, self::$cache)) {
             $this->orderByDefault();
 
             if (env('DB_CACHE')) {
@@ -63,12 +63,12 @@ class EloquentQueryBuilder extends Builder
 
             $model = parent::get($columns);
 
-            self::$modelCache[$cacheKey] = $model;
+            self::$cache[$cacheKey] = $model;
 
             return $model;
         }
 
-        return self::$modelCache[$cacheKey];
+        return self::$cache[$cacheKey];
     }
 
     /**
