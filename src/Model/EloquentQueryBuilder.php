@@ -24,7 +24,8 @@ class EloquentQueryBuilder extends Builder
     protected $model;
 
     /**
-     * Store a runtime cache so that there are never any duplicated queries.
+     * Store duplicate queries
+     * in runtime cache.
      *
      * @var array
      */
@@ -38,37 +39,34 @@ class EloquentQueryBuilder extends Builder
      */
     public function get($columns = ['*'])
     {
-        $cacheKey = $this->getCacheKey();
-
-        if (!array_key_exists($cacheKey, self::$cache)) {
-            $this->orderByDefault();
-
-            if (env('DB_CACHE')) {
-                $this->rememberIndex();
-
-                if ($this->model->getTtl()) {
-                    try {
-                        return app('cache')->remember(
-                            $this->getCacheKey(),
-                            $this->model->getTtl(),
-                            function () use ($columns) {
-                                return parent::get($columns);
-                            }
-                        );
-                    } catch (\Exception $e) {
-                        return parent::get($columns);
-                    }
-                }
-            }
-
-            $model = parent::get($columns);
-
-            self::$cache[$cacheKey] = $model;
-
-            return $model;
+        if (array_key_exists($key = $this->getCacheKey(), self::$cache)) {
+            return self::$cache[$key];
         }
 
-        return self::$cache[$cacheKey];
+        $this->orderByDefault();
+
+        if (env('DB_CACHE')) {
+
+            $this->rememberIndex();
+
+            if ($this->model->getTtl()) {
+                try {
+                    return app('cache')->remember(
+                        $this->getCacheKey(),
+                        $this->model->getTtl(),
+                        function () use ($columns) {
+                            return parent::get($columns);
+                        }
+                    );
+                } catch (\Exception $e) {
+                    return parent::get($columns);
+                }
+            }
+        }
+
+        $model = parent::get($columns);
+
+        return self::$cache[$key] = $model;
     }
 
     /**
@@ -222,11 +220,16 @@ class EloquentQueryBuilder extends Builder
                     $this
                         ->distinct()
                         ->select($model->getTableName() . '.*')
-                        ->where(function (Builder $query) use ($model) {
-                            $query->where($model->getTranslationsTableName() . '.locale', config('app.locale'));
-                            $query->orWhere($model->getTranslationsTableName() . '.locale', config('app.fallback_locale'));
-                            $query->orWhereNull($model->getTranslationsTableName() . '.locale');
-                        })
+                        ->where(
+                            function (Builder $query) use ($model) {
+                                $query->where($model->getTranslationsTableName() . '.locale', config('app.locale'));
+                                $query->orWhere(
+                                    $model->getTranslationsTableName() . '.locale',
+                                    config('app.fallback_locale')
+                                );
+                                $query->orWhereNull($model->getTranslationsTableName() . '.locale');
+                            }
+                        )
                         ->orderBy($model->getTranslationsTableName() . '.' . $model->getTitleName(), 'ASC');
                 } elseif ($model->getTitleName() && $model->getTitleName() !== 'id') {
                     $query->orderBy($model->getTitleName(), 'ASC');
