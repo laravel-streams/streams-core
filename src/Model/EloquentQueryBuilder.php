@@ -28,7 +28,7 @@ class EloquentQueryBuilder extends Builder
      *
      * @var array
      */
-    protected static $modelCache = [];
+    protected static $cache = [];
 
     /**
      * Execute the query as a "select" statement.
