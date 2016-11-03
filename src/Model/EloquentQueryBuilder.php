@@ -24,34 +24,51 @@ class EloquentQueryBuilder extends Builder
     protected $model;
 
     /**
+     * Store a runtime cache so that there are never any duplicated queries.
+     *
+     * @var array
+     */
+    protected static $cache = [];
+
+    /**
      * Execute the query as a "select" statement.
      *
-     * @param  array                                             $columns
+     * @param  array $columns
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function get($columns = ['*'])
     {
-        $this->orderByDefault();
+        $cacheKey = $this->getCacheKey();
 
-        if (env('DB_CACHE')) {
-            $this->rememberIndex();
+        if (!array_key_exists($cacheKey, self::$cache)) {
+            $this->orderByDefault();
 
-            if ($this->model->getTtl()) {
-                try {
-                    return app('cache')->remember(
-                        $this->getCacheKey(),
-                        $this->model->getTtl(),
-                        function () use ($columns) {
-                            return parent::get($columns);
-                        }
-                    );
-                } catch (\Exception $e) {
-                    return parent::get($columns);
+            if (env('DB_CACHE')) {
+                $this->rememberIndex();
+
+                if ($this->model->getTtl()) {
+                    try {
+                        return app('cache')->remember(
+                            $this->getCacheKey(),
+                            $this->model->getTtl(),
+                            function () use ($columns) {
+                                return parent::get($columns);
+                            }
+                        );
+                    } catch (\Exception $e) {
+                        return parent::get($columns);
+                    }
                 }
             }
+
+            $model = parent::get($columns);
+
+            self::$cache[$cacheKey] = $model;
+
+            return $model;
         }
 
-        return parent::get($columns);
+        return self::$cache[$cacheKey];
     }
 
     /**
@@ -205,7 +222,7 @@ class EloquentQueryBuilder extends Builder
                     $this
                         ->distinct()
                         ->select($model->getTableName() . '.*')
-                        ->where(function(Builder $query) use ($model) {
+                        ->where(function (Builder $query) use ($model) {
                             $query->where($model->getTranslationsTableName() . '.locale', config('app.locale'));
                             $query->orWhere($model->getTranslationsTableName() . '.locale', config('app.fallback_locale'));
                             $query->orWhereNull($model->getTranslationsTableName() . '.locale');
