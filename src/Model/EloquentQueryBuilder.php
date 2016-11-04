@@ -39,7 +39,9 @@ class EloquentQueryBuilder extends Builder
      */
     public function get($columns = ['*'])
     {
-        if (array_key_exists($key = $this->getCacheKey(), self::$cache)) {
+        $key = $this->getCacheKey();
+        
+        if (env('INSTALLED') && array_key_exists($key, self::$cache)) {
             return self::$cache[$key];
         }
 
