@@ -24,14 +24,6 @@ class EloquentQueryBuilder extends Builder
     protected $model;
 
     /**
-     * Store duplicate queries
-     * in runtime cache.
-     *
-     * @var array
-     */
-    protected static $cache = [];
-
-    /**
      * Execute the query as a "select" statement.
      *
      * @param  array $columns
@@ -39,12 +31,6 @@ class EloquentQueryBuilder extends Builder
      */
     public function get($columns = ['*'])
     {
-        $key = $this->getCacheKey();
-        
-        if (env('INSTALLED') && array_key_exists($key, self::$cache)) {
-            return self::$cache[$key];
-        }
-
         $this->orderByDefault();
 
         if (env('DB_CACHE')) {
@@ -66,9 +52,7 @@ class EloquentQueryBuilder extends Builder
             }
         }
 
-        $model = parent::get($columns);
-
-        return self::$cache[$key] = $model;
+        return parent::get($columns);
     }
 
     /**
