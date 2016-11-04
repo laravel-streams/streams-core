@@ -48,10 +48,10 @@ class SetDatabaseData
         $this->data->put(
             'DB_DRIVER',
             $this->command->askWithCompletion(
-                'What database driver would you like to use? [mysql, postgres, sqlite, sqlsrv]',
+                'What database driver would you like to use? [mysql, pgsql, sqlite, sqlsrv]',
                 [
                     'mysql',
-                    'postgres',
+                    'pgsql',
                     'sqlite',
                     'sqlsrv',
                 ],
