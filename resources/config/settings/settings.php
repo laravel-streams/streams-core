@@ -130,7 +130,9 @@ return [
         'type'     => 'anomaly.field_type.select',
         'required' => true,
         'config'   => [
-            'default_value' => env('STANDARD_THEME'),
+            'default_value' => function (Repository $config) {
+                return $config->get('streams::themes.standard');
+            },
             'options'       => function (ThemeCollection $themes) {
                 return $themes->standard()->pluck('title', 'namespace')->all();
             },
@@ -142,7 +144,9 @@ return [
         'type'     => 'anomaly.field_type.select',
         'required' => true,
         'config'   => [
-            'default_value' => env('ADMIN_THEME'),
+            'default_value' => function (Repository $config) {
+                return $config->get('streams::themes.admin');
+            },
             'options'       => function (ThemeCollection $themes) {
                 return $themes->admin()->pluck('title', 'namespace')->all();
             },
