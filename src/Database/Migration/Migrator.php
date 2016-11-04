@@ -87,7 +87,9 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
             $migration->setAddon($addon);
         }
 
-        $this->dispatch(new Migrate($migration));
+        if ($migration instanceof Migration) {
+            $this->dispatch(new Migrate($migration));
+        }
 
         parent::runUp($file, $batch, $pretend);
     }
@@ -119,7 +121,9 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
             $migration->setAddon($addon);
         }
 
-        $this->dispatch(new Reset($migration));
+        if ($migration instanceof Migration) {
+            $this->dispatch(new Reset($migration));
+        }
 
         parent::runDown($file, $migration, $pretend);
     }
