@@ -243,8 +243,11 @@ return [
         'type'     => 'anomaly.field_type.email',
         'required' => true,
         'config'   => [
-            'default_value' => function () {
-                return env('ADMIN_EMAIL');
+            'default_value' => function (Repository $config) {
+
+                $parts = parse_url($config->get('app.url'));
+
+                return 'noreply@' . array_get($parts, 'host');
             },
         ],
     ],
