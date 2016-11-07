@@ -244,10 +244,7 @@ return [
         'required' => true,
         'config'   => [
             'default_value' => function (Repository $config) {
-
-                $parts = parse_url($config->get('app.url'));
-
-                return 'noreply@' . array_get($parts, 'host');
+                return 'noreply@' . array_get(parse_url($config->get('app.url')), 'host');
             },
         ],
     ],
