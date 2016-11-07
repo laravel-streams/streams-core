@@ -681,7 +681,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
             return $this->cache['fallback_locale'];
         }
 
-        return $this->cache['fallback_locale'] = config('streams::locales.default');
+        return $this->cache['fallback_locale'] = config('app.fallback_locale');
     }
 
     /**
