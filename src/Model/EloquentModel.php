@@ -325,7 +325,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     }
 
     /**
-     * @param  null $locale
+     * @param  null      $locale
      * @param  bool|null $withFallback
      * @return Model|null
      */
@@ -433,7 +433,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      * Set an attribute.
      *
      * @param  string $key
-     * @param  mixed $value
+     * @param  mixed  $value
      * @return $this
      */
     public function setAttribute($key, $value)
@@ -681,7 +681,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
             return $this->cache['fallback_locale'];
         }
 
-        return $this->cache['fallback_locale'] = config('app.fallback_locale');
+        return $this->cache['fallback_locale'] = config('streams::locales.default');
     }
 
     /**
