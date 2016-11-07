@@ -30,7 +30,7 @@ class SetDefaultParameters
      * @var array
      */
     protected $defaults = [
-        'handler'   => FormHandler::class,
+        'handler' => FormHandler::class,
         'validator' => FormValidator::class,
     ];
 
@@ -63,7 +63,9 @@ class SetDefaultParameters
          * to the builder's entry.
          */
         if (!$this->builder->getFormMode()) {
-            $this->builder->setFormMode($this->builder->getFormEntryId() ? 'edit' : 'create');
+            $this->builder->setFormMode(
+                ($this->builder->getFormEntryId() || $this->builder->getEntry()) ? 'edit' : 'create'
+            );
         }
 
         /*
