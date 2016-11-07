@@ -63,11 +63,12 @@ return [
         ],
     ],
     'date_format'     => [
-        'env'      => 'DATE_FORMAT',
-        'bind'     => 'streams::datetime.date_format',
-        'type'     => 'anomaly.field_type.select',
-        'required' => true,
-        'config'   => [
+        'env'         => 'DATE_FORMAT',
+        'bind'        => 'streams::datetime.date_format',
+        'type'        => 'anomaly.field_type.select',
+        'placeholder' => false,
+        'required'    => true,
+        'config'      => [
             'options' => [
                 'l, j F, Y' => function () {
                     return date('l, j F, Y'); // Friday, 10 July, 2015
@@ -88,11 +89,12 @@ return [
         ],
     ],
     'time_format'     => [
-        'env'      => 'TIME_FORMAT',
-        'bind'     => 'streams::datetime.time_format',
-        'type'     => 'anomaly.field_type.select',
-        'required' => true,
-        'config'   => [
+        'env'         => 'TIME_FORMAT',
+        'bind'        => 'streams::datetime.time_format',
+        'type'        => 'anomaly.field_type.select',
+        'placeholder' => false,
+        'required'    => true,
+        'config'      => [
             'options' => [
                 'g:i A' => function () {
                     return date('g:00 A'); // 4:00 PM
@@ -188,7 +190,9 @@ return [
         'type'     => 'anomaly.field_type.checkboxes',
         'required' => true,
         'config'   => [
-            'default_value' => config('streams::locales.enabled'),
+            'default_value' => function () {
+                return [config('streams::locales.default')];
+            },
             'options'       => function (Repository $config) {
                 return array_combine(
                     $keys = array_keys($config->get('streams::locales.supported')),
