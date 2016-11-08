@@ -94,14 +94,14 @@ class ViewComposer
     /**
      * Create a new ViewComposer instance.
      *
-     * @param Factory $view
-     * @param Mobile_Detect $agent
-     * @param Dispatcher $events
-     * @param AddonCollection $addons
-     * @param ViewOverrides $overrides
-     * @param Request $request
+     * @param Factory             $view
+     * @param Mobile_Detect       $agent
+     * @param Dispatcher          $events
+     * @param AddonCollection     $addons
+     * @param ViewOverrides       $overrides
+     * @param Request             $request
      * @param ViewMobileOverrides $mobiles
-     * @param Application $application
+     * @param Application         $application
      */
     public function __construct(
         Factory $view,
@@ -204,20 +204,16 @@ class ViewComposer
         $path = str_replace('.', '/', $path);
 
         /*
-         * If the module is shorthand
+         * If the namespace is shorthand
          * then check to see if we have
-         * an active module to use for it.
+         * an active addon to use for it.
          */
         if ($namespace === 'module' && $this->module) {
             $namespace = $this->module->getNamespace();
         }
 
-        /*
-         * If the view is already in
-         * the theme then skip it.
-         */
-        if ($namespace == 'theme' || str_is('*.theme.*', $namespace)) {
-            return null;
+        if ($namespace === 'theme' && $this->theme) {
+            $namespace = $this->theme->getNamespace();
         }
 
         /*
