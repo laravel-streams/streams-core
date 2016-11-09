@@ -28,9 +28,16 @@ class Delete extends ActionHandler
 
         /* @var EloquentModel $entry */
         foreach ($selected as $id) {
+
             $entry = $model->find($id);
 
-            if ($entry && $entry->isDeletable() && $entry->delete()) {
+            $deletable = true;
+
+            if ($entry instanceof EloquentModel) {
+                $deletable = $entry->isDeletable();
+            }
+
+            if ($entry && $deletable && $entry->delete()) {
                 $builder->fire('row_deleted', compact('builder', 'model', 'entry'));
 
                 $count++;
