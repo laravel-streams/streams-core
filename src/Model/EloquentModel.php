@@ -664,7 +664,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     public function getUnguardedAttributes()
     {
         foreach ($attributes = $this->getAttributes() as $attribute => $value) {
-            $attributes[$attribute] = $this->{$attribute};
+            $attributes[$attribute] = $value;
         }
 
         return array_diff_key($attributes, array_flip($this->getGuarded()));

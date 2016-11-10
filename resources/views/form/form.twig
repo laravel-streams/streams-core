@@ -8,7 +8,7 @@
         {{ form_open({'class': 'form', 'enctype': 'multipart/form-data', 'url': form.options.url ?: url_full()}) }}
 
         {{ view("streams::form/partials/controls", {'form': form, 'position': 'top'}) }}
-        {{ view("streams::form/partials/heading", {'form': form}) }}
+        {{ view(form.options.get('heading', "streams::form/partials/heading"), {'form': form}) }}
         {{ view("streams::form/partials/layout", {'form': form}) }}
         {{ view("streams::form/partials/controls", {'form': form, 'position': 'bottom'}) }}
 
