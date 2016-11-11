@@ -33,6 +33,17 @@ class AppendIdToUserMetaColumns extends Migration
                         $table->renameColumn('updated_by', 'updated_by_id');
                     }
                 );
+
+                if ($stream->isTranslatable()) {
+
+                    $this->schema()->table(
+                        $stream->getEntryTranslationsTableName(),
+                        function (Blueprint $table) {
+                            $table->renameColumn('created_by', 'created_by_id');
+                            $table->renameColumn('updated_by', 'updated_by_id');
+                        }
+                    );
+                }
             }
         }
     }
@@ -56,6 +67,17 @@ class AppendIdToUserMetaColumns extends Migration
                         $table->renameColumn('updated_by_id', 'updated_by');
                     }
                 );
+
+                if ($stream->isTranslatable()) {
+
+                    $this->schema()->table(
+                        $stream->getEntryTranslationsTableName(),
+                        function (Blueprint $table) {
+                            $table->renameColumn('created_by_id', 'created_by');
+                            $table->renameColumn('updated_by_id', 'updated_by');
+                        }
+                    );
+                }
             }
         }
     }
