@@ -671,7 +671,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         foreach ($assignments->notTranslatable() as $assignment) {
             $fieldType = $assignment->getFieldType();
 
-            $fieldType->setValue($this->getFieldValue($assignment->getFieldSlug()));
+            $fieldType->setValue($this->getRawAttribute($assignment->getFieldSlug()));
 
             $fieldType->setEntry($this);
 
