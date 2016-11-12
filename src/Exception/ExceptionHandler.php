@@ -1,12 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Exception;
 
 use Exception;
+use GrahamCampbell\Exceptions\NewExceptionHandler;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Symfony\Component\Debug\ExceptionHandler as SymfonyDisplayer;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class ExceptionHandler extends \Illuminate\Foundation\Exceptions\Handler
+class ExceptionHandler extends NewExceptionHandler
 {
 
     /**
