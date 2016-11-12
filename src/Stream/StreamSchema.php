@@ -43,6 +43,9 @@ class StreamSchema
         $this->schema->create(
             $table,
             function (Blueprint $table) use ($stream) {
+
+                $table->engine = $stream->getConfig('database.engine');
+
                 $table->increments('id');
                 $table->integer('sort_order')->nullable();
                 $table->datetime('created_at');
@@ -60,16 +63,18 @@ class StreamSchema
     /**
      * Create translations table.
      *
-     * @param $table
-     * @param $foreignKey
+     * @param StreamInterface $stream
      */
-    public function createTranslationsTable($table)
+    public function createTranslationsTable(StreamInterface $stream)
     {
-        $this->schema->dropIfExists($table);
+        $this->schema->dropIfExists($stream->getEntryTranslationsTableName());
 
         $this->schema->create(
-            $table,
-            function (Blueprint $table) {
+            $stream->getEntryTranslationsTableName(),
+            function (Blueprint $table) use ($stream) {
+
+                $table->engine = $stream->getConfig('database.engine');
+
                 $table->increments('id');
                 $table->integer('entry_id');
                 $table->datetime('created_at');
