@@ -40,7 +40,7 @@ class NullableGuesser
             }
 
             // If not required then nullable.
-            if (isset($field['required']) && $field['required'] == false) {
+            if (isset($field['required']) && $field['required'] === false) {
                 $field['rules'][] = 'nullable';
             }
 

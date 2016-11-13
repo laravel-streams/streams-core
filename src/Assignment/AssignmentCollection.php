@@ -181,7 +181,7 @@ class AssignmentCollection extends EloquentCollection
     {
         return $this->filter(
             function (AssignmentInterface $assignment) {
-                return $assignment->isTranslatable() == false;
+                return $assignment->isTranslatable() === false;
             }
         );
     }
