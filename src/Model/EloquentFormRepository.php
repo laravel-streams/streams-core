@@ -80,7 +80,7 @@ class EloquentFormRepository implements FormRepositoryInterface
         $data = array_diff_key(
             $entry->getUnguardedAttributes(),
             array_merge(
-                ['id', 'created_at', 'created_by_id', 'updated_at', 'updated_by_id'],
+                ['id', 'created_at', 'created_by', 'updated_at', 'updated_by'],
                 array_flip($disabled->fieldSlugs())
             )
         );
