@@ -289,6 +289,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register(\Collective\Html\HtmlServiceProvider::class);
         $this->app->register(\Intervention\Image\ImageServiceProvider::class);
         $this->app->register(\TeamTNT\Scout\TNTSearchScoutServiceProvider::class);
+        $this->app->register(\GrahamCampbell\Exceptions\ExceptionsServiceProvider::class);
 
         if (env('APP_DEBUG')) {
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);

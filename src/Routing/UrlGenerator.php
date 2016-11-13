@@ -147,6 +147,10 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
      */
     public function route($name, $parameters = [], $absolute = true)
     {
+        if (!$route = $this->routes->getByName($name)) {
+            return null;
+        }
+        
         $route = parent::route($name, $parameters, $absolute);
 
         if (!array_filter($parameters)) {
