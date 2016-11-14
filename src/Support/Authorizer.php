@@ -2,8 +2,9 @@
 
 use Anomaly\UsersModule\Role\Contract\RoleInterface;
 use Anomaly\UsersModule\User\Contract\UserInterface;
-use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Config\Repository;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Http\Request;
 
 class Authorizer
 {
@@ -30,15 +31,24 @@ class Authorizer
     protected $config;
 
     /**
+     * The request object.
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * Create a new Authorizer instance.
      *
      * @param Guard      $guard
      * @param Repository $config
+     * @param Request    $request
      */
-    public function __construct(Guard $guard, Repository $config)
+    public function __construct(Guard $guard, Repository $config, Request $request)
     {
-        $this->guard  = $guard;
-        $this->config = $config;
+        $this->guard   = $guard;
+        $this->config  = $config;
+        $this->request = $request;
     }
 
     /**
@@ -52,6 +62,10 @@ class Authorizer
     {
         if (!$user) {
             $user = $this->guard->user();
+        }
+
+        if (!$user) {
+            $user = $this->request->user();
         }
 
         if (!$user && $guest = $this->getGuest()) {
