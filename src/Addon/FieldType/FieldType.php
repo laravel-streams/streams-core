@@ -690,6 +690,20 @@ class FieldType extends Addon
     }
 
     /**
+     * Add an attribute.
+     *
+     * @param $attribute
+     * @param $value
+     * @return $this
+     */
+    public function addAttribute($attribute, $value)
+    {
+        $this->attributes[$attribute] = $value;
+
+        return $this;
+    }
+
+    /**
      * Get the suffix.
      *
      * @return null|string
