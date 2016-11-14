@@ -79,15 +79,6 @@ class StreamFormFields
                     'translatable' => true,
                     'type'         => 'anomaly.field_type.boolean',
                 ],
-                'config'       => [
-                    'label'        => 'streams::field.config.name',
-                    'instructions' => 'streams::field.config.instructions',
-                    'translatable' => true,
-                    'type'         => 'anomaly.field_type.editor',
-                    'config'       => [
-                        'mode' => 'json',
-                    ],
-                ],
                 'title_column' => [
                     'label'        => 'streams::field.title_column.name',
                     'instructions' => 'streams::field.title_column.instructions',
