@@ -2,12 +2,12 @@
 
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
 use Laravel\Scout\EngineManager;
 
 class CheckEntryIndex
 {
+
     /**
      * The stream instance.
      *
@@ -32,6 +32,10 @@ class CheckEntryIndex
      */
     public function handle(Application $application, Filesystem $files)
     {
+        if (!env('INSTALLED')) {
+            return;
+        }
+
         if (!class_exists('TeamTNT\TNTSearch\TNTSearch')) {
             return;
         }
