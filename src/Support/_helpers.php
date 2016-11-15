@@ -90,7 +90,7 @@ if (!function_exists('data')) {
                 $target = $target->{$segment};
             } elseif (is_object($target) && method_exists($target, $segment)) {
                 // This is different than laravel..
-                $target = $target->{$segment};
+                $target = call_user_func([$target, $segment]);
             } else {
                 return value($default);
             }
