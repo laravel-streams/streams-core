@@ -22,6 +22,13 @@ class ViewComposer
 {
 
     /**
+     * Runtime cache.
+     *
+     * @var array
+     */
+    protected $cache = [];
+
+    /**
      * The view factory.
      *
      * @var Factory
@@ -94,14 +101,14 @@ class ViewComposer
     /**
      * Create a new ViewComposer instance.
      *
-     * @param Factory             $view
-     * @param Mobile_Detect       $agent
-     * @param Dispatcher          $events
-     * @param AddonCollection     $addons
-     * @param ViewOverrides       $overrides
-     * @param Request             $request
+     * @param Factory $view
+     * @param Mobile_Detect $agent
+     * @param Dispatcher $events
+     * @param AddonCollection $addons
+     * @param ViewOverrides $overrides
+     * @param Request $request
      * @param ViewMobileOverrides $mobiles
-     * @param Application         $application
+     * @param Application $application
      */
     public function __construct(
         Factory $view,
@@ -146,6 +153,30 @@ class ViewComposer
             return $view;
         }
 
+        $this->setPath($view);
+
+        $this->events->fire(new ViewComposed($view));
+
+        return $view;
+    }
+
+    /**
+     * Set the view path.
+     *
+     * @param View $view
+     */
+    protected function setPath(View $view)
+    {
+        /**
+         * If view path is already in internal cache use it.
+         */
+        if ($path = array_get($this->cache, $view->getName())) {
+
+            $view->setPath($path);
+
+            return;
+        }
+
         $mobile    = $this->mobiles->get($this->theme->getNamespace(), []);
         $overrides = $this->overrides->get($this->theme->getNamespace(), []);
 
@@ -164,6 +195,8 @@ class ViewComposer
                 $view->setPath($path);
             } elseif ($path = array_get($overrides, $view->getName(), null)) {
                 $view->setPath($path);
+            } elseif ($path = array_get(config('streams.overrides'), $view->getName(), null)) {
+                $view->setPath($path);
             }
         }
 
@@ -171,9 +204,7 @@ class ViewComposer
             $view->setPath($overload);
         }
 
-        $this->events->fire(new ViewComposed($view));
-
-        return $view;
+        $this->cache[$view->getName()] = $view->getPath();
     }
 
     /**
