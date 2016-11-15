@@ -313,7 +313,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
      */
     public function mergeConfig(array $config)
     {
-        $this->config = array_merge($this->config, $config);
+        $this->config = array_merge((array)$this->config, $config);
 
         return $this;
     }
