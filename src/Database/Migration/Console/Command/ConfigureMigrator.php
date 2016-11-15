@@ -59,6 +59,9 @@ class ConfigureMigrator
     public function handle()
     {
         if (!$addon = $this->input->getOption('addon')) {
+
+            $this->migrator->clearAddon();
+
             return;
         }
 
