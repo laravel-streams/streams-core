@@ -88,9 +88,9 @@ class AddonProvider
     /**
      * Create a new AddonProvider instance.
      *
-     * @param Router $router
-     * @param Dispatcher $events
-     * @param Schedule $schedule
+     * @param Router      $router
+     * @param Dispatcher  $events
+     * @param Schedule    $schedule
      * @param Application $application
      */
     public function __construct(
@@ -140,6 +140,7 @@ class AddonProvider
 
         $this->registerRoutes($provider, $addon);
         $this->registerOverrides($provider, $addon);
+        $this->registerApi($provider, $addon);
 
         $this->registerEvents($provider);
         $this->registerPlugins($provider);
@@ -266,7 +267,7 @@ class AddonProvider
      * Register the addon routes.
      *
      * @param AddonServiceProvider $provider
-     * @param Addon $addon
+     * @param Addon                $addon
      */
     protected function registerRoutes(AddonServiceProvider $provider, Addon $addon)
     {
@@ -310,6 +311,65 @@ class AddonProvider
                 }
             }
         }
+    }
+
+    /**
+     * Register the addon routes.
+     *
+     * @param AddonServiceProvider $provider
+     * @param Addon                $addon
+     */
+    protected function registerApi(AddonServiceProvider $provider, Addon $addon)
+    {
+        if ($this->routesAreCached()) {
+            return;
+        }
+
+        if (!$routes = $provider->getApi()) {
+            return;
+        }
+
+        $this->router->group(
+            [
+                'middleware' => 'auth:api',
+                'prefix'     => 'api',
+            ],
+            function (Router $router) use ($routes, $addon) {
+
+                foreach ($routes as $uri => $route) {
+
+                    /*
+                     * If the route definition is an
+                     * not an array then let's make it one.
+                     * Array type routes give us more control
+                     * and allow us to pass information in the
+                     * request's route action array.
+                     */
+                    if (!is_array($route)) {
+                        $route = [
+                            'uses' => $route,
+                        ];
+                    }
+
+                    $verb        = array_pull($route, 'verb', 'any');
+                    $middleware  = array_pull($route, 'middleware', []);
+                    $constraints = array_pull($route, 'constraints', []);
+
+                    array_set($route, 'streams::addon', $addon->getNamespace());
+
+                    if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
+                        $router->resource($uri, $route['uses']);
+                    } else {
+
+                        $route = $router->{$verb}($uri, $route)->where($constraints);
+
+                        if ($middleware) {
+                            call_user_func_array([$route, 'middleware'], (array)$middleware);
+                        }
+                    }
+                }
+            }
+        );
     }
 
     /**
@@ -367,7 +427,7 @@ class AddonProvider
      * Register view overrides.
      *
      * @param AddonServiceProvider $provider
-     * @param Addon $addon
+     * @param Addon                $addon
      */
     protected function registerOverrides(AddonServiceProvider $provider, Addon $addon)
     {
