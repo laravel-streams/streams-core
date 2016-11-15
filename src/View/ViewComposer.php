@@ -22,6 +22,13 @@ class ViewComposer
 {
 
     /**
+     * Runtime cache.
+     *
+     * @var array
+     */
+    protected $cache = [];
+
+    /**
      * The view factory.
      *
      * @var Factory
@@ -146,32 +153,7 @@ class ViewComposer
             return $view;
         }
 
-        $mobile    = $this->mobiles->get($this->theme->getNamespace(), []);
-        $overrides = $this->overrides->get($this->theme->getNamespace(), []);
-
-        if ($this->mobile && $path = array_get($mobile, $view->getName(), null)) {
-            $view->setPath($path);
-        } elseif ($path = array_get($overrides, $view->getName(), null)) {
-            $view->setPath($path);
-        }
-
-        if ($this->module) {
-
-            $mobile    = $this->mobiles->get($this->module->getNamespace(), []);
-            $overrides = $this->overrides->get($this->module->getNamespace(), []);
-
-            if ($this->mobile && $path = array_get($mobile, $view->getName(), null)) {
-                $view->setPath($path);
-            } elseif ($path = array_get($overrides, $view->getName(), null)) {
-                $view->setPath($path);
-            } elseif ($path = array_get(config('streams.overrides'), $view->getName(), null)) {
-                $view->setPath($path);
-            }
-        }
-
-        if ($overload = $this->getOverloadPath($view)) {
-            $view->setPath($overload);
-        }
+        $this->setPath($view);
 
         $this->events->fire(new ViewComposed($view));
 
@@ -269,5 +251,48 @@ class ViewComposer
         }
 
         return null;
+    }
+
+    /**
+     * @param View $view
+     */
+    protected function setPath(View $view)
+    {
+        /**
+         * If view path is already in internal cache,
+         * use it.
+         */
+        if ($path = array_get($this->cache, $view->getName())) {
+            $view->setPath($path);
+
+            return;
+        }
+        $mobile = $this->mobiles->get($this->theme->getNamespace(), []);
+        $overrides = $this->overrides->get($this->theme->getNamespace(), []);
+
+        if ($this->mobile && $path = array_get($mobile, $view->getName(), null)) {
+            $view->setPath($path);
+        } elseif ($path = array_get($overrides, $view->getName(), null)) {
+            $view->setPath($path);
+        }
+
+        if ($this->module) {
+            $mobile = $this->mobiles->get($this->module->getNamespace(), []);
+            $overrides = $this->overrides->get($this->module->getNamespace(), []);
+
+            if ($this->mobile && $path = array_get($mobile, $view->getName(), null)) {
+                $view->setPath($path);
+            } elseif ($path = array_get($overrides, $view->getName(), null)) {
+                $view->setPath($path);
+            } elseif ($path = array_get(config('streams.overrides'), $view->getName(), null)) {
+                $view->setPath($path);
+            }
+        }
+
+        if ($overload = $this->getOverloadPath($view)) {
+            $view->setPath($overload);
+        }
+
+        $this->cache[$view->getName()] = $view->getPath();
     }
 }
