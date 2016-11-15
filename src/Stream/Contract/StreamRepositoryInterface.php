@@ -17,6 +17,14 @@ interface StreamRepositoryInterface extends EloquentRepositoryInterface
     public function findBySlugAndNamespace($slug, $namespace);
 
     /**
+     * Find all streams by their searchable flag.
+     *
+     * @param $searchable
+     * @return StreamCollection
+     */
+    public function findAllBySearchable($searchable);
+
+    /**
      * Find all streams in a namespace.
      *
      * @param  $namespace
