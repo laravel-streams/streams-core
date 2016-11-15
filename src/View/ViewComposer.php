@@ -164,6 +164,8 @@ class ViewComposer
                 $view->setPath($path);
             } elseif ($path = array_get($overrides, $view->getName(), null)) {
                 $view->setPath($path);
+            } elseif ($path = array_get(config('streams.overrides'), $view->getName(), null)) {
+                $view->setPath($path);
             }
         }
 
