@@ -1,18 +1,23 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration;
 
-use Anomaly\Streams\Platform\Addon\Addon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Migrations\DatabaseMigrationRepository;
 
+/**
+ * Class MigrationRepository
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class MigrationRepository extends DatabaseMigrationRepository
 {
 
     /**
-     * The addon instance.
+     * The migrator instance.
      *
-     * @var Addon
+     * @var Migrator
      */
-    protected $addon  = null;
+    protected $migrator = null;
 
     /**
      * Get ran migrations.
@@ -21,36 +26,27 @@ class MigrationRepository extends DatabaseMigrationRepository
      */
     public function getRan($namespace = null)
     {
-        if ($addon = $this->getAddon()) {
+        if ($addon = $this->migrator->getAddon()) {
             return $this->table()
-                    ->orderBy('batch', 'asc')
-                    ->orderBy('migration', 'asc')
-                    ->where('migration', 'LIKE', '%' . $addon->getNamespace() . '%')
-                    ->pluck('migration')->all();
+                ->orderBy('batch', 'asc')
+                ->orderBy('migration', 'asc')
+                ->where('migration', 'LIKE', '%' . $addon->getNamespace() . '%')
+                ->pluck('migration')->all();
         }
 
         return parent::getRan();
     }
 
     /**
-     * Set the addon.
+     * Set the migrator.
      *
-     * @param Addon $addon
+     * @param Migrator $migrator
+     * @return $this
      */
-    public function setAddon(Addon $addon)
+    public function setMigrator(Migrator $migrator)
     {
-        $this->addon = $addon;
+        $this->migrator = $migrator;
 
         return $this;
-    }
-
-    /**
-     * Get the addon.
-     *
-     * @return Addon
-     */
-    public function getAddon()
-    {
-        return $this->addon;
     }
 }
