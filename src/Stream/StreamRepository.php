@@ -45,7 +45,7 @@ class StreamRepository extends EloquentRepository implements StreamRepositoryInt
     /**
      * Create a new Stream.
      *
-     * @param  array           $attributes
+     * @param  array $attributes
      * @return StreamInterface
      */
     public function create(array $attributes = [])
@@ -83,6 +83,17 @@ class StreamRepository extends EloquentRepository implements StreamRepositoryInt
     public function findBySlugAndNamespace($slug, $namespace)
     {
         return $this->model->where('slug', $slug)->where('namespace', $namespace)->first();
+    }
+
+    /**
+     * Find all streams by their searchable flag.
+     *
+     * @param $searchable
+     * @return StreamCollection
+     */
+    public function findAllBySearchable($searchable)
+    {
+        return $this->model->where('searchable', $searchable)->get();
     }
 
     /**
