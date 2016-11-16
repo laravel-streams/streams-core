@@ -103,6 +103,7 @@ class FormValidator
 
         $this->setResponse($validator, $builder);
 
+        $builder->fire('validated', ['builder' => $builder]);
         $this->events->fire(new FormWasValidated($builder));
     }
 
