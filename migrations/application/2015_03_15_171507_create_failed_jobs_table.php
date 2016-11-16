@@ -3,6 +3,13 @@
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
+/**
+ * Class CreateFailedJobsTable
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class CreateFailedJobsTable extends Migration
 {
 
@@ -19,8 +26,9 @@ class CreateFailedJobsTable extends Migration
                 $table->increments('id');
                 $table->text('connection');
                 $table->text('queue');
-                $table->text('payload');
-                $table->timestamp('failed_at');
+                $table->longText('payload');
+                $table->longText('exception');
+                $table->timestamp('failed_at')->useCurrent();
             }
         );
     }
