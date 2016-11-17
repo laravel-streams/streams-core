@@ -42,6 +42,13 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class StreamsServiceProvider
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class StreamsServiceProvider extends ServiceProvider
 {
 
