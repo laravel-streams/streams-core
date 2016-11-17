@@ -146,13 +146,15 @@ class AddonProvider
         $this->registerPlugins($provider);
         $this->registerCommands($provider);
         $this->registerSchedules($provider);
-        $this->registerProviders($provider);
         $this->registerMiddleware($provider);
         $this->registerRouteMiddleware($provider);
 
         if (method_exists($provider, 'register')) {
             $this->application->call([$provider, 'register']);
         }
+
+        // Call other providers last.
+        $this->registerProviders($provider);
     }
 
     /**
