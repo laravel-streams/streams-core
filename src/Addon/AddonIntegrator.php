@@ -12,6 +12,13 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Translation\Translator;
 use Twig_ExtensionInterface;
 
+/**
+ * Class AddonIntegrator
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class AddonIntegrator
 {
 
@@ -173,9 +180,17 @@ class AddonIntegrator
         $this->provider->register($addon);
 
         // Add the view / translation namespaces.
-        $this->views->addNamespace($addon->getNamespace(), $addon->getPath('resources/views'));
+        $this->views->addNamespace(
+            $addon->getNamespace(),
+            [
+                $this->application->getResourcesPath(
+                    "addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/views/"
+                ),
+                $addon->getPath('resources/views'),
+            ]
+        );
         $this->translator->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));
-        
+
         /*
          * If the addon is a plugin then
          * load it into Twig when appropriate.

@@ -274,7 +274,7 @@ class ViewComposer
          * Check if a published override exists.
          */
         if ($addon) {
-            $override = "published::{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/views/" . $path;
+            $override = "addons::{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/views/" . $path;
         }
 
         if ($this->view->exists($override)) {
