@@ -20,9 +20,6 @@ class StreamsEventProvider extends EventServiceProvider
             'Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\LoadBreadcrumbs',
             'Anomaly\Streams\Platform\Message\Listener\LoadMessageBag',
         ],
-        'Anomaly\Streams\Platform\Event\Ready'                            => [
-            'Anomaly\Streams\Platform\Addon\Theme\Listener\LoadCurrentTheme' => -100,
-        ],
         'Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered'       => [
             'Anomaly\Streams\Platform\Asset\Listener\AddAddonPaths',
             'Anomaly\Streams\Platform\Image\Listener\AddAddonPaths',
