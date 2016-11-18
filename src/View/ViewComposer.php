@@ -101,14 +101,14 @@ class ViewComposer
     /**
      * Create a new ViewComposer instance.
      *
-     * @param Factory $view
-     * @param Mobile_Detect $agent
-     * @param Dispatcher $events
-     * @param AddonCollection $addons
-     * @param ViewOverrides $overrides
-     * @param Request $request
+     * @param Factory             $view
+     * @param Mobile_Detect       $agent
+     * @param Dispatcher          $events
+     * @param AddonCollection     $addons
+     * @param ViewOverrides       $overrides
+     * @param Request             $request
      * @param ViewMobileOverrides $mobiles
-     * @param Application $application
+     * @param Application         $application
      */
     public function __construct(
         Factory $view,
@@ -274,7 +274,7 @@ class ViewComposer
          * Check if a published override exists.
          */
         if ($addon) {
-            $override = "app::addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/views/" . $path;
+            $override = "published::{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/views/" . $path;
         }
 
         if ($this->view->exists($override)) {
