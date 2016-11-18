@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Exception;
 
 use Exception;
+use GrahamCampbell\Exceptions\NewExceptionHandler;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class ExceptionHandler extends \Illuminate\Foundation\Exceptions\Handler
+class ExceptionHandler extends NewExceptionHandler
 {
 
     /**
