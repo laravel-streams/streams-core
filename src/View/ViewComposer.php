@@ -235,19 +235,6 @@ class ViewComposer
         $path = str_replace('.', '/', $path);
 
         /*
-         * If the namespace is shorthand
-         * then check to see if we have
-         * an active addon to use for it.
-         */
-        if ($namespace === 'module' && $this->module) {
-            $namespace = $this->module->getNamespace();
-        }
-
-        if ($namespace === 'theme' && $this->theme) {
-            $namespace = $this->theme->getNamespace();
-        }
-
-        /*
          * If the view is a streams view then
          * it's real easy to guess what the
          * override path should be.
@@ -263,33 +250,6 @@ class ViewComposer
         if ($addon = $this->addons->get($namespace)) {
             $override = $this->theme->getNamespace(
                 "addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/" . $path
-            );
-        }
-
-        if ($this->view->exists($override)) {
-            return $override;
-        }
-
-        /**
-         * Check if a published override exists.
-         */
-        if ($addon) {
-            $override = "published::{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/views/" . $path;
-        }
-
-        if ($this->view->exists($override)) {
-            return $override;
-        }
-
-        /*
-         * If the view uses a dot syntax namespace then
-         * transform it all into the override view path.
-         *
-         * @deprecated since v3.0.0
-         */
-        if ($addon) {
-            $override = $this->theme->getNamespace(
-                "addon/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/" . $path
             );
         }
 
