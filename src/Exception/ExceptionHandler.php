@@ -41,6 +41,20 @@ class ExceptionHandler extends \Illuminate\Foundation\Exceptions\Handler
      */
     public function render($request, Exception $e)
     {
+        /**
+         * Have to catch this for some reason.
+         * Not sure why our handler passes this.
+         *
+         * @todo: Clean up
+         */
+        if ($e instanceof AuthenticationException) {
+            if ($request->segment(1) === 'admin') {
+                return redirect()->guest('admin/login');
+            } else {
+                return redirect()->guest('login');
+            }
+        }
+
         if ($e instanceof HttpException) {
             if (!$e->getStatusCode() == 404) {
                 return $this->renderHttpException($e);
