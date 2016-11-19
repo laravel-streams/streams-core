@@ -3,6 +3,7 @@
 use Exception;
 use GrahamCampbell\Exceptions\NewExceptionHandler;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Symfony\Component\Debug\ExceptionHandler as SymfonyDisplayer;
@@ -73,6 +74,46 @@ class ExceptionHandler extends NewExceptionHandler
         } else {
             return (new SymfonyDisplayer(config('app.debug')))->handle($e);
         }
+    }
+
+    /**
+     * Map exception into an illuminate response.
+     *
+     * @param  \Symfony\Component\HttpFoundation\Response $response
+     * @param  \Exception                                 $e
+     * @return \Illuminate\Http\Response
+     */
+    protected function toIlluminateResponse($response, Exception $e)
+    {
+        if ($response instanceof SymfonyRedirectResponse) {
+            $response = new RedirectResponse(
+                $response->getTargetUrl(),
+                $response->getStatusCode(),
+                $response->headers->all()
+            );
+        } else {
+            $response = new Response($response->getContent(), $response->getStatusCode(), $response->headers->all());
+        }
+
+        /**
+         * Have to catch this for some reason.
+         * Not sure why our handler passes this.
+         *
+         * @todo: Clean up
+         */
+        if ($e instanceof AuthenticationException) {
+
+            $path     = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+            $segments = array_filter(explode('/', $path));
+
+            if (array_shift($segments) === 'admin') {
+                return redirect()->guest('admin/login');
+            } else {
+                return redirect()->guest('login');
+            }
+        }
+
+        return $response->withException($e);
     }
 
     /**
