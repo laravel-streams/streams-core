@@ -54,6 +54,6 @@ class GetLayoutName
             return $layout;
         }
 
-        return "theme::layouts/{$this->default}";
+        return str_contains($this->default, '::') ? $this->default : "theme::layouts/{$this->default}";
     }
 }
