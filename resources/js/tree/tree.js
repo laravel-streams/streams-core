@@ -65,7 +65,7 @@ $(function () {
             collapsed = {};
         }
 
-        if (collapsed[$(this).data('id')] == true) {
+        if (collapsed[$(this).data('id')] == true && $(this).find('li').length) {
             $(this).addClass('collapsed').find('.card').append('<div class="count">' + count + '</div>');
         }
     });
