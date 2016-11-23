@@ -29,7 +29,10 @@ class LoadThemeVariables
      *
      * @var array
      */
-    protected $default = ['resources/less/theme/variables.less', 'resources/scss/theme/_variables.scss'];
+    protected $default = [
+        'resources/less/theme/variables.less',
+        'resources/scss/theme/_variables.scss',
+    ];
 
     /**
      * Create a new ThemeVariablesHaveLoaded instance.
@@ -47,6 +50,7 @@ class LoadThemeVariables
      * @param Dispatcher      $events
      * @param Repository      $config
      * @param ThemeCollection $themes
+     * @internal param Repository $config
      */
     public function handle(Dispatcher $events, Repository $config, ThemeCollection $themes)
     {
@@ -54,17 +58,23 @@ class LoadThemeVariables
             return;
         }
 
-        /*  Look for a list of variables files inside Theme config, 
-            i.e.  'variables' => env('THEME_VARIABLES', ['resources/less/theme/variables.less']), 
-            if not, use defaults */
+        /**
+         * Look for a list of variables files theme configuration:
+         *
+         * 'variables' => env('THEME_VARIABLES', ['resources/less/theme/variables.less']),
+         *
+         * If none exist, use defaults.
+         */
+        $files = array_map(
+            function ($file) use ($theme) {
+                return $theme->getPath($file);
+            },
+            $config->get($theme->getNamespace('config.variables'), $this->default)
+        );
 
-        $files = array_map(function($file) use($theme) {
-                                return$theme->getPath($file);
-                            }, config($theme->getNamespace('config.variables'), $this->default));
+        $variables = (new Lcss2php($files))->ignore(\Leafo\ScssPhp\Type::T_MAP);
 
-        $lcss2php = (new Lcss2php($files))->ignore(\Leafo\ScssPhp\Type::T_MAP);
-
-        foreach ($lcss2php->all() as $key => $value) {
+        foreach ($variables->all() as $key => $value) {
             $this->variables->put($key, $value);
         }
 
