@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Asset\Event\ThemeVariablesHaveLoaded;
 use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
+use Websemantics\Lcss2php\Lcss2php;
 
 /**
  * Class LoadThemeVariables
@@ -22,6 +23,13 @@ class LoadThemeVariables
      * @var Collection
      */
     protected $variables;
+
+    /**
+     * The default variables files.
+     *
+     * @var array
+     */
+    protected $default = ['resources/less/theme/variables.less', 'resources/scss/theme/_variables.scss'];
 
     /**
      * Create a new ThemeVariablesHaveLoaded instance.
@@ -46,7 +54,17 @@ class LoadThemeVariables
             return;
         }
 
-        foreach ($config->get($theme->getNamespace('variables'), []) as $key => $value) {
+        /*  Look for a list of variables files inside Theme config, 
+            i.e.  'variables' => env('THEME_VARIABLES', ['resources/less/theme/variables.less']), 
+            if not, use defaults */
+
+        $files = array_map(function($file) use($theme) {
+                                return$theme->getPath($file);
+                            }, config($theme->getNamespace('config.variables'), $this->default));
+
+        $lcss2php = (new Lcss2php($files))->ignore(\Leafo\ScssPhp\Type::T_MAP);
+
+        foreach ($lcss2php->all() as $key => $value) {
             $this->variables->put($key, $value);
         }
 
