@@ -47,8 +47,8 @@ class LoadThemeVariables
     /**
      * Handle the command.
      *
-     * @param Dispatcher      $events
-     * @param Repository      $config
+     * @param Dispatcher $events
+     * @param Repository $config
      * @param ThemeCollection $themes
      * @internal param Repository $config
      */
@@ -72,7 +72,7 @@ class LoadThemeVariables
             $config->get($theme->getNamespace('config.variables'), $this->default)
         );
 
-        $variables = (new Lcss2php($files))->ignore(\Leafo\ScssPhp\Type::T_MAP);
+        $variables = (new Lcss2php($files))->ignore([\Leafo\ScssPhp\Type::T_MAP, \Leafo\ScssPhp\Type::T_MIXIN]);
 
         foreach ($variables->all() as $key => $value) {
             $this->variables->put($key, $value);
