@@ -77,6 +77,11 @@ class LoadThemeVariables
         foreach ($variables->all() as $key => $value) {
             $this->variables->put($key, $value);
         }
+        
+        // @deprecated in 1.1 will remove in 1.2
+        foreach ($config->get($theme->getNamespace('variables'), []) as $key => $value) {
+            $this->variables->put($key, $value);
+        }
 
         $events->fire(new ThemeVariablesHaveLoaded($this->variables));
     }
