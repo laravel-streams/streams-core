@@ -14,34 +14,59 @@ input.focus();
 
 input.on('keydown', function (e) {
 
-    // Down arrow.
-    if (e.which == 40) {
+    if (e.which == 40) { // Down arrow.
+
         if (selected) {
 
+            /**
+             * If we have a selection then
+             * push to the next visible option.
+             */
             if (selected.nextAll(':visible').length) {
                 items.find('a').removeClass('active');
                 selected = selected.nextAll(':visible').first();
                 selected.find('a').addClass('active');
             }
         } else {
+
+            /**
+             * Otherwise select the first
+             * visible option in the list.
+             */
             selected = items.filter(':visible').first();
             selected.find('a').addClass('active');
         }
     } else if (e.which == 38) { // Up arrow
+
         if (selected) {
 
+            /**
+             * If we have a selection then push
+             * to the previous visible option.
+             */
             if (selected.prevAll(':visible').length) {
                 items.find('a').removeClass('active');
                 selected = selected.prevAll(':visible').first();
                 selected.find('a').addClass('active');
             }
         } else {
+
+            /**
+             * Otherwise select the last
+             * visible option in the list.
+             */
             selected = items.filter(':visible').last();
             selected.find('a').addClass('active');
         }
     } else if (e.which == 13) {
+
         if (selected) {
 
+            /**
+             * If the key press was the return
+             * key and we have a selection
+             * then follow the link.
+             */
             window.location = selected.find('a').attr('href');
 
             modal.find('.modal-content').append('<div class="modal-loading"><div class="active loader"></div></div>');
@@ -63,13 +88,20 @@ input.on('keydown', function (e) {
 
 input.on('keyup', function (e) {
 
+    /**
+     * If the keyup was a an arrow
+     * up or down then skip this step.
+     */
     if (e.which == 38 || e.which == 40) {
         return;
     }
 
     var value = $(this).val();
 
-    // Filter first!
+    /**
+     * Filter the list by the items to
+     * show only those containing value.
+     */
     items.each(function () {
         if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
             $(this).show();
@@ -77,4 +109,13 @@ input.on('keyup', function (e) {
             $(this).hide();
         }
     });
+
+    /**
+     * If we don't have a selected item
+     * then choose the first visible option.
+     */
+    if (!selected || !selected.is(':visible')) {
+        selected = items.filter(':visible').first();
+        selected.find('a').addClass('active');
+    }
 });
