@@ -67,7 +67,7 @@ input.on('keyup', function (e) {
 
     // Filter first!
     items.each(function () {
-        if ($(this).text().indexOf(value) >= 0) {
+        if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
             $(this).show();
         } else {
             $(this).hide();
