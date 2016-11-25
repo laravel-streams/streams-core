@@ -18,21 +18,21 @@ input.on('keydown', function (e) {
     if (e.which == 40) {
         if (selected) {
 
-            if (selected.next(':visible').length) {
+            if (selected.nextAll(':visible').length) {
                 items.find('a').removeClass('active');
-                selected = selected.next(':visible');
+                selected = selected.nextAll(':visible').first();
                 selected.find('a').addClass('active');
             }
         } else {
             selected = items.filter(':visible').first();
             selected.find('a').addClass('active');
         }
-    } else if (e.which == 38) {
+    } else if (e.which == 38) { // Up arrow
         if (selected) {
 
-            if (selected.prev(':visible').length) {
+            if (selected.prevAll(':visible').length) {
                 items.find('a').removeClass('active');
-                selected = selected.prev(':visible');
+                selected = selected.prevAll(':visible').first();
                 selected.find('a').addClass('active');
             }
         } else {
@@ -62,6 +62,10 @@ input.on('keydown', function (e) {
 });
 
 input.on('keyup', function (e) {
+
+    if (e.which == 38 || e.which == 40) {
+        return;
+    }
 
     var value = $(this).val();
 
