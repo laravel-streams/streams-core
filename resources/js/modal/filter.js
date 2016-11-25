@@ -12,18 +12,7 @@ form.on('submit', function () {
 
 input.focus();
 
-input.on('keyup', function (e) {
-
-    var value = $(this).val();
-
-    // Filter first!
-    items.each(function () {
-        if ($(this).text().indexOf(value) >= 0) {
-            $(this).show();
-        } else {
-            $(this).hide();
-        }
-    });
+input.on('keydown', function (e) {
 
     // Down arrow.
     if (e.which == 40) {
@@ -58,4 +47,30 @@ input.on('keyup', function (e) {
             modal.find('.modal-content').append('<div class="modal-loading"><div class="active loader"></div></div>');
         }
     }
+
+    if (e.which == 38 || e.which == 40) {
+
+        // store current positions in variables
+        var start = input[0].selectionStart,
+            end = input[0].selectionEnd;
+
+        // restore from variables...
+        input[0].setSelectionRange(start, end);
+
+        e.preventDefault();
+    }
+});
+
+input.on('keyup', function (e) {
+
+    var value = $(this).val();
+
+    // Filter first!
+    items.each(function () {
+        if ($(this).text().indexOf(value) >= 0) {
+            $(this).show();
+        } else {
+            $(this).hide();
+        }
+    });
 });
