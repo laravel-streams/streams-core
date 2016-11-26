@@ -69,21 +69,36 @@ class FieldTypeQuery
             $query->{$this->where()}(
                 function (Builder $query) use ($stream, $filter, $column) {
                     $query->where($stream->getEntryTranslationsTableName() . '.locale', config('app.locale'));
-                    $query->where(
-                        $stream->getEntryTranslationsTableName() . '.' . $column,
-                        'LIKE',
-                        "%" . $filter->getValue() . "%"
-                    );
+
+                    if (method_exists($this->fieldType, 'getRelation')) {
+                        $query->where(
+                            $stream->getEntryTranslationsTableName() . '.' . $column,
+                            $filter->getValue()
+                        );
+                    } else {
+                        $query->where(
+                            $stream->getEntryTranslationsTableName() . '.' . $column,
+                            'LIKE',
+                            "%" . $filter->getValue() . "%"
+                        );
+                    }
                 }
             );
         } else {
             $query->{$this->where()}(
                 function (Builder $query) use ($stream, $filter, $column) {
-                    $query->where(
-                        $stream->getEntryTableName() . '.' . $column,
-                        'LIKE',
-                        "%" . $filter->getValue() . "%"
-                    );
+                    if (method_exists($this->fieldType, 'getRelation')) {
+                        $query->where(
+                            $stream->getEntryTableName() . '.' . $column,
+                            $filter->getValue()
+                        );
+                    } else {
+                        $query->where(
+                            $stream->getEntryTableName() . '.' . $column,
+                            'LIKE',
+                            "%" . $filter->getValue() . "%"
+                        );
+                    }
                 }
             );
         }
