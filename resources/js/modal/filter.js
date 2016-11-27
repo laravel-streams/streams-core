@@ -69,7 +69,7 @@ input.on('keydown', function (e) {
              */
             window.location = selected.find('a').attr('href');
 
-            modal.find('.modal-content').append('<div class="modal-loading"><div class="active loader"></div></div>');
+            modal.find('.modal-content').append('<div class="modal-loading"><div class="active large loader"></div></div>');
         }
     }
 
