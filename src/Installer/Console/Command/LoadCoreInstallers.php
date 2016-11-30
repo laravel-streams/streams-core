@@ -2,8 +2,15 @@
 
 use Anomaly\Streams\Platform\Installer\Installer;
 use Anomaly\Streams\Platform\Installer\InstallerCollection;
-use Illuminate\Contracts\Console\Kernel;
+use Anomaly\Streams\Platform\Console\Kernel;
 
+/**
+ * Class LoadCoreInstallers
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class LoadCoreInstallers
 {
 

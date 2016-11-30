@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Installer\Installer;
 use Anomaly\Streams\Platform\Installer\InstallerCollection;
-use Illuminate\Contracts\Console\Kernel;
+use Anomaly\Streams\Platform\Console\Kernel;
 
 /**
  * Class LoadApplicationInstallers

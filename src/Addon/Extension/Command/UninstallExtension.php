@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasUninstalled;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
-use Illuminate\Contracts\Console\Kernel;
+use Anomaly\Streams\Platform\Console\Kernel;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
