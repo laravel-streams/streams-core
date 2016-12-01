@@ -89,11 +89,12 @@ class EloquentRepository implements EloquentRepositoryInterface
     /**
      * Return a new instance.
      *
+     * @param array $attributes
      * @return EloquentModel
      */
-    public function newInstance()
+    public function newInstance(array $attributes = [])
     {
-        return $this->model->newInstance();
+        return $this->model->newInstance($attributes);
     }
 
     /**

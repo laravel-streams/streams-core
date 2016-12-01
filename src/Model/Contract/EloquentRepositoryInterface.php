@@ -64,9 +64,10 @@ interface EloquentRepositoryInterface
     /**
      * Return a new instance.
      *
+     * @param array $attributes
      * @return EloquentModel
      */
-    public function newInstance();
+    public function newInstance(array $attributes = []);
 
     /**
      * Count all records.
