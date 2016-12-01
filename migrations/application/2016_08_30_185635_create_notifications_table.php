@@ -3,6 +3,13 @@
 use Illuminate\Database\Schema\Blueprint;
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 
+/**
+ * Class CreateNotificationsTable
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class CreateNotificationsTable extends Migration
 {
 
@@ -14,7 +21,7 @@ class CreateNotificationsTable extends Migration
     public function up()
     {
         Schema::create('notifications', function (Blueprint $table) {
-            $table->string('id')->primary();
+            $table->uuid('id')->primary();
             $table->string('type');
             $table->morphs('notifiable');
             $table->text('data');

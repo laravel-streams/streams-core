@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasInstalled;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
-use Illuminate\Contracts\Console\Kernel;
+use Anomaly\Streams\Platform\Console\Kernel;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**

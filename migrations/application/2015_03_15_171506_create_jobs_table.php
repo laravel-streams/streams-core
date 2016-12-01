@@ -3,6 +3,13 @@
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
+/**
+ * Class CreateJobsTable
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class CreateJobsTable extends Migration
 {
 
@@ -17,14 +24,13 @@ class CreateJobsTable extends Migration
             'jobs',
             function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->unsignedInteger('created_at');
-                $table->unsignedInteger('available_at');
-                $table->unsignedInteger('reserved_at')->nullable();
                 $table->string('queue');
                 $table->longText('payload');
                 $table->tinyInteger('attempts')->unsigned();
-                $table->tinyInteger('reserved')->unsigned();
-                $table->index(['queue', 'reserved', 'reserved_at']);
+                $table->unsignedInteger('reserved_at')->nullable();
+                $table->unsignedInteger('available_at');
+                $table->unsignedInteger('created_at');
+                $table->index(['queue', 'reserved_at']);
             }
         );
     }

@@ -22,6 +22,13 @@ class ViewComposer
 {
 
     /**
+     * Runtime cache.
+     *
+     * @var array
+     */
+    protected $cache = [];
+
+    /**
      * The view factory.
      *
      * @var Factory
@@ -146,6 +153,30 @@ class ViewComposer
             return $view;
         }
 
+        $this->setPath($view);
+
+        $this->events->fire(new ViewComposed($view));
+
+        return $view;
+    }
+
+    /**
+     * Set the view path.
+     *
+     * @param View $view
+     */
+    protected function setPath(View $view)
+    {
+        /**
+         * If view path is already in internal cache use it.
+         */
+        if ($path = array_get($this->cache, $view->getName())) {
+
+            $view->setPath($path);
+
+            return;
+        }
+
         $mobile    = $this->mobiles->get($this->theme->getNamespace(), []);
         $overrides = $this->overrides->get($this->theme->getNamespace(), []);
 
@@ -164,6 +195,8 @@ class ViewComposer
                 $view->setPath($path);
             } elseif ($path = array_get($overrides, $view->getName(), null)) {
                 $view->setPath($path);
+            } elseif ($path = array_get(config('streams.overrides'), $view->getName(), null)) {
+                $view->setPath($path);
             }
         }
 
@@ -171,9 +204,7 @@ class ViewComposer
             $view->setPath($overload);
         }
 
-        $this->events->fire(new ViewComposed($view));
-
-        return $view;
+        $this->cache[$view->getName()] = $view->getPath();
     }
 
     /**
@@ -204,19 +235,6 @@ class ViewComposer
         $path = str_replace('.', '/', $path);
 
         /*
-         * If the namespace is shorthand
-         * then check to see if we have
-         * an active addon to use for it.
-         */
-        if ($namespace === 'module' && $this->module) {
-            $namespace = $this->module->getNamespace();
-        }
-
-        if ($namespace === 'theme' && $this->theme) {
-            $namespace = $this->theme->getNamespace();
-        }
-
-        /*
          * If the view is a streams view then
          * it's real easy to guess what the
          * override path should be.
@@ -232,33 +250,6 @@ class ViewComposer
         if ($addon = $this->addons->get($namespace)) {
             $override = $this->theme->getNamespace(
                 "addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/" . $path
-            );
-        }
-
-        if ($this->view->exists($override)) {
-            return $override;
-        }
-
-        /**
-         * Check if a published override exists.
-         */
-        if ($addon) {
-            $override = "app::addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/views/" . $path;
-        }
-
-        if ($this->view->exists($override)) {
-            return $override;
-        }
-
-        /*
-         * If the view uses a dot syntax namespace then
-         * transform it all into the override view path.
-         *
-         * @deprecated since v3.0.0
-         */
-        if ($addon) {
-            $override = $this->theme->getNamespace(
-                "addon/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/" . $path
             );
         }
 

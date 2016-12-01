@@ -173,7 +173,15 @@ class AddonIntegrator
         $this->provider->register($addon);
 
         // Add the view / translation namespaces.
-        $this->views->addNamespace($addon->getNamespace(), $addon->getPath('resources/views'));
+        $this->views->addNamespace(
+            $addon->getNamespace(),
+            [
+                $this->application->getResourcesPath(
+                    "addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/views/"
+                ),
+                $addon->getPath('resources/views'),
+            ]
+        );
         $this->translator->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));
         
         /*

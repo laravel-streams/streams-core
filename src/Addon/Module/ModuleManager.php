@@ -6,6 +6,13 @@ use Anomaly\Streams\Platform\Addon\Module\Command\InstallModule;
 use Anomaly\Streams\Platform\Addon\Module\Command\UninstallModule;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
+/**
+ * Class ModuleManager
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class ModuleManager
 {
     use DispatchesJobs;

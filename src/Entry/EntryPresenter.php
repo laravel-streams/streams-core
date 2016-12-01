@@ -102,7 +102,7 @@ class EntryPresenter extends EloquentPresenter
             $text = trans($text);
         }
 
-        return '<span class="label label-' . $context . ' label-' . $size . '">' . $text . '</span>';
+        return '<span class="tag tag-' . $context . ' tag-' . $size . '">' . $text . '</span>';
     }
 
     /**

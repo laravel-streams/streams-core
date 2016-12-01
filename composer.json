@@ -41,7 +41,8 @@
         "misd/linkify": "1.1.*",
         "symfony/class-loader": "3.1.*",
         "graham-campbell/exceptions": "^9.0",
-        "filp/whoops": "^2.0"
+        "filp/whoops": "^2.0",
+        "websemantics/lcss2php": "1.0.*"
     },
     "require-dev": {
         "phpspec/phpspec": "3.0.*",

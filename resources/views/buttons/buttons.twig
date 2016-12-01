@@ -25,11 +25,22 @@
     {% if button.dropdown %}
         <div class="btn-group">
 
-            {# Render dropdown toggles as an anchor #}
-            <a class="dropdown-toggle btn btn-{{ button.size }} btn-{{ button.type }} {{ button.disabled ? 'disabled' }} {{ button.class }}" data-toggle="dropdown" {{ button.disabled ? 'disabled' }} {{ html_attributes(button.attributes) }}>
-                {{ button.icon ? icon(button.icon)|raw }}
-                {{ trans(button.text)|raw }}
-            </a>
+            {% if button.attributes.href %}
+                <a class="btn btn-{{ button.size }} btn-{{ button.type }} {{ button.disabled ? 'disabled' }} {{ button.class }}" {{ button.disabled ? 'disabled' }} {{ html_attributes(button.attributes) }}>
+                    {{ button.icon ? icon(button.icon)|raw }}
+                    {{ trans(button.text)|raw }}
+                </a>
+
+                <a class="dropdown-toggle-split btn btn-{{ button.size }} btn-{{ button.type }} {{ button.disabled ? 'disabled' }}"
+                   data-toggle="dropdown" {{ button.disabled ? 'disabled' }}>
+                    {{ icon('fa fa-caret-down') }}
+                </a>
+            {% else %}
+                <a class="dropdown-toggle btn btn-{{ button.size }} btn-{{ button.type }} {{ button.disabled ? 'disabled' }} {{ button.class }}" {{ button.disabled ? 'disabled' }} data-toggle="dropdown" {{ html_attributes(button.attributes) }}>
+                    {{ button.icon ? icon(button.icon)|raw }}
+                    {{ trans(button.text)|raw }}
+                </a>
+            {% endif %}
 
             {# Render the actual dropdown links #}
             <ul class="dropdown-menu dropdown-menu-{{ button.position }}">

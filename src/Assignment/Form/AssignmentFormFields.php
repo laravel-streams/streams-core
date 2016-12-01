@@ -56,7 +56,7 @@ class AssignmentFormFields
                     'warning'      => function (AssignmentFormBuilder $builder) {
                         $type = $builder->getFieldType();
 
-                        return $type->getColumnType() == null ? 'streams::assignment.translatable.warning' : null;
+                        return $type->getColumnType() === null ? 'streams::assignment.translatable.warning' : null;
                     },
                     'disabled'     => function (AssignmentFormBuilder $builder) {
                         $stream = $builder->getStream();
@@ -67,7 +67,7 @@ class AssignmentFormFields
 
                         $type = $builder->getFieldType();
 
-                        return $type->getColumnType() == null;
+                        return $type->getColumnType() === null;
                     },
                 ],
             ]

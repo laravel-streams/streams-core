@@ -32,7 +32,24 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
     protected $repository;
 
     /**
+     * Run the migrations.
+     *
+     * @param array $paths
+     * @param array $options
+     * @return array
+     */
+    public function run($paths = [], array $options = [])
+    {
+        $this->repository->setMigrator($this);
+
+        return parent::run($paths, $options);
+    }
+
+    /**
      * Rolls all of the currently applied migrations back.
+     *
+     * This is a carbon copy of the Laravel method
+     * except in the "!isset($files[$migration])" part.
      *
      * @param  array|string $paths
      * @param  bool         $pretend
@@ -40,9 +57,46 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
      */
     public function reset($paths = [], $pretend = false)
     {
-        $this->repository->setAddon($this->getAddon());
+        $this->repository->setMigrator($this);
 
-        return parent::reset($paths, $pretend);
+        $this->notes = [];
+
+        $rolledBack = [];
+
+        $files = $this->getMigrationFiles($paths);
+
+        // Next, we will reverse the migration list so we can run them back in the
+        // correct order for resetting this database. This will allow us to get
+        // the database back into its "empty" state ready for the migrations.
+        $migrations = array_reverse($this->repository->getRan());
+
+        $count = count($migrations);
+
+        if ($count === 0) {
+            $this->note('<info>Nothing to rollback.</info>');
+        } else {
+            $this->requireFiles($files);
+
+            // Next we will run through all of the migrations and call the "down" method
+            // which will reverse each migration in order. This will get the database
+            // back to its original "empty" state and will be ready for migrations.
+            foreach ($migrations as $migration) {
+
+                /**
+                 * This is the only adjustment to
+                 * Laravel's method..
+                 */
+                if (!isset($files[$migration])) {
+                    continue;
+                }
+
+                $rolledBack[] = $files[$migration];
+
+                $this->runDown($files[$migration], (object)['migration' => $migration], $pretend);
+            }
+        }
+
+        return $rolledBack;
     }
 
     /**
@@ -54,7 +108,7 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
      */
     public function rollback($paths = [], array $options = [])
     {
-        $this->repository->setAddon($this->getAddon());
+        $this->repository->setMigrator($this);
 
         return parent::rollback($paths, $options);
     }
@@ -69,7 +123,6 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
      */
     protected function runUp($file, $batch, $pretend)
     {
-
         /**
          * Run our migrations first.
          *
@@ -151,6 +204,18 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
     public function setAddon(Addon $addon)
     {
         $this->addon = $addon;
+
+        return $this;
+    }
+
+    /**
+     * Clear the addon.
+     *
+     * @param Addon $addon
+     */
+    public function clearAddon()
+    {
+        $this->addon = null;
 
         return $this;
     }

@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform;
 
 use Anomaly\Streams\Platform\Addon\AddonManager;
+use Anomaly\Streams\Platform\Addon\Theme\Command\LoadCurrentTheme;
 use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
 use Anomaly\Streams\Platform\Application\Command\ConfigureUriValidator;
 use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
@@ -42,6 +43,13 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class StreamsServiceProvider
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class StreamsServiceProvider extends ServiceProvider
 {
 
@@ -216,7 +224,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatch(new AutoloadEntryModels());
         $this->dispatch(new AddAssetNamespaces());
         $this->dispatch(new AddImageNamespaces());
-        $this->dispatch(new AddViewNamespaces());
         $this->dispatch(new ConfigureScout());
 
         // Observe our base models.
@@ -262,6 +269,9 @@ class StreamsServiceProvider extends ServiceProvider
                 );
 
                 $manager->register();
+
+                $this->dispatch(new LoadCurrentTheme());
+                $this->dispatch(new AddViewNamespaces());
 
                 /*
                  * Do this after addons are registered

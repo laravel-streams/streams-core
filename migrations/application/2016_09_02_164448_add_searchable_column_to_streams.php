@@ -3,6 +3,13 @@
 use Illuminate\Database\Schema\Blueprint;
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 
+/**
+ * Class AddSearchableColumnToStreams
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class AddSearchableColumnToStreams extends Migration
 {
 

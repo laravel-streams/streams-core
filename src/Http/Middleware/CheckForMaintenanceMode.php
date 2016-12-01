@@ -76,7 +76,7 @@ class CheckForMaintenanceMode
             return $next($request);
         }
 
-        if ($request->segment(1) == 'admin') {
+        if ($request->segment(1) == 'admin' || str_is('form/handle/*', $request->path())) {
             return $next($request);
         }
 

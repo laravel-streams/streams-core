@@ -15,7 +15,7 @@
             {{ icon(table.options.filters.filter_icon ?: 'filter') }}
             {{ trans(table.options.filters.filter_text ?: 'streams::button.filter') }}
         </button>
-        <a href="{{ url_current() }}" class="btn btn-default ajax">
+        <a href="{{ url_current() }}" class="btn btn-inverse ajax">
             {{ icon(table.options.filters.clear_icon ? table.options.filters.clear_icon) }}
             {{ trans(table.options.filters.clear_text ?: 'streams::button.clear') }}
         </a>

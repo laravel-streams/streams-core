@@ -260,7 +260,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      */
     public function isForceDeleting()
     {
-        return isset($this->forceDeleting) && $this->forceDeleting == true;
+        return isset($this->forceDeleting) && $this->forceDeleting === true;
     }
 
     /**
