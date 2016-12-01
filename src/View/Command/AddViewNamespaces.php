@@ -31,7 +31,7 @@ class AddViewNamespaces
         $views->addNamespace('addons', $application->getResourcesPath('addons'));
         $views->addNamespace('app', $application->getResourcesPath('views'));
         $views->addNamespace('storage', $application->getStoragePath());
-        $views->addNamespace('shared', base_path('resources/views'));
+        $views->addNamespace('resources', base_path('resources/views'));
         $views->addNamespace('root', base_path());
         $views->addExtension('html', 'php');
     }
