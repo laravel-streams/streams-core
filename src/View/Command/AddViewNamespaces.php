@@ -17,7 +17,7 @@ class AddViewNamespaces
      * Handle the command.
      *
      * @param Application $application
-     * @param Factory $views
+     * @param Factory     $views
      */
     public function handle(Application $application, Factory $views)
     {
