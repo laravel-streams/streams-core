@@ -2,4 +2,3 @@ bin
 build
 vendor
 composer.lock
-/nbproject/private/
