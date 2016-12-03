@@ -3,18 +3,6 @@
 class CollectionTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testShufflePreservesKeys()
-    {
-        $collection = new \Anomaly\Streams\Platform\Support\Collection(
-            [
-                'test' => 'Test',
-                'foo'  => 'Foo'
-            ]
-        );
-
-        $this->assertEquals('Test', $collection->shuffle()->get('test'));
-    }
-
     public function testCanPadItems()
     {
         $collection = new \Anomaly\Streams\Platform\Support\Collection(
