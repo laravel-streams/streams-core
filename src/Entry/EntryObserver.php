@@ -8,7 +8,8 @@ use Anomaly\Streams\Platform\Entry\Event\EntryWasDeleted;
 use Anomaly\Streams\Platform\Entry\Event\EntryWasRestored;
 use Anomaly\Streams\Platform\Entry\Event\EntryWasSaved;
 use Anomaly\Streams\Platform\Entry\Event\EntryWasUpdated;
-use Anomaly\Streams\Platform\Model\Command\Cascade;
+use Anomaly\Streams\Platform\Model\Command\CascadeDelete;
+use Anomaly\Streams\Platform\Model\Command\CascadeRestore;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereDeleted;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereUpdated;
@@ -118,9 +119,7 @@ class EntryObserver extends Observer
      */
     public function deleting(EntryInterface $entry)
     {
-        $action = $entry->isForceDeleting() ? 'forceDelete' : 'delete';
-
-        $this->dispatch(new Cascade($entry, $action));
+        $this->dispatch(new CascadeDelete($entry));
 
         return true;
     }
@@ -159,18 +158,20 @@ class EntryObserver extends Observer
      */
     public function restoring(EntryInterface $entry)
     {
-        $this->dispatch(new Cascade($entry, 'restore'));
+        //
     }
 
     /**
      * Run after a record has been restored.
      *
-     * @param EntryInterface $entry
+     * @param EntryInterface|EloquentModel $entry
      */
     public function restored(EntryInterface $entry)
     {
         $entry->flushCache();
         $entry->fireFieldTypeEvents('entry_restored');
+
+        $this->dispatch(new CascadeRestore($entry));
 
         $this->events->fire(new EntryWasRestored($entry));
     }

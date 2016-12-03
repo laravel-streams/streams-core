@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Model\Command\Cascade;
+use Anomaly\Streams\Platform\Model\Command\CascadeDelete;
+use Anomaly\Streams\Platform\Model\Command\CascadeRestore;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereDeleted;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereUpdated;
 use Anomaly\Streams\Platform\Model\Event\ModelWasCreated;
@@ -87,9 +88,7 @@ class EloquentObserver extends Observer
      */
     public function deleting(EloquentModel $entry)
     {
-        $action = $entry->isForceDeleting() ? 'forceDelete' : 'delete';
-
-        $this->dispatch(new Cascade($entry, $action));
+        $this->dispatch(new CascadeDelete($entry));
 
         return true;
     }
@@ -128,11 +127,11 @@ class EloquentObserver extends Observer
     /**
      * Fired just before restoring.
      *
-     * @param EloquentModel $entry
+     * @param EloquentModel $model
      */
-    public function restoring(EloquentModel $entry)
+    public function restoring(EloquentModel $model)
     {
-        $this->dispatch(new Cascade($entry, 'restore'));
+        //
     }
 
     /**
@@ -143,6 +142,8 @@ class EloquentObserver extends Observer
     public function restored(EloquentModel $model)
     {
         $model->flushCache();
+
+        $this->dispatch(new CascadeRestore($model));
 
         $this->events->fire(new ModelWasRestored($model));
     }

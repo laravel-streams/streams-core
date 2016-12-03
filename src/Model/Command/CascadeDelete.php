@@ -4,13 +4,13 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
- * Class Cascade
+ * Class CascadeDelete
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Cascade
+class CascadeDelete
 {
 
     /**
@@ -21,22 +21,13 @@ class Cascade
     protected $model;
 
     /**
-     * The cascading action.
-     *
-     * @var string
-     */
-    protected $action;
-
-    /**
-     * Create a new Cascade instance.
+     * Create a new CascadeDelete instance.
      *
      * @param EloquentModel $model
-     * @param               $action
      */
-    public function __construct(EloquentModel $model, $action)
+    public function __construct(EloquentModel $model)
     {
-        $this->model  = $model;
-        $this->action = $action;
+        $this->model = $model;
     }
 
     /**
@@ -44,19 +35,21 @@ class Cascade
      */
     public function handle()
     {
+        $action = $this->model->isForceDeleting() ? 'forceDelete' : 'delete';
+
         foreach ($this->model->getCascades() as $relation => $actions) {
-            if (in_array($this->action, $actions)) {
+            if (in_array($action, $actions)) {
 
                 $relation = $this->model->{$relation};
 
                 if ($relation instanceof EloquentModel) {
-                    $relation->{$this->action}();
+                    $relation->{$action}();
                 }
 
                 if ($relation instanceof EloquentCollection) {
                     $relation->each(
-                        function (EloquentModel $item) {
-                            $item->{$this->action}();
+                        function (EloquentModel $item) use ($action) {
+                            $item->{$action}();
                         }
                     );
                 }
