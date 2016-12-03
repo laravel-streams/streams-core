@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
+use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Traits\Hookable;
@@ -9,12 +10,15 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * Class EloquentRepository
  *
+ * @property EloquentModel|EntryModel $model
+ *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
 class EloquentRepository implements EloquentRepositoryInterface
 {
+
     use FiresCallbacks;
     use Hookable;
 
@@ -42,7 +46,7 @@ class EloquentRepository implements EloquentRepositoryInterface
     /**
      * Find all records by IDs.
      *
-     * @param  array              $ids
+     * @param  array $ids
      * @return EloquentCollection
      */
     public function findAll(array $ids)
@@ -68,7 +72,7 @@ class EloquentRepository implements EloquentRepositoryInterface
     /**
      * Create a new record.
      *
-     * @param  array         $attributes
+     * @param  array $attributes
      * @return EloquentModel
      */
     public function create(array $attributes)
@@ -110,7 +114,7 @@ class EloquentRepository implements EloquentRepositoryInterface
     /**
      * Return a paginated collection.
      *
-     * @param  array                $parameters
+     * @param  array $parameters
      * @return LengthAwarePaginator
      */
     public function paginate(array $parameters = [])
@@ -202,6 +206,7 @@ class EloquentRepository implements EloquentRepositoryInterface
         /*
          * If we were not able to force delete
          */
+
         return !$entry->exists;
     }
 
@@ -240,6 +245,30 @@ class EloquentRepository implements EloquentRepositoryInterface
 
             $translation->truncate(); // Clear trash
         }
+
+        return $this;
+    }
+
+    /**
+     * Guard the model.
+     *
+     * @return $this
+     */
+    public function guard()
+    {
+        $this->model->reguard();
+
+        return $this;
+    }
+
+    /**
+     * Unguard the model.
+     *
+     * @return $this
+     */
+    public function unguard()
+    {
+        $this->model->unguard();
 
         return $this;
     }
