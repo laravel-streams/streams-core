@@ -470,6 +470,13 @@ interface EntryInterface
     public function fireFieldTypeEvents($trigger, $payload = []);
 
     /**
+     * Get the cascading actions.
+     *
+     * @return array
+     */
+    public function getCascades();
+
+    /**
      * Call a hook.
      *
      * @param        $hook

@@ -72,6 +72,13 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     ];
 
     /**
+     * The cascading actions.
+     *
+     * @var array
+     */
+    protected $cascades = [];
+
+    /**
      * Runtime cache.
      *
      * @var array
@@ -756,6 +763,16 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
         $criteria = substr(get_class($this), 0, -5) . 'Criteria';
 
         return class_exists($criteria) ? $criteria : EloquentCriteria::class;
+    }
+
+    /**
+     * Get the cascading actions.
+     *
+     * @return array
+     */
+    public function getCascades()
+    {
+        return $this->cascades;
     }
 
     public function __get($key)
