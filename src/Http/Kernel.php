@@ -103,6 +103,11 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
          * Check the domain for a locale.
          */
         $url  = parse_url(array_get($_SERVER, 'HTTP_HOST'));
+
+        if ($url === false) {
+          throw new \Exception('Malformed URL: ' . $url);
+        }
+
         $host = array_get($url, 'host');
 
         $pattern = '/^(' . implode('|', array_keys($locales['supported'])) . ')(\.)./';
