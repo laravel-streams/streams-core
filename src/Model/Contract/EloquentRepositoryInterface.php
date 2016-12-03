@@ -33,7 +33,7 @@ interface EloquentRepositoryInterface
     /**
      * Find all records by IDs.
      *
-     * @param  array              $ids
+     * @param  array $ids
      * @return EloquentCollection
      */
     public function findAll(array $ids);
@@ -49,7 +49,7 @@ interface EloquentRepositoryInterface
     /**
      * Create a new record.
      *
-     * @param  array         $attributes
+     * @param  array $attributes
      * @return EloquentModel
      */
     public function create(array $attributes);
@@ -79,7 +79,7 @@ interface EloquentRepositoryInterface
     /**
      * Return a paginated collection.
      *
-     * @param  array                $parameters
+     * @param  array $parameters
      * @return LengthAwarePaginator
      */
     public function paginate(array $parameters = []);
@@ -130,6 +130,20 @@ interface EloquentRepositoryInterface
      * @return $this
      */
     public function truncate();
+
+    /**
+     * Guard the model.
+     *
+     * @return $this
+     */
+    public function guard();
+
+    /**
+     * Unguard the model.
+     *
+     * @return $this
+     */
+    public function unguard();
 
     /**
      * Set the repository model.
