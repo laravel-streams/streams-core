@@ -37,7 +37,7 @@ class FieldFormSections
                                     }
 
                                     // Only default locale fields.
-                                    if (isset($field['locale']) && $field['locale'] !== config('app.fallback_locale')) {
+                                    if (isset($field['locale']) && $field['locale'] !== config('streams::locales.default')) {
                                         return false;
                                     }
 
