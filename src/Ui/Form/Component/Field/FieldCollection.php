@@ -23,7 +23,7 @@ class FieldCollection extends Collection
     {
         $fields = [];
 
-        $locale = config('app.fallback_locale');
+        $locale = config('streams::locales.default');
 
         /* @var FieldType $item */
         foreach ($this->items as $item) {
