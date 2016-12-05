@@ -329,17 +329,38 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      * @param  bool|null $withFallback
      * @return Model|null
      */
-    public function getTranslation($locale = null, $withFallback = false)
+    public function getTranslation($locale = null, $withFallback = true)
     {
-        $locale = $locale ?: $this->getFallbackLocale();
 
-        if ($translation = $this->getTranslationByLocaleKey($locale)) {
+        /**
+         * If we have a desired locale and
+         * it exists then just use that locale.
+         */
+        if ($locale && $translation = $this->getTranslationByLocaleKey($locale)) {
             return $translation;
-        } elseif ($withFallback
+        }
+
+        /**
+         * If we don't have a locale or it doesn't exist
+         * then go ahead and try using a fallback in using
+         * the system's designated DEFAULT (not active) locale.
+         */
+        if ($withFallback
+            && $translation = $this->getTranslationByLocaleKey($this->getDefaultLocale())
+        ) {
+            return $translation;
+        }
+
+        /**
+         * If we still don't have a translation then
+         * try looking up the FALLBACK translation.
+         */
+        if ($withFallback
             && $this->getFallbackLocale()
             && $this->getTranslationByLocaleKey($this->getFallbackLocale())
+            && $translation = $this->getTranslationByLocaleKey($this->getFallbackLocale())
         ) {
-            return $this->getTranslationByLocaleKey($this->getFallbackLocale());
+            return $translation;
         }
 
         return null;
@@ -415,11 +436,10 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     public function getAttribute($key)
     {
         if ($this->isTranslatedAttribute($key)) {
-            if ($this->getTranslation() === null) {
+
+            if (($translation = $this->getTranslation()) === null) {
                 return null;
             }
-
-            $translation = $this->getTranslation();
 
             $translation->setRelation('parent', $this);
 
@@ -668,6 +688,20 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
         }
 
         return array_diff_key($attributes, array_flip($this->getGuarded()));
+    }
+
+    /**
+     * Get the default locale.
+     *
+     * @return string
+     */
+    protected function getDefaultLocale()
+    {
+        if (isset($this->cache['default_locale'])) {
+            return $this->cache['default_locale'];
+        }
+
+        return $this->cache['default_locale'] = config('streams::locales.default');
     }
 
     /**
