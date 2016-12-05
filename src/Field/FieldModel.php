@@ -20,6 +20,15 @@ class FieldModel extends EloquentModel implements FieldInterface
 {
 
     /**
+     * Eager loaded relations.
+     *
+     * @var array
+     */
+    protected $with = [
+        'translations',
+    ];
+
+    /**
      * Do not use timestamps.
      *
      * @var bool
@@ -176,7 +185,7 @@ class FieldModel extends EloquentModel implements FieldInterface
     /**
      * Get the field type.
      *
-     * @param  bool           $fresh
+     * @param  bool $fresh
      * @return FieldType|null
      * @throws \Exception
      */
