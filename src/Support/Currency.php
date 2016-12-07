@@ -68,7 +68,7 @@ class Currency
         if (strtolower($direction) == 'ltr') {
             $prefix = $this->symbol($currency);
         } else {
-            $suffix = $prefix = $this->symbol($currency);
+            $suffix = $this->symbol($currency);
         }
 
         return $prefix . number_format(floor(($number * 100)) / 100, $decimals, $point, $separator) . $suffix;
