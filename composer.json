@@ -29,7 +29,6 @@
         "natxet/CssMin": "3.0.*",
         "oyejorge/less.php": "1.7.*",
         "ptachoire/cssembed": "1.0.*",
-        "phpseclib/phpseclib": "0.3.*",
         "robclancy/presenter": "1.3.*",
         "nicmart/string-template": "0.1.*",
         "phive/twig-extensions-deferred": "0.3.*",
