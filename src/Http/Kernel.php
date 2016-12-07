@@ -24,8 +24,12 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      * @var array
      */
     protected $routeMiddleware = [
+        'can'        => \Illuminate\Auth\Middleware\Authorize::class,
         'auth'       => \Illuminate\Auth\Middleware\Authenticate::class,
+        'throttle'   => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'bindings'   => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        //'guest' => \Illuminate\Auth\Middleware\RedirectIfAuthenticated::class,
     ];
 
     /**
@@ -53,7 +57,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      * Create a new Kernel instance.
      *
      * @param Application $app
-     * @param Router      $router
+     * @param Router $router
      */
     public function __construct(Application $app, Router $router)
     {
@@ -102,10 +106,10 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         /*
          * Check the domain for a locale.
          */
-        $url  = parse_url(array_get($_SERVER, 'HTTP_HOST'));
+        $url = parse_url(array_get($_SERVER, 'HTTP_HOST'));
 
         if ($url === false) {
-          throw new \Exception('Malformed URL: ' . $url);
+            throw new \Exception('Malformed URL: ' . $url);
         }
 
         $host = array_get($url, 'host');
