@@ -16,7 +16,7 @@ interface SelectFilterInterface extends FilterInterface
      * @param  array $options
      * @return mixed
      */
-    public function setOptions(array $options);
+    public function setOptions($options);
 
     /**
      * Get the options.
