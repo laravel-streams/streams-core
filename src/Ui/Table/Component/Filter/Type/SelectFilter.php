@@ -86,7 +86,7 @@ class SelectFilter extends Filter implements SelectFilterInterface
      * @param  array $options
      * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions($options)
     {
         $this->options = $options;
 
