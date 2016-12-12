@@ -41,6 +41,13 @@ class FilterQuery
      */
     public function filter(TableBuilder $builder, FilterInterface $filter, Builder $query)
     {
+
+        /**
+         * Make sure we're including
+         * only distinct results.
+         */
+        $query->distinct();
+
         /*
          * If the filter is self handling then let
          * it filter the query itself.
