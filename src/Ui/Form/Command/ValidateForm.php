@@ -39,6 +39,13 @@ class ValidateForm
     {
         $validator = $this->builder->getValidator();
 
+        /**
+         * Since we are about to validate the form we can
+         * ignore any errors what were previously set in
+         * the session.
+         */
+        $this->builder->getForm()->resetErrors();
+
         /*
          * If it's self handling just add @handle
          */
