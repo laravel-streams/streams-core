@@ -703,7 +703,7 @@ class FormBuilder
      * Get an option value.
      *
      * @param        $key
-     * @param  null $default
+     * @param  null  $default
      * @return mixed
      */
     public function getOption($key, $default = null)
@@ -780,7 +780,7 @@ class FormBuilder
      * Get a form option value.
      *
      * @param        $key
-     * @param  null $default
+     * @param  null  $default
      * @return mixed
      */
     public function getFormOption($key, $default = null)
@@ -885,7 +885,7 @@ class FormBuilder
      * Get a form value.
      *
      * @param        $key
-     * @param  null $default
+     * @param  null  $default
      * @return mixed
      */
     public function getFormValue($key, $default = null)
@@ -951,6 +951,20 @@ class FormBuilder
     public function getFormData()
     {
         return $this->form->getData();
+    }
+
+    /**
+     * Add form data.
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function addFormData($key, $value)
+    {
+        $this->form->addData($key, $value);
+
+        return $this;
     }
 
     /**
@@ -1222,7 +1236,7 @@ class FormBuilder
      * Get a request value.
      *
      * @param        $key
-     * @param  null $default
+     * @param  null  $default
      * @return mixed
      */
     public function getRequestValue($key, $default = null)
@@ -1234,7 +1248,7 @@ class FormBuilder
      * Get a post value.
      *
      * @param        $key
-     * @param  null $default
+     * @param  null  $default
      * @return mixed
      */
     public function getPostValue($key, $default = null)
@@ -1246,7 +1260,7 @@ class FormBuilder
      * Return a post key flag.
      *
      * @param        $key
-     * @param  null $default
+     * @param  null  $default
      * @return mixed
      */
     public function hasPostedInput($key)

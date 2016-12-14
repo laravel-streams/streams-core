@@ -118,7 +118,15 @@ class AddonManager
          * that they're all PSR autoloaded.
          */
         foreach ($paths as $path) {
-            $this->integrator->register($path, $enabled, $installed);
+
+            $namespace = $this->getAddonNamespace($path);
+
+            $this->integrator->register(
+                $path,
+                $namespace,
+                in_array($namespace, $enabled),
+                in_array($namespace, $installed)
+            );
         }
 
         // Sort all addons.
@@ -170,5 +178,20 @@ class AddonManager
         }
 
         return array_merge($modules, $extensions);
+    }
+
+    /**
+     * Get the addon namespace.
+     *
+     * @param $path
+     * @return string
+     */
+    protected function getAddonNamespace($path)
+    {
+        $vendor = strtolower(basename(dirname($path)));
+        $slug   = strtolower(substr(basename($path), 0, strpos(basename($path), '-')));
+        $type   = strtolower(substr(basename($path), strpos(basename($path), '-') + 1));
+
+        return "{$vendor}.{$type}.{$slug}";
     }
 }
