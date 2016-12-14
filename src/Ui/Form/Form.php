@@ -205,6 +205,18 @@ class Form implements PresentableInterface
     }
 
     /**
+     * Reset any errors that might exist on this form.
+     *
+     * @return $this
+     */
+    public function resetErrors()
+    {
+        $this->errors = new MessageBag();
+
+        return $this;
+    }
+
+    /**
      * Return whether the form has errors or not.
      *
      * @return bool
