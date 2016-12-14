@@ -74,13 +74,13 @@ class AddonIntegrator
     /**
      * Create a new AddonIntegrator instance.
      *
-     * @param Factory         $views
-     * @param Dispatcher      $events
-     * @param Container       $container
-     * @param Translator      $translator
-     * @param AddonProvider   $provider
-     * @param Application     $application
-     * @param Configurator    $configurator
+     * @param Factory $views
+     * @param Dispatcher $events
+     * @param Container $container
+     * @param Translator $translator
+     * @param AddonProvider $provider
+     * @param Application $application
+     * @param Configurator $configurator
      * @param AddonCollection $collection
      * @internal param Asset $asset
      * @internal param Image $image
@@ -109,18 +109,17 @@ class AddonIntegrator
      * Register an addon.
      *
      * @param $path
-     * @param $enabled
-     * @param $installed
+     * @param $namespace
+     * @param boolean $enabled
+     * @param boolean $installed
      */
-    public function register($path, array $enabled, array $installed)
+    public function register($path, $namespace, $enabled, $installed)
     {
         if (!is_dir($path)) {
             return;
         }
 
-        $vendor = strtolower(basename(dirname($path)));
-        $slug   = strtolower(substr(basename($path), 0, strpos(basename($path), '-')));
-        $type   = strtolower(substr(basename($path), strpos(basename($path), '-') + 1));
+        list($vendor, $type, $slug) = explode('.', $namespace);
 
         $class = studly_case($vendor) . '\\' . studly_case($slug) . studly_case($type) . '\\' . studly_case(
                 $slug
@@ -135,8 +134,8 @@ class AddonIntegrator
 
         // If the addon supports states - set the state now.
         if ($addon->getType() === 'module' || $addon->getType() === 'extension') {
-            $addon->setInstalled(in_array($addon->getNamespace(), $installed));
-            $addon->setEnabled(in_array($addon->getNamespace(), $enabled));
+            $addon->setInstalled($installed);
+            $addon->setEnabled($enabled);
         }
 
         // Bind to the service container.
