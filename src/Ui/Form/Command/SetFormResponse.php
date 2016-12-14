@@ -43,7 +43,7 @@ class SetFormResponse
         $this->builder->setFormResponse(
             $response->view(
                 $options->get('wrapper_view'),
-                $data
+                $data->all()
             )
         );
     }
