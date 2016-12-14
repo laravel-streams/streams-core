@@ -63,7 +63,7 @@ class EloquentRepository implements EloquentRepositoryInterface
     public function findTrashed($id)
     {
         return $this->model
-            ->onlyTrashed()
+            ->trashed()
             ->orderBy('id', 'ASC')
             ->where('id', $id)
             ->first();
