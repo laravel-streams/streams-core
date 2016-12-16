@@ -16,7 +16,7 @@
         "laravelcollective/html": "5.3.*",
         "twig/twig": "1.24.*",
         "rcrowe/twigbridge": "0.9.*",
-        "barryvdh/laravel-debugbar": "2.2.*",
+        "barryvdh/laravel-debugbar": "2.3.*",
         "coffeescript/coffeescript": "1.3.*",
         "michelf/php-markdown": "1.6.*",
         "aptoma/twig-markdown": "2.0.*",
