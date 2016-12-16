@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ form_open({'class': 'form', 'enctype': 'multipart/form-data', 'url': form.options.url}) }}
+    {{ form_open({'class': 'form', 'enctype': 'multipart/form-data', 'url': form.options.url ?: url_full()}) }}
 
     {{ view("streams::form/partials/heading", {'form': form}) }}
     {{ view("streams::form/partials/fields", {'form': form}) }}
