@@ -41,13 +41,13 @@ class StreamPresenter extends Presenter
     /**
      * Return the translatable label.
      *
-     * @param  string      $size
+     * @param  string $size
      * @return null|string
      */
     protected function translatableLabel($size = 'sm')
     {
         if ($this->object->isTranslatable()) {
-            return '<span class="label label-info label-' . $size . '">' . trans(
+            return '<span class="tag tag-info tag-' . $size . '">' . trans(
                 'streams::field.translatable.name'
             ) . '</span>';
         }
@@ -58,13 +58,13 @@ class StreamPresenter extends Presenter
     /**
      * Return the trashable label.
      *
-     * @param  string      $size
+     * @param  string $size
      * @return null|string
      */
     protected function trashableLabel($size = 'sm')
     {
         if ($this->object->isTrashable()) {
-            return '<span class="label label-danger label-' . $size . '">' . trans(
+            return '<span class="tag tag-danger tag-' . $size . '">' . trans(
                 'streams::field.trashable.name'
             ) . '</span>';
         }
@@ -75,13 +75,13 @@ class StreamPresenter extends Presenter
     /**
      * Return the sortable label.
      *
-     * @param  string      $size
+     * @param  string $size
      * @return null|string
      */
     protected function sortableLabel($size = 'sm')
     {
         if ($this->object->isSortable()) {
-            return '<span class="label label-primary label-' . $size . '">' . trans(
+            return '<span class="tag tag-primary tag-' . $size . '">' . trans(
                 'streams::field.sortable.name'
             ) . '</span>';
         }
