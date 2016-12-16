@@ -26,4 +26,12 @@ class Kernel extends \Illuminate\Foundation\Console\Kernel
 
         return $this->artisan;
     }
+
+    /**
+     * Include base commands.
+     */
+    protected function commands()
+    {
+        require base_path('routes/console.php');
+    }
 }
