@@ -535,6 +535,18 @@ class FormBuilder
     }
 
     /**
+     * Merge in skips.
+     *
+     * @param  array|string $skips
+     * @return $this
+     */
+    public function mergeSkips($skips) {
+        $this->skips = array_merge($this->getSkips(), $skips);
+
+        return $this;
+    }
+
+    /**
      * Add a skipped field.
      *
      * @param $fieldSlug
