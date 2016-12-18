@@ -145,7 +145,7 @@ class FormCriteria
 
         $this->cache->remember(
             'form::' . array_get($this->parameters, 'key'),
-            30,
+            1440,
             function () {
                 return $this->parameters;
             }
