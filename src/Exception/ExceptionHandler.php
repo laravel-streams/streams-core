@@ -6,6 +6,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\Debug\ExceptionHandler as SymfonyDisplayer;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -66,7 +67,7 @@ class ExceptionHandler extends NewExceptionHandler
             }
 
             return $this->renderHttpException($e);
-        } elseif (!config('app.debug')) {
+        } elseif (!config('app.debug') && !$e instanceof ValidationException) { // Maybe shouldntRender here?
             return response()->view("streams::errors.500", ['message' => $e->getMessage()], 500);
         } else {
             return parent::render($request, $e);
