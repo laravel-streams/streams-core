@@ -41,6 +41,7 @@ class FormRules
 
         /* @var FieldType $field */
         foreach ($builder->getEnabledFormFields() as $field) {
+
             if ($field->isDisabled()) {
                 continue;
             }
@@ -60,6 +61,7 @@ class FormRules
             }
 
             if ($assignment = $stream->getAssignment($field->getField())) {
+
                 $type = $assignment->getFieldType();
 
                 if ($type->isRequired()) {
@@ -67,7 +69,8 @@ class FormRules
                 }
 
                 if (!isset($fieldRules['unique']) && $assignment->isUnique() && !$assignment->isTranslatable()) {
-                    $unique = 'unique:' . $stream->getEntryTableName() . ',' . $field->getColumnName();
+
+                    $unique = 'unique:' . $stream->getEntryTableName() . ',' . $field->getUniqueColumnName();
 
                     if ($entry && $id = $entry->getId()) {
                         $unique .= ',' . $id;
