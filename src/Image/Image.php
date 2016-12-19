@@ -842,12 +842,16 @@ class Image
             return app('League\Flysystem\MountManager')->read($this->image->location());
         }
 
+        if (is_string($this->image) && str_is('*://*', $this->image) && !starts_with($this->image, ['http', '//'])) {
+            return app('League\Flysystem\MountManager')->read($this->image);
+        }
+
         if (is_string($this->image) && (file_exists($this->image) || starts_with($this->image, ['http', '//']))) {
             return file_get_contents($this->image);
         }
 
-        if (is_string($this->image) && str_is('*://*', $this->image)) {
-            return app('League\Flysystem\MountManager')->read($this->image);
+        if (is_string($this->image) && file_exists($this->image)) {
+            return file_get_contents($this->image);
         }
 
         if ($this->image instanceof File) {
