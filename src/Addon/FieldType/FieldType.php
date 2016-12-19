@@ -837,6 +837,16 @@ class FieldType extends Addon
     }
 
     /**
+     * Get the column name.
+     *
+     * @return string
+     */
+    public function getUniqueColumnName()
+    {
+        return $this->getColumnName();
+    }
+
+    /**
      * Get the column type.
      *
      * @return string
