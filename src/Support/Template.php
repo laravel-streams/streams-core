@@ -71,7 +71,6 @@ class Template
         }
 
         return $this->view
-            ->make('storage::' . $view, $payload)
-            ->render();
+            ->make('storage::' . $view, $payload);
     }
 }
