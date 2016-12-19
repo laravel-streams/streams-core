@@ -212,15 +212,15 @@ class Image
     /**
      * Create a new Image instance.
      *
-     * @param UrlGenerator $url
-     * @param HtmlBuilder $html
-     * @param Filesystem $files
+     * @param UrlGenerator  $url
+     * @param HtmlBuilder   $html
+     * @param Filesystem    $files
      * @param Mobile_Detect $agent
-     * @param Repository $config
-     * @param ImageManager $manager
-     * @param Application $application
-     * @param ImagePaths $paths
-     * @param ImageMacros $macros
+     * @param Repository    $config
+     * @param ImageManager  $manager
+     * @param Application   $application
+     * @param ImagePaths    $paths
+     * @param ImageMacros   $macros
      */
     public function __construct(
         UrlGenerator $url,
@@ -248,7 +248,7 @@ class Image
      * Make a new image instance.
      *
      * @param  mixed $image
-     * @param  null $output
+     * @param  null  $output
      * @return $this
      */
     public function make($image, $output = null)
@@ -315,7 +315,7 @@ class Image
      * Return the URL to an image.
      *
      * @param  array $parameters
-     * @param  null $secure
+     * @param  null  $secure
      * @return string
      */
     public function url(array $parameters = [], $secure = null)
@@ -326,7 +326,7 @@ class Image
     /**
      * Return the image tag to an image.
      *
-     * @param  null $alt
+     * @param  null  $alt
      * @param  array $attributes
      * @return string
      */
@@ -350,7 +350,7 @@ class Image
     /**
      * Return the image tag to an image.
      *
-     * @param  null $alt
+     * @param  null  $alt
      * @param  array $attributes
      * @return string
      */
@@ -408,7 +408,7 @@ class Image
      * Return the image response.
      *
      * @param  null $format
-     * @param  int $quality
+     * @param  int  $quality
      * @return String
      */
     public function encode($format = null, $quality = null)
@@ -667,7 +667,7 @@ class Image
      * Set the sources/alterations.
      *
      * @param  array $sources
-     * @param  bool $merge
+     * @param  bool  $merge
      * @return $this
      */
     public function sources(array $sources, $merge = true)
@@ -703,7 +703,7 @@ class Image
      * Alter the image based on the user agents.
      *
      * @param  array $agents
-     * @param  bool $exit
+     * @param  bool  $exit
      * @return $this
      */
     public function agents(array $agents, $exit = false)
@@ -842,16 +842,16 @@ class Image
             return app('League\Flysystem\MountManager')->read($this->image->location());
         }
 
+        if (is_string($this->image) && (file_exists($this->image) || starts_with($this->image, ['http', '//']))) {
+            return file_get_contents($this->image);
+        }
+
         if (is_string($this->image) && str_is('*://*', $this->image)) {
             return app('League\Flysystem\MountManager')->read($this->image);
         }
 
         if ($this->image instanceof File) {
             return $this->image->read();
-        }
-
-        if (is_string($this->image) && file_exists($this->image)) {
-            return file_get_contents($this->image);
         }
 
         if ($this->image instanceof Image) {
