@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Model\EloquentObserver;
 
 /**
  * Class ExtensionModel
@@ -27,6 +28,16 @@ class ExtensionModel extends EloquentModel implements ExtensionInterface
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * Boot the model
+     */
+    protected static function boot()
+    {
+        self::observe(app(EloquentObserver::class));
+
+        parent::boot();
+    }
 
     /**
      * Find a extension by it's namespace or return a new

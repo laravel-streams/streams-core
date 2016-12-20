@@ -3,7 +3,15 @@
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Model\EloquentObserver;
 
+/**
+ * Class ModuleModel
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class ModuleModel extends EloquentModel implements ModuleInterface
 {
 
@@ -20,6 +28,16 @@ class ModuleModel extends EloquentModel implements ModuleInterface
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * Boot the model
+     */
+    protected static function boot()
+    {
+        self::observe(app(EloquentObserver::class));
+
+        parent::boot();
+    }
 
     /**
      * Find a module by it's namespace or return a new
@@ -79,7 +97,7 @@ class ModuleModel extends EloquentModel implements ModuleInterface
     /**
      * Return a new collection.
      *
-     * @param  array              $items
+     * @param  array $items
      * @return EloquentCollection
      */
     public function newCollection(array $items = [])
