@@ -434,6 +434,17 @@ interface EntryInterface
     public function getAttributes();
 
     /**
+     * Cache a value in the
+     * model's cache collection.
+     *
+     * @param $key
+     * @param $ttl
+     * @param $value
+     * @return mixed
+     */
+    public function cache($key, $ttl, $value);
+
+    /**
      * Flush the entry model's cache.
      *
      * @return EntryInterface
