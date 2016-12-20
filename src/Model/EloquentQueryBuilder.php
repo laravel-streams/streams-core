@@ -41,8 +41,12 @@ class EloquentQueryBuilder extends Builder
     {
         $key = $this->getCacheKey();
 
-        if (env('DB_CACHE') !== false && $this->model instanceof EntryModel && isset(self::$cache[$key])) {
-            return self::$cache[$key];
+        if (
+            env('DB_CACHE') !== false
+            && $this->model instanceof EntryModel
+            && isset(self::$cache[$this->model->getCacheCollectionKey()][$key])
+        ) {
+            return self::$cache[$this->model->getCacheCollectionKey()][$key];
         }
 
         $this->orderByDefault();
@@ -64,7 +68,7 @@ class EloquentQueryBuilder extends Builder
             }
         }
 
-        return self::$cache[$key] = parent::get($columns);
+        return self::$cache[$this->model->getCacheCollectionKey()][$key] = parent::get($columns);
     }
 
     /**
