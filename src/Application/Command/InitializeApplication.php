@@ -4,6 +4,13 @@ use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Contracts\Foundation\Application as Laravel;
 use Symfony\Component\Console\Input\ArgvInput;
 
+/**
+ * Class InitializeApplication
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class InitializeApplication
 {
 
@@ -54,13 +61,18 @@ class InitializeApplication
          * initialize.
          */
         if ($application->isInstalled()) {
+
             if (env('DB_CONNECTION', env('DB_DRIVER'))) {
 
-                $application->locate();
-                $application->setup();
+                try {
+                    $application->locate();
+                    $application->setup();
 
-                if (!$application->isEnabled()) {
-                    abort(503);
+                    if (!$application->isEnabled()) {
+                        abort(503);
+                    }
+                } catch(\Exception $e) {
+                    // Do nothing.
                 }
             }
 

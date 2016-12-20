@@ -42,7 +42,8 @@ class EloquentQueryBuilder extends Builder
         $key = $this->getCacheKey();
 
         if (
-            env('DB_CACHE') !== false
+            env('INSTALLED')
+            && env('DB_CACHE') !== false
             && $this->model instanceof EntryModel
             && isset(self::$cache[$this->model->getCacheCollectionKey()][$key])
         ) {
