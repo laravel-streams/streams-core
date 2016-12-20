@@ -153,21 +153,17 @@ class Application
      */
     public function locate()
     {
-        if (app('db')->getSchemaBuilder()->hasTable('applications')) {
-            if ($app = $this->applications->findByDomain(app('request')->root())) {
+        if ($app = $this->applications->findByDomain(app('request')->root())) {
 
-                $this->installed = true;
-                $this->locale    = $app->locale;
-                $this->enabled   = $app->enabled;
-                $this->reference = $app->reference;
+            $this->installed = true;
+            $this->locale    = $app->locale;
+            $this->enabled   = $app->enabled;
+            $this->reference = $app->reference;
 
-                return true;
-            }
-
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**
