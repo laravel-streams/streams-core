@@ -250,6 +250,20 @@ class EloquentRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * Cache a value in the
+     * model's cache collection.
+     *
+     * @param $key
+     * @param $ttl
+     * @param $value
+     * @return mixed
+     */
+    public function cache($key, $ttl, $value)
+    {
+        return $this->model->cache($key, $ttl, $value);
+    }
+
+    /**
      * Guard the model.
      *
      * @return $this

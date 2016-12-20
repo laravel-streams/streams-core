@@ -99,14 +99,26 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     }
 
     /**
-     * Alias for $this->setTtl($ttl)
+     * Cache a value in the
+     * model's cache collection.
      *
+     * @param $key
      * @param $ttl
-     * @return EloquentModel
+     * @param $value
+     * @return mixed
      */
-    public function cache($ttl)
+    public function cache($key, $ttl, $value)
     {
-        return $this->setTtl($ttl);
+        (new CacheCollection())
+            ->make([$key])
+            ->setKey($this->getCacheCollectionKey())
+            ->index();
+
+        return app('cache')->remember(
+            $key,
+            $ttl ?: $this->getTtl(),
+            $value
+        );
     }
 
     /**
