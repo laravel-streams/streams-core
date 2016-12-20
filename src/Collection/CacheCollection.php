@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Collection;
 
+use Anomaly\Streams\Platform\Model\EloquentQueryBuilder;
 use Illuminate\Support\Collection;
 
 /**
@@ -39,10 +40,6 @@ class CacheCollection extends Collection
     public function flush()
     {
         $this->index();
-
-        foreach ($this->items as $key) {
-            app('cache')->forget($key);
-        }
 
         foreach ($this->items as $key) {
             app('cache')->forget($key);
