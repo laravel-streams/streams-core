@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Entry\EntryModel;
 use Database\Query\JoinClause;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -15,6 +16,13 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class EloquentQueryBuilder extends Builder
 {
+
+    /**
+     * Runtime cache.
+     *
+     * @var array
+     */
+    protected static $cache = [];
 
     /**
      * The model being queried.
@@ -31,28 +39,32 @@ class EloquentQueryBuilder extends Builder
      */
     public function get($columns = ['*'])
     {
+        $key = $this->getCacheKey();
+
+        if (env('DB_CACHE') !== false && $this->model instanceof EntryModel && isset(self::$cache[$key])) {
+            return self::$cache[$key];
+        }
+
         $this->orderByDefault();
 
-        if (env('DB_CACHE')) {
+        if (env('DB_CACHE') && $this->model->getTtl()) {
 
             $this->rememberIndex();
 
-            if ($this->model->getTtl()) {
-                try {
-                    return app('cache')->remember(
-                        $this->getCacheKey(),
-                        $this->model->getTtl(),
-                        function () use ($columns) {
-                            return parent::get($columns);
-                        }
-                    );
-                } catch (\Exception $e) {
-                    return parent::get($columns);
-                }
+            try {
+                return app('cache')->remember(
+                    $this->getCacheKey(),
+                    $this->model->getTtl(),
+                    function () use ($columns) {
+                        return parent::get($columns);
+                    }
+                );
+            } catch (\Exception $e) {
+                return parent::get($columns);
             }
         }
 
-        return parent::get($columns);
+        return self::$cache[$key] = parent::get($columns);
     }
 
     /**
