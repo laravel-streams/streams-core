@@ -688,11 +688,19 @@ class FormBuilder
      *
      * @param        $slug
      * @param  array $section
+     * @param null   $position
      * @return $this
      */
-    public function addSection($slug, array $section)
+    public function addSection($slug, array $section, $position = null)
     {
-        array_set($this->sections, $slug, $section);
+        if ($position === null) {
+            $position = count($this->sections) + 1;
+        }
+
+        $front = array_slice($this->sections, 0, $position, true);
+        $back  = array_slice($this->sections, $position, count($this->sections) - $position, true);
+
+        $this->sections = $front + [$slug => $section] + $back;
 
         return $this;
     }
@@ -703,11 +711,23 @@ class FormBuilder
      * @param        $section
      * @param        $slug
      * @param  array $tab
+     * @param null   $position
      * @return $this
      */
-    public function addSectionTab($section, $slug, array $tab)
+    public function addSectionTab($section, $slug, array $tab, $position = null)
     {
-        array_set($this->sections, "{$section}.tabs.{$slug}", $tab);
+        $tabs = array_get($this->sections, "{$section}.tabs");
+
+        if ($position === null) {
+            $position = count($tabs) + 1;
+        }
+
+        $front = array_slice($tabs, 0, $position, true);
+        $back  = array_slice($tabs, $position, count($tabs) - $position, true);
+
+        $tabs = $front + [$slug => $tab] + $back;
+
+        array_set($this->sections, "{$section}.tabs", $tabs);
 
         return $this;
     }
