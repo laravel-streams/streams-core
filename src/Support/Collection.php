@@ -29,7 +29,7 @@ class Collection extends \Illuminate\Support\Collection
      * Pad to the specified size with a value.
      *
      * @param        $size
-     * @param  null $value
+     * @param  null  $value
      * @return $this
      */
     public function pad($size, $value = null)
@@ -53,6 +53,16 @@ class Collection extends \Illuminate\Support\Collection
     }
 
     /**
+     * Return undecorated items.
+     *
+     * @return static|$this
+     */
+    public function undecorate()
+    {
+        return new static((new Decorator())->undecorate($this->items));
+    }
+
+    /**
      * Map to get.
      *
      * @param $name
@@ -71,7 +81,7 @@ class Collection extends \Illuminate\Support\Collection
      * Map to get.
      *
      * @param string $method
-     * @param array $parameters
+     * @param array  $parameters
      */
     public function __call($method, $parameters)
     {

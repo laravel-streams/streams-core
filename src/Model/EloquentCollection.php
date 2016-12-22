@@ -1,8 +1,16 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
+use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class EloquentCollection
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class EloquentCollection extends Collection
 {
 
@@ -85,6 +93,16 @@ class EloquentCollection extends Collection
     public function skip($offset)
     {
         return $this->slice($offset, null, true);
+    }
+
+    /**
+     * Return undecorated items.
+     *
+     * @return static|$this
+     */
+    public function undecorate()
+    {
+        return new static((new Decorator())->undecorate($this->items));
     }
 
     /**
