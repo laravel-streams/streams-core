@@ -27,17 +27,7 @@ class NavigationHandler
         /* @var Module $module */
         foreach ($modules->enabled()->accessible() as $module) {
             if ($module->getNavigation()) {
-                $navigation[trans($module->getName())] = $module;
-            }
-        }
-
-        ksort($navigation);
-
-        foreach ($navigation as $key => $module) {
-            if ($module->getNamespace() == 'anomaly.module.dashboard') {
-                $navigation = [$key => $module] + $navigation;
-
-                break;
+                $navigation[$module->getSlug()] = $module;
             }
         }
 
@@ -46,6 +36,7 @@ class NavigationHandler
                 function (Module $module) {
                     return [
                         'breadcrumb' => $module->getName(),
+                        'icon'       => $module->getIcon(),
                         'title'      => $module->getTitle(),
                         'slug'       => $module->getNamespace(),
                         'href'       => 'admin/' . $module->getSlug(),
