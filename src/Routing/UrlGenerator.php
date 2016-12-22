@@ -150,7 +150,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
         if (!$route = $this->routes->getByName($name)) {
             return null;
         }
-        
+
         $route = parent::route($name, $parameters, $absolute);
 
         if (!array_filter($parameters)) {
@@ -158,5 +158,16 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
         }
 
         return $route;
+    }
+
+    /**
+     * Return if the route exists.
+     *
+     * @param $name
+     * @return bool
+     */
+    public function hasRoute($name)
+    {
+        return (bool)$this->routes->getByName($name);
     }
 }
