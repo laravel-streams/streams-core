@@ -716,7 +716,7 @@ class FormBuilder
      */
     public function addSectionTab($section, $slug, array $tab, $position = null)
     {
-        $tabs = array_get($this->sections, "{$section}.tabs");
+        $tabs = (array)array_get($this->sections, "{$section}.tabs");
 
         if ($position === null) {
             $position = count($tabs) + 1;

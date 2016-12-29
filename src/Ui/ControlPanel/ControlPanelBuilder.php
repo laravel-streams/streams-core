@@ -120,6 +120,55 @@ class ControlPanelBuilder
     }
 
     /**
+     * Add a section.
+     *
+     * @param        $slug
+     * @param  array $section
+     * @param null   $position
+     * @return $this
+     */
+    public function addSection($slug, array $section, $position = null)
+    {
+        if ($position === null) {
+            $position = count($this->sections) + 1;
+        }
+
+        $front = array_slice($this->sections, 0, $position, true);
+        $back  = array_slice($this->sections, $position, count($this->sections) - $position, true);
+
+        $this->sections = $front + [$slug => $section] + $back;
+
+        return $this;
+    }
+
+    /**
+     * Add a section button.
+     *
+     * @param        $section
+     * @param        $slug
+     * @param  array $button
+     * @param null   $position
+     * @return $this
+     */
+    public function addSectionButton($section, $slug, array $button, $position = null)
+    {
+        $buttons = (array)array_get($this->sections, "{$section}.buttons");
+
+        if ($position === null) {
+            $position = count($buttons) + 1;
+        }
+
+        $front = array_slice($buttons, 0, $position, true);
+        $back  = array_slice($buttons, $position, count($buttons) - $position, true);
+
+        $buttons = $front + [$slug => $button] + $back;
+
+        array_set($this->sections, "{$section}.buttons", $buttons);
+
+        return $this;
+    }
+
+    /**
      * Get the module navigation.
      *
      * @return array
@@ -133,35 +182,10 @@ class ControlPanelBuilder
      * Set the navigation.
      *
      * @param array $navigation
-     * @return $this
      */
     public function setNavigation($navigation)
     {
         $this->navigation = $navigation;
-
-        return $this;
-    }
-
-    /**
-     * Add a navigation.
-     *
-     * @param        $slug
-     * @param  array $navigation
-     * @param null   $position
-     * @return $this
-     */
-    public function addNavigation($slug, array $navigation, $position = null)
-    {
-        if ($position === null) {
-            $position = count($this->navigation) + 1;
-        }
-
-        $front = array_slice($this->navigation, 0, $position, true);
-        $back  = array_slice($this->navigation, $position, count($this->navigation) - $position, true);
-
-        $this->navigation = $front + [$slug => $navigation] + $back;
-
-        return $this;
     }
 
     /**
