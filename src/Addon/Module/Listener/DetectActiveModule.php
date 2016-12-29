@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
 use Illuminate\Contracts\Container\Container;
@@ -54,6 +55,13 @@ class DetectActiveModule
     protected $container;
 
     /**
+     * The application instance.
+     *
+     * @var Application
+     */
+    protected $application;
+
+    /**
      * Create a new DetectActiveModule instance.
      *
      * @param Asset            $asset
@@ -61,19 +69,22 @@ class DetectActiveModule
      * @param Request          $request
      * @param ModuleCollection $modules
      * @param Container        $container
+     * @param Application      $application
      */
     public function __construct(
         Asset $asset,
         Image $image,
         Request $request,
         ModuleCollection $modules,
-        Container $container
+        Container $container,
+        Application $application
     ) {
-        $this->asset     = $asset;
-        $this->image     = $image;
-        $this->request   = $request;
-        $this->modules   = $modules;
-        $this->container = $container;
+        $this->asset       = $asset;
+        $this->image       = $image;
+        $this->request     = $request;
+        $this->modules     = $modules;
+        $this->container   = $container;
+        $this->application = $application;
     }
 
     /**
@@ -107,7 +118,15 @@ class DetectActiveModule
             return;
         }
 
-        $this->container->make('view')->addNamespace('module', $module->getPath('resources/views'));
+        $this->container->make('view')->addNamespace(
+            'module',
+            [
+                $this->application->getResourcesPath(
+                    "addons/{$module->getVendor()}/{$module->getSlug()}-{$module->getType()}/views/"
+                ),
+                $module->getPath('resources/views'),
+            ]
+        );
         $this->container->make('translator')->addNamespace('module', $module->getPath('resources/lang'));
 
         $this->asset->addPath('module', $module->getPath('resources'));

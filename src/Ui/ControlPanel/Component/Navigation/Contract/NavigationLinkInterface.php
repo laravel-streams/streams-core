@@ -33,6 +33,21 @@ interface NavigationLinkInterface
     public function setSlug($slug);
 
     /**
+     * Get the icon.
+     *
+     * @return null|string
+     */
+    public function getIcon();
+
+    /**
+     * Set the icon.
+     *
+     * @param $icon
+     * @return $this
+     */
+    public function setIcon($icon);
+
+    /**
      * Get the title.
      *
      * @return string

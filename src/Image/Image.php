@@ -105,6 +105,7 @@ class Image
         'blur',
         'brightness',
         'colorize',
+        'resizeCanvas',
         'contrast',
         'crop',
         'encode',
