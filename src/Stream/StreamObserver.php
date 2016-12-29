@@ -27,18 +27,13 @@ class StreamObserver extends Observer
 {
 
     /**
-     * Run after stream a record.
+     * Run before a stream is created.
      *
      * @param StreamInterface $model
      */
-    public function saved(StreamInterface $model)
+    public function creating(StreamInterface $model)
     {
-        $model->compile();
-        $model->flushCache();
-
-        $this->dispatch(new CheckEntryIndex($model));
-
-        $this->events->fire(new StreamWasSaved($model));
+        $model->fireFieldTypeEvents('stream_creating');
     }
 
     /**
@@ -53,7 +48,26 @@ class StreamObserver extends Observer
 
         $this->dispatch(new CreateStreamsEntryTable($model));
 
+        $model->fireFieldTypeEvents('stream_created');
+
         $this->events->fire(new StreamWasCreated($model));
+    }
+
+    /**
+     * Run after stream a record.
+     *
+     * @param StreamInterface $model
+     */
+    public function saved(StreamInterface $model)
+    {
+        $model->compile();
+        $model->flushCache();
+
+        $this->dispatch(new CheckEntryIndex($model));
+
+        $model->fireFieldTypeEvents('stream_saved');
+
+        $this->events->fire(new StreamWasSaved($model));
     }
 
     /**
@@ -63,6 +77,8 @@ class StreamObserver extends Observer
      */
     public function updating(StreamInterface $model)
     {
+        $model->fireFieldTypeEvents('stream_updating');
+
         $this->dispatch(new RenameStreamsEntryTable($model));
     }
 
@@ -73,6 +89,8 @@ class StreamObserver extends Observer
      */
     public function updated(StreamInterface $model)
     {
+        $model->fireFieldTypeEvents('stream_updated');
+
         $this->events->fire(new StreamWasUpdated($model));
     }
 
@@ -85,6 +103,8 @@ class StreamObserver extends Observer
     {
         $model->compile();
         $model->flushCache();
+
+        $model->fireFieldTypeEvents('stream_deleted');
 
         $this->dispatch(new DeleteEntryIndex($model));
         $this->dispatch(new DropStreamsEntryTable($model));

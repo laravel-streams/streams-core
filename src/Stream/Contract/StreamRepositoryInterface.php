@@ -4,6 +4,13 @@ use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Stream\StreamCollection;
 
+/**
+ * Interface StreamRepositoryInterface
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 interface StreamRepositoryInterface extends EloquentRepositoryInterface
 {
 
