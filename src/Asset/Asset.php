@@ -221,7 +221,7 @@ class Asset
             $this->files->put($path, file_get_contents($url));
         }
 
-        return str_replace(public_path(), '', $path);
+        return $path;
     }
 
     /**
