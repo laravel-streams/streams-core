@@ -220,8 +220,6 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
 
             $fieldType = $assignment->getFieldType();
 
-            $fieldType->setValue($this->getRawAttribute($assignment->getFieldSlug()));
-
             $payload['stream']    = $this;
             $payload['fieldType'] = $fieldType;
 
