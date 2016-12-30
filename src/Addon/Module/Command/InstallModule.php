@@ -69,6 +69,8 @@ class InstallModule
 
         $modules->install($this->module);
 
+        $modules->installNpm($this->module);
+
         $manager->register();
 
         if ($this->seed) {

@@ -138,4 +138,14 @@ class ModuleRepository implements ModuleRepositoryInterface
 
         return $module->save();
     }
+
+    /**
+     * Install the npm dependencies
+     * @return void
+     */
+    public function installNpm()
+    {
+        $addProcess = new Process('npm install ' . $this->getAppPath() . ' --save');
+        $addProcess->run();
+    }
 }
