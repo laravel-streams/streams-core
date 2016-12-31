@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
+use Symfony\Component\Process\Process;
 
 /**
  * Class ModuleRepository
@@ -143,9 +144,34 @@ class ModuleRepository implements ModuleRepositoryInterface
      * Install the npm dependencies
      * @return void
      */
-    public function installNpm()
+    public function installNpm(Module $module)
     {
-        $addProcess = new Process('npm install ' . $this->getAppPath() . ' --save');
+        // First make sure that there's a package.json
+        if(file_exists($module->getAppPath() . '/package.json')) {
+            return false;
+        }
+
+        $yarnCheck = new Process('which yarn');
+        $yarnCheck->run();
+
+        // Then check to see if yarn is installed and there's a yarn.lock file
+        // Either way, add the folder as a dependency to the project's package.json
+        if(file_exists(base_path().'/yarn.lock') && $yarnCheck->getOutput()) {
+            $addProcess = new Process('yarn add file:' . $module->getAppPath() . ' --save && yarn install');
+        } else {
+            $addProcess = new Process('npm install ' . $module->getAppPath() . ' --save');
+        }
+
+        // Make sure the working directory is the project's root
+        $addProcess->setWorkingDirectory(base_path());
+
+        // Make sure it doesn't timeout
+        // @todo: might need to increase the timeout
+        $addProcess->setTimeout(7 * 60);
+        $addProcess->setIdleTimeout(7 * 60);
+
+        // Let 'er rip!
         $addProcess->run();
     }
+
 }
