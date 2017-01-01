@@ -2,6 +2,7 @@
 
 use Illuminate\Filesystem\Filesystem;
 use Anomaly\Streams\Platform\Support\Parser;
+use Anomaly\Streams\Platform\Stream\StreamCollection;
 
 /**
  * Class WriteAddonSeeder
@@ -45,17 +46,19 @@ class WriteAddonSeeder
     /**
      * Create a new WriteAddonSeeder instance.
      *
-     * @param $path
-     * @param $type
-     * @param $slug
-     * @param $vendor
+     * @param string           $path    The path
+     * @param string           $type    The type
+     * @param string           $slug    The slug
+     * @param string           $vendor  The vendor
+     * @param StreamCollection $streams The streams
      */
-    public function __construct($path, $type, $slug, $vendor)
+    public function __construct($path, $type, $slug, $vendor, StreamCollection $streams)
     {
-        $this->path   = $path;
-        $this->slug   = $slug;
-        $this->type   = $type;
-        $this->vendor = $vendor;
+        $this->path    = $path;
+        $this->slug    = $slug;
+        $this->type    = $type;
+        $this->vendor  = $vendor;
+        $this->streams = $streams;
     }
 
     /**
@@ -73,6 +76,8 @@ class WriteAddonSeeder
         $addon     = $slug.$type;
         $class     = $addon.'Seeder';
         $namespace = "{$vendor}\\{$addon}";
+        $uses      = $this->getUses($namespace)->implode("\n");
+        $calls     = $this->getCalls()->implode("\n        ");
 
         $path = "{$this->path}/src/{$class}.php";
 
@@ -82,6 +87,55 @@ class WriteAddonSeeder
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);
 
-        $filesystem->put($path, $parser->parse($template, compact('namespace', 'class')));
+        $filesystem->put($path, $parser->parse(
+            $template,
+            compact('namespace', 'class', 'uses', 'calls')
+        ));
+    }
+
+    /**
+     * Gets the uses.
+     *
+     * @param  string     $namespace The namespace
+     * @return Collection The uses.
+     */
+    public function getUses($namespace)
+    {
+        return $this->streams->map(
+            function ($stream) use ($namespace)
+            {
+                $name = ucfirst(str_singular($stream->getSlug()));
+
+                return "use {$namespace}\\{$name}\\{$name}Seeder;";
+            }
+        );
+    }
+
+    /**
+     * Gets the calls.
+     *
+     * @return Collection The calls.
+     */
+    public function getCalls()
+    {
+        return $this->streams->map(
+            function ($stream)
+            {
+                $name = ucfirst(str_singular($stream->getSlug()));
+
+                return "\$this->call({$name}Seeder::class);";
+            }
+        );
+    }
+
+    /**
+     * Gets the name.
+     *
+     * @param  string $slug The slug
+     * @return string The name.
+     */
+    public function getName($slug)
+    {
+        return ucfirst(str_singular($slug));
     }
 }
