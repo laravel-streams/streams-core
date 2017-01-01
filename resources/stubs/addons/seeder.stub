@@ -1,6 +1,6 @@
 <?php namespace {namespace};
 
-use Anomaly\Streams\Platform\Database\Seeder;
+use Anomaly\Streams\Platform\Database\Seeder\Seeder;
 {uses}
 
 class {class} extends Seeder
