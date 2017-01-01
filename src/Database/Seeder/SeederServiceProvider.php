@@ -29,7 +29,10 @@ class SeederServiceProvider extends SeedServiceProvider
         
         $this->registerMakeCommand();
 
-        $this->commands('command.seed');
+        $this->commands([
+            'command.seed',
+            'command.seeder.make',
+        ]);
     }
 
     /**
