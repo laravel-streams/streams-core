@@ -58,8 +58,9 @@ class WriteEntitySeeder
      */
     public function handle(Parser $parser, Filesystem $filesystem)
     {
-        $suffix = ucfirst(camel_case($this->slug));
-        $entity = str_singular($suffix);
+        $entities = camel_case($this->slug);
+        $suffix   = ucfirst($entities);
+        $entity   = str_singular($suffix);
 
         $class     = "{$entity}Seeder";
         $namespace = $this->addon->getTransformedClass("{$entity}");
@@ -72,6 +73,8 @@ class WriteEntitySeeder
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);
 
-        $filesystem->put($path, $parser->parse($template, compact('class', 'namespace')));
+        $filesystem->put($path, $parser->parse(
+            $template,
+            compact('class', 'namespace', 'entity', 'entities')));
     }
 }
