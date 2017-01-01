@@ -29,13 +29,6 @@ class SeederMakeCommand extends \Illuminate\Console\Command
     protected $description = 'Create a new seeder class for addon';
 
     /**
-     * The type of class being generated.
-     *
-     * @var string
-     */
-    protected $type = 'Seeder';
-
-    /**
      * The Composer instance.
      *
      * @var \Illuminate\Support\Composer
@@ -63,6 +56,11 @@ class SeederMakeCommand extends \Illuminate\Console\Command
      */
     public function fire()
     {
+        if (!$this->confirm('Are you sure? This will overwrite existing files!', false))
+        {
+            return $this->info('Exit');
+        }
+        
         /* @var Addon $addon */
         if (!$addon = $this->dispatch(new GetAddon($this->getAddonNamespace())))
         {
@@ -95,7 +93,7 @@ class SeederMakeCommand extends \Illuminate\Console\Command
 
         $this->composer->dumpAutoloads();
 
-        $this->info($this->type.' created successfully.');
+        $this->info('Seeders created successfully.');
     }
 
     /**
