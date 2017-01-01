@@ -1,14 +1,16 @@
 <?php namespace {namespace};
 
-class {class} extends \Anomaly\Streams\Platform\Database\Seeder\Seeder
+use Anomaly\Streams\Platform\Database\Seeder;
+{uses}
+
+class {class} extends Seeder
 {
+
     /**
-     * Run the database seeds.
-     *
-     * @return void
+     * Run the seeder
      */
     public function run()
     {
-        //
+        {calls}
     }
 }
