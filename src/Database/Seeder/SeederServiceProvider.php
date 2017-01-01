@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Database\Seeder;
 
+use Anomaly\Streams\Platform\Database\Seeder\Console\SeederMakeCommand;
 use Anomaly\Streams\Platform\Database\Seeder\Console\SeedCommand;
 use Illuminate\Database\SeedServiceProvider;
 
@@ -25,6 +26,8 @@ class SeederServiceProvider extends SeedServiceProvider
                 return new Seeder();
             }
         );
+        
+        $this->registerMakeCommand();
 
         $this->commands('command.seed');
     }
@@ -40,6 +43,21 @@ class SeederServiceProvider extends SeedServiceProvider
             'command.seed',
             function ($app) {
                 return new SeedCommand($app['db']);
+            }
+        );
+    }
+    
+    /**
+     * Register the "make" seeder command.
+     *
+     * @return void
+     */
+    protected function registerMakeCommand()
+    {
+        $this->app->singleton(
+            'command.seeder.make',
+            function ($app) {
+                return new SeederMakeCommand($app['files'], $app['composer']);
             }
         );
     }
