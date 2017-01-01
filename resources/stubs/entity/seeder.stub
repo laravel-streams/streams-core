@@ -1,9 +1,40 @@
 <?php namespace {namespace};
 
-use Anomaly\Streams\Platform\Database\Seeder;
+use {namespace}\Contract\{entity}RepositoryInterface;
+use Anomaly\Streams\Platform\Database\Seeder\Seeder;
+use Illuminate\Contracts\Config\Repository;
 
 class {class} extends Seeder
 {
+
+    /**
+     * The {entity} repository.
+     *
+     * @var {entity}RepositoryInterface
+     */
+    protected ${entities};
+
+    /**
+     * The config repository.
+     *
+     * @var Repository
+     */
+    protected $config;
+
+    /**
+     * Create a new {class} instance.
+     *
+     * @param Repository $config
+     * @param {entity}RepositoryInterface ${entities}
+     */
+    public function __construct(
+        Repository $config,
+        {entity}RepositoryInterface ${entities}
+    )
+    {
+        $this->config = $config;
+        $this->{entities} = ${entities};
+    }
 
     /**
      * Run the seeder
