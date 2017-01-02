@@ -132,6 +132,10 @@ class EloquentCollection extends Collection
      */
     public function __call($method, $parameters)
     {
+        if (self::hasMacro($method)) {
+            return parent::__call($method, $parameters);
+        }
+
         if ($this->hasHook($hook = snake_case($method))) {
             return $this->call($hook, $parameters);
         }
