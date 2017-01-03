@@ -6,6 +6,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Anomaly\Streams\Platform\Addon\Command\GetAddon;
+use Anomaly\Streams\Platform\Stream\StreamCollection;
 use Anomaly\Streams\Platform\Stream\Command\GetStreams;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonSeeder;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntitySeeder;
@@ -27,6 +28,13 @@ class SeederMakeCommand extends \Illuminate\Console\Command
      * @var string
      */
     protected $description = 'Create a new seeder class for addon';
+
+    /**
+     * All streams string value
+     *
+     * @var string
+     */
+    protected $allChoice = 'All streams';
 
     /**
      * The Composer instance.
@@ -56,11 +64,6 @@ class SeederMakeCommand extends \Illuminate\Console\Command
      */
     public function fire()
     {
-        if (!$this->confirm('Are you sure? This will overwrite existing files!', false))
-        {
-            return $this->info('Exit');
-        }
-        
         /* @var Addon $addon */
         if (!$addon = $this->dispatch(new GetAddon($this->getAddonNamespace())))
         {
@@ -78,14 +81,37 @@ class SeederMakeCommand extends \Illuminate\Console\Command
         }
 
         /* @var StreamCollection $streams */
-        $streams = $this->getStreams($slug)->each(
+        $streams = $this->getStreams($slug);
+
+        $answers = $this->makeQuestion($streams);
+
+        if (array_search($this->getAllChoice(), $answers) === false)
+        {
+            $streams = $streams->filter(
+                function ($stream) use ($answers)
+                {
+                    return array_search(ucfirst($stream->getSlug()), $answers) !== false;
+                }
+            );
+        }
+
+        $streams->each(
             function ($stream) use ($addon)
             {
+                $slug = $stream->getSlug();
+
                 $this->dispatch(new WriteEntitySeeder(
                     $addon,
-                    $stream->getSlug(),
+                    $slug,
                     $stream->getNamespace()
                 ));
+
+                $slug = ucfirst($slug);
+                $path = "{$addon->getPath()}/{$slug}/{$slug}Seeder.php";
+
+                $this->comment("Seeder for {$slug} created successfully.");
+                $this->line("Path: {$path}");
+                $this->line('');
             }
         );
 
@@ -94,6 +120,71 @@ class SeederMakeCommand extends \Illuminate\Console\Command
         $this->composer->dumpAutoloads();
 
         $this->info('Seeders created successfully.');
+    }
+
+    /**
+     * Gets the addon's stream namespace.
+     *
+     * @throws \Exception
+     * @return string       The stream namespace.
+     */
+    public function getAddonNamespace()
+    {
+        $namespace = $this->argument('namespace');
+
+        if (!str_is('*.*.*', $namespace))
+        {
+            throw new \Exception('The namespace should be snake case and formatted like: {vendor}.{type}.{slug}');
+        }
+
+        return $namespace;
+    }
+
+    /**
+     * Gets the root streams of addon.
+     *
+     * @param  string             $slug The addon slug
+     * @return StreamCollection
+     */
+    public function getStreams($slug)
+    {
+        return $this->dispatch(new GetStreams($slug))->filter(
+            function ($stream)
+            {
+                return !str_contains($stream->getSlug(), '_');
+            }
+        );
+    }
+
+    /**
+     * Get `all` value.
+     *
+     * @return string All value.
+     */
+    public function getAllChoice()
+    {
+        return $this->allChoice;
+    }
+
+    /**
+     * Makes a question about streams to make seeders for.
+     *
+     * @param  StreamCollection $streams  The streams
+     * @return array            Answers
+     */
+    public function makeQuestion(StreamCollection $streams)
+    {
+        $choices = $streams->map(
+            function ($stream)
+            {
+                return ucfirst($stream->getSlug());
+            }
+        )->prepend($this->getAllChoice())->toArray();
+
+        return $this->choice(
+            'Please choose the addon\'s streams to create seeders for (common separated if multiple)',
+            $choices, 0, null, true
+        );
     }
 
     /**
@@ -122,39 +213,5 @@ class SeederMakeCommand extends \Illuminate\Console\Command
         return [
             ['namespace', InputArgument::REQUIRED, 'The namespace of the addon'],
         ];
-    }
-
-    /**
-     * Gets the stream namespace.
-     *
-     * @throws \Exception
-     * @return string       The stream namespace.
-     */
-    public function getAddonNamespace()
-    {
-        $namespace = $this->argument('namespace');
-
-        if (!str_is('*.*.*', $namespace))
-        {
-            throw new \Exception('The namespace should be snake case and formatted like: {vendor}.{type}.{slug}');
-        }
-
-        return $namespace;
-    }
-
-    /**
-     * Gets the streams.
-     *
-     * @param  string             $slug The addon slug
-     * @return StreamCollection
-     */
-    public function getStreams($slug)
-    {
-        return $this->dispatch(new GetStreams($slug))->filter(
-            function ($stream)
-            {
-                return !str_contains($stream->getSlug(), '_');
-            }
-        );
     }
 }
