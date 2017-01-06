@@ -5,11 +5,17 @@ $(function () {
         e.preventDefault();
 
         var selected = $(this);
-        var locale = $(this).attr('lang');
-        var form = $(this).closest('form');
+        var locale = selected.attr('lang');
+        var form = selected.closest('form');
 
-        selected.closest('.btn-group').find('button').text(selected.text());
-        selected.closest('div').find('a').removeClass('active');
+        var triggers = form.find('[data-toggle="lang"]');
+        var group = triggers.closest('.btn-group');
+        var toggle = group.find('.dropdown-toggle');
+        var dropdown = group.find('.dropdown-menu');
+
+        toggle.text(selected.text());
+
+        dropdown.find('a').removeClass('active');
         selected.addClass('active');
 
         form.find('.form-group[lang]').addClass('hidden');
