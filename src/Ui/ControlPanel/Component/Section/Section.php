@@ -112,6 +112,12 @@ class Section implements SectionInterface
     protected $breadcrumb = null;
 
     /**
+     * If the section will be hidden from the control panel.
+     * @var bool
+     */
+    protected $hidden = false;
+
+    /**
      * Get the slug.
      *
      * @return null|string
@@ -430,6 +436,29 @@ class Section implements SectionInterface
     public function setBreadcrumb($breadcrumb)
     {
         $this->breadcrumb = $breadcrumb;
+
+        return $this;
+    }
+
+    /**
+     * Get if this section is hidden.
+     *
+     * @return bool
+     */
+    public function getHidden()
+    {
+        return $this->hidden;
+    }
+
+    /**
+     * Set if the section is hidden.
+     *
+     * @param $hidden
+     * @return $this
+     */
+    public function setHidden($hidden)
+    {
+        $this->hidden = $hidden;
 
         return $this;
     }
