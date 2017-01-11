@@ -127,11 +127,11 @@ class EloquentQueryBuilder extends Builder
      * Drop a cache collection
      * from runtime cache.
      *
-     * @param $key
+     * @param $collection
      */
-    public static function dropCacheCollection($key)
+    public static function dropRuntimeCache($collection)
     {
-        unset(self::$cache[$key]);
+        unset(self::$cache[$collection]);
     }
 
     /**

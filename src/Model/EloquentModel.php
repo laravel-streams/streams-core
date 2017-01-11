@@ -291,7 +291,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     {
         (new CacheCollection())->setKey($key = $this->getCacheCollectionKey())->flush();
 
-        EloquentQueryBuilder::dropCacheCollection($key);
+        EloquentQueryBuilder::dropRuntimeCache($key);
 
         return $this;
     }
