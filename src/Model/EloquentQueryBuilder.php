@@ -124,6 +124,17 @@ class EloquentQueryBuilder extends Builder
     }
 
     /**
+     * Drop a cache collection
+     * from runtime cache.
+     *
+     * @param $key
+     */
+    public static function dropCacheCollection($key)
+    {
+        unset(self::$cache[$key]);
+    }
+
+    /**
      * Get the unique cache key for the query.
      *
      * @return string
