@@ -67,9 +67,13 @@ input.on('keydown', function (e) {
              * key and we have a selection
              * then follow the link.
              */
-            window.location = selected.find('a').attr('href');
+            if (selected.find('a').hasClass('has-click-event')) {
+                selected.find('a').trigger('click');
+            } else {
+                window.location = selected.find('a').attr('href');
 
-            modal.find('.modal-content').append('<div class="modal-loading"><div class="active large loader"></div></div>');
+                modal.find('.modal-content').append('<div class="modal-loading"><div class="active large loader"></div></div>');
+            }
         }
     }
 
