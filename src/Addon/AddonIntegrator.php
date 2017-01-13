@@ -115,15 +115,16 @@ class AddonIntegrator
     /**
      * Register an addon.
      *
-     * @param $path
-     * @param $namespace
+     * @param         $path
+     * @param         $namespace
      * @param boolean $enabled
      * @param boolean $installed
+     * @return Addon|Extension|Module|Twig_ExtensionInterface
      */
     public function register($path, $namespace, $enabled, $installed)
     {
         if (!is_dir($path)) {
-            return;
+            return null;
         }
 
         list($vendor, $type, $slug) = explode('.', $namespace);
@@ -208,6 +209,8 @@ class AddonIntegrator
         $this->collection->put($addon->getNamespace(), $addon);
 
         $this->events->fire(new AddonWasRegistered($addon));
+
+        return $addon;
     }
 
     /**
