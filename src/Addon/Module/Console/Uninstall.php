@@ -34,6 +34,11 @@ class Uninstall extends Command
         /* @var Module $module */
         $module = $modules->get($this->argument('module'));
 
+        if (!$module->isInstalled())
+        {
+            return $this->warn('Module is not installed! Skip uninstall.');
+        }
+        
         $manager->uninstall($module);
 
         $this->info(trans($module->getName()) . ' uninstalled successfully!');
