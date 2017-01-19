@@ -1,4 +1,4 @@
-<div class="card" {{ html_attributes(section.attributes) }}>
+<div class="card {{ section.orientation == 'vertical' ? 'card-flex' }}" {{ html_attributes(section.attributes) }}>
 
     {% if section.title %}
         <div class="card-header">
@@ -15,7 +15,7 @@
         </div>
     {% endif %}
 
-    <ul class="nav nav-sections">
+    <ul class="nav nav-sections nav-{{ section.orientation }}">
         {% spaceless %}
             {% for slug, tab in section.tabs %}
                 <li class="nav-item {{ loop.first ? 'active' }}">
