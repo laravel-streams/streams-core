@@ -177,8 +177,16 @@ class ViewComposer
             return;
         }
 
-        $mobile    = $this->mobiles->get($this->theme->getNamespace(), []);
-        $overrides = $this->overrides->get($this->theme->getNamespace(), []);
+        $mobile = $this->mobiles->get($this->theme->getNamespace(), []);
+
+        /**
+         * Merge system configured overrides
+         * with the overrides from the addon.
+         */
+        $overrides = array_merge(
+            $this->overrides->get($this->theme->getNamespace(), []),
+            config('streams.overrides', [])
+        );
 
         if ($this->mobile && $path = array_get($mobile, $view->getName(), null)) {
             $view->setPath($path);
