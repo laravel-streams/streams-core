@@ -5,7 +5,6 @@ use Anomaly\FilesModule\File\FilePresenter;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
-use Closure;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
@@ -60,6 +59,13 @@ class Image
      * @var null|string
      */
     protected $filename = null;
+
+    /**
+     * The version flag.
+     *
+     * @var null|boolean
+     */
+    protected $version = null;
 
     /**
      * The default output method.
@@ -453,6 +459,17 @@ class Image
     }
 
     /**
+     * Set the version flag.
+     *
+     * @param bool $version
+     * @return $this
+     */
+    public function version($version = true)
+    {
+        return $this->setVersion($version);
+    }
+
+    /**
      * Set the quality.
      *
      * @param $quality
@@ -517,6 +534,10 @@ class Image
             }
         } catch (\Exception $e) {
             return $this->config->get('app.debug', false) ? $e->getMessage() : null;
+        }
+
+        if ($this->config->get('streams::images.version') || $this->getVersion() == true) {
+            $path .= '?v=' . filemtime(public_path(trim($path, '/\\')));
         }
 
         return $path;
@@ -902,11 +923,30 @@ class Image
      */
     public function setFilename($filename = null)
     {
-        if (!$filename) {
-            $filename = $this->getImageFilename();
-        }
-
         $this->filename = $filename;
+
+        return $this;
+    }
+
+    /**
+     * Get the file name.
+     *
+     * @return null|string
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * Set the file name.
+     *
+     * @param $version
+     * @return $this
+     */
+    public function setVersion($version = true)
+    {
+        $this->version = $version;
 
         return $this;
     }

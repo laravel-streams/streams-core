@@ -435,7 +435,7 @@ class Asset
             $this->publish($path, $collection, $filters);
         }
 
-        if (in_array('version', $filters)) {
+        if ($this->config->get('streams::assets.version') || in_array('version', $filters)) {
             $path .= '?v=' . filemtime(public_path(trim($path, '/\\')));
         }
 
