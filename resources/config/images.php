@@ -42,5 +42,18 @@ return [
     |
     */
 
-    'macros' => []
+    'macros' => [],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Automatic Alt Tags
+    |--------------------------------------------------------------------------
+    |
+    | This will default alt tags to the humanized filename.
+    |
+    | <img src="my_awesome_photo.jpg" alt="My Awesome Photo"/>
+    |
+    */
+
+    'auto_alt' => true
 ];

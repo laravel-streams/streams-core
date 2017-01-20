@@ -1,10 +1,26 @@
 <?php
 
 use Anomaly\Streams\Platform\Support\Parser;
+use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Support\Value;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+
+if (!function_exists('str_humanize')) {
+
+    /**
+     * Humanize the string.
+     *
+     * @param        $target
+     * @param string $separator
+     * @return string
+     */
+    function str_humanize($target, $separator = '_')
+    {
+        return app(Str::class)->humanize($target, $separator);
+    }
+}
 
 if (!function_exists('parse')) {
 
