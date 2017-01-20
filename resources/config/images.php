@@ -11,7 +11,7 @@ return [
     |
     */
 
-    'quality' => 80,
+    'quality' => env('IMAGE_QUALITY', 80),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,5 +55,18 @@ return [
     |
     */
 
-    'auto_alt' => true
+    'auto_alt' => env('IMAGE_ALTS', true),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Version Images
+    |--------------------------------------------------------------------------
+    |
+    | This will cause image changes to version by default.
+    |
+    | <img src="my_awesome_photo.jpg?v=1484943345" alt="My Awesome Photo"/>
+    |
+    */
+
+    'version' => env('VERSION_IMAGES', true),
 ];

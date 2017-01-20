@@ -73,4 +73,17 @@ return [
     */
 
     'live' => env('LIVE_ASSETS', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Version Assets
+    |--------------------------------------------------------------------------
+    |
+    | This will cause asset changes to version by default.
+    |
+    | <link href="example/theme.css?v=1484943345" type="text/css"/>
+    |
+    */
+
+    'version' => env('VERSION_ASSETS', true),
 ];
