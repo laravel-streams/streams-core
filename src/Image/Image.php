@@ -333,19 +333,23 @@ class Image
      */
     public function image($alt = null, array $attributes = [])
     {
-        if (!$alt) {
-            $alt = array_get($this->getAttributes(), 'alt');
-        }
-
         $attributes = array_merge($this->getAttributes(), $attributes);
+
+        $attributes['src'] = $this->asset();
 
         if ($srcset = $this->srcset()) {
             $attributes['srcset'] = $srcset;
         }
 
-        $attributes['alt'] = $alt;
+        if (!$alt && $this->config->get('streams::images.auto_alt', true)) {
+            $attributes['alt'] = array_get(
+                $this->getAttributes(),
+                'alt',
+                ucwords(str_humanize(trim(basename($attributes['src'], $this->getExtension()), '.'), '^a-zA-Z0-9'))
+            );
+        }
 
-        return '<img src="' . $this->asset() . '"' . $this->html->attributes($attributes) . '>';
+        return '<img ' . $this->html->attributes($attributes) . '>';
     }
 
     /**
