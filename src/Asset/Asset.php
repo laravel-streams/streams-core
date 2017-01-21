@@ -233,7 +233,9 @@ class Asset
      */
     public function inline($collection, array $filters = [])
     {
-        return file_get_contents($this->paths->realPath('public::' . ltrim($this->path($collection, $filters), '/\\')));
+        return file_get_contents(
+            $this->paths->realPath('public::' . ltrim($this->path($collection, $filters + ['noversion']), '/\\'))
+        );
     }
 
     /**
@@ -435,7 +437,10 @@ class Asset
             $this->publish($path, $collection, $filters);
         }
 
-        if ($this->config->get('streams::assets.version') || in_array('version', $filters)) {
+        if (
+            !in_array('noversion', $filters) &&
+            ($this->config->get('streams::assets.version') || in_array('version', $filters))
+        ) {
             $path .= '?v=' . filemtime(public_path(trim($path, '/\\')));
         }
 
