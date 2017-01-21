@@ -234,7 +234,7 @@ class Asset
     public function inline($collection, array $filters = [])
     {
         return file_get_contents(
-            $this->paths->realPath('public::' . ltrim($this->path($collection, $filters + ['noversion']), '/\\'))
+            $this->paths->realPath('public::' . ltrim($this->path($collection, $filters), '/\\'))
         );
     }
 
