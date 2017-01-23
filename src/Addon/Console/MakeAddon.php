@@ -8,6 +8,7 @@ use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonComposer;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonLang;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonServiceProvider;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -39,8 +40,12 @@ class MakeAddon extends Command
 
     /**
      * Execute the console command.
+     *
+     * @param AddonManager $addons
+     * @param Repository   $config
+     * @throws \Exception
      */
-    public function fire(AddonManager $addons)
+    public function fire(AddonManager $addons, Repository $config)
     {
         $namespace = $this->argument('namespace');
 
@@ -54,6 +59,10 @@ class MakeAddon extends Command
             },
             explode('.', $namespace)
         );
+
+        if (!in_array($type, $config->get('streams::addons.types'))) {
+            throw new \Exception("The [$type] addon type is invalid.");
+        }
 
         $type = str_singular($type);
 
