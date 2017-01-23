@@ -5,7 +5,6 @@ use Anomaly\FilesModule\File\FilePresenter;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
-use Closure;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
@@ -343,7 +342,27 @@ class Image
             $attributes['srcset'] = $srcset;
         }
 
-        $attributes['alt'] = $alt;
+        if (!$alt && $this->config->get('streams::images.auto_alt', true)) {
+
+            $attributes['alt'] = array_get(
+                $this->getAttributes(),
+                'alt',
+                ucwords(
+                    str_humanize(
+                        trim(
+                            basename(
+                                str_contains($attributes['src'], '?v=') ?
+                                    substr($attributes['src'], 0, strpos($attributes['src'], '?v=')) :
+                                    $attributes['src'],
+                                $this->getExtension()
+                            ),
+                            '.'
+                        ),
+                        '^a-zA-Z0-9'
+                    )
+                )
+            );
+        }
 
         return '<img src="' . $this->asset() . '"' . $this->html->attributes($attributes) . '>';
     }
