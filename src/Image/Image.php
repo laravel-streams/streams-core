@@ -348,10 +348,24 @@ class Image
         }
 
         if (!$alt && $this->config->get('streams::images.auto_alt', true)) {
+
             $attributes['alt'] = array_get(
                 $this->getAttributes(),
                 'alt',
-                ucwords(str_humanize(trim(basename($attributes['src'], $this->getExtension()), '.'), '^a-zA-Z0-9'))
+                ucwords(
+                    str_humanize(
+                        trim(
+                            basename(
+                                str_contains($attributes['src'], '?v=') ?
+                                    substr($attributes['src'], 0, strpos($attributes['src'], '?v=')) :
+                                    $attributes['src'],
+                                $this->getExtension()
+                            ),
+                            '.'
+                        ),
+                        '^a-zA-Z0-9'
+                    )
+                )
             );
         }
 
