@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 
 class EloquentTableRepository implements TableRepositoryInterface
 {
+
     use DispatchesJobs;
 
     /**
@@ -76,8 +77,8 @@ class EloquentTableRepository implements TableRepositoryInterface
          * we find a page that is has something to show us.
          */
         $limit  = (int)$builder->getTableOption('limit', config('streams::system.per_page', 15));
-        $page   = app('request')->get($builder->getTableOption('prefix') . 'page', 1);
-        $offset = $limit * ($page - 1);
+        $page   = (int)app('request')->get($builder->getTableOption('prefix') . 'page', 1);
+        $offset = $limit * (($page ?: 1) - 1);
 
         if ($total < $offset && $page > 1) {
             $url = str_replace(
