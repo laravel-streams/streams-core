@@ -78,11 +78,5 @@ class InitializeApplication
 
             return;
         }
-
-        /*
-         * If we're not installed just
-         * assume default for now.
-         */
-        $application->setReference('default');
     }
 }

@@ -177,12 +177,22 @@ class ViewComposer
             return;
         }
 
-        $mobile    = $this->mobiles->get($this->theme->getNamespace(), []);
-        $overrides = $this->overrides->get($this->theme->getNamespace(), []);
+        $mobile = $this->mobiles->get($this->theme->getNamespace(), []);
 
-        if ($this->mobile && $path = array_get($mobile, $view->getName(), null)) {
+        /**
+         * Merge system configured overrides
+         * with the overrides from the addon.
+         */
+        $overrides = array_merge(
+            $this->overrides->get($this->theme->getNamespace(), []),
+            config('streams.overrides', [])
+        );
+
+        $name = str_replace('theme::', $this->theme->getNamespace() . '::', $view->getName());
+
+        if ($this->mobile && $path = array_get($mobile, $name, null)) {
             $view->setPath($path);
-        } elseif ($path = array_get($overrides, $view->getName(), null)) {
+        } elseif ($path = array_get($overrides, $name, null)) {
             $view->setPath($path);
         }
 

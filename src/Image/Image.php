@@ -61,6 +61,13 @@ class Image
     protected $filename = null;
 
     /**
+     * The version flag.
+     *
+     * @var null|boolean
+     */
+    protected $version = null;
+
+    /**
      * The default output method.
      *
      * @var string
@@ -332,39 +339,23 @@ class Image
      */
     public function image($alt = null, array $attributes = [])
     {
-        if (!$alt) {
-            $alt = array_get($this->getAttributes(), 'alt');
-        }
-
         $attributes = array_merge($this->getAttributes(), $attributes);
+
+        $attributes['src'] = $this->asset();
 
         if ($srcset = $this->srcset()) {
             $attributes['srcset'] = $srcset;
         }
 
         if (!$alt && $this->config->get('streams::images.auto_alt', true)) {
-
             $attributes['alt'] = array_get(
                 $this->getAttributes(),
                 'alt',
-                ucwords(
-                    str_humanize(
-                        trim(
-                            basename(
-                                str_contains($attributes['src'], '?v=') ?
-                                    substr($attributes['src'], 0, strpos($attributes['src'], '?v=')) :
-                                    $attributes['src'],
-                                $this->getExtension()
-                            ),
-                            '.'
-                        ),
-                        '^a-zA-Z0-9'
-                    )
-                )
+                ucwords(str_humanize(trim(basename($attributes['src'], $this->getExtension()), '.'), '^a-zA-Z0-9'))
             );
         }
 
-        return '<img src="' . $this->asset() . '"' . $this->html->attributes($attributes) . '>';
+        return '<img ' . $this->html->attributes($attributes) . '>';
     }
 
     /**
@@ -468,6 +459,17 @@ class Image
     }
 
     /**
+     * Set the version flag.
+     *
+     * @param bool $version
+     * @return $this
+     */
+    public function version($version = true)
+    {
+        return $this->setVersion($version);
+    }
+
+    /**
      * Set the quality.
      *
      * @param $quality
@@ -532,6 +534,10 @@ class Image
             }
         } catch (\Exception $e) {
             return $this->config->get('app.debug', false) ? $e->getMessage() : null;
+        }
+
+        if ($this->config->get('streams::images.version') || $this->getVersion() == true) {
+            $path .= '?v=' . filemtime(public_path(trim($path, '/\\')));
         }
 
         return $path;
@@ -917,11 +923,30 @@ class Image
      */
     public function setFilename($filename = null)
     {
-        if (!$filename) {
-            $filename = $this->getImageFilename();
-        }
-
         $this->filename = $filename;
+
+        return $this;
+    }
+
+    /**
+     * Get the file name.
+     *
+     * @return null|string
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * Set the file name.
+     *
+     * @param $version
+     * @return $this
+     */
+    public function setVersion($version = true)
+    {
+        $this->version = $version;
 
         return $this;
     }

@@ -52,7 +52,13 @@ class FieldFiller
                 continue;
             }
 
-            unset($fill[array_search($parameters['field'], $fill)]);
+            /**
+             * If we found a field then
+             * unset it from the fill fields.
+             */
+            if (($search = array_search($parameters['field'], $fill)) !== false) {
+                unset($fill[$search]);
+            }
         }
 
         /*

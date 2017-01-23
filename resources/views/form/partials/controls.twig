@@ -7,10 +7,6 @@
             </div>
         {% endif %}
 
-        {% if form.translatable %}
-            {% include "streams::form/partials/translations" %}
-        {% endif %}
-
         <div class="buttons">
             {{ buttons(form.buttons)|raw }}
         </div>

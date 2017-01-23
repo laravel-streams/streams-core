@@ -134,13 +134,18 @@ class AssetPaths
     public function realPath($path)
     {
         if (str_contains($path, '::')) {
+
             list($namespace, $path) = explode('::', $path);
 
             if (!isset($this->paths[$namespace])) {
                 throw new \Exception("Path hint [{$namespace}::{$path}] does not exist!");
             }
 
-            return rtrim($this->paths[$namespace], '/') . '/' . $path;
+            $path = rtrim($this->paths[$namespace], '/') . '/' . $path;
+        }
+
+        if (strpos($path, '?v=')) {
+            $path = substr($path, 0, strpos($path, '?v='));
         }
 
         return $path;

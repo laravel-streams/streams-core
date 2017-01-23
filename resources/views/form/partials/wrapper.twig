@@ -17,9 +17,7 @@
             {% endif %}
 
             {% if field_type.locale %}
-                <span class="tag tag-default">
-                    {{ trans('streams::locale.' ~ field_type.locale ~ '.name') }}
-                </span>
+                {% include "streams::form/partials/translations" %}
             {% endif %}
         </label>
     {% endif %}
