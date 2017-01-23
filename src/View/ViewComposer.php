@@ -188,9 +188,11 @@ class ViewComposer
             config('streams.overrides', [])
         );
 
-        if ($this->mobile && $path = array_get($mobile, $view->getName(), null)) {
+        $name = str_replace('theme::', $this->theme->getNamespace() . '::', $view->getName());
+
+        if ($this->mobile && $path = array_get($mobile, $name, null)) {
             $view->setPath($path);
-        } elseif ($path = array_get($overrides, $view->getName(), null)) {
+        } elseif ($path = array_get($overrides, $name, null)) {
             $view->setPath($path);
         }
 
