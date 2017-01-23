@@ -1,11 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Stream;
 
 use Anomaly\Streams\Platform\Database\Migration\Migration;
-use Anomaly\Streams\Platform\Database\Migration\Stream\StreamInput;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 
 class StreamMigrator
 {
+
     /**
      * The stream input reader.
      *
@@ -58,6 +59,11 @@ class StreamMigrator
     {
         $this->input->read($migration);
 
+        if ($migration->getDelete() === false) {
+            return;
+        }
+
+        /* @var EloquentModel $stream */
         if (!$stream = $migration->getStream()) {
             return;
         }

@@ -1,14 +1,15 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration;
 
 use Anomaly\Streams\Platform\Addon\Addon;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Database\Schema\Builder;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 abstract class Migration extends \Illuminate\Database\Migrations\Migration
 {
+
     use DispatchesJobs;
 
     /**
@@ -104,6 +105,16 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     public function schema()
     {
         return app('db')->connection()->getSchemaBuilder();
+    }
+
+    /**
+     * Return the delete flag.
+     *
+     * @return bool
+     */
+    public function getDelete()
+    {
+        return $this->delete;
     }
 
     /**
