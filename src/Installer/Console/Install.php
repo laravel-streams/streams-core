@@ -27,6 +27,7 @@ use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class Install
@@ -59,17 +60,20 @@ class Install extends Command
      */
     public function fire(Dispatcher $events, AddonManager $manager)
     {
-        $this->dispatch(new ConfirmLicense($this));
-
         $data = new Collection();
 
-        $this->dispatch(new SetStreamsData($data));
-        $this->dispatch(new SetDatabaseData($data, $this));
-        $this->dispatch(new SetApplicationData($data, $this));
-        $this->dispatch(new SetAdminData($data, $this));
-        $this->dispatch(new SetOtherData($data, $this));
+        if (!$this->option('ready')) {
 
-        $this->dispatch(new WriteEnvironmentFile($data->all()));
+            $this->dispatch(new ConfirmLicense($this));
+            $this->dispatch(new SetStreamsData($data));
+            $this->dispatch(new SetDatabaseData($data, $this));
+            $this->dispatch(new SetApplicationData($data, $this));
+            $this->dispatch(new SetAdminData($data, $this));
+            $this->dispatch(new SetOtherData($data, $this));
+
+            $this->dispatch(new WriteEnvironmentFile($data->all()));
+        }
+
         $this->dispatch(new ReloadEnvironmentFile());
 
         $this->dispatch(new ConfigureDatabase());
@@ -104,5 +108,17 @@ class Install extends Command
         $this->dispatch(new LoadExtensionSeeders($installers));
 
         $this->dispatch(new RunInstallers($installers, $this));
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['ready', null, InputOption::VALUE_NONE, 'Indicates that the installer should use an existing .env file.'],
+        ];
     }
 }
