@@ -4,6 +4,13 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Illuminate\Contracts\Config\Repository;
 
+/**
+ * Class FormRules
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class FormRules
 {
 
@@ -52,9 +59,10 @@ class FormRules
 
             $fieldRules = array_filter(array_unique($field->getRules()));
 
-            $fieldRules = $field->extendRules($fieldRules);
+            $rules = $field->extendRules($rules);
 
             if (!$stream instanceof StreamInterface) {
+
                 $rules[$field->getInputName()] = implode('|', $fieldRules);
 
                 continue;

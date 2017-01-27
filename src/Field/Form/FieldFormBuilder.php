@@ -5,6 +5,13 @@ use Anomaly\Streams\Platform\Field\Form\Command\AutoAssignField;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
+/**
+ * Class FieldFormBuilder
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class FieldFormBuilder extends FormBuilder
 {
 
