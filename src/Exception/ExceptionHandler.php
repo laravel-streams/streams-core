@@ -41,38 +41,39 @@ class ExceptionHandler extends NewExceptionHandler
      * @param  Exception $e
      * @return Response
      */
-    public function render($request, Exception $e)
-    {
-        /**
-         * Have to catch this for some reason.
-         * Not sure why our handler passes this.
-         *
-         * @todo: Clean up
-         */
-        if ($e instanceof AuthenticationException) {
-            if ($request->segment(1) === 'admin') {
-                return redirect()->guest('admin/login');
-            } else {
-                return redirect()->guest('login');
-            }
-        }
-
-        if ($e instanceof HttpException) {
-            if (!$e->getStatusCode() == 404) {
-                return $this->renderHttpException($e);
-            }
-
-            if (($redirect = config('streams::404.redirect')) && $request->path() !== $redirect) {
-                return redirect($redirect, 301);
-            }
-
-            return $this->renderHttpException($e);
-        } elseif (!config('app.debug') && !$e instanceof ValidationException) { // Maybe shouldntRender here?
-            return response()->view("streams::errors.500", ['message' => $e->getMessage()], 500);
-        } else {
-            return parent::render($request, $e);
-        }
-    }
+    // TODO: Figure this out
+//    public function render($request, Exception $e)
+//    {
+//        /**
+//         * Have to catch this for some reason.
+//         * Not sure why our handler passes this.
+//         *
+//         * @todo: Clean up
+//         */
+//        if ($e instanceof AuthenticationException) {
+//            if ($request->segment(1) === 'admin') {
+//                return redirect()->guest('admin/login');
+//            } else {
+//                return redirect()->guest('login');
+//            }
+//        }
+//
+//        if ($e instanceof HttpException) {
+//            if (!$e->getStatusCode() == 404) {
+//                return $this->renderHttpException($e);
+//            }
+//
+//            if (($redirect = config('streams::404.redirect')) && $request->path() !== $redirect) {
+//                return redirect($redirect, 301);
+//            }
+//
+//            return $this->renderHttpException($e);
+//        } elseif (!config('app.debug') && !$e instanceof ValidationException) { // Maybe shouldntRender here?
+//            return response()->view("streams::errors.500", ['message' => $e->getMessage()], 500);
+//        } else {
+//            return parent::render($request, $e);
+//        }
+//    }
 
     /**
      * Render the given HttpException.
