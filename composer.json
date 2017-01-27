@@ -14,7 +14,7 @@
         "intervention/image": "2.3.*",
         "laravelcollective/html": "5.4.*",
         "twig/twig": "1.24.*",
-        "rcrowe/twigbridge": "0.9.*",
+        "rcrowe/twigbridge": "0.9.4",
         "barryvdh/laravel-debugbar": "2.3.*",
         "coffeescript/coffeescript": "1.3.*",
         "michelf/php-markdown": "1.6.*",
