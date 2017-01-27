@@ -32,7 +32,7 @@ class FieldFormSections
                                 function ($field) {
 
                                     // No config fields.
-                                    if (starts_with($field['field'], 'config.')) {
+                                    if (starts_with($field['field'], 'config__')) {
                                         return false;
                                     }
 
@@ -69,7 +69,7 @@ class FieldFormSections
                                     function ($field) {
 
                                         // Only config fields.
-                                        if (!starts_with($field['field'], 'config.')) {
+                                        if (!starts_with($field['field'], 'config__')) {
                                             return false;
                                         }
 
