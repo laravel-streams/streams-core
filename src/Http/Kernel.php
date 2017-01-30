@@ -124,6 +124,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         $pattern = '/^(' . implode('|', array_keys($locales['supported'])) . ')(\.)./';
 
         if ($host && ($hint === 'domain' || $hint === true) && preg_match($pattern, $host, $matches)) {
+
             define('LOCALE', $matches[1]);
 
             return;
@@ -138,6 +139,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         $uri = array_get($_SERVER, 'REQUEST_URI', filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL));
 
         if (($hint === 'uri' || $hint === true) && preg_match($pattern, $uri, $matches)) {
+
             $_SERVER['ORIGINAL_REQUEST_URI'] = $uri;
             $_SERVER['REQUEST_URI']          = preg_replace($pattern, '/', $uri);
 
@@ -151,9 +153,10 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
          */
         $pattern = '/^\/(' . implode('|', array_keys($locales['supported'])) . ')$/';
 
-        $uri = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL);
+        $uri = array_get($_SERVER, 'REQUEST_URI', filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL));
 
         if (($hint === 'uri' || $hint === true) && preg_match($pattern, $uri, $matches)) {
+
             $_SERVER['ORIGINAL_REQUEST_URI'] = $uri;
             $_SERVER['REQUEST_URI']          = preg_replace($pattern, '/', $uri);
 
