@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Contracts\Config\Repository;
-
 return [
     'per_page'    => [
         'env'      => 'RESULTS_PER_PAGE',
@@ -10,8 +8,8 @@ return [
         'required' => true,
         'config'   => [
             'default_value' => 15,
-            'min'           => 5
-        ]
+            'min'           => 5,
+        ],
     ],
     'timezone'    => [
         'env'    => 'APP_TIMEZONE',
@@ -19,10 +17,8 @@ return [
         'type'   => 'anomaly.field_type.select',
         'config' => [
             'handler'       => 'timezones',
-            'default_value' => function (Repository $config) {
-                return $config->get('app.timezone');
-            }
-        ]
+            'default_value' => config('app.timezone'),
+        ],
     ],
     'date_format' => [
         'env'         => 'DATE_FORMAT',
@@ -49,9 +45,9 @@ return [
                 },
                 'Y-m-d'     => function () {
                     return date('Y-m-d'); // 2015-07-10
-                }
-            ]
-        ]
+                },
+            ],
+        ],
     ],
     'time_format' => [
         'env'         => 'TIME_FORMAT',
@@ -66,8 +62,8 @@ return [
                 },
                 'H:i'   => function () {
                     return date('H:00'); // 16:00
-                }
-            ]
-        ]
-    ]
+                },
+            ],
+        ],
+    ],
 ];
