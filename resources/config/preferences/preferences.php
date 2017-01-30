@@ -58,10 +58,13 @@ return [
         'config'      => [
             'options' => [
                 'g:i A' => function () {
-                    return date('g:00 A'); // 4:00 PM
+                    return date('g:i A'); // 4:00 PM
+                },
+                'g:i a' => function () {
+                    return date('g:i a'); // 4:00 pm
                 },
                 'H:i'   => function () {
-                    return date('H:00'); // 16:00
+                    return date('H:i'); // 16:00
                 },
             ],
         ],
