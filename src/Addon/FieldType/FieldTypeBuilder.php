@@ -66,7 +66,7 @@ class FieldTypeBuilder
          * streams then it's a class path and
          * we can resolve it from the container.
          */
-        if (is_string($type) && starts_with($type, 'Anomaly') && class_exists($type)) {
+        if (is_string($type) && class_exists($type)) {
             $type = clone($this->container->make($type));
         }
 
