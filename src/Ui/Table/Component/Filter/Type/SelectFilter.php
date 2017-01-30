@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
 
 use Anomaly\SelectFieldType\SelectFieldType;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\SelectFilterInterface;
@@ -15,6 +16,13 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
  */
 class SelectFilter extends Filter implements SelectFilterInterface
 {
+
+    /**
+     * The field type builder.
+     *
+     * @var FieldTypeBuilder
+     */
+    protected $builder;
 
     /**
      * The resolver utility.
@@ -33,11 +41,13 @@ class SelectFilter extends Filter implements SelectFilterInterface
     /**
      * Create a new SelectFilter instance.
      *
-     * @param Resolver $resolver
-     * @param Evaluator $evaluator
+     * @param FieldTypeBuilder $builder
+     * @param Resolver         $resolver
+     * @param Evaluator        $evaluator
      */
-    public function __construct(Resolver $resolver, Evaluator $evaluator)
+    public function __construct(FieldTypeBuilder $builder, Resolver $resolver, Evaluator $evaluator)
     {
+        $this->builder   = $builder;
         $this->resolver  = $resolver;
         $this->evaluator = $evaluator;
     }
@@ -58,7 +68,7 @@ class SelectFilter extends Filter implements SelectFilterInterface
     {
         $this->resolver->resolve($this->getOptions(), ['filter' => $this]);
 
-        return app(SelectFieldType::class)
+        return $this->builder->build(['type' => SelectFieldType::class])
             ->setPlaceholder($this->getPlaceholder())
             ->setField('filter_' . $this->getSlug())
             ->setPrefix($this->getPrefix())
