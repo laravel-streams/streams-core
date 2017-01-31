@@ -504,6 +504,18 @@ class FieldType extends Addon
     }
 
     /**
+     * Get the old value for repopulating
+     * field after validation has failed.
+     *
+     * @param  null $default
+     * @return mixed
+     */
+    public function getOldValue($default = null)
+    {
+        return $this->getPostValue($default);
+    }
+
+    /**
      * Return if any posted input exists.
      *
      * @return bool
