@@ -510,7 +510,11 @@ class FieldType extends Addon
      */
     public function hasPostedInput()
     {
-        return isset($_POST[str_replace('.', '_', $this->getInputName())]);
+        if (!isset($_POST[str_replace('.', '_', $this->getInputName())])) {
+            return isset($_FILES[str_replace('.', '_', $this->getInputName())]);
+        }
+
+        return true;
     }
 
     /**
