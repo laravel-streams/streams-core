@@ -688,7 +688,7 @@ class FormBuilder
      *
      * @param        $slug
      * @param  array $section
-     * @param null   $position
+     * @param null $position
      * @return $this
      */
     public function addSection($slug, array $section, $position = null)
@@ -711,7 +711,7 @@ class FormBuilder
      * @param        $section
      * @param        $slug
      * @param  array $tab
-     * @param null   $position
+     * @param null $position
      * @return $this
      */
     public function addSectionTab($section, $slug, array $tab, $position = null)
@@ -736,7 +736,7 @@ class FormBuilder
      * Get an option value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getOption($key, $default = null)
@@ -813,7 +813,7 @@ class FormBuilder
      * Get a form option value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getFormOption($key, $default = null)
@@ -918,7 +918,7 @@ class FormBuilder
      * Get a form value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getFormValue($key, $default = null)
@@ -1085,11 +1085,13 @@ class FormBuilder
      * Disable a form field.
      *
      * @param $fieldSlug
-     * @return FieldType
+     * @return $this
      */
     public function disableFormField($fieldSlug)
     {
-        return $this->form->disableField($fieldSlug);
+        $this->form->disableField($fieldSlug);
+
+        return $this;
     }
 
     /**
@@ -1269,7 +1271,7 @@ class FormBuilder
      * Get a request value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getRequestValue($key, $default = null)
@@ -1281,7 +1283,7 @@ class FormBuilder
      * Get a post value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getPostValue($key, $default = null)
@@ -1293,7 +1295,7 @@ class FormBuilder
      * Return a post key flag.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function hasPostedInput($key)
@@ -1316,6 +1318,18 @@ class FormBuilder
         }
 
         return false;
+    }
+
+    /**
+     * Return whether any post data exists.
+     *
+     * @return array
+     */
+    public function getPostData()
+    {
+        $fields = $this->getFormFieldSlugs($this->getOption('prefix'));
+
+        return array_intersect_key($_POST, array_flip($fields));
     }
 
     /**
