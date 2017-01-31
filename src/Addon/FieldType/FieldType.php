@@ -504,13 +504,13 @@ class FieldType extends Addon
     }
 
     /**
-     * Get the old value for repopulating
-     * field after validation has failed.
+     * Get the value for repopulating
+     * field after failed validation.
      *
      * @param  null $default
      * @return mixed
      */
-    public function getOldValue($default = null)
+    public function getRepopulateValue($default = null)
     {
         return $this->getPostValue($default);
     }
