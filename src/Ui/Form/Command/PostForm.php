@@ -45,8 +45,6 @@ class PostForm
         $this->builder->fire('posting', ['builder' => $this->builder]);
         $this->builder->fireFieldEvents('form_posting');
 
-        $this->dispatch(new LoadFormValues($this->builder));
-
         /**
          * Multiple form builders do not get
          * validated here.. in fact:
@@ -57,6 +55,7 @@ class PostForm
             $this->dispatch(new ValidateForm($this->builder));
         }
 
+        $this->dispatch(new LoadFormValues($this->builder));
         $this->dispatch(new RemoveSkippedFields($this->builder));
         $this->dispatch(new HandleForm($this->builder));
         $this->dispatch(new SetSuccessMessage($this->builder));
