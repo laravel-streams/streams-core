@@ -41,6 +41,7 @@ return [
     'reorder'        => 'Reorder',
     'configure'      => 'Configure',
     'settings'       => 'Settings',
+    'preferences'    => 'Preferences',
     'fields'         => 'Fields',
     'assignments'    => 'Assignments',
     'send'           => 'Send',
@@ -54,5 +55,5 @@ return [
     'download'       => 'Download',
     'add_field'      => 'Add Field',
     'new_field'      => 'New Field',
-    'assign_fields'  => 'Assign Fields'
+    'assign_fields'  => 'Assign Fields',
 ];
