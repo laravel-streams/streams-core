@@ -34,6 +34,13 @@ class Section implements SectionInterface
     protected $title = null;
 
     /**
+     * The section label.
+     *
+     * @var null|string
+     */
+    protected $label = null;
+
+    /**
      * The class.
      *
      * @var null|string
@@ -175,6 +182,29 @@ class Section implements SectionInterface
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+    /**
+     * Get the label.
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    /**
+     * Set the label.
+     *
+     * @param  string $label
+     * @return $this
+     */
+    public function setLabel($label)
+    {
+        $this->label = $label;
+
+        return $this;
     }
 
     /**
@@ -437,7 +467,7 @@ class Section implements SectionInterface
     /**
      * Get the HREF attribute.
      *
-     * @param  null   $path
+     * @param  null $path
      * @return string
      */
     public function getHref($path = null)
