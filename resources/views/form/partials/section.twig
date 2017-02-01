@@ -1,20 +1,16 @@
-<div class="card" {{ html_attributes(section.attributes) }}>
+<div class="card {{ section.stacked ? 'card-flex' }}" {{ html_attributes(section.attributes) }}>
 
-    {% if section.title %}
-        <div class="card-label card-label-{{ section.context ?: 'info' }}">
-            {{ section.icon ? icon(section.icon) }}
-            {{ trans(section.title) }}
-        </div>
-    {% endif %}
+    {% include "streams::form/partials/header" with {"section": section} %}
 
-    <div class="card-block">
-        {% for field in section.fields %}
-            <div class="field-group">
-                {% for field in form.fields.translations(field) %}
-                    {{ field.render({'form': form})|raw }}
-                {% endfor %}
-            </div>
-        {% endfor %}
+    <div class="{{ not section.tabs ? 'card-block' }}">
+
+        {% if section.fields %}
+            {% include "streams::form/partials/fields" with {"fields": section.fields} %}
+        {% elseif section.tabs %}
+            {% include "streams::form/partials/tabs" with {"tabs": section.tabs, "stacked": section.stacked} %}
+        {% elseif section.rows %}
+            {% include "streams::form/partials/rows" with {"rows": section.rows} %}
+        {% endif %}
+
     </div>
-
 </div>

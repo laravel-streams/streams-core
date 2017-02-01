@@ -1,3 +1,7 @@
-{% for field in form.fields %}
-    {{ field.render({'form': form})|raw }}
+{% for field in fields %}
+    <div class="field-group">
+        {% for field in form.fields.translations(field) %}
+            {{ field.render({'form': form})|raw }}
+        {% endfor %}
+    </div>
 {% endfor %}
