@@ -38,7 +38,9 @@ class NavigationSorter
      */
     public function sort(ControlPanelBuilder $builder)
     {
-        $navigation = $builder->getNavigation();
+        if (!$navigation = $builder->getNavigation()) {
+            return;
+        }
 
         ksort($navigation);
 
