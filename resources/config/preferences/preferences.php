@@ -28,22 +28,19 @@ return [
         'required'    => true,
         'config'      => [
             'options' => [
-                'l, j F, Y' => function () {
-                    return date('l, j F, Y'); // Friday, 10 July, 2015
-                },
-                'j F, Y'    => function () {
+                'j F, Y' => function () {
                     return date('j F, Y'); // 10 July, 2015
                 },
-                'j M, y'    => function () {
+                'j M, y' => function () {
                     return date('j M, y'); // 10 Jul, 15
                 },
-                'm/d/Y'     => function () {
+                'm/d/Y'  => function () {
                     return date('m/d/Y'); // 07/10/2015
                 },
-                'd/m/Y'     => function () {
+                'd/m/Y'  => function () {
                     return date('d/m/Y'); // 10/07/2015
                 },
-                'Y-m-d'     => function () {
+                'Y-m-d'  => function () {
                     return date('Y-m-d'); // 2015-07-10
                 },
             ],
