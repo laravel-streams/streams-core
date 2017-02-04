@@ -111,7 +111,10 @@ class FieldTypeSchema
 
         // Mark the column unique if it's unique AND not translatable.
         if ($assignment->isUnique() && !$assignment->isTranslatable()) {
-            $table->unique($this->fieldType->getColumnName(), md5('unique_' . $this->fieldType->getColumnName()));
+            $table->unique(
+                $this->fieldType->getColumnName(),
+                md5('unique_' . $table->getTable() . '_' . $this->fieldType->getColumnName())
+            );
         }
     }
 
@@ -163,7 +166,7 @@ class FieldTypeSchema
         $doctrine   = $manager->listTableDetails($connection->getTablePrefix() . $table->getTable());
 
         // The unique index name.
-        $unique = md5('unique_' . $this->fieldType->getColumnName());
+        $unique = md5('unique_' . $table->getTable() . '_' . $this->fieldType->getColumnName());
 
         /*
          * If the assignment is unique and not translatable
@@ -180,7 +183,7 @@ class FieldTypeSchema
          * then we need to remove.
          */
         if (!$assignment->isUnique() && !$assignment->isTranslatable() && $doctrine->hasIndex($unique)) {
-            $column->dropIndex(md5('unique_' . $this->fieldType->getColumnName()));
+            $column->dropIndex(md5('unique_' . $table->getTable() . '_' . $this->fieldType->getColumnName()));
         }
     }
 
