@@ -31,8 +31,8 @@ class CreateApplicationsTable extends Migration
                     $table->string('domain');
                     $table->boolean('enabled');
 
-                    $table->unique('reference', 'unique_references');
-                    $table->unique('domain', 'unique_domains');
+                    $table->unique('reference', 'unique_application_references');
+                    $table->unique('domain', 'unique_application_domains');
                 }
             );
         }
