@@ -1,24 +1,53 @@
-$(function () {
+/* global Pyro */
 
-    $('[data-toggle="lang"]').click(function (e) {
++ (function (Pyro, document) {
 
-        e.preventDefault();
+  var
+    togglersSelector = '[data-toggle="lang"]',
+    groupWrapperSelector = '.btn-group',
+    dropdownTogglerSelector = '.dropdown-toggle',
+    dropdownMenuSelector = '.dropdown-menu',
+    localeAttribute = 'lang',
+    formWrapperSelector = 'form',
+    localeSelector = '.form-group',
 
-        var selected = $(this);
-        var locale = selected.attr('lang');
-        var form = selected.closest('form');
+    togglers = document.querySelectorAll(togglersSelector),
 
-        var triggers = form.find('[data-toggle="lang"]');
-        var group = triggers.closest('.btn-group');
-        var toggle = group.find('.dropdown-toggle');
-        var dropdown = group.find('.dropdown-menu');
+    getLocaleByCode = function (locale) {
+      return localeSelector + '[' + localeAttribute + '="' + locale + '"]';
+    };
 
-        toggle.text(selected.text());
+  togglers.forEach(function (toggler) {
+    toggler.addEventListener('click', function (e) {
+      e.preventDefault();
 
-        dropdown.find('a').removeClass('active');
-        selected.addClass('active');
+      var
+        locale = e.target.getAttribute(localeAttribute),
+        form = Pyro.closest(e.target, formWrapperSelector),
+        groupes = form.querySelectorAll(groupWrapperSelector),
+        toggles = Pyro.find(groupes, dropdownTogglerSelector),
+        dropdowns = Pyro.find(groupes, dropdownMenuSelector);
 
-        form.find('.form-group[lang]').addClass('hidden');
-        form.find('.form-group[lang="' + locale + '"]').removeClass('hidden');
+      toggles.forEach(function (el) {
+        el.innerText = e.target.innerText;
+      });
+
+      dropdowns.forEach(function (el) {
+        el.querySelector('a').classList.remove('active');
+      });
+
+      e.target.classList.add('active');
+
+      form.querySelectorAll(localeSelector + '[' + localeAttribute + ']')
+      .forEach(function (el) {
+        el.classList.add('hidden');
+      });
+
+      form.querySelectorAll(getLocaleByCode(locale))
+      .forEach(function (el) {
+        el.classList.remove('hidden');
+      });
     });
-});
+  });
+
+})(Pyro, document);
