@@ -11,41 +11,44 @@
     formWrapperSelector = 'form',
     localeSelector = '.form-group',
 
-    togglers = document.querySelectorAll(togglersSelector),
-
     getLocaleByCode = function (locale) {
       return localeSelector + '[' + localeAttribute + '="' + locale + '"]';
     };
 
-  togglers.forEach(function (toggler) {
-    toggler.addEventListener('click', function (e) {
-      e.preventDefault();
+  document.addEventListener('DOMContentLoaded', function () {
+    var togglers = document.querySelectorAll(togglersSelector);
 
-      var
-        locale = e.target.getAttribute(localeAttribute),
-        form = Pyro.closest(e.target, formWrapperSelector),
-        groupes = form.querySelectorAll(groupWrapperSelector),
-        toggles = Pyro.find(groupes, dropdownTogglerSelector),
-        dropdowns = Pyro.find(groupes, dropdownMenuSelector);
+    togglers.forEach(function (toggler) {
+      toggler.addEventListener('click', function (e) {
+        e.preventDefault();
 
-      toggles.forEach(function (el) {
-        el.innerText = e.target.innerText;
-      });
+        var
+          locale = e.target.getAttribute(localeAttribute),
+          form = Pyro.closest(e.target, formWrapperSelector),
+          groupes = form.querySelectorAll(groupWrapperSelector),
+          toggles = Pyro.find(groupes, dropdownTogglerSelector),
+          dropdowns = Pyro.find(groupes, dropdownMenuSelector);
 
-      dropdowns.forEach(function (el) {
-        el.querySelector('a').classList.remove('active');
-      });
+        toggles.forEach(function (el) {
+          el.innerText = e.target.innerText;
+        });
 
-      e.target.classList.add('active');
+        dropdowns.forEach(function (el) {
+          el.querySelector('a').classList.remove('active');
+        });
 
-      form.querySelectorAll(localeSelector + '[' + localeAttribute + ']')
-      .forEach(function (el) {
-        el.classList.add('hidden');
-      });
+        e.target.classList.add('active');
 
-      form.querySelectorAll(getLocaleByCode(locale))
-      .forEach(function (el) {
-        el.classList.remove('hidden');
+        form.querySelectorAll(localeSelector + '[' + localeAttribute + ']')
+        .forEach(function (el) {
+          el.classList.add('hidden');
+        });
+
+        form.querySelectorAll(getLocaleByCode(locale))
+        .forEach(function (el) {
+          el.classList.remove('hidden');
+        });
+
       });
     });
   });
