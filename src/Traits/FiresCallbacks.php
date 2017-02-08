@@ -51,8 +51,6 @@ trait FiresCallbacks
      */
     public function listen($trigger, $callback)
     {
-        $trigger = get_class($this) . $trigger;
-
         if (!isset(self::$listeners[$trigger])) {
             self::$listeners[$trigger] = [];
         }
@@ -131,6 +129,6 @@ trait FiresCallbacks
      */
     public function hasListener($trigger)
     {
-        return isset(self::$listeners[get_class($this) . $trigger]);
+        return isset(self::$listeners[$trigger]);
     }
 }
