@@ -131,6 +131,36 @@ interface ViewInterface
     public function setIcon($icon);
 
     /**
+     * Get the filters.
+     *
+     * @return null|array
+     */
+    public function getFilters();
+
+    /**
+     * Set the filters.
+     *
+     * @param $filters
+     * @return $this
+     */
+    public function setFilters($filters);
+
+    /**
+     * Get the columns.
+     *
+     * @return null|array
+     */
+    public function getColumns();
+
+    /**
+     * Set the columns.
+     *
+     * @param $columns
+     * @return $this
+     */
+    public function setColumns($columns);
+
+    /**
      * Get the buttons.
      *
      * @return null|array
@@ -159,4 +189,19 @@ interface ViewInterface
      * @return $this
      */
     public function setActions($actions);
+
+    /**
+     * Get the options.
+     *
+     * @return null|array
+     */
+    public function getOptions();
+
+    /**
+     * Set the options.
+     *
+     * @param $options
+     * @return $this
+     */
+    public function setOptions($options);
 }
