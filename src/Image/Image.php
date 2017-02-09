@@ -121,6 +121,7 @@ class Image
         'greyscale',
         'heighten',
         'insert',
+        'interlace',
         'invert',
         'limitColors',
         'pixelate',
