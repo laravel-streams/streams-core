@@ -71,7 +71,7 @@ class Currency
             $suffix = $this->symbol($currency);
         }
 
-        return $prefix . number_format(floor(($number * 100)) / 100, $decimals, $point, $separator) . $suffix;
+        return $prefix . number_format($number, $decimals, $point, $separator) . $suffix;
     }
 
     /**
