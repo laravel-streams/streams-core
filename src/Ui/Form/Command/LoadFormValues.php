@@ -35,11 +35,13 @@ class LoadFormValues
      */
     public function handle()
     {
-        $form = $this->builder->getForm();
+        if ($this->builder->hasFormErrors()) {
+            return;
+        }
 
         /* @var FieldType $field */
-        foreach ($form->getEnabledFields() as $field) {
-            $form->setValue($field->getInputName(), $field->getInputValue());
+        foreach ($this->builder->getEnabledFormFields() as $field) {
+            $this->builder->setFormValue($field->getInputName(), $field->getInputValue());
         }
     }
 }

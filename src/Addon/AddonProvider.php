@@ -10,6 +10,7 @@ use Illuminate\Console\Events\ArtisanStarting;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Router;
 
 /**
@@ -88,10 +89,13 @@ class AddonProvider
     /**
      * Create a new AddonProvider instance.
      *
-     * @param Router      $router
-     * @param Dispatcher  $events
-     * @param Schedule    $schedule
+     * @param Router $router
+     * @param Dispatcher $events
+     * @param Schedule $schedule
      * @param Application $application
+     * @param ViewOverrides $viewOverrides
+     * @param MiddlewareCollection $middlewares
+     * @param ViewMobileOverrides $viewMobileOverrides
      */
     public function __construct(
         Router $router,
@@ -211,8 +215,8 @@ class AddonProvider
      */
     protected function bindAliases(AddonServiceProvider $provider)
     {
-        foreach ($provider->getAliases() as $abstract => $alias) {
-            $this->application->alias($abstract, $alias);
+        if ($aliases = $provider->getAliases()) {
+            AliasLoader::getInstance($aliases)->register();
         }
     }
 
@@ -269,7 +273,7 @@ class AddonProvider
      * Register the addon routes.
      *
      * @param AddonServiceProvider $provider
-     * @param Addon                $addon
+     * @param Addon $addon
      */
     protected function registerRoutes(AddonServiceProvider $provider, Addon $addon)
     {
@@ -319,7 +323,7 @@ class AddonProvider
      * Register the addon routes.
      *
      * @param AddonServiceProvider $provider
-     * @param Addon                $addon
+     * @param Addon $addon
      */
     protected function registerApi(AddonServiceProvider $provider, Addon $addon)
     {
@@ -429,7 +433,7 @@ class AddonProvider
      * Register view overrides.
      *
      * @param AddonServiceProvider $provider
-     * @param Addon                $addon
+     * @param Addon $addon
      */
     protected function registerOverrides(AddonServiceProvider $provider, Addon $addon)
     {

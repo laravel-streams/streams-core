@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Contracts\Config\Repository;
-
 return [
     'per_page'    => [
         'env'      => 'RESULTS_PER_PAGE',
@@ -10,8 +8,8 @@ return [
         'required' => true,
         'config'   => [
             'default_value' => 15,
-            'min'           => 5
-        ]
+            'min'           => 5,
+        ],
     ],
     'timezone'    => [
         'env'    => 'APP_TIMEZONE',
@@ -19,10 +17,8 @@ return [
         'type'   => 'anomaly.field_type.select',
         'config' => [
             'handler'       => 'timezones',
-            'default_value' => function (Repository $config) {
-                return $config->get('app.timezone');
-            }
-        ]
+            'default_value' => config('app.timezone'),
+        ],
     ],
     'date_format' => [
         'env'         => 'DATE_FORMAT',
@@ -32,26 +28,23 @@ return [
         'required'    => true,
         'config'      => [
             'options' => [
-                'l, j F, Y' => function () {
-                    return date('l, j F, Y'); // Friday, 10 July, 2015
-                },
-                'j F, Y'    => function () {
+                'j F, Y' => function () {
                     return date('j F, Y'); // 10 July, 2015
                 },
-                'j M, y'    => function () {
+                'j M, y' => function () {
                     return date('j M, y'); // 10 Jul, 15
                 },
-                'm/d/Y'     => function () {
+                'm/d/Y'  => function () {
                     return date('m/d/Y'); // 07/10/2015
                 },
-                'd/m/Y'     => function () {
+                'd/m/Y'  => function () {
                     return date('d/m/Y'); // 10/07/2015
                 },
-                'Y-m-d'     => function () {
+                'Y-m-d'  => function () {
                     return date('Y-m-d'); // 2015-07-10
-                }
-            ]
-        ]
+                },
+            ],
+        ],
     ],
     'time_format' => [
         'env'         => 'TIME_FORMAT',
@@ -62,12 +55,15 @@ return [
         'config'      => [
             'options' => [
                 'g:i A' => function () {
-                    return date('g:00 A'); // 4:00 PM
+                    return date('g:i A'); // 4:00 PM
+                },
+                'g:i a' => function () {
+                    return date('g:i a'); // 4:00 pm
                 },
                 'H:i'   => function () {
-                    return date('H:00'); // 16:00
-                }
-            ]
-        ]
-    ]
+                    return date('H:i'); // 16:00
+                },
+            ],
+        ],
+    ],
 ];

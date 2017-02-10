@@ -13,6 +13,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class FieldTypeBuilder
 {
+
     use DispatchesJobs;
 
     /**
@@ -39,8 +40,8 @@ class FieldTypeBuilder
     /**
      * Handle the command.
      *
-     * @param Hydrator            $hydrator
-     * @param Container           $container
+     * @param Hydrator $hydrator
+     * @param Container $container
      * @param FieldTypeCollection $fieldTypes
      */
     public function __construct(Hydrator $hydrator, Container $container, FieldTypeCollection $fieldTypes)
@@ -53,7 +54,7 @@ class FieldTypeBuilder
     /**
      * Build a field type.
      *
-     * @param  array     $parameters
+     * @param  array $parameters
      * @return FieldType
      */
     public function build(array $parameters)
@@ -62,11 +63,11 @@ class FieldTypeBuilder
 
         /*
          * If the field type is a string and
-         * starts with the root namespace for
+         * contains some kind of namespace for
          * streams then it's a class path and
          * we can resolve it from the container.
          */
-        if (is_string($type) && starts_with($type, 'Anomaly') && class_exists($type)) {
+        if (is_string($type) && str_contains($type, '\\') && class_exists($type)) {
             $type = clone($this->container->make($type));
         }
 

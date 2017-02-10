@@ -12,6 +12,7 @@
             'url': form.options.url ?: url_full()
         }) }}
 
+        {#{% include "streams::form/partials/controls" %}#}
         {% include form.options.get('heading', "streams::form/partials/heading") %}
         {% include "streams::form/partials/layout" %}
         {% include "streams::form/partials/controls" %}

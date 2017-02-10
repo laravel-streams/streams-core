@@ -37,7 +37,7 @@ class RepopulateFields
     {
         /* @var FieldType $field */
         foreach ($this->builder->getFormFields() as $field) {
-            $field->setValue($field->getPostValue());
+            $field->setValue($field->getRepopulateValue());
         }
     }
 }

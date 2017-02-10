@@ -55,7 +55,7 @@ class FormPresenter extends Presenter
     /**
      * Return the opening form tag.
      *
-     * @param  array  $options
+     * @param  array $options
      * @return string
      */
     public function open(array $options = [])
@@ -80,20 +80,26 @@ class FormPresenter extends Presenter
     /**
      * Return the form layout.
      *
-     * @param  null   $view
+     * @param  null $view
      * @return string
      */
     public function renderFields($view = null)
     {
         return $this->view
-            ->make($view ?: 'streams::form/partials/fields', ['form' => $this->object])
+            ->make(
+                $view ?: 'streams::form/partials/fields',
+                [
+                    'form'   => $this,
+                    'fields' => $this->object->getFields()->fieldNames(),
+                ]
+            )
             ->render();
     }
 
     /**
      * Return the action buttons.
      *
-     * @param  null   $view
+     * @param  null $view
      * @return string
      */
     public function renderActions($view = null)

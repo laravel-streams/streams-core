@@ -174,6 +174,11 @@ class ButtonRegistry
             'type' => 'info',
             'icon' => 'cog',
         ],
+        'preferences'   => [
+            'text' => 'streams::button.preferences',
+            'type' => 'info',
+            'icon' => 'sliders',
+        ],
         'configure'     => [
             'text' => 'streams::button.configure',
             'icon' => 'wrench',

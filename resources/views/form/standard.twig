@@ -5,7 +5,11 @@
     {{ form_open({'class': 'form', 'enctype': 'multipart/form-data', 'url': form.options.url ?: url_full()}) }}
 
     {{ view("streams::form/partials/heading", {'form': form}) }}
-    {{ view("streams::form/partials/fields", {'form': form}) }}
+
+    {% for field in form.fields %}
+        {{ field.render({'form': form})|raw }}
+    {% endfor %}
+
     {{ view("streams::buttons/buttons", {'buttons': form.actions}) }}
 
     {{ form_close() }}

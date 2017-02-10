@@ -1,11 +1,10 @@
 <div class="card">
+
+    {% include "streams::form/partials/header" with {"section": section} %}
+
     <div class="card-block">
-        {% for field in form.fields.base() %}
-            <div class="field-group">
-                {% for field in form.fields.translations(field.field_name) %}
-                    {{ field.render({'form': form})|raw }}
-                {% endfor %}
-            </div>
-        {% endfor %}
+
+        {% include "streams::form/partials/fields" with {"fields": form.fields.base().pluck('field_name').all()} %}
+
     </div>
 </div>

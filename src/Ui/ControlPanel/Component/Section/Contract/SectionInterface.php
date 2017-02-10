@@ -58,6 +58,21 @@ interface SectionInterface
     public function setTitle($title);
 
     /**
+     * Get the label.
+     *
+     * @return string
+     */
+    public function getLabel();
+
+    /**
+     * Set the label.
+     *
+     * @param  string $label
+     * @return $this
+     */
+    public function setLabel($label);
+
+    /**
      * Get the class.
      *
      * @return string
@@ -231,7 +246,7 @@ interface SectionInterface
     /**
      * Get the HREF attribute.
      *
-     * @param  null   $path
+     * @param  null $path
      * @return string
      */
     public function getHref($path = null);

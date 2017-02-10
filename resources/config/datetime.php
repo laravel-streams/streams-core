@@ -11,7 +11,7 @@ return [
     |
     */
 
-    'date_format' => env('DATE_FORMAT', 'j F, Y'),
+    'date_format' => env('DATE_FORMAT', 'm/d/Y'),
     'time_format' => env('TIME_FORMAT', 'g:i A'),
 
     /*

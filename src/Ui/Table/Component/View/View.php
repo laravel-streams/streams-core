@@ -13,6 +13,7 @@ use Closure;
  */
 class View implements ViewInterface
 {
+
     use FiresCallbacks;
 
     /**
@@ -58,6 +59,13 @@ class View implements ViewInterface
     protected $attributes = [];
 
     /**
+     * The view filters.
+     *
+     * @var null
+     */
+    protected $filters = null;
+
+    /**
      * The view columns.
      *
      * @var null
@@ -77,6 +85,13 @@ class View implements ViewInterface
      * @var null
      */
     protected $actions = null;
+
+    /**
+     * The view options.
+     *
+     * @var null
+     */
+    protected $options = null;
 
     /**
      * The view handler.
@@ -164,7 +179,7 @@ class View implements ViewInterface
     /**
      * Set the active flag.
      *
-     * @param  bool  $active
+     * @param  bool $active
      * @return $this
      */
     public function setActive($active)
@@ -277,6 +292,29 @@ class View implements ViewInterface
     }
 
     /**
+     * Get the filters.
+     *
+     * @return null|array
+     */
+    public function getFilters()
+    {
+        return $this->filters;
+    }
+
+    /**
+     * Set the filters.
+     *
+     * @param $filters
+     * @return $this
+     */
+    public function setFilters($filters)
+    {
+        $this->filters = $filters;
+
+        return $this;
+    }
+
+    /**
      * Get the columns.
      *
      * @return null|array
@@ -341,6 +379,29 @@ class View implements ViewInterface
     public function setActions($actions)
     {
         $this->actions = $actions;
+
+        return $this;
+    }
+
+    /**
+     * Get the options.
+     *
+     * @return null|array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Set the options.
+     *
+     * @param $options
+     * @return $this
+     */
+    public function setOptions($options)
+    {
+        $this->options = $options;
 
         return $this;
     }
