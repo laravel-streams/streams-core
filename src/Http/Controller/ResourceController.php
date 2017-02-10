@@ -18,8 +18,11 @@ class ResourceController extends PublicController
         parent::__construct();
 
         // No CSRF protection.
-        $this->middleware = array_filter($this->middleware, function ($item) {
-            return $item['middleware'] != 'Illuminate\Foundation\Http\Middleware\VerifyCsrfToken';
-        });
+        $this->middleware = array_filter(
+            $this->middleware,
+            function ($item) {
+                return $item['middleware'] != 'Illuminate\Foundation\Http\Middleware\VerifyCsrfToken';
+            }
+        );
     }
 }
