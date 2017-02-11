@@ -51,7 +51,7 @@ trait FiresCallbacks
      */
     public function listen($trigger, $callback)
     {
-        $trigger = get_class($this) . $trigger;
+	    $trigger = get_class($this) . '::' . $trigger;
 
         if (!isset(self::$listeners[$trigger])) {
             self::$listeners[$trigger] = [];
@@ -75,15 +75,19 @@ trait FiresCallbacks
         /*
          * First, fire global listeners.
          */
-        foreach (array_get(self::$listeners, $trigger, []) as $callback) {
-            if (is_string($callback) || $callback instanceof \Closure) {
-                app()->call($callback, $parameters);
-            }
+	    $classes = array_merge(class_parents($this), [get_class($this) => get_class($this)]);
 
-            if (method_exists($callback, 'handle')) {
-                app()->call([$callback, 'handle'], $parameters);
-            }
-        }
+	    foreach (array_keys($classes) as $caller) {
+		    foreach (array_get(self::$listeners, $caller . '::' . $trigger, []) as $callback) {
+			    if (is_string($callback) || $callback instanceof \Closure) {
+				    app()->call($callback, $parameters);
+			    }
+
+			    if (method_exists($callback, 'handle')) {
+				    app()->call([$callback, 'handle'], $parameters);
+			    }
+		    }
+	    }
 
         /*
          * Next, check if the method
@@ -131,6 +135,6 @@ trait FiresCallbacks
      */
     public function hasListener($trigger)
     {
-        return isset(self::$listeners[get_class($this) . $trigger]);
+        return isset(self::$listeners[get_class($this) . '::' . $trigger]);
     }
 }
