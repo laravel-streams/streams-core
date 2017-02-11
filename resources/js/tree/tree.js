@@ -66,7 +66,7 @@ $(function () {
         }
 
         if (collapsed[$(this).data('id')] == true && $(this).find('li').length) {
-            $(this).addClass('collapsed').find('.card').append('<div class="count">' + count + '</div>');
+            $(this).addClass('collapsed').find('.card').first().append('<div class="count">' + count + '</div>');
         }
     });
 
@@ -94,9 +94,9 @@ $(function () {
         collapsed[item.data('id')] = item.hasClass('collapsed');
 
         if (item.hasClass('collapsed')) {
-            item.find('.card').append('<div class="count">' + count + '</div>');
+            item.find('.card').first().append('<div class="count">' + count + '</div>');
         } else {
-            item.find('.count').remove();
+            item.find('.count').first().remove();
         }
 
         Cookies.set('tree', JSON.stringify(collapsed), {path: window.location.pathname});
