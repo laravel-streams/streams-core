@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Application\Command\ReloadEnvironmentFile;
 use Anomaly\Streams\Platform\Application\Command\WriteEnvironmentFile;
 use Anomaly\Streams\Platform\Installer\Console\Command\ConfigureDatabase;
 use Anomaly\Streams\Platform\Installer\Console\Command\ConfirmLicense;
-use Anomaly\Streams\Platform\Installer\Console\Command\CreateEntrySearchIndexes;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadApplicationInstallers;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadBaseMigrations;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadBaseSeeders;
@@ -94,7 +93,6 @@ class Install extends Command
                     $this->call('env:set', ['line' => 'INSTALLED=true']);
 
                     $this->dispatch(new ReloadEnvironmentFile());
-                    $this->dispatch(new CreateEntrySearchIndexes());
 
                     $manager->register(); // Register all of our addons.
                 }
