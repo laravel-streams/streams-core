@@ -45,7 +45,7 @@ class FieldNormalizer
             }
 
             if (!isset($field['type'])) {
-                throw new \Exception("The [type] parameter must be defined in fields.");
+                throw new \Exception("The [type] parameter must be defined in field. {$slug}");
             }
 
             $field['slug']      = array_get($field, 'slug', $slug);
