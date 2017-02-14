@@ -157,17 +157,17 @@ class StreamsPlugin extends Plugin
      * Create a new AgentPlugin instance.
      *
      * @param UrlGenerator $url
-     * @param Str          $str
-     * @param Guard        $auth
-     * @param Agent        $agent
-     * @param Asset        $asset
-     * @param Image        $image
-     * @param Router       $router
-     * @param Repository   $config
-     * @param Request      $request
-     * @param Store        $session
-     * @param Currency     $currency
-     * @param Template     $template
+     * @param Str $str
+     * @param Guard $auth
+     * @param Agent $agent
+     * @param Asset $asset
+     * @param Image $image
+     * @param Router $router
+     * @param Repository $config
+     * @param Request $request
+     * @param Store $session
+     * @param Currency $currency
+     * @param Template $template
      */
     public function __construct(
         UrlGenerator $url,
@@ -518,44 +518,15 @@ class StreamsPlugin extends Plugin
                     return call_user_func_array([$this->str, camel_case($name)], $arguments);
                 }
             ),
-            new \Twig_SimpleFilter(
-                'safe',
-                function ($html) {
-
-                    $html = preg_replace('@<iframe[^>]*?>.*?</script>@si', '', $html);
-                    $html = preg_replace('@<frame[^>]*?>.*?</script>@si', '', $html);
-
-                    $html = preg_replace('@<script[^>]*?>.*?</script>@si', '', $html);
-                    $html = preg_replace('@<style[^>]*?>.*?</style>@siU', '', $html);
-
-                    $html = preg_replace('/onload="(.*?)"/is', '', $html);
-                    $html = preg_replace('/onunload="(.*?)"/is', '', $html);
-
-                    $html = preg_replace('/onclick="(.*?)"/is', '', $html);
-                    $html = preg_replace('/ondblclick="(.*?)"/is', '', $html);
-
-                    $html = preg_replace('/onmousein="(.*?)"/is', '', $html);
-                    $html = preg_replace('/onmouseout="(.*?)"/is', '', $html);
-
-                    $html = preg_replace('/onmouseup="(.*?)"/is', '', $html);
-                    $html = preg_replace('/onmousedown="(.*?)"/is', '', $html);
-
-                    $html = preg_replace('/onchange="(.*?)"/is', '', $html);
-
-                    $html = preg_replace('@<![\s\S]*?–[ \t\n\r]*>@', '', $html); // Comments/CDATA
-
-                    return $html;
-                }
-            ),
         ];
     }
 
     /**
      * Return a URL.
      *
-     * @param  null  $path
+     * @param  null $path
      * @param  array $parameters
-     * @param  null  $secure
+     * @param  null $secure
      * @return string
      */
     public function url($path = null, $parameters = [], $secure = null)
