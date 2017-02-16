@@ -204,7 +204,6 @@ class EloquentQueryBuilder extends Builder
                     }
 
                     $this
-                        ->distinct()
                         ->select($model->getTableName() . '.*')
                         ->where(
                             function (Builder $query) use ($model) {
