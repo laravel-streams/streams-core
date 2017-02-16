@@ -46,16 +46,16 @@ class SetDatabaseData
     public function handle()
     {
         $this->data->put(
-            'DB_DRIVER',
+            'DB_CONNECTION',
             $this->command->askWithCompletion(
                 'What database driver would you like to use? [mysql, postgres, sqlite, sqlsrv]',
                 [
                     'mysql',
-                    'postgres',
+                    'pgsql',
                     'sqlite',
                     'sqlsrv',
                 ],
-                env('DB_DRIVER', 'mysql')
+                env('DB_CONNECTION', 'mysql')
             )
         );
 
