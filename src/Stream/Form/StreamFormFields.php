@@ -45,7 +45,7 @@ class StreamFormFields
                         'max'     => 60,
                     ],
                     'rules'        => [
-                        'unique' => 'streams_streams,slug,' . $id . ',id,namespace,' . $namespace,
+                        'unique' => 'streams_streams,slug,' . (int)$id . ',id,namespace,' . $namespace,
                     ],
                 ],
                 'description'  => [

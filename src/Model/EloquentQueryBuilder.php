@@ -233,7 +233,7 @@ class EloquentQueryBuilder extends Builder
 
                     $this
                         ->distinct()
-                        ->select($model->getTableName() . '.*')
+                        ->select([$model->getTableName() . '.*', $model->getTranslationsTableName() . '.*'])
                         ->where(
                             function (Builder $query) use ($model) {
                                 $query->where($model->getTranslationsTableName() . '.locale', config('app.locale'));
