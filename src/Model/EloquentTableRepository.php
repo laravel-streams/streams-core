@@ -66,7 +66,12 @@ class EloquentTableRepository implements TableRepositoryInterface
          * Before we actually adjust the baseline query
          * set the total amount of entries possible back
          * on the table so it can be used later.
+         *
+         * We unset the orders on the query
+         * because of pgsql grouping issues.
          */
+        $query->getQuery()->orders = null;
+
         $total = $query->count();
 
         $builder->setTableOption('total_results', $total);
