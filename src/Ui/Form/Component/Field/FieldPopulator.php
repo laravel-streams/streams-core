@@ -42,6 +42,15 @@ class FieldPopulator
         $fields = $builder->getFields();
         $entry  = $builder->getFormEntry();
 
+        /**
+         * This is a brute force fix for the
+         * url.intended that is set by Laravel
+         * for redirecting kicked login attempts.
+         *
+         * Since we're here - we don't need it anyways.
+         */
+        $this->session->pull('url.intended');
+
         foreach ($fields as &$field) {
 
             /*
