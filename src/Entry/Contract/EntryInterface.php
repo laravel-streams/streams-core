@@ -135,6 +135,13 @@ interface EntryInterface
     public function getTranslationsTableName();
 
     /**
+     * Get the translated attributes.
+     *
+     * @return array
+     */
+    public function getTranslatedAttributes();
+
+    /**
      * Get a field by it's slug.
      *
      * @param  $slug

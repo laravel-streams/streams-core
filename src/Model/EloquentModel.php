@@ -439,6 +439,16 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
         return get_class($this) . 'Translation';
     }
 
+    /**
+     * Return translated attributes.
+     *
+     * @return array
+     */
+    public function getTranslatedAttributes()
+    {
+        return $this->translatedAttributes;
+    }
+
     public function getRelationKey()
     {
         return $this->translationForeignKey ?: $this->getForeignKey();
