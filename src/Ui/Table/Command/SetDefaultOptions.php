@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Http\Request;
 
 /**
  * Class SetDefaultOptions
@@ -34,8 +35,9 @@ class SetDefaultOptions
      * Handle the command.
      *
      * @param ModuleCollection $modules
+     * @param Request          $request
      */
-    public function handle(ModuleCollection $modules)
+    public function handle(ModuleCollection $modules, Request $request)
     {
         $table = $this->builder->getTable();
 
@@ -77,8 +79,11 @@ class SetDefaultOptions
          * If the permission is not set then
          * try and automate it.
          */
-        if ($table->getOption('permission') === null && ($module = $modules->active(
-            )) && ($stream = $this->builder->getTableStream())
+        if (
+            $table->getOption('permission') === null &&
+            $request->segment(1) == 'admin' &&
+            ($module = $modules->active()) &&
+            ($stream = $this->builder->getTableStream())
         ) {
             $table->setOption('permission', $module->getNamespace($stream->getSlug() . '.read'));
         }
