@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Http\Request;
 
 /**
  * Class SetDefaultOptions
@@ -36,8 +37,9 @@ class SetDefaultOptions
      *
      * @param ModuleCollection $modules
      * @param ThemeCollection  $themes
+     * @param Request          $request
      */
-    public function handle(ModuleCollection $modules, ThemeCollection $themes)
+    public function handle(ModuleCollection $modules, ThemeCollection $themes, Request $request)
     {
         $theme = $themes->current();
 
@@ -75,8 +77,11 @@ class SetDefaultOptions
          * If the permission is not set then
          * try and automate it.
          */
-        if ($this->builder->getFormOption('permission') === null && ($module = $modules->active(
-            )) && ($stream = $this->builder->getFormStream())
+        if (
+            $this->builder->getFormOption('permission') === null &&
+            $request->segment(1) == 'admin' &&
+            ($module = $modules->active()) &&
+            ($stream = $this->builder->getFormStream())
         ) {
             $this->builder->setFormOption(
                 'permission',
