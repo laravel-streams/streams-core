@@ -69,4 +69,37 @@ class Str extends \Illuminate\Support\Str
     {
         return (new Linkify($options))->process($text);
     }
+
+    /**
+     * Return safe HTML.
+     *
+     * @param $html
+     */
+    public function safe($html)
+    {
+
+        $html = preg_replace('@<iframe[^>]*?>.*?</script>@si', '', $html);
+        $html = preg_replace('@<frame[^>]*?>.*?</script>@si', '', $html);
+
+        $html = preg_replace('@<script[^>]*?>.*?</script>@si', '', $html);
+        $html = preg_replace('@<style[^>]*?>.*?</style>@siU', '', $html);
+
+        $html = preg_replace('/onload="(.*?)"/is', '', $html);
+        $html = preg_replace('/onunload="(.*?)"/is', '', $html);
+
+        $html = preg_replace('/onclick="(.*?)"/is', '', $html);
+        $html = preg_replace('/ondblclick="(.*?)"/is', '', $html);
+
+        $html = preg_replace('/onmousein="(.*?)"/is', '', $html);
+        $html = preg_replace('/onmouseout="(.*?)"/is', '', $html);
+
+        $html = preg_replace('/onmouseup="(.*?)"/is', '', $html);
+        $html = preg_replace('/onmousedown="(.*?)"/is', '', $html);
+
+        $html = preg_replace('/onchange="(.*?)"/is', '', $html);
+
+        $html = preg_replace('@<![\s\S]*?–[ \t\n\r]*>@', '', $html); // Comments/CDATA
+
+        return $html;
+    }
 }

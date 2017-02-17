@@ -54,7 +54,7 @@ class MakeAddonPaths
     /**
      * Handle the command.
      *
-     * @param  Filesystem  $filesystem
+     * @param  Filesystem $filesystem
      * @param  Application $application
      * @return string
      */
@@ -62,13 +62,9 @@ class MakeAddonPaths
     {
         $shared = $this->command->option('shared') ? 'shared' : $application->getReference();
 
-        $path   = base_path("addons/{$shared}/{$this->vendor}/{$this->slug}-{$this->type}");
-        $config = "{$path}/resources/config";
-        $views  = "{$path}/resources/views";
+        $path = base_path("addons/{$shared}/{$this->vendor}/{$this->slug}-{$this->type}");
 
         $filesystem->makeDirectory($path, 0755, true, true);
-        $filesystem->makeDirectory($views, 0755, true, true);
-        $filesystem->makeDirectory($config, 0755, true, true);
 
         return $path;
     }

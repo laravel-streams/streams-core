@@ -1,0 +1,62 @@
+<!-- Locale -->
+<meta http-equiv="Content-Language" content="{{ config('app.locale') }}">
+
+<!-- To the Future! -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<!-- Meta Tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="{{ config_get('streams::distribution.name') }}"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="description" content="{{ trans(template.meta_description) }}"/>
+
+{% block ogdata %}
+    <meta property="og:site_name"
+          content="{{ setting_value('streams::name', config_get('streams::distribution.name')) }}"/>
+    {#<meta property="og:image" content="{{ image_url('theme::img/og.png') }}"/>#}
+    <meta property="og:description" content="{{ trans(template.meta_description) }}"/>
+    <meta property="og:title" content="{{ trans(template.meta_title) }}"/>
+    <meta property="og:url" content="{{ url_current() }}"/>
+    <meta property="og:type" content="website"/>
+{% endblock %}
+
+<title>
+    {{ setting_value('streams::name', config_get('streams::distribution.name')) }}
+    &#8250;
+    {{ trans(template.meta_title) }}
+</title>
+
+<!-- Favicon -->
+{#<link rel="shortcut icon" href="{{ image('theme::img/favicon.png') }}" type="image/png">#}
+
+{# Base Theme Components #}
+{{ asset_add("theme.css", "theme::scss/bootstrap/bootstrap.scss") }}
+{{ asset_add("theme.css", "theme::scss/font-awesome/font-awesome.scss") }}
+
+{# Specific Build Files #}
+{{ asset_add("build.css", "theme::scss/theme/theme.scss", ["live"]) }}
+
+{# Core Theme Components #}
+{{ asset_add("theme.js", "theme::js/vendor/jquery.min.js") }}
+{{ asset_add("theme.js", "theme::js/vendor/tether.min.js") }}
+{{ asset_add("theme.js", "theme::js/vendor/bootstrap.min.js") }}
+{{ asset_add("theme.js", "theme::js/vendor/vue.min.js") }}
+
+{# Theme Scripts #}
+{#{{ asset_add("theme.js", "theme::js/plugins/*") }}#}
+{{ asset_add("theme.js", "theme::js/theme/initialize.js") }}
+
+{# Include Asset Collections #}
+{{ html_style(asset_path("theme.css")) }}
+{{ html_style(asset_path("build.css")) }}
+{{ html_script(asset_path("theme.js")) }}
+
+{# Important!! #}
+{{ constants() }}
+
+{# Include Styles Loaded From Outside #}
+{% for style in asset_styles("styles.css") %}
+    {{ style|raw }}
+{% endfor %}
