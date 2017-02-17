@@ -6,6 +6,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 
 class FieldFormFields
 {
+
     use DispatchesJobs;
 
     /**
@@ -43,7 +44,7 @@ class FieldFormFields
                     ],
                     'rules'        => [
                         'valid_slug',
-                        'unique:streams_fields,slug,' . $id . ',id,namespace,' . $namespace,
+                        'unique:streams_fields,slug,' . (int)$id . ',id,namespace,' . $namespace,
                     ],
                     'validators'   => [
                         'valid_slug' => [
