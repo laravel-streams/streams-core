@@ -73,12 +73,11 @@ class Str extends \Illuminate\Support\Str
     /**
      * Return purified HTML.
      *
-     * @param       $html
-     * @param array $config
+     * @param $html
      * @return string
      */
-    public function purify($html, array $config = [])
+    public function purify($html)
     {
-        return (new \HTMLPurifier($config))->purify($html);
+        return app(Purifier::class)->purify($html);
     }
 }

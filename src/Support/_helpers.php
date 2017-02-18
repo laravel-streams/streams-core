@@ -1,11 +1,29 @@
 <?php
 
+use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Support\Value;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+
+if (!function_exists('app_storage_path')) {
+
+    /**
+     * Get the storage path for the application.
+     *
+     * @param  string $path
+     * @return string
+     */
+    function app_storage_path($path = '')
+    {
+        /* @var Application $application */
+        $application = app(Application::class);
+
+        return storage_path('streams/' . $application->getReference()) . ($path ? '/' . $path : $path);
+    }
+}
 
 if (!function_exists('str_humanize')) {
 
