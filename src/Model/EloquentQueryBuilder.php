@@ -231,16 +231,9 @@ class EloquentQueryBuilder extends Builder
                         );
                     }
 
-                    $translated = array_map(
-                        function ($attribute) use ($model) {
-                            return $model->getTranslationsTableName() . '.' . $attribute;
-                        },
-                        $model->getTranslatedAttributes()
-                    );
-
                     $this
                         ->distinct()
-                        ->select(array_merge([$model->getTableName() . '.*'], $translated))
+                        ->select($model->getTableName() . '.*')
                         ->where(
                             function (Builder $query) use ($model) {
                                 $query->where($model->getTranslationsTableName() . '.locale', config('app.locale'));
