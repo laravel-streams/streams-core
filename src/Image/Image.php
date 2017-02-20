@@ -620,8 +620,8 @@ class Image
             $this->addAlteration('orientate');
         }
 
-        if ($this->config->get('streams::images.anti_aliasing')) {
-            // TODO: Add the alteration here.
+        if (in_array($this->getExtension(), ['jpeg', 'jpg']) && $this->config->get('streams::images.interlace')) {
+            $this->addAlteration('interlace');
         }
 
         if (!$this->getAlterations() && $content = $this->dumpImage()) {

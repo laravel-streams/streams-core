@@ -72,12 +72,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Anti-aliasing Default
+    | Interlace JPEGs
     |--------------------------------------------------------------------------
     |
-    | This will cause image to use anti-aliasing by default or not.
+    | This will cause image to automatically interlace JPEGs.
     |
     */
 
-    'anti_aliasing' => env('ANTI_ALIASING', true),
+    'interlace' => env('IMAGE_INTERLACE', true),
 ];
