@@ -69,4 +69,15 @@ return [
     */
 
     'version' => env('VERSION_IMAGES', true),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Anti-aliasing Default
+    |--------------------------------------------------------------------------
+    |
+    | This will cause image to use anti-aliasing by default or not.
+    |
+    */
+
+    'anti_aliasing' => env('ANTI_ALIASING', true),
 ];
