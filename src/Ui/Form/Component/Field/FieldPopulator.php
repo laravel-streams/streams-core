@@ -47,9 +47,13 @@ class FieldPopulator
          * url.intended that is set by Laravel
          * for redirecting kicked login attempts.
          *
+         * URL intended becomes an empty url array.
+         *
          * Since we're here - we don't need it anyways.
          */
-        $this->session->pull('url.intended');
+        if (!$this->session->get('url')) {
+            $this->session->pull('url');
+        }
 
         foreach ($fields as &$field) {
 
