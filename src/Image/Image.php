@@ -620,6 +620,10 @@ class Image
             $this->addAlteration('orientate');
         }
 
+        if ($this->config->get('streams::images.anti_aliasing')) {
+            // TODO: Add the alteration here.
+        }
+
         if (!$this->getAlterations() && $content = $this->dumpImage()) {
             $this->files->put($this->directory . $path, $content);
 
