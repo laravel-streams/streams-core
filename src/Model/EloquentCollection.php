@@ -35,13 +35,24 @@ class EloquentCollection extends Collection
     {
         $items = [];
 
-        $decorator = app('Robbo\Presenter\Decorator');
+        /* @var Decorator $decorator */
+        $decorator = app(Decorator::class);
 
         foreach ($this->items as $item) {
             $items[] = $decorator->decorate($item);
         }
 
         return self::make($items);
+    }
+
+    /**
+     * Return a collection of decorated items.
+     *
+     * @return static|$this
+     */
+    public function undecorated()
+    {
+        return $this->undecorate();
     }
 
     /**
@@ -77,7 +88,7 @@ class EloquentCollection extends Collection
      */
     public function findBy($key, $value)
     {
-        return $this->first(
+        return $this->undecorated()->first(
             function ($entry) use ($key, $value) {
                 return $entry->{$key} === $value;
             }
