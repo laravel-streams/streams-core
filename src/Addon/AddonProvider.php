@@ -89,13 +89,13 @@ class AddonProvider
     /**
      * Create a new AddonProvider instance.
      *
-     * @param Router $router
-     * @param Dispatcher $events
-     * @param Schedule $schedule
-     * @param Application $application
-     * @param ViewOverrides $viewOverrides
+     * @param Router               $router
+     * @param Dispatcher           $events
+     * @param Schedule             $schedule
+     * @param Application          $application
+     * @param ViewOverrides        $viewOverrides
      * @param MiddlewareCollection $middlewares
-     * @param ViewMobileOverrides $viewMobileOverrides
+     * @param ViewMobileOverrides  $viewMobileOverrides
      */
     public function __construct(
         Router $router,
@@ -273,7 +273,7 @@ class AddonProvider
      * Register the addon routes.
      *
      * @param AddonServiceProvider $provider
-     * @param Addon $addon
+     * @param Addon                $addon
      */
     protected function registerRoutes(AddonServiceProvider $provider, Addon $addon)
     {
@@ -323,7 +323,7 @@ class AddonProvider
      * Register the addon routes.
      *
      * @param AddonServiceProvider $provider
-     * @param Addon $addon
+     * @param Addon                $addon
      */
     protected function registerApi(AddonServiceProvider $provider, Addon $addon)
     {
@@ -338,7 +338,6 @@ class AddonProvider
         $this->router->group(
             [
                 'middleware' => 'auth:api',
-                'prefix'     => 'api',
             ],
             function (Router $router) use ($routes, $addon) {
 
@@ -433,7 +432,7 @@ class AddonProvider
      * Register view overrides.
      *
      * @param AddonServiceProvider $provider
-     * @param Addon $addon
+     * @param Addon                $addon
      */
     protected function registerOverrides(AddonServiceProvider $provider, Addon $addon)
     {
