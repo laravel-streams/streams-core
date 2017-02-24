@@ -46,7 +46,7 @@ class EloquentCollection extends Collection
     }
 
     /**
-     * Return a collection of decorated items.
+     * Return undecorated items.
      *
      * @return static|$this
      */
@@ -91,6 +91,25 @@ class EloquentCollection extends Collection
         return $this->undecorated()->first(
             function ($entry) use ($key, $value) {
                 return $entry->{$key} === $value;
+            }
+        );
+    }
+
+    /**
+     * Find a model by key.
+     *
+     * @param $key
+     * @param $value
+     * @return static|$this
+     */
+    public function filterBy($key, $value)
+    {
+        /* @var Decorator $decorator */
+        $decorator = app(Decorator::class);
+
+        return $this->filter(
+            function ($entry) use ($key, $value, $decorator) {
+                return $decorator->undecorate($entry)->{$key} === $value;
             }
         );
     }
