@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
-use Anomaly\Streams\Platform\Support\Decorator;
 use Database\Query\JoinClause;
 use Illuminate\Database\Eloquent\Builder;
 
