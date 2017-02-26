@@ -463,6 +463,17 @@ class StreamsPlugin extends Plugin
                     return app(BreadcrumbCollection::class);
                 }, ['is_safe' => ['html']]
             ),
+            new \Twig_SimpleFunction(
+                'gravatar',
+                function ($email, array $parameters = []) {
+                    return $this->image->make(
+                        'https://www.gravatar.com/avatar/' . md5($email) . '?' . http_build_query(
+                            $parameters
+                        ),
+                        'image'
+                    );
+                }, ['is_safe' => ['html']]
+            ),
             new \Twig_SimpleFunction('input_get', [$this->request, 'input']),
             new \Twig_SimpleFunction('asset', [$this->url, 'asset'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('action', [$this->url, 'action'], ['is_safe' => ['html']]),
