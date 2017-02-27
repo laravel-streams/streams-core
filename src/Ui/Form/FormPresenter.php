@@ -90,7 +90,7 @@ class FormPresenter extends Presenter
                 $view ?: 'streams::form/partials/fields',
                 [
                     'form'   => $this,
-                    'fields' => $this->object->getFields()->fieldNames(),
+                    'fields' => array_unique($this->object->getFields()->fieldNames()),
                 ]
             )
             ->render();

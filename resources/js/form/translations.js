@@ -1,6 +1,6 @@
 $(function () {
 
-    $('[data-toggle="lang"]').click(function (e) {
+    $('body').on('click', '[data-toggle="lang"]', function (e) {
 
         e.preventDefault();
 
