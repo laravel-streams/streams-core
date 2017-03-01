@@ -232,7 +232,12 @@ class EloquentQueryBuilder extends Builder
                     }
 
                     $this
-                        ->distinct()
+                        ->groupBy(
+                            [
+                                $model->getTableName() . '.id',
+                                $model->getTranslationsTableName() . '.' . $model->getTitleName(),
+                            ]
+                        )
                         ->select($model->getTableName() . '.*')
                         ->where(
                             function (Builder $query) use ($model) {
