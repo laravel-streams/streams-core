@@ -48,4 +48,14 @@ class NavigationCollection extends Collection
 
         return $default ? $this->get($default) : null;
     }
+
+    /**
+     * Get landing page
+     *
+     * @return NavigationLink
+     */
+    public function home()
+    {
+        return $this->get('anomaly.module.dashboard');
+    }
 }
