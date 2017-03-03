@@ -45,7 +45,7 @@ return [
     'macros' => [
         'mobile_optimized' => [
             'resize'  => [640],
-            'quality' => 75,
+            'quality' => 60,
         ],
         'tablet_optimized' => [
             'resize'  => [900],
