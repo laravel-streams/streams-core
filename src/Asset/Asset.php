@@ -25,6 +25,13 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use League\Flysystem\MountManager;
 
+/**
+ * Class Asset
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class Asset
 {
 

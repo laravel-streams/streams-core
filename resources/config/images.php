@@ -42,7 +42,16 @@ return [
     |
     */
 
-    'macros' => [],
+    'macros' => [
+        'mobile_optimized' => [
+            'resize'  => [640],
+            'quality' => 75,
+        ],
+        'tablet_optimized' => [
+            'resize'  => [900],
+            'quality' => 75,
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------

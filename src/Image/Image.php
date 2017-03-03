@@ -61,6 +61,13 @@ class Image
     protected $filename = null;
 
     /**
+     * The original filename.
+     *
+     * @var null|string
+     */
+    protected $original = null;
+
+    /**
      * The version flag.
      *
      * @var null|boolean
@@ -355,15 +362,7 @@ class Image
                 'alt',
                 ucwords(
                     str_humanize(
-                        trim(
-                            basename(
-                                str_contains($attributes['src'], '?v=') ?
-                                    substr($attributes['src'], 0, strpos($attributes['src'], '?v=')) :
-                                    $attributes['src'],
-                                $this->getExtension()
-                            ),
-                            '.'
-                        ),
+                        trim(basename($this->getOriginal(), $this->getExtension()), '.'),
                         '^a-zA-Z0-9'
                     )
                 )
@@ -539,6 +538,12 @@ class Image
     {
         if (starts_with($this->getImage(), ['http://', 'https://', '//'])) {
             return $this->getImage();
+        }
+
+        if ($this->agent->isTablet()) {
+            $this->macro('tablet_optimized');
+        } elseif ($this->agent->isMobile()) {
+            $this->macro('mobile_optimized');
         }
 
         $path = $this->paths->outputPath($this);
@@ -809,6 +814,7 @@ class Image
         if (is_string($image) && str_contains($image, '::')) {
             $image = $this->paths->realPath($image);
 
+            $this->setOriginal(basename($image));
             $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
 
             $size = getimagesize($image);
@@ -818,12 +824,14 @@ class Image
         }
 
         if (is_string($image) && str_is('*://*', $image) && !starts_with($image, ['http', 'https'])) {
+            $this->setOriginal(basename($image));
             $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
         }
 
         if ($image instanceof FileInterface) {
 
             /* @var FileInterface $image */
+            $this->setOriginal($image->getName());
             $this->setExtension($image->getExtension());
 
             $this->setWidth($image->getWidth());
@@ -835,6 +843,7 @@ class Image
             /* @var FilePresenter|FileInterface $image */
             $image = $image->getObject();
 
+            $this->setOriginal($image->getName());
             $this->setExtension($image->getExtension());
 
             $this->setWidth($image->getWidth());
@@ -943,6 +952,29 @@ class Image
     public function setFilename($filename = null)
     {
         $this->filename = $filename;
+
+        return $this;
+    }
+
+    /**
+     * Get the original name.
+     *
+     * @return null|string
+     */
+    public function getOriginal()
+    {
+        return $this->original;
+    }
+
+    /**
+     * Set the original name.
+     *
+     * @param $original
+     * @return $this
+     */
+    public function setOriginal($original = null)
+    {
+        $this->original = $original;
 
         return $this;
     }
