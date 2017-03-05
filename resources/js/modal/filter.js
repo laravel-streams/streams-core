@@ -14,7 +14,10 @@ input.focus();
 
 input.on('keydown', function (e) {
 
-    if (e.which == 40) { // Down arrow.
+    /**
+     * Capture the down arrow.
+     */
+    if (e.which == 40) {
 
         if (selected) {
 
@@ -36,7 +39,12 @@ input.on('keydown', function (e) {
             selected = items.filter(':visible').first();
             selected.find('a').addClass('active');
         }
-    } else if (e.which == 38) { // Up arrow
+    }
+
+    /**
+     * Capture the up arrow.
+     */
+    if (e.which == 38) {
 
         if (selected) {
 
@@ -58,7 +66,12 @@ input.on('keydown', function (e) {
             selected = items.filter(':visible').last();
             selected.find('a').addClass('active');
         }
-    } else if (e.which == 13) {
+    }
+
+    /**
+     * Capture the enter key.
+     */
+    if (e.which == 13) {
 
         if (selected) {
 
@@ -70,6 +83,15 @@ input.on('keydown', function (e) {
             if (selected.find('a').hasClass('has-click-event')) {
                 selected.find('a').trigger('click');
             } else {
+
+                /**
+                 * If nothing is selected
+                 * there's nothing to do.
+                 */
+                if (!selected.count) {
+                    return false;
+                }
+
                 window.location = selected.find('a').attr('href');
 
                 modal.find('.modal-content').append('<div class="modal-loading"><div class="active large loader"></div></div>');
@@ -77,6 +99,9 @@ input.on('keydown', function (e) {
         }
     }
 
+    /**
+     * Capture up and down arrows.
+     */
     if (e.which == 38 || e.which == 40) {
 
         // store current positions in variables
