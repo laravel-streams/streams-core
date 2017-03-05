@@ -88,7 +88,7 @@ input.on('keydown', function (e) {
                  * If nothing is selected
                  * there's nothing to do.
                  */
-                if (!selected.count) {
+                if (!selected.length) {
                     return false;
                 }
 
