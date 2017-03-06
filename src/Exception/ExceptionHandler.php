@@ -87,7 +87,7 @@ class ExceptionHandler extends NewExceptionHandler
         if (!config('app.debug') && view()->exists("streams::errors.{$status}")) {
             return response()->view("streams::errors.{$status}", ['message' => $e->getMessage()], $status);
         } else {
-            return (new SymfonyDisplayer(config('app.debug')))->handle($e);
+            return $this->convertExceptionToResponse($e);
         }
     }
 
