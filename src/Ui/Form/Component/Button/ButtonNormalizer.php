@@ -28,7 +28,13 @@ class ButtonNormalizer
         $builder->setButtons($buttons);
     }
 
-
+    /**
+     * Process a button.
+     *
+     * @param $key
+     * @param $button
+     * @return array|string
+     */
     protected function process($key, $button)
     {
         /*
@@ -48,6 +54,13 @@ class ButtonNormalizer
          */
         if (!is_integer($key) && !isset($button['button'])) {
             $button['button'] = $key;
+        }
+
+        /**
+         * Default to size "sm"
+         */
+        if (!isset($button['size'])) {
+            $button['size'] = 'sm';
         }
 
         /*
