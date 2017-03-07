@@ -6,6 +6,13 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
 
+/**
+ * Class EloquentTableRepository
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class EloquentTableRepository implements TableRepositoryInterface
 {
 
@@ -70,9 +77,10 @@ class EloquentTableRepository implements TableRepositoryInterface
          * We unset the orders on the query
          * because of pgsql grouping issues.
          */
-        $query->getQuery()->orders = null;
+        $count = clone($query);
+        $count->getQuery()->orders = null;
 
-        $total = $query->count();
+        $total = $count->count();
 
         $builder->setTableOption('total_results', $total);
 
