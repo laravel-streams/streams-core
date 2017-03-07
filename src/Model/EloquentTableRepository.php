@@ -77,9 +77,10 @@ class EloquentTableRepository implements TableRepositoryInterface
          * We unset the orders on the query
          * because of pgsql grouping issues.
          */
-        $query->getQuery()->orders = null;
+        $count = clone($query);
+        $count->getQuery()->orders = null;
 
-        $total = $query->count();
+        $total = $count->count();
 
         $builder->setTableOption('total_results', $total);
 
