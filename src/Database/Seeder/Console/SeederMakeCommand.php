@@ -110,7 +110,7 @@ class SeederMakeCommand extends \Illuminate\Console\Command
                 ));
 
                 $singular = ucfirst(str_singular($slug));
-                $path = "{$addon->getPath()}/{$singular}/{$singular}Seeder.php";
+                $path = "{$addon->getPath()}/src/{$singular}/{$singular}Seeder.php";
 
                 $this->comment("Seeder for {$slug} created successfully.");
                 $this->line("Path: {$path}");
