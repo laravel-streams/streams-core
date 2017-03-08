@@ -43,6 +43,7 @@ class EloquentQueryBuilder extends Builder
 
         if (
             env('INSTALLED')
+            && PHP_SAPI != 'cli'
             && env('DB_CACHE') !== false
             && $this->model instanceof EntryModel
             && isset(self::$cache[$this->model->getCacheCollectionKey()][$key])
