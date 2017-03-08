@@ -83,6 +83,13 @@ class SeederMakeCommand extends \Illuminate\Console\Command
             throw new \Exception('Only {module} and {extension} addon types are allowed!!!');
         }
 
+        if (!$this->confirm('Next action will OVERWRITE existing seeders which you would set! Do you agree?'))
+        {
+            $this->error('Exiting...');
+
+            exit;
+        }
+        
         /* @var StreamCollection $streams */
         $streams = $this->getStreams($slug);
 
