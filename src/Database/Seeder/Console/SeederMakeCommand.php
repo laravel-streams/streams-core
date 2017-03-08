@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonSeeder;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntitySeeder;
 
 /**
- * @TODO alarm about replacing
+ * Class SeederMakeCommand
  */
 class SeederMakeCommand extends \Illuminate\Console\Command
 {
