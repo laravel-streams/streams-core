@@ -11,6 +11,9 @@ use Anomaly\Streams\Platform\Stream\Command\GetStreams;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonSeeder;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntitySeeder;
 
+/**
+ * @TODO alarm about replacing
+ */
 class SeederMakeCommand extends \Illuminate\Console\Command
 {
     use DispatchesJobs;
@@ -106,8 +109,8 @@ class SeederMakeCommand extends \Illuminate\Console\Command
                     $stream->getNamespace()
                 ));
 
-                $slug = ucfirst($slug);
-                $path = "{$addon->getPath()}/{$slug}/{$slug}Seeder.php";
+                $singular = ucfirst(str_singular($slug));
+                $path = "{$addon->getPath()}/{$singular}/{$singular}Seeder.php";
 
                 $this->comment("Seeder for {$slug} created successfully.");
                 $this->line("Path: {$path}");
