@@ -38,6 +38,15 @@ class CascadeDelete
     {
         $action = $this->model->isForceDeleting() ? 'forceDelete' : 'delete';
 
+        /**
+         * If the model itself can not be trashed
+         * then we have no reason to keep any
+         * relations that cascade.
+         */
+        if (!method_exists($this->model, 'restore')) {
+            $action = 'forceDelete';
+        }
+
         foreach ($this->model->getCascades() as $relation) {
 
             /* @var Relation $relation */
