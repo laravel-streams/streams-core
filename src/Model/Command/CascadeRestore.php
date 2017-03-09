@@ -35,25 +35,24 @@ class CascadeRestore
      */
     public function handle()
     {
-        foreach ($this->model->getCascades() as $relation => $actions) {
-            if (in_array('restore', $actions)) {
+        foreach ($this->model->getCascades() as $relation) {
 
-                $relation = $this->model
-                    ->{camel_case($relation)}()
-                    ->onlyTrashed()
-                    ->getResults();
+            $relation = $this->model
+                ->{camel_case($relation)}()
+                ->onlyTrashed()
+                ->getResults();
 
-                if ($relation instanceof EloquentModel) {
-                    $relation->restore();
-                }
+            if ($relation instanceof EloquentModel) {
+                $relation->restore();
+            }
 
-                if ($relation instanceof EloquentCollection) {
-                    $relation->each(
-                        function (EloquentModel $item) {
-                            $item->restore();
-                        }
-                    );
-                }
+            if ($relation instanceof EloquentCollection) {
+
+                $relation->each(
+                    function (EloquentModel $item) {
+                        $item->restore();
+                    }
+                );
             }
         }
     }
