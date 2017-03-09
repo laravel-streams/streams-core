@@ -37,22 +37,21 @@ class CascadeDelete
     {
         $action = $this->model->isForceDeleting() ? 'forceDelete' : 'delete';
 
-        foreach ($this->model->getCascades() as $relation => $actions) {
-            if (in_array($action, $actions)) {
+        foreach ($this->model->getCascades() as $relation) {
 
-                $relation = $this->model->{$relation};
+            $relation = $this->model->{$relation};
 
-                if ($relation instanceof EloquentModel) {
-                    $relation->{$action}();
-                }
+            if ($relation instanceof EloquentModel) {
+                $relation->{$action}();
+            }
 
-                if ($relation instanceof EloquentCollection) {
-                    $relation->each(
-                        function (EloquentModel $item) use ($action) {
-                            $item->{$action}();
-                        }
-                    );
-                }
+            if ($relation instanceof EloquentCollection) {
+
+                $relation->each(
+                    function (EloquentModel $item) use ($action) {
+                        $item->{$action}();
+                    }
+                );
             }
         }
     }

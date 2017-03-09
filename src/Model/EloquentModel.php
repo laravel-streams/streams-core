@@ -72,7 +72,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     ];
 
     /**
-     * The cascading actions.
+     * The cascading delete-able relations.
      *
      * @var array
      */
