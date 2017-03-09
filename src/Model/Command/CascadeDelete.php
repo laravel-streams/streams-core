@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * Class CascadeDelete
@@ -39,7 +40,14 @@ class CascadeDelete
 
         foreach ($this->model->getCascades() as $relation) {
 
-            $relation = $this->model->{$relation};
+            /* @var Relation $relation */
+            $relation = $this->model->{$relation}();
+
+            if ($action == 'forceDelete') {
+                $relation = $relation->withTrashed();
+            }
+
+            $relation = $relation->getResults();
 
             if ($relation instanceof EloquentModel) {
                 $relation->{$action}();
