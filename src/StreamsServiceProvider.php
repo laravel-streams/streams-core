@@ -111,6 +111,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Addon\Extension\Console\Uninstall',
         'Anomaly\Streams\Platform\Addon\Extension\Console\Reinstall',
         'Anomaly\Streams\Platform\Application\Console\StreamsPublish',
+        'Anomaly\Streams\Platform\Search\Console\Rebuild',
     ];
 
     /**
