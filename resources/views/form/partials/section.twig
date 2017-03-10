@@ -2,15 +2,23 @@
 
     {% include "streams::form/partials/header" with {"section": section} %}
 
-    <div class="{{ not section.tabs ? 'card-block' }}">
+    {% if section.fields %}
 
-        {% if section.fields %}
+        <div class="card-block">
             {% include "streams::form/partials/fields" with {"fields": section.fields} %}
-        {% elseif section.tabs %}
-            {% include "streams::form/partials/tabs" with {"tabs": section.tabs, "stacked": section.stacked} %}
-        {% elseif section.rows %}
-            {% include "streams::form/partials/rows" with {"rows": section.rows} %}
-        {% endif %}
+        </div>
 
-    </div>
+    {% elseif section.tabs %}
+
+        {# No card block - tabs push to the edges #}
+        {% include "streams::form/partials/tabs" with {"tabs": section.tabs, "stacked": section.stacked} %}
+
+    {% elseif section.rows %}
+
+        <div class="card-block">
+            {% include "streams::form/partials/rows" with {"rows": section.rows} %}
+        </div>
+
+    {% endif %}
+
 </div>
