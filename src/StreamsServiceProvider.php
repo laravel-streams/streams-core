@@ -212,13 +212,13 @@ class StreamsServiceProvider extends ServiceProvider
     {
         $events->fire(new Booting());
 
-        // First load our app environment.
-        $this->dispatch(new LoadEnvironmentOverrides());
-
         // Next take care of core utilities.
         $this->dispatch(new SetCoreConnection());
         $this->dispatch(new ConfigureUriValidator());
         $this->dispatch(new InitializeApplication());
+
+        // Load application specific .env file.
+        $this->dispatch(new LoadEnvironmentOverrides());
 
         // Setup and preparing utilities.
         $this->dispatch(new LoadStreamsConfiguration());
