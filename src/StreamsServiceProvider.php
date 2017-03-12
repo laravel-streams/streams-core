@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Addon\Theme\Command\LoadCurrentTheme;
+use Anomaly\Streams\Platform\Application\Command\ConfigureFileCacheStore;
 use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
 use Anomaly\Streams\Platform\Application\Command\ConfigureUriValidator;
 use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
@@ -222,6 +223,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         // Setup and preparing utilities.
         $this->dispatch(new LoadStreamsConfiguration());
+        $this->dispatch(new ConfigureFileCacheStore());
         $this->dispatch(new ConfigureTranslator());
         $this->dispatch(new AutoloadEntryModels());
         $this->dispatch(new AddAssetNamespaces());

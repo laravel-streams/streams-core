@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Installer\Console;
 
 use Anomaly\Streams\Platform\Addon\AddonManager;
+use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
+use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
 use Anomaly\Streams\Platform\Application\Command\ReloadEnvironmentFile;
 use Anomaly\Streams\Platform\Application\Command\WriteEnvironmentFile;
 use Anomaly\Streams\Platform\Installer\Console\Command\ConfigureDatabase;
@@ -56,8 +59,12 @@ class Install extends Command
 
     /**
      * Execute the console command.
+     *
+     * @param Dispatcher   $events
+     * @param AddonManager $manager
+     * @param Application  $application
      */
-    public function fire(Dispatcher $events, AddonManager $manager)
+    public function fire(Dispatcher $events, AddonManager $manager, Application $application)
     {
         $data = new Collection();
 
@@ -74,6 +81,9 @@ class Install extends Command
         }
 
         $this->dispatch(new ReloadEnvironmentFile());
+
+        $this->dispatch(new InitializeApplication());
+        $this->dispatch(new LoadEnvironmentOverrides());
 
         $this->dispatch(new ConfigureDatabase());
         $this->dispatch(new SetDatabasePrefix());

@@ -2,9 +2,10 @@
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Console\Kernel;
 use Anomaly\Streams\Platform\Installer\Installer;
 use Anomaly\Streams\Platform\Installer\InstallerCollection;
-use Anomaly\Streams\Platform\Console\Kernel;
 
 /**
  * Class LoadModuleInstallers
@@ -37,8 +38,9 @@ class LoadModuleInstallers
      * Handle the command.
      *
      * @param ModuleCollection $modules
+     * @param Application      $application
      */
-    public function handle(ModuleCollection $modules)
+    public function handle(ModuleCollection $modules, Application $application)
     {
         /* @var Module $module */
         foreach ($modules as $module) {
@@ -49,8 +51,14 @@ class LoadModuleInstallers
             $this->installers->add(
                 new Installer(
                     trans('streams::installer.installing', ['installing' => trans($module->getName())]),
-                    function (Kernel $console) use ($module) {
-                        $console->call('module:install', ['module' => $module->getNamespace()]);
+                    function (Kernel $console) use ($module, $application) {
+                        $console->call(
+                            'module:install',
+                            [
+                                'module' => $module->getNamespace(),
+                                '--app'  => $application->getReference(),
+                            ]
+                        );
                     }
                 )
             );
