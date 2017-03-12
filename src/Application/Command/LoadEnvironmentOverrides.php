@@ -1,8 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
 use Anomaly\Streams\Platform\Application\Application;
-use Illuminate\Contracts\Filesystem\Filesystem;
 
+/**
+ * Class LoadEnvironmentOverrides
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class LoadEnvironmentOverrides
 {
 
