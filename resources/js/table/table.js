@@ -32,7 +32,6 @@ $(function () {
 
         thead.children.item(0).childNodes.forEach(function (el) {
             if (el.tagName === 'TH') {
-                console.log(idx);
                 el.width = tableColsSizes[idx] + 'px';
                 idx++;
             }
