@@ -181,7 +181,7 @@ class FieldCollection extends Collection
     }
 
     /**
-     * Return self hanling fields.
+     * Return self handling fields.
      *
      * @return FieldCollection
      */
