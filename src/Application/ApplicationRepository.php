@@ -38,11 +38,21 @@ class ApplicationRepository extends EloquentRepository
     public function findByDomain($domain)
     {
         $domain = trim(str_replace(['http://', 'https://'], '', $domain), '/');
-        
+
         return $this->model
             ->leftJoin('applications_domains', 'applications.id', '=', 'applications_domains.application_id')
             ->where('applications.domain', $domain)
             ->orWhere('applications_domains.domain', $domain)
             ->first();
+    }
+
+    /**
+     * Find an application by it's reference.
+     *
+     * @param $reference
+     */
+    public function findByReference($reference)
+    {
+        return $this->model->where('reference', $reference)->first();
     }
 }
