@@ -160,10 +160,6 @@ class Application
             $this->enabled   = $app->enabled;
             $this->reference = $app->reference;
 
-            if ($app->enabled === false) {
-                abort(503);
-            }
-
             return true;
         }
 
