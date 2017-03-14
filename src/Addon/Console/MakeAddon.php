@@ -99,7 +99,9 @@ class MakeAddon extends Command
          * Font-Awesome and jQuery.
          */
         if ($type == 'theme') {
-            $this->dispatch(new ScaffoldTheme($path));
+            if (!$this->option('bare')) {
+                $this->dispatch(new ScaffoldTheme($path));
+            }
         }
     }
 
@@ -125,6 +127,7 @@ class MakeAddon extends Command
         return [
             ['shared', null, InputOption::VALUE_NONE, 'Indicates if the addon should be created in shared addons.'],
             ['migration', null, InputOption::VALUE_NONE, 'Indicates if a fields migration should be created.'],
+            ['bare', null, InputOption::VALUE_NONE, 'Indicates if theme resources shouldn\'t be created.'],
         ];
     }
 }
