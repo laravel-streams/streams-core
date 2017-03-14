@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Addon\Command\RegisterAddons;
 use Anomaly\Streams\Platform\Addon\Console\Command\MakeAddonPaths;
+use Anomaly\Streams\Platform\Addon\Console\Command\ScaffoldTheme;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonClass;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonComposer;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonLang;
@@ -22,6 +23,7 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class MakeAddon extends Command
 {
+
     use DispatchesJobs;
 
     /**
@@ -42,7 +44,7 @@ class MakeAddon extends Command
      * Execute the console command.
      *
      * @param AddonManager $addons
-     * @param Repository   $config
+     * @param Repository $config
      * @throws \Exception
      */
     public function fire(AddonManager $addons, Repository $config)
@@ -75,15 +77,31 @@ class MakeAddon extends Command
 
         $addons->register();
 
-        if ($type == 'module' || $this->option('migration')) {
+        /**
+         * Create the initial migration file
+         * for modules and extensions.
+         */
+        if (in_array($type, ['module', 'extension']) || $this->option('migration')) {
             $this->call(
                 'make:migration',
                 [
                     'name'     => 'create_' . $slug . '_fields',
-                    '--addon'  => "{$vendor}.{$type}.{$slug}",
+                    '--addon'  => $namespace,
                     '--fields' => true,
                 ]
             );
+        }
+
+        /**
+         * Scaffold themes.
+         *
+         * This moves in Bootstrap 3
+         * Font-Awesome and jQuery.
+         */
+        if ($type == 'theme') {
+            if (!$this->option('bare')) {
+                $this->dispatch(new ScaffoldTheme($path));
+            }
         }
     }
 
@@ -109,6 +127,7 @@ class MakeAddon extends Command
         return [
             ['shared', null, InputOption::VALUE_NONE, 'Indicates if the addon should be created in shared addons.'],
             ['migration', null, InputOption::VALUE_NONE, 'Indicates if a fields migration should be created.'],
+            ['bare', null, InputOption::VALUE_NONE, 'Indicates if theme resources shouldn\'t be created.'],
         ];
     }
 }
