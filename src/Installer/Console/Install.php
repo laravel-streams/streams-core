@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Installer\Console;
 
 use Anomaly\Streams\Platform\Addon\AddonManager;
-use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
 use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
 use Anomaly\Streams\Platform\Application\Command\ReloadEnvironmentFile;
@@ -62,9 +61,8 @@ class Install extends Command
      *
      * @param Dispatcher   $events
      * @param AddonManager $manager
-     * @param Application  $application
      */
-    public function fire(Dispatcher $events, AddonManager $manager, Application $application)
+    public function fire(Dispatcher $events, AddonManager $manager)
     {
         $data = new Collection();
 
@@ -81,8 +79,6 @@ class Install extends Command
         }
 
         $this->dispatch(new ReloadEnvironmentFile());
-
-        $this->dispatch(new InitializeApplication());
         $this->dispatch(new LoadEnvironmentOverrides());
 
         $this->dispatch(new ConfigureDatabase());
