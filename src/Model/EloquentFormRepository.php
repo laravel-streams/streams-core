@@ -55,8 +55,11 @@ class EloquentFormRepository implements FormRepositoryInterface
 
         $entry->unguard();
 
-        $entry->fill($data);
-        $entry->save();
+        if ($entry->getId()) {
+            $entry->update($data);
+        } else {
+            $entry = $entry->create($data);
+        }
 
         $entry->reguard();
 
