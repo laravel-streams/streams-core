@@ -55,6 +55,12 @@ class EloquentFormRepository implements FormRepositoryInterface
 
         $entry->unguard();
 
+        /**
+         * Update OR create the entry.
+         * Keep this as is or we will
+         * have issues with post relations
+         * in following observer logic.
+         */
         if ($entry->getId()) {
             $entry->update($data);
         } else {
