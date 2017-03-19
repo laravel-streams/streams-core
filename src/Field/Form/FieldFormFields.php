@@ -4,6 +4,13 @@ use Anomaly\Streams\Platform\Field\Form\Command\GetConfigFields;
 use Anomaly\Streams\Platform\Field\Form\Validator\SlugValidator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
+/**
+ * Class FieldFormFields
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class FieldFormFields
 {
 
