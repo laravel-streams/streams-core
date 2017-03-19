@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
-use Anomaly\Streams\Platform\Ui\Form\Command\AddAssets;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\FlashFieldValues;
 use Anomaly\Streams\Platform\Ui\Form\Command\FlashFormErrors;
@@ -200,7 +199,6 @@ class FormBuilder
 
         if ($this->getFormResponse() === null) {
             $this->dispatch(new LoadForm($this));
-            $this->dispatch(new AddAssets($this));
             $this->dispatch(new MakeForm($this));
         }
 
@@ -688,7 +686,7 @@ class FormBuilder
      *
      * @param        $slug
      * @param  array $section
-     * @param null $position
+     * @param null   $position
      * @return $this
      */
     public function addSection($slug, array $section, $position = null)
@@ -711,7 +709,7 @@ class FormBuilder
      * @param        $section
      * @param        $slug
      * @param  array $tab
-     * @param null $position
+     * @param null   $position
      * @return $this
      */
     public function addSectionTab($section, $slug, array $tab, $position = null)
@@ -736,7 +734,7 @@ class FormBuilder
      * Get an option value.
      *
      * @param        $key
-     * @param  null $default
+     * @param  null  $default
      * @return mixed
      */
     public function getOption($key, $default = null)
@@ -813,7 +811,7 @@ class FormBuilder
      * Get a form option value.
      *
      * @param        $key
-     * @param  null $default
+     * @param  null  $default
      * @return mixed
      */
     public function getFormOption($key, $default = null)
@@ -918,7 +916,7 @@ class FormBuilder
      * Get a form value.
      *
      * @param        $key
-     * @param  null $default
+     * @param  null  $default
      * @return mixed
      */
     public function getFormValue($key, $default = null)
@@ -1271,7 +1269,7 @@ class FormBuilder
      * Get a request value.
      *
      * @param        $key
-     * @param  null $default
+     * @param  null  $default
      * @return mixed
      */
     public function getRequestValue($key, $default = null)
@@ -1283,7 +1281,7 @@ class FormBuilder
      * Get a post value.
      *
      * @param        $key
-     * @param  null $default
+     * @param  null  $default
      * @return mixed
      */
     public function getPostValue($key, $default = null)
@@ -1295,7 +1293,7 @@ class FormBuilder
      * Return a post key flag.
      *
      * @param        $key
-     * @param  null $default
+     * @param  null  $default
      * @return mixed
      */
     public function hasPostedInput($key)

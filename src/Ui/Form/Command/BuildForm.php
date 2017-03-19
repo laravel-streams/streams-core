@@ -51,6 +51,7 @@ class BuildForm
          * Setup some objects and options using
          * provided input or sensible defaults.
          */
+        $this->dispatch(new AddAssets($this->builder));
         $this->dispatch(new SetFormModel($this->builder));
         $this->dispatch(new SetFormStream($this->builder));
         $this->dispatch(new SetRepository($this->builder));
