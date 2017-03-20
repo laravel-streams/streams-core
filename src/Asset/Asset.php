@@ -495,7 +495,12 @@ class Asset
 
         if ($this->paths->extension($path) == 'css') {
             try {
-                $this->files->put($path, app('twig')->render(str_replace($this->directory, 'assets::', $path)));
+                $this->files->put(
+                    $path,
+                    app('twig')->render(
+                        str_replace($this->application->getAssetsPath(DIRECTORY_SEPARATOR), 'assets::', $path)
+                    )
+                );
             } catch (\Exception $e) {
                 // Don't even..
             }
