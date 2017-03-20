@@ -64,7 +64,7 @@ class WriteEntityTestCases
 
         $addon     = ucfirst(camel_case($this->addon->getSlug() . '_' . $this->addon->getType()));
         $base      = $this->addon->getTransformedClass("Test\\{$addon}TestCase");
-        $namespace = $this->addon->getTransformedClass("Test\\{$entity}");
+        $namespace = $this->addon->getTransformedClass("Test\\Unit\\{$entity}");
         $extends   = "{$addon}TestCase";
 
         $template = $filesystem->get(
@@ -83,7 +83,7 @@ class WriteEntityTestCases
             $basename = basename($file->getRealPath(), '.php');
             $class    = "{$basename}Test";
 
-            $path = $this->addon->getPath("tests/{$prefix}/{$basename}Test.php");
+            $path = $this->addon->getPath("tests/Unit/{$prefix}/{$basename}Test.php");
 
             $filesystem->makeDirectory(dirname($path), 0755, true, true);
 
