@@ -606,7 +606,7 @@ class Image
      */
     protected function publish($path)
     {
-        $path = ltrim($path, '/');
+        $path = $this->directory . DIRECTORY_SEPARATOR . ltrim($path, '/');
 
         $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
@@ -630,7 +630,7 @@ class Image
         }
 
         if (!$this->getAlterations() && $content = $this->dumpImage()) {
-            $this->files->put($this->directory . $path, $content);
+            $this->files->put($path, $content);
 
             return;
         }
@@ -653,7 +653,7 @@ class Image
             }
         }
 
-        $image->save($this->directory . $path, $this->getQuality());
+        $image->save($path, $this->getQuality());
     }
 
     /**
@@ -1264,6 +1264,19 @@ class Image
                 $constraint->upsize();
             };
         }
+    }
+
+    /**
+     * Set the public base directory.
+     *
+     * @param  $directory
+     * @return $this
+     */
+    public function setDirectory($directory)
+    {
+        $this->directory = $directory;
+
+        return $this;
     }
 
     /**

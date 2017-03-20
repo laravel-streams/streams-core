@@ -73,7 +73,7 @@ class WriteAddonTestCase
         $namespace = "{$vendor}\\{$addon}";
         $class     = $slug . $type . 'TestCase';
 
-        $path = "{$this->path}/tests/{$addon}TestCase.php";
+        $path = "{$this->path}/tests/Feature/{$addon}Test.php";
 
         $template = $filesystem->get(
             base_path("vendor/anomaly/streams-platform/resources/stubs/addons/test.stub")

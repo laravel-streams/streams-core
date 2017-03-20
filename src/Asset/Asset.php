@@ -487,7 +487,7 @@ class Asset
 
         $assets = $this->getAssetCollection($collection, $additionalFilters);
 
-        $path = $this->directory . $path;
+        $path = $this->directory . DIRECTORY_SEPARATOR . $path;
 
         $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 

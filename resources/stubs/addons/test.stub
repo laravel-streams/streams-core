@@ -1,10 +1,12 @@
 <?php
 
-namespace {namespace}\Test;
+namespace {namespace};
 
-use Anomaly\Streams\Platform\Test\TestCase;
-
-abstract class {class} extends TestCase
+class {class} extends \TestCase
 {
 
+    public function testHome()
+    {
+        // $this->visit('/');
+    }
 }
