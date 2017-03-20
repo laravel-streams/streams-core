@@ -12,5 +12,10 @@
         "psr-4": {
             "{prefix}": "src/"
         }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/{addon}TestCase.php"
+        ]
     }
 }

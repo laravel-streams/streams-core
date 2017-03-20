@@ -4,13 +4,13 @@ use Anomaly\Streams\Platform\Support\Parser;
 use Illuminate\Filesystem\Filesystem;
 
 /**
- * Class WriteAddonComposer
+ * Class WriteAddonTestCase
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class WriteAddonComposer
+class WriteAddonTestCase
 {
 
     /**
@@ -42,7 +42,7 @@ class WriteAddonComposer
     private $vendor;
 
     /**
-     * Create a new WriteAddonComposer instance.
+     * Create a new WriteAddonTestCase instance.
      *
      * @param $path
      * @param $type
@@ -65,21 +65,22 @@ class WriteAddonComposer
      */
     public function handle(Parser $parser, Filesystem $filesystem)
     {
-        $path = "{$this->path}/composer.json";
+        $slug   = ucfirst(camel_case($this->slug));
+        $type   = ucfirst(camel_case($this->type));
+        $vendor = ucfirst(camel_case($this->vendor));
 
-        $slug   = $this->slug;
-        $type   = $this->type;
-        $vendor = $this->vendor;
-        $addon  = ucfirst(camel_case($slug)) . ucfirst(camel_case($type));
+        $addon     = $slug . $type;
+        $namespace = "{$vendor}\\{$addon}";
+        $class     = $slug . $type . 'TestCase';
 
-        $prefix = ucfirst(camel_case($vendor)) . '\\\\' . $addon . '\\\\';
+        $path = "{$this->path}/tests/{$addon}TestCase.php";
 
         $template = $filesystem->get(
-            base_path('vendor/anomaly/streams-platform/resources/stubs/addons/composer.stub')
+            base_path("vendor/anomaly/streams-platform/resources/stubs/addons/test.stub")
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);
 
-        $filesystem->put($path, $parser->parse($template, compact('vendor', 'slug', 'type', 'prefix', 'addon')));
+        $filesystem->put($path, $parser->parse($template, compact('namespace', 'class')));
     }
 }

@@ -17,6 +17,7 @@ use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityRouter;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityRoutes;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntitySeeder;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityTableBuilder;
+use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityTestCases;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputArgument;
@@ -80,6 +81,9 @@ class Make extends Command
         $this->dispatch(new WriteEntityTableBuilder($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityModelInterface($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityRepositoryInterface($addon, $slug, $namespace));
+
+        // Run this last since it scans the above.
+        $this->dispatch(new WriteEntityTestCases($addon, $slug, $namespace));
 
         $this->call(
             'make:migration',

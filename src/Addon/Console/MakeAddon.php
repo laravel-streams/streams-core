@@ -6,8 +6,11 @@ use Anomaly\Streams\Platform\Addon\Console\Command\MakeAddonPaths;
 use Anomaly\Streams\Platform\Addon\Console\Command\ScaffoldTheme;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonClass;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonComposer;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonGitIgnore;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonLang;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPhpUnit;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonServiceProvider;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonTestCase;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -44,7 +47,7 @@ class MakeAddon extends Command
      * Execute the console command.
      *
      * @param AddonManager $addons
-     * @param Repository $config
+     * @param Repository   $config
      * @throws \Exception
      */
     public function fire(AddonManager $addons, Repository $config)
@@ -72,7 +75,10 @@ class MakeAddon extends Command
 
         $this->dispatch(new WriteAddonLang($path, $type, $slug));
         $this->dispatch(new WriteAddonClass($path, $type, $slug, $vendor));
+        $this->dispatch(new WriteAddonPhpUnit($path, $type, $slug, $vendor));
         $this->dispatch(new WriteAddonComposer($path, $type, $slug, $vendor));
+        $this->dispatch(new WriteAddonTestCase($path, $type, $slug, $vendor));
+        $this->dispatch(new WriteAddonGitIgnore($path, $type, $slug, $vendor));
         $this->dispatch(new WriteAddonServiceProvider($path, $type, $slug, $vendor));
 
         $addons->register();

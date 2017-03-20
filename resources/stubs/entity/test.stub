@@ -1,0 +1,10 @@
+<?php
+
+namespace {namespace};
+
+use {base};
+
+class {class} extends {extends}
+{
+
+}

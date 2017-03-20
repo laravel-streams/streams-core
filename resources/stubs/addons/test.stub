@@ -1,0 +1,10 @@
+<?php
+
+namespace {namespace}\Test;
+
+use Anomaly\Streams\Platform\Test\TestCase;
+
+abstract class {class} extends TestCase
+{
+
+}
