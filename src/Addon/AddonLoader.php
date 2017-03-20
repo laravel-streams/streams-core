@@ -55,22 +55,35 @@ class AddonLoader
 
         if (!$composer = json_decode(file_get_contents($path . '/composer.json'), true)) {
             throw new \Exception("A JSON syntax error was encountered in {$path}/composer.json");
-        };
-
-        if (!array_key_exists('autoload', $composer)) {
-            return;
         }
 
-        foreach (array_get($composer['autoload'], 'psr-4', []) as $namespace => $autoload) {
-            $this->loader->addPsr4($namespace, $path . '/' . $autoload, false);
+        $definitions = ['autoload'];
+
+        if (env('APP_ENV') == 'testing') {
+            $definitions[] = 'autoload-dev';
         }
 
-        foreach (array_get($composer['autoload'], 'psr-0', []) as $namespace => $autoload) {
-            $this->loader->add($namespace, $path . '/' . $autoload, false);
-        }
+        foreach ($definitions as $definition) {
 
-        foreach (array_get($composer['autoload'], 'files', []) as $file) {
-            include($path . '/' . $file);
+            if (!array_key_exists($definition, $composer)) {
+                return;
+            }
+
+            foreach (array_get($composer[$definition], 'psr-4', []) as $namespace => $autoload) {
+                $this->loader->addPsr4($namespace, $path . '/' . $autoload, false);
+            }
+
+            foreach (array_get($composer[$definition], 'psr-0', []) as $namespace => $autoload) {
+                $this->loader->add($namespace, $path . '/' . $autoload, false);
+            }
+
+            foreach (array_get($composer[$definition], 'files', []) as $file) {
+                include($path . '/' . $file);
+            }
+
+            if ($classmap = array_get($composer[$definition], 'classmap')) {
+                $this->loader->addClassMap($classmap);
+            }
         }
     }
 
