@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityCollection;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityController;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityCriteria;
+use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityFactory;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityFormBuilder;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityModel;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityModelInterface;
@@ -14,6 +15,7 @@ use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityRepository;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityRepositoryInterface;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityRouter;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityRoutes;
+use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntitySeeder;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityTableBuilder;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -29,6 +31,7 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class Make extends Command
 {
+
     use DispatchesJobs;
 
     /**
@@ -65,6 +68,8 @@ class Make extends Command
         $this->dispatch(new WriteEntityModel($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityRoutes($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityRouter($addon, $slug, $namespace));
+        $this->dispatch(new WriteEntitySeeder($addon, $slug, $namespace));
+        $this->dispatch(new WriteEntityFactory($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityObserver($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityCriteria($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityPresenter($addon, $slug, $namespace));

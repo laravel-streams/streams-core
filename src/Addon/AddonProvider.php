@@ -10,6 +10,7 @@ use Illuminate\Console\Events\ArtisanStarting;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Router;
 
@@ -52,6 +53,13 @@ class AddonProvider
     protected $events;
 
     /**
+     * The factory manager.
+     *
+     * @var Factory
+     */
+    protected $factory;
+
+    /**
      * The scheduler instance.
      *
      * @var Schedule
@@ -90,6 +98,7 @@ class AddonProvider
      * Create a new AddonProvider instance.
      *
      * @param Router               $router
+     * @param Factory              $factory
      * @param Dispatcher           $events
      * @param Schedule             $schedule
      * @param Application          $application
@@ -99,6 +108,7 @@ class AddonProvider
      */
     public function __construct(
         Router $router,
+        Factory $factory,
         Dispatcher $events,
         Schedule $schedule,
         Application $application,
@@ -108,6 +118,7 @@ class AddonProvider
     ) {
         $this->router              = $router;
         $this->events              = $events;
+        $this->factory             = $factory;
         $this->schedule            = $schedule;
         $this->application         = $application;
         $this->middlewares         = $middlewares;
@@ -152,6 +163,8 @@ class AddonProvider
         $this->registerSchedules($provider);
         $this->registerMiddleware($provider);
         $this->registerRouteMiddleware($provider);
+
+        $this->registerFactories($addon);
 
         if (method_exists($provider, 'register')) {
             $this->application->call([$provider, 'register']);
@@ -205,6 +218,18 @@ class AddonProvider
                     $event->artisan->resolveCommands($commands);
                 }
             );
+        }
+    }
+
+    /**
+     * Register the addon commands.
+     *
+     * @param Addon $addon
+     */
+    protected function registerFactories(Addon $addon)
+    {
+        if (is_dir($factories = $addon->getPath('factories'))) {
+            $this->factory->load($factories);
         }
     }
 
