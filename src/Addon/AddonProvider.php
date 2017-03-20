@@ -98,7 +98,6 @@ class AddonProvider
      * Create a new AddonProvider instance.
      *
      * @param Router               $router
-     * @param Factory              $factory
      * @param Dispatcher           $events
      * @param Schedule             $schedule
      * @param Application          $application
@@ -108,7 +107,6 @@ class AddonProvider
      */
     public function __construct(
         Router $router,
-        Factory $factory,
         Dispatcher $events,
         Schedule $schedule,
         Application $application,
@@ -118,7 +116,6 @@ class AddonProvider
     ) {
         $this->router              = $router;
         $this->events              = $events;
-        $this->factory             = $factory;
         $this->schedule            = $schedule;
         $this->application         = $application;
         $this->middlewares         = $middlewares;
@@ -228,8 +225,14 @@ class AddonProvider
      */
     protected function registerFactories(Addon $addon)
     {
+        /**
+         * @todo Move this back into a
+         *       dependency for 3.4
+         *       causes issues with
+         *       3.2 conversions.
+         */
         if (is_dir($factories = $addon->getPath('factories'))) {
-            $this->factory->load($factories);
+            app(Factory::class)->load($factories);
         }
     }
 
