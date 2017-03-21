@@ -278,7 +278,7 @@ class Asset
             $this->add($collection, $collection, $filters);
         }
 
-        return $this->getPath($collection, $filters);
+        return $this->request->getBasePath() . $this->getPath($collection, $filters);
     }
 
     /**
