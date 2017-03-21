@@ -44,12 +44,12 @@ class FieldNormalizer
                 $field = ['type' => $field];
             }
 
-            if (!isset($field['type'])) {
-                throw new \Exception("The [type] parameter must be defined in fields.");
-            }
-
             $field['slug']      = array_get($field, 'slug', $slug);
             $field['namespace'] = array_get($field, 'namespace', $migration->contextualNamespace());
+
+            if (!isset($field['type'])) {
+                throw new \Exception("The [type] parameter must be defined for \"{$field['slug']}\".");
+            }
 
             /*
              * If any of the translatable items exist
