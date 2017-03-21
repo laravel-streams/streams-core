@@ -294,7 +294,7 @@ class Asset
             $this->add($collection, $collection, $filters);
         }
 
-        return $this->url->asset($this->getPath($collection, $filters));
+        return $this->path($collection, $filters);
     }
 
     /**
@@ -307,7 +307,7 @@ class Asset
      */
     public function script($collection, array $filters = [], array $attributes = [])
     {
-        $attributes['src'] = $this->asset($collection, $filters);
+        $attributes['src'] = $this->path($collection, $filters);
 
         return '<script' . $this->html->attributes($attributes) . '></script>';
     }

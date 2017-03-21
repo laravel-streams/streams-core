@@ -8,6 +8,7 @@ use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Http\Request;
 use Intervention\Image\Constraint;
 use Intervention\Image\ImageManager;
 use League\Flysystem\File;
@@ -211,6 +212,13 @@ class Image
     protected $config;
 
     /**
+     * The request object.
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * The image manager.
      *
      * @var ImageManager
@@ -233,6 +241,7 @@ class Image
      * @param Mobile_Detect $agent
      * @param Repository    $config
      * @param ImageManager  $manager
+     * @param Request       $request
      * @param Application   $application
      * @param ImagePaths    $paths
      * @param ImageMacros   $macros
@@ -244,6 +253,7 @@ class Image
         Mobile_Detect $agent,
         Repository $config,
         ImageManager $manager,
+        Request $request,
         Application $application,
         ImagePaths $paths,
         ImageMacros $macros
@@ -256,6 +266,7 @@ class Image
         $this->config      = $config;
         $this->macros      = $macros;
         $this->manager     = $manager;
+        $this->request     = $request;
         $this->application = $application;
     }
 
@@ -299,7 +310,7 @@ class Image
     {
         $path = $this->getCachePath();
 
-        return $path;
+        return $this->request->getBasePath() . $path;
     }
 
     /**
@@ -335,7 +346,7 @@ class Image
      */
     public function url(array $parameters = [], $secure = null)
     {
-        return $this->url->asset($this->path(), $parameters, $secure);
+        return $this->url->asset($this->getCachePath(), $parameters, $secure);
     }
 
     /**
