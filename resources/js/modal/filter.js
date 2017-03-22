@@ -80,7 +80,7 @@ input.on('keydown', function (e) {
              * key and we have a selection
              * then follow the link.
              */
-            if (selected.find('a').hasClass('has-click-event')) {
+            if (selected.find('a').hasClass('has-click-event') || selected.find('a').hasClass('ajax')) {
                 selected.find('a').trigger('click');
             } else {
 
