@@ -472,7 +472,7 @@ class Section implements SectionInterface
     }
 
     /**
-     * Get if this section is hidden.
+     * Get the hidden flag.
      *
      * @return bool
      */
@@ -482,7 +482,7 @@ class Section implements SectionInterface
     }
 
     /**
-     * Set if this section is hidden.
+     * Set the hidden flag.
      *
      * @param $hidden
      * @return $this

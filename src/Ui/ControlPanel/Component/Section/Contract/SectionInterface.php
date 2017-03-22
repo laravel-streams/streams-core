@@ -244,6 +244,21 @@ interface SectionInterface
     public function setBreadcrumb($breadcrumb);
 
     /**
+     * Get the hidden flag.
+     *
+     * @return bool
+     */
+    public function isHidden();
+
+    /**
+     * Set the hidden flag.
+     *
+     * @param $hidden
+     * @return $this
+     */
+    public function setHidden($hidden);
+
+    /**
      * Get the HREF attribute.
      *
      * @param  null $path
