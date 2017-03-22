@@ -48,6 +48,23 @@ class SectionCollection extends Collection
     }
 
     /**
+     * Return only visible sections.
+     *
+     * @return SectionCollection
+     */
+    public function visible()
+    {
+        return self::make(
+            array_filter(
+                $this->all(),
+                function (SectionInterface $section) {
+                    return !$section->isHidden();
+                }
+            )
+        );
+    }
+
+    /**
      * Return only sections with parent.
      *
      * @param $parent
