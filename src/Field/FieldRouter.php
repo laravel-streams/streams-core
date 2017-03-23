@@ -35,34 +35,34 @@ class FieldRouter
      *
      * @param Addon $addon
      * @param       $controller
-     * @param null  $segment
+     * @param null  $prefix
      */
-    public function route(Addon $addon, $controller, $segment = null)
+    public function route(Addon $addon, $controller, $prefix = null)
     {
-        $segment = $segment ?: $addon->getSlug();
+        $prefix = $prefix ?: 'admin/' . $addon->getSlug();
 
         $routes = [
-            'admin/' . $segment . '/fields'             => [
+            $prefix . '/fields'             => [
                 'as'             => $addon->getNamespace('fields.index'),
                 'uses'           => $controller . '@index',
                 'streams::addon' => $addon->getNamespace(),
             ],
-            'admin/' . $segment . '/fields/choose'      => [
+            $prefix . '/fields/choose'      => [
                 'as'             => $addon->getNamespace('fields.choose'),
                 'uses'           => $controller . '@choose',
                 'streams::addon' => $addon->getNamespace(),
             ],
-            'admin/' . $segment . '/fields/create'      => [
+            $prefix . '/fields/create'      => [
                 'as'             => $addon->getNamespace('fields.create'),
                 'uses'           => $controller . '@create',
                 'streams::addon' => $addon->getNamespace(),
             ],
-            'admin/' . $segment . '/fields/edit/{id}'   => [
+            $prefix . '/fields/edit/{id}'   => [
                 'as'             => $addon->getNamespace('fields.edit'),
                 'uses'           => $controller . '@edit',
                 'streams::addon' => $addon->getNamespace(),
             ],
-            'admin/' . $segment . '/fields/change/{id}' => [
+            $prefix . '/fields/change/{id}' => [
                 'as'             => $addon->getNamespace('fields.change'),
                 'uses'           => $controller . '@change',
                 'streams::addon' => $addon->getNamespace(),
