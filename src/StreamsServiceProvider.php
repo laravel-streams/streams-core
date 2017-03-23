@@ -205,6 +205,8 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\View\Listener\DecorateData'                                => 'Anomaly\Streams\Platform\View\Listener\DecorateData',
         'Anomaly\Streams\Platform\Support\Template'                                          => 'Anomaly\Streams\Platform\Support\Template',
         'Anomaly\Streams\Platform\Support\Purifier'                                          => 'Anomaly\Streams\Platform\Support\Purifier',
+        'Anomaly\Streams\Platform\Assignment\AssignmentRouter'                               => 'Anomaly\Streams\Platform\Assignment\AssignmentRouter',
+        'Anomaly\Streams\Platform\Field\FieldRouter'                                         => 'Anomaly\Streams\Platform\Field\FieldRouter',
     ];
 
     /**
