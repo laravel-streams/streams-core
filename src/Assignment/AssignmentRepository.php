@@ -7,6 +7,13 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentRepository;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
+/**
+ * Class AssignmentRepository
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class AssignmentRepository extends EloquentRepository implements AssignmentRepositoryInterface
 {
 
