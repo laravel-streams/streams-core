@@ -42,7 +42,6 @@ class FieldObserver extends Observer
     public function updating(FieldInterface $model)
     {
         $this->dispatch(new RenameFieldAssignments($model));
-        $this->dispatch(new ChangeFieldAssignments($model));
     }
 
     /**
@@ -54,6 +53,7 @@ class FieldObserver extends Observer
     {
         $model->flushCache();
 
+        $this->dispatch(new ChangeFieldAssignments($model));
         $this->dispatch(new UpdateFieldAssignments($model));
 
         $this->events->fire(new FieldWasUpdated($model));
