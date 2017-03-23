@@ -81,7 +81,7 @@ class FieldFormFields
             ]
         );
 
-        if (($type = $builder->getFormEntry()->getType()) || ($type = $builder->getFieldType())) {
+        if (($type = $builder->getFieldType()) || ($type = $builder->getFormEntry()->getType())) {
             $this->dispatch(new GetConfigFields($builder, $type));
         }
     }
