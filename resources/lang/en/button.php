@@ -12,6 +12,7 @@ return [
     */
 
     'add'            => 'Add',
+    'new'            => 'New',
     'edit'           => 'Edit',
     'view'           => 'View',
     'info'           => 'Info',
