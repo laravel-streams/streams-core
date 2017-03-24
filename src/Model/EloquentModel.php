@@ -300,10 +300,16 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      * Create a new Eloquent query builder for the model.
      *
      * @param  \Illuminate\Database\Query\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function newEloquentBuilder($query)
     {
+        $builder = substr(get_class($this), 0, -5) . 'QueryBuilder';
+
+        if (class_exists($builder)) {
+            return new $builder($query);
+        }
+
         return new EloquentQueryBuilder($query);
     }
 
