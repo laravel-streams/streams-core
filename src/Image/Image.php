@@ -1095,7 +1095,7 @@ class Image
     public function getQuality($default = null)
     {
         if (!$default) {
-            $this->config->get('streams::images.quality', 80);
+            $this->quality = $this->config->get('streams::images.quality', 80);
         }
 
         return $this->quality ?: $default;
