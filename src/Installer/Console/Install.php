@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
 use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
 use Anomaly\Streams\Platform\Application\Command\ReloadEnvironmentFile;
 use Anomaly\Streams\Platform\Application\Command\WriteEnvironmentFile;
+use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
 use Anomaly\Streams\Platform\Installer\Console\Command\ConfigureDatabase;
 use Anomaly\Streams\Platform\Installer\Console\Command\ConfirmLicense;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadApplicationInstallers;
@@ -80,6 +81,7 @@ class Install extends Command
 
         $this->dispatch(new ReloadEnvironmentFile());
         $this->dispatch(new LoadEnvironmentOverrides());
+        $this->dispatch(new InitializeApplication());
 
         $this->dispatch(new ConfigureDatabase());
         $this->dispatch(new SetDatabasePrefix());
@@ -99,6 +101,7 @@ class Install extends Command
                     $this->call('env:set', ['line' => 'INSTALLED=true']);
 
                     $this->dispatch(new ReloadEnvironmentFile());
+                    $this->dispatch(new AutoloadEntryModels()); // Don't forget!
 
                     $manager->register(); // Register all of our addons.
                 }
