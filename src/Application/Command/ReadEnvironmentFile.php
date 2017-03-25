@@ -34,8 +34,10 @@ class ReadEnvironmentFile
             // Check for # comments.
             if (starts_with($line, '#')) {
                 $data[] = $line;
-            } elseif (strpos($line, '=')) {
-                list($key, $value) = explode('=', $line);
+            } elseif ($operator = strpos($line, '=')) {
+
+                $key   = substr($line, 0, $operator);
+                $value = substr($line, $operator + 1);
 
                 $data[$key] = $value;
             }
