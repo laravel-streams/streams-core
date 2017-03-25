@@ -83,6 +83,13 @@ class Section implements SectionInterface
     protected $highlighted = false;
 
     /**
+     * The section context.
+     *
+     * @var string
+     */
+    protected $context = 'danger';
+
+    /**
      * The section parent.
      *
      * @var null|string
@@ -347,6 +354,29 @@ class Section implements SectionInterface
     public function setHighlighted($highlighted)
     {
         $this->highlighted = $highlighted;
+
+        return $this;
+    }
+
+    /**
+     * Get the context.
+     *
+     * @return boolean
+     */
+    public function getContext()
+    {
+        return $this->context;
+    }
+
+    /**
+     * Set the context flag.
+     *
+     * @param  boolean $active
+     * @return $this
+     */
+    public function setContext($context)
+    {
+        $this->context = $context;
 
         return $this;
     }

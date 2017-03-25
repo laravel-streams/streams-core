@@ -163,6 +163,21 @@ interface SectionInterface
     public function setHighlighted($highlighted);
 
     /**
+     * Get the context.
+     *
+     * @return boolean
+     */
+    public function getContext();
+
+    /**
+     * Set the context flag.
+     *
+     * @param  boolean $active
+     * @return $this
+     */
+    public function setContext($context);
+
+    /**
      * Get the parent.
      *
      * @return null|string
