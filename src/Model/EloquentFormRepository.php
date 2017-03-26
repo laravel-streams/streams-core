@@ -55,6 +55,8 @@ class EloquentFormRepository implements FormRepositoryInterface
 
         $entry->unguard();
 
+        $builder->fire('querying', compact('builder'));
+
         /**
          * Update OR create the entry.
          * Keep this as is or we will

@@ -103,12 +103,6 @@ class EloquentTableRepository implements TableRepositoryInterface
             header('Location: ' . $url);
         }
 
-        /*
-         * Limit the results to the limit and offset
-         * based on the page if any.
-         */
-        $offset = $limit * (app('request')->get($builder->getTableOption('prefix') . 'page', 1) - 1);
-
         $query = $query->take($limit)->offset($offset);
 
         /*

@@ -55,7 +55,7 @@ class AddonLoader
 
         if (!$composer = json_decode(file_get_contents($path . '/composer.json'), true)) {
             throw new \Exception("A JSON syntax error was encountered in {$path}/composer.json");
-        };
+        }
 
         if (!array_key_exists('autoload', $composer)) {
             return;
@@ -71,6 +71,10 @@ class AddonLoader
 
         foreach (array_get($composer['autoload'], 'files', []) as $file) {
             include($path . '/' . $file);
+        }
+
+        if ($classmap = array_get($composer['autoload'], 'classmap')) {
+            $this->loader->addClassMap($classmap);
         }
     }
 

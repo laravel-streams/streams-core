@@ -19,6 +19,8 @@ class AddImageNamespaces
      */
     public function handle(Image $image, Container $container, Application $application)
     {
+        $image->setDirectory(public_path());
+
         $image->addPath('public', base_path('public'));
         $image->addPath('node', base_path('node_modules'));
         $image->addPath('asset', $application->getAssetsPath());

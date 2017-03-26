@@ -1,16 +1,30 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Robbo\Presenter\PresentableInterface;
 use Robbo\Presenter\Presenter;
 
+/**
+ * Class Addon
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class Addon implements PresentableInterface, Arrayable
 {
+
     use FiresCallbacks;
     use DispatchesJobs;
+
+    /**
+     * Runtime cache.
+     *
+     * @var array
+     */
+    protected $cache = [];
 
     /**
      * The addon path.
@@ -140,7 +154,7 @@ class Addon implements PresentableInterface, Arrayable
     /**
      * Get a namespaced key string.
      *
-     * @param  null   $key
+     * @param  null $key
      * @return string
      */
     public function getNamespace($key = null)
@@ -156,7 +170,7 @@ class Addon implements PresentableInterface, Arrayable
      * Get the transformed
      * class to another suffix.
      *
-     * @param  null   $suffix
+     * @param  null $suffix
      * @return string
      */
     public function getTransformedClass($suffix = null)
@@ -180,7 +194,7 @@ class Addon implements PresentableInterface, Arrayable
      * Return whether an addon has
      * config matching the key.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return boolean
      */
     public function hasConfig($key = '*')

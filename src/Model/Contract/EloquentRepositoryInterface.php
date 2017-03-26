@@ -143,6 +143,13 @@ interface EloquentRepositoryInterface
     public function cache($key, $ttl, $value);
 
     /**
+     * Flush the cache.
+     *
+     * @return $this
+     */
+    public function flushCache();
+
+    /**
      * Guard the model.
      *
      * @return $this

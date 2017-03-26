@@ -264,6 +264,18 @@ class EloquentRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * Flush the cache.
+     *
+     * @return $this
+     */
+    public function flushCache()
+    {
+        $this->model->flushCache();
+
+        return $this;
+    }
+
+    /**
      * Guard the model.
      *
      * @return $this

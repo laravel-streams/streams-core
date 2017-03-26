@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
+use Anomaly\Streams\Platform\Field\Command\ChangeFieldAssignments;
 use Anomaly\Streams\Platform\Field\Command\DeleteFieldAssignments;
 use Anomaly\Streams\Platform\Field\Command\DeleteFieldTranslations;
 use Anomaly\Streams\Platform\Field\Command\RenameFieldAssignments;
@@ -52,6 +53,7 @@ class FieldObserver extends Observer
     {
         $model->flushCache();
 
+        $this->dispatch(new ChangeFieldAssignments($model));
         $this->dispatch(new UpdateFieldAssignments($model));
 
         $this->events->fire(new FieldWasUpdated($model));

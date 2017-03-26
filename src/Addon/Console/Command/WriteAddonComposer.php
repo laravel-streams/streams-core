@@ -70,10 +70,9 @@ class WriteAddonComposer
         $slug   = $this->slug;
         $type   = $this->type;
         $vendor = $this->vendor;
+        $addon  = ucfirst(camel_case($slug)) . ucfirst(camel_case($type));
 
-        $prefix = ucfirst(camel_case($vendor)) . '\\\\' . ucfirst(camel_case($slug)) . ucfirst(
-                camel_case($type)
-            ) . '\\\\';
+        $prefix = ucfirst(camel_case($vendor)) . '\\\\' . $addon . '\\\\';
 
         $template = $filesystem->get(
             base_path('vendor/anomaly/streams-platform/resources/stubs/addons/composer.stub')
@@ -81,6 +80,6 @@ class WriteAddonComposer
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);
 
-        $filesystem->put($path, $parser->parse($template, compact('vendor', 'slug', 'type', 'prefix')));
+        $filesystem->put($path, $parser->parse($template, compact('vendor', 'slug', 'type', 'prefix', 'addon')));
     }
 }

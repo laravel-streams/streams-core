@@ -67,7 +67,7 @@ class FieldFormBuilder extends FormBuilder
             $entry->namespace = $stream ? $stream->getNamespace() : $namespace;
         }
 
-        if (!$entry->type) {
+        if ($fieldType) {
             $entry->type = $fieldType->getNamespace();
         }
     }
@@ -139,10 +139,10 @@ class FieldFormBuilder extends FormBuilder
     /**
      * Set the field type.
      *
-     * @param  FieldType $fieldType
+     * @param FieldType|null $fieldType
      * @return $this
      */
-    public function setFieldType(FieldType $fieldType)
+    public function setFieldType(FieldType $fieldType = null)
     {
         $this->fieldType = $fieldType;
 

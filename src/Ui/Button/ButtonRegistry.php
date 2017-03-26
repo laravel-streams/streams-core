@@ -199,6 +199,11 @@ class ButtonRegistry
             'icon' => 'pencil',
             'type' => 'warning',
         ],
+        'change'        => [
+            'text' => 'streams::button.change',
+            'type' => 'warning',
+            'icon' => 'cog',
+        ],
         /*
          * Danger Buttons
          */

@@ -20,6 +20,7 @@ use Anomaly\Streams\Platform\Event\Booting;
 use Anomaly\Streams\Platform\Event\Ready;
 use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Field\FieldObserver;
+use Anomaly\Streams\Platform\Http\Command\ConfigureRequest;
 use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
@@ -204,6 +205,8 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\View\Listener\DecorateData'                                => 'Anomaly\Streams\Platform\View\Listener\DecorateData',
         'Anomaly\Streams\Platform\Support\Template'                                          => 'Anomaly\Streams\Platform\Support\Template',
         'Anomaly\Streams\Platform\Support\Purifier'                                          => 'Anomaly\Streams\Platform\Support\Purifier',
+        'Anomaly\Streams\Platform\Assignment\AssignmentRouter'                               => 'Anomaly\Streams\Platform\Assignment\AssignmentRouter',
+        'Anomaly\Streams\Platform\Field\FieldRouter'                                         => 'Anomaly\Streams\Platform\Field\FieldRouter',
     ];
 
     /**
@@ -228,6 +231,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatch(new AutoloadEntryModels());
         $this->dispatch(new AddAssetNamespaces());
         $this->dispatch(new AddImageNamespaces());
+        $this->dispatch(new ConfigureRequest());
         $this->dispatch(new ConfigureScout());
 
         // Observe our base models.

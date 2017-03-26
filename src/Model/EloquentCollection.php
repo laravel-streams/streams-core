@@ -143,8 +143,8 @@ class EloquentCollection extends Collection
      */
     public function __get($name)
     {
-        if ($this->hasHook($hook = 'get_' . $name)) {
-            return $this->call($hook, []);
+        if ($this->hasHook($name)) {
+            return $this->call($name, []);
         }
 
         if ($this->has($name)) {

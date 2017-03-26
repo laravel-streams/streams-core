@@ -12,6 +12,7 @@ return [
     */
 
     'add'            => 'Add',
+    'new'            => 'New',
     'edit'           => 'Edit',
     'view'           => 'View',
     'info'           => 'Info',
@@ -20,6 +21,7 @@ return [
     'delete'         => 'Delete',
     'restore'        => 'Restore',
     'force_delete'   => 'Force Delete',
+    'change'         => 'Change',
     'export'         => 'Export',
     'create'         => 'Create',
     'cancel'         => 'Cancel',

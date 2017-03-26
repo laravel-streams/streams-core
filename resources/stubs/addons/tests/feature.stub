@@ -1,0 +1,12 @@
+<?php
+
+namespace {namespace};
+
+class {class} extends \TestCase
+{
+
+    public function testHome()
+    {
+        // $this->visit('/');
+    }
+}

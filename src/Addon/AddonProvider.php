@@ -10,6 +10,7 @@ use Illuminate\Console\Events\ArtisanStarting;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Router;
 
@@ -50,6 +51,13 @@ class AddonProvider
      * @var Dispatcher
      */
     protected $events;
+
+    /**
+     * The factory manager.
+     *
+     * @var Factory
+     */
+    protected $factory;
 
     /**
      * The scheduler instance.
@@ -153,8 +161,10 @@ class AddonProvider
         $this->registerMiddleware($provider);
         $this->registerRouteMiddleware($provider);
 
+        $this->registerFactories($addon);
+
         if (method_exists($provider, 'register')) {
-            $this->application->call([$provider, 'register']);
+            $this->application->call([$provider, 'register'], ['provider' => $this]);
         }
 
         // Call other providers last.
@@ -205,6 +215,24 @@ class AddonProvider
                     $event->artisan->resolveCommands($commands);
                 }
             );
+        }
+    }
+
+    /**
+     * Register the addon commands.
+     *
+     * @param Addon $addon
+     */
+    protected function registerFactories(Addon $addon)
+    {
+        /**
+         * @todo Move this back into a
+         *       dependency for 3.4
+         *       causes issues with
+         *       3.2 conversions.
+         */
+        if (is_dir($factories = $addon->getPath('factories'))) {
+            app(Factory::class)->load($factories);
         }
     }
 
@@ -375,6 +403,76 @@ class AddonProvider
                 }
             }
         );
+    }
+
+    /**
+     * Register field routes.
+     *
+     * @param Addon $addon
+     * @param       $controller
+     * @param null  $segment
+     */
+    public function registerFieldsRoutes(Addon $addon, $controller, $segment = null)
+    {
+        if ($segment) {
+            $segment = $addon->getSlug();
+        }
+
+        $routes = [
+            'admin/' . $segment . '/fields'             => [
+                'as'   => $addon->getNamespace('fields.index'),
+                'uses' => $controller . '@index',
+            ],
+            'admin/' . $segment . '/fields/choose'      => [
+                'as'   => $addon->getNamespace('fields.choose'),
+                'uses' => $controller . '@choose',
+            ],
+            'admin/' . $segment . '/fields/create'      => [
+                'as'   => $addon->getNamespace('fields.create'),
+                'uses' => $controller . '@create',
+            ],
+            'admin/' . $segment . '/fields/edit/{id}'   => [
+                'as'   => $addon->getNamespace('fields.edit'),
+                'uses' => $controller . '@edit',
+            ],
+            'admin/' . $segment . '/fields/change/{id}' => [
+                'as'   => $addon->getNamespace('fields.change'),
+                'uses' => $controller . '@change',
+            ],
+        ];
+
+        foreach ($routes as $uri => $route) {
+
+            /*
+             * If the route definition is an
+             * not an array then let's make it one.
+             * Array type routes give us more control
+             * and allow us to pass information in the
+             * request's route action array.
+             */
+            if (!is_array($route)) {
+                $route = [
+                    'uses' => $route,
+                ];
+            }
+
+            $verb        = array_pull($route, 'verb', 'any');
+            $middleware  = array_pull($route, 'middleware', []);
+            $constraints = array_pull($route, 'constraints', []);
+
+            array_set($route, 'streams::addon', $addon->getNamespace());
+
+            if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
+                $this->router->resource($uri, $route['uses']);
+            } else {
+
+                $route = $this->router->{$verb}($uri, $route)->where($constraints);
+
+                if ($middleware) {
+                    call_user_func_array([$route, 'middleware'], (array)$middleware);
+                }
+            }
+        }
     }
 
     /**
