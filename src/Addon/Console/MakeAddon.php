@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Addon\Console\Command\MakeAddonPaths;
 use Anomaly\Streams\Platform\Addon\Console\Command\ScaffoldTheme;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonClass;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonComposer;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonFeatureTest;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonGitIgnore;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonLang;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPhpUnit;
@@ -77,8 +78,10 @@ class MakeAddon extends Command
         $this->dispatch(new WriteAddonClass($path, $type, $slug, $vendor));
         $this->dispatch(new WriteAddonPhpUnit($path, $type, $slug, $vendor));
         $this->dispatch(new WriteAddonComposer($path, $type, $slug, $vendor));
-        $this->dispatch(new WriteAddonTestCase($path, $type, $slug, $vendor));
+        // @todo Autoloading issues...
+        //$this->dispatch(new WriteAddonTestCase($path, $type, $slug, $vendor));
         $this->dispatch(new WriteAddonGitIgnore($path, $type, $slug, $vendor));
+        $this->dispatch(new WriteAddonFeatureTest($path, $type, $slug, $vendor));
         $this->dispatch(new WriteAddonServiceProvider($path, $type, $slug, $vendor));
 
         $addons->register();
