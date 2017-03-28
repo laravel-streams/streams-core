@@ -82,12 +82,14 @@ class EloquentCriteria
     /**
      * Get the paginated entries.
      *
-     * @param  array $columns
+     * @param int $perPage
+     * @param array $columns
+     * @param string $pageName
      * @return Paginator
      */
-    public function paginate($perPage = 15, array $columns = ['*'])
+    public function paginate($perPage = 15, array $columns = ['*'], $pageName = 'page')
     {
-        return (new Decorator())->decorate($this->query->paginate($perPage, $columns));
+        return (new Decorator())->decorate($this->query->paginate($perPage, $columns, $pageName));
     }
 
     /**
