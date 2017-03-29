@@ -42,8 +42,8 @@ class HeaderNormalizer
              */
             if (!is_numeric($key) && !is_array($column) && !class_exists($column)) {
                 $column = [
-                    'field' => $key,
-                    'value' => $column,
+                    'value'   => $key,
+                    'heading' => $column,
                 ];
             }
 
