@@ -66,6 +66,11 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     protected $stream = [];
 
     /**
+     * @var bool
+     */
+    protected $raw = false;
+
+    /**
      * Boot the model
      */
     protected static function boot()
@@ -101,6 +106,26 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function scopeSorted(Builder $builder, $direction = 'asc')
     {
         $builder->orderBy('sort_order', $direction);
+    }
+
+    /**
+     * Get the raw flag property.
+     *
+     * @return bool
+     */
+    public function getRaw()
+    {
+        return $this->raw;
+    }
+
+    /**
+     * Set the raw flag property.
+     *
+     * @param bool $raw
+     */
+    public function setRaw($raw)
+    {
+        $this->raw = $raw;
     }
 
     /**
@@ -389,6 +414,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         if (
             !$this->hasGetMutator($key)
+            && !$this->getRaw()
             && in_array($key, $this->fields)
         ) {
             return $this->getFieldValue($key);
