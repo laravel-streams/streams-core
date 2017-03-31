@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Pagination\Paginator;
 
 /**
  * Class EloquentCriteria
@@ -82,10 +81,10 @@ class EloquentCriteria
     /**
      * Get the paginated entries.
      *
-     * @param int $perPage
-     * @param array $columns
+     * @param int    $perPage
+     * @param array  $columns
      * @param string $pageName
-     * @return Paginator
+     * @return array|\ArrayAccess|\IteratorAggregate|Presenter
      */
     public function paginate($perPage = 15, array $columns = ['*'], $pageName = 'page')
     {
