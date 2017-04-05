@@ -7,6 +7,13 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Container\Container;
 
+/**
+ * Class SetRepository
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class SetRepository
 {
 
@@ -43,6 +50,10 @@ class SetRepository
             $model = $this->builder->getFormModel();
             $entry = $this->builder->getEntry();
             $form  = $this->builder->getForm();
+
+            if (!$model) {
+                return;
+            }
 
             $repository = str_replace('FormBuilder', 'FormRepository', get_class($this->builder));
 
