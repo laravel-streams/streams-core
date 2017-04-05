@@ -41,6 +41,11 @@ class Uninstall extends Command
         /* @var Extension $extension */
         $extension = $extensions->get($this->argument('extension'));
 
+        if (!$extension->isInstalled())
+        {
+            return $this->warn('Extension is not installed! Skip uninstall.');
+        }
+        
         $manager->uninstall($extension);
 
         $this->info(trans($extension->getName()) . ' uninstalled successfully!');
