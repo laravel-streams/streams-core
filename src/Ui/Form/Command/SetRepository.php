@@ -51,10 +51,6 @@ class SetRepository
             $entry = $this->builder->getEntry();
             $form  = $this->builder->getForm();
 
-            if (!$model) {
-                return;
-            }
-
             $repository = str_replace('FormBuilder', 'FormRepository', get_class($this->builder));
 
             if (!$this->builder->getRepository() && class_exists($repository)) {
