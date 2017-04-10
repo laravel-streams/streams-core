@@ -86,6 +86,34 @@ class AssignmentSchema
     }
 
     /**
+     * Change a column.
+     *
+     * @param                     $table
+     * @param FieldType           $type
+     * @param AssignmentInterface $assignment
+     */
+    public function changeColumn($table, FieldType $type, AssignmentInterface $assignment)
+    {
+        $schema = $type->getSchema();
+        $from   = $assignment->getFieldType(true);
+
+        if ($from->getColumnType() === false || $type->getColumnType() === false) {
+            return;
+        }
+
+        if ($from->getColumnType() === $type->getColumnType()) {
+            return;
+        }
+
+        $this->schema->table(
+            $table,
+            function (Blueprint $table) use ($schema, $assignment) {
+                $schema->changeColumn($table, $assignment);
+            }
+        );
+    }
+
+    /**
      * Drop a column.
      *
      * @param           $table

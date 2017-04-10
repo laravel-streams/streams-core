@@ -6,9 +6,7 @@
 
     {{ view("streams::form/partials/heading", {'form': form}) }}
 
-    {% for field in form.fields %}
-        {{ field.render({'form': form})|raw }}
-    {% endfor %}
+    {{ view("streams::form/partials/layout", {'form': form}) }}
 
     {{ view("streams::buttons/buttons", {'buttons': form.actions}) }}
 

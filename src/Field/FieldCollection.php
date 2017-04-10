@@ -34,7 +34,7 @@ class FieldCollection extends EloquentCollection
     /**
      * Return only unassigned fields.
      *
-     * @return static|FieldCollection
+     * @return FieldCollection
      */
     public function unassigned()
     {
@@ -55,7 +55,7 @@ class FieldCollection extends EloquentCollection
      * to the provided stream.
      *
      * @param  StreamInterface $stream
-     * @return static
+     * @return FieldCollection
      */
     public function assignedTo(StreamInterface $stream)
     {
@@ -76,7 +76,7 @@ class FieldCollection extends EloquentCollection
      * to the provided stream.
      *
      * @param  StreamInterface $stream
-     * @return static
+     * @return FieldCollection
      */
     public function notAssignedTo(StreamInterface $stream)
     {

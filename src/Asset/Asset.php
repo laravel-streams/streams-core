@@ -278,7 +278,7 @@ class Asset
             $this->add($collection, $collection, $filters);
         }
 
-        return $this->getPath($collection, $filters);
+        return $this->request->getBasePath() . $this->getPath($collection, $filters);
     }
 
     /**
@@ -294,7 +294,7 @@ class Asset
             $this->add($collection, $collection, $filters);
         }
 
-        return $this->url->asset($this->getPath($collection, $filters));
+        return $this->path($collection, $filters);
     }
 
     /**
@@ -307,7 +307,7 @@ class Asset
      */
     public function script($collection, array $filters = [], array $attributes = [])
     {
-        $attributes['src'] = $this->asset($collection, $filters);
+        $attributes['src'] = $this->path($collection, $filters);
 
         return '<script' . $this->html->attributes($attributes) . '></script>';
     }
@@ -487,7 +487,7 @@ class Asset
 
         $assets = $this->getAssetCollection($collection, $additionalFilters);
 
-        $path = $this->directory . $path;
+        $path = $this->directory . DIRECTORY_SEPARATOR . $path;
 
         $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
@@ -495,7 +495,12 @@ class Asset
 
         if ($this->paths->extension($path) == 'css') {
             try {
-                $this->files->put($path, app('twig')->render(str_replace($this->directory, 'assets::', $path)));
+                $this->files->put(
+                    $path,
+                    app('twig')->render(
+                        str_replace($this->application->getAssetsPath(DIRECTORY_SEPARATOR), 'assets::', $path)
+                    )
+                );
             } catch (\Exception $e) {
                 // Don't even..
             }

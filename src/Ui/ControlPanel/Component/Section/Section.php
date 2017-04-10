@@ -83,6 +83,13 @@ class Section implements SectionInterface
     protected $highlighted = false;
 
     /**
+     * The section context.
+     *
+     * @var string
+     */
+    protected $context = 'danger';
+
+    /**
      * The section parent.
      *
      * @var null|string
@@ -117,6 +124,13 @@ class Section implements SectionInterface
      * @var null|string
      */
     protected $breadcrumb = null;
+
+    /**
+     * If the section will be hidden from the Control Panel.
+     *
+     * @var bool
+     */
+    protected $hidden = false;
 
     /**
      * Get the slug.
@@ -345,6 +359,29 @@ class Section implements SectionInterface
     }
 
     /**
+     * Get the context.
+     *
+     * @return boolean
+     */
+    public function getContext()
+    {
+        return $this->context;
+    }
+
+    /**
+     * Set the context flag.
+     *
+     * @param  boolean $active
+     * @return $this
+     */
+    public function setContext($context)
+    {
+        $this->context = $context;
+
+        return $this;
+    }
+
+    /**
      * Get the parent.
      *
      * @return null|string
@@ -460,6 +497,29 @@ class Section implements SectionInterface
     public function setBreadcrumb($breadcrumb)
     {
         $this->breadcrumb = $breadcrumb;
+
+        return $this;
+    }
+
+    /**
+     * Get the hidden flag.
+     *
+     * @return bool
+     */
+    public function isHidden()
+    {
+        return $this->hidden;
+    }
+
+    /**
+     * Set the hidden flag.
+     *
+     * @param $hidden
+     * @return $this
+     */
+    public function setHidden($hidden)
+    {
+        $this->hidden = $hidden;
 
         return $this;
     }

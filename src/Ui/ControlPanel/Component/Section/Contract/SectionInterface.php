@@ -163,6 +163,21 @@ interface SectionInterface
     public function setHighlighted($highlighted);
 
     /**
+     * Get the context.
+     *
+     * @return boolean
+     */
+    public function getContext();
+
+    /**
+     * Set the context flag.
+     *
+     * @param  boolean $active
+     * @return $this
+     */
+    public function setContext($context);
+
+    /**
      * Get the parent.
      *
      * @return null|string
@@ -242,6 +257,21 @@ interface SectionInterface
      * @return $this
      */
     public function setBreadcrumb($breadcrumb);
+
+    /**
+     * Get the hidden flag.
+     *
+     * @return bool
+     */
+    public function isHidden();
+
+    /**
+     * Set the hidden flag.
+     *
+     * @param $hidden
+     * @return $this
+     */
+    public function setHidden($hidden);
 
     /**
      * Get the HREF attribute.
