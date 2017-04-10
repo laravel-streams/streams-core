@@ -474,6 +474,12 @@ class StreamsPlugin extends Plugin
                     );
                 }, ['is_safe' => ['html']]
             ),
+            new \Twig_SimpleFunction(
+                'cookie',
+                function ($name) {
+                    return array_get($_COOKIE, $name);
+                }
+            ),
             new \Twig_SimpleFunction('input_get', [$this->request, 'input']),
             new \Twig_SimpleFunction('asset', [$this->url, 'asset'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('action', [$this->url, 'action'], ['is_safe' => ['html']]),
