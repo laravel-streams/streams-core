@@ -1,9 +1,9 @@
-{% set active_tab = cookie('/' ~ request_path()) %}
+{% set active = cookie('form::tab') %}
 
 <ul class="nav nav-sections {{ stacked ? 'nav-stacked' }}">
     {% spaceless %}
         {% for slug, tab in tabs %}
-            <li class="nav-item{% if active_tab %}{{ active_tab == '#tab-' ~ slug ? ' active' }}{% else %}{{ loop.first ? ' active' }}{% endif %}">
+            <li class="nav-item {{ (active == '#tab-' ~ slug or (not active and loop.first)) ? ' active' }}">
                 <a href="#tab-{{ slug }}" data-toggle="tab" class="nav-link">
                     {{ tab.icon ? icon(tab.icon) }}
                     {{ trans(tab.title) }}
@@ -15,7 +15,7 @@
 
 <div class="card-block">
     {% for slug, tab in section.tabs %}
-        <div class="tab-pane {{ loop.first ? 'active' }}" id="tab-{{ slug }}">
+        <div class="tab-pane {{ (active == '#tab-' ~ slug or (not active and loop.first)) ? ' active' }}" id="tab-{{ slug }}">
             {% if tab.view %}
                 {% include tab.view %}
             {% elseif tab.html %}

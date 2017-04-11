@@ -476,8 +476,8 @@ class StreamsPlugin extends Plugin
             ),
             new \Twig_SimpleFunction(
                 'cookie',
-                function ($name) {
-                    return array_get($_COOKIE, $name);
+                function ($key, $default = null) {
+                    return array_get($_COOKIE, $key, $default);
                 }
             ),
             new \Twig_SimpleFunction('input_get', [$this->request, 'input']),
