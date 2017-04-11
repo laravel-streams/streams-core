@@ -28,17 +28,4 @@ $(function () {
             this.href.replace(window.location.href, '')
         );
     });
-
-    var activeHref = Cookies.get(window.location.pathname);
-    var $activeTab;
-
-    if (activeHref) {
-        $activeTab = $form.find('[href="' + activeHref + '"]');
-    } else {
-        $activeTab = $tabs.eq(0);
-    }
-
-    if ($activeTab.length) {
-        $activeTab.trigger('click');
-    }
 });
