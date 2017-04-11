@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Twig_Environment;
 use Twig_ExtensionInterface;
+use Twig_Extension_GlobalsInterface;
 use Twig_NodeVisitorInterface;
 
 /**
@@ -12,7 +13,7 @@ use Twig_NodeVisitorInterface;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Plugin extends Addon implements Twig_ExtensionInterface
+class Plugin extends Addon implements Twig_ExtensionInterface, Twig_Extension_GlobalsInterface
 {
 
     /**
@@ -81,6 +82,16 @@ class Plugin extends Addon implements Twig_ExtensionInterface
      * @return array An array of operators
      */
     public function getOperators()
+    {
+        return [];
+    }
+    
+     /**
+     * Returns a list of global variables to add to the existing list.
+     *
+     * @return array An array of global variables
+     */
+    public function getGlobals()
     {
         return [];
     }
