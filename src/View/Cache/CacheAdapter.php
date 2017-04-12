@@ -51,6 +51,8 @@ class CacheAdapter implements CacheProviderInterface
      */
     public function save($key, $value, $lifetime = 0)
     {
-        $this->cache->put($key, $value, $lifetime);
+        if (env('ENABLE_TEMPLATE_CACHING')) {
+            $this->cache->put($key, $value, $lifetime);
+        }
     }
 }
