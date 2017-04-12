@@ -39,7 +39,7 @@ class CacheAdapter implements CacheProviderInterface
      */
     public function fetch($key)
     {
-        return $this->cache->get($key, false);
+        return $this->cache->get(env('ENABLE_TEMPLATE_CACHING') ? $key : null, false);
     }
 
     /**
