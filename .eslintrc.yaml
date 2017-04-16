@@ -1,14 +1,21 @@
 root: true
+extends: vue
 env:
+  es6: true
   browser: true
+parserOptions:
+  ecmaVersion: 6
+  allowImportExportEverywhere: false
 globals:
   $: true
-  window: true
+  Pusher: true
+  # window: true
   require: true
+  CSRF_TOKEN: true
 rules:
   indent:
     - 1
-    - 2
+    - 4
   quotes:
     - 1
     - single
@@ -19,16 +26,18 @@ rules:
     - 1
     - always
   no-undef:
-    - 2
+    - 1
   space-before-function-paren:
     - 0
   array-bracket-spacing:
     - 0
   one-var:
-    - 2
-    - always
+    - 1
+    - never
   prefer-const:
     - 0
   comma-dangle:
     - 2
     - only-multiline
+  padded-blocks:
+    - 0
