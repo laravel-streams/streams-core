@@ -28,7 +28,12 @@ class FieldFilter extends Filter implements FieldFilterInterface
      */
     public function getInput()
     {
-        $field = $this->stream->getField($this->getField());
+        if (! $field = $this->stream->getField($this->getField())) {
+            throw new \Exception(sprintf(
+                'Field type: "%s" not found.',
+                $this->getField()
+            ));
+        }
 
         $type = $field->getType();
 
