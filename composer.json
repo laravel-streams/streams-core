@@ -42,7 +42,8 @@
         "graham-campbell/exceptions": "^9.0",
         "filp/whoops": "^2.0",
         "websemantics/lcss2php": "1.0.*",
-        "ezyang/htmlpurifier": "~4.0"
+        "ezyang/htmlpurifier": "~4.0",
+        "fzaninotto/faker": "~1.4"
     },
     "autoload": {
         "psr-4": {

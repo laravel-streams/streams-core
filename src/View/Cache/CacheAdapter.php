@@ -39,7 +39,8 @@ class CacheAdapter implements CacheProviderInterface
      */
     public function fetch($key)
     {
-        return $this->cache->get($key, false);
+        // @todo: Will end up needing a view.php config for streams platform
+        return $this->cache->get(env('TWIG_CACHE', true) ? $key : null, false);
     }
 
     /**
@@ -51,6 +52,8 @@ class CacheAdapter implements CacheProviderInterface
      */
     public function save($key, $value, $lifetime = 0)
     {
-        $this->cache->put($key, $value, $lifetime);
+        if (env('ENABLE_TEMPLATE_CACHING')) {
+            $this->cache->put($key, $value, $lifetime);
+        }
     }
 }
