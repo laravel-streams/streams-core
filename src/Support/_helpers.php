@@ -133,3 +133,20 @@ if (!function_exists('data')) {
         return $target;
     }
 }
+
+if (!function_exists('filesize')) {
+
+    /**
+     * Humanize the filesizes
+     *
+     * @param      integer  $bytes     The bytes
+     * @param      integer  $decimals  The decimals
+     * @return     string
+     */
+    function filesize($bytes, $decimals = 2)
+    {
+        $size   = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        $factor = floor((strlen($bytes) - 1) / 3);
+        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).'&nbsp;'.@$size[$factor];
+    }
+}
