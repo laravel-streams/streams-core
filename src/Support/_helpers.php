@@ -134,19 +134,20 @@ if (!function_exists('data')) {
     }
 }
 
-if (!function_exists('filesize')) {
+if (!function_exists('filesize_for_humans')) {
 
     /**
-     * Humanize the filesizes
+     * Humanize the filesize
      *
-     * @param      integer  $bytes     The bytes
-     * @param      integer  $decimals  The decimals
+     * @param      integer $bytes    The bytes
+     * @param      integer $decimals The decimals
      * @return     string
      */
-    function filesize($bytes, $decimals = 2)
+    function filesize_for_humans($bytes, $decimals = 2)
     {
         $size   = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-        $factor = floor((strlen($bytes) - 1) / 3);
-        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).'&nbsp;'.@$size[$factor];
+        $factor = (int)floor((strlen($bytes) - 1) / 3);
+
+        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . '&nbsp;' . @$size[$factor];
     }
 }
