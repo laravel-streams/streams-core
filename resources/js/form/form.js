@@ -19,4 +19,6 @@ $(function () {
             .find('[data-toggle="tab"][href="#' + $pane.attr('id') + '"]')
             .addClass('text-danger');
     });
+    
+    new Clipboard('form.form button.copy');
 });
