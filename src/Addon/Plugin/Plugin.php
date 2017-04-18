@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Twig_Environment;
 use Twig_ExtensionInterface;
+use Twig_Extension_GlobalsInterface;
 use Twig_NodeVisitorInterface;
 
 /**
@@ -12,7 +13,7 @@ use Twig_NodeVisitorInterface;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Plugin extends Addon implements Twig_ExtensionInterface
+class Plugin extends Addon implements Twig_ExtensionInterface, Twig_Extension_GlobalsInterface
 {
 
     /**
@@ -23,17 +24,6 @@ class Plugin extends Addon implements Twig_ExtensionInterface
     public function getName()
     {
         return isset($this->slug) ? parent::getName() : get_class($this);
-    }
-
-    /**
-     * Initializes the runtime environment.
-     *
-     * This is where you can load some file that contains filter functions for instance.
-     *
-     * @param Twig_Environment $environment The current Twig_Environment instance
-     */
-    public function initRuntime(Twig_Environment $environment)
-    {
     }
 
     /**
@@ -95,8 +85,8 @@ class Plugin extends Addon implements Twig_ExtensionInterface
     {
         return [];
     }
-
-    /**
+    
+     /**
      * Returns a list of global variables to add to the existing list.
      *
      * @return array An array of global variables
