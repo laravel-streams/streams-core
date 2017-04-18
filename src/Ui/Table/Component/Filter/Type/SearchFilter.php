@@ -49,7 +49,7 @@ class SearchFilter extends Filter implements SearchFilterInterface
             $this->getValue(),
             [
                 'class'       => 'form-control',
-                'placeholder' => trans('streams::message.search'),
+                'placeholder' => trans($this->getPlaceholder()),
             ]
         );
     }
