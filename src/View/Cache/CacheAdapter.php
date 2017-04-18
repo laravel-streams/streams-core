@@ -52,7 +52,7 @@ class CacheAdapter implements CacheProviderInterface
      */
     public function save($key, $value, $lifetime = 0)
     {
-        if (env('ENABLE_TEMPLATE_CACHING')) {
+        if (env('TWIG_CACHE')) {
             $this->cache->put($key, $value, $lifetime);
         }
     }

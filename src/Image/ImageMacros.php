@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Image;
 
-use Illuminate\Config\Repository;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
 
 /**
