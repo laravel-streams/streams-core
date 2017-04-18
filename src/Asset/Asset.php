@@ -20,7 +20,7 @@ use Assetic\Asset\FileAsset;
 use Assetic\Asset\GlobAsset;
 use Assetic\Filter\PhpCssEmbedFilter;
 use Collective\Html\HtmlBuilder;
-use Illuminate\Config\Repository;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use League\Flysystem\MountManager;

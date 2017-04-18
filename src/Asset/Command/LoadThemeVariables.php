@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Asset\Event\ThemeVariablesHaveLoaded;
 use Anomaly\Streams\Platform\Support\Collection;
-use Illuminate\Config\Repository;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
 use Websemantics\Lcss2php\Lcss2php;
 
