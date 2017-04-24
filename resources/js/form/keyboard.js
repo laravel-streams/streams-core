@@ -1,13 +1,13 @@
 $(function () {
 
-    $(window).bind('keydown', function (e) {
+    $(window).on('keydown', function (e) {
 
         /**
          * Listen for ctrl/meta + S (with optional
          * shift) in order to control the form
          * with the first / second action.
          */
-        if ((e.ctrlKey || e.metaKey) && String.fromCharCode(e.which).toLowerCase() == 's') {
+        if ((e.ctrlKey || e.metaKey) && String.fromCharCode(e.which).toLowerCase() === 's') {
 
             var actions = $('form.form .actions').find('button');
 
