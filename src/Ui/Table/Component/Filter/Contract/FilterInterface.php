@@ -52,7 +52,7 @@ interface FilterInterface
     /**
      * Set the exact flag.
      *
-     * @param  bool  $exact
+     * @param  bool $exact
      * @return $this
      */
     public function setExact($exact);
@@ -67,7 +67,7 @@ interface FilterInterface
     /**
      * Set the active flag.
      *
-     * @param  bool  $active
+     * @param  bool $active
      * @return $this
      */
     public function setActive($active);

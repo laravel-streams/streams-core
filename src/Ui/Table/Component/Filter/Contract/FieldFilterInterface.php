@@ -9,4 +9,5 @@
  */
 interface FieldFilterInterface extends FilterInterface
 {
+
 }

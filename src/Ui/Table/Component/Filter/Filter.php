@@ -196,7 +196,7 @@ class Filter implements FilterInterface
     /**
      * Set the exact flag.
      *
-     * @param  bool  $exact
+     * @param  bool $exact
      * @return $this
      */
     public function setExact($exact)
@@ -219,7 +219,7 @@ class Filter implements FilterInterface
     /**
      * Set the active flag.
      *
-     * @param  bool  $active
+     * @param  bool $active
      * @return $this
      */
     public function setActive($active)
@@ -240,6 +240,16 @@ class Filter implements FilterInterface
     }
 
     /**
+     * Get the filter field.
+     *
+     * @return string
+     */
+    public function getField()
+    {
+        return $this->field;
+    }
+
+    /**
      * Set the filter field.
      *
      * @param  $field
@@ -253,13 +263,13 @@ class Filter implements FilterInterface
     }
 
     /**
-     * Get the filter field.
+     * Get the stream.
      *
-     * @return string
+     * @return StreamInterface
      */
-    public function getField()
+    public function getStream()
     {
-        return $this->field;
+        return $this->stream;
     }
 
     /**
@@ -273,15 +283,5 @@ class Filter implements FilterInterface
         $this->stream = $stream;
 
         return $this;
-    }
-
-    /**
-     * Get the stream.
-     *
-     * @return StreamInterface
-     */
-    public function getStream()
-    {
-        return $this->stream;
     }
 }

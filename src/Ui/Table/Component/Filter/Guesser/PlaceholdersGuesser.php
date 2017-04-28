@@ -52,10 +52,10 @@ class PlaceholdersGuesser
     /**
      * Create a new PlaceholdersGuesser instance.
      *
-     * @param Str $string
-     * @param Repository $config
+     * @param Str              $string
+     * @param Repository       $config
      * @param ModuleCollection $modules
-     * @param Translator $translator
+     * @param Translator       $translator
      */
     public function __construct(Str $string, Repository $config, ModuleCollection $modules, Translator $translator)
     {
