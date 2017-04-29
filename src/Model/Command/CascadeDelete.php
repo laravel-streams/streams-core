@@ -52,7 +52,7 @@ class CascadeDelete
             /* @var Relation $relation */
             $relation = $this->model->{$relation}();
 
-            if ($action == 'forceDelete') {
+            if ($action == 'forceDelete' && method_exists($relation, 'withTrashed')) {
                 $relation = $relation->withTrashed();
             }
 
