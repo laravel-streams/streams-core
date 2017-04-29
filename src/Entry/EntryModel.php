@@ -16,6 +16,13 @@ use Laravel\Scout\ModelObserver;
 use Laravel\Scout\Searchable;
 use Robbo\Presenter\PresentableInterface;
 
+/**
+ * Class EntryModel
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface
 {
 
@@ -710,6 +717,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         /* @var AssignmentInterface $assignment */
         foreach ($assignments->notTranslatable() as $assignment) {
+
             $fieldType = $assignment->getFieldType();
 
             $fieldType->setValue($this->getRawAttribute($assignment->getFieldSlug()));
