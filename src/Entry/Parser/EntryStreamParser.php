@@ -81,15 +81,15 @@ class EntryStreamParser
         foreach ($assignment->getAttributes() as $key => $value) {
             $value = $assignment->getAttribute($key);
 
-            if (is_string($value)) {
-                $value = addslashes($value);
+            if (is_string($value) || is_null($value)) {
+                $value = $value ? "<<<EOD\n{$value}\nEOD\n" : "''";
             }
 
             if (is_array($value)) {
-                $value = serialize($value);
+                $value = "'" . serialize($value) . "'";
             }
 
-            $string .= "\n'{$key}' => '{$value}',";
+            $string .= "\n'{$key}' => {$value},";
         }
 
         // Parse this assignment field.
