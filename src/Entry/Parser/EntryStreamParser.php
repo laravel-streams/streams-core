@@ -161,11 +161,11 @@ class EntryStreamParser
         foreach ($translation->getAttributes() as $key => $value) {
             $value = $translation->getAttribute($key);
 
-            if (is_string($value)) {
-                $value = addslashes($value);
+            if (is_string($value) || is_null($value)) {
+                $value = $value ? "<<<EOD\n{$value}\nEOD" : "''";
             }
 
-            $string .= "\n'{$key}' => '{$value}',";
+            $string .= "\n'{$key}' => {$value}\n,";
         }
 
         $string .= "\n],";
