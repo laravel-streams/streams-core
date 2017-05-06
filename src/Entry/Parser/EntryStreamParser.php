@@ -162,10 +162,10 @@ class EntryStreamParser
             $value = $translation->getAttribute($key);
 
             if (is_string($value) || is_null($value)) {
-                $value = $value ? "<<<EOD\n{$value}\nEOD" : "''";
+                $value = $value ? "<<<EOD\n{$value}\nEOD\n" : "''";
             }
 
-            $string .= "\n'{$key}' => {$value}\n,";
+            $string .= "\n'{$key}' => {$value},";
         }
 
         $string .= "\n],";
