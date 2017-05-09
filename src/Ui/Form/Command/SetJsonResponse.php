@@ -42,12 +42,11 @@ class SetJsonResponse
     public function handle(ResponseFactory $response, ActionResponder $responder)
     {
         $data = new Collection();
+        $original = $this->builder->getFormResponse();
 
         if ($action = $this->builder->getActiveFormAction()) {
 
             $responder->setFormResponse($this->builder, $action);
-
-            $original = $this->builder->getFormResponse();
 
             if ($original instanceof RedirectResponse) {
                 $data->put('redirect', $original->getTargetUrl());
@@ -56,6 +55,12 @@ class SetJsonResponse
 
         $data->put('success', !$this->builder->hasFormErrors());
         $data->put('errors', $this->builder->getFormErrors()->toArray());
+        
+        if ($original && !$original instanceof RedirectResponse) {
+            foreach ($original->getData() as $key => $val) {
+                $data->put($key, $val);
+            }
+        }
 
         $this->builder->setFormResponse(
             $response = $response->json($data)
