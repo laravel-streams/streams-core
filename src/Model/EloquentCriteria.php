@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Pagination\Paginator;
 
 /**
  * Class EloquentCriteria
@@ -82,12 +81,14 @@ class EloquentCriteria
     /**
      * Get the paginated entries.
      *
-     * @param  array $columns
-     * @return Paginator
+     * @param int    $perPage
+     * @param array  $columns
+     * @param string $pageName
+     * @return array|\ArrayAccess|\IteratorAggregate|Presenter
      */
-    public function paginate($perPage = 15, array $columns = ['*'])
+    public function paginate($perPage = 15, array $columns = ['*'], $pageName = 'page')
     {
-        return (new Decorator())->decorate($this->query->paginate($perPage, $columns));
+        return (new Decorator())->decorate($this->query->paginate($perPage, $columns, $pageName));
     }
 
     /**
@@ -228,7 +229,7 @@ class EloquentCriteria
      */
     protected function methodExists($name)
     {
-        return method_exists($this->query->getQuery(), $name);
+        return method_exists($this->query->getQuery(), $name) || method_exists($this->query, $name);
     }
 
     /**

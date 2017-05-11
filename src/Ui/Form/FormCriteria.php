@@ -198,7 +198,9 @@ class FormCriteria
 
         $this->builder = $builder;
 
-        array_set($this->parameters, 'builder', get_class($this->builder));
+        if (!isset($this->parameters['builder'])) {
+            array_set($this->parameters, 'builder', get_class($this->builder));
+        }
 
         return $this;
     }

@@ -2,9 +2,16 @@
 
 use Anomaly\FilesModule\File\Contract\FileInterface;
 use Anomaly\Streams\Platform\Application\Application;
-use Illuminate\Config\Repository;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
 
+/**
+ * Class ImagePaths
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class ImagePaths
 {
 

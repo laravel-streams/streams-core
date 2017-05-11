@@ -26,8 +26,9 @@ class FilterRegistry
             'filter' => InputFilter::class,
         ],
         'search' => [
-            'slug'   => 'search',
-            'filter' => SearchFilter::class,
+            'slug'        => 'search',
+            'filter'      => SearchFilter::class,
+            'placeholder' => 'streams::message.search',
         ],
         'select' => [
             'slug'   => 'select',

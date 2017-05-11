@@ -4,8 +4,8 @@ use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
-use Database\Query\JoinClause;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\JoinClause;
 
 /**
  * Class EloquentQueryBuilder
@@ -53,7 +53,7 @@ class EloquentQueryBuilder extends Builder
 
         $this->orderByDefault();
 
-        if (PHP_SAPI != 'cli' && env('DB_CACHE') && $this->model->getTtl()) {
+        if (PHP_SAPI != 'cli' && env('DB_CACHE') !== false && $this->model->getTtl()) {
 
             $this->rememberIndex();
 
@@ -223,6 +223,18 @@ class EloquentQueryBuilder extends Builder
                 if ($model->getStream()->isSortable()) {
                     $query->orderBy('sort_order', 'ASC');
                 } elseif ($model->titleColumnIsTranslatable()) {
+
+                    /**
+                     * Postgres makes it damn near impossible
+                     * to order by a foreign column and retain
+                     * distinct results so let's avoid it entirely.
+                     *
+                     * Sorry!
+                     */
+                    if (env('DB_CONNECTION', 'mysql') == 'pgsql') {
+                        return;
+                    }
+
                     if (!$this->hasJoin($model->getTranslationsTableName())) {
                         $this->query->leftJoin(
                             $model->getTranslationsTableName(),
@@ -233,12 +245,7 @@ class EloquentQueryBuilder extends Builder
                     }
 
                     $this
-                        ->groupBy(
-                            [
-                                $model->getTableName() . '.id',
-                                $model->getTranslationsTableName() . '.' . $model->getTitleName(),
-                            ]
-                        )
+                        ->groupBy($model->getTableName() . '.id')
                         ->select($model->getTableName() . '.*')
                         ->where(
                             function (Builder $query) use ($model) {

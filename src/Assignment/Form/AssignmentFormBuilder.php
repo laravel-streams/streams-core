@@ -45,20 +45,6 @@ class AssignmentFormBuilder extends FormBuilder
     protected $fields = AssignmentFormFields::class;
 
     /**
-     * The form buttons.
-     *
-     * @var array
-     */
-    protected $actions = [
-        'save'   => [
-            'enabled' => 'create',
-        ],
-        'update' => [
-            'enabled' => 'edit',
-        ],
-    ];
-
-    /**
      * Fired when the builder is ready to build.
      *
      * @throws \Exception

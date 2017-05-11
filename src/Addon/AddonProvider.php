@@ -517,7 +517,7 @@ class AddonProvider
 
                     $parts = explode('|', $frequency);
 
-                    $method    = array_shift($parts);
+                    $method    = camel_case(array_shift($parts));
                     $arguments = explode(',', array_shift($parts));
 
                     call_user_func_array([$this->schedule->command($command), $method], $arguments);

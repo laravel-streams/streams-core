@@ -4,13 +4,13 @@ use Anomaly\Streams\Platform\Support\Parser;
 use Illuminate\Filesystem\Filesystem;
 
 /**
- * Class WriteAddonTestCase
+ * Class WriteAddonFeatureTest
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class WriteAddonTestCase
+class WriteAddonFeatureTest
 {
 
     /**
@@ -42,7 +42,7 @@ class WriteAddonTestCase
     private $vendor;
 
     /**
-     * Create a new WriteAddonTestCase instance.
+     * Create a new WriteAddonFeatureTest instance.
      *
      * @param $path
      * @param $type
@@ -70,13 +70,15 @@ class WriteAddonTestCase
         $vendor = ucfirst(camel_case($this->vendor));
 
         $addon     = $slug . $type;
-        $namespace = "{$vendor}\\{$addon}\\Test";
-        $class     = $slug . $type . 'TestCase';
+        $extends   = "{$addon}TestCase";
+        $class     = $slug . $type . 'Test';
+        $namespace = "{$vendor}\\{$addon}\\Test\\Feature";
+        $use       = "{$vendor}\\{$addon}\\Test\\{$addon}TestCase";
 
-        $path = "{$this->path}/tests/{$addon}TestCase.php";
+        $path = "{$this->path}/tests/Feature/{$addon}Test.php";
 
         $template = $filesystem->get(
-            base_path("vendor/anomaly/streams-platform/resources/stubs/addons/tests/test.stub")
+            base_path("vendor/anomaly/streams-platform/resources/stubs/addons/tests/feature.stub")
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);
