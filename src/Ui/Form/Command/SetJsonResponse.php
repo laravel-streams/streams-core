@@ -46,6 +46,18 @@ class SetJsonResponse
 
         $original = $this->builder->getFormResponse();
 
+        /**
+         * If we already set our own JSON
+         * response then just use that.
+         */
+        if ($original instanceof JsonResponse) {
+            return;
+        }
+
+        /**
+         * If we let the system set a redirect response
+         * from the action handler then grab the redirect.
+         */
         if ($action = $this->builder->getActiveFormAction()) {
 
             $responder->setFormResponse($this->builder, $action);
@@ -58,11 +70,13 @@ class SetJsonResponse
         $data->put('success', !$this->builder->hasFormErrors());
         $data->put('errors', $this->builder->getFormErrors()->toArray());
 
-        if ($original && $original instanceof JsonResponse) {
-            foreach ($original->getData() as $key => $val) {
-                $data->put($key, $val);
-            }
-        }
+        $this->builder->fire(
+            'json_response',
+            [
+                'data'    => $data,
+                'builder' => $this->builder,
+            ]
+        );
 
         $this->builder->setFormResponse(
             $response = $response->json($data)
