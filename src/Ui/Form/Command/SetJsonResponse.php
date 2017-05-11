@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionResponder;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\ResponseFactory;
 
@@ -42,6 +43,7 @@ class SetJsonResponse
     public function handle(ResponseFactory $response, ActionResponder $responder)
     {
         $data = new Collection();
+
         $original = $this->builder->getFormResponse();
 
         if ($action = $this->builder->getActiveFormAction()) {
@@ -55,8 +57,8 @@ class SetJsonResponse
 
         $data->put('success', !$this->builder->hasFormErrors());
         $data->put('errors', $this->builder->getFormErrors()->toArray());
-        
-        if ($original && !$original instanceof RedirectResponse) {
+
+        if ($original && $original instanceof JsonResponse) {
             foreach ($original->getData() as $key => $val) {
                 $data->put($key, $val);
             }
