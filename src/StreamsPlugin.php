@@ -168,6 +168,7 @@ class StreamsPlugin extends Plugin
      * @param Store        $session
      * @param Currency     $currency
      * @param Template     $template
+     * @param Translator   $translator
      */
     public function __construct(
         UrlGenerator $url,
@@ -182,21 +183,23 @@ class StreamsPlugin extends Plugin
         Request $request,
         Store $session,
         Currency $currency,
-        Template $template
+        Template $template,
+        Translator $translator
     ) {
-        $this->url      = $url;
-        $this->str      = $str;
-        $this->auth     = $auth;
-        $this->yaml     = $yaml;
-        $this->agent    = $agent;
-        $this->asset    = $asset;
-        $this->image    = $image;
-        $this->router   = $router;
-        $this->config   = $config;
-        $this->request  = $request;
-        $this->session  = $session;
-        $this->currency = $currency;
-        $this->template = $template;
+        $this->url        = $url;
+        $this->str        = $str;
+        $this->auth       = $auth;
+        $this->yaml       = $yaml;
+        $this->agent      = $agent;
+        $this->asset      = $asset;
+        $this->image      = $image;
+        $this->router     = $router;
+        $this->config     = $config;
+        $this->request    = $request;
+        $this->session    = $session;
+        $this->currency   = $currency;
+        $this->template   = $template;
+        $this->translator = $translator;
 
         $this->route = $request->route();
     }
