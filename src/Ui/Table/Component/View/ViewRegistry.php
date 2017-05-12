@@ -35,6 +35,9 @@ class ViewRegistry
             'actions' => [
                 'force_delete' => [],
             ],
+            'options' => [
+                'sortable' => false,
+            ],
         ],
         'recently_created' => [
             'slug' => 'recently_created',

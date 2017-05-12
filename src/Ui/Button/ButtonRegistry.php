@@ -34,6 +34,9 @@ class ButtonRegistry
             'type' => 'primary',
             'icon' => 'cog',
         ],
+        'primary'       => [
+            'type' => 'primary',
+        ],
         /*
          * Success Buttons
          */

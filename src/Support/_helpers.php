@@ -133,3 +133,21 @@ if (!function_exists('data')) {
         return $target;
     }
 }
+
+if (!function_exists('filesize_for_humans')) {
+
+    /**
+     * Humanize the filesize
+     *
+     * @param      integer $bytes    The bytes
+     * @param      integer $decimals The decimals
+     * @return     string
+     */
+    function filesize_for_humans($bytes, $decimals = 2)
+    {
+        $size   = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        $factor = (int)floor((strlen($bytes) - 1) / 3);
+
+        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . '&nbsp;' . @$size[$factor];
+    }
+}

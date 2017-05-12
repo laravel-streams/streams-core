@@ -19,19 +19,4 @@ $(function () {
             .find('[data-toggle="tab"][href="#' + $pane.attr('id') + '"]')
             .addClass('text-danger');
     });
-
-    // Set active tabs in a coooookie (crisp).
-    var $tabs = $form.find('[data-toggle="tab"]');
-
-    $tabs.on('click', function () {
-        Cookies.set(
-            'form::tab',
-            this.href.replace(window.location.href, '')
-        );
-    });
-
-    // Unset if we're not reloading the same form.
-    if (document.referrer != window.location.href) {
-        Cookies.remove('form::tab');
-    }
 });

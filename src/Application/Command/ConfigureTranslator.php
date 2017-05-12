@@ -1,10 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
 use Anomaly\Streams\Platform\Lang\Loader;
-use Illuminate\Config\Repository;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Application;
 use Illuminate\Translation\Translator;
 
+/**
+ * Class ConfigureTranslator
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class ConfigureTranslator
 {
 

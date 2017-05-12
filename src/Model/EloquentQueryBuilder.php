@@ -53,7 +53,7 @@ class EloquentQueryBuilder extends Builder
 
         $this->orderByDefault();
 
-        if (PHP_SAPI != 'cli' && env('DB_CACHE') && $this->model->getTtl()) {
+        if (PHP_SAPI != 'cli' && env('DB_CACHE') !== false && $this->model->getTtl()) {
 
             $this->rememberIndex();
 

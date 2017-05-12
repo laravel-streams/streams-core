@@ -95,6 +95,17 @@ class AssetPaths
     }
 
     /**
+     * Get a single path.
+     *
+     * @param $namespace
+     * @return string|null
+     */
+    public function getPath($namespace)
+    {
+        return array_get($this->paths, $namespace);
+    }
+
+    /**
      * Return the hinted extension.
      *
      * @param $path

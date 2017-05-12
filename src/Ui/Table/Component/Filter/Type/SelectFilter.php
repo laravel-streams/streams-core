@@ -39,6 +39,13 @@ class SelectFilter extends Filter implements SelectFilterInterface
     protected $evaluator;
 
     /**
+     * The filter options.
+     *
+     * @var array
+     */
+    protected $options;
+
+    /**
      * Create a new SelectFilter instance.
      *
      * @param FieldTypeBuilder $builder
@@ -51,13 +58,6 @@ class SelectFilter extends Filter implements SelectFilterInterface
         $this->resolver  = $resolver;
         $this->evaluator = $evaluator;
     }
-
-    /**
-     * The filter options.
-     *
-     * @var array
-     */
-    protected $options;
 
     /**
      * Get the input HTML.

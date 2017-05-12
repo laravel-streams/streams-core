@@ -495,6 +495,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction('auth_check', [$this->auth, 'check']),
             new \Twig_SimpleFunction('auth_guest', [$this->auth, 'guest']),
             new \Twig_SimpleFunction('trans_exists', [$this->translator, 'exists']),
+            new \Twig_SimpleFunction('trans_choice', [$this->translator, 'choice']),
             new \Twig_SimpleFunction('message_get', [$this->session, 'pull']),
             new \Twig_SimpleFunction('message_exists', [$this->session, 'has']),
             new \Twig_SimpleFunction('session', [$this->session, 'get']),
