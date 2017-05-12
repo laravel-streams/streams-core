@@ -87,7 +87,6 @@ class EntryObserver extends Observer
      * meta information.
      *
      * @param  EntryInterface $entry
-     * @return bool
      */
     public function saving(EntryInterface $entry)
     {
@@ -113,7 +112,6 @@ class EntryObserver extends Observer
      * Run before a record is deleted.
      *
      * @param  EntryInterface|EloquentModel $entry
-     * @return bool
      */
     public function deleting(EntryInterface $entry)
     {
