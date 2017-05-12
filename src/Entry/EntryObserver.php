@@ -94,8 +94,6 @@ class EntryObserver extends Observer
         //$entry->fireFieldTypeEvents('entry_saving');
 
         $this->commands->dispatch(new SetMetaInformation($entry));
-
-        return true;
     }
 
     /**
@@ -120,8 +118,6 @@ class EntryObserver extends Observer
     public function deleting(EntryInterface $entry)
     {
         $this->dispatch(new CascadeDelete($entry));
-
-        return true;
     }
 
     /**
