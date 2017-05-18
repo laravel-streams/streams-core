@@ -40,6 +40,7 @@ class FieldsController extends AdminController
      * Choose a field type for creating a field.
      *
      * @param  FieldTypeCollection $fieldTypes
+     * @param ModuleCollection     $modules
      * @return \Illuminate\View\View
      */
     public function choose(FieldTypeCollection $fieldTypes, ModuleCollection $modules)
