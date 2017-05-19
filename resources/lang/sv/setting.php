@@ -76,7 +76,7 @@ return [
         'instructions' => 'Specificera vilka språk som ska vara tillgängliga för din webbsida.'
     ],
     'maintenance'       => [
-        'label'        => 'UNderhållsläge',
+        'label'        => 'Underhållsläge',
         'instructions' => 'Använd detta alternativ för att inaktivera den offentlia delen av systemet.<br>Detta är användbart när du vill underhålla eller utveckla din webbplats.',
     ],
     'debug'             => [
