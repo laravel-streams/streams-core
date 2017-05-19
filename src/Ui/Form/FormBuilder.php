@@ -1266,6 +1266,22 @@ class FormBuilder
     }
 
     /**
+     * Set an attribute on the form's entry.
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function setFormEntryAttribute($key, $value)
+    {
+        $this
+            ->getFormEntry()
+            ->setAttribute($key, $value);
+
+        return $this;
+    }
+
+    /**
      * Get a request value.
      *
      * @param        $key
