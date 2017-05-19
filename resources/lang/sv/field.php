@@ -54,6 +54,5 @@ return [
     'config'       => [
         'name'         => 'Konfiguration',
         'instructions' => 'Ange valfria konfigurationsinställningar med JSON.',
-        'instructions' => 'Specify any optional configuration using JSON.',
     ],
 ];
