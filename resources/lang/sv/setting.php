@@ -77,7 +77,7 @@ return [
     ],
     'maintenance'       => [
         'label'        => 'Underhållsläge',
-        'instructions' => 'Använd detta alternativ för att inaktivera den offentlia delen av systemet.<br>Detta är användbart när du vill underhålla eller utveckla din webbplats.',
+        'instructions' => 'Använd detta alternativ för att inaktivera den offentliga delen av systemet.<br>Detta är användbart när du vill underhålla eller utveckla din webbplats.',
     ],
     'debug'             => [
         'label'        => 'Felsökningsläge',
