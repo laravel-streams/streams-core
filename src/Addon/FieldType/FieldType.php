@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Presenter;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * Class FieldType
@@ -536,7 +537,21 @@ class FieldType extends Addon
      */
     public function getSearchableValue()
     {
-        return (string)$this->getValue();
+        $value = $this->getValue();
+
+        if ($value instanceof Relation) {
+            $value = $value->getResults();
+        }
+
+        if ($value instanceof EloquentModel) {
+            $value = $value->toArray();
+        }
+
+        if (is_array($value)) {
+            $value = json_encode($value);
+        }
+
+        return (string)$value;
     }
 
     /**
