@@ -907,7 +907,12 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
             'id' => $this->getId(),
         ];
 
-        $searchable = $this->searchableAttributes ?: $this->getAssignmentFieldSlugs();
+        $searchable = array_merge(
+            $this->searchableAttributes,
+            $this
+                ->getSearchableAssignments()
+                ->fieldSlugs()
+        );
 
         foreach ($searchable as $field) {
 
