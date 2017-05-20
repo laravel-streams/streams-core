@@ -530,6 +530,16 @@ class FieldType extends Addon
     }
 
     /**
+     * Get the value to index.
+     *
+     * @return string
+     */
+    public function getSearchableValue()
+    {
+        return (string)$this->getValue();
+    }
+
+    /**
      * Get the value to validate.
      *
      * @param  null $default
