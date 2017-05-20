@@ -49,15 +49,30 @@ class AssignmentFormFields
                     'instructions' => 'streams::assignment.unique.instructions',
                     'type'         => 'anomaly.field_type.boolean',
                 ],
+                'searchable'   => [
+                    'label'        => 'streams::assignment.searchable.label',
+                    'instructions' => 'streams::assignment.searchable.instructions',
+                    'type'         => 'anomaly.field_type.boolean',
+                ],
                 'translatable' => [
                     'label'        => 'streams::assignment.translatable.label',
                     'instructions' => 'streams::assignment.translatable.instructions',
                     'type'         => 'anomaly.field_type.boolean',
                     'warning'      => function (AssignmentFormBuilder $builder) {
 
+                        $stream = $builder->getStream();
+
+                        if ($stream && !$stream->isTranslatable()) {
+                            return 'streams::assignment.translatable.warning.stream';
+                        }
+
                         $type = $builder->getFieldType();
 
-                        return (!$type->getColumnType()) ? 'streams::assignment.translatable.warning' : null;
+                        if (!$type->getColumnType()) {
+                            return 'streams::assignment.translatable.warning.column_type';
+                        }
+
+                        return null;
                     },
                     'disabled'     => function (AssignmentFormBuilder $builder) {
 
