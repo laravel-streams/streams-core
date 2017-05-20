@@ -37,6 +37,13 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     protected $translatedAttributes = [];
 
     /**
+     * Searchable attributes.
+     *
+     * @var array
+     */
+    protected $searchableAttributes = [];
+
+    /**
      * The number of minutes to cache query results.
      *
      * @var null|false|int
@@ -455,6 +462,16 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
         return $this->translatedAttributes;
     }
 
+    /**
+     * Return searchable attributes.
+     *
+     * @return array
+     */
+    public function getSearchableAttributes()
+    {
+        return $this->searchableAttributes;
+    }
+
     public function getRelationKey()
     {
         return $this->translationForeignKey ?: $this->getForeignKey();
@@ -666,6 +683,11 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     protected function isTranslationAttribute($key)
     {
         return in_array($key, $this->translatedAttributes);
+    }
+
+    public function isSearchableAttribute($key)
+    {
+        return in_array($key, $this->searchableAttributes);
     }
 
     protected function isKeyALocale($key)
