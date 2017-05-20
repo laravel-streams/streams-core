@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Stream\StreamModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\JoinClause;
 
@@ -219,6 +220,8 @@ class EloquentQueryBuilder extends Builder
         if ($query->orders === null) {
             if ($model instanceof AssignmentModel) {
                 $query->orderBy('sort_order', 'ASC');
+//            } elseif ($model instanceof StreamModel) {
+//                $query->orderBy('sort_order', 'ASC');
             } elseif ($model instanceof EntryInterface) {
                 if ($model->getStream()->isSortable()) {
                     $query->orderBy('sort_order', 'ASC');
