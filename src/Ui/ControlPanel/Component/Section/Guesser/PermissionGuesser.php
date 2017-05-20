@@ -30,7 +30,9 @@ class PermissionGuesser
      */
     public function guess(ControlPanelBuilder $builder)
     {
-        $module = $this->modules->active();
+        if (!$module = $this->modules->active()) {
+            return;
+        }
 
         $sections = $builder->getSections();
 
