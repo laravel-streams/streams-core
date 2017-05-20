@@ -79,7 +79,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
      * but not all assignment are translatable. This helps avoid
      * the translatable conflict during specific procedures.
      *
-     * @param  array  $attributes
+     * @param  array $attributes
      * @return static
      */
     public static function create(array $attributes = [])
@@ -130,7 +130,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
     /**
      * Get the assignment's field's type.
      *
-     * @param  bool           $fresh
+     * @param  bool $fresh
      * @return FieldType|null
      */
     public function getFieldType($fresh = false)
@@ -351,6 +351,16 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
     }
 
     /**
+     * Get the searchable flag.
+     *
+     * @return bool
+     */
+    public function isSearchable()
+    {
+        return $this->getAttributeFromArray('searchable');
+    }
+
+    /**
      * Get the translatable flag.
      *
      * @return bool
@@ -404,7 +414,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
     }
 
     /**
-     * @param  array                $items
+     * @param  array $items
      * @return AssignmentCollection
      */
     public function newCollection(array $items = [])

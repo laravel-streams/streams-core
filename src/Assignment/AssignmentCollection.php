@@ -115,6 +115,20 @@ class AssignmentCollection extends EloquentCollection
     }
 
     /**
+     * Return only searchable assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function searchable()
+    {
+        return $this->filter(
+            function (AssignmentInterface $assignment) {
+                return $assignment->isSearchable();
+            }
+        );
+    }
+
+    /**
      * Return only assignments that have date fields.
      *
      * @return AssignmentCollection
