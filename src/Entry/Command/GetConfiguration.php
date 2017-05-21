@@ -66,6 +66,7 @@ class GetConfiguration
                 'extends'                 => 'EntryModel',
                 'traits'                  => '',
                 'properties'              => '',
+                'methods'                 => '',
             ],
 
             'templatePath' => __DIR__ . '/../../../resources/stubs/models/entry.stub',
