@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\Entry\Event\EntryIsGenerating;
 use Anomaly\Streams\Platform\Entry\Parser\EntryClassParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryDatesParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryRulesParser;
