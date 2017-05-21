@@ -49,6 +49,7 @@ class GenerateEntryModel
      * @param Filesystem  $files
      * @param Parser      $parser
      * @param Application $application
+     * @param Dispatcher $events
      */
     public function handle(Filesystem $files, Parser $parser, Application $application, Dispatcher $events)
     {
