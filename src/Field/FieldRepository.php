@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
-use Anomaly\Streams\Platform\Model\EloquentRepository;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
+use Anomaly\Streams\Platform\Model\EloquentRepository;
 
 class FieldRepository extends EloquentRepository implements FieldRepositoryInterface
 {
@@ -28,7 +28,7 @@ class FieldRepository extends EloquentRepository implements FieldRepositoryInter
     /**
      * Create a new field.
      *
-     * @param  array          $attributes
+     * @param  array $attributes
      * @return FieldInterface
      */
     public function create(array $attributes = [])
@@ -67,22 +67,36 @@ class FieldRepository extends EloquentRepository implements FieldRepositoryInter
      */
     public function cleanup()
     {
-        $fieldTypes = app('field_type.collection')->map(function (FieldType $fieldType) {
-            return $fieldType->getNamespace();
-        })->all();
+        $fieldTypes = app('field_type.collection')->map(
+            function (FieldType $fieldType) {
+                return $fieldType->getNamespace();
+            }
+        )->all();
 
-        $this->model
+        $fields = $this->model
             ->leftJoin('streams_streams', 'streams_fields.namespace', '=', 'streams_streams.namespace')
             ->whereNull('streams_streams.id')
-            ->delete();
+            ->get();
 
-        $this->model->where('slug', '')->delete();
-        $this->model->where('namespace', '')->delete();
-        $this->model->whereNotIn('type', $fieldTypes)->delete();
+        foreach ($fields as $field) {
+            $this->delete($field);
+        }
+
+        foreach ($this->model->where('slug', '')->get() as $field) {
+            $this->delete($field);
+        }
+
+        foreach ($this->model->where('namespace', '')->get() as $field) {
+            $this->delete($field);
+        }
+
+        foreach ($this->model->whereNotIn('type', $fieldTypes)->get() as $field) {
+            $this->delete($field);
+        }
 
         $translations = $this->model->getTranslationModel();
 
-        $translations
+        $translations = $translations
             ->leftJoin(
                 'streams_fields',
                 'streams_fields_translations.field_id',
@@ -90,6 +104,10 @@ class FieldRepository extends EloquentRepository implements FieldRepositoryInter
                 'streams_fields.id'
             )
             ->whereNull('streams_fields.id')
-            ->delete();
+            ->get();
+
+        foreach ($translations as $translation) {
+            $this->delete($translation);
+        }
     }
 }

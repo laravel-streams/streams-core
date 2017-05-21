@@ -37,7 +37,7 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
     /**
      * Create a new assignment.
      *
-     * @param  array               $attributes
+     * @param  array $attributes
      * @return AssignmentInterface
      */
     public function create(array $attributes = [])
@@ -50,8 +50,8 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
     /**
      * Find an assignment by stream and field.
      *
-     * @param  StreamInterface                        $stream
-     * @param  FieldInterface                         $field
+     * @param  StreamInterface $stream
+     * @param  FieldInterface  $field
      * @return null|AssignmentInterface|EloquentModel
      */
     public function findByStreamAndField(StreamInterface $stream, FieldInterface $field)
@@ -62,7 +62,7 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
     /**
      * Find all assignments by stream.
      *
-     * @param  StreamInterface      $stream
+     * @param  StreamInterface $stream
      * @return AssignmentCollection
      */
     public function findByStream(StreamInterface $stream)
@@ -75,16 +75,20 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
      */
     public function cleanup()
     {
-        $this->model
+        $assignments = $this->model
             ->leftJoin('streams_streams', 'streams_assignments.stream_id', '=', 'streams_streams.id')
             ->leftJoin('streams_fields', 'streams_assignments.field_id', '=', 'streams_fields.id')
             ->whereNull('streams_streams.id')
             ->orWhereNull('streams_fields.id')
-            ->delete();
+            ->get();
+
+        foreach ($assignments as $assignment) {
+            $this->delete($assignment);
+        }
 
         $translations = $this->model->getTranslationModel();
 
-        $translations
+        $translations = $translations
             ->leftJoin(
                 'streams_assignments',
                 'streams_assignments_translations.assignment_id',
@@ -92,6 +96,10 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
                 'streams_assignments.id'
             )
             ->whereNull('streams_assignments.id')
-            ->delete();
+            ->get();
+
+        foreach ($translations as $translation) {
+            $this->delete($translation);
+        }
     }
 }

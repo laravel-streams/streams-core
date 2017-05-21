@@ -154,7 +154,7 @@ class StreamRepository extends EloquentRepository implements StreamRepositoryInt
 
         $translations = $this->model->getTranslationModel();
 
-        $translations
+        $translations = $translations
             ->leftJoin(
                 'streams_streams',
                 'streams_streams_translations.stream_id',
@@ -162,6 +162,10 @@ class StreamRepository extends EloquentRepository implements StreamRepositoryInt
                 'streams_streams.id'
             )
             ->whereNull('streams_streams.id')
-            ->delete();
+            ->get();
+
+        foreach ($translations as $translation) {
+            $this->delete($translation);
+        }
     }
 }
