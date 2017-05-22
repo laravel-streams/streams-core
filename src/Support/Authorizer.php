@@ -1,9 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\UsersModule\Role\Contract\RoleInterface;
 use Anomaly\UsersModule\User\Contract\UserInterface;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
 
 /**
@@ -235,6 +236,58 @@ class Authorizer
     }
 
     /**
+     * Authorize a user against a role.
+     *
+     * @param RoleInterface  $role
+     * @param  UserInterface $user
+     * @return bool
+     */
+    public function authorizeRole(RoleInterface $role, UserInterface $user = null)
+    {
+        if (!$user) {
+            $user = $this->guard->user();
+        }
+
+        if (!$user) {
+            $user = $this->request->user();
+        }
+
+        if ($this->isGuest($role)) {
+            return $user ? false : true;
+        }
+
+        if (!$user) {
+            return false;
+        }
+
+        return $user->hasRole($role);
+    }
+
+    /**
+     * Authorize a user against any role.
+     *
+     * @param EloquentCollection $roles
+     * @param  UserInterface     $user
+     * @return bool
+     */
+    public function authorizeAnyRole(EloquentCollection $roles, UserInterface $user = null)
+    {
+        if (!$user) {
+            $user = $this->guard->user();
+        }
+
+        if (!$user) {
+            $user = $this->request->user();
+        }
+
+        if (!$user) {
+            return false;
+        }
+
+        return $user->hasAnyRole($roles);
+    }
+
+    /**
      * Get the guest role.
      *
      * @return RoleInterface
@@ -255,5 +308,19 @@ class Authorizer
         $this->guest = $guest;
 
         return $this;
+    }
+
+    /**
+     * Return whether a role is
+     * the guest role or not.
+     *
+     * @param RoleInterface $role
+     * @return bool
+     */
+    public function isGuest(RoleInterface $role)
+    {
+        $guest = $this->getGuest();
+
+        return $guest->getSlug() === $role->getSlug();
     }
 }

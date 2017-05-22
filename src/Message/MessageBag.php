@@ -67,7 +67,7 @@ class MessageBag
      * Get messages.
      *
      * @param $type
-     * @return bool
+     * @return array
      */
     public function get($type)
     {

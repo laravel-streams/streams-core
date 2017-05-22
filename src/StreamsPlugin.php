@@ -543,6 +543,19 @@ class StreamsPlugin extends Plugin
     }
 
     /**
+     * Returns a list of global variables
+     * to add to the existing variables.
+     *
+     * @return array
+     */
+    public function getGlobals()
+    {
+        return [
+            'app' => app(),
+        ];
+    }
+
+    /**
      * Return a URL.
      *
      * @param  null  $path

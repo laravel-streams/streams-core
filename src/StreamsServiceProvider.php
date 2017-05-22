@@ -380,6 +380,14 @@ class StreamsServiceProvider extends ServiceProvider
             return;
         }
 
+        $this->app->bind('twig.loader.viewfinder', function ($app) {
+            return $app->make('Anomaly\Streams\Platform\View\Twig\Loader', [
+                $this->app['files'],
+                $this->app['view']->getFinder(),
+                $this->app['twig.extension']
+            ]);
+        });
+
         /**
          * Correct path for Paginator.
          */
