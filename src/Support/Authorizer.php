@@ -272,6 +272,10 @@ class Authorizer
      */
     public function authorizeAnyRole(EloquentCollection $roles, UserInterface $user = null)
     {
+        if ($roles->isEmpty()) {
+            return true;
+        }
+        
         if (!$user) {
             $user = $this->guard->user();
         }
