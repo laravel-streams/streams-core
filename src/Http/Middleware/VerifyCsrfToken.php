@@ -129,8 +129,10 @@ class VerifyCsrfToken
             }
         }
 
-        // If the route disabled the
-        //CSRF then we can skip it.
+        /**
+         * If the route disabled the
+         * CSRF then we can skip it.
+         */
         if (array_get($this->route->getAction(), 'csrf') === false) {
             return true;
         }
