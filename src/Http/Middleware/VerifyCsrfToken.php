@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Foundation\Application;
 use Illuminate\Routing\Redirector;
+use Illuminate\Routing\Route;
 use Symfony\Component\HttpFoundation\Cookie;
 
 /**
@@ -24,6 +25,13 @@ class VerifyCsrfToken
      * @var \Illuminate\Foundation\Application
      */
     protected $app;
+
+    /**
+     * The active route.
+     *
+     * @var \Illuminate\Routing\Route
+     */
+    protected $route;
 
     /**
      * The encrypter implementation.
@@ -57,15 +65,22 @@ class VerifyCsrfToken
      * Create a new middleware instance.
      *
      * @param  \Illuminate\Foundation\Application         $app
+     * @param Route                                       $route
      * @param  \Illuminate\Contracts\Encryption\Encrypter $encrypter
      * @param MessageBag                                  $messages
      * @param Redirector                                  $redirector
      */
-    public function __construct(Application $app, Encrypter $encrypter, MessageBag $messages, Redirector $redirector)
-    {
+    public function __construct(
+        Application $app,
+        Route $route,
+        Encrypter $encrypter,
+        MessageBag $messages,
+        Redirector $redirector
+    ) {
         $this->except = config('streams::security.csrf.except', []);
 
         $this->app        = $app;
+        $this->route      = $route;
         $this->encrypter  = $encrypter;
         $this->messages   = $messages;
         $this->redirector = $redirector;
@@ -112,6 +127,12 @@ class VerifyCsrfToken
             if ($request->is($except)) {
                 return true;
             }
+        }
+
+        // If the route disabled the
+        //CSRF then we can skip it.
+        if (array_get($this->route->getAction(), 'csrf') === false) {
+            return true;
         }
 
         return false;
