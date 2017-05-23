@@ -63,6 +63,8 @@ class VerifyCsrfToken
      */
     public function __construct(Application $app, Encrypter $encrypter, MessageBag $messages, Redirector $redirector)
     {
+        $this->except = config('streams::security.csrf.except', []);
+
         $this->app        = $app;
         $this->encrypter  = $encrypter;
         $this->messages   = $messages;
