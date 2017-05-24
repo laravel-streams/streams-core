@@ -153,8 +153,121 @@ class ViewComposer
             return $view;
         }
 
+        $this->setPath($view);
+
         $this->events->fire(new ViewComposed($view));
 
         return $view;
     }
+
+    /**
+     * Set the view path.
+     *
+     * @param View $view
+     */
+    protected function setPath(View $view)
+    {
+        /**
+         * If view path is already in internal cache use it.
+         */
+        if ($path = array_get($this->cache, $view->getName())) {
+
+            $view->setPath($path);
+
+            return;
+        }
+
+        $mobile = $this->mobiles->get($this->theme->getNamespace(), []);
+
+        /**
+         * Merge system configured overrides
+         * with the overrides from the addon.
+         */
+        $overrides = array_merge(
+            $this->overrides->get($this->theme->getNamespace(), []),
+            config('streams.overrides', [])
+        );
+
+        $name = str_replace('theme::', $this->theme->getNamespace() . '::', $view->getName());
+
+        if ($this->mobile && $path = array_get($mobile, $name, null)) {
+            $view->setPath($path);
+        } elseif ($path = array_get($overrides, $name, null)) {
+            $view->setPath($path);
+        }
+
+        if ($this->module) {
+
+            $mobile    = $this->mobiles->get($this->module->getNamespace(), []);
+            $overrides = $this->overrides->get($this->module->getNamespace(), []);
+
+            if ($this->mobile && $path = array_get($mobile, $view->getName(), null)) {
+                $view->setPath($path);
+            } elseif ($path = array_get($overrides, $view->getName(), null)) {
+                $view->setPath($path);
+            } elseif ($path = array_get(config('streams.overrides'), $view->getName(), null)) {
+                $view->setPath($path);
+            }
+        }
+
+        if ($overload = $this->getOverloadPath($view)) {
+            $view->setPath($overload);
+        }
+
+        $this->cache[$view->getName()] = $view->getPath();
+    }
+
+    /**
+     * Get the override view path.
+     *
+     * @param  $view
+     * @return null|string
+     */
+    public function getOverloadPath(View $view)
+    {
+
+        /*
+         * We can only overload namespaced
+         * views right now.
+         */
+        if (!str_contains($view->getName(), '::')) {
+            return null;
+        }
+
+        /*
+         * Split the view into it's
+         * namespace and path.
+         */
+        list($namespace, $path) = explode('::', $view->getName());
+
+        $override = null;
+
+        $path = str_replace('.', '/', $path);
+
+        /*
+         * If the view is a streams view then
+         * it's real easy to guess what the
+         * override path should be.
+         */
+        if ($namespace == 'streams') {
+            $path = $this->theme->getNamespace('streams/' . $path);
+        }
+
+        /*
+         * If the view uses a dot syntax namespace then
+         * transform it all into the override view path.
+         */
+        if ($addon = $this->addons->get($namespace)) {
+            $override = $this->theme->getNamespace(
+                "addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/" . $path
+            );
+        }
+
+        if ($this->view->exists($override)) {
+            return $override;
+        }
+
+        return null;
+    }
+
 }
