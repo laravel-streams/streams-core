@@ -139,6 +139,7 @@ class Image
         'amount',
         'widen',
         'orientate',
+        'text',
     ];
 
     /**
