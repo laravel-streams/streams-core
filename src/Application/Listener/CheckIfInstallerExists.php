@@ -85,7 +85,7 @@ class CheckIfInstallerExists
             $this->request->path() == 'admin/dashboard' &&
             $this->modules->get('anomaly.module.installer')
         ) {
-            $this->session->set(__CLASS__ . 'warned', true);
+            $this->session->put(__CLASS__ . 'warned', true);
             $this->messages->error('streams::message.delete_installer');
         }
     }

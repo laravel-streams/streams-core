@@ -49,7 +49,7 @@ class MessageBag
 
         $messages = array_unique($messages);
 
-        $this->session->set($type, $messages);
+        $this->session->put($type, $messages);
     }
 
     /**

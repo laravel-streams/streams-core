@@ -37,7 +37,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
         $this->parser = app(Engine::class);
 
         if (defined('LOCALE')) {
-            $this->forceRootUrl($this->getRootUrl($this->getScheme(null)) . '/' . LOCALE);
+            $this->forceRootUrl($this->getRootUrl($this->formatScheme(null)) . '/' . LOCALE);
         }
     }
 
@@ -76,7 +76,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
             return $asset;
         }
 
-        $scheme = $this->getScheme($secure);
+        $scheme = $this->formatScheme($secure);
 
         $extra = $this->formatParameters($extra);
 
@@ -85,7 +85,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
         // Once we have the scheme we will compile the "tail" by collapsing the values
         // into a single string delimited by slashes. This just makes it convenient
         // for passing the array of parameters to this URL as a list of segments.
-        $root = $this->getRootUrl($scheme);
+        $root = $this->formatRoot($scheme);
 
         if (defined('LOCALE') && ends_with($root, $search = '/' . LOCALE)) {
             $root = substr_replace($root, '', strrpos($root, $search), strlen($search));
@@ -98,7 +98,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
             $query = '';
         }
 
-        return $this->trimUrl($root, $asset, $tail) . $query;
+        return $this->removeIndex($root) . $asset . $tail . $query;
     }
 
     /**
