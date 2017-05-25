@@ -20,5 +20,9 @@ return [
     'public_locale' => [
         'label'        => 'Offentligt språk',
         'instructions' => 'Vilket språk vill du använda för det <strong>offentliga</strong> innehållet?'
+    ],
+    'per_page'    => [
+        'label'        => 'Resultat Per Sida',
+        'instructions' => 'Ange hur många resultat du skulle vilja visa per sida.'
     ]
 ];

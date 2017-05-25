@@ -70,7 +70,9 @@ return [
         "string"  => ":attribute innehålla exakt :size karaktärer.",
         "array"   => ":attribute innehålla exakt :size föremål.",
     ],
+    "invalid"              => ":attribute är felaktigt.",
     "unique"               => ":attribute har redan tagits av någon annan.",
+    "unique_trash"         => ":attribute har redan tagits av ett slängt inlägg.",
     "url"                  => ":attribute formatet är ogiltigt.",
     "timezone"             => ":attribute måste vara en giltig tidszon.",
     /*
