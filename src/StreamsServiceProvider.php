@@ -70,7 +70,7 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     protected $providers = [
-        'Anomaly\Streams\Platform\StreamsConsoleProvider',
+        //'Anomaly\Streams\Platform\StreamsConsoleProvider',
         'Anomaly\Streams\Platform\StreamsEventProvider',
     ];
 
@@ -333,17 +333,17 @@ class StreamsServiceProvider extends ServiceProvider
         $this->commands(array_merge($this->commands, config('streams.commands', [])));
 
         /* @var Schedule $schedule */
-        $schedule = $this->app->make(Schedule::class);
-
-        foreach (array_merge($this->schedule, config('streams.schedule', [])) as $frequency => $commands) {
-            foreach (array_filter($commands) as $command) {
-                if (str_contains($frequency, ' ')) {
-                    $schedule->command($command)->cron($frequency);
-                } else {
-                    $schedule->command($command)->{camel_case($frequency)}();
-                }
-            }
-        }
+//        $schedule = $this->app->make(Schedule::class);
+//
+//        foreach (array_merge($this->schedule, config('streams.schedule', [])) as $frequency => $commands) {
+//            foreach (array_filter($commands) as $command) {
+//                if (str_contains($frequency, ' ')) {
+//                    $schedule->command($command)->cron($frequency);
+//                } else {
+//                    $schedule->command($command)->{camel_case($frequency)}();
+//                }
+//            }
+//        }
 
         /*
          * Change the default language path so
