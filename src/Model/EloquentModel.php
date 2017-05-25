@@ -351,6 +351,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      */
     public function getTranslations()
     {
+        /* @var EloquentModel $translation */
         foreach ($translations = $this->translations()->get() as $translation) {
             $translation->setRelation('parent', $this);
         }
@@ -849,6 +850,23 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
         $criteria = substr(get_class($this), 0, -5) . 'Criteria';
 
         return class_exists($criteria) ? $criteria : EloquentCriteria::class;
+    }
+
+    /**
+     * Hydrate models. This is taken
+     * from the base builder class.
+     *
+     * Not sure why we have to do this.
+     * Revisit and check it out as needed.
+     *
+     * @TODO Possible bug in Laravel 5.4?
+     *
+     * @param $models
+     * @return Collection
+     */
+    public function hydrate($models)
+    {
+        return $this->newQuery()->hydrate($models);
     }
 
     /**

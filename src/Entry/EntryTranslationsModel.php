@@ -106,7 +106,7 @@ class EntryTranslationsModel extends EloquentModel
      * Set the attribute.
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      */
     public function setAttribute($key, $value)
     {
@@ -175,7 +175,7 @@ class EntryTranslationsModel extends EloquentModel
      * Let the parent handle calls if they don't exist here.
      *
      * @param  string $name
-     * @param  array  $arguments
+     * @param  array $arguments
      * @return mixed
      */
     public function __call($name, $arguments)
