@@ -333,6 +333,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->commands(array_merge($this->commands, config('streams.commands', [])));
 
         /* @var Schedule $schedule */
+        // @todo: Broken as shit
 //        $schedule = $this->app->make(Schedule::class);
 //
 //        foreach (array_merge($this->schedule, config('streams.schedule', [])) as $frequency => $commands) {
