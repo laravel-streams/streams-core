@@ -6,9 +6,16 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableRepository;
 use Anomaly\Streams\Platform\Entry\EntryTableRepository;
 use Anomaly\Streams\Platform\Model\EloquentTableRepository;
-use Illuminate\Contracts\Container\Container;
+use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class SetRepository
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class SetRepository
 {
 
@@ -42,14 +49,15 @@ class SetRepository
          * no handler.
          */
         if (!$this->builder->getRepository()) {
+
             $model = $this->builder->getTableModel();
 
             if (!$this->builder->getRepository() && $model instanceof EntryModel) {
-                $this->builder->setRepository($container->make(EntryTableRepository::class, compact('model')));
+                $this->builder->setRepository($container->makeWith(EntryTableRepository::class, compact('model')));
             } elseif (!$this->builder->getRepository() && $model instanceof EloquentModel) {
-                $this->builder->setRepository($container->make(EloquentTableRepository::class, compact('model')));
+                $this->builder->setRepository($container->makeWith(EloquentTableRepository::class, compact('model')));
             } elseif (!$this->builder->getRepository() && $model instanceof Model) {
-                $this->builder->setRepository($container->make(TableRepository::class, compact('model')));
+                $this->builder->setRepository($container->makeWith(TableRepository::class, compact('model')));
             }
         }
     }

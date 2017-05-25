@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\EloquentFormRepository;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Container\Container;
+use Illuminate\Container\Container;
 
 /**
  * Class SetRepository
@@ -54,22 +54,22 @@ class SetRepository
             $repository = str_replace('FormBuilder', 'FormRepository', get_class($this->builder));
 
             if (!$this->builder->getRepository() && class_exists($repository)) {
-                $this->builder->setRepository($container->make($repository, compact('form', 'model')));
+                $this->builder->setRepository($container->makeWith($repository, compact('form', 'model')));
             } elseif (!$this->builder->getRepository() && $model instanceof EntryModel) {
                 $this->builder->setRepository(
-                    $container->make(EntryFormRepository::class, compact('form', 'model'))
+                    $container->makeWith(EntryFormRepository::class, compact('form', 'model'))
                 );
             } elseif (!$this->builder->getRepository() && $model instanceof EloquentModel) {
                 $this->builder->setRepository(
-                    $container->make(EloquentFormRepository::class, compact('form', 'model'))
+                    $container->makeWith(EloquentFormRepository::class, compact('form', 'model'))
                 );
             } elseif (!$this->builder->getRepository() && $entry instanceof EntryModel) {
                 $this->builder->setRepository(
-                    $container->make(EntryFormRepository::class, ['form' => $form, 'model' => $entry])
+                    $container->makeWith(EntryFormRepository::class, ['form' => $form, 'model' => $entry])
                 );
             } elseif (!$this->builder->getRepository() && $entry instanceof EloquentModel) {
                 $this->builder->setRepository(
-                    $container->make(EloquentFormRepository::class, ['form' => $form, 'model' => $entry])
+                    $container->makeWith(EloquentFormRepository::class, ['form' => $form, 'model' => $entry])
                 );
             }
         }
