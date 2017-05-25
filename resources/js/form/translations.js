@@ -20,5 +20,9 @@ $(function () {
 
         form.find('.form-group[lang]').addClass('hidden');
         form.find('.form-group[lang="' + locale + '"]').removeClass('hidden');
+        
+        localStorage.setItem('formTranslations', locale);
     });
+
+    $('[data-toggle="lang"][lang="' + localStorage.getItem('formTranslations') + '"]').first().click();
 });
