@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Illuminate\Contracts\Container\Container;
+use Illuminate\Container\Container;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -66,7 +66,7 @@ class EntryFactory
         /* @var EntryModel $model */
         $model = $this->container->make($model);
 
-        return $this->container->make(
+        return $this->container->makeWith(
             $model->getCriteriaName(),
             [
                 'query'  => $model->newQuery(),

@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Illuminate\Contracts\Container\Container;
+use Illuminate\Container\Container;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -63,7 +63,7 @@ class EloquentFactory
         $criteria = $model->getCriteriaName();
         $query    = $model->newQuery();
 
-        return $this->container->make(
+        return $this->container->makeWith(
             $criteria,
             [
                 'query'  => $query,
