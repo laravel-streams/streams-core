@@ -24,5 +24,7 @@ $(function () {
         localStorage.setItem('formTranslations', locale);
     });
 
-    $('[data-toggle="lang"][lang="' + localStorage.getItem('formTranslations') + '"]').first().click();
+    $(document).ready(function(){
+        $('[data-toggle="lang"][lang="' + localStorage.getItem('formTranslations') + '"]').first().click();
+    });
 });
