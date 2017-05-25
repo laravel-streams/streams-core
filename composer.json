@@ -10,10 +10,10 @@
     "require": {
         "laravel/framework": "5.4.*",
         "laravel/envoy": "1.2.*",
-        "laravel/scout": "2.0.*",
+        "laravel/scout": "3.0.*",
         "doctrine/dbal": "2.5.*",
         "intervention/image": "2.3.*",
-        "laravelcollective/html": "5.3.*",
+        "laravelcollective/html": "5.4.*",
         "twig/twig": "~1.0",
         "rcrowe/twigbridge": "0.9.*",
         "barryvdh/laravel-debugbar": "2.3.*",
