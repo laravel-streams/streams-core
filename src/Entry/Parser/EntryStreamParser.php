@@ -44,7 +44,7 @@ class EntryStreamParser
     {
         foreach ($stream->getAttributes() as $key => $value) {
             if (is_string($value)) {
-                $value = addslashes($value);
+                $value = addcslashes($value, "'");
             }
 
             $string .= "\n'{$key}' => '{$value}',";
