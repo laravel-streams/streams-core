@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
-use Illuminate\Contracts\Container\Container;
+use Illuminate\Container\Container;
 
 /**
  * Class HeaderFactory
@@ -48,7 +48,7 @@ class HeaderFactory
      */
     public function make(array $parameters)
     {
-        $header = $this->container->make(Header::class, $parameters);
+        $header = $this->container->makeWith(Header::class, $parameters);
 
         $this->hydrator->hydrate($header, $parameters);
 

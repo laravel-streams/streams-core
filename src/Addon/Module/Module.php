@@ -259,6 +259,6 @@ class Module extends Addon
      */
     public function getPresenter()
     {
-        return app()->make('Anomaly\Streams\Platform\Addon\Module\ModulePresenter', ['object' => $this]);
+        return app()->makeWith('Anomaly\Streams\Platform\Addon\Module\ModulePresenter', ['object' => $this]);
     }
 }

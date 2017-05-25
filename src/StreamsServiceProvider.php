@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform;
 
+use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Addon\Theme\Command\LoadCurrentTheme;
 use Anomaly\Streams\Platform\Application\Command\ConfigureFileCacheStore;
@@ -38,6 +39,7 @@ use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
 use Aptoma\Twig\Extension\MarkdownExtension;
 use Asm89\Twig\CacheExtension\Extension;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Container\Container;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -244,6 +246,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         $this->app->booted(
             function () use ($events) {
+
                 $events->fire(new Booted());
 
                 /* @var AddonManager $manager */
@@ -381,11 +384,11 @@ class StreamsServiceProvider extends ServiceProvider
             return;
         }
 
-        $this->app->bind('twig.loader.viewfinder', function ($app) {
-            return $app->make('Anomaly\Streams\Platform\View\Twig\Loader', [
-                $this->app['files'],
-                $this->app['view']->getFinder(),
-                $this->app['twig.extension']
+        $this->app->bind('twig.loader.viewfinder', function (Container $app) {
+            return $app->makeWith('Anomaly\Streams\Platform\View\Twig\Loader', [
+                'files' => $this->app['files'],
+                'finder' => $this->app['view']->getFinder(),
+                'extension' => $this->app['twig.extension']
             ]);
         });
 

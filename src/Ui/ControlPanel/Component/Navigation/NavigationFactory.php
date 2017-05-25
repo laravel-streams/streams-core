@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
-use Illuminate\Contracts\Container\Container;
+use Illuminate\Container\Container;
 
 /**
  * Class NavigationFactory
@@ -55,7 +55,7 @@ class NavigationFactory
      */
     public function make(array $parameters)
     {
-        $link = $this->container->make(array_get($parameters, 'link', $this->link), $parameters);
+        $link = $this->container->makeWith(array_get($parameters, 'link', $this->link), $parameters);
 
         $this->hydrator->hydrate($link, $parameters);
 

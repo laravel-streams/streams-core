@@ -50,6 +50,6 @@ class SetGridRepository
         /*
          * Set the repository on the form!
          */
-        $grid->setRepository(app()->make($repository, compact('model', 'grid')));
+        $grid->setRepository(app()->makeWith($repository, compact('model', 'grid')));
     }
 }

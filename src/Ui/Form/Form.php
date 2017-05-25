@@ -716,9 +716,9 @@ class Form implements PresentableInterface
         $presenter = get_class($this) . 'Presenter';
 
         if (class_exists($presenter)) {
-            return app()->make($presenter, ['object' => $this]);
+            return app()->makeWith($presenter, ['object' => $this]);
         }
 
-        return app()->make(FormPresenter::class, ['object' => $this]);
+        return app()->makeWith(FormPresenter::class, ['object' => $this]);
     }
 }

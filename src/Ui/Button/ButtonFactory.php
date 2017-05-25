@@ -91,7 +91,7 @@ class ButtonFactory
         }
 
         /* @var ButtonInterface $button */
-        $button = app()->make(array_get($parameters, 'button'), $parameters);
+        $button = app()->makeWith(array_get($parameters, 'button'), $parameters);
 
         $this->hydrator->hydrate($button, $parameters);
 

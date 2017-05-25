@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
-use Illuminate\Contracts\Container\Container;
+use Illuminate\Container\Container;
 
 /**
  * Class ViewFactory
@@ -60,7 +60,7 @@ class ViewFactory
         }
 
         $this->hydrator->hydrate(
-            $view = $this->container->make(array_get($parameters, 'view'), $parameters),
+            $view = $this->container->makeWith(array_get($parameters, 'view'), $parameters),
             $parameters
         );
 

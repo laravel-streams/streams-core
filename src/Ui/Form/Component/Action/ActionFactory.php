@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
-use Illuminate\Contracts\Container\Container;
+use Illuminate\Container\Container;
 
 /**
  * Class ActionFactory
@@ -48,7 +48,7 @@ class ActionFactory
      */
     public function make(array $parameters)
     {
-        $action = $this->container->make(array_get($parameters, 'action', Action::class), $parameters);
+        $action = $this->container->makeWith(array_get($parameters, 'action', Action::class), $parameters);
 
         $this->hydrator->hydrate($action, $parameters);
 

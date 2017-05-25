@@ -1002,7 +1002,7 @@ class FieldType extends Addon
             $this->presenter = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter';
         }
 
-        return app()->make($this->presenter, ['object' => $this]);
+        return app()->makeWith($this->presenter, ['object' => $this]);
     }
 
     /**
@@ -1100,7 +1100,7 @@ class FieldType extends Addon
             $this->schema = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeSchema';
         }
 
-        return app()->make($this->schema, ['fieldType' => $this]);
+        return app()->makeWith($this->schema, ['fieldType' => $this]);
     }
 
     /**
@@ -1131,7 +1131,7 @@ class FieldType extends Addon
             $this->parser = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeParser';
         }
 
-        return app()->make($this->parser, ['fieldType' => $this]);
+        return app()->makeWith($this->parser, ['fieldType' => $this]);
     }
 
     /**
@@ -1162,7 +1162,7 @@ class FieldType extends Addon
             $this->query = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery';
         }
 
-        return app()->make($this->query, [$this]);
+        return app()->makeWith($this->query, [$this]);
     }
 
     /**

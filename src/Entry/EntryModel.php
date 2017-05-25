@@ -799,7 +799,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $presenter = substr(get_class($this), 0, -5) . 'Presenter';
 
         if (class_exists($presenter)) {
-            return app()->make($presenter, ['object' => $this]);
+            return app()->makeWith($presenter, ['object' => $this]);
         }
 
         return new EntryPresenter($this);
@@ -834,7 +834,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function newRouter()
     {
-        return app()->make($this->getRouterName(), ['entry' => $this]);
+        return app()->makeWith($this->getRouterName(), ['entry' => $this]);
     }
 
     /**

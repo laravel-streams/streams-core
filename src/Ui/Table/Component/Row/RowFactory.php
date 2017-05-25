@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
-use Illuminate\Contracts\Container\Container;
+use Illuminate\Container\Container;
 
 /**
  * Class RowFactory
@@ -48,7 +48,7 @@ class RowFactory
      */
     public function make(array $parameters)
     {
-        $row = $this->container->make(Row::class, $parameters);
+        $row = $this->container->makeWith(Row::class, $parameters);
 
         $this->hydrator->hydrate($row, $parameters);
 

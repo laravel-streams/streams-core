@@ -59,6 +59,6 @@ class SetTreeRepository
         /*
          * Set the repository on the form!
          */
-        $tree->setRepository(app()->make($repository, compact('model', 'tree')));
+        $tree->setRepository(app()->makeWith($repository, compact('model', 'tree')));
     }
 }

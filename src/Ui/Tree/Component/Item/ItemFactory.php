@@ -38,7 +38,7 @@ class ItemFactory
      */
     public function make(array $parameters)
     {
-        $item = app()->make(Item::class, $parameters);
+        $item = app()->makeWith(Item::class, $parameters);
 
         $this->hydrator->hydrate($item, $parameters);
 

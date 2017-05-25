@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Grid\Component\Item\Contract\ItemInterface;
-use Illuminate\Contracts\Container\Container;
+use Illuminate\Container\Container;
 
 /**
  * Class ItemFactory
@@ -48,7 +48,7 @@ class ItemFactory
      */
     public function make(array $parameters)
     {
-        $item = $this->container->make(Item::class, $parameters);
+        $item = $this->container->makeWith(Item::class, $parameters);
 
         $this->hydrator->hydrate($item, $parameters);
 

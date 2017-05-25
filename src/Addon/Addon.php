@@ -68,7 +68,7 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function getPresenter()
     {
-        return app()->make('Anomaly\Streams\Platform\Addon\AddonPresenter', ['object' => $this]);
+        return app()->makeWith('Anomaly\Streams\Platform\Addon\AddonPresenter', ['object' => $this]);
     }
 
     /**
@@ -78,7 +78,7 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function newServiceProvider()
     {
-        return app()->make($this->getServiceProvider(), [app(), $this]);
+        return app()->makeWith($this->getServiceProvider(), [app(), $this]);
     }
 
     /**

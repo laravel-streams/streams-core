@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
-use Illuminate\Contracts\Container\Container;
+use Illuminate\Container\Container;
 
 /**
  * Class SectionFactory
@@ -53,7 +53,7 @@ class SectionFactory
      */
     public function make(array $parameters)
     {
-        $section = $this->container->make(array_get($parameters, 'section', $this->section), $parameters);
+        $section = $this->container->makeWith(array_get($parameters, 'section', $this->section), $parameters);
 
         $this->hydrator->hydrate($section, $parameters);
 
