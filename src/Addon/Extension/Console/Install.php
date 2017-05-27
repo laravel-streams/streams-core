@@ -6,7 +6,6 @@ use Anomaly\Streams\Platform\Addon\Extension\ExtensionManager;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Exception;
 
 /**
  * Class Install
@@ -44,7 +43,7 @@ class Install extends Command
         $extension = $extensions->get($this->argument('extension'));
 
         if (!$extension) {
-            throw new Exception('Extension ' . $this->argument('extension') . ' does not exist.');
+            throw new \Exception('Extension [' . $this->argument('extension') . '] does not exist.');
         }
 
         $manager->install($extension, $this->option('seed'));

@@ -6,7 +6,6 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleManager;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Exception;
 
 /**
  * Class Install
@@ -44,7 +43,7 @@ class Install extends Command
         $module = $modules->get($this->argument('module'));
 
         if (!$module) {
-            throw new Exception('Module ' . $this->argument('module') . ' does not exist.');
+            throw new \Exception('Module [' . $this->argument('module') . '] does not exist.');
         }
 
         $manager->install($module, $this->option('seed'));
