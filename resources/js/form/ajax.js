@@ -19,6 +19,10 @@ $(function () {
 
                 return false;
             }
+            
+            if (!data.redirect) {
+                return;
+            }
 
             window.location = data.redirect;
         });
