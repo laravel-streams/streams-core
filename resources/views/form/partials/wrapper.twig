@@ -9,7 +9,7 @@
             ">
 
     {% if field_type.object.label != false and field_type.config.disable_label != true %}
-        <label class="control-label">
+        <label class="control-label"  title="{{ field_type.getInputName() }}">
             {{ field_type.object.label|raw }}
 
             {% if field_type.required %}
