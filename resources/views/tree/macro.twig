@@ -2,6 +2,9 @@
     {% for item in items %}
         <li data-id="{{ item.id }}">
             <div class="card">
+                <div class="expander btn btn-secondary">
+                    <div class="inner"></div>
+                </div>
 
                 {% if tree.options.get('sortable', true) %}
                     {{ icon('bars', 'handle btn btn-xs') }}
