@@ -16,6 +16,13 @@ use Laravel\Scout\ModelObserver;
 use Laravel\Scout\Searchable;
 use Robbo\Presenter\PresentableInterface;
 
+/**
+ * Class EntryModel
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface
 {
 
@@ -588,6 +595,32 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Return required assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getRequiredAssignments()
+    {
+        $stream      = $this->getStream();
+        $assignments = $stream->getAssignments();
+
+        return $assignments->required();
+    }
+
+    /**
+     * Return searchable assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getSearchableAssignments()
+    {
+        $stream      = $this->getStream();
+        $assignments = $stream->getAssignments();
+
+        return $assignments->searchable();
+    }
+
+    /**
      * Get the translatable flag.
      *
      * @return bool
@@ -710,6 +743,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         /* @var AssignmentInterface $assignment */
         foreach ($assignments->notTranslatable() as $assignment) {
+
             $fieldType = $assignment->getFieldType();
 
             $fieldType->setValue($this->getRawAttribute($assignment->getFieldSlug()));
@@ -869,13 +903,21 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function toSearchableArray()
     {
-        $array = $this->toArray();
+        $array = [
+            'id' => $this->getId(),
+        ];
 
-        foreach ($array as $key => &$value) {
-            if (is_array($value)) {
-                $value = json_encode($value);
+        $searchable = $this->searchableAttributes ?: $this->getAssignmentFieldSlugs();
+
+        foreach ($searchable as $field) {
+
+            if (!in_array($field, $searchable)) {
                 continue;
             }
+
+            $array[$field] = (string)$this
+                ->getFieldType($field)
+                ->getSearchableValue();
         }
 
         return $array;

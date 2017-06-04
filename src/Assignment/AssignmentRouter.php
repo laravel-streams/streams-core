@@ -33,27 +33,28 @@ class AssignmentRouter
     /**
      * Register field routes.
      *
-     * @param Addon $addon
-     * @param       $controller
-     * @param       $stream
-     * @param null  $prefix
+     * @param Addon  $addon
+     * @param        $controller
+     * @param null   $prefix
+     * @param string $base
+     * @internal param $stream
      */
-    public function route(Addon $addon, $controller, $prefix = null)
+    public function route(Addon $addon, $controller, $prefix = null, $base = '/assignments')
     {
         $prefix = $prefix ?: 'admin/' . $addon->getSlug();
 
         $routes = [
-            $prefix . '/assignments/{stream}'           => [
+            $prefix . $base . '/{stream}'               => [
                 'as'             => $addon->getNamespace('assignments.index'),
                 'uses'           => $controller . '@index',
                 'streams::addon' => $addon->getNamespace(),
             ],
-            $prefix . '/assignments/{stream}/choose'    => [
+            $prefix . $base . '/{stream}/choose'        => [
                 'as'             => $addon->getNamespace('assignments.choose'),
                 'uses'           => $controller . '@choose',
                 'streams::addon' => $addon->getNamespace(),
             ],
-            $prefix . '/assignments/{stream}/create'    => [
+            $prefix . $base . '/{stream}/create'        => [
                 'as'             => $addon->getNamespace('assignments.create'),
                 'uses'           => $controller . '@create',
                 'streams::addon' => $addon->getNamespace(),

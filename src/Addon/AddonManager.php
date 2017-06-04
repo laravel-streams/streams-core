@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
 use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
@@ -35,6 +36,13 @@ class AddonManager
      * @var AddonLoader
      */
     protected $loader;
+
+    /**
+     * The service container.
+     *
+     * @var Container
+     */
+    protected $container;
 
     /**
      * The addon integrator.
@@ -70,6 +78,7 @@ class AddonManager
      * @param AddonPaths      $paths
      * @param AddonLoader     $loader
      * @param ModuleModel     $modules
+     * @param Container       $container
      * @param Dispatcher      $dispatcher
      * @param ExtensionModel  $extensions
      * @param AddonIntegrator $integrator
@@ -79,6 +88,7 @@ class AddonManager
         AddonPaths $paths,
         AddonLoader $loader,
         ModuleModel $modules,
+        Container $container,
         Dispatcher $dispatcher,
         ExtensionModel $extensions,
         AddonIntegrator $integrator,
@@ -88,6 +98,7 @@ class AddonManager
         $this->addons     = $addons;
         $this->loader     = $loader;
         $this->modules    = $modules;
+        $this->container  = $container;
         $this->integrator = $integrator;
         $this->dispatcher = $dispatcher;
         $this->extensions = $extensions;
@@ -100,6 +111,19 @@ class AddonManager
     {
         $enabled   = $this->getEnabledAddonNamespaces();
         $installed = $this->getInstalledAddonNamespaces();
+
+        $this->container->bind(
+            'streams::addons.enabled',
+            function () use ($enabled) {
+                return $enabled;
+            }
+        );
+        $this->container->bind(
+            'streams::addons.installed',
+            function () use ($installed) {
+                return $installed;
+            }
+        );
 
         $paths = $this->paths->all();
 

@@ -189,6 +189,28 @@ class ControlPanelBuilder
     }
 
     /**
+     * Add a navigation item.
+     *
+     * @param        $slug
+     * @param  array $section
+     * @param null   $position
+     * @return $this
+     */
+    public function addNavigation($slug, array $item, $position = null)
+    {
+        if ($position === null) {
+            $position = count($this->navigation) + 1;
+        }
+
+        $front = array_slice($this->navigation, 0, $position, true);
+        $back  = array_slice($this->navigation, $position, count($this->navigation) - $position, true);
+
+        $this->navigation = $front + [$slug => $item] + $back;
+
+        return $this;
+    }
+
+    /**
      * Return the active control panel section.
      *
      * @return Component\Section\Contract\SectionInterface|null

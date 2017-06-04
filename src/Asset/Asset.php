@@ -118,7 +118,7 @@ class Asset
     /**
      * The config repository.
      *
-     * @var array
+     * @var Repository
      */
     protected $config;
 
@@ -720,6 +720,10 @@ class Asset
             return true;
         }
 
+        if ($this->request->isNoCache() && $this->lastModifiedAt('theme::') > filemtime($path)) {
+            return true;
+        }
+
         // Merge filters from collection files.
         foreach ($this->collections[$collection] as $fileFilters) {
             $filters = array_filter(array_unique(array_merge($filters, $fileFilters)));
@@ -733,6 +737,21 @@ class Asset
         }
 
         return true;
+    }
+
+    /**
+     * Get the last modified time.
+     *
+     * @return integer
+     */
+    public function lastModifiedAt($path)
+    {
+        $files = glob($this->paths->realPath($path) . '/*');
+        $files = array_combine($files, array_map("filemtime", $files));
+
+        arsort($files);
+
+        return array_shift($files);
     }
 
     /**

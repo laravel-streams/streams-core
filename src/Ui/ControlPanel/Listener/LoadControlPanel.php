@@ -79,10 +79,6 @@ class LoadControlPanel
             return;
         }
 
-        if (!$this->modules->active()) {
-            return;
-        }
-
         $this->template->put('cp', $this->controlPanel->build());
     }
 }

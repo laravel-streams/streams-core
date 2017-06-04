@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Stream\StreamModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\JoinClause;
 
@@ -53,7 +54,7 @@ class EloquentQueryBuilder extends Builder
 
         $this->orderByDefault();
 
-        if (PHP_SAPI != 'cli' && env('DB_CACHE') && $this->model->getTtl()) {
+        if (PHP_SAPI != 'cli' && env('DB_CACHE') !== false && $this->model->getTtl()) {
 
             $this->rememberIndex();
 
@@ -218,7 +219,7 @@ class EloquentQueryBuilder extends Builder
 
         if ($query->orders === null) {
             if ($model instanceof AssignmentModel) {
-                $query->orderBy('sort_order', 'ASC');
+                $query->orderBy('streams_assignments.sort_order', 'ASC');
             } elseif ($model instanceof EntryInterface) {
                 if ($model->getStream()->isSortable()) {
                     $query->orderBy('sort_order', 'ASC');

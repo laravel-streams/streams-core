@@ -25,6 +25,8 @@ class FieldFormButtons
     public function handle(FieldFormBuilder $builder, ModuleCollection $modules, Route $route, UrlGenerator $url)
     {
         $module = $modules->active();
+        $field  = $builder->getFormEntry();
+        $type   = $field->getType();
 
         $builder->setButtons(
             [
@@ -32,6 +34,8 @@ class FieldFormButtons
                 'change' => [
                     'data-toggle' => 'modal',
                     'data-target' => '#modal',
+                    'disabled'    => $builder->getFormMode() == 'edit'
+                        && !$type->getColumnType(),
                     'enabled'     => $builder->getFormMode() == 'edit'
                         && $module
                         && $url->hasRoute($module->getNamespace('fields.change')),

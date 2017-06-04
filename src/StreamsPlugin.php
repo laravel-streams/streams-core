@@ -168,6 +168,7 @@ class StreamsPlugin extends Plugin
      * @param Store        $session
      * @param Currency     $currency
      * @param Template     $template
+     * @param Translator   $translator
      */
     public function __construct(
         UrlGenerator $url,
@@ -182,21 +183,23 @@ class StreamsPlugin extends Plugin
         Request $request,
         Store $session,
         Currency $currency,
-        Template $template
+        Template $template,
+        Translator $translator
     ) {
-        $this->url      = $url;
-        $this->str      = $str;
-        $this->auth     = $auth;
-        $this->yaml     = $yaml;
-        $this->agent    = $agent;
-        $this->asset    = $asset;
-        $this->image    = $image;
-        $this->router   = $router;
-        $this->config   = $config;
-        $this->request  = $request;
-        $this->session  = $session;
-        $this->currency = $currency;
-        $this->template = $template;
+        $this->url        = $url;
+        $this->str        = $str;
+        $this->auth       = $auth;
+        $this->yaml       = $yaml;
+        $this->agent      = $agent;
+        $this->asset      = $asset;
+        $this->image      = $image;
+        $this->router     = $router;
+        $this->config     = $config;
+        $this->request    = $request;
+        $this->session    = $session;
+        $this->currency   = $currency;
+        $this->template   = $template;
+        $this->translator = $translator;
 
         $this->route = $request->route();
     }
@@ -495,6 +498,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction('auth_check', [$this->auth, 'check']),
             new \Twig_SimpleFunction('auth_guest', [$this->auth, 'guest']),
             new \Twig_SimpleFunction('trans_exists', [$this->translator, 'exists']),
+            new \Twig_SimpleFunction('trans_choice', [$this->translator, 'choice']),
             new \Twig_SimpleFunction('message_get', [$this->session, 'pull']),
             new \Twig_SimpleFunction('message_exists', [$this->session, 'has']),
             new \Twig_SimpleFunction('session', [$this->session, 'get']),
@@ -535,6 +539,19 @@ class StreamsPlugin extends Plugin
                     return call_user_func_array([$this->str, camel_case($name)], $arguments);
                 }
             ),
+        ];
+    }
+
+    /**
+     * Returns a list of global variables
+     * to add to the existing variables.
+     *
+     * @return array
+     */
+    public function getGlobals()
+    {
+        return [
+            'app' => app(),
         ];
     }
 

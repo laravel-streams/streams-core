@@ -273,6 +273,20 @@ interface EntryInterface
     public function getRelationshipAssignments();
 
     /**
+     * Return required assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getRequiredAssignments();
+
+    /**
+     * Return searchable assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getSearchableAssignments();
+
+    /**
      * Get a specified relationship.
      *
      * @param  string $relation

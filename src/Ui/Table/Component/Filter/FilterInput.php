@@ -43,9 +43,9 @@ class FilterInput
     /**
      * Create a new FilterInput instance.
      *
-     * @param FilterLookup $lookup
-     * @param FilterGuesser $guesser
-     * @param FilterResolver $resolver
+     * @param FilterLookup     $lookup
+     * @param FilterGuesser    $guesser
+     * @param FilterResolver   $resolver
      * @param FilterNormalizer $normalizer
      */
     public function __construct(

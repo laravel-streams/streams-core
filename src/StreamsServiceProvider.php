@@ -160,6 +160,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Addon\AddonLoader'                                         => 'Anomaly\Streams\Platform\Addon\AddonLoader',
         'Anomaly\Streams\Platform\Addon\AddonBinder'                                         => 'Anomaly\Streams\Platform\Addon\AddonBinder',
         'Anomaly\Streams\Platform\Addon\AddonManager'                                        => 'Anomaly\Streams\Platform\Addon\AddonManager',
+        'Anomaly\Streams\Platform\Addon\AddonProvider'                                       => 'Anomaly\Streams\Platform\Addon\AddonProvider',
         'Anomaly\Streams\Platform\Addon\AddonCollection'                                     => 'Anomaly\Streams\Platform\Addon\AddonCollection',
         'Anomaly\Streams\Platform\Message\MessageBag'                                        => 'Anomaly\Streams\Platform\Message\MessageBag',
         'Anomaly\Streams\Platform\Stream\StreamStore'                                        => 'Anomaly\Streams\Platform\Stream\StreamStore',
@@ -378,6 +379,14 @@ class StreamsServiceProvider extends ServiceProvider
 
             return;
         }
+
+        $this->app->bind('twig.loader.viewfinder', function ($app) {
+            return $app->make('Anomaly\Streams\Platform\View\Twig\Loader', [
+                $this->app['files'],
+                $this->app['view']->getFinder(),
+                $this->app['twig.extension']
+            ]);
+        });
 
         /**
          * Correct path for Paginator.

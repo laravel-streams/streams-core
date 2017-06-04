@@ -139,6 +139,7 @@ class Image
         'amount',
         'widen',
         'orientate',
+        'text',
     ];
 
     /**
@@ -640,7 +641,8 @@ class Image
             $this->addAlteration('interlace');
         }
 
-        if (!$this->getAlterations() && $content = $this->dumpImage()) {
+        if (!$this->getAlterations() && !$this->getQuality() && $content = $this->dumpImage()) {
+
             $this->files->put($path, $content);
 
             return;
@@ -651,11 +653,13 @@ class Image
         }
 
         foreach ($this->getAlterations() as $method => $arguments) {
+
             if ($method == 'resize') {
                 $this->guessResizeArguments($arguments);
             }
 
             if (in_array($method, $this->getAllowedMethods())) {
+
                 if (is_array($arguments)) {
                     call_user_func_array([$image, $method], $arguments);
                 } else {
@@ -1142,7 +1146,7 @@ class Image
     public function getQuality($default = null)
     {
         if (!$default) {
-            $this->quality = $this->config->get('streams::images.quality', 80);
+            $default = $this->config->get('streams::images.quality', 80);
         }
 
         return $this->quality ?: $default;
