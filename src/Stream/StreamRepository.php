@@ -82,7 +82,11 @@ class StreamRepository extends EloquentRepository implements StreamRepositoryInt
      */
     public function findBySlugAndNamespace($slug, $namespace)
     {
-        return $this->model->where('slug', $slug)->where('namespace', $namespace)->first();
+        return $this->model
+            ->where('slug', $slug)
+            ->where('namespace', $namespace)
+            ->orderBy('id', 'ASC')
+            ->first();
     }
 
     /**
