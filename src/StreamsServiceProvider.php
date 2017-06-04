@@ -72,7 +72,7 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     protected $providers = [
-        //'Anomaly\Streams\Platform\StreamsConsoleProvider',
+        'Anomaly\Streams\Platform\StreamsConsoleProvider',
         'Anomaly\Streams\Platform\StreamsEventProvider',
     ];
 
