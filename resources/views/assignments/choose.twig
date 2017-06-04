@@ -13,7 +13,7 @@
         <ul class="nav nav-pills nav-stacked">
             {% for field in fields %}
                 <li class="nav-item">
-                    <a href="{{ url_route(module.getNamespace('assignments.create'), {'stream': route_parameter('stream')}) ~ '?field=' ~ field.id }}"
+                    <a href="{{ route_uri(module.getNamespace('assignments.create'), {'stream': route_parameter('stream')}) ~ '?field=' ~ field.id }}"
                        class="nav-link">
                         <strong>{{ trans(field.name) }}</strong>
                     </a>
