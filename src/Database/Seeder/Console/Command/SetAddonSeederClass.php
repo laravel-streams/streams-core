@@ -43,9 +43,11 @@ class SetAddonSeederClass
      */
     public function handle(AddonCollection $addons)
     {
-        if (!$addon = $this->input->getOption('addon')) {
+        if (!$this->input->hasOption('addon')) {
             return;
         }
+
+        $addon = $this->input->getOption('addon');
 
         if (!$addon = $this->dispatch(new GetAddon($addon))) {
             throw new \Exception("$identifier addon could not be found.");
