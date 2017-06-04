@@ -12,8 +12,8 @@ class StreamsConsoleProvider extends ConsoleSupportServiceProvider
      * @todo: Broken as shit
      */
     protected $providers = [
-        //'Illuminate\Database\SeedServiceProvider',
-        //'Illuminate\Queue\ConsoleServiceProvider',
+        'Illuminate\Database\DatabaseServiceProvider',
+        'Illuminate\Queue\QueueServiceProvider',
         //'Illuminate\Console\ScheduleServiceProvider',
         'Illuminate\Database\MigrationServiceProvider',
         'Illuminate\Foundation\Providers\ArtisanServiceProvider',
