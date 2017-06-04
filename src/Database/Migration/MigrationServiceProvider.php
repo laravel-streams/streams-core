@@ -150,4 +150,18 @@ class MigrationServiceProvider extends BaseMigrationServiceProvider
             }
         );
     }
+    
+    /**
+     * Register all
+     */
+    public function register()
+    {
+        $this->registerRepository();
+        $this->registerMigrator();
+        $this->registerMakeCommand();
+        $this->registerMigrateCommand();
+        $this->registerResetCommand();
+        $this->registerRefreshCommand();
+        $this->registerRollbackCommand();
+    }
 }
