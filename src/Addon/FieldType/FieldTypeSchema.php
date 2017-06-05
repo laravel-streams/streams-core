@@ -183,7 +183,7 @@ class FieldTypeSchema
          * then we need to remove.
          */
         if (!$assignment->isUnique() && !$assignment->isTranslatable() && $doctrine->hasIndex($unique)) {
-            $column->dropIndex(md5('unique_' . $table->getTable() . '_' . $this->fieldType->getColumnName()));
+            $table->dropIndex($unique);
         }
     }
 
