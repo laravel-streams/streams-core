@@ -4,13 +4,13 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Http\Request;
 
 /**
- * Class EnabledGuesser
+ * Class DisabledGuesser
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class EnabledGuesser
+class DisabledGuesser
 {
 
     /**
@@ -21,7 +21,7 @@ class EnabledGuesser
     protected $request;
 
     /**
-     * Create a new EnabledGuesser instance.
+     * Create a new DisabledGuesser instance.
      *
      * @param Request $request
      */
@@ -42,15 +42,15 @@ class EnabledGuesser
 
         foreach ($buttons as &$button) {
 
-            if (!isset($button['enabled'])) {
+            if (!isset($button['disabled'])) {
                 continue;
             }
 
-            if (is_bool($button['enabled'])) {
+            if (is_bool($button['disabled'])) {
                 continue;
             }
 
-            $button['enabled'] = ($mode === $button['enabled']);
+            $button['disabled'] = ($mode === $button['disabled']);
         }
 
         $builder->setButtons($buttons);
