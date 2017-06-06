@@ -193,10 +193,10 @@ class FieldTypeSchema
          * and the table DOES have the given table index
          * then we need to remove.
          */
-        $oldUnique = md5('unique_' . $table->getTable() . '_' . $this->fieldType->getColumnName());
+        $unique = md5('unique_' . $table->getTable() . '_' . $this->fieldType->getColumnName());
 
-        if (!$assignment->isUnique() && !$assignment->isTranslatable() && $doctrine->hasIndex($oldUnique)) {
-            $table->dropIndex($oldUnique);
+        if (!$assignment->isUnique() && !$assignment->isTranslatable() && $doctrine->hasIndex($unique)) {
+            $table->dropIndex($unique);
         }
     }
 
