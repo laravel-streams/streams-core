@@ -15,7 +15,7 @@ use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityPresenter;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityRepository;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityRepositoryInterface;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityRouter;
-use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityRoutes;
+// use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityRoutes;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntitySeeder;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityTableBuilder;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityTestCases;
@@ -68,7 +68,7 @@ class Make extends Command
         }
 
         $this->dispatch(new WriteEntityModel($addon, $slug, $namespace));
-        $this->dispatch(new WriteEntityRoutes($addon, $slug, $namespace));
+        // $this->dispatch(new WriteEntityRoutes($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityRouter($addon, $slug, $namespace));
         $this->dispatch(new WriteEntitySeeder($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityFactory($addon, $slug, $namespace));
