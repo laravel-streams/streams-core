@@ -44,8 +44,3 @@
 
 {# Important!! #}
 {{ constants() }}
-
-{# Include Styles Loaded From Outside #}
-{% for style in asset_styles("styles.css") %}
-    {{ style|raw }}
-{% endfor %}
