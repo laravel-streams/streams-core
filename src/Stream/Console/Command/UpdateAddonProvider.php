@@ -1,7 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Console\Command;
 
 use Anomaly\Streams\Platform\Addon\Addon;
+use Anomaly\Streams\Platform\Stream\Command\GetUninstalledStreams;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class UpdateAddonProvider
@@ -14,6 +16,8 @@ use Illuminate\Filesystem\Filesystem;
  */
 class UpdateAddonProvider
 {
+
+    use DispatchesJobs;
 
     /**
      * The entity slug.
@@ -62,21 +66,28 @@ class UpdateAddonProvider
         $entity = str_singular($suffix);
 
         // Addon values
-        $slug   = ucfirst($this->addon->getSlug());
-        $vendor = ucfirst($this->addon->getVendor());
+        $addon  = $this->addon->getSlug();
+        $slug   = ucfirst($addon);
         $type   = ucfirst($this->addon->getType());
+        $vendor = ucfirst($this->addon->getVendor());
 
-        $prefix = "{$vendor}\\{$slug}{$type}\\{$entity}";
+        $streams = $this->dispatch(new GetUninstalledStreams($this->addon));
+
+        $segment    = (count($streams)) ? "/{$this->slug}" : '';
+        $prefix     = "{$vendor}\\{$slug}{$type}";
+        $controller = "{$prefix}\\Http\\Controller\\Admin\\{$suffix}Controller";
 
         $path = $this->addon->getPath("src/{$slug}{$type}ServiceProvider.php");
 
+        // Write uses
         $uses = "use Anomaly\\Streams\\Platform\\Model\\{$slug}\\{$slug}{$suffix}EntryModel;\n";
-        $uses .= "use {$prefix}\\Contract\\{$entity}RepositoryInterface;\n";
-        $uses .= "use {$prefix}\\{$entity}Model;\n";
-        $uses .= "use {$prefix}\\{$entity}Repository;\n";
+        $uses .= "use {$prefix}\\{$entity}\\Contract\\{$entity}RepositoryInterface;\n";
+        $uses .= "use {$prefix}\\{$entity}\\{$entity}Model;\n";
+        $uses .= "use {$prefix}\\{$entity}\\{$entity}Repository;\n";
 
         $this->putInFile($filesystem, $path, '/use.*;\n/i', $uses);
 
+        // Write bindings
         $this->putInFile(
             $filesystem,
             $path,
@@ -88,6 +99,14 @@ class UpdateAddonProvider
         $this->putInFile(
             $filesystem,
             $path,
+            '/protected \$bindings = \[\n/i',
+            "        {$slug}{$suffix}EntryModel::class => {$entity}Model::class,\n"
+        );
+
+        // Write singletons
+        $this->putInFile(
+            $filesystem,
+            $path,
             '/protected \$singletons = \[\]/i',
             "protected \$singletons = [\n    ]",
             true
@@ -96,16 +115,24 @@ class UpdateAddonProvider
         $this->putInFile(
             $filesystem,
             $path,
-            '/protected \$bindings = \[\n/i',
-            "        {$slug}{$suffix}EntryModel::class => {$entity}Model::class,\n"
+            '/protected \$singletons = \[\n/i',
+            "        {$entity}RepositoryInterface::class => {$entity}Repository::class,\n"
         );
+
+        // Write routes
+        $routes = "        'admin/{$addon}{$segment}'           => '{$controller}@index',\n";
+        $routes .= "        'admin/{$addon}{$segment}/create'    => '{$controller}@create',\n";
+        $routes .= "        'admin/{$addon}{$segment}/edit/{id}' => '{$controller}@edit',\n";
 
         $this->putInFile(
             $filesystem,
             $path,
-            '/protected \$singletons = \[\n/i',
-            "        {$entity}RepositoryInterface::class => {$entity}Repository::class,\n"
+            '/protected \$routes = \[\]/i',
+            "protected \$routes = [\n    ]",
+            true
         );
+
+        $this->putInFile($filesystem, $path, '/protected \$routes = \[\n/i', $routes);
     }
 
     /**
@@ -131,5 +158,4 @@ class UpdateAddonProvider
 
         return $filesystem->put($path, $new_contents);
     }
-
 }
