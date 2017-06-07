@@ -5,32 +5,93 @@ use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
 class {provider} extends AddonServiceProvider
 {
 
+    /**
+     * Addon plugins
+     *
+     * @type array|null
+     */
     protected $plugins = [];
 
+    /**
+     * Addon commands
+     *
+     * @type array|null
+     */
     protected $commands = [];
 
+    /**
+     * Addon routes
+     *
+     * @type array|null
+     */
     protected $routes = [];
 
+    /**
+     * Addon middleware
+     *
+     * @type array|null
+     */
     protected $middleware = [];
 
+    /**
+     * Addon listeners
+     *
+     * @type array|null
+     */
     protected $listeners = [];
 
+    /**
+     * Addon aliases
+     *
+     * @type array|null
+     */
     protected $aliases = [];
 
+    /**
+     * Addon bindings
+     *
+     * @type array|null
+     */
     protected $bindings = [];
 
+    /**
+     * Addon providers
+     *
+     * @type array|null
+     */
     protected $providers = [];
 
+    /**
+     * Addon singletons
+     *
+     * @type array|null
+     */
     protected $singletons = [];
 
+    /**
+     * Addon overrides
+     *
+     * @type array|null
+     */
     protected $overrides = [];
 
+    /**
+     * Addon mobile
+     *
+     * @type array|null
+     */
     protected $mobile = [];
 
+    /**
+     * Register the addon
+     */
     public function register()
     {
     }
 
+    /**
+     * Map the addon
+     */
     public function map()
     {
     }
