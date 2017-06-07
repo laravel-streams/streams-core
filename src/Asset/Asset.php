@@ -548,7 +548,7 @@ class Asset
      */
     protected function transformFilters($filters, $hint)
     {
-        foreach ($filters as $k => &$filter) {
+        foreach ($filters as $k => $filter) {
 
             /*
              * Parse Twg tags in the asset content.
