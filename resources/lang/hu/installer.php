@@ -6,6 +6,6 @@ return [
     'running_application_migrations' => 'Alkalmazás migrációk végrehajtása.',
     'running_migrations' => 'Egyéb migrációs futtatása.',
     'running_seeds' => 'Projekt alap futtatása.',
-    'installing' => 'Telepítés: :telepítés',
-    'seeding' => 'Beállítás: :beállítás',
+    'installing' => 'Telepítés: :installing',
+    'seeding' => 'Beállítás: :seeding',
 ];

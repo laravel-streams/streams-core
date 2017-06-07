@@ -42,6 +42,10 @@ class Install extends Command
         /* @var Extension $extension */
         $extension = $extensions->get($this->argument('extension'));
 
+        if (!$extension) {
+            throw new \Exception('Extension [' . $this->argument('extension') . '] does not exist.');
+        }
+
         $manager->install($extension, $this->option('seed'));
 
         $this->info(trans($extension->getName()) . ' installed successfully!');

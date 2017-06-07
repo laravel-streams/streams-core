@@ -9,15 +9,19 @@ $(function () {
 
             if (!data.success) {
 
-                messages = '';
+                messages = [];
 
                 $.each(data.errors, function (field, errors) {
-                    messages += errors.join('/n');
+                    messages.push(errors.join('\n'));
                 });
 
-                alert(messages);
+                alert(messages.join('\n'));
 
                 return false;
+            }
+            
+            if (!data.redirect) {
+                return;
             }
 
             window.location = data.redirect;

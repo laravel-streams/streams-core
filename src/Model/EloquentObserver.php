@@ -29,7 +29,7 @@ class EloquentObserver extends Observer
      */
     public function creating(EloquentModel $model)
     {
-        return true;
+        //
     }
 
     /**
@@ -84,13 +84,10 @@ class EloquentObserver extends Observer
      * Run before a record is deleted.
      *
      * @param  EloquentModel $entry
-     * @return bool
      */
     public function deleting(EloquentModel $entry)
     {
         $this->dispatch(new CascadeDelete($entry));
-
-        return true;
     }
 
     /**

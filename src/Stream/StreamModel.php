@@ -104,7 +104,9 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
         $streamModel        = new StreamModel();
         $streamTranslations = new EloquentCollection();
 
-        $data['config'] = serialize(array_get($data, 'config', []));
+        if (!is_string(array_get($data, 'config'))) {
+            $data['config'] = serialize(array_get($data, 'config', []));
+        }
 
         if ($translations = array_pull($data, 'translations')) {
             foreach ($translations as $attributes) {

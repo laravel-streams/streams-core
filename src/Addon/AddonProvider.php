@@ -286,8 +286,8 @@ class AddonProvider
         foreach ($listen as $event => $listeners) {
             foreach ($listeners as $key => $listener) {
                 if (is_integer($listener)) {
-                    $listener = $key;
                     $priority = $listener;
+                    $listener = $key;              
                 } else {
                     $priority = 0;
                 }

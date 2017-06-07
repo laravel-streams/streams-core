@@ -44,6 +44,18 @@ class EloquentRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * Find a record by it's column value.
+     *
+     * @param $column
+     * @param $value
+     * @return EloquentModel|null
+     */
+    public function findBy($column, $value)
+    {
+        return $this->model->where($column, $value)->first();
+    }
+
+    /**
      * Find all records by IDs.
      *
      * @param  array $ids

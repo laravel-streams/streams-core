@@ -33,26 +33,27 @@ class FieldRouter
     /**
      * Register field routes.
      *
-     * @param Addon $addon
-     * @param       $controller
-     * @param null  $prefix
+     * @param Addon  $addon
+     * @param        $controller
+     * @param null   $prefix
+     * @param string $base
      */
-    public function route(Addon $addon, $controller, $prefix = null)
+    public function route(Addon $addon, $controller, $prefix = null, $base = '/fields')
     {
         $prefix = $prefix ?: 'admin/' . $addon->getSlug();
 
         $routes = [
-            $prefix . '/fields'             => [
+            $prefix . $base                 => [
                 'as'             => $addon->getNamespace('fields.index'),
                 'uses'           => $controller . '@index',
                 'streams::addon' => $addon->getNamespace(),
             ],
-            $prefix . '/fields/choose'      => [
+            $prefix . $base . '/choose'     => [
                 'as'             => $addon->getNamespace('fields.choose'),
                 'uses'           => $controller . '@choose',
                 'streams::addon' => $addon->getNamespace(),
             ],
-            $prefix . '/fields/create'      => [
+            $prefix . $base . '/create'     => [
                 'as'             => $addon->getNamespace('fields.create'),
                 'uses'           => $controller . '@create',
                 'streams::addon' => $addon->getNamespace(),

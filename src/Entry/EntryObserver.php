@@ -87,15 +87,12 @@ class EntryObserver extends Observer
      * meta information.
      *
      * @param  EntryInterface $entry
-     * @return bool
      */
     public function saving(EntryInterface $entry)
     {
         //$entry->fireFieldTypeEvents('entry_saving');
 
         $this->commands->dispatch(new SetMetaInformation($entry));
-
-        return true;
     }
 
     /**
@@ -115,13 +112,10 @@ class EntryObserver extends Observer
      * Run before a record is deleted.
      *
      * @param  EntryInterface|EloquentModel $entry
-     * @return bool
      */
     public function deleting(EntryInterface $entry)
     {
         $this->dispatch(new CascadeDelete($entry));
-
-        return true;
     }
 
     /**

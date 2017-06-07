@@ -269,4 +269,5 @@ class ViewComposer
 
         return null;
     }
+
 }

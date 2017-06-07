@@ -59,8 +59,7 @@ class Template
      */
     public function render($template, array $payload = [])
     {
-        $view = 'support/parsed/' . md5($template);
-        $path = $this->application->getStoragePath($view);
+        $path = $this->path($template);
 
         if (!$this->files->isDirectory($directory = dirname($path))) {
             $this->files->makeDirectory($directory, 0777, true);
@@ -70,7 +69,17 @@ class Template
             $this->files->put($path . '.twig', $template);
         }
 
-        return $this->view
-            ->make('storage::' . $view, $payload);
+        return $this->view->make('storage::' . str_replace($this->application->getStoragePath(), '', $path), $payload);
+    }
+
+    /**
+     * Return the path to a string template.
+     *
+     * @param $template
+     * @return string
+     */
+    public function path($template)
+    {
+        return $this->application->getStoragePath('support/parsed/' . md5($template));
     }
 }

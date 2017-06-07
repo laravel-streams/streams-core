@@ -76,6 +76,14 @@ class ActionHandler
         if ($builder->getFormResponse()) {
             return;
         }
+        
+        /**
+         * If a redirect is undesired then
+         * skip this step all together.
+         */
+        if ($builder->getFormOption('redirect') === false) {
+            return;
+        }
 
         $entry   = $builder->getFormEntry();
         $actions = $builder->getFormActions();

@@ -31,6 +31,15 @@ interface EloquentRepositoryInterface
     public function find($id);
 
     /**
+     * Find a record by it's column value.
+     *
+     * @param $column
+     * @param $value
+     * @return EloquentModel|null
+     */
+    public function findBy($column, $value);
+
+    /**
      * Find all records by IDs.
      *
      * @param  array $ids
