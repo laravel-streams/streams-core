@@ -267,8 +267,8 @@ class StreamsServiceProvider extends ServiceProvider
                             $twig->addExtension(new MarkdownExtension(new MichelfMarkdownEngine()));
                         }
 
-                        if (!env('APP_DEBUG') && !$twig->hasExtension('compress')) {
-                            $twig->addExtension(new \nochso\HtmlCompressTwig\Extension(true));
+                        if (!$twig->hasExtension('compress')) {
+                            $twig->addExtension(new \nochso\HtmlCompressTwig\Extension(!env('APP_DEBUG')));
                         }
 
                         $twig->addExtension(

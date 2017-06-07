@@ -39,8 +39,10 @@
 {{ asset_add("build.css", "theme::scss/theme/theme.scss", ["live"]) }}
 
 {# Include Asset Collections #}
-{{ html_style(asset_path("theme.css", ["min"])) }}
-{{ html_style(asset_path("build.css", ["min"])) }}
+<style type="text/css">
+    {{ asset_inline("theme.css", ["min"]) }}
+    {{ asset_inline("build.css", ["parse", "min"]) }}
+</style>
 
 {# Important!! #}
 {{ constants() }}
