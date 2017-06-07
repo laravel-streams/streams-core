@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Stream\Command\GetUninstalledStreams;
+use Anomaly\Streams\Platform\Stream\Command\PutIntoFile;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -73,7 +74,7 @@ class UpdateAddonProvider
 
         $streams = $this->dispatch(new GetUninstalledStreams($this->addon));
 
-        $segment    = (count($streams)) ? "/{$this->slug}" : '';
+        $segment    = (count($streams) > 1) ? "/{$this->slug}" : '';
         $prefix     = "{$vendor}\\{$slug}{$type}";
         $controller = "{$prefix}\\Http\\Controller\\Admin\\{$suffix}Controller";
 
@@ -85,77 +86,48 @@ class UpdateAddonProvider
         $uses .= "use {$prefix}\\{$entity}\\{$entity}Model;\n";
         $uses .= "use {$prefix}\\{$entity}\\{$entity}Repository;\n";
 
-        $this->putInFile($filesystem, $path, '/use.*;\n/i', $uses);
+        $this->dispatch(new PutIntoFile($path, '/use.*;\n/i', $uses));
 
         // Write bindings
-        $this->putInFile(
-            $filesystem,
+        $this->dispatch(new PutIntoFile(
             $path,
             '/protected \$bindings = \[\]/i',
             "protected \$bindings = [\n    ]",
             true
-        );
+        ));
 
-        $this->putInFile(
-            $filesystem,
+        $this->dispatch(new PutIntoFile(
             $path,
             '/protected \$bindings = \[\n/i',
             "        {$slug}{$suffix}EntryModel::class => {$entity}Model::class,\n"
-        );
+        ));
 
         // Write singletons
-        $this->putInFile(
-            $filesystem,
+        $this->dispatch(new PutIntoFile(
             $path,
             '/protected \$singletons = \[\]/i',
             "protected \$singletons = [\n    ]",
             true
-        );
+        ));
 
-        $this->putInFile(
-            $filesystem,
+        $this->dispatch(new PutIntoFile(
             $path,
             '/protected \$singletons = \[\n/i',
             "        {$entity}RepositoryInterface::class => {$entity}Repository::class,\n"
-        );
+        ));
 
         // Write routes
         $routes = "        'admin/{$addon}{$segment}'           => '{$controller}@index',\n";
         $routes .= "        'admin/{$addon}{$segment}/create'    => '{$controller}@create',\n";
         $routes .= "        'admin/{$addon}{$segment}/edit/{id}' => '{$controller}@edit',\n";
 
-        $this->putInFile(
-            $filesystem,
+        $this->dispatch(new PutIntoFile(
             $path,
             '/protected \$routes = \[\]/i',
             "protected \$routes = [\n    ]",
             true
-        );
+        ));
 
-        $this->putInFile($filesystem, $path, '/protected \$routes = \[\n/i', $routes);
-    }
-
-    /**
-     * Puts in file.
-     *
-     * @param  Filesystem $filesystem The filesystem
-     * @param  string     $path       The file path
-     * @param  string     $pattern    The insert marker
-     * @param  string     $text       The text
-     * @param  boolean    $replace    The replace flag
-     * @return number     Recorded bytes
-     */
-    private function putInFile(Filesystem $filesystem, $path, $pattern, $text, $replace = false)
-    {
-        $contents = $filesystem->get($path);
-
-        $new_contents = preg_replace(
-            $pattern,
-            ($replace) ? $text : '$0' . $text,
-            $contents,
-            1
-        );
-
-        return $filesystem->put($path, $new_contents);
+        $this->dispatch(new PutIntoFile($path, '/protected \$routes = \[\n/i', $routes));
     }
 }
