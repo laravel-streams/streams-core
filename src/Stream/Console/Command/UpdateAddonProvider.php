@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Stream\Command\GetUninstalledStreams;
 use Anomaly\Streams\Platform\Stream\Command\PutIntoFile;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
