@@ -507,9 +507,9 @@ class Asset
         $contents = $assets->dump();
 
         /**
-         * Parse the content.
+         * Parse the content. Always parse CSS.
          */
-        if (in_array('parse', $filters)) {
+        if (in_array('parse', $filters) || $hint == 'css') {
             $contents = $this->template->render($contents);
         }
 
