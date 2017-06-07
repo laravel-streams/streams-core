@@ -56,10 +56,8 @@ class UpdateAddonProvider
 
     /**
      * Handle the command.
-     *
-     * @param Filesystem $filesystem
      */
-    public function handle(Filesystem $filesystem)
+    public function handle()
     {
         // Stream values
         $suffix = ucfirst(camel_case($this->slug));
