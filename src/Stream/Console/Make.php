@@ -54,8 +54,8 @@ class Make extends Command
      */
     public function fire(AddonCollection $addons)
     {
-        $slug  = $this->argument('slug');
-        $addon = $this->argument('addon');
+        $slug  = camel_case($this->argument('slug'));
+        $addon = camel_case($this->argument('addon'));
 
         /* @var Addon $addon */
         if (!$addon = $addons->get($addon)) {
