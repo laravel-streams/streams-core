@@ -39,9 +39,9 @@ class UpdateAddonProvider
     /**
      * Create a new UpdateAddonProvider instance.
      *
-     * @param Addon        $addon
-     * @param $slug
-     * @param $namespace
+     * @param Addon  $addon
+     * @param string $slug      Stream slug
+     * @param string $namespace Stream namespace
      */
     public function __construct(Addon $addon, $slug, $namespace)
     {
@@ -53,15 +53,15 @@ class UpdateAddonProvider
     /**
      * Handle the command.
      *
-     * @param Parser     $parser
      * @param Filesystem $filesystem
      */
     public function handle(Filesystem $filesystem)
     {
-        $suffix   = ucfirst(camel_case($this->slug));
-        $entity   = str_singular($suffix);
-        $provider = $this->addon->getServiceProvider();
+        // Stream values
+        $suffix = ucfirst(camel_case($this->slug));
+        $entity = str_singular($suffix);
 
+        // Addon values
         $slug   = ucfirst($this->addon->getSlug());
         $vendor = ucfirst($this->addon->getVendor());
         $type   = ucfirst($this->addon->getType());
@@ -111,30 +111,25 @@ class UpdateAddonProvider
     /**
      * Puts in file.
      *
-     * @param  string  $file_path     The file path
-     * @param  string  $insert_marker The insert marker
-     * @param  string  $text          The text
-     * @param  boolean $replace       The replace flag
-     * @return number  Recorded bytes
+     * @param  Filesystem $filesystem The filesystem
+     * @param  string     $path       The file path
+     * @param  string     $pattern    The insert marker
+     * @param  string     $text       The text
+     * @param  boolean    $replace    The replace flag
+     * @return number     Recorded bytes
      */
-    private function putInFile(
-        Filesystem $filesystem,
-        $file_path,
-        $insert_marker,
-        $text,
-        $replace = false
-    )
+    private function putInFile(Filesystem $filesystem, $path, $pattern, $text, $replace = false)
     {
-        $contents = $filesystem->get($file_path);
+        $contents = $filesystem->get($path);
 
         $new_contents = preg_replace(
-            $insert_marker,
+            $pattern,
             ($replace) ? $text : '$0' . $text,
             $contents,
             1
         );
 
-        return $filesystem->put($file_path, $new_contents);
+        return $filesystem->put($path, $new_contents);
     }
 
 }
