@@ -55,10 +55,8 @@ class UpdateAddonClass
 
     /**
      * Handle the command.
-     *
-     * @param Filesystem $filesystem
      */
-    public function handle(Filesystem $filesystem)
+    public function handle()
     {
         // Stream values
         $singular = str_singular($this->slug);
