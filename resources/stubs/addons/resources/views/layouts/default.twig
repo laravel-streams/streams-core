@@ -13,9 +13,7 @@
 <html>
 
 <head>
-    {% block metadata deferred %}
     {% include "theme::partials/metadata" %}
-    {% endblock %}
 </head>
 
 <body>
@@ -33,10 +31,7 @@
 </main>
 
 {% include "theme::partials/footer" %}
-
-{% block assets deferred %}
 {% include "theme::partials/assets" %}
-{% endblock %}
 
 </body>
 </html>
