@@ -13,9 +13,7 @@
 <html>
 
 <head>
-    {% block metadata %}
-        {% include "theme::partials/metadata" %}
-    {% endblock %}
+    {% include "theme::partials/metadata" %}
 </head>
 
 <body>
@@ -33,10 +31,7 @@
 </main>
 
 {% include "theme::partials/footer" %}
-
-{% block assets %}
-    {% include "theme::partials/assets" %}
-{% endblock %}
+{% include "theme::partials/assets" %}
 
 </body>
 </html>
