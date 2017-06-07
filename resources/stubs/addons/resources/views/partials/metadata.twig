@@ -38,19 +38,9 @@
 {# Specific Build Files #}
 {{ asset_add("build.css", "theme::scss/theme/theme.scss", ["live"]) }}
 
-{# Core Theme Components #}
-{{ asset_add("theme.js", "theme::js/vendor/jquery.min.js") }}
-{{ asset_add("theme.js", "theme::js/vendor/bootstrap.min.js") }}
-{{ asset_add("theme.js", "theme::js/vendor/vue.min.js") }}
-
-{# Theme Scripts #}
-{#{{ asset_add("theme.js", "theme::js/plugins/*") }}#}
-{{ asset_add("theme.js", "theme::js/theme/initialize.js") }}
-
 {# Include Asset Collections #}
-{{ html_style(asset_path("theme.css")) }}
-{{ html_style(asset_path("build.css")) }}
-{{ html_script(asset_path("theme.js")) }}
+{{ html_style(asset_path("theme.css", ["min"])) }}
+{{ html_style(asset_path("build.css", ["min"])) }}
 
 {# Important!! #}
 {{ constants() }}
