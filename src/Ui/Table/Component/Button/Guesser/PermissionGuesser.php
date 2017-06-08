@@ -62,6 +62,9 @@ class PermissionGuesser
                     break;
 
                 default:
+                    $button['permission'] = $module->getNamespace(
+                        $stream->getSlug() . '.' . array_get($button, 'slug')
+                    );
                     break;
             }
         }
