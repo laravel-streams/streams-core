@@ -836,7 +836,7 @@ class Asset
 
         foreach ($this->collections[$collection] as $file => &$filters) {
 
-            $filters = array_filter(array_unique(array_merge($filters, $additionalFilters)));
+            $filters = array_filter(array_merge($filters, $additionalFilters));
 
             $filters = $this->transformFilters($filters, $hint);
 
