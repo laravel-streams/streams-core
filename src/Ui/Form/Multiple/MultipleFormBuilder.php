@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Form\Command\SetSuccessMessage;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldCollection;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormCollection;
@@ -34,7 +34,7 @@ class MultipleFormBuilder extends FormBuilder
     /**
      * Create a new MultipleFormBuilder instance.
      *
-     * @param Form $form
+     * @param Form           $form
      * @param FormCollection $forms
      */
     public function __construct(Form $form, FormCollection $forms)
@@ -143,7 +143,7 @@ class MultipleFormBuilder extends FormBuilder
      * Add a form.
      *
      * @param                      $key
-     * @param  FormBuilder $builder
+     * @param  FormBuilder         $builder
      * @return MultipleFormBuilder
      */
     public function addForm($key, FormBuilder $builder)
@@ -211,8 +211,22 @@ class MultipleFormBuilder extends FormBuilder
     /**
      * Get the form field slugs.
      *
+     * @param $key
+     * @return FieldCollection
+     */
+    public function getChildFormFields($key)
+    {
+        $builder = $this->getChildForm($key);
+
+        return $builder->getFormFields();
+    }
+
+    /**
+     * Get the form field slugs.
+     *
      * @param      $key
      * @param null $prefix
+     * @return array
      */
     public function getChildFormFieldSlugs($key, $prefix = null)
     {
