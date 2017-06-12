@@ -510,7 +510,13 @@ class Asset
          * Parse the content. Always parse CSS.
          */
         if (in_array('parse', $filters) || $hint == 'css') {
-            $contents = $this->template->render($contents);
+            try {
+                $contents = $this->template->render($contents);
+            } catch (\Exception $e) {
+                if (env('APP_DEBUG')) {
+                    \Log::error($e->getMessage());
+                }
+            }
         }
 
         /**

@@ -31,7 +31,6 @@ class FieldTypeAccessor
      * Set the value.
      *
      * @param $value
-     * @return array
      */
     public function set($value)
     {
