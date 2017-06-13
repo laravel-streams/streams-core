@@ -3,6 +3,13 @@
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
+/**
+ * Class PermissionGuesser
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class PermissionGuesser
 {
 

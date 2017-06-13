@@ -268,7 +268,7 @@ class StreamsServiceProvider extends ServiceProvider
                         }
 
                         if (!$twig->hasExtension('compress')) {
-                            $twig->addExtension(new \nochso\HtmlCompressTwig\Extension(!env('APP_DEBUG')));
+                            $twig->addExtension(new \nochso\HtmlCompressTwig\Extension(env('HTML_COMPRESS', true)));
                         }
 
                         $twig->addExtension(

@@ -53,6 +53,7 @@ class LabelsGuesser
         $stream = $builder->getFormStream();
 
         foreach ($fields as &$field) {
+
             $locale = array_get($field, 'locale');
 
             /*
