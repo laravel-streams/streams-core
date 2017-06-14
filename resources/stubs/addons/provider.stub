@@ -11,9 +11,13 @@ class {provider} extends AddonServiceProvider
 
     protected $schedules = [];
 
+    protected $api = [];
+
     protected $routes = [];
 
     protected $middleware = [];
+
+    protected $routeMiddleware = [];
 
     protected $listeners = [];
 
