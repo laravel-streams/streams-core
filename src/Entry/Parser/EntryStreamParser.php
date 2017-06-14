@@ -43,9 +43,8 @@ class EntryStreamParser
     protected function parseStream(StreamInterface $stream, &$string)
     {
         foreach ($stream->getAttributes() as $key => $value) {
-            if (is_string($value)) {
-                $value = addcslashes($value, "'");
-            }
+            $key = addcslashes($key, "'");
+            $value = addcslashes($value, "'");
 
             $string .= "\n'{$key}' => '{$value}',";
         }
@@ -80,13 +79,21 @@ class EntryStreamParser
 
         foreach ($assignment->getAttributes() as $key => $value) {
             $value = $assignment->getAttribute($key);
+            $key = addcslashes($key, "'");
 
-            if (is_string($value) || is_null($value)) {
-                $value = $value ? "<<<EOD\n{$value}\nEOD\n" : "''";
+            // Serialize arrays.
+            if (is_array($value)) {
+                $value = serialize($value);
             }
 
-            if (is_array($value)) {
-                $value = "'" . serialize($value) . "'";
+            // Cast objects to strings.
+            if(is_object($value)){
+                $value = (string)$value;
+            }
+
+            // Quote and escape non numeric values.
+            if(!is_numeric($value)){
+                $value = "'" . addcslashes($value, "'") . "'";
             }
 
             $string .= "\n'{$key}' => {$value},";
@@ -114,13 +121,12 @@ class EntryStreamParser
         foreach ($field->getAttributes() as $key => $value) {
             $value = $field->getAttribute($key);
 
-            if (is_string($value)) {
-                $value = addslashes($value);
+            if (is_array($value)) {
+                $value = serialize($value);
             }
 
-            if (is_array($value)) {
-                $value = addcslashes(serialize($value), '\'');
-            }
+            $key = addcslashes($key, "'");
+            $value = addcslashes($value, "'");
 
             $string .= "\n'{$key}' => '{$value}',";
         }
@@ -160,9 +166,21 @@ class EntryStreamParser
 
         foreach ($translation->getAttributes() as $key => $value) {
             $value = $translation->getAttribute($key);
+            $key = addcslashes($key, "'");
 
-            if (is_string($value) || is_null($value)) {
-                $value = $value ? "<<<EOD\n{$value}\nEOD\n" : "''";
+            // Serialize arrays.
+            if (is_array($value)) {
+                $value = serialize($value);
+            }
+
+            // Cast objects to strings.
+            if(is_object($value)){
+                $value = (string)$value;
+            }
+
+            // Quote and escape non numeric values.
+            if(!is_numeric($value)){
+                $value = "'" . addcslashes($value, "'") . "'";
             }
 
             $string .= "\n'{$key}' => {$value},";

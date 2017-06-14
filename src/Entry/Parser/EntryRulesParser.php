@@ -55,7 +55,10 @@ class EntryRulesParser
         if (is_array($rules)) {
             $rules = implode('|', array_filter($rules));
 
-            $string .= "\n'{$assignment->getFieldSlug()}' => '{$rules}',";
+            $rules = addcslashes($rules, "'");
+            $fieldSlug = addcslashes($assignment->getFieldSlug(), "'");
+
+            $string .= "\n'{$fieldSlug}' => '{$rules}',";
         }
     }
 }
