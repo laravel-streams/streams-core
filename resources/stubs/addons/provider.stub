@@ -9,6 +9,8 @@ class {provider} extends AddonServiceProvider
 
     protected $commands = [];
 
+    protected $schedules = [];
+
     protected $routes = [];
 
     protected $middleware = [];
