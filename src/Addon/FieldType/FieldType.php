@@ -298,6 +298,18 @@ class FieldType extends Addon
     }
 
     /**
+     * Set the rules.
+     *
+     * @param array $rules
+     * @return $this
+     */
+    public function setRules(array $rules){
+        $this->rules = $rules;
+
+        return $this;
+    }
+
+    /**
      * Merge rules.
      *
      * @param  array $rules
