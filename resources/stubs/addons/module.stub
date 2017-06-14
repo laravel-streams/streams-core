@@ -17,7 +17,5 @@ class {addon} extends Module
      *
      * @var array
      */
-    protected $sections = [
-        'example'
-    ];
+    protected $sections = [];
 }

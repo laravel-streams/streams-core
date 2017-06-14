@@ -2,6 +2,8 @@
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Anomaly\Streams\Platform\Stream\Console\Command\UpdateAddonClass;
+use Anomaly\Streams\Platform\Stream\Console\Command\UpdateAddonProvider;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityCollection;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityController;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityCriteria;
@@ -14,7 +16,7 @@ use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityPresenter;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityRepository;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityRepositoryInterface;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityRouter;
-use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityRoutes;
+// use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityRoutes;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntitySeeder;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityTableBuilder;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityTestCases;
@@ -67,7 +69,7 @@ class Make extends Command
         }
 
         $this->dispatch(new WriteEntityModel($addon, $slug, $namespace));
-        $this->dispatch(new WriteEntityRoutes($addon, $slug, $namespace));
+        // $this->dispatch(new WriteEntityRoutes($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityRouter($addon, $slug, $namespace));
         $this->dispatch(new WriteEntitySeeder($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityFactory($addon, $slug, $namespace));
@@ -81,6 +83,9 @@ class Make extends Command
         $this->dispatch(new WriteEntityTableBuilder($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityModelInterface($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityRepositoryInterface($addon, $slug, $namespace));
+        
+        $this->dispatch(new UpdateAddonProvider($addon, $slug, $namespace));
+        $this->dispatch(new UpdateAddonClass($addon, $slug, $namespace));
 
         // Run this last since it scans the above.
         $this->dispatch(new WriteEntityTestCases($addon, $slug, $namespace));
