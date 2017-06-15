@@ -552,11 +552,12 @@ class Image
             return $this->getImage();
         }
 
-        if ($this->agent->isTablet()) {
+        // @todo: This should be opt-in
+        /*if ($this->agent->isTablet()) {
             $this->macro('tablet_optimized');
         } elseif ($this->agent->isMobile()) {
             $this->macro('mobile_optimized');
-        }
+        }*/
 
         $path = $this->paths->outputPath($this);
 
