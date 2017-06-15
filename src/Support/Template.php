@@ -52,10 +52,9 @@ class Template
     /**
      * Render a string template.
      *
-     * @param             $template
-     * @param  array      $payload
-     * @return string
-     * @throws \Exception
+     * @param       $template
+     * @param array $payload
+     * @return \Illuminate\Contracts\View\View
      */
     public function render($template, array $payload = [])
     {

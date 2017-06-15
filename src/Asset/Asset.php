@@ -511,7 +511,9 @@ class Asset
          */
         if (in_array('parse', $filters) || $hint == 'css') {
             try {
-                $contents = $this->template->render($contents);
+                $contents = $this->template
+                    ->render($contents)
+                    ->render();
             } catch (\Exception $e) {
                 // Too many syntax quirks to avoid this.
             }
