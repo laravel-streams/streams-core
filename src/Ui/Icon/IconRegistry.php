@@ -158,7 +158,7 @@ class IconRegistry
     ];
 
     /**
-     * Get a button.
+     * Get an icon.
      *
      * @param  $icon
      * @return string
@@ -169,7 +169,7 @@ class IconRegistry
     }
 
     /**
-     * Register a button.
+     * Register an icon.
      *
      * @param        $icon
      * @param  array $parameters
