@@ -31,6 +31,20 @@ class FieldTypePresenter extends AddonPresenter
     }
 
     /**
+     * Alias for label. Bootstrap
+     * changed label to tag.
+     *
+     * @param         $text
+     * @param  string $context
+     * @param  string $size
+     * @return string
+     */
+    public function tag($text = null, $context = null, $size = null)
+    {
+        return $this->label($text, $context, $size);
+    }
+
+    /**
      * Return a label.
      *
      * @param         $text
@@ -52,7 +66,7 @@ class FieldTypePresenter extends AddonPresenter
             $size = 'sm';
         }
 
-        return '<span class="label label-' . $context . ' label-' . $size . '">' . trans($text) . '</span>';
+        return '<span class="tag tag-' . $context . ' tag-' . $size . '">' . trans($text) . '</span>';
     }
 
     /**

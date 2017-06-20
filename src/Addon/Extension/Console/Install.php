@@ -46,6 +46,10 @@ class Install extends Command
             throw new \Exception('Extension [' . $this->argument('extension') . '] does not exist.');
         }
 
+        if ($extension->isInstalled()) {
+            throw new \Exception('The [' . $this->argument('addon') . '] extension is already installed.');
+        }
+
         $manager->install($extension, $this->option('seed'));
 
         $this->info(trans($extension->getName()) . ' installed successfully!');
