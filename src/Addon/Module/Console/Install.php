@@ -47,10 +47,6 @@ class Install extends Command
             throw new \Exception('Module [' . $this->argument('module') . '] does not exist.');
         }
 
-        if ($module->isInstalled()) {
-            return $this->error('The [' . $this->argument('module') . '] module is already installed.');
-        }
-
         $manager->install($module, $this->option('seed'));
 
         $this->info(trans($module->getName()) . ' installed successfully!');
