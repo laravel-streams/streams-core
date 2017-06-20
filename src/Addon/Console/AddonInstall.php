@@ -52,7 +52,7 @@ class AddonInstall extends Command
         if ($addon instanceof Module) {
 
             if ($addon->isInstalled()) {
-                throw new \Exception('The [' . $this->argument('addon') . '] module is already installed.');
+                return $this->error('The [' . $this->argument('addon') . '] module is already installed.');
             }
 
             $modules->install($addon, $this->option('seed'));
@@ -63,7 +63,7 @@ class AddonInstall extends Command
         if ($addon instanceof Extension) {
 
             if ($addon->isInstalled()) {
-                throw new \Exception('The [' . $this->argument('addon') . '] extension is already installed.');
+                return $this->error('The [' . $this->argument('addon') . '] extension is already installed.');
             }
 
             $extensions->install($addon, $this->option('seed'));

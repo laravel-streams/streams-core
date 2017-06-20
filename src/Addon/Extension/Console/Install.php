@@ -36,6 +36,7 @@ class Install extends Command
      *
      * @param ExtensionManager    $manager
      * @param ExtensionCollection $extensions
+     * @throws \Exception
      */
     public function fire(ExtensionManager $manager, ExtensionCollection $extensions)
     {
@@ -47,7 +48,7 @@ class Install extends Command
         }
 
         if ($extension->isInstalled()) {
-            throw new \Exception('The [' . $this->argument('addon') . '] extension is already installed.');
+            return $this->error('The [' . $this->argument('extension') . '] extension is already installed.');
         }
 
         $manager->install($extension, $this->option('seed'));

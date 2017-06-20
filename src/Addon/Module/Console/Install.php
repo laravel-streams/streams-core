@@ -36,6 +36,7 @@ class Install extends Command
      *
      * @param ModuleManager    $manager
      * @param ModuleCollection $modules
+     * @throws \Exception
      */
     public function fire(ModuleManager $manager, ModuleCollection $modules)
     {
@@ -47,7 +48,7 @@ class Install extends Command
         }
 
         if ($module->isInstalled()) {
-            throw new \Exception('The [' . $this->argument('addon') . '] module is already installed.');
+            return $this->error('The [' . $this->argument('module') . '] module is already installed.');
         }
 
         $manager->install($module, $this->option('seed'));
