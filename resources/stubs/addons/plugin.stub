@@ -8,6 +8,36 @@ class {addon} extends Plugin
 {
 
     /**
+     * Returns a list of functions to add to the existing list.
+     *
+     * @return array An array of functions
+     */
+    public function getFunctions()
+    {
+        return [];
+    }
+
+    /**
+     * Returns a list of global variables to add to the existing list.
+     *
+     * @return array An array of global variables
+     */
+    public function getGlobals()
+    {
+        return [];
+    }
+
+    /**
+     * Returns a list of filters to add to the existing list.
+     *
+     * @return array An array of filters
+     */
+    public function getFilters()
+    {
+        return [];
+    }
+
+    /**
      * Initializes the runtime environment.
      *
      * This is where you can load some file that contains filter functions for instance.
@@ -39,16 +69,6 @@ class {addon} extends Plugin
     }
 
     /**
-     * Returns a list of filters to add to the existing list.
-     *
-     * @return array An array of filters
-     */
-    public function getFilters()
-    {
-        return [];
-    }
-
-    /**
      * Returns a list of tests to add to the existing list.
      *
      * @return array An array of tests
@@ -59,31 +79,11 @@ class {addon} extends Plugin
     }
 
     /**
-     * Returns a list of functions to add to the existing list.
-     *
-     * @return array An array of functions
-     */
-    public function getFunctions()
-    {
-        return [];
-    }
-
-    /**
      * Returns a list of operators to add to the existing list.
      *
      * @return array An array of operators
      */
     public function getOperators()
-    {
-        return [];
-    }
-
-    /**
-     * Returns a list of global variables to add to the existing list.
-     *
-     * @return array An array of global variables
-     */
-    public function getGlobals()
     {
         return [];
     }
