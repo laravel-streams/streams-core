@@ -57,13 +57,12 @@ class AppendEntityBindings
     {
         $suffix = ucfirst(camel_case($this->slug));
 
-        $entity = str_singular($suffix);
+        $entity = str_singular(ucfirst(camel_case($suffix)));
 
-        $addon = $this->addon->getSlug();
-
-        $slug   = studly_case($addon);
-        $type   = studly_case($this->addon->getType());
-        $vendor = studly_case($this->addon->getVendor());
+        $addon  = $this->addon->getSlug();
+        $slug   = ucfirst(camel_case($addon));
+        $type   = ucfirst(camel_case($this->addon->getType()));
+        $vendor = ucfirst(camel_case($this->addon->getVendor()));
 
         $prefix = "{$vendor}\\{$slug}{$type}";
 

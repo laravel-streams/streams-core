@@ -59,11 +59,10 @@ class AppendEntityRoutes
     {
         $suffix = ucfirst(camel_case($this->slug));
 
-        $addon = $this->addon->getSlug();
-
-        $slug   = studly_case($addon);
-        $type   = studly_case($this->addon->getType());
-        $vendor = studly_case($this->addon->getVendor());
+        $addon  = $this->addon->getSlug();
+        $slug   = ucfirst(camel_case($addon));
+        $type   = ucfirst(camel_case($this->addon->getType()));
+        $vendor = ucfirst(camel_case($this->addon->getVendor()));
 
         $streams = count($files->glob($this->addon->getPath("migrations/*_stream.php")));
 

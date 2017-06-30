@@ -57,8 +57,8 @@ class AppendEntitySection
     {
         $singular = str_singular($this->slug);
 
-        $slug = studly_case($this->addon->getSlug());
-        $type = studly_case($this->addon->getType());
+        $slug = ucfirst(camel_case($this->addon->getSlug()));
+        $type = ucfirst(camel_case($this->addon->getType()));
 
         $path = $this->addon->getPath("src/{$slug}{$type}.php");
 
