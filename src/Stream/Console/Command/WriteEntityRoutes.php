@@ -58,7 +58,7 @@ class WriteEntityRoutes
      */
     public function handle(Parser $parser, Filesystem $filesystem)
     {
-        $suffix = ucfirst(camel_case($this->slug));
+        $suffix = ucfirst(studly_case($this->slug));
 
         $first = count($filesystem->files($this->addon->getPath("migrations"))) == 1;
 
