@@ -57,7 +57,7 @@ class AppendEntityBindings
     {
         $suffix = ucfirst(camel_case($this->slug));
 
-        $entity = str_singular($suffix);
+        $entity = str_singular(studly_case($suffix));
 
         $addon = $this->addon->getSlug();
 
