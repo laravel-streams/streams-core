@@ -59,6 +59,12 @@ class SectionHandler
     public function handle(ControlPanelBuilder $builder)
     {
 
+        /**
+         * Start off with no
+         * sections for now.
+         */
+        $builder->setSections([]);
+
         /*
          * We have to have a module for
          * the default functionality.
