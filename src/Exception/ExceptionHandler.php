@@ -1,10 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Exception;
 
 use Exception;
-use GrahamCampbell\Exceptions\NewExceptionHandler;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Auth\AuthenticationException;
+use GrahamCampbell\Exceptions\NewExceptionHandler;
 
 /**
  * Class ExceptionHandler
@@ -39,18 +39,9 @@ class ExceptionHandler extends NewExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        /**
-         * Have to catch this for some reason.
-         * Not sure why our handler passes this.
-         *
-         * @todo: Clean up
-         */
+
         if ($e instanceof AuthenticationException) {
-            if ($request->segment(1) === 'admin') {
-                return redirect()->guest('admin/login');
-            } else {
-                return redirect()->guest('login');
-            }
+            return $this->unauthenticated($request, $e);
         }
 
         return parent::render($request, $e);
