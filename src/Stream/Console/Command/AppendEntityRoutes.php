@@ -57,7 +57,7 @@ class AppendEntityRoutes
      */
     public function handle(Writer $writer, Filesystem $files)
     {
-        $suffix = ucfirst(camel_case($this->slug));
+        $suffix = studly_case($this->slug);
 
         $addon = $this->addon->getSlug();
 

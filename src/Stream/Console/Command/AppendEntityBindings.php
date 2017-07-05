@@ -55,7 +55,7 @@ class AppendEntityBindings
      */
     public function handle(Writer $writer)
     {
-        $suffix = ucfirst(camel_case($this->slug));
+        $suffix = studly_case($this->slug);
 
         $entity = str_singular(studly_case($suffix));
 
