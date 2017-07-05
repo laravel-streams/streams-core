@@ -60,9 +60,9 @@ class AppendEntitySingletons
         $entity = str_singular($suffix);
 
         $addon  = $this->addon->getSlug();
-        $slug   = ucfirst($addon);
-        $type   = ucfirst($this->addon->getType());
-        $vendor = ucfirst($this->addon->getVendor());
+        $slug   = studly_case($addon);
+        $type   = studly_case($this->addon->getType());
+        $vendor = studly_case($this->addon->getVendor());
 
         $prefix = "{$vendor}\\{$slug}{$type}";
 
