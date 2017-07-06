@@ -59,6 +59,10 @@ class Make extends Command
     {
         $slug  = $this->argument('slug');
         $addon = $this->argument('addon');
+        
+        if (!str_is('*.*.*', $addon)) {
+            throw new \Exception("The addon should be snake case and formatted like: {vendor}.{type}.{slug}");
+        }
 
         /* @var Addon $addon */
         if (!$addon = $addons->get($addon)) {
