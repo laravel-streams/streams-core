@@ -161,6 +161,14 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         $segment = 'admin';
 
         /**
+         * Skip if our admin
+         * segment is admin.
+         */
+        if ($segment == 'admin') {
+            return;
+        }
+
+        /**
          * If we have a configured admin
          * slug then make sure we are not
          * accessing the original segment.
@@ -169,7 +177,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
 
         $uri = array_get($_SERVER, 'REQUEST_URI', filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL));
 
-        if ($segment !== 'admin' && preg_match($pattern, $uri, $matches)) {
+        if (preg_match($pattern, $uri, $matches)) {
             abort(404);
         }
 
