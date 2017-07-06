@@ -42,15 +42,9 @@ class ExceptionHandler extends NewExceptionHandler
         /**
          * Have to catch this for some reason.
          * Not sure why our handler passes this.
-         *
-         * @todo: Clean up
          */
         if ($e instanceof AuthenticationException) {
-            if ($request->segment(1) === 'admin') {
-                return redirect()->guest('admin/login');
-            } else {
-                return redirect()->guest('login');
-            }
+            return $this->unauthenticated($request, $e);
         }
 
         return parent::render($request, $e);
