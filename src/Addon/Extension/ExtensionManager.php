@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension;
 
 use Anomaly\Streams\Platform\Addon\Extension\Command\InstallExtension;
+use Anomaly\Streams\Platform\Addon\Extension\Command\MigrateExtension;
 use Anomaly\Streams\Platform\Addon\Extension\Command\UninstallExtension;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -25,6 +26,18 @@ class ExtensionManager
     public function install(Extension $module, $seed = false)
     {
         return $this->dispatch(new InstallExtension($module, $seed));
+    }
+
+    /**
+     * Migrate a module.
+     *
+     * @param  Extension $module
+     * @param  bool      $seed
+     * @return bool
+     */
+    public function migrate(Extension $module, $seed = false)
+    {
+        return $this->dispatch(new MigrateExtension($module, $seed));
     }
 
     /**

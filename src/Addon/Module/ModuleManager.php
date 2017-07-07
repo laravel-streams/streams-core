@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Module\Command\DisableModule;
 use Anomaly\Streams\Platform\Addon\Module\Command\EnableModule;
 use Anomaly\Streams\Platform\Addon\Module\Command\InstallModule;
+use Anomaly\Streams\Platform\Addon\Module\Command\MigrateModule;
 use Anomaly\Streams\Platform\Addon\Module\Command\UninstallModule;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -57,5 +58,16 @@ class ModuleManager
     public function disable(Module $module)
     {
         $this->dispatch(new DisableModule($module));
+    }
+
+    /**
+     * Migrate a module.
+     *
+     * @param Module $module
+     * @param bool   $seed
+     */
+    public function migrate(Module $module, $seed = false)
+    {
+        $this->dispatch(new MigrateModule($module, $seed));
     }
 }
