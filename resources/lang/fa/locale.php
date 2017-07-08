@@ -2,111 +2,111 @@
 
 return [
     'en'    => [
-        'name' => 'English'
+        'name' => 'انگلیسی'
     ],
     'fa'    => [
-        'name' => 'Persian'
+        'name' => 'فارسی'
     ],
     'de'    => [
-        'name' => 'German'
+        'name' => 'آلمانی'
     ],
     'ar'    => [
-        'name' => 'Arabic'
+        'name' => 'عربی'
     ],
     'cs'    => [
-        'name' => 'Czech'
+        'name' => 'کشور چک'
     ],
     'el'    => [
-        'name' => 'Greek'
+        'name' => 'یونانی'
     ],
     'es'    => [
-        'name' => 'Spanish'
+        'name' => 'اسپانیایی'
     ],
     'et'    => [
-        'name' => 'Estonian'
+        'name' => 'استونیایی'
     ],
     'fr'    => [
-        'name' => 'French'
+        'name' => 'فرانسوی'
     ],
     'fr-ca' => [
-        'name' => 'French (Canadian)'
+        'name' => 'کانادایی فرانسوی)'
     ],
     'it'    => [
-        'name' => 'Italian'
+        'name' => 'ایتالیایی'
     ],
     'nl'    => [
-        'name' => 'Dutch'
+        'name' => 'هلندی'
     ],
     'sv'    => [
-        'name' => 'Swedish'
+        'name' => 'سوئدی'
     ],
     'sme'   => [
-        'name' => 'Northern Sami'
+        'name' => 'سامی شمالی'
     ],
     'sl'    => [
-        'name' => 'Slovene'
+        'name' => 'اسلوونی'
     ],
     'pl'    => [
-        'name' => 'Polish'
+        'name' => 'لهستانی'
     ],
     'pt'    => [
-        'name' => 'Portuguese'
+        'name' => 'پرتغالی'
     ],
     'pt-br'    => [
-        'name' => 'Brazilian Portuguese'
+        'name' => 'پرتغالی برزیل'
     ],
     'br'    => [
-        'name' => 'Breton'
+        'name' => 'برتون'
     ],
     'ru'    => [
-        'name' => 'Russian'
+        'name' => 'روسی'
     ],
     'cn'    => [
-        'name' => 'Chinese'
+        'name' => 'چینی ها'
     ],
     'tw'    => [
-        'name' => 'Twi'
+        'name' => 'توکی'
     ],
     'he'    => [
-        'name' => 'Hebrew'
+        'name' => 'عبری'
     ],
     'lt'    => [
-        'name' => 'Lithuanian'
+        'name' => 'لیتوانیایی'
     ],
     'fi'    => [
-        'name' => 'Finnish'
+        'name' => 'فنلاندی'
     ],
     'da'    => [
-        'name' => 'Danish'
+        'name' => 'دانمارکی'
     ],
     'id'    => [
-        'name' => 'Indonesian'
+        'name' => 'اندونزیایی'
     ],
     'hu'    => [
-        'name' => 'Hungarian'
+        'name' => 'مجارستانی'
     ],
     'th'    => [
-        'name' => 'Thai'
+        'name' => 'تایلندی'
     ],
     'tr'    => [
-        'name' => 'Turkish'
+        'name' => 'ترکی'
     ],
     'bn'    => [
-        'name' => 'Bengali'
+        'name' => 'بنگالی'
     ],
     'sq'    => [
-        'name' => 'Albanian'
+        'name' => 'آلبانیایی'
     ],
     'hi'    => [
-        'name' => 'Hindi'
+        'name' => 'هندی'
     ],
     'zh-cn' => [
-        'name' => 'Chinese (Simplified)'
+        'name' => 'زبان چینی ساده شده)'
     ],
     'zh-tw' => [
-        'name' => 'Chinese (Taiwan)'
+        'name' => 'چینی (تایوان)'
     ],
     'vi' => [
-        'name' => 'Vietnamese'
+        'name' => 'ویتنامی'
     ],
 ];
