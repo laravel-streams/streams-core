@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Asset\Filter;
 
-use Anomaly\Streams\Platform\Asset\AssetParser;
 use Anomaly\Streams\Platform\Asset\Command\LoadThemeVariables;
 use Anomaly\Streams\Platform\Support\Collection;
 use Assetic\Asset\AssetInterface;
@@ -10,24 +9,8 @@ use Leafo\ScssPhp\Compiler;
 
 class ScssFilter extends ScssphpFilter
 {
+
     use DispatchesJobs;
-
-    /**
-     * The asset parser utility.
-     *
-     * @var AssetParser
-     */
-    protected $parser;
-
-    /**
-     * Create a new LessFilter instance.
-     *
-     * @param AssetParser $parser
-     */
-    public function __construct(AssetParser $parser)
-    {
-        $this->parser = $parser;
-    }
 
     /**
      * Filters an asset after it has been loaded.
@@ -56,6 +39,6 @@ class ScssFilter extends ScssphpFilter
 
         $compiler->setVariables($variables->all());
 
-        $asset->setContent($this->parser->parse($compiler->compile($asset->getContent())));
+        $asset->setContent($compiler->compile($asset->getContent()));
     }
 }

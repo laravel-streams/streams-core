@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Asset\Filter;
 
-use Anomaly\Streams\Platform\Asset\AssetParser;
 use Assetic\Asset\AssetInterface;
 
 /**
@@ -14,21 +13,10 @@ class NodeLessFilter extends \Assetic\Filter\LessFilter
 {
 
     /**
-     * The asset parser utility.
-     *
-     * @var AssetParser
-     */
-    protected $parser;
-
-    /**
      * Create a new NodeLessFilter instance.
-     *
-     * @param AssetParser $parser
      */
-    public function __construct(AssetParser $parser)
+    public function __construct()
     {
-        $this->parser = $parser;
-
         parent::__construct(
             '/usr/local/bin/node',
             [
@@ -45,7 +33,7 @@ class NodeLessFilter extends \Assetic\Filter\LessFilter
      */
     public function filterLoad(AssetInterface $asset)
     {
-        $asset->setContent($this->parser->parse($asset->getContent()));
+        $asset->setContent($asset->getContent());
 
         parent::filterLoad($asset);
     }
