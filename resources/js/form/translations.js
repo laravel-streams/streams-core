@@ -39,6 +39,7 @@ $(function () {
         var locale = selected.attr('lang');
         var form = selected.closest('form');
 
+        var toggles = form.find('[data-toggle="lang"][lang="' + locale + '"]');
         var triggers = form.find('[data-toggle="lang"]');
         var group = triggers.closest('.btn-group');
         var toggle = group.find('.dropdown-toggle');
@@ -51,6 +52,8 @@ $(function () {
 
         form.find('.form-group[lang]').addClass('hidden');
         form.find('.form-group[lang="' + locale + '"]').removeClass('hidden');
+
+        toggles.addClass('active');
 
         if (storageAvailable('localStorage')) {
             localStorage.setItem('formTranslations', locale);
