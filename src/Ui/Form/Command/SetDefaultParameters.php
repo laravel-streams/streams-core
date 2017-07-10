@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormHandler;
+use Anomaly\Streams\Platform\Ui\Form\FormRules;
 use Anomaly\Streams\Platform\Ui\Form\FormValidator;
 
 /**
@@ -113,6 +114,15 @@ class SetDefaultParameters
                  */
                 if (!str_contains($handler, '@')) {
                     $handler .= '@handle';
+                }
+
+                /**
+                 * We have to make a special case
+                 * for form rules since we have
+                 * a service named the same.
+                 */
+                if ($property->getName() == 'rules' && $handler == FormRules::class . '@handle') {
+                    continue;
                 }
 
                 $this->builder->{'set' . ucfirst($property->getName())}($handler);
