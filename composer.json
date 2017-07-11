@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "laravel/framework": "5.3.*",
+        "laravel/framework": "dev-master",
         "laravel/envoy": "1.2.*",
         "laravel/scout": "2.0.*",
         "doctrine/dbal": "2.5.*",
