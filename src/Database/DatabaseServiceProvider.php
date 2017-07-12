@@ -12,7 +12,7 @@ class DatabaseServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->register('Anomaly\Streams\Platform\Database\Seeder\SeederServiceProvider');
+        //$this->app->register('Anomaly\Streams\Platform\Database\Seeder\SeederServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Database\Migration\MigrationServiceProvider');
     }
 }

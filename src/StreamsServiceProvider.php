@@ -34,6 +34,7 @@ use Anomaly\Streams\Platform\View\Cache\CacheKey;
 use Anomaly\Streams\Platform\View\Cache\CacheStrategy;
 use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
+use Anomaly\Streams\Platform\View\ViewServiceProvider;
 use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
 use Aptoma\Twig\Extension\MarkdownExtension;
 use Asm89\Twig\CacheExtension\Extension;
@@ -43,6 +44,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Redirector;
+use Illuminate\Session\Store;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -70,8 +72,9 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     protected $providers = [
-        'Anomaly\Streams\Platform\StreamsConsoleProvider',
-        'Anomaly\Streams\Platform\StreamsEventProvider',
+        ViewServiceProvider::class,
+        StreamsEventProvider::class,
+        StreamsConsoleProvider::class,
     ];
 
     /**
@@ -328,17 +331,18 @@ class StreamsServiceProvider extends ServiceProvider
         $this->commands(array_merge($this->commands, config('streams.commands', [])));
 
         /* @var Schedule $schedule */
-        $schedule = $this->app->make(Schedule::class);
-
-        foreach (array_merge($this->schedule, config('streams.schedule', [])) as $frequency => $commands) {
-            foreach (array_filter($commands) as $command) {
-                if (str_contains($frequency, ' ')) {
-                    $schedule->command($command)->cron($frequency);
-                } else {
-                    $schedule->command($command)->{camel_case($frequency)}();
-                }
-            }
-        }
+        // @todo Fix me
+//        $schedule = $this->app->make(Schedule::class);
+//
+//        foreach (array_merge($this->schedule, config('streams.schedule', [])) as $frequency => $commands) {
+//            foreach (array_filter($commands) as $command) {
+//                if (str_contains($frequency, ' ')) {
+//                    $schedule->command($command)->cron($frequency);
+//                } else {
+//                    $schedule->command($command)->{camel_case($frequency)}();
+//                }
+//            }
+//        }
 
         /*
          * Change the default language path so
@@ -374,20 +378,6 @@ class StreamsServiceProvider extends ServiceProvider
 
             return;
         }
-
-        $this->app->bind(
-            'twig.loader.viewfinder',
-            function ($app) {
-                return $app->make(
-                    'Anomaly\Streams\Platform\View\Twig\Loader',
-                    [
-                        $this->app['files'],
-                        $this->app['view']->getFinder(),
-                        $this->app['twig.extension'],
-                    ]
-                );
-            }
-        );
 
         /**
          * Correct path for Paginator.

@@ -40,8 +40,8 @@ class Parser
      * Create a new Parser instance.
      *
      * @param UrlGenerator $url
-     * @param Engine       $parser
-     * @param Request      $request
+     * @param Engine $parser
+     * @param Request $request
      */
     public function __construct(UrlGenerator $url, Engine $parser, Request $request)
     {
@@ -152,7 +152,7 @@ class Parser
 
         if ($route = $this->request->route()) {
             $request['route'] = [
-                'uri'                      => $route->getUri(),
+                'uri'                      => $route->uri(),
                 'parameters'               => $route->parameters(),
                 'parameters.to_urlencoded' => array_map(
                     function ($parameter) {

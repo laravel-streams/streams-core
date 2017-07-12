@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Exception;
 
 use Exception;
-use GrahamCampbell\Exceptions\NewExceptionHandler;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -13,7 +13,7 @@ use Illuminate\Http\Response;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class ExceptionHandler extends NewExceptionHandler
+class ExceptionHandler extends Handler
 {
 
     /**
@@ -21,7 +21,7 @@ class ExceptionHandler extends NewExceptionHandler
      *
      * @var array
      */
-    protected $dontReport = [
+    protected $internalDontReport = [
         \Illuminate\Auth\AuthenticationException::class,
         \Illuminate\Auth\Access\AuthorizationException::class,
         \Symfony\Component\HttpKernel\Exception\HttpException::class,
@@ -33,7 +33,7 @@ class ExceptionHandler extends NewExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  Request   $request
+     * @param  Request $request
      * @param  Exception $e
      * @return Response
      */
@@ -59,7 +59,7 @@ class ExceptionHandler extends NewExceptionHandler
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param  \Illuminate\Http\Request                 $request
+     * @param  \Illuminate\Http\Request $request
      * @param  \Illuminate\Auth\AuthenticationException $exception
      * @return \Illuminate\Http\Response
      */
