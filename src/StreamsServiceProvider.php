@@ -80,8 +80,6 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     protected $plugins = [
-        'TwigBridge\Extension\Laravel\Form',
-        'TwigBridge\Extension\Laravel\Html',
         'Anomaly\Streams\Platform\StreamsPlugin',
         'Phive\Twig\Extensions\Deferred\DeferredExtension',
     ];
@@ -124,7 +122,6 @@ class StreamsServiceProvider extends ServiceProvider
         'Illuminate\Contracts\Debug\ExceptionHandler'                                    => 'Anomaly\Streams\Platform\Exception\ExceptionHandler',
         'Illuminate\Routing\UrlGenerator'                                                => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
         'Illuminate\Contracts\Routing\UrlGenerator'                                      => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
-        'GrahamCampbell\Exceptions\Displayers\ViewDisplayer'                             => 'Anomaly\Streams\Platform\Exception\Displayer\ViewDisplayer',
         'Anomaly\Streams\Platform\Entry\EntryModel'                                      => 'Anomaly\Streams\Platform\Entry\EntryModel',
         'Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface'               => 'Anomaly\Streams\Platform\Entry\EntryRepository',
         'Anomaly\Streams\Platform\Field\FieldModel'                                      => 'Anomaly\Streams\Platform\Field\FieldModel',
@@ -303,12 +300,10 @@ class StreamsServiceProvider extends ServiceProvider
         /*
          * Register all third party packages first.
          */
-        $this->app->register(\TwigBridge\ServiceProvider::class);
         $this->app->register(\Laravel\Scout\ScoutServiceProvider::class);
         $this->app->register(\Collective\Html\HtmlServiceProvider::class);
         $this->app->register(\Intervention\Image\ImageServiceProvider::class);
         $this->app->register(\TeamTNT\Scout\TNTSearchScoutServiceProvider::class);
-        $this->app->register(\GrahamCampbell\Exceptions\ExceptionsServiceProvider::class);
 
         if (env('APP_DEBUG')) {
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
@@ -380,13 +375,19 @@ class StreamsServiceProvider extends ServiceProvider
             return;
         }
 
-        $this->app->bind('twig.loader.viewfinder', function ($app) {
-            return $app->make('Anomaly\Streams\Platform\View\Twig\Loader', [
-                $this->app['files'],
-                $this->app['view']->getFinder(),
-                $this->app['twig.extension']
-            ]);
-        });
+        $this->app->bind(
+            'twig.loader.viewfinder',
+            function ($app) {
+                return $app->make(
+                    'Anomaly\Streams\Platform\View\Twig\Loader',
+                    [
+                        $this->app['files'],
+                        $this->app['view']->getFinder(),
+                        $this->app['twig.extension'],
+                    ]
+                );
+            }
+        );
 
         /**
          * Correct path for Paginator.
