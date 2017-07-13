@@ -62,7 +62,7 @@ trait Hookable
         }
 
         if ($hook['bind']) {
-            $hook['callback'] = \Closure::bind($hook['callback'], $this);
+            $hook['callback'] = \Closure::bind($hook['callback'], $this, get_class());
         }
 
         return app()->call($hook['callback'], $parameters);
