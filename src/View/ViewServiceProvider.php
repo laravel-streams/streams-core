@@ -231,6 +231,7 @@ class ViewServiceProvider extends \Illuminate\View\ViewServiceProvider
                     $this->app['twig.options'],
                     $this->app
                 );
+
                 // Instantiate and add extensions
                 foreach ($extensions as $extension) {
                     // Get an instance of the extension
@@ -260,7 +261,7 @@ class ViewServiceProvider extends \Illuminate\View\ViewServiceProvider
             true
         );
         $this->app->alias('twig', 'Twig_Environment');
-        $this->app->alias('twig', 'TwigBridge\Bridge');
+        $this->app->alias('twig', Bridge::class);
         $this->app->bindIf(
             'twig.compiler',
             function () {

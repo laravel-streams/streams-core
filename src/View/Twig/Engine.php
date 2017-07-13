@@ -29,15 +29,15 @@ class Engine extends CompilerEngine
     /**
      * Used to find the file that has failed.
      *
-     * @var \TwigBridge\Twig\Loader
+     * @var Loader
      */
     protected $loader = [];
 
     /**
      * Create a new Twig view engine instance.
      *
-     * @param \TwigBridge\Engine\Compiler        $compiler
-     * @param \TwigBridge\Twig\Loader            $loader
+     * @param Compiler        $compiler
+     * @param Loader            $loader
      * @param array                              $globalData
      */
     public function __construct(Compiler $compiler, Loader $loader, array $globalData = [])

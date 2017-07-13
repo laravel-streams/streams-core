@@ -28,7 +28,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
      * Create a new UrlGenerator instance.
      *
      * @param RouteCollection $routes
-     * @param Request         $request
+     * @param Request $request
      */
     public function __construct(RouteCollection $routes, Request $request)
     {
@@ -45,8 +45,8 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
      * Generate an absolute URL to the given asset.
      *
      * @param            $path
-     * @param  null      $locale
-     * @param  mixed     $extra
+     * @param  null $locale
+     * @param  mixed $extra
      * @param  bool|null $secure
      * @return string
      */
@@ -62,8 +62,8 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
     /**
      * Generate an absolute URL to the given asset.
      *
-     * @param  string    $asset
-     * @param  mixed     $extra
+     * @param  string $asset
+     * @param  mixed $extra
      * @param  bool|null $secure
      * @return string
      */
@@ -76,7 +76,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
             return $asset;
         }
 
-        $scheme = $this->getScheme($secure);
+        $scheme = $this->formatScheme($secure);
 
         $extra = $this->formatParameters($extra);
 
@@ -85,7 +85,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
         // Once we have the scheme we will compile the "tail" by collapsing the values
         // into a single string delimited by slashes. This just makes it convenient
         // for passing the array of parameters to this URL as a list of segments.
-        $root = $this->getRootUrl($scheme);
+        $root = $this->formatRoot($scheme);
 
         if (defined('LOCALE') && ends_with($root, $search = '/' . LOCALE)) {
             $root = substr_replace($root, '', strrpos($root, $search), strlen($search));
@@ -98,7 +98,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
             $query = '';
         }
 
-        return $this->trimUrl($root, $asset, $tail) . $query;
+        return $this->format($root, '/' . trim($asset . '/' . $tail, '/')) . $query;
     }
 
     /**
@@ -106,7 +106,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
      *
      * @param                    $name
      * @param                    $entry
-     * @param  array             $parameters
+     * @param  array $parameters
      * @return mixed|null|string
      */
     public function make($name, $entry, array $parameters = [])
@@ -139,8 +139,8 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
      * Get the URL to a named route.
      *
      * @param  string $name
-     * @param  mixed  $parameters
-     * @param  bool   $absolute
+     * @param  mixed $parameters
+     * @param  bool $absolute
      * @return string
      *
      * @throws \InvalidArgumentException

@@ -14,7 +14,6 @@ use Twig_Environment;
 use Twig_Error_Loader;
 use Exception;
 use InvalidArgumentException;
-use TwigBridge\Twig\Template;
 
 /**
  * Compiles Twig templates.
@@ -84,11 +83,8 @@ class Compiler implements CompilerInterface
     /**
      * Compile the view at the given path.
      *
-     * @param string $path
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return string \TwigBridge\Twig\Template
+     * @param $path
+     * @return \Twig_Template
      */
     public function load($path)
     {

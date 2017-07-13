@@ -4,9 +4,9 @@ use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Anomaly\Streams\Platform\View\Event\TemplateDataIsLoading;
 use Anomaly\Streams\Platform\View\Event\ViewComposed;
+use Anomaly\Streams\Platform\View\Twig\Bridge;
 use Anomaly\Streams\Platform\View\ViewTemplate;
 use Illuminate\Contracts\Events\Dispatcher;
-use TwigBridge\Bridge;
 
 /**
  * Class LoadTemplateData

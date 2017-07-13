@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\View\Event;
 
-use TwigBridge\Bridge;
+use Anomaly\Streams\Platform\View\Twig\Bridge;
 
 /**
  * Class RegisteringTwigPlugins

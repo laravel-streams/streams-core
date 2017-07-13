@@ -28,6 +28,8 @@ use Anomaly\Streams\Platform\View\Command\GetConstants;
 use Anomaly\Streams\Platform\View\Command\GetLayoutName;
 use Anomaly\Streams\Platform\View\Command\GetView;
 use Carbon\Carbon;
+use Collective\Html\FormBuilder;
+use Collective\Html\HtmlBuilder;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
@@ -68,6 +70,20 @@ class StreamsPlugin extends Plugin
      * @var Guard
      */
     protected $auth;
+
+    /**
+     * The form HTML builder.
+     *
+     * @var FormBuilder
+     */
+    protected $form;
+
+    /**
+     * The base HTML builder.
+     *
+     * @var HtmlBuilder
+     */
+    protected $html;
 
     /**
      * The YAML parser.
@@ -157,18 +173,21 @@ class StreamsPlugin extends Plugin
      * Create a new AgentPlugin instance.
      *
      * @param UrlGenerator $url
-     * @param Str          $str
-     * @param Guard        $auth
-     * @param Agent        $agent
-     * @param Asset        $asset
-     * @param Image        $image
-     * @param Router       $router
-     * @param Repository   $config
-     * @param Request      $request
-     * @param Store        $session
-     * @param Currency     $currency
-     * @param Template     $template
-     * @param Translator   $translator
+     * @param Str $str
+     * @param Guard $auth
+     * @param Yaml $yaml
+     * @param Agent $agent
+     * @param Asset $asset
+     * @param Image $image
+     * @param Router $router
+     * @param FormBuilder $form
+     * @param HtmlBuilder $html
+     * @param Repository $config
+     * @param Request $request
+     * @param Store $session
+     * @param Currency $currency
+     * @param Template $template
+     * @param Translator $translator
      */
     public function __construct(
         UrlGenerator $url,
@@ -179,6 +198,8 @@ class StreamsPlugin extends Plugin
         Asset $asset,
         Image $image,
         Router $router,
+        FormBuilder $form,
+        HtmlBuilder $html,
         Repository $config,
         Request $request,
         Store $session,
@@ -189,6 +210,8 @@ class StreamsPlugin extends Plugin
         $this->url        = $url;
         $this->str        = $str;
         $this->auth       = $auth;
+        $this->form       = $form;
+        $this->html       = $html;
         $this->yaml       = $yaml;
         $this->agent      = $agent;
         $this->asset      = $asset;
@@ -300,6 +323,28 @@ class StreamsPlugin extends Plugin
                     }
 
                     return $this->dispatch(new GetFormCriteria($arguments));
+                },
+                [
+                    'is_safe' => ['html'],
+                ]
+            ),
+            new \Twig_SimpleFunction(
+                'form_*',
+                function ($name) {
+                    $arguments = array_slice(func_get_args(), 1);
+
+                    return call_user_func_array([$this->form, camel_case($name)], $arguments);
+                },
+                [
+                    'is_safe' => ['html'],
+                ]
+            ),
+            new \Twig_SimpleFunction(
+                'html_*',
+                function ($name) {
+                    $arguments = array_slice(func_get_args(), 1);
+
+                    return call_user_func_array([$this->html, camel_case($name)], $arguments);
                 },
                 [
                     'is_safe' => ['html'],
@@ -558,9 +603,9 @@ class StreamsPlugin extends Plugin
     /**
      * Return a URL.
      *
-     * @param  null  $path
+     * @param  null $path
      * @param  array $parameters
-     * @param  null  $secure
+     * @param  null $secure
      * @return string
      */
     public function url($path = null, $parameters = [], $secure = null)
