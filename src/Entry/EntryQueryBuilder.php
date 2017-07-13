@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
 use Anomaly\Streams\Platform\Model\EloquentQueryBuilder;
 
 /**
@@ -18,4 +19,17 @@ class EntryQueryBuilder extends EloquentQueryBuilder
      * @var EntryModel
      */
     protected $model;
+
+    /**
+     * Get a field type criteria.
+     *
+     * @param $field
+     * @return FieldTypeQuery
+     */
+    public function getFieldTypeCriteria($field)
+    {
+        return $this->model
+            ->getFieldType($field)
+            ->getCriteria($this);
+    }
 }

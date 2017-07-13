@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
 use Anomaly\Streams\Platform\Model\EloquentCriteria;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Illuminate\Database\Eloquent\Builder;
@@ -46,6 +47,19 @@ class EntryCriteria extends EloquentCriteria
         $this->query->orderBy('sort_order', $direction);
 
         return $this;
+    }
+
+    /**
+     * Get a field type criteria.
+     *
+     * @param $field
+     * @return FieldTypeQuery
+     */
+    public function getFieldTypeCriteria($field)
+    {
+        return $this->stream
+            ->getFieldType($field)
+            ->getCriteria($this->query);
     }
 
     /**
