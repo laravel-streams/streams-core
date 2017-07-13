@@ -252,8 +252,8 @@ class EloquentCriteria
      */
     public function __call($name, $arguments)
     {
-        if ($this->hasHook($name)) {
-            return $this->call($name, $arguments);
+        if ($this->hasHook($hook = snake_case($name))) {
+            return $this->call($hook, $arguments);
         }
 
         if ($this->methodExists($name) && $this->methodIsSafe($name)) {
