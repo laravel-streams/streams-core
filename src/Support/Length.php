@@ -43,9 +43,9 @@ class Length
      */
     public function __construct($length, $unit = null)
     {
-        if (preg_match('/(\d+)\s*(\D+)/', strtolower($length), $matches)) {
-            $length = $matches[1];
-            $unit   = $matches[2];
+        if (str_is('* *', strtolower($length)) && $parts = explode(' ', $length)) {
+            $length = $parts[0];
+            $unit   = $parts[1];
         }
 
         if (!$multiplier = array_get($this->units, strtolower($unit))) {
