@@ -253,7 +253,7 @@ class EloquentCriteria
     public function __call($name, $arguments)
     {
         $hook = snake_case($name);
-        
+
         if ($this->hasHook($hook)) {
             return $this->call($hook, $arguments);
         }
