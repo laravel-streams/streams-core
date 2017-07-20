@@ -55,7 +55,7 @@ class EloquentCriteria
     /**
      * The query builder.
      *
-     * @var Builder|\Illuminate\Database\Query\Builder
+     * @var EloquentQueryBuilder
      */
     protected $query;
 
@@ -252,8 +252,14 @@ class EloquentCriteria
      */
     public function __call($name, $arguments)
     {
-        if ($this->hasHook($name)) {
-            return $this->call($name, $arguments);
+        $hook = snake_case($name);
+
+        if ($this->hasHook($hook)) {
+            return $this->call($hook, $arguments);
+        }
+
+        if ($this->query->hasHook($hook)) {
+            return $this->query->call($hook, $arguments);
         }
 
         if ($this->methodExists($name) && $this->methodIsSafe($name)) {

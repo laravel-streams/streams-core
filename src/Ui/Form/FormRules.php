@@ -39,9 +39,8 @@ class FormRules
      */
     public function compile(FormBuilder $builder)
     {
-        $rules = [];
-
-        $entry  = $builder->getFormEntry();
+        $rules = $builder->getRules();
+        $entry = $builder->getFormEntry();
         $stream = $builder->getFormStream();
 
         $locale = $this->config->get('streams::locales.default');
@@ -63,7 +62,10 @@ class FormRules
 
             if (!$stream instanceof StreamInterface) {
 
-                $rules[$field->getInputName()] = implode('|', $fieldRules);
+                $rules[$field->getInputName()] = array_merge(
+                    array_unique($fieldRules),
+                    array_get($rules, $field->getInputName(), [])
+                );
 
                 continue;
             }
@@ -92,8 +94,22 @@ class FormRules
                 }
             }
 
-            $rules[$field->getInputName()] = implode('|', array_unique($fieldRules));
+            $rules[$field->getInputName()] = array_merge(
+                array_unique($fieldRules),
+                array_get($rules, $field->getInputName(), [])
+            );
         }
+
+        /**
+         * Make sure the rules for each
+         * field are in pipe format.
+         */
+        array_walk(
+            $rules,
+            function (&$rules) {
+                $rules = implode('|', array_unique((array)$rules));
+            }
+        );
 
         return array_filter($rules);
     }

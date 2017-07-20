@@ -19,21 +19,21 @@ class WriteEntityController
      *
      * @var string
      */
-    private $slug;
+    protected $slug;
 
     /**
      * The addon instance.
      *
      * @var Addon
      */
-    private $addon;
+    protected $addon;
 
     /**
      * The entity stream namespace.
      *
      * @var string
      */
-    private $namespace;
+    protected $namespace;
 
 
     /**

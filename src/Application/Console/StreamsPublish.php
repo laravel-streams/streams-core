@@ -1,13 +1,15 @@
 <?php namespace Anomaly\Streams\Platform\Application\Console;
 
+use Anomaly\Streams\Platform\Application\Console\Command\PublishConfig;
+use Anomaly\Streams\Platform\Application\Console\Command\PublishTranslations;
+use Anomaly\Streams\Platform\Application\Console\Command\PublishViews;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
-use Anomaly\Streams\Platform\Application\Console\Command\PublishConfig;
-use Anomaly\Streams\Platform\Application\Console\Command\PublishTranslations;
 
 class StreamsPublish extends Command
 {
+
     use DispatchesJobs;
 
     /**
@@ -29,6 +31,7 @@ class StreamsPublish extends Command
      */
     public function fire()
     {
+        $this->dispatch(new PublishViews($this));
         $this->dispatch(new PublishConfig($this));
         $this->dispatch(new PublishTranslations($this));
     }

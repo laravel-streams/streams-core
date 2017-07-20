@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 /**
  * Class AssetPaths
  *
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
+ * @deprecated in v1.2 will remove in v1.4
+ *
+ * @link       http://pyrocms.com/
+ * @author     PyroCMS, Inc. <support@pyrocms.com>
+ * @author     Ryan Thompson <ryan@pyrocms.com>
  */
 class AssetPaths
 {

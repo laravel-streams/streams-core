@@ -62,7 +62,7 @@ trait Hookable
         }
 
         if ($hook['bind']) {
-            $hook['callback'] = \Closure::bind($hook['callback'], $this);
+            $hook['callback'] = \Closure::bind($hook['callback'], $this, get_class());
         }
 
         return app()->call($hook['callback'], $parameters);
@@ -98,5 +98,32 @@ trait Hookable
         }
 
         return null;
+    }
+
+    /**
+     * Register a new hook.
+     *
+     * @param        $hook
+     * @param        $callback
+     * @param  bool  $bind
+     */
+    public static function _hook($hook, $callback, $bind = false)
+    {
+        $owner = __CLASS__;
+
+        self::$hooks[$hook][] = compact('owner', 'callback', 'bind');
+    }
+
+    /**
+     * Bind a new hook. This is a shortcut
+     * for hooks with the bind option. It's
+     * more descriptive for IDE hinting.
+     *
+     * @param $hook
+     * @param $callback
+     */
+    public static function _bind($hook, $callback)
+    {
+        self::_hook($hook, $callback, true);
     }
 }

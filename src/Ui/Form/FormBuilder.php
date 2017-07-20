@@ -98,6 +98,13 @@ class FormBuilder
     protected $skips = [];
 
     /**
+     * Fields to rules.
+     *
+     * @var array|string
+     */
+    protected $rules = [];
+
+    /**
      * The actions config.
      *
      * @var array|string
@@ -554,6 +561,43 @@ class FormBuilder
     public function skipField($fieldSlug)
     {
         $this->skips[] = $fieldSlug;
+
+        return $this;
+    }
+
+    /**
+     * Set the rules.
+     *
+     * @param $rules
+     * @return $this
+     */
+    public function setRules($rules)
+    {
+        $this->rules = $rules;
+
+        return $this;
+    }
+
+    /**
+     * Get the rules.
+     *
+     * @return array
+     */
+    public function getRules()
+    {
+        return $this->rules;
+    }
+
+    /**
+     * Add rules for a field.
+     *
+     * @param       $field
+     * @param array $rules
+     * @return $this
+     */
+    public function addRules($field, array $rules)
+    {
+        $this->rules[$field] = $rules;
 
         return $this;
     }

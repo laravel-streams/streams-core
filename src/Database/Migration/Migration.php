@@ -51,7 +51,8 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     protected $assignments = [];
 
     /**
-     * Should the migration delete its stream when rolling back?
+     * Should the migration delete
+     * its stream when rolling back?
      *
      * @var bool
      */

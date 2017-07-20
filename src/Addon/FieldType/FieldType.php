@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Presenter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
@@ -228,6 +229,13 @@ class FieldType extends Addon
      * @var null|string
      */
     protected $query = null;
+
+    /**
+     * The field type criteria.
+     *
+     * @var null|string
+     */
+    protected $criteria;
 
     /**
      * Return a config value.
@@ -1187,6 +1195,38 @@ class FieldType extends Addon
     public function setQuery($query)
     {
         $this->query = $query;
+
+        return $this;
+    }
+
+    /**
+     * Get the criteria.
+     *
+     * @param Builder $query
+     * @return FieldTypeQuery
+     */
+    public function getCriteria(Builder $query)
+    {
+        if (!$this->criteria) {
+            $this->criteria = get_class($this) . 'Criteria';
+        }
+
+        if (!class_exists($this->criteria)) {
+            $this->criteria = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCriteria';
+        }
+
+        return app()->make($this->criteria, [$this, $query]);
+    }
+
+    /**
+     * Set the criteria class.
+     *
+     * @param $criteria
+     * @return $this
+     */
+    public function setCriteria($criteria)
+    {
+        $this->criteria = $criteria;
 
         return $this;
     }

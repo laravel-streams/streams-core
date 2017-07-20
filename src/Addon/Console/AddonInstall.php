@@ -51,20 +51,12 @@ class AddonInstall extends Command
 
         if ($addon instanceof Module) {
 
-            if ($addon->isInstalled()) {
-                throw new \Exception('The [' . $this->argument('addon') . '] module is already installed.');
-            }
-
             $modules->install($addon, $this->option('seed'));
 
             $this->info('The [' . $this->argument('addon') . '] module was installed.');
         }
 
         if ($addon instanceof Extension) {
-
-            if ($addon->isInstalled()) {
-                throw new \Exception('The [' . $this->argument('addon') . '] extension is already installed.');
-            }
 
             $extensions->install($addon, $this->option('seed'));
 
