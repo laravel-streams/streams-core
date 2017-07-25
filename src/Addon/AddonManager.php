@@ -31,13 +31,6 @@ class AddonManager
     protected $addons;
 
     /**
-     * The addon loader.
-     *
-     * @var AddonLoader
-     */
-    protected $loader;
-
-    /**
      * The service container.
      *
      * @var Container
@@ -76,7 +69,6 @@ class AddonManager
      * Create a new AddonManager instance.
      *
      * @param AddonPaths      $paths
-     * @param AddonLoader     $loader
      * @param ModuleModel     $modules
      * @param Container       $container
      * @param Dispatcher      $dispatcher
@@ -86,7 +78,6 @@ class AddonManager
      */
     public function __construct(
         AddonPaths $paths,
-        AddonLoader $loader,
         ModuleModel $modules,
         Container $container,
         Dispatcher $dispatcher,
@@ -96,7 +87,6 @@ class AddonManager
     ) {
         $this->paths      = $paths;
         $this->addons     = $addons;
-        $this->loader     = $loader;
         $this->modules    = $modules;
         $this->container  = $container;
         $this->integrator = $integrator;
@@ -118,6 +108,7 @@ class AddonManager
                 return $enabled;
             }
         );
+        
         $this->container->bind(
             'streams::addons.installed',
             function () use ($installed) {
@@ -128,18 +119,7 @@ class AddonManager
         $paths = $this->paths->all();
 
         /*
-         * First load all the addons
-         * so they're available.
-         */
-        foreach ($paths as $path) {
-            $this->loader->load($path);
-        }
-
-        $this->loader->register();
-
-        /*
-         * Then register all of the addons now
-         * that they're all PSR autoloaded.
+         * Register all of the addons.
          */
         foreach ($paths as $path) {
 
