@@ -366,11 +366,13 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     public function getTranslation($locale = null, $withFallback = true)
     {
 
+        $locale = $locale ?: app()->getLocale();
+
         /**
          * If we have a desired locale and
          * it exists then just use that locale.
          */
-        if ($locale && $translation = $this->getTranslationByLocaleKey($locale)) {
+        if ($translation = $this->getTranslationByLocaleKey($locale)) {
             return $translation;
         }
 

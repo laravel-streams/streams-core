@@ -121,6 +121,7 @@ class Image
         'colorize',
         'resizeCanvas',
         'contrast',
+        'copy',
         'crop',
         'encode',
         'fit',
@@ -139,6 +140,7 @@ class Image
         'amount',
         'widen',
         'orientate',
+        'text',
     ];
 
     /**
@@ -161,6 +163,13 @@ class Image
      * @var null|int
      */
     protected $height = null;
+
+    /**
+     * The copy mode flag.
+     *
+     * @var bool
+     */
+    protected $copy = false;
 
     /**
      * The URL generator.
@@ -551,11 +560,12 @@ class Image
             return $this->getImage();
         }
 
-        if ($this->agent->isTablet()) {
+        // @todo: This should be opt-in
+        /*if ($this->agent->isTablet()) {
             $this->macro('tablet_optimized');
         } elseif ($this->agent->isMobile()) {
             $this->macro('mobile_optimized');
-        }
+        }*/
 
         $path = $this->paths->outputPath($this);
 
@@ -621,7 +631,7 @@ class Image
 
         $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
-        if (!$this->supportsType($this->getExtension())) {
+        if ($this->hasAlteration('copy') || !$this->supportsType($this->getExtension())) {
 
             $this->files->put($path, $this->dumpImage());
 
@@ -1051,6 +1061,17 @@ class Image
         $this->alterations[$method] = $arguments;
 
         return $this;
+    }
+
+    /**
+     * Return if alteration is applied.
+     *
+     * @param $method
+     * @return bool
+     */
+    public function hasAlteration($method)
+    {
+        return array_key_exists($method, $this->getAlterations());
     }
 
     /**

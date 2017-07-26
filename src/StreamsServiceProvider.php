@@ -44,7 +44,6 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Redirector;
-use Illuminate\Session\Store;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -267,6 +266,10 @@ class StreamsServiceProvider extends ServiceProvider
                             $twig->addExtension(new MarkdownExtension(new MichelfMarkdownEngine()));
                         }
 
+                        if (!$twig->hasExtension('compress')) {
+                            $twig->addExtension(new \nochso\HtmlCompressTwig\Extension(env('HTML_COMPRESS', true)));
+                        }
+
                         $twig->addExtension(
                             new Extension(
                                 new CacheStrategy(
@@ -378,7 +381,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             return;
         }
-
+        
         /**
          * Correct path for Paginator.
          */

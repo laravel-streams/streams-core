@@ -32,5 +32,9 @@ return [
     'instructions' => [
         'name'         => 'Instruktioner',
         'instructions' => 'Fältets instruktioner kommer visas i formuläret för att hjälpa användaren.'
+    ],
+    'warning'      => [
+        'name'         => 'Varning',
+        'instructions' => 'Varningar hjälper till att uppmärksamma viktig information.'
     ]
 ];

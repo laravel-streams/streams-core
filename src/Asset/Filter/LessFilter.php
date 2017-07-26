@@ -19,23 +19,6 @@ class LessFilter extends LessphpFilter
     use DispatchesJobs;
 
     /**
-     * The asset parser utility.
-     *
-     * @var AssetParser
-     */
-    protected $parser;
-
-    /**
-     * Create a new ParseFilter instance.
-     *
-     * @param AssetParser $parser
-     */
-    public function __construct(AssetParser $parser)
-    {
-        $this->parser = $parser;
-    }
-
-    /**
      * Filters an asset after it has been loaded.
      *
      * @param AssetInterface $asset
@@ -66,6 +49,6 @@ class LessFilter extends LessphpFilter
             $compiler->addImportDir($loadPath);
         }
 
-        $asset->setContent($compiler->parse($this->parser->parse($asset->getContent())));
+        $asset->setContent($compiler->parse($asset->getContent()));
     }
 }

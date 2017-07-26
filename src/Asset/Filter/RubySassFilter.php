@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Asset\Filter;
 
 use Anomaly\Streams\Platform\Asset\Command\LoadThemeVariables;
-use Anomaly\Streams\Platform\Asset\AssetParser;
 use Anomaly\Streams\Platform\Support\Collection;
 use Assetic\Asset\AssetInterface;
 use Assetic\Filter\Sass\SassFilter;
@@ -10,24 +9,14 @@ use Leafo\ScssPhp\Compiler;
 
 class RubySassFilter extends SassFilter
 {
+
     use DispatchesJobs;
 
     /**
-     * The asset parser utility.
-     *
-     * @var AssetParser
-     */
-    protected $parser;
-
-    /**
      * Create a new LessFilter instance.
-     *
-     * @param AssetParser $parser
      */
-    public function __construct(AssetParser $parser)
+    public function __construct()
     {
-        $this->parser = $parser;
-
         parent::__construct(env('SASS_PATH', '/usr/bin/sass'), null);
     }
 
@@ -58,6 +47,6 @@ class RubySassFilter extends SassFilter
 
         $compiler->setVariables($variables->all());
 
-        $asset->setContent($this->parser->parse($compiler->compile($asset->getContent())));
+        $asset->setContent($compiler->compile($asset->getContent()));
     }
 }

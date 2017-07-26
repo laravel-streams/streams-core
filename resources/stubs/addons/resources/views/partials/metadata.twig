@@ -29,7 +29,7 @@
 </title>
 
 <!-- Favicon -->
-{#<link rel="shortcut icon" href="{{ image('theme::img/favicon.png') }}" type="image/png">#}
+{#<link rel="shortcut icon" href="{{ img('theme::img/favicon.png').path }}" type="image/png">#}
 
 {# Base Theme Components #}
 {{ asset_add("theme.css", "theme::scss/bootstrap/bootstrap.scss") }}
@@ -38,24 +38,11 @@
 {# Specific Build Files #}
 {{ asset_add("build.css", "theme::scss/theme/theme.scss", ["live"]) }}
 
-{# Core Theme Components #}
-{{ asset_add("theme.js", "theme::js/vendor/jquery.min.js") }}
-{{ asset_add("theme.js", "theme::js/vendor/bootstrap.min.js") }}
-{{ asset_add("theme.js", "theme::js/vendor/vue.min.js") }}
-
-{# Theme Scripts #}
-{#{{ asset_add("theme.js", "theme::js/plugins/*") }}#}
-{{ asset_add("theme.js", "theme::js/theme/initialize.js") }}
-
 {# Include Asset Collections #}
-{{ html_style(asset_path("theme.css")) }}
-{{ html_style(asset_path("build.css")) }}
-{{ html_script(asset_path("theme.js")) }}
+<style type="text/css">
+    {{ asset_inline("theme.css", ["min"]) }}
+    {{ asset_inline("build.css", ["parse", "min"]) }}
+</style>
 
 {# Important!! #}
 {{ constants() }}
-
-{# Include Styles Loaded From Outside #}
-{% for style in asset_styles("styles.css") %}
-    {{ style|raw }}
-{% endfor %}

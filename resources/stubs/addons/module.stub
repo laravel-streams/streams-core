@@ -6,6 +6,13 @@ class {addon} extends Module
 {
 
     /**
+     * The navigation display flag.
+     *
+     * @var bool
+     */
+    protected $navigation = true;
+
+    /**
      * The addon icon.
      *
      * @var string
@@ -17,7 +24,6 @@ class {addon} extends Module
      *
      * @var array
      */
-    protected $sections = [
-        'example'
-    ];
+    protected $sections = [];
+
 }

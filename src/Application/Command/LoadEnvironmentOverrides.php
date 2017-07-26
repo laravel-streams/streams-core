@@ -23,7 +23,7 @@ class LoadEnvironmentOverrides
             return;
         }
 
-        foreach (file($file, FILE_IGNORE_NEW_LINES) as $line) {
+        foreach (file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
 
             // Check for # comments.
             if (!starts_with($line, '#')) {

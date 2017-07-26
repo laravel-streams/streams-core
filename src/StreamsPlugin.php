@@ -15,6 +15,8 @@ use Anomaly\Streams\Platform\Stream\Command\GetStream;
 use Anomaly\Streams\Platform\Stream\Command\GetStreams;
 use Anomaly\Streams\Platform\Support\Currency;
 use Anomaly\Streams\Platform\Support\Decorator;
+use Anomaly\Streams\Platform\Support\Length;
+use Anomaly\Streams\Platform\Support\Locale;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
@@ -393,6 +395,12 @@ class StreamsPlugin extends Plugin
                 }
             ),
             new \Twig_SimpleFunction(
+                'length',
+                function ($length, $unit = null) {
+                    return new Length($length, $unit);
+                }
+            ),
+            new \Twig_SimpleFunction(
                 'carbon',
                 function ($time = null, $timezone = null) {
                     return new Carbon($time, $timezone);
@@ -434,6 +442,12 @@ class StreamsPlugin extends Plugin
                 'trans',
                 function ($key, array $parameters = [], $locale = 'en') {
                     return $this->dispatch(new GetTranslatedString($key, $parameters, $locale));
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'locale',
+                function ($locale = null) {
+                    return (new Locale($locale));
                 }
             ),
             new \Twig_SimpleFunction(

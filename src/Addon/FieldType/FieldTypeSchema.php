@@ -166,7 +166,7 @@ class FieldTypeSchema
         $doctrine   = $manager->listTableDetails($connection->getTablePrefix() . $table->getTable());
 
         // The unique index name.
-        $unique = md5('unique_' . $table->getTable() . '_' . $this->fieldType->getColumnName());
+        $unique = md5($assignment->getId());
 
         /*
          * If the assignment is unique and not translatable
@@ -183,7 +183,20 @@ class FieldTypeSchema
          * then we need to remove.
          */
         if (!$assignment->isUnique() && !$assignment->isTranslatable() && $doctrine->hasIndex($unique)) {
-            $column->dropIndex(md5('unique_' . $table->getTable() . '_' . $this->fieldType->getColumnName()));
+            $table->dropIndex($unique);
+        }
+
+        /*
+         * @deprecated Will be removed in 3.5
+         *
+         * If the assignment is NOT unique and not translatable
+         * and the table DOES have the given table index
+         * then we need to remove.
+         */
+        $unique = md5('unique_' . $table->getTable() . '_' . $this->fieldType->getColumnName());
+
+        if (!$assignment->isUnique() && !$assignment->isTranslatable() && $doctrine->hasIndex($unique)) {
+            $table->dropIndex($unique);
         }
     }
 
