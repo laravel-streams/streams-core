@@ -78,7 +78,13 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function newServiceProvider()
     {
-        return app()->make($this->getServiceProvider(), [app(), $this]);
+        return app()->make(
+            $this->getServiceProvider(),
+            [
+                'container' => app(),
+                'addon'     => $this,
+            ]
+        );
     }
 
     /**
