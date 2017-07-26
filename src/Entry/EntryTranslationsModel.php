@@ -180,7 +180,11 @@ class EntryTranslationsModel extends EloquentModel
      */
     public function __call($name, $arguments)
     {
-        return call_user_func_array([$this->getParent(), $name], $arguments);
+        if (!$parent = $this->getParent()) {
+            return parent::__call($name, $arguments);
+        }
+
+        return call_user_func_array([$parent, $name], $arguments);
     }
 
     /**
