@@ -236,9 +236,9 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
      * the translatable conflict during specific procedures.
      *
      * @param  array $attributes
-     * @return static
+     * @return StreamModel|EloquentModel
      */
-    public static function create(array $attributes = [])
+    public function create(array $attributes = [])
     {
         $model = parent::create($attributes);
 

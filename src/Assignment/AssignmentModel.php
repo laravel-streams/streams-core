@@ -80,9 +80,9 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
      * the translatable conflict during specific procedures.
      *
      * @param  array $attributes
-     * @return static
+     * @return AssignmentModel|EloquentModel
      */
-    public static function create(array $attributes = [])
+    public function create(array $attributes = [])
     {
         $model = parent::create($attributes);
 
