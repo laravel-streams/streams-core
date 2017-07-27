@@ -15,7 +15,6 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Process\Process;
 
 /**
  * Class MakeAddon
@@ -83,6 +82,8 @@ class MakeAddon extends Command
         $this->dispatch(new WriteAddonFeatureTest($path, $type, $slug, $vendor));
         $this->dispatch(new WriteAddonServiceProvider($path, $type, $slug, $vendor));
 
+        $this->info('Addon created.');
+
         $addons->register();
 
         /**
@@ -109,8 +110,6 @@ class MakeAddon extends Command
         if ($type == 'theme') {
             $this->dispatch(new ScaffoldTheme($path));
         }
-
-        (new Process('composer dump-autoload'))->run();
     }
 
     /**

@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Database\Migration\Console\Command\ConfigureCreator;
 use Anomaly\Streams\Platform\Database\Migration\MigrationCreator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class MigrateMakeCommand
@@ -40,7 +39,7 @@ class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\Migrate
     /**
      * Execute the console command.
      */
-    public function fire()
+    public function handle()
     {
         $this->dispatch(
             new ConfigureCreator(
@@ -52,6 +51,6 @@ class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\Migrate
 
         $this->creator->setInput($this->input);
 
-        parent::fire();
+        parent::handle();
     }
 }

@@ -29,7 +29,7 @@ class RollbackCommand extends \Illuminate\Database\Console\Migrations\RollbackCo
      *
      * @return void
      */
-    public function fire()
+    public function handle()
     {
         $this->dispatch(
             new ConfigureMigrator(
@@ -39,7 +39,7 @@ class RollbackCommand extends \Illuminate\Database\Console\Migrations\RollbackCo
             )
         );
 
-        parent::fire();
+        parent::handle();
     }
 
     /**

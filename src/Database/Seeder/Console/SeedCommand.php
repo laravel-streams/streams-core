@@ -1,18 +1,25 @@
 <?php namespace Anomaly\Streams\Platform\Database\Seeder\Console;
 
+use Anomaly\Streams\Platform\Database\Seeder\Console\Command\SetAddonSeederClass;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
-use Anomaly\Streams\Platform\Database\Seeder\Command\Seed;
-use Anomaly\Streams\Platform\Database\Seeder\Console\Command\SetAddonSeederClass;
 
+/**
+ * Class SeedCommand
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
 {
+
     use DispatchesJobs;
 
     /**
      * Execute the console command.
      */
-    public function fire()
+    public function handle()
     {
         $this->dispatch(
             new SetAddonSeederClass(
@@ -24,10 +31,13 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
         $path = $this->input->getOption('class');
 
         if ($path && !class_exists($path)) {
-            return $this->info('Nothing to seed.');
+
+            $this->info('Nothing to seed.');
+
+            return;
         }
 
-        parent::fire();
+        parent::handle();
     }
 
     /**

@@ -3,8 +3,16 @@
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
 
+/**
+ * Class RefreshCommand
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class RefreshCommand extends \Illuminate\Database\Console\Migrations\RefreshCommand
 {
+
     use DispatchesJobs;
 
     /**
@@ -14,7 +22,7 @@ class RefreshCommand extends \Illuminate\Database\Console\Migrations\RefreshComm
      *
      * @return void
      */
-    public function fire()
+    public function handle()
     {
         if (!$this->confirmToProceed()) {
             return;
@@ -31,24 +39,38 @@ class RefreshCommand extends \Illuminate\Database\Console\Migrations\RefreshComm
         $step = $this->input->getOption('step', $addon) ?: 0;
 
         if ($step > 0) {
-            $this->call('migrate:rollback', [
-                '--database' => $database, '--addon' => $addon, '--force' => $force, '--step' => $step,
-            ]);
+            $this->call(
+                'migrate:rollback',
+                [
+                    '--database' => $database,
+                    '--addon'    => $addon,
+                    '--force'    => $force,
+                    '--step'     => $step,
+                ]
+            );
         } else {
-            $this->call('migrate:reset', [
-                '--database' => $database, '--addon' => $addon, '--force' => $force,
-            ]);
+            $this->call(
+                'migrate:reset',
+                [
+                    '--database' => $database,
+                    '--addon'    => $addon,
+                    '--force'    => $force,
+                ]
+            );
         }
 
         // The refresh command is essentially just a brief aggregate of a few other of
         // the migration commands and just provides a convenient wrapper to execute
         // them in succession. We'll also see if we need to re-seed the database.
-        $this->call('migrate', [
-            '--database' => $database,
-            '--addon'    => $addon,
-            '--force'    => $force,
-            '--path'     => $path,
-        ]);
+        $this->call(
+            'migrate',
+            [
+                '--database' => $database,
+                '--addon'    => $addon,
+                '--force'    => $force,
+                '--path'     => $path,
+            ]
+        );
 
         if ($this->needsSeeding()) {
             $this->runSeeder($database);

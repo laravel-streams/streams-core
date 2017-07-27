@@ -87,35 +87,6 @@ class StreamsServiceProvider extends ServiceProvider
     ];
 
     /**
-     * The commands to register.
-     *
-     * @var array
-     */
-    protected $commands = [
-        'Anomaly\Streams\Platform\Asset\Console\Clear',
-        'Anomaly\Streams\Platform\Stream\Console\Make',
-        'Anomaly\Streams\Platform\Stream\Console\Compile',
-        'Anomaly\Streams\Platform\Stream\Console\Refresh',
-        'Anomaly\Streams\Platform\Stream\Console\Cleanup',
-        'Anomaly\Streams\Platform\Stream\Console\Destroy',
-        'Anomaly\Streams\Platform\Addon\Console\MakeAddon',
-        'Anomaly\Streams\Platform\Addon\Console\AddonInstall',
-        'Anomaly\Streams\Platform\Addon\Console\AddonUninstall',
-        'Anomaly\Streams\Platform\Addon\Console\AddonReinstall',
-        'Anomaly\Streams\Platform\Installer\Console\Install',
-        'Anomaly\Streams\Platform\Application\Console\EnvSet',
-        'Anomaly\Streams\Platform\Addon\Console\AddonPublish',
-        'Anomaly\Streams\Platform\Addon\Module\Console\Install',
-        'Anomaly\Streams\Platform\Addon\Module\Console\Uninstall',
-        'Anomaly\Streams\Platform\Addon\Module\Console\Reinstall',
-        'Anomaly\Streams\Platform\Application\Console\AppPublish',
-        'Anomaly\Streams\Platform\Addon\Extension\Console\Install',
-        'Anomaly\Streams\Platform\Addon\Extension\Console\Uninstall',
-        'Anomaly\Streams\Platform\Addon\Extension\Console\Reinstall',
-        'Anomaly\Streams\Platform\Application\Console\StreamsPublish',
-    ];
-
-    /**
      * The class bindings.
      *
      * @var array
@@ -124,6 +95,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Illuminate\Contracts\Debug\ExceptionHandler'                                    => 'Anomaly\Streams\Platform\Exception\ExceptionHandler',
         'Illuminate\Routing\UrlGenerator'                                                => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
         'Illuminate\Contracts\Routing\UrlGenerator'                                      => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
+        'Illuminate\Database\Migrations\MigrationRepositoryInterface'                    => 'Anomaly\Streams\Platform\Database\Migration\MigrationRepository',
         'Anomaly\Streams\Platform\Entry\EntryModel'                                      => 'Anomaly\Streams\Platform\Entry\EntryModel',
         'Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface'               => 'Anomaly\Streams\Platform\Entry\EntryRepository',
         'Anomaly\Streams\Platform\Field\FieldModel'                                      => 'Anomaly\Streams\Platform\Field\FieldModel',
@@ -151,9 +123,11 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     protected $singletons = [
+        'Illuminate\Database\Migrations\Migrator'                                            => 'Anomaly\Streams\Platform\Database\Migration\Migrator',
         'Illuminate\Contracts\Routing\UrlGenerator'                                          => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
         'Intervention\Image\ImageManager'                                                    => 'image',
         'League\Flysystem\MountManager'                                                      => 'League\Flysystem\MountManager',
+        'Illuminate\Database\Seeder'                                                         => 'Anomaly\Streams\Platform\Database\Seeder\Seeder',
         'Illuminate\Console\Scheduling\Schedule'                                             => 'Illuminate\Console\Scheduling\Schedule',
         'Anomaly\Streams\Platform\Application\Application'                                   => 'Anomaly\Streams\Platform\Application\Application',
         'Anomaly\Streams\Platform\Addon\AddonLoader'                                         => 'Anomaly\Streams\Platform\Addon\AddonLoader',
@@ -330,9 +304,6 @@ class StreamsServiceProvider extends ServiceProvider
             $this->app->register($provider);
         }
 
-        // Register commands.
-        $this->commands(array_merge($this->commands, config('streams.commands', [])));
-
         /* @var Schedule $schedule */
         // @todo Fix me
 //        $schedule = $this->app->make(Schedule::class);
@@ -381,7 +352,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             return;
         }
-        
+
         /**
          * Correct path for Paginator.
          */
