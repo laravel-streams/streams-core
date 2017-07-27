@@ -7,6 +7,13 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Exception;
 
+/**
+ * Class Uninstall
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class Uninstall extends Command
 {
 
