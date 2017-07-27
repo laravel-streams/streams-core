@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Console;
 
+use Anomaly\Streams\Platform\Addon\AddonLoader;
 use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Addon\Console\Command\MakeAddonPaths;
 use Anomaly\Streams\Platform\Addon\Console\Command\ScaffoldTheme;
@@ -46,10 +47,11 @@ class MakeAddon extends Command
      * Execute the console command.
      *
      * @param AddonManager $addons
+     * @param AddonLoader  $loader
      * @param Repository   $config
      * @throws \Exception
      */
-    public function handle(AddonManager $addons, Repository $config)
+    public function handle(AddonManager $addons, AddonLoader $loader, Repository $config)
     {
         $namespace = $this->argument('namespace');
 
@@ -82,7 +84,12 @@ class MakeAddon extends Command
         $this->dispatch(new WriteAddonFeatureTest($path, $type, $slug, $vendor));
         $this->dispatch(new WriteAddonServiceProvider($path, $type, $slug, $vendor));
 
-        $this->info('Addon created.');
+        $this->info("Addon [{$vendor}.{$type}.{$slug}] created.");
+
+        $loader
+            ->load($path)
+            ->register()
+            ->dump();
 
         $addons->register();
 

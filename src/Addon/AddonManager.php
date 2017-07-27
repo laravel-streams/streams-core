@@ -9,9 +9,9 @@ use Illuminate\Contracts\Events\Dispatcher;
 /**
  * Class AddonManager
  *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
  */
 class AddonManager
 {
@@ -108,7 +108,7 @@ class AddonManager
                 return $enabled;
             }
         );
-        
+
         $this->container->bind(
             'streams::addons.installed',
             function () use ($installed) {

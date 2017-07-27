@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
 use Composer\Autoload\ClassLoader;
+use Symfony\Component\Process\Process;
 
 /**
  * Class AddonLoader
@@ -39,6 +40,7 @@ class AddonLoader
      * Load the addon.
      *
      * @param $path
+     * @return $this
      */
     public function load($path)
     {
@@ -46,11 +48,11 @@ class AddonLoader
 
             include $autoload;
 
-            return;
+            return $this;
         }
 
         if (!file_exists($path . '/composer.json')) {
-            return;
+            return $this;
         }
 
         if (!$composer = json_decode(file_get_contents($path . '/composer.json'), true)) {
@@ -58,7 +60,7 @@ class AddonLoader
         }
 
         if (!array_key_exists('autoload', $composer)) {
-            return;
+            return $this;
         }
 
         foreach (array_get($composer['autoload'], 'psr-4', []) as $namespace => $autoload) {
@@ -76,13 +78,31 @@ class AddonLoader
         if ($classmap = array_get($composer['autoload'], 'classmap')) {
             $this->loader->addClassMap($classmap);
         }
+
+        return $this;
     }
 
     /**
      * Register the loader.
+     *
+     * return $this
      */
     public function register()
     {
         $this->loader->register();
+
+        return $this;
+    }
+
+    /**
+     * Dump the autoloader.
+     *
+     * return $this
+     */
+    public function dump()
+    {
+        (new Process('composer dump-autoload'))->run();
+
+        return $this;
     }
 }
