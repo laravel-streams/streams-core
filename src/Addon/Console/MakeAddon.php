@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Console;
 
 use Anomaly\Streams\Platform\Addon\AddonManager;
-use Anomaly\Streams\Platform\Addon\Command\RegisterAddons;
 use Anomaly\Streams\Platform\Addon\Console\Command\MakeAddonPaths;
 use Anomaly\Streams\Platform\Addon\Console\Command\ScaffoldTheme;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonClass;
@@ -11,12 +10,12 @@ use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonGitIgnore;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonLang;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPhpUnit;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonServiceProvider;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonTestCase;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Process\Process;
 
 /**
  * Class MakeAddon
@@ -51,7 +50,7 @@ class MakeAddon extends Command
      * @param Repository   $config
      * @throws \Exception
      */
-    public function fire(AddonManager $addons, Repository $config)
+    public function handle(AddonManager $addons, Repository $config)
     {
         $namespace = $this->argument('namespace');
 
@@ -110,6 +109,8 @@ class MakeAddon extends Command
         if ($type == 'theme') {
             $this->dispatch(new ScaffoldTheme($path));
         }
+
+        (new Process('composer dump-autoload'))->run();
     }
 
     /**
