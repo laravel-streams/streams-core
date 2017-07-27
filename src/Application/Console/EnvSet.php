@@ -34,7 +34,7 @@ class EnvSet extends Command
     /**
      * Execute the console command.
      */
-    public function fire()
+    public function handle()
     {
         $line = $this->argument('line');
 

@@ -29,7 +29,7 @@ class StreamsPublish extends Command
     /**
      * Execute the console command.
      */
-    public function fire()
+    public function handle()
     {
         $this->dispatch(new PublishViews($this));
         $this->dispatch(new PublishConfig($this));

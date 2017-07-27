@@ -30,7 +30,7 @@ class Uninstall extends Command
      * @param ModuleManager    $manager
      * @param ModuleCollection $modules
      */
-    public function fire(ModuleManager $manager, ModuleCollection $modules)
+    public function handle(ModuleManager $manager, ModuleCollection $modules)
     {
         /* @var Module $module */
         $module = $modules->get($this->argument('module'));

@@ -39,7 +39,7 @@ class AddonReinstall extends Command
      *
      * @param AddonCollection $addons
      */
-    public function fire(AddonCollection $addons)
+    public function handle(AddonCollection $addons)
     {
         if (!$addon = $addons->get($this->argument('addon'))) {
             $this->error('The [' . $this->argument('addon') . '] could not be found.');

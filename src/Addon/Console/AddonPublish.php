@@ -38,7 +38,7 @@ class AddonPublish extends Command
     /**
      * Execute the console command.
      */
-    public function fire(AddonCollection $addons)
+    public function handle(AddonCollection $addons)
     {
         if (!$this->argument('addon')) {
             foreach ($addons as $addon) {

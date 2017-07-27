@@ -34,7 +34,7 @@ class Compile extends Command
      *
      * @param StreamRepositoryInterface $streams
      */
-    public function fire(StreamRepositoryInterface $streams)
+    public function handle(StreamRepositoryInterface $streams)
     {
         /* @var StreamInterface|EloquentModel $stream */
         foreach ($streams->all() as $stream) {

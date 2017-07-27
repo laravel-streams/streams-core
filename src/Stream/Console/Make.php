@@ -55,7 +55,7 @@ class Make extends Command
     /**
      * Execute the console command.
      */
-    public function fire(AddonCollection $addons)
+    public function handle(AddonCollection $addons)
     {
         $slug  = $this->argument('slug');
         $addon = $this->argument('addon');

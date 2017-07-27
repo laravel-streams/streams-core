@@ -35,7 +35,7 @@ class Clear extends Command
      * @param Filesystem  $files
      * @param Application $application
      */
-    public function fire(Filesystem $files, Application $application)
+    public function handle(Filesystem $files, Application $application)
     {
         $directory = 'assets';
 

@@ -63,7 +63,7 @@ class Install extends Command
      * @param Dispatcher   $events
      * @param AddonManager $manager
      */
-    public function fire(Dispatcher $events, AddonManager $manager)
+    public function handle(Dispatcher $events, AddonManager $manager)
     {
         $data = new Collection();
 

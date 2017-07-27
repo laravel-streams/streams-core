@@ -29,7 +29,7 @@ class Cleanup extends Command
      * @param StreamRepositoryInterface     $streams
      * @param AssignmentRepositoryInterface $assignments
      */
-    public function fire(
+    public function handle(
         FieldRepositoryInterface $fields,
         StreamRepositoryInterface $streams,
         AssignmentRepositoryInterface $assignments
