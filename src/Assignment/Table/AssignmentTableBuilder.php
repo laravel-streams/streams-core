@@ -38,8 +38,7 @@ class AssignmentTableBuilder extends TableBuilder
         ],
         [
             'heading' => 'streams::field.type.name',
-            'wrapper' => '{value}::addon.title',
-            'value'   => 'entry.field.type',
+            'value'   => 'entry.field.name',
         ],
         [
             'value' => 'entry.labels',
