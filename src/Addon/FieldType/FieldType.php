@@ -1183,12 +1183,7 @@ class FieldType extends Addon
             $this->query = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery';
         }
 
-        return app()->make(
-            $this->query,
-            [
-                'fieldType' => $this,
-            ]
-        );
+        return app()->make($this->query, ['fieldType' => $this]);
     }
 
     /**
