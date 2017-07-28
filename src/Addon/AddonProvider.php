@@ -287,7 +287,7 @@ class AddonProvider
             foreach ($listeners as $key => $listener) {
                 if (is_integer($listener)) {
                     $priority = $listener;
-                    $listener = $key;              
+                    $listener = $key;
                 } else {
                     $priority = 0;
                 }

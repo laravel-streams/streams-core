@@ -839,7 +839,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      */
     public function offsetExists($offset)
     {
-        return !method_exists($this, $offset) && isset($this->$offset);
+        return !method_exists($this, $offset) && !is_null($this->$offset);
     }
 
     /**
