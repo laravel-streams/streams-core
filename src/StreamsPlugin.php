@@ -481,6 +481,12 @@ class StreamsPlugin extends Plugin
                 }, ['is_safe' => ['html']]
             ),
             new \Twig_SimpleFunction(
+                'favicons',
+                function ($source) {
+                    return view('streams::partials.favicons', compact('source'));
+                }, ['is_safe' => ['html']]
+            ),
+            new \Twig_SimpleFunction(
                 'gravatar',
                 function ($email, array $parameters = []) {
                     return $this->image->make(
