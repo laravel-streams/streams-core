@@ -225,7 +225,7 @@ class EloquentQueryBuilder extends Builder
         if ($query->orders === null) {
             if ($model instanceof AssignmentModel) {
                 $query->orderBy('sort_order', 'ASC');
-            } elseif ($model instanceof StreamModel) {
+            } elseif ($model instanceof StreamModel && env('INSTALLED')) { // Ensure migrations are complete.
                 $query->orderBy('sort_order', 'ASC');
             } elseif ($model instanceof EntryInterface) {
                 if ($model->getStream()->isSortable()) {
@@ -295,7 +295,7 @@ class EloquentQueryBuilder extends Builder
      * Add hookable catch to the query builder system.
      *
      * @param string $method
-     * @param array  $parameters
+     * @param array $parameters
      * @return mixed
      */
     public function __call($method, $parameters)
