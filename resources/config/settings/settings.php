@@ -24,35 +24,6 @@ return [
             },
         ],
     ],
-    'business'        => [
-        'type' => 'anomaly.field_type.text',
-    ],
-    'phone'           => [
-        'type' => 'anomaly.field_type.text',
-    ],
-    'address'         => [
-        'type' => 'anomaly.field_type.text',
-    ],
-    'address2'        => [
-        'type' => 'anomaly.field_type.text',
-    ],
-    'city'            => [
-        'type' => 'anomaly.field_type.text',
-    ],
-    'state'           => [
-        'type' => 'anomaly.field_type.state',
-    ],
-    'postal_code'     => [
-        'type' => 'anomaly.field_type.text',
-    ],
-    'country'         => [
-        'type'   => 'anomaly.field_type.country',
-        'config' => [
-            'top_options' => [
-                'US',
-            ],
-        ],
-    ],
     'timezone'        => [
         'env'    => 'APP_TIMEZONE',
         'bind'   => 'app.timezone',
