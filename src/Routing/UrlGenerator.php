@@ -37,7 +37,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
         $this->parser = app(Engine::class);
 
         if (defined('LOCALE')) {
-            $this->forceRootUrl($this->getRootUrl($this->getScheme(null)) . '/' . LOCALE);
+            $this->forceRootUrl($this->formatRoot(null) . '/' . LOCALE);
         }
     }
 
@@ -118,20 +118,18 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
         if ($entry instanceof EloquentModel) {
             $entry = $entry->toRoutableArray();
         }
-
         if ($entry instanceof Presenter) {
             $entry = $entry->getObject();
         }
-
         if ($entry instanceof Arrayable) {
             $entry = $entry->toArray();
         }
 
         return $this->to(
-            $this->addQueryString(
-                $this->parser->render(str_replace('?}', '}', $route->uri()), $entry),
-                $parameters
-            )
+            $this->parser->render(
+                str_replace('?}', '}', $route->uri()),
+                $entry
+            ) . ($parameters ? '?' . http_build_query($parameters) : null)
         );
     }
 
