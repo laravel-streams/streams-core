@@ -295,6 +295,14 @@ interface EntryInterface
     public function getRelation($relation);
 
     /**
+     * Eager load relations on the model.
+     *
+     * @param  $relations
+     * @return $this
+     */
+    public function load($relations);
+
+    /**
      * Get the translatable flag.
      *
      * @return bool
