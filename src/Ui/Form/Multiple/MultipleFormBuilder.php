@@ -52,10 +52,14 @@ class MultipleFormBuilder extends FormBuilder
      */
     public function build($entry = null)
     {
+        $this->fire('ready', ['builder' => $this]);
+
         $this->dispatch(new BuildForms($this));
         $this->dispatch(new MergeFields($this));
 
         parent::build($entry);
+
+        $this->fire('built', ['builder' => $this]);
 
         return $this;
     }
