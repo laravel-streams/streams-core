@@ -522,7 +522,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction('message_get', [$this->session, 'pull']),
             new \Twig_SimpleFunction('message_exists', [$this->session, 'has']),
             new \Twig_SimpleFunction('session', [$this->session, 'get']),
-            new \Twig_SimpleFunction('parse', [$this->template, 'render'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('parse', [$this->template, 'render']),
             new \Twig_SimpleFunction('csrf_token', [$this->session, 'token'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('csrf_field', 'csrf_field', ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('session_get', [$this->session, 'get']),
