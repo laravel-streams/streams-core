@@ -1,4 +1,7 @@
 {% macro tree(items, tree) %}
+
+    {% import _self as self %}
+
     {% for item in items %}
         <li data-id="{{ item.id }}">
             <div class="card">
@@ -22,7 +25,7 @@
             </div>
 
             <ul>
-                {{ _self.tree(tree.items.children(item), tree) }}
+                {{ self.tree(tree.items.children(item), tree) }}
             </ul>
         </li>
     {% endfor %}
