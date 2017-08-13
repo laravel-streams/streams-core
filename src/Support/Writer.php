@@ -33,10 +33,10 @@ class Writer
     /**
      * Append text to a file.
      *
-     * @param  $path
-     * @param  $pattern
-     * @param  $text
-     * @param  int        $limit
+     * @param  string $path
+     * @param  string $pattern
+     * @param  string $text
+     * @param  int    $limit
      * @return bool
      */
     public function append($path, $pattern, $text, $limit = 1)
@@ -56,10 +56,10 @@ class Writer
     /**
      * Prepend text to a file.
      *
-     * @param  $path
-     * @param  $pattern
-     * @param  $text
-     * @param  int        $limit
+     * @param  string $path
+     * @param  string $pattern
+     * @param  string $text
+     * @param  int    $limit
      * @return bool
      */
     public function prepend($path, $pattern, $text, $limit = 1)
@@ -79,10 +79,10 @@ class Writer
     /**
      * Replace text in a file.
      *
-     * @param  $path
-     * @param  $pattern
-     * @param  $text
-     * @param  int        $limit
+     * @param  string $path
+     * @param  string $pattern
+     * @param  string $text
+     * @param  int    $limit
      * @return bool
      */
     public function replace($path, $pattern, $text, $limit = 1)
