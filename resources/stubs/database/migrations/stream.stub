@@ -11,12 +11,12 @@ class {class} extends Migration
      * @var array
      */
     protected $stream = [
-        'slug' => '{stream}',
-         'title_column' => 'name',
-         'translatable' => true,
-         'trashable' => false,
-         'searchable' => false,
-         'sortable' => false,
+        'slug'         => '{stream}',
+        'title_column' => 'name',
+        'translatable' => true,
+        'trashable'    => false,
+        'searchable'   => false,
+        'sortable'     => false,
     ];
 
     /**
@@ -27,12 +27,11 @@ class {class} extends Migration
     protected $assignments = [
         'name' => [
             'translatable' => true,
-            'required' => true,
+            'required'     => true,
         ],
         'slug' => [
-            'unique' => true,
+            'unique'   => true,
             'required' => true,
         ],
     ];
-
 }
