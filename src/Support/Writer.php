@@ -5,9 +5,10 @@ use Illuminate\Filesystem\Filesystem;
 /**
  * Class Writer
  *
- * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
+ *
+ * @link   http://pyrocms.com/
  */
 class Writer
 {
@@ -32,10 +33,10 @@ class Writer
     /**
      * Append text to a file.
      *
-     * @param     $path
-     * @param     $pattern
-     * @param     $text
-     * @param int $limit
+     * @param  $path
+     * @param  $pattern
+     * @param  $text
+     * @param  int        $limit
      * @return bool
      */
     public function append($path, $pattern, $text, $limit = 1)
@@ -53,12 +54,35 @@ class Writer
     }
 
     /**
+     * Prepend text to a file.
+     *
+     * @param  $path
+     * @param  $pattern
+     * @param  $text
+     * @param  int        $limit
+     * @return bool
+     */
+    public function prepend($path, $pattern, $text, $limit = 1)
+    {
+        $contents = $this->files->get($path);
+
+        $contents = preg_replace(
+            $pattern,
+            $text . '$0',
+            $contents,
+            $limit
+        );
+
+        return $this->files->put($path, $contents);
+    }
+
+    /**
      * Replace text in a file.
      *
-     * @param     $path
-     * @param     $pattern
-     * @param     $text
-     * @param int $limit
+     * @param  $path
+     * @param  $pattern
+     * @param  $text
+     * @param  int        $limit
      * @return bool
      */
     public function replace($path, $pattern, $text, $limit = 1)
