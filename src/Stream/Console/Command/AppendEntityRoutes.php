@@ -65,7 +65,7 @@ class AppendEntityRoutes
         $type   = studly_case($this->addon->getType());
         $vendor = studly_case($this->addon->getVendor());
 
-        $streams = count($files->glob($this->addon->getPath("migrations/*_stream.php")));
+        $streams = $files->glob($this->addon->getPath('migrations/*_stream.php'));
 
         $segment    = (count($streams) >= 1) ? "/{$this->slug}" : '';
         $prefix     = "{$vendor}\\{$slug}{$type}";
