@@ -65,9 +65,9 @@ return [
             : \Anomaly\Streams\Platform\Asset\Filter\RubyScssFilter::class,
         'styl'       => \Anomaly\Streams\Platform\Asset\Filter\StylusFilter::class,
         'coffee'     => \Anomaly\Streams\Platform\Asset\Filter\CoffeeFilter::class,
+        'autoprefix' => \Anomaly\Streams\Platform\Asset\Filter\AutoprefixerFilter::class,
         'separate'   => \Assetic\Filter\SeparatorFilter::class,
         'embed'      => \Assetic\Filter\PhpCssEmbedFilter::class,
-        'autoprefix' => \Assetic\Filter\AutoprefixerFilter::class,
     ],
 
     /*
@@ -97,4 +97,15 @@ return [
     */
 
     'version' => env('VERSION_ASSETS', true),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Autoprefixer
+    |--------------------------------------------------------------------------
+    |
+    | Configure the autoprefixer filter if desired.
+    |
+    */
+
+    'autoprefixer' => env('AUTOPREFIXER', base_path('bin')),
 ];
