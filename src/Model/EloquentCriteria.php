@@ -210,6 +210,16 @@ class EloquentCriteria
     }
 
     /**
+     * Return the query string as SQL.
+     *
+     * @return string
+     */
+    public function toSql()
+    {
+        return $this->query->toSql();
+    }
+
+    /**
      * Return whether the method is safe or not.
      *
      * @param $name
