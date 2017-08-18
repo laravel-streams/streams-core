@@ -2,21 +2,11 @@
 
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\Asset\Filter\CoffeeFilter;
-use Anomaly\Streams\Platform\Asset\Filter\LessFilter;
-use Anomaly\Streams\Platform\Asset\Filter\NodeLessFilter;
-use Anomaly\Streams\Platform\Asset\Filter\RubySassFilter;
-use Anomaly\Streams\Platform\Asset\Filter\RubyScssFilter;
-use Anomaly\Streams\Platform\Asset\Filter\SassFilter;
-use Anomaly\Streams\Platform\Asset\Filter\ScssFilter;
-use Anomaly\Streams\Platform\Asset\Filter\SeparatorFilter;
-use Anomaly\Streams\Platform\Asset\Filter\StylusFilter;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Support\Template;
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
 use Assetic\Asset\GlobAsset;
-use Assetic\Filter\PhpCssEmbedFilter;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
@@ -187,7 +177,7 @@ class Asset
             $this->collections[$collection] = [];
         }
 
-        $filters = $this->addConvenientFilters($file, $filters);
+        $filters = array_unique(array_merge($filters, AssetGuesser::guess($file)));
 
         $file = $this->paths->realPath($file);
 
@@ -545,190 +535,6 @@ class Asset
     }
 
     /**
-     * Transform an array of filters to
-     * an array of Assetic filters.
-     *
-     * @param  $filters
-     * @param  $hint
-     * @return mixed
-     */
-    protected function transformFilters($filters, $hint)
-    {
-        foreach ($filters as $k => &$filter) {
-
-            /*
-             * Parse Twg tags in the asset content.
-             *
-             * Leave this as a string because
-             * we need to handle it separately.
-             */
-            if ($filter == 'parse') {
-                continue;
-            }
-
-            /*
-             * Compile LESS to CSS with PHP.
-             */
-            if ($filter == 'less' && $this->config->get('streams::assets.filters.less', 'php') == 'php') {
-
-                $filter = new LessFilter();
-
-                continue;
-            }
-
-            /*
-             * Compile LESS to CSS with Node.
-             */
-            if ($filter == 'less' && $this->config->get('streams::assets.filters.less', 'php') == 'node') {
-
-                $filter = new NodeLessFilter();
-
-                continue;
-            }
-
-            /*
-             * Compile Stylus to CSS.
-             */
-            if ($filter == 'styl') {
-
-                $filter = new StylusFilter();
-
-                continue;
-            }
-
-            /*
-             * Compile SCSS to CSS with PHP.
-             */
-            if ($filter == 'scss' && $this->config->get('streams::assets.filters.sass', 'php') == 'php') {
-
-                $filter = new ScssFilter();
-
-                continue;
-            }
-
-            /*
-             * Compile SCSS to CSS with Ruby.
-             */
-            if ($filter == 'scss' && $this->config->get('streams::assets.filters.sass', 'php') == 'ruby') {
-
-                $filter = new RubyScssFilter();
-
-                continue;
-            }
-
-            /*
-             * Compile SASS to CSS with PHP.
-             */
-            if ($filter == 'sass' && $this->config->get('streams::assets.filters.sass', 'php') == 'php') {
-
-                $filter = new SassFilter();
-
-                continue;
-            }
-
-            /*
-             * Compile SASS to CSS with Ruby.
-             */
-            if ($filter == 'sass' && $this->config->get('streams::assets.filters.sass', 'php') == 'ruby') {
-
-                $filter = new RubySassFilter();
-
-                continue;
-            }
-
-            /*
-             * Compile CoffeeScript to JS
-             */
-            if ($filter == 'coffee') {
-
-                $filter = new CoffeeFilter();
-
-                continue;
-            }
-
-            /*
-             * Look for and embed CSS images.
-             */
-            if ($filter == 'embed') {
-
-                $filter = new PhpCssEmbedFilter();
-
-                continue;
-            }
-
-            /*
-             * Minify JS
-             *
-             * Leave this as a string because
-             * we need to handle it separately.
-             */
-            if ($filter == 'min' && $hint == 'js') {
-                continue;
-            }
-
-            /*
-             * Minify CSS
-             *
-             * Leave this as a string because
-             * we need to handle it separately.
-             */
-            if ($filter == 'min' && $hint == 'css') {
-                continue;
-            }
-
-            /*
-             * Glob is a flag that's used later.
-             */
-            if ($filter == 'glob') {
-                continue;
-            }
-
-            /*
-             * No filter class could be determined!
-             */
-            $filter = null;
-        }
-
-        /*
-         * Be sure to separate JS concatenations.
-         */
-        if ($hint == 'js') {
-            $filters[] = new SeparatorFilter();
-        }
-
-        return array_filter($filters);
-    }
-
-    /**
-     * Add filters that we can assume based
-     * on the asset's file name.
-     *
-     * @param  $file
-     * @param  $filters
-     * @return array
-     */
-    protected function addConvenientFilters($file, $filters)
-    {
-        if (ends_with($file, '.less')) {
-            $filters[] = 'less';
-        }
-
-        if (ends_with($file, '.styl')) {
-            $filters[] = 'styl';
-        }
-
-        if (ends_with($file, '.scss')) {
-            $filters[] = 'scss';
-        }
-
-        if (ends_with($file, '.coffee')) {
-            $filters[] = 'coffee';
-        }
-
-        return array_unique($filters);
-    }
-
-    /**
      * Decide whether we need to publish the file
      * to the path or not.
      *
@@ -841,13 +647,11 @@ class Asset
     {
         $assets = new AssetCollection();
 
-        $hint = $this->paths->hint($collection);
-
         foreach ($this->collections[$collection] as $file => $filters) {
 
             $filters = array_filter(array_merge($filters, $additionalFilters));
 
-            $filters = $this->transformFilters($filters, $hint);
+            $filters = AssetTransformer::transform($filters);
 
             $asset = FileAsset::class;
 

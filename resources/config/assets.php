@@ -48,15 +48,25 @@ return [
     |--------------------------------------------------------------------------
     | Filters
     |--------------------------------------------------------------------------
-    |
-    | LESS: "php" or "node"
-    | SCSS: "php" or "ruby"
-    |
     */
 
     'filters' => [
-        'less' => env('LESS_COMPILER', 'php'),
-        'sass' => env('SASS_COMPILER', 'php'),
+        'min'      => null, // This is a flag.
+        'glob'     => null, // This is a flag.
+        'parse'    => null, // This is a flag.
+        'less'     => env('LESS_COMPILER', 'php') // BC compatibility
+            ? \Anomaly\Streams\Platform\Asset\Filter\LessFilter::class
+            : \Anomaly\Streams\Platform\Asset\Filter\NodeLessFilter::class,
+        'sass'     => env('SASS_COMPILER', 'php') // BC compatibility
+            ? \Anomaly\Streams\Platform\Asset\Filter\SassFilter::class
+            : \Anomaly\Streams\Platform\Asset\Filter\RubySassFilter::class,
+        'scss'     => env('SCSS_COMPILER', env('SASS_COMPILER', 'php')) // BC compatibility
+            ? \Anomaly\Streams\Platform\Asset\Filter\ScssFilter::class
+            : \Anomaly\Streams\Platform\Asset\Filter\RubyScssFilter::class,
+        'styl'     => \Anomaly\Streams\Platform\Asset\Filter\StylusFilter::class,
+        'coffee'   => \Anomaly\Streams\Platform\Asset\Filter\CoffeeFilter::class,
+        'embed'    => \Assetic\Filter\PhpCssEmbedFilter::class,
+        'separate' => \Assetic\Filter\SeparatorFilter::class,
     ],
 
     /*
