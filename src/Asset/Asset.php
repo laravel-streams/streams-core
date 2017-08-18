@@ -111,6 +111,13 @@ class Asset
     protected $application;
 
     /**
+     * The asset filters.
+     *
+     * @var AssetFilters
+     */
+    protected $filters;
+
+    /**
      * The config repository.
      *
      * @var Repository
@@ -136,6 +143,7 @@ class Asset
         Application $application,
         ThemeCollection $themes,
         MountManager $manager,
+        AssetFilters $filters,
         AssetParser $parser,
         Repository $config,
         Template $template,
@@ -152,6 +160,7 @@ class Asset
         $this->config      = $config;
         $this->themes      = $themes;
         $this->parser      = $parser;
+        $this->filters     = $filters;
         $this->manager     = $manager;
         $this->request     = $request;
         $this->template    = $template;
@@ -651,7 +660,7 @@ class Asset
 
             $filters = array_filter(array_merge($filters, $additionalFilters));
 
-            $filters = AssetTransformer::transform($filters);
+            $filters = $this->filters->transform($filters);
 
             $asset = FileAsset::class;
 
