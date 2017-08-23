@@ -180,12 +180,12 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
      */
     public function formatScheme($secure)
     {
-        if (! is_null($secure)) {
+        if (!is_null($secure))
             return $secure ? 'https://' : 'http://';
-        }
-        if (is_null($this->cachedSchema)) {
+
+        if (is_null($this->cachedSchema))
             $this->cachedSchema = $this->forceScheme ?: $this->getScheme().'://';
-        }
+
         return $this->cachedSchema;
     }
 }
