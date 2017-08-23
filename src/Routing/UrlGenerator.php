@@ -170,4 +170,22 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
     {
         return (bool)$this->routes->getByName($name);
     }
+
+    /**
+     * Get the default scheme for a raw URL.
+     * This method is a polyfill for the same method in > Laravel 5.4 UrlGenerator.
+     *
+     * @param  bool|null  $secure
+     * @return string
+     */
+    public function formatScheme($secure)
+    {
+        if (!is_null($secure))
+            return $secure ? 'https://' : 'http://';
+
+        if (is_null($this->cachedSchema))
+            $this->cachedSchema = $this->forceScheme ?: $this->getScheme().'://';
+
+        return $this->cachedSchema;
+    }
 }
