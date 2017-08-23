@@ -2,7 +2,7 @@
 {% for row in table.rows %}
     <tr id="{{ loop.index }}"
         @click="rowClick($event, {{ loop.index }})"
-        :class="{ mark: isSelected({{ row.key }}) }"
+        :class="{ mark: isSelected({{ loop.index }}) }"
     >
 
         {% if table.options.sortable %}
@@ -15,7 +15,7 @@
         {% if not table.actions.empty() %}
             <td>
                 <input type="checkbox" name="{{ row.table.options.prefix }}id[]" value="{{ row.key }}"
-                    :checked="isSelected({{ row.key }})" />
+                    :checked="isSelected({{ loop.index }})" />
             </td>
         {% endif %}
 
