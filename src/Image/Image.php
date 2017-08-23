@@ -577,7 +577,7 @@ class Image
             return $this->config->get('app.debug', false) ? $e->getMessage() : null;
         }
 
-        if ($this->config->get('streams::images.version') || $this->getVersion() == true) {
+	    if ($this->config->get('streams::images.version') && (is_null($this->getVersion()) || $this->getVersion() == true)) {
             $path .= '?v=' . filemtime(public_path(trim($path, '/\\')));
         }
 
