@@ -12,11 +12,23 @@ let cpTable = new Vue({
         selected: [],
     },
 
+    computed: {
+        isSingleSelected () { return this.selected.length === 1 },
+        isMultiSelected () { return this.selected.length > 1 },
+    },
+
     methods: {
         rowClick (e, id) {
-            if (e.shiftKey) {
-                this.selectInterval(this.selected[0], id);
-                return;
+            if (this.isMultiSelected) {
+                if (this.isSelected(id)) {
+                    return this.selected.splice(this.selected.indexOf(id), 1);
+                }
+                return this.selected.push(id);
+            }
+            if (this.isSingleSelected) {
+                if (e.shiftKey && !this.isSelected(id)) {
+                    return this.selectInterval(this.selected[0], id);
+                }
             }
             this.selectOne(id);
         },
