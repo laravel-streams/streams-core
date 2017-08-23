@@ -1,9 +1,6 @@
 <tbody>
 {% for row in table.rows %}
-    <tr id="{{ loop.index }}"
-        @click="rowClick($event, {{ loop.index }})"
-        :class="{ mark: isSelected({{ loop.index }}) }"
-    >
+    <tr id="{{ loop.index }}" @click="rowClick($event, {{ loop.index }})">
 
         {% if table.options.sortable %}
             <td>
