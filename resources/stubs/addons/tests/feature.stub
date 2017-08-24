@@ -1,6 +1,4 @@
-<?php
-
-namespace {namespace};
+<?php namespace {namespace};
 
 class {class} extends \TestCase
 {
