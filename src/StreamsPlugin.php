@@ -397,7 +397,10 @@ class StreamsPlugin extends Plugin
                 'trans',
                 function ($key, array $parameters = [], $locale = 'en') {
                     return $this->dispatch(new GetTranslatedString($key, $parameters, $locale));
-                }
+                },
+                [
+                    'is_safe' => ['html']
+                ]
             ),
             new \Twig_SimpleFunction(
                 'locale',
