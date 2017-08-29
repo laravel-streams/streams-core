@@ -1,12 +1,10 @@
-<?php
-
-namespace {namespace};
+<?php namespace {namespace};
 
 class {class} extends \TestCase
 {
 
-    public function testHome()
+    public function testFeature()
     {
-        // $this->visit('/');
+        $this->markTestSkipped('Not implemented.');
     }
 }
