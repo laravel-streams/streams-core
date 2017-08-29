@@ -62,13 +62,20 @@ class FieldTypeBuilder
         $type = array_get($parameters, 'type');
 
         /*
+         * If type not set.
+         */
+        if (!is_string($type)) {
+            throw new \Exception("The [type] parameter is required and should be string!");
+        }
+
+        /*
          * If the field type is a string and
          * contains some kind of namespace for
          * streams then it's a class path and
          * we can resolve it from the container.
          */
-        if (is_string($type) && str_contains($type, '\\') && class_exists($type)) {
-            $type = clone($this->container->make($type));
+        if (str_contains($type, '\\') && class_exists($type)) {
+            $fieldType = clone($this->container->make($type));
         }
 
         /*
@@ -76,8 +83,8 @@ class FieldTypeBuilder
          * namespace then we can also resolve
          * the field type from the container.
          */
-        if (is_string($type) && str_is('*.*.*', $type)) {
-            $type = $this->fieldTypes->get($type);
+        if (!isset($fieldType) && str_is('*.*.*', $type)) {
+            $fieldType = $this->fieldTypes->get($type);
         }
 
         /*
@@ -85,22 +92,22 @@ class FieldTypeBuilder
          * likely a simple slug and we can try
          * returning the first match for the slug.
          */
-        if (is_string($type)) {
-            $type = $this->fieldTypes->findBySlug($type);
+        if (!isset($fieldType)) {
+            $fieldType = $this->fieldTypes->findBySlug($type);
         }
 
         /*
          * If we don't have a field type let em know.
          */
-        if (!$type) {
-            throw new \Exception("Field type [{$parameters['type']}] not found.");
+        if (!$fieldType) {
+            throw new \Exception("Field type [$type] not found.");
         }
 
-        $type->mergeRules(array_pull($parameters, 'rules', []));
-        $type->mergeConfig(array_pull($parameters, 'config', []));
+        $fieldType->mergeRules(array_pull($parameters, 'rules', []));
+        $fieldType->mergeConfig(array_pull($parameters, 'config', []));
 
-        $this->hydrator->hydrate($type, $parameters);
+        $this->hydrator->hydrate($fieldType, $parameters);
 
-        return $type;
+        return $fieldType;
     }
 }
