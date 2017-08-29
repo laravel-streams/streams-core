@@ -13,12 +13,11 @@ class {class} extends Migration
     protected $fields = [
         'name' => 'anomaly.field_type.text',
         'slug' => [
-            'type' => 'anomaly.field_type.text',
+            'type'   => 'anomaly.field_type.text',
             'config' => [
                 'slugify' => 'name',
-                'type' => '_'
+                'type'    => '_'
             ],
         ],
     ];
-
 }
