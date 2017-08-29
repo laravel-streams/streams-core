@@ -7,21 +7,24 @@ class ThemeCollectionTest extends TestCase
     {
         $collection = $this->app->make(\Anomaly\Streams\Platform\Addon\Theme\ThemeCollection::class);
 
-        $this->assertInstanceOf(Anomaly\TestAdminTheme\TestAdminTheme::class, $collection->active('admin'));
+        $this->assertInstanceOf(Anomaly\Streams\Platform\Addon\Theme\Theme::class, $collection->active('admin'));
+        $this->assertTrue($collection->active('admin')->isAdmin());
     }
 
     public function testCanReturnActiveStandardTheme()
     {
         $collection = $this->app->make(\Anomaly\Streams\Platform\Addon\Theme\ThemeCollection::class);
 
-        $this->assertInstanceOf(Anomaly\TestStandardTheme\TestStandardTheme::class, $collection->active('standard'));
+        $this->assertInstanceOf(Anomaly\Streams\Platform\Addon\Theme\Theme::class, $collection->active('standard'));
+        $this->assertFalse($collection->active('standard')->isAdmin());
     }
 
     public function testReturnsActiveCurrentByDefault()
     {
         $collection = $this->app->make(\Anomaly\Streams\Platform\Addon\Theme\ThemeCollection::class);
 
-        $this->assertInstanceOf(Anomaly\TestStandardTheme\TestStandardTheme::class, $collection->active());
+        $this->assertInstanceOf(Anomaly\Streams\Platform\Addon\Theme\Theme::class, $collection->active());
+        $this->assertFalse($collection->active()->isAdmin());
     }
 
     public function testCanReturnAdminThemes()
