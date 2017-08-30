@@ -237,6 +237,39 @@ class Addon implements PresentableInterface, Arrayable
     }
 
     /**
+     * Get the composer json contents.
+     *
+     * @return mixed|null
+     */
+    public function getComposerLock()
+    {
+        $json = base_path('composer.lock');
+
+        if (!file_exists($json)) {
+            return null;
+        }
+
+        $json = json_decode(file_get_contents($json));
+
+        return array_first(
+            $json->packages,
+            function ($package) {
+                return $package->name == $this->getPackageName();
+            }
+        );
+    }
+
+    /**
+     * Return the package name.
+     *
+     * @return string
+     */
+    public function getPackageName()
+    {
+        return $this->getVendor() . '/' . $this->getSlug() . '-' . $this->getType();
+    }
+
+    /**
      * @param $path
      * @return $this
      */
