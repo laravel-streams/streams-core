@@ -65,7 +65,7 @@ class InstallModule
             '--force' => true,
         ];
 
-        $console->call('migrate:refresh', $options);
+        $console->call('migrate', $options);
 
         $modules->install($this->module);
 
