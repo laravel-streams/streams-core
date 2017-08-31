@@ -501,9 +501,15 @@ class FormBuilder
      *
      * @param   $field
      */
-    public function addField($field)
+    public function addField(array $field)
     {
-        $this->fields[array_get($field, 'field')] = $field;
+        if (!$slug = array_get($field, 'field')) {
+            return;
+        }
+
+        array_set($this->fields, $slug, $field);
+
+        return $this;
     }
 
     /**
@@ -514,6 +520,8 @@ class FormBuilder
     public function addFields(array $fields)
     {
         $this->fields = array_merge($this->fields, $fields);
+
+        return $this;
     }
 
     /**
