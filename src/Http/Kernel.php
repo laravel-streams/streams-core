@@ -136,7 +136,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
          * Let's first look in the URI
          * path for for a locale.
          */
-        $pattern = '/^\/(' . implode('|', array_keys($locales['supported'])) . ')(\/|$)/';
+        $pattern = '/^\/(' . implode('|', array_keys($locales['supported'])) . ')(\/|(?:$)|(?=\?))/';
 
         $uri = array_get($_SERVER, 'REQUEST_URI', filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL));
 

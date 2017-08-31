@@ -16,6 +16,7 @@ use Anomaly\Streams\Platform\Stream\Command\GetStreams;
 use Anomaly\Streams\Platform\Support\Currency;
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Length;
+use Anomaly\Streams\Platform\Support\Locale;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
@@ -399,6 +400,12 @@ class StreamsPlugin extends Plugin
                 }
             ),
             new \Twig_SimpleFunction(
+                'locale',
+                function ($locale = null) {
+                    return (new Locale($locale));
+                }
+            ),
+            new \Twig_SimpleFunction(
                 'str_*',
                 function ($name) {
                     $arguments = array_slice(func_get_args(), 1);
@@ -474,6 +481,12 @@ class StreamsPlugin extends Plugin
                 }, ['is_safe' => ['html']]
             ),
             new \Twig_SimpleFunction(
+                'favicons',
+                function ($source) {
+                    return view('streams::partials.favicons', compact('source'));
+                }, ['is_safe' => ['html']]
+            ),
+            new \Twig_SimpleFunction(
                 'gravatar',
                 function ($email, array $parameters = []) {
                     return $this->image->make(
@@ -509,7 +522,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction('message_get', [$this->session, 'pull']),
             new \Twig_SimpleFunction('message_exists', [$this->session, 'has']),
             new \Twig_SimpleFunction('session', [$this->session, 'get']),
-            new \Twig_SimpleFunction('parse', [$this->template, 'render'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('parse', [$this->template, 'render']),
             new \Twig_SimpleFunction('csrf_token', [$this->session, 'token'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('csrf_field', 'csrf_field', ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('session_get', [$this->session, 'get']),

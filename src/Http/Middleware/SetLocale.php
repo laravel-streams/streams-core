@@ -72,7 +72,7 @@ class SetLocale
                 $request->session()->remove('_locale');
             }
 
-            return $this->redirect->to($request->path());
+            return $this->redirect->back();
         }
 
         if ($locale = $request->session()->get('_locale')) {

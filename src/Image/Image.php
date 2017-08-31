@@ -458,7 +458,9 @@ class Image
      */
     public function encode($format = null, $quality = null)
     {
-        return $this->manager->make($this->getCachePath())->encode($format, $quality ?: $this->getQuality());
+        $this->setQuality($quality ?: $this->config->get('streams::images.quality', 80));
+
+        return $this->manager->make($this->getCachePath())->encode($format, $this->getQuality());
     }
 
     /**
@@ -577,7 +579,7 @@ class Image
             return $this->config->get('app.debug', false) ? $e->getMessage() : null;
         }
 
-        if ($this->config->get('streams::images.version') || $this->getVersion() == true) {
+        if ($this->config->get('streams::images.version') && $this->getVersion() !== false) {
             $path .= '?v=' . filemtime(public_path(trim($path, '/\\')));
         }
 
@@ -677,7 +679,7 @@ class Image
             }
         }
 
-        $image->save($path, $this->getQuality());
+        $image->save($path, $this->getQuality() ?: $this->config->get('streams::images.quality', 80));
     }
 
     /**
@@ -1160,16 +1162,11 @@ class Image
     /**
      * Get the quality.
      *
-     * @param  null $default
-     * @return int
+     * @return int|null
      */
-    public function getQuality($default = null)
+    public function getQuality()
     {
-        if (!$default) {
-            $default = $this->config->get('streams::images.quality', 80);
-        }
-
-        return $this->quality ?: $default;
+        return $this->quality;
     }
 
     /**
