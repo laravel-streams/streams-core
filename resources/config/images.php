@@ -43,14 +43,14 @@ return [
     */
 
     'macros' => [
-        'mobile_optimized' => [
+        /*'mobile_optimized' => [
             'resize'  => [640],
             'quality' => 60,
         ],
         'tablet_optimized' => [
             'resize'  => [900],
             'quality' => 75,
-        ],
+        ],*/
     ],
 
     /*
