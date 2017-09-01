@@ -38,30 +38,18 @@ class MigrateStreams
 
     /**
      * Handle the command.
-     *
-     * @param AddonCollection $addons
      */
-    public function handle(AddonCollection $addons)
+    public function handle()
     {
         foreach ($this->paths as $path) {
             $options = [
                 '--path' => $path,
             ];
 
-            if ($this->command->option('force')) {
-                $options['--force'] = true;
-            }
-
-            if ($this->command->option('pretend')) {
-                $options['--pretend'] = true;
-            }
-
-            if ($this->command->option('seed')) {
-                $options['--seed'] = true;
-            }
-
-            if ($database = $this->command->option('database')) {
-                $options['--database'] = $database;
+            foreach (['force', 'pretend', 'seed', 'database'] as $key) {
+                if ($value = $this->command->option('force')) {
+                    array_set($options, '--' . $key, $value);
+                }
             }
 
             $this->command->call('migrate', $options);
