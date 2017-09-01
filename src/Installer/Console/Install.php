@@ -108,11 +108,11 @@ class Install extends Command
             )
         );
 
-        $this->dispatch(new LoadBaseMigrations($installers));
-        $this->dispatch(new LoadBaseSeeders($installers));
-
         $this->dispatch(new LoadModuleSeeders($installers));
         $this->dispatch(new LoadExtensionSeeders($installers));
+
+        $this->dispatch(new LoadBaseMigrations($installers));
+        $this->dispatch(new LoadBaseSeeders($installers));
 
         $this->dispatch(new RunInstallers($installers, $this));
     }
