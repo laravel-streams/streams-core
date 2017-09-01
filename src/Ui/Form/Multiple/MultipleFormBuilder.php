@@ -89,7 +89,7 @@ class MultipleFormBuilder extends FormBuilder
     public function validate()
     {
         $this->forms->map(
-            function ($form) {
+            function (FormBuilder $form) {
 
                 /* @var FormBuilder $form */
                 $form->validate();
@@ -181,6 +181,7 @@ class MultipleFormBuilder extends FormBuilder
      */
     public function getChildFormStream($key)
     {
+        /* @var FormBuilder $builder */
         $builder = $this->getChildForm($key);
 
         return $builder->getFormStream();
@@ -194,6 +195,7 @@ class MultipleFormBuilder extends FormBuilder
      */
     public function getChildFormEntry($key)
     {
+        /* @var FormBuilder $builder */
         $builder = $this->getChildForm($key);
 
         return $builder->getFormEntry();
@@ -207,6 +209,7 @@ class MultipleFormBuilder extends FormBuilder
      */
     public function getChildFormEntryId($key)
     {
+        /* @var FormBuilder $builder */
         $builder = $this->getChildForm($key);
 
         return $builder->getFormEntryId();
@@ -220,6 +223,7 @@ class MultipleFormBuilder extends FormBuilder
      */
     public function getChildFormFields($key)
     {
+        /* @var FormBuilder $builder */
         $builder = $this->getChildForm($key);
 
         return $builder->getFormFields();
@@ -234,6 +238,7 @@ class MultipleFormBuilder extends FormBuilder
      */
     public function getChildFormFieldSlugs($key, $prefix = null)
     {
+        /* @var FormBuilder $builder */
         $builder = $this->getChildForm($key);
 
         return $builder->getFormFieldSlugs($prefix);
@@ -247,6 +252,7 @@ class MultipleFormBuilder extends FormBuilder
      */
     public function getChildEntry($key)
     {
+        /* @var FormBuilder $builder */
         $builder = $this->getChildForm($key);
 
         return $builder->getEntry();
@@ -259,9 +265,10 @@ class MultipleFormBuilder extends FormBuilder
      */
     public function getFormMode()
     {
-        $form = $this->forms->first();
+        /* @var FormBuilder $builder */
+        $builder = $this->forms->first();
 
-        return $form->getFormMode();
+        return $builder->getFormMode();
     }
 
     /**
@@ -271,9 +278,9 @@ class MultipleFormBuilder extends FormBuilder
      */
     public function getContextualId()
     {
-        /* @var FormBuilder $form */
-        $form = $this->forms->first();
+        /* @var FormBuilder $builder */
+        $builder = $this->forms->first();
 
-        return $form->getContextualId();
+        return $builder->getContextualId();
     }
 }
