@@ -73,7 +73,7 @@ $(function () {
     /**
      * Toggle displaying children.
      */
-    $('ul.tree.sortable .handle').click(function (e) {
+    $('ul.tree.sortable .expander').click(function (e) {
 
         e.preventDefault();
 
