@@ -3,6 +3,7 @@
 use DateTime;
 use BadMethodCallException;
 use Collective\Html\Componentable;
+use Collective\Html\HtmlBuilder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Illuminate\Contracts\View\Factory;
@@ -95,7 +96,12 @@ class Html
      * @param \Illuminate\Contracts\View\Factory         $view
      * @param string                                     $csrfToken
      */
-    public function __construct(HtmlBuilder $html, UrlGenerator $url, Factory $view, $csrfToken)
+    public function __construct(
+        HtmlBuilder $html,
+        UrlGenerator $url,
+        Factory $view,
+        string $csrfToken
+    )
     {
         $this->url       = $url;
         $this->html      = $html;
