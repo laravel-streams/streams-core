@@ -2,6 +2,7 @@
 
 use DateTime;
 use BadMethodCallException;
+use Collective\Html\Componentable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Illuminate\Contracts\View\Factory;
