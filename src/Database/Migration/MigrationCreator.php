@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration;
 
 use Anomaly\Streams\Platform\Database\Migration\Command\TransformMigrationNameToClass;
+use Anomaly\Streams\Platform\Support\Parser;
 use Symfony\Component\Console\Input\InputInterface;
 
 class MigrationCreator extends \Illuminate\Database\Migrations\MigrationCreator
@@ -22,11 +23,11 @@ class MigrationCreator extends \Illuminate\Database\Migrations\MigrationCreator
      */
     protected function getStub($table, $create)
     {
-        if ($this->input->getOption('fields')) {
+        if ($this->input->hasOption('fields') && $this->input->getOption('fields')) {
             return $this->files->get($this->getStubPath() . '/fields.stub');
         }
 
-        if ($this->input->getOption('stream')) {
+        if ($this->input->hasOption('stream') && $this->input->getOption('stream')) {
             return $this->files->get($this->getStubPath() . '/stream.stub');
         }
 
@@ -49,10 +50,14 @@ class MigrationCreator extends \Illuminate\Database\Migrations\MigrationCreator
     {
         $class = $this->getClassName($name);
 
-        $stream = $this->input->getOption('stream');
+        $stream = $this->input->hasOption('stream')
+            ? $this->input->getOption('stream')
+            : null;
 
-        return app('Anomaly\Streams\Platform\Support\Parser')
-            ->parse($stub, compact('class', 'table', 'stream'));
+        return app(Parser::class)->parse(
+            $stub,
+            compact('class', 'table', 'stream')
+        );
     }
 
     /**
