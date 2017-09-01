@@ -6,10 +6,10 @@ use Closure;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Route;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class VerifyCsrfToken
