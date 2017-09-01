@@ -256,7 +256,7 @@ class AddonCollection extends Collection
     public function enabled()
     {
         return $this->installable()->filter(
-            function ($addon) {
+            function (Addon $addon) {
 
                 /* @var Module|Extension $addon */
                 return $addon->isEnabled();
@@ -272,7 +272,7 @@ class AddonCollection extends Collection
     public function installed()
     {
         return $this->installable()->filter(
-            function ($addon) {
+            function (Addon $addon) {
 
                 /* @var Module|Extension $addon */
                 return $addon->isInstalled();
@@ -288,7 +288,7 @@ class AddonCollection extends Collection
     public function uninstalled()
     {
         return $this->installable()->filter(
-            function ($addon) {
+            function (Addon $addon) {
 
                 /* @var Module|Extension $addon */
                 return !$addon->isInstalled();
