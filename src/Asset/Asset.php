@@ -514,7 +514,9 @@ class Asset
                     ->render($contents)
                     ->render();
             } catch (\Exception $e) {
-                // Too many syntax quirks to avoid this.
+                if (env('APP_DEBUG')) {
+                    dd($e->getMessage());
+                }
             }
         }
 
