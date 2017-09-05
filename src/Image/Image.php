@@ -460,7 +460,9 @@ class Image
     {
         $this->setQuality($quality ?: $this->config->get('streams::images.quality', 80));
 
-        return $this->manager->make($this->getCachePath())->encode($format, $this->getQuality());
+        return $this->manager
+            ->make(public_path(ltrim($this->setVersion(false)->getCachePath(), '/\\')))
+            ->encode($format, $this->getQuality());
     }
 
     /**
