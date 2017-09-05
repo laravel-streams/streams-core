@@ -914,6 +914,12 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
                 ->fieldSlugs()
         );
 
+        if (!$searchable) {
+            $searchable = $this
+                ->getAssignments()
+                ->fieldSlugs();
+        }
+
         foreach ($searchable as $field) {
 
             if (!in_array($field, $searchable)) {
