@@ -5,6 +5,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class ExceptionHandler
@@ -33,9 +34,9 @@ class ExceptionHandler extends Handler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  Request $request
+     * @param  Request   $request
      * @param  Exception $e
-     * @return Response
+     * @return Response|\Symfony\Component\HttpFoundation\Response
      */
     public function render($request, Exception $e)
     {
@@ -51,9 +52,34 @@ class ExceptionHandler extends Handler
     }
 
     /**
+     * Render the given HttpException.
+     *
+     * @param  \Symfony\Component\HttpKernel\Exception\HttpException $e
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function renderHttpException(HttpException $e)
+    {
+        /**
+         * Always show exceptions
+         * if not in debug mode.
+         */
+        if (env('APP_DEBUG') === true) {
+            return $this->convertExceptionToResponse($e);
+        }
+
+        $status = $e->getStatusCode();
+
+        if (view()->exists($view = "streams::errors/{$status}")) {
+            return response()->view($view, ['exception' => $e], $status, $e->getHeaders());
+        }
+
+        return $this->convertExceptionToResponse($e);
+    }
+
+    /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request                 $request
      * @param  \Illuminate\Auth\AuthenticationException $exception
      * @return \Illuminate\Http\Response
      */
