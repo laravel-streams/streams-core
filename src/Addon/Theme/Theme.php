@@ -100,6 +100,6 @@ class Theme extends Addon
      */
     public function getPresenter()
     {
-        return app()->make('Anomaly\Streams\Platform\Addon\Theme\ThemePresenter', ['object' => $this]);
+        return app()->make(ThemePresenter::class, ['object' => $this]);
     }
 }
