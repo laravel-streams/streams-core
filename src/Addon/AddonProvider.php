@@ -287,7 +287,7 @@ class AddonProvider
             foreach ($listeners as $key => $listener) {
                 if (is_integer($listener)) {
                     $priority = $listener;
-                    $listener = $key;              
+                    $listener = $key;
                 } else {
                     $priority = 0;
                 }
@@ -510,16 +510,16 @@ class AddonProvider
         }
 
         foreach ($schedules as $frequency => $commands) {
-            foreach (array_filter($commands) as $command) {
+            $parts = explode('|', $frequency);
+            $method = camel_case(array_shift($parts));
+            $arguments = explode(',', array_shift($parts));
+
+            foreach (array_filter($commands) as $command => $options) {
                 if (str_is('* * * *', $frequency)) {
                     $this->schedule->command($command)->cron($frequency);
-                } else {
-
-                    $parts = explode('|', $frequency);
-
-                    $method    = camel_case(array_shift($parts));
-                    $arguments = explode(',', array_shift($parts));
-
+                } elseif(is_array($options) && isset($options['overlap'])){
+                    call_user_func_array([$this->schedule->command($command)->withoutOverlapping(), $method], $arguments);
+                }else {
                     call_user_func_array([$this->schedule->command($command), $method], $arguments);
                 }
             }
