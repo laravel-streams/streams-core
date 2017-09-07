@@ -265,7 +265,7 @@ class AssignmentCollection extends EloquentCollection
     public function column($type)
     {
         return $this->filter(
-            function ($item) use ($type) {
+            function (AssignmentInterface $item) use ($type) {
 
                 /* @var AssignmentInterface $item */
                 $fieldType = $item->getFieldType();
