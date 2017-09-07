@@ -98,6 +98,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Stream\Console\Refresh',
         'Anomaly\Streams\Platform\Stream\Console\Cleanup',
         'Anomaly\Streams\Platform\Stream\Console\Destroy',
+        'Anomaly\Streams\Platform\Cache\Console\MakeTable',
         'Anomaly\Streams\Platform\Addon\Console\MakeAddon',
         'Anomaly\Streams\Platform\Addon\Console\AddonInstall',
         'Anomaly\Streams\Platform\Addon\Console\AddonUninstall',
