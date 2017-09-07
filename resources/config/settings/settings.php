@@ -251,14 +251,10 @@ return [
         'required' => true,
         'config'   => [
             'default_value' => function (Repository $config) {
+
                 $host = array_get(parse_url($config->get('app.url')), 'host');
-                /*
-                 * If the domain name is the `localhost`, then
-                 * there would be not valid email, invisible in the CP!!!
-                 */
-                return str_contains($host, '.')
-                    ? "noreply@{$host}"
-                    : "noreply@{$host}.com";
+
+                return 'noreply@' . (str_contains($host, '.') ? $host : $host . '.com');
             },
         ],
     ],
