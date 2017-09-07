@@ -2,9 +2,6 @@ $(function () {
 
     var $form = $('form.form');
 
-    // Focus on the first input.
-    $form.find('input:visible').first().focus();
-
     // Highlight tabs containing errors.
     $form.find('.has-danger').each(function () {
 
