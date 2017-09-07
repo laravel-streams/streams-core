@@ -259,7 +259,7 @@ class Addon implements PresentableInterface, Arrayable
 
         return array_first(
             $json->packages,
-            function ($package) {
+            function (\stdClass $package) {
                 return $package->name == $this->getPackageName();
             }
         );
@@ -276,6 +276,8 @@ class Addon implements PresentableInterface, Arrayable
     }
 
     /**
+     * Sets the path.
+     *
      * @param $path
      * @return $this
      */

@@ -5,9 +5,11 @@ use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Route;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class VerifyCsrfToken
@@ -95,7 +97,7 @@ class VerifyCsrfToken
      *
      * @throws \Illuminate\Session\TokenMismatchException
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         if (
             $this->isReading($request) ||
@@ -117,7 +119,7 @@ class VerifyCsrfToken
      * @param  \Illuminate\Http\Request $request
      * @return bool
      */
-    protected function shouldPassThrough($request)
+    protected function shouldPassThrough(Request $request)
     {
         foreach ($this->except as $except) {
             if ($except !== '/') {
@@ -156,7 +158,7 @@ class VerifyCsrfToken
      * @param  \Illuminate\Http\Request $request
      * @return bool
      */
-    protected function tokensMatch($request)
+    protected function tokensMatch(Request $request)
     {
         $sessionToken = $request->session()->token();
 
@@ -180,7 +182,7 @@ class VerifyCsrfToken
      * @param  \Symfony\Component\HttpFoundation\Response $response
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function addCookieToResponse($request, $response)
+    protected function addCookieToResponse(Request $request, Response $response)
     {
         $config = config('session');
 
@@ -200,7 +202,7 @@ class VerifyCsrfToken
      * @param  \Illuminate\Http\Request $request
      * @return bool
      */
-    protected function isReading($request)
+    protected function isReading(Request $request)
     {
         return in_array($request->method(), ['HEAD', 'GET', 'OPTIONS']);
     }
