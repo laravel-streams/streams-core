@@ -43,13 +43,14 @@ class Length
      */
     public function __construct($length, $unit = null)
     {
-        if (str_is('* *', strtolower($length)) && $parts = explode(' ', $length)) {
-            $length = $parts[0];
-            $unit   = $parts[1];
+        if (str_is('* *', strtolower($length)) && $parts = preg_split('/(?<=\d)\s+(?=\D+)/', $length)) {
+            $length = array_get($parts, 0, 0);
+            $unit   = array_get($parts, 1, 'n/a');
         }
 
         if (!$multiplier = array_get($this->units, strtolower($unit))) {
-            throw new \Exception("Invalid unit [{$unit}] provided.");
+            $supported = implode(',', array_keys($this->units));
+            throw new \Exception("Invalid unit [{$unit}] provided.\nSupported units are [{$supported}]");
         }
 
         $this->length = $length * $multiplier;
@@ -65,7 +66,8 @@ class Length
     public function to($unit)
     {
         if (!$multiplier = array_get($this->units, strtolower($unit))) {
-            throw new \Exception("Invalid unit [{$unit}] provided.");
+            $supported = implode(',', array_keys($this->units));
+            throw new \Exception("Invalid unit [{$unit}] provided.\nSupported units are [{$supported}]");
         }
 
         return $this->length * (1 / $multiplier);
