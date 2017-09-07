@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
 use Anomaly\Streams\Platform\Addon\AddonManager;
-use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasMigrated;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Console\Kernel;
@@ -35,29 +34,24 @@ class MigrateModule
      * Create a new InstallModule instance.
      *
      * @param Module $module
-     * @param bool $seed
+     * @param bool   $seed
      */
     public function __construct(Module $module, $seed = false)
     {
-        $this->seed = $seed;
+        $this->seed   = $seed;
         $this->module = $module;
     }
 
     /**
      * Handle the command.
      *
-     * @param  Kernel $console
+     * @param  Kernel       $console
      * @param  AddonManager $manager
-     * @param  Dispatcher $dispatcher
-     * @param  ModuleRepositoryInterface $modules
+     * @param  Dispatcher   $dispatcher
      * @return bool
      */
-    public function handle(
-        Kernel $console,
-        AddonManager $manager,
-        Dispatcher $dispatcher,
-        ModuleRepositoryInterface $modules
-    ) {
+    public function handle(Kernel $console, AddonManager $manager, Dispatcher $dispatcher)
+    {
         $this->module->fire('migrating');
 
         $options = [
