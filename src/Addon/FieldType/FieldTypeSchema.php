@@ -113,7 +113,7 @@ class FieldTypeSchema
         if ($assignment->isUnique() && !$assignment->isTranslatable()) {
             $table->unique(
                 $this->fieldType->getColumnName(),
-                md5('unique_' . $table->getTable() . '_' . $this->fieldType->getColumnName())
+                md5($assignment->getId())
             );
         }
     }
@@ -254,7 +254,7 @@ class FieldTypeSchema
         $doctrine   = $manager->listTableDetails($connection->getTablePrefix() . $table->getTable());
 
         // The unique index name.
-        $unique = md5('unique_' . $table->getTable() . '_' . $this->fieldType->getColumnName());
+        $unique = md5($assignment->getId());
 
         /*
          * If the assignment is unique and not translatable
