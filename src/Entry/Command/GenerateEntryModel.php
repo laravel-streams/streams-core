@@ -1,23 +1,23 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Command;
 
-use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Entry\Parser\EntryClassParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryDatesParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryFieldSlugsParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryNamespaceParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryRelationshipsParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryRelationsParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryRulesParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntrySearchableParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryStreamParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTableParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTitleParser;
-use Anomaly\Streams\Platform\Entry\Parser\EntryStreamParser;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Entry\Parser\EntryRelationsParser;
-use Anomaly\Streams\Platform\Entry\Parser\EntryNamespaceParser;
-use Anomaly\Streams\Platform\Entry\Parser\EntryTrashableParser;
-use Anomaly\Streams\Platform\Entry\Parser\EntrySearchableParser;
-use Anomaly\Streams\Platform\Entry\Parser\EntryFieldSlugsParser;
-use Anomaly\Streams\Platform\Entry\Parser\EntryRelationshipsParser;
-use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationModelParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslatedAttributesParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationForeignKeyParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationModelParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryTrashableParser;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Support\Parser;
 use Illuminate\Filesystem\Filesystem;
 
 class GenerateEntryModel
@@ -71,11 +71,19 @@ class GenerateEntryModel
 
         $path = $application->getStoragePath('models/' . studly_case($this->stream->getNamespace()));
 
-        $files->makeDirectory($path, 0777, true, true);
+        if (!is_dir($path)) {
+            $files->makeDirectory($path, 0777, true);
+        }
 
-        $file = $path . '/' . studly_case($this->stream->getNamespace()) . studly_case($this->stream->getSlug()) . 'EntryModel.php';
+        $file = $path . '/'
+            . studly_case($this->stream->getNamespace())
+            . studly_case($this->stream->getSlug())
+            . 'EntryModel.php';
 
-        $files->makeDirectory(dirname($file), 0777, true, true);
+        if (!is_dir($path = dirname($file))) {
+            $files->makeDirectory($path, 0777, true);
+        }
+
         $files->delete($file);
 
         $files->put($file, $parser->parse($template, $data));
