@@ -40,8 +40,8 @@ class FieldTypeBuilder
     /**
      * Handle the command.
      *
-     * @param Hydrator $hydrator
-     * @param Container $container
+     * @param Hydrator            $hydrator
+     * @param Container           $container
      * @param FieldTypeCollection $fieldTypes
      */
     public function __construct(Hydrator $hydrator, Container $container, FieldTypeCollection $fieldTypes)
@@ -62,10 +62,11 @@ class FieldTypeBuilder
         $type = array_get($parameters, 'type');
 
         /*
-         * If type not set.
+         * Make sure the type
+         * parameter has been set.
          */
         if (!is_string($type)) {
-            throw new \Exception("The [type] parameter is required and should be string!");
+            throw new \Exception("The [type] parameter is required and should be string.");
         }
 
         /*
