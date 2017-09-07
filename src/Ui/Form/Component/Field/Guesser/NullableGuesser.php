@@ -29,7 +29,7 @@ class NullableGuesser
                 $rules = explode('|', $rules);
             }
 
-            // Skip if nullable
+            // Skip if already nullable.
             if (in_array('nullable', $rules)) {
                 continue;
             }
@@ -37,14 +37,17 @@ class NullableGuesser
             /**
              * If the field depends on other fields we
              * won't add nullable here because validation
-             * will not be performed on this field.
+             * will not be performed on this particular field.
              */
-            if (count($rules) && preg_grep('/required_.*/', $rules)) {
+            if ($rules && preg_grep('/required_.*/', $rules)) {
                 continue;
             }
 
-            // If not required or required non specified, then nullable.
-            if (array_get($field, 'required', false) === false) {
+            /**
+             * If specifically not
+             * required then nullable.
+             */
+            if (array_get($field, 'required', false) == false) {
                 $field['rules'][] = 'nullable';
             }
         }

@@ -272,8 +272,8 @@ class Addon implements PresentableInterface, Arrayable
     /**
      * Sets the path.
      *
-     * @param      string  $path   The path
-     * @return     $this
+     * @param $path
+     * @return $this
      */
     public function setPath($path)
     {
