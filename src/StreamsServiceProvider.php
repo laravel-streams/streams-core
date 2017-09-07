@@ -40,6 +40,7 @@ use Asm89\Twig\CacheExtension\Extension;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Redirector;
@@ -386,7 +387,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         $this->app->bind(
             'twig.loader.viewfinder',
-            function ($app) {
+            function (Application $app) {
                 return $app->make(
                     'Anomaly\Streams\Platform\View\Twig\Loader',
                     [
