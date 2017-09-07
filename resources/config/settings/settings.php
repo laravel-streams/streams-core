@@ -222,7 +222,10 @@ return [
         'required' => true,
         'config'   => [
             'default_value' => function (Repository $config) {
-                return 'noreply@' . array_get(parse_url($config->get('app.url')), 'host');
+
+                $host = array_get(parse_url($config->get('app.url')), 'host');
+
+                return 'noreply@' . (str_contains($host, '.') ? $host : $host . '.com');
             },
         ],
     ],
