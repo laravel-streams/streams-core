@@ -270,7 +270,7 @@ class Asset
             return null;
         }
 
-        return $this->url->asset($this->getPath($collection, $filters), $parameters, $secure);
+        return $this->url->asset($path, $parameters, $secure);
     }
 
     /**
