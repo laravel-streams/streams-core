@@ -34,7 +34,7 @@ class MigrateModule
      * Create a new InstallModule instance.
      *
      * @param Module $module
-     * @param bool $seed
+     * @param bool   $seed
      */
     public function __construct(Module $module, $seed = false)
     {
@@ -45,16 +45,13 @@ class MigrateModule
     /**
      * Handle the command.
      *
-     * @param  Kernel $console
+     * @param  Kernel       $console
      * @param  AddonManager $manager
-     * @param  Dispatcher $dispatcher
+     * @param  Dispatcher   $dispatcher
      * @return bool
      */
-    public function handle(
-        Kernel $console,
-        AddonManager $manager,
-        Dispatcher $dispatcher
-    ) {
+    public function handle(Kernel $console, AddonManager $manager, Dispatcher $dispatcher)
+    {
         $this->module->fire('migrating');
 
         $options = [
