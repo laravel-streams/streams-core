@@ -46,12 +46,26 @@ class Resolver
     {
         $method = array_get($options, 'method', 'handle');
 
-        if ((is_string($target) && str_contains($target, '@')) || is_callable($target)) {
-            $target = $this->container->call($target, $arguments);
-        } elseif (is_string($target) && class_exists($target) && method_exists($target, $method)) {
-            $target = $this->container->call($target . '@' . $method, $arguments);
+        // If it is not string - exit
+        if (!is_string($target)) {
+            return $target;
         }
 
-        return $target;
+        // If is callable like a function
+        if (is_callable($target)) {
+            return $this->container->call($target, $arguments);
+        }
+        
+        if (count($splitted = explode('@', $target)) === 2
+            && class_exists($splitted[0])
+            && method_exists($splitted[0], $splitted[1])) {
+            $target = $splitted[0];
+            $method = $splitted[1];
+        }
+
+        // 
+        if (class_exists($target) && method_exists($target, $method)) {
+            return $this->container->call($target . '@' . $method, $arguments);
+        }
     }
 }
