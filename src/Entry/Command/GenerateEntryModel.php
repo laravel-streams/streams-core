@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Command;
 
+use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Entry\Parser\EntryClassParser;
@@ -18,6 +19,7 @@ use Anomaly\Streams\Platform\Entry\Parser\EntryRelationshipsParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationModelParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslatedAttributesParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationForeignKeyParser;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
 
 class GenerateEntryModel
@@ -46,28 +48,40 @@ class GenerateEntryModel
      * @param Filesystem  $files
      * @param Parser      $parser
      * @param Application $application
+     * @param Dispatcher $events
      */
-    public function handle(Filesystem $files, Parser $parser, Application $application)
+    public function handle(Filesystem $files, Parser $parser, Application $application, Dispatcher $events)
     {
-        $data = [
-            'class'                   => (new EntryClassParser())->parse($this->stream),
-            'title'                   => (new EntryTitleParser())->parse($this->stream),
-            'table'                   => (new EntryTableParser())->parse($this->stream),
-            'rules'                   => (new EntryRulesParser())->parse($this->stream),
-            'dates'                   => (new EntryDatesParser())->parse($this->stream),
-            'stream'                  => (new EntryStreamParser())->parse($this->stream),
-            'trashable'               => (new EntryTrashableParser())->parse($this->stream),
-            'relations'               => (new EntryRelationsParser())->parse($this->stream),
-            'namespace'               => (new EntryNamespaceParser())->parse($this->stream),
-            'field_slugs'             => (new EntryFieldSlugsParser())->parse($this->stream),
-            'searchable'              => (new EntrySearchableParser())->parse($this->stream),
-            'relationships'           => (new EntryRelationshipsParser())->parse($this->stream),
-            'translation_model'       => (new EntryTranslationModelParser())->parse($this->stream),
-            'translated_attributes'   => (new EntryTranslatedAttributesParser())->parse($this->stream),
-            'translation_foreign_key' => (new EntryTranslationForeignKeyParser())->parse($this->stream),
-        ];
+        $config = new Collection([
+            'data' => [
+                'class'                   => (new EntryClassParser())->parse($this->stream),
+                'dates'                   => (new EntryDatesParser())->parse($this->stream),
+                'extends'                 => 'EntryModel',
+                'field_slugs'             => (new EntryFieldSlugsParser())->parse($this->stream),
+                'methods'                 => '',
+                'namespace'               => (new EntryNamespaceParser())->parse($this->stream),
+                'properties'              => '',
+                'relations'               => (new EntryRelationsParser())->parse($this->stream),
+                'relationships'           => (new EntryRelationshipsParser())->parse($this->stream),
+                'rules'                   => (new EntryRulesParser())->parse($this->stream),
+                'searchable'              => (new EntrySearchableParser())->parse($this->stream),
+                'stream'                  => (new EntryStreamParser())->parse($this->stream),
+                'table'                   => (new EntryTableParser())->parse($this->stream),
+                'title'                   => (new EntryTitleParser())->parse($this->stream),
+                'traits'                  => '',
+                'translated_attributes'   => (new EntryTranslatedAttributesParser())->parse($this->stream),
+                'translation_foreign_key' => (new EntryTranslationForeignKeyParser())->parse($this->stream),
+                'translation_model'       => (new EntryTranslationModelParser())->parse($this->stream),
+                'trashable'               => (new EntryTrashableParser())->parse($this->stream),
+                'use'                     => 'Anomaly\Streams\Platform\Entry\EntryModel',
+            ],
 
-        $template = file_get_contents(__DIR__ . '/../../../resources/stubs/models/entry.stub');
+            'templatePath' => __DIR__ . '/../../../resources/stubs/models/entry.stub',
+        ]);
+
+        $events->fire('entry.generating', [$this->stream, $config]);
+
+        $template = file_get_contents($config->get('templatePath'));
 
         $path = $application->getStoragePath('models/' . studly_case($this->stream->getNamespace()));
 
@@ -78,6 +92,6 @@ class GenerateEntryModel
         $files->makeDirectory(dirname($file), 0777, true, true);
         $files->delete($file);
 
-        $files->put($file, $parser->parse($template, $data));
+        $files->put($file, $parser->parse($template, $config->get('data')));
     }
 }
