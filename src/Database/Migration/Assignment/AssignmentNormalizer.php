@@ -5,6 +5,7 @@ use Illuminate\Contracts\Config\Repository;
 
 class AssignmentNormalizer
 {
+
     /**
      * The config repository.
      *
@@ -29,9 +30,7 @@ class AssignmentNormalizer
      */
     public function normalize(Migration $migration)
     {
-        $locale = $this->config->get('app.fallback_locale');
-
-        $stream      = $migration->getStream();
+        $locale      = $this->config->get('app.fallback_locale');
         $assignments = $migration->getAssignments();
 
         foreach ($assignments as $field => &$assignment) {
@@ -50,8 +49,8 @@ class AssignmentNormalizer
              * Generally the field will be the
              * array key. Make sure we have one.
              */
-            if (!isset($assignment['field'])) {
-                $assignment['field'] = $field;
+            if (!array_get($assignment, 'field')) {
+                array_set($assignment, 'field', $field);
             }
 
             /*
@@ -61,7 +60,7 @@ class AssignmentNormalizer
              */
             foreach (['label', 'warning', 'instructions', 'placeholder'] as $key) {
                 if ($value = array_pull($assignment, $key)) {
-                    $assignment = array_add($assignment, $locale . '.' . $key, $value);
+                    array_set($assignment, $locale . '.' . $key, $value);
                 }
             }
         }
