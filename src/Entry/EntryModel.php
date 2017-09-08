@@ -395,8 +395,8 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         }
 
         if (
-            !$this->hasGetMutator($key)
-            && in_array($key, $this->fields)
+            !$this->hasGetMutator($key) &&
+            in_array($key, $this->fields)
         ) {
             return $this->getFieldValue($key);
         } else {
