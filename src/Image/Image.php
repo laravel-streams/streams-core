@@ -481,7 +481,7 @@ class Image
      */
     public function data()
     {
-        return $this->dumpImage();
+        return file_get_contents($this->url());
     }
 
     /**
