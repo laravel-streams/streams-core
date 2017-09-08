@@ -450,7 +450,7 @@ class Image
     }
 
     /**
-     * Return the image response.
+     * Encode the image.
      *
      * @param  null $format
      * @param  int  $quality
@@ -458,11 +458,11 @@ class Image
      */
     public function encode($format = null, $quality = null)
     {
-        $this->setQuality($quality ?: $this->config->get('streams::images.quality', 80));
+        $this->setQuality($quality);
+        $this->setExtension($format);
+        $this->addAlteration('encode');
 
-        return $this->manager
-            ->make(public_path(ltrim($this->setVersion(false)->getCachePath(), '/\\')))
-            ->encode($format, $this->getQuality());
+        return $this;
     }
 
     /**
