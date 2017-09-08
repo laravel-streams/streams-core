@@ -466,6 +466,16 @@ class Image
     }
 
     /**
+     * Return the base64_encoded image.
+     *
+     * @return string
+     */
+    public function base64()
+    {
+        return base64_encode(file_get_contents($this->url()));
+    }
+
+    /**
      * Return the image contents.
      *
      * @return string
