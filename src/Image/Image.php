@@ -481,7 +481,13 @@ class Image
      */
     public function data()
     {
-        return file_get_contents($this->url());
+        return $this->make(
+            public_path(
+                $this
+                    ->setVersion(false)
+                    ->getCachePath()
+            )
+        )->dumpImage();
     }
 
     /**
@@ -572,13 +578,6 @@ class Image
         if (starts_with($this->getImage(), ['http://', 'https://', '//'])) {
             return $this->getImage();
         }
-
-        // @todo: This should be opt-in
-        /*if ($this->agent->isTablet()) {
-            $this->macro('tablet_optimized');
-        } elseif ($this->agent->isMobile()) {
-            $this->macro('mobile_optimized');
-        }*/
 
         $path = $this->paths->outputPath($this);
 
