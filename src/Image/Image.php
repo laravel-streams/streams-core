@@ -471,7 +471,7 @@ class Image
      */
     public function base64()
     {
-        return base64_encode(file_get_contents($this->url()));
+        return base64_encode($this->data());
     }
 
     /**
