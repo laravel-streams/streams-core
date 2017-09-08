@@ -123,7 +123,6 @@ class Image
         'contrast',
         'copy',
         'crop',
-        'encode',
         'fit',
         'flip',
         'gamma',
@@ -454,7 +453,7 @@ class Image
      *
      * @param  null $format
      * @param  int  $quality
-     * @return String
+     * @return $this
      */
     public function encode($format = null, $quality = null)
     {
