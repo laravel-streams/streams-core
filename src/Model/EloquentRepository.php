@@ -240,25 +240,29 @@ class EloquentRepository implements EloquentRepositoryInterface
      */
     public function truncate()
     {
-        $this->model->flushCache();
-
-        foreach ($this->model->all() as $entry) {
-            $this->delete($entry);
-        }
-
-        $this->model->truncate(); // Clear trash
+        $this->truncateModel($this->model);
 
         if ($this->model->isTranslatable() && $translation = $this->model->getTranslationModel()) {
-            $translation->flushCache();
-
-            foreach ($translation->all() as $entry) {
-                $this->delete($entry);
-            }
-
-            $translation->truncate(); // Clear trash
+            $this->truncateModel($translation);
         }
 
         return $this;
+    }
+
+    /**
+     * Truncate a given model
+     *
+     * @param EloquentModel $model The model
+     */
+    protected function truncateModel(EloquentModel $model)
+    {
+        $model->flushCache();
+
+        foreach ($model->all() as $entry) {
+            $this->delete($entry);
+        }
+
+        $model->truncate(); // Clear trash
     }
 
     /**
