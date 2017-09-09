@@ -437,7 +437,7 @@ class Image
      */
     public function source()
     {
-        $this->addAttribute('srcset', $this->srcset() ?: $this->asset() . ' 2x, ' . $this->asset() . ' 1x');
+        $this->addAttribute('srcset', $this->srcset() ?: $this->path() . ' 2x, ' . $this->path() . ' 1x');
 
         $attributes = $this->html->attributes($this->getAttributes());
 
