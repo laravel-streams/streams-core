@@ -368,7 +368,7 @@ class Image
     {
         $attributes = array_merge($this->getAttributes(), $attributes);
 
-        $attributes['src'] = $this->asset();
+        $attributes['src'] = $this->path();
 
         if ($srcset = $this->srcset()) {
             $attributes['srcset'] = $srcset;
