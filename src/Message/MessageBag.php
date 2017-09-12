@@ -30,10 +30,23 @@ class MessageBag
     }
 
     /**
+     * Add a message.
+     *
+     * @param $type
+     * @param $message
+     * @return MessageBag
+     */
+    public function add($type, $message)
+    {
+        return $this->merge($type, $message);
+    }
+
+    /**
      * Merge a message onto the session.
      *
      * @param $type
      * @param $message
+     * @return $this
      */
     protected function merge($type, $message)
     {
@@ -50,6 +63,8 @@ class MessageBag
         $messages = array_unique($messages);
 
         $this->session->set($type, $messages);
+
+        return $this;
     }
 
     /**
