@@ -9,6 +9,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Stream\StreamModel;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
@@ -765,7 +766,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function stream()
     {
         if (!$this->stream instanceof StreamInterface) {
-            $this->stream = app('Anomaly\Streams\Platform\Stream\StreamModel')->make($this->stream);
+            $this->stream = app(StreamModel::class)->make($this->stream);
         }
 
         return $this->stream;
