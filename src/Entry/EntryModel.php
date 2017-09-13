@@ -398,9 +398,9 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
             && in_array($key, $this->fields)
         ) {
             return $this->getFieldValue($key);
-        } else {
-            return parent::getAttribute($key);
         }
+
+        return parent::getAttribute($key);
     }
 
     /**
