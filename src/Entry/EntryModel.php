@@ -373,9 +373,11 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         if (!$this->isKeyALocale($key) && !$this->hasSetMutator($key) && $this->getFieldType($key)) {
             $this->setFieldValue($key, $value);
-        } else {
-            parent::setAttribute($key, $value);
+            
+            return $this;
         }
+        
+        parent::setAttribute($key, $value);
 
         return $this;
     }
