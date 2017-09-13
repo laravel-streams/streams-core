@@ -242,8 +242,8 @@ class EloquentRepository implements EloquentRepositoryInterface
     {
         $this->truncateModel($this->model);
 
-        if ($this->model->isTranslatable() && $translation = $this->model->getTranslationModel()) {
-            $this->truncateModel($translation);
+        if ($this->model->isTranslatable()) {
+            $this->truncateModel($this->model->getTranslationModel());
         }
 
         return $this;
