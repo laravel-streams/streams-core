@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Database\Migration\Console\RefreshCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\ResetCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\RollbackCommand;
 use Anomaly\Streams\Platform\Database\Seeder\Console\SeedCommand;
+use Anomaly\Streams\Platform\View\Twig\Console\TwigClear;
 
 /**
  * Class StreamsConsoleProvider
@@ -29,6 +30,10 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
 
         // Installer Commands
         'Anomaly\Streams\Platform\Installer\Console\Install',
+
+        // Twig Commands
+        'Anomaly\Streams\Platform\View\Twig\Console\TwigClear',
+        'Anomaly\Streams\Platform\View\Twig\Console\TwigClean', // @deprecated in 1.3 remove in 1.4 - use twig:clear
 
         // Streams Commands
         'Anomaly\Streams\Platform\Stream\Console\Make',
