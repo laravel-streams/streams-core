@@ -1,0 +1,910 @@
+---
+title: The Basics
+---
+
+## The Basics[](#the-basics)
+
+This section will introduce you to the basics of the Streams Platform to help you implement them effectively in your projects.
+
+
+### Streams Plugin[](#the-basics/streams-plugin)
+
+The Streams Plugin is the primary plugin shipped with the Streams Platform. You can read it's documentation here: [http://pyrocms.com/documentation/streams-plugin/v1.1](http://pyrocms.com/documentation/streams-plugin/v1.1)
+
+
+### Presenters[](#the-basics/presenters)
+
+Presenters help you organize view layer (presentation) logic for the objects. Logic in the `presenter` should _only_ be for display purposes.
+
+An important secondary purpose for presenters is to map the decorated object's API in a clean way for views. This is why the `__get` method has logic in it which you'll read about further down.
+
+<div class="alert alert-info">**Note:** All **presentable** objects including entry models and collections are automatically decorated with a presenter in the view layer.</div>
+
+
+#### Basic Usage[](#the-basics/presenters/basic-usage)
+
+The `\Robbo\Presenter\PresentableInterface` interface tells the Streams Platform that the class is `presentable` and has a `getPresenter` method. By default `getPresenter` return an instance of `\Anomaly\Streams\Platform\Support\Presenter` or the nearest presenter to the class.
+
+    public function newPresenter()
+    {
+        return new Presenter($this);
+    }
+
+
+##### Presenter::getObject()[](#the-basics/presenters/basic-usage/presenter-getobject)
+
+The `getObject` returns the decorated object instance.
+
+###### Returns: `mixed`
+
+###### Example
+
+    $presenter->getObject();
+
+###### Twig
+
+    {{ presenter.getObject() }}
+
+<div class="alert alert-primary">**Pro Tip:** This method is very useful when working with API objects in the view layer where the **instance** is generally required and not the **presenter**.</div>
+
+
+##### Presenter::__get()[](#the-basics/presenters/basic-usage/presenter-get)
+
+The `__get` magic method will look for the following available methods in order from top to bottom and return the first matching scenario:
+
+###### Check the presenter for a method where the method is the camel case of the `{attribute_name}`.
+
+    $presenter->display_name; // Returns: $presenter->displayName();
+
+    {{ presenter.display_name }} // Returns: {{ presenter.displayName() }}
+
+###### Check the presenter for a getter method where the method is the camel case of `get_{attribute_name}`.
+
+    $presenter->display_name; // Returns: $presenter->getDisplayName();
+
+    {{ presenter.display_name }} // Returns: {{ presenter.getDisplayName() }}
+
+###### Check the presenter for a getter method where the method is the camel case of `is_{attribute_name}`.
+
+    $presenter->enabled; // Returns: $presenter->isEnabled();
+
+    {{ presenter.enabled }} // Returns: {{ presenter.isEnabled() }}
+
+###### Check the decorated object for a getter method where the method is the camel case of `get_{attribute_name}`.
+
+    $presenter->display_name; // Returns: $presenter->getObject()->getDisplayName();
+
+    {{ presenter.display_name }} // Returns: {{ presenter.getObject().getDisplayName() }}
+
+###### Check the decorated object for a boolean getter method where the method is the camel case of `is_{attribute_name}`.
+
+    $presenter->enabled; // Returns: $presenter->getObject()->isEnabled();
+
+    {{ presenter.enabled }} // Returns: {{ presenter.getObject().isEnabled() }}
+
+###### Check the decorated object for a method where the method is the camel case of the `{attribute_name}`.
+
+    $presenter->display_name; // Returns: $presenter->getObject()->displayName();
+
+    {{ presenter.display_name }} // Returns: {{ presenter.getObject().displayName() }}
+
+###### Check the decorated object for a getter style hook where the hook is `get_{attribute_name}`.
+
+    $presenter->display_name; // Returns: $presenter->getObject()->call('get_display_name');
+
+    {{ presenter.display_name }} // Returns: {{ presenter.getObject().call('get_display_name') }}
+
+###### Check the decorated object for a standard hook where the hook is `{attribute_name}`.
+
+    $presenter->display_name; // Returns: $presenter->getObject()->call('display_name');
+
+    {{ presenter.display_name }} // Returns: {{ presenter.getObject().call('display_name') }}
+
+###### Return the decorated object's attribute named `{attribute_name}`.
+
+    $presenter->display_name; // Returns: $presenter->getObject()->display_name;
+
+    {{ presenter.display_name }} // Returns: {{ presenter.getObject().display_name }}
+
+###### Returns: `mixed`
+
+###### Arguments
+
+<table class="table table-bordered table-striped">
+
+<thead>
+
+<tr>
+
+<th>Key</th>
+
+<th>Required</th>
+
+<th>Type</th>
+
+<th>Default</th>
+
+<th>Description</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+
+$name
+
+</td>
+
+<td>
+
+true
+
+</td>
+
+<td>
+
+string
+
+</td>
+
+<td>
+
+none
+
+</td>
+
+<td>
+
+The attribute name being attempted.
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+###### Example
+
+    $presenter->example; // Where example is not a property of $presenter
+
+###### Twig
+
+    {{ presenter.example }}
+
+
+##### Presenter::__call()[](#the-basics/presenters/basic-usage/presenter-call)
+
+The `__call` magic method will try running the `method` on the decorated object. Remember the `__call` function is only invoked when the method does not exist on the presenter itself. So this effectively maps decorated object methods to the presenter.
+
+###### Returns: `mixed`
+
+###### Arguments
+
+<table class="table table-bordered table-striped">
+
+<thead>
+
+<tr>
+
+<th>Key</th>
+
+<th>Required</th>
+
+<th>Type</th>
+
+<th>Default</th>
+
+<th>Description</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+
+$method
+
+</td>
+
+<td>
+
+true
+
+</td>
+
+<td>
+
+string
+
+</td>
+
+<td>
+
+none
+
+</td>
+
+<td>
+
+The method name.
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+$arguments
+
+</td>
+
+<td>
+
+true
+
+</td>
+
+<td>
+
+array
+
+</td>
+
+<td>
+
+null
+
+</td>
+
+<td>
+
+An array of method arguments passed.
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+###### Example
+
+    $presenter->exampleMethod(); // Returns: $presenter->getObject()->exampleMethod();
+
+###### Twig
+
+    {{ presenter.exampleMethod() }}
+
+<div class="alert alert-danger">**Caution:** Presenters globally block calls to **delete**, save, and update.</div>
+
+
+##### Manually Decorating Objects[](#the-basics/presenters/basic-usage/manually-decorating-objects)
+
+You can manually `decorate` an object with the `\Anomaly\Streams\Platform\Support\Decorator` class.
+
+
+##### Decorator::decorate()[](#the-basics/presenters/basic-usage/manually-decorating-objects/decorator-decorate)
+
+The `decorate` method decorates the object. It can also decorate an entire collection of presentable items.
+
+###### Returns: `\Anomaly\Streams\Platform\Support\Presenter` or `\Illuminate\Database\Eloquent\Collection`
+
+###### Arguments
+
+<table class="table table-bordered table-striped">
+
+<thead>
+
+<tr>
+
+<th>Key</th>
+
+<th>Required</th>
+
+<th>Type</th>
+
+<th>Default</th>
+
+<th>Description</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+
+$value
+
+</td>
+
+<td>
+
+true
+
+</td>
+
+<td>
+
+mixed
+
+</td>
+
+<td>
+
+none
+
+</td>
+
+<td>
+
+The presentable object or collection of presentable items.
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+###### Example
+
+    $decorated = $decorator->decorate($model);
+
+<div class="alert alert-info">**Note:** Non-presentable values will be returned as is.</div>
+
+
+##### Undecorating Values[](#the-basics/presenters/basic-usage/undecorating-values)
+
+The `\Anomaly\Streams\Platform\Support\Decorator` class can also be used for obtaining the original undecorated values.
+
+
+##### Decorator::undecorate()[](#the-basics/presenters/basic-usage/undecorating-values/decorator-undecorate)
+
+The `undecorate` reverses the decoration method's action. This is helpful for wrapping API methods for objects inside the view layer.
+
+###### Returns: `mixed`
+
+###### Arguments
+
+<table class="table table-bordered table-striped">
+
+<thead>
+
+<tr>
+
+<th>Key</th>
+
+<th>Required</th>
+
+<th>Type</th>
+
+<th>Default</th>
+
+<th>Description</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+
+$value
+
+</td>
+
+<td>
+
+true
+
+</td>
+
+<td>
+
+mixed
+
+</td>
+
+<td>
+
+none
+
+</td>
+
+<td>
+
+The presenter or collection of presenters.
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+###### Example
+
+    $original = $decorator->undecorate($model);
+
+<div class="alert alert-info">**Note:** Non-presentable values will be returned as is.</div>
+
+
+#### Writing Presenters[](#the-basics/presenters/writing-presenters)
+
+Presenters are automatically generated for you when using the make stream command:
+
+    php artisan make:stream stream_slug example.module.test
+
+You can also create your own addon presenter in most cases by transforming the model class name into it's corresponding presenter class name:
+
+    TestModel -> TestPresenter
+
+In all other cases all you need to do is define your own `newPresenter` method on the `presentable` class:
+
+    <?php namespace Anomaly\ExampleModule\Test;
+
+    use Robbo\Presenter\PresentableInterface;
+    use Anomaly\Streams\Platform\Support\Presenter;
+
+    class TestObject implements PresenterInterface
+    {
+
+        /**
+         * Return the presenter.
+         *
+         * @return string
+         */
+        public function newPresenter()
+        {
+            return new Presenter($this);
+        }
+    }
+
+An example presenter looks like this:
+
+    <?php namespace Anomaly\ExampleModule\Test;
+
+    use Anomaly\Streams\Platform\Support\Presenter;
+
+    class TestPresenter extends Presenter
+    {
+
+        /**
+         * Return the full name.
+         *
+         * @return string
+         */
+        public function name()
+        {
+            return implode(' ', array_filter([$this->object->getFirstName(), $this->object->getLastName()]));
+        }
+    }
+
+Now you can use this method in your API:
+
+    $test->name();
+
+Or view layer:
+
+    {{ test.name() }}
+
+
+### Routing[](#the-basics/routing)
+
+This section will describe how to define routes in PyroCMS. It helps to know [how to route in Laravel](https://laravel.com/docs/5.3/routing) already.
+
+
+#### Laravel Routing[](#the-basics/routing/laravel-routing)
+
+While most routing in Pyro will occur within your addon service provider you can still route as you normally would with Laravel using the `/routes` directory.
+
+    Route::get('example', function () {
+        return view('theme::hello');
+    });
+
+To learn more about native routing please refer to [Laravel documentation](https://laravel.com/docs/5.3/routing).
+
+
+#### Addon Service Providers[](#the-basics/routing/addon-service-providers)
+
+Most routing is specified within the relevant addon's service provider using the `$routes` and `$api` properties.
+
+The most basic route definition looks like this:
+
+    protected $routes = [
+        'example/uri' => 'Example\ExampleModule\Http\Controller\ExampleController@example',
+    ];
+
+
+##### The Route Definition[](#the-basics/routing/addon-service-providers/the-route-definition)
+
+Below is a list of all `routes` definition properties available.
+
+Definitions are always keyed by the URI path/pattern like this:
+
+    protected $routes = [
+        'posts/{slug}' => $definition,
+    ];
+
+###### Properties
+
+<table class="table table-bordered table-striped">
+
+<thead>
+
+<tr>
+
+<th>Key</th>
+
+<th>Required</th>
+
+<th>Type</th>
+
+<th>Default</th>
+
+<th>Description</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+
+uses
+
+</td>
+
+<td>
+
+true
+
+</td>
+
+<td>
+
+string
+
+</td>
+
+<td>
+
+none
+
+</td>
+
+<td>
+
+The `Controller\Class@method` string handling the response.
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+as
+
+</td>
+
+<td>
+
+false
+
+</td>
+
+<td>
+
+string
+
+</td>
+
+<td>
+
+none
+
+</td>
+
+<td>
+
+The name of the route.
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+verb
+
+</td>
+
+<td>
+
+false
+
+</td>
+
+<td>
+
+string
+
+</td>
+
+<td>
+
+any
+
+</td>
+
+<td>
+
+The request verb to route. Available options are `get`, `post`, `put`, `patch`, `delete`, and `options`
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+middleware
+
+</td>
+
+<td>
+
+false
+
+</td>
+
+<td>
+
+array
+
+</td>
+
+<td>
+
+[]
+
+</td>
+
+<td>
+
+An array of additional middleware to run for the route.
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+contraints
+
+</td>
+
+<td>
+
+false
+
+</td>
+
+<td>
+
+array
+
+</td>
+
+<td>
+
+[]
+
+</td>
+
+<td>
+
+An array of parameter constraints to force on any segment parameters.
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+streams::addon
+
+</td>
+
+<td>
+
+false
+
+</td>
+
+<td>
+
+string
+
+</td>
+
+<td>
+
+The addon providing the route.
+
+</td>
+
+<td>
+
+The dot namespace of the addon responsible for the route. This is used in setting the active module during a request.
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+
+### Views[](#the-basics/views)
+
+Views in PyroCMS work exactly the same as [views in Laravel](https://laravel.com/docs/5.3/views).
+
+<div class="alert alert-danger">**Heads Up:** Pyro's default rendering engine is [Twig](https://twig.sensiolabs.org/).</div>
+
+
+#### Path Hints[](#the-basics/views/path-hints)
+
+To avoid having to use full paths to your views there are a number of path hints available. Hints are a namespace that prefixes the view path.
+
+    "theme::hello" // path-to-your-active-theme/resources/views/hello.twig
+
+    "anomaly.module.products::admin/products/index" // path-to-products-module/resources/views/admin/products/index.twig
+
+
+##### Available Path Hints[](#the-basics/views/path-hints/available-path-hints)
+
+All paths are relative to your application's base path.
+
+*   `module`: {active_module_path}/resources/views/
+*   `theme`: {active_theme_path}/resources/views/
+*   `published`: /resources/{app_reference}/addons/
+*   `app`: /resources/{app_reference}/views/
+*   `storage`: /storage/streams/{app_reference}/
+*   `shared`: /resources/views/
+*   `root`: /
+
+Addons also have path hints associated to them:
+
+*   `vendor.module.example`: {addon_path}/resources/views/
+
+
+##### Registering Path Hints[](#the-basics/views/path-hints/registering-path-hints)
+
+You can use the `\Illuminate\View\Factory` class to register your own path hints:
+
+    $factory->addNamespace('example', base_path('example/path');
+
+Now you can use that path hint for views:
+
+    view('example::my/view');
+
+
+#### Basic Usage[](#the-basics/views/basic-usage)
+
+This section will briefly go over how to render a view. For more information on rendering views please refer to [Laravel's documentation](https://laravel.com/docs/5.3/views).
+
+
+##### Using Controllers[](#the-basics/views/basic-usage/using-controllers)
+
+Controllers in Pyro all have Laravel's view factory pre-loaded for you to use directly:
+
+    <?php namespace Anomaly\ExampleModule\Http\Controller;
+
+    use Anomaly\ExampleModule\Widget\Contract\WidgetRepositoryInterface;
+    use Anomaly\Streams\Platform\Http\Controller\PublicController;
+
+    class WidgetsController extends PublicController
+    {
+
+        public function index(WidgetRepositoryInterface $widgets)
+        {
+            return $this->view->make(
+                'anomaly.module.example::widgets/index',
+                [
+                    'widgets' => $widgets->all(),
+                ]
+            );
+        }
+    }
+
+
+##### The View Helper[](#the-basics/views/basic-usage/the-view-helper)
+
+You can also use the `view` helper function exactly the same as above like you normally would in Laravel from any class:
+
+    return view(
+        'anomaly.module.example::widgets/index',
+        [
+            'widgets' => $widgets->all(),
+        ]
+    );
+
+
+#### Overriding Views[](#the-basics/views/overriding-views)
+
+This section will go over how to cleanly override views that are in core addons or the streams-platform.
+
+
+##### Addon Service Providers[](#the-basics/views/overriding-views/addon-service-providers)
+
+You can [write a service provider](/documentation/streams-platform/latest#core-concepts/service-providers/writing-service-providers) and define view `overrides` as well as `mobile` only overrides there.
+
+*   [Defining view overrides in addon service providers](/documentation/streams-platform/latest#core-concepts/service-providers/writing-service-providers/addonserviceprovider-overrides)
+*   [Defining mobile only overrides in addon service providers](/documentation/streams-platform/latest#core-concepts/service-providers/writing-service-providers/addonserviceprovider-mobile)
+
+
+##### Publishing Addons[](#the-basics/views/overriding-views/publishing-addons)
+
+You can override views among other things by simply publishing the addon and modifying it's files. Publishing copies the addon's resources to your `resources/{app_reference}/addons/` directory so you can modify and commit them to your project.
+
+    php artisan addon:publish anomaly.module.example
+
+You can also omit the addon argument and publish _all_ addons:
+
+    php artisan addon:publish
+
+Now all you need to do is modify what you need and delete the rest!
+
+<div class="alert alert-info">**Note:** The view system will use the original addon view if it does not exist in the published location.</div>
+
+
+##### Theme Overrides[](#the-basics/views/overriding-views/theme-overrides)
+
+When in use, themes can also override views by placing the view overrides in a specific directory.
+
+For example you can override the following addon view:
+
+    view('anomaly.module.example::widgets/index');
+
+By placing the overriding view file in your active theme like so:
+
+    {theme-path}/resources/views/addons/anomaly/example-widget/widgets/index.twig
+
+The override directory in this case is `{theme-path}/resources/views/addons/anomaly/example-widget/` while the view path we are overriding is `widgets/index` and of course the `.twig` file extension is needed.
