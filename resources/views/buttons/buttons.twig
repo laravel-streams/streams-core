@@ -23,7 +23,7 @@
 
     {# Render dropdown type buttons. #}
     {% if button.dropdown %}
-        <div class="btn-group">
+        <div class="btn-group {{ button.dropup ? 'dropup' }}">
 
             {% if button.attributes.href %}
                 <a class="btn btn-{{ button.size }} btn-{{ button.type }} {{ button.disabled ? 'disabled' }} {{ button.class }}" {{ button.disabled ? 'disabled' }} {{ html_attributes(button.attributes) }}>
