@@ -90,6 +90,13 @@ class Button implements ButtonInterface
     protected $dropdown = [];
 
     /**
+     * The dropup flag.
+     *
+     * @var string
+     */
+    protected $dropup = false;
+
+    /**
      * The dropdown position.
      *
      * @var string
@@ -139,6 +146,29 @@ class Button implements ButtonInterface
     public function setDropdown(array $dropdown)
     {
         $this->dropdown = $dropdown;
+
+        return $this;
+    }
+
+    /**
+     * Return whether the button is a dropup or not.
+     *
+     * @return bool
+     */
+    public function isDropup()
+    {
+        return $this->dropup;
+    }
+
+    /**
+     * Set dropup flag.
+     *
+     * @param  $dropup
+     * @return $this
+     */
+    public function setDropup($dropup)
+    {
+        $this->dropup = $dropup;
 
         return $this;
     }

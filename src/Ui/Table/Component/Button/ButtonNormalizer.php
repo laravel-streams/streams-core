@@ -111,6 +111,14 @@ class ButtonNormalizer
             }
         }
 
+        /**
+         * Default to dropup for now.
+         * @todo Would be nice not to have to do this.. Fix footer of theme.
+         */
+        if (isset($button['dropdown']) && !isset($button['dropup'])) {
+            $button['dropup'] = true;
+        }
+
         return $button;
     }
 }
