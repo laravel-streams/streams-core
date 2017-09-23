@@ -18,13 +18,9 @@ return [
     'csrf_token_mismatch' => 'Jūsų saugumo rakto galiojimo laikas pasibaigė. Bandykite pildyti formą dar kartą.',
     'create_success' => ':name sukurtas sėkmingai',
     'edit_success' => ':name atnaujintas sėkmingai',
-    'confirm_delete' => 'Ar tikrai norite ištrinti?
-Tai gali turėti įtakos sistemos veikimui',
-    'confirm_uninstall' => 'Ar tikrai norite išinstaliuoti?
-Bet kokia susijusi informacija bus prarasta.',
-    'prompt_delete' => 'Ar tikrai norite ištrinti?
-Šis veiksmas negalės būti atšauktas (anuliuojamas)  ir / arba gali sukelti nuolatinę žalą jūsų sistemai.
-Įveskite &quot;:match&quot; patvirtinimui',
+    'confirm_delete' => '<h3>Ar tikrai norite ištrinti?</h3><p>Tai gali turėti įtakos sistemos veikimui</p>',
+    'confirm_uninstall' => '<h3>Ar tikrai norite išinstaliuoti?</h3><p>Bet kokia susijusi informacija bus prarasta.</p>',
+    'prompt_delete' => '<h3>Ar tikrai norite ištrinti?</h3><p>Šis veiksmas negalės būti atšauktas (anuliuojamas)  ir / arba gali sukelti nuolatinę žalą jūsų sistemai.</p><p>Įveskite ":match:" patvirtinimui</p>',
     'form_is_read_only' => 'Ši forma yra tik skaitoma!',
     'restore_success' => 'Įrašas buvo sėkmingai atkurtas.',
     'restore_failed' => 'Įrašas negalėjo būti atkurtas.',
