@@ -19,37 +19,46 @@ The Streams Platform comes setup and ready right out of the box with PyroCMS. It
 
 However, if you would like to install it in an existing Laravel application there are a couple things you need to do.
 
-<div class="alert alert-warning">**Notice:** If you are using PyroCMS the Streams Platform is already installed for you!</div>
+<div class="alert tip">**Notice:** If you are using PyroCMS the Streams Platform is already installed for you!</div>
 
 
 #### Install with Composer[](#getting-started/installation/install-with-composer)
 
 First require the composer package by running `composer require anomaly/streams-platform` or adding the following line to your `composer.json` file:
 
-    "anomaly/streams-platform": "1.1.x-dev"
+```json
+    "anomaly/streams-platform": "latest",
+```
 
-<div class="alert alert-danger">**Notice:** The Streams Platform is currently compatible with Laravel 5.3 only.</div>
+> **Notice:** The last Streams Platform is currently compatible with Laravel `>=5.4` only.
 
 
 #### Register the service provider[](#getting-started/installation/register-the-service-provider)
 
-Next you need to register the service provider. To do this add the following service provider to the end of the `providers` section in `config/app.php`:
+Next you need to register the service provider. To do this add the following service provider to the end of the `providers` section in `config/app.php` (added by default):
 
-    Anomaly\Streams\Platform\StreamsServiceProvider::class
+```php
+    /**
+     * The Streams Platform main Service Provider
+     */
+    Anomaly\Streams\Platform\StreamsServiceProvider::class,
+```
 
 
 #### Register the kernels[](#getting-started/installation/register-the-kernels)
 
 The Streams Platform adds low level functionality to the HTTP and console kernels. In order for this to work properly you must register the kernels in the `bootstrap/app.php` file:
 
-    $app->singleton(
-        Illuminate\Contracts\Http\Kernel::class,
-        'Anomaly\Streams\Platform\Http\Kernel'
-    );
+```php
+$app->singleton(
+    Illuminate\Contracts\Http\Kernel::class,
+    Anomaly\Streams\Platform\Http\Kernel::class
+);
 
-    $app->singleton(
-        Illuminate\Contracts\Console\Kernel::class,
-        'Anomaly\Streams\Platform\Console\Kernel'
-    );
+$app->singleton(
+    Illuminate\Contracts\Console\Kernel::class,
+    Anomaly\Streams\Platform\Console\Kernel::class
+);
+```
 
 You're all set! You can now use addons just like PyroCMS as well as all of the other services and utilities within the Streams Platform.
