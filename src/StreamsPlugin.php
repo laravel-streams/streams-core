@@ -440,7 +440,7 @@ class StreamsPlugin extends Plugin
             ),
             new \Twig_SimpleFunction(
                 'trans',
-                function ($key, array $parameters = [], $locale = 'en') {
+                function ($key, array $parameters = [], $locale = null) {
                     return $this->dispatch(new GetTranslatedString($key, $parameters, $locale));
                 }
             ),

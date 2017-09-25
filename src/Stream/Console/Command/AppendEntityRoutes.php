@@ -67,7 +67,7 @@ class AppendEntityRoutes
 
         $streams = $files->glob($this->addon->getPath('migrations/*_stream.php'));
 
-        $segment    = $streams >= 1 ? "/{$this->slug}" : '';
+        $segment    = (count($streams) >= 1) ? "/{$this->slug}" : '';
         $prefix     = "{$vendor}\\{$slug}{$type}";
         $controller = "{$prefix}\\Http\\Controller\\Admin\\{$suffix}Controller";
 

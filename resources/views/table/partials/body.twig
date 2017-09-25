@@ -1,18 +1,17 @@
 <tbody>
 {% for row in table.rows %}
-    <tr id="{{ loop.index }}" @click="rowClick($event, {{ loop.index }})">
+    <tr id="{{ loop.index }}">
 
         {% if table.options.sortable %}
             <td>
                 {{ icon('fa fa-arrows handle') }}
-                <input type="hidden" name="{{ row.table.options.prefix }}order[]" value="{{ row.key }}" />
+                <input type="hidden" name="{{ row.table.options.prefix }}order[]" value="{{ row.key }}"/>
             </td>
         {% endif %}
 
         {% if not table.actions.empty() %}
             <td>
-                <input type="checkbox" name="{{ row.table.options.prefix }}id[]" value="{{ row.key }}"
-                    :checked="isSelected({{ loop.index }})" />
+                <input type="checkbox" name="{{ row.table.options.prefix }}id[]" value="{{ row.key }}"/>
             </td>
         {% endif %}
 

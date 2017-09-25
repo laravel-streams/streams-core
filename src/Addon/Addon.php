@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Addon\AddonPresenter;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -68,7 +69,7 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function getPresenter()
     {
-        return app()->make('Anomaly\Streams\Platform\Addon\AddonPresenter', ['object' => $this]);
+        return app()->make(AddonPresenter::class, ['object' => $this]);
     }
 
     /**
@@ -259,7 +260,7 @@ class Addon implements PresentableInterface, Arrayable
 
         return array_first(
             $json->packages,
-            function ($package) {
+            function (\stdClass $package) {
                 return $package->name == $this->getPackageName();
             }
         );
@@ -276,6 +277,8 @@ class Addon implements PresentableInterface, Arrayable
     }
 
     /**
+     * Sets the path.
+     *
      * @param $path
      * @return $this
      */

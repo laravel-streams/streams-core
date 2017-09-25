@@ -1,12 +1,19 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Console\Command;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Anomaly\Streams\Platform\Addon\Command\GetAddon;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Console\Command;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
+/**
+ * Class MigrateStreams
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class MigrateStreams
 {
+
     use DispatchesJobs;
 
     /**
@@ -29,7 +36,7 @@ class MigrateStreams
     /**
      * Create a new SetAddonPath instance.
      *
-     * @param ResetCommand $command
+     * @param Command $command
      */
     public function __construct(Command $command)
     {
@@ -38,12 +45,11 @@ class MigrateStreams
 
     /**
      * Handle the command.
-     *
-     * @param AddonCollection $addons
      */
-    public function handle(AddonCollection $addons)
+    public function handle()
     {
         foreach ($this->paths as $path) {
+
             $options = [
                 '--path' => $path,
             ];

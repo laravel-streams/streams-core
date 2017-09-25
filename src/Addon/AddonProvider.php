@@ -510,9 +510,15 @@ class AddonProvider
         }
 
         foreach ($schedules as $frequency => $commands) {
-            foreach (array_filter($commands) as $command) {
+            foreach (array_filter($commands) as $command => $options) {
+
+                if (!is_array($options)) {
+                    $command = $options;
+                    $options = [];
+                }
+
                 if (str_is('* * * *', $frequency)) {
-                    $this->schedule->command($command)->cron($frequency);
+                    $command = $this->schedule->command($command)->cron($frequency);
                 } else {
 
                     $parts = explode('|', $frequency);
@@ -520,7 +526,17 @@ class AddonProvider
                     $method    = camel_case(array_shift($parts));
                     $arguments = explode(',', array_shift($parts));
 
-                    call_user_func_array([$this->schedule->command($command), $method], $arguments);
+                    $command = call_user_func_array([$this->schedule->command($command), $method], $arguments);
+                }
+
+                foreach ($options as $option => $arguments) {
+
+                    if (!is_array($arguments)) {
+                        $option    = $arguments;
+                        $arguments = [];
+                    }
+
+                    $command = call_user_func_array([$command, camel_case($option)], (array)$arguments);
                 }
             }
         }

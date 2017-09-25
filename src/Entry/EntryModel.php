@@ -9,6 +9,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Stream\StreamModel;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
@@ -103,7 +104,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      * Sort the query.
      *
      * @param Builder $builder
-     * @param string  $direction
+     * @param string $direction
      */
     public function scopeSorted(Builder $builder, $direction = 'asc')
     {
@@ -188,7 +189,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      * Get a field value.
      *
      * @param        $fieldSlug
-     * @param  null  $locale
+     * @param  null $locale
      * @return mixed
      */
     public function getFieldValue($fieldSlug, $locale = null)
@@ -235,7 +236,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      *
      * @param        $fieldSlug
      * @param        $value
-     * @param  null  $locale
+     * @param  null $locale
      * @return $this
      */
     public function setFieldValue($fieldSlug, $value, $locale = null)
@@ -365,18 +366,16 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      * the field types a chance to modify things.
      *
      * @param  string $key
-     * @param  mixed  $value
-     * @return $this
+     * @param  mixed $value
+     * @return EntryModel|EloquentModel
      */
     public function setAttribute($key, $value)
     {
         if (!$this->isKeyALocale($key) && !$this->hasSetMutator($key) && $this->getFieldType($key)) {
-            $this->setFieldValue($key, $value);
-        } else {
-            parent::setAttribute($key, $value);
+            return $this->setFieldValue($key, $value);
         }
 
-        return $this;
+        return parent::setAttribute($key, $value);
     }
 
     /**
@@ -399,16 +398,16 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
             && in_array($key, $this->fields)
         ) {
             return $this->getFieldValue($key);
-        } else {
-            return parent::getAttribute($key);
         }
+
+        return parent::getAttribute($key);
     }
 
     /**
      * Get a raw unmodified attribute.
      *
      * @param             $key
-     * @param  bool       $process
+     * @param  bool $process
      * @return mixed|null
      */
     public function getRawAttribute($key, $process = true)
@@ -765,7 +764,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function stream()
     {
         if (!$this->stream instanceof StreamInterface) {
-            $this->stream = app('Anomaly\Streams\Platform\Stream\StreamModel')->make($this->stream);
+            $this->stream = app(StreamModel::class)->make($this->stream);
         }
 
         return $this->stream;
@@ -913,6 +912,12 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
                 ->getSearchableAssignments()
                 ->fieldSlugs()
         );
+
+        if (!$searchable) {
+            $searchable = $this
+                ->getAssignments()
+                ->fieldSlugs();
+        }
 
         foreach ($searchable as $field) {
 

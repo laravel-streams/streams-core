@@ -155,7 +155,7 @@ class ImagePaths
                         var_export([$path, $image->getAlterations()], true) . $image->getQuality()
                     ) . '.' . $image->getExtension();
             }
-            
+
             if ($rename = $image->getFilename()) {
 
                 $filename = $rename;

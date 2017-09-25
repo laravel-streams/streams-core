@@ -21,7 +21,7 @@ class ButtonDropdown
                 foreach (array_pull($button, 'dropdown') as $dropdown) {
                     $dropdown['parent'] = $button['button'];
 
-                    $buttons[] = $dropdown;
+                    $buttons[$dropdown['slug']] = $dropdown;
                 }
             }
         }

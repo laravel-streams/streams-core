@@ -53,6 +53,28 @@ class Writer
     }
 
     /**
+     * Prepend text to a file.
+     *
+     * @param  string $path
+     * @param  string $pattern
+     * @param  string $text
+     * @param  int    $limit
+     * @return bool
+     */
+    public function prepend($path, $pattern, $text, $limit = 1)
+    {
+        $contents = $this->files->get($path);
+        $contents = preg_replace(
+            $pattern,
+            $text . '$0',
+            $contents,
+            $limit
+        );
+
+        return $this->files->put($path, $contents);
+    }
+
+    /**
      * Replace text in a file.
      *
      * @param     $path

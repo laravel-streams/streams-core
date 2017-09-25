@@ -353,7 +353,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             return;
         }
-
+        
         /**
          * Correct path for Paginator.
          */

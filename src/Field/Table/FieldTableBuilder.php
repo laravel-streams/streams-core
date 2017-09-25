@@ -72,7 +72,7 @@ class FieldTableBuilder extends TableBuilder
         ],
         [
             'heading' => 'streams::field.type.name',
-            'value'   => 'entry.name',
+            'value'   => 'entry.type.title',
         ],
     ];
 

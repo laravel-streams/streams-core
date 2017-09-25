@@ -123,7 +123,6 @@ class Image
         'contrast',
         'copy',
         'crop',
-        'encode',
         'fit',
         'flip',
         'gamma',
@@ -244,16 +243,16 @@ class Image
     /**
      * Create a new Image instance.
      *
-     * @param UrlGenerator  $url
-     * @param HtmlBuilder   $html
-     * @param Filesystem    $files
+     * @param UrlGenerator $url
+     * @param HtmlBuilder $html
+     * @param Filesystem $files
      * @param Mobile_Detect $agent
-     * @param Repository    $config
-     * @param ImageManager  $manager
-     * @param Request       $request
-     * @param Application   $application
-     * @param ImagePaths    $paths
-     * @param ImageMacros   $macros
+     * @param Repository $config
+     * @param ImageManager $manager
+     * @param Request $request
+     * @param Application $application
+     * @param ImagePaths $paths
+     * @param ImageMacros $macros
      */
     public function __construct(
         UrlGenerator $url,
@@ -283,7 +282,7 @@ class Image
      * Make a new image instance.
      *
      * @param  mixed $image
-     * @param  null  $output
+     * @param  null $output
      * @return $this
      */
     public function make($image, $output = null)
@@ -350,7 +349,7 @@ class Image
      * Return the URL to an image.
      *
      * @param  array $parameters
-     * @param  null  $secure
+     * @param  null $secure
      * @return string
      */
     public function url(array $parameters = [], $secure = null)
@@ -361,7 +360,7 @@ class Image
     /**
      * Return the image tag to an image.
      *
-     * @param  null  $alt
+     * @param  null $alt
      * @param  array $attributes
      * @return string
      */
@@ -369,7 +368,7 @@ class Image
     {
         $attributes = array_merge($this->getAttributes(), $attributes);
 
-        $attributes['src'] = $this->asset();
+        $attributes['src'] = $this->path();
 
         if ($srcset = $this->srcset()) {
             $attributes['srcset'] = $srcset;
@@ -395,7 +394,7 @@ class Image
     /**
      * Return the image tag to an image.
      *
-     * @param  null  $alt
+     * @param  null $alt
      * @param  array $attributes
      * @return string
      */
@@ -438,7 +437,7 @@ class Image
      */
     public function source()
     {
-        $this->addAttribute('srcset', $this->srcset() ?: $this->asset() . ' 2x, ' . $this->asset() . ' 1x');
+        $this->addAttribute('srcset', $this->srcset() ?: $this->path() . ' 2x, ' . $this->path() . ' 1x');
 
         $attributes = $this->html->attributes($this->getAttributes());
 
@@ -450,17 +449,29 @@ class Image
     }
 
     /**
-     * Return the image response.
+     * Encode the image.
      *
      * @param  null $format
-     * @param  int  $quality
-     * @return String
+     * @param  int $quality
+     * @return $this
      */
     public function encode($format = null, $quality = null)
     {
-        $this->setQuality($quality ?: $this->config->get('streams::images.quality', 80));
+        $this->setQuality($quality);
+        $this->setExtension($format);
+        $this->addAlteration('encode');
 
-        return $this->manager->make($this->getCachePath())->encode($format, $this->getQuality());
+        return $this;
+    }
+
+    /**
+     * Return the base64_encoded image.
+     *
+     * @return string
+     */
+    public function base64()
+    {
+        return base64_encode($this->data());
     }
 
     /**
@@ -470,7 +481,13 @@ class Image
      */
     public function data()
     {
-        return $this->dumpImage();
+        return $this->make(
+            public_path(
+                $this
+                    ->setVersion(false)
+                    ->getCachePath()
+            )
+        )->dumpImage();
     }
 
     /**
@@ -561,13 +578,6 @@ class Image
         if (starts_with($this->getImage(), ['http://', 'https://', '//'])) {
             return $this->getImage();
         }
-
-        // @todo: This should be opt-in
-        /*if ($this->agent->isTablet()) {
-            $this->macro('tablet_optimized');
-        } elseif ($this->agent->isMobile()) {
-            $this->macro('mobile_optimized');
-        }*/
 
         $path = $this->paths->outputPath($this);
 
@@ -707,7 +717,7 @@ class Image
 
         /* @var Image $image */
         foreach ($this->getSrcsets() as $descriptor => $image) {
-            $sources[] = $image->asset() . ' ' . $descriptor;
+            $sources[] = $image->path() . ' ' . $descriptor;
         }
 
         return implode(', ', $sources);
@@ -743,7 +753,7 @@ class Image
      * Set the sources/alterations.
      *
      * @param  array $sources
-     * @param  bool  $merge
+     * @param  bool $merge
      * @return $this
      */
     public function sources(array $sources, $merge = true)
@@ -779,7 +789,7 @@ class Image
      * Alter the image based on the user agents.
      *
      * @param  array $agents
-     * @param  bool  $exit
+     * @param  bool $exit
      * @return $this
      */
     public function agents(array $agents, $exit = false)
