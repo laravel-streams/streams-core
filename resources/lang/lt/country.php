@@ -133,7 +133,7 @@ return [
     'LK' => 'Sri Lanka',
     'LR' => 'Liberia',
     'LS' => 'Lesotho',
-    'LT' => 'Lietuviškai',
+    'LT' => 'Lietuva',
     'LU' => 'Luxembourg',
     'LV' => 'Latvia',
     'LY' => 'Libya',
