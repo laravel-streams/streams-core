@@ -1,0 +1,8 @@
+---
+title: Getting Started
+layout: default
+---
+
+## Getting Started[](#getting-started)
+
+This section will help you get started in understanding what the Streams Platform is, it's role in PyroCMS, and how to use it.

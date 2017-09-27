@@ -1,13 +1,6 @@
 ---
-title: Getting Started
-layout: default
+title: Introduction
 ---
-
-## Getting Started[](#getting-started)
-
-This section will help you get started in understanding what the Streams Platform is, it's role in PyroCMS, and how to use it.
-
-
 ### Introduction[](#getting-started/introduction)
 
 The Streams Platform is a [Composer](https://getcomposer.org/) package that acts as the foundation or engine for PyroCMS. Every addon in PyroCMS uses the Streams Platform to build it's tables, forms, nested lists, to install and uninstall, and to do many other things.
