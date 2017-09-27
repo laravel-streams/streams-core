@@ -552,6 +552,13 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFilter('studly_case', [$this->str, 'studly']),
             new \Twig_SimpleFilter('humanize', [$this->str, 'humanize']),
             new \Twig_SimpleFilter(
+                'markdown',
+                function ($content) {
+                    return (new \Parsedown())->parse($content);
+                },
+                ['is_safe' => ['html']]
+            ),
+            new \Twig_SimpleFilter(
                 'str_*',
                 function ($name) {
                     $arguments = array_slice(func_get_args(), 1);
