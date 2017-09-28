@@ -74,10 +74,15 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
 
         $config = require base_path('config/streams.php');
 
-        $this->middleware         = array_get($config, 'middleware') ?: $this->middleware;
-        $this->routeMiddleware    = array_get($config, 'route_middleware') ?: $this->routeMiddleware;
-        $this->middlewareGroups   = array_get($config, 'middleware_groups') ?: $this->middlewareGroups;
-        $this->middlewarePriority = array_get($config, 'middleware_priority') ?: $this->middlewarePriority;
+        $middleware         = array_get($config, 'middleware', []);
+        $routeMiddleware    = array_get($config, 'route_middleware', []);
+        $middlewareGroups   = array_get($config, 'middleware_groups', []);
+        $middlewarePriority = array_get($config, 'middleware_priority', []);
+
+        $this->middleware         = array_merge($this->middleware, $middleware);
+        $this->routeMiddleware    = array_merge($this->routeMiddleware, $routeMiddleware);
+        $this->middlewareGroups   = array_merge($this->middlewareGroups, $middlewareGroups);
+        $this->middlewarePriority = array_merge($this->middlewarePriority, $middlewarePriority);
 
         parent::__construct($app, $router);
     }
