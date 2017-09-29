@@ -77,7 +77,7 @@ class Make extends Command
         $this->dispatch(new WriteEntityObserver($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityCriteria($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityPresenter($addon, $slug, $namespace));
-        $this->dispatch(new WriteEntityController($addon, $slug, $namespace));
+        $this->dispatch(new WriteEntityController($addon, $slug, $namespace, $this->option('tree')));
         $this->dispatch(new WriteEntityCollection($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityRepository($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityFormBuilder($addon, $slug, $namespace));
