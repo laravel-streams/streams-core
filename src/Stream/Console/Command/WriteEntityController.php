@@ -48,6 +48,7 @@ class WriteEntityController
      * @param Addon $addon
      * @param       $slug
      * @param       $namespace
+     * @param bool  $isTree
      */
     public function __construct(Addon $addon, $slug, $namespace, $isTree = false)
     {
