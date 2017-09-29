@@ -35,6 +35,12 @@ class WriteEntityController
      */
     protected $namespace;
 
+    /**
+     * Determines if tree builder use
+     *
+     * @var boolean
+     */
+    protected $isTree;
 
     /**
      * Create a new WriteEntityController instance.
@@ -43,10 +49,11 @@ class WriteEntityController
      * @param       $slug
      * @param       $namespace
      */
-    public function __construct(Addon $addon, $slug, $namespace)
+    public function __construct(Addon $addon, $slug, $namespace, $isTree = false)
     {
         $this->slug      = $slug;
         $this->addon     = $addon;
+        $this->isTree    = $isTree;
         $this->namespace = $namespace;
     }
 
@@ -63,10 +70,16 @@ class WriteEntityController
 
         $class        = "{$suffix}Controller";
         $form         = "{$entity}FormBuilder";
-        $table        = "{$entity}TableBuilder";
         $namespace    = $this->addon->getTransformedClass("Http\\Controller\\Admin");
         $formBuilder  = $this->addon->getTransformedClass("{$entity}\\Form\\{$entity}FormBuilder");
-        $tableBuilder = $this->addon->getTransformedClass("{$entity}\\Table\\{$entity}TableBuilder");
+
+        $table = $this->isTree
+            ? "{$entity}TreeBuilder"
+            : "{$entity}TableBuilder";
+
+        $tableBuilder = $this->isTree
+            ? $this->addon->getTransformedClass("{$entity}\\Tree\\{$entity}TreeBuilder")
+            : $this->addon->getTransformedClass("{$entity}\\Table\\{$entity}TableBuilder");
 
         $path = $this->addon->getPath("src/Http/Controller/Admin/{$suffix}Controller.php");
 
