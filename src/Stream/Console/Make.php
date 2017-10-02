@@ -84,7 +84,9 @@ class Make extends Command
 
         if ($this->option('tree')) {
             $this->dispatch(new WriteEntityTreeBuilder($addon, $slug, $namespace));
-        } else {
+        } 
+
+        if (!$this->option('tree')) {
             $this->dispatch(new WriteEntityTableBuilder($addon, $slug, $namespace));
         }
 
