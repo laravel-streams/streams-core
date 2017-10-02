@@ -6,43 +6,18 @@ class {class} extends TreeBuilder
 {
 
     /**
-     * The tree views.
+     * The tree segments.
      *
      * @var array|string
      */
-    protected $views = [];
-
-    /**
-     * The tree filters.
-     *
-     * @var array|string
-     */
-    protected $filters = [];
-
-    /**
-     * The tree columns.
-     *
-     * @var array|string
-     */
-    protected $columns = [];
+    protected $segments = [];
 
     /**
      * The tree buttons.
      *
      * @var array|string
      */
-    protected $buttons = [
-        'edit'
-    ];
-
-    /**
-     * The tree actions.
-     *
-     * @var array|string
-     */
-    protected $actions = [
-        'delete'
-    ];
+    protected $buttons = [];
 
     /**
      * The tree options.
