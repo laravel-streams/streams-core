@@ -10,12 +10,12 @@ class {class} extends AdminController
     /**
      * Display an index of existing entries.
      *
-     * @param {table} $table
+     * @param {table} ${view}
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index({table} $table)
+    public function index({table} ${view})
     {
-        return $table->render();
+        return ${view}->render();
     }
 
     /**
