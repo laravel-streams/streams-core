@@ -58,8 +58,8 @@ class Make extends Command
      */
     public function handle(AddonCollection $addons)
     {
-        $tree  = $this->option('tree');
-        $slug  = $this->argument('slug');
+        $tree = $this->option('tree');
+        $slug = $this->argument('slug');
 
         /* @var Addon $addon */
         if (!$addon = $addons->get($this->argument('addon'))) {
