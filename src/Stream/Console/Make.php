@@ -58,6 +58,7 @@ class Make extends Command
      */
     public function handle(AddonCollection $addons)
     {
+        $tree  = $this->option('tree');
         $slug  = $this->argument('slug');
         $addon = $this->argument('addon');
 
@@ -77,16 +78,16 @@ class Make extends Command
         $this->dispatch(new WriteEntityObserver($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityCriteria($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityPresenter($addon, $slug, $namespace));
-        $this->dispatch(new WriteEntityController($addon, $slug, $namespace, $this->option('tree')));
+        $this->dispatch(new WriteEntityController($addon, $slug, $namespace, $tree));
         $this->dispatch(new WriteEntityCollection($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityRepository($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityFormBuilder($addon, $slug, $namespace));
 
-        if ($this->option('tree')) {
+        if ($tree) {
             $this->dispatch(new WriteEntityTreeBuilder($addon, $slug, $namespace));
         } 
 
-        if (!$this->option('tree')) {
+        if (!$tree) {
             $this->dispatch(new WriteEntityTableBuilder($addon, $slug, $namespace));
         }
 
