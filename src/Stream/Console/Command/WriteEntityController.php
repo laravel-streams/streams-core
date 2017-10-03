@@ -48,7 +48,6 @@ class WriteEntityController
      * @param Addon $addon
      * @param       $slug
      * @param       $namespace
-     * @param bool  $isTree
      */
     public function __construct(Addon $addon, $slug, $namespace, $isTree = false)
     {
@@ -74,6 +73,10 @@ class WriteEntityController
         $namespace    = $this->addon->getTransformedClass("Http\\Controller\\Admin");
         $formBuilder  = $this->addon->getTransformedClass("{$entity}\\Form\\{$entity}FormBuilder");
 
+        $view = $this->isTree
+            ? 'tree'
+            : 'table';
+
         $table = $this->isTree
             ? "{$entity}TreeBuilder"
             : "{$entity}TableBuilder";
@@ -92,7 +95,10 @@ class WriteEntityController
 
         $filesystem->put(
             $path,
-            $parser->parse($template, compact('class', 'namespace', 'formBuilder', 'tableBuilder', 'form', 'table'))
+            $parser->parse(
+                $template,
+                compact('class', 'namespace', 'formBuilder', 'tableBuilder', 'form', 'table', 'view')
+            )
         );
     }
 }
