@@ -62,7 +62,7 @@ class Presenter extends \Robbo\Presenter\Presenter
 
         // Check the presenter for a method.
         if (method_exists($this, camel_case($var))) {
-            return call_user_func_array([$this->object, camel_case($var)], []);
+            return call_user_func_array([$this, camel_case($var)], []);
         }
 
         // Check the object for a getter.
