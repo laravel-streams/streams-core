@@ -60,10 +60,9 @@ class Make extends Command
     {
         $tree  = $this->option('tree');
         $slug  = $this->argument('slug');
-        $addon = $this->argument('addon');
 
         /* @var Addon $addon */
-        if (!$addon = $addons->get($addon)) {
+        if (!$addon = $addons->get($this->argument('addon'))) {
             throw new \Exception("The addon [{$this->argument('addon')}] could not be found.");
         }
 
