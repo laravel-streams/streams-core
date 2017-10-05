@@ -63,4 +63,40 @@ class EntryCollection extends EloquentCollection
             $this->all()
         );
     }
+    
+    /**
+     * Group an associative array by a field or using a callback.
+     *
+     * @param  callable|string  $groupBy
+     * @param  bool  $preserveKeys
+     * @return static
+     */
+    public function groupBy($groupBy, $preserveKeys = false)
+    {
+
+        $groupBy = $this->valueRetriever($groupBy, true);
+
+        $results = [];
+
+        foreach ($this->items as $key => $value) {
+            $groupKeys = $groupBy($value, $key);
+
+            if (! is_array($groupKeys)) {
+                $groupKeys = [$groupKeys];
+            }
+
+            foreach ($groupKeys as $groupKey) {
+
+            $groupKey = is_bool($groupKey) ? (int) $groupKey : (string) $groupKey;
+
+                if (! array_key_exists($groupKey, $results)) {
+                    $results[$groupKey] = new static;
+                }
+
+                $results[$groupKey]->offsetSet($preserveKeys ? $key : null, $value);
+            }
+        }
+
+        return new static($results);
+    }
 }
