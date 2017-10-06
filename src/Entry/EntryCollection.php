@@ -63,3 +63,4 @@ class EntryCollection extends EloquentCollection
             $this->all()
         );
     }
+}
