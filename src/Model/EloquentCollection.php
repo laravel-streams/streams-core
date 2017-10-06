@@ -134,7 +134,9 @@ class EloquentCollection extends Collection
             }
 
             foreach ($groupKeys as $groupKey) {
-                $groupKey = is_bool($groupKey) ? (int) $groupKey : (string) $groupKey;
+                $groupKey = is_bool($groupKey) || is_int($groupKey)
+                    ? (int) $groupKey
+                    : (string) $groupKey;
 
                 if (!array_key_exists($groupKey, $results)) {
                     $results[$groupKey] = new static;
