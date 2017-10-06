@@ -159,12 +159,16 @@ class Loader extends OriginalLoader
         parent::__construct($files, $finder, $extension);
     }
 
+    /**
+     * Gets the path.
+     *
+     * @param      string   $name   The name
+     * @return     boolean  The path.
+     */
     protected function getPath($name)
     {
-
         $mobile = $this->mobiles->get($this->theme->getNamespace(), []);
-
-        $_path = false;
+        $result = false;
 
         /**
          * Merge system configured overrides
@@ -177,31 +181,30 @@ class Loader extends OriginalLoader
 
         $name = str_replace('theme::', $this->theme->getNamespace() . '::', $name);
 
-        if ($this->mobile && $path = array_get($mobile, $name, null)) {
-            $_path = $path;
-        } elseif ($path = array_get($overrides, $name, null)) {
-            $_path = $path;
+        if ($this->mobile && $path = array_get($mobile, $name)) {
+            $result = $path;
+        } elseif ($path = array_get($overrides, $name)) {
+            $result = $path;
         }
 
         if ($this->module) {
-
             $mobile    = $this->mobiles->get($this->module->getNamespace(), []);
             $overrides = $this->overrides->get($this->module->getNamespace(), []);
 
-            if ($this->mobile && $path = array_get($mobile, $name, null)) {
-                $_path = $path;
-            } elseif ($path = array_get($overrides, $name, null)) {
-                $_path = $path;
-            } elseif ($path = array_get(config('streams.overrides'), $name, null)) {
-                $_path = $path;
+            if ($this->mobile && $path = array_get($mobile, $name)) {
+                $result = $path;
+            } elseif ($path = array_get($overrides, $name)) {
+                $result = $path;
+            } elseif ($path = array_get(config('streams.overrides'), $name)) {
+                $result = $path;
             }
         }
 
-        if ($overload = $this->getOverloadPath($name)) {
-            $_path = $overload;
+        if ($path = $this->getOverloadPath($name)) {
+            return $path;
         }
 
-        return $_path;
+        return $result;
     }
 
     public function getOverloadPath($name)
