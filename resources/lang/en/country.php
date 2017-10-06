@@ -36,6 +36,7 @@ return [
     'BT' => 'Bhutan',
     'BV' => 'Bouvet Island',
     'BW' => 'Botswana',
+    'BX' => 'Benelux Union',
     'BY' => 'Belarus',
     'BZ' => 'Belize',
     'CA' => 'Canada',
