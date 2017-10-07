@@ -47,8 +47,8 @@ class LoadThemeVariables
     /**
      * Handle the command.
      *
-     * @param Dispatcher $events
-     * @param Repository $config
+     * @param Dispatcher      $events
+     * @param Repository      $config
      * @param ThemeCollection $themes
      * @internal param Repository $config
      */
@@ -57,6 +57,13 @@ class LoadThemeVariables
         if (!$theme = $themes->current()) {
             return;
         }
+
+        /**
+         * Get all configured variables first.
+         * These are law because they're often
+         * tied to addon integration of some kind.
+         */
+        $configured = $config->get($theme->getNamespace('variables'), []);
 
         /**
          * Look for a list of variables files theme configuration:
@@ -74,7 +81,7 @@ class LoadThemeVariables
 
         $variables = (new Lcss2php($files))->ignore([\Leafo\ScssPhp\Type::T_MAP, \Leafo\ScssPhp\Type::T_MIXIN]);
 
-        foreach ($variables->all() as $key => $value) {
+        foreach (array_merge($variables->all(), $configured) as $key => $value) {
             $this->variables->put($key, $value);
         }
 
