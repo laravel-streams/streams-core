@@ -40,7 +40,7 @@ class WriteEntityController
      *
      * @var boolean
      */
-    protected $isTree;
+    protected $nested;
 
     /**
      * Create a new WriteEntityController instance.
@@ -49,11 +49,11 @@ class WriteEntityController
      * @param       $slug
      * @param       $namespace
      */
-    public function __construct(Addon $addon, $slug, $namespace, $isTree = false)
+    public function __construct(Addon $addon, $slug, $namespace, $nested = false)
     {
         $this->slug      = $slug;
         $this->addon     = $addon;
-        $this->isTree    = $isTree;
+        $this->nested    = $nested;
         $this->namespace = $namespace;
     }
 
@@ -68,20 +68,20 @@ class WriteEntityController
         $suffix = ucfirst(camel_case($this->slug));
         $entity = str_singular($suffix);
 
-        $class        = "{$suffix}Controller";
-        $form         = "{$entity}FormBuilder";
-        $namespace    = $this->addon->getTransformedClass('Http\\Controller\\Admin');
-        $formBuilder  = $this->addon->getTransformedClass("{$entity}\\Form\\{$entity}FormBuilder");
+        $class       = "{$suffix}Controller";
+        $form        = "{$entity}FormBuilder";
+        $namespace   = $this->addon->getTransformedClass('Http\\Controller\\Admin');
+        $formBuilder = $this->addon->getTransformedClass("{$entity}\\Form\\{$entity}FormBuilder");
 
-        $view = $this->isTree
+        $view = $this->nested
             ? 'tree'
             : 'table';
 
-        $table = $this->isTree
+        $table = $this->nested
             ? "{$entity}TreeBuilder"
             : "{$entity}TableBuilder";
 
-        $tableBuilder = $this->isTree
+        $tableBuilder = $this->nested
             ? $this->addon->getTransformedClass("{$entity}\\Tree\\{$entity}TreeBuilder")
             : $this->addon->getTransformedClass("{$entity}\\Table\\{$entity}TableBuilder");
 
