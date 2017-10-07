@@ -13,6 +13,21 @@ interface RowInterface
 {
 
     /**
+     * Get the class.
+     *
+     * @return null
+     */
+    public function getClass();
+
+    /**
+     * Set the class.
+     *
+     * @param $class
+     * @return $this
+     */
+    public function setClass($class);
+
+    /**
      * Set the row buttons.
      *
      * @param $buttons
