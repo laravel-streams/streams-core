@@ -872,6 +872,10 @@ class Image
 
             $this->setWidth($image->getWidth());
             $this->setHeight($image->getHeight());
+
+            if ($image->hasField('alt_text')) {
+                $this->addAttribute('alt', $image->getAttribute('alt_text'));
+            }
         }
 
         if ($image instanceof FilePresenter) {
@@ -884,6 +888,10 @@ class Image
 
             $this->setWidth($image->getWidth());
             $this->setHeight($image->getHeight());
+
+            if ($image->hasField('alt_text')) {
+                $this->addAttribute('alt', $image->getAttribute('alt_text'));
+            }
         }
 
         $this->image = $image;
