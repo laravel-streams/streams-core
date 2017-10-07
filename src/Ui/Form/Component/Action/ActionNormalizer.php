@@ -128,6 +128,7 @@ class ActionNormalizer
 
         $action['attributes']['name']  = $prefix . 'action';
         $action['attributes']['value'] = $action['slug'];
+        $action['attributes']['type']  = 'submit';
 
         if (isset($action['dropdown'])) {
             foreach ($action['dropdown'] as $key => &$dropdown) {
