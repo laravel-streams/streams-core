@@ -56,19 +56,19 @@ interface ColumnInterface
     public function getClass();
 
     /**
-     * Set the column header.
-     *
-     * @param $header
-     * @return $this
-     */
-    public function setHeader($header);
-
-    /**
-     * Get the column header.
+     * Get the column heading.
      *
      * @return null|string
      */
-    public function getHeader();
+    public function getHeading();
+
+    /**
+     * Set the column heading.
+     *
+     * @param $heading
+     * @return $this
+     */
+    public function setHeading($heading);
 
     /**
      * Set the column value.

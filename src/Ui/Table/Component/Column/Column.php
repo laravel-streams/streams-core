@@ -41,11 +41,11 @@ class Column implements ColumnInterface
     protected $class = null;
 
     /**
-     * The column header.
+     * The column heading.
      *
      * @var null|string
      */
-    protected $header = null;
+    protected $heading = null;
 
     /**
      * The column entry.
@@ -124,24 +124,24 @@ class Column implements ColumnInterface
     }
 
     /**
-     * Get the column header.
+     * Get the column heading.
      *
      * @return null|string
      */
-    public function getHeader()
+    public function getHeading()
     {
-        return $this->header;
+        return $this->heading;
     }
 
     /**
-     * Set the column header.
+     * Set the column heading.
      *
-     * @param $header
+     * @param $heading
      * @return $this
      */
-    public function setHeader($header)
+    public function setHeading($heading)
     {
-        $this->header = $header;
+        $this->heading = $heading;
 
         return $this;
     }
