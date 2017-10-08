@@ -795,7 +795,7 @@ class Asset
      */
     public function lastModifiedAt($path)
     {
-        $files = glob($this->paths->realPath($path) . '/*');
+        $files = glob($this->paths->realPath($path) . '*.{*}', GLOB_BRACE);
         $files = array_combine($files, array_map("filemtime", $files));
 
         arsort($files);
