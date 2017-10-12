@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\DatetimeFilter;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\FieldFilter;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\InputFilter;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\SearchFilter;
@@ -21,21 +22,29 @@ class FilterRegistry
      * @var array
      */
     protected $filters = [
-        'input'  => [
+        'input'      => [
             'slug'   => 'input',
             'filter' => InputFilter::class,
         ],
-        'search' => [
+        'search'     => [
             'slug'        => 'search',
             'filter'      => SearchFilter::class,
             'placeholder' => 'streams::message.search',
         ],
-        'select' => [
+        'select'     => [
             'slug'   => 'select',
             'filter' => SelectFilter::class,
         ],
-        'field'  => [
+        'field'      => [
             'filter' => FieldFilter::class,
+        ],
+        'created_at' => [
+            'filter'      => DatetimeFilter::class,
+            'placeholder' => 'streams::entry.created_at',
+        ],
+        'updated_at' => [
+            'filter'      => DatetimeFilter::class,
+            'placeholder' => 'streams::entry.updated_at',
         ],
     ];
 

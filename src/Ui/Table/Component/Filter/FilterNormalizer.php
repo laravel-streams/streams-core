@@ -13,6 +13,19 @@ class FilterNormalizer
 {
 
     /**
+     * Core attributes.
+     *
+     * @var array
+     */
+    protected $core = [
+        'created_by',
+        'updated_by',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
+    /**
      * Normalize filter input.
      *
      * @param TableBuilder $builder
@@ -25,14 +38,26 @@ class FilterNormalizer
         foreach ($filters as $slug => &$filter) {
 
             /*
-             * If the filter is a string then use
-             * it for everything.
+             * If the filter is a string and is
+             * not core then use it for everything.
              */
-            if (is_string($filter) && !str_contains($filter, '/')) {
+            if (is_string($filter) && !str_contains($filter, '/') && !$this->isCoreAttribute($filter)) {
                 $filter = [
                     'slug'   => $filter,
                     'field'  => $filter,
                     'filter' => 'field',
+                ];
+            }
+
+            /*
+             * If the filter is a string and
+             * core then use it for everything.
+             */
+            if (is_string($filter) && !str_contains($filter, '/') && $this->isCoreAttribute($filter)) {
+                $filter = [
+                    'slug'   => $filter,
+                    'field'  => $filter,
+                    'filter' => $filter,
                 ];
             }
 
@@ -85,5 +110,17 @@ class FilterNormalizer
         }
 
         $builder->setFilters($filters);
+    }
+
+    /**
+     * Return if the field
+     * is a core attribute.
+     *
+     * @param $filter
+     * @return bool
+     */
+    protected function isCoreAttribute($attribute)
+    {
+        return in_array($attribute, $this->core);
     }
 }
