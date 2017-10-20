@@ -75,8 +75,8 @@ class Application
      */
     public function setTablePrefix()
     {
-        app('db')->getSchemaBuilder()->getConnection()->setTablePrefix($this->getReference() . '_');
-        app('db')->getSchemaBuilder()->getConnection()->getSchemaGrammar()->setTablePrefix($this->getReference() . '_');
+        app('db')->getSchemaBuilder()->getConnection()->setTablePrefix($this->getTablePrefix());
+        app('db')->getSchemaBuilder()->getConnection()->getSchemaGrammar()->setTablePrefix($this->getTablePrefix());
     }
 
     /**
@@ -140,7 +140,7 @@ class Application
      *
      * @return string
      */
-    public function tablePrefix()
+    public function getTablePrefix()
     {
         return $this->reference . '_';
     }
