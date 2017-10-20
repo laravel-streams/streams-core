@@ -33,7 +33,7 @@
                 {{ table.options.sortable ? 'data-sortable' }}
                 {{ html_attributes(table.options.attributes) }}>
 
-            {{ view("streams::table/partials/header", {'table': table}) }}
+            {{ view("streams::table/ajax/header", {'table': table}) }}
 
             {% block body %}
                 {{ view("streams::table/partials/body", {'table': table}) }}
