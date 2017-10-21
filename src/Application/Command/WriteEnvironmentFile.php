@@ -39,6 +39,11 @@ class WriteEnvironmentFile
         $contents = '';
 
         foreach ($this->data as $key => $value) {
+            
+            if (str_contains($value, [' ', '$', '\n'])) {
+                $value = '"' . trim($value, '"') . '"';
+            }
+
             if ($key) {
                 $contents .= strtoupper($key) . '=' . $value . PHP_EOL;
             } else {
