@@ -68,7 +68,14 @@ class Template
             $this->files->put($path . '.twig', $template);
         }
 
-        return $this->view->make('storage::' . str_replace($this->application->getStoragePath(), '', $path), $payload);
+        return $this->view->make(
+            'storage::' . trim(str_replace(
+                $this->application->getStoragePath(),
+                '',
+                $path
+            ), '/'),
+            $payload
+        );
     }
 
     /**
