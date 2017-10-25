@@ -62,8 +62,11 @@ class FieldPopulator
              * then get the value off the entry.
              */
             if (!isset($field['value']) && $entry instanceof EloquentModel && $entry->getId()) {
-                if ($locale = array_get($field, 'locale')) {
-                    $field['value'] = $entry->translateOrDefault($locale)->{$field['field']};
+
+                $locale = array_get($field, 'locale');
+
+                if ($locale && $translation = $entry->translate($locale)) {
+                    $field['value'] = $translation->getAttribute($field['field']);
                 } else {
                     $field['value'] = $entry->{$field['field']};
                 }
