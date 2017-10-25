@@ -83,6 +83,13 @@ class AddonServiceProvider
     protected $middleware = [];
 
     /**
+     * Addon group middleware.
+     *
+     * @var array
+     */
+    protected $groupMiddleware = [];
+
+    /**
      * Addon route middleware.
      *
      * @var array
@@ -274,6 +281,16 @@ class AddonServiceProvider
     public function getMiddleware()
     {
         return $this->middleware;
+    }
+
+    /**
+     * Get the group middleware.
+     *
+     * @return array
+     */
+    public function getGroupMiddleware()
+    {
+        return $this->groupMiddleware;
     }
 
     /**
