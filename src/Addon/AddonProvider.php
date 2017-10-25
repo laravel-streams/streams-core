@@ -159,6 +159,7 @@ class AddonProvider
         $this->registerCommands($provider);
         $this->registerSchedules($provider);
         $this->registerMiddleware($provider);
+        $this->registerGroupMiddleware($provider);
         $this->registerRouteMiddleware($provider);
 
         $this->registerFactories($addon);
@@ -570,6 +571,18 @@ class AddonProvider
     {
         foreach ($provider->getMiddleware() as $middleware) {
             $this->middlewares->push($middleware);
+        }
+    }
+
+    /**
+     * Register group middleware.
+     *
+     * @param AddonServiceProvider $provider
+     */
+    protected function registerGroupMiddleware(AddonServiceProvider $provider)
+    {
+        foreach ($provider->getGroupMiddleware() as $group => $middleware) {
+            $this->router->pushMiddlewareToGroup($group, $middleware);
         }
     }
 

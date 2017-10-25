@@ -51,7 +51,18 @@ class {provider} extends AddonServiceProvider
     ];
 
     /**
-     * The addon route middleware.
+     * Addon group middleware.
+     *
+     * @var array
+     */
+    protected $groupMiddleware = [
+        //'web' => [
+        //    {namespace}\Http\Middleware\ExampleMiddleware::class,
+        //],
+    ];
+
+    /**
+     * Addon route middleware.
      *
      * @type array|null
      */
