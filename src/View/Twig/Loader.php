@@ -161,7 +161,9 @@ class Loader extends OriginalLoader
 
     protected function getPath($name)
     {
-
+        if (! $this->theme) {
+            return;
+        }
         $mobile = $this->mobiles->get($this->theme->getNamespace(), []);
 
         $_path = false;
