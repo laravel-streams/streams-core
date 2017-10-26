@@ -35,8 +35,6 @@ use Anomaly\Streams\Platform\View\Cache\CacheStrategy;
 use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Anomaly\Streams\Platform\View\ViewServiceProvider;
-use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
-use Aptoma\Twig\Extension\MarkdownExtension;
 use Asm89\Twig\CacheExtension\Extension;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Cache\Repository;
@@ -218,7 +216,23 @@ class StreamsServiceProvider extends ServiceProvider
 
         $this->app->booted(
             function () use ($events) {
+
                 $events->fire(new Booted());
+
+
+                /* @var Schedule $schedule */
+                $schedule = $this->app->make(Schedule::class);
+
+                foreach (array_merge($this->schedule, config('streams.schedule', [])) as $frequency => $commands) {
+                    foreach (array_filter($commands) as $command) {
+                        if (str_contains($frequency, ' ')) {
+                            $schedule->command($command)->cron($frequency);
+                        } else {
+                            $schedule->command($command)->{camel_case($frequency)}();
+                        }
+                    }
+                }
+
 
                 /* @var AddonManager $manager */
                 $manager = $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager');
@@ -301,20 +315,6 @@ class StreamsServiceProvider extends ServiceProvider
             $this->app->register($provider);
         }
 
-        /* @var Schedule $schedule */
-        // @todo Fix me
-//        $schedule = $this->app->make(Schedule::class);
-//
-//        foreach (array_merge($this->schedule, config('streams.schedule', [])) as $frequency => $commands) {
-//            foreach (array_filter($commands) as $command) {
-//                if (str_contains($frequency, ' ')) {
-//                    $schedule->command($command)->cron($frequency);
-//                } else {
-//                    $schedule->command($command)->{camel_case($frequency)}();
-//                }
-//            }
-//        }
-
         /*
          * Change the default language path so
          * that there MUST be a prefix hint.
@@ -349,7 +349,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             return;
         }
-        
+
         /**
          * Correct path for Paginator.
          */
