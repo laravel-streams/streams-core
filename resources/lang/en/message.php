@@ -11,6 +11,8 @@ return [
     'help'                => 'Help',
     'search'              => 'Search',
     'system'              => 'System',
+    'results'             => 'results',
+    'show_all'            => 'Show All',
     'no_results'          => 'No results.',
     'access_denied'       => 'Access denied.',
     'no_fields_available' => 'No fields available.',

@@ -76,6 +76,16 @@ class SetDefaultOptions
         }
 
         /*
+         * If the table limit is currently being overridden
+         * then set the values from the request on the builder
+         * last so it actually has an effect. Otherwise default.
+         */
+        $table->setOption(
+            'limit',
+            $this->builder->getRequestValue('limit', config('streams::system.per_page', 15))
+        );
+
+        /*
          * If the permission is not set then
          * try and automate it.
          */
