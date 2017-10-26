@@ -225,9 +225,12 @@ class StreamsServiceProvider extends ServiceProvider
 
                 foreach (array_merge($this->schedule, config('streams.schedule', [])) as $frequency => $commands) {
                     foreach (array_filter($commands) as $command) {
+
                         if (str_contains($frequency, ' ')) {
                             $schedule->command($command)->cron($frequency);
-                        } else {
+                        }
+
+                        if (!str_contains($frequency, ' ')) {
                             $schedule->command($command)->{camel_case($frequency)}();
                         }
                     }
