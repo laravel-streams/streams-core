@@ -211,7 +211,7 @@ class Asset
             return $this;
         }
 
-        if ($this->config->get('app.debug')) {
+        if ($this->config->get('app.debug') && $this->collectionHasFilter($collection, ['ignore'])) {
             throw new \Exception("Asset [{$file}] does not exist!");
         }
     }
