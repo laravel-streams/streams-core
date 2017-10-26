@@ -160,11 +160,20 @@ return [
     'per_page'        => [
         'env'      => 'RESULTS_PER_PAGE',
         'bind'     => 'streams::system.per_page',
-        'type'     => 'anomaly.field_type.integer',
+        'type'     => 'anomaly.field_type.select',
         'required' => true,
         'config'   => [
             'default_value' => 15,
-            'min'           => 5,
+            'options'       => [
+                5   => 5,
+                10  => 10,
+                15  => 15,
+                25  => 25,
+                50  => 50,
+                75  => 75,
+                100 => 100,
+                150 => 150,
+            ],
         ],
     ],
     'default_locale'  => [
