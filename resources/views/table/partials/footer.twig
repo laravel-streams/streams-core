@@ -9,7 +9,7 @@
         {% if table.data.pagination.links %}
             <div class="pull-right">
 
-                <select name="{{ table.options.prefix }}limit" onchange="window.location=this.value;"
+                <select onchange="window.location=this.value;"
                         class="custom-select table-limit">
                     <option {{ table.options.limit == 5 ? 'selected' }}
                             value="{{ url_current() }}?{{ http_build_query({'limit': 5} + request_query()) }}">
