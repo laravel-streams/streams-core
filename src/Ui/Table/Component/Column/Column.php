@@ -55,6 +55,13 @@ class Column implements ColumnInterface
     protected $entry = null;
 
     /**
+     * The column attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [];
+
+    /**
      * Get the wrapper.
      *
      * @return null|string
@@ -188,6 +195,29 @@ class Column implements ColumnInterface
     public function setEntry($entry)
     {
         $this->entry = $entry;
+
+        return $this;
+    }
+
+    /**
+     * Get the attributes.
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Get the attributes.
+     *
+     * @param array $attributes
+     * @return $this
+     */
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
 
         return $this;
     }
