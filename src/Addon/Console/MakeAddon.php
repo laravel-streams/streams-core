@@ -8,6 +8,7 @@ use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonButtonLang;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonClass;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonComposer;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonFeatureTest;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonFieldLang;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonGitIgnore;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonLang;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPermissionLang;
@@ -116,6 +117,13 @@ class MakeAddon extends Command
                     '--fields' => true,
                 ]
             );
+        }
+
+        /**
+         * Scaffold Modules and Extensions.
+         */
+        if (in_array($type, ['module', 'extension'])) {
+            $this->dispatch(new WriteAddonFieldLang($path));
         }
 
         /**
