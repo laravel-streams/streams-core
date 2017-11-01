@@ -9,8 +9,11 @@ use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonComposer;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonFeatureTest;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonGitIgnore;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonLang;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPermissionLang;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPermissions;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPhpUnit;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonServiceProvider;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonStreamLang;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -47,8 +50,8 @@ class MakeAddon extends Command
      * Execute the console command.
      *
      * @param AddonManager $addons
-     * @param AddonLoader  $loader
-     * @param Repository   $config
+     * @param AddonLoader $loader
+     * @param Repository $config
      * @throws \Exception
      */
     public function handle(AddonManager $addons, AddonLoader $loader, Repository $config)
@@ -83,6 +86,11 @@ class MakeAddon extends Command
         $this->dispatch(new WriteAddonGitIgnore($path, $type, $slug, $vendor));
         $this->dispatch(new WriteAddonFeatureTest($path, $type, $slug, $vendor));
         $this->dispatch(new WriteAddonServiceProvider($path, $type, $slug, $vendor));
+
+        // Write placeholder files.
+        $this->dispatch(new WriteAddonStreamLang($path));
+        $this->dispatch(new WriteAddonPermissions($path));
+        $this->dispatch(new WriteAddonPermissionLang($path));
 
         $this->info("Addon [{$vendor}.{$type}.{$slug}] created.");
 
