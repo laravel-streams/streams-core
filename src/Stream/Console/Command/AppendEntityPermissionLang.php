@@ -65,7 +65,7 @@ class AppendEntityPermissionLang
         $permissions .= "        'name'   => '{$name}',\n";
         $permissions .= "        'option' => [\n";
         $permissions .= "            'read'   => 'Can read {$human}?',\n";
-        $permissions .= "            'write'  => 'Can write {$human}?',\n";
+        $permissions .= "            'write'  => 'Can create/edit {$human}?',\n";
         $permissions .= "            'delete' => 'Can delete {$human}?',\n";
         $permissions .= "        ],\n";
         $permissions .= "    ],\n";
