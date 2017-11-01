@@ -1,19 +1,19 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Console\Command;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonStreamLang;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonSectionLang;
 use Anomaly\Streams\Platform\Support\Writer;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class AppendEntityStreamLang
+ * Class AppendEntitySectionLang
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class AppendEntityStreamLang
+class AppendEntitySectionLang
 {
 
     use DispatchesJobs;
@@ -53,14 +53,14 @@ class AppendEntityStreamLang
     public function handle(Writer $writer, Filesystem $files)
     {
 
-        if (!$files->exists($path = $this->addon->getPath("resources/lang/en/stream.php"))) {
-            $this->dispatch(new WriteAddonStreamLang($this->addon->getPath()));
+        if (!$files->exists($path = $this->addon->getPath("resources/lang/en/section.php"))) {
+            $this->dispatch(new WriteAddonSectionLang($this->addon->getPath()));
         }
 
         $name = ucfirst(str_humanize($this->slug));
 
         $stream = "    '{$this->slug}' => [\n";
-        $stream .= "        'name' => '{$name}',\n";
+        $stream .= "        'title' => '{$name}',\n";
         $stream .= "    ],\n";
 
         $writer->replace(

@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Stream\Console\Command\AppendEntityPermissionLang;
 use Anomaly\Streams\Platform\Stream\Console\Command\AppendEntityPermissions;
 use Anomaly\Streams\Platform\Stream\Console\Command\AppendEntityRoutes;
 use Anomaly\Streams\Platform\Stream\Console\Command\AppendEntitySection;
+use Anomaly\Streams\Platform\Stream\Console\Command\AppendEntitySectionLang;
 use Anomaly\Streams\Platform\Stream\Console\Command\AppendEntitySingletons;
 use Anomaly\Streams\Platform\Stream\Console\Command\AppendEntityStreamLang;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityCollection;
@@ -100,8 +101,6 @@ class Make extends Command
         $this->dispatch(new WriteEntityTestCases($addon, $slug, $namespace));
 
         // Modify existing addon classes.
-        $this->dispatch(new AppendEntityRoutes($addon, $slug, $namespace));
-        $this->dispatch(new AppendEntitySection($addon, $slug, $namespace));
         $this->dispatch(new AppendEntityBindings($addon, $slug, $namespace));
         $this->dispatch(new AppendEntitySingletons($addon, $slug, $namespace));
 
@@ -109,6 +108,15 @@ class Make extends Command
         $this->dispatch(new AppendEntityStreamLang($addon, $slug));
         $this->dispatch(new AppendEntityPermissions($addon, $slug));
         $this->dispatch(new AppendEntityPermissionLang($addon, $slug));
+
+        // Module Specific.
+        if ($addon->getType() == 'module') {
+
+            $this->dispatch(new AppendEntityRoutes($addon, $slug, $namespace));
+            $this->dispatch(new AppendEntitySection($addon, $slug, $namespace));
+
+            $this->dispatch(new AppendEntitySectionLang($addon, $slug));
+        }
 
         $this->call(
             'make:migration',

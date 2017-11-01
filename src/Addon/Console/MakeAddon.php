@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonLang;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPermissionLang;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPermissions;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPhpUnit;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonSectionLang;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonServiceProvider;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonStreamLang;
 use Illuminate\Console\Command;
@@ -114,6 +115,13 @@ class MakeAddon extends Command
                     '--fields' => true,
                 ]
             );
+        }
+
+        /**
+         * Scaffold Modules.
+         */
+        if ($type == 'module') {
+            $this->dispatch(new WriteAddonSectionLang($path));
         }
 
         /**
