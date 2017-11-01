@@ -3,9 +3,12 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Stream\Console\Command\AppendEntityBindings;
+use Anomaly\Streams\Platform\Stream\Console\Command\AppendEntityPermissionLang;
+use Anomaly\Streams\Platform\Stream\Console\Command\AppendEntityPermissions;
 use Anomaly\Streams\Platform\Stream\Console\Command\AppendEntityRoutes;
 use Anomaly\Streams\Platform\Stream\Console\Command\AppendEntitySection;
 use Anomaly\Streams\Platform\Stream\Console\Command\AppendEntitySingletons;
+use Anomaly\Streams\Platform\Stream\Console\Command\AppendEntityStreamLang;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityCollection;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityController;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityCriteria;
@@ -92,6 +95,11 @@ class Make extends Command
         $this->dispatch(new AppendEntitySection($addon, $slug, $namespace));
         $this->dispatch(new AppendEntityBindings($addon, $slug, $namespace));
         $this->dispatch(new AppendEntitySingletons($addon, $slug, $namespace));
+
+        // Write Permissions.
+        $this->dispatch(new AppendEntityStreamLang($addon, $slug));
+        $this->dispatch(new AppendEntityPermissions($addon, $slug));
+        $this->dispatch(new AppendEntityPermissionLang($addon, $slug));
 
         $this->call(
             'make:migration',
