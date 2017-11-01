@@ -90,6 +90,7 @@ class MakeAddon extends Command
         $this->dispatch(new WriteAddonServiceProvider($path, $type, $slug, $vendor));
 
         // Write placeholder files.
+        $this->dispatch(new WriteAddonButtonLang($path));
         $this->dispatch(new WriteAddonStreamLang($path));
         $this->dispatch(new WriteAddonPermissions($path));
         $this->dispatch(new WriteAddonPermissionLang($path));
