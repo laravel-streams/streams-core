@@ -106,7 +106,6 @@ class Make extends Command
         $this->dispatch(new AppendEntitySingletons($addon, $slug, $namespace));
 
         // Write Permissions.
-        $this->dispatch(new AppendEntityButtonLang($addon, $slug));
         $this->dispatch(new AppendEntityStreamLang($addon, $slug));
         $this->dispatch(new AppendEntityPermissions($addon, $slug));
         $this->dispatch(new AppendEntityPermissionLang($addon, $slug));
