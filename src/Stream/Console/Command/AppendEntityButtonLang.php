@@ -1,19 +1,19 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Console\Command;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonSectionLang;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonButtonLang;
 use Anomaly\Streams\Platform\Support\Writer;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class AppendEntitySectionLang
+ * Class AppendEntityButtonLang
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class AppendEntitySectionLang
+class AppendEntityButtonLang
 {
 
     use DispatchesJobs;
@@ -53,15 +53,15 @@ class AppendEntitySectionLang
     public function handle(Writer $writer, Filesystem $files)
     {
 
-        if (!$files->exists($path = $this->addon->getPath("resources/lang/en/section.php"))) {
-            $this->dispatch(new WriteAddonSectionLang($this->addon->getPath()));
+        if (!$files->exists($path = $this->addon->getPath("resources/lang/en/button.php"))) {
+            $this->dispatch(new WriteAddonButtonLang($this->addon->getPath()));
         }
 
-        $name = ucfirst(str_humanize($this->slug));
+        $singular = str_singular($this->slug);
 
-        $section = "    '{$this->slug}' => [\n";
-        $section .= "        'title' => '{$name}',\n";
-        $section .= "    ],\n";
+        $name = ucfirst(str_humanize($singular));
+
+        $button = "    'new_{$singular}' => 'New {$name}',\n";
 
         $writer->replace(
             $path,
@@ -72,7 +72,7 @@ class AppendEntitySectionLang
         $writer->prepend(
             $path,
             '/];/i',
-            $section
+            $button
         );
     }
 }

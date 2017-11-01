@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Addon\AddonLoader;
 use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Addon\Console\Command\MakeAddonPaths;
 use Anomaly\Streams\Platform\Addon\Console\Command\ScaffoldTheme;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonButtonLang;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonClass;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonComposer;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonFeatureTest;
@@ -121,6 +122,7 @@ class MakeAddon extends Command
          * Scaffold Modules.
          */
         if ($type == 'module') {
+            $this->dispatch(new WriteAddonButtonLang($path));
             $this->dispatch(new WriteAddonSectionLang($path));
         }
 

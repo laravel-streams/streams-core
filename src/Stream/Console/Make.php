@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Stream\Console\Command\AppendEntityBindings;
+use Anomaly\Streams\Platform\Stream\Console\Command\AppendEntityButtonLang;
 use Anomaly\Streams\Platform\Stream\Console\Command\AppendEntityPermissionLang;
 use Anomaly\Streams\Platform\Stream\Console\Command\AppendEntityPermissions;
 use Anomaly\Streams\Platform\Stream\Console\Command\AppendEntityRoutes;
@@ -115,6 +116,7 @@ class Make extends Command
             $this->dispatch(new AppendEntityRoutes($addon, $slug, $namespace));
             $this->dispatch(new AppendEntitySection($addon, $slug, $namespace));
 
+            $this->dispatch(new AppendEntityButtonLang($addon, $slug));
             $this->dispatch(new AppendEntitySectionLang($addon, $slug));
         }
 
