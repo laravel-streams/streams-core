@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Support\Presenter;
 use Asm89\Twig\CacheExtension\CacheStrategy\KeyGeneratorInterface;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 
@@ -25,6 +26,10 @@ class CacheKey implements KeyGeneratorInterface
      */
     public function generateKey($value)
     {
+        if ($value instanceof Paginator) {
+            $value = $value->items();
+        }
+
         if ($value instanceof Collection) {
             return implode(
                 '_',
