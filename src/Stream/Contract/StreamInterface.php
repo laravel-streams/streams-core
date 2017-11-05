@@ -193,6 +193,13 @@ interface StreamInterface
     public function getRequiredAssignments();
 
     /**
+     * Get the related locked assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getLockedAssignments();
+
+    /**
      * Get the related unlocked assignments.
      *
      * @return AssignmentCollection
