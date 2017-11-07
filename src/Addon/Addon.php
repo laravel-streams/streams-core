@@ -32,35 +32,35 @@ class Addon implements PresentableInterface, Arrayable
      *
      * @var string
      */
-    protected $path = null;
+    protected $path;
 
     /**
      * The addon type.
      *
      * @var string
      */
-    protected $type = null;
+    protected $type;
 
     /**
      * The addon slug.
      *
      * @var string
      */
-    protected $slug = null;
+    protected $slug;
 
     /**
      * The addon vendor.
      *
      * @var string
      */
-    protected $vendor = null;
+    protected $vendor;
 
     /**
      * The addon namespace.
      *
      * @var null|string
      */
-    protected $namespace = null;
+    protected $namespace;
 
     /**
      * Get the addon's presenter.
