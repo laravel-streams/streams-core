@@ -848,15 +848,11 @@ class Image
 
         // Replace path prefixes.
         if (is_string($image) && str_contains($image, '::')) {
+
             $image = $this->paths->realPath($image);
 
             $this->setOriginal(basename($image));
             $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
-
-            $size = getimagesize($image);
-
-            $this->setWidth(array_get($size, 0));
-            $this->setHeight(array_get($size, 1));
         }
 
         if (is_string($image) && str_is('*://*', $image) && !starts_with($image, ['http', 'https'])) {
