@@ -90,11 +90,6 @@ class MakeAddon extends Command
         $this->dispatch(new WriteAddonFeatureTest($path, $type, $slug, $vendor));
         $this->dispatch(new WriteAddonServiceProvider($path, $type, $slug, $vendor));
 
-        // Write placeholder files.
-        $this->dispatch(new WriteAddonStreamLang($path));
-        $this->dispatch(new WriteAddonPermissions($path));
-        $this->dispatch(new WriteAddonPermissionLang($path));
-
         $this->info("Addon [{$vendor}.{$type}.{$slug}] created.");
 
         $loader
@@ -124,6 +119,9 @@ class MakeAddon extends Command
          */
         if (in_array($type, ['module', 'extension'])) {
             $this->dispatch(new WriteAddonFieldLang($path));
+            $this->dispatch(new WriteAddonStreamLang($path));
+            $this->dispatch(new WriteAddonPermissions($path));
+            $this->dispatch(new WriteAddonPermissionLang($path));
         }
 
         /**
