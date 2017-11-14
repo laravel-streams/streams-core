@@ -17,6 +17,7 @@ use Anomaly\Streams\Platform\Support\Currency;
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Length;
 use Anomaly\Streams\Platform\Support\Locale;
+use Anomaly\Streams\Platform\Support\Markdown;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
@@ -175,21 +176,21 @@ class StreamsPlugin extends Plugin
      * Create a new AgentPlugin instance.
      *
      * @param UrlGenerator $url
-     * @param Str $str
-     * @param Guard $auth
-     * @param Yaml $yaml
-     * @param Agent $agent
-     * @param Asset $asset
-     * @param Image $image
-     * @param Router $router
-     * @param FormBuilder $form
-     * @param HtmlBuilder $html
-     * @param Repository $config
-     * @param Request $request
-     * @param Store $session
-     * @param Currency $currency
-     * @param Template $template
-     * @param Translator $translator
+     * @param Str          $str
+     * @param Guard        $auth
+     * @param Yaml         $yaml
+     * @param Agent        $agent
+     * @param Asset        $asset
+     * @param Image        $image
+     * @param Router       $router
+     * @param FormBuilder  $form
+     * @param HtmlBuilder  $html
+     * @param Repository   $config
+     * @param Request      $request
+     * @param Store        $session
+     * @param Currency     $currency
+     * @param Template     $template
+     * @param Translator   $translator
      */
     public function __construct(
         UrlGenerator $url,
@@ -599,7 +600,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFilter(
                 'markdown',
                 function ($content) {
-                    return (new \ParsedownExtra())->parse($content);
+                    return (new Markdown())->parse($content);
                 },
                 ['is_safe' => ['html']]
             ),
@@ -630,9 +631,9 @@ class StreamsPlugin extends Plugin
     /**
      * Return a URL.
      *
-     * @param  null $path
+     * @param  null  $path
      * @param  array $parameters
-     * @param  null $secure
+     * @param  null  $secure
      * @return string
      */
     public function url($path = null, $parameters = [], $secure = null)
