@@ -599,7 +599,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFilter(
                 'markdown',
                 function ($content) {
-                    return (new \Parsedown())->parse($content);
+                    return (new \ParsedownExtra())->parse($content);
                 },
                 ['is_safe' => ['html']]
             ),
