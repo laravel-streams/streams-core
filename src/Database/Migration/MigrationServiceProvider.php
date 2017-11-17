@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Database\Migration\Console\MigrateMakeCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\RefreshCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\ResetCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\RollbackCommand;
-use Illuminate\Database\MigrationServiceProvider as BaseMigrationServiceProvider;
 
 /**
  * Class MigrationServiceProvider
@@ -14,7 +13,7 @@ use Illuminate\Database\MigrationServiceProvider as BaseMigrationServiceProvider
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class MigrationServiceProvider extends BaseMigrationServiceProvider
+class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProvider
 {
 
     /**
