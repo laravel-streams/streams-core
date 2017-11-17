@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Application;
 
-use Illuminate\Foundation\Bus\DispatchesJobs;
-
 /**
  * Class Application
  *
@@ -11,8 +9,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class Application
 {
-
-    use DispatchesJobs;
 
     /**
      * The application locale.
