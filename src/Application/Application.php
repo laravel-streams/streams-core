@@ -75,8 +75,10 @@ class Application
      */
     public function setTablePrefix()
     {
-        app('db')->getSchemaBuilder()->getConnection()->setTablePrefix($this->getReference() . '_');
-        app('db')->getSchemaBuilder()->getConnection()->getSchemaGrammar()->setTablePrefix($this->getReference() . '_');
+        $connection = app('db')->getSchemaBuilder()->getConnection();
+        
+        $connection->setTablePrefix($this->tablePrefix());
+        $connection->getSchemaGrammar()->setTablePrefix($this->tablePrefix());
     }
 
     /**
