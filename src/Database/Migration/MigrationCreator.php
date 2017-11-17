@@ -1,8 +1,15 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration;
 
-use Anomaly\Streams\Platform\Database\Migration\Command\TransformMigrationNameToClass;
+use Anomaly\Streams\Platform\Support\Parser;
 use Symfony\Component\Console\Input\InputInterface;
 
+/**
+ * Class MigrationCreator
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class MigrationCreator extends \Illuminate\Database\Migrations\MigrationCreator
 {
 
@@ -51,8 +58,7 @@ class MigrationCreator extends \Illuminate\Database\Migrations\MigrationCreator
 
         $stream = $this->input->getOption('stream');
 
-        return app('Anomaly\Streams\Platform\Support\Parser')
-            ->parse($stub, compact('class', 'table', 'stream'));
+        return app(Parser::class)->parse($stub, compact('class', 'table', 'stream'));
     }
 
     /**
