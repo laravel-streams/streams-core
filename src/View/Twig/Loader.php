@@ -149,7 +149,7 @@ class Loader extends OriginalLoader
         $this->request   = $request;
         $this->overrides = $overrides;
 
-        $area = $request->segment(1) == 'admin' ? 'admin' : 'standard';
+        $area = $request->segment(1) == 'admin' ?: 'standard';
 
         $this->theme  = $this->addons->themes->active($area);
         $this->module = $this->addons->modules->active();
