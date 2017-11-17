@@ -47,9 +47,7 @@ class MigrationName
      */
     public function addonNamespace()
     {
-        $segments = explode('__', $this->withoutDatePrefix());
-
-        return $segments[0];
+        return preg_replace('/(__\w+)(\.php)?$/', '', $this->withoutDatePrefix());
     }
 
     /**
