@@ -1,14 +1,15 @@
 <script type="text/javascript">
 
-    var APPLICATION_URL = "{{ url() }}";
-    var APPLICATION_REFERENCE = "{{ env('APPLICATION_REFERENCE') }}";
-    var APPLICATION_DOMAIN = "{{ env('APPLICATION_DOMAIN') }}";
+    const APPLICATION_URL = "{{ url() }}";
+    const APPLICATION_REFERENCE = "{{ env('APPLICATION_REFERENCE') }}";
+    const APPLICATION_DOMAIN = "{{ env('APPLICATION_DOMAIN') }}";
 
-    var CSRF_TOKEN = "{{ csrf_token() }}";
-    var APP_DEBUG = "{{ config_get('app.debug') }}";
-    var APP_URL = "{{ config_get('app.url') }}";
-    var REQUEST_ROOT = "{{ request_root() }}";
-    var REQUEST_ROOT_PATH = "{{ parse_url(request_root()).path }}";
-    var TIMEZONE = "{{ config_get('app.timezone') }}";
-    var LOCALE = "{{ config_get('app.locale') }}";
+    const CSRF_TOKEN = "{{ csrf_token() }}";
+    const APP_DEBUG = "{{ config_get('app.debug') }}";
+    const APP_URL = "{{ config_get('app.url') }}";
+    const REQUEST_ROOT = "{{ request_root() }}";
+    const REQUEST_ROOT_PATH = "{{ parse_url(request_root()).path }}";
+    const TIMEZONE = "{{ config_get('app.timezone') }}";
+    const LOCALE = "{{ config_get('app.locale') }}";
+    
 </script>
