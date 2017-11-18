@@ -22,6 +22,13 @@ class Value
     protected $parser;
 
     /**
+     * The string purifier.
+     *
+     * @var Purifier
+     */
+    protected $purifier;
+
+    /**
      * The template parser.
      *
      * @var Template
@@ -46,13 +53,20 @@ class Value
      * Create a new ColumnValue instance.
      *
      * @param Parser    $parser
+     * @param Purifier  $purifier
      * @param Template  $template
      * @param Evaluator $evaluator
      * @param Decorator $decorator
      */
-    public function __construct(Parser $parser, Template $template, Evaluator $evaluator, Decorator $decorator)
-    {
+    public function __construct(
+        Parser $parser,
+        Purifier $purifier,
+        Template $template,
+        Evaluator $evaluator,
+        Decorator $decorator
+    ) {
         $this->parser    = $parser;
+        $this->purifier  = $purifier;
         $this->template  = $template;
         $this->evaluator = $evaluator;
         $this->decorator = $decorator;
@@ -189,6 +203,10 @@ class Value
          */
         if (is_string($value) && str_contains($value, '{{')) {
             $value = $this->template->render($value, [$term => $entry]);
+        }
+
+        if (array_get($parameters, 'is_safe') !== true) {
+            $value = $this->purifier->purify($value);
         }
 
         return $value;
