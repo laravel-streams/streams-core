@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Presenter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Collection;
 
 /**
  * Class FieldType
@@ -241,7 +242,7 @@ class FieldType extends Addon
      * Return a config value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function config($key, $default = null)
@@ -430,7 +431,7 @@ class FieldType extends Addon
      * Get a config value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function configGet($key, $default = null)
@@ -506,6 +507,31 @@ class FieldType extends Addon
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * Return if the type
+     * has a value or not.
+     *
+     * @return bool
+     */
+    public function hasValue()
+    {
+        $value = $this->getValue();
+
+        if ($value === null) {
+            return false;
+        }
+
+        if (empty($value)) {
+            return false;
+        }
+
+        if ($value instanceof Collection) {
+            return $value->isNotEmpty();
+        }
+
+        return true;
     }
 
     /**

@@ -8,6 +8,7 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Model\Traits\Translatable;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Carbon\Carbon;
@@ -217,13 +218,21 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $value = $modifier->restore($accessor->get());
 
+        $type->setValue($value);
+
+        /**
+         * Check for fallback values.
+         *
+         * @var EntryTranslationsModel $translation
+         */
         if (
-            $value === null &&
+            !$type->hasValue() &&
             $assignment->isTranslatable() &&
-            $assignment->isRequired() &&
-            $translation = $this->translate()
+            $translation = $this->translateOrDefault()
         ) {
+            $type->setValue($value);
             $type->setEntry($translation);
+            $type->setLocale($translation->getLocale());
 
             $value = $modifier->restore($accessor->get());
         }
