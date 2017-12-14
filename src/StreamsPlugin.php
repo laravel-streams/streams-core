@@ -30,8 +30,9 @@ use Anomaly\Streams\Platform\View\Command\GetConstants;
 use Anomaly\Streams\Platform\View\Command\GetLayoutName;
 use Anomaly\Streams\Platform\View\Command\GetView;
 use Carbon\Carbon;
+use Illuminate\Cache\Repository as CacheRepository;
+use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
@@ -93,9 +94,16 @@ class StreamsPlugin extends Plugin
     protected $asset;
 
     /**
+     * The cache repository.
+     *
+     * @var CacheRepository
+     */
+    protected $cache;
+
+    /**
      * The config repository.
      *
-     * @var Repository
+     * @var ConfigRepository
      */
     protected $config;
 
@@ -158,19 +166,20 @@ class StreamsPlugin extends Plugin
     /**
      * Create a new AgentPlugin instance.
      *
-     * @param UrlGenerator $url
-     * @param Str          $str
-     * @param Guard        $auth
-     * @param Agent        $agent
-     * @param Asset        $asset
-     * @param Image        $image
-     * @param Router       $router
-     * @param Repository   $config
-     * @param Request      $request
-     * @param Store        $session
-     * @param Currency     $currency
-     * @param Template     $template
-     * @param Translator   $translator
+     * @param UrlGenerator     $url
+     * @param Str              $str
+     * @param Guard            $auth
+     * @param Agent            $agent
+     * @param Asset            $asset
+     * @param Image            $image
+     * @param Router           $router
+     * @param Request          $request
+     * @param Store            $session
+     * @param Currency         $currency
+     * @param Template         $template
+     * @param Translator       $translator
+     * @param CacheRepository  $cache
+     * @param ConfigRepository $config
      */
     public function __construct(
         UrlGenerator $url,
@@ -181,12 +190,13 @@ class StreamsPlugin extends Plugin
         Asset $asset,
         Image $image,
         Router $router,
-        Repository $config,
         Request $request,
         Store $session,
         Currency $currency,
         Template $template,
-        Translator $translator
+        Translator $translator,
+        CacheRepository $cache,
+        ConfigRepository $config
     ) {
         $this->url        = $url;
         $this->str        = $str;
@@ -195,6 +205,7 @@ class StreamsPlugin extends Plugin
         $this->agent      = $agent;
         $this->asset      = $asset;
         $this->image      = $image;
+        $this->cache      = $cache;
         $this->router     = $router;
         $this->config     = $config;
         $this->request    = $request;
@@ -514,6 +525,9 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction('config', [$this->config, 'get']),
             new \Twig_SimpleFunction('config_get', [$this->config, 'get']),
             new \Twig_SimpleFunction('config_has', [$this->config, 'has']),
+            new \Twig_SimpleFunction('cache', [$this->cache, 'get']),
+            new \Twig_SimpleFunction('cache_get', [$this->cache, 'get']),
+            new \Twig_SimpleFunction('cache_has', [$this->cache, 'has']),
             new \Twig_SimpleFunction('auth_user', [$this->auth, 'user']),
             new \Twig_SimpleFunction('auth_check', [$this->auth, 'check']),
             new \Twig_SimpleFunction('auth_guest', [$this->auth, 'guest']),
