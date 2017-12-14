@@ -34,7 +34,8 @@ use Carbon\Carbon;
 use Collective\Html\FormBuilder;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Config\Repository;
+use Illuminate\Contracts\Cache\Repository as CacheRepository;
+use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
@@ -103,6 +104,13 @@ class StreamsPlugin extends Plugin
     protected $agent;
 
     /**
+     * The cache repository.
+     *
+     * @var CacheRepository
+     */
+    protected $cache;
+
+    /**
      * The asset utility.
      *
      * @var Asset
@@ -112,7 +120,7 @@ class StreamsPlugin extends Plugin
     /**
      * The config repository.
      *
-     * @var Repository
+     * @var ConfigRepository
      */
     protected $config;
 
@@ -175,22 +183,23 @@ class StreamsPlugin extends Plugin
     /**
      * Create a new AgentPlugin instance.
      *
-     * @param UrlGenerator $url
-     * @param Str          $str
-     * @param Guard        $auth
-     * @param Yaml         $yaml
-     * @param Agent        $agent
-     * @param Asset        $asset
-     * @param Image        $image
-     * @param Router       $router
-     * @param FormBuilder  $form
-     * @param HtmlBuilder  $html
-     * @param Repository   $config
-     * @param Request      $request
-     * @param Store        $session
-     * @param Currency     $currency
-     * @param Template     $template
-     * @param Translator   $translator
+     * @param UrlGenerator     $url
+     * @param Str              $str
+     * @param Guard            $auth
+     * @param Yaml             $yaml
+     * @param Agent            $agent
+     * @param Asset            $asset
+     * @param Image            $image
+     * @param Router           $router
+     * @param FormBuilder      $form
+     * @param HtmlBuilder      $html
+     * @param CacheRepository  $cache
+     * @param ConfigRepository $config
+     * @param Request          $request
+     * @param Store            $session
+     * @param Currency         $currency
+     * @param Template         $template
+     * @param Translator       $translator
      */
     public function __construct(
         UrlGenerator $url,
@@ -203,7 +212,8 @@ class StreamsPlugin extends Plugin
         Router $router,
         FormBuilder $form,
         HtmlBuilder $html,
-        Repository $config,
+        ConfigRepository $config,
+        CacheRepository $cache,
         Request $request,
         Store $session,
         Currency $currency,
@@ -218,6 +228,7 @@ class StreamsPlugin extends Plugin
         $this->yaml       = $yaml;
         $this->agent      = $agent;
         $this->asset      = $asset;
+        $this->cache      = $cache;
         $this->image      = $image;
         $this->router     = $router;
         $this->config     = $config;
@@ -560,6 +571,9 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction('config', [$this->config, 'get']),
             new \Twig_SimpleFunction('config_get', [$this->config, 'get']),
             new \Twig_SimpleFunction('config_has', [$this->config, 'has']),
+            new \Twig_SimpleFunction('cache', [$this->cache, 'get']),
+            new \Twig_SimpleFunction('cache_get', [$this->cache, 'get']),
+            new \Twig_SimpleFunction('cache_has', [$this->cache, 'has']),
             new \Twig_SimpleFunction('auth_user', [$this->auth, 'user']),
             new \Twig_SimpleFunction('auth_check', [$this->auth, 'check']),
             new \Twig_SimpleFunction('auth_guest', [$this->auth, 'guest']),
