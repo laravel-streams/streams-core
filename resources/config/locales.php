@@ -54,106 +54,106 @@ return [
 
     'supported' => [
         'en'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'fa'    => [
-            'direction' => 'rtl'
+            'direction' => 'rtl',
         ],
         'de'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'ar'    => [
-            'direction' => 'rtl'
+            'direction' => 'rtl',
         ],
         'cs'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'el'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'es'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'et'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'fr'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'fr-ca' => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'it'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'nl'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'sv'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'sl'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'sme'   => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'pl'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'pt'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
-        'pt-br'    => [
-            'direction' => 'ltr'
+        'pt-br' => [
+            'direction' => 'ltr',
         ],
         'br'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'ru'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'zh-cn' => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'zh-tw' => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'he'    => [
-            'direction' => 'rtl'
+            'direction' => 'rtl',
         ],
         'lt'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'fi'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'da'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'id'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'hu'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'th'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'tr'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'bn'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'sq'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'hi'    => [
-            'direction' => 'ltr'
+            'direction' => 'ltr',
         ],
         'vi'    => [
-            'direction' => 'ltr'
-        ]
-    ]
+            'direction' => 'ltr',
+        ],
+    ],
 ];

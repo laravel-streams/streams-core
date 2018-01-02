@@ -25,21 +25,46 @@ class Locale
     /**
      * Return if the locale is RTL.
      *
+     * @param null $locale
      * @return bool
      */
-    public function isRtl()
+    public function isRtl($locale = null)
     {
-        return config('streams::locales.supported.' . $this->locale . '.direction') == 'rtl';
+        $locale = $locale ?: $this->locale;
+
+        return config('streams::locales.supported.' . $locale . '.direction') == 'rtl';
     }
 
     /**
      * Return the locale name.
      *
+     * @param null $locale
      * @return bool
      */
-    public function name()
+    public function name($locale = null)
     {
-        return 'streams::locale.' . $this->locale . '.name';
+        $locale = $locale ?: $this->locale;
+
+        return 'streams::locale.' . $locale . '.name';
+    }
+
+    /**
+     * Return the full name of the locale.
+     *
+     * @param $locale
+     * @return string
+     */
+    public function full($locale = null)
+    {
+        $locale = $locale ?: $this->locale;
+
+        return env(
+            'LOCALE_' . strtoupper($locale),
+            config(
+                'streams::locales.' . $locale . '.locale',
+                $locale . '_' . strtoupper($locale)
+            )
+        );
     }
 
     /**

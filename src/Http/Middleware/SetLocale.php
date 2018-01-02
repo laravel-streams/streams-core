@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Http\Middleware;
 
+use Anomaly\Streams\Platform\Support\Locale;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\Config\Repository;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -26,6 +26,13 @@ class SetLocale
     protected $config;
 
     /**
+     * The locale helper.
+     *
+     * @var Locale
+     */
+    protected $locale;
+
+    /**
      * The redirect utility.
      *
      * @var Redirector
@@ -42,13 +49,15 @@ class SetLocale
     /**
      * Create a new SetLocale instance.
      *
+     * @param Locale      $locale
      * @param Repository  $config
      * @param Redirector  $redirect
      * @param Application $application
      */
-    public function __construct(Repository $config, Redirector $redirect, Application $application)
+    public function __construct(Locale $locale, Repository $config, Redirector $redirect, Application $application)
     {
         $this->config      = $config;
+        $this->locale      = $locale;
         $this->redirect    = $redirect;
         $this->application = $application;
     }
@@ -82,7 +91,7 @@ class SetLocale
 
             Carbon::setLocale($locale);
 
-            setlocale(LC_TIME, $locale);
+            setlocale(LC_TIME, $this->locale->full($locale));
 
             $this->config->set('_locale', $locale);
         }
@@ -93,7 +102,7 @@ class SetLocale
 
             Carbon::setLocale($this->config->get('streams::locales.default'));
 
-            setlocale(LC_TIME, $this->config->get('streams::locales.default'));
+            setlocale(LC_TIME, $this->locale->full($this->config->get('streams::locales.default')));
         }
 
         return $next($request);
