@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Http\Middleware;
 
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -76,13 +77,19 @@ class SetLocale
         }
 
         if ($locale = $request->session()->get('_locale')) {
+
             $this->application->setLocale($locale);
+
+            Carbon::setLocale($locale);
 
             $this->config->set('_locale', $locale);
         }
 
         if (!$locale) {
+
             $this->application->setLocale($this->config->get('streams::locales.default'));
+
+            Carbon::setLocale($this->config->get('streams::locales.default'));
         }
 
         return $next($request);
