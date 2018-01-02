@@ -82,6 +82,8 @@ class SetLocale
 
             Carbon::setLocale($locale);
 
+            setlocale(LC_TIME, $locale);
+
             $this->config->set('_locale', $locale);
         }
 
@@ -90,6 +92,8 @@ class SetLocale
             $this->application->setLocale($this->config->get('streams::locales.default'));
 
             Carbon::setLocale($this->config->get('streams::locales.default'));
+
+            setlocale(LC_TIME, $this->config->get('streams::locales.default'));
         }
 
         return $next($request);
