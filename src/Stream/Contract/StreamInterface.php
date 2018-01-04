@@ -260,6 +260,13 @@ interface StreamInterface
     public function getEntryModelName();
 
     /**
+     * Get the bound entry model name.
+     *
+     * @return string
+     */
+    public function getBoundEntryModelName();
+
+    /**
      * Get a field's type by the field's slug.
      *
      * @param                 $fieldSlug
