@@ -876,7 +876,21 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function newEloquentBuilder($query)
     {
-        return new EntryQueryBuilder($query);
+        $builder = $this->getQueryBuilderName();
+
+        return new $builder($query);
+    }
+
+    /**
+     * Get the router name.
+     *
+     * @return string
+     */
+    public function getQueryBuilderName()
+    {
+        $builder = substr(get_class($this), 0, -5) . 'QueryBuilder';
+
+        return class_exists($builder) ? $builder : EntryQueryBuilder::class;
     }
 
     /**
