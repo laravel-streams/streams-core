@@ -32,10 +32,9 @@ return [
     'translatable' => [
         'name'         => 'Vertaalbaar',
         'label'        => 'Is dit veld vertaalbaar?',
-        'instructions' => 'Als het veld vertaalbaar is, zullen alle ingeschakelde locales beschikbaar zijn.'      => [
-            'column_type' => 'Het geassocieerde veld type ondersteund geen vertaalbare waardes.',
-            'stream'      => 'De geassocieerde stream is niet vertaalbaar.',
-        ],
+        'instructions' => 'Als het veld vertaalbaar is, zullen alle ingeschakelde locales beschikbaar zijn.',
+        'column_type'  => 'Het geassocieerde veld type ondersteund geen vertaalbare waardes.',
+        'stream'       => 'De geassocieerde stream is niet vertaalbaar.',
     ],
     'instructions' => [
         'name'         => 'Instructies',
