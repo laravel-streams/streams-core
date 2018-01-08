@@ -823,6 +823,8 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     /**
      * Return a model route.
      *
+     * @param $route The route name you would like to return a URL for (i.e. "view" or "delete")
+     * @param array $parameters
      * @return string
      */
     public function route($route, array $parameters = [])
