@@ -271,6 +271,16 @@ class FieldModel extends EloquentModel implements FieldInterface
     {
         return ($this->locked);
     }
+    
+    /**
+     * Gets the rules.
+     *
+     * @return array The rules.
+     */
+    public function getRules()
+    {
+        return $this->getType()->getRules();
+    }
 
     /**
      * Set config attribute.
