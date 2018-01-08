@@ -75,7 +75,7 @@ class Template
         return $this->view->make(
             'storage::' . ltrim(
                 str_replace($this->application->getStoragePath(), '', $path),
-                '/'
+                '\\/'
             ),
             $payload
         );
