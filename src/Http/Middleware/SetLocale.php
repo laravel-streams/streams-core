@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Http\Middleware;
 
+use Anomaly\Streams\Platform\Application\Application as App;
 use Anomaly\Streams\Platform\Support\Locale;
 use Carbon\Carbon;
 use Closure;
@@ -17,6 +18,13 @@ use Illuminate\Routing\Redirector;
  */
 class SetLocale
 {
+
+    /**
+     * The streams application.
+     *
+     * @var App
+     */
+    protected $app;
 
     /**
      * The config config.
@@ -49,13 +57,20 @@ class SetLocale
     /**
      * Create a new SetLocale instance.
      *
-     * @param Locale      $locale
-     * @param Repository  $config
-     * @param Redirector  $redirect
+     * @param App $app
+     * @param Locale $locale
+     * @param Repository $config
+     * @param Redirector $redirect
      * @param Application $application
      */
-    public function __construct(Locale $locale, Repository $config, Redirector $redirect, Application $application)
-    {
+    public function __construct(
+        App $app,
+        Locale $locale,
+        Repository $config,
+        Redirector $redirect,
+        Application $application
+    ) {
+        $this->app         = $app;
         $this->config      = $config;
         $this->locale      = $locale;
         $this->redirect    = $redirect;
@@ -65,7 +80,7 @@ class SetLocale
     /**
      * Look for locale=LOCALE in the query string.
      *
-     * @param  Request  $request
+     * @param  Request $request
      * @param  \Closure $next
      * @return mixed
      */
@@ -98,11 +113,13 @@ class SetLocale
 
         if (!$locale) {
 
-            $this->application->setLocale($this->config->get('streams::locales.default'));
+            $locale = $this->app->getLocale() ?: $this->config->get('streams::locales.default');
 
-            Carbon::setLocale($this->config->get('streams::locales.default'));
+            $this->application->setLocale($locale);
 
-            setlocale(LC_TIME, $this->locale->full($this->config->get('streams::locales.default')));
+            Carbon::setLocale($locale);
+
+            setlocale(LC_TIME, $this->locale->full($locale));
         }
 
         return $next($request);
