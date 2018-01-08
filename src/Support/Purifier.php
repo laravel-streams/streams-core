@@ -48,10 +48,10 @@ class Purifier extends \HTMLPurifier
             PREG_SET_ORDER
         );
 
-        foreach ($matches as $idx => $match) {
+        foreach ($matches as $id => $match) {
             str_replace(
                 array_get($match, 0),
-                strtoupper(array_get($match, 1)) . '_PLACEHOLDER_' . $idx,
+                strtoupper(array_get($match, 1)) . '_PLACEHOLDER_' . $id,
                 $html
             );
         }
@@ -63,9 +63,9 @@ class Purifier extends \HTMLPurifier
          * Replace the placeholders with the
          * complete <pre> and <code> blocks.
          */
-        foreach ($matches as $idx => $match) {
+        foreach ($matches as $id => $match) {
             str_replace(
-                strtoupper(array_get($match, 1)) . '_PLACEHOLDER_' . $idx,
+                strtoupper(array_get($match, 1)) . '_PLACEHOLDER_' . $id,
                 array_get($match, 0),
                 $html
             );
