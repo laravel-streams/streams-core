@@ -294,6 +294,16 @@ class FieldModel extends EloquentModel implements FieldInterface
     }
 
     /**
+     * Get the rules.
+     *
+     * @return array
+     */
+    public function getRules()
+    {
+        return $this->rules;
+    }
+
+    /**
      * Set rules attribute.
      *
      * @param array $rules

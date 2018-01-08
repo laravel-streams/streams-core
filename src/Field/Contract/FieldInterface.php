@@ -130,6 +130,13 @@ interface FieldInterface
     public function isLocked();
 
     /**
+     * Get the rules.
+     *
+     * @return array
+     */
+    public function getRules();
+
+    /**
      * Flush the entry model's cache.
      *
      * @return FieldInterface
