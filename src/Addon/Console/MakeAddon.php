@@ -65,7 +65,7 @@ class MakeAddon extends Command
             throw new \Exception("The namespace should be snake case and formatted like: {vendor}.{type}.{slug}");
         }
 
-        if (strpos($namespace, '-')) {
+        if (strpos($namespace, '-') !== false) {
             throw new \Exception("The namespace may not contain dashes.");
         }
 
