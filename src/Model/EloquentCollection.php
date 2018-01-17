@@ -27,22 +27,13 @@ class EloquentCollection extends Collection
     }
 
     /**
-     * Return a collection of decorated items.
+     * Return decorated items.
      *
-     * @return static
+     * @return static|$this
      */
     public function decorated()
     {
-        $items = [];
-
-        /* @var Decorator $decorator */
-        $decorator = app(Decorator::class);
-
-        foreach ($this->items as $item) {
-            $items[] = $decorator->decorate($item);
-        }
-
-        return self::make($items);
+        return $this->decorate();
     }
 
     /**
@@ -59,7 +50,7 @@ class EloquentCollection extends Collection
      * Pad to the specified size with a value.
      *
      * @param        $size
-     * @param  null  $value
+     * @param  null $value
      * @return $this
      */
     public function pad($size, $value = null)
@@ -113,12 +104,12 @@ class EloquentCollection extends Collection
             }
         );
     }
-    
+
     /**
      * Group an associative array by a field or using a callback.
      *
-     * @param  callable|string  $groupBy
-     * @param  bool  $preserveKeys
+     * @param  callable|string $groupBy
+     * @param  bool $preserveKeys
      * @return static
      */
     public function groupBy($groupBy, $preserveKeys = false)
@@ -135,8 +126,8 @@ class EloquentCollection extends Collection
 
             foreach ($groupKeys as $groupKey) {
                 $groupKey = is_bool($groupKey) || is_int($groupKey)
-                    ? (int) $groupKey
-                    : (string) $groupKey;
+                    ? (int)$groupKey
+                    : (string)$groupKey;
 
                 if (!array_key_exists($groupKey, $results)) {
                     $results[$groupKey] = new static;
@@ -158,6 +149,16 @@ class EloquentCollection extends Collection
     public function skip($offset)
     {
         return $this->slice($offset, null, true);
+    }
+
+    /**
+     * Return decorated items.
+     *
+     * @return static|$this
+     */
+    public function decorate()
+    {
+        return new static((new Decorator())->decorate($this->items));
     }
 
     /**
@@ -193,7 +194,7 @@ class EloquentCollection extends Collection
      * Map to get.
      *
      * @param string $method
-     * @param array  $parameters
+     * @param array $parameters
      */
     public function __call($method, $parameters)
     {
