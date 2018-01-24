@@ -113,7 +113,7 @@ class FieldTypeSchema
         if ($assignment->isUnique() && !$assignment->isTranslatable()) {
             $table->unique(
                 $this->fieldType->getColumnName(),
-                md5('unique_' . $table->getTable() . '_' . $this->fieldType->getColumnName())
+                md5($assignment->getId())
             );
         }
     }
@@ -166,7 +166,7 @@ class FieldTypeSchema
         $doctrine   = $manager->listTableDetails($connection->getTablePrefix() . $table->getTable());
 
         // The unique index name.
-        $unique = md5('unique_' . $table->getTable() . '_' . $this->fieldType->getColumnName());
+        $unique = md5($assignment->getId());
 
         /*
          * If the assignment is unique and not translatable
@@ -183,7 +183,20 @@ class FieldTypeSchema
          * then we need to remove.
          */
         if (!$assignment->isUnique() && !$assignment->isTranslatable() && $doctrine->hasIndex($unique)) {
-            $column->dropIndex(md5('unique_' . $table->getTable() . '_' . $this->fieldType->getColumnName()));
+            $table->dropIndex($unique);
+        }
+
+        /*
+         * @deprecated Will be removed in 3.5
+         *
+         * If the assignment is NOT unique and not translatable
+         * and the table DOES have the given table index
+         * then we need to remove.
+         */
+        $unique = md5('unique_' . $table->getTable() . '_' . $this->fieldType->getColumnName());
+
+        if (!$assignment->isUnique() && !$assignment->isTranslatable() && $doctrine->hasIndex($unique)) {
+            $table->dropIndex($unique);
         }
     }
 
@@ -196,6 +209,70 @@ class FieldTypeSchema
     public function renameColumn(Blueprint $table, FieldType $from)
     {
         $table->renameColumn($from->getColumnName(), $this->fieldType->getColumnName());
+    }
+
+    /**
+     * Change the column type.
+     *
+     * @param Blueprint           $table
+     * @param AssignmentInterface $assignment
+     */
+    public function changeColumn(Blueprint $table, AssignmentInterface $assignment)
+    {
+        // Skip if the column doesn't exists.
+        if (!$this->schema->hasColumn($table->getTable(), $this->fieldType->getColumnName())) {
+            return;
+        }
+
+        /**
+         * Update the column to the table.
+         *
+         * @var Blueprint|Fluent $column
+         */
+        $column = call_user_func_array(
+            [$table, $this->fieldType->getColumnType()],
+            array_filter(
+                [
+                    $this->fieldType->getColumnName(),
+                    $this->fieldType->getColumnLength(),
+                ]
+            )
+        );
+
+        $column->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true)->change();
+
+        if (!str_contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
+            $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
+        }
+
+        /*
+         * Mark the column unique if desired and not translatable.
+         * Otherwise, drop the unique index.
+         */
+        $connection = $this->schema->getConnection();
+        $manager    = $connection->getDoctrineSchemaManager();
+        $doctrine   = $manager->listTableDetails($connection->getTablePrefix() . $table->getTable());
+
+        // The unique index name.
+        $unique = md5($assignment->getId());
+
+        /*
+         * If the assignment is unique and not translatable
+         * and the table does not already have the given the
+         * given table index then go ahead and add it.
+         */
+        if ($assignment->isUnique() && !$assignment->isTranslatable() && !$doctrine->hasIndex($unique)) {
+            $table->unique($this->fieldType->getColumnName(), $unique);
+        }
+
+        /*
+         * If the assignment is NOT unique and not translatable
+         * and the table DOES have the given table index
+         * then we need to remove.
+         */
+        if (!$assignment->isUnique() && !$assignment->isTranslatable() && $doctrine->hasIndex($unique)) {
+            $column->dropIndex($unique);
+        }
     }
 
     /**

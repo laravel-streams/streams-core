@@ -23,6 +23,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \Anomaly\Streams\Platform\Http\Middleware\SetLocale::class,
     ];
 
     /**
@@ -64,18 +65,24 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      * Create a new Kernel instance.
      *
      * @param Application $app
-     * @param Router $router
+     * @param Router      $router
      */
     public function __construct(Application $app, Router $router)
     {
         $this->defineLocale();
+        $this->rewriteAdmin();
 
         $config = require base_path('config/streams.php');
 
-        $this->middleware         = array_get($config, 'middleware') ?: $this->middleware;
-        $this->routeMiddleware    = array_get($config, 'route_middleware') ?: $this->routeMiddleware;
-        $this->middlewareGroups   = array_get($config, 'middleware_groups') ?: $this->middlewareGroups;
-        $this->middlewarePriority = array_get($config, 'middleware_priority') ?: $this->middlewarePriority;
+        $middleware         = array_get($config, 'middleware', []);
+        $routeMiddleware    = array_get($config, 'route_middleware', []);
+        $middlewareGroups   = array_get($config, 'middleware_groups', []);
+        $middlewarePriority = array_get($config, 'middleware_priority', []);
+
+        $this->middleware         = array_merge($this->middleware, $middleware);
+        $this->routeMiddleware    = array_merge($this->routeMiddleware, $routeMiddleware);
+        $this->middlewareGroups   = array_merge($this->middlewareGroups, $middlewareGroups);
+        $this->middlewarePriority = array_merge($this->middlewarePriority, $middlewarePriority);
 
         parent::__construct($app, $router);
     }
@@ -134,7 +141,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
          * Let's first look in the URI
          * path for for a locale.
          */
-        $pattern = '/^\/(' . implode('|', array_keys($locales['supported'])) . ')\//';
+        $pattern = '/^\/(' . implode('|', array_keys($locales['supported'])) . ')(\/|(?:$)|(?=\?))/';
 
         $uri = array_get($_SERVER, 'REQUEST_URI', filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL));
 
@@ -147,22 +154,50 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
 
             return;
         }
+    }
 
-        /*
-         * Check if we're on the home page.
+    /**
+     * Rewrite the admin URI based on
+     * configured admin URI segment.
+     */
+    protected function rewriteAdmin()
+    {
+        // Our admin segment.
+        $segment = 'admin';
+
+        /**
+         * Skip if our admin
+         * segment is admin.
          */
-        $pattern = '/^\/(' . implode('|', array_keys($locales['supported'])) . ')$/';
+        if ($segment == 'admin') {
+            return;
+        }
+
+        /**
+         * If we have a configured admin
+         * slug then make sure we are not
+         * accessing the original segment.
+         */
+        $pattern = '/^\/(admin)(?=\/?)/';
 
         $uri = array_get($_SERVER, 'REQUEST_URI', filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL));
 
-        if (($hint === 'uri' || $hint === true) && preg_match($pattern, $uri, $matches)) {
+        if (preg_match($pattern, $uri, $matches)) {
+            abort(404);
+        }
+
+        /**
+         * Now rewrite the admin segment
+         * based on the configured value.
+         */
+        $pattern = '/^\/(' . $segment . ')(?=\/?)/';
+
+        $uri = array_get($_SERVER, 'REQUEST_URI', filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL));
+
+        if (preg_match($pattern, $uri, $matches)) {
 
             $_SERVER['ORIGINAL_REQUEST_URI'] = $uri;
-            $_SERVER['REQUEST_URI']          = preg_replace($pattern, '/', $uri);
-
-            define('LOCALE', $matches[1]);
-
-            return;
+            $_SERVER['REQUEST_URI']          = preg_replace($pattern, '/admin', $uri);
         }
     }
 }

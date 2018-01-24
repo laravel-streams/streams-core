@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Asset\Filter;
 
-use Anomaly\Streams\Platform\Asset\AssetParser;
 use Assetic\Asset\AssetInterface;
 use Assetic\Filter\FilterInterface;
 use CoffeeScript\Compiler;
@@ -14,23 +13,6 @@ use CoffeeScript\Compiler;
  */
 class CoffeeFilter implements FilterInterface
 {
-
-    /**
-     * The asset parser utility.
-     *
-     * @var AssetParser
-     */
-    protected $parser;
-
-    /**
-     * Create a new ParseFilter instance.
-     *
-     * @param AssetParser $parser
-     */
-    public function __construct(AssetParser $parser)
-    {
-        $this->parser = $parser;
-    }
 
     /**
      * Filters an asset after it has been loaded.
@@ -52,7 +34,7 @@ class CoffeeFilter implements FilterInterface
         $asset->setContent(
             trim(
                 Compiler::compile(
-                    $this->parser->parse($asset->getContent()),
+                    $asset->getContent(),
                     ['filename' => $asset->getSourcePath()]
                 )
             )

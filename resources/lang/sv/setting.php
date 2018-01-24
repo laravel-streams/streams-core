@@ -11,6 +11,48 @@ return [
         'instructions' => 'Vad är beskrivningen eller sloganen för webbsidan?',
         'placeholder'  => trans('distribution::addon.description')
     ],
+    'business'          => [
+        'label'        => 'Företagsnamn',
+        'instructions' => 'Vad heter ditt företag?',
+    ],
+    'phone'             => [
+        'label'        => 'Telefonnummer',
+        'instructions' => 'Ange ett generellt telefonnummer',
+    ],
+    'address'           => [
+        'label' => 'Adress',
+    ],
+    'address2'          => [
+        'label' => 'Lägenhetsnummer, trappuppgång, etc.',
+    ],
+    'city'              => [
+        'label' => 'Stad',
+    ],
+    'state'             => [
+        'label' => 'Stat / Provins',
+    ],
+    'postal_code'       => [
+        'label' => 'Postkod / ZIP-kod',
+    ],
+    'country'           => [
+        'label' => 'Land',
+    ],
+    'timezone'          => [
+        'label'        => 'Tidszon',
+        'instructions' => 'Ange standard tidszon för din webbplats.',
+    ],
+    'unit_system'       => [
+        'label'        => 'Enhetssystem',
+        'instructions' => 'Ange enhetssystem för din webbplats.',
+        'option'       => [
+            'imperial' => 'Brittiska måttenheter',
+            'metric'   => 'Metriska systemet',
+        ],
+    ],
+    'currency'          => [
+        'label'        => 'Valuta',
+        'instructions' => 'Ange standard valuta för din webbplats',
+    ],
     'default_timezone' => [
         'label'        => 'Standardtidszon',
         'instructions' => 'Specificera systemets standardtidszon. Detta kommer att användas för alla funktioner gällande datum och tid.'
@@ -33,6 +75,14 @@ return [
         'label'        => 'Påslagna Språk',
         'instructions' => 'Specificera vilka språk som ska vara tillgängliga för din webbsida.'
     ],
+    'maintenance'       => [
+        'label'        => 'Underhållsläge',
+        'instructions' => 'Använd detta alternativ för att inaktivera den offentliga delen av systemet.<br>Detta är användbart när du vill underhålla eller utveckla din webbplats.',
+    ],
+    'debug'             => [
+        'label'        => 'Felsökningsläge',
+        'instructions' => 'När det är aktiverat, visas detaljerade meddelanden när fel uppstår.',
+    ],
     'site_enabled'     => [
         'label'        => 'Sidan är aktiverad',
         'instructions' => 'Använd detta alternativet för att aktivera eller inaktivera den offentligt synliga delen av din webbsida.<br>Detta är användbart ifall du vill stänga av webbsidan för utveckling eller underhåll.'
@@ -41,6 +91,10 @@ return [
         'label'        => 'IP Vitlista',
         'instructions' => 'När statusen är satt som "inaktiverad" kommer endast dessa IP-adresser få tillåtelse att komma åt webbsidan.',
         'placeholder'  => 'Separera varje IP-adress med ett kommatecken.'
+    ],
+    'basic_auth'        => [
+        'label'        => 'Fråga efter autentisering?',
+        'instructions' => 'När underhållsläge är aktiverat, fråga användare efter HTTP autentisering?',
     ],
     '503_message'      => [
         'label'        => 'Otillgänglighetsmeddelande',
@@ -57,12 +111,12 @@ return [
             'public' => 'Tvinga endast HTTPS för offentligt innehåll'
         ]
     ],
-    'contact_email'    => [
+    'email'    => [
         'label'        => 'Kontaktmejl',
         'instructions' => 'All e-post från användare, gäster och webbsidan själv kommer att skickas till denna e-postadress som standard.',
         'placeholder'  => 'example@domain.com'
     ],
-    'server_email'     => [
+    'sender'     => [
         'label'        => 'Serverns E-post',
         'instructions' => 'All e-post som skickas från servern kommer att skickas från den här adressen.',
         'placeholder'  => 'inget-svar@domain.com'
@@ -119,5 +173,9 @@ return [
     'admin_theme'      => [
         'label'        => 'Admintema',
         'instructions' => 'Vilket tema vill du använda för kontrollpanelen?'
-    ]
+    ],
+    'per_page'          => [
+        'label'        => 'Resultat Per Sida',
+        'instructions' => 'Ange hur många resultat du skulle vilja visa per sida.',
+    ],
 ];

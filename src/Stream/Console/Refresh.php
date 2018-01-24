@@ -33,7 +33,7 @@ class Refresh extends Command
      *
      * @param Dispatcher $events
      */
-    public function fire(Dispatcher $events)
+    public function handle(Dispatcher $events)
     {
         $this->call('streams:compile');
 

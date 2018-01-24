@@ -33,8 +33,11 @@ class Application extends \Illuminate\Console\Application
      */
     protected function getApplicationReferenceOption()
     {
-        $message = 'The application the command should run under.';
-
-        return new InputOption('--app', null, InputOption::VALUE_OPTIONAL, $message);
+        return new InputOption(
+            '--app',
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'The application this command should run under.'
+        );
     }
 }

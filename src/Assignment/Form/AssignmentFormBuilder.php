@@ -44,17 +44,28 @@ class AssignmentFormBuilder extends FormBuilder
      */
     protected $fields = AssignmentFormFields::class;
 
-    /**
-     * The form buttons.
-     *
-     * @var array
-     */
-    protected $actions = [
-        'save'   => [
-            'enabled' => 'create',
-        ],
-        'update' => [
-            'enabled' => 'edit',
+    protected $sections = [
+        'general' => [
+            'tabs' => [
+                'assignment' => [
+                    'title'  => 'streams::form.tab.display',
+                    'fields' => [
+                        'label',
+                        'placeholder',
+                        'instructions',
+                        'warning',
+                    ],
+                ],
+                'options'    => [
+                    'title'  => 'streams::form.tab.options',
+                    'fields' => [
+                        'required',
+                        'unique',
+                        'searchable',
+                        'translatable',
+                    ],
+                ],
+            ],
         ],
     ];
 

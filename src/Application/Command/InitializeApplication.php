@@ -24,6 +24,7 @@ class InitializeApplication
         $app = env('APPLICATION_REFERENCE', 'default');
 
         if (PHP_SAPI == 'cli') {
+
             $app = (new ArgvInput())->getParameterOption('--app', $app);
 
             $laravel->bind(
@@ -65,13 +66,17 @@ class InitializeApplication
             if (env('DB_CONNECTION', env('DB_DRIVER'))) {
 
                 try {
-                    $application->locate();
+
+                    if (PHP_SAPI != 'cli') {
+                        $application->locate();
+                    }
+
                     $application->setup();
 
                     if (!$application->isEnabled()) {
                         abort(503);
                     }
-                } catch(\Exception $e) {
+                } catch (\Exception $e) {
                     // Do nothing.
                 }
             }

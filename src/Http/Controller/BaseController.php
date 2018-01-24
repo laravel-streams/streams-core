@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Event\Response;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\View\ViewTemplate;
 use Illuminate\Contracts\Container\Container;
@@ -27,6 +28,7 @@ class BaseController extends Controller
 {
 
     use DispatchesJobs;
+    use FiresCallbacks;
 
     /**
      * The service container.
@@ -133,16 +135,14 @@ class BaseController extends Controller
 
         $this->events->fire(new Response($this));
 
-        // Let addons manipulate middleware first.
-        foreach (app('Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection') as $middleware) {
-            $this->middleware($middleware);
-        }
-
-        // These may be manipulated by the middleware above.
-        $this->middleware('Illuminate\Foundation\Http\Middleware\VerifyCsrfToken');
+        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\PoweredBy');
         
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\SetLocale');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\ApplicationReady');
+
+        foreach (app('Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection') as $middleware) {
+            $this->middleware($middleware);
+        }
     }
 }

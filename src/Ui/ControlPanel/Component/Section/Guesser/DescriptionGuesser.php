@@ -47,6 +47,10 @@ class DescriptionGuesser
      */
     public function guess(ControlPanelBuilder $builder)
     {
+        if (!$module = $this->modules->active()) {
+            return;
+        }
+
         $sections = $builder->getSections();
 
         foreach ($sections as &$section) {
@@ -55,8 +59,6 @@ class DescriptionGuesser
             if (isset($section['description'])) {
                 continue;
             }
-
-            $module = $this->modules->active();
 
             $description = $module->getNamespace('section.' . $section['slug'] . '.description');
 

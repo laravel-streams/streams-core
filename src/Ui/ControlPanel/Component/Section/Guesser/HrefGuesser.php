@@ -47,6 +47,10 @@ class HrefGuesser
      */
     public function guess(ControlPanelBuilder $builder)
     {
+        if (!$module = $this->modules->active()) {
+            return;
+        }
+
         $sections = $builder->getSections();
 
         foreach ($sections as $index => &$section) {
@@ -55,8 +59,6 @@ class HrefGuesser
             if (isset($section['attributes']['href'])) {
                 continue;
             }
-
-            $module = $this->modules->active();
 
             $href = $this->url->to('admin/' . $module->getSlug());
 

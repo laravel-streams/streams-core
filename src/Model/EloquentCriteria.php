@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Pagination\Paginator;
 
 /**
  * Class EloquentCriteria
@@ -56,7 +55,7 @@ class EloquentCriteria
     /**
      * The query builder.
      *
-     * @var Builder|\Illuminate\Database\Query\Builder
+     * @var EloquentQueryBuilder
      */
     protected $query;
 
@@ -82,12 +81,14 @@ class EloquentCriteria
     /**
      * Get the paginated entries.
      *
-     * @param  array $columns
-     * @return Paginator
+     * @param int    $perPage
+     * @param array  $columns
+     * @param string $pageName
+     * @return array|\ArrayAccess|\IteratorAggregate|Presenter
      */
-    public function paginate($perPage = 15, array $columns = ['*'])
+    public function paginate($perPage = 15, array $columns = ['*'], $pageName = 'page')
     {
-        return (new Decorator())->decorate($this->query->paginate($perPage, $columns));
+        return (new Decorator())->decorate($this->query->paginate($perPage, $columns, $pageName));
     }
 
     /**
@@ -209,6 +210,16 @@ class EloquentCriteria
     }
 
     /**
+     * Return the query string as SQL.
+     *
+     * @return string
+     */
+    public function toSql()
+    {
+        return $this->query->toSql();
+    }
+
+    /**
      * Return whether the method is safe or not.
      *
      * @param $name
@@ -228,7 +239,7 @@ class EloquentCriteria
      */
     protected function methodExists($name)
     {
-        return method_exists($this->query->getQuery(), $name);
+        return method_exists($this->query->getQuery(), $name) || method_exists($this->query, $name);
     }
 
     /**
@@ -251,8 +262,14 @@ class EloquentCriteria
      */
     public function __call($name, $arguments)
     {
-        if ($this->hasHook($name)) {
-            return $this->call($name, $arguments);
+        $hook = snake_case($name);
+
+        if ($this->hasHook($hook)) {
+            return $this->call($hook, $arguments);
+        }
+
+        if ($this->query->hasHook($hook)) {
+            return $this->query->call($hook, $arguments);
         }
 
         if ($this->methodExists($name) && $this->methodIsSafe($name)) {

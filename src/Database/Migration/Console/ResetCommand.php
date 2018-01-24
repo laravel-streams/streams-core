@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Console;
 
+use Anomaly\Streams\Platform\Database\Migration\Console\Command\ConfigureMigrator;
+use Anomaly\Streams\Platform\Database\Migration\Migrator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
-use Anomaly\Streams\Platform\Database\Migration\Migrator;
-use Anomaly\Streams\Platform\Database\Migration\Console\Command\ConfigureMigrator;
 
 /**
  * Class ResetCommand
@@ -14,6 +14,7 @@ use Anomaly\Streams\Platform\Database\Migration\Console\Command\ConfigureMigrato
  */
 class ResetCommand extends \Illuminate\Database\Console\Migrations\ResetCommand
 {
+
     use DispatchesJobs;
 
     /**
@@ -28,7 +29,7 @@ class ResetCommand extends \Illuminate\Database\Console\Migrations\ResetCommand
      *
      * @return void
      */
-    public function fire()
+    public function handle()
     {
         $this->dispatch(
             new ConfigureMigrator(
@@ -38,7 +39,7 @@ class ResetCommand extends \Illuminate\Database\Console\Migrations\ResetCommand
             )
         );
 
-        parent::fire();
+        parent::handle();
     }
 
     /**
@@ -52,7 +53,6 @@ class ResetCommand extends \Illuminate\Database\Console\Migrations\ResetCommand
             parent::getOptions(),
             [
                 ['addon', null, InputOption::VALUE_OPTIONAL, 'The addon to reset migrations for.'],
-                ['path', null, InputOption::VALUE_OPTIONAL, 'The path to migrations to reset.'],
             ]
         );
     }

@@ -42,7 +42,16 @@ return [
     |
     */
 
-    'macros' => [],
+    'macros' => [
+        /*'mobile_optimized' => [
+            'resize'  => [640],
+            'quality' => 60,
+        ],
+        'tablet_optimized' => [
+            'resize'  => [900],
+            'quality' => 75,
+        ],*/
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -69,4 +78,15 @@ return [
     */
 
     'version' => env('VERSION_IMAGES', true),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Interlace JPEGs
+    |--------------------------------------------------------------------------
+    |
+    | This will cause image to automatically interlace JPEGs.
+    |
+    */
+
+    'interlace' => env('IMAGE_INTERLACE', true),
 ];

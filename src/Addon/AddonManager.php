@@ -3,14 +3,15 @@
 use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
 use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class AddonManager
  *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
  */
 class AddonManager
 {
@@ -30,11 +31,11 @@ class AddonManager
     protected $addons;
 
     /**
-     * The addon loader.
+     * The service container.
      *
-     * @var AddonLoader
+     * @var Container
      */
-    protected $loader;
+    protected $container;
 
     /**
      * The addon integrator.
@@ -68,8 +69,8 @@ class AddonManager
      * Create a new AddonManager instance.
      *
      * @param AddonPaths      $paths
-     * @param AddonLoader     $loader
      * @param ModuleModel     $modules
+     * @param Container       $container
      * @param Dispatcher      $dispatcher
      * @param ExtensionModel  $extensions
      * @param AddonIntegrator $integrator
@@ -77,8 +78,8 @@ class AddonManager
      */
     public function __construct(
         AddonPaths $paths,
-        AddonLoader $loader,
         ModuleModel $modules,
+        Container $container,
         Dispatcher $dispatcher,
         ExtensionModel $extensions,
         AddonIntegrator $integrator,
@@ -86,8 +87,8 @@ class AddonManager
     ) {
         $this->paths      = $paths;
         $this->addons     = $addons;
-        $this->loader     = $loader;
         $this->modules    = $modules;
+        $this->container  = $container;
         $this->integrator = $integrator;
         $this->dispatcher = $dispatcher;
         $this->extensions = $extensions;
@@ -101,21 +102,24 @@ class AddonManager
         $enabled   = $this->getEnabledAddonNamespaces();
         $installed = $this->getInstalledAddonNamespaces();
 
+        $this->container->bind(
+            'streams::addons.enabled',
+            function () use ($enabled) {
+                return $enabled;
+            }
+        );
+
+        $this->container->bind(
+            'streams::addons.installed',
+            function () use ($installed) {
+                return $installed;
+            }
+        );
+
         $paths = $this->paths->all();
 
         /*
-         * First load all the addons
-         * so they're available.
-         */
-        foreach ($paths as $path) {
-            $this->loader->load($path);
-        }
-
-        $this->loader->register();
-
-        /*
-         * Then register all of the addons now
-         * that they're all PSR autoloaded.
+         * Register all of the addons.
          */
         foreach ($paths as $path) {
 

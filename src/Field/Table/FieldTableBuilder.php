@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field\Table;
 
+use Anomaly\Streams\Platform\Field\Table\Filter\TypeFilterOptions;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,6 +14,13 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class FieldTableBuilder extends TableBuilder
 {
+
+    /**
+     * The locked flag.
+     *
+     * @var bool
+     */
+    protected $locked = false;
 
     /**
      * The related stream instance.
@@ -47,6 +55,11 @@ class FieldTableBuilder extends TableBuilder
                 'slug',
             ],
         ],
+        'type'   => [
+            'filter'      => 'select',
+            'options'     => TypeFilterOptions::class,
+            'placeholder' => 'streams::field.type.name',
+        ],
     ];
 
     /**
@@ -65,8 +78,7 @@ class FieldTableBuilder extends TableBuilder
         ],
         [
             'heading' => 'streams::field.type.name',
-            'wrapper' => '{value}::addon.name',
-            'value'   => 'entry.type',
+            'value'   => 'entry.type.title',
         ],
     ];
 
@@ -106,9 +118,34 @@ class FieldTableBuilder extends TableBuilder
      */
     public function onQuerying(Builder $query)
     {
-        $query
-            ->where('namespace', $this->getStream() ? $this->getStreamNamespace() : $this->getNamespace())
-            ->where('locked', 'false');
+        $query->where('namespace', $this->getStream() ? $this->getStreamNamespace() : $this->getNamespace());
+
+        if (($locked = $this->getLocked()) !== null) {
+            $query->where('locked', $locked);
+        }
+    }
+
+    /**
+     * Get the lock flag.
+     *
+     * @return bool
+     */
+    public function getLocked()
+    {
+        return $this->locked;
+    }
+
+    /**
+     * Set the lock flag.
+     *
+     * @param $locked
+     * @return $this
+     */
+    public function setLocked($locked)
+    {
+        $this->locked = $locked;
+
+        return $this;
     }
 
     /**

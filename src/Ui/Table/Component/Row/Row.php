@@ -23,6 +23,13 @@ class Row implements RowInterface
     protected $key = null;
 
     /**
+     * The row class.
+     *
+     * @var null|string
+     */
+    protected $class = null;
+
+    /**
      * The row entry.
      *
      * @var mixed
@@ -69,6 +76,29 @@ class Row implements RowInterface
     public function setKey($key)
     {
         $this->key = $key;
+
+        return $this;
+    }
+
+    /**
+     * Get the class.
+     *
+     * @return null
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    /**
+     * Set the class.
+     *
+     * @param $class
+     * @return $this
+     */
+    public function setClass($class)
+    {
+        $this->class = $class;
 
         return $this;
     }

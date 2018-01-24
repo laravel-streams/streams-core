@@ -4,8 +4,16 @@ use Anomaly\Streams\Platform\Field\Form\Command\GetConfigFields;
 use Anomaly\Streams\Platform\Field\Form\Validator\SlugValidator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
+/**
+ * Class FieldFormFields
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class FieldFormFields
 {
+
     use DispatchesJobs;
 
     /**
@@ -43,7 +51,7 @@ class FieldFormFields
                     ],
                     'rules'        => [
                         'valid_slug',
-                        'unique:streams_fields,slug,' . $id . ',id,namespace,' . $namespace,
+                        'unique:streams_fields,slug,' . (int)$id . ',id,namespace,' . $namespace,
                     ],
                     'validators'   => [
                         'valid_slug' => [
@@ -73,7 +81,7 @@ class FieldFormFields
             ]
         );
 
-        if (($type = $builder->getFormEntry()->getType()) || ($type = $builder->getFieldType())) {
+        if (($type = $builder->getFieldType()) || ($type = $builder->getFormEntry()->getType())) {
             $this->dispatch(new GetConfigFields($builder, $type));
         }
     }

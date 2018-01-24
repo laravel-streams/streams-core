@@ -23,7 +23,7 @@
 
     {# Render dropdown type buttons. #}
     {% if button.dropdown %}
-        <div class="btn-group">
+        <div class="btn-group {{ button.dropup ? 'dropup' }}">
 
             {% if button.attributes.href %}
                 <a class="btn btn-{{ button.size }} btn-{{ button.type }} {{ button.disabled ? 'disabled' }} {{ button.class }}" {{ button.disabled ? 'disabled' }} {{ html_attributes(button.attributes) }}>
@@ -45,7 +45,7 @@
             {# Render the actual dropdown links #}
             <ul class="dropdown-menu dropdown-menu-{{ button.position }}">
                 {% for link in button.dropdown %}
-                    {% if button.text %}
+                    {% if link.text %}
                         <li>
 
                             {# Render normal buttons as an anchor #}

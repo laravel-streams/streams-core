@@ -34,6 +34,9 @@ class ButtonRegistry
             'type' => 'primary',
             'icon' => 'cog',
         ],
+        'primary'       => [
+            'type' => 'primary',
+        ],
         /*
          * Success Buttons
          */
@@ -174,6 +177,11 @@ class ButtonRegistry
             'type' => 'info',
             'icon' => 'cog',
         ],
+        'preferences'   => [
+            'text' => 'streams::button.preferences',
+            'type' => 'info',
+            'icon' => 'sliders',
+        ],
         'configure'     => [
             'text' => 'streams::button.configure',
             'icon' => 'wrench',
@@ -193,6 +201,11 @@ class ButtonRegistry
             'text' => 'streams::button.edit',
             'icon' => 'pencil',
             'type' => 'warning',
+        ],
+        'change'        => [
+            'text' => 'streams::button.change',
+            'type' => 'warning',
+            'icon' => 'cog',
         ],
         /*
          * Danger Buttons

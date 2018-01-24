@@ -37,7 +37,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
         $this->parser = app(Engine::class);
 
         if (defined('LOCALE')) {
-            $this->forceRootUrl($this->getRootUrl($this->getScheme(null)) . '/' . LOCALE);
+            $this->forceRootUrl($request->root() . '/' . LOCALE);
         }
     }
 
@@ -76,7 +76,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
             return $asset;
         }
 
-        $scheme = $this->getScheme($secure);
+        $scheme = $this->formatScheme($secure);
 
         $extra = $this->formatParameters($extra);
 
@@ -85,7 +85,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
         // Once we have the scheme we will compile the "tail" by collapsing the values
         // into a single string delimited by slashes. This just makes it convenient
         // for passing the array of parameters to this URL as a list of segments.
-        $root = $this->getRootUrl($scheme);
+        $root = $this->formatRoot($scheme);
 
         if (defined('LOCALE') && ends_with($root, $search = '/' . LOCALE)) {
             $root = substr_replace($root, '', strrpos($root, $search), strlen($search));
@@ -98,7 +98,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
             $query = '';
         }
 
-        return $this->trimUrl($root, $asset, $tail) . $query;
+        return $this->format($root, '/' . trim($asset . '/' . $tail, '/')) . $query;
     }
 
     /**
@@ -118,20 +118,18 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
         if ($entry instanceof EloquentModel) {
             $entry = $entry->toRoutableArray();
         }
-
         if ($entry instanceof Presenter) {
             $entry = $entry->getObject();
         }
-
         if ($entry instanceof Arrayable) {
             $entry = $entry->toArray();
         }
 
         return $this->to(
-            $this->addQueryString(
-                $this->parser->render(str_replace('?}', '}', $route->uri()), $entry),
-                $parameters
-            )
+            $this->parser->render(
+                str_replace('?}', '}', $route->uri()),
+                $entry
+            ) . ($parameters ? '?' . http_build_query($parameters) : null)
         );
     }
 

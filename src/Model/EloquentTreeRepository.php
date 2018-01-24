@@ -101,10 +101,8 @@ class EloquentTreeRepository implements TreeRepositoryInterface
 
             /* @var EloquentModel $entry */
             $entry = $model->find($item['id']);
-
             $entry->{$builder->getTreeOption('sort_column', 'sort_order')}  = $index + 1;
             $entry->{$builder->getTreeOption('parent_column', 'parent_id')} = $parent;
-
             $entry->save();
 
             if (isset($item['children'])) {

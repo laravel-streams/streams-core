@@ -38,8 +38,7 @@ class AssignmentTableBuilder extends TableBuilder
         ],
         [
             'heading' => 'streams::field.type.name',
-            'wrapper' => '{value}::addon.title',
-            'value'   => 'entry.field.type',
+            'value'   => 'entry.field_type.title',
         ],
         [
             'value' => 'entry.labels',
@@ -53,7 +52,7 @@ class AssignmentTableBuilder extends TableBuilder
      */
     protected $buttons = [
         'edit' => [
-            'href' => '{request.path}/edit/{entry.id}',
+            'href' => '/{request.path}/edit/{entry.id}',
         ],
     ];
 

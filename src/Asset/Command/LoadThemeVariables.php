@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Asset\Event\ThemeVariablesHaveLoaded;
 use Anomaly\Streams\Platform\Support\Collection;
-use Illuminate\Config\Repository;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
 use Websemantics\Lcss2php\Lcss2php;
 
@@ -59,6 +59,13 @@ class LoadThemeVariables
         }
 
         /**
+         * Get all configured variables first.
+         * These are law because they're often
+         * tied to addon integration of some kind.
+         */
+        $configured = $config->get($theme->getNamespace('variables'), []);
+
+        /**
          * Look for a list of variables files theme configuration:
          *
          * 'variables' => env('THEME_VARIABLES', ['resources/less/theme/variables.less']),
@@ -74,12 +81,7 @@ class LoadThemeVariables
 
         $variables = (new Lcss2php($files))->ignore([\Leafo\ScssPhp\Type::T_MAP, \Leafo\ScssPhp\Type::T_MIXIN]);
 
-        foreach ($variables->all() as $key => $value) {
-            $this->variables->put($key, $value);
-        }
-        
-        // @deprecated in 1.1 will remove in 1.2
-        foreach ($config->get($theme->getNamespace('variables'), []) as $key => $value) {
+        foreach (array_merge($variables->all(), $configured) as $key => $value) {
             $this->variables->put($key, $value);
         }
 

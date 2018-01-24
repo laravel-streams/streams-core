@@ -44,6 +44,18 @@ class EloquentRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * Find a record by it's column value.
+     *
+     * @param $column
+     * @param $value
+     * @return EloquentModel|null
+     */
+    public function findBy($column, $value)
+    {
+        return $this->model->where($column, $value)->first();
+    }
+
+    /**
      * Find all records by IDs.
      *
      * @param  array $ids
@@ -228,25 +240,29 @@ class EloquentRepository implements EloquentRepositoryInterface
      */
     public function truncate()
     {
-        $this->model->flushCache();
+        $this->truncateModel($this->model);
 
-        foreach ($this->model->all() as $entry) {
-            $this->delete($entry);
-        }
-
-        $this->model->truncate(); // Clear trash
-
-        if ($this->model->isTranslatable() && $translation = $this->model->getTranslationModel()) {
-            $translation->flushCache();
-
-            foreach ($translation->all() as $entry) {
-                $this->delete($entry);
-            }
-
-            $translation->truncate(); // Clear trash
+        if ($this->model->isTranslatable()) {
+            $this->truncateModel($this->model->getTranslationModel());
         }
 
         return $this;
+    }
+
+    /**
+     * Truncate a given model
+     *
+     * @param EloquentModel $model The model
+     */
+    protected function truncateModel(EloquentModel $model)
+    {
+        $model->flushCache();
+
+        foreach ($model->all() as $entry) {
+            $this->delete($entry);
+        }
+
+        $model->truncate(); // Clear trash
     }
 
     /**
@@ -261,6 +277,18 @@ class EloquentRepository implements EloquentRepositoryInterface
     public function cache($key, $ttl, $value)
     {
         return $this->model->cache($key, $ttl, $value);
+    }
+
+    /**
+     * Flush the cache.
+     *
+     * @return $this
+     */
+    public function flushCache()
+    {
+        $this->model->flushCache();
+
+        return $this;
     }
 
     /**

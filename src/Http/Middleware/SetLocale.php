@@ -1,8 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Http\Middleware;
 
+use Anomaly\Streams\Platform\Application\Application as App;
+use Anomaly\Streams\Platform\Support\Locale;
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\Config\Repository;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -18,11 +20,25 @@ class SetLocale
 {
 
     /**
+     * The streams application.
+     *
+     * @var App
+     */
+    protected $app;
+
+    /**
      * The config config.
      *
      * @var Repository
      */
     protected $config;
+
+    /**
+     * The locale helper.
+     *
+     * @var Locale
+     */
+    protected $locale;
 
     /**
      * The redirect utility.
@@ -41,13 +57,22 @@ class SetLocale
     /**
      * Create a new SetLocale instance.
      *
-     * @param Repository  $config
-     * @param Redirector  $redirect
+     * @param App $app
+     * @param Locale $locale
+     * @param Repository $config
+     * @param Redirector $redirect
      * @param Application $application
      */
-    public function __construct(Repository $config, Redirector $redirect, Application $application)
-    {
+    public function __construct(
+        App $app,
+        Locale $locale,
+        Repository $config,
+        Redirector $redirect,
+        Application $application
+    ) {
+        $this->app         = $app;
         $this->config      = $config;
+        $this->locale      = $locale;
         $this->redirect    = $redirect;
         $this->application = $application;
     }
@@ -55,7 +80,7 @@ class SetLocale
     /**
      * Look for locale=LOCALE in the query string.
      *
-     * @param  Request  $request
+     * @param  Request $request
      * @param  \Closure $next
      * @return mixed
      */
@@ -72,17 +97,29 @@ class SetLocale
                 $request->session()->remove('_locale');
             }
 
-            return $this->redirect->to($request->path());
+            return $this->redirect->back();
         }
 
         if ($locale = $request->session()->get('_locale')) {
+
             $this->application->setLocale($locale);
+
+            Carbon::setLocale($locale);
+
+            setlocale(LC_TIME, $this->locale->full($locale));
 
             $this->config->set('_locale', $locale);
         }
 
         if (!$locale) {
-            $this->application->setLocale($this->config->get('streams::locales.default'));
+
+            $locale = $this->app->getLocale() ?: $this->config->get('streams::locales.default');
+
+            $this->application->setLocale($locale);
+
+            Carbon::setLocale($locale);
+
+            setlocale(LC_TIME, $this->locale->full($locale));
         }
 
         return $next($request);

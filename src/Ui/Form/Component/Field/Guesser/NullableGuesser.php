@@ -23,29 +23,31 @@ class NullableGuesser
 
         foreach ($fields as &$field) {
 
-            // Skip if nullable
-            if (isset($field['rules']) && in_array('nullable', $field['rules'])) {
+            $rules = array_get($field, 'rules', []);
+
+            if (is_string($rules)) {
+                $rules = explode('|', $rules);
+            }
+
+            // Skip if already nullable.
+            if (in_array('nullable', $rules)) {
                 continue;
             }
 
             /**
              * If the field depends on other fields we
              * won't add nullable here because validation
-             * will not be performed on this field.
+             * will not be performed on this particular field.
              */
-            if (!empty($field['rules'])) {
-                if (preg_grep("/required_.*/", $field['rules'])) {
-                    continue;
-                }
+            if ($rules && preg_grep('/required_.*/', $rules)) {
+                continue;
             }
 
-            // If not required then nullable.
-            if (isset($field['required']) && $field['required'] == false) {
-                $field['rules'][] = 'nullable';
-            }
-
-            // If not specified then it's nullable
-            if (!isset($field['required'])) {
+            /**
+             * If specifically not
+             * required then nullable.
+             */
+            if (array_get($field, 'required', false) == false) {
                 $field['rules'][] = 'nullable';
             }
         }

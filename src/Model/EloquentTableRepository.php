@@ -6,6 +6,13 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
 
+/**
+ * Class EloquentTableRepository
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class EloquentTableRepository implements TableRepositoryInterface
 {
 
@@ -66,8 +73,14 @@ class EloquentTableRepository implements TableRepositoryInterface
          * Before we actually adjust the baseline query
          * set the total amount of entries possible back
          * on the table so it can be used later.
+         *
+         * We unset the orders on the query
+         * because of pgsql grouping issues.
          */
-        $total = $query->count();
+        $count                     = clone($query);
+        $count->getQuery()->orders = null;
+
+        $total = $count->count();
 
         $builder->setTableOption('total_results', $total);
 
@@ -76,7 +89,10 @@ class EloquentTableRepository implements TableRepositoryInterface
          * not exist then start walking backwards until
          * we find a page that is has something to show us.
          */
-        $limit  = (int)$builder->getTableOption('limit', config('streams::system.per_page', 15));
+        $limit  = (int)app('request')->get(
+            $builder->getTableOption('prefix') . 'limit',
+            $builder->getTableOption('limit', config('streams::system.per_page', 15))
+        );
         $page   = (int)app('request')->get($builder->getTableOption('prefix') . 'page', 1);
         $offset = $limit * (($page ?: 1) - 1);
 
@@ -89,12 +105,6 @@ class EloquentTableRepository implements TableRepositoryInterface
 
             header('Location: ' . $url);
         }
-
-        /*
-         * Limit the results to the limit and offset
-         * based on the page if any.
-         */
-        $offset = $limit * (app('request')->get($builder->getTableOption('prefix') . 'page', 1) - 1);
 
         $query = $query->take($limit)->offset($offset);
 

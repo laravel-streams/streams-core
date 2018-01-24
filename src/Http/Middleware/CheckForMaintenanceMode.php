@@ -1,11 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Http\Middleware;
 
+use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\UsersModule\User\Contract\UserInterface;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Config\Repository;
-use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Foundation\Application as Laravel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -22,7 +23,7 @@ class CheckForMaintenanceMode
     /**
      * The application instance.
      *
-     * @var Application
+     * @var Laravel
      */
     protected $app;
 
@@ -48,19 +49,33 @@ class CheckForMaintenanceMode
     protected $authorizer;
 
     /**
+     * The application instance.
+     *
+     * @var Application
+     */
+    protected $application;
+
+    /**
      * Create a new CheckForMaintenanceMode instance.
      *
-     * @param Application $app
+     * @param Laravel     $app
      * @param Guard       $guard
      * @param Repository  $config
      * @param Authorizer  $authorizer
+     * @param Application $application
      */
-    public function __construct(Application $app, Guard $guard, Repository $config, Authorizer $authorizer)
-    {
-        $this->app        = $app;
-        $this->guard      = $guard;
-        $this->config     = $config;
-        $this->authorizer = $authorizer;
+    public function __construct(
+        Laravel $app,
+        Guard $guard,
+        Repository $config,
+        Authorizer $authorizer,
+        Application $application
+    ) {
+        $this->app         = $app;
+        $this->guard       = $guard;
+        $this->config      = $config;
+        $this->authorizer  = $authorizer;
+        $this->application = $application;
     }
 
     /**
@@ -72,11 +87,15 @@ class CheckForMaintenanceMode
      */
     public function handle(Request $request, Closure $next)
     {
+        if (!$this->application->isEnabled()) {
+            abort(503);
+        }
+
         if (!$this->app->isDownForMaintenance()) {
             return $next($request);
         }
 
-        if ($request->segment(1) == 'admin') {
+        if ($request->segment(1) == 'admin' || str_is('form/handle/*', $request->path())) {
             return $next($request);
         }
 

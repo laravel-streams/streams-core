@@ -31,6 +31,15 @@ interface EloquentRepositoryInterface
     public function find($id);
 
     /**
+     * Find a record by it's column value.
+     *
+     * @param $column
+     * @param $value
+     * @return EloquentModel|null
+     */
+    public function findBy($column, $value);
+
+    /**
      * Find all records by IDs.
      *
      * @param  array $ids
@@ -141,6 +150,13 @@ interface EloquentRepositoryInterface
      * @return mixed
      */
     public function cache($key, $ttl, $value);
+
+    /**
+     * Flush the cache.
+     *
+     * @return $this
+     */
+    public function flushCache();
 
     /**
      * Guard the model.

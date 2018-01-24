@@ -13,6 +13,13 @@ class FilterInput
 {
 
     /**
+     * The filter lookup.
+     *
+     * @var FilterLookup
+     */
+    protected $lookup;
+
+    /**
      * The filter guesser.
      *
      * @var FilterGuesser
@@ -36,12 +43,18 @@ class FilterInput
     /**
      * Create a new FilterInput instance.
      *
+     * @param FilterLookup     $lookup
      * @param FilterGuesser    $guesser
      * @param FilterResolver   $resolver
      * @param FilterNormalizer $normalizer
      */
-    public function __construct(FilterGuesser $guesser, FilterResolver $resolver, FilterNormalizer $normalizer)
-    {
+    public function __construct(
+        FilterLookup $lookup,
+        FilterGuesser $guesser,
+        FilterResolver $resolver,
+        FilterNormalizer $normalizer
+    ) {
+        $this->lookup     = $lookup;
         $this->guesser    = $guesser;
         $this->resolver   = $resolver;
         $this->normalizer = $normalizer;
@@ -51,12 +64,12 @@ class FilterInput
      * Read the builder's filter input.
      *
      * @param  TableBuilder $builder
-     * @return array
      */
     public function read(TableBuilder $builder)
     {
         $this->resolver->resolve($builder);
         $this->normalizer->normalize($builder);
+        $this->lookup->merge($builder);
         $this->guesser->guess($builder);
     }
 }

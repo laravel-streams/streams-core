@@ -1,8 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
 use Anomaly\Streams\Platform\Application\Application;
-use Illuminate\Contracts\Filesystem\Filesystem;
 
+/**
+ * Class LoadEnvironmentOverrides
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class LoadEnvironmentOverrides
 {
 
@@ -17,7 +23,7 @@ class LoadEnvironmentOverrides
             return;
         }
 
-        foreach (file($file, FILE_IGNORE_NEW_LINES) as $line) {
+        foreach (file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
 
             // Check for # comments.
             if (!starts_with($line, '#')) {

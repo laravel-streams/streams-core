@@ -1,3 +1,4 @@
+{% htmlcompress %}
 <!doctype html>
 
 <!--[if lt IE 7]>
@@ -12,9 +13,7 @@
 <html>
 
 <head>
-    {% block metadata deferred %}
     {% include "theme::partials/metadata" %}
-    {% endblock %}
 </head>
 
 <body>
@@ -32,10 +31,8 @@
 </main>
 
 {% include "theme::partials/footer" %}
-
-{% block js deferred %}
-{% include "theme::partials/js" %}
-{% endblock %}
+{% include "theme::partials/assets" %}
 
 </body>
 </html>
+{% endhtmlcompress %}

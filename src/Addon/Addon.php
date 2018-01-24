@@ -1,16 +1,31 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Addon\AddonPresenter;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Robbo\Presenter\PresentableInterface;
 use Robbo\Presenter\Presenter;
 
+/**
+ * Class Addon
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class Addon implements PresentableInterface, Arrayable
 {
+
     use FiresCallbacks;
     use DispatchesJobs;
+
+    /**
+     * Runtime cache.
+     *
+     * @var array
+     */
+    protected $cache = [];
 
     /**
      * The addon path.
@@ -54,7 +69,7 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function getPresenter()
     {
-        return app()->make('Anomaly\Streams\Platform\Addon\AddonPresenter', ['object' => $this]);
+        return app()->make(AddonPresenter::class, ['object' => $this]);
     }
 
     /**
@@ -64,7 +79,13 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function newServiceProvider()
     {
-        return app()->make($this->getServiceProvider(), [app(), $this]);
+        return app()->make(
+            $this->getServiceProvider(),
+            [
+                'container' => app(),
+                'addon'     => $this,
+            ]
+        );
     }
 
     /**
@@ -140,7 +161,7 @@ class Addon implements PresentableInterface, Arrayable
     /**
      * Get a namespaced key string.
      *
-     * @param  null   $key
+     * @param  null $key
      * @return string
      */
     public function getNamespace($key = null)
@@ -156,7 +177,7 @@ class Addon implements PresentableInterface, Arrayable
      * Get the transformed
      * class to another suffix.
      *
-     * @param  null   $suffix
+     * @param  null $suffix
      * @return string
      */
     public function getTransformedClass($suffix = null)
@@ -180,7 +201,7 @@ class Addon implements PresentableInterface, Arrayable
      * Return whether an addon has
      * config matching the key.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return boolean
      */
     public function hasConfig($key = '*')
@@ -223,6 +244,41 @@ class Addon implements PresentableInterface, Arrayable
     }
 
     /**
+     * Get the composer json contents.
+     *
+     * @return mixed|null
+     */
+    public function getComposerLock()
+    {
+        $json = base_path('composer.lock');
+
+        if (!file_exists($json)) {
+            return null;
+        }
+
+        $json = json_decode(file_get_contents($json));
+
+        return array_first(
+            $json->packages,
+            function (\stdClass $package) {
+                return $package->name == $this->getPackageName();
+            }
+        );
+    }
+
+    /**
+     * Return the package name.
+     *
+     * @return string
+     */
+    public function getPackageName()
+    {
+        return $this->getVendor() . '/' . $this->getSlug() . '-' . $this->getType();
+    }
+
+    /**
+     * Sets the path.
+     *
      * @param $path
      * @return $this
      */

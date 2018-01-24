@@ -26,7 +26,7 @@ class Destroy extends Command
      *
      * @param StreamRepositoryInterface $streams
      */
-    public function fire(StreamRepositoryInterface $streams)
+    public function handle(StreamRepositoryInterface $streams)
     {
         $streams->destroy($this->argument('namespace'));
 

@@ -35,7 +35,7 @@ class SetDefaultOptions
      * Handle the command.
      *
      * @param ModuleCollection $modules
-     * @param Request          $request
+     * @param Request $request
      */
     public function handle(ModuleCollection $modules, Request $request)
     {
@@ -73,6 +73,18 @@ class SetDefaultOptions
          */
         if ($orderBy = $this->builder->getRequestValue('order_by')) {
             $table->setOption('order_by', [$orderBy => $this->builder->getRequestValue('sort', 'asc')]);
+        }
+
+        /*
+         * If the table limit is currently being overridden
+         * then set the values from the request on the builder
+         * last so it actually has an effect. Otherwise default.
+         */
+        if ($table->getOption('limit') === null) {
+            $table->setOption(
+                'limit',
+                $this->builder->getRequestValue('limit', config('streams::system.per_page', 15))
+            );
         }
 
         /*

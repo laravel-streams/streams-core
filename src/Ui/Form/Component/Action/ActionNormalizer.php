@@ -85,6 +85,13 @@ class ActionNormalizer
             $action['action'] = $slug;
         }
 
+        /**
+         * Default to size "sm"
+         */
+        if (!isset($action['size'])) {
+            $action['size'] = 'sm';
+        }
+
         /*
          * Make sure the attributes array is set.
          */
@@ -119,13 +126,9 @@ class ActionNormalizer
             $action['redirect'] = url($action['redirect']);
         }
 
-        /*
-         * Set defaults as expected for actions.
-         */
-        $action['size'] = 'sm';
-
         $action['attributes']['name']  = $prefix . 'action';
         $action['attributes']['value'] = $action['slug'];
+        $action['attributes']['type']  = 'submit';
 
         if (isset($action['dropdown'])) {
             foreach ($action['dropdown'] as $key => &$dropdown) {

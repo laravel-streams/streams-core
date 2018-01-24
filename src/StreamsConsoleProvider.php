@@ -1,7 +1,17 @@
 <?php namespace Anomaly\Streams\Platform;
 
+use Anomaly\Streams\Platform\Artisan\ArtisanServiceProvider;
+use Anomaly\Streams\Platform\Database\Migration\MigrationServiceProvider;
+use Illuminate\Foundation\Providers\ComposerServiceProvider;
 use Illuminate\Foundation\Providers\ConsoleSupportServiceProvider;
 
+/**
+ * Class StreamsConsoleProvider
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class StreamsConsoleProvider extends ConsoleSupportServiceProvider
 {
 
@@ -11,12 +21,8 @@ class StreamsConsoleProvider extends ConsoleSupportServiceProvider
      * @var array
      */
     protected $providers = [
-        'Illuminate\Database\SeedServiceProvider',
-        'Illuminate\Queue\ConsoleServiceProvider',
-        'Illuminate\Console\ScheduleServiceProvider',
-        'Illuminate\Database\MigrationServiceProvider',
-        'Illuminate\Foundation\Providers\ArtisanServiceProvider',
-        'Illuminate\Foundation\Providers\ComposerServiceProvider',
-        'Anomaly\Streams\Platform\Database\DatabaseServiceProvider',
+        ArtisanServiceProvider::class,
+        MigrationServiceProvider::class,
+        ComposerServiceProvider::class,
     ];
 }

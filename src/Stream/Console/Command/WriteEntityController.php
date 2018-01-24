@@ -19,22 +19,28 @@ class WriteEntityController
      *
      * @var string
      */
-    private $slug;
+    protected $slug;
 
     /**
      * The addon instance.
      *
      * @var Addon
      */
-    private $addon;
+    protected $addon;
 
     /**
      * The entity stream namespace.
      *
      * @var string
      */
-    private $namespace;
+    protected $namespace;
 
+    /**
+     * Determines if tree builder use
+     *
+     * @var boolean
+     */
+    protected $nested;
 
     /**
      * Create a new WriteEntityController instance.
@@ -43,10 +49,11 @@ class WriteEntityController
      * @param       $slug
      * @param       $namespace
      */
-    public function __construct(Addon $addon, $slug, $namespace)
+    public function __construct(Addon $addon, $slug, $namespace, $nested = false)
     {
         $this->slug      = $slug;
         $this->addon     = $addon;
+        $this->nested    = $nested;
         $this->namespace = $namespace;
     }
 
@@ -61,24 +68,37 @@ class WriteEntityController
         $suffix = ucfirst(camel_case($this->slug));
         $entity = str_singular($suffix);
 
-        $class        = "{$suffix}Controller";
-        $form         = "{$entity}FormBuilder";
-        $table        = "{$entity}TableBuilder";
-        $namespace    = $this->addon->getTransformedClass("Http\\Controller\\Admin");
-        $formBuilder  = $this->addon->getTransformedClass("{$entity}\\Form\\{$entity}FormBuilder");
-        $tableBuilder = $this->addon->getTransformedClass("{$entity}\\Table\\{$entity}TableBuilder");
+        $class       = "{$suffix}Controller";
+        $form        = "{$entity}FormBuilder";
+        $namespace   = $this->addon->getTransformedClass('Http\\Controller\\Admin');
+        $formBuilder = $this->addon->getTransformedClass("{$entity}\\Form\\{$entity}FormBuilder");
+
+        $view = $this->nested
+            ? 'tree'
+            : 'table';
+
+        $table = $this->nested
+            ? "{$entity}TreeBuilder"
+            : "{$entity}TableBuilder";
+
+        $tableBuilder = $this->nested
+            ? $this->addon->getTransformedClass("{$entity}\\Tree\\{$entity}TreeBuilder")
+            : $this->addon->getTransformedClass("{$entity}\\Table\\{$entity}TableBuilder");
 
         $path = $this->addon->getPath("src/Http/Controller/Admin/{$suffix}Controller.php");
 
         $template = $filesystem->get(
-            base_path("vendor/anomaly/streams-platform/resources/stubs/entity/http/controller/admin.stub")
+            base_path('vendor/anomaly/streams-platform/resources/stubs/entity/http/controller/admin.stub')
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);
 
         $filesystem->put(
             $path,
-            $parser->parse($template, compact('class', 'namespace', 'formBuilder', 'tableBuilder', 'form', 'table'))
+            $parser->parse(
+                $template,
+                compact('class', 'namespace', 'formBuilder', 'tableBuilder', 'form', 'table', 'view')
+            )
         );
     }
 }

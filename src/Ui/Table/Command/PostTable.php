@@ -47,7 +47,7 @@ class PostTable
         if ($this->builder instanceof MultipleTableBuilder) {
             return;
         }
-
+        
         $this->dispatch(new ExecuteAction($this->builder));
 
         if (!$this->builder->getTableResponse()) {

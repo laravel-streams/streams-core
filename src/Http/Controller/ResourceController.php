@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Http\Controller;
 
+use Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken;
+
 /**
  * Class ResourceController
  *
@@ -21,7 +23,7 @@ class ResourceController extends PublicController
         $this->middleware = array_filter(
             $this->middleware,
             function ($item) {
-                return $item['middleware'] != 'Illuminate\Foundation\Http\Middleware\VerifyCsrfToken';
+                return $item['middleware'] != VerifyCsrfToken::class;
             }
         );
     }

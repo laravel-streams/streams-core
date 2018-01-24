@@ -47,9 +47,13 @@ class FieldPopulator
          * url.intended that is set by Laravel
          * for redirecting kicked login attempts.
          *
+         * URL intended becomes an empty url array.
+         *
          * Since we're here - we don't need it anyways.
          */
-        $this->session->pull('url.intended');
+        if (!$this->session->get('url')) {
+            $this->session->pull('url');
+        }
 
         foreach ($fields as &$field) {
 
@@ -58,8 +62,11 @@ class FieldPopulator
              * then get the value off the entry.
              */
             if (!isset($field['value']) && $entry instanceof EloquentModel && $entry->getId()) {
-                if ($locale = array_get($field, 'locale')) {
-                    $field['value'] = $entry->translateOrDefault($locale)->{$field['field']};
+
+                $locale = array_get($field, 'locale');
+
+                if ($locale && $translation = $entry->translate($locale)) {
+                    $field['value'] = $translation->getAttribute($field['field']);
                 } else {
                     $field['value'] = $entry->{$field['field']};
                 }

@@ -55,6 +55,14 @@ class EloquentFormRepository implements FormRepositoryInterface
 
         $entry->unguard();
 
+        $builder->fire('querying', compact('builder'));
+
+        /**
+         * Update OR create the entry.
+         * Keep this as is or we will
+         * have issues with post relations
+         * in following observer logic.
+         */
         if ($entry->getId()) {
             $entry->update($data);
         } else {
@@ -91,7 +99,7 @@ class EloquentFormRepository implements FormRepositoryInterface
         $data = array_diff_key(
             $entry->getUnguardedAttributes(),
             array_merge(
-                ['id', 'created_at', 'created_by', 'updated_at', 'updated_by'],
+                ['id', 'created_at', 'created_by_id', 'updated_at', 'updated_by_id'],
                 array_flip($disabled->fieldSlugs())
             )
         );

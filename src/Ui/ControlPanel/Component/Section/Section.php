@@ -34,6 +34,13 @@ class Section implements SectionInterface
     protected $title = null;
 
     /**
+     * The section label.
+     *
+     * @var null|string
+     */
+    protected $label = null;
+
+    /**
      * The class.
      *
      * @var null|string
@@ -76,6 +83,13 @@ class Section implements SectionInterface
     protected $highlighted = false;
 
     /**
+     * The section context.
+     *
+     * @var string
+     */
+    protected $context = 'danger';
+
+    /**
      * The section parent.
      *
      * @var null|string
@@ -110,6 +124,13 @@ class Section implements SectionInterface
      * @var null|string
      */
     protected $breadcrumb = null;
+
+    /**
+     * If the section will be hidden from the Control Panel.
+     *
+     * @var bool
+     */
+    protected $hidden = false;
 
     /**
      * Get the slug.
@@ -175,6 +196,29 @@ class Section implements SectionInterface
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+    /**
+     * Get the label.
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    /**
+     * Set the label.
+     *
+     * @param  string $label
+     * @return $this
+     */
+    public function setLabel($label)
+    {
+        $this->label = $label;
+
+        return $this;
     }
 
     /**
@@ -315,6 +359,29 @@ class Section implements SectionInterface
     }
 
     /**
+     * Get the context.
+     *
+     * @return boolean
+     */
+    public function getContext()
+    {
+        return $this->context;
+    }
+
+    /**
+     * Set the context flag.
+     *
+     * @param  boolean $active
+     * @return $this
+     */
+    public function setContext($context)
+    {
+        $this->context = $context;
+
+        return $this;
+    }
+
+    /**
      * Get the parent.
      *
      * @return null|string
@@ -435,9 +502,32 @@ class Section implements SectionInterface
     }
 
     /**
+     * Get the hidden flag.
+     *
+     * @return bool
+     */
+    public function isHidden()
+    {
+        return $this->hidden;
+    }
+
+    /**
+     * Set the hidden flag.
+     *
+     * @param $hidden
+     * @return $this
+     */
+    public function setHidden($hidden)
+    {
+        $this->hidden = $hidden;
+
+        return $this;
+    }
+
+    /**
      * Get the HREF attribute.
      *
-     * @param  null   $path
+     * @param  null $path
      * @return string
      */
     public function getHref($path = null)

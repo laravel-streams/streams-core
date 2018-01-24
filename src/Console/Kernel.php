@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Console;
 
-use Illuminate\Contracts\Events\Dispatcher;
-
 /**
  * Class Kernel
  *
@@ -20,8 +18,11 @@ class Kernel extends \Illuminate\Foundation\Console\Kernel
     protected function getArtisan()
     {
         if (is_null($this->artisan)) {
-            return $this->artisan = (new Application($this->app, $this->events, $this->app->version()))
-                ->resolveCommands($this->commands);
+            return $this->artisan = (new Application(
+                $this->app,
+                $this->events,
+                $this->app->version()
+            ))->resolveCommands($this->commands);
         }
 
         return $this->artisan;

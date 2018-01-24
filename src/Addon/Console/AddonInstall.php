@@ -43,7 +43,7 @@ class AddonInstall extends Command
      * @param ModuleManager    $modules
      * @param ExtensionManager $extensions
      */
-    public function fire(AddonCollection $addons, ModuleManager $modules, ExtensionManager $extensions)
+    public function handle(AddonCollection $addons, ModuleManager $modules, ExtensionManager $extensions)
     {
         if (!$addon = $addons->get($this->argument('addon'))) {
             $this->error('The [' . $this->argument('addon') . '] could not be found.');

@@ -48,7 +48,7 @@ class AssignmentPresenter extends EloquentPresenter
     protected function requiredLabel($size = 'sm')
     {
         if ($this->object->isRequired()) {
-            return '<span class="label label-danger label-' . $size . '">' . trans(
+            return '<span class="tag tag-danger tag-' . $size . '">' . trans(
                 'streams::assignment.required.name'
             ) . '</span>';
         }
@@ -65,7 +65,7 @@ class AssignmentPresenter extends EloquentPresenter
     protected function uniqueLabel($size = 'sm')
     {
         if ($this->object->isUnique()) {
-            return '<span class="label label-primary label-' . $size . '">' . trans(
+            return '<span class="tag tag-primary tag-' . $size . '">' . trans(
                 'streams::assignment.unique.name'
             ) . '</span>';
         }
@@ -82,7 +82,7 @@ class AssignmentPresenter extends EloquentPresenter
     protected function translatableLabel($size = 'sm')
     {
         if ($this->object->isTranslatable()) {
-            return '<span class="label label-info label-' . $size . '">' . trans(
+            return '<span class="tag tag-info tag-' . $size . '">' . trans(
                 'streams::assignment.translatable.name'
             ) . '</span>';
         }

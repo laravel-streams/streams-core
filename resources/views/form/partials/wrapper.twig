@@ -8,7 +8,7 @@
             {{ field_type.hidden ? 'hidden' }}
             ">
 
-    {% if field_type.config.disable_label != true %}
+    {% if field_type.object.label != false and field_type.config.disable_label != true %}
         <label class="control-label">
             {{ field_type.object.label|raw }}
 
@@ -17,9 +17,7 @@
             {% endif %}
 
             {% if field_type.locale %}
-                <span class="label label-default">
-                    {{ trans('streams::locale.' ~ field_type.locale ~ '.name') }}
-                </span>
+                {% include "streams::form/partials/translations" %}
             {% endif %}
         </label>
     {% endif %}

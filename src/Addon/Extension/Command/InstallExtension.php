@@ -65,7 +65,7 @@ class InstallExtension
             '--force' => true,
         ];
 
-        $console->call('migrate:refresh', $options);
+        $console->call('migrate', $options);
 
         $extensions->install($this->extension);
 

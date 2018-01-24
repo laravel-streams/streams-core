@@ -1,0 +1,24 @@
+{#
+    Main CSS can be found in metadata.twig
+#}
+
+{# Core Theme Components #}
+{{ asset_add("theme.js", "theme::js/vendor/jquery.min.js") }}
+{{ asset_add("theme.js", "theme::js/vendor/bootstrap.min.js") }}
+{{ asset_add("theme.js", "theme::js/vendor/vue.min.js") }}
+
+{# Theme Scripts #}
+{#{{ asset_add("theme.js", "theme::js/plugins/*") }}#}
+{{ asset_add("theme.js", "theme::js/theme/initialize.js") }}
+
+{{ html_script(asset_path("theme.js", ["min"])) }}
+
+{# Include Scripts Loaded From Outside #}
+{% for script in asset_scripts("scripts.js") %}
+    {{ script|raw }}
+{% endfor %}
+
+{# Include Styles Loaded From Outside #}
+{% for style in asset_styles("styles.css") %}
+    {{ style|raw }}
+{% endfor %}

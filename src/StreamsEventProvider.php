@@ -1,8 +1,14 @@
 <?php namespace Anomaly\Streams\Platform;
 
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 
+/**
+ * Class StreamsEventProvider
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class StreamsEventProvider extends EventServiceProvider
 {
 
@@ -14,7 +20,6 @@ class StreamsEventProvider extends EventServiceProvider
     protected $listen = [
         'Anomaly\Streams\Platform\Application\Event\ApplicationHasLoaded' => [
             'Anomaly\Streams\Platform\Addon\Module\Listener\DetectActiveModule',
-            'Anomaly\Streams\Platform\Application\Listener\CheckIfInstallerExists',
             'Anomaly\Streams\Platform\Ui\ControlPanel\Listener\LoadControlPanel',
             'Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\GuessBreadcrumbs',
             'Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\LoadBreadcrumbs',

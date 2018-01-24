@@ -12,13 +12,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Translation\Translator;
 use Twig_ExtensionInterface;
 
-/**
- * Class AddonIntegrator
- *
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
- */
 class AddonIntegrator
 {
 
@@ -190,7 +183,7 @@ class AddonIntegrator
             ]
         );
         $this->translator->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));
-
+        
         /*
          * If the addon is a plugin then
          * load it into Twig when appropriate.

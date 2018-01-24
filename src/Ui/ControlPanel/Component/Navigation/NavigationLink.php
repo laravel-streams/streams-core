@@ -1,6 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
+use Anomaly\Streams\Platform\Asset\Asset;
+use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
+use Anomaly\Streams\Platform\Ui\Icon\Command\GetIcon;
+use Anomaly\Streams\Platform\Ui\Icon\IconRegistry;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class NavigationLink
@@ -12,12 +17,21 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\Navig
 class NavigationLink implements NavigationLinkInterface
 {
 
+    use DispatchesJobs;
+
     /**
      * The links slug.
      *
      * @var null|string
      */
     protected $slug = null;
+
+    /**
+     * The link icon.
+     *
+     * @var null|string
+     */
+    protected $icon = null;
 
     /**
      * The links title.
@@ -69,6 +83,40 @@ class NavigationLink implements NavigationLinkInterface
     protected $breadcrumb = null;
 
     /**
+     * @var Image
+     */
+    protected $image;
+
+    /**
+     * @var Asset
+     */
+    protected $asset;
+
+    /**
+     * Create a new NavigationLink instance.
+     *
+     * @param Image        $image
+     * @param Asset        $asset
+     * @param IconRegistry $icons
+     */
+    public function __construct(Image $image, Asset $asset)
+    {
+        $this->image = $image;
+        $this->asset = $asset;
+    }
+
+    public function icon($default = 'fa fa-puzzle-piece')
+    {
+        $icon = $this->getIcon() ?: $default;
+
+        if (ends_with($icon, '.svg')) {
+            return $this->image->make($icon)->data();
+        }
+
+        return $this->dispatch(new GetIcon($icon));
+    }
+
+    /**
      * Get the slug.
      *
      * @return null|string
@@ -87,6 +135,29 @@ class NavigationLink implements NavigationLinkInterface
     public function setSlug($slug)
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get the icon.
+     *
+     * @return null|string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * Set the icon.
+     *
+     * @param $icon
+     * @return $this
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
 
         return $this;
     }
@@ -247,7 +318,7 @@ class NavigationLink implements NavigationLinkInterface
     /**
      * Get the HREF attribute.
      *
-     * @param  null   $path
+     * @param  null $path
      * @return string
      */
     public function getHref($path = null)

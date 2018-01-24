@@ -44,4 +44,14 @@ class ApplicationModel extends EloquentModel
         'enabled',
         'reference',
     ];
+
+    /**
+     * The attribute castings.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'enabled'   => 'boolean',
+        'installed' => 'boolean',
+    ];
 }

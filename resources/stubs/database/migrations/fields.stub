@@ -10,6 +10,15 @@ class {class} extends Migration
      *
      * @var array
      */
-    protected $fields = [];
+    protected $fields = [
+        'name' => 'anomaly.field_type.text',
+        'slug' => [
+            'type' => 'anomaly.field_type.slug',
+            'config' => [
+                'slugify' => 'name',
+                'type' => '_'
+            ],
+        ],
+    ];
 
 }

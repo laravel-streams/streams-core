@@ -31,7 +31,7 @@ class Reinstall extends Command
     /**
      * Execute the console command.
      */
-    public function fire()
+    public function handle()
     {
         $this->call('extension:uninstall', ['extension' => $this->argument('extension')]);
         $this->call(

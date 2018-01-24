@@ -1,0 +1,13 @@
+{% for row in rows %}
+    <div class="field-group">
+        <div class="row">
+            {% for column in row.columns %}
+                <div class="{{ column.classes ? column.classes|join(' ') : 'col-lg-' ~ column.size }}">
+
+                    {% include "streams::form/partials/fields" with {"fields": column.fields} %}
+
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endfor %}

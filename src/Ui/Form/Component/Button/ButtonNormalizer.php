@@ -28,7 +28,13 @@ class ButtonNormalizer
         $builder->setButtons($buttons);
     }
 
-
+    /**
+     * Process a button.
+     *
+     * @param $key
+     * @param $button
+     * @return array|string
+     */
     protected function process($key, $button)
     {
         /*
@@ -48,6 +54,13 @@ class ButtonNormalizer
          */
         if (!is_integer($key) && !isset($button['button'])) {
             $button['button'] = $key;
+        }
+
+        /**
+         * Default to size "sm"
+         */
+        if (!isset($button['size'])) {
+            $button['size'] = 'sm';
         }
 
         /*
@@ -85,7 +98,7 @@ class ButtonNormalizer
         if (
             isset($button['attributes']['href']) &&
             is_string($button['attributes']['href']) &&
-            !starts_with($button['attributes']['href'], 'http')
+            !starts_with($button['attributes']['href'], ['http', '{'])
         ) {
             $button['attributes']['href'] = url($button['attributes']['href']);
         }

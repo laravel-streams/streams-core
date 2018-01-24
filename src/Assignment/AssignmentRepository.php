@@ -7,6 +7,13 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentRepository;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
+/**
+ * Class AssignmentRepository
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class AssignmentRepository extends EloquentRepository implements AssignmentRepositoryInterface
 {
 
@@ -30,12 +37,20 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
     /**
      * Create a new assignment.
      *
-     * @param  array               $attributes
+     * @param  array $attributes
      * @return AssignmentInterface
      */
     public function create(array $attributes = [])
     {
-        $attributes['sort_order'] = array_get($attributes, 'sort_order', $this->model->count('id') + 1);
+        array_set(
+            $attributes,
+            'sort_order',
+            array_get(
+                $attributes,
+                'sort_order',
+                $this->model->count('id') + 1
+            )
+        );
 
         return $this->model->create($attributes);
     }
@@ -43,19 +58,25 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
     /**
      * Find an assignment by stream and field.
      *
-     * @param  StreamInterface                        $stream
-     * @param  FieldInterface                         $field
+     * @param  StreamInterface $stream
+     * @param  FieldInterface  $field
      * @return null|AssignmentInterface|EloquentModel
      */
-    public function findByStreamAndField(StreamInterface $stream, FieldInterface $field)
+    public function findByStreamAndField(
+        StreamInterface $stream,
+        FieldInterface $field
+    )
     {
-        return $this->model->where('stream_id', $stream->getId())->where('field_id', $field->getId())->first();
+        return $this->model
+            ->where('stream_id', $stream->getId())
+            ->where('field_id', $field->getId())
+            ->first();
     }
 
     /**
      * Find all assignments by stream.
      *
-     * @param  StreamInterface      $stream
+     * @param  StreamInterface $stream
      * @return AssignmentCollection
      */
     public function findByStream(StreamInterface $stream)
@@ -68,16 +89,30 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
      */
     public function cleanup()
     {
-        $this->model
-            ->leftJoin('streams_streams', 'streams_assignments.stream_id', '=', 'streams_streams.id')
-            ->leftJoin('streams_fields', 'streams_assignments.field_id', '=', 'streams_fields.id')
+        $assignments = $this->model
+            ->leftJoin(
+                'streams_streams',
+                'streams_assignments.stream_id',
+                '=',
+                'streams_streams.id'
+            )
+            ->leftJoin(
+                'streams_fields',
+                'streams_assignments.field_id',
+                '=',
+                'streams_fields.id'
+            )
             ->whereNull('streams_streams.id')
             ->orWhereNull('streams_fields.id')
-            ->delete();
+            ->get();
+
+        foreach ($assignments as $assignment) {
+            $this->delete($assignment);
+        }
 
         $translations = $this->model->getTranslationModel();
 
-        $translations
+        $translations = $translations
             ->leftJoin(
                 'streams_assignments',
                 'streams_assignments_translations.assignment_id',
@@ -85,6 +120,10 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
                 'streams_assignments.id'
             )
             ->whereNull('streams_assignments.id')
-            ->delete();
+            ->get();
+
+        foreach ($translations as $translation) {
+            $this->delete($translation);
+        }
     }
 }

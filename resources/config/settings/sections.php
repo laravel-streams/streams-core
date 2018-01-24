@@ -9,20 +9,6 @@ return [
             'description',
         ],
     ],
-    'contact'      => [
-        'context' => 'primary',
-        'title'   => 'streams::label.contact',
-        'fields'  => [
-            'business',
-            'phone',
-            'address',
-            'address2',
-            'city',
-            'state',
-            'postal_code',
-            'country',
-        ],
-    ],
     'display'      => [
         'context' => 'info',
         'title'   => 'streams::label.display',

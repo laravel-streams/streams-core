@@ -2,9 +2,16 @@
 
 use Anomaly\FilesModule\File\Contract\FileInterface;
 use Anomaly\Streams\Platform\Application\Application;
-use Illuminate\Config\Repository;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
 
+/**
+ * Class ImagePaths
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class ImagePaths
 {
 
@@ -138,11 +145,19 @@ class ImagePaths
          * put it in /app/{$application}/files/disk/folder/filename.ext
          */
         if (is_string($path) && str_is('*://*', $path)) {
+
             $application = $this->application->getReference();
 
             list($disk, $folder, $filename) = explode('/', str_replace('://', '/', $path));
 
+            if ($image->getAlterations() || $image->getQuality()) {
+                $filename = md5(
+                        var_export([$path, $image->getAlterations()], true) . $image->getQuality()
+                    ) . '.' . $image->getExtension();
+            }
+
             if ($rename = $image->getFilename()) {
+
                 $filename = $rename;
 
                 if (strpos($filename, DIRECTORY_SEPARATOR)) {

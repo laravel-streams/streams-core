@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionManager;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Exception;
 
 /**
  * Class Uninstall
@@ -36,10 +37,14 @@ class Uninstall extends Command
      * @param ExtensionManager    $manager
      * @param ExtensionCollection $extensions
      */
-    public function fire(ExtensionManager $manager, ExtensionCollection $extensions)
+    public function handle(ExtensionManager $manager, ExtensionCollection $extensions)
     {
         /* @var Extension $extension */
         $extension = $extensions->get($this->argument('extension'));
+
+        if (!$extension) {
+            throw new Exception('Extension ' . $this->argument('extension') . ' does not exist or is not installed.');
+        }
 
         $manager->uninstall($extension);
 

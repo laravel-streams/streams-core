@@ -57,14 +57,16 @@ $(function () {
      */
     tree.find('li').each(function () {
 
+        var item = $(this);
         var collapsed = Cookies.getJSON('tree');
+        var count = item.find('li').length;
 
         if (typeof collapsed == 'undefined') {
             collapsed = {};
         }
 
-        if (collapsed[$(this).data('id')] == true) {
-            $(this).addClass('collapsed');
+        if (collapsed[$(this).data('id')] == true && $(this).find('li').length) {
+            $(this).addClass('collapsed').find('.card').first().append('<div class="count">' + count + '</div>');
         }
     });
 
@@ -77,6 +79,11 @@ $(function () {
 
         var item = $(this).closest('li');
         var collapsed = Cookies.getJSON('tree');
+        var count = item.find('li').length;
+
+        if (!count) {
+            return;
+        }
 
         item.toggleClass('collapsed');
 
@@ -85,6 +92,12 @@ $(function () {
         }
 
         collapsed[item.data('id')] = item.hasClass('collapsed');
+
+        if (item.hasClass('collapsed')) {
+            item.find('.card').first().append('<div class="count">' + count + '</div>');
+        } else {
+            item.find('.count').first().remove();
+        }
 
         Cookies.set('tree', JSON.stringify(collapsed), {path: window.location.pathname});
     });

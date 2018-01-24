@@ -26,6 +26,13 @@ interface ButtonInterface
     public function getDropdown();
 
     /**
+     * Return whether the button is a dropup or not.
+     *
+     * @return bool
+     */
+    public function isDropup();
+
+    /**
      * Set the dropdown position.
      *
      * @param  array $position

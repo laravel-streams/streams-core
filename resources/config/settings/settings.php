@@ -24,35 +24,6 @@ return [
             },
         ],
     ],
-    'business'        => [
-        'type' => 'anomaly.field_type.text',
-    ],
-    'phone'           => [
-        'type' => 'anomaly.field_type.text',
-    ],
-    'address'         => [
-        'type' => 'anomaly.field_type.text',
-    ],
-    'address2'        => [
-        'type' => 'anomaly.field_type.text',
-    ],
-    'city'            => [
-        'type' => 'anomaly.field_type.text',
-    ],
-    'state'           => [
-        'type' => 'anomaly.field_type.state',
-    ],
-    'postal_code'     => [
-        'type' => 'anomaly.field_type.text',
-    ],
-    'country'         => [
-        'type'   => 'anomaly.field_type.country',
-        'config' => [
-            'top_options' => [
-                'US',
-            ],
-        ],
-    ],
     'timezone'        => [
         'env'    => 'APP_TIMEZONE',
         'bind'   => 'app.timezone',
@@ -70,19 +41,19 @@ return [
         'required'    => true,
         'config'      => [
             'options' => [
-                'l, j F, Y' => function () {
-                    return date('l, j F, Y'); // Friday, 10 July, 2015
-                },
-                'j F, Y'    => function () {
+                'j F, Y' => function () {
                     return date('j F, Y'); // 10 July, 2015
                 },
-                'j M, y'    => function () {
+                'j M, y' => function () {
                     return date('j M, y'); // 10 Jul, 15
                 },
-                'm/d/Y'     => function () {
+                'm/d/Y'  => function () {
                     return date('m/d/Y'); // 07/10/2015
                 },
-                'Y-m-d'     => function () {
+                'd/m/Y'  => function () {
+                    return date('d/m/Y'); // 10/07/2015
+                },
+                'Y-m-d'  => function () {
                     return date('Y-m-d'); // 2015-07-10
                 },
             ],
@@ -97,10 +68,13 @@ return [
         'config'      => [
             'options' => [
                 'g:i A' => function () {
-                    return date('g:00 A'); // 4:00 PM
+                    return date('g:i A'); // 4:00 PM
+                },
+                'g:i a' => function () {
+                    return date('g:i a'); // 4:00 pm
                 },
                 'H:i'   => function () {
-                    return date('H:00'); // 16:00
+                    return date('H:i'); // 16:00
                 },
             ],
         ],
@@ -157,11 +131,20 @@ return [
     'per_page'        => [
         'env'      => 'RESULTS_PER_PAGE',
         'bind'     => 'streams::system.per_page',
-        'type'     => 'anomaly.field_type.integer',
+        'type'     => 'anomaly.field_type.select',
         'required' => true,
         'config'   => [
             'default_value' => 15,
-            'min'           => 5,
+            'options'       => [
+                5   => 5,
+                10  => 10,
+                15  => 15,
+                25  => 25,
+                50  => 50,
+                75  => 75,
+                100 => 100,
+                150 => 150,
+            ],
         ],
     ],
     'default_locale'  => [
@@ -248,7 +231,10 @@ return [
         'required' => true,
         'config'   => [
             'default_value' => function (Repository $config) {
-                return 'noreply@' . array_get(parse_url($config->get('app.url')), 'host');
+
+                $host = array_get(parse_url($config->get('app.url')), 'host');
+
+                return 'noreply@' . (str_contains($host, '.') ? $host : $host . '.com');
             },
         ],
     ],

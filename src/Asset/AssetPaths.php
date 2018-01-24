@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 /**
  * Class AssetPaths
  *
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
+ * @link       http://pyrocms.com/
+ * @author     PyroCMS, Inc. <support@pyrocms.com>
+ * @author     Ryan Thompson <ryan@pyrocms.com>
  */
 class AssetPaths
 {
@@ -92,6 +92,17 @@ class AssetPaths
         $this->paths[$namespace] = rtrim($path, '/\\');
 
         return $this;
+    }
+
+    /**
+     * Get a single path.
+     *
+     * @param $namespace
+     * @return string|null
+     */
+    public function getPath($namespace)
+    {
+        return array_get($this->paths, $namespace);
     }
 
     /**

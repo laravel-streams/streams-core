@@ -27,7 +27,7 @@ class AppPublish extends Command
     /**
      * Execute the console command.
      */
-    public function fire()
+    public function handle()
     {
         $this->dispatch(new PublishEnv($this));
         $this->dispatch(new PublishRoutes($this));

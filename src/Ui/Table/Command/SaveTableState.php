@@ -37,6 +37,6 @@ class SaveTableState
      */
     public function handle(Store $session, Request $request)
     {
-        $session->set('table::' . $request->url(), $request->getQueryString());
+        $session->put('table::' . $request->url(), $request->getQueryString());
     }
 }

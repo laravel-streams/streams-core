@@ -1,6 +1,7 @@
 {% if not table.filters.empty() %}
     <div class="card card-container">
         {{ form_open({'method': 'get', 'id': 'filters', 'url': url_full(), 'class': 'form-inline'}) }}
+        <input type="hidden" name="{{ table.options.prefix }}limit" value="{{ table.options.limit }}">
         <input type="hidden" name="{{ table.options.prefix }}view" value="{{ table.views.active().getSlug() }}">
         <input type="hidden" name="{{ table.options.prefix }}page" value="1">
 
@@ -14,7 +15,7 @@
             {{ icon(table.options.filters.filter_icon ?: 'filter') }}
             {{ trans(table.options.filters.filter_text ?: 'streams::button.filter') }}
         </button>
-        <a href="{{ url_current() }}" class="btn btn-secondary-outline">
+        <a href="{{ url_current() }}{{ request_has('view') ? '?view=' ~ request_get('view') }}" class="btn btn-inverse">
             {{ icon(table.options.filters.clear_icon ? table.options.filters.clear_icon) }}
             {{ trans(table.options.filters.clear_text ?: 'streams::button.clear') }}
         </a>

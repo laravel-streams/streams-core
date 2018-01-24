@@ -3,6 +3,13 @@
 use Anomaly\Streams\Platform\Support\Collection;
 use Closure;
 
+/**
+ * Class PluginCriteria
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class PluginCriteria
 {
 
@@ -145,7 +152,11 @@ class PluginCriteria
             return call_user_func_array([$this, $name], $arguments);
         }
 
-        array_set($this->options, snake_case($name), array_shift($arguments));
+        if (count($arguments) == 1) {
+            array_set($this->options, snake_case($name), array_shift($arguments));
+        } else {
+            array_set($this->options, snake_case($name), $arguments);
+        }
 
         return $this;
     }

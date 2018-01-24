@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormHandler;
+use Anomaly\Streams\Platform\Ui\Form\FormRules;
 use Anomaly\Streams\Platform\Ui\Form\FormValidator;
 
 /**
@@ -30,7 +31,7 @@ class SetDefaultParameters
      * @var array
      */
     protected $defaults = [
-        'handler' => FormHandler::class,
+        'handler'   => FormHandler::class,
         'validator' => FormValidator::class,
     ];
 
@@ -73,8 +74,12 @@ class SetDefaultParameters
          */
         $reflection = new \ReflectionClass($this->builder);
 
+        // Stash this for later.
+        $builder = get_class($this->builder);
+
         /* @var \ReflectionProperty $property */
         foreach ($reflection->getProperties(\ReflectionProperty::IS_PROTECTED) as $property) {
+
             if (in_array($property->getName(), $this->skips)) {
                 continue;
             }
@@ -99,9 +104,9 @@ class SetDefaultParameters
              * builder property into a handler.
              * If it exists, then go ahead and use it.
              */
-            $handler = str_replace('FormBuilder', 'Form' . ucfirst($property->getName()), get_class($this->builder));
+            $handler = str_replace('FormBuilder', 'Form' . ucfirst($property->getName()), $builder);
 
-            if (class_exists($handler)) {
+            if ($handler !== $builder && class_exists($handler)) {
 
                 /*
                  * Make sure the handler is
@@ -109,6 +114,15 @@ class SetDefaultParameters
                  */
                 if (!str_contains($handler, '@')) {
                     $handler .= '@handle';
+                }
+
+                /**
+                 * We have to make a special case
+                 * for form rules since we have
+                 * a service named the same.
+                 */
+                if ($property->getName() == 'rules' && $handler == FormRules::class . '@handle') {
+                    continue;
                 }
 
                 $this->builder->{'set' . ucfirst($property->getName())}($handler);

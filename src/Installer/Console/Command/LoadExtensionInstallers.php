@@ -2,9 +2,10 @@
 
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
+use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Console\Kernel;
 use Anomaly\Streams\Platform\Installer\Installer;
 use Anomaly\Streams\Platform\Installer\InstallerCollection;
-use Anomaly\Streams\Platform\Console\Kernel;
 
 /**
  * Class LoadExtensionInstallers
@@ -37,16 +38,23 @@ class LoadExtensionInstallers
      * Handle the command.
      *
      * @param ExtensionCollection $extensions
+     * @param Application         $application
      */
-    public function handle(ExtensionCollection $extensions)
+    public function handle(ExtensionCollection $extensions, Application $application)
     {
         /* @var Extension $extension */
         foreach ($extensions as $extension) {
             $this->installers->add(
                 new Installer(
                     trans('streams::installer.installing', ['installing' => trans($extension->getName())]),
-                    function (Kernel $console) use ($extension) {
-                        $console->call('extension:install', ['extension' => $extension->getNamespace()]);
+                    function (Kernel $console) use ($extension, $application) {
+                        $console->call(
+                            'extension:install',
+                            [
+                                'extension' => $extension->getNamespace(),
+                                '--app'     => $application->getReference(),
+                            ]
+                        );
                     }
                 )
             );

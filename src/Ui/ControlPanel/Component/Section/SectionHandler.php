@@ -2,7 +2,9 @@
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Support\Resolver;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Event\GatherSections;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class SectionHandler
@@ -13,6 +15,13 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  */
 class SectionHandler
 {
+
+    /**
+     * The event dispatcher.
+     *
+     * @var Dispatcher
+     */
+    protected $events;
 
     /**
      * The module collection.
@@ -31,11 +40,13 @@ class SectionHandler
     /**
      * Create a new SectionHandler instance.
      *
+     * @param Dispatcher       $events
      * @param ModuleCollection $modules
      * @param Resolver         $resolver
      */
-    public function __construct(ModuleCollection $modules, Resolver $resolver)
+    public function __construct(Dispatcher $events, ModuleCollection $modules, Resolver $resolver)
     {
+        $this->events   = $events;
         $this->modules  = $modules;
         $this->resolver = $resolver;
     }
@@ -48,11 +59,23 @@ class SectionHandler
     public function handle(ControlPanelBuilder $builder)
     {
 
+        /**
+         * Start off with no
+         * sections for now.
+         */
+        $builder->setSections([]);
+
         /*
          * We have to have a module for
          * the default functionality.
+         *
+         * Set your own sections
+         * prior if needed!
          */
         if (!$module = $this->modules->active()) {
+
+            $this->events->fire(new GatherSections($builder));
+
             return;
         }
 
@@ -68,5 +91,7 @@ class SectionHandler
         if (!$sections && class_exists($sections = get_class($module) . 'Sections')) {
             $this->resolver->resolve($sections . '@handle', compact('builder'));
         }
+
+        $this->events->fire(new GatherSections($builder));
     }
 }

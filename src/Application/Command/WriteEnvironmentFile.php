@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
+use Illuminate\Foundation\Bus\DispatchesJobs;
+
 /**
  * Class WriteEnvironmentFile
  *
@@ -9,6 +11,8 @@
  */
 class WriteEnvironmentFile
 {
+
+    use DispatchesJobs;
 
     /**
      * The environment variables.
@@ -35,6 +39,11 @@ class WriteEnvironmentFile
         $contents = '';
 
         foreach ($this->data as $key => $value) {
+            
+            if (str_contains($value, [' ', '$', '\n'])) {
+                $value = '"' . trim($value, '"') . '"';
+            }
+
             if ($key) {
                 $contents .= strtoupper($key) . '=' . $value . PHP_EOL;
             } else {
@@ -42,6 +51,8 @@ class WriteEnvironmentFile
             }
         }
 
-        file_put_contents(base_path('.env'), $contents);
+        $file = $this->dispatch(new GetEnvironmentFile());
+
+        file_put_contents($file, $contents);
     }
 }

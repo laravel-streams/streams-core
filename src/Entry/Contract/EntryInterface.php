@@ -135,6 +135,13 @@ interface EntryInterface
     public function getTranslationsTableName();
 
     /**
+     * Get the translated attributes.
+     *
+     * @return array
+     */
+    public function getTranslatedAttributes();
+
+    /**
      * Get a field by it's slug.
      *
      * @param  $slug
@@ -155,7 +162,7 @@ interface EntryInterface
      * Get a field value.
      *
      * @param        $fieldSlug
-     * @param  null $locale
+     * @param  null  $locale
      * @return mixed
      */
     public function getFieldValue($fieldSlug, $locale = null);
@@ -165,7 +172,7 @@ interface EntryInterface
      *
      * @param        $fieldSlug
      * @param        $value
-     * @param  null $locale
+     * @param  null  $locale
      * @return $this
      */
     public function setFieldValue($fieldSlug, $value, $locale = null);
@@ -266,12 +273,34 @@ interface EntryInterface
     public function getRelationshipAssignments();
 
     /**
+     * Return required assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getRequiredAssignments();
+
+    /**
+     * Return searchable assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getSearchableAssignments();
+
+    /**
      * Get a specified relationship.
      *
      * @param  string $relation
      * @return mixed
      */
     public function getRelation($relation);
+
+    /**
+     * Eager load relations on the model.
+     *
+     * @param  $relations
+     * @return $this
+     */
+    public function load($relations);
 
     /**
      * Get the translatable flag.
@@ -366,6 +395,13 @@ interface EntryInterface
     public function getRouterName();
 
     /**
+     * Get the query builder name.
+     *
+     * @return string
+     */
+    public function getQueryBuilderName();
+
+    /**
      * Return whether the title column is
      * translatable or not.
      *
@@ -412,7 +448,7 @@ interface EntryInterface
      * Get a raw unmodified attribute.
      *
      * @param             $key
-     * @param  bool $process
+     * @param  bool       $process
      * @return mixed|null
      */
     public function getRawAttribute($key, $process = true);
@@ -479,6 +515,13 @@ interface EntryInterface
      * @param array $payload
      */
     public function fireFieldTypeEvents($trigger, $payload = []);
+
+    /**
+     * Get the cascading actions.
+     *
+     * @return array
+     */
+    public function getCascades();
 
     /**
      * Call a hook.

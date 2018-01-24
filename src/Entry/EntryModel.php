@@ -9,12 +9,21 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Stream\StreamModel;
 use Carbon\Carbon;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Scout\ModelObserver;
 use Laravel\Scout\Searchable;
 use Robbo\Presenter\PresentableInterface;
 
+/**
+ * Class EntryModel
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface
 {
 
@@ -95,7 +104,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      * Sort the query.
      *
      * @param Builder $builder
-     * @param string  $direction
+     * @param string $direction
      */
     public function scopeSorted(Builder $builder, $direction = 'asc')
     {
@@ -180,7 +189,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      * Get a field value.
      *
      * @param        $fieldSlug
-     * @param  null  $locale
+     * @param  null $locale
      * @return mixed
      */
     public function getFieldValue($fieldSlug, $locale = null)
@@ -208,13 +217,22 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $value = $modifier->restore($accessor->get());
 
+        $type->setValue($value);
+
+        /**
+         * Check for fallback values.
+         *
+         * @var EntryTranslationsModel $translation
+         */
         if (
-            $value === null &&
+            !$type->hasValue() &&
             $assignment->isTranslatable() &&
-            $assignment->isRequired() &&
-            $translation = $this->translate()
+            ($translation = $this->translateOrDefault()) &&
+            $translation instanceof EntryTranslationsModel
         ) {
+            $type->setValue($value);
             $type->setEntry($translation);
+            $type->setLocale($translation->getLocale());
 
             $value = $modifier->restore($accessor->get());
         }
@@ -227,7 +245,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      *
      * @param        $fieldSlug
      * @param        $value
-     * @param  null  $locale
+     * @param  null $locale
      * @return $this
      */
     public function setFieldValue($fieldSlug, $value, $locale = null)
@@ -357,18 +375,16 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      * the field types a chance to modify things.
      *
      * @param  string $key
-     * @param  mixed  $value
-     * @return $this
+     * @param  mixed $value
+     * @return EntryModel|EloquentModel
      */
     public function setAttribute($key, $value)
     {
         if (!$this->isKeyALocale($key) && !$this->hasSetMutator($key) && $this->getFieldType($key)) {
-            $this->setFieldValue($key, $value);
-        } else {
-            parent::setAttribute($key, $value);
+            return $this->setFieldValue($key, $value);
         }
 
-        return $this;
+        return parent::setAttribute($key, $value);
     }
 
     /**
@@ -382,25 +398,22 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function getAttribute($key)
     {
         // Check if it's a relationship first.
-        if (in_array($key, $this->relationships)) {
+        if (in_array($key, array_merge($this->relationships, ['created_by', 'updated_by']))) {
             return parent::getAttribute(camel_case($key));
         }
 
-        if (
-            !$this->hasGetMutator($key)
-            && in_array($key, $this->fields)
-        ) {
+        if (!$this->hasGetMutator($key) && in_array($key, $this->fields)) {
             return $this->getFieldValue($key);
-        } else {
-            return parent::getAttribute($key);
         }
+
+        return parent::getAttribute($key);
     }
 
     /**
      * Get a raw unmodified attribute.
      *
      * @param             $key
-     * @param  bool       $process
+     * @param  bool $process
      * @return mixed|null
      */
     public function getRawAttribute($key, $process = true)
@@ -587,6 +600,32 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Return required assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getRequiredAssignments()
+    {
+        $stream      = $this->getStream();
+        $assignments = $stream->getAssignments();
+
+        return $assignments->required();
+    }
+
+    /**
+     * Return searchable assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getSearchableAssignments()
+    {
+        $stream      = $this->getStream();
+        $assignments = $stream->getAssignments();
+
+        return $assignments->searchable();
+    }
+
+    /**
      * Get the translatable flag.
      *
      * @return bool
@@ -618,6 +657,46 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function lastModified()
     {
         return $this->updated_at ?: $this->created_at;
+    }
+
+    /**
+     * Return the related creator.
+     *
+     * @return Authenticatable
+     */
+    public function getCreatedBy()
+    {
+        return $this->created_by;
+    }
+
+    /**
+     * Return the creator relation.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function createdBy()
+    {
+        return $this->belongsTo(config('auth.providers.users.model'));
+    }
+
+    /**
+     * Return the related updater.
+     *
+     * @return Authenticatable
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updated_by;
+    }
+
+    /**
+     * Return the updater relation.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function updatedBy()
+    {
+        return $this->belongsTo(config('auth.providers.users.model'));
     }
 
     /**
@@ -669,6 +748,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         /* @var AssignmentInterface $assignment */
         foreach ($assignments->notTranslatable() as $assignment) {
+
             $fieldType = $assignment->getFieldType();
 
             $fieldType->setValue($this->getRawAttribute($assignment->getFieldSlug()));
@@ -690,7 +770,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function stream()
     {
         if (!$this->stream instanceof StreamInterface) {
-            $this->stream = app('Anomaly\Streams\Platform\Stream\StreamModel')->make($this->stream);
+            $this->stream = app(StreamModel::class)->make($this->stream);
         }
 
         return $this->stream;
@@ -743,6 +823,8 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     /**
      * Return a model route.
      *
+     * @param $route The route name you would like to return a URL for (i.e. "view" or "delete")
+     * @param array $parameters
      * @return string
      */
     public function route($route, array $parameters = [])
@@ -796,7 +878,21 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function newEloquentBuilder($query)
     {
-        return new EntryQueryBuilder($query);
+        $builder = $this->getQueryBuilderName();
+
+        return new $builder($query);
+    }
+
+    /**
+     * Get the router name.
+     *
+     * @return string
+     */
+    public function getQueryBuilderName()
+    {
+        $builder = substr(get_class($this), 0, -5) . 'QueryBuilder';
+
+        return class_exists($builder) ? $builder : EntryQueryBuilder::class;
     }
 
     /**
@@ -828,13 +924,32 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function toSearchableArray()
     {
-        $array = $this->toArray();
+        $array = [
+            'id' => $this->getId(),
+        ];
 
-        foreach ($array as $key => &$value) {
-            if (is_array($value)) {
-                $value = json_encode($value);
+        $searchable = array_merge(
+            $this->searchableAttributes,
+            $this
+                ->getSearchableAssignments()
+                ->fieldSlugs()
+        );
+
+        if (!$searchable) {
+            $searchable = $this
+                ->getAssignments()
+                ->fieldSlugs();
+        }
+
+        foreach ($searchable as $field) {
+
+            if (!in_array($field, $searchable)) {
                 continue;
             }
+
+            $array[$field] = (string)$this
+                ->getFieldType($field)
+                ->getSearchableValue();
         }
 
         return $array;

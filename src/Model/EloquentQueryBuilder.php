@@ -4,8 +4,11 @@ use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
-use Database\Query\JoinClause;
+use Anomaly\Streams\Platform\Stream\StreamModel;
+use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\JoinClause;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class EloquentQueryBuilder
@@ -16,6 +19,9 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class EloquentQueryBuilder extends Builder
 {
+
+    use Hookable;
+    use DispatchesJobs;
 
     /**
      * Runtime cache.
@@ -43,6 +49,7 @@ class EloquentQueryBuilder extends Builder
 
         if (
             env('INSTALLED')
+            && PHP_SAPI != 'cli'
             && env('DB_CACHE') !== false
             && $this->model instanceof EntryModel
             && isset(self::$cache[$this->model->getCacheCollectionKey()][$key])
@@ -52,7 +59,7 @@ class EloquentQueryBuilder extends Builder
 
         $this->orderByDefault();
 
-        if (env('DB_CACHE') && $this->model->getTtl()) {
+        if (PHP_SAPI != 'cli' && env('DB_CACHE') !== false && $this->model->getTtl()) {
 
             $this->rememberIndex();
 
@@ -217,11 +224,25 @@ class EloquentQueryBuilder extends Builder
 
         if ($query->orders === null) {
             if ($model instanceof AssignmentModel) {
-                $query->orderBy('sort_order', 'ASC');
+                $query->orderBy('streams_assignments.sort_order', 'ASC');
+            } elseif ($model instanceof StreamModel && env('INSTALLED')) { // Ensure migrations are complete.
+                $query->orderBy('streams_streams.sort_order', 'ASC');
             } elseif ($model instanceof EntryInterface) {
                 if ($model->getStream()->isSortable()) {
                     $query->orderBy('sort_order', 'ASC');
                 } elseif ($model->titleColumnIsTranslatable()) {
+
+                    /**
+                     * Postgres makes it damn near impossible
+                     * to order by a foreign column and retain
+                     * distinct results so let's avoid it entirely.
+                     *
+                     * Sorry!
+                     */
+                    if (env('DB_CONNECTION', 'mysql') == 'pgsql') {
+                        return;
+                    }
+
                     if (!$this->hasJoin($model->getTranslationsTableName())) {
                         $this->query->leftJoin(
                             $model->getTranslationsTableName(),
@@ -232,7 +253,7 @@ class EloquentQueryBuilder extends Builder
                     }
 
                     $this
-                        ->distinct()
+                        ->groupBy($model->getTableName() . '.id')
                         ->select($model->getTableName() . '.*')
                         ->where(
                             function (Builder $query) use ($model) {
@@ -250,5 +271,39 @@ class EloquentQueryBuilder extends Builder
                 }
             }
         }
+    }
+
+    /**
+     * Select the default columns.
+     *
+     * This is helpful when using addSelect
+     * elsewhere like in a hook/criteria and
+     * that select ends up being all you select.
+     *
+     * @return $this
+     */
+    public function selectDefault()
+    {
+        if (!$this->query->columns && $this->query->from) {
+            $this->query->select($this->query->from . '.*');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add hookable catch to the query builder system.
+     *
+     * @param string $method
+     * @param array $parameters
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        if ($this->hasHook($hook = snake_case($method))) {
+            return $this->call($hook, $parameters);
+        }
+
+        return parent::__call($method, $parameters);
     }
 }

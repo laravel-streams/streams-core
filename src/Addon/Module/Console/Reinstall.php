@@ -31,7 +31,7 @@ class Reinstall extends Command
     /**
      * Execute the console command.
      */
-    public function fire()
+    public function handle()
     {
         $this->call('module:uninstall', ['module' => $this->argument('module')]);
         $this->call('module:install', ['module' => $this->argument('module'), '--seed' => $this->option('seed')]);

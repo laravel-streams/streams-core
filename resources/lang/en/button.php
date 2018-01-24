@@ -12,6 +12,7 @@ return [
     */
 
     'add'            => 'Add',
+    'new'            => 'New',
     'edit'           => 'Edit',
     'view'           => 'View',
     'info'           => 'Info',
@@ -20,6 +21,7 @@ return [
     'delete'         => 'Delete',
     'restore'        => 'Restore',
     'force_delete'   => 'Force Delete',
+    'change'         => 'Change',
     'export'         => 'Export',
     'create'         => 'Create',
     'cancel'         => 'Cancel',
@@ -41,6 +43,7 @@ return [
     'reorder'        => 'Reorder',
     'configure'      => 'Configure',
     'settings'       => 'Settings',
+    'preferences'    => 'Preferences',
     'fields'         => 'Fields',
     'assignments'    => 'Assignments',
     'send'           => 'Send',
@@ -54,5 +57,5 @@ return [
     'download'       => 'Download',
     'add_field'      => 'Add Field',
     'new_field'      => 'New Field',
-    'assign_fields'  => 'Assign Fields'
+    'assign_fields'  => 'Assign Fields',
 ];

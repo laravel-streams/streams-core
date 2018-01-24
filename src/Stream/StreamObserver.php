@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModelClassmap;
-use Anomaly\Streams\Platform\Search\Command\CheckEntryIndex;
 use Anomaly\Streams\Platform\Search\Command\DeleteEntryIndex;
 use Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\Command\DeleteStreamAssignments;
@@ -62,8 +61,6 @@ class StreamObserver extends Observer
     {
         $model->compile();
         $model->flushCache();
-
-        $this->dispatch(new CheckEntryIndex($model));
 
         $model->fireFieldTypeEvents('stream_saved');
 

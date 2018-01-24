@@ -30,9 +30,10 @@ class GetIcon
     /**
      * Create a new GetIcon instance.
      *
-     * @param $type
+     * @param      $type
+     * @param null $class
      */
-    public function __construct($type, $class)
+    public function __construct($type, $class = null)
     {
         $this->type  = $type;
         $this->class = $class;

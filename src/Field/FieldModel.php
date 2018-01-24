@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -293,6 +294,16 @@ class FieldModel extends EloquentModel implements FieldInterface
     }
 
     /**
+     * Get the rules.
+     *
+     * @return array
+     */
+    public function getRules()
+    {
+        return $this->rules;
+    }
+
+    /**
      * Set rules attribute.
      *
      * @param array $rules
@@ -345,6 +356,8 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     public function assignments()
     {
-        return $this->hasMany('Anomaly\Streams\Platform\Assignment\AssignmentModel', 'field_id')->orderBy('sort_order');
+        return $this
+            ->hasMany(AssignmentModel::class, 'field_id')
+            ->orderBy('sort_order');
     }
 }

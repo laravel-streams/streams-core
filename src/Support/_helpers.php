@@ -1,11 +1,29 @@
 <?php
 
+use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Support\Value;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+
+if (!function_exists('app_storage_path')) {
+
+    /**
+     * Get the storage path for the application.
+     *
+     * @param  string $path
+     * @return string
+     */
+    function app_storage_path($path = '')
+    {
+        /* @var Application $application */
+        $application = app(Application::class);
+
+        return storage_path('streams/' . $application->getReference()) . ($path ? '/' . $path : $path);
+    }
+}
 
 if (!function_exists('str_humanize')) {
 
@@ -113,5 +131,23 @@ if (!function_exists('data')) {
         }
 
         return $target;
+    }
+}
+
+if (!function_exists('filesize_for_humans')) {
+
+    /**
+     * Humanize the filesize
+     *
+     * @param      integer $bytes    The bytes
+     * @param      integer $decimals The decimals
+     * @return     string
+     */
+    function filesize_for_humans($bytes, $decimals = 2)
+    {
+        $size   = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        $factor = (int)floor((strlen($bytes) - 1) / 3);
+
+        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . '&nbsp;' . @$size[$factor];
     }
 }

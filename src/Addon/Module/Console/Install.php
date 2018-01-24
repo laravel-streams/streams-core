@@ -36,11 +36,16 @@ class Install extends Command
      *
      * @param ModuleManager    $manager
      * @param ModuleCollection $modules
+     * @throws \Exception
      */
-    public function fire(ModuleManager $manager, ModuleCollection $modules)
+    public function handle(ModuleManager $manager, ModuleCollection $modules)
     {
         /* @var Module $module */
         $module = $modules->get($this->argument('module'));
+
+        if (!$module) {
+            throw new \Exception('Module [' . $this->argument('module') . '] does not exist.');
+        }
 
         $manager->install($module, $this->option('seed'));
 

@@ -10,6 +10,7 @@ use Illuminate\Console\Events\ArtisanStarting;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Router;
 
@@ -52,6 +53,13 @@ class AddonProvider
     protected $events;
 
     /**
+     * The factory manager.
+     *
+     * @var Factory
+     */
+    protected $factory;
+
+    /**
      * The scheduler instance.
      *
      * @var Schedule
@@ -89,13 +97,13 @@ class AddonProvider
     /**
      * Create a new AddonProvider instance.
      *
-     * @param Router $router
-     * @param Dispatcher $events
-     * @param Schedule $schedule
-     * @param Application $application
-     * @param ViewOverrides $viewOverrides
+     * @param Router               $router
+     * @param Dispatcher           $events
+     * @param Schedule             $schedule
+     * @param Application          $application
+     * @param ViewOverrides        $viewOverrides
      * @param MiddlewareCollection $middlewares
-     * @param ViewMobileOverrides $viewMobileOverrides
+     * @param ViewMobileOverrides  $viewMobileOverrides
      */
     public function __construct(
         Router $router,
@@ -151,10 +159,13 @@ class AddonProvider
         $this->registerCommands($provider);
         $this->registerSchedules($provider);
         $this->registerMiddleware($provider);
+        $this->registerGroupMiddleware($provider);
         $this->registerRouteMiddleware($provider);
 
+        $this->registerFactories($addon);
+
         if (method_exists($provider, 'register')) {
-            $this->application->call([$provider, 'register']);
+            $this->application->call([$provider, 'register'], ['provider' => $this]);
         }
 
         // Call other providers last.
@@ -209,6 +220,24 @@ class AddonProvider
     }
 
     /**
+     * Register the addon commands.
+     *
+     * @param Addon $addon
+     */
+    protected function registerFactories(Addon $addon)
+    {
+        /**
+         * @todo Move this back into a
+         *       dependency for 3.4
+         *       causes issues with
+         *       3.2 conversions.
+         */
+        if (is_dir($factories = $addon->getPath('factories'))) {
+            app(Factory::class)->load($factories);
+        }
+    }
+
+    /**
      * Bind class aliases.
      *
      * @param AddonServiceProvider $provider
@@ -258,8 +287,8 @@ class AddonProvider
         foreach ($listen as $event => $listeners) {
             foreach ($listeners as $key => $listener) {
                 if (is_integer($listener)) {
-                    $listener = $key;
                     $priority = $listener;
+                    $listener = $key;
                 } else {
                     $priority = 0;
                 }
@@ -273,7 +302,7 @@ class AddonProvider
      * Register the addon routes.
      *
      * @param AddonServiceProvider $provider
-     * @param Addon $addon
+     * @param Addon                $addon
      */
     protected function registerRoutes(AddonServiceProvider $provider, Addon $addon)
     {
@@ -323,7 +352,7 @@ class AddonProvider
      * Register the addon routes.
      *
      * @param AddonServiceProvider $provider
-     * @param Addon $addon
+     * @param Addon                $addon
      */
     protected function registerApi(AddonServiceProvider $provider, Addon $addon)
     {
@@ -338,7 +367,6 @@ class AddonProvider
         $this->router->group(
             [
                 'middleware' => 'auth:api',
-                'prefix'     => 'api',
             ],
             function (Router $router) use ($routes, $addon) {
 
@@ -379,6 +407,76 @@ class AddonProvider
     }
 
     /**
+     * Register field routes.
+     *
+     * @param Addon $addon
+     * @param       $controller
+     * @param null  $segment
+     */
+    public function registerFieldsRoutes(Addon $addon, $controller, $segment = null)
+    {
+        if ($segment) {
+            $segment = $addon->getSlug();
+        }
+
+        $routes = [
+            'admin/' . $segment . '/fields'             => [
+                'as'   => $addon->getNamespace('fields.index'),
+                'uses' => $controller . '@index',
+            ],
+            'admin/' . $segment . '/fields/choose'      => [
+                'as'   => $addon->getNamespace('fields.choose'),
+                'uses' => $controller . '@choose',
+            ],
+            'admin/' . $segment . '/fields/create'      => [
+                'as'   => $addon->getNamespace('fields.create'),
+                'uses' => $controller . '@create',
+            ],
+            'admin/' . $segment . '/fields/edit/{id}'   => [
+                'as'   => $addon->getNamespace('fields.edit'),
+                'uses' => $controller . '@edit',
+            ],
+            'admin/' . $segment . '/fields/change/{id}' => [
+                'as'   => $addon->getNamespace('fields.change'),
+                'uses' => $controller . '@change',
+            ],
+        ];
+
+        foreach ($routes as $uri => $route) {
+
+            /*
+             * If the route definition is an
+             * not an array then let's make it one.
+             * Array type routes give us more control
+             * and allow us to pass information in the
+             * request's route action array.
+             */
+            if (!is_array($route)) {
+                $route = [
+                    'uses' => $route,
+                ];
+            }
+
+            $verb        = array_pull($route, 'verb', 'any');
+            $middleware  = array_pull($route, 'middleware', []);
+            $constraints = array_pull($route, 'constraints', []);
+
+            array_set($route, 'streams::addon', $addon->getNamespace());
+
+            if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
+                $this->router->resource($uri, $route['uses']);
+            } else {
+
+                $route = $this->router->{$verb}($uri, $route)->where($constraints);
+
+                if ($middleware) {
+                    call_user_func_array([$route, 'middleware'], (array)$middleware);
+                }
+            }
+        }
+    }
+
+    /**
      * Register the addon plugins.
      *
      * @param AddonServiceProvider $provider
@@ -413,17 +511,33 @@ class AddonProvider
         }
 
         foreach ($schedules as $frequency => $commands) {
-            foreach (array_filter($commands) as $command) {
+            foreach (array_filter($commands) as $command => $options) {
+
+                if (!is_array($options)) {
+                    $command = $options;
+                    $options = [];
+                }
+
                 if (str_is('* * * *', $frequency)) {
-                    $this->schedule->command($command)->cron($frequency);
+                    $command = $this->schedule->command($command)->cron($frequency);
                 } else {
 
                     $parts = explode('|', $frequency);
 
-                    $method    = array_shift($parts);
+                    $method    = camel_case(array_shift($parts));
                     $arguments = explode(',', array_shift($parts));
 
-                    call_user_func_array([$this->schedule->command($command), $method], $arguments);
+                    $command = call_user_func_array([$this->schedule->command($command), $method], $arguments);
+                }
+
+                foreach ($options as $option => $arguments) {
+
+                    if (!is_array($arguments)) {
+                        $option    = $arguments;
+                        $arguments = [];
+                    }
+
+                    $command = call_user_func_array([$command, camel_case($option)], (array)$arguments);
                 }
             }
         }
@@ -433,7 +547,7 @@ class AddonProvider
      * Register view overrides.
      *
      * @param AddonServiceProvider $provider
-     * @param Addon $addon
+     * @param Addon                $addon
      */
     protected function registerOverrides(AddonServiceProvider $provider, Addon $addon)
     {
@@ -457,6 +571,18 @@ class AddonProvider
     {
         foreach ($provider->getMiddleware() as $middleware) {
             $this->middlewares->push($middleware);
+        }
+    }
+
+    /**
+     * Register group middleware.
+     *
+     * @param AddonServiceProvider $provider
+     */
+    protected function registerGroupMiddleware(AddonServiceProvider $provider)
+    {
+        foreach ($provider->getGroupMiddleware() as $group => $middleware) {
+            $this->router->pushMiddlewareToGroup($group, $middleware);
         }
     }
 

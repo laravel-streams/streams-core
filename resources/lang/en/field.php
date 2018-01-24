@@ -16,6 +16,7 @@ return [
     'type'         => [
         'name'         => 'Field Type',
         'instructions' => 'What field type do you want to use for this field?',
+        'warning'      => 'Changing this value will result in an immediate page reload.',
     ],
     'placeholder'  => [
         'name'         => 'Placeholder',

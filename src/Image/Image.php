@@ -8,6 +8,7 @@ use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Http\Request;
 use Intervention\Image\Constraint;
 use Intervention\Image\ImageManager;
 use League\Flysystem\File;
@@ -59,6 +60,13 @@ class Image
      * @var null|string
      */
     protected $filename = null;
+
+    /**
+     * The original filename.
+     *
+     * @var null|string
+     */
+    protected $original = null;
 
     /**
      * The version flag.
@@ -113,8 +121,8 @@ class Image
         'colorize',
         'resizeCanvas',
         'contrast',
+        'copy',
         'crop',
-        'encode',
         'fit',
         'flip',
         'gamma',
@@ -131,6 +139,7 @@ class Image
         'amount',
         'widen',
         'orientate',
+        'text',
     ];
 
     /**
@@ -153,6 +162,13 @@ class Image
      * @var null|int
      */
     protected $height = null;
+
+    /**
+     * The copy mode flag.
+     *
+     * @var bool
+     */
+    protected $copy = false;
 
     /**
      * The URL generator.
@@ -204,6 +220,13 @@ class Image
     protected $config;
 
     /**
+     * The request object.
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * The image manager.
      *
      * @var ImageManager
@@ -220,15 +243,16 @@ class Image
     /**
      * Create a new Image instance.
      *
-     * @param UrlGenerator  $url
-     * @param HtmlBuilder   $html
-     * @param Filesystem    $files
+     * @param UrlGenerator $url
+     * @param HtmlBuilder $html
+     * @param Filesystem $files
      * @param Mobile_Detect $agent
-     * @param Repository    $config
-     * @param ImageManager  $manager
-     * @param Application   $application
-     * @param ImagePaths    $paths
-     * @param ImageMacros   $macros
+     * @param Repository $config
+     * @param ImageManager $manager
+     * @param Request $request
+     * @param Application $application
+     * @param ImagePaths $paths
+     * @param ImageMacros $macros
      */
     public function __construct(
         UrlGenerator $url,
@@ -237,6 +261,7 @@ class Image
         Mobile_Detect $agent,
         Repository $config,
         ImageManager $manager,
+        Request $request,
         Application $application,
         ImagePaths $paths,
         ImageMacros $macros
@@ -249,6 +274,7 @@ class Image
         $this->config      = $config;
         $this->macros      = $macros;
         $this->manager     = $manager;
+        $this->request     = $request;
         $this->application = $application;
     }
 
@@ -256,7 +282,7 @@ class Image
      * Make a new image instance.
      *
      * @param  mixed $image
-     * @param  null  $output
+     * @param  null $output
      * @return $this
      */
     public function make($image, $output = null)
@@ -292,7 +318,7 @@ class Image
     {
         $path = $this->getCachePath();
 
-        return $path;
+        return $this->request->getBasePath() . $path;
     }
 
     /**
@@ -323,18 +349,18 @@ class Image
      * Return the URL to an image.
      *
      * @param  array $parameters
-     * @param  null  $secure
+     * @param  null $secure
      * @return string
      */
     public function url(array $parameters = [], $secure = null)
     {
-        return $this->url->asset($this->path(), $parameters, $secure);
+        return $this->url->asset($this->getCachePath(), $parameters, $secure);
     }
 
     /**
      * Return the image tag to an image.
      *
-     * @param  null  $alt
+     * @param  null $alt
      * @param  array $attributes
      * @return string
      */
@@ -342,7 +368,7 @@ class Image
     {
         $attributes = array_merge($this->getAttributes(), $attributes);
 
-        $attributes['src'] = $this->asset();
+        $attributes['src'] = $this->path();
 
         if ($srcset = $this->srcset()) {
             $attributes['srcset'] = $srcset;
@@ -355,15 +381,7 @@ class Image
                 'alt',
                 ucwords(
                     str_humanize(
-                        trim(
-                            basename(
-                                str_contains($attributes['src'], '?v=') ?
-                                    substr($attributes['src'], 0, strpos($attributes['src'], '?v=')) :
-                                    $attributes['src'],
-                                $this->getExtension()
-                            ),
-                            '.'
-                        ),
+                        trim(basename($this->getOriginal(), $this->getExtension()), '.'),
                         '^a-zA-Z0-9'
                     )
                 )
@@ -376,7 +394,7 @@ class Image
     /**
      * Return the image tag to an image.
      *
-     * @param  null  $alt
+     * @param  null $alt
      * @param  array $attributes
      * @return string
      */
@@ -419,7 +437,7 @@ class Image
      */
     public function source()
     {
-        $this->addAttribute('srcset', $this->srcset() ?: $this->asset() . ' 2x, ' . $this->asset() . ' 1x');
+        $this->addAttribute('srcset', $this->srcset() ?: $this->path() . ' 2x, ' . $this->path() . ' 1x');
 
         $attributes = $this->html->attributes($this->getAttributes());
 
@@ -431,15 +449,29 @@ class Image
     }
 
     /**
-     * Return the image response.
+     * Encode the image.
      *
      * @param  null $format
-     * @param  int  $quality
-     * @return String
+     * @param  int $quality
+     * @return $this
      */
     public function encode($format = null, $quality = null)
     {
-        return $this->manager->make($this->getCachePath())->encode($format, $quality ?: $this->getQuality());
+        $this->setQuality($quality);
+        $this->setExtension($format);
+        $this->addAlteration('encode');
+
+        return $this;
+    }
+
+    /**
+     * Return the base64_encoded image.
+     *
+     * @return string
+     */
+    public function base64()
+    {
+        return base64_encode($this->data());
     }
 
     /**
@@ -449,7 +481,13 @@ class Image
      */
     public function data()
     {
-        return $this->dumpImage();
+        return $this->make(
+            public_path(
+                $this
+                    ->setVersion(false)
+                    ->getCachePath()
+            )
+        )->dumpImage();
     }
 
     /**
@@ -551,7 +589,7 @@ class Image
             return $this->config->get('app.debug', false) ? $e->getMessage() : null;
         }
 
-        if ($this->config->get('streams::images.version') || $this->getVersion() == true) {
+        if ($this->config->get('streams::images.version') && $this->getVersion() !== false) {
             $path .= '?v=' . filemtime(public_path(trim($path, '/\\')));
         }
 
@@ -601,11 +639,11 @@ class Image
      */
     protected function publish($path)
     {
-        $path = ltrim($path, '/');
+        $path = $this->directory . DIRECTORY_SEPARATOR . ltrim($path, '/');
 
         $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
-        if (!$this->supportsType($this->getExtension())) {
+        if ($this->hasAlteration('copy') || !$this->supportsType($this->getExtension())) {
 
             $this->files->put($path, $this->dumpImage());
 
@@ -620,8 +658,13 @@ class Image
             $this->addAlteration('orientate');
         }
 
-        if (!$this->getAlterations() && $content = $this->dumpImage()) {
-            $this->files->put($this->directory . $path, $content);
+        if (in_array($this->getExtension(), ['jpeg', 'jpg']) && $this->config->get('streams::images.interlace')) {
+            $this->addAlteration('interlace');
+        }
+
+        if (!$this->getAlterations() && !$this->getQuality() && $content = $this->dumpImage()) {
+
+            $this->files->put($path, $content);
 
             return;
         }
@@ -631,11 +674,13 @@ class Image
         }
 
         foreach ($this->getAlterations() as $method => $arguments) {
+
             if ($method == 'resize') {
                 $this->guessResizeArguments($arguments);
             }
 
             if (in_array($method, $this->getAllowedMethods())) {
+
                 if (is_array($arguments)) {
                     call_user_func_array([$image, $method], $arguments);
                 } else {
@@ -644,7 +689,7 @@ class Image
             }
         }
 
-        $image->save($this->directory . $path, $this->getQuality());
+        $image->save($path, $this->getQuality() ?: $this->config->get('streams::images.quality', 80));
     }
 
     /**
@@ -672,7 +717,7 @@ class Image
 
         /* @var Image $image */
         foreach ($this->getSrcsets() as $descriptor => $image) {
-            $sources[] = $image->asset() . ' ' . $descriptor;
+            $sources[] = $image->path() . ' ' . $descriptor;
         }
 
         return implode(', ', $sources);
@@ -708,7 +753,7 @@ class Image
      * Set the sources/alterations.
      *
      * @param  array $sources
-     * @param  bool  $merge
+     * @param  bool $merge
      * @return $this
      */
     public function sources(array $sources, $merge = true)
@@ -744,7 +789,7 @@ class Image
      * Alter the image based on the user agents.
      *
      * @param  array $agents
-     * @param  bool  $exit
+     * @param  bool $exit
      * @return $this
      */
     public function agents(array $agents, $exit = false)
@@ -803,27 +848,34 @@ class Image
 
         // Replace path prefixes.
         if (is_string($image) && str_contains($image, '::')) {
+
             $image = $this->paths->realPath($image);
 
+            $this->setOriginal(basename($image));
             $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
-
-            $size = getimagesize($image);
-
-            $this->setWidth(array_get($size, 0));
-            $this->setHeight(array_get($size, 1));
         }
 
         if (is_string($image) && str_is('*://*', $image) && !starts_with($image, ['http', 'https'])) {
+            $this->setOriginal(basename($image));
             $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
         }
 
         if ($image instanceof FileInterface) {
 
             /* @var FileInterface $image */
+            $this->setOriginal($image->getName());
             $this->setExtension($image->getExtension());
 
             $this->setWidth($image->getWidth());
             $this->setHeight($image->getHeight());
+
+            if ($image->hasField('alt_text')) {
+                $this->addAttribute('alt', $image->getAttribute('alt_text'));
+            }
+
+            if ($image->hasField('title')) {
+                $this->addAttribute('title', $image->getAttribute('title'));
+            }
         }
 
         if ($image instanceof FilePresenter) {
@@ -831,10 +883,19 @@ class Image
             /* @var FilePresenter|FileInterface $image */
             $image = $image->getObject();
 
+            $this->setOriginal($image->getName());
             $this->setExtension($image->getExtension());
 
             $this->setWidth($image->getWidth());
             $this->setHeight($image->getHeight());
+
+            if ($image->hasField('alt_text')) {
+                $this->addAttribute('alt', $image->getAttribute('alt_text'));
+            }
+
+            if ($image->hasField('title')) {
+                $this->addAttribute('title', $image->getAttribute('title'));
+            }
         }
 
         $this->image = $image;
@@ -944,6 +1005,29 @@ class Image
     }
 
     /**
+     * Get the original name.
+     *
+     * @return null|string
+     */
+    public function getOriginal()
+    {
+        return $this->original;
+    }
+
+    /**
+     * Set the original name.
+     *
+     * @param $original
+     * @return $this
+     */
+    public function setOriginal($original = null)
+    {
+        $this->original = $original;
+
+        return $this;
+    }
+
+    /**
      * Get the file name.
      *
      * @return null|string
@@ -1001,6 +1085,17 @@ class Image
         $this->alterations[$method] = $arguments;
 
         return $this;
+    }
+
+    /**
+     * Return if alteration is applied.
+     *
+     * @param $method
+     * @return bool
+     */
+    public function hasAlteration($method)
+    {
+        return array_key_exists($method, $this->getAlterations());
     }
 
     /**
@@ -1089,16 +1184,11 @@ class Image
     /**
      * Get the quality.
      *
-     * @param  null $default
-     * @return int
+     * @return int|null
      */
-    public function getQuality($default = null)
+    public function getQuality()
     {
-        if (!$default) {
-            $this->config->get('streams::images.quality', 80);
-        }
-
-        return $this->quality ?: $default;
+        return $this->quality;
     }
 
     /**
@@ -1225,8 +1315,22 @@ class Image
         if (array_pop($arguments) !== false && (is_null($arguments[0]) || is_null($arguments[1]))) {
             $arguments[] = function (Constraint $constraint) {
                 $constraint->aspectRatio();
+                $constraint->upsize();
             };
         }
+    }
+
+    /**
+     * Set the public base directory.
+     *
+     * @param  $directory
+     * @return $this
+     */
+    public function setDirectory($directory)
+    {
+        $this->directory = $directory;
+
+        return $this;
     }
 
     /**
