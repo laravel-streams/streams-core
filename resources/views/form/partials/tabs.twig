@@ -1,8 +1,8 @@
 <ul class="nav nav-sections {{ stacked ? 'nav-stacked' }}">
     {% spaceless %}
-        {% for slug, tab in tabs %}
+        {% for tab in tabs %}
             <li class="nav-item {{ loop.first ? ' active' }}">
-                <a href="#tab-{{ slug }}" data-toggle="tab" class="nav-link">
+                <a href="#tab-{{ tab.slug }}" data-toggle="tab" class="nav-link">
                     {{ tab.icon ? icon(tab.icon) }}
                     {{ trans(tab.title) }}
                 </a>
@@ -12,8 +12,8 @@
 </ul>
 
 <div class="card-block">
-    {% for slug, tab in section.tabs %}
-        <div class="tab-pane {{ loop.first ? ' active' }}" id="tab-{{ slug }}">
+    {% for tab in section.tabs %}
+        <div class="tab-pane {{ loop.first ? ' active' }}" id="tab-{{ tab.slug }}">
             {% if tab.view %}
                 {% include tab.view %}
             {% elseif tab.html %}
