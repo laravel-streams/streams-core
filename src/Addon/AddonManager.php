@@ -31,6 +31,13 @@ class AddonManager
     protected $addons;
 
     /**
+     * The addon loader.
+     *
+     * @var AddonLoader
+     */
+    protected $loader;
+
+    /**
      * The service container.
      *
      * @var Container
@@ -68,16 +75,18 @@ class AddonManager
     /**
      * Create a new AddonManager instance.
      *
-     * @param AddonPaths      $paths
-     * @param ModuleModel     $modules
-     * @param Container       $container
-     * @param Dispatcher      $dispatcher
-     * @param ExtensionModel  $extensions
+     * @param AddonPaths $paths
+     * @param AddonLoader $loader
+     * @param ModuleModel $modules
+     * @param Container $container
+     * @param Dispatcher $dispatcher
+     * @param ExtensionModel $extensions
      * @param AddonIntegrator $integrator
      * @param AddonCollection $addons
      */
     public function __construct(
         AddonPaths $paths,
+        AddonLoader $loader,
         ModuleModel $modules,
         Container $container,
         Dispatcher $dispatcher,
@@ -87,11 +96,13 @@ class AddonManager
     ) {
         $this->paths      = $paths;
         $this->addons     = $addons;
+        $this->loader     = $loader;
         $this->modules    = $modules;
         $this->container  = $container;
         $this->integrator = $integrator;
         $this->dispatcher = $dispatcher;
         $this->extensions = $extensions;
+        $this->loader     = $loader;
     }
 
     /**
@@ -117,6 +128,18 @@ class AddonManager
         );
 
         $paths = $this->paths->all();
+
+        /**
+         * Autoload testing addons.
+         */
+        if (env('APP_ENV') === 'testing' && $testing = $this->paths->testing()) {
+
+            foreach ($testing as $path) {
+                $this->loader->load($path);
+            }
+
+            $this->loader->register();
+        }
 
         /*
          * Register all of the addons.

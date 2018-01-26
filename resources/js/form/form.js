@@ -1,6 +1,6 @@
 $(function () {
 
-    var $form = $("form.form");
+    let $form = $("form.form");
 
     if ($form.find(document.location.hash).length > 0) {
         $form.find('a[href="'+document.location.hash+'"]').tab("show");
@@ -26,8 +26,8 @@ $(function () {
     // Highlight tabs containing errors.
     $form.find(".has-danger").each(function () {
 
-        var $field = $(this);
-        var $pane = $field.closest(".tab-pane");
+        let $field = $(this);
+        let $pane = $field.closest(".tab-pane");
 
         if (!$pane.length) {
             return;

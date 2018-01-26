@@ -187,11 +187,11 @@ class AddonPaths
      *
      * @return array|bool
      */
-    protected function testing()
+    public function testing()
     {
         $path = base_path('vendor/anomaly/streams-platform/addons');
 
-        if (!is_dir($path) || env('APP_ENV') !== 'testing') {
+        if (env('APP_ENV') !== 'testing') {
             return false;
         }
 
