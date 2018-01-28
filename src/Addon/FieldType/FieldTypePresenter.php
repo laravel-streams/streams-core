@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Addon\AddonPresenter;
+use Robbo\Presenter\Decorator;
 
 /**
  * Class FieldTypePresenter
@@ -55,7 +56,7 @@ class FieldTypePresenter extends AddonPresenter
     public function label($text = null, $context = null, $size = null)
     {
         if (!$text) {
-            $text = (string)$this->object->getValue();
+            $text = trans((string)$this->object->getValue());
         }
 
         if (!$context) {
@@ -66,7 +67,7 @@ class FieldTypePresenter extends AddonPresenter
             $size = 'sm';
         }
 
-        return '<span class="tag tag-' . $context . ' tag-' . $size . '">' . trans($text) . '</span>';
+        return "<span class=\"tag tag-{$context} tag-{$size}\">{$text}</span>";
     }
 
     /**
@@ -89,9 +90,7 @@ class FieldTypePresenter extends AddonPresenter
             return $this->object;
         }
 
-        $decorator = app()->make('Robbo\Presenter\Decorator');
-
-        return $decorator->decorate(parent::__get($key));
+        return app()->make(Decorator::class)->decorate(parent::__get($key));
     }
 
     /**
