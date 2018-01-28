@@ -81,7 +81,7 @@ class FieldFactory
 
             /* @var EntryInterface $entry */
             $field->setValue(
-                (!is_null($value)) ? $modifier->restore($value) : $entry->getAttribute($field->getField())
+                (!is_null($value)) ? $modifier->restore($value) : $value
             );
         } elseif (is_object($entry)) {
             $field    = $this->builder->build($parameters);

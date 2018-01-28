@@ -41,11 +41,20 @@ class Purifier extends \HTMLPurifier
          * Replace <pre> and <code> blocks
          * that are complete with placeholders.
          */
-        preg_match_all("/\<pre\>(.+?)\<\/pre\>/s", $html, $pres, PREG_PATTERN_ORDER);
-        preg_match_all("/\<code\>(.+?)\<\/code\>/s", $html, $codes, PREG_PATTERN_ORDER);
+        preg_match_all(
+            '/\<(pre|code).*?\>(.+?)\<\/\1\>/si',
+            $html,
+            $matches,
+            PREG_SET_ORDER
+        );
 
-        $html = preg_replace("/\<pre\>(.+?)\<\/pre\>/s", "PRE_PLACEHOLDER", $html);
-        $html = preg_replace("/\<code\>(.+?)\<\/code\>/s", "CODE_PLACEHOLDER", $html);
+        foreach ($matches as $id => $match) {
+            str_replace(
+                array_get($match, 0),
+                strtoupper(array_get($match, 1)) . '_PLACEHOLDER_' . $id,
+                $html
+            );
+        }
 
         // Purify!
         $html = parent::purify($html, $config);
@@ -54,18 +63,15 @@ class Purifier extends \HTMLPurifier
          * Replace the placeholders with the
          * complete <pre> and <code> blocks.
          */
-        if (isset($pres[0])) {
-            foreach ($pres[0] as $pre) {
-                $html = preg_replace('/PRE_PLACEHOLDER/', $pre, $html, 1);
-            }
-        }
-
-        if (isset($codes[0])) {
-            foreach ($codes[0] as $code) {
-                $html = preg_replace('/CODE_PLACEHOLDER/', $code, $html, 1);
-            }
+        foreach ($matches as $id => $match) {
+            str_replace(
+                strtoupper(array_get($match, 1)) . '_PLACEHOLDER_' . $id,
+                array_get($match, 0),
+                $html
+            );
         }
 
         return $html;
     }
+
 }

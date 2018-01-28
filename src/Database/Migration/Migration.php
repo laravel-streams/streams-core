@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
-use Illuminate\Database\Schema\Builder;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 abstract class Migration extends \Illuminate\Database\Migrations\Migration

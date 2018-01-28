@@ -482,6 +482,18 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
     }
 
     /**
+     * Get the related locked assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getLockedAssignments()
+    {
+        $assignments = $this->getAssignments();
+
+        return $assignments->locked();
+    }
+
+    /**
      * Get the related unlocked assignments.
      *
      * @return AssignmentCollection
@@ -560,7 +572,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
      *
      * @param                 $fieldSlug
      * @param  EntryInterface $entry
-     * @param  null|string    $locale
+     * @param  null|string $locale
      * @return FieldType
      */
     public function getFieldType($fieldSlug, EntryInterface $entry = null, $locale = null)
@@ -577,7 +589,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
      *
      * @param                 $fieldSlug
      * @param  EntryInterface $entry
-     * @param  null|string    $locale
+     * @param  null|string $locale
      * @return FieldTypeQuery
      */
     public function getFieldTypeQuery($fieldSlug, EntryInterface $entry = null, $locale = null)
@@ -630,6 +642,16 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
         $namespace = ucfirst(camel_case($this->getNamespace()));
 
         return "Anomaly\\Streams\\Platform\\Model\\{$namespace}\\{$namespace}{$slug}EntryModel";
+    }
+
+    /**
+     * Get the bound entry model name.
+     *
+     * @return string
+     */
+    public function getBoundEntryModelName()
+    {
+        return get_class(app($this->getEntryModelName()));
     }
 
     /**

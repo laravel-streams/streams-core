@@ -4,13 +4,19 @@ use Anomaly\Streams\Platform\Addon\AddonLoader;
 use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Addon\Console\Command\MakeAddonPaths;
 use Anomaly\Streams\Platform\Addon\Console\Command\ScaffoldTheme;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonButtonLang;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonClass;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonComposer;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonFeatureTest;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonFieldLang;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonGitIgnore;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonLang;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPermissionLang;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPermissions;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPhpUnit;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonSectionLang;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonServiceProvider;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonStreamLang;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -47,15 +53,15 @@ class MakeAddon extends Command
      * Execute the console command.
      *
      * @param AddonManager $addons
-     * @param AddonLoader  $loader
-     * @param Repository   $config
+     * @param AddonLoader $loader
+     * @param Repository $config
      * @throws \Exception
      */
     public function handle(AddonManager $addons, AddonLoader $loader, Repository $config)
     {
         $namespace = $this->argument('namespace');
 
-        if (!str_is('*.*.*', $namespace)) {
+        if (preg_match('#^[a-zA-Z_]+\.[a-zA-Z_]+\.[a-zA-Z_]+\z#u', $namespace) !== 1) {
             throw new \Exception("The namespace should be snake case and formatted like: {vendor}.{type}.{slug}");
         }
 
@@ -106,6 +112,24 @@ class MakeAddon extends Command
                     '--fields' => true,
                 ]
             );
+        }
+
+        /**
+         * Scaffold Modules and Extensions.
+         */
+        if (in_array($type, ['module', 'extension'])) {
+            $this->dispatch(new WriteAddonFieldLang($path));
+            $this->dispatch(new WriteAddonStreamLang($path));
+            $this->dispatch(new WriteAddonPermissions($path));
+            $this->dispatch(new WriteAddonPermissionLang($path));
+        }
+
+        /**
+         * Scaffold Modules.
+         */
+        if ($type == 'module') {
+            $this->dispatch(new WriteAddonButtonLang($path));
+            $this->dispatch(new WriteAddonSectionLang($path));
         }
 
         /**

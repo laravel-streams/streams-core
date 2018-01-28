@@ -88,6 +88,10 @@ class AddonCollection extends Collection
      */
     public function get($key, $default = null)
     {
+        if (!$key) {
+            return $default;
+        }
+        
         if (!$addon = parent::get($key, $default)) {
             return $this->findBySlug($key);
         }

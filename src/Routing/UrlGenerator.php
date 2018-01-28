@@ -28,7 +28,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
      * Create a new UrlGenerator instance.
      *
      * @param RouteCollection $routes
-     * @param Request $request
+     * @param Request         $request
      */
     public function __construct(RouteCollection $routes, Request $request)
     {
@@ -37,7 +37,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
         $this->parser = app(Engine::class);
 
         if (defined('LOCALE')) {
-            $this->forceRootUrl($this->formatRoot(null) . '/' . LOCALE);
+            $this->forceRootUrl($request->root() . '/' . LOCALE);
         }
     }
 
@@ -45,8 +45,8 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
      * Generate an absolute URL to the given asset.
      *
      * @param            $path
-     * @param  null $locale
-     * @param  mixed $extra
+     * @param  null      $locale
+     * @param  mixed     $extra
      * @param  bool|null $secure
      * @return string
      */
@@ -62,8 +62,8 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
     /**
      * Generate an absolute URL to the given asset.
      *
-     * @param  string $asset
-     * @param  mixed $extra
+     * @param  string    $asset
+     * @param  mixed     $extra
      * @param  bool|null $secure
      * @return string
      */
@@ -106,7 +106,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
      *
      * @param                    $name
      * @param                    $entry
-     * @param  array $parameters
+     * @param  array             $parameters
      * @return mixed|null|string
      */
     public function make($name, $entry, array $parameters = [])
@@ -137,8 +137,8 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
      * Get the URL to a named route.
      *
      * @param  string $name
-     * @param  mixed $parameters
-     * @param  bool $absolute
+     * @param  mixed  $parameters
+     * @param  bool   $absolute
      * @return string
      *
      * @throws \InvalidArgumentException

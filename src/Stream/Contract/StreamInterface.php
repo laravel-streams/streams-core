@@ -193,6 +193,13 @@ interface StreamInterface
     public function getRequiredAssignments();
 
     /**
+     * Get the related locked assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getLockedAssignments();
+
+    /**
      * Get the related unlocked assignments.
      *
      * @return AssignmentCollection
@@ -251,6 +258,13 @@ interface StreamInterface
      * @return string
      */
     public function getEntryModelName();
+
+    /**
+     * Get the bound entry model name.
+     *
+     * @return string
+     */
+    public function getBoundEntryModelName();
 
     /**
      * Get a field's type by the field's slug.

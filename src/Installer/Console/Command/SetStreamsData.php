@@ -38,5 +38,7 @@ class SetStreamsData
         $this->data->put('APP_ENV', 'local');
         $this->data->put('INSTALLED', 'false');
         $this->data->put('APP_KEY', str_random(32));
+        $this->data->put('APP_DEBUG', 'true');
+        $this->data->put('DEBUG_BAR', 'false');
     }
 }

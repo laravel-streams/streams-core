@@ -31,16 +31,18 @@ class FieldTranslator
          */
         foreach ($builder->getFields() as $field) {
             if (!array_get($field, 'translatable', false)) {
+
                 $translations[] = $field;
 
                 continue;
             }
 
             foreach ($enabledLocales as $locale) {
+
                 $translation = $field;
 
                 array_set($translation, 'locale', $locale);
-                array_set($translation, 'hidden', $locale !== $locale);
+                array_set($translation, 'hidden', array_get($field, 'hidden', false) ?: ($locale !== $locale));
                 
                 if ($value = array_get($field, 'values.' . $locale)) {
                     array_set($translation, 'value', $value);

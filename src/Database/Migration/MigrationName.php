@@ -27,17 +27,7 @@ class MigrationName
      */
     public function withoutDatePrefix()
     {
-        $parts = explode('_', basename($this->file));
-
-        $numeric = array_filter(array_slice($parts, 0, 4), function ($value) {
-            return is_numeric($value);
-        });
-
-        if (count($numeric) !== 4) {
-            return $this->file;
-        }
-
-        return implode('_', array_slice($parts, 4));
+        return preg_replace('/^(\d{4}_\d{2}_\d{2}_\d{6}_)/', '', basename($this->file));
     }
 
     /**
@@ -47,9 +37,7 @@ class MigrationName
      */
     public function addonNamespace()
     {
-        $segments = explode('__', $this->withoutDatePrefix());
-
-        return $segments[0];
+        return preg_replace('/(__\w+)(\.php)?$/', '', $this->withoutDatePrefix());
     }
 
     /**

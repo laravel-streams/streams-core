@@ -70,11 +70,7 @@ class SegmentBuilder
 
         $segments = new SegmentCollection();
 
-        if (!$builder->getSegments()) {
-            $builder->setSegments(['entry.edit_link']);
-        }
-
-        $this->input->read($builder, $entry);
+        $this->input->read($builder);
 
         foreach ($builder->getSegments() as $segment) {
             array_set($segment, 'entry', $entry);

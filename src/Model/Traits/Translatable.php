@@ -124,10 +124,17 @@ trait Translatable
     /*
      * Alias for getTranslation()
      *
-     * @return EloquentModel|null|$this
      */
-    public function translateOrDefault($locale)
+    /**
+     * @param null $locale
+     * @return Translatable
+     */
+    public function translateOrDefault($locale = null)
     {
+        if (!$locale) {
+            $locale = $this->getDefaultLocale();
+        }
+
         return $this->getTranslation($locale, true) ?: $this;
     }
 
@@ -250,6 +257,17 @@ trait Translatable
     public function getTranslationModelName()
     {
         return $this->translationModel;
+    }
+
+    /**
+     * Return if the model IS the
+     * default translation or not.
+     *
+     * @return bool
+     */
+    public function isDefaultTranslation()
+    {
+        return $this->getAttribute('locale') === $this->getDefaultLocale();
     }
 
     /**

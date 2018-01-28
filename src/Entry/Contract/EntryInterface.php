@@ -395,6 +395,13 @@ interface EntryInterface
     public function getRouterName();
 
     /**
+     * Get the query builder name.
+     *
+     * @return string
+     */
+    public function getQueryBuilderName();
+
+    /**
      * Return whether the title column is
      * translatable or not.
      *

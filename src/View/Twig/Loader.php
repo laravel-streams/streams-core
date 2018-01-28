@@ -13,9 +13,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use Illuminate\View\ViewFinderInterface;
-use InvalidArgumentException;
 use Mobile_Detect;
-use Twig_Error_Loader;
 
 /**
  * Basic loader using absolute paths.
@@ -149,7 +147,7 @@ class Loader extends OriginalLoader
         $this->request   = $request;
         $this->overrides = $overrides;
 
-        $area = $request->segment(1) == 'admin' ? 'admin' : 'standard';
+        $area = $request->segment(1) == 'admin' ?: 'standard';
 
         $this->theme  = $this->addons->themes->active($area);
         $this->module = $this->addons->modules->active();
@@ -159,12 +157,16 @@ class Loader extends OriginalLoader
         parent::__construct($files, $finder, $extension);
     }
 
+    /**
+     * Gets the path.
+     *
+     * @param      string   $name   The name
+     * @return     boolean  The path.
+     */
     protected function getPath($name)
     {
-
         $mobile = $this->mobiles->get($this->theme->getNamespace(), []);
-
-        $_path = false;
+        $result = false;
 
         /**
          * Merge system configured overrides
@@ -177,36 +179,40 @@ class Loader extends OriginalLoader
 
         $name = str_replace('theme::', $this->theme->getNamespace() . '::', $name);
 
-        if ($this->mobile && $path = array_get($mobile, $name, null)) {
-            $_path = $path;
-        } elseif ($path = array_get($overrides, $name, null)) {
-            $_path = $path;
+        if ($this->mobile && $path = array_get($mobile, $name)) {
+            $result = $path;
+        } elseif ($path = array_get($overrides, $name)) {
+            $result = $path;
         }
 
         if ($this->module) {
-
             $mobile    = $this->mobiles->get($this->module->getNamespace(), []);
             $overrides = $this->overrides->get($this->module->getNamespace(), []);
 
-            if ($this->mobile && $path = array_get($mobile, $name, null)) {
-                $_path = $path;
-            } elseif ($path = array_get($overrides, $name, null)) {
-                $_path = $path;
-            } elseif ($path = array_get(config('streams.overrides'), $name, null)) {
-                $_path = $path;
+            if ($this->mobile && $path = array_get($mobile, $name)) {
+                $result = $path;
+            } elseif ($path = array_get($overrides, $name)) {
+                $result = $path;
+            } elseif ($path = array_get(config('streams.overrides'), $name)) {
+                $result = $path;
             }
         }
 
-        if ($overload = $this->getOverloadPath($name)) {
-            $_path = $overload;
+        if ($path = $this->getOverloadPath($name)) {
+            return $path;
         }
 
-        return $_path;
+        return $result;
     }
 
-    public function getOverloadPath($name)
+    /**
+     * Gets the overload path.
+     *
+     * @param      string  $name   The name
+     * @return     string  The overload path.
+     */
+    protected function getOverloadPath($name)
     {
-
         /*
          * We can only overload namespaced
          * views right now.
@@ -222,8 +228,7 @@ class Loader extends OriginalLoader
         list($namespace, $path) = explode('::', $name);
 
         $override = null;
-
-        $path = str_replace('.', '/', $path);
+        $path     = str_replace('.', '/', $path);
 
         /*
          * If the view is a streams view then
@@ -231,7 +236,7 @@ class Loader extends OriginalLoader
          * override path should be.
          */
         if ($namespace == 'streams') {
-            $path = $this->theme->getNamespace('streams/' . $path);
+            $path = $this->theme->getNamespace("streams/{$path}");
         }
 
         /*
@@ -240,7 +245,7 @@ class Loader extends OriginalLoader
          */
         if ($addon = $this->addons->get($namespace)) {
             $override = $this->theme->getNamespace(
-                "addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/" . $path
+                "addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/{$path}"
             );
         }
 
@@ -255,7 +260,6 @@ class Loader extends OriginalLoader
      * Return path to template without the need for the extension.
      *
      * @param string $name Template file name or path.
-     *
      * @throws \Twig_Error_Loader
      * @return string Path to template
      */
@@ -267,22 +271,23 @@ class Loader extends OriginalLoader
 
         $name = $this->normalizeName($name);
 
-        if (isset($this->cache[$name])) {
-            return $this->cache[$name];
+        if ($cached = array_get($this->cache, $name)) {
+            return $cached;
         }
 
         $file = $name;
-        if (($path = $this->getPath($name))) {
+
+        if ($path = $this->getPath($name)) {
             $file = $path;
         }
 
         try {
             $this->cache[$name] = $this->finder->find($file);
-        } catch (InvalidArgumentException $ex) {
-            throw new Twig_Error_Loader($ex->getMessage());
+        } catch (\InvalidArgumentException $e) {
+            throw new \Twig_Error_Loader($e->getMessage());
         }
 
-        return $this->cache[$name];
+        return array_get($this->cache, $name);
     }
 
 }

@@ -24,7 +24,8 @@ class FormAttributes
 
         /* @var FieldType $field */
         foreach ($builder->getEnabledFormFields() as $field) {
-            $label = $field->getLabel();
+
+            $label = $field->getLabel() ?: ucfirst(str_humanize($field->getField()));
 
             if (str_contains($label, '::')) {
                 $label = trans($label);

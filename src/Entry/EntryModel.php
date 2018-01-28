@@ -217,13 +217,22 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $value = $modifier->restore($accessor->get());
 
+        $type->setValue($value);
+
+        /**
+         * Check for fallback values.
+         *
+         * @var EntryTranslationsModel $translation
+         */
         if (
-            $value === null &&
+            !$type->hasValue() &&
             $assignment->isTranslatable() &&
-            $assignment->isRequired() &&
-            $translation = $this->translate()
+            ($translation = $this->translateOrDefault()) &&
+            $translation instanceof EntryTranslationsModel
         ) {
+            $type->setValue($value);
             $type->setEntry($translation);
+            $type->setLocale($translation->getLocale());
 
             $value = $modifier->restore($accessor->get());
         }
@@ -393,10 +402,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
             return parent::getAttribute(camel_case($key));
         }
 
-        if (
-            !$this->hasGetMutator($key)
-            && in_array($key, $this->fields)
-        ) {
+        if (!$this->hasGetMutator($key) && in_array($key, $this->fields)) {
             return $this->getFieldValue($key);
         }
 
@@ -817,6 +823,8 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     /**
      * Return a model route.
      *
+     * @param $route The route name you would like to return a URL for (i.e. "view" or "delete")
+     * @param array $parameters
      * @return string
      */
     public function route($route, array $parameters = [])
@@ -870,7 +878,21 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function newEloquentBuilder($query)
     {
-        return new EntryQueryBuilder($query);
+        $builder = $this->getQueryBuilderName();
+
+        return new $builder($query);
+    }
+
+    /**
+     * Get the router name.
+     *
+     * @return string
+     */
+    public function getQueryBuilderName()
+    {
+        $builder = substr(get_class($this), 0, -5) . 'QueryBuilder';
+
+        return class_exists($builder) ? $builder : EntryQueryBuilder::class;
     }
 
     /**

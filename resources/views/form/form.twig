@@ -7,7 +7,7 @@
     <div class="container-fluid">
 
         {{ form_open({
-            'class': 'form',
+            'class': 'form ' ~ form.options.class ,
             'enctype': 'multipart/form-data',
             'url': form.options.url ?: url_full()
         }) }}

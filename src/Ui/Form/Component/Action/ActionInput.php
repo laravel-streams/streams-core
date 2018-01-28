@@ -69,6 +69,13 @@ class ActionInput
     protected $normalizer;
 
     /**
+     * The action translator.
+     *
+     * @var ActionTranslator
+     */
+    protected $translator;
+
+    /**
      * Create an ActionInput instance.
      *
      * @param ActionParser     $parser
@@ -79,6 +86,7 @@ class ActionInput
      * @param ActionDropdown   $dropdown
      * @param ActionPredictor  $predictor
      * @param ActionNormalizer $normalizer
+     * @param ActionTranslator $translator
      */
     public function __construct(
         ActionParser $parser,
@@ -88,7 +96,8 @@ class ActionInput
         ActionDefaults $defaults,
         ActionDropdown $dropdown,
         ActionPredictor $predictor,
-        ActionNormalizer $normalizer
+        ActionNormalizer $normalizer,
+        ActionTranslator $translator
     ) {
         $this->parser     = $parser;
         $this->lookup     = $lookup;
@@ -98,6 +107,7 @@ class ActionInput
         $this->dropdown   = $dropdown;
         $this->predictor  = $predictor;
         $this->normalizer = $normalizer;
+        $this->translator = $translator;
     }
 
     /**
@@ -116,5 +126,6 @@ class ActionInput
         $this->lookup->merge($builder);
         $this->parser->parse($builder);
         $this->dropdown->build($builder);
+        $this->translator->translate($builder);
     }
 }

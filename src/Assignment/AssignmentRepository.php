@@ -42,7 +42,15 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
      */
     public function create(array $attributes = [])
     {
-        $attributes['sort_order'] = array_get($attributes, 'sort_order', $this->model->count('id') + 1);
+        array_set(
+            $attributes,
+            'sort_order',
+            array_get(
+                $attributes,
+                'sort_order',
+                $this->model->count('id') + 1
+            )
+        );
 
         return $this->model->create($attributes);
     }
@@ -54,9 +62,15 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
      * @param  FieldInterface  $field
      * @return null|AssignmentInterface|EloquentModel
      */
-    public function findByStreamAndField(StreamInterface $stream, FieldInterface $field)
+    public function findByStreamAndField(
+        StreamInterface $stream,
+        FieldInterface $field
+    )
     {
-        return $this->model->where('stream_id', $stream->getId())->where('field_id', $field->getId())->first();
+        return $this->model
+            ->where('stream_id', $stream->getId())
+            ->where('field_id', $field->getId())
+            ->first();
     }
 
     /**
@@ -76,8 +90,18 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
     public function cleanup()
     {
         $assignments = $this->model
-            ->leftJoin('streams_streams', 'streams_assignments.stream_id', '=', 'streams_streams.id')
-            ->leftJoin('streams_fields', 'streams_assignments.field_id', '=', 'streams_fields.id')
+            ->leftJoin(
+                'streams_streams',
+                'streams_assignments.stream_id',
+                '=',
+                'streams_streams.id'
+            )
+            ->leftJoin(
+                'streams_fields',
+                'streams_assignments.field_id',
+                '=',
+                'streams_fields.id'
+            )
             ->whereNull('streams_streams.id')
             ->orWhereNull('streams_fields.id')
             ->get();

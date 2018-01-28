@@ -1,6 +1,6 @@
 <tbody>
 {% for row in table.rows %}
-    <tr id="{{ loop.index }}">
+    <tr id="{{ loop.index }}" class="{{ row.class }}">
 
         {% if table.options.sortable %}
             <td>
@@ -16,7 +16,8 @@
         {% endif %}
 
         {% for column in row.columns %}
-            <td class="{{ column.class }}" {{ column.attributes }}>
+            <td data-title="{{ trans(column.heading) }}"
+                class="{{ column.class }}" {{ html_attributes(column.attributes) }}>
                 {{ column.value|raw }}
             </td>
         {% endfor %}

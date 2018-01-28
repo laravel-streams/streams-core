@@ -100,10 +100,18 @@ class DetectActiveModule
          *
          * @var Route $route
          */
-        $route = $this->request->route();
+        if (!$route = $this->request->route()) {
+            return;
+        }
+
+        /**
+         * Pull the addon namespace
+         * out of the route action.
+         */
+        $module = array_get($route->getAction(), 'streams::addon');
 
         /* @var Module $module */
-        if ($route && $module = $this->modules->get(array_get($route->getAction(), 'streams::addon'))) {
+        if ($module && $module = $this->modules->get($module)) {
             $module->setActive(true);
         }
 

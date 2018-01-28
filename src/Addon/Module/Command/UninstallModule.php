@@ -45,6 +45,7 @@ class UninstallModule
 
         $options = [
             '--addon' => $this->module->getNamespace(),
+            '--force' => true
         ];
 
         $console->call('migrate:reset', $options);

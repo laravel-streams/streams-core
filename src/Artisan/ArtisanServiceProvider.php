@@ -37,6 +37,7 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
 
         // Streams Commands
         'Anomaly\Streams\Platform\Stream\Console\Make',
+        'Anomaly\Streams\Platform\Stream\Console\Index',
         'Anomaly\Streams\Platform\Stream\Console\Compile',
         'Anomaly\Streams\Platform\Stream\Console\Refresh',
         'Anomaly\Streams\Platform\Stream\Console\Cleanup',

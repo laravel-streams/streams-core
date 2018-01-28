@@ -72,12 +72,15 @@ class RowBuilder
     public function build(TableBuilder $builder)
     {
         foreach ($builder->getTableEntries() as $entry) {
+
             $columns = $this->columns->build($builder, $entry);
             $buttons = $this->buttons->build($builder, $entry);
 
             $buttons = $buttons->enabled();
 
-            $row = compact('columns', 'buttons', 'entry');
+            $class = $builder->getOption('row_class');
+
+            $row = compact('columns', 'buttons', 'entry', 'class');
 
             if ($entry instanceof Model) {
                 $row['key'] = $entry->getKey();
