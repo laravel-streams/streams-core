@@ -84,6 +84,8 @@ class RowBuilder
 
             if ($entry instanceof Model) {
                 $row['key'] = $entry->getKey();
+            } elseif(isset($entry['id'])){
+                $row['key'] = $entry['id'];
             }
 
             $row['table'] = $builder->getTable();
