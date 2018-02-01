@@ -54,7 +54,9 @@ class FieldTypeQuery
         $translations = $stream->getEntryTranslationsTableName();
 
         if ($assignment->isTranslatable()) {
+
             if ($query instanceof EloquentQueryBuilder && !$query->hasJoin($translations)) {
+
                 $query->leftJoin(
                     $translations,
                     "{$entry}.id",
@@ -91,12 +93,15 @@ class FieldTypeQuery
         } else {
             $query->{$this->where()}(
                 function (Builder $query) use ($stream, $filter, $column, $entry) {
+
                     if (method_exists($this->fieldType, 'getRelation')) {
+
                         $query->where(
                             "{$entry}.{$column}",
                             $filter->getValue()
                         );
                     } else {
+
                         $query->where(
                             "{$entry}.{$column}",
                             'LIKE',

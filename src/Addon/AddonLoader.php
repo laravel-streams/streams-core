@@ -95,6 +95,16 @@ class AddonLoader
     }
 
     /**
+     * Return the class loader.
+     *
+     * @return ClassLoader
+     */
+    public function classLoader()
+    {
+        return $this->loader;
+    }
+
+    /**
      * Dump the autoloader.
      *
      * return $this

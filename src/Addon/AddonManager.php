@@ -75,12 +75,12 @@ class AddonManager
     /**
      * Create a new AddonManager instance.
      *
-     * @param AddonPaths $paths
-     * @param AddonLoader $loader
-     * @param ModuleModel $modules
-     * @param Container $container
-     * @param Dispatcher $dispatcher
-     * @param ExtensionModel $extensions
+     * @param AddonPaths      $paths
+     * @param AddonLoader     $loader
+     * @param ModuleModel     $modules
+     * @param Container       $container
+     * @param Dispatcher      $dispatcher
+     * @param ExtensionModel  $extensions
      * @param AddonIntegrator $integrator
      * @param AddonCollection $addons
      */
@@ -137,6 +137,11 @@ class AddonManager
             foreach ($testing as $path) {
                 $this->loader->load($path);
             }
+
+            $this->loader->classLoader()->addPsr4(
+                'Anomaly\\StreamsPlatformTests\\',
+                base_path('vendor/anomaly/streams-platform/tests')
+            );
 
             $this->loader->register();
         }
