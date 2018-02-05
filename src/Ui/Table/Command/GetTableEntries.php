@@ -56,7 +56,7 @@ class GetTableEntries
         /*
          * Resolve the model out of the container.
          */
-        $repository = $this->builder->getRepository();
+        $repository = app($this->builder->getRepository());
         
         /*
          * If the repository is an instance of
