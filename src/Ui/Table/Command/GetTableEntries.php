@@ -56,9 +56,12 @@ class GetTableEntries
         /*
          * Resolve the model out of the container.
          */
-        if (is_string(($repository = $this->builder->getRepository()))) {
+        $repository = $this->builder->getRepository();
+
+        if (is_string($repository) && class_exists($repository)) {
             $repository = app($repository);
         }
+
         /*
          * If the repository is an instance of
          * TableRepositoryInterface use it.
