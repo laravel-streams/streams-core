@@ -204,4 +204,19 @@ interface ViewInterface
      * @return $this
      */
     public function setOptions($options);
+
+    /**
+     * Get the entries.
+     *
+     * @return null|array
+     */
+    public function getEntries();
+
+    /**
+     * Set the entries.
+     *
+     * @param $entries
+     * @return $this
+     */
+    public function setEntries($entries);
 }

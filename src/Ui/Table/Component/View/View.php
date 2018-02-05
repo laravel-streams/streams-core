@@ -108,6 +108,13 @@ class View implements ViewInterface
     protected $query = null;
 
     /**
+     * The view entries.
+     *
+     * @var null|mixed
+     */
+    protected $entries = null;
+
+    /**
      * Get the attributes.
      *
      * @return array
@@ -402,6 +409,29 @@ class View implements ViewInterface
     public function setOptions($options)
     {
         $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * Get the entries.
+     *
+     * @return null|array
+     */
+    public function getEntries()
+    {
+        return $this->entries;
+    }
+
+    /**
+     * Set the entries.
+     *
+     * @param $entries
+     * @return $this
+     */
+    public function setEntries($entries)
+    {
+        $this->entries = $entries;
 
         return $this;
     }
