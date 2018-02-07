@@ -35,7 +35,7 @@ class SetDefaultOptions
      * Handle the command.
      *
      * @param ModuleCollection $modules
-     * @param Request $request
+     * @param Request          $request
      */
     public function handle(ModuleCollection $modules, Request $request)
     {
@@ -80,7 +80,7 @@ class SetDefaultOptions
          * then set the values from the request on the builder
          * last so it actually has an effect. Otherwise default.
          */
-        if ($table->getOption('limit') === null) {
+        if ($table->getOption('limit') === null && !$this->builder->getRequestValue('limit')) {
             $table->setOption(
                 'limit',
                 $this->builder->getRequestValue('limit', config('streams::system.per_page', 15))
