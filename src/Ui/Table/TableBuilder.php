@@ -397,6 +397,34 @@ class TableBuilder
     }
 
     /**
+     * Add a button.
+     *
+     * @param $slug
+     * @param $button
+     * @return $this
+     */
+    public function addButton($slug, $button)
+    {
+        $this->buttons[$slug] = $button;
+
+        return $this;
+    }
+
+    /**
+     * Add more buttons.
+     *
+     * @param       $slug
+     * @param array $buttons
+     * @return $this
+     */
+    public function addButtons(array $buttons)
+    {
+        $this->buttons = array_merge($this->buttons, $buttons);
+
+        return $this;
+    }
+
+    /**
      * Set the buttons configuration.
      *
      * @param $buttons
