@@ -201,7 +201,7 @@ class Value
          * If the value looks like a render-able
          * string then render it.
          */
-        if (is_string($value) && str_contains($value, '{{')) {
+        if (is_string($value) && str_contains($value, ['{{', '{%'])) {
             $value = $this->template->render($value, [$term => $entry]);
         }
 

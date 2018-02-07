@@ -632,6 +632,18 @@ class TableBuilder
     }
 
     /**
+     * Get the active table filters.
+     *
+     * @return Component\Filter\FilterCollection
+     */
+    public function getActiveTableFilters()
+    {
+        return $this->table
+            ->getFilters()
+            ->active();
+    }
+
+    /**
      * Get the table filter.
      *
      * @param $key
