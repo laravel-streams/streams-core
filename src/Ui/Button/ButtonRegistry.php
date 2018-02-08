@@ -251,7 +251,7 @@ class ButtonRegistry
             'icon'       => 'times-circle',
             'text'       => 'streams::button.uninstall',
             'attributes' => [
-                'data-toggle'  => 'confirm',
+                'data-toggle'  => 'prompt',
                 'data-icon'    => 'warning',
                 'data-title'   => 'streams::message.confirm_uninstall_title',
                 'data-message' => 'streams::message.confirm_uninstall_message',

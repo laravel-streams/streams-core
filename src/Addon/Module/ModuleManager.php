@@ -70,4 +70,5 @@ class ModuleManager
     {
         $this->dispatch(new MigrateModule($module, $seed));
     }
+
 }

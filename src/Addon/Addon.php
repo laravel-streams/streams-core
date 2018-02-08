@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\AddonPresenter;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -264,6 +263,22 @@ class Addon implements PresentableInterface, Arrayable
                 return $package->name == $this->getPackageName();
             }
         );
+    }
+
+    /**
+     * Get the README.md contents.
+     *
+     * @return string|null
+     */
+    public function getReadme()
+    {
+        $readme = $this->getPath('README.md');
+
+        if (file_exists($readme)) {
+            return file_get_contents($readme);
+        }
+
+        return null;
     }
 
     /**
