@@ -490,9 +490,15 @@ class AddonProvider
         $this->events->listen(
             'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
             function (RegisteringTwigPlugins $event) use ($plugins) {
+
                 $twig = $event->getTwig();
 
                 foreach ($plugins as $plugin) {
+
+                    if ($twig->hasExtension($plugin)) {
+                        continue;
+                    }
+
                     $twig->addExtension(app($plugin));
                 }
             }
