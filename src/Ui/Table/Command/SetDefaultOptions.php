@@ -80,7 +80,7 @@ class SetDefaultOptions
          * then set the values from the request on the builder
          * last so it actually has an effect. Otherwise default.
          */
-        if ($table->getOption('limit') === null && !$this->builder->getRequestValue('limit')) {
+        if ($table->getOption('limit') === null) {
             $table->setOption(
                 'limit',
                 $this->builder->getRequestValue('limit', config('streams::system.per_page', 15))
