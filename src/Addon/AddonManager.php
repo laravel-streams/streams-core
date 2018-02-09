@@ -107,8 +107,10 @@ class AddonManager
 
     /**
      * Register all addons.
+     *
+     * @param bool $reload
      */
-    public function register()
+    public function register($reload = false)
     {
         $enabled   = $this->getEnabledAddonNamespaces();
         $installed = $this->getInstalledAddonNamespaces();
@@ -128,6 +130,15 @@ class AddonManager
         );
 
         $paths = $this->paths->all();
+
+        /**
+         * If we need to load then
+         * loop and load all the addons.
+         */
+        if ($reload) {
+            $this->loader->load($paths);
+            $this->loader->register();
+        }
 
         /**
          * Autoload testing addons.
