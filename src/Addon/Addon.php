@@ -20,6 +20,13 @@ class Addon implements PresentableInterface, Arrayable
     use DispatchesJobs;
 
     /**
+     * Static shared cache.
+     *
+     * @var array
+     */
+    protected static $_cache = [];
+
+    /**
      * Runtime cache.
      *
      * @var array
@@ -233,34 +240,52 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function getComposerJson()
     {
-        $json = $this->getPath('composer.json');
+        $key = $this->getNamespace() . '::' . __FUNCTION__;
 
-        if (!file_exists($json)) {
-            return null;
+        if (isset(self::$_cache[$key])) {
+            return self::$_cache[$key];
         }
 
-        return json_decode(file_get_contents($json));
+        $composer = $this->getPath('composer.json');
+
+        if (!file_exists($composer)) {
+            return self::$_cache[$key] = null;
+        }
+
+        if (!$json = array_get(self::$_cache, $key . '::composer')) {
+            $json = self::$_cache[$key . '::composer'] = json_decode(file_get_contents($composer));
+        }
+
+        return self::$_cache[$key] = json_decode(file_get_contents($json), true);
     }
 
     /**
      * Get the composer json contents.
      *
-     * @return mixed|null
+     * @return array|null
      */
     public function getComposerLock()
     {
-        $json = base_path('composer.lock');
+        $key = $this->getNamespace() . '::' . __FUNCTION__;
 
-        if (!file_exists($json)) {
-            return null;
+        if (isset(self::$_cache[$key])) {
+            return self::$_cache[$key];
         }
 
-        $json = json_decode(file_get_contents($json));
+        $lock = base_path('composer.lock');
 
-        return array_first(
-            $json->packages,
-            function (\stdClass $package) {
-                return $package->name == $this->getPackageName();
+        if (!file_exists($lock)) {
+            return self::$_cache[$key] = null;
+        }
+
+        if (!$json = array_get(self::$_cache, 'composer.lock')) {
+            $json = self::$_cache['composer.lock'] = json_decode(file_get_contents($lock), true);
+        }
+
+        return self::$_cache[$key] = array_first(
+            $json['packages'],
+            function (array $package) {
+                return $package['name'] == $this->getPackageName();
             }
         );
     }
