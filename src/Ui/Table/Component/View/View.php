@@ -38,6 +38,13 @@ class View implements ViewInterface
     protected $icon = null;
 
     /**
+     * The view label.
+     *
+     * @var string
+     */
+    protected $label;
+
+    /**
      * The active flag.
      *
      * @var bool
@@ -50,6 +57,13 @@ class View implements ViewInterface
      * @var string
      */
     protected $prefix = null;
+
+    /**
+     * The view context.
+     *
+     * @var string
+     */
+    protected $context = 'danger';
 
     /**
      * The attributes array.
@@ -113,6 +127,52 @@ class View implements ViewInterface
      * @var null|mixed
      */
     protected $entries = null;
+
+    /**
+     * Get the label.
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    /**
+     * Set the label.
+     *
+     * @param  string $label
+     * @return $this
+     */
+    public function setLabel($label)
+    {
+        $this->label = $label;
+
+        return $this;
+    }
+
+    /**
+     * Get the context.
+     *
+     * @return boolean
+     */
+    public function getContext()
+    {
+        return $this->context;
+    }
+
+    /**
+     * Set the context flag.
+     *
+     * @param  boolean $active
+     * @return $this
+     */
+    public function setContext($context)
+    {
+        $this->context = $context;
+
+        return $this;
+    }
 
     /**
      * Get the attributes.
