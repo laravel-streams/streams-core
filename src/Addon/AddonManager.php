@@ -138,6 +138,7 @@ class AddonManager
         if ($reload) {
             $this->loader->load($paths);
             $this->loader->register();
+            $this->loader->dump();
         }
 
         /**
