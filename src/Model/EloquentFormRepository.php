@@ -89,7 +89,10 @@ class EloquentFormRepository implements FormRepositoryInterface
         $entry  = $form->getEntry();
         $fields = $form->getFields();
 
-        $allowed  = $fields->allowed();
+        $allowed = $fields
+            ->autoHandling()
+            ->savable();
+
         $disabled = $fields->disabled();
 
         /*
