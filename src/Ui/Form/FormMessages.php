@@ -30,7 +30,7 @@ class FormMessages
                     $message = trans($message);
                 }
 
-                $messages[$rule] = $message;
+                $messages[$field->field.'.'.$rule] = $message;
             }
 
             foreach ($field->getMessages() as $rule => $message) {
@@ -38,7 +38,7 @@ class FormMessages
                     $message = trans($message);
                 }
 
-                $messages[$rule] = $message;
+                $messages[$field->field.'.'.$rule] = $message;
             }
         }
 
