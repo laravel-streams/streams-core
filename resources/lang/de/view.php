@@ -2,6 +2,7 @@
 
 return [
     'all'               => 'Alle',
+    'trash'             => 'Papierkorb',
     'newest'            => 'Neuste',
     'latest'            => 'Letzte',
     'recently_created'  => 'Kürzlich erstellt',
