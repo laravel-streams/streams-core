@@ -307,8 +307,13 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register(\Intervention\Image\ImageServiceProvider::class);
         $this->app->register(\TeamTNT\Scout\TNTSearchScoutServiceProvider::class);
 
+        // Register debuggers.
         if (config('app.debug')) {
-            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+            $this->app->registerDeferredProvider(\Barryvdh\Debugbar\ServiceProvider::class);
+        }
+
+        if (env('APP_ENV') !== 'production' && class_exists(\Laravel\Tinker\TinkerServiceProvider::class)) {
+            $this->app->registerDeferredProvider(\Laravel\Tinker\TinkerServiceProvider::class);
         }
 
         // Register bindings.

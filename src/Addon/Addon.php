@@ -252,11 +252,11 @@ class Addon implements PresentableInterface, Arrayable
             return self::$_cache[$key] = null;
         }
 
-        if (!$json = array_get(self::$_cache, $key . '::composer')) {
-            $json = self::$_cache[$key . '::composer'] = json_decode(file_get_contents($composer));
+        if (!$json = array_get(self::$_cache, $key)) {
+            return self::$_cache[$key] = json_decode(file_get_contents($composer), true);
         }
 
-        return self::$_cache[$key] = json_decode(file_get_contents($json), true);
+        return $json;
     }
 
     /**
