@@ -11,106 +11,72 @@ return [
         'instructions' => 'Was ist der Slogan oder eine kurze Beschreibung Ihrer Website?',
         'placeholder'  => trans('distribution::addon.description')
     ],
-    'default_timezone' => [
-        'label'        => 'Standard Zeitzone',
-        'instructions' => 'Geben Sie die Standard Zeitzone an. Diese wird von allen Datums- und Zeit-Funktionen verwendet.'
+    'timezone'        => [
+        'label'        => 'Zeitzone',
+        'instructions' => 'Geben Sie die Standardzeitzone für Ihre Webseite an.',
+    ],
+    'unit_system'     => [
+        'label'        => 'Einheitensystem',
+        'instructions' => 'Geben Sie das Einheitensystem für Ihre Webseite an.',
+        'option'       => [
+            'imperial' => 'Angloamerikanisches System',
+            'metric'   => 'Metrisches System',
+        ],
+    ],
+    'currency'        => [
+        'label'        => 'Währung',
+        'instructions' => 'Geben Sie die Standardwährung für Ihre Website an.',
     ],
     'date_format'      => [
         'label'        => 'Datumsformat',
-        'instructions' => 'Wie soll eine Datumsangabe auf der Website und im Control Panel dargestellt werden? Beachten Sie das <a href="http://php.net/manual/de/function.date.php" target="_blank">Datumsformat</a> von PHP.',
-        'placeholder'  => 'm/d/Y'
+        'instructions' => 'Geben Sie das Standard-Datumsformat für Ihre Webseite an.',
     ],
     'time_format'      => [
         'label'        => 'Zeitformat',
-        'instructions' => 'Wie soll eine Zeitangabe auf der Website und im Control Panel dargestellt werden? Beachten Sie das <a href="http://php.net/manual/de/function.date.php" target="_blank">Zeitformat</a> von PHP.',
-        'placeholder'  => 'g:i A'
+        'instructions' => 'Geben Sie das Standard-Zeitformat für Ihre Webseite an.',
     ],
     'default_locale'   => [
-        'label'        => 'Standard Sprache',
-        'instructions' => 'Was ist die Standard Sprache Ihrer Applikation?'
+        'label'        => 'Sprache',
+        'instructions' => 'Geben Sie die Standardsprache für Ihre Webseite an.'
     ],
     'enabled_locales'  => [
         'label'        => 'Aktivierte Sprachen',
-        'instructions' => 'Geben Sie an, welche Sprachen für Ihre Website oder Applikation verfügbar sein werden.'
+        'instructions' => 'Geben Sie an, welche Sprachen für Ihre Website verfügbar sein sollen.'
     ],
-    'site_enabled'     => [
-        'label'        => 'Site aktiviert',
-        'instructions' => 'Verwenden Sie diese Option, um den öffentlichen Teil Ihrer Website zu aktivieren oder zu deaktivieren.<br>Das ist hilfreich, wenn Sie die Website oder Applikation für Wartung oder Entwicklungen deaktivieren möchten.'
+    'maintenance'     => [
+        'label'        => 'Wartungsmodus',
+        'instructions' => 'Verwenden Sie diese Option, um den öffentlichen Teil des Systems zu deaktivieren.<br> Dies ist nützlich, wenn Sie die Webseite für Wartung oder Entwicklung herunterfahren möchten.',
+    ],
+    'debug'           => [
+        'label'        => 'Debug Modus',
+        'instructions' => 'Wenn diese Option aktiviert ist, werden detaillierte Meldungen bei Fehlern angezeigt.',
+    ],
+    'debug_bar'       => [
+        'label'        => 'Debug Leiste',
+        'instructions' => 'Wenn aktiviert Wird eine Debug Leiste mit detaillierten Informationen am unteren Bildschirmrand angezeigt.',
     ],
     'ip_whitelist'     => [
         'label'        => 'IP Whitelist',
         'instructions' => 'Wenn Ihre Site auf "deaktiviert" gesetzt ist, können diese IP-Adressen weiterhin auf die Website zugreifen.',
         'placeholder'  => 'Trennen Sie jeden IP-Adresse mit einem Komma.'
     ],
+    'basic_auth'      => [
+        'label'        => 'Aufforderung zur Authentifizierung?',
+        'instructions' => ' Sollen Benutzer zur HTTP-Authentifizierung aufgefordert werden, wenn der Wartungsmodus aktiviert ist?',
+    ],
     '503_message'      => [
         'label'        => 'Nachricht, wenn die Website nicht verfügbar ist',
         'instructions' => 'Wenn die Website deaktiviert oder ein grosses Problem aufgetreten ist, wird diese Meldung angezeigt.',
         'placeholder'  => 'Wir sind gleich zurück.'
     ],
-    'force_https'      => [
-        'label'        => 'HTTPS erzwingen',
-        'instructions' => 'Sollen nur Zugriffe via HTTPS-Protokoll erlaubt sein?',
-        'option'       => [
-            'all'    => 'Erzwinge HTTPS für alle Verbindungen',
-            'none'   => 'KEINE Erzwingung von HTTP-Verbindungen',
-            'admin'  => 'Erzwinge HTTPS für Verbindungen auf das Control Panel',
-            'public' => 'Erwzinge HTTP für Verbindungen auf den öffentlichen Teil der Website'
-        ]
+    'email'           => [
+        'label'        => 'System E-Mail',
+        'instructions' => 'Geben Sie die Standard-E-Mail an, die für systemgenerierte Nachrichten verwendet werden soll.',
+        'placeholder'  => 'example@domain.com',
     ],
-    'contact_email'    => [
-        'label'        => 'Kontakt E-Mail-Adresse',
-        'instructions' => 'Alle E-Mails von Benutzern, Gästen und der Website werden standardmässig an diese E-Mail-Adresse gesendet.',
-        'placeholder'  => 'muster@domain.com'
-    ],
-    'server_email'     => [
-        'label'        => 'Server E-Mail-Adresse',
-        'instructions' => 'All E-Mail, die vom Server aus gesendet werden, verwenden diese E-Mail-Adresse als Absender.',
-        'placeholder'  => 'noreply@domain.com'
-    ],
-    'mail_driver'      => [
-        'label'        => 'E-Mail Treiber',
-        'instructions' => 'Wie versendet Ihre Website E-Mails?',
-        'option'       => [
-            'smtp'     => 'SMTP',
-            'mail'     => 'PHP Mail',
-            'sendmail' => 'Sendmail',
-            'mailgun'  => 'Mailgun',
-            'mandrill' => 'Mandrill',
-            'log'      => 'Log File'
-        ]
-    ],
-    'mail_host'        => [
-        'label'        => 'SMTP Server',
-        'instructions' => 'Die Adresse des SMTP-Servers, der von Ihrer Website für den Versand von E-Mails verwendet wird.',
-        'placeholder'  => 'smtp.mailgun.org'
-    ],
-    'mail_port'        => [
-        'label'        => 'SMTP Port',
-        'instructions' => 'Der SMTP Port, der von Ihrer Website verwendet wird, um E-Mails zu versenden.',
-        'placeholder'  => '587'
-    ],
-    'mail_username'    => [
-        'label'        => 'SMTP Benutzername',
-        'instructions' => 'Der SMTP Benutzername, der von Ihrer Website verwendet wird um E-Mails zu versenden.'
-    ],
-    'mail_password'    => [
-        'label'        => 'SMTP Passwort',
-        'instructions' => 'Das SMTP Passwort, das von Ihrer Website verwendet wird um E-Mails zu versenden.'
-    ],
-    'mail_debug'       => [
-        'label'        => 'Debug Modus',
-        'instructions' => 'Wenn diese Option aktiviert ist, werden E-Mails nicht versendet, sondern stattdessen in die Log-Datei Ihrer Website geschrieben, damit Sie die Nachricht überprüfen können.'
-    ],
-    'cache_driver'     => [
-        'label'        => 'Cache Treiber',
-        'instructions' => 'Wie soll Ihre Website Daten in den Cache speichern?',
-        'option'       => [
-            'apc'       => 'APC',
-            'array'     => 'Array',
-            'file'      => 'File',
-            'memcached' => 'Memcached',
-            'redis'     => 'Redis'
-        ]
+    'sender'          => [
+        'label'        => 'Absender Name',
+        'instructions' => 'Geben Sie den Absendernamen an, der für systemgenerierte Nachrichten verwendet werden soll.',
     ],
     'standard_theme'   => [
         'label'        => 'Öffentliches Theme',
@@ -119,5 +85,9 @@ return [
     'admin_theme'      => [
         'label'        => 'Admin Theme',
         'instructions' => 'Welches Theme soll für das Control Panel verwendet werden?'
+    ],
+    'per_page'         => [
+        'label'        => 'Ergebnisse pro Seite',
+        'instructions' => 'Geben Sie die Anzahl der Ergebnisse an, die Sie pro Seite anzeigen möchten.'
     ]
 ];

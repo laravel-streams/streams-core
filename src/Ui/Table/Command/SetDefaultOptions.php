@@ -35,7 +35,7 @@ class SetDefaultOptions
      * Handle the command.
      *
      * @param ModuleCollection $modules
-     * @param Request $request
+     * @param Request          $request
      */
     public function handle(ModuleCollection $modules, Request $request)
     {

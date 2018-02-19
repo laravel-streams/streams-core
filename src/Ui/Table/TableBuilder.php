@@ -9,9 +9,9 @@ use Anomaly\Streams\Platform\Ui\Table\Command\PostTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\SetTableResponse;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class TableBuilder
 {
+
     use DispatchesJobs;
     use FiresCallbacks;
 
@@ -132,7 +133,7 @@ class TableBuilder
         $this->fire('ready', ['builder' => $this]);
 
         $this->dispatch(new BuildTable($this));
-        
+
         $this->fire('built', ['builder' => $this]);
 
         return $this;
@@ -300,6 +301,20 @@ class TableBuilder
     }
 
     /**
+     * Add a view.
+     *
+     * @param $slug
+     * @param $view
+     * @return $this
+     */
+    public function addView($slug, $view)
+    {
+        $this->views[$slug] = $view;
+
+        return $this;
+    }
+
+    /**
      * Set the views configuration.
      *
      * @param $views
@@ -379,6 +394,34 @@ class TableBuilder
     public function getColumns()
     {
         return $this->columns;
+    }
+
+    /**
+     * Add a button.
+     *
+     * @param $slug
+     * @param $button
+     * @return $this
+     */
+    public function addButton($slug, $button)
+    {
+        $this->buttons[$slug] = $button;
+
+        return $this;
+    }
+
+    /**
+     * Add more buttons.
+     *
+     * @param       $slug
+     * @param array $buttons
+     * @return $this
+     */
+    public function addButtons(array $buttons)
+    {
+        $this->buttons = array_merge($this->buttons, $buttons);
+
+        return $this;
     }
 
     /**
@@ -617,6 +660,18 @@ class TableBuilder
     }
 
     /**
+     * Get the active table filters.
+     *
+     * @return Component\Filter\FilterCollection
+     */
+    public function getActiveTableFilters()
+    {
+        return $this->table
+            ->getFilters()
+            ->active();
+    }
+
+    /**
      * Get the table filter.
      *
      * @param $key
@@ -689,6 +744,24 @@ class TableBuilder
         }
 
         return false;
+    }
+
+    /**
+     * Get the active table view.
+     *
+     * @return null|ViewInterface
+     */
+    public function getActiveTableView()
+    {
+        if (!$views = $this->getTableViews()) {
+            return null;
+        }
+
+        if (!$active = $views->active()) {
+            return null;
+        }
+
+        return $active;
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension;
 
+use Anomaly\Streams\Platform\Addon\Extension\Command\DisableExtension;
+use Anomaly\Streams\Platform\Addon\Extension\Command\EnableExtension;
 use Anomaly\Streams\Platform\Addon\Extension\Command\InstallExtension;
 use Anomaly\Streams\Platform\Addon\Extension\Command\MigrateExtension;
 use Anomaly\Streams\Platform\Addon\Extension\Command\UninstallExtension;
@@ -50,4 +52,26 @@ class ExtensionManager
     {
         return $this->dispatch(new UninstallExtension($module));
     }
+
+    /**
+     * Enable a extension.
+     *
+     * @param Extension $extension
+     * @param bool   $seed
+     */
+    public function enable(Extension $extension)
+    {
+        $this->dispatch(new EnableExtension($extension));
+    }
+
+    /**
+     * Disable a extension.
+     *
+     * @param Extension $extension
+     */
+    public function disable(Extension $extension)
+    {
+        $this->dispatch(new DisableExtension($extension));
+    }
+
 }

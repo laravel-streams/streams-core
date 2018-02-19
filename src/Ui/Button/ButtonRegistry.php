@@ -228,7 +228,9 @@ class ButtonRegistry
             'text'       => 'streams::button.delete',
             'attributes' => [
                 'data-toggle'  => 'confirm',
-                'data-message' => 'streams::message.confirm_delete',
+                'data-icon'    => 'warning',
+                'data-title'   => 'streams::message.confirm_delete_title',
+                'data-message' => 'streams::message.confirm_delete_message',
             ],
         ],
         'prompt'        => [
@@ -239,7 +241,9 @@ class ButtonRegistry
             'attributes' => [
                 'data-match'   => 'yes',
                 'data-toggle'  => 'prompt',
-                'data-message' => 'streams::message.prompt_delete',
+                'data-icon'    => 'warning',
+                'data-title'   => 'streams::message.prompt_delete_title',
+                'data-message' => 'streams::message.prompt_delete_message',
             ],
         ],
         'uninstall'     => [
@@ -247,8 +251,10 @@ class ButtonRegistry
             'icon'       => 'times-circle',
             'text'       => 'streams::button.uninstall',
             'attributes' => [
-                'data-toggle'  => 'confirm',
-                'data-message' => 'streams::message.confirm_uninstall',
+                'data-toggle'  => 'prompt',
+                'data-icon'    => 'warning',
+                'data-title'   => 'streams::message.confirm_uninstall_title',
+                'data-message' => 'streams::message.confirm_uninstall_message',
             ],
         ],
     ];

@@ -192,7 +192,12 @@ class AddonIntegrator
             $this->events->listen(
                 'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
                 function (RegisteringTwigPlugins $event) use ($addon) {
+
                     $twig = $event->getTwig();
+
+                    if ($twig->hasExtension(get_class($addon))) {
+                        return;
+                    }
 
                     $twig->addExtension($addon);
                 }

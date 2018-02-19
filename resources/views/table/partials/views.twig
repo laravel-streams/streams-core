@@ -9,6 +9,13 @@
                             {{ html_attributes(view.attributes) }}>
                         {{ view.icon ? icon(view.icon)|raw }}
                         {{ trans(view.getText()) }}
+
+                        {% if view.label %}
+                            <span class="tag tag-{{ view.context }}">
+                                {{ trans(view.label)|raw }}
+                            </span>
+                        {% endif %}
+
                     </a>
                 {% endfor %}
             </div>

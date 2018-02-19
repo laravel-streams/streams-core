@@ -44,6 +44,16 @@ class AddonLoader
      */
     public function load($path)
     {
+
+        if (is_array($path) && $paths = $path) {
+
+            foreach ($paths as $path) {
+                $this->load($path);
+            }
+
+            return $this;
+        }
+
         if (file_exists($autoload = $path . '/vendor/autoload.php')) {
 
             include $autoload;
@@ -111,7 +121,10 @@ class AddonLoader
      */
     public function dump()
     {
-        (new Process('composer dump-autoload'))->run();
+        $process = new Process('composer dump-autoload');
+
+        $process->run();
+        $process->wait();
 
         return $this;
     }

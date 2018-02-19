@@ -2,7 +2,7 @@
     {% spaceless %}
         {% for slug, tab in tabs %}
             <li class="nav-item {{ loop.first ? ' active' }}">
-                <a href="#tab-{{ slug }}" data-toggle="tab" class="nav-link">
+                <a href="#tab-{{ tab.slug ?: slug }}" data-toggle="tab" class="nav-link">
                     {{ tab.icon ? icon(tab.icon) }}
                     {{ trans(tab.title) }}
                 </a>
@@ -13,7 +13,7 @@
 
 <div class="card-block">
     {% for slug, tab in section.tabs %}
-        <div class="tab-pane {{ loop.first ? ' active' }}" id="tab-{{ slug }}">
+        <div class="tab-pane {{ loop.first ? ' active' }}" id="tab-{{ tab.slug ?: slug }}">
             {% if tab.view %}
                 {% include tab.view %}
             {% elseif tab.html %}

@@ -51,6 +51,10 @@ return [
         'label'        => 'Debug Mode',
         'instructions' => 'When enabled, detailed messages will be displayed on errors.',
     ],
+    'debug_bar'       => [
+        'label'        => 'Debug Bar',
+        'instructions' => 'When enabled, detailed request logs will be displayed at the bottom of the screen.',
+    ],
     'ip_whitelist'    => [
         'label'        => 'IP Whitelist',
         'instructions' => 'When maintenance mode is enabled, these IP addresses will be allowed to access the front of the application.',

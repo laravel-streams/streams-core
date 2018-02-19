@@ -43,6 +43,10 @@ class LoadTablePagination
 
         $data = $this->table->getData();
 
+        if ($data->has('pagination')) {
+            return;
+        }
+
         $pagination = $pagination->make($this->table);
 
         $data->put('pagination', $pagination);
