@@ -51,6 +51,10 @@ return [
         'label'        => 'Debug Modus',
         'instructions' => 'Wenn diese Option aktiviert ist, werden detaillierte Meldungen bei Fehlern angezeigt.',
     ],
+    'debug_bar'       => [
+        'label'        => 'Debug Leiste',
+        'instructions' => 'Wenn aktiviert Wird eine Debug Leiste mit detaillierten Informationen am unteren Bildschirmrand angezeigt.',
+    ],
     'ip_whitelist'     => [
         'label'        => 'IP Whitelist',
         'instructions' => 'Wenn Ihre Site auf "deaktiviert" gesetzt ist, können diese IP-Adressen weiterhin auf die Website zugreifen.',
