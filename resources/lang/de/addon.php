@@ -24,6 +24,7 @@ return [
     'enabled'     => 'Aktiviert',
     'disabled'    => 'Deaktiviert',
     'active'      => 'Aktiv',
+    'inactive'    => 'Inaktiv',
     'admin'       => 'Admin',
     'public'      => 'Öffentlich'
 ];
