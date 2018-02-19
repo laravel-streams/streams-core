@@ -74,7 +74,7 @@ return [
     "unique"               => "The :attribute has already been taken.",
     "unique_trash"         => "The :attribute may already be taken by a trashed entry.",
     "url"                  => "The :attribute format is invalid.",
-    "valid_password"       => "The :attribute must be a valid password."
+    "valid_password"       => "The :attribute must be a valid password.",
     "timezone"             => "The :attribute must be a valid zone.",
     /*
     |--------------------------------------------------------------------------
