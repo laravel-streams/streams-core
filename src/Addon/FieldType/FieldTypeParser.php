@@ -22,21 +22,19 @@ class FieldTypeParser
     public function relation(AssignmentInterface $assignment)
     {
         $fieldSlug = $assignment->getFieldSlug();
+        $fieldName = str_humanize($fieldSlug);
+        $method    = camel_case($fieldSlug);
 
-        $method = camel_case($fieldSlug);
-
-        $relation = '';
-
-        $relation .= "\npublic function {$method}()";
-
-        $relation .= "\n{";
-
-        $relation .= "\n\nreturn \$this->getFieldType('{$fieldSlug}')->getRelation();";
-
-        $relation .= "\n}";
-
-        $relation .= "\n";
-
-        return $relation;
+        return "
+    /**
+     * The {$fieldName} relation
+     *
+     * @return Relation
+     */
+    public function {$method}()
+    {
+        return \$this->getFieldType('{$fieldSlug}')->getRelation();
+    }
+";
     }
 }
