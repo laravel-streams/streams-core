@@ -6,6 +6,7 @@ use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class ExceptionHandler
@@ -46,6 +47,14 @@ class ExceptionHandler extends Handler
          */
         if ($e instanceof AuthenticationException) {
             return $this->unauthenticated($request, $e);
+        }
+
+        /**
+         * Redirect to a custom page if needed
+         * in the event that their is one defined.
+         */
+        if ($e instanceof NotFoundHttpException && $redirect = config('streams::404.redirect')) {
+            return redirect($redirect);
         }
 
         return parent::render($request, $e);
