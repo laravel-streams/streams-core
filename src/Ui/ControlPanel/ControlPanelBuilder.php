@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel;
 
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Command\BuildControlPanel;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\ButtonHandler;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationHandler;
@@ -16,6 +17,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 class ControlPanelBuilder
 {
 
+    use FiresCallbacks;
     use DispatchesJobs;
 
     /**
