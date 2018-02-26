@@ -1,9 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Lang;
 
+use Anomaly\Streams\Platform\Addon\Addon;
+use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Translation\FileLoader;
-use Anomaly\Streams\Platform\Addon\AddonCollection;
 
 /**
  * Class Loader
@@ -23,17 +24,18 @@ class Loader extends FileLoader
     protected $streams;
 
     /**
+     * The addon collection instance.
+     *
+     * @var AddonCollection
+     */
+    protected $addons;
+
+    /**
      * The application instance.
      *
      * @var Application
      */
     protected $application;
-    
-    /**
-     * The addon collection instance.
-     * @var AddonCollection
-     */
-    protected $addons;
 
     /**
      * Create a new Loader instance.
@@ -46,7 +48,7 @@ class Loader extends FileLoader
         $this->streams = base_path('vendor/anomaly/streams-platform/resources/lang');
 
         $this->application = app(Application::class);
-        $this->addons = app(AddonCollection::class);
+        $this->addons      = app(AddonCollection::class);
 
         parent::__construct($files, $path);
     }
@@ -168,16 +170,18 @@ class Loader extends FileLoader
 
     /**
      * @param array $lines
-     * @param $locale
-     * @param $group
-     * @param null $namespace
+     * @param       $locale
+     * @param       $group
+     * @param null  $namespace
      * @return array
      */
     protected function loadAddonOverrides(array $lines, $locale, $group, $namespace = null)
     {
         /** @var Addon $addon */
         foreach ($this->addons->enabled() as $addon) {
+
             if (!$namespace || $namespace == 'streams') {
+
                 $file = $addon->getPath("resources/streams/lang/{$locale}/{$group}.php");
 
                 if ($this->files->exists($file)) {
@@ -186,6 +190,7 @@ class Loader extends FileLoader
             }
 
             if (str_is('*.*.*', $namespace)) {
+
                 list($vendor, $type, $slug) = explode('.', $namespace);
 
                 $file = $addon->getPath(
