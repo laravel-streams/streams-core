@@ -1326,6 +1326,20 @@ class FormBuilder
     }
 
     /**
+     * Get an attribute from the form's entry.
+     *
+     * @param $key
+     * @param null $default
+     * @return mixed|null
+     */
+    public function getFormEntryAttribute($key, $default = null)
+    {
+        return $this
+            ->getFormEntry()
+            ->getAttribute($key, $default);
+    }
+
+    /**
      * Get a request value.
      *
      * @param        $key
