@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Translation\FileLoader;
+use Anomaly\Streams\Platform\Addon\AddonCollection;
 
 /**
  * Class Loader
@@ -27,6 +28,12 @@ class Loader extends FileLoader
      * @var Application
      */
     protected $application;
+    
+    /**
+     * The addon collection instance.
+     * @var AddonCollection
+     */
+    protected $addons;
 
     /**
      * Create a new Loader instance.
@@ -39,6 +46,7 @@ class Loader extends FileLoader
         $this->streams = base_path('vendor/anomaly/streams-platform/resources/lang');
 
         $this->application = app(Application::class);
+        $this->addons = app(AddonCollection::class);
 
         parent::__construct($files, $path);
     }
@@ -61,6 +69,7 @@ class Loader extends FileLoader
         $lines = parent::loadPath($path, $locale, $group);
 
         if ($path == $this->streams && $lines) {
+            $lines = $this->loadAddonOverrides($lines, $locale, $group);
             $lines = $this->loadSystemOverrides($lines, $locale, $group);
             $lines = $this->loadApplicationOverrides($lines, $locale, $group);
         }
@@ -80,6 +89,7 @@ class Loader extends FileLoader
      */
     protected function loadNamespaceOverrides(array $lines, $locale, $group, $namespace)
     {
+        $lines = $this->loadAddonOverrides($lines, $locale, $group, $namespace);
         $lines = $this->loadSystemOverrides($lines, $locale, $group, $namespace);
         $lines = $this->loadApplicationOverrides($lines, $locale, $group, $namespace);
 
@@ -156,4 +166,38 @@ class Loader extends FileLoader
         return $lines;
     }
 
+    /**
+     * @param array $lines
+     * @param $locale
+     * @param $group
+     * @param null $namespace
+     * @return array
+     */
+    protected function loadAddonOverrides(array $lines, $locale, $group, $namespace = null)
+    {
+        /** @var Addon $addon */
+        foreach ($this->addons->enabled() as $addon) {
+            if (!$namespace || $namespace == 'streams') {
+                $file = $addon->getPath("resources/streams/lang/{$locale}/{$group}.php");
+
+                if ($this->files->exists($file)) {
+                    $lines = array_replace_recursive($lines, $this->files->getRequire($file));
+                }
+            }
+
+            if (str_is('*.*.*', $namespace)) {
+                list($vendor, $type, $slug) = explode('.', $namespace);
+
+                $file = $addon->getPath(
+                    "resources/addons/{$vendor}/{$slug}-{$type}/lang/{$locale}/{$group}.php"
+                );
+
+                if ($this->files->exists($file)) {
+                    $lines = array_replace_recursive($lines, $this->files->getRequire($file));
+                }
+            }
+        }
+
+        return $lines;
+    }
 }
