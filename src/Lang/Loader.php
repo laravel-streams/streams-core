@@ -89,7 +89,7 @@ class Loader extends FileLoader
      */
     protected function loadNamespaceOverrides(array $lines, $locale, $group, $namespace)
     {
-        $lines = $this->loadAddonOverrides($lines, $locale, $group);
+        $lines = $this->loadAddonOverrides($lines, $locale, $group, $namespace);
         $lines = $this->loadSystemOverrides($lines, $locale, $group, $namespace);
         $lines = $this->loadApplicationOverrides($lines, $locale, $group, $namespace);
 
