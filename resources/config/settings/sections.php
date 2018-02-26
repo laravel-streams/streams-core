@@ -50,6 +50,7 @@ return [
         'title'   => 'streams::label.maintenance',
         'fields'  => [
             'debug',
+            'debug_bar',
             'maintenance',
             'basic_auth',
             'ip_whitelist',

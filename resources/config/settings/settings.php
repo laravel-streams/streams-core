@@ -201,6 +201,18 @@ return [
             'off_text'      => 'OFF',
         ],
     ],
+    'debug_bar'           => [
+        'env'    => 'DEBUG_BAR',
+        'bind'   => 'debugbar.enabled',
+        'type'   => 'anomaly.field_type.boolean',
+        'config' => [
+            'default_value' => function (Repository $config) {
+                return $config->get('debugbar.enabled');
+            },
+            'on_text'       => 'ON',
+            'off_text'      => 'OFF',
+        ],
+    ],
     'maintenance'     => [
         'type'   => 'anomaly.field_type.boolean',
         'value'  => function (Application $application) {

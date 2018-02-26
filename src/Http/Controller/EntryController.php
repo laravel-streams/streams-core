@@ -90,7 +90,7 @@ class EntryController extends AdminController
 
         $entry = $this->repository->findTrashed($id);
 
-        if (!$this->authorizer->authorize($addon->getNamespace($stream->getSlug() . '.restore'))) {
+        if (!$this->authorizer->authorize($addon->getNamespace($stream->getSlug() . '.write'))) {
             abort(403);
         }
 
@@ -128,7 +128,7 @@ class EntryController extends AdminController
          */
         $this->repository->setModel($this->container->make($stream->getEntryModelName()));
 
-        if (!$this->authorizer->authorize($addon->getNamespace($stream->getSlug() . '.export'))) {
+        if (!$this->authorizer->authorize($addon->getNamespace($stream->getSlug() . '.read'))) {
             abort(403);
         }
 

@@ -47,56 +47,65 @@ class FieldTypeQuery
      */
     public function filter(Builder $query, FilterInterface $filter)
     {
-        $stream     = $filter->getStream();
-        $assignment = $stream->getAssignment($filter->getField());
-
+        $stream       = $filter->getStream();
+        $entry        = $stream->getEntryTableName();
         $column       = $this->fieldType->getColumnName();
+        $assignment   = $stream->getAssignment($filter->getField());
         $translations = $stream->getEntryTranslationsTableName();
 
         if ($assignment->isTranslatable()) {
+
             if ($query instanceof EloquentQueryBuilder && !$query->hasJoin($translations)) {
+
                 $query->leftJoin(
-                    $stream->getEntryTranslationsTableName(),
-                    $stream->getEntryTableName() . '.id',
+                    $translations,
+                    "{$entry}.id",
                     '=',
-                    $stream->getEntryTranslationsTableName() . '.entry_id'
+                    "{$translations}.entry_id"
                 );
             }
 
-            $query->addSelect($translations . '.locale');
-            $query->addSelect($translations . '.' . $column);
+            $query->addSelect("{$translations}.locale");
+            $query->addSelect("{$translations}.{$column}");
 
             $query->{$this->where()}(
-                function (Builder $query) use ($stream, $filter, $column) {
-                    $query->where($stream->getEntryTranslationsTableName() . '.locale', config('app.locale'));
+                function (Builder $query) use ($translations, $filter, $column) {
+
+                    $query->where(
+                        "{$translations}.locale",
+                        config('app.locale')
+                    );
 
                     if (method_exists($this->fieldType, 'getRelation')) {
                         $query->where(
-                            $stream->getEntryTranslationsTableName() . '.' . $column,
+                            "{$translations}.{$column}",
                             $filter->getValue()
                         );
                     } else {
                         $query->where(
-                            $stream->getEntryTranslationsTableName() . '.' . $column,
+                            "{$translations}.{$column}",
                             'LIKE',
-                            "%" . $filter->getValue() . "%"
+                            "%{$filter->getValue()}%"
                         );
                     }
                 }
             );
         } else {
             $query->{$this->where()}(
-                function (Builder $query) use ($stream, $filter, $column) {
+                function (Builder $query) use ($stream, $filter, $column, $entry) {
+
                     if (method_exists($this->fieldType, 'getRelation')) {
+
                         $query->where(
-                            $stream->getEntryTableName() . '.' . $column,
+                            "{$entry}.{$column}",
                             $filter->getValue()
                         );
                     } else {
+
                         $query->where(
-                            $stream->getEntryTableName() . '.' . $column,
+                            "{$entry}.{$column}",
                             'LIKE',
-                            "%" . $filter->getValue() . "%"
+                            "%{$filter->getValue()}%"
                         );
                     }
                 }

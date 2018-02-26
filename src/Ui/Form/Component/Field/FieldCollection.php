@@ -164,20 +164,28 @@ class FieldCollection extends Collection
     /**
      * Return non-self handling fields.
      *
+     * @deprecated use autoHandling() - removing in 1.4
      * @return FieldCollection
      */
     public function allowed()
     {
-        $allowed = [];
+        return $this->autoHandling();
+    }
 
-        /* @var FieldType $item */
-        foreach ($this->items as $item) {
-            if (!$item->isDisabled() && !method_exists($item, 'handle')) {
-                $allowed[] = $item;
+    /**
+     * Return auto handling fields.
+     *
+     * @return FieldCollection
+     */
+    public function autoHandling()
+    {
+        return $this->filter(
+            function ($field) {
+
+                /* @var FieldType $field */
+                return !$field->isDisabled() && !method_exists($field, 'handle');
             }
-        }
-
-        return new static($allowed);
+        );
     }
 
     /**
@@ -197,6 +205,38 @@ class FieldCollection extends Collection
         }
 
         return new static($selfHandling);
+    }
+
+    /**
+     * Return only savable fields.
+     *
+     * @return FieldCollection
+     */
+    public function savable()
+    {
+        return $this->filter(
+            function ($field) {
+
+                /* @var FieldType $field */
+                return $field->canSave();
+            }
+        );
+    }
+
+    /**
+     * Return only non-savable fields.
+     *
+     * @return FieldCollection
+     */
+    public function nonSavable()
+    {
+        return $this->filter(
+            function ($field) {
+
+                /* @var FieldType $field */
+                return !$field->canSave();
+            }
+        );
     }
 
     /**

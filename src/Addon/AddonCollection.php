@@ -4,6 +4,13 @@ use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Illuminate\Support\Collection;
 
+/**
+ * Class AddonCollection
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class AddonCollection extends Collection
 {
 
@@ -48,16 +55,29 @@ class AddonCollection extends Collection
      */
     public function core()
     {
-        $core = [];
+        return $this->filter(
+            function ($addon) {
 
-        /* @var Addon $item */
-        foreach ($this->items as $item) {
-            if ($item->isCore()) {
-                $core[] = $item;
+                /* @var Addon $addon */
+                return $addon->isCore();
             }
-        }
+        );
+    }
 
-        return self::make($core);
+    /**
+     * Return only non-core addons.
+     *
+     * @return AddonCollection
+     */
+    public function nonCore()
+    {
+        return $this->filter(
+            function ($addon) {
+
+                /* @var Addon $addon */
+                return !$addon->isCore();
+            }
+        );
     }
 
     /**
@@ -91,7 +111,7 @@ class AddonCollection extends Collection
         if (!$key) {
             return $default;
         }
-        
+
         if (!$addon = parent::get($key, $default)) {
             return $this->findBySlug($key);
         }

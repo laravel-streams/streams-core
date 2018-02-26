@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Contracts\Container\Container;
 
 class GetTableEntries
 {
@@ -26,7 +27,7 @@ class GetTableEntries
     /**
      * Handle the command.
      */
-    public function handle()
+    public function handle(Container $container)
     {
         $model   = $this->builder->getModel();
         $entries = $this->builder->getEntries();
@@ -37,7 +38,7 @@ class GetTableEntries
          * let it load the entries itself.
          */
         if (is_string($entries) || $entries instanceof \Closure) {
-            app()->call($entries, ['builder' => $this->builder]);
+            $container->call($entries, ['builder' => $this->builder], 'handle');
         }
 
         $entries = $this->builder->getTableEntries();
@@ -57,7 +58,11 @@ class GetTableEntries
          * Resolve the model out of the container.
          */
         $repository = $this->builder->getRepository();
-        
+
+        if (is_string($repository) && class_exists($repository)) {
+            $repository = $container->make($repository);
+        }
+
         /*
          * If the repository is an instance of
          * TableRepositoryInterface use it.

@@ -148,6 +148,13 @@ class FieldType extends Addon
     protected $prefix = null;
 
     /**
+     * The save flag.
+     *
+     * @var bool
+     */
+    protected $save = true;
+
+    /**
      * The field type class.
      *
      * @var null|string
@@ -799,6 +806,29 @@ class FieldType extends Addon
     public function getSuffix()
     {
         return $this->locale ? '_' . $this->locale : null;
+    }
+
+    /**
+     * Set the save.
+     *
+     * @param  $save
+     * @return $this
+     */
+    public function setSave($save)
+    {
+        $this->save = $save;
+
+        return $this;
+    }
+
+    /**
+     * Get the save flag.
+     *
+     * @return string
+     */
+    public function canSave()
+    {
+        return $this->save;
     }
 
     /**

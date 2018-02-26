@@ -38,10 +38,23 @@ class ButtonNormalizer
     protected function process($key, $button)
     {
         /*
-         * If the button is a string then use
-         * it as the button parameter.
+         * If the button is a string and
+         * the key is an integer then use
+         * as the button and slug parameter.
          */
-        if (is_string($button)) {
+        if (is_integer($key) && is_string($button)) {
+            $button = [
+                'slug'   => $button,
+                'button' => $button,
+            ];
+        }
+
+        /*
+         * If the button is a string and
+         * the key is NOT an integer then use
+         * it as the button parameter only.
+         */
+        if (!is_integer($key) && is_string($button)) {
             $button = [
                 'button' => $button,
             ];

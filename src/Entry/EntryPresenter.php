@@ -68,7 +68,7 @@ class EntryPresenter extends EloquentPresenter
     {
         return $this->object->updated_at
             ->setTimezone(config('app.timezone'))
-            ->format(config('streams:datetime.date_format') . ' ' . config('streams:datetime.time_format'));
+            ->format(config('streams::datetime.date_format') . ' ' . config('streams::datetime.time_format'));
     }
 
     /**

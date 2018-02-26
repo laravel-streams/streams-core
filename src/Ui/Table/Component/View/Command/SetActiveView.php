@@ -86,6 +86,11 @@ class SetActiveView
             $this->builder->setOptions($options);
         }
 
+        // Set entries from active view.
+        if (($entries = $view->getEntries()) !== null) {
+            $this->builder->setEntries($entries);
+        }
+
         $handler->handle($this->builder, $view);
     }
 }

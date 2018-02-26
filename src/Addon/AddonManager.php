@@ -75,12 +75,12 @@ class AddonManager
     /**
      * Create a new AddonManager instance.
      *
-     * @param AddonPaths $paths
-     * @param AddonLoader $loader
-     * @param ModuleModel $modules
-     * @param Container $container
-     * @param Dispatcher $dispatcher
-     * @param ExtensionModel $extensions
+     * @param AddonPaths      $paths
+     * @param AddonLoader     $loader
+     * @param ModuleModel     $modules
+     * @param Container       $container
+     * @param Dispatcher      $dispatcher
+     * @param ExtensionModel  $extensions
      * @param AddonIntegrator $integrator
      * @param AddonCollection $addons
      */
@@ -107,8 +107,10 @@ class AddonManager
 
     /**
      * Register all addons.
+     *
+     * @param bool $reload
      */
-    public function register()
+    public function register($reload = false)
     {
         $enabled   = $this->getEnabledAddonNamespaces();
         $installed = $this->getInstalledAddonNamespaces();
@@ -130,6 +132,16 @@ class AddonManager
         $paths = $this->paths->all();
 
         /**
+         * If we need to load then
+         * loop and load all the addons.
+         */
+        if ($reload) {
+            $this->loader->load($paths);
+            $this->loader->register();
+            $this->loader->dump();
+        }
+
+        /**
          * Autoload testing addons.
          */
         if (env('APP_ENV') === 'testing' && $testing = $this->paths->testing()) {
@@ -137,6 +149,11 @@ class AddonManager
             foreach ($testing as $path) {
                 $this->loader->load($path);
             }
+
+            $this->loader->classLoader()->addPsr4(
+                'Anomaly\\StreamsPlatformTests\\',
+                base_path('vendor/anomaly/streams-platform/tests')
+            );
 
             $this->loader->register();
         }

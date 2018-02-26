@@ -11,6 +11,36 @@ interface ViewInterface
 {
 
     /**
+     * Get the label.
+     *
+     * @return string
+     */
+    public function getLabel();
+
+    /**
+     * Set the label.
+     *
+     * @param  string $label
+     * @return $this
+     */
+    public function setLabel($label);
+
+    /**
+     * Get the context.
+     *
+     * @return boolean
+     */
+    public function getContext();
+
+    /**
+     * Set the context flag.
+     *
+     * @param  boolean $active
+     * @return $this
+     */
+    public function setContext($context);
+
+    /**
      * Get the attributes.
      *
      * @return array
@@ -204,4 +234,19 @@ interface ViewInterface
      * @return $this
      */
     public function setOptions($options);
+
+    /**
+     * Get the entries.
+     *
+     * @return null|array
+     */
+    public function getEntries();
+
+    /**
+     * Set the entries.
+     *
+     * @param $entries
+     * @return $this
+     */
+    public function setEntries($entries);
 }

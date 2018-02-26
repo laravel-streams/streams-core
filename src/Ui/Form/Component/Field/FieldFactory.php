@@ -107,6 +107,9 @@ class FieldFactory
             ->mergeMessages(array_pull($parameters, 'messages', []))
             ->mergeValidators(array_pull($parameters, 'validators', []));
 
+        // Add the form builder.
+        $parameters['form'] = $this->builder;
+
         // Hydrate the field with parameters.
         $this->hydrator->hydrate($field, $parameters);
 
