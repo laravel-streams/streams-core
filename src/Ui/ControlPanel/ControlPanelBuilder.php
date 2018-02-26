@@ -17,8 +17,8 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 class ControlPanelBuilder
 {
 
-    use FiresCallbacks;
     use DispatchesJobs;
+    use FiresCallbacks;
 
     /**
      * The section buttons.
