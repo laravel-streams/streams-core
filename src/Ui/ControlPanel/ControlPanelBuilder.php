@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel;
 
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Command\BuildControlPanel;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\ButtonHandler;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationHandler;
@@ -17,6 +18,7 @@ class ControlPanelBuilder
 {
 
     use DispatchesJobs;
+    use FiresCallbacks;
 
     /**
      * The section buttons.
@@ -61,7 +63,11 @@ class ControlPanelBuilder
      */
     public function build()
     {
+        $this->fire('ready', ['builder' => $this]);
+
         $this->dispatch(new BuildControlPanel($this));
+
+        $this->fire('built', ['builder' => $this]);
 
         return $this->controlPanel;
     }

@@ -10,6 +10,10 @@
 
     {{ view("streams::buttons/buttons", {'buttons': form.actions}) }}
 
+    {% if form.buttons.count() %}
+        {{ view("streams::buttons/buttons", {'buttons': form.buttons}) }}
+    {% endif %}
+
     {{ form_close() }}
 
 {% endblock %}

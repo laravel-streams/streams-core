@@ -7,7 +7,10 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command\SetMai
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command\BuildSections;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command\SetActiveSection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Event\ControlPanelIsBuilding;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Event\ControlPanelWasBuilt;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class BuildControlPanel
@@ -40,8 +43,10 @@ class BuildControlPanel
     /**
      * Handle the command.
      */
-    public function handle()
+    public function handle(Dispatcher $events)
     {
+        $events->fire(new ControlPanelIsBuilding($this->builder));
+
         $this->dispatch(new BuildNavigation($this->builder));
         $this->dispatch(new SetActiveNavigationLink($this->builder));
         $this->dispatch(new SetMainNavigationLinks($this->builder));
@@ -50,5 +55,7 @@ class BuildControlPanel
         $this->dispatch(new SetActiveSection($this->builder));
 
         $this->dispatch(new BuildButtons($this->builder));
+
+        $events->fire(new ControlPanelWasBuilt($this->builder));
     }
 }
