@@ -499,11 +499,19 @@ class FormBuilder
     /**
      * Add a field.
      *
-     * @param   $field
+     * @param       $field
+     * @param array $definition
+     * @return $this
      */
-    public function addField($field)
+    public function addField($field, array $definition = [])
     {
-        $this->fields[array_get($field, 'field')] = $field;
+        if (!$definition) {
+            $this->fields[array_get($field, 'field')] = $field;
+        } else {
+            $this->fields[$field] = $definition;
+        }
+
+        return $this;
     }
 
     /**
