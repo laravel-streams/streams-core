@@ -10,6 +10,7 @@ use Anomaly\Streams\Platform\Model\Event\ModelWasRestored;
 use Anomaly\Streams\Platform\Model\Event\ModelWasSaved;
 use Anomaly\Streams\Platform\Model\Event\ModelWasUpdated;
 use Anomaly\Streams\Platform\Support\Observer;
+use Anomaly\Streams\Platform\Version\Command\SaveVersion;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -45,6 +46,18 @@ class EloquentObserver extends Observer
     }
 
     /**
+     * Fired just before saving.
+     *
+     * @param EloquentModel $model
+     */
+    public function saving(EloquentModel $model)
+    {
+        if ($model->isVersionable()) {
+            $model->setVersionedAttributeChanges($model->getDirty());
+        }
+    }
+
+    /**
      * Run after saving a record.
      *
      * @param EloquentModel $model
@@ -52,6 +65,8 @@ class EloquentObserver extends Observer
     public function saved(EloquentModel $model)
     {
         $model->flushCache();
+
+        $this->dispatch(new SaveVersion($model));
 
         $this->events->fire(new ModelWasSaved($model));
     }
