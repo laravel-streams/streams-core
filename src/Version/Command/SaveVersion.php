@@ -45,7 +45,7 @@ class SaveVersion
             $versions->create(
                 [
                     'versionable' => $this->model,
-                    'data'        => serialize($this->model->getAttributes()),
+                    'data'        => serialize($this->model->getVersionedAttributeChanges()),
                 ]
             );
         }

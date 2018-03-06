@@ -30,7 +30,6 @@ class CreateVersionsTable extends Migration
                 $table->integer('updated_by_id')->nullable();
                 $table->integer('versionable_id')->unsigned();
                 $table->string('versionable_type');
-                $table->integer('user_id')->nullable();
                 $table->binary('data');
 
                 $table->index('versionable_id');

@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
+use Anomaly\RedirectsModule\Redirect\RedirectModel;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;

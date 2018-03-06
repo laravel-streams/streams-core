@@ -13,4 +13,21 @@ use Anomaly\Streams\Platform\Version\Contract\VersionRepositoryInterface;
 class VersionRepository extends EloquentRepository implements VersionRepositoryInterface
 {
 
+    /**
+     * The version model.
+     *
+     * @var VersionModel
+     */
+    protected $model;
+
+    /**
+     * Create a new VersionRepository instance.
+     *
+     * @param VersionModel $model
+     */
+    public function __construct(VersionModel $model)
+    {
+        $this->model = $model;
+    }
+
 }
