@@ -28,22 +28,13 @@ class VersionTableBuilder extends TableBuilder
     protected $type = null;
 
     /**
-     * The table columns.
-     *
-     * @var array
-     */
-    protected $columns = [
-        'created_at',
-    ];
-
-    /**
      * The table options.
      *
      * @var array
      */
     protected $options = [
         'order_by' => [
-            'version_id' => 'DESC',
+            'version' => 'DESC',
         ],
     ];
 
@@ -55,7 +46,7 @@ class VersionTableBuilder extends TableBuilder
     public function onQuerying(Builder $query)
     {
         $query->where('versionable_type', $this->getType());
-        $query->where('versionable_id', $this->getType());
+        $query->where('versionable_id', $this->getId());
     }
 
     /**

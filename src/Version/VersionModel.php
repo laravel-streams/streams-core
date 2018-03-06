@@ -25,7 +25,7 @@ class VersionModel extends Model
      *
      * @var string
      */
-    public $primaryKey = 'version_id';
+    public $primaryKey = 'version';
 
     /**
      * Set the versionable attributes.

@@ -23,7 +23,7 @@ class CreateVersionsTable extends Migration
         Schema::create(
             'versions',
             function (Blueprint $table) {
-                $table->increments('version_id');
+                $table->increments('version');
                 $table->datetime('created_at');
                 $table->integer('created_by_id')->nullable();
                 $table->datetime('updated_at')->nullable();
