@@ -70,9 +70,9 @@ class TableRepository implements TableRepositoryInterface
         $total = clone($query);
 
         $total = $total
-            ->select($this->model->getTable() . '.id')
-            ->groupBy($this->model->getTable() . '.id')
-            ->count($this->model->getTable() . '.id');
+            ->select($this->model->getTable() . '.' . $this->model->getKeyName())
+            ->groupBy($this->model->getTable() . '.' . $this->model->getKeyName())
+            ->count($this->model->getTable() . '.' . $this->model->getKeyName());
 
         $builder->setTableOption('total_results', $total);
 
