@@ -77,6 +77,7 @@ class IconRegistry
         'git-branch'           => 'glyphicons glyphicons-git-branch',
         'global'               => 'glyphicons glyphicons-global',
         'globe'                => 'glyphicons glyphicons-globe',
+        'history'              => 'fa fa-history',
         'home'                 => 'fa fa-home',
         'jcb'                  => 'fa fa-cc-jcb',
         'keys'                 => 'glyphicons glyphicons-keys',

@@ -58,4 +58,5 @@ return [
     'add_field'      => 'Add Field',
     'new_field'      => 'New Field',
     'assign_fields'  => 'Assign Fields',
+    'versions'       => 'Versions',
 ];

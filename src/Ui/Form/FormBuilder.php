@@ -675,6 +675,24 @@ class FormBuilder
     }
 
     /**
+     * Add a button.
+     *
+     * @param       $button
+     * @param array $definition
+     * @return $this
+     */
+    public function addButton($button, array $definition = [])
+    {
+        if (!$definition) {
+            $this->buttons[] = $button;
+        } else {
+            $this->buttons[$button] = $definition;
+        }
+
+        return $this;
+    }
+
+    /**
      * The the options.
      *
      * @return array
@@ -1336,7 +1354,7 @@ class FormBuilder
     /**
      * Get an attribute from the form's entry.
      *
-     * @param $key
+     * @param      $key
      * @param null $default
      * @return mixed|null
      */

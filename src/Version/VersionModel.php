@@ -20,6 +20,9 @@ class VersionModel extends Model
      */
     protected $table = 'versions';
 
+
+    public $primaryKey = 'version_id';
+
     /**
      * Set the versionable attributes.
      *
