@@ -43,4 +43,5 @@ class VersionsController extends AdminController
     {
         return $this->model;
     }
+
 }

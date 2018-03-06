@@ -20,7 +20,11 @@ class VersionModel extends Model
      */
     protected $table = 'versions';
 
-
+    /**
+     * The primary key.
+     *
+     * @var string
+     */
     public $primaryKey = 'version_id';
 
     /**

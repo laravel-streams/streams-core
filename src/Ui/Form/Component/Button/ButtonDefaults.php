@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
 
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Http\Request;
 
@@ -39,7 +40,9 @@ class ButtonDefaults
     {
         if ($builder->getButtons() === [] && $this->request->segment(1) == 'admin') {
 
-            if ($builder->getFormEntry()->isVersionable()) {
+            $entry = $builder->getFormEntry();
+
+            if ($entry instanceof EloquentModel && $entry->getId() && $entry->isVersionable()) {
                 $builder->addButton('versions');
             }
 
