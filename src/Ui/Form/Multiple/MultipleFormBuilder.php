@@ -271,6 +271,12 @@ class MultipleFormBuilder extends FormBuilder
      */
     public function getContextualId()
     {
+
+        // Check normal behavior first.
+        if ($id = parent::getContextualId()) {
+            return $id;
+        }
+
         /* @var FormBuilder $form */
         $form = $this->forms->first();
 
