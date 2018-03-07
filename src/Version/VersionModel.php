@@ -69,7 +69,8 @@ class VersionModel extends Model implements VersionInterface, PresentableInterfa
      */
     public function getCreatedAtAttribute()
     {
-        return new Carbon($this->attributes['created_at']);
+        return (new Carbon($this->attributes['created_at']))
+            ->timezone(config('app.timezone'));
     }
 
     /**
