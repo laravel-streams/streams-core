@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Version\Table;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Anomaly\Streams\Platform\Version\Contract\VersionInterface;
 
 /**
  * Class VersionTableButtons
@@ -22,10 +23,20 @@ class VersionTableButtons
     {
         $section = $controlPanel->getControlPanelActiveSection();
 
+        $current = $builder->getCurrent();
+
         $builder->setButtons(
             [
                 'load' => [
-                    'href' => $section->getHref('edit/{entry.versionable_id}?version={entry.version}'),
+                    'href'     => $section->getHref('edit/{entry.versionable_id}?version={entry.version}'),
+                    'disabled' => function (VersionInterface $entry) use ($current) {
+
+                        if ($current->getVersion() !== $entry->getVersion()) {
+                            return false;
+                        }
+
+                        return true;
+                    },
                 ],
             ]
         );
