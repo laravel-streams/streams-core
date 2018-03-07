@@ -1,5 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Version\Contract;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+
 /**
  * Interface VersionInterface
  *
@@ -9,5 +15,40 @@
  */
 interface VersionInterface
 {
+
+    /**
+     * Get the version.
+     *
+     * @return int
+     */
+    public function getVersion();
+
+    /**
+     * Get the related versionable.
+     *
+     * @return EntryInterface|EloquentModel
+     */
+    public function getVersionable();
+
+    /**
+     * Return the versionable relation.
+     *
+     * @return MorphTo
+     */
+    public function versionable();
+
+    /**
+     * Return the related creator.
+     *
+     * @return Authenticatable
+     */
+    public function getCreatedBy();
+
+    /**
+     * Return the creator relation.
+     *
+     * @return BelongsTo
+     */
+    public function createdBy();
 
 }

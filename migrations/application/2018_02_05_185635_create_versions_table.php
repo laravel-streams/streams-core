@@ -26,10 +26,9 @@ class CreateVersionsTable extends Migration
                 $table->increments('version');
                 $table->datetime('created_at');
                 $table->integer('created_by_id')->nullable();
-                $table->datetime('updated_at')->nullable();
-                $table->integer('updated_by_id')->nullable();
                 $table->integer('versionable_id')->unsigned();
                 $table->string('versionable_type');
+                $table->string('ip_address');
                 $table->binary('data');
 
                 $table->index('versionable_id');

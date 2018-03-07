@@ -15,10 +15,14 @@ return [
     'display'       => 'Display',
     'contact'       => 'Contact',
     'general'       => 'General',
+    'changes'       => 'Changes',
+    'change'        => 'Change',
     'system'        => 'System',
     'themes'        => 'Themes',
     'access'        => 'Access',
+    'author'        => 'Author',
     'email'         => 'Email',
     'cache'         => 'Cache',
-    'field'         => 'Field'
+    'field'         => 'Field',
+    'date'          => 'Date',
 ];

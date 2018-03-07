@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Version\Contract\VersionRepositoryInterface;
+use Illuminate\Contracts\Auth\Guard;
 
 /**
  * Class SaveVersion
@@ -34,8 +35,9 @@ class SaveVersion
      * Handle the command.
      *
      * @param VersionRepositoryInterface $versions
+     * @param Guard                      $auth
      */
-    public function handle(VersionRepositoryInterface $versions)
+    public function handle(VersionRepositoryInterface $versions, Guard $auth)
     {
         if (!$this->model->isVersionable()) {
             return;
@@ -44,8 +46,10 @@ class SaveVersion
         if ($this->model->shouldVersion()) {
             $versions->create(
                 [
-                    'versionable' => $this->model,
-                    'data'        => serialize($this->model->getVersionedAttributeChanges()),
+                    'created_at'    => now('UTC'),
+                    'created_by_id' => $auth->id(),
+                    'versionable'   => $this->model,
+                    'data'          => serialize($this->model->getVersionedAttributeChanges()),
                 ]
             );
         }
