@@ -83,6 +83,16 @@ class VersionModel extends Model implements VersionInterface, PresentableInterfa
     }
 
     /**
+     * Get the model attribute.
+     *
+     * @return EloquentModel|EntryInterface
+     */
+    public function getModelAttribute()
+    {
+        return unserialize($this->attributes['model']);
+    }
+
+    /**
      * Return a created presenter.
      *
      * @return Presenter
@@ -90,6 +100,26 @@ class VersionModel extends Model implements VersionInterface, PresentableInterfa
     public function getPresenter()
     {
         return new VersionPresenter($this);
+    }
+
+    /**
+     * Get the data.
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * Get the model.
+     *
+     * @return EloquentModel|EntryInterface
+     */
+    public function getModel()
+    {
+        return $this->model;
     }
 
     /**
@@ -143,5 +173,4 @@ class VersionModel extends Model implements VersionInterface, PresentableInterfa
     {
         return $this->belongsTo(config('auth.providers.users.model'));
     }
-
 }

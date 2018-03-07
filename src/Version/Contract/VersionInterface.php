@@ -17,6 +17,20 @@ interface VersionInterface
 {
 
     /**
+     * Get the data.
+     *
+     * @return array
+     */
+    public function getData();
+
+    /**
+     * Get the model.
+     *
+     * @return EloquentModel|EntryInterface
+     */
+    public function getModel();
+
+    /**
      * Get the version.
      *
      * @return int

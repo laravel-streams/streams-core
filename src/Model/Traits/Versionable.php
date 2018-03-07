@@ -158,21 +158,11 @@ trait Versionable
     }
 
     /**
-     * Return the versions relation.
-     *
-     * @return HasMany
-     */
-    public function versions()
-    {
-        $this->morphMany(VersionModel::class, 'versionable');
-    }
-
-    /**
      * Return the latest version.
      *
      * @return VersionInterface|null
      */
-    public function currentVersion()
+    public function getCurrentVersion()
     {
         return $this
             ->versions()
@@ -185,7 +175,7 @@ trait Versionable
      *
      * @return VersionInterface
      */
-    public function previousVersion()
+    public function getPreviousVersion()
     {
         return $this
             ->versions()
@@ -193,6 +183,16 @@ trait Versionable
             ->limit(1)
             ->offset(1)
             ->first();
+    }
+
+    /**
+     * Return the versions relation.
+     *
+     * @return HasMany
+     */
+    public function versions()
+    {
+        return $this->morphMany(VersionModel::class, 'versionable');
     }
 
 }
