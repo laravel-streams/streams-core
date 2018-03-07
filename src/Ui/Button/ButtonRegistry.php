@@ -40,9 +40,13 @@ class ButtonRegistry
             'icon' => 'history',
         ],
         'load'          => [
-            'text' => 'streams::button.load',
-            'type' => 'primary',
-            'icon' => 'history',
+            'icon'         => 'repeat',
+            'data-icon'    => 'warning',
+            'data-toggle'  => 'confirm',
+            'type'         => 'primary',
+            'text'         => 'streams::button.load',
+            'data-title'   => 'streams::message.confirm_load_title',
+            'data-message' => 'streams::message.confirm_load_message',
         ],
         'primary'       => [
             'type' => 'primary',
@@ -141,6 +145,7 @@ class ButtonRegistry
             'type' => 'success',
             'icon' => 'check',
         ],
+
         /*
          * Info Buttons
          */

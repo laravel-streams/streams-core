@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Version\Table;
 
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Version\Contract\VersionInterface;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -28,6 +31,13 @@ class VersionTableBuilder extends TableBuilder
     protected $type = null;
 
     /**
+     * The current version.
+     *
+     * @var null|VersionInterface
+     */
+    protected $current = null;
+
+    /**
      * The table options.
      *
      * @var array
@@ -38,6 +48,13 @@ class VersionTableBuilder extends TableBuilder
         ],
     ];
 
+    public function onReady()
+    {
+        $versionable = $this->getVersionableInstance();
+
+        $this->setCurrent($versionable->getCurrentVersion());
+    }
+
     /**
      * Fired during the query for entries.
      *
@@ -47,6 +64,19 @@ class VersionTableBuilder extends TableBuilder
     {
         $query->where('versionable_type', $this->getType());
         $query->where('versionable_id', $this->getId());
+    }
+
+    /**
+     * Get the versionable instance.
+     *
+     * @return Versionable|EloquentModel
+     */
+    public function getVersionableInstance()
+    {
+        $type = $this->getType();
+        $id   = $this->getId();
+
+        return (new $type)->find($id);
     }
 
     /**
@@ -91,6 +121,29 @@ class VersionTableBuilder extends TableBuilder
     public function setType($type)
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get the current version.
+     *
+     * @return VersionInterface|null
+     */
+    public function getCurrent()
+    {
+        return $this->current;
+    }
+
+    /**
+     * Set the current version.
+     *
+     * @param VersionInterface $current
+     * @return $this
+     */
+    public function setCurrent(VersionInterface $current)
+    {
+        $this->current = $current;
 
         return $this;
     }

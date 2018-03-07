@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Version\Table;
 
+use Anomaly\Streams\Platform\Version\Contract\VersionInterface;
 use Illuminate\Contracts\Config\Repository;
 
 /**
@@ -16,16 +17,18 @@ class VersionTableColumns
      * Handle the columns.
      *
      * @param VersionTableBuilder $builder
-     * @param Repository          $config
+     * @param Repository $config
      */
     public function handle(VersionTableBuilder $builder, Repository $config)
     {
         $date = $config->get('streams::datetime.date_format');
         $time = $config->get('streams::datetime.time_format');
 
+        $current = $builder->getCurrent();
+
         $builder->setColumns(
             [
-                'author'     => [
+                'author'          => [
                     'heading'    => 'streams::label.author',
                     'wrapper'    => '
                         <strong>{value.name}</strong>
@@ -44,7 +47,7 @@ class VersionTableColumns
                         'style' => 'width: 250px;',
                     ],
                 ],
-                'created_at' => [
+                'created_at'      => [
                     'heading'     => 'streams::label.date',
                     'sort_column' => 'created_at',
                     'wrapper'     => '
@@ -56,13 +59,17 @@ class VersionTableColumns
                         'timeago'  => 'entry.created_at.diffForHumans()',
                     ],
                 ],
-//                'changes'    => [
-//                    'heading' => 'streams::label.changes',
-//                    'wrapper' => '
-//                        {{ entry.data|length }} {{ trans_choice("streams::version.changes", entry.data|length) }}
-//                        <br>
-//                        <small class="text-muted">{{ ucwords(entry.data|keys|join(", ")) }}</small>',
-//                ],
+                'current_version' => [
+                    'heading' => false,
+                    'value'   => function (VersionInterface $entry) use ($current) {
+
+                        if ($current->getVersion() !== $entry->getVersion()) {
+                            return null;
+                        }
+
+                        return '<span class="tag tag-success">' . trans('streams::label.current_version') . '</span>';
+                    },
+                ],
             ]
         );
     }
