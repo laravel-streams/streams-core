@@ -34,6 +34,7 @@ class FilterNormalizer
     {
         $filters = $builder->getFilters();
         $stream  = $builder->getTableStream();
+        $prefix  = $builder->getTableOption('prefix');
 
         foreach ($filters as $slug => &$filter) {
 
@@ -84,6 +85,13 @@ class FilterNormalizer
              */
             if (!isset($filter['filter'])) {
                 $filter['filter'] = $filter['slug'];
+            }
+
+            /*
+             * Set the prefix if not already set.
+             */
+            if (!isset($filter['prefix'])) {
+                $filter['prefix'] = $prefix;
             }
 
             /*
