@@ -59,6 +59,9 @@ class GetStream
             $this->namespace = $parts[0];
             $this->slug      = $parts[1];
         }
+        
+        $this->slug      = studly_case($this->slug);
+        $this->namespace = studly_case($this->namespace);
 
         /* @var EntryInterface $model */
         $model = $container->make(
