@@ -66,7 +66,7 @@ class FieldCollection extends Collection
      * Get a field.
      *
      * @param  mixed $key
-     * @param  null $default
+     * @param  null  $default
      * @return FieldType
      */
     public function get($key, $default = null)
@@ -162,6 +162,38 @@ class FieldCollection extends Collection
     }
 
     /**
+     * Return writable fields.
+     *
+     * @return FieldCollection
+     */
+    public function writable()
+    {
+        return $this->filter(
+            function ($item) {
+
+                /* @var FieldType $item */
+                return !$item->isReadonly();
+            }
+        );
+    }
+
+    /**
+     * Return readonly fields.
+     *
+     * @return FieldCollection
+     */
+    public function readonly()
+    {
+        return $this->filter(
+            function ($item) {
+
+                /* @var FieldType $item */
+                return $item->isReadonly();
+            }
+        );
+    }
+
+    /**
      * Return non-self handling fields.
      *
      * @deprecated use autoHandling() - removing in 1.4
@@ -183,7 +215,7 @@ class FieldCollection extends Collection
             function ($field) {
 
                 /* @var FieldType $field */
-                return !$field->isDisabled() && !method_exists($field, 'handle');
+                return !method_exists($field, 'handle');
             }
         );
     }
