@@ -250,7 +250,7 @@ class ViewComposer
          * override path should be.
          */
         if ($namespace == 'streams') {
-            $path = $this->theme->getNamespace('streams/' . $path);
+            $override = $this->theme->getNamespace('streams/' . $path);
         }
 
         /*
