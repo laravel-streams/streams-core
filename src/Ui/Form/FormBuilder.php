@@ -796,6 +796,39 @@ class FormBuilder
     }
 
     /**
+     * Recursively prefix all section fields.
+     *
+     * @param      $prefix
+     * @param null $sections
+     * @return array|null
+     */
+    public function prefixSectionFields($prefix, $sections = null)
+    {
+        if (!$sections) {
+            $sections = &$this->sections;
+        }
+
+        if (!is_array($sections)) {
+            return $sections;
+        }
+
+        foreach ($sections as $key => &$value) {
+            if ($key === 'fields') {
+                $value = array_map(
+                    function ($field) use ($key, $prefix) {
+                        return $prefix . $field;
+                    },
+                    array_values($value)
+                );
+            } elseif (is_array($value)) {
+                $value = $this->prefixSectionFields($prefix, $value);
+            }
+        }
+
+        return $sections;
+    }
+
+    /**
      * Get an option value.
      *
      * @param        $key
