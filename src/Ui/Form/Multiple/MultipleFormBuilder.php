@@ -160,7 +160,7 @@ class MultipleFormBuilder extends FormBuilder
         if ($position === null) {
 
             $this->forms->add($key, $builder);
-            
+
             return $this;
         }
 
