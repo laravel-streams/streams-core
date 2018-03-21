@@ -756,6 +756,19 @@ class FormBuilder
     }
 
     /**
+     * Merge in additional sections.
+     *
+     * @param array $sections
+     * @return $this
+     */
+    public function mergeSections(array $sections)
+    {
+        $this->sections = array_merge($this->sections, $sections);
+
+        return $this;
+    }
+
+    /**
      * Add a section tab.
      *
      * @param        $section
@@ -1336,7 +1349,7 @@ class FormBuilder
     /**
      * Get an attribute from the form's entry.
      *
-     * @param $key
+     * @param      $key
      * @param null $default
      * @return mixed|null
      */
