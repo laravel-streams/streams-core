@@ -217,7 +217,9 @@ class MultipleFormBuilder extends FormBuilder
      */
     public function getChildFormEntry($key)
     {
-        $builder = $this->getChildForm($key);
+        if (!$builder = $this->getChildForm($key)) {
+            return null;
+        }
 
         return $builder->getFormEntry();
     }
