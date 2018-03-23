@@ -611,6 +611,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFilter('snake_case', [$this->str, 'snake']),
             new \Twig_SimpleFilter('studly_case', [$this->str, 'studly']),
             new \Twig_SimpleFilter('humanize', [$this->str, 'humanize']),
+            new \Twig_SimpleFilter('parse', [$this->template, 'render']),
             new \Twig_SimpleFilter(
                 'markdown',
                 function ($content) {
