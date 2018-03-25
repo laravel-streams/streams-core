@@ -13,60 +13,42 @@ class ViewIncludes extends Collection
 {
 
     /**
-     * The loaded flag.
+     * Add an include to a slot.
      *
-     * @var bool
-     */
-    protected $loaded = false;
-
-    /**
-     * Set a value.
-     *
-     * @param $key
-     * @param $value
+     * @param $slot
+     * @param $include
      * @return $this
      */
-    public function add($slot, $value)
+    public function add($slot, $include)
     {
         if (!$this->has($slot)) {
             $this->put($slot, new Collection());
         }
 
-        $this->put($slot, $value);
+        /* @var Collection $includes */
+        $includes = $this->get($slot);
+
+        $includes->push($include);
 
         return $this;
     }
 
     /**
-     * Get the loaded flag.
+     * Render an include slot.
      *
-     * @return bool
-     */
-    public function isLoaded()
-    {
-        return $this->loaded;
-    }
-
-    /**
-     * Set the loaded flag.
-     *
-     * @param $loaded
-     * @return $this
-     */
-    public function setLoaded($loaded)
-    {
-        $this->loaded = $loaded;
-
-        return $this;
-    }
-
-    /**
-     * Override the string output.
-     *
+     * @param $slot
      * @return string
      */
-    public function __toString()
+    public function render($slot)
     {
-        return '';
+        return $this->implode(
+            array_map(
+                function ($include) {
+                    return view($include)->render();
+                },
+                $this->get($slot)->all()
+            ),
+            "\n"
+        );
     }
 }

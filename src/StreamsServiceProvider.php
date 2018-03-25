@@ -172,6 +172,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Addon\Theme\Listener\PutThemeInCollection'                 => 'Anomaly\Streams\Platform\Addon\Theme\Listener\PutThemeInCollection',
         'Anomaly\Streams\Platform\View\ViewComposer'                                         => 'Anomaly\Streams\Platform\View\ViewComposer',
         'Anomaly\Streams\Platform\View\ViewTemplate'                                         => 'Anomaly\Streams\Platform\View\ViewTemplate',
+        'Anomaly\Streams\Platform\View\ViewIncludes'                                         => 'Anomaly\Streams\Platform\View\ViewTemplate',
         'Anomaly\Streams\Platform\View\ViewOverrides'                                        => 'Anomaly\Streams\Platform\View\ViewOverrides',
         'Anomaly\Streams\Platform\View\ViewMobileOverrides'                                  => 'Anomaly\Streams\Platform\View\ViewMobileOverrides',
         'Anomaly\Streams\Platform\View\Listener\LoadTemplateData'                            => 'Anomaly\Streams\Platform\View\Listener\LoadTemplateData',
