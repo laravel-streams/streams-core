@@ -534,10 +534,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      */
     public function toArray()
     {
-        $attributes = array_merge(
-            $this->attributesToArray(),
-            $this->relationsToArray()
-        );
+        $attributes = $this->attributesToArray();
 
         foreach ($this->translatedAttributes as $field) {
             if ($translation = $this->getTranslation()) {
