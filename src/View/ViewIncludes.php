@@ -41,7 +41,7 @@ class ViewIncludes extends Collection
      */
     public function render($slot)
     {
-        return $this->implode(
+        return implode(
             array_map(
                 function ($include) {
                     return view($include)->render();
