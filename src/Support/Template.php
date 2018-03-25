@@ -46,8 +46,7 @@ class Template
         Factory $view,
         Filesystem $files,
         Application $application
-    )
-    {
+    ) {
         $this->view        = $view;
         $this->files       = $files;
         $this->application = $application;
@@ -79,6 +78,31 @@ class Template
             ),
             $payload
         );
+    }
+
+    /**
+     * Make a string template.
+     *
+     * @param       $template
+     * @param array $payload
+     * @return string
+     */
+    public function make($template)
+    {
+        $path = $this->path($template);
+
+        if (!$this->files->isDirectory($directory = dirname($path))) {
+            $this->files->makeDirectory($directory, 0777, true);
+        }
+
+        if (!$this->files->exists($path . '.twig')) {
+            $this->files->put($path . '.twig', $template);
+        }
+
+        return 'storage::' . ltrim(
+                str_replace($this->application->getStoragePath(), '', $path),
+                '\\/'
+            );
     }
 
     /**

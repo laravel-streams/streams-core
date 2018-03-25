@@ -28,7 +28,7 @@ class ViewIncludes extends Collection
         /* @var Collection $includes */
         $includes = $this->get($slot);
 
-        $includes->push($include);
+        $includes->put($include, $include);
 
         return $this;
     }
@@ -41,12 +41,16 @@ class ViewIncludes extends Collection
      */
     public function render($slot)
     {
+        if (!$includes = $this->get($slot)) {
+            return null;
+        }
+
         return implode(
             array_map(
                 function ($include) {
                     return view($include)->render();
                 },
-                (array)$this->get($slot)
+                $includes->all()
             ),
             "\n"
         );
