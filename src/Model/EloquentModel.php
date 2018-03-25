@@ -73,6 +73,15 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     ];
 
     /**
+     * Hide these from toArray.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'translations',
+    ];
+
+    /**
      * The cascading delete-able relations.
      *
      * @var array
@@ -341,7 +350,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      * Set an attribute.
      *
      * @param  string $key
-     * @param  mixed $value
+     * @param  mixed  $value
      * @return $this
      */
     public function setAttribute($key, $value)
@@ -623,7 +632,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      * Check hooks for the missing method.
      *
      * @param string $method
-     * @param array $parameters
+     * @param array  $parameters
      * @return mixed
      */
     public function __call($method, $parameters)
