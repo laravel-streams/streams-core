@@ -18,6 +18,8 @@
     {{ script|raw }}
 {% endfor %}
 
+{{ template.includes.render('scripts') }}
+
 {# Include Styles Loaded From Outside #}
 {% for style in asset_styles("styles.css") %}
     {{ style|raw }}

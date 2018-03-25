@@ -46,7 +46,7 @@ class ViewIncludes extends Collection
                 function ($include) {
                     return view($include)->render();
                 },
-                $this->get($slot)->all()
+                (array)$this->get($slot)
             ),
             "\n"
         );
