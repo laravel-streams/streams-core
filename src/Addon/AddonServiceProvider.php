@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use ReflectionClass;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
@@ -240,6 +241,21 @@ class AddonServiceProvider
     {
         return $this->listeners;
     }
+    
+    /**
+	 * Automatic registration of namespaces for your controller routing.
+	 *
+	 * In addition, it is set as the URL generator's root namespace.
+	 *
+	 * @param  string $name
+	 * @return string
+	 */
+	public function getHttpNamepsace($name = '')
+	{
+		$name = $name !== '' ?  trim($name, '\\') : $name;
+		return (new ReflectionClass(get_class($this)))
+			->getNamespaceName() . '\\Http\\Controller\\' . $name;
+	}
 
     /**
      * Get the addon routes.
