@@ -74,6 +74,16 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     protected $stream = [];
 
     /**
+     * Hide these from toArray.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'translations',
+        'stream',
+    ];
+
+    /**
      * Boot the model
      */
     protected static function boot()
@@ -104,7 +114,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      * Sort the query.
      *
      * @param Builder $builder
-     * @param string $direction
+     * @param string  $direction
      */
     public function scopeSorted(Builder $builder, $direction = 'asc')
     {
@@ -189,7 +199,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      * Get a field value.
      *
      * @param        $fieldSlug
-     * @param  null $locale
+     * @param  null  $locale
      * @return mixed
      */
     public function getFieldValue($fieldSlug, $locale = null)
@@ -245,7 +255,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      *
      * @param        $fieldSlug
      * @param        $value
-     * @param  null $locale
+     * @param  null  $locale
      * @return $this
      */
     public function setFieldValue($fieldSlug, $value, $locale = null)
@@ -375,7 +385,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      * the field types a chance to modify things.
      *
      * @param  string $key
-     * @param  mixed $value
+     * @param  mixed  $value
      * @return EntryModel|EloquentModel
      */
     public function setAttribute($key, $value)
@@ -413,7 +423,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      * Get a raw unmodified attribute.
      *
      * @param             $key
-     * @param  bool $process
+     * @param  bool       $process
      * @return mixed|null
      */
     public function getRawAttribute($key, $process = true)
@@ -823,7 +833,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     /**
      * Return a model route.
      *
-     * @param $route The route name you would like to return a URL for (i.e. "view" or "delete")
+     * @param       $route The route name you would like to return a URL for (i.e. "view" or "delete")
      * @param array $parameters
      * @return string
      */

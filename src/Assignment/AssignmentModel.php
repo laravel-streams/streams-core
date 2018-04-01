@@ -25,6 +25,17 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
     public $timestamps = false;
 
     /**
+     * Hide these from toArray.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'translations',
+        'stream',
+        'field',
+    ];
+
+    /**
      * Default attributes.
      *
      * @var array
