@@ -116,7 +116,7 @@ class EntryObserver extends Observer
      */
     public function deleting(EntryInterface $entry)
     {
-        if (!$this->dispatch(new RestrictDelete($entry))) {
+        if ($this->dispatch(new RestrictDelete($entry))) {
             return false;
         }
 

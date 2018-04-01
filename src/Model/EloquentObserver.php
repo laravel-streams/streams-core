@@ -88,7 +88,7 @@ class EloquentObserver extends Observer
      */
     public function deleting(EloquentModel $entry)
     {
-        if (!$this->dispatch(new RestrictDelete($entry))) {
+        if ($this->dispatch(new RestrictDelete($entry))) {
             return false;
         }
 

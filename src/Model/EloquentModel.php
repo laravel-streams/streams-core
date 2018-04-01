@@ -93,7 +93,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      *
      * @var array
      */
-    protected $restrict = [];
+    protected $restricts = [];
 
     /**
      * Runtime cache.
@@ -625,9 +625,9 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      *
      * @return array
      */
-    public function getRestrict()
+    public function getRestricts()
     {
-        return $this->restrict;
+        return $this->restricts;
     }
 
     /**

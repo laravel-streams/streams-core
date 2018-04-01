@@ -41,7 +41,7 @@ class RestrictDelete
      */
     public function handle(MessageBag $messages, Translator $translator)
     {
-        foreach ($this->model->getRestrict() as $relation) {
+        foreach ($this->model->getRestricts() as $relation) {
 
             /* @var Relation $relation */
             $relation = $this->model->{$relation}();
@@ -50,19 +50,17 @@ class RestrictDelete
                 $relation = $relation->withTrashed();
             }
 
-            if ($count = $relation->count()) {
+            if ($relation->count()) {
 
                 $messages->warning(
                     $translator->trans('streams::message.delete_restrict'),
-                    [
-                        'name' => $this->model->getTitle()
-                    ]
+                    ['name' => $this->model->getTitle()]
                 );
 
-                return false;
+                return true;
             };
         }
 
-        return true;
+        return false;
     }
 }
