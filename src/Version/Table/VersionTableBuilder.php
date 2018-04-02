@@ -72,13 +72,15 @@ class VersionTableBuilder extends TableBuilder
     {
         $versionable = $this->getVersionableInstance();
 
-        $this->setCurrent($versionable->getCurrentVersion());
+        if ($current = $versionable->getCurrentVersion()) {
+            $this->setCurrent($current);
+        }
     }
 
     /**
      * Fired during the query for entries.
      *
-     * @param Builder $query
+     * @param Builder    $query
      * @param Repository $config
      */
     public function onQuerying(Builder $query, Repository $config)
