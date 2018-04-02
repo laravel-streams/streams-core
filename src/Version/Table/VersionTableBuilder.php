@@ -33,6 +33,13 @@ class VersionTableBuilder extends TableBuilder
     protected $type = null;
 
     /**
+     * The load-version form prefix.
+     *
+     * @var null|string
+     */
+    protected $prefix = null;
+
+    /**
      * The current version.
      *
      * @var null|VersionInterface
@@ -156,6 +163,29 @@ class VersionTableBuilder extends TableBuilder
     public function setType($type)
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get the prefix.
+     *
+     * @return null|string
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
+
+    /**
+     * Set the prefix.
+     *
+     * @param $prefix
+     * @return $this
+     */
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
 
         return $this;
     }

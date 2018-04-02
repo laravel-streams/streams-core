@@ -31,7 +31,7 @@ class RedirectGuesser
     /**
      * Create a new RedirectGuesser instance.
      *
-     * @param Request $request
+     * @param Request           $request
      * @param SectionCollection $sections
      */
     public function __construct(Request $request, SectionCollection $sections)
@@ -61,6 +61,7 @@ class RedirectGuesser
          */
         parse_str($_SERVER['QUERY_STRING'], $query);
         array_pull($query, 'version');
+        array_pull($query, 'versionable');
 
         if ($query = http_build_query($query)) {
             $query = '?' . $query;

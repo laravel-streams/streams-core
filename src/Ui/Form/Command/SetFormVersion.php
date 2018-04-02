@@ -35,12 +35,16 @@ class SetFormVersion
     /**
      * Set the form model object from the builder's model.
      *
-     * @param Request $request
+     * @param Request                    $request
      * @param VersionRepositoryInterface $versions
      */
     public function handle(Request $request, VersionRepositoryInterface $versions)
     {
         if (!$version = $request->get('version')) {
+            return;
+        }
+
+        if ($this->builder->getFormModelName() != ltrim($request->get('versionable'), '\\')) {
             return;
         }
 

@@ -28,7 +28,7 @@ class VersionTableButtons
         $builder->setButtons(
             [
                 'load' => [
-                    'href'     => $section->getHref('edit/{entry.versionable_id}?version={entry.version}'),
+                    'href'     => $section->getHref('edit/{entry.versionable_id}?version={entry.version}&versionable={entry.versionable_type}'),
                     'disabled' => function (VersionInterface $entry) use ($current) {
 
                         if ($current->getVersion() !== $entry->getVersion()) {

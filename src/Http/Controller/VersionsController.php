@@ -13,6 +13,13 @@ class VersionsController extends AdminController
 {
 
     /**
+     * The load-version form prefix.
+     *
+     * @var null|string
+     */
+    protected $prefix = null;
+
+    /**
      * The versioned model.
      *
      * @var null|string
@@ -29,6 +36,7 @@ class VersionsController extends AdminController
     public function index(VersionTableBuilder $table, $id)
     {
         return $table
+            ->setPrefix($this->getPrefix())
             ->setType($this->getModel())
             ->setId($id)
             ->render();
@@ -42,6 +50,16 @@ class VersionsController extends AdminController
     public function getModel()
     {
         return $this->model;
+    }
+
+    /**
+     * Get the prefix.
+     *
+     * @return null|string
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
     }
 
 }
