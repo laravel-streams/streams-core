@@ -41,10 +41,6 @@ class RenameAssignmentColumn
     {
         $stream = $this->assignment->getStream();
         $type   = $this->assignment->getFieldType(true);
-        
-        if ($type->getColumnType() === false) {
-            return;
-        }
 
         if (!$this->assignment->isTranslatable()) {
             $table = $stream->getEntryTableName();
