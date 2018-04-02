@@ -236,7 +236,7 @@ class Loader extends OriginalLoader
          * override path should be.
          */
         if ($namespace == 'streams') {
-            $path = $this->theme->getNamespace("streams/{$path}");
+            $override = $this->theme->getNamespace("streams/{$path}");
         }
 
         /*

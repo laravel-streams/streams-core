@@ -61,7 +61,7 @@ class MakeAddon extends Command
     {
         $namespace = $this->argument('namespace');
 
-        if (preg_match('#^[a-zA-Z_]+\.[a-zA-Z_]+\.[a-zA-Z_]+\z#u', $namespace) !== 1) {
+        if (preg_match('#^[a-zA-Z0-9_]+\.[a-zA-Z_]+\.[a-zA-Z0-9_]+\z#u', $namespace) !== 1) {
             throw new \Exception("The namespace should be snake case and formatted like: {vendor}.{type}.{slug}");
         }
 

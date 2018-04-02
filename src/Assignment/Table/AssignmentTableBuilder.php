@@ -30,7 +30,7 @@ class AssignmentTableBuilder extends TableBuilder
     protected $columns = [
         [
             'heading' => 'streams::field.name.name',
-            'value'   => 'entry.field.name',
+            'value'   => 'entry.label ?: entry.field.name',
         ],
         [
             'heading' => 'streams::field.slug.name',

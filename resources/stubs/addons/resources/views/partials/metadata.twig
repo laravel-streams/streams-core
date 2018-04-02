@@ -44,5 +44,7 @@
     {{ asset_inline("build.css", ["parse", "min"]) }}
 </style>
 
+{{ template.includes.render('head')|raw }}
+
 {# Important!! #}
 {{ constants() }}

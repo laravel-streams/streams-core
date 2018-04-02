@@ -628,7 +628,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
      */
     public function getEntryModel()
     {
-        return app($this->getEntryModelName());
+        return app($this->getBoundEntryModelName());
     }
 
     /**
