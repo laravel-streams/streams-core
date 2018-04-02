@@ -44,7 +44,7 @@ class SetFormVersion
             return;
         }
 
-        if ($this->builder->getFormModelName() != ltrim($request->get('versionable'), '\\')) {
+        if ($this->builder->getFormModelName() != $request->get('versionable')) {
             return;
         }
 
