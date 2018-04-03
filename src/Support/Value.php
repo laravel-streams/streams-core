@@ -141,15 +141,6 @@ class Value
             $value = $this->template->render("{{ {$value}|raw }}", $payload);
         }
 
-        /*
-         * If the value matches a method in the presenter.
-         */
-        if (is_string($value) && preg_match("/^{$term}.([a-zA-Z\\_]+)/", $value, $match)) {
-            if (method_exists($entry, camel_case($match[1]))) {
-                $value = $entry->{camel_case($match[1])}();
-            }
-        }
-
         $payload[$term] = $entry;
 
         /*
