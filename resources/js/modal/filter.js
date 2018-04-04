@@ -1,4 +1,4 @@
-var modal = $('.modal.remote.in');
+var modal = $('.modal.remote.in, .tingle-modal-box');
 var form = modal.find('form.modal-filter');
 var input = form.find('input');
 var list = modal.find('ul');
