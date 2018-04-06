@@ -1,4 +1,4 @@
-$(function () {
+(function (window, document) {
 
     let grids = Array.prototype.slice.call(
         document.querySelectorAll('ul.grid--sortable')
@@ -23,4 +23,4 @@ $(function () {
             }
         });
     });
-});
+})(window, document);
