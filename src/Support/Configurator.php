@@ -49,7 +49,7 @@ class Configurator
         foreach ($this->files->allFiles($directory) as $file) {
             $key = trim(
                 str_replace(
-                    $directory,
+                    str_replace('/', DIRECTORY_SEPARATOR, $directory),
                     '',
                     $file->getPath()
                 ) . DIRECTORY_SEPARATOR . $file->getBaseName('.php'),
