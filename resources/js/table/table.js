@@ -1,5 +1,15 @@
-$(function () {
+(function (window, document) {
 
     // Focus on the first filter input.
-    $('#filters').find('input:visible').first().focus();
-});
+    let filters = Array.prototype.slice.call(
+        document.querySelectorAll('#filters input')
+    );
+
+    filters.some(function (filter) {
+        if (filter.type !== 'hidden') {
+            filter.focus();
+            return true;
+        }
+    });
+
+})(window, document);
