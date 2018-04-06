@@ -1,19 +1,22 @@
-$(document).ready(function() {
-    $('table[data-sortable]').sortable({
-        handle: '.handle',
-        itemSelector: 'tr',
-        itemPath: '> tbody',
-        containerSelector: 'table',
-        placeholder: '<tr class="placeholder"/>',
-        afterMove: function($placeholder) {
+(function (window, document) {
 
-            $placeholder
-                .closest('table')
-                .find('button.reorder')
-                .removeClass('disabled')
-                .removeAttr('disabled');
+    let tables = Array.prototype.slice.call(
+        document.querySelectorAll('table.table--sortable')
+    );
 
-            $placeholder.closest('table').find('.dragged').detach().insertBefore($placeholder);
-        }
+    tables.forEach(function (table) {
+
+        let reorder = table.querySelector('.table__actions button.reorder');
+
+        Sortable.create(table.querySelector('tbody'), {
+            handle: '.handle',
+            draggable: 'tr',
+            onUpdate: function () {
+                if (reorder) {
+                    reorder.removeAttribute('disabled');
+                    reorder.classList.remove('disabled');
+                }
+            }
+        });
     });
-});
+})(window, document);

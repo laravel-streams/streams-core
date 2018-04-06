@@ -29,7 +29,11 @@
 
     <div class="table-responsive">
         <table
-                class="{{ table.options.class ?: 'table-condensed' }} table ajax"
+                class="
+                    table ajax table--ajax
+                    {{ table.options.class ?: 'table-condensed table--condensed' }}
+                    {{ table.options.sortable ? 'table--sortable' }}
+                "
                 {{ table.options.sortable ? 'data-sortable' }}
                 {{ html_attributes(table.options.attributes) }}>
 
