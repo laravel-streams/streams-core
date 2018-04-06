@@ -31,14 +31,16 @@ class SetMetaInformation
      */
     public function handle(Guard $auth)
     {
-        if ($this->entry->created_at) {
-            $this->entry->updated_at    = time();
-            $this->entry->updated_by_id = $auth->id();
-        }
+        if ($this->entry->timestamps) {
+            if ($this->entry->created_at) {
+                $this->entry->updated_at    = time();
+                $this->entry->updated_by_id = $auth->id();
+            }
 
-        if (!$this->entry->created_at) {
-            $this->entry->created_at    = time();
-            $this->entry->created_by_id = $auth->id();
+            if (!$this->entry->created_at) {
+                $this->entry->created_at    = time();
+                $this->entry->created_by_id = $auth->id();
+            }
         }
 
         if (!$this->entry->sort_order) {
