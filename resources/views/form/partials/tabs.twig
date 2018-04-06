@@ -13,7 +13,7 @@
 
 <div class="card-block">
     {% for slug, tab in section.tabs %}
-        <div class="tab-pane {{ loop.first ? ' active' }}" id="tab-{{ tab.slug ?: slug }}">
+        <div class="tab__pane tab-pane {{ loop.first ? ' active' }}" id="tab-{{ tab.slug ?: slug }}">
             {% if tab.view %}
                 {% include tab.view %}
             {% elseif tab.html %}
