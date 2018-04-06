@@ -8,6 +8,10 @@
 
         let toggle = table.querySelector('input[data-toggle="all"]');
 
+        if (!toggle) {
+            return;
+        }
+
         let checkboxes = Array.prototype.slice.call(
             table.querySelectorAll('input[type="checkbox"][data-toggle="action"]')
         );
