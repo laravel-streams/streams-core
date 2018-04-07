@@ -49,15 +49,12 @@ class Configurator
         foreach ($this->files->allFiles($directory) as $file) {
             $key = trim(
                 str_replace(
-                    str_replace('/', DIRECTORY_SEPARATOR, $directory),
+                    str_replace('\\', DIRECTORY_SEPARATOR, $directory),
                     '',
                     $file->getPath()
                 ) . DIRECTORY_SEPARATOR . $file->getBaseName('.php'),
                 DIRECTORY_SEPARATOR
             );
-
-            // Normalize key slashes.
-            $key = str_replace('\\', '/', $key);
 
             $this->config->set($namespace . '::' . $key, $this->files->getRequire($file->getPathname()));
         }
