@@ -109,6 +109,9 @@ return [
         'BW' => [
             'name' => 'Botswana',
         ],
+        'BX' => [
+            'name' => 'Benelux Union',
+        ],
         'BY' => [
             'name' => 'Belarus',
         ],
