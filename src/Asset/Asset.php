@@ -211,12 +211,12 @@ class Asset
             )
         );
 
+        if (array_intersect_key(array_flip($names), $this->getLoaded())) {
+            return $this;
+        }
+        
         foreach ($names as $name) {
             $this->addLoaded($name, $file);
-        }
-
-        if (array_intersect_key($this->getLoaded(), array_flip($names))) {
-            return $this;
         }
 
         /**
