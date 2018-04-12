@@ -493,6 +493,14 @@ interface EntryInterface
      * @return array
      */
     public function toArray();
+    
+    /**
+     * Return the entry with
+     * relations as an array.
+     *
+     * @return array
+     */
+    public function toArrayWithRelations();
 
     /**
      * Return the searchable array.
