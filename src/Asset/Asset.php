@@ -39,6 +39,15 @@ class Asset
     protected $collections = [];
 
     /**
+     * Loaded provisions. When tagging
+     * assets using "as:*" they will be
+     * added to the loaded array.
+     *
+     * @var array
+     */
+    protected $loaded = [];
+
+    /**
      * The URL generator.
      *
      * @var UrlGenerator
@@ -127,17 +136,17 @@ class Asset
     /**
      * Create a new Application instance.
      *
-     * @param Application     $application
+     * @param Application $application
      * @param ThemeCollection $themes
-     * @param MountManager    $manager
-     * @param AssetParser     $parser
-     * @param Repository      $config
-     * @param Template        $template
-     * @param Filesystem      $files
-     * @param AssetPaths      $paths
-     * @param Request         $request
-     * @param HtmlBuilder     $html
-     * @param UrlGenerator    $url
+     * @param MountManager $manager
+     * @param AssetParser $parser
+     * @param Repository $config
+     * @param Template $template
+     * @param Filesystem $files
+     * @param AssetPaths $paths
+     * @param Request $request
+     * @param HtmlBuilder $html
+     * @param UrlGenerator $url
      */
     public function __construct(
         Application $application,
@@ -176,7 +185,7 @@ class Asset
      *
      * @param             $collection
      * @param             $file
-     * @param  array      $filters
+     * @param  array $filters
      * @return $this
      * @throws \Exception
      */
@@ -186,8 +195,40 @@ class Asset
             $this->collections[$collection] = [];
         }
 
+        /**
+         * Check for named asset tags
+         * and mark as loaded if found.
+         */
+        $names = array_map(
+            function ($filter) {
+                return strtolower(preg_replace('/^as:/', '', $filter));
+            },
+            array_filter(
+                $filters,
+                function ($filter) {
+                    return starts_with($filter, 'as:');
+                }
+            )
+        );
+
+        foreach ($names as $name) {
+            $this->addLoaded($name, $file);
+        }
+
+        if (array_intersect_key($this->getLoaded(), array_flip($names))) {
+            return $this;
+        }
+
+        /**
+         * Guess some common
+         * sense filters.
+         */
         $filters = array_unique(array_merge($filters, AssetGuesser::guess($file)));
 
+        /**
+         * Determine the actual
+         * path of the file.
+         */
         $file = $this->paths->realPath($file);
 
         /*
@@ -195,6 +236,7 @@ class Asset
          * file then add it normally.
          */
         if (starts_with($file, ['http', '//']) || file_exists($file)) {
+
             $this->collections[$collection][$file] = $filters;
 
             return $this;
@@ -205,6 +247,7 @@ class Asset
          * it to the collection and add the glob filter.
          */
         if (count(glob($file)) > 0) {
+
             $this->collections[$collection][$file] = array_merge($filters, ['glob']);
 
             return $this;
@@ -219,8 +262,8 @@ class Asset
      * Download a file and return it's path.
      *
      * @param              $url
-     * @param  int         $ttl
-     * @param  null        $path
+     * @param  int $ttl
+     * @param  null $path
      * @return null|string
      */
     public function download($url, $ttl = 3600, $path = null)
@@ -242,7 +285,7 @@ class Asset
      * Return the contents of a collection.
      *
      * @param         $collection
-     * @param  array  $filters
+     * @param  array $filters
      * @return string
      */
     public function inline($collection, array $filters = [])
@@ -256,7 +299,7 @@ class Asset
      * Return the URL to a compiled asset collection.
      *
      * @param         $collection
-     * @param  array  $filters
+     * @param  array $filters
      * @return string
      */
     public function url($collection, array $filters = [], array $parameters = [], $secure = null)
@@ -276,7 +319,7 @@ class Asset
      * Return the path to a compiled asset collection.
      *
      * @param         $collection
-     * @param  array  $filters
+     * @param  array $filters
      * @return string
      */
     public function path($collection, array $filters = [])
@@ -292,7 +335,7 @@ class Asset
      * Return the asset path to a compiled asset collection.
      *
      * @param         $collection
-     * @param  array  $filters
+     * @param  array $filters
      * @return string
      */
     public function asset($collection, array $filters = [])
@@ -308,8 +351,8 @@ class Asset
      * Return the script tag for a collection.
      *
      * @param         $collection
-     * @param  array  $filters
-     * @param  array  $attributes
+     * @param  array $filters
+     * @param  array $attributes
      * @return string
      */
     public function script($collection, array $filters = [], array $attributes = [])
@@ -323,8 +366,8 @@ class Asset
      * Return the style tag for a collection.
      *
      * @param         $collection
-     * @param  array  $filters
-     * @param  array  $attributes
+     * @param  array $filters
+     * @param  array $attributes
      * @return string
      */
     public function style($collection, array $filters = [], array $attributes = [])
@@ -418,7 +461,7 @@ class Asset
      * @param        $collection
      * @param  array $filters
      * @param  array $attributes
-     * @param null   $secure
+     * @param null $secure
      * @return array
      */
     public function urls($collection, array $filters = [], array $attributes = [], $secure = null)
@@ -651,7 +694,7 @@ class Asset
      * Create asset collection from collection array
      *
      * @param                  $collection
-     * @param  array           $additionalFilters
+     * @param  array $additionalFilters
      * @return AssetCollection
      */
     private function getAssetCollection($collection, $additionalFilters = [])
@@ -713,6 +756,41 @@ class Asset
         }
 
         return false;
+    }
+
+    /**
+     * Mark an named asset as loaded.
+     *
+     * @param $name
+     * @param $asset
+     * @return $this
+     */
+    public function addLoaded($name, $asset)
+    {
+        $this->loaded[strtolower($name)] = $asset;
+
+        return $this;
+    }
+
+    /**
+     * Return if a named asset is loaded or not.
+     *
+     * @param $name
+     * @return bool
+     */
+    public function isLoaded($name)
+    {
+        return isset($this->loaded[strtolower($name)]);
+    }
+
+    /**
+     * Get the named and loaded assets.
+     *
+     * @return array
+     */
+    public function getLoaded()
+    {
+        return $this->loaded;
     }
 
     /**
