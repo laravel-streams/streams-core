@@ -543,10 +543,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      */
     public function toArray()
     {
-        $attributes = array_merge(
-            $this->attributesToArray(),
-            $this->relationsToArray()
-        );
+        $attributes = $this->attributesToArray();
 
         foreach ($this->translatedAttributes as $field) {
             if ($translation = $this->getTranslation()) {
@@ -555,6 +552,19 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
         }
 
         return $attributes;
+    }
+
+    /**
+     * Return the model as an array with relations.
+     *
+     * @return array
+     */
+    public function toArrayWithRelations()
+    {
+        return array_merge(
+            $this->toArray(),
+            $this->relationsToArray()
+        );
     }
 
     /**
