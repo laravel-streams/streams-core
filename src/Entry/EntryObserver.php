@@ -87,7 +87,7 @@ class EntryObserver extends Observer
      * Before saving an entry touch the
      * meta information.
      *
-     * @param  EntryInterface|EloquentModel $entry
+     * @param  EntryInterface|EntryModel $entry
      */
     public function saving(EntryInterface $entry)
     {
@@ -103,7 +103,7 @@ class EntryObserver extends Observer
     /**
      * Run after saving a record.
      *
-     * @param EntryInterface|EloquentModel $entry
+     * @param EntryInterface|EntryModel $entry
      */
     public function saved(EntryInterface $entry)
     {

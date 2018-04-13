@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Model\Traits\Translatable;
-use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Collection;
@@ -21,7 +20,6 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
 {
 
     use Hookable;
-    use Versionable;
     use Translatable;
     use DispatchesJobs;
 

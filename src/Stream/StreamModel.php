@@ -393,6 +393,16 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
     }
 
     /**
+     * Get the versionable flag.
+     *
+     * @return bool
+     */
+    public function isVersionable()
+    {
+        return $this->versionable;
+    }
+
+    /**
      * Get the translatable flag.
      *
      * @return bool

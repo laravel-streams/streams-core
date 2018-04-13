@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Version\Command;
 
-use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Version\Contract\VersionRepositoryInterface;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
@@ -18,16 +18,16 @@ class SaveVersion
     /**
      * The eloquent model.
      *
-     * @var EloquentModel
+     * @var EntryModel
      */
     protected $model;
 
     /**
      * Create a new SaveVersion instance.
      *
-     * @param EloquentModel $model
+     * @param EntryModel $model
      */
-    public function __construct(EloquentModel $model)
+    public function __construct(EntryModel $model)
     {
         $this->model = $model;
     }
@@ -36,8 +36,8 @@ class SaveVersion
      * Handle the command.
      *
      * @param VersionRepositoryInterface $versions
-     * @param Request                    $request
-     * @param Guard                      $auth
+     * @param Request $request
+     * @param Guard $auth
      */
     public function handle(VersionRepositoryInterface $versions, Request $request, Guard $auth)
     {

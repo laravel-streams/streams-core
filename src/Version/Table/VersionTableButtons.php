@@ -27,8 +27,21 @@ class VersionTableButtons
 
         $builder->setButtons(
             [
-                'load' => [
-                    'href'     => $section->getHref('edit/{entry.versionable_id}?version={entry.version}&versionable={entry.versionable_type}'),
+                'changes' => [
+                    'type' => 'info',
+                    'icon' => 'code-fork',
+                    'href' => $section->getHref('versions/changes/{entry.version}'),
+                    'text' => function (VersionInterface $entry) {
+                        return ($count = count($entry->getData())) . ' ' . trans_choice(
+                                'streams::version.changes',
+                                $count
+                            );
+                    },
+                ],
+                'load'    => [
+                    'href'     => $section->getHref(
+                        'edit/{entry.versionable_id}?version={entry.version}&versionable={entry.versionable_type}'
+                    ),
                     'disabled' => function (VersionInterface $entry) use ($current) {
 
                         if ($current->getVersion() !== $entry->getVersion()) {

@@ -61,6 +61,12 @@ class StreamFormFields
                     'disabled'     => 'edit',
                     'type'         => 'anomaly.field_type.boolean',
                 ],
+                'versionable' => [
+                    'label'        => 'streams::field.versionable.name',
+                    'instructions' => 'streams::field.versionable.instructions',
+                    'translatable' => true,
+                    'type'         => 'anomaly.field_type.boolean',
+                ],
                 'trashable'    => [
                     'label'        => 'streams::field.trashable.name',
                     'instructions' => 'streams::field.trashable.instructions',
