@@ -2,12 +2,12 @@
     <div class="card-block">
 
         {% if not form.options.read_only %}
-            <div class="actions">
+            <div class="form__actions actions">
                 {{ buttons(form.actions)|raw }}
             </div>
         {% endif %}
 
-        <div class="buttons">
+        <div class="form__buttons buttons">
             {{ buttons(form.buttons)|raw }}
         </div>
 

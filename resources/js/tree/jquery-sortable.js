@@ -27,9 +27,6 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * ========================================================== */
 
-/**
- * @todo REMOVE this after fixing the repeater / ft dependencies.
- */
 
 !function ($, window, pluginName, undefined) {
     var containerDefaults = {

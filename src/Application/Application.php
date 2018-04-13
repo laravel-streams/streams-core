@@ -72,7 +72,7 @@ class Application
     public function setTablePrefix()
     {
         $connection = app('db')->getSchemaBuilder()->getConnection();
-        
+
         $connection->setTablePrefix($this->tablePrefix());
         $connection->getSchemaGrammar()->setTablePrefix($this->tablePrefix());
     }
@@ -108,7 +108,9 @@ class Application
      */
     public function getStoragePath($path = '')
     {
-        return storage_path('streams/' . $this->getReference()) . ($path ? '/' . $path : $path);
+        return storage_path(
+                'streams' . DIRECTORY_SEPARATOR . $this->getReference()
+            ) . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 
     /**
@@ -119,7 +121,9 @@ class Application
      */
     public function getAssetsPath($path = '')
     {
-        return public_path('app/' . $this->getReference()) . ($path ? '/' . $path : $path);
+        return public_path(
+                'app' . DIRECTORY_SEPARATOR . $this->getReference()
+            ) . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 
     /**
@@ -130,7 +134,9 @@ class Application
      */
     public function getResourcesPath($path = '')
     {
-        return base_path('resources/' . $this->getReference()) . ($path ? '/' . $path : $path);
+        return base_path(
+                'resources' . DIRECTORY_SEPARATOR . $this->getReference()
+            ) . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 
     /**

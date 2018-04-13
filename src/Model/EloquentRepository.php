@@ -65,6 +65,18 @@ class EloquentRepository implements EloquentRepositoryInterface
     {
         return $this->model->whereIn('id', $ids)->get();
     }
+    
+    /**
+     * Find all by column value.
+     *
+     * @param $column
+     * @param $value
+     * @return EloquentCollection
+     */
+    public function findAllBy($column, $value)
+    {
+        return $this->model->where($column, $value)->get();
+    }
 
     /**
      * Find a trashed record by it's ID.

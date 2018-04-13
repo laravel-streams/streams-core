@@ -46,6 +46,15 @@ interface EloquentRepositoryInterface
      * @return EloquentCollection
      */
     public function findAll(array $ids);
+    
+    /**
+     * Find all by column value.
+     *
+     * @param $column
+     * @param $value
+     * @return EloquentCollection
+     */
+    public function findAllBy($column, $value);
 
     /**
      * Find a trashed record by it's ID.

@@ -1,25 +1,35 @@
-$(function () {
+(function (window, document) {
 
-    $(window).on('keydown', function (e) {
+    let forms = Array.prototype.slice.call(
+        document.querySelectorAll('form.form')
+    );
+
+    forms.forEach(function (form) {
+
+        let actions = Array.prototype.slice.call(
+            form.querySelectorAll('.form__actions button')
+        );
 
         /**
-         * Listen for ctrl/meta + S (with optional
-         * shift) in order to control the form
-         * with the first / second action.
+         * When a key is pressed listen
+         * for some common form actions.
          */
-        if ((e.ctrlKey || e.metaKey) && String.fromCharCode(e.which).toLowerCase() === 's') {
-
-            var actions = $('form.form .actions').find('button');
-
-            if (!e.shiftKey) {
-                actions.eq(0).click();
-            } else {
-                actions.eq(1).click();
-            }
-
+        Mousetrap.prototype.stopCallback = function () {
             return false;
-        }
+        };
 
-        return true;
+        Mousetrap.bind(['ctrl+s', 'command+s'], function (event) {
+
+            event.preventDefault();
+
+            actions[0].click();
+        });
+
+        Mousetrap.bind(['ctrl+shift+s', 'command+shift+s'], function (event) {
+
+            event.preventDefault();
+
+            actions[1].click();
+        });
     });
-});
+})(window, document);
