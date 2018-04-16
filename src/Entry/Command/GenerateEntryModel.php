@@ -17,17 +17,21 @@ use Anomaly\Streams\Platform\Entry\Parser\EntryTranslatedAttributesParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationForeignKeyParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationModelParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTrashableParser;
-<<<<<<< HEAD
 use Anomaly\Streams\Platform\Entry\Parser\EntryVersionableParser;
-=======
 use Anomaly\Streams\Platform\Entry\Parser\EntryWithParser;
->>>>>>> 1.3
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Support\Parser;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
 
+/**
+ * Class GenerateEntryModel
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class GenerateEntryModel
 {
 

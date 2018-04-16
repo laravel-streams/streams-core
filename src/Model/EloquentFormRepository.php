@@ -1,8 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Version\Command\SaveVersion;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class EloquentFormRepository
@@ -13,6 +17,8 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class EloquentFormRepository implements FormRepositoryInterface
 {
+
+    use DispatchesJobs;
 
     /**
      * The form model.
@@ -51,6 +57,23 @@ class EloquentFormRepository implements FormRepositoryInterface
     {
         $entry = $builder->getFormEntry();
 
+        $classes = class_uses_recursive($entry);
+
+        /**
+         * If the model is versionable let's disable
+         * that here since the model will potentially
+         * have post-processing relationships. We will
+         * however stash the dirty attributes for later.
+         *
+         * @var Versionable|EntryModel|EloquentModel $entry
+         */
+        if (in_array(Versionable::class, $classes)) {
+
+            $entry->disableVersioning();
+
+            $entry->setVersionedAttributeChanges($entry->getDirty());
+        }
+
         $data = $this->prepareValueData($builder);
 
         $entry->unguard();
@@ -74,6 +97,21 @@ class EloquentFormRepository implements FormRepositoryInterface
         $builder->setFormEntry($entry);
 
         $this->processSelfHandlingFields($builder);
+
+        /**
+         * Now that the model has finished
+         * post-processing we can version.
+         */
+        if (in_array(Versionable::class, $classes)) {
+
+            $entry->unguard();
+
+            $entry->enableVersioning();
+
+            $this->dispatch(new SaveVersion($entry));
+
+            $entry->reguard();
+        }
     }
 
     /**

@@ -46,6 +46,9 @@ class SaveVersion
         }
 
         if ($this->model->shouldVersion()) {
+
+            $this->model->refresh(); // Refresh eager relations.
+
             $versions->create(
                 [
                     'created_at'    => now('UTC'),

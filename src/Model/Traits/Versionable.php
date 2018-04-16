@@ -22,6 +22,13 @@ trait Versionable
     protected $versionable = false;
 
     /**
+     * The versioning-disabled flag.
+     *
+     * @var bool
+     */
+    protected $versioningDisabled = false;
+
+    /**
      * The versioned attributes.
      *
      * @var array
@@ -49,6 +56,10 @@ trait Versionable
      */
     public function shouldVersion()
     {
+        if (!$this->versioningDisabled == true) {
+            return false;
+        }
+
         if ($this->wasRecentlyCreated) {
             return true;
         }
@@ -106,7 +117,7 @@ trait Versionable
      */
     public function enableVersioning()
     {
-        $this->versionable = true;
+        $this->versioningDisabled = false;
 
         return $this;
     }
@@ -118,7 +129,7 @@ trait Versionable
      */
     public function disableVersioning()
     {
-        $this->versionable = false;
+        $this->versioningDisabled = true;
 
         return $this;
     }
