@@ -29,7 +29,7 @@ class CreateVersionsTable extends Migration
                 $table->integer('versionable_id')->unsigned();
                 $table->string('versionable_type');
                 $table->string('ip_address');
-                $table->binary('model');
+                $table->longText('model');
                 $table->binary('data');
 
                 $table->index('versionable_id');

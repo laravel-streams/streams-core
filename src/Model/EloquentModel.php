@@ -73,15 +73,6 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     ];
 
     /**
-     * Hide these from toArray.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'translations',
-    ];
-
-    /**
      * The cascading delete-able relations.
      *
      * @var array
