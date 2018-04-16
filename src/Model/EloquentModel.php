@@ -559,6 +559,30 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     }
 
     /**
+     * Return the object as an
+     * array for comparison.
+     *
+     * @return array
+     */
+    public function toArrayForComparison()
+    {
+        $array = array_dot($this->toArrayWithRelations());
+
+        $remove = ['created_at', 'updated_at', 'created_by_id', 'updated_by_id'];
+
+        array_walk(
+            $array,
+            function ($value, $key) use (&$array, $remove) {
+                if (in_array($key, $remove) || ends_with($key, $remove)) {
+                    unset($array[$key]);
+                }
+            }
+        );
+
+        return $array;
+    }
+
+    /**
      * Return the routable array information.
      *
      * @return array

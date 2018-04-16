@@ -43,18 +43,18 @@ trait Versionable
     protected $nonVersionedAttributes = [];
 
     /**
-     * The versioned attribute changes.
+     * The version comparison attributes.
      *
      * @var array
      */
-    protected $versionedAttributeChanges = [];
+    protected $versionComparisonAttributes = [];
 
     /**
-     * The versioned relation changes.
+     * The version comparison attribute differences.
      *
-     * @var array
+     * @var null|array
      */
-    protected $versionedRelationChanges = [];
+    protected $versionComparisonAttributesDifferences = null;
 
     /**
      * Return if the model should version or not.
@@ -68,10 +68,6 @@ trait Versionable
         }
 
         if ($this->wasRecentlyCreated) {
-            return true;
-        }
-
-        if ($this->getRelations()) {
             return true;
         }
 
@@ -91,7 +87,7 @@ trait Versionable
             ]
         );
 
-        return (count(array_diff_key($this->versionedAttributeChanges, array_flip($ignoredAttributes))) > 0);
+        return (count(array_diff_key($this->getVersionComparisonDifferences(), array_flip($ignoredAttributes))) > 0);
     }
 
     /**
@@ -176,12 +172,12 @@ trait Versionable
     /**
      * Set the versioned attribute changes (dirty).
      *
-     * @param array $changes
+     * @param array $attributes
      * @return $this
      */
-    public function setVersionedAttributeChanges(array $changes)
+    public function setVersionComparisonAttributes(array $attributes)
     {
-        $this->versionedAttributeChanges = $changes;
+        $this->versionComparisonAttributes = $attributes;
 
         return $this;
     }
@@ -191,29 +187,29 @@ trait Versionable
      *
      * @return array
      */
-    public function getVersionedAttributeChanges()
+    public function getVersionComparisonAttributes()
     {
-        return $this->versionedAttributeChanges;
+        return $this->versionComparisonAttributes;
     }
 
     /**
-     * Set the versioned relation changes.
-     *
-     * @param $changes
-     */
-    public function setVersionedRelationChanges($changes)
-    {
-        $this->versionedRelationChanges = $changes;
-    }
-
-    /**
-     * Get the versioned relationships.
+     * Get the version comparison differences.
      *
      * @return array
      */
-    public function getVersionedRelationChanges()
+    public function getVersionComparisonDifferences()
     {
-        return $this->versionedRelationChanges;
+        if ($this->versionComparisonAttributesDifferences === null) {
+
+            $comparison = $this->getVersionComparisonAttributes();
+
+            $this->versionComparisonAttributesDifferences = array_diff_assoc(
+                $comparison,
+                $this->toArrayForComparison()
+            );
+        }
+
+        return $this->versionComparisonAttributesDifferences;
     }
 
     /**

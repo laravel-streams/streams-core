@@ -94,8 +94,7 @@ class EntryObserver extends Observer
         //$entry->fireFieldTypeEvents('entry_saving');
 
         if ($entry->isVersionable()) {
-            $entry->setVersionedAttributeChanges($entry->getDirty());
-            $entry->setVersionedRelationChanges($entry->getRelations());
+            $entry->setVersionComparisonAttributes($entry->toArrayForComparison());
         }
 
         $this->commands->dispatch(new SetMetaInformation($entry));

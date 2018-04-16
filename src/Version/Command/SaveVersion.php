@@ -36,8 +36,8 @@ class SaveVersion
      * Handle the command.
      *
      * @param VersionRepositoryInterface $versions
-     * @param Request $request
-     * @param Guard $auth
+     * @param Request                    $request
+     * @param Guard                      $auth
      */
     public function handle(VersionRepositoryInterface $versions, Request $request, Guard $auth)
     {
@@ -45,34 +45,18 @@ class SaveVersion
             return;
         }
 
+        $this->model->refresh(); // Refresh w/eager relations.
+        
         if ($this->model->shouldVersion()) {
-
-            $this->model->refresh(); // Refresh w/eager relations.
 
             $versions->create(
                 [
-                    'created_at' => now('UTC'),
+                    'created_at'    => now('UTC'),
                     'created_by_id' => $auth->id(),
-                    'versionable' => $this->model,
-                    'ip_address' => $request->ip(),
-                    'model' => serialize($this->model),
-                    'data' => serialize(
-                        array_merge(
-                            $this->model->getVersionedAttributeChanges(),
-                            array_flip(
-                                array_filter(
-                                    array_keys($this->model->getRelations()),
-                                    function ($relation) {
-                                        return md5(serialize($this->model->getRelation($relation))) !== md5(
-                                                serialize(
-                                                    array_get($this->model->getVersionedRelationChanges(), $relation)
-                                                )
-                                            );
-                                    }
-                                )
-                            )
-                        )
-                    ),
+                    'versionable'   => $this->model,
+                    'ip_address'    => $request->ip(),
+                    'model'         => serialize($this->model),
+                    'data'          => serialize($this->model->getVersionComparisonDifferences()),
                 ]
             );
         }

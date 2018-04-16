@@ -28,10 +28,11 @@ class VersionTableButtons
         $builder->setButtons(
             [
                 'changes' => [
-                    'type' => 'info',
-                    'icon' => 'code-fork',
-                    'href' => $section->getHref('versions/changes/{entry.version}'),
-                    'text' => function (VersionInterface $entry) {
+                    'disabled' => true,
+                    'type'     => 'info',
+                    'icon'     => 'code-fork',
+                    'href'     => $section->getHref('versions/changes/{entry.version}'),
+                    'text'     => function (VersionInterface $entry) {
                         return ($count = count($entry->getData())) . ' ' . trans_choice(
                                 'streams::version.changes',
                                 $count
