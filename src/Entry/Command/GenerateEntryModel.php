@@ -17,6 +17,7 @@ use Anomaly\Streams\Platform\Entry\Parser\EntryTranslatedAttributesParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationForeignKeyParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationModelParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTrashableParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryWithParser;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Support\Parser;
@@ -46,15 +47,16 @@ class GenerateEntryModel
     /**
      * Handle the command.
      *
-     * @param Filesystem  $files
-     * @param Parser      $parser
-     * @param Dispatcher  $events
+     * @param Filesystem $files
+     * @param Parser $parser
+     * @param Dispatcher $events
      * @param Application $application
      */
     public function handle(Filesystem $files, Parser $parser, Dispatcher $events, Application $application)
     {
         $data = new Collection(
             [
+                'with'                    => (new EntryWithParser())->parse($this->stream),
                 'class'                   => (new EntryClassParser())->parse($this->stream),
                 'title'                   => (new EntryTitleParser())->parse($this->stream),
                 'table'                   => (new EntryTableParser())->parse($this->stream),

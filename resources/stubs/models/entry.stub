@@ -17,6 +17,8 @@ class {class} extends EntryModel
 
     protected $fields = {field_slugs};
 
+    protected $with = {with};
+
     protected $dates = {dates};
 
     protected $relationships = {relationships};
