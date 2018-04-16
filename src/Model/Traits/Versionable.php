@@ -56,7 +56,7 @@ trait Versionable
      */
     public function shouldVersion()
     {
-        if (!$this->versioningDisabled == true) {
+        if ($this->versioningDisabled()) {
             return false;
         }
 
@@ -132,6 +132,16 @@ trait Versionable
         $this->versioningDisabled = true;
 
         return $this;
+    }
+
+    /**
+     * Return if versioning is disabled.
+     *
+     * @return bool
+     */
+    public function versioningDisabled()
+    {
+        return $this->versioningDisabled == true;
     }
 
     /**

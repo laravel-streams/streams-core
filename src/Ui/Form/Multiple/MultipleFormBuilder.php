@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\BuildForms;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\HandleErrors;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\MergeFields;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\PostForms;
+use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\VersionForms;
 
 /**
  * Class MultipleFormBuilder
@@ -73,6 +74,7 @@ class MultipleFormBuilder extends FormBuilder
     {
         if (app('request')->isMethod('post')) {
             $this->dispatch(new PostForms($this));
+            $this->dispatch(new VersionForms($this));
             $this->dispatch(new HandleErrors($this));
         }
 

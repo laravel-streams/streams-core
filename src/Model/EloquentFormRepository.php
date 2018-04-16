@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\Version\Command\SaveVersion;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -69,7 +68,7 @@ class EloquentFormRepository implements FormRepositoryInterface
          */
         if (in_array(Versionable::class, $classes)) {
 
-            $entry->disableVersioning();
+            $entry->disableVersioning(); // Disable for observer versioning.
 
             $entry->setVersionedAttributeChanges($entry->getDirty());
         }
@@ -99,18 +98,11 @@ class EloquentFormRepository implements FormRepositoryInterface
         $this->processSelfHandlingFields($builder);
 
         /**
-         * Now that the model has finished
-         * post-processing we can version.
+         * Put the versioning flag
+         * back the way it was.
          */
         if (in_array(Versionable::class, $classes)) {
-
-            $entry->unguard();
-
             $entry->enableVersioning();
-
-            $this->dispatch(new SaveVersion($entry));
-
-            $entry->reguard();
         }
     }
 

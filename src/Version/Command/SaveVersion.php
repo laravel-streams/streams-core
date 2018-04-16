@@ -47,7 +47,7 @@ class SaveVersion
 
         if ($this->model->shouldVersion()) {
 
-            $this->model->refresh(); // Refresh eager relations.
+            $this->model->refresh(); // Refresh w/eager relations.
 
             $versions->create(
                 [

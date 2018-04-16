@@ -1,18 +1,22 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Multiple\Command;
 
+use Anomaly\Streams\Platform\Ui\Form\Command\HandleVersioning;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
 
 /**
- * Class PostForms
+ * Class VersionForms
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class PostForms
+class VersionForms
 {
+
+    use DispatchesJobs;
 
     /**
      * The multiple form builder.
@@ -22,7 +26,7 @@ class PostForms
     protected $builder;
 
     /**
-     * Create a new PostForms instance.
+     * Create a new VersionForms instance.
      *
      * @param MultipleFormBuilder $builder
      */
@@ -42,18 +46,14 @@ class PostForms
             return;
         }
 
-        $this->builder->fire('posting_forms', ['builder' => $this->builder]);
+        $this->builder->fire('versioning_forms', ['builder' => $this->builder]);
 
         /* @var FormBuilder $builder */
         foreach ($forms = $this->builder->getForms() as $slug => $builder) {
 
-            $builder->disableVersioning();
+            $this->builder->fire('versioning_' . $slug, compact('builder', 'forms'));
 
-            $this->builder->fire('posting_' . $slug, compact('builder', 'forms'));
-
-            $builder->post();
-
-            $builder->enableVersioning();
+            $this->dispatch(new HandleVersioning($builder));
         }
     }
 }

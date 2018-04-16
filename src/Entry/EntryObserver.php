@@ -110,7 +110,9 @@ class EntryObserver extends Observer
         $entry->flushCache();
         $entry->fireFieldTypeEvents('entry_saved');
 
-        $this->commands->dispatch(new SaveVersion($entry));
+        if ($entry->isVersionable() && $entry->shouldVersion()) {
+            $this->commands->dispatch(new SaveVersion($entry));
+        }
 
         $this->events->fire(new EntryWasSaved($entry));
     }
