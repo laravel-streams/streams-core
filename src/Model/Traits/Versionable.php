@@ -43,18 +43,18 @@ trait Versionable
     protected $nonVersionedAttributes = [];
 
     /**
-     * The version comparison attributes.
+     * The version comparison data.
      *
      * @var array
      */
-    protected $versionComparisonAttributes = [];
+    protected $versionComparisonData = [];
 
     /**
-     * The version comparison attribute differences.
+     * The version differences.
      *
      * @var null|array
      */
-    protected $versionComparisonAttributesDifferences = null;
+    protected $versionDifferences = null;
 
     /**
      * Return if the model should version or not.
@@ -71,23 +71,7 @@ trait Versionable
             return true;
         }
 
-        $nonVersionedAttributes = isset($this->nonVersionedAttributes)
-            ? $this->nonVersionedAttributes
-            : [];
-
-        $ignoredAttributes = array_merge(
-            $nonVersionedAttributes,
-            [
-                'created_at',
-                'created_by_id',
-                'updated_at',
-                'updated_by_id',
-                'deleted_at',
-                'deleted_by_id',
-            ]
-        );
-
-        return (count(array_diff_key($this->getVersionComparisonDifferences(), array_flip($ignoredAttributes))) > 0);
+        return (count($this->versionedAttributeChanges()) > 0);
     }
 
     /**
@@ -158,6 +142,26 @@ trait Versionable
     }
 
     /**
+     * Return non-versioned attributes.
+     *
+     * @return array
+     */
+    public function getNonVersionedAttributes()
+    {
+        return array_merge(
+            $this->nonVersionedAttributes,
+            [
+                'created_at',
+                'created_by_id',
+                'updated_at',
+                'updated_by_id',
+                'deleted_at',
+                'deleted_by_id',
+            ]
+        );
+    }
+
+    /**
      * Return if the attribute is
      * translatable or not.
      *
@@ -175,9 +179,9 @@ trait Versionable
      * @param array $attributes
      * @return $this
      */
-    public function setVersionComparisonAttributes(array $attributes)
+    public function setVersionComparisonData(array $attributes)
     {
-        $this->versionComparisonAttributes = $attributes;
+        $this->versionComparisonData = $attributes;
 
         return $this;
     }
@@ -187,9 +191,9 @@ trait Versionable
      *
      * @return array
      */
-    public function getVersionComparisonAttributes()
+    public function getVersionComparisonData()
     {
-        return $this->versionComparisonAttributes;
+        return $this->versionComparisonData;
     }
 
     /**
@@ -197,19 +201,32 @@ trait Versionable
      *
      * @return array
      */
-    public function getVersionComparisonDifferences()
+    public function getVersionDifferences()
     {
-        if ($this->versionComparisonAttributesDifferences === null) {
+        if ($this->versionDifferences === null) {
 
-            $comparison = $this->getVersionComparisonAttributes();
+            $comparison = $this->getversionComparisonData();
 
-            $this->versionComparisonAttributesDifferences = array_diff_assoc(
+            $this->versionDifferences = array_diff_assoc(
                 $comparison,
                 $this->toArrayForComparison()
             );
         }
 
-        return $this->versionComparisonAttributesDifferences;
+        return $this->versionDifferences;
+    }
+
+    /**
+     * Return the versioned attribute changes.
+     *
+     * @return array
+     */
+    public function versionedAttributeChanges()
+    {
+        return array_diff_key(
+            $this->getVersionDifferences(),
+            array_flip($this->getNonVersionedAttributes())
+        );
     }
 
     /**

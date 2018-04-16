@@ -46,9 +46,8 @@ class SaveVersion
         }
 
         $this->model->refresh(); // Refresh w/eager relations.
-        
-        if ($this->model->shouldVersion()) {
 
+        if ($this->model->shouldVersion()) {
             $versions->create(
                 [
                     'created_at'    => now('UTC'),
@@ -56,7 +55,7 @@ class SaveVersion
                     'versionable'   => $this->model,
                     'ip_address'    => $request->ip(),
                     'model'         => serialize($this->model),
-                    'data'          => serialize($this->model->getVersionComparisonDifferences()),
+                    'data'          => serialize($this->model->versionedAttributeChanges()),
                 ]
             );
         }

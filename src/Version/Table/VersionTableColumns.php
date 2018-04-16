@@ -17,7 +17,7 @@ class VersionTableColumns
      * Handle the columns.
      *
      * @param VersionTableBuilder $builder
-     * @param Repository $config
+     * @param Repository          $config
      */
     public function handle(VersionTableBuilder $builder, Repository $config)
     {
@@ -59,6 +59,20 @@ class VersionTableColumns
                         'timeago'  => 'entry.created_at.diffForHumans()',
                     ],
                 ],
+                'changes'         => [
+                    'heading' => false,
+                    'value'   => function (VersionInterface $entry) {
+
+                        if (!$count = $count = count($entry->getData())) {
+                            return null;
+                        }
+
+                        return '<span class="tag tag-warning">' . $count . ' ' . trans_choice(
+                                'streams::version.changes',
+                                $count
+                            ) . '</span>';
+                    },
+                ],
                 'current_version' => [
                     'heading' => false,
                     'value'   => function (VersionInterface $entry) use ($current) {
@@ -67,7 +81,9 @@ class VersionTableColumns
                             return null;
                         }
 
-                        return '<span class="tag tag-success">' . trans('streams::label.current_version') . '</span>';
+                        return '<span class="tag tag-success">' . trans(
+                                'streams::label.current_version'
+                            ) . '</span>';
                     },
                 ],
             ]

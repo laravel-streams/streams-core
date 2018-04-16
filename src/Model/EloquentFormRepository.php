@@ -70,7 +70,7 @@ class EloquentFormRepository implements FormRepositoryInterface
 
             $entry->disableVersioning(); // Disable for observer versioning.
 
-            $entry->setVersionComparisonAttributes($entry->toArrayForComparison());
+            $entry->setVersionComparisonData($entry->toArrayForComparison());
         }
 
         $data = $this->prepareValueData($builder);

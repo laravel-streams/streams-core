@@ -18,7 +18,7 @@ use Robbo\Presenter\PresentableInterface;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class VersionModel extends Model implements VersionInterface, PresentableInterface
+class VersionModel extends EloquentModel implements VersionInterface, PresentableInterface
 {
 
     /**
