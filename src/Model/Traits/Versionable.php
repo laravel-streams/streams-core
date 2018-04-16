@@ -29,6 +29,13 @@ trait Versionable
     protected $versionedAttributes = [];
 
     /**
+     * The non-versioned attributes.
+     *
+     * @var array
+     */
+    protected $nonVersionedAttributes = [];
+
+    /**
      * The versioned attribute changes.
      *
      * @var array
@@ -42,7 +49,11 @@ trait Versionable
      */
     public function shouldVersion()
     {
-        if ($this->wasRecentlyCreated && count($this->getVersionedAttributeChanges())) {
+        if ($this->wasRecentlyCreated) {
+            return true;
+        }
+
+        if ($this->getRelations()) {
             return true;
         }
 

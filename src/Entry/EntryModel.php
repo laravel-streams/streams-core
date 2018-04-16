@@ -409,6 +409,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getAttribute($key)
     {
+
         // Check if it's a relationship first.
         if (in_array($key, array_merge($this->relationships, ['created_by', 'updated_by']))) {
             return parent::getAttribute(camel_case($key));
