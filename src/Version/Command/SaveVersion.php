@@ -51,12 +51,28 @@ class SaveVersion
 
             $versions->create(
                 [
-                    'created_at'    => now('UTC'),
+                    'created_at' => now('UTC'),
                     'created_by_id' => $auth->id(),
-                    'versionable'   => $this->model,
-                    'ip_address'    => $request->ip(),
-                    'model'         => serialize($this->model),
-                    'data'          => serialize($this->model->getVersionedAttributeChanges()),
+                    'versionable' => $this->model,
+                    'ip_address' => $request->ip(),
+                    'model' => serialize($this->model),
+                    'data' => serialize(
+                        array_merge(
+                            $this->model->getVersionedAttributeChanges(),
+                            array_flip(
+                                array_filter(
+                                    array_keys($this->model->getRelations()),
+                                    function ($relation) {
+                                        return md5(serialize($this->model->getRelation($relation))) !== md5(
+                                                serialize(
+                                                    array_get($this->model->getVersionedRelationChanges(), $relation)
+                                                )
+                                            );
+                                    }
+                                )
+                            )
+                        )
+                    ),
                 ]
             );
         }

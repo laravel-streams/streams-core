@@ -95,6 +95,7 @@ class EntryObserver extends Observer
 
         if ($entry->isVersionable()) {
             $entry->setVersionedAttributeChanges($entry->getDirty());
+            $entry->setVersionedRelationChanges($entry->getRelations());
         }
 
         $this->commands->dispatch(new SetMetaInformation($entry));

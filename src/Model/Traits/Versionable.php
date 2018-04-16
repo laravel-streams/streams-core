@@ -50,6 +50,13 @@ trait Versionable
     protected $versionedAttributeChanges = [];
 
     /**
+     * The versioned relation changes.
+     *
+     * @var array
+     */
+    protected $versionedRelationChanges = [];
+
+    /**
      * Return if the model should version or not.
      *
      * @return bool
@@ -187,6 +194,26 @@ trait Versionable
     public function getVersionedAttributeChanges()
     {
         return $this->versionedAttributeChanges;
+    }
+
+    /**
+     * Set the versioned relation changes.
+     *
+     * @param $changes
+     */
+    public function setVersionedRelationChanges($changes)
+    {
+        $this->versionedRelationChanges = $changes;
+    }
+
+    /**
+     * Get the versioned relationships.
+     *
+     * @return array
+     */
+    public function getVersionedRelationChanges()
+    {
+        return $this->versionedRelationChanges;
     }
 
     /**

@@ -613,6 +613,24 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Return pivot relation assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getPivotRelationshipAssignments()
+    {
+        $stream      = $this->getStream();
+        $assignments = $stream->getAssignments();
+        $relations   = $assignments->relations();
+
+        return $relations->filter(
+            function (AssignmentInterface $assignment) {
+                return $assignment->getFieldType()->getColumnType() === false;
+            }
+        );
+    }
+
+    /**
      * Return required assignments.
      *
      * @return AssignmentCollection
