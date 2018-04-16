@@ -17,7 +17,11 @@ use Anomaly\Streams\Platform\Entry\Parser\EntryTranslatedAttributesParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationForeignKeyParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationModelParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTrashableParser;
+<<<<<<< HEAD
 use Anomaly\Streams\Platform\Entry\Parser\EntryVersionableParser;
+=======
+use Anomaly\Streams\Platform\Entry\Parser\EntryWithParser;
+>>>>>>> 1.3
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Support\Parser;
@@ -56,6 +60,7 @@ class GenerateEntryModel
     {
         $data = new Collection(
             [
+                'with'                    => (new EntryWithParser())->parse($this->stream),
                 'class'                   => (new EntryClassParser())->parse($this->stream),
                 'title'                   => (new EntryTitleParser())->parse($this->stream),
                 'table'                   => (new EntryTableParser())->parse($this->stream),
