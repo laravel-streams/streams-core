@@ -205,7 +205,7 @@ trait Versionable
     {
         if ($this->versionDifferences === null) {
 
-            $comparison = $this->getversionComparisonData();
+            $comparison = $this->getVersionComparisonData();
 
             $this->versionDifferences = array_diff_assoc(
                 $comparison,
