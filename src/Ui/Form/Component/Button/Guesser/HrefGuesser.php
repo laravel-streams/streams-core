@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
 
@@ -86,7 +87,11 @@ class HrefGuesser
                     $type = array_get($button, 'segment', array_get($button, 'button'));
 
                     if ($type && !str_contains($type, '\\') && !class_exists($type)) {
-                        $button['attributes']['href'] = $section->getHref($type . '/{entry.id}');
+                        if ($builder instanceof MultipleFormBuilder) {
+                            $button['attributes']['href'] = $section->getHref($type . '/{request.route.parameters.id}');
+                        } else {
+                            $button['attributes']['href'] = $section->getHref($type . '/{entry.id}');
+                        }
                     }
                     break;
             }
