@@ -66,7 +66,7 @@ class EloquentFormRepository implements FormRepositoryInterface
          *
          * @var Versionable|EntryModel|EloquentModel $entry
          */
-        if (in_array(Versionable::class, $classes)) {
+        if (in_array(Versionable::class, $classes) && $entry->isVersionable()) {
 
             $entry->disableVersioning(); // Disable for observer versioning.
 
