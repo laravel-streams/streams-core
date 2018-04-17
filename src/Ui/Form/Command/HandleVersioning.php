@@ -62,7 +62,7 @@ class HandleVersioning
          * Now that the model has finished
          * post-processing we can version.
          */
-        if (in_array(Versionable::class, class_uses_recursive($entry))) {
+        if (is_object($entry) && in_array(Versionable::class, class_uses_recursive($entry))) {
 
             $entry->unguard();
 
