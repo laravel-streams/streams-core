@@ -211,12 +211,25 @@ class Asset
             )
         );
 
-        if (array_intersect_key(array_flip($names), $this->getLoaded())) {
+        /**
+         * Required assets should clear
+         * any that may already be loaded.
+         */
+        if (in_array('required', $filters)) {
+            $this->removeLoaded($names);
+        }
+
+        /**
+         * Check that we don't have any
+         * named assets that are loaded
+         * already unless it's a glob file.
+         */
+        if (!in_array('required', $filters) && array_intersect_key(array_flip($names), $this->getLoaded())) {
             return $this;
         }
-        
+
         foreach ($names as $name) {
-            $this->addLoaded($name, $file);
+            $this->addLoaded($name, $collection . '@' . $file);
         }
 
         /**
@@ -768,6 +781,27 @@ class Asset
     public function addLoaded($name, $asset)
     {
         $this->loaded[strtolower($name)] = $asset;
+
+        return $this;
+    }
+
+    /**
+     * Remove loaded names from collections.
+     *
+     * @param array $names
+     * @return $this
+     */
+    public function removeLoaded(array $names)
+    {
+        foreach ($names as $name) {
+
+            if ($this->isLoaded($name)) {
+
+                list($collection, $path) = explode('@', $this->loaded[$name]);
+
+                unset($this->collections[$collection][$this->paths->realPath($path)]);
+            }
+        }
 
         return $this;
     }
