@@ -26,7 +26,7 @@
          * checked status on ALL action toggles.
          * @type {Element}
          */
-        toggle.addEventListener('change', function () {
+        toggle.addEventListener('change', function (event) {
             checkboxes.forEach(function (checkbox) {
 
                 checkbox.checked = event.target.checked;
