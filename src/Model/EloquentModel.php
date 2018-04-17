@@ -573,8 +573,19 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
         array_walk(
             $array,
             function ($value, $key) use (&$array, $remove) {
+
+                /**
+                 * Remove keys that are not tracked.
+                 */
                 if (in_array($key, $remove) || ends_with($key, $remove)) {
                     unset($array[$key]);
+                }
+
+                /**
+                 * Make sure any nested arrays are serialized.
+                 */
+                if (is_array($value)) {
+                    $array[$key] = serialize($value);
                 }
             }
         );
