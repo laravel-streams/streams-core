@@ -56,13 +56,15 @@ class HandleVersioning
         }
 
         /* @var EntryModel|EloquentModel $entry */
-        $entry = $this->builder->getFormEntry();
+        if (!is_object($entry = $this->builder->getFormEntry())) {
+            return;
+        }
 
         /**
          * Now that the model has finished
          * post-processing we can version.
          */
-        if (is_object($entry) && in_array(Versionable::class, class_uses_recursive($entry))) {
+        if (in_array(Versionable::class, class_uses_recursive($entry))) {
 
             $entry->unguard();
 
