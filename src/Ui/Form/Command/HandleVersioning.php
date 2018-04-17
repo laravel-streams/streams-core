@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
 use Anomaly\Streams\Platform\Version\Command\SaveVersion;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -41,14 +42,14 @@ class HandleVersioning
      */
     public function handle()
     {
-
         /**
          * If we can't save, there are
          * errors, or no model then skip.
          */
         if (
-            $this->builder->hasFormErrors()
-            || !$this->builder->canSave()
+            $this->builder instanceof MultipleFormBuilder
+            || $this->builder->hasFormErrors()
+            //|| !$this->builder->canSave()
             || !$this->builder->getFormEntry()
             || !$this->builder->versioningEnabled()
         ) {
