@@ -4,6 +4,11 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
 use SplFileInfo;
 
+/**
+ * Class Configurator
+ *
+ * @package Anomaly\Streams\Platform\Support
+ */
 class Configurator
 {
 
@@ -47,14 +52,8 @@ class Configurator
 
         /* @var SplFileInfo $file */
         foreach ($this->files->allFiles($directory) as $file) {
-            $key = trim(
-                str_replace(
-                    str_replace('\\', DIRECTORY_SEPARATOR, $directory),
-                    '',
-                    $file->getPath()
-                ) . DIRECTORY_SEPARATOR . $file->getBaseName('.php'),
-                DIRECTORY_SEPARATOR
-            );
+
+            $key = $this->getKeyFromFile($directory, $file);
 
             $this->config->set($namespace . '::' . $key, $this->files->getRequire($file->getPathname()));
         }
@@ -74,17 +73,8 @@ class Configurator
 
         /* @var SplFileInfo $file */
         foreach ($this->files->allFiles($directory) as $file) {
-            $key = trim(
-                str_replace(
-                    $directory,
-                    '',
-                    $file->getPath()
-                ) . DIRECTORY_SEPARATOR . $file->getBaseName('.php'),
-                DIRECTORY_SEPARATOR
-            );
 
-            // Normalize key slashes.
-            $key = str_replace('\\', '/', $key);
+            $key = $this->getKeyFromFile($directory, $file);
 
             $this->config->set(
                 $namespace . '::' . $key,
@@ -94,5 +84,26 @@ class Configurator
                 )
             );
         }
+    }
+
+    /**
+     * Parse a key from the file
+     *
+     * @param $directory
+     * @param $file
+     * @return string
+     */
+    private function getKeyFromFile($directory, $file){
+        $key = trim(
+            str_replace(
+                str_replace('\\', DIRECTORY_SEPARATOR, $directory),
+                '',
+                $file->getPath()
+            ) . DIRECTORY_SEPARATOR . $file->getBaseName('.php'),
+            DIRECTORY_SEPARATOR
+        );
+
+        // Normalize key slashes. -- Needed for NGINX on windows
+        return str_replace(DIRECTORY_SEPARATOR, '/', $key);
     }
 }
