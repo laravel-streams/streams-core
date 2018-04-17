@@ -74,7 +74,6 @@ class MultipleFormBuilder extends FormBuilder
     {
         if (app('request')->isMethod('post')) {
             $this->dispatch(new PostForms($this));
-            $this->dispatch(new VersionForms($this));
             $this->dispatch(new HandleErrors($this));
         }
 
@@ -118,6 +117,8 @@ class MultipleFormBuilder extends FormBuilder
 
             $this->fire('saved_' . $slug, compact('builder', 'forms'));
         }
+
+        $this->dispatch(new VersionForms($this));
 
         $this->fire('saved', ['builder' => $this]);
     }
