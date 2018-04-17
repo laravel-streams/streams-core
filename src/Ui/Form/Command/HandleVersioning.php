@@ -49,7 +49,7 @@ class HandleVersioning
         if (
             $this->builder instanceof MultipleFormBuilder
             || $this->builder->hasFormErrors()
-            //|| !$this->builder->canSave()
+            || !$this->builder->canSave()
             || !$this->builder->getFormEntry()
             || !$this->builder->versioningEnabled()
         ) {
