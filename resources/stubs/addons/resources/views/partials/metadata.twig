@@ -13,12 +13,11 @@
 <meta name="description" content="{{ trans(template.meta_description) }}"/>
 
 {% block ogdata %}
-    <meta property="og:site_name"
-          content="{{ setting_value('streams::name', config_get('streams::distribution.name')) }}"/>
-    {#<meta property="og:image" content="{{ image_url('theme::img/og.png') }}"/>#}
-    <meta property="og:description" content="{{ trans(template.meta_description) }}"/>
-    <meta property="og:title" content="{{ trans(template.meta_title) }}"/>
-    <meta property="og:url" content="{{ url_current() }}"/>
+    <meta property="og:site_name" content="{{ template.get('og_site_name', setting_value('streams::name', config_get('streams::distribution.name'))) }}"/>
+    <meta property="og:description" content="{{ template.get('og_description', trans(template.meta_description)) }}"/>
+    <meta property="og:title" content="{{ template.get('og_title', trans(template.meta_title)) }}"/>
+    <meta property="og:url" content="{{ template.get('og_url', url_current()) }}"/>
+    <meta property="og:image" content="{{ template.get('og_image') }}"/>
     <meta property="og:type" content="website"/>
 {% endblock %}
 
