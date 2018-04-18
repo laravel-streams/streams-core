@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
-  * @deprecated in 1.4, remove in 1.5
+ * @deprecated in 1.4, remove in 1.5
  */
 class Reinstall extends Command
 {

@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputOption;
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
+ * @deprecated in 1.4 remove in 1.5
  */
 class Install extends Command
 {
@@ -40,6 +41,7 @@ class Install extends Command
      */
     public function handle(ExtensionManager $manager, ExtensionCollection $extensions)
     {
+        $this->warn('Deprecated in 1.4 removing in 1.5 - use addon:install');
         /* @var Extension $extension */
         $extension = $extensions->get($this->argument('extension'));
 
