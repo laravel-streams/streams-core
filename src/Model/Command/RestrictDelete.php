@@ -14,6 +14,7 @@ use Illuminate\Translation\Translator;
  */
 class RestrictDelete
 {
+
     /**
      * The eloquent model.
      *
@@ -43,6 +44,8 @@ class RestrictDelete
     {
         foreach ($this->model->getRestricts() as $relation) {
 
+            $humanize = str_humanize($relation);
+
             /* @var Relation $relation */
             $relation = $this->model->{$relation}();
 
@@ -53,8 +56,13 @@ class RestrictDelete
             if ($relation->count()) {
 
                 $messages->warning(
-                    $translator->trans('streams::message.delete_restrict'),
-                    ['name' => $this->model->getTitle()]
+                    $translator->trans(
+                        'streams::message.delete_restrict',
+                        [
+                            'relation' => $humanize,
+                            'name'     => $this->model->getTitle(),
+                        ]
+                    )
                 );
 
                 return true;
