@@ -30,6 +30,13 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     use Searchable;
 
     /**
+     * Enable timestamps.
+     *
+     * @var bool
+     */
+    public $timestamps = true;
+
+    /**
      * The foreign key for translations.
      *
      * @var string
