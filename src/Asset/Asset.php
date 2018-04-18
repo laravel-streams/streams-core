@@ -136,17 +136,17 @@ class Asset
     /**
      * Create a new Application instance.
      *
-     * @param Application $application
+     * @param Application     $application
      * @param ThemeCollection $themes
-     * @param MountManager $manager
-     * @param AssetParser $parser
-     * @param Repository $config
-     * @param Template $template
-     * @param Filesystem $files
-     * @param AssetPaths $paths
-     * @param Request $request
-     * @param HtmlBuilder $html
-     * @param UrlGenerator $url
+     * @param MountManager    $manager
+     * @param AssetParser     $parser
+     * @param Repository      $config
+     * @param Template        $template
+     * @param Filesystem      $files
+     * @param AssetPaths      $paths
+     * @param Request         $request
+     * @param HtmlBuilder     $html
+     * @param UrlGenerator    $url
      */
     public function __construct(
         Application $application,
@@ -185,11 +185,14 @@ class Asset
      *
      * @param             $collection
      * @param             $file
-     * @param  array $filters
+     * @param  array      $filters
+     * @param bool        $internal A flag telling the system
+     *                              this is an internal request
+     *                              and should be processed differently.
      * @return $this
      * @throws \Exception
      */
-    public function add($collection, $file, array $filters = [])
+    public function add($collection, $file, array $filters = [], $internal = false)
     {
         if (!isset($this->collections[$collection])) {
             $this->collections[$collection] = [];
@@ -215,7 +218,7 @@ class Asset
          * Required assets should clear
          * any that may already be loaded.
          */
-        if (in_array('required', $filters)) {
+        if ($internal == false && in_array('required', $filters)) {
             $this->removeLoaded($names);
         }
 
@@ -224,7 +227,11 @@ class Asset
          * named assets that are loaded
          * already unless it's a glob file.
          */
-        if (!in_array('required', $filters) && array_intersect_key(array_flip($names), $this->getLoaded())) {
+        if (
+            $internal == false
+            && !in_array('required', $filters)
+            && array_intersect_key(array_flip($names), $this->getLoaded())
+        ) {
             return $this;
         }
 
@@ -275,8 +282,8 @@ class Asset
      * Download a file and return it's path.
      *
      * @param              $url
-     * @param  int $ttl
-     * @param  null $path
+     * @param  int         $ttl
+     * @param  null        $path
      * @return null|string
      */
     public function download($url, $ttl = 3600, $path = null)
@@ -298,7 +305,7 @@ class Asset
      * Return the contents of a collection.
      *
      * @param         $collection
-     * @param  array $filters
+     * @param  array  $filters
      * @return string
      */
     public function inline($collection, array $filters = [])
@@ -312,13 +319,13 @@ class Asset
      * Return the URL to a compiled asset collection.
      *
      * @param         $collection
-     * @param  array $filters
+     * @param  array  $filters
      * @return string
      */
     public function url($collection, array $filters = [], array $parameters = [], $secure = null)
     {
         if (!isset($this->collections[$collection])) {
-            $this->add($collection, $collection, $filters);
+            $this->add($collection, $collection, $filters, true);
         }
 
         if (!$path = $this->getPath($collection, $filters)) {
@@ -332,13 +339,13 @@ class Asset
      * Return the path to a compiled asset collection.
      *
      * @param         $collection
-     * @param  array $filters
+     * @param  array  $filters
      * @return string
      */
     public function path($collection, array $filters = [])
     {
         if (!isset($this->collections[$collection])) {
-            $this->add($collection, $collection, $filters);
+            $this->add($collection, $collection, $filters, true);
         }
 
         return $this->request->getBasePath() . $this->getPath($collection, $filters);
@@ -348,13 +355,13 @@ class Asset
      * Return the asset path to a compiled asset collection.
      *
      * @param         $collection
-     * @param  array $filters
+     * @param  array  $filters
      * @return string
      */
     public function asset($collection, array $filters = [])
     {
         if (!isset($this->collections[$collection])) {
-            $this->add($collection, $collection, $filters);
+            $this->add($collection, $collection, $filters, true);
         }
 
         return $this->path($collection, $filters);
@@ -364,8 +371,8 @@ class Asset
      * Return the script tag for a collection.
      *
      * @param         $collection
-     * @param  array $filters
-     * @param  array $attributes
+     * @param  array  $filters
+     * @param  array  $attributes
      * @return string
      */
     public function script($collection, array $filters = [], array $attributes = [])
@@ -379,8 +386,8 @@ class Asset
      * Return the style tag for a collection.
      *
      * @param         $collection
-     * @param  array $filters
-     * @param  array $attributes
+     * @param  array  $filters
+     * @param  array  $attributes
      * @return string
      */
     public function style($collection, array $filters = [], array $attributes = [])
@@ -474,7 +481,7 @@ class Asset
      * @param        $collection
      * @param  array $filters
      * @param  array $attributes
-     * @param null $secure
+     * @param null   $secure
      * @return array
      */
     public function urls($collection, array $filters = [], array $attributes = [], $secure = null)
@@ -707,7 +714,7 @@ class Asset
      * Create asset collection from collection array
      *
      * @param                  $collection
-     * @param  array $additionalFilters
+     * @param  array           $additionalFilters
      * @return AssetCollection
      */
     private function getAssetCollection($collection, $additionalFilters = [])
