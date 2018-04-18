@@ -80,6 +80,13 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     protected $cascades = [];
 
     /**
+     * The restricting delete-able relations.
+     *
+     * @var array
+     */
+    protected $restricts = [];
+
+    /**
      * Runtime cache.
      *
      * @var array
@@ -647,6 +654,16 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     public function getCascades()
     {
         return $this->cascades;
+    }
+
+    /**
+     * Get the restricting actions.
+     *
+     * @return array
+     */
+    public function getRestricts()
+    {
+        return $this->restricts;
     }
 
     /**

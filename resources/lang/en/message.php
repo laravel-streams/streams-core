@@ -16,6 +16,7 @@ return [
     'no_results'                => 'No results.',
     'access_denied'             => 'Access denied.',
     'no_fields_available'       => 'No fields available.',
+    'delete_restrict'           => 'Unable to delete :name because it is restricted. Delete related ":relation" first.',
     'delete_success'            => ':count row(s) were deleted successfully.',
     'reorder_success'           => ':count row(s) were reordered successfully.',
     'csrf_token_mismatch'       => 'Your security token has expired. Please submit the form again.',
