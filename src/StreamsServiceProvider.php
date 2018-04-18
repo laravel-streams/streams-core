@@ -317,6 +317,23 @@ class StreamsServiceProvider extends ServiceProvider
             $this->app->registerDeferredProvider(\Laravel\Tinker\TinkerServiceProvider::class);
         }
 
+        // Register listeners.
+        $events = $this->app->make(Dispatcher::class);
+
+        foreach (config('streams.listeners', []) as $event => $listeners) {
+
+            foreach ($listeners as $key => $listener) {
+                if (is_integer($listener)) {
+                    $priority = $listener;
+                    $listener = $key;
+                } else {
+                    $priority = 0;
+                }
+
+                $events->listen($event, $listener, $priority);
+            }
+        }
+
         // Register bindings.
         foreach (array_merge($this->bindings, config('streams.bindings', [])) as $abstract => $concrete) {
             $this->app->bind($abstract, $concrete);
