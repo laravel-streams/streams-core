@@ -57,7 +57,7 @@ class Configurator
 
             $key = $this->getKeyFromFile($directory, $file);
 
-            $this->config->set($namespace . '::' . $key, $this->files->getRequire($file->getPathname()));
+            $this->config->set("{$namespace}::{$key}", $this->files->getRequire($file->getPathname()));
         }
     }
 
@@ -79,9 +79,9 @@ class Configurator
             $key = $this->getKeyFromFile($directory, $file);
 
             $this->config->set(
-                $namespace . '::' . $key,
+                "{$namespace}::{$key}",
                 array_replace(
-                    $this->config->get($namespace . '::' . $key, []),
+                    $this->config->get("{$namespace}::{$key}", []),
                     $this->files->getRequire($file->getPathname())
                 )
             );
