@@ -10,6 +10,7 @@ use Anomaly\Streams\Platform\Entry\Event\EntryWasSaved;
 use Anomaly\Streams\Platform\Entry\Event\EntryWasUpdated;
 use Anomaly\Streams\Platform\Model\Command\CascadeDelete;
 use Anomaly\Streams\Platform\Model\Command\CascadeRestore;
+use Anomaly\Streams\Platform\Model\Command\RestrictDelete;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereDeleted;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereUpdated;
@@ -115,6 +116,10 @@ class EntryObserver extends Observer
      */
     public function deleting(EntryInterface $entry)
     {
+        if ($this->dispatch(new RestrictDelete($entry))) {
+            return false;
+        }
+
         $this->dispatch(new CascadeDelete($entry));
     }
 
