@@ -320,8 +320,6 @@ trait Translatable
             $translation->save();
         }
 
-        $this->finishSave([]);
-
         return $saved;
     }
 
