@@ -35,9 +35,10 @@ class ButtonRegistry
             'icon' => 'cog',
         ],
         'versions'      => [
-            'text' => 'streams::button.versions',
-            'type' => 'primary',
-            'icon' => 'history',
+            'text'    => 'streams::button.versions',
+            'type'    => 'primary',
+            'icon'    => 'history',
+            'enabled' => 'edit',
         ],
         'load'          => [
             'icon'         => 'repeat',
