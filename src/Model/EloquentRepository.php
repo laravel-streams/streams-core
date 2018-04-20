@@ -65,7 +65,7 @@ class EloquentRepository implements EloquentRepositoryInterface
     {
         return $this->model->whereIn('id', $ids)->get();
     }
-    
+
     /**
      * Find all by column value.
      *
@@ -286,7 +286,7 @@ class EloquentRepository implements EloquentRepositoryInterface
      * @param $value
      * @return mixed
      */
-    public function cache($key, $ttl, $value)
+    public function cache($key, $ttl, $value = null)
     {
         return $this->model->cache($key, $ttl, $value);
     }

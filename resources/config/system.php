@@ -60,4 +60,20 @@ return [
     */
 
     'lazy_translations' => env('LAZY_TRANSLATIONS'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | CACHE ENABLED
+    |--------------------------------------------------------------------------
+    |
+    | Do you want to enable system caching?
+    |
+    | By default the system will cache things intelligently
+    | as long as the system is not in debug mode. You can however
+    | enable debugging and cache at the same time by specifying it here.
+    |
+    |
+    */
+
+    'cache_enabled' => env('CACHE_ENABLED', env('APP_DEBUG', false) == false),
 ];
