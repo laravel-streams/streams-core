@@ -69,6 +69,31 @@ class PluginCriteria
     }
 
     /**
+     * Set the cache parameters.
+     *
+     * @param null $parameters
+     * @return $this
+     */
+    public function cache($parameters = null)
+    {
+        if (is_numeric($parameters)) {
+            $parameters = [
+                'ttl' => $parameters,
+            ];
+        }
+
+        if (is_string($parameters)) {
+            $parameters = [
+                'namespace' => $parameters,
+            ];
+        }
+
+        $this->options['cache'] = $parameters;
+
+        return $this;
+    }
+
+    /**
      * Return an option value.
      *
      * @param        $key
@@ -169,11 +194,23 @@ class PluginCriteria
      */
     public function getCacheKey()
     {
-        return array_get(
-            $this->collection,
-            'cache_key',
+        $key = array_get(
+            $this->options,
+            'cache.key',
             $this->getCachePrefix() . '.' . md5(json_encode($this->collection))
         );
+
+        $namespace = array_get($this->options, 'cache.namespace');
+
+        if ($namespace == 'user') {
+            $key .= auth()->id();
+        }
+
+        if ($namespace == 'session') {
+            $key .= session()->getId();
+        }
+
+        return $key;
     }
 
     /**
@@ -277,7 +314,7 @@ class PluginCriteria
                     ]
                 );
             };
-            
+
             if ($model = $this->getModel()) {
                 return $model->cache(
                     $this->getCacheKey(),
