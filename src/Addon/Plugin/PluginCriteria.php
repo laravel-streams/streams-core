@@ -243,7 +243,7 @@ class PluginCriteria
      */
     public function getCacheTtl()
     {
-        return array_get($this->collection, 'ttl', 60 * 24 * 356);
+        return array_get($this->collection, 'ttl', 60 * 24 * 7);
     }
 
     /**
