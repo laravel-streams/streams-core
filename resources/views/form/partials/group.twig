@@ -1,0 +1,7 @@
+<div class="card-{{ section.deck ? 'deck' : 'group' }}" {{ html_attributes(section.attributes) }}>
+
+    {% for section in group %}
+        {% include "streams::form/partials/section" %}
+    {% endfor %}
+
+</div>
