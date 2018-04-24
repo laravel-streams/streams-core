@@ -91,7 +91,6 @@ class EloquentFormRepository implements FormRepositoryInterface
 
         $allowed = $fields
             ->autoHandling()
-            ->writable()
             ->enabled()
             ->savable();
 
