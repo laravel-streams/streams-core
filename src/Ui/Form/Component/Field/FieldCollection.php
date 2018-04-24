@@ -172,7 +172,7 @@ class FieldCollection extends Collection
             function ($item) {
 
                 /* @var FieldType $item */
-                return !$item->isReadonly();
+                return !$item->isDisabled();
             }
         );
     }
