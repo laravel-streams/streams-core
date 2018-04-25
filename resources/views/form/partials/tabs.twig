@@ -17,7 +17,7 @@
             {% if tab.view %}
                 {% include tab.view %}
             {% elseif tab.html %}
-                {{ tab.html|raw }}
+                {{ parse(tab.html)|raw }}
             {% elseif tab.rows %}
                 {% include "streams::form/partials/rows" with {"rows": tab.rows} %}
             {% else %}
