@@ -44,6 +44,11 @@ class AssignmentFormBuilder extends FormBuilder
      */
     protected $fields = AssignmentFormFields::class;
 
+    /**
+     * The form sections.
+     *
+     * @var array
+     */
     protected $sections = [
         'general' => [
             'tabs' => [
@@ -82,6 +87,21 @@ class AssignmentFormBuilder extends FormBuilder
 
         if (!$this->getField() && !$this->getEntry()) {
             throw new \Exception('The $field parameter is required when creating an assignment.');
+        }
+
+        $stream = $this->getStream();
+        $field  = $this->getField();
+        $type   = $this->getFieldType();
+
+        $icon = '<i class="fa fa-long-arrow-right small"></i>';
+        $type = ' <span class="text-muted small">[' . strtolower(trans($type->getTitle())) . ']</span>';
+
+        if (!$this->hasOption('title')) {
+            $this->setOption('title', trans($stream->getName()) . " {$icon} " . trans($field->getName()) . $type);
+        }
+
+        if (!$this->hasOption('description')) {
+            $this->setOption('description', trans($stream->getDescription()));
         }
     }
 

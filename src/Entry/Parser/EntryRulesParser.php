@@ -58,7 +58,7 @@ class EntryRulesParser
             $rules = addcslashes($rules, "'");
             $fieldSlug = addcslashes($assignment->getFieldSlug(), "'");
 
-            $string .= "\n'{$fieldSlug}' => '{$rules}',";
+            $string .= "\n        '{$fieldSlug}' => '{$rules}',";
         }
     }
 }

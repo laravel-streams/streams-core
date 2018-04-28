@@ -520,6 +520,17 @@ class TableBuilder
     }
 
     /**
+     * Return if the form has an option.
+     *
+     * @param $key
+     * @return bool
+     */
+    public function hasOption($key)
+    {
+        return array_key_exists($key, $this->options);
+    }
+
+    /**
      * Get the assets.
      *
      * @return array
