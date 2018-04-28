@@ -47,7 +47,12 @@ class SetDefaultProperties
             $this->builder->setStream($stream = app($model)->getStream());
         }
 
-        $this->builder->setOption('title', trans($stream->getName()));
-        $this->builder->setOption('description', trans($stream->getDescription()));
+        if (!$this->builder->hasOption('title')) {
+            $this->builder->setOption('title', trans($stream->getName()));
+        }
+
+        if (!$this->builder->hasOption('description')) {
+            $this->builder->setOption('description', trans($stream->getDescription()));
+        }
     }
 }
