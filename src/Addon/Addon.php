@@ -55,6 +55,13 @@ class Addon implements PresentableInterface, Arrayable
     protected $slug = null;
 
     /**
+     * The sub-addons to load.
+     *
+     * @var array
+     */
+    protected $addons = [];
+
+    /**
      * The addon vendor.
      *
      * @var string
@@ -416,6 +423,29 @@ class Addon implements PresentableInterface, Arrayable
     public function getVendor()
     {
         return $this->vendor;
+    }
+
+    /**
+     * Get the sub-addons.
+     *
+     * @return array
+     */
+    public function getAddons()
+    {
+        return $this->addons;
+    }
+
+    /**
+     * Set the loads
+     *
+     * @param $addons
+     * @return $this
+     */
+    public function setAddons(array $addons)
+    {
+        $this->addons = $addons;
+
+        return $this;
     }
 
     /**
