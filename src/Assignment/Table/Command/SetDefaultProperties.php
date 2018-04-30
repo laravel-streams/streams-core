@@ -48,11 +48,11 @@ class SetDefaultProperties
         }
 
         if (!$this->builder->hasOption('title')) {
-            $this->builder->setOption('title', trans($stream->getName()));
+            $this->builder->setOption('title', $stream->getName());
         }
 
         if (!$this->builder->hasOption('description')) {
-            $this->builder->setOption('description', trans($stream->getDescription()));
+            $this->builder->setOption('description', $stream->getDescription());
         }
     }
 }
