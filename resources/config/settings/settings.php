@@ -29,6 +29,7 @@ return [
         'bind'   => 'app.timezone',
         'type'   => 'anomaly.field_type.select',
         'config' => [
+            'mode'          => 'search',
             'handler'       => 'timezones',
             'default_value' => config('app.timezone'),
         ],
@@ -201,7 +202,7 @@ return [
             'off_text'      => 'OFF',
         ],
     ],
-    'debug_bar'           => [
+    'debug_bar'       => [
         'env'    => 'DEBUG_BAR',
         'bind'   => 'debugbar.enabled',
         'type'   => 'anomaly.field_type.boolean',
