@@ -110,6 +110,11 @@ class MultipleFormBuilder extends FormBuilder
 
         /* @var FormBuilder $builder */
         foreach ($forms = $this->getForms() as $slug => $builder) {
+
+            $builder->setSave($this->canSave());
+
+            $builder->touchFormEntry();
+
             $this->fire('saving_' . $slug, compact('builder', 'forms'));
 
             $builder->saveForm();

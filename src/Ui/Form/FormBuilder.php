@@ -336,6 +336,22 @@ class FormBuilder
     }
 
     /**
+     * Touch the form entry.
+     *
+     * @return $this
+     */
+    public function touchFormEntry()
+    {
+        $entry = $this->getFormEntry();
+
+        if ($entry instanceof EloquentModel) {
+            $entry->touch();
+        }
+
+        return $this;
+    }
+
+    /**
      * Get the ajax flag.
      *
      * @return bool
