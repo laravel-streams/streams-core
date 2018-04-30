@@ -43,7 +43,7 @@
             checkbox.addEventListener('change', function () {
 
                 let checked = checkboxes.filter(function (checkbox) {
-                    return checkbox.checked == true
+                    return checkbox.checked === true;
                 });
 
                 if (checked.length) {
