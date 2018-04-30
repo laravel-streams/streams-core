@@ -42,7 +42,9 @@
         checkboxes.forEach(function (checkbox) {
             checkbox.addEventListener('change', function () {
 
-                let checked = checkboxes.filter(checkbox => checkbox.checked == true);
+                let checked = checkboxes.filter(function (checkbox) {
+                    return checkbox.checked === true;
+                });
 
                 if (checked.length) {
                     actions.forEach(function (action) {
