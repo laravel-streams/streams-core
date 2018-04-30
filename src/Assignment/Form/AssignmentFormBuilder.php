@@ -133,7 +133,7 @@ class AssignmentFormBuilder extends FormBuilder
         }
 
         /* @var AssignmentInterface $entry */
-        $entry = $this->getFormEntry();
+        $entry = $this->getEntry();
 
         return $entry->getFieldType();
     }
