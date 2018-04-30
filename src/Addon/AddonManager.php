@@ -175,7 +175,7 @@ class AddonManager
             foreach ($addon->getAddons() as $class) {
 
                 $namespace = $this->getAddonNamespace(
-                    dirname(dirname((new \ReflectionClass($class))->getFileName()))
+                    $path = dirname(dirname((new \ReflectionClass($class))->getFileName()))
                 );
 
                 $this->integrator->register(
