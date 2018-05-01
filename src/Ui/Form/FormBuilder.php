@@ -353,7 +353,16 @@ class FormBuilder
         $entry = $this->getFormEntry();
 
         if ($entry instanceof EloquentModel) {
-            $entry->touch();
+
+            $time = $entry->freshTimestamp();
+
+            if (!is_null($entry::UPDATED_AT) && !$entry->isDirty($entry::UPDATED_AT)) {
+                $entry->setUpdatedAt($time);
+            }
+
+            if (!$entry->exists && !$entry->isDirty($entry::CREATED_AT)) {
+                $entry->setCreatedAt($time);
+            }
         }
 
         return $this;
