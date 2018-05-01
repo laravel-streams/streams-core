@@ -94,7 +94,7 @@ class EntryObserver extends Observer
     {
         //$entry->fireFieldTypeEvents('entry_saving');
 
-        if ($entry->isVersionable()) {
+        if ($entry->isVersionable() && !$entry->versioningDisabled()) {
             $entry->setVersionComparisonData($entry->toArrayForComparison());
         }
 
