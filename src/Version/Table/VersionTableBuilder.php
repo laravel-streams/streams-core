@@ -67,9 +67,10 @@ class VersionTableBuilder extends TableBuilder
      * @var array
      */
     protected $options = [
-        'order_by' => [
+        'order_by'   => [
             'version' => 'DESC',
         ],
+        'breadcrumb' => 'streams::breadcrumb.revisions',
     ];
 
     /**
@@ -87,7 +88,7 @@ class VersionTableBuilder extends TableBuilder
     /**
      * Fired during the query for entries.
      *
-     * @param Builder    $query
+     * @param Builder $query
      * @param Repository $config
      */
     public function onQuerying(Builder $query, Repository $config)
