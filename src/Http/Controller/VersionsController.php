@@ -33,12 +33,12 @@ class VersionsController extends AdminController
      * @param                      $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index(VersionTableBuilder $table, $id)
+    public function index(VersionTableBuilder $table)
     {
         return $table
-            ->setPrefix($this->getPrefix())
             ->setType($this->getModel())
-            ->setId($id)
+            ->setPrefix($this->getPrefix())
+            ->setId($this->request->route('id'))
             ->render();
     }
 
