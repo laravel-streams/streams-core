@@ -13,13 +13,6 @@ class VersionsController extends AdminController
 {
 
     /**
-     * The load-version form prefix.
-     *
-     * @var null|string
-     */
-    protected $prefix = null;
-
-    /**
      * The versioned model.
      *
      * @var null|string
@@ -37,7 +30,6 @@ class VersionsController extends AdminController
     {
         return $table
             ->setType($this->getModel())
-            ->setPrefix($this->getPrefix())
             ->setId($this->request->route('id'))
             ->render();
     }
