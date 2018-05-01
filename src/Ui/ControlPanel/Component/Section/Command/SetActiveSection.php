@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command;
 
 use Anomaly\Streams\Platform\Support\Authorizer;
+use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
@@ -40,7 +41,7 @@ class SetActiveSection
      * @param Authorizer           $authorizer
      * @param BreadcrumbCollection $breadcrumbs
      */
-    public function handle(Request $request, Authorizer $authorizer, BreadcrumbCollection $breadcrumbs)
+    public function handle(Parser $parser, Request $request, Authorizer $authorizer, BreadcrumbCollection $breadcrumbs)
     {
         $controlPanel = $this->builder->getControlPanel();
         $sections     = $controlPanel->getSections();
@@ -64,7 +65,7 @@ class SetActiveSection
              * Get the HREF for both the active
              * and loop iteration section.
              */
-            $href       = $section->getPermalink() ?: array_get($section->getAttributes(), 'href');
+            $href       = $parser->parse($section->getPermalink() ?: array_get($section->getAttributes(), 'href'));
             $activeHref = '';
 
             if ($active && $active instanceof SectionInterface) {

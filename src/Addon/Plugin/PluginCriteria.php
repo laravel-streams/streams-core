@@ -220,6 +220,7 @@ class PluginCriteria
      */
     public function getCachePrefix()
     {
+        if ($model = $this->getModel())
         return $this->cachePrefix;
     }
 
