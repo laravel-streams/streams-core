@@ -18,6 +18,10 @@
             form.querySelectorAll('.tab__pane')
         );
 
+        let actions = Array.prototype.slice.call(
+            form.querySelectorAll('.form__actions button')
+        );
+
         /**
          * Focus on the first input.
          */
@@ -27,6 +31,48 @@
                 return true;
             }
         });
+
+        /**
+         * Disable actions after the
+         * form has been submitted.
+         */
+        if (!form.classList.contains('ajax')) {
+
+            form.addEventListener('submit', function () {
+
+                let button = document.activeElement;
+
+                if (button && button.tagName == 'BUTTON') {
+
+                    let icon = button.querySelector('i');
+
+                    if (icon) {
+                        icon.classList = 'fa fa-refresh fa-spin';
+                    } else {
+                        button.innerHTML = '<i class="fa fa-refresh fa-spin"></i>' + button.innerHTML;
+                    }
+                }
+
+                NProgress.start({
+                    trickleSpeed: 25,
+                    showSpinner: false,
+                });
+
+                actions.forEach(function (action) {
+
+                    action.classList.add('disabled');
+
+                    action.addEventListener('click', function (event) {
+
+                        event.preventDefault();
+
+                        return false;
+                    });
+                });
+
+                NProgress.set(0.70);
+            });
+        }
 
         /**
          * If the form has errors then highlight
