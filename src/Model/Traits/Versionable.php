@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Model\Traits;
 
 use Anomaly\Streams\Platform\Version\Contract\VersionInterface;
+use Anomaly\Streams\Platform\Version\VersionCollection;
 use Anomaly\Streams\Platform\Version\VersionModel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -255,6 +256,16 @@ trait Versionable
             ->limit(1)
             ->offset(1)
             ->first();
+    }
+
+    /**
+     * Get the related versions.
+     *
+     * @return VersionCollection
+     */
+    public function getVersions()
+    {
+        return $this->versions;
     }
 
     /**
