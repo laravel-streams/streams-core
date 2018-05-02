@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Http\Controller;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Assignment\Form\AssignmentFormBuilder;
 use Anomaly\Streams\Platform\Assignment\Table\AssignmentTableBuilder;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
