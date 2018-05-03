@@ -181,7 +181,7 @@ class FormBuilder
      *
      * @var null|FormBuilder
      */
-    protected $parent = null;
+    protected $parentBuilder = null;
 
     /**
      * The form object.
@@ -1699,7 +1699,7 @@ class FormBuilder
      */
     public function getParentBuilder()
     {
-        return $this->parent;
+        return $this->parentBuilder;
     }
 
     /**
@@ -1709,7 +1709,7 @@ class FormBuilder
      */
     public function isChildForm()
     {
-        return (bool)$this->parent;
+        return (bool)$this->parentBuilder;
     }
 
 }
