@@ -42,7 +42,7 @@ class VersionModel extends EloquentModel implements VersionInterface, Presentabl
      *
      * @var string
      */
-    protected $table = 'versions';
+    protected $table = 'streams_versions';
 
     /**
      * The primary key.

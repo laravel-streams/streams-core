@@ -21,7 +21,7 @@ class CreateVersionsTable extends Migration
     public function up()
     {
         Schema::create(
-            'versions',
+            'streams_versions',
             function (Blueprint $table) {
                 $table->increments('version');
                 $table->datetime('created_at');
@@ -44,6 +44,6 @@ class CreateVersionsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('versionable');
+        Schema::drop('streams_versions');
     }
 }
