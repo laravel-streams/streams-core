@@ -1685,9 +1685,9 @@ class FormBuilder
      * @param FormBuilder $parent
      * @return $this
      */
-    public function setParent(FormBuilder $parent)
+    public function setParentBuilder(FormBuilder $parent)
     {
-        $this->parent = $parent;
+        $this->parentBuilder = $parent;
 
         return $this;
     }
@@ -1697,7 +1697,7 @@ class FormBuilder
      *
      * @return FormBuilder|null
      */
-    public function getParent()
+    public function getParentBuilder()
     {
         return $this->parent;
     }
@@ -1707,7 +1707,7 @@ class FormBuilder
      *
      * @return bool
      */
-    public function hasParent()
+    public function isChildForm()
     {
         return (bool)$this->parent;
     }
