@@ -165,7 +165,7 @@ class MultipleFormBuilder extends FormBuilder
     {
         $builder
             ->setSave(false)
-            ->setParent($builder)
+            ->setParentBuilder($builder)
             ->setOption('prefix', $this->getOption('prefix') . $key . '_');
 
         if ($position === null) {

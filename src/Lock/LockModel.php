@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Lock\Contract\LockInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Carbon\Carbon;
 
 /**
  * Class LockModel
@@ -14,16 +15,11 @@ class LockModel extends EloquentModel implements LockInterface
 {
 
     /**
-     * No updated timestamp.
-     */
-    const UPDATED_AT = null;
-
-    /**
      * The timestamps flag.
      *
      * @var bool
      */
-    public $timestamps = true;
+    public $timestamps = false;
 
     /**
      * The model table.
@@ -31,5 +27,17 @@ class LockModel extends EloquentModel implements LockInterface
      * @var string
      */
     protected $table = 'streams_locks';
+
+    /**
+     * Touch the locked at time.
+     *
+     * @return bool
+     */
+    public function touch()
+    {
+        $this->locked_at = new Carbon();
+
+        return $this->save();
+    }
 
 }

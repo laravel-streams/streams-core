@@ -36,5 +36,4 @@ return [
     'choose_field'              => 'What field would you like to add?',
     'confirm_load_title'        => 'Load Version',
     'confirm_load_message'      => 'You are about to load a previous version. No changes will be made until you save.',
-    'form_is_locked'            => 'This entry is currently being edited by another user.',
 ];

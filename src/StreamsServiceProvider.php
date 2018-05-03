@@ -412,5 +412,15 @@ class StreamsServiceProvider extends ServiceProvider
             'entry/handle/export/{addon}/{namespace}/{stream}',
             'Anomaly\Streams\Platform\Http\Controller\EntryController@export'
         );
+
+        $this->app->make('router')->get(
+            'locks/touch',
+            'Anomaly\Streams\Platform\Http\Controller\LocksController@touch'
+        );
+
+        $this->app->make('router')->get(
+            'locks/release',
+            'Anomaly\Streams\Platform\Http\Controller\LocksController@release'
+        );
     }
 }

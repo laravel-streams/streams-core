@@ -10,4 +10,11 @@
 interface LockInterface
 {
 
+    /**
+     * Touch the locked at time.
+     *
+     * @return bool
+     */
+    public function touch();
+    
 }

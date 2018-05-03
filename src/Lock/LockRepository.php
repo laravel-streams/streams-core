@@ -48,12 +48,42 @@ class LockRepository extends EloquentRepository implements LockRepositoryInterfa
     }
 
     /**
+     * Touch locks by URL and session.
+     *
+     * @param $url
+     * @param $session
+     * @return $this
+     */
+    public function touchLocks($url, $session)
+    {
+        $this->model
+            ->where('url', $url)
+            ->where('session_id', $session)
+            ->update(['locked_at' => new Carbon(null, config('streams::datetime.database_timezone'))]);
+    }
+
+    /**
+     * Release locks by URL and session.
+     *
+     * @param $url
+     * @param $session
+     * @return $this
+     */
+    public function releaseLocks($url, $session)
+    {
+        $this->model
+            ->where('url', $url)
+            ->where('session_id', $session)
+            ->delete();
+    }
+
+    /**
      * Clean up old lock files.
      */
     public function cleanup()
     {
         $this->model
-            ->where('created_at', '<=', new Carbon('-1 minute', config('streams::datetime.database_timezone')))
+            ->where('locked_at', '<=', new Carbon('-1 minute', config('streams::datetime.database_timezone')))
             ->delete();
     }
 

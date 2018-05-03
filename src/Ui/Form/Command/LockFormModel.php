@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Lock\Contract\LockRepositoryInterface;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\UsersModule\User\Contract\UserInterface;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use Illuminate\Session\Store;
@@ -76,17 +77,27 @@ class LockFormModel
             return;
         }
 
+        /**
+         * We need a user to
+         * continue for now.
+         *
+         * @var UserInterface $user
+         */
+        if (!$user = $auth->user()) {
+            return;
+        }
+
         $locks->cleanup();
 
         /* @var LockInterface|EloquentModel $lock */
         if (!$lock = $locks->findByLockable($entry)) {
             $lock = $locks->create(
                 [
-                    'created_by_id' => $auth->id(),
+                    'locked_by_id' => $user->getId(),
                     'lockable_id'   => $entry->getId(),
                     'lockable_type' => get_class($entry),
                     'session_id'    => $session->getId(),
-                    'ip_address'    => $request->ip(),
+                    'url'           => $request->fullUrl(),
                 ]
             );
         }
@@ -101,15 +112,19 @@ class LockFormModel
 
             $this->builder->setLocked(true);
             $this->builder->setSave(false);
+
+            $this->builder->setOption('locked', true);
         }
 
-        if (!$this->builder->hasParent() && $this->builder->isLocked()) {
-
-            $messages->important('streams::message.form_is_locked');
-
-            if (!$request->isMethod('post')) {
-                //$messages->error('This content is being edited by another user.');
-            }
+        if (!$this->builder->isChildForm() && $this->builder->isLocked()) {
+            $messages->important(
+                trans(
+                    'streams::lock.locked_by_user',
+                    [
+                        'username' => $user->getUsername(),
+                    ]
+                )
+            );
         }
     }
 }

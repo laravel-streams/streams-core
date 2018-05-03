@@ -25,12 +25,12 @@ class CreateLocksTable extends Migration
             'streams_locks',
             function (Blueprint $table) {
                 $table->increments('id');
-                $table->datetime('created_at');
-                $table->integer('created_by_id');
+                $table->datetime('locked_at');
+                $table->integer('locked_by_id');
                 $table->integer('lockable_id')->unsigned();
                 $table->string('lockable_type');
-                $table->string('ip_address');
                 $table->string('session_id');
+                $table->string('url');
 
                 $table->index('lockable_id');
             }

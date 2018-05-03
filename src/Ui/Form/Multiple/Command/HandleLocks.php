@@ -45,5 +45,7 @@ class HandleLocks
 
         $this->builder->setLocked(true);
         $this->builder->setSave(false);
+
+        $this->builder->setOption('locked', true);
     }
 }
