@@ -30,7 +30,7 @@ class LocksController extends AdminController
      * @param LockRepositoryInterface $locks
      * @param Store                   $session
      */
-    public function releaseLocks(LockRepositoryInterface $locks, Store $session)
+    public function release(LockRepositoryInterface $locks, Store $session)
     {
         $locks->releaseLocks($this->url->previous(), $session->getId());
     }

@@ -3,7 +3,6 @@
 {{ asset_add("scripts.js", "streams::js/form/translations.js") }}
 
 {% if not form.options.locked %}
-    <script>alert('She\'s yours!');</script>
     {{ asset_add("scripts.js", "streams::js/form/lock.js") }}
 {% endif %}
 

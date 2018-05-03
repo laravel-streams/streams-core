@@ -1,5 +1,14 @@
 (function (window, document) {
 
+    document.addEventListener('click', function (event) {
+        if (event.target.hasAttribute('data-reload')) {
+
+            event.preventDefault();
+
+            window.location.reload();
+        }
+    });
+
     let forms = Array.prototype.slice.call(
         document.querySelectorAll('form.form')
     );

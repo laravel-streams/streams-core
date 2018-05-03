@@ -110,6 +110,7 @@ class LockFormModel
 
             $this->builder->setLock($lock);
 
+            //$this->builder->setReadOnly(true);
             $this->builder->setLocked(true);
             $this->builder->setSave(false);
 
