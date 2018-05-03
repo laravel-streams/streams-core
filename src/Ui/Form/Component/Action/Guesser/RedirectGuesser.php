@@ -59,12 +59,14 @@ class RedirectGuesser
          * Remove any system / protected query
          * string based flags for the redirect.
          */
-        parse_str($_SERVER['QUERY_STRING'], $query);
-        array_pull($query, 'version');
-        array_pull($query, 'versionable');
+        if (isset($_SERVER['QUERY_STRING'])) {
+            parse_str($_SERVER['QUERY_STRING'], $query);
+            array_pull($query, 'version');
+            array_pull($query, 'versionable');
 
-        if ($query = http_build_query($query)) {
-            $query = '?' . $query;
+            if ($query = http_build_query($query)) {
+                $query = '?' . $query;
+            }
         }
 
         foreach ($actions as $key => &$action) {
