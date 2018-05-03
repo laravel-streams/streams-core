@@ -13,6 +13,7 @@ use Exception;
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
+ * @deprecated in 1.4 remove in 1.5
  */
 class Uninstall extends Command
 {
@@ -39,6 +40,7 @@ class Uninstall extends Command
      */
     public function handle(ExtensionManager $manager, ExtensionCollection $extensions)
     {
+        $this->warn('Deprecated in 1.4 removing in 1.5 - use addon:uninstall');
         /* @var Extension $extension */
         $extension = $extensions->get($this->argument('extension'));
 
