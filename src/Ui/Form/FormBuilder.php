@@ -546,7 +546,7 @@ class FormBuilder
      */
     public function addFields(array $fields)
     {
-        $this->fields = array_unique(array_merge($this->fields, $fields));
+        $this->fields = array_unique(array_merge($this->fields, $fields), SORT_REGULAR);
     }
 
     /**
