@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Lock\Contract\LockInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Support\Collection;
@@ -160,6 +161,27 @@ class FormBuilder
      * @var bool
      */
     protected $readOnly = false;
+
+    /**
+     * The lock instance.
+     *
+     * @var LockInterface
+     */
+    protected $lock = null;
+
+    /**
+     * The lock flag.
+     *
+     * @var bool
+     */
+    protected $locked = false;
+
+    /**
+     * The parent form builder.
+     *
+     * @var null|FormBuilder
+     */
+    protected $parent = null;
 
     /**
      * The form object.
@@ -824,7 +846,7 @@ class FormBuilder
      *
      * @param        $slug
      * @param  array $section
-     * @param null $position
+     * @param null   $position
      * @return $this
      */
     public function addSection($slug, array $section, $position = null)
@@ -860,7 +882,7 @@ class FormBuilder
      * @param        $section
      * @param        $slug
      * @param  array $tab
-     * @param null $position
+     * @param null   $position
      * @return $this
      */
     public function addSectionTab($section, $slug, array $tab, $position = null)
@@ -918,7 +940,7 @@ class FormBuilder
      * Get an option value.
      *
      * @param        $key
-     * @param  null $default
+     * @param  null  $default
      * @return mixed
      */
     public function getOption($key, $default = null)
@@ -1006,7 +1028,7 @@ class FormBuilder
      * Get a form option value.
      *
      * @param        $key
-     * @param  null $default
+     * @param  null  $default
      * @return mixed
      */
     public function getFormOption($key, $default = null)
@@ -1121,7 +1143,7 @@ class FormBuilder
      * Get a form value.
      *
      * @param        $key
-     * @param  null $default
+     * @param  null  $default
      * @return mixed
      */
     public function getFormValue($key, $default = null)
@@ -1504,7 +1526,7 @@ class FormBuilder
      * Get a request value.
      *
      * @param        $key
-     * @param  null $default
+     * @param  null  $default
      * @return mixed
      */
     public function getRequestValue($key, $default = null)
@@ -1516,7 +1538,7 @@ class FormBuilder
      * Get a post value.
      *
      * @param        $key
-     * @param  null $default
+     * @param  null  $default
      * @return mixed
      */
     public function getPostValue($key, $default = null)
@@ -1528,7 +1550,7 @@ class FormBuilder
      * Return a post key flag.
      *
      * @param        $key
-     * @param  null $default
+     * @param  null  $default
      * @return mixed
      */
     public function hasPostedInput($key)
@@ -1610,4 +1632,84 @@ class FormBuilder
     {
         return $this->readOnly;
     }
+
+    /**
+     * Set the lock instance.
+     *
+     * @param LockInterface $lock
+     * @return $this
+     */
+    public function setLock(LockInterface $lock)
+    {
+        $this->lock = $lock;
+
+        return $this;
+    }
+
+    /**
+     * Get the lock instance.
+     *
+     * @return LockInterface
+     */
+    public function getLock()
+    {
+        return $this->lock;
+    }
+
+    /**
+     * Set the locked flag.
+     *
+     * @param $locked
+     * @return $this
+     */
+    public function setLocked($locked)
+    {
+        $this->locked = $locked;
+
+        return $this;
+    }
+
+    /**
+     * Return if the form is locked.
+     *
+     * @return bool
+     */
+    public function isLocked()
+    {
+        return $this->locked;
+    }
+
+    /**
+     * Set the parent.
+     *
+     * @param FormBuilder $parent
+     * @return $this
+     */
+    public function setParent(FormBuilder $parent)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get the parent.
+     *
+     * @return FormBuilder|null
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Return if has parent.
+     *
+     * @return bool
+     */
+    public function hasParent()
+    {
+        return (bool)$this->parent;
+    }
+
 }
