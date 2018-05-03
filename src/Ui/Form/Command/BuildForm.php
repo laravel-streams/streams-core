@@ -72,6 +72,11 @@ class BuildForm
         $this->dispatch(new AuthorizeForm($this->builder));
 
         /*
+         * Lock form model.
+         */
+        $this->dispatch(new LockFormModel($this->builder));
+
+        /*
          * Build form fields.
          */
         $this->dispatch(new BuildFields($this->builder));
