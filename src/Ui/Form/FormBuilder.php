@@ -154,6 +154,13 @@ class FormBuilder
     protected $readOnly = false;
 
     /**
+     * The parent form builder.
+     *
+     * @var null|FormBuilder
+     */
+    protected $parentBuilder = null;
+
+    /**
      * The form object.
      *
      * @var Form
@@ -1539,4 +1546,36 @@ class FormBuilder
     {
         return $this->readOnly;
     }
+
+    /**
+     * Set the parent.
+     *
+     * @param FormBuilder $parent
+     * @return $this
+     */
+    public function setParentBuilder(FormBuilder $parent)
+    {
+        $this->parentBuilder = $parent;
+
+        return $this;
+    }
+    /**
+     * Get the parent.
+     *
+     * @return FormBuilder|null
+     */
+    public function getParentBuilder()
+    {
+        return $this->parentBuilder;
+    }
+    /**
+     * Return if has parent.
+     *
+     * @return bool
+     */
+    public function isChildForm()
+    {
+        return (bool)$this->parentBuilder;
+    }
+
 }
