@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Message\MessageBag;
-use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Translation\Translator;
 
@@ -34,16 +33,15 @@ class SetSuccessMessage
 
     /**
      * Handle the command.
+     *
+     * @param MessageBag $messages
+     * @param Translator $translator
      */
     public function handle(MessageBag $messages, Translator $translator)
     {
+
         // If we can't save or there are errors then skip it.
         if ($this->builder->hasFormErrors() || !$this->builder->canSave()) {
-            return;
-        }
-
-        // If there is no model and there isn't anything specific to say, skip it.
-        if (!$this->builder->getFormEntry() && !$this->builder->getFormOption('success_message')) {
             return;
         }
 
@@ -56,10 +54,6 @@ class SetSuccessMessage
 
         $entry  = $this->builder->getFormEntry();
         $stream = $this->builder->getFormStream();
-
-        if (!$entry instanceof EloquentModel) {
-            return;
-        }
 
         $parameters = [
             'title' => is_object($entry) ? $entry->getTitle() : null,
