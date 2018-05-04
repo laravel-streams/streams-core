@@ -57,13 +57,13 @@ class Header implements HeaderInterface
      */
     public function getQueryString()
     {
-        $query = $_GET;
+        $query = app('request')->query();
 
         $builder   = $this->getBuilder();
         $direction = $this->getDirection('asc');
 
         array_set($query, $builder->getTableOption('prefix') . 'order_by', $this->getSortColumn());
-        array_set($query, $builder->getTableOption('prefix') . 'sort', $direction == 'asc' ? 'desc' : 'asc');
+        array_set($query, $builder->getTableOption('prefix') . 'sort', $direction === 'asc' ? 'asc' : 'desc');
 
         return http_build_query($query);
     }
@@ -100,15 +100,13 @@ class Header implements HeaderInterface
      */
     public function getDirection($default = null)
     {
-        $query = $_GET;
+        $builder = $this->getBuilder();     
 
-        $builder = $this->getBuilder();
-
-        if (array_get($query, $builder->getTableOption('prefix') . 'order_by') !== $this->getSortColumn()) {
+        if (app('request')->query($builder->getTableOption('prefix') . 'order_by', null) !== $this->getSortColumn()) {
             return null;
         }
 
-        return array_get($query, $builder->getTableOption('prefix') . 'sort', $default);
+        return app('request')->query($builder->getTableOption('prefix') . 'sort', $default);
     }
 
     /**

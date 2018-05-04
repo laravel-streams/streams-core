@@ -481,6 +481,6 @@ class TreeBuilder
      */
     public function getRequestValue($key, $default = null)
     {
-        return array_get($_REQUEST, $this->getOption('prefix') . $key, $default);
+        return app('request')->query($this->getOption('prefix') . $key, $default);
     }
 }

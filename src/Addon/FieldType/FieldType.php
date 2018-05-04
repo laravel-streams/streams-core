@@ -549,7 +549,7 @@ class FieldType extends Addon
      */
     public function getPostValue($default = null)
     {
-        $value = array_get($_POST, $this->getInputName(), $default);
+        $value = app('request')->post($this->getInputName(), $default);
 
         if ($value == '') {
             $value = null;
@@ -577,11 +577,9 @@ class FieldType extends Addon
      */
     public function hasPostedInput()
     {
-        if (!isset($_POST[str_replace('.', '_', $this->getInputName())])) {
-            return isset($_FILES[str_replace('.', '_', $this->getInputName())]);
-        }
+        $fileFieldName = str_replace('.', '_', $this->getInputName());
 
-        return true;
+        return app('request')->post($this->getInputName(), false) || app('request')->hasFile($fileFieldName);
     }
 
     /**
