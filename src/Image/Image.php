@@ -334,6 +334,16 @@ class Image
     }
 
     /**
+     * Return the CSS URL for background images.
+     *
+     * @return string
+     */
+    public function css()
+    {
+        return 'url(' . $this->path() . ')';
+    }
+
+    /**
      * Run a macro on the image.
      *
      * @param $macro

@@ -47,7 +47,7 @@ class PermissionGuesser
 
             // If permission is set then skip it.
             if (isset($section['permission'])) {
-                return;
+                continue;
             }
 
             $section['permission'] = $module->getNamespace($section['slug'] . '.*');
