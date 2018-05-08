@@ -13,20 +13,44 @@ class ViewOverrides extends Collection
 {
 
     /**
+     * Add an override.
+     *
+     * @param $view
+     * @param $override
+     * @return $this
+     */
+    public function add($view, $override)
+    {
+        list($namespace, $view) = explode('::', $view);
+
+        $overrides = $this->get($namespace, []);
+
+        $overrides[$namespace . '::' . $view] = $override;
+
+        $this->put($namespace, $overrides);
+
+        return $this;
+    }
+
+    /**
      * When putting overrides replace "/" with "."
      * to match the way Laravel interprets views.
      *
      * @param mixed $key
      * @param mixed $value
      */
-    public function put($key, $value)
+    public function put($namespace, $overrides)
     {
-        $overrides = [];
-
-        foreach ($value as $view => $override) {
-            $overrides[str_replace('/', '.', $view)] = $override;
-        }
-
-        parent::put($key, $overrides);
+        parent::put(
+            $namespace,
+            array_flip(
+                array_map(
+                    function ($view) {
+                        return str_replace('/', '.', $view);
+                    },
+                    array_flip($overrides)
+                )
+            )
+        );
     }
 }
