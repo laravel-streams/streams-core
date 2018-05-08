@@ -177,10 +177,6 @@ class Loader extends OriginalLoader
             config('streams.overrides', [])
         );
 
-        if ($overrides) {
-            dd($overrides);
-        }
-
         $name = str_replace('theme::', $this->theme->getNamespace() . '::', $name);
 
         if ($this->mobile && $path = array_get($mobile, $name)) {
