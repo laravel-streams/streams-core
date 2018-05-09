@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Multiple\Command;
 
+use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
+use Anomaly\UsersModule\User\Contract\UserInterface;
+use Illuminate\Contracts\Auth\Guard;
 
 /**
  * Class HandleLocks
@@ -32,13 +35,28 @@ class HandleLocks
     /**
      * Handle the command.
      *
+     * @param MessageBag $messages
+     * @param Guard $auth
      */
-    public function handle()
+    public function handle(MessageBag $messages, Guard $auth)
     {
+        /**
+         * We need a user to
+         * continue for now.
+         *
+         * @var UserInterface $user
+         */
+        if (!$user = $auth->user()) {
+            return;
+        }
+
         $forms = $this->builder->getForms();
 
         $locked = $forms->locked();
 
+        /**
+         * None of the forms are locked.
+         */
         if ($locked->isEmpty()) {
             return;
         }
@@ -48,5 +66,14 @@ class HandleLocks
         $this->builder->setSave(false);
 
         $this->builder->setOption('locked', true);
+
+        $messages->important(
+            trans(
+                'streams::lock.locked_by_user',
+                [
+                    'username' => $user->getUsername(),
+                ]
+            )
+        );
     }
 }
