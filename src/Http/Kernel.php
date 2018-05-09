@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Http;
 
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 
 /**
@@ -90,7 +91,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function handle($request)
+    public function handle(Request $request)
     {
         $this->defineLocale($request);
         $this->rewriteAdmin($request);
@@ -106,14 +107,16 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      *
      * @link https://github.com/keevitaja/linguist
      */
-    protected function defineLocale($request)
+    protected function defineLocale(Request $request)
     {
         /*
          * Make sure the ORIGINAL_REQUEST_URI is always available
          * Overwrite later as necessary
          */
-        $originalRequestUri = $request->getRequestUri();
-        $request->server->set('ORIGINAL_REQUEST_URI' , $originalRequestUri);
+        $request->server->set(
+            'ORIGINAL_REQUEST_URI',
+            $originalRequestUri = $request->getRequestUri();
+        );
 
         /*
          * First grab the supported i18n locales
@@ -176,7 +179,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      * Rewrite the admin URI based on
      * configured admin URI segment.
      */
-    protected function rewriteAdmin($request)
+    protected function rewriteAdmin(Request $request)
     {
         // Our admin segment.
         $segment = 'admin';

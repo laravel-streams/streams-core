@@ -579,7 +579,7 @@ class FieldType extends Addon
     {
         $fileFieldName = str_replace('.', '_', $this->getInputName());
 
-        return app('request')->post($this->getInputName(), false) || app('request')->hasFile($fileFieldName);
+        return (bool) app('request')->post($this->getInputName(), app('request')->hasFile($fileFieldName));
     }
 
     /**

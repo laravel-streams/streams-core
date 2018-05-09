@@ -20,23 +20,6 @@ class FieldTypeTest extends TestCase
         $this->assertEquals($fieldType->getPostValue(), 'foo');
     }
 
-    public function testCanAccessPostFiles()
-    {
-        $file = UploadedFile::fake('test.jpg', 100);
-
-        $this->post('/', ['test_test_field_en' => $file]);
-        $fieldType = $this->app->make(\Anomaly\Streams\Platform\Addon\FieldType\FieldType::class);
-
-        $fieldType
-            ->setField('test_field')
-            ->setPrefix('test_')
-            ->setLocale('en');
-
-        $this->assertTrue($fieldType->hasPostedInput());
-        $this->assertEquals($fieldType->getInputValue(), $file);
-        $this->assertEquals($fieldType->getPostValue(), $file);
-    }
-
     public function testCanHandleEmptyPostValues()
     {
         $this->post('/');
