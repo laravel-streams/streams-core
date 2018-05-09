@@ -4,7 +4,7 @@ class HeaderTest extends TestCase
 {
     public function testGetDirection()
     {
-        $response = $this->call('GET', '/', ['test_order_by' => 'test_column', 'test_sort' => 'asc']);
+        $this->call('GET', '/', ['test_order_by' => 'test_column', 'test_sort' => 'asc']);
         $tableBuilder = $this->app->make(\Anomaly\Streams\Platform\Ui\Table\TableBuilder::class);
         $tableHeader = $this->app->make(\Anomaly\Streams\Platform\Ui\Table\Component\Header\Header::class);
 
@@ -20,7 +20,7 @@ class HeaderTest extends TestCase
 
     public function testGetDirectionWithMismatchedSortColumn()
     {
-        $response = $this->call('GET', '/', ['test_order_by' => 'test_column', 'test_sort' => 'asc']);
+        $this->call('GET', '/', ['test_order_by' => 'test_column', 'test_sort' => 'asc']);
         $tableBuilder = $this->app->make(\Anomaly\Streams\Platform\Ui\Table\TableBuilder::class);
         $tableHeader = $this->app->make(\Anomaly\Streams\Platform\Ui\Table\Component\Header\Header::class);
 
@@ -36,7 +36,7 @@ class HeaderTest extends TestCase
 
     public function testGetDirectionDefaultValue()
     {
-        $response = $this->call('GET', '/', ['test_order_by' => 'test_column']);
+        $this->call('GET', '/', ['test_order_by' => 'test_column']);
         $tableBuilder = $this->app->make(\Anomaly\Streams\Platform\Ui\Table\TableBuilder::class);
         $tableHeader = $this->app->make(\Anomaly\Streams\Platform\Ui\Table\Component\Header\Header::class);
 
@@ -52,7 +52,7 @@ class HeaderTest extends TestCase
 
     public function testGetQueryStringAsc()
     {
-        $response = $this->call('GET', '/', ['test_order_by' => 'test_column', 'test_sort' => 'asc']);
+        $this->call('GET', '/', ['test_order_by' => 'test_column', 'test_sort' => 'asc']);
         $tableBuilder = $this->app->make(\Anomaly\Streams\Platform\Ui\Table\TableBuilder::class);
         $tableHeader = $this->app->make(\Anomaly\Streams\Platform\Ui\Table\Component\Header\Header::class);
 
@@ -68,7 +68,7 @@ class HeaderTest extends TestCase
 
     public function testGetQueryStringDesc()
     {
-        $response = $this->call('GET', '/', ['test_order_by' => 'test_column', 'test_sort' => 'desc']);
+        $this->call('GET', '/', ['test_order_by' => 'test_column', 'test_sort' => 'desc']);
         $tableBuilder = $this->app->make(\Anomaly\Streams\Platform\Ui\Table\TableBuilder::class);
         $tableHeader = $this->app->make(\Anomaly\Streams\Platform\Ui\Table\Component\Header\Header::class);
 

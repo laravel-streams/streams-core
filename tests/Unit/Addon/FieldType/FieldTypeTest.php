@@ -7,7 +7,7 @@ class FieldTypeTest extends TestCase
 
     public function testCanAccessPostData()
     {
-        $response = $this->post('/', ['test_test_field_en' => 'foo']);
+        $this->post('/', ['test_test_field_en' => 'foo']);
         $fieldType = $this->app->make(\Anomaly\Streams\Platform\Addon\FieldType\FieldType::class);
 
         $fieldType
@@ -24,7 +24,7 @@ class FieldTypeTest extends TestCase
     {
         $file = UploadedFile::fake('test.jpg', 100);
 
-        $response = $this->post('/', ['test_test_field_en' => $file]);
+        $this->post('/', ['test_test_field_en' => $file]);
         $fieldType = $this->app->make(\Anomaly\Streams\Platform\Addon\FieldType\FieldType::class);
 
         $fieldType
@@ -39,7 +39,7 @@ class FieldTypeTest extends TestCase
 
     public function testCanHandleEmptyPostValues()
     {
-        $response = $this->post('/');
+        $this->post('/');
         $fieldType = $this->app->make(\Anomaly\Streams\Platform\Addon\FieldType\FieldType::class);
 
         $fieldType
