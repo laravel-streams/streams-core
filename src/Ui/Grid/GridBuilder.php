@@ -391,6 +391,6 @@ class GridBuilder
      */
     public function getRequestValue($key, $default = null)
     {
-        return array_get($_REQUEST, $this->getOption('prefix') . $key, $default);
+        return app('request')->input($this->getOption('prefix') . $key, $default);
     }
 }

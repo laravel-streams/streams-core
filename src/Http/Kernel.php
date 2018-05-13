@@ -69,9 +69,6 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      */
     public function __construct(Application $app, Router $router)
     {
-        $this->defineLocale();
-        $this->rewriteAdmin();
-
         $config = require base_path('config/streams.php');
 
         $middleware         = array_get($config, 'middleware', []);
@@ -88,6 +85,20 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
     }
 
     /**
+     * Handle an incoming HTTP request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function handle($request)
+    {
+        $this->defineLocale($request);
+        $this->rewriteAdmin($request);
+
+        return parent::handle($request);
+    }
+
+    /**
      * Define the locale
      * based on our URI.
      *
@@ -95,13 +106,16 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      *
      * @link https://github.com/keevitaja/linguist
      */
-    protected function defineLocale()
+    protected function defineLocale($request)
     {
         /*
          * Make sure the ORIGINAL_REQUEST_URI is always available
          * Overwrite later as necessary
          */
-        $_SERVER['ORIGINAL_REQUEST_URI'] = array_get($_SERVER, 'REQUEST_URI');
+        $request->server->set(
+            'ORIGINAL_REQUEST_URI',
+            $originalRequestUri = $request->getRequestUri()
+        );
 
         /*
          * First grab the supported i18n locales
@@ -120,7 +134,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         /*
          * Check the domain for a locale.
          */
-        $url = parse_url(array_get($_SERVER, 'HTTP_HOST'));
+        $url = parse_url($request->getHost());
 
         if ($url === false) {
             throw new \Exception('Malformed URL: ' . $url);
@@ -143,24 +157,28 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
          */
         $pattern = '/^\/(' . implode('|', array_keys($locales['supported'])) . ')(\/|(?:$)|(?=\?))/';
 
-        $uri = array_get($_SERVER, 'REQUEST_URI', filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL));
-
-        if (($hint === 'uri' || $hint === true) && preg_match($pattern, $uri, $matches)) {
-
-            $_SERVER['ORIGINAL_REQUEST_URI'] = $uri;
-            $_SERVER['REQUEST_URI']          = preg_replace($pattern, '/', $uri);
-
+        if (($hint === 'uri' || $hint === true) && preg_match($pattern, $originalRequestUri, $matches)) {
+            $request->server->set('REQUEST_URI', preg_replace($pattern, '/', $originalRequestUri));
+            $request->initialize(
+                $request->query->all(), 
+                $request->request->all(), 
+                $request->attributes->all(), 
+                $request->cookies->all(), 
+                $request->files->all(), 
+                $request->server->all(), 
+                $request->getContent()
+            );
             define('LOCALE', $matches[1]);
-
             return;
         }
+
     }
 
     /**
      * Rewrite the admin URI based on
      * configured admin URI segment.
      */
-    protected function rewriteAdmin()
+    protected function rewriteAdmin($request)
     {
         // Our admin segment.
         $segment = 'admin';
@@ -180,7 +198,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
          */
         $pattern = '/^\/(admin)(?=\/?)/';
 
-        $uri = array_get($_SERVER, 'REQUEST_URI', filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL));
+        $uri = $request->getRequestUri();
 
         if (preg_match($pattern, $uri, $matches)) {
             abort(404);
@@ -191,13 +209,17 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
          * based on the configured value.
          */
         $pattern = '/^\/(' . $segment . ')(?=\/?)/';
-
-        $uri = array_get($_SERVER, 'REQUEST_URI', filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL));
-
         if (preg_match($pattern, $uri, $matches)) {
-
-            $_SERVER['ORIGINAL_REQUEST_URI'] = $uri;
-            $_SERVER['REQUEST_URI']          = preg_replace($pattern, '/admin', $uri);
+            $request->server->set('REQUEST_URI', preg_replace($pattern, '/admin', $uri));
+            $request->initialize(
+                $request->query->all(), 
+                $request->request->all(), 
+                $request->attributes->all(), 
+                $request->cookies->all(), 
+                $request->files->all(), 
+                $request->server->all(), 
+                $request->getContent()
+            );
         }
     }
 }

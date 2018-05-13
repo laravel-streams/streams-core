@@ -1445,7 +1445,7 @@ class FormBuilder
      */
     public function getRequestValue($key, $default = null)
     {
-        return array_get($_REQUEST, $this->getOption('prefix') . $key, $default);
+        return app('request')->input($this->getOption('prefix') . $key, $default);
     }
 
     /**
@@ -1457,7 +1457,7 @@ class FormBuilder
      */
     public function getPostValue($key, $default = null)
     {
-        return array_get($_POST, $this->getOption('prefix') . $key, $default);
+        return app('request')->post($this->getOption('prefix') . $key, $default);
     }
 
     /**
@@ -1469,7 +1469,7 @@ class FormBuilder
      */
     public function hasPostedInput($key)
     {
-        return isset($_POST[$this->getOption('prefix') . $key]);
+        return (bool) app('request')->post($this->getOption('prefix') . $key, false);
     }
 
     /**
@@ -1498,7 +1498,7 @@ class FormBuilder
     {
         $fields = $this->getFormFieldSlugs($this->getOption('prefix'));
 
-        return array_intersect_key($_POST, array_flip($fields));
+        return array_intersect_key(app('request')->post(), array_flip($fields));
     }
 
     /**
