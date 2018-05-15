@@ -95,7 +95,12 @@ class AssignmentFormBuilder extends FormBuilder
         $icon = '<i class="fa fa-long-arrow-right small"></i>';
 
         if (!$this->hasOption('title') && $stream->getName()) {
-            $this->setOption('title', trans($field->getName()) . " {$icon} " . trans($stream->getName()));
+            $this->setOption(
+                'title',
+                (is_string(trans($field->getName())) ? trans($field->getName()) : $field->getName())
+                . " {$icon} " .
+                (is_string(trans($stream->getName())) ? trans($stream->getName()) : $stream->getName())
+            );
         }
 
         if (!$this->hasOption('description') && $stream->getDescription()) {
