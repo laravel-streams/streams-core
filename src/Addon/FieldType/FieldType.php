@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Presenter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 /**
@@ -244,6 +245,23 @@ class FieldType extends Addon
      * @var null|string
      */
     protected $criteria;
+
+    /**
+     * The request object.
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
+     * Create a new FieldType instance.
+     * 
+     * @param Request $request 
+     */
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
 
     /**
      * Return a config value.
@@ -549,7 +567,7 @@ class FieldType extends Addon
      */
     public function getPostValue($default = null)
     {
-        $value = array_get($_POST, $this->getInputName(), $default);
+        $value = $this->request->post($this->getInputName(), $default);
 
         if ($value == '') {
             $value = null;
@@ -577,11 +595,9 @@ class FieldType extends Addon
      */
     public function hasPostedInput()
     {
-        if (!isset($_POST[str_replace('.', '_', $this->getInputName())])) {
-            return isset($_FILES[str_replace('.', '_', $this->getInputName())]);
-        }
+        $fileFieldName = str_replace('.', '_', $this->getInputName());
 
-        return true;
+        return (bool) $this->request->post($this->getInputName(), $this->request->hasFile($fileFieldName));
     }
 
     /**
