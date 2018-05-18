@@ -61,8 +61,8 @@ class MakeAddon extends Command
     {
         $namespace = $this->argument('namespace');
 
-        if (preg_match('#^[a-zA-Z0-9_]+\.[a-zA-Z_]+\.[a-zA-Z0-9_]+\z#u', $namespace) !== 1) {
-            throw new \Exception("The namespace should be snake case and formatted like: {vendor}.{type}.{slug}");
+        if (preg_match('/^\w+\.[a-zA-Z_]+\.\w+\z/u', $namespace) !== 1) {
+            throw new \Exception('The namespace should be snake case and formatted like: {vendor}.{type}.{slug}');
         }
 
         list($vendor, $type, $slug) = array_map(
@@ -73,7 +73,7 @@ class MakeAddon extends Command
         );
 
         if (!in_array($type, $config->get('streams::addons.types'))) {
-            throw new \Exception("The [$type] addon type is invalid.");
+            throw new \Exception("The [{$type}] addon type is invalid.");
         }
 
         $type = str_singular($type);
