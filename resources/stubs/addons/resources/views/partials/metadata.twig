@@ -40,7 +40,7 @@
 {# Include Asset Collections #}
 <style type="text/css">
     {{ asset_inline("theme.css", ["min"]) }}
-    {{ asset_inline("build.css", ["parse", "min"]) }}
+    {{ asset_inline("build.css", ["parse", "min", "watch@theme::scss/theme"]) }}
 </style>
 
 {{ template.includes.render('head')|raw }}

@@ -653,6 +653,25 @@ class Asset
             return true;
         }
 
+        /**
+         * If we're busting cache and have watched
+         * files that have been modified then publish.
+         */
+        if ($this->request->isNoCache() && array_filter(
+                $filters,
+                function ($filter) use ($path) {
+
+                    if (!starts_with($filter, 'watch@')) {
+                        return false;
+                    }
+
+                    return $this->lastModifiedAt(substr($filter, 6)) > filemtime($path);
+                }
+            )
+        ) {
+            return true;
+        }
+
         // Merge filters from collection files.
         foreach ($this->collections[$collection] as $fileFilters) {
             $filters = array_filter(array_unique(array_merge($filters, $fileFilters)));
@@ -660,12 +679,15 @@ class Asset
 
         $assets = $this->getAssetCollection($collection);
 
-        // If any of the files are more recent than the cache file, publish, otherwise skip
-        if ($assets->getLastModified() < filemtime($path)) {
-            return false;
+        /**
+         * If any of the files are more recent
+         * than the cache file then publish.
+         */
+        if ($assets->getLastModified() > filemtime($path)) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -675,8 +697,12 @@ class Asset
      */
     public function lastModifiedAt($path)
     {
-        $files = glob($this->paths->realPath($path) . '*.{*}', GLOB_BRACE);
-        $files = array_combine($files, array_map("filemtime", $files));
+        $files = array_map(
+            function (\SplFileInfo $file) {
+                return $file->getMTime();
+            },
+            $this->files->allFiles(rtrim($this->paths->realPath($path), DIRECTORY_SEPARATOR))
+        );
 
         arsort($files);
 
