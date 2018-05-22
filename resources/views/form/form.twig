@@ -13,7 +13,7 @@
         {{ form_open({
             'class': 'form ' ~ form.options.class ,
             'enctype': 'multipart/form-data',
-            'url': form.options.url ?: url_full()
+            'url': form.options.url ?: url_full(),
         }) }}
 
         {#{% include "streams::form/partials/controls" with {"position": "top"} %}#}

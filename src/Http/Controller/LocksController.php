@@ -10,7 +10,7 @@ use Illuminate\Session\Store;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class LocksController extends AdminController
+class LocksController extends PublicController
 {
 
     /**
