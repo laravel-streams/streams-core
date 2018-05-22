@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Http\Request;
 use Illuminate\Translation\Translator;
 
 /**
@@ -34,10 +35,11 @@ class SetSuccessMessage
     /**
      * Handle the command.
      *
+     * @param Request    $request
      * @param MessageBag $messages
      * @param Translator $translator
      */
-    public function handle(MessageBag $messages, Translator $translator)
+    public function handle(Request $request, MessageBag $messages, Translator $translator)
     {
 
         // If we can't save or there are errors then skip it.
@@ -67,6 +69,15 @@ class SetSuccessMessage
             $parameters['name'] = str_singular(trans($parameters['name']));
         } else {
             $parameters['name'] = trans('streams::entry.name');
+        }
+
+        /**
+         * If there is no success message and
+         * we are not in the control panel
+         * then we don't want to force it.
+         */
+        if ($request->segment(1) !== 'admin' && $this->builder->getFormOption('success_message') === null) {
+            return;
         }
 
         /*
