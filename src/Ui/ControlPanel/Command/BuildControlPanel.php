@@ -49,7 +49,7 @@ class BuildControlPanel
         $events->fire(new ControlPanelIsBuilding($this->builder));
 
         $asset->add('scripts.js', 'streams::js/cp/click.js');
-        
+
         $this->dispatch(new BuildNavigation($this->builder));
         $this->dispatch(new SetActiveNavigationLink($this->builder));
         $this->dispatch(new SetMainNavigationLinks($this->builder));
