@@ -262,4 +262,44 @@ return [
             },
         ],
     ],
+    'mail_driver'     => [
+        'env'      => 'MAIL_DRIVER',
+        'bind'     => 'mail.driver',
+        'type'     => 'anomaly.field_type.select',
+        'required' => true,
+        'config'   => [
+            'default_value' => 'mail',
+            'options'       => [
+                'smtp'     => 'streams::setting.mail_driver.option.smtp',
+                'mail'     => 'streams::setting.mail_driver.option.mail',
+                'sendmail' => 'streams::setting.mail_driver.option.sendmail',
+                'mailgun'  => 'streams::setting.mail_driver.option.mailgun',
+                'mandrill' => 'streams::setting.mail_driver.option.mandrill',
+                'log'      => 'streams::setting.mail_driver.option.log',
+            ],
+        ],
+    ],
+    'mail_host'       => [
+        'env'  => 'MAIL_HOST',
+        'bind' => 'mail.host',
+        'type' => 'anomaly.field_type.text',
+    ],
+    'mail_port'       => [
+        'env'  => 'MAIL_PORT',
+        'bind' => 'mail.port',
+        'type' => 'anomaly.field_type.integer',
+    ],
+    'mail_username'   => [
+        'env'  => 'MAIL_USERNAME',
+        'bind' => 'mail.username',
+        'type' => 'anomaly.field_type.text',
+    ],
+    'mail_password'   => [
+        'env'    => 'MAIL_PASSWORD',
+        'bind'   => 'mail.password',
+        'type'   => 'anomaly.field_type.text',
+        'config' => [
+            'type' => 'password',
+        ],
+    ],
 ];
