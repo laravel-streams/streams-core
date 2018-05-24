@@ -139,6 +139,7 @@ class BaseController extends Controller
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\PoweredBy');
         
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\SetLocale');
+        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\CheckLocale');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\ApplicationReady');
 
         foreach (app('Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection') as $middleware) {
