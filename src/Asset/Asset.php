@@ -649,10 +649,6 @@ class Asset
             return true;
         }
 
-        if ($this->request->isNoCache() && $this->lastModifiedAt('theme::') > filemtime($path)) {
-            return true;
-        }
-
         /**
          * If we're busting cache and have watched
          * files that have been modified then publish.
