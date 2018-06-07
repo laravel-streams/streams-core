@@ -78,6 +78,7 @@ class AssignmentMigrator
         }
 
         foreach ($assignments as $assignment) {
+            $namespace = (isset($assignment['namespace']) ? $assignment['namespace'] : $stream->getNamespace());
 
             /*
              * Make sure that we can find the
@@ -85,12 +86,18 @@ class AssignmentMigrator
              *
              * @var FieldInterface
              */
-            if (!$field = $this->fields->findBySlugAndNamespace($assignment['field'], $stream->getNamespace())) {
+            if (!$field = $this->fields->findBySlugAndNamespace($assignment['field'], $namespace)) {
                 continue;
             }
 
             $assignment['field']  = $field;
             $assignment['stream'] = $stream;
+
+            /*
+             * Remove namespace assignment so it's not treated
+             * as a column name in creation step
+             */
+            unset($assignment['namespace']);
 
             /*
              * Check if the field is already
