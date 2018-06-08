@@ -47,32 +47,9 @@ class AssignmentFormBuilder extends FormBuilder
     /**
      * The form sections.
      *
-     * @var array
+     * @var string
      */
-    protected $sections = [
-        'general' => [
-            'tabs' => [
-                'assignment' => [
-                    'title'  => 'streams::form.tab.display',
-                    'fields' => [
-                        'label',
-                        'placeholder',
-                        'instructions',
-                        'warning',
-                    ],
-                ],
-                'options'    => [
-                    'title'  => 'streams::form.tab.options',
-                    'fields' => [
-                        'required',
-                        'unique',
-                        'searchable',
-                        'translatable',
-                    ],
-                ],
-            ],
-        ],
-    ];
+    protected $sections = AssignmentFormSections::class;
 
     /**
      * Fired when the builder is ready to build.
