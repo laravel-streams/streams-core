@@ -143,7 +143,7 @@ class EntryController extends AdminController
         $callback = function () {
             $output = fopen('php://output', 'w');
 
-            foreach ($this->repository->all() as $k => $entry) {
+            foreach ($this->repository->getModel()->newQueryWithoutRelationships()->get() as $k => $entry) {
                 if ($k == 0) {
                     fputcsv($output, array_keys($entry->toArray()));
                 }
