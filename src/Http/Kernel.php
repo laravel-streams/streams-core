@@ -113,6 +113,10 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
             $locales = array_replace_recursive($locales, require $override);
         }
 
+        if (file_exists($override = __DIR__ . '/../../../../../resources/streams/config/locales.php')) {
+            $locales = array_replace($locales, require $override);
+        }
+
         if (!$hint = array_get($locales, 'hint')) {
             return;
         }
