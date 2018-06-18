@@ -33,6 +33,18 @@ class EloquentRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * Return all records without relations.
+     *
+     * @return EloquentCollection
+     */
+    public function allWithoutRelations()
+    {
+        return $this->model
+            ->newQueryWithoutRelationships()
+            ->get();
+    }
+
+    /**
      * Find a record by it's ID.
      *
      * @param $id
