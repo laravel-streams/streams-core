@@ -24,6 +24,12 @@ class AssignmentTableBuilder extends TableBuilder
      */
     protected $stream = null;
 
+    protected $filters = [
+        'example' => [
+            'filter' => 'datetime',
+        ],
+    ];
+
     /**
      * The table columns.
      *
