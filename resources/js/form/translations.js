@@ -53,40 +53,38 @@ let storageAvailable = function (type) {
          * Handle clicking a locale toggle
          * in the locales dropdown menus.
          */
-        toggles.forEach(function (toggle) {
+        document.addEventListener('click', function (event) {
+            if (!event.target.hasAttribute('data-toggle') || event.target.getAttribute('data-toggle') !== 'lang') {
+                return;
+            }
+            
+            event.preventDefault();
+            // This is the target locale.
+            let locale = event.target.getAttribute('lang');
 
-            toggle.addEventListener('click', function (event) {
+            // Replace menu text with selected locale.
+            menus.map(menu => menu.innerHTML = event.target.innerHTML);
 
-                // No clickie.
-                event.preventDefault();
+            // Remove active classes from all toggles.
+            toggles.map(toggle => toggle.classList.remove('active'));
 
-                // This is the target locale.
-                let locale = event.target.getAttribute('lang');
+            // Mark only target locale toggles active.
+            toggles.filter(function (toggle) {
+                return toggle.getAttribute('lang') == locale;
+            }).map(toggle => toggle.classList.add('active'));
 
-                // Replace menu text with selected locale.
-                menus.map(menu => menu.innerHTML = event.target.innerHTML);
+            // Hide all input form groups.
+            groups.map(group => group.classList.add('hidden'));
 
-                // Remove active classes from all toggles.
-                toggles.map(toggle => toggle.classList.remove('active'));
+            // Display only the target locale form groups.
+            groups.filter(function (group) {
+                return group.getAttribute('lang') == locale;
+            }).map(group => group.classList.remove('hidden'));
 
-                // Mark only target locale toggles active.
-                toggles.filter(function (toggle) {
-                    return toggle.getAttribute('lang') == locale;
-                }).map(toggle => toggle.classList.add('active'));
-
-                // Hide all input form groups.
-                groups.map(group => group.classList.add('hidden'));
-
-                // Display only the target locale form groups.
-                groups.filter(function (group) {
-                    return group.getAttribute('lang') == locale;
-                }).map(group => group.classList.remove('hidden'));
-
-                if (storageAvailable('localStorage')) {
-                    localStorage.setItem('formTranslations', locale);
-                }
-            });
-        });
+            if (storageAvailable('localStorage')) {
+                localStorage.setItem('formTranslations', locale);
+            }
+        }, false);
 
         /**
          * Pre-select the locale
