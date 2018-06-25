@@ -21,11 +21,7 @@ class EntryWithParser
      */
     public function parse(StreamInterface $stream)
     {
-        $relationships = $stream->getRelationshipAssignments()->map(
-            function (AssignmentInterface $assignment) {
-                return '"' . camel_case($assignment->getFieldSlug()) . '"';
-            }
-        )->all();
+        $relationships = [];
 
         if ($stream->isTranslatable()) {
             $relationships[] = '"translations"';
