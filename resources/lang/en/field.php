@@ -43,6 +43,10 @@ return [
         'name'         => 'Trashable',
         'instructions' => 'Do you want to trash entries instead of deleting them?',
     ],
+    'versionable'  => [
+        'name'         => 'Versionable',
+        'instructions' => 'Do you want to track changes to entries each time they save?',
+    ],
     'sortable'     => [
         'name'         => 'Sortable',
         'instructions' => 'Are the entries in this stream manually sortable?',

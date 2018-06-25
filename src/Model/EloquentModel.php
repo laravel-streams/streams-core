@@ -73,15 +73,6 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     ];
 
     /**
-     * Hide these from toArray.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'translations',
-    ];
-
-    /**
      * The cascading delete-able relations.
      *
      * @var array
@@ -584,6 +575,41 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     }
 
     /**
+     * Return the object as an
+     * array for comparison.
+     *
+     * @return array
+     */
+    public function toArrayForComparison()
+    {
+        $array = array_dot($this->toArrayWithRelations());
+
+        $remove = ['created_at', 'updated_at', 'created_by_id', 'updated_by_id'];
+
+        array_walk(
+            $array,
+            function ($value, $key) use (&$array, $remove) {
+
+                /**
+                 * Remove keys that are not tracked.
+                 */
+                if (in_array($key, $remove) || ends_with($key, $remove)) {
+                    unset($array[$key]);
+                }
+
+                /**
+                 * Make sure any nested arrays are serialized.
+                 */
+                if (is_array($value)) {
+                    $array[$key] = serialize($value);
+                }
+            }
+        );
+
+        return $array;
+    }
+
+    /**
      * Return the routable array information.
      *
      * @return array
@@ -704,6 +730,8 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     /**
      * Remove volatile cache from
      * objects before serialization.
+     *
+     * @todo Should 'stream' be removed too?
      *
      * @return array
      */

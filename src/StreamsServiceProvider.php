@@ -101,6 +101,8 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Stream\StreamModel'                                    => 'Anomaly\Streams\Platform\Stream\StreamModel',
         'Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface'             => 'Anomaly\Streams\Platform\Stream\StreamRepository',
         'Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface'            => 'Anomaly\Streams\Platform\Model\EloquentRepository',
+        'Anomaly\Streams\Platform\Version\Contract\VersionRepositoryInterface'           => 'Anomaly\Streams\Platform\Version\VersionRepository',
+        'Anomaly\Streams\Platform\Lock\Contract\LockRepositoryInterface'                 => 'Anomaly\Streams\Platform\Lock\LockRepository',
         'Anomaly\Streams\Platform\Assignment\AssignmentModel'                            => 'Anomaly\Streams\Platform\Assignment\AssignmentModel',
         'Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface'     => 'Anomaly\Streams\Platform\Assignment\AssignmentRepository',
         'Anomaly\Streams\Platform\Addon\Module\ModuleModel'                              => 'Anomaly\Streams\Platform\Addon\Module\ModuleModel',
@@ -409,6 +411,16 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->make('router')->get(
             'entry/handle/export/{addon}/{namespace}/{stream}',
             'Anomaly\Streams\Platform\Http\Controller\EntryController@export'
+        );
+
+        $this->app->make('router')->get(
+            'locks/touch',
+            'Anomaly\Streams\Platform\Http\Controller\LocksController@touch'
+        );
+
+        $this->app->make('router')->get(
+            'locks/release',
+            'Anomaly\Streams\Platform\Http\Controller\LocksController@release'
         );
     }
 }

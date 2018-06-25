@@ -38,7 +38,7 @@ class ButtonDefaults
     public function defaults(FormBuilder $builder)
     {
         if ($builder->getButtons() === [] && $this->request->segment(1) == 'admin') {
-            $builder->setButtons(['cancel']);
+            $builder->addButton('cancel');
         }
     }
 }

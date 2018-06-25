@@ -136,6 +136,13 @@ interface StreamInterface
     public function isTrashable();
 
     /**
+     * Get the versionable flag.
+     *
+     * @return bool
+     */
+    public function isVersionable();
+
+    /**
      * Get the translatable flag.
      *
      * @return bool

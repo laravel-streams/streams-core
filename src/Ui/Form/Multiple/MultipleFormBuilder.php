@@ -11,8 +11,10 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormCollection;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\BuildForms;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\HandleErrors;
+use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\HandleLocks;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\MergeFields;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\PostForms;
+use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\VersionForms;
 
 /**
  * Class MultipleFormBuilder
@@ -56,6 +58,7 @@ class MultipleFormBuilder extends FormBuilder
 
         $this->dispatch(new BuildForms($this));
         $this->dispatch(new MergeFields($this));
+        $this->dispatch(new HandleLocks($this));
 
         parent::build($entry);
 
@@ -121,6 +124,8 @@ class MultipleFormBuilder extends FormBuilder
 
             $this->fire('saved_' . $slug, compact('builder', 'forms'));
         }
+
+        $this->dispatch(new VersionForms($this));
 
         $this->fire('saved', ['builder' => $this]);
     }

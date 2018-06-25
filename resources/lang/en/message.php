@@ -34,4 +34,6 @@ return [
     'choose_field_type'         => 'What field type would you like to use?',
     'change_field_type'         => 'What field type would you like to use instead?',
     'choose_field'              => 'What field would you like to add?',
+    'confirm_load_title'        => 'Load Version',
+    'confirm_load_message'      => 'You are about to load a previous version. No changes will be made until you save.',
 ];

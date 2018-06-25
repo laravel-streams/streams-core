@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
+ * @deprecated in 1.4 remove in 1.5
  */
 class Reinstall extends Command
 {
@@ -33,6 +34,7 @@ class Reinstall extends Command
      */
     public function handle()
     {
+        $this->warn('Deprecated in 1.4 removing in 1.5 - use addon:reinstall');
         $this->call('extension:uninstall', ['extension' => $this->argument('extension')]);
         $this->call(
             'extension:install',

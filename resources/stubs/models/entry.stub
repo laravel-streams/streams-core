@@ -9,6 +9,8 @@ class {class} extends EntryModel
 
     protected $searchable = {searchable};
 
+    protected $versionable = {versionable};
+
     protected $table = '{table}';
 
     protected $titleName = '{title}';

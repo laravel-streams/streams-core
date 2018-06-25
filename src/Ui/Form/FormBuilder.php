@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Lock\Contract\LockInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Support\Collection;
@@ -47,6 +48,14 @@ class FormBuilder
      * @var bool
      */
     protected $ajax = false;
+
+    /**
+     * Set to false to disable
+     * default versioning behavior.
+     *
+     * @var bool
+     */
+    protected $versioning = true;
 
     /**
      * The form handler.
@@ -152,6 +161,20 @@ class FormBuilder
      * @var bool
      */
     protected $readOnly = false;
+
+    /**
+     * The lock instance.
+     *
+     * @var LockInterface
+     */
+    protected $lock = null;
+
+    /**
+     * The lock flag.
+     *
+     * @var bool
+     */
+    protected $locked = false;
 
     /**
      * The parent form builder.
@@ -386,6 +409,41 @@ class FormBuilder
     public function setAjax($ajax)
     {
         $this->ajax = $ajax;
+
+        return $this;
+    }
+
+    /**
+     * Return if the versioning
+     * system is enabled or not.
+     *
+     * @return bool
+     */
+    public function versioningEnabled()
+    {
+        return $this->versioning === true;
+    }
+
+    /**
+     * Disable the versioning system.
+     *
+     * @return $this
+     */
+    public function disableVersioning()
+    {
+        $this->versioning = false;
+
+        return $this;
+    }
+
+    /**
+     * Enable the versioning system.
+     *
+     * @return $this
+     */
+    public function enableVersioning()
+    {
+        $this->versioning = true;
 
         return $this;
     }
@@ -707,6 +765,24 @@ class FormBuilder
     }
 
     /**
+     * Add a button.
+     *
+     * @param       $button
+     * @param array $definition
+     * @return $this
+     */
+    public function addButton($button, array $definition = [])
+    {
+        if (!$definition) {
+            $this->buttons[] = $button;
+        } else {
+            $this->buttons[$button] = $definition;
+        }
+
+        return $this;
+    }
+
+    /**
      * The the options.
      *
      * @return array
@@ -992,6 +1068,16 @@ class FormBuilder
     public function getFormModel()
     {
         return $this->form->getModel();
+    }
+
+    /**
+     * Get the form model name.
+     *
+     * @return \Anomaly\Streams\Platform\Entry\EntryModel|EloquentModel|null
+     */
+    public function getFormModelName()
+    {
+        return get_class($this->form->getModel());
     }
 
     /**
@@ -1548,6 +1634,52 @@ class FormBuilder
     }
 
     /**
+     * Set the lock instance.
+     *
+     * @param LockInterface $lock
+     * @return $this
+     */
+    public function setLock(LockInterface $lock)
+    {
+        $this->lock = $lock;
+
+        return $this;
+    }
+
+    /**
+     * Get the lock instance.
+     *
+     * @return LockInterface
+     */
+    public function getLock()
+    {
+        return $this->lock;
+    }
+
+    /**
+     * Set the locked flag.
+     *
+     * @param $locked
+     * @return $this
+     */
+    public function setLocked($locked)
+    {
+        $this->locked = $locked;
+
+        return $this;
+    }
+
+    /**
+     * Return if the form is locked.
+     *
+     * @return bool
+     */
+    public function isLocked()
+    {
+        return $this->locked;
+    }
+
+    /**
      * Set the parent.
      *
      * @param FormBuilder $parent
@@ -1559,6 +1691,7 @@ class FormBuilder
 
         return $this;
     }
+
     /**
      * Get the parent.
      *
@@ -1568,6 +1701,7 @@ class FormBuilder
     {
         return $this->parentBuilder;
     }
+
     /**
      * Return if has parent.
      *
