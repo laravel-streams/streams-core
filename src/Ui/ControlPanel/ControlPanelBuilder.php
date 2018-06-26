@@ -229,6 +229,43 @@ class ControlPanelBuilder
     }
 
     /**
+     * Return the active control
+     * panel section's HREF.
+     *
+     * @param null $path
+     * @return null|string
+     */
+    public function getActiveControlPanelSectionHref($path = null)
+    {
+        $sections = $this->getControlPanelSections();
+
+        if (!$active = $sections->active()) {
+            return null;
+        }
+
+        return $active->getHref($path);
+    }
+
+    /**
+     * Return the desired control
+     * panel section's HREF.
+     *
+     * @param $section
+     * @param $path
+     * @return null|string
+     */
+    public function getControlPanelSectionHref($section, $path)
+    {
+        $sections = $this->getControlPanelSections();
+
+        if (!$section = $sections->get($section)) {
+            return null;
+        }
+
+        return $section->getHref($path);
+    }
+
+    /**
      * Get the control panel sections.
      *
      * @return Component\Section\SectionCollection

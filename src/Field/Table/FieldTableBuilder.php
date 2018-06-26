@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field\Table;
 
+use Anomaly\Streams\Platform\Field\Table\View\UnassignedQuery;
 use Anomaly\Streams\Platform\Field\Table\Filter\TypeFilterOptions;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -42,6 +43,19 @@ class FieldTableBuilder extends TableBuilder
      * @var string
      */
     protected $model = 'Anomaly\Streams\Platform\Field\FieldModel';
+
+    /**
+     * The table views.
+     *
+     * @var array
+     */
+    protected $views = [
+        'all',
+        'unassigned' => [
+            'query' => UnassignedQuery::class,
+            'text'  => 'streams::view.unassigned',
+        ],
+    ];
 
     /**
      * The table filters.

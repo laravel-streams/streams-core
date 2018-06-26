@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Command;
 
+use Illuminate\Http\Request;
+
 /**
  * Class GetElapsedTime
  *
@@ -33,8 +35,8 @@ class GetElapsedTime
      *
      * @return string
      */
-    public function handle()
+    public function handle(Request $request)
     {
-        return number_format(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], $this->decimals) . ' s';
+        return number_format(microtime(true) - $request->server('REQUEST_TIME_FLOAT'), $this->decimals) . ' s';
     }
 }

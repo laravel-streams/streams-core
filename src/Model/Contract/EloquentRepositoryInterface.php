@@ -23,6 +23,13 @@ interface EloquentRepositoryInterface
     public function all();
 
     /**
+     * Return all records without relations.
+     *
+     * @return EloquentCollection
+     */
+    public function allWithoutRelations();
+
+    /**
      * Find a record by it's ID.
      *
      * @param $id
