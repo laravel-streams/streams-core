@@ -37,33 +37,43 @@ let storageAvailable = function (type) {
 
     forms.forEach(function (form) {
 
-        let toggles = Array.prototype.slice.call(
-            form.querySelectorAll('[data-toggle="lang"]')
-        );
-
-        let menus = Array.prototype.slice.call(
-            form.querySelectorAll('[data-dropdown="locales"]')
-        );
-
-        let groups = Array.prototype.slice.call(
-            form.querySelectorAll('.form-group[lang]')
-        );
-
         /**
          * Handle clicking a locale toggle
          * in the locales dropdown menus.
          */
         document.addEventListener('click', function (event) {
+
+            /**
+             * If this is not a lang toggle
+             * then skip it all together.
+             */
             if (!event.target.hasAttribute('data-toggle') || event.target.getAttribute('data-toggle') !== 'lang') {
                 return;
             }
-            
+
             event.preventDefault();
+
+            /**
+             * Grab ALL language menus
+             * within our current form.
+             */
+            let menus = Array.prototype.slice.call(
+                form.querySelectorAll('[data-dropdown="locales"]')
+            );
+
             // This is the target locale.
             let locale = event.target.getAttribute('lang');
 
             // Replace menu text with selected locale.
             menus.map(menu => menu.innerHTML = event.target.innerHTML);
+
+            /**
+             * Grab ALL the actual language
+             * toggle's in our current form.
+             */
+            let toggles = Array.prototype.slice.call(
+                form.querySelectorAll('[data-toggle="lang"]')
+            );
 
             // Remove active classes from all toggles.
             toggles.map(toggle => toggle.classList.remove('active'));
@@ -72,6 +82,14 @@ let storageAvailable = function (type) {
             toggles.filter(function (toggle) {
                 return toggle.getAttribute('lang') == locale;
             }).map(toggle => toggle.classList.add('active'));
+
+            /**
+             * Grab ALL form field groups
+             * within our current form.
+             */
+            let groups = Array.prototype.slice.call(
+                form.querySelectorAll('.form-group[lang]')
+            );
 
             // Hide all input form groups.
             groups.map(group => group.classList.add('hidden'));
