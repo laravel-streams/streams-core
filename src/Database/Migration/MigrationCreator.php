@@ -51,12 +51,16 @@ class MigrationCreator extends \Illuminate\Database\Migrations\MigrationCreator
      * @param  string $stub
      * @param  string $table
      * @return string
+     * @todo This needs cleaned up
      */
     protected function populateStub($name, $stub, $table)
     {
         $class = $this->getClassName($name);
 
-        if ($this->input && $stream = $this->input->getOption('stream')) {
+        if ($this->input) {
+
+            $stream = $this->input->getOption('stream');
+
             return app(Parser::class)->parse($stub, compact('class', 'table', 'stream'));
         }
 
