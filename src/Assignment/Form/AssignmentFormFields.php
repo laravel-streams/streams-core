@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Form;
 
+use Anomaly\Streams\Platform\Field\Form\Command\GetConfigFields;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+
 /**
  * Class AssignmentFormFields
  *
@@ -9,6 +12,8 @@
  */
 class AssignmentFormFields
 {
+
+    use DispatchesJobs;
 
     /**
      * Handle the form fields.
@@ -89,5 +94,9 @@ class AssignmentFormFields
                 ],
             ]
         );
+
+        if (($type = $builder->getFieldType()) || ($type = $builder->getFormEntry()->getType())) {
+            $this->dispatch(new GetConfigFields($builder, $type));
+        }
     }
 }
