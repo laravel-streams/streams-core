@@ -246,6 +246,13 @@ class FieldType extends Addon
     protected $criteria;
 
     /**
+     * The faker class
+     *
+     * @var null|string
+     */
+    protected $faker = null;
+
+    /**
      * Return a config value.
      *
      * @param        $key
@@ -1292,6 +1299,47 @@ class FieldType extends Addon
     public function setCriteria($criteria)
     {
         $this->criteria = $criteria;
+
+        return $this;
+    }
+
+    /**
+     * Gets the fake value.
+     *
+     * @return  mixed  The fake value.
+     */
+    public function getFakeValue()
+    {
+        return $this->getFaker()->fake();
+    }
+
+    /**
+     * Get the faker utility.
+     *
+     * @return FieldTypeFaker
+     */
+    public function getFaker()
+    {
+        if (!$this->faker) {
+            $this->faker = get_class($this) . 'Faker';
+        }
+
+        if (!class_exists($this->faker)) {
+            $this->faker = FieldTypeFaker::class;
+        }
+
+        return app()->make($this->faker, ['fieldType' => $this]);
+    }
+
+    /**
+     * Set the faker class.
+     *
+     * @param  $faker
+     * @return $this
+     */
+    public function setFaker($faker)
+    {
+        $this->faker = $faker;
 
         return $this;
     }
