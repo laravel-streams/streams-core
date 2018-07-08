@@ -33,15 +33,17 @@ class FieldTypeFaker
     /**
      * Gets the fake value for the field type
      *
-     * @param   mixed  $default  The default
      * @return  mixed
      */
-    public function fake($default = null)
+    public function fake()
     {
         switch ($this->fieldType->getColumnType()) {
-            case 'integer': return $this->faker->randomDigitNotNull;
-            case 'string': return $this->faker->word;
-            default: return $this->faker->randomDigit;
+            case 'integer':
+                return $this->faker->randomDigitNotNull;
+            case 'string':
+                return $this->faker->word;
+            default:
+                return $this->faker->randomDigit;
         };
     }
 
