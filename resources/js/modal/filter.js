@@ -92,7 +92,17 @@ input.on('keydown', function (e) {
                     return false;
                 }
 
-                window.location = selected.find('a').attr('href');
+                /**
+                 * If control or the meta key is
+                 * being held open a new window.
+                 */
+                if (e.ctrlKey || e.metaKey) {
+                    window.open(selected.find('a').attr('href'), "_blank");
+
+                    modal.modal('hide');
+                } else {
+                    window.location = selected.find('a').attr('href');
+                }
 
                 modal.find('.modal-content').append('<div class="modal-loading"><div class="active large loader"></div></div>');
             }
