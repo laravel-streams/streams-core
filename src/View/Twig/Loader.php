@@ -170,7 +170,7 @@ class Loader extends OriginalLoader
             $this->mobiles->get('*', []),
             config('streams.mobile', [])
         );
-        
+
         $result = false;
 
         /**
