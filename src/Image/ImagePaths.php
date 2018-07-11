@@ -46,8 +46,8 @@ class ImagePaths
     /**
      * Create a new ImagePaths instance.
      *
-     * @param Repository  $config
-     * @param Request     $request
+     * @param Repository $config
+     * @param Request $request
      * @param Application $application
      */
     public function __construct(Repository $config, Request $request, Application $application)
@@ -134,9 +134,10 @@ class ImagePaths
 
         /*
          * If the path is already public
+         * and we don't have alterations
          * then just use it as it is.
          */
-        if (str_contains($path, public_path())) {
+        if (str_contains($path, public_path()) && !$image->getAlterations() && !$image->getQuality()) {
             return str_replace(public_path(), '', $path);
         }
 
