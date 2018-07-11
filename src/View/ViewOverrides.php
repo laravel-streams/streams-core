@@ -33,6 +33,24 @@ class ViewOverrides extends Collection
     }
 
     /**
+     * Force an override.
+     *
+     * @param $view
+     * @param $override
+     * @return $this
+     */
+    public function force($view, $override)
+    {
+        $overrides = $this->get('*', []);
+
+        $overrides[$view] = $override;
+
+        $this->put('*', $overrides);
+
+        return $this;
+    }
+
+    /**
      * When putting overrides replace "/" with "."
      * to match the way Laravel interprets views.
      *

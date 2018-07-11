@@ -177,7 +177,11 @@ class ViewComposer
             return;
         }
 
-        $mobile = $this->mobiles->get($this->theme->getNamespace(), []);
+        $mobile = array_merge(
+            $this->mobiles->get($this->theme->getNamespace(), []),
+            $this->mobiles->get('*', []),
+            config('streams.mobile', [])
+        );
 
         /**
          * Merge system configured overrides
@@ -185,6 +189,7 @@ class ViewComposer
          */
         $overrides = array_merge(
             $this->overrides->get($this->theme->getNamespace(), []),
+            $this->overrides->get('*', []),
             config('streams.overrides', [])
         );
 
