@@ -21,13 +21,11 @@ class ViewOverrides extends Collection
      */
     public function add($view, $override)
     {
-        list($namespace, $view) = explode('::', $view);
+        $overrides = $this->get('*', []);
 
-        $overrides = $this->get($namespace, []);
+        $overrides[$view] = $override;
 
-        $overrides[$namespace . '::' . $view] = $override;
-
-        $this->put($namespace, $overrides);
+        $this->put('*', $overrides);
 
         return $this;
     }
