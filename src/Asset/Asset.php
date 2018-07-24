@@ -136,17 +136,17 @@ class Asset
     /**
      * Create a new Application instance.
      *
-     * @param Application     $application
+     * @param Application $application
      * @param ThemeCollection $themes
-     * @param MountManager    $manager
-     * @param AssetParser     $parser
-     * @param Repository      $config
-     * @param Template        $template
-     * @param Filesystem      $files
-     * @param AssetPaths      $paths
-     * @param Request         $request
-     * @param HtmlBuilder     $html
-     * @param UrlGenerator    $url
+     * @param MountManager $manager
+     * @param AssetParser $parser
+     * @param Repository $config
+     * @param Template $template
+     * @param Filesystem $files
+     * @param AssetPaths $paths
+     * @param Request $request
+     * @param HtmlBuilder $html
+     * @param UrlGenerator $url
      */
     public function __construct(
         Application $application,
@@ -185,8 +185,8 @@ class Asset
      *
      * @param             $collection
      * @param             $file
-     * @param  array      $filters
-     * @param bool        $internal A flag telling the system
+     * @param  array $filters
+     * @param bool $internal        A flag telling the system
      *                              this is an internal request
      *                              and should be processed differently.
      * @return $this
@@ -282,8 +282,8 @@ class Asset
      * Download a file and return it's path.
      *
      * @param              $url
-     * @param  int         $ttl
-     * @param  null        $path
+     * @param  int $ttl
+     * @param  null $path
      * @return null|string
      */
     public function download($url, $ttl = 3600, $path = null)
@@ -305,7 +305,7 @@ class Asset
      * Return the contents of a collection.
      *
      * @param         $collection
-     * @param  array  $filters
+     * @param  array $filters
      * @return string
      */
     public function inline($collection, array $filters = [])
@@ -319,7 +319,7 @@ class Asset
      * Return the URL to a compiled asset collection.
      *
      * @param         $collection
-     * @param  array  $filters
+     * @param  array $filters
      * @return string
      */
     public function url($collection, array $filters = [], array $parameters = [], $secure = null)
@@ -339,7 +339,7 @@ class Asset
      * Return the path to a compiled asset collection.
      *
      * @param         $collection
-     * @param  array  $filters
+     * @param  array $filters
      * @return string
      */
     public function path($collection, array $filters = [])
@@ -355,7 +355,7 @@ class Asset
      * Return the asset path to a compiled asset collection.
      *
      * @param         $collection
-     * @param  array  $filters
+     * @param  array $filters
      * @return string
      */
     public function asset($collection, array $filters = [])
@@ -371,8 +371,8 @@ class Asset
      * Return the script tag for a collection.
      *
      * @param         $collection
-     * @param  array  $filters
-     * @param  array  $attributes
+     * @param  array $filters
+     * @param  array $attributes
      * @return string
      */
     public function script($collection, array $filters = [], array $attributes = [])
@@ -386,8 +386,8 @@ class Asset
      * Return the style tag for a collection.
      *
      * @param         $collection
-     * @param  array  $filters
-     * @param  array  $attributes
+     * @param  array $filters
+     * @param  array $attributes
      * @return string
      */
     public function style($collection, array $filters = [], array $attributes = [])
@@ -481,7 +481,7 @@ class Asset
      * @param        $collection
      * @param  array $filters
      * @param  array $attributes
-     * @param null   $secure
+     * @param null $secure
      * @return array
      */
     public function urls($collection, array $filters = [], array $attributes = [], $secure = null)
@@ -491,6 +491,38 @@ class Asset
                 return $this->url($path, [], $attributes, $secure);
             },
             $this->paths($collection, $filters)
+        );
+    }
+
+    /**
+     * Return an array of inline assets from a collection.
+     *
+     * Instead of combining the collection contents into a single
+     * dump, returns an array of individual processed dumps instead.
+     *
+     * @param        $collection
+     * @param  array $additionalFilters
+     * @return array
+     */
+    public function inlines($collection, array $additionalFilters = [])
+    {
+        if (!isset($this->collections[$collection])) {
+            return [];
+        }
+
+        return array_filter(
+            array_map(
+                function ($file, $filters) use ($additionalFilters) {
+
+                    $filters = array_filter(array_unique(array_merge($filters, $additionalFilters, ['noversion'])));
+
+                    return file_get_contents(
+                        $this->paths->realPath('public::' . ltrim($this->path($file, $filters), '/\\'))
+                    );
+                },
+                array_keys($this->collections[$collection]),
+                array_values($this->collections[$collection])
+            )
         );
     }
 
@@ -596,7 +628,7 @@ class Asset
          * issue with filter ordering in Assetic.
          */
         if (in_array('min', $filters) && $hint == 'js') {
-            $contents = \JSMin::minify($contents);
+            $contents = preg_replace("/\;{2,}/", ';', \JSMin::minify($contents));
         }
 
         /**
@@ -736,7 +768,7 @@ class Asset
      * Create asset collection from collection array
      *
      * @param                  $collection
-     * @param  array           $additionalFilters
+     * @param  array $additionalFilters
      * @return AssetCollection
      */
     private function getAssetCollection($collection, $additionalFilters = [])
