@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Entry\Command\GetEntryCriteria;
+use Anomaly\Streams\Platform\Image\Command\MakeImageInstance;
 use Anomaly\Streams\Platform\Image\Command\MakeImagePath;
 use Anomaly\Streams\Platform\Image\Command\MakeImageTag;
 use Anomaly\Streams\Platform\Image\Command\MakeImageUrl;
@@ -183,23 +184,23 @@ class StreamsPlugin extends Plugin
     /**
      * Create a new AgentPlugin instance.
      *
-     * @param UrlGenerator     $url
-     * @param Str              $str
-     * @param Guard            $auth
-     * @param Yaml             $yaml
-     * @param Agent            $agent
-     * @param Asset            $asset
-     * @param Image            $image
-     * @param Router           $router
-     * @param FormBuilder      $form
-     * @param HtmlBuilder      $html
-     * @param CacheRepository  $cache
+     * @param UrlGenerator $url
+     * @param Str $str
+     * @param Guard $auth
+     * @param Yaml $yaml
+     * @param Agent $agent
+     * @param Asset $asset
+     * @param Image $image
+     * @param Router $router
+     * @param FormBuilder $form
+     * @param HtmlBuilder $html
+     * @param CacheRepository $cache
      * @param ConfigRepository $config
-     * @param Request          $request
-     * @param Store            $session
-     * @param Currency         $currency
-     * @param Template         $template
-     * @param Translator       $translator
+     * @param Request $request
+     * @param Store $session
+     * @param Currency $currency
+     * @param Template $template
+     * @param Translator $translator
      */
     public function __construct(
         UrlGenerator $url,
@@ -290,21 +291,28 @@ class StreamsPlugin extends Plugin
                 }
             ),
             new \Twig_SimpleFunction(
-                'image_path',
-                function ($image) {
-                    return $this->dispatch(new MakeImagePath($image));
-                }
-            ),
-            new \Twig_SimpleFunction(
-                'image_url',
-                function ($image) {
-                    return $this->dispatch(new MakeImageUrl($image));
-                }
+                'image_*',
+                function ($name) {
+
+                    /**
+                     * @deprecated Use img().*
+                     */
+                    $image = current(array_slice(func_get_args(), 1));
+
+                    return $this->dispatch(new MakeImageInstance($image, $name));
+                },
+                [
+                    'is_safe' => ['html'],
+                ]
             ),
             new \Twig_SimpleFunction(
                 'image',
                 function ($image) {
-                    return $this->dispatch(new MakeImageTag($image));
+
+                    /**
+                     * @deprecated Use img()
+                     */
+                    return $this->dispatch(new MakeImageInstance($image, 'img'));
                 },
                 [
                     'is_safe' => ['html'],
@@ -313,7 +321,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'img',
                 function ($image) {
-                    return $this->dispatch(new MakeImageTag($image));
+                    return $this->dispatch(new MakeImageInstance($image, 'img'));
                 },
                 [
                     'is_safe' => ['html'],
@@ -646,9 +654,9 @@ class StreamsPlugin extends Plugin
     /**
      * Return a URL.
      *
-     * @param  null  $path
+     * @param  null $path
      * @param  array $parameters
-     * @param  null  $secure
+     * @param  null $secure
      * @return string
      */
     public function url($path = null, $parameters = [], $secure = null)

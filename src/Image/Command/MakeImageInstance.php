@@ -3,13 +3,13 @@
 use Anomaly\Streams\Platform\Image\Image;
 
 /**
- * Class MakeImageUrl
+ * Class MakeImageInstance
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class MakeImageUrl
+class MakeImageInstance
 {
 
     /**
@@ -20,23 +20,31 @@ class MakeImageUrl
     protected $image;
 
     /**
-     * Create a new MakeImageUrl instance.
+     * The output method.
+     *
+     * @var string
+     */
+    protected $output;
+
+    /**
+     * Create a new MakeImageInstance instance.
      *
      * @param $image
      */
-    public function __construct($image)
+    public function __construct($image, $output = 'img')
     {
-        $this->image = $image;
+        $this->image  = $image;
+        $this->output = $output;
     }
 
     /**
      * Handle the command.
      *
      * @param  Image $image
-     * @return $this
+     * @return Image
      */
     public function handle(Image $image)
     {
-        return $image->make($this->image)->setOutput('url');
+        return $image->make($this->image)->setOutput($this->output);
     }
 }
