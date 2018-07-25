@@ -298,7 +298,7 @@ class Asset
             $this->files->put($path, file_get_contents($url));
         }
 
-        return $path;
+        return 'public::' . ltrim(str_replace(public_path(), '', $path), '/\\');
     }
 
     /**
@@ -488,7 +488,7 @@ class Asset
     {
         return array_map(
             function ($path) use ($attributes, $secure) {
-                return $this->url($path, [], $attributes, $secure);
+                return $this->url->to($path, $attributes, $secure);
             },
             $this->paths($collection, $filters)
         );
@@ -561,6 +561,7 @@ class Asset
      * is primarily used to determine paths
      * to single assets.
      *
+     * @deprecated Deprecated in 1.4 - remove in 1.5+
      * @param $collection
      * @return string
      */
@@ -771,7 +772,7 @@ class Asset
      * @param  array $additionalFilters
      * @return AssetCollection
      */
-    private function getAssetCollection($collection, $additionalFilters = [])
+    protected function getAssetCollection($collection, $additionalFilters = [])
     {
         $assets = new AssetCollection();
 
@@ -839,7 +840,7 @@ class Asset
      * @param $asset
      * @return $this
      */
-    public function addLoaded($name, $asset)
+    protected function addLoaded($name, $asset)
     {
         $this->loaded[strtolower($name)] = $asset;
 
@@ -852,7 +853,7 @@ class Asset
      * @param array $names
      * @return $this
      */
-    public function removeLoaded(array $names)
+    protected function removeLoaded(array $names)
     {
         foreach ($names as $name) {
 
@@ -873,7 +874,7 @@ class Asset
      * @param $name
      * @return bool
      */
-    public function isLoaded($name)
+    protected function isLoaded($name)
     {
         return isset($this->loaded[strtolower($name)]);
     }
@@ -883,18 +884,20 @@ class Asset
      *
      * @return array
      */
-    public function getLoaded()
+    protected function getLoaded()
     {
         return $this->loaded;
     }
 
     /**
-     * Return nothing.
+     * Return the real path
+     * for a prefixed one.
      *
+     * @param $path
      * @return string
      */
-    public function __toString()
+    public function realPath($path)
     {
-        return '';
+        return $this->paths->realPath($path);
     }
 }
