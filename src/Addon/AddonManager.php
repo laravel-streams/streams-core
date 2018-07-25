@@ -75,12 +75,12 @@ class AddonManager
     /**
      * Create a new AddonManager instance.
      *
-     * @param AddonPaths      $paths
-     * @param AddonLoader     $loader
-     * @param ModuleModel     $modules
-     * @param Container       $container
-     * @param Dispatcher      $dispatcher
-     * @param ExtensionModel  $extensions
+     * @param AddonPaths $paths
+     * @param AddonLoader $loader
+     * @param ModuleModel $modules
+     * @param Container $container
+     * @param Dispatcher $dispatcher
+     * @param ExtensionModel $extensions
      * @param AddonIntegrator $integrator
      * @param AddonCollection $addons
      */
@@ -229,7 +229,22 @@ class AddonManager
             }
         );
 
-        return array_merge($modules, $extensions);
+        $enabled = array_merge($modules, $extensions);
+
+        /**
+         * If we're testing then make the
+         * test module enabled as well.
+         */
+        if (env('APP_ENV') === 'testing') {
+            $enabled = array_merge(
+                $enabled,
+                [
+                    'anomaly.module.test',
+                ]
+            );
+        }
+
+        return $enabled;
     }
 
     /**
@@ -259,7 +274,22 @@ class AddonManager
             }
         );
 
-        return array_merge($modules, $extensions);
+        $installed = array_merge($modules, $extensions);
+
+        /**
+         * If we're testing then make the
+         * test module installed as well.
+         */
+        if (env('APP_ENV') === 'testing') {
+            $installed = array_merge(
+                $installed,
+                [
+                    'anomaly.module.test',
+                ]
+            );
+        }
+
+        return $installed;
     }
 
     /**
