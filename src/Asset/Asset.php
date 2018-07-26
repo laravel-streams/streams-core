@@ -840,7 +840,7 @@ class Asset
      * @param $asset
      * @return $this
      */
-    protected function addLoaded($name, $asset)
+    public function addLoaded($name, $asset)
     {
         $this->loaded[strtolower($name)] = $asset;
 
@@ -853,7 +853,7 @@ class Asset
      * @param array $names
      * @return $this
      */
-    protected function removeLoaded(array $names)
+    public function removeLoaded(array $names)
     {
         foreach ($names as $name) {
 
@@ -874,7 +874,7 @@ class Asset
      * @param $name
      * @return bool
      */
-    protected function isLoaded($name)
+    public function isLoaded($name)
     {
         return isset($this->loaded[strtolower($name)]);
     }
@@ -884,7 +884,7 @@ class Asset
      *
      * @return array
      */
-    protected function getLoaded()
+    public function getLoaded()
     {
         return $this->loaded;
     }
@@ -900,4 +900,16 @@ class Asset
     {
         return $this->paths->realPath($path);
     }
+
+    /**
+     * Necessary for plugin methods.
+     *
+     * @return string
+     */
+    function __toString()
+    {
+        return '';
+    }
+
+
 }
