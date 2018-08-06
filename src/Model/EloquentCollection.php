@@ -50,7 +50,7 @@ class EloquentCollection extends Collection
      * Pad to the specified size with a value.
      *
      * @param        $size
-     * @param  null $value
+     * @param  null  $value
      * @return $this
      */
     public function pad($size, $value = null)
@@ -109,7 +109,7 @@ class EloquentCollection extends Collection
      * Group an associative array by a field or using a callback.
      *
      * @param  callable|string $groupBy
-     * @param  bool $preserveKeys
+     * @param  bool            $preserveKeys
      * @return static
      */
     public function groupBy($groupBy, $preserveKeys = false)
@@ -172,6 +172,18 @@ class EloquentCollection extends Collection
     }
 
     /**
+     * Return all searchable entries.
+     *
+     * @todo: This is a fix for scout 5.0
+     *
+     * @return $this
+     */
+    public function shouldBeSearchable()
+    {
+        return $this;
+    }
+
+    /**
      * Map to get.
      *
      * @param $name
@@ -194,7 +206,7 @@ class EloquentCollection extends Collection
      * Map to get.
      *
      * @param string $method
-     * @param array $parameters
+     * @param array  $parameters
      */
     public function __call($method, $parameters)
     {
