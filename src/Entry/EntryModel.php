@@ -973,16 +973,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Return the searchable as string.
-     *
-     * @return string
-     */
-    public function searchableAs()
-    {
-        return $this->getBoundModelName();
-    }
-
-    /**
      * Override the __get method.
      *
      * @param  string $key
