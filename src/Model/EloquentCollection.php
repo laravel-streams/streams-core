@@ -172,18 +172,6 @@ class EloquentCollection extends Collection
     }
 
     /**
-     * Return all searchable entries.
-     *
-     * @todo: This is a fix for scout 5.0
-     *
-     * @return $this
-     */
-    public function shouldBeSearchable()
-    {
-        return $this;
-    }
-
-    /**
      * Map to get.
      *
      * @param $name
