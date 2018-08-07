@@ -170,6 +170,10 @@ trait Translatable
      */
     public function translations()
     {
+        if (!$this->getTranslationModelName()) {
+            return null;
+        }
+
         return $this->hasMany($this->getTranslationModelName(), $this->getRelationKey());
     }
 
