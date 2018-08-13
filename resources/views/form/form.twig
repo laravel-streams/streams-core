@@ -10,18 +10,16 @@
 
     <div class="container-fluid">
 
-        {{ form_open({
-            'class': 'form ' ~ form.options.class ,
-            'enctype': 'multipart/form-data',
-            'url': form.options.url ?: url_full(),
-        }) }}
+        {{ form.open({
+            'class': 'form ' ~ form.options.class,
+        })|raw }}
 
         {#{% include "streams::form/partials/controls" with {"position": "top"} %}#}
         {% include form.options.get('heading', "streams::form/partials/heading") %}
         {% include "streams::form/partials/layout" %}
         {% include "streams::form/partials/controls" %}
 
-        {{ form_close() }}
+        {{ form.close()|raw }}
 
     </div>
 

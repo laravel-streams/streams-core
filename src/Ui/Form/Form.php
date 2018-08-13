@@ -560,6 +560,23 @@ class Form implements PresentableInterface
     }
 
     /**
+     * Return if the form
+     * has a file input type.
+     *
+     * @return bool
+     */
+    public function hasFileInput()
+    {
+        return $this->fields->filter(
+            function ($field) {
+
+                /* @var FieldType $field */
+                return $field->getInputType() == 'file';
+            }
+        )->isNotEmpty();
+    }
+
+    /**
      * Set a field value.
      *
      * @param $field
