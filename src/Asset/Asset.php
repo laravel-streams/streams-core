@@ -610,9 +610,12 @@ class Asset
                     ->render($contents)
                     ->render();
             } catch (\Exception $e) {
-                if (env('APP_DEBUG')) {
+
+                if ($this->config->get('app.debug')) {
                     dd($e->getMessage());
                 }
+
+                \Log::error($e->getMessage());
             }
         }
 
