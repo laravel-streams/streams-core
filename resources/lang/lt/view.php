@@ -2,7 +2,7 @@
 
 return [
     'all' => 'Visi',
-    'trash' => 'Šiukšlės',
+    'trash' => 'Ištrinti',
     'newest' => 'Naujausias',
     'latest' => 'Paskutinis',
     'recently_created' => 'Paskutinis sukurtas',
