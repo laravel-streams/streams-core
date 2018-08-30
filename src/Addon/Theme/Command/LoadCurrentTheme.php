@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
+use Anomaly\Streams\Platform\View\ViewTemplate;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
@@ -22,14 +23,15 @@ class LoadCurrentTheme
     /**
      * Create a new LoadCurrentTheme instance.
      *
-     * @param Asset           $asset
-     * @param Image           $image
-     * @param Factory         $view
-     * @param Request         $request
-     * @param Repository      $config
+     * @param Asset $asset
+     * @param Image $image
+     * @param Factory $view
+     * @param Request $request
+     * @param Repository $config
      * @param ThemeCollection $themes
-     * @param Translator      $translator
-     * @param Application     $application
+     * @param Translator $translator
+     * @param ViewTemplate $template
+     * @param Application $application
      */
     public function handle(
         Asset $asset,
@@ -39,6 +41,7 @@ class LoadCurrentTheme
         Repository $config,
         ThemeCollection $themes,
         Translator $translator,
+        ViewTemplate $template,
         Application $application
     ) {
         $admin    = $themes->get($config->get('streams::themes.admin'));
@@ -72,6 +75,12 @@ class LoadCurrentTheme
 
             $asset->addPath('theme', $theme->getPath('resources'));
             $image->addPath('theme', $theme->getPath('resources'));
+
+            /**
+             * Add the theme to the view template
+             * so it can be easily accessed later.
+             */
+            $template->set('theme', $theme);
         }
     }
 }
