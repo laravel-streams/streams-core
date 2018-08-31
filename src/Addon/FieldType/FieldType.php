@@ -533,11 +533,11 @@ class FieldType extends Addon
     {
         $value = $this->getValue();
 
-        if ($value === null) {
+        if ($value == '') {
             return false;
         }
 
-        if (empty($value)) {
+        if ($value === null) {
             return false;
         }
 
