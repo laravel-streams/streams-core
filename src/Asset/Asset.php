@@ -278,7 +278,7 @@ class Asset
             !$this->collectionHasFilter($collection, 'ignore') &&
             !in_array('ignore', $filters)
         ) {
-            throw new \Exception("Asset [{$file}] does not exist!");
+            \Log::error("Asset [{$file}] requested by [{$collection}] does not exist!");
         }
     }
 
