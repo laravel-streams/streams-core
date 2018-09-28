@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Illuminate\Contracts\Config\Repository;
-use Illuminate\Contracts\Foundation\Application;
 
 return [
     'name'            => [
@@ -216,9 +215,8 @@ return [
     ],
     'maintenance'     => [
         'type'   => 'anomaly.field_type.boolean',
-        'value'  => function (Application $application) {
-            return $application->isDownForMaintenance();
-        },
+        'env'    => 'MAINTENANCE_MODE',
+        'bind'   => 'streams::maintenance.enabled',
         'config' => [
             'on_text'  => 'ON',
             'off_text' => 'OFF',
