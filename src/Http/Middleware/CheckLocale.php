@@ -47,6 +47,10 @@ class CheckLocale
          * absolutely nothing to do.
          */
         if (!defined('LOCALE')) {
+            if (1 === $this->config->get('streams::locales.default_redirect')) {
+                return redirect($this->config->get('streams::locales.default') . '/' . $request->route()->uri());
+            }
+
             return $next($request);
         }
 
@@ -57,6 +61,12 @@ class CheckLocale
          */
         if (!in_array(strtolower(LOCALE), $this->config->get('streams::locales.enabled'))) {
             abort(404);
+        }
+
+        if (2 === $this->config->get('streams::locales.default_redirect')
+            && LOCALE == $this->config->get('streams::locales.default')
+        ) {
+            return redirect($request->route()->uri());
         }
 
         return $next($request);
