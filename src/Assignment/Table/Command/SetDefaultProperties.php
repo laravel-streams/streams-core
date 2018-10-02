@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Assignment\Table\AssignmentTableBuilder;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Illuminate\Translation\Translator;
 
 /**
  * Class SetDefaultProperties
@@ -32,8 +33,10 @@ class SetDefaultProperties
 
     /**
      * Handle the command.
+     *
+     * @param Translator $translator
      */
-    public function handle()
+    public function handle(Translator $translator)
     {
         /* @var StreamInterface $stream */
         if (!$stream = $this->builder->getStream()) {
@@ -51,7 +54,17 @@ class SetDefaultProperties
             $this->builder->setOption('title', $stream->getName());
         }
 
-        if (!$this->builder->hasOption('description') && $stream->getDescription()) {
+        if (
+            !$this->builder->hasOption('description') &&
+            $stream->getDescription() &&
+            (
+                !str_is('*.*.*::*.*.*', $stream->getDescription()) ||
+                (
+                    $translator->has($stream->getDescription()) &&
+                    is_string($translator->get($stream->getDescription()))
+                )
+            )
+        ) {
             $this->builder->setOption('description', $stream->getDescription());
         }
     }
