@@ -30,4 +30,17 @@ class VersionRepository extends EloquentRepository implements VersionRepositoryI
         $this->model = $model;
     }
 
+    /**
+     * Delete all version history for a model.
+     *
+     * @param $name
+     * @return $this
+     */
+    public function deleteVersionHistory($name)
+    {
+        $this->model->where('versionable_type', $name)->delete();
+
+        return $this;
+    }
+
 }

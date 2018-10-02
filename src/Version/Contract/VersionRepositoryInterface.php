@@ -12,4 +12,11 @@ use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
 interface VersionRepositoryInterface extends EloquentRepositoryInterface
 {
 
+    /**
+     * Delete all version history for a model.
+     *
+     * @param $name
+     * @return $this
+     */
+    public function deleteVersionHistory($name);
 }
