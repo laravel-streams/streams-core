@@ -320,7 +320,11 @@ trait Translatable
             $translation->save();
         }
 
-        $this->finishSave([]);
+        /**
+         * This is all we need from
+         * the finishSave method.
+         */
+        $this->syncOriginal();
 
         return $saved;
     }
