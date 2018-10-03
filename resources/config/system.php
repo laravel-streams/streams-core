@@ -76,4 +76,20 @@ return [
     */
 
     'cache_enabled' => env('CACHE_ENABLED', env('APP_DEBUG', false) == false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | LOCKING ENABLED
+    |--------------------------------------------------------------------------
+    |
+    | Do you want to enable edit locks?
+    |
+    | Edit locks prevent multiple users from working on the same
+    | content at the same time by locking forms to other users.
+    |
+    |
+    */
+
+    'locking_enabled' => env('LOCKING_ENABLED', true),
+    
 ];

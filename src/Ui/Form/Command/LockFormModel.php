@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\UsersModule\User\Contract\UserInterface;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
 use Illuminate\Session\Store;
 
@@ -41,18 +42,27 @@ class LockFormModel
      * Handle the command.
      *
      * @param LockRepositoryInterface $locks
-     * @param MessageBag              $messages
-     * @param Request                 $request
-     * @param Store                   $session
-     * @param Guard                   $auth
+     * @param MessageBag $messages
+     * @param Repository $config
+     * @param Request $request
+     * @param Store $session
+     * @param Guard $auth
      */
     public function handle(
         LockRepositoryInterface $locks,
         MessageBag $messages,
+        Repository $config,
         Request $request,
         Store $session,
         Guard $auth
     ) {
+
+        /**
+         * If locking is disabled then skip it!
+         */
+        if ($config->get('streams::system.locking_enabled', true) == false) {
+            return;
+        }
 
         /**
          * If the form does not have a
@@ -93,7 +103,7 @@ class LockFormModel
         if (!$lock = $locks->findByLockable($entry)) {
             $lock = $locks->create(
                 [
-                    'locked_by_id' => $user->getId(),
+                    'locked_by_id'  => $user->getId(),
                     'lockable_id'   => $entry->getId(),
                     'lockable_type' => get_class($entry),
                     'session_id'    => $session->getId(),
