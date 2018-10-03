@@ -319,8 +319,8 @@ trait Translatable
 
             $translation->save();
         }
-        
-        $this->finishSave(['touch' => false]);
+
+        $this->finishSave(['version' => false]);
 
         return $saved;
     }

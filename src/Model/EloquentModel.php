@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Model\Traits\Translatable;
+use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Collection;
@@ -454,6 +455,21 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
         }
 
         return $saved;
+    }
+
+    /**
+     * Perform any actions that are necessary after the model is saved.
+     *
+     * @param  array $options
+     * @return void
+     */
+    protected function finishSave(array $options)
+    {
+        if (($options['version'] ?? true) == false && $this instanceof Versionable) {
+            $this->disableVersioning();
+        }
+
+        parent::finishSave($options);
     }
 
     /**
