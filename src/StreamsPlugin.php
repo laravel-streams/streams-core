@@ -31,6 +31,7 @@ use Anomaly\Streams\Platform\Ui\Icon\Command\GetIcon;
 use Anomaly\Streams\Platform\View\Command\GetConstants;
 use Anomaly\Streams\Platform\View\Command\GetLayoutName;
 use Anomaly\Streams\Platform\View\Command\GetView;
+use Anomaly\Streams\Platform\View\Support\CompressHtmlTokenParser;
 use Carbon\Carbon;
 use Collective\Html\FormBuilder;
 use Collective\Html\HtmlBuilder;
@@ -637,6 +638,19 @@ class StreamsPlugin extends Plugin
             ),
         ];
     }
+
+    /**
+     * Get token parsers.
+     *
+     * @return array
+     */
+    public function getTokenParsers()
+    {
+        return [
+            new CompressHtmlTokenParser(),
+        ];
+    }
+
 
     /**
      * Returns a list of global variables
