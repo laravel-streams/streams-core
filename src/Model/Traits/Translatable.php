@@ -319,12 +319,8 @@ trait Translatable
 
             $translation->save();
         }
-
-        /**
-         * This is all we need from
-         * the finishSave method.
-         */
-        $this->syncOriginal();
+        
+        $this->finishSave(['touch' => false]);
 
         return $saved;
     }
