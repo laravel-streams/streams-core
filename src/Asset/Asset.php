@@ -499,6 +499,38 @@ class Asset
     }
 
     /**
+     * Return an array of inline assets from a collection.
+     *
+     * Instead of combining the collection contents into a single
+     * dump, returns an array of individual processed dumps instead.
+     *
+     * @param        $collection
+     * @param  array $additionalFilters
+     * @return array
+     */
+    public function inlines($collection, array $additionalFilters = [])
+    {
+        if (!isset($this->collections[$collection])) {
+            return [];
+        }
+
+        return array_filter(
+            array_map(
+                function ($file, $filters) use ($additionalFilters) {
+
+                    $filters = array_filter(array_unique(array_merge($filters, $additionalFilters, ['noversion'])));
+
+                    return file_get_contents(
+                        $this->paths->realPath('public::' . ltrim($this->path($file, $filters), '/\\'))
+                    );
+                },
+                array_keys($this->collections[$collection]),
+                array_values($this->collections[$collection])
+            )
+        );
+    }
+
+    /**
      * @param $collection
      * @param $filters
      * @return string
