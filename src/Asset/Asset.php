@@ -636,7 +636,7 @@ class Asset
          * issue with filter ordering in Assetic.
          */
         if (in_array('min', $filters) && $hint == 'js') {
-            $contents = preg_replace("/\;{2,}/", ';', \JSMin::minify($contents));
+            $contents = preg_replace("/\;{2,}$/", ';', \JSMin::minify($contents));
         }
 
         /**
