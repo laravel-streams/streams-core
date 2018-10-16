@@ -34,8 +34,8 @@ return [
         'type'   => 'anomaly.field_type.select',
         'config' => [
             'options' => [
-                'www'     => 'www.' . str_replace('www.', '', env('APPLICATION_DOMAIN')) . ' (www)',
-                'non-www' => str_replace('www.', '', env('APPLICATION_DOMAIN')) . ' (non-www)',
+                'www'     => 'www.domain.com',
+                'non-www' => 'domain.com',
             ],
         ],
     ],

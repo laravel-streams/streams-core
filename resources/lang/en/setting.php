@@ -17,8 +17,8 @@ return [
     ],
     'domain_prefix'   => [
         'label'        => 'Domain Prefix',
-        'instructions' => 'Do you want to force a standard domain prefix?',
-        'placeholder'  => 'Ignore',
+        'instructions' => 'Do you want to force a domain prefix?',
+        'placeholder'  => 'No-preference',
     ],
     'timezone'        => [
         'label'        => 'Timezone',
