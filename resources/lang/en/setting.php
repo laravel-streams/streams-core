@@ -11,6 +11,15 @@ return [
         'instructions' => 'What is the description or slogan of your application?',
         'placeholder'  => trans('distribution::addon.description'),
     ],
+    'force_ssl'       => [
+        'label'        => 'Force SSL',
+        'instructions' => 'Do you want to force SSL for all incoming connections?',
+    ],
+    'domain_prefix'   => [
+        'label'        => 'Domain Prefix',
+        'instructions' => 'Do you want to force a standard domain prefix?',
+        'placeholder'  => 'Ignore',
+    ],
     'timezone'        => [
         'label'        => 'Timezone',
         'instructions' => 'Specify the default timezone for your site.',

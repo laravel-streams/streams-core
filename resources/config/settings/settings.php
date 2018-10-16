@@ -23,6 +23,22 @@ return [
             },
         ],
     ],
+    'force_ssl'       => [
+        'env'  => 'FORCE_SSL',
+        'bind' => 'streams::system.force_ssl',
+        'type' => 'anomaly.field_type.boolean',
+    ],
+    'domain_prefix'   => [
+        'env'    => 'DOMAIN_PREFIX',
+        'bind'   => 'streams::system.domain_prefix',
+        'type'   => 'anomaly.field_type.select',
+        'config' => [
+            'options' => [
+                'www'     => 'www.' . str_replace('www.', '', env('APPLICATION_DOMAIN')) . ' (www)',
+                'non-www' => str_replace('www.', '', env('APPLICATION_DOMAIN')) . ' (non-www)',
+            ],
+        ],
+    ],
     'timezone'        => [
         'env'    => 'APP_TIMEZONE',
         'bind'   => 'app.timezone',

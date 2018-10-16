@@ -5,10 +5,12 @@ return [
         'stacked' => true,
         'tabs'    => [
             'details'      => [
-                'title'  => 'streams::label.details',
+                'title'  => 'streams::label.general',
                 'fields' => [
                     'name',
                     'description',
+                    'force_ssl',
+                    'domain_prefix',
                 ],
             ],
             'display'      => [

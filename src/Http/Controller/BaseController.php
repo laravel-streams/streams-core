@@ -4,8 +4,10 @@ use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Event\Response;
 use Anomaly\Streams\Platform\Http\Middleware\ApplicationReady;
 use Anomaly\Streams\Platform\Http\Middleware\CheckLocale;
+use Anomaly\Streams\Platform\Http\Middleware\ForceSsl;
 use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
 use Anomaly\Streams\Platform\Http\Middleware\PoweredBy;
+use Anomaly\Streams\Platform\Http\Middleware\PrefixDomain;
 use Anomaly\Streams\Platform\Http\Middleware\SetLocale;
 use Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken;
 use Anomaly\Streams\Platform\Message\MessageBag;
@@ -143,6 +145,9 @@ class BaseController extends Controller
 
         $this->middleware(VerifyCsrfToken::class);
         $this->middleware(PoweredBy::class);
+
+        $this->middleware(ForceSsl::class);
+        $this->middleware(PrefixDomain::class);
 
         $this->middleware(SetLocale::class);
         $this->middleware(CheckLocale::class);
