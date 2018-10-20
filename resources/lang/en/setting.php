@@ -11,6 +11,11 @@ return [
         'instructions' => 'What is the description or slogan of your application?',
         'placeholder'  => trans('distribution::addon.description'),
     ],
+    'domain'          => [
+        'label'        => 'Primary Domain',
+        'instructions' => 'What is the primary of your application?',
+        'placeholder'  => 'domain.com',
+    ],
     'force_ssl'       => [
         'label'        => 'Force SSL',
         'instructions' => 'Do you want to force SSL for all incoming connections?',

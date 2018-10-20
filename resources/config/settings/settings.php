@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Http\Request;
 
 return [
     'name'            => [
@@ -20,6 +21,17 @@ return [
         'config' => [
             'default_value' => function (Repository $config) {
                 return $config->get('streams::distribution.description');
+            },
+        ],
+    ],
+    'domain'          => [
+        'required' => true,
+        'env'      => 'APPLICATION_DOMAIN',
+        'bind'     => 'streams::system.domain',
+        'type'     => 'anomaly.field_type.url',
+        'config'   => [
+            'default_value' => function (Request $request) {
+                return $request->getHttpHost();
             },
         ],
     ],

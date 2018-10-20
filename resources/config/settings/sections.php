@@ -9,6 +9,7 @@ return [
                 'fields' => [
                     'name',
                     'description',
+                    'domain',
                     'force_ssl',
                     'domain_prefix',
                 ],

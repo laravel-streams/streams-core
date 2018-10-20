@@ -8,6 +8,7 @@ use Anomaly\Streams\Platform\Application\Command\ConfigureUriValidator;
 use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
 use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
 use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
+use Anomaly\Streams\Platform\Application\Command\SetApplicationDomain;
 use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
 use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
@@ -125,6 +126,7 @@ class StreamsServiceProvider extends ServiceProvider
     protected $singletons = [
         'Illuminate\Database\Migrations\Migrator'                                            => 'Anomaly\Streams\Platform\Database\Migration\Migrator',
         'Illuminate\Contracts\Routing\UrlGenerator'                                          => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
+        'Anomaly\Streams\Platform\Routing\UrlGenerator'                                      => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
         'Intervention\Image\ImageManager'                                                    => 'image',
         'League\Flysystem\MountManager'                                                      => 'League\Flysystem\MountManager',
         'Illuminate\Database\Seeder'                                                         => 'Anomaly\Streams\Platform\Database\Seeder\Seeder',
@@ -279,6 +281,7 @@ class StreamsServiceProvider extends ServiceProvider
 
                 $this->dispatch(new LoadCurrentTheme());
                 $this->dispatch(new AddViewNamespaces());
+                $this->dispatch(new SetApplicationDomain());
 
                 /*
                  * Do this after addons are registered
