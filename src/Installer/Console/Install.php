@@ -15,6 +15,7 @@ use Anomaly\Streams\Platform\Installer\Console\Command\LoadCoreInstallers;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadExtensionInstallers;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadExtensionSeeders;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadModuleInstallers;
+use Anomaly\Streams\Platform\Installer\Console\Command\LoadModuleListeners;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadModuleSeeders;
 use Anomaly\Streams\Platform\Installer\Console\Command\RunInstallers;
 use Anomaly\Streams\Platform\Installer\Console\Command\SetAdminData;
@@ -85,6 +86,8 @@ class Install extends Command
 
         $this->dispatch(new ConfigureDatabase());
         $this->dispatch(new SetDatabasePrefix());
+
+        $this->dispatch(new LoadModuleListeners());
 
         $installers = new InstallerCollection();
 
