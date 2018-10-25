@@ -23,16 +23,19 @@ class SetApplicationDomain
      */
     public function handle(UrlGenerator $url, Repository $config, Request $request)
     {
-        $force = $config->get('streams::system.force_url', false);
+        if (PHP_SAPI == 'cli') {
 
-        $protocol = 'http';
+            $force = $config->get('streams::system.force_url', false);
 
-        if ($request->isSecure() || $force) {
-            $protocol = 'https';
+            $protocol = 'http';
+
+            if ($request->isSecure() || $force) {
+                $protocol = 'https';
+            }
+
+            $config->set('app.url', $root = $protocol . '://' . $config->get('streams::system.domain'));
+
+            $url->forceRootUrl($root);
         }
-
-        $config->set('app.url', $root = $protocol . '://' . $config->get('streams::system.domain'));
-
-        $url->forceRootUrl($root);
     }
 }
