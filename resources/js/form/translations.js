@@ -38,6 +38,14 @@ let storageAvailable = function (type) {
     forms.forEach(function (form) {
 
         /**
+         * Grab ALL the actual language
+         * toggle's in our current form.
+         */
+        let toggles = Array.prototype.slice.call(
+            form.querySelectorAll('[data-toggle="lang"]')
+        );
+
+        /**
          * Handle clicking a locale toggle
          * in the locales dropdown menus.
          */
@@ -66,14 +74,6 @@ let storageAvailable = function (type) {
 
             // Replace menu text with selected locale.
             menus.map(menu => menu.innerHTML = event.target.innerHTML);
-
-            /**
-             * Grab ALL the actual language
-             * toggle's in our current form.
-             */
-            let toggles = Array.prototype.slice.call(
-                form.querySelectorAll('[data-toggle="lang"]')
-            );
 
             // Remove active classes from all toggles.
             toggles.map(toggle => toggle.classList.remove('active'));

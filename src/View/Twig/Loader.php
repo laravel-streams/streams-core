@@ -116,15 +116,15 @@ class Loader extends OriginalLoader
     /**
      * Loader constructor.
      *
-     * @param Filesystem $files
+     * @param Filesystem          $files
      * @param ViewFinderInterface $finder
-     * @param string $extension
-     * @param Factory $view
-     * @param Mobile_Detect $agent
-     * @param Dispatcher $events
-     * @param AddonCollection $addons
-     * @param ViewOverrides $overrides
-     * @param Request $request
+     * @param string              $extension
+     * @param Factory             $view
+     * @param Mobile_Detect       $agent
+     * @param Dispatcher          $events
+     * @param AddonCollection     $addons
+     * @param ViewOverrides       $overrides
+     * @param Request             $request
      * @param ViewMobileOverrides $mobiles
      */
     public function __construct(
@@ -160,12 +160,17 @@ class Loader extends OriginalLoader
     /**
      * Gets the path.
      *
-     * @param      string   $name   The name
+     * @param      string $name The name
      * @return     boolean  The path.
      */
     protected function getPath($name)
     {
-        $mobile = $this->mobiles->get($this->theme->getNamespace(), []);
+        $mobile = array_merge(
+            $this->mobiles->get($this->theme->getNamespace(), []),
+            $this->mobiles->get('*', []),
+            config('streams.mobile', [])
+        );
+
         $result = false;
 
         /**
@@ -174,6 +179,7 @@ class Loader extends OriginalLoader
          */
         $overrides = array_merge(
             $this->overrides->get($this->theme->getNamespace(), []),
+            $this->overrides->get('*', []),
             config('streams.overrides', [])
         );
 
@@ -208,7 +214,7 @@ class Loader extends OriginalLoader
     /**
      * Gets the overload path.
      *
-     * @param      string  $name   The name
+     * @param      string $name The name
      * @return     string  The overload path.
      */
     protected function getOverloadPath($name)

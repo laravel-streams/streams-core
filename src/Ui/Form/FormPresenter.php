@@ -62,6 +62,12 @@ class FormPresenter extends Presenter
     {
         if ($url = $this->object->getOption('url')) {
             $options['url'] = $url;
+        } else {
+            $options['url'] = request()->fullUrl();
+        }
+
+        if ($this->object->hasFileInput()) {
+            $options['enctype'] = 'multipart/form-data';
         }
 
         return $this->html->open($options);

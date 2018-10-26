@@ -23,6 +23,14 @@ trait Versionable
     protected $versionable = false;
 
     /**
+     * A flag to allow forcing the
+     * creating of a new version.
+     *
+     * @var bool
+     */
+    protected $pushVersion = false;
+
+    /**
      * The versioning-disabled flag.
      *
      * @var bool
@@ -72,7 +80,25 @@ trait Versionable
             return true;
         }
 
+        if ($this->pushVersion) {
+            return true;
+        }
+
         return (count($this->versionedAttributeChanges()) > 0);
+    }
+
+    /**
+     * Push the version or no?
+     * Pushing == Force
+     *
+     * @param bool $push
+     * @return $this
+     */
+    public function pushVersion($push = true)
+    {
+        $this->pushVersion = $push;
+
+        return $this;
     }
 
     /**

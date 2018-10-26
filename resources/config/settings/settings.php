@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Illuminate\Contracts\Config\Repository;
-use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\Request;
 
 return [
     'name'            => [
@@ -22,6 +22,33 @@ return [
             'default_value' => function (Repository $config) {
                 return $config->get('streams::distribution.description');
             },
+        ],
+    ],
+    'domain'          => [
+        'required' => true,
+        'env'      => 'APPLICATION_DOMAIN',
+        'bind'     => 'streams::system.domain',
+        'type'     => 'anomaly.field_type.url',
+        'config'   => [
+            'default_value' => function (Request $request) {
+                return $request->getHttpHost();
+            },
+        ],
+    ],
+    'force_ssl'       => [
+        'env'  => 'FORCE_SSL',
+        'bind' => 'streams::system.force_ssl',
+        'type' => 'anomaly.field_type.boolean',
+    ],
+    'domain_prefix'   => [
+        'env'    => 'DOMAIN_PREFIX',
+        'bind'   => 'streams::system.domain_prefix',
+        'type'   => 'anomaly.field_type.select',
+        'config' => [
+            'options' => [
+                'www'     => 'www.domain.com',
+                'non-www' => 'domain.com',
+            ],
         ],
     ],
     'timezone'        => [
@@ -219,9 +246,8 @@ return [
     ],
     'maintenance'     => [
         'type'   => 'anomaly.field_type.boolean',
-        'value'  => function (Application $application) {
-            return $application->isDownForMaintenance();
-        },
+        'env'    => 'MAINTENANCE_MODE',
+        'bind'   => 'streams::maintenance.enabled',
         'config' => [
             'on_text'  => 'ON',
             'off_text' => 'OFF',

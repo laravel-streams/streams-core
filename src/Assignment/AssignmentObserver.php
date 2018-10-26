@@ -14,6 +14,13 @@ use Anomaly\Streams\Platform\Assignment\Command\UpdateAssignmentColumn;
 use Anomaly\Streams\Platform\Assignment\Command\DeleteAssignmentTranslations;
 use Anomaly\Streams\Platform\Support\Observer;
 
+/**
+ * Class AssignmentObserver
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class AssignmentObserver extends Observer
 {
 

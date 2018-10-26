@@ -10,8 +10,7 @@ use Illuminate\Filesystem\Filesystem;
 class LoaderTest extends TestCase
 {
 
-    /** @test */
-    public function canLoadAddonsWithOverrides()
+    public function testCanLoadAddonsWithOverrides()
     {
 
         /** @var Filesystem $files */

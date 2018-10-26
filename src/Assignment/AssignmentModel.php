@@ -284,6 +284,18 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
     }
 
     /**
+     * Get a fresh stream.
+     *
+     * @return StreamInterface
+     */
+    public function getFreshStream()
+    {
+        return $this
+            ->stream()
+            ->getResults();
+    }
+
+    /**
      * Get the related stream's slug.
      *
      * @return string
@@ -450,7 +462,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
      */
     public function compileStream()
     {
-        if ($stream = $this->getStream()) {
+        if ($stream = $this->getFreshStream()) {
             $stream->compile();
         }
 

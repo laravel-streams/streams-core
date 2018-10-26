@@ -1,5 +1,25 @@
 <?php namespace Anomaly\Streams\Platform;
 
+use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
+use Anomaly\Streams\Platform\Addon\Module\Listener\DetectActiveModule;
+use Anomaly\Streams\Platform\Application\Event\ApplicationHasLoaded;
+use Anomaly\Streams\Platform\Asset\Listener\AddAddonPaths as AddAddonAssetPaths;
+use Anomaly\Streams\Platform\Image\Listener\AddAddonPaths as AddAddonImagePaths;
+use Anomaly\Streams\Platform\Message\Listener\LoadMessageBag;
+use Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted;
+use Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\GuessBreadcrumbs;
+use Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\LoadBreadcrumbs;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Listener\LoadControlPanel;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener\FilterResults;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Listener\ApplyView;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
+use Anomaly\Streams\Platform\Version\Listener\DeleteModuleVersions;
+use Anomaly\Streams\Platform\Version\Listener\DeleteVersionableHistory;
+use Anomaly\Streams\Platform\View\Event\TemplateDataIsLoading;
+use Anomaly\Streams\Platform\View\Event\ViewComposed;
+use Anomaly\Streams\Platform\View\Listener\DecorateData;
+use Anomaly\Streams\Platform\View\Listener\LoadGlobalData;
+use Anomaly\Streams\Platform\View\Listener\LoadTemplateData;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 
 /**
@@ -18,30 +38,30 @@ class StreamsEventProvider extends EventServiceProvider
      * @var array
      */
     protected $listen = [
-        'Anomaly\Streams\Platform\Application\Event\ApplicationHasLoaded' => [
-            'Anomaly\Streams\Platform\Addon\Module\Listener\DetectActiveModule',
-            'Anomaly\Streams\Platform\Ui\ControlPanel\Listener\LoadControlPanel',
-            'Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\GuessBreadcrumbs',
-            'Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\LoadBreadcrumbs',
-            'Anomaly\Streams\Platform\Message\Listener\LoadMessageBag',
+        ApplicationHasLoaded::class  => [
+            DetectActiveModule::class,
+            LoadControlPanel::class,
+            GuessBreadcrumbs::class,
+            LoadBreadcrumbs::class,
+            LoadMessageBag::class,
         ],
-        'Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered'       => [
-            'Anomaly\Streams\Platform\Asset\Listener\AddAddonPaths',
-            'Anomaly\Streams\Platform\Image\Listener\AddAddonPaths',
+        AddonsHaveRegistered::class  => [
+            AddAddonAssetPaths::class,
+            AddAddonImagePaths::class,
         ],
-        'Anomaly\Streams\Platform\View\Event\ViewComposed'                => [
-            'Anomaly\Streams\Platform\View\Listener\DecorateData',
-            'Anomaly\Streams\Platform\View\Listener\LoadTemplateData',
+        ViewComposed::class          => [
+            DecorateData::class,
+            LoadTemplateData::class,
         ],
-        'Anomaly\Streams\Platform\View\Event\TemplateDataIsLoading'       => [
-            'Anomaly\Streams\Platform\View\Listener\LoadGlobalData',
+        TemplateDataIsLoading::class => [
+            LoadGlobalData::class,
         ],
-        'Anomaly\Streams\Platform\Addon\Plugin\Event\PluginWasRegistered' => [
-            'Anomaly\Streams\Platform\Addon\Plugin\Listener\AddPluginToTwig',
+        TableIsQuerying::class       => [
+            ApplyView::class,
+            FilterResults::class,
         ],
-        'Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying'         => [
-            'Anomaly\Streams\Platform\Ui\Table\Component\View\Listener\ApplyView',
-            'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener\FilterResults',
+        StreamWasDeleted::class      => [
+            DeleteVersionableHistory::class,
         ],
     ];
 
