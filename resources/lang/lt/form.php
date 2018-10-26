@@ -3,6 +3,6 @@
 return [
     'mode' => [
         'create' => 'Sukurti',
-        'edit' => 'Redaguoti',
+        'edit'   => 'Redaguoti',
     ],
 ];

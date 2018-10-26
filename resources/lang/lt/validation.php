@@ -99,7 +99,7 @@ return [
     |
     */
 
-    'custom'               => [
+    'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
@@ -116,8 +116,7 @@ return [
     |
     */
 
-    'attributes'           => [
-        //
+    'attributes' => [//
     ],
 
     'recaptcha' => ':attribute laukas netaisingas.',

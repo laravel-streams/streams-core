@@ -2,5 +2,5 @@
 
 return [
     'yes' => 'Taip',
-    'no' => 'Ne',
+    'no'  => 'Ne',
 ];
