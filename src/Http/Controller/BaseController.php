@@ -157,4 +157,24 @@ class BaseController extends Controller
             $this->middleware($middleware);
         }
     }
+
+    /**
+     * Disable a middleware.
+     *
+     * @param $middleware
+     * @return $this
+     */
+    protected function disableMiddleware($middleware)
+    {
+        foreach ($this->middleware as $key => $item) {
+            if ($item['middleware'] == $middleware) {
+
+                unset($this->middleware[$key]);
+
+                return $this;
+            }
+        }
+
+        return $this;
+    }
 }
