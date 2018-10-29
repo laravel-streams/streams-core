@@ -53,11 +53,12 @@ class Locator
             return null;
         }
 
+        /* @var Hookable $object */
         if (
             in_array(Hookable::class, class_uses_recursive($object)) &&
-            $namespace = $object->call('__locate')
+            $object->hasHook('__locate')
         ) {
-            return $namespace;
+            return $object->call('__locate');
         }
 
         $class = explode('\\', get_class($object));
