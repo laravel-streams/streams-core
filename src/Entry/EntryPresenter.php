@@ -108,6 +108,7 @@ class EntryPresenter extends EloquentPresenter
     /**
      * Return the edit URL.
      *
+     * @deprecated will remove in 1.5. Use route() instead.
      * @return string
      */
     public function editUrl()
@@ -133,6 +134,7 @@ class EntryPresenter extends EloquentPresenter
     /**
      * Return the edit link.
      *
+     * @deprecated will remove in 1.5. Use route() instead.
      * @return string
      */
     public function editLink()
@@ -143,6 +145,7 @@ class EntryPresenter extends EloquentPresenter
     /**
      * Return the view URL.
      *
+     * @deprecated will remove in 1.5. Use route() instead.
      * @return string
      */
     public function viewUrl()
@@ -168,6 +171,7 @@ class EntryPresenter extends EloquentPresenter
     /**
      * Return the view link.
      *
+     * @deprecated will remove in 1.5. Use route() instead.
      * @return string
      */
     public function viewLink()
