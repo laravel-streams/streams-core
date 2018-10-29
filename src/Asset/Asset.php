@@ -315,7 +315,7 @@ class Asset
     public function inline($collection, array $filters = [])
     {
         return file_get_contents(
-            $this->paths->realPath('public::' . ltrim($this->path($collection, $filters), '/\\'))
+            $this->paths->realPath('public::' . ltrim($this->path($collection, $filters, false), '/\\'))
         );
     }
 
@@ -522,7 +522,7 @@ class Asset
                     $filters = array_filter(array_unique(array_merge($filters, $additionalFilters, ['noversion'])));
 
                     return file_get_contents(
-                        $this->paths->realPath('public::' . ltrim($this->path($file, $filters), '/\\'))
+                        $this->paths->realPath('public::' . ltrim($this->path($file, $filters, false), '/\\'))
                     );
                 },
                 array_keys($this->collections[$collection]),
