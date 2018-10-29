@@ -239,7 +239,7 @@ class EloquentQueryBuilder extends Builder
                      *
                      * Sorry!
                      */
-                    if (env('DB_CONNECTION', 'mysql') == 'pgsql') {
+                    if (in_array(env('DB_CONNECTION', 'mysql'), ['sqlsrv', 'pgsql'])) {
                         return;
                     }
 
