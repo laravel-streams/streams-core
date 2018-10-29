@@ -344,15 +344,16 @@ class Asset
      *
      * @param         $collection
      * @param  array  $filters
+     * @param  bool   $webPath
      * @return string
      */
-    public function path($collection, array $filters = [])
+    public function path($collection, array $filters = [], $webPath = true)
     {
         if (!isset($this->collections[$collection])) {
             $this->add($collection, $collection, $filters, true);
         }
 
-        return $this->request->getBasePath() . $this->getPath($collection, $filters);
+        return ($webPath ? $this->request->getBasePath() : '') . $this->getPath($collection, $filters);
     }
 
     /**
