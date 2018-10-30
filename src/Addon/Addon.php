@@ -55,6 +55,27 @@ class Addon implements PresentableInterface, Arrayable
     protected $slug = null;
 
     /**
+     * Get the name.
+     *
+     * @var null|string
+     */
+    protected $name = null;
+
+    /**
+     * Get the title.
+     *
+     * @var null|string
+     */
+    protected $title = null;
+
+    /**
+     * Get the title.
+     *
+     * @var null|string
+     */
+    protected $description = null;
+
+    /**
      * The sub-addons to load.
      *
      * @var array
@@ -142,13 +163,39 @@ class Addon implements PresentableInterface, Arrayable
     }
 
     /**
+     * Set the name.
+     *
+     * @param $name
+     * @return $this
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
      * Get the addon name string.
      *
      * @return string
      */
     public function getName()
     {
-        return $this->getNamespace('addon.name');
+        return $this->name ?: $this->getNamespace('addon.name');
+    }
+
+    /**
+     * Set the title.
+     *
+     * @param $title
+     * @return $this
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
     }
 
     /**
@@ -158,7 +205,22 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function getTitle()
     {
-        return trans()->has($this->getNamespace('addon.title')) ? $this->getNamespace('addon.title') : $this->getName();
+        return $this->title ?: (trans()->has($this->getNamespace('addon.title')) ? $this->getNamespace(
+            'addon.title'
+        ) : $this->getName());
+    }
+
+    /**
+     * Set the description.
+     *
+     * @param $description
+     * @return $this
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
     }
 
     /**
@@ -168,7 +230,7 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function getDescription()
     {
-        return $this->getNamespace('addon.description');
+        return $this->description ?: $this->getNamespace('addon.description');
     }
 
     /**

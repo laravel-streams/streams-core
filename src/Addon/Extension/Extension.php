@@ -41,6 +41,19 @@ class Extension extends Addon
     protected $active = false;
 
     /**
+     * Set the provides string.
+     *
+     * @param $provides
+     * @return $this
+     */
+    public function setProvides($provides)
+    {
+        $this->provides = $provides;
+
+        return $this;
+    }
+
+    /**
      * Get the provides string.
      *
      * @return null|string
