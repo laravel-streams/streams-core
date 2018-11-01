@@ -194,7 +194,7 @@ class EntryTranslationsModel extends EloquentModel
     {
         $value = parent::__get($key);
 
-        if (!$value && $parent = $this->getParent()) {
+        if (!isset($value) && $parent = $this->getParent()) {
             return $parent->{$key};
         }
 
