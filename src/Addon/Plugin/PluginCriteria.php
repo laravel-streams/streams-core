@@ -97,7 +97,7 @@ class PluginCriteria
      * Return an option value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function option($key, $default = null)
@@ -197,7 +197,9 @@ class PluginCriteria
         $key = array_get(
             $this->options,
             'cache.key',
-            $this->getCachePrefix() . '.' . md5(json_encode($this->collection))
+            $this->getCachePrefix() . '.'
+            . md5(json_encode($this->collection)) . '.'
+            . md5(json_encode($this->options))
         );
 
         $namespace = array_get($this->options, 'cache.namespace');
@@ -220,8 +222,9 @@ class PluginCriteria
      */
     public function getCachePrefix()
     {
-        if ($model = $this->getModel())
-        return $this->cachePrefix;
+        if ($model = $this->getModel()) {
+            return $this->cachePrefix;
+        }
     }
 
     /**
