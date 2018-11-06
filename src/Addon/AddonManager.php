@@ -172,6 +172,10 @@ class AddonManager
                 in_array($namespace, $installed)
             );
 
+            if (!$addon) {
+                throw new \Exception("Addon path not found [{$path}]. Check [resources/streams/config/addons.php]");
+            }
+
             foreach ($addon->getAddons() as $class) {
 
                 $namespace = $this->getAddonNamespace(
