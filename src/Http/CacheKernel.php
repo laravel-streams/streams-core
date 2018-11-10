@@ -42,13 +42,21 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
         $options = []
     ) {
 
+        /**
+         * Do not even use the CacheKernel if
+         * any of the following criteria is met.
+         */
         if (
-            strtoupper($_SERVER['REQUEST_METHOD']) == 'POST' ||
-            in_array($_SERVER['REQUEST_URI'], self::$exclude)
+            strtoupper($_SERVER['REQUEST_METHOD']) !== 'GET' ||
+            in_array($_SERVER['REQUEST_URI'], self::$exclude) ||
+            starts_with($_SERVER['REQUEST_URI'], '/admin/')
         ) {
             return $kernel;
         }
 
+        /**
+         * Start setting up the HttpCache kernel.
+         */
         $storagePath = $storagePath ?: storage_path('httpcache');
 
         $store = new Store($storagePath);
