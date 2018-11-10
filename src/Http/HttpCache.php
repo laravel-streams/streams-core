@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Http;
 
+use Anomaly\Streams\Platform\Http\Command\PurgeCache;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+
 /**
  * Class HttpCache
  *
@@ -9,6 +12,8 @@
  */
 class HttpCache extends \Symfony\Component\HttpKernel\HttpCache\HttpCache
 {
+
+    use DispatchesJobs;
 
     /**
      * Purge a path from cache.
@@ -20,5 +25,19 @@ class HttpCache extends \Symfony\Component\HttpKernel\HttpCache\HttpCache
         $this
             ->getStore()
             ->purge($path);
+
+        foreach (config('streams::locales.enabled') as $locale) {
+            $this
+                ->getStore()
+                ->purge("/{$locale}" . $path);
+        }
+    }
+
+    /**
+     * Clear httpcache cache.
+     */
+    public function clear()
+    {
+        $this->dispatch(new PurgeCache());
     }
 }

@@ -26,7 +26,17 @@ class Store extends \Symfony\Component\HttpKernel\HttpCache\Store
      */
     protected function generateCacheKey(Request $request)
     {
-        return 'md' . hash('sha256', $request->getPathInfo());
+
+        /**
+         * Since we don't cache the CP we know request:create
+         * will not start with them and thus safely safely
+         * let purging of localized paths occur manually.
+         */
+        $uri = !starts_with($_SERVER['REQUEST_URI'], '/admin') ?
+            $_SERVER['ORIGINAL_REQUEST_URI'] :
+            $request->getPathInfo();
+
+        return 'md' . hash('sha256', $uri);
     }
 
 }

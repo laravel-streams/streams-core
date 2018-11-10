@@ -22,6 +22,8 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
         '/admin',
         '/admin/login',
         '/admin/logout',
+        '/locks/release',
+        '/locks/touch',
         '/logout',
         '/login',
     ];
