@@ -6,6 +6,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Route;
+use Illuminate\Session\Store;
 
 /**
  * Class HttpCache
@@ -25,6 +26,13 @@ class HttpCache
     protected $config;
 
     /**
+     * The session store.
+     *
+     * @var Store
+     */
+    protected $session;
+
+    /**
      * The message bag.
      *
      * @var MessageBag
@@ -34,12 +42,14 @@ class HttpCache
     /**
      * Create a new PoweredBy instance.
      *
+     * @param Store $session
      * @param Repository $config
      * @param MessageBag $messages
      */
-    public function __construct(Repository $config, MessageBag $messages)
+    public function __construct(Store $session, Repository $config, MessageBag $messages)
     {
         $this->config   = $config;
+        $this->session  = $session;
         $this->messages = $messages;
     }
 
@@ -62,7 +72,7 @@ class HttpCache
          * Don't cache the admin.
          */
         if ($request->segment(1) == 'admin') {
-            return $response;
+            return $response->setTtl(0);
         }
 
         /**
@@ -70,7 +80,7 @@ class HttpCache
          * is disabled in the route.
          */
         if ($route->getAction('streams::http_cache') === false) {
-            return $response;
+            return $response->setTtl(0);
         }
 
         /**
@@ -78,14 +88,30 @@ class HttpCache
          * is disabled in the system.
          */
         if ($this->config->get('streams::httpcache.enabled', false) === false) {
-            return $response;
+            return $response->setTtl(0);
         }
 
         /**
          * Don't let BOTs generate cache files.
          */
         if (!$this->config->get('streams::httpcache.allow_bots', false) === false) {
-            return $response;
+            return $response->setTtl(0);
+        }
+
+        /**
+         * Don't cache if we have session indicators!
+         *
+         * This could happen if a form attempts caching
+         * directly after a bad submit / failed validation.
+         */
+        if (
+            $this->session->has('_flash') ||
+            $this->messages->has('info') ||
+            $this->messages->has('error') ||
+            $this->messages->has('success') ||
+            $this->messages->has('warning')
+        ) {
+            return $response->setTtl(0);
         }
 
         /**
