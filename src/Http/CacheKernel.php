@@ -43,6 +43,24 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
     ) {
 
         /**
+         * Start setting up the HttpCache kernel.
+         */
+        $storagePath = $storagePath ?: storage_path('httpcache');
+
+        $store = new Store($storagePath);
+
+        $wrapper = new static($kernel);
+
+        $cache = new HttpCache($wrapper, $store, $surrogate, $options);
+
+        app()->singleton(
+            \Anomaly\Streams\Platform\Http\HttpCache::class,
+            function () use ($cache) {
+                return $cache;
+            }
+        );
+
+        /**
          * Do not even use the CacheKernel if
          * any of the following criteria is met.
          */
@@ -54,18 +72,7 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
             return $kernel;
         }
 
-        /**
-         * Start setting up the HttpCache kernel.
-         */
-        $storagePath = $storagePath ?: storage_path('httpcache');
-
-        $store = new Store($storagePath);
-
-        $wrapper = new static($kernel);
-
-        $kernel = new HttpCache($wrapper, $store, $surrogate, $options);
-
-        return $kernel;
+        return $cache;
     }
 
 }

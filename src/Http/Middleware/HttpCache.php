@@ -47,7 +47,7 @@ class HttpCache
 
         /* @var Route $route */
         $route = $request->route();
-return $response;
+
         /**
          * Don't cache the admin.
          */
@@ -91,7 +91,7 @@ return $response;
                 explode("\n", $excluded)
             );
         }
-        dd($excluded);
+
         foreach ($excluded as $path) {
             if (str_is($path, $request->getPathInfo())) {
                 return $response;
