@@ -37,9 +37,11 @@ use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Anomaly\Streams\Platform\View\ViewServiceProvider;
 use Asm89\Twig\CacheExtension\Extension;
+use Barryvdh\HttpCache\CacheKernel;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Redirector;
@@ -219,6 +221,10 @@ class StreamsServiceProvider extends ServiceProvider
         EloquentModel::observe(EloquentObserver::class);
         AssignmentModel::observe(AssignmentObserver::class);
 
+        /**
+         * After streams platform is booted
+         * let's boot up the addons and finish.
+         */
         $this->app->booted(
             function () use ($events) {
 
