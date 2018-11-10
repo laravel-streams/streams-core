@@ -24,6 +24,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \Anomaly\Streams\Platform\Http\Middleware\SetLocale::class,
+        \Barryvdh\HttpCache\Middleware\ParseEsi::class,
     ];
 
     /**
@@ -65,7 +66,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      * Create a new Kernel instance.
      *
      * @param Application $app
-     * @param Router      $router
+     * @param Router $router
      */
     public function __construct(Application $app, Router $router)
     {

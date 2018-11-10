@@ -6,6 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Route;
 
+/**
+ * Class HttpCache
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class HttpCache
 {
 
@@ -56,7 +63,13 @@ class HttpCache
             return $response;
         }
 
-        $response->setTtl($route->getAction('streams::http_cache') ?: 30);
+        /**
+         * Set the TTL based on the route action
+         * OR the config and lastly a default value.
+         */
+        $response->setTtl(
+            $route->getAction('streams::http_cache') ?: $this->config->get('streams::httpcache.ttl', 3600)
+        );
 
         return $response;
     }
