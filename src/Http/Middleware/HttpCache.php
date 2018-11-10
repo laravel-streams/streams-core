@@ -42,7 +42,7 @@ class HttpCache
     /**
      * Create a new PoweredBy instance.
      *
-     * @param Store $session
+     * @param Store      $session
      * @param Repository $config
      * @param MessageBag $messages
      */
@@ -56,7 +56,7 @@ class HttpCache
     /**
      * Say it loud.
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  \Closure $next
      * @return mixed
      */
@@ -70,6 +70,7 @@ class HttpCache
 
         /**
          * Don't cache the admin.
+         * And skip the rest.
          */
         if ($request->segment(1) == 'admin') {
             return $response->setTtl(0);
@@ -80,7 +81,7 @@ class HttpCache
          * is disabled in the route.
          */
         if ($route->getAction('streams::http_cache') === false) {
-            return $response->setTtl(0);
+            $response->setTtl(0);
         }
 
         /**
@@ -88,14 +89,14 @@ class HttpCache
          * is disabled in the system.
          */
         if ($this->config->get('streams::httpcache.enabled', false) === false) {
-            return $response->setTtl(0);
+            $response->setTtl(0);
         }
 
         /**
          * Don't let BOTs generate cache files.
          */
         if (!$this->config->get('streams::httpcache.allow_bots', false) === false) {
-            return $response->setTtl(0);
+            $response->setTtl(0);
         }
 
         /**
@@ -111,7 +112,7 @@ class HttpCache
             $this->messages->has('success') ||
             $this->messages->has('warning')
         ) {
-            return $response->setTtl(0);
+            $response->setTtl(0);
         }
 
         /**
@@ -131,7 +132,7 @@ class HttpCache
 
         foreach ((array)$excluded as $path) {
             if (str_is($path, $request->getPathInfo())) {
-                return $response;
+                $response->setTtl(0);
             }
         }
 
