@@ -17,6 +17,8 @@ class HttpCache extends \Symfony\Component\HttpKernel\HttpCache\HttpCache
      */
     public function purge($path)
     {
-        $this->getStore()->purge($path);
+        $this
+            ->getStore()
+            ->purge($path);
     }
 }
