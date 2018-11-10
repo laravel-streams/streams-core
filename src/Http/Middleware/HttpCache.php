@@ -92,7 +92,7 @@ class HttpCache
             );
         }
 
-        foreach ($excluded as $path) {
+        foreach ((array)$excluded as $path) {
             if (str_is($path, $request->getPathInfo())) {
                 return $response;
             }
