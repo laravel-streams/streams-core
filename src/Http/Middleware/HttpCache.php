@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Http\Middleware;
 
+use Anomaly\Streams\Platform\Message\MessageBag;
 use Closure;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
@@ -24,13 +25,22 @@ class HttpCache
     protected $config;
 
     /**
+     * The message bag.
+     *
+     * @var MessageBag
+     */
+    protected $messages;
+
+    /**
      * Create a new PoweredBy instance.
      *
      * @param Repository $config
+     * @param MessageBag $messages
      */
-    public function __construct(Repository $config)
+    public function __construct(Repository $config, MessageBag $messages)
     {
-        $this->config = $config;
+        $this->config   = $config;
+        $this->messages = $messages;
     }
 
     /**
@@ -134,6 +144,14 @@ class HttpCache
             $response->setTtl(
                 $route->getAction('streams::http_cache') ?: $this->config->get('streams::httpcache.ttl', 3600)
             );
+        }
+
+        /**
+         * If the response has a TTL then
+         * let's flush the flash messages.
+         */
+        if ($response->getTtl()) {
+            $this->messages->flush();
         }
 
         return $response;

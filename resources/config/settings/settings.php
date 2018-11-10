@@ -365,7 +365,7 @@ return [
             'lines' => 10,
         ],
     ],
-    'http_cache_rules'   => [
+    'http_cache_rules'      => [
         'env'    => 'HTTP_CACHE_RULES',
         'bind'   => 'streams::httpcache.rules',
         'type'   => 'anomaly.field_type.textarea',
