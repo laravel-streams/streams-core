@@ -51,6 +51,13 @@ return [
                     'mail_password',
                 ],
             ],
+            'cache'        => [
+                'title'  => 'streams::label.cache',
+                'fields' => [
+                    'http_cache_enabled',
+                    'http_cache_ttl',
+                ],
+            ],
             'maintenance'  => [
                 'title'  => 'streams::label.maintenance',
                 'fields' => [
