@@ -5,7 +5,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
 
 return [
-    'name'               => [
+    'name'            => [
         'env'    => 'APP_NAME',
         'bind'   => 'app.name',
         'type'   => 'anomaly.field_type.text',
@@ -15,7 +15,7 @@ return [
             },
         ],
     ],
-    'description'        => [
+    'description'     => [
         'type'   => 'anomaly.field_type.text',
         'bind'   => 'app.description',
         'config' => [
@@ -24,7 +24,7 @@ return [
             },
         ],
     ],
-    'domain'             => [
+    'domain'          => [
         'required' => true,
         'env'      => 'APPLICATION_DOMAIN',
         'bind'     => 'streams::system.domain',
@@ -35,12 +35,12 @@ return [
             },
         ],
     ],
-    'force_ssl'          => [
+    'force_ssl'       => [
         'env'  => 'FORCE_SSL',
         'bind' => 'streams::system.force_ssl',
         'type' => 'anomaly.field_type.boolean',
     ],
-    'domain_prefix'      => [
+    'domain_prefix'   => [
         'env'    => 'DOMAIN_PREFIX',
         'bind'   => 'streams::system.domain_prefix',
         'type'   => 'anomaly.field_type.select',
@@ -51,7 +51,7 @@ return [
             ],
         ],
     ],
-    'timezone'           => [
+    'timezone'        => [
         'env'    => 'APP_TIMEZONE',
         'bind'   => 'app.timezone',
         'type'   => 'anomaly.field_type.select',
@@ -61,7 +61,7 @@ return [
             'default_value' => config('app.timezone'),
         ],
     ],
-    'date_format'        => [
+    'date_format'     => [
         'env'         => 'DATE_FORMAT',
         'bind'        => 'streams::datetime.date_format',
         'type'        => 'anomaly.field_type.select',
@@ -90,7 +90,7 @@ return [
             ],
         ],
     ],
-    'time_format'        => [
+    'time_format'     => [
         'env'         => 'TIME_FORMAT',
         'bind'        => 'streams::datetime.time_format',
         'type'        => 'anomaly.field_type.select',
@@ -110,7 +110,7 @@ return [
             ],
         ],
     ],
-    'unit_system'        => [
+    'unit_system'     => [
         'env'      => 'UNIT_SYSTEM',
         'bind'     => 'streams::system.unit_system',
         'type'     => 'anomaly.field_type.select',
@@ -123,7 +123,7 @@ return [
             ],
         ],
     ],
-    'currency'           => [
+    'currency'        => [
         'type'     => 'anomaly.field_type.select',
         'required' => true,
         'config'   => [
@@ -131,7 +131,7 @@ return [
             'default_value' => config('streams::currencies.default'),
         ],
     ],
-    'standard_theme'     => [
+    'standard_theme'  => [
         'env'      => 'STANDARD_THEME',
         'bind'     => 'streams::themes.standard',
         'type'     => 'anomaly.field_type.select',
@@ -145,7 +145,7 @@ return [
             },
         ],
     ],
-    'admin_theme'        => [
+    'admin_theme'     => [
         'env'      => 'ADMIN_THEME',
         'bind'     => 'streams::themes.admin',
         'type'     => 'anomaly.field_type.select',
@@ -159,7 +159,7 @@ return [
             },
         ],
     ],
-    'per_page'           => [
+    'per_page'        => [
         'env'      => 'RESULTS_PER_PAGE',
         'bind'     => 'streams::system.per_page',
         'type'     => 'anomaly.field_type.select',
@@ -178,7 +178,7 @@ return [
             ],
         ],
     ],
-    'default_locale'     => [
+    'default_locale'  => [
         'env'      => 'DEFAULT_LOCALE',
         'bind'     => 'streams::locales.default',
         'type'     => 'anomaly.field_type.select',
@@ -198,7 +198,7 @@ return [
             },
         ],
     ],
-    'enabled_locales'    => [
+    'enabled_locales' => [
         'env'      => 'ENABLED_LOCALES',
         'bind'     => 'streams::locales.enabled',
         'type'     => 'anomaly.field_type.checkboxes',
@@ -220,7 +220,7 @@ return [
             },
         ],
     ],
-    'debug'              => [
+    'debug'           => [
         'env'    => 'APP_DEBUG',
         'bind'   => 'app.debug',
         'type'   => 'anomaly.field_type.boolean',
@@ -232,7 +232,7 @@ return [
             'off_text'      => 'OFF',
         ],
     ],
-    'debug_bar'          => [
+    'debug_bar'       => [
         'env'    => 'DEBUG_BAR',
         'bind'   => 'debugbar.enabled',
         'type'   => 'anomaly.field_type.boolean',
@@ -244,7 +244,7 @@ return [
             'off_text'      => 'OFF',
         ],
     ],
-    'maintenance'        => [
+    'maintenance'     => [
         'type'   => 'anomaly.field_type.boolean',
         'env'    => 'MAINTENANCE_MODE',
         'bind'   => 'streams::maintenance.enabled',
@@ -253,12 +253,12 @@ return [
             'off_text' => 'OFF',
         ],
     ],
-    'basic_auth'         => [
+    'basic_auth'      => [
         'env'  => 'MAINTENANCE_AUTH',
         'bind' => 'streams::maintenance.auth',
         'type' => 'anomaly.field_type.boolean',
     ],
-    'ip_whitelist'       => [
+    'ip_whitelist'    => [
         'env'    => 'IP_WHITELIST',
         'bind'   => 'streams::maintenance.ip_whitelist',
         'type'   => 'anomaly.field_type.tags',
@@ -266,7 +266,7 @@ return [
             'filter' => 'FILTER_VALIDATE_IP',
         ],
     ],
-    'email'              => [
+    'email'           => [
         'env'      => 'FROM_ADDRESS',
         'bind'     => 'mail.from.address',
         'type'     => 'anomaly.field_type.email',
@@ -280,7 +280,7 @@ return [
             },
         ],
     ],
-    'sender'             => [
+    'sender'          => [
         'env'      => 'FROM_NAME',
         'bind'     => 'mail.from.name',
         'type'     => 'anomaly.field_type.text',
@@ -291,7 +291,7 @@ return [
             },
         ],
     ],
-    'mail_driver'        => [
+    'mail_driver'     => [
         'env'      => 'MAIL_DRIVER',
         'bind'     => 'mail.driver',
         'type'     => 'anomaly.field_type.select',
@@ -308,22 +308,22 @@ return [
             ],
         ],
     ],
-    'mail_host'          => [
+    'mail_host'       => [
         'env'  => 'MAIL_HOST',
         'bind' => 'mail.host',
         'type' => 'anomaly.field_type.text',
     ],
-    'mail_port'          => [
+    'mail_port'       => [
         'env'  => 'MAIL_PORT',
         'bind' => 'mail.port',
         'type' => 'anomaly.field_type.integer',
     ],
-    'mail_username'      => [
+    'mail_username'   => [
         'env'  => 'MAIL_USERNAME',
         'bind' => 'mail.username',
         'type' => 'anomaly.field_type.text',
     ],
-    'mail_password'      => [
+    'mail_password'   => [
         'env'    => 'MAIL_PASSWORD',
         'bind'   => 'mail.password',
         'type'   => 'anomaly.field_type.text',
@@ -331,18 +331,18 @@ return [
             'type' => 'password',
         ],
     ],
-    'http_cache_enabled' => [
+    'http_cache'      => [
         'env'    => 'HTTP_CACHE',
-        'bind'   => 'streams::http_cache.enabled',
+        'bind'   => 'streams::httpcache.enabled',
         'type'   => 'anomaly.field_type.boolean',
         'config' => [
             'default_value' => false,
         ],
     ],
-    'http_cache_ttl'     => [
+    'http_cache_ttl'  => [
         'required' => true,
         'env'      => 'HTTP_CACHE_TTL',
-        'bind'     => 'streams::http_cache.ttl',
+        'bind'     => 'streams::httpcache.ttl',
         'type'     => 'anomaly.field_type.integer',
         'config'   => [
             'default_value' => 3600,

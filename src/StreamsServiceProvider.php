@@ -311,6 +311,7 @@ class StreamsServiceProvider extends ServiceProvider
          * Register all third party packages first.
          */
         $this->app->register(\Laravel\Scout\ScoutServiceProvider::class);
+        $this->app->register(\Barryvdh\HttpCache\ServiceProvider::class);
         $this->app->register(\Collective\Html\HtmlServiceProvider::class);
         $this->app->register(\Intervention\Image\ImageServiceProvider::class);
         $this->app->register(\TeamTNT\Scout\TNTSearchScoutServiceProvider::class);

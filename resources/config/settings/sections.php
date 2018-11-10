@@ -54,7 +54,7 @@ return [
             'cache'        => [
                 'title'  => 'streams::label.cache',
                 'fields' => [
-                    'http_cache_enabled',
+                    'http_cache',
                     'http_cache_ttl',
                 ],
             ],

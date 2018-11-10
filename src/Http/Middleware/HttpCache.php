@@ -64,12 +64,22 @@ class HttpCache
         }
 
         /**
+         * Don't cache if HTTP cache
+         * is disabled in the system.
+         */
+        if ($this->config->get('streams::httpcache.enabled', false) === false) {
+            return $response;
+        }
+
+        /**
          * Set the TTL based on the route action
          * OR the config and lastly a default value.
          */
-        $response->setTtl(
-            $route->getAction('streams::http_cache') ?: $this->config->get('streams::httpcache.ttl', 3600)
-        );
+        if ($response->getTtl() === null) {
+            $response->setTtl(
+                $route->getAction('streams::http_cache') ?: $this->config->get('streams::httpcache.ttl', 3600)
+            );
+        }
 
         return $response;
     }
