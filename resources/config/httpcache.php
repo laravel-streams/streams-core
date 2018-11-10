@@ -24,4 +24,16 @@ return [
 
     'ttl' => env('HTTP_CACHE_TTL', 3600),
 
+    /*
+    |--------------------------------------------------------------------------
+    | EXCLUDED PATHS
+    |--------------------------------------------------------------------------
+    |
+    | Specify cache-excluded paths.
+    | Use * for partial matching.
+    |
+    */
+
+    'excluded' => explode(',', env('HTTP_CACHE_EXCLUDED', '')),
+
 ];

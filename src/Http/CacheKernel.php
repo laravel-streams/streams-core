@@ -14,6 +14,19 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
 {
 
     /**
+     * Exclude these paths.
+     *
+     * @var array
+     */
+    protected static $exclude = [
+        '/admin',
+        '/admin/login',
+        '/admin/logout',
+        '/logout',
+        '/login',
+    ];
+
+    /**
      * Wrap a Laravel Kernel in a Symfony HttpKernel
      *
      * @param Kernel $kernel
@@ -28,6 +41,14 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
         SurrogateInterface $surrogate = null,
         $options = []
     ) {
+
+        if (
+            strtoupper($_SERVER['REQUEST_METHOD']) == 'POST' ||
+            in_array($_SERVER['REQUEST_URI'], self::$exclude)
+        ) {
+            return $kernel;
+        }
+
         $storagePath = $storagePath ?: storage_path('httpcache');
 
         $store = new Store($storagePath);

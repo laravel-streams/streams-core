@@ -56,6 +56,8 @@ return [
                 'fields' => [
                     'http_cache',
                     'http_cache_ttl',
+                    'http_cache_allow_bots',
+                    'http_cache_excluded',
                 ],
             ],
             'maintenance'  => [

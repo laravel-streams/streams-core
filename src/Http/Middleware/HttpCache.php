@@ -47,7 +47,7 @@ class HttpCache
 
         /* @var Route $route */
         $route = $request->route();
-
+return $response;
         /**
          * Don't cache the admin.
          */
@@ -72,8 +72,35 @@ class HttpCache
         }
 
         /**
-         * Set the TTL based on the route action
-         * OR the config and lastly a default value.
+         * Don't let BOTs generate cache files.
+         */
+        if (!$this->config->get('streams::httpcache.allow_bots', false) === false) {
+            return $response;
+        }
+
+        /**
+         * Don't let BOTs generate cache files.
+         */
+        $excluded = $this->config->get('streams::httpcache.excluded', []);
+
+        if (is_string($excluded)) {
+            $excluded = array_map(
+                function ($line) {
+                    return trim($line);
+                },
+                explode("\n", $excluded)
+            );
+        }
+        dd($excluded);
+        foreach ($excluded as $path) {
+            if (str_is($path, $request->getPathInfo())) {
+                return $response;
+            }
+        }
+
+        /**
+         * Set the TTL based on the original TTL or the route
+         * action OR the config and lastly a default value.
          */
         if ($response->getTtl() === null) {
             $response->setTtl(
