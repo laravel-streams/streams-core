@@ -79,7 +79,8 @@ class HttpCache
         }
 
         /**
-         * Don't let BOTs generate cache files.
+         * Exclude these paths from caching
+         * based on partial / exact URI.
          */
         $excluded = $this->config->get('streams::httpcache.excluded', []);
 
@@ -95,6 +96,33 @@ class HttpCache
         foreach ((array)$excluded as $path) {
             if (str_is($path, $request->getPathInfo())) {
                 return $response;
+            }
+        }
+
+        /**
+         * Define timeout rules based on
+         * partial / exact URI matching.
+         */
+        $rules = $this->config->get('streams::httpcache.rules', []);
+
+        if (is_string($rules)) {
+            $rules = array_map(
+                function ($line) {
+                    return trim($line);
+                },
+                explode("\n", $rules)
+            );
+        }
+
+        foreach ((array)$rules as $rule) {
+
+            $parts = explode(' ', $rule);
+
+            $path = array_shift($parts);
+            $ttl  = array_shift($parts);
+
+            if (str_is($path, $request->getPathInfo())) {
+                $response->setTtl($ttl);
             }
         }
 

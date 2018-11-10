@@ -153,4 +153,9 @@ return [
         'instructions' => 'Specify each path on a new line. Use "*" for partial matching.',
         'placeholder'  => '/account/*',
     ],
+    'http_cache_rules'      => [
+        'label'        => 'Timeout Rules',
+        'instructions' => 'Specify each <strong>path TTL</strong> on a new line. Use "*" for partial matching.',
+        'placeholder'  => '/news/* 1800',
+    ],
 ];

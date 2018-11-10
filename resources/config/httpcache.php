@@ -36,4 +36,16 @@ return [
 
     'excluded' => explode(',', env('HTTP_CACHE_EXCLUDED', '')),
 
+    /*
+    |--------------------------------------------------------------------------
+    | TIMEOUT RULES
+    |--------------------------------------------------------------------------
+    |
+    | Specify timeout rules per path.
+    | Use * for partial matching.
+    |
+    */
+
+    'rules' => explode(',', env('HTTP_CACHE_RULES', '')),
+
 ];

@@ -58,6 +58,7 @@ return [
                     'http_cache_ttl',
                     'http_cache_allow_bots',
                     'http_cache_excluded',
+                    'http_cache_rules',
                 ],
             ],
             'maintenance'  => [
