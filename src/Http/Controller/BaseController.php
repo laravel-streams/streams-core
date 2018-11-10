@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Event\Response;
 use Anomaly\Streams\Platform\Http\Middleware\ApplicationReady;
 use Anomaly\Streams\Platform\Http\Middleware\CheckLocale;
 use Anomaly\Streams\Platform\Http\Middleware\ForceSsl;
+use Anomaly\Streams\Platform\Http\Middleware\HttpCache;
 use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
 use Anomaly\Streams\Platform\Http\Middleware\PoweredBy;
 use Anomaly\Streams\Platform\Http\Middleware\PrefixDomain;
@@ -156,6 +157,8 @@ class BaseController extends Controller
         foreach (app(MiddlewareCollection::class) as $middleware) {
             $this->middleware($middleware);
         }
+
+        $this->middleware(HttpCache::class);
     }
 
     /**
