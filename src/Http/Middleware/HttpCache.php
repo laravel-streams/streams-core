@@ -130,6 +130,11 @@ class HttpCache
         }
 
         /**
+         * Determine the default TTL value.
+         */
+        $default = $route->getAction('streams::http_cache') ?: $this->config->get('streams::httpcache.ttl', 3600);
+
+        /**
          * Exclude these paths from caching
          * based on partial / exact URI.
          */
@@ -172,6 +177,10 @@ class HttpCache
             $path = array_shift($parts);
             $ttl  = array_shift($parts);
 
+            if ($ttl === null) {
+                $ttl = $default;
+            }
+
             if (str_is($path, $request->getPathInfo())) {
                 $response->setTtl($ttl);
             }
@@ -182,9 +191,7 @@ class HttpCache
          * action OR the config and lastly a default value.
          */
         if ($response->getTtl() === null) {
-            $response->setTtl(
-                $route->getAction('streams::http_cache') ?: $this->config->get('streams::httpcache.ttl', 3600)
-            );
+            $response->setTtl($default);
         }
 
         /**
