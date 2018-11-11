@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 /**
  * Class ExceptionHandler
@@ -35,7 +36,7 @@ class ExceptionHandler extends Handler
     protected $internalDontReport = [
         \Illuminate\Auth\AuthenticationException::class,
         \Illuminate\Auth\Access\AuthorizationException::class,
-        \Symfony\Component\HttpKernel\Exception\HttpException::class,
+        //\Symfony\Component\HttpKernel\Exception\HttpException::class,
         \Illuminate\Database\Eloquent\ModelNotFoundException::class,
         \Illuminate\Session\TokenMismatchException::class,
         \Illuminate\Validation\ValidationException::class,
@@ -120,41 +121,39 @@ class ExceptionHandler extends Handler
     }
 
     /**
-     * Report the error.
+     * Report the exception.
      *
-     * And append the ID to the log
-     * so we can reference it later.
+     * But first make sure it's stashed.
      *
      * @param Exception $e
      * @return mixed
-     * @throws Exception
      */
     public function report(Exception $e)
     {
-        if ($this->shouldntReport($e)) {
-            return;
-        }
+        $this->original = $e;
 
-        if (method_exists($e, 'report')) {
-            return $e->report();
-        }
+        return parent::report($e);
+    }
 
+    /**
+     * Get the default context variables for logging.
+     *
+     * @return array
+     */
+    protected function context()
+    {
         try {
-            $logger = $this->container->make(LoggerInterface::class);
-        } catch (Exception $ex) {
-            throw $e; // throw the original exception
+            return array_filter(
+                [
+                    'user'       => \Auth::id(),
+                    'email'      => \Auth::user() ? \Auth::user()->email : null,
+                    'url'        => request() ? request()->fullUrl() : null,
+                    'identifier' => $this->container->make(ExceptionIdentifier::class)->identify($this->original),
+                ]
+            );
+        } catch (Throwable $e) {
+            return [];
         }
-
-        $id = $this->container->make(ExceptionIdentifier::class)->identify($e);
-
-        $logger->error(
-            $e->getMessage(),
-            [
-                'context'        => $this->context(),
-                'identification' => ['id' => $id],
-                'exception'      => $e,
-            ]
-        );
     }
 
     /**
