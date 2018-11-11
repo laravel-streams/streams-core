@@ -25,6 +25,10 @@ class InitializeApplication
 
         if (PHP_SAPI == 'cli') {
 
+            if (!defined('IS_ADMIN')) {
+                define('IS_ADMIN', false);
+            }
+
             $app = (new ArgvInput())->getParameterOption('--app', $app);
 
             $laravel->bind(

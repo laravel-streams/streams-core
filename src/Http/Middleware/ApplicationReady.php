@@ -38,10 +38,6 @@ class ApplicationReady
     {
         $response = $this->events->fire(new ApplicationHasLoaded(), [], true);
 
-        if (!defined('IS_ADMIN')) {
-            define('IS_ADMIN', $request->segment(1) == 'admin');
-        }
-
         if ($response instanceof Response) {
             return $response;
         }

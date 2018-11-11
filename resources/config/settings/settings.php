@@ -373,4 +373,22 @@ return [
             'lines' => 10,
         ],
     ],
+    'db_cache'              => [
+        'env'    => 'DB_CACHE',
+        'bind'   => 'streams::database.cache',
+        'type'   => 'anomaly.field_type.boolean',
+        'config' => [
+            'default_value' => false,
+        ],
+    ],
+    'db_cache_ttl'          => [
+        'required' => true,
+        'env'      => 'DB_CACHE_TTL',
+        'bind'     => 'streams::database.ttl',
+        'type'     => 'anomaly.field_type.integer',
+        'config'   => [
+            'default_value' => 3600,
+            'min'           => 60,
+        ],
+    ],
 ];

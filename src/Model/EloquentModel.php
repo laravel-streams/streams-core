@@ -43,7 +43,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      *
      * @var null|false|int
      */
-    protected $ttl = false;
+    protected $ttl = null;
 
     /**
      * The attributes that are
@@ -118,8 +118,8 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      * Cache a value in the
      * model's cache collection.
      *
-     * @param $key
-     * @param $ttl
+     * @param      $key
+     * @param      $ttl
      * @param null $value
      * @return mixed
      */
@@ -214,6 +214,22 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     public function getTtl()
     {
         return $this->ttl;
+    }
+
+    /**
+     * Get the ttl.
+     *
+     * @return int|mixed
+     */
+    public function ttl()
+    {
+        $ttl = $this->getTtl();
+
+        if ($ttl === null) {
+            $ttl = config('streams::database.ttl', 3600);
+        }
+
+        return $ttl;
     }
 
     /**
@@ -358,7 +374,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      * Set an attribute.
      *
      * @param  string $key
-     * @param  mixed $value
+     * @param  mixed  $value
      * @return $this
      */
     public function setAttribute($key, $value)
@@ -710,7 +726,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      * Check hooks for the missing method.
      *
      * @param string $method
-     * @param array $parameters
+     * @param array  $parameters
      * @return mixed
      */
     public function __call($method, $parameters)

@@ -61,6 +61,13 @@ return [
                     'http_cache_rules',
                 ],
             ],
+            'database'     => [
+                'title'  => 'streams::label.database',
+                'fields' => [
+                    'db_cache',
+                    'db_cache_ttl',
+                ],
+            ],
             'maintenance'  => [
                 'title'  => 'streams::label.maintenance',
                 'fields' => [

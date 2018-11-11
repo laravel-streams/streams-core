@@ -8,6 +8,7 @@ return [
     'maintenance'     => 'Maintenance',
     'appearance'      => 'Appearance',
     'standards'       => 'Standards',
+    'database'        => 'Database',
     'datetime'        => 'Datetime',
     'advanced'        => 'Advanced',
     'services'        => 'Services',

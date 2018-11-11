@@ -158,4 +158,12 @@ return [
         'instructions' => 'Specify each <strong>path TTL</strong> on a new line. Use "*" for partial matching.',
         'placeholder'  => '/news/* 1800',
     ],
+    'db_cache'              => [
+        'label'        => 'Database Cache',
+        'instructions' => 'Do you want to enable database query caching?',
+    ],
+    'db_cache_ttl'          => [
+        'label'        => 'Default TTL',
+        'instructions' => 'Specify the default cache time in seconds.',
+    ],
 ];

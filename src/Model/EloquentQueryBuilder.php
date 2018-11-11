@@ -47,36 +47,51 @@ class EloquentQueryBuilder extends Builder
     {
         $key = $this->getCacheKey();
 
-        if (
-            env('INSTALLED')
-            && PHP_SAPI != 'cli'
-            && env('DB_CACHE') !== false
-            && $this->model instanceof EntryModel
-            && isset(self::$cache[$this->model->getCacheCollectionKey()][$key])
-        ) {
-            return self::$cache[$this->model->getCacheCollectionKey()][$key];
+        $ttl        = $this->model->ttl();
+        $collection = $this->model->getCacheCollectionKey();
+
+        $enabled = config('streams::database.cache', false);
+
+        /**
+         * Check the runtime cache first.
+         */
+        if (isset(self::$cache[$collection][$key])) {
+            return self::$cache[$collection][$key];
         }
 
-        $this->orderByDefault();
-
-        if (PHP_SAPI != 'cli' && env('DB_CACHE') !== false && $this->model->getTtl()) {
+        /**
+         * Do not cache...
+         * - For the control panel
+         * - If DB cache is disabled.
+         * - If the system is not "installed"
+         * - If the console is making the request
+         */
+        if (
+            !IS_ADMIN &&
+            $enabled &&
+            PHP_SAPI != 'cli' &&
+            $ttl
+        ) {
 
             $this->rememberIndex();
+            $this->orderByDefault();
 
             try {
-                return app('cache')->remember(
-                    $this->getCacheKey(),
-                    $this->model->getTtl(),
+                return self::$cache[$collection][$key] = app('cache')->remember(
+                    $key,
+                    $ttl,
                     function () use ($columns) {
                         return parent::get($columns);
                     }
                 );
             } catch (\Exception $e) {
-                return parent::get($columns);
+                return self::$cache[$collection][$key] = parent::get($columns);
             }
         }
 
-        return self::$cache[$this->model->getCacheCollectionKey()][$key] = parent::get($columns);
+        $this->orderByDefault();
+
+        return self::$cache[$collection][$key] = parent::get($columns);
     }
 
     /**
@@ -295,7 +310,7 @@ class EloquentQueryBuilder extends Builder
      * Add hookable catch to the query builder system.
      *
      * @param string $method
-     * @param array $parameters
+     * @param array  $parameters
      * @return mixed
      */
     public function __call($method, $parameters)
