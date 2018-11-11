@@ -136,7 +136,7 @@ class ExceptionHandler extends Handler
         $id = $this->container->make(ExceptionIdentifier::class)->identify($e);
 
         $logger->error(
-            null,
+            $e->getMessage(),
             [
                 'context'        => $this->context(),
                 'identification' => ['id' => $id],
