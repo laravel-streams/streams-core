@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Collection;
 
+use Anomaly\PostsModule\Post\PostModel;
 use Anomaly\Streams\Platform\Model\EloquentQueryBuilder;
 use Illuminate\Support\Collection;
 
@@ -124,7 +125,7 @@ class CacheCollection extends Collection
     /**
      * Set the collection key.
      *
-     * @param  null  $key
+     * @param  null $key
      * @return $this
      */
     public function setKey($key = null)

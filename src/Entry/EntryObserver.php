@@ -67,6 +67,8 @@ class EntryObserver extends Observer
      */
     public function updated(EntryInterface $entry)
     {
+        $entry->flushCache();
+
         $entry->fireFieldTypeEvents('entry_updated');
 
         $this->events->fire(new EntryWasUpdated($entry));

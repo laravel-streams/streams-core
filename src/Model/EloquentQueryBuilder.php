@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
+use Anomaly\PostsModule\Post\PostModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
@@ -123,7 +124,7 @@ class EloquentQueryBuilder extends Builder
      */
     protected function rememberIndex()
     {
-        if ($this->model->getTtl()) {
+        if ($this->model->ttl()) {
             $this->indexCacheCollection();
         }
 

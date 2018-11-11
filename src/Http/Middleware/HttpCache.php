@@ -95,7 +95,7 @@ class HttpCache
          * is disabled in the route.
          */
         if ($route->getAction('streams::http_cache') === false) {
-            $response->setTtl(0);
+            return $response->setTtl(0);
         }
 
         /**
@@ -103,14 +103,14 @@ class HttpCache
          * is disabled in the system.
          */
         if ($this->config->get('streams::httpcache.enabled', false) === false) {
-            $response->setTtl(0);
+            return $response->setTtl(0);
         }
 
         /**
          * Don't let BOTs generate cache files.
          */
         if (!$this->config->get('streams::httpcache.allow_bots', false) === false) {
-            $response->setTtl(0);
+            return $response->setTtl(0);
         }
 
         /**

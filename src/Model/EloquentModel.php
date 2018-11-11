@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
+use Anomaly\PostsModule\Post\PostModel;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Model\Traits\Translatable;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
@@ -303,6 +304,12 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
         (new CacheCollection())->setKey($this->getCacheCollectionKey())->flush();
 
         $this->flushRuntimeCache();
+
+        if ($this->isTranslatable()) {
+            foreach ($this->getTranslations() as $translation) {
+                $translation->flushCache();
+            }
+        }
 
         return $this;
     }
