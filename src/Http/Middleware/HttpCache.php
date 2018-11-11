@@ -120,7 +120,8 @@ class HttpCache
          * directly after a bad submit / failed validation.
          */
         if (
-            $this->session->has('_flash') ||
+            $this->session->get('_flash.new') ||
+            $this->session->get('_flash.old') ||
             $this->messages->has('info') ||
             $this->messages->has('error') ||
             $this->messages->has('success') ||
