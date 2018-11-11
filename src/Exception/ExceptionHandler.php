@@ -5,6 +5,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -17,6 +18,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class ExceptionHandler extends Handler
 {
+
+    /**
+     * The exception instance.
+     *
+     * @var Exception
+     */
+    protected $exception;
 
     /**
      * A list of the exception types that should not be reported.
@@ -76,13 +84,65 @@ class ExceptionHandler extends Handler
             return $this->convertExceptionToResponse($e);
         }
 
-        $status = $e->getStatusCode();
+        $summary = $e->getMessage();
+        $headers = $e->getHeaders();
+        $code    = $e->getStatusCode();
+        $name    = trans("streams::error.{$code}.name");
+        $message = trans("streams::error.{$code}.message");
+        $id      = $this->container->make(ExceptionIdentifier::class)->identify($this->exception);
 
-        if (view()->exists($view = "streams::errors/{$status}")) {
-            return response()->view($view, ['exception' => $e], $status, $e->getHeaders());
+        if (view()->exists($view = "streams::errors/{$code}")) {
+            return response()->view($view, compact('id', 'code', 'name', 'message', 'summary'), $code, $headers);
         }
 
-        return $this->convertExceptionToResponse($e);
+        return response()->view(
+            'streams::errors/error',
+            compact('id', 'code', 'name', 'message', 'summary'),
+            $code,
+            $headers
+        );
+    }
+
+    /**
+     * Report the error.
+     *
+     * @param Exception $e
+     * @return mixed
+     * @throws Exception
+     */
+    public function report(Exception $e)
+    {
+        if ($this->shouldntReport($e)) {
+            return;
+        }
+
+        if (method_exists($e, 'report')) {
+            return $e->report();
+        }
+
+        /**
+         * Stash for later so our
+         * identification hashes
+         * are the same.
+         */
+        $this->exception = $e;
+
+        try {
+            $logger = $this->container->make(LoggerInterface::class);
+        } catch (Exception $ex) {
+            throw $e; // throw the original exception
+        }
+
+        $id = $this->container->make(ExceptionIdentifier::class)->identify($e);
+
+        $logger->error(
+            null,
+            [
+                'context'        => $this->context(),
+                'identification' => ['id' => $id],
+                'exception'      => $e,
+            ]
+        );
     }
 
     /**

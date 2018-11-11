@@ -1,13 +1,6 @@
 <?php
 
 return [
-    '403'                       => 'Access denied.',
-    '401'                       => 'Invalid credentials.',
-    '408'                       => 'The request took too long.',
-    '429'                       => 'Too many requests.<br><small>Please try again later.</small>',
-    '503'                       => 'Be right back.',
-    '404'                       => 'Page not found.',
-    '500'                       => 'There was an error.',
     'help'                      => 'Help',
     'search'                    => 'Search',
     'system'                    => 'System',

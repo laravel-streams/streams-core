@@ -156,6 +156,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Image\Image'                                               => 'Anomaly\Streams\Platform\Image\Image',
         'Anomaly\Streams\Platform\Image\ImagePaths'                                          => 'Anomaly\Streams\Platform\Image\ImagePaths',
         'Anomaly\Streams\Platform\Image\ImageMacros'                                         => 'Anomaly\Streams\Platform\Image\ImageMacros',
+        'Anomaly\Streams\Platform\Exception\ExceptionIdentifier'                             => 'Anomaly\Streams\Platform\Exception\ExceptionIdentifier',
         'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry'                      => 'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry',
         'Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry'                  => 'Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry',
         'Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection'                        => 'Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection',
@@ -229,7 +230,6 @@ class StreamsServiceProvider extends ServiceProvider
             function () use ($events) {
 
                 $events->dispatch(new Booted());
-
 
                 /* @var Schedule $schedule */
                 $schedule = $this->app->make(Schedule::class);
