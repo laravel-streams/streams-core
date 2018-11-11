@@ -31,7 +31,7 @@ class FieldObserver extends Observer
     {
         $model->flushCache();
 
-        $this->events->fire(new FieldWasCreated($model));
+        $this->events->dispatch(new FieldWasCreated($model));
     }
 
     /**
@@ -56,7 +56,7 @@ class FieldObserver extends Observer
         $this->dispatch(new ChangeFieldAssignments($model));
         $this->dispatch(new UpdateFieldAssignments($model));
 
-        $this->events->fire(new FieldWasUpdated($model));
+        $this->events->dispatch(new FieldWasUpdated($model));
     }
 
     /**
@@ -69,7 +69,7 @@ class FieldObserver extends Observer
         $model->flushCache();
         $model->compileStreams();
 
-        $this->events->fire(new FieldWasSaved($model));
+        $this->events->dispatch(new FieldWasSaved($model));
     }
 
     /**
@@ -93,6 +93,6 @@ class FieldObserver extends Observer
 
         $this->dispatch(new DeleteFieldTranslations($model));
 
-        $this->events->fire(new FieldWasDeleted($model));
+        $this->events->dispatch(new FieldWasDeleted($model));
     }
 }

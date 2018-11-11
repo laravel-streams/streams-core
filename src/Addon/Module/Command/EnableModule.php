@@ -43,7 +43,7 @@ class EnableModule
     {
         $modules->enabled($this->module);
 
-        $events->fire(new ModuleWasEnabled($this->module));
+        $events->dispatch(new ModuleWasEnabled($this->module));
 
         return true;
     }

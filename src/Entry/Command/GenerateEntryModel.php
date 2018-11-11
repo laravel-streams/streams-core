@@ -89,7 +89,7 @@ class GenerateEntryModel
          * to extend the template and
          * the data parsed within it!
          */
-        $events->fire(new GatherParserData($data, $this->stream));
+        $events->dispatch(new GatherParserData($data, $this->stream));
 
         $template = $data->pull(
             'template',

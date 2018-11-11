@@ -43,7 +43,7 @@ class EnableExtension
     {
         $extensions->enabled($this->extension);
 
-        $events->fire(new ExtensionWasEnabled($this->extension));
+        $events->dispatch(new ExtensionWasEnabled($this->extension));
 
         return true;
     }

@@ -56,6 +56,6 @@ class UninstallModule
 
         $this->module->fire('uninstalled');
 
-        $events->fire(new ModuleWasUninstalled($this->module));
+        $events->dispatch(new ModuleWasUninstalled($this->module));
     }
 }

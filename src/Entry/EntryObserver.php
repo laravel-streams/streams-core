@@ -48,7 +48,7 @@ class EntryObserver extends Observer
     {
         $entry->fireFieldTypeEvents('entry_created');
 
-        $this->events->fire(new EntryWasCreated($entry));
+        $this->events->dispatch(new EntryWasCreated($entry));
     }
 
     /**
@@ -74,7 +74,7 @@ class EntryObserver extends Observer
 
         $entry->fireFieldTypeEvents('entry_updated');
 
-        $this->events->fire(new EntryWasUpdated($entry));
+        $this->events->dispatch(new EntryWasUpdated($entry));
     }
 
     /**
@@ -86,7 +86,7 @@ class EntryObserver extends Observer
     {
         $entry->flushCache();
 
-        $this->events->fire(new ModelsWereUpdated($entry));
+        $this->events->dispatch(new ModelsWereUpdated($entry));
     }
 
     /**
@@ -120,7 +120,7 @@ class EntryObserver extends Observer
             $this->commands->dispatch(new SaveVersion($entry));
         }
 
-        $this->events->fire(new EntryWasSaved($entry));
+        $this->events->dispatch(new EntryWasSaved($entry));
     }
 
     /**
@@ -149,7 +149,7 @@ class EntryObserver extends Observer
 
         $this->commands->dispatch(new DeleteEntryTranslations($entry));
 
-        $this->events->fire(new EntryWasDeleted($entry));
+        $this->events->dispatch(new EntryWasDeleted($entry));
     }
 
     /**
@@ -161,7 +161,7 @@ class EntryObserver extends Observer
     {
         $entry->flushCache();
 
-        $this->events->fire(new ModelsWereDeleted($entry));
+        $this->events->dispatch(new ModelsWereDeleted($entry));
     }
 
     /**
@@ -186,6 +186,6 @@ class EntryObserver extends Observer
 
         $this->dispatch(new CascadeRestore($entry));
 
-        $this->events->fire(new EntryWasRestored($entry));
+        $this->events->dispatch(new EntryWasRestored($entry));
     }
 }

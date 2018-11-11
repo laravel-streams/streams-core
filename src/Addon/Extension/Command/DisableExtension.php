@@ -43,7 +43,7 @@ class DisableExtension
     {
         $extensions->disable($this->extension);
 
-        $events->fire(new ExtensionWasDisabled($this->extension));
+        $events->dispatch(new ExtensionWasDisabled($this->extension));
 
         return true;
     }

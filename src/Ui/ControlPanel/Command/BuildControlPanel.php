@@ -46,7 +46,7 @@ class BuildControlPanel
      */
     public function handle(Dispatcher $events, Asset $asset)
     {
-        $events->fire(new ControlPanelIsBuilding($this->builder));
+        $events->dispatch(new ControlPanelIsBuilding($this->builder));
 
         $asset->add('scripts.js', 'streams::js/cp/click.js');
 
@@ -59,6 +59,6 @@ class BuildControlPanel
 
         $this->dispatch(new BuildButtons($this->builder));
 
-        $events->fire(new ControlPanelWasBuilt($this->builder));
+        $events->dispatch(new ControlPanelWasBuilt($this->builder));
     }
 }

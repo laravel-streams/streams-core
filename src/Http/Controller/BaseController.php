@@ -142,7 +142,7 @@ class BaseController extends Controller
 
         $this->route = $this->request->route();
 
-        $this->events->fire(new Response($this));
+        $this->events->dispatch(new Response($this));
 
         $this->middleware(VerifyCsrfToken::class);
         $this->middleware(PoweredBy::class);

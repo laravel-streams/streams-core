@@ -97,6 +97,6 @@ class BuildForm
          */
         $this->dispatch(new BuildButtons($this->builder));
 
-        $events->fire(new FormWasBuilt($this->builder));
+        $events->dispatch(new FormWasBuilt($this->builder));
     }
 }

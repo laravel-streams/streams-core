@@ -74,7 +74,7 @@ class SectionHandler
          */
         if (!$module = $this->modules->active()) {
 
-            $this->events->fire(new GatherSections($builder));
+            $this->events->dispatch(new GatherSections($builder));
 
             return;
         }
@@ -92,6 +92,6 @@ class SectionHandler
             $this->resolver->resolve($sections . '@handle', compact('builder'));
         }
 
-        $this->events->fire(new GatherSections($builder));
+        $this->events->dispatch(new GatherSections($builder));
     }
 }

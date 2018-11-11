@@ -36,7 +36,7 @@ class ApplicationReady
      */
     public function handle(Request $request, Closure $next)
     {
-        $response = $this->events->fire(new ApplicationHasLoaded(), [], true);
+        $response = $this->events->dispatch(new ApplicationHasLoaded(), [], true);
 
         if ($response instanceof Response) {
             return $response;

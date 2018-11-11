@@ -43,7 +43,7 @@ class EloquentObserver extends Observer
     {
         $model->flushCache();
 
-        $this->events->fire(new ModelWasCreated($model));
+        $this->events->dispatch(new ModelWasCreated($model));
     }
 
     /**
@@ -55,7 +55,7 @@ class EloquentObserver extends Observer
     {
         $model->flushCache();
         
-        $this->events->fire(new ModelWasSaved($model));
+        $this->events->dispatch(new ModelWasSaved($model));
     }
 
     /**
@@ -67,7 +67,7 @@ class EloquentObserver extends Observer
     {
         $model->flushCache();
 
-        $this->events->fire(new ModelWasUpdated($model));
+        $this->events->dispatch(new ModelWasUpdated($model));
     }
 
     /**
@@ -79,7 +79,7 @@ class EloquentObserver extends Observer
     {
         $model->flushCache();
 
-        $this->events->fire(new ModelsWereUpdated($model));
+        $this->events->dispatch(new ModelsWereUpdated($model));
     }
 
     /**
@@ -112,7 +112,7 @@ class EloquentObserver extends Observer
             }
         }
 
-        $this->events->fire(new ModelWasDeleted($model));
+        $this->events->dispatch(new ModelWasDeleted($model));
     }
 
     /**
@@ -124,7 +124,7 @@ class EloquentObserver extends Observer
     {
         $model->flushCache();
 
-        $this->events->fire(new ModelsWereDeleted($model));
+        $this->events->dispatch(new ModelsWereDeleted($model));
     }
 
     /**
@@ -148,6 +148,6 @@ class EloquentObserver extends Observer
 
         $this->dispatch(new CascadeRestore($model));
 
-        $this->events->fire(new ModelWasRestored($model));
+        $this->events->dispatch(new ModelWasRestored($model));
     }
 }

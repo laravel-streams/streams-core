@@ -43,7 +43,7 @@ class DisableModule
     {
         $modules->disable($this->module);
 
-        $events->fire(new ModuleWasDisabled($this->module));
+        $events->dispatch(new ModuleWasDisabled($this->module));
 
         return true;
     }

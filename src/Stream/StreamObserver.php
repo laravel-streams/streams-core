@@ -49,7 +49,7 @@ class StreamObserver extends Observer
 
         $model->fireFieldTypeEvents('stream_created');
 
-        $this->events->fire(new StreamWasCreated($model));
+        $this->events->dispatch(new StreamWasCreated($model));
     }
 
     /**
@@ -64,7 +64,7 @@ class StreamObserver extends Observer
 
         $model->fireFieldTypeEvents('stream_saved');
 
-        $this->events->fire(new StreamWasSaved($model));
+        $this->events->dispatch(new StreamWasSaved($model));
     }
 
     /**
@@ -88,7 +88,7 @@ class StreamObserver extends Observer
     {
         $model->fireFieldTypeEvents('stream_updated');
 
-        $this->events->fire(new StreamWasUpdated($model));
+        $this->events->dispatch(new StreamWasUpdated($model));
     }
 
     /**
@@ -110,6 +110,6 @@ class StreamObserver extends Observer
         $this->dispatch(new DeleteStreamTranslations($model));
         $this->dispatch(new GenerateEntryModelClassmap());
 
-        $this->events->fire(new StreamWasDeleted($model));
+        $this->events->dispatch(new StreamWasDeleted($model));
     }
 }

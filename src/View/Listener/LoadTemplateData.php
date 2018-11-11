@@ -78,8 +78,8 @@ class LoadTemplateData
 
             $this->template->set('includes', $this->includes);
 
-            $this->events->fire(new RegisteringTwigPlugins($this->twig));
-            $this->events->fire(new TemplateDataIsLoading($this->template));
+            $this->events->dispatch(new RegisteringTwigPlugins($this->twig));
+            $this->events->dispatch(new TemplateDataIsLoading($this->template));
 
             $this->template->setLoaded(true);
         }

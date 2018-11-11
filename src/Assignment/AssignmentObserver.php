@@ -46,7 +46,7 @@ class AssignmentObserver extends Observer
 
         $this->dispatch(new AddAssignmentColumn($model));
 
-        $this->events->fire(new AssignmentWasCreated($model));
+        $this->events->dispatch(new AssignmentWasCreated($model));
     }
 
     /**
@@ -73,7 +73,7 @@ class AssignmentObserver extends Observer
 
         $this->dispatch(new UpdateAssignmentColumn($model));
 
-        $this->events->fire(new AssignmentWasUpdated($model));
+        $this->events->dispatch(new AssignmentWasUpdated($model));
     }
 
     /**
@@ -86,7 +86,7 @@ class AssignmentObserver extends Observer
         $model->flushCache();
         $model->compileStream();
 
-        $this->events->fire(new AssignmentWasSaved($model));
+        $this->events->dispatch(new AssignmentWasSaved($model));
     }
 
     /**
@@ -102,6 +102,6 @@ class AssignmentObserver extends Observer
         $this->dispatch(new DropAssignmentColumn($model));
         $this->dispatch(new DeleteAssignmentTranslations($model));
 
-        $this->events->fire(new AssignmentWasDeleted($model));
+        $this->events->dispatch(new AssignmentWasDeleted($model));
     }
 }

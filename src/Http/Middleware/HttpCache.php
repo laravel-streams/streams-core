@@ -19,6 +19,17 @@ class HttpCache
 {
 
     /**
+     * System excluded.
+     *
+     * @var array
+     */
+    protected $excluded = [
+        '/streams/*-field_type/*',
+        '/streams/*-extension/*',
+        '/streams/*-module/*',
+    ];
+
+    /**
      * The config repository.
      *
      * @var Repository
@@ -91,10 +102,18 @@ class HttpCache
         $this->session->put('_flash', $flash);
 
         /**
+         * Don't cache if the route
+         * is dictating 0 ttl.
+         */
+        if ($route->getAction('ttl') === 0) {
+            return $response->setTtl(0);
+        }
+
+        /**
          * Don't cache if HTTP cache
          * is disabled in the route.
          */
-        if ($route->getAction('streams::http_cache') === false) {
+        if ($route->getAction('streams::httpcache') === false) {
             return $response->setTtl(0);
         }
 
@@ -150,7 +169,10 @@ class HttpCache
             );
         }
 
-        foreach ((array)$excluded as $path) {
+        // Merge system excluded routes.
+        $excluded = array_merge((array)$excluded, $this->excluded);
+
+        foreach ($excluded as $path) {
             if (str_is($path, $request->getPathInfo())) {
                 $response->setTtl(0);
             }

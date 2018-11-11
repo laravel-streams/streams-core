@@ -37,6 +37,6 @@ class Refresh extends Command
     {
         $this->call('streams:compile');
 
-        $events->fire(new StreamsIsRefreshing($this));
+        $events->dispatch(new StreamsIsRefreshing($this));
     }
 }

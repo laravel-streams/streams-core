@@ -57,7 +57,7 @@ class UninstallExtension
 
         $this->extension->fire('uninstalled');
 
-        $events->fire(new ExtensionWasUninstalled($this->extension));
+        $events->dispatch(new ExtensionWasUninstalled($this->extension));
 
         return true;
     }

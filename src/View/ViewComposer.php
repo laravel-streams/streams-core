@@ -148,14 +148,14 @@ class ViewComposer
 
         if (!$this->theme || !env('INSTALLED')) {
 
-            $this->events->fire(new ViewComposed($view));
+            $this->events->dispatch(new ViewComposed($view));
 
             return $view;
         }
 
         $this->setPath($view);
 
-        $this->events->fire(new ViewComposed($view));
+        $this->events->dispatch(new ViewComposed($view));
 
         return $view;
     }

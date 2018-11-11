@@ -194,7 +194,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot(Dispatcher $events)
     {
-        $events->fire(new Booting());
+        $events->dispatch(new Booting());
 
         // Next take care of core utilities.
         $this->dispatch(new SetCoreConnection());
@@ -228,7 +228,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->booted(
             function () use ($events) {
 
-                $events->fire(new Booted());
+                $events->dispatch(new Booted());
 
 
                 /* @var Schedule $schedule */
@@ -295,7 +295,7 @@ class StreamsServiceProvider extends ServiceProvider
                  */
                 $this->dispatch(new IncludeRoutes());
 
-                $events->fire(new Ready());
+                $events->dispatch(new Ready());
             }
         );
     }
@@ -406,27 +406,42 @@ class StreamsServiceProvider extends ServiceProvider
          */
         $this->app->make('router')->post(
             'form/handle/{key}',
-            'Anomaly\Streams\Platform\Http\Controller\FormController@handle'
+            [
+                'ttl'  => 0,
+                'uses' => 'Anomaly\Streams\Platform\Http\Controller\FormController@handle',
+            ]
         );
 
         $this->app->make('router')->get(
             'entry/handle/restore/{addon}/{namespace}/{stream}/{id}',
-            'Anomaly\Streams\Platform\Http\Controller\EntryController@restore'
+            [
+                'ttl'  => 0,
+                'uses' => 'Anomaly\Streams\Platform\Http\Controller\EntryController@restore',
+            ]
         );
 
         $this->app->make('router')->get(
             'entry/handle/export/{addon}/{namespace}/{stream}',
-            'Anomaly\Streams\Platform\Http\Controller\EntryController@export'
+            [
+                'ttl'  => 0,
+                'uses' => 'Anomaly\Streams\Platform\Http\Controller\EntryController@export',
+            ]
         );
 
         $this->app->make('router')->get(
             'locks/touch',
-            'Anomaly\Streams\Platform\Http\Controller\LocksController@touch'
+            [
+                'ttl'  => 0,
+                'uses' => 'Anomaly\Streams\Platform\Http\Controller\LocksController@touch',
+            ]
         );
 
         $this->app->make('router')->get(
             'locks/release',
-            'Anomaly\Streams\Platform\Http\Controller\LocksController@release'
+            [
+                'ttl'  => 0,
+                'uses' => 'Anomaly\Streams\Platform\Http\Controller\LocksController@release',
+            ]
         );
     }
 }

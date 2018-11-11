@@ -69,6 +69,6 @@ class PostForm
         $this->builder->fire('posted', ['builder' => $this->builder]);
         $this->builder->fireFieldEvents('form_posted');
 
-        $events->fire(new FormWasPosted($this->builder));
+        $events->dispatch(new FormWasPosted($this->builder));
     }
 }

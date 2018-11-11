@@ -74,6 +74,6 @@ class NavigationSorter
 
         $builder->setNavigation($navigation);
 
-        $this->events->fire(new SortNavigation($builder));
+        $this->events->dispatch(new SortNavigation($builder));
     }
 }

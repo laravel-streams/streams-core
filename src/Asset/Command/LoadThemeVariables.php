@@ -85,6 +85,6 @@ class LoadThemeVariables
             $this->variables->put($key, $value);
         }
 
-        $events->fire(new ThemeVariablesHaveLoaded($this->variables));
+        $events->dispatch(new ThemeVariablesHaveLoaded($this->variables));
     }
 }

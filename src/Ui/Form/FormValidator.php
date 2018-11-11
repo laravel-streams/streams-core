@@ -114,7 +114,7 @@ class FormValidator
 
         $this->setResponse($validator, $builder);
 
-        $this->events->fire(new FormWasValidated($builder));
+        $this->events->dispatch(new FormWasValidated($builder));
     }
 
     /**

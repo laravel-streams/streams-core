@@ -49,6 +49,6 @@ class NavigationHandler
             )
         );
 
-        $events->fire(new GatherNavigation($builder));
+        $events->dispatch(new GatherNavigation($builder));
     }
 }

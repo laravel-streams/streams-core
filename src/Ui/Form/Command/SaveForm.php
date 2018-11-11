@@ -51,6 +51,6 @@ class SaveForm
         $this->builder->fire('saved', ['builder' => $this->builder]);
         $this->builder->fireFieldEvents('form_saved');
 
-        $events->fire(new FormWasSaved($this->builder));
+        $events->dispatch(new FormWasSaved($this->builder));
     }
 }
