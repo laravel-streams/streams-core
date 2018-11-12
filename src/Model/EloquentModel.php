@@ -147,8 +147,8 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
             ->index();
 
         return app('cache')->remember(
-            $key / 60,
-            $ttl,
+            $key,
+            $ttl / 60,
             $value
         );
     }
