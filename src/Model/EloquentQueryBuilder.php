@@ -95,10 +95,11 @@ class EloquentQueryBuilder extends Builder
         $this->orderByDefault();
 
         /**
-         * If we're not installed then
-         * skip this all together.
+         * Skip this all together if
+         * we are not installed or
+         * if we're running CLI.
          */
-        if (!env('INSTALLED')) {
+        if (!env('INSTALLED') || PHP_SAPI == 'cli') {
             return parent::get($columns);
         }
 
