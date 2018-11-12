@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\PostsModule\Post\PostModel;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Model\Traits\Translatable;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
@@ -61,6 +60,13 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      * @var string
      */
     protected $titleKey = 'id';
+
+    /**
+     * The translation model name.
+     *
+     * @var null
+     */
+    protected $translationModel = null;
 
     /**
      * Observable model events.
@@ -141,7 +147,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
             ->index();
 
         return app('cache')->remember(
-            $key/60,
+            $key / 60,
             $ttl,
             $value
         );
@@ -227,10 +233,10 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
         $ttl = $this->getTtl();
 
         if ($ttl === null) {
-            $ttl = config('streams::database.ttl', 3600)/60;
+            $ttl = config('streams::database.ttl', 3600) / 60;
         }
 
-        return $ttl/60;
+        return $ttl / 60;
     }
 
     /**
