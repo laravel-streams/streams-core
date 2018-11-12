@@ -128,7 +128,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     {
         if (!$value) {
             $value = $ttl;
-            $ttl   = 60 * 24 * 360; // Forever-ish
+            $ttl   = 60 * 60 * 24 * 360; // Forever-ish
         }
 
         if (!config('streams::system.cache_enabled', false)) {
@@ -141,7 +141,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
             ->index();
 
         return app('cache')->remember(
-            $key,
+            $key/60,
             $ttl,
             $value
         );
@@ -230,7 +230,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
             $ttl = config('streams::database.ttl', 3600)/60;
         }
 
-        return $ttl;
+        return $ttl/60;
     }
 
     /**
