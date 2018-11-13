@@ -62,12 +62,14 @@ class EloquentQueryBuilder extends Builder
 
         /**
          * Do not cache...
+         * - If not installed
          * - For the control panel
          * - If DB cache is disabled.
          * - If the system is not "installed"
          * - If the console is making the request
          */
         if (
+            env('INSTALLED') &&
             !IS_ADMIN &&
             $enabled &&
             PHP_SAPI != 'cli' &&
@@ -91,6 +93,15 @@ class EloquentQueryBuilder extends Builder
         }
 
         $this->orderByDefault();
+
+        /**
+         * Skip this all together if
+         * we are not installed or
+         * if we're running CLI.
+         */
+        if (!env('INSTALLED') || PHP_SAPI == 'cli') {
+            return parent::get($columns);
+        }
 
         return self::$cache[$collection][$key] = parent::get($columns);
     }
