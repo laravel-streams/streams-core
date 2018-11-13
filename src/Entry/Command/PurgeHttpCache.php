@@ -46,9 +46,18 @@ class PurgeHttpCache
         /* @var HttpCache $cache */
         $cache = app(HttpCache::class);
 
-        $cache->purge(parse_url($this->entry->route('view'), PHP_URL_PATH));
-        $cache->purge(parse_url($this->entry->route('index'), PHP_URL_PATH));
-        $cache->purge(parse_url($this->entry->route('preview'), PHP_URL_PATH));
+        array_map(
+            function ($route) use ($cache) {
+                $cache->purge(parse_url($route, PHP_URL_PATH));
+            },
+            array_filter(
+                [
+                    $this->entry->route('view'),
+                    $this->entry->route('index'),
+                    $this->entry->route('preview'),
+                ]
+            )
+        );
     }
 
 }
