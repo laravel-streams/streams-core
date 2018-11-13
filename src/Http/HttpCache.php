@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Http;
 
-use Anomaly\Streams\Platform\Http\Command\ClearCache;
+use Anomaly\Streams\Platform\Http\Command\ClearHttpCache;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -38,6 +38,6 @@ class HttpCache extends \Symfony\Component\HttpKernel\HttpCache\HttpCache
      */
     public function clear()
     {
-        $this->dispatch(new ClearCache());
+        $this->dispatch(new ClearHttpCache());
     }
 }
