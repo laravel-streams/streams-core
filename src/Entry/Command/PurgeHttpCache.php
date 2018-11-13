@@ -3,9 +3,7 @@
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Http\HttpCache;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Config\Repository;
-use Illuminate\Database\Query\Builder;
 
 /**
  * Class PurgeHttpCache
@@ -37,13 +35,16 @@ class PurgeHttpCache
     /**
      * Handle the command.
      *
-     * @param HttpCache $cache
+     * @param Repository $config
      */
-    public function handle(HttpCache $cache, Repository $config)
+    public function handle(Repository $config)
     {
-        if (!$config->get('streams::httpcache.enabled')) {
+        if (!env('INSTALLED') || !$config->get('streams::httpcache.enabled')) {
             return;
         }
+
+        /* @var HttpCache $cache */
+        $cache = app(HttpCache::class);
 
         $cache->purge(parse_url($this->entry->route('view'), PHP_URL_PATH));
         $cache->purge(parse_url($this->entry->route('index'), PHP_URL_PATH));
