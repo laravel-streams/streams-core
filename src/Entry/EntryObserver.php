@@ -58,7 +58,7 @@ class EntryObserver extends Observer
      */
     public function updating(EntryInterface $entry)
     {
-        //
+        $this->dispatch(new PurgeHttpCache($entry));
     }
 
     /**
