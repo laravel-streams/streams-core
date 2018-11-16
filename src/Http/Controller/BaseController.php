@@ -144,7 +144,6 @@ class BaseController extends Controller
 
         $this->events->dispatch(new Response($this));
 
-        $this->middleware(VerifyCsrfToken::class);
         $this->middleware(PoweredBy::class);
 
         $this->middleware(ForceSsl::class);
