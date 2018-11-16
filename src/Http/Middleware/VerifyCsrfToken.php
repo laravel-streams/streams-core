@@ -1,15 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Http\Middleware;
 
 use Anomaly\Streams\Platform\Message\MessageBag;
-use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use Illuminate\Routing\Route;
+use Illuminate\Support\InteractsWithTime;
 use Symfony\Component\HttpFoundation\Cookie;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class VerifyCsrfToken
@@ -21,19 +19,14 @@ use Symfony\Component\HttpFoundation\Response;
 class VerifyCsrfToken
 {
 
+    use InteractsWithTime;
+
     /**
      * The application instance.
      *
      * @var \Illuminate\Foundation\Application
      */
     protected $app;
-
-    /**
-     * The active route.
-     *
-     * @var \Illuminate\Routing\Route
-     */
-    protected $route;
 
     /**
      * The encrypter implementation.
@@ -66,15 +59,13 @@ class VerifyCsrfToken
     /**
      * Create a new middleware instance.
      *
-     * @param  \Illuminate\Foundation\Application         $app
-     * @param Route                                       $route
+     * @param  \Illuminate\Foundation\Application $app
      * @param  \Illuminate\Contracts\Encryption\Encrypter $encrypter
-     * @param MessageBag                                  $messages
-     * @param Redirector                                  $redirector
+     * @param MessageBag $messages
+     * @param Redirector $redirector
      */
     public function __construct(
         Application $app,
-        Route $route,
         Encrypter $encrypter,
         MessageBag $messages,
         Redirector $redirector
@@ -82,7 +73,6 @@ class VerifyCsrfToken
         $this->except = config('streams::security.csrf.except', []);
 
         $this->app        = $app;
-        $this->route      = $route;
         $this->encrypter  = $encrypter;
         $this->messages   = $messages;
         $this->redirector = $redirector;
@@ -92,7 +82,7 @@ class VerifyCsrfToken
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \Closure                 $next
+     * @param  \Closure $next
      * @return mixed
      *
      * @throws \Illuminate\Session\TokenMismatchException
@@ -102,7 +92,7 @@ class VerifyCsrfToken
         if (
             $this->isReading($request) ||
             $this->runningUnitTests() ||
-            $this->shouldPassThrough($request) ||
+            $this->inExceptArray($request) ||
             $this->tokensMatch($request)
         ) {
             return $this->addCookieToResponse($request, $next($request));
@@ -114,32 +104,14 @@ class VerifyCsrfToken
     }
 
     /**
-     * Determine if the request has a URI that should pass through CSRF verification.
+     * Determine if the HTTP request uses a ‘read’ verb.
      *
      * @param  \Illuminate\Http\Request $request
      * @return bool
      */
-    protected function shouldPassThrough(Request $request)
+    protected function isReading($request)
     {
-        foreach ($this->except as $except) {
-            if ($except !== '/') {
-                $except = trim($except, '/');
-            }
-
-            if ($request->is($except)) {
-                return true;
-            }
-        }
-
-        /**
-         * If the route disabled the
-         * CSRF then we can skip it.
-         */
-        if (array_get($this->route->getAction(), 'csrf') === false) {
-            return true;
-        }
-
-        return false;
+        return in_array($request->method(), ['HEAD', 'GET', 'OPTIONS']);
     }
 
     /**
@@ -153,57 +125,76 @@ class VerifyCsrfToken
     }
 
     /**
+     * Determine if the request has a URI that should pass through CSRF verification.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return bool
+     */
+    protected function inExceptArray($request)
+    {
+        foreach ($this->except as $except) {
+            if ($except !== '/') {
+                $except = trim($except, '/');
+            }
+
+            if ($request->fullUrlIs($except) || $request->is($except)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Determine if the session and input CSRF tokens match.
      *
      * @param  \Illuminate\Http\Request $request
      * @return bool
      */
-    protected function tokensMatch(Request $request)
+    protected function tokensMatch($request)
     {
-        $sessionToken = $request->session()->token();
+        $token = $this->getTokenFromRequest($request);
 
+        return is_string($request->session()->token()) &&
+            is_string($token) &&
+            hash_equals($request->session()->token(), $token);
+    }
+
+    /**
+     * Get the CSRF token from the request.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return string
+     */
+    protected function getTokenFromRequest($request)
+    {
         $token = $request->input('_token') ?: $request->header('X-CSRF-TOKEN');
 
         if (!$token && $header = $request->header('X-XSRF-TOKEN')) {
             $token = $this->encrypter->decrypt($header);
         }
 
-        if (!is_string($sessionToken) || !is_string($token)) {
-            return false;
-        }
-
-        return hash_equals($sessionToken, $token);
+        return $token;
     }
 
     /**
      * Add the CSRF token to the response cookies.
      *
-     * @param  \Illuminate\Http\Request                   $request
+     * @param  \Illuminate\Http\Request $request
      * @param  \Symfony\Component\HttpFoundation\Response $response
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function addCookieToResponse(Request $request, Response $response)
+    protected function addCookieToResponse($request, $response)
     {
         $config = config('session');
 
         $response->headers->setCookie(
             new Cookie(
-                'XSRF-TOKEN', $request->session()->token(), Carbon::now()->getTimestamp() + 60 * $config['lifetime'],
-                $config['path'], $config['domain'], $config['secure'], false
+                'XSRF-TOKEN', $request->session()->token(), $this->availableAt(60 * $config['lifetime']),
+                $config['path'], $config['domain'], $config['secure'], false, false, $config['same_site'] ?? null
             )
         );
 
         return $response;
-    }
-
-    /**
-     * Determine if the HTTP request uses a ‘read’ verb.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return bool
-     */
-    protected function isReading(Request $request)
-    {
-        return in_array($request->method(), ['HEAD', 'GET', 'OPTIONS']);
     }
 }
