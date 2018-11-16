@@ -44,6 +44,6 @@ class PurgeHttpCache
         /* @var HttpCache $cache */
         $cache = app(HttpCache::class);
 
-        $cache->purge($this->path);
+        $cache->purge(parse_url($this->path, PHP_URL_PATH));
     }
 }
