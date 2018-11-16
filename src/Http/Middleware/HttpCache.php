@@ -80,14 +80,6 @@ class HttpCache
         $route = $request->route();
 
         /**
-         * Don't cache the admin.
-         * And skip the rest.
-         */
-        if ($request->segment(1) == 'admin') {
-            return $response->setTtl(0);
-        }
-
-        /**
          * This is important! In order to properly
          * handle sessions and pass information along
          * failed form information we need to manually
@@ -100,6 +92,14 @@ class HttpCache
         $flash = $this->session->get('_flash');
         $this->session->save();
         $this->session->put('_flash', $flash);
+
+        /**
+         * Don't cache the admin.
+         * And skip the rest.
+         */
+        if ($request->segment(1) == 'admin') {
+            return $response->setTtl(0);
+        }
 
         /**
          * Don't cache if the route
