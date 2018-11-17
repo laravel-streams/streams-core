@@ -2,6 +2,9 @@
 
 use Anomaly\Streams\Platform\Http\Command\ClearHttpCache;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\TerminableInterface;
 
 /**
  * Class HttpCache
@@ -10,7 +13,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class HttpCache extends \Symfony\Component\HttpKernel\HttpCache\HttpCache
+class HttpCache extends \Symfony\Component\HttpKernel\HttpCache\HttpCache implements TerminableInterface
 {
 
     use DispatchesJobs;
@@ -40,4 +43,16 @@ class HttpCache extends \Symfony\Component\HttpKernel\HttpCache\HttpCache
     {
         $this->dispatch(new ClearHttpCache());
     }
+
+    /**
+     * Terminate the request.
+     *
+     * @param Request $request
+     * @param Response $response
+     */
+    public function terminate(Request $request, Response $response)
+    {
+        $this->getKernel()->terminate($request, $response);
+    }
+
 }

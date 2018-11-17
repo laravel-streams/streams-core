@@ -80,20 +80,6 @@ class HttpCache
         $route = $request->route();
 
         /**
-         * This is important! In order to properly
-         * handle sessions and pass information along
-         * failed form information we need to manually
-         * save the session here and pass flash along..
-         *
-         * Don't ask me why - because I don't know.
-         *
-         * @todo    Figure out why this is.
-         */
-        $flash = $this->session->get('_flash');
-        $this->session->save();
-        $this->session->put('_flash', $flash);
-
-        /**
          * Don't cache the admin.
          * And skip the rest.
          */

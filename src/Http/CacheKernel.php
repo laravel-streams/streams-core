@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Http;
 
 use Illuminate\Contracts\Http\Kernel;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpCache\SurrogateInterface;
 
 /**
@@ -48,6 +50,17 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
         );
 
         return $cache;
+    }
+
+    /**
+     * Terminate the response.
+     *
+     * @param Request $request
+     * @param Response $response
+     */
+    public function terminate(Request $request, Response $response)
+    {
+        $this->kernel->terminate($request, $response);
     }
 
 }
