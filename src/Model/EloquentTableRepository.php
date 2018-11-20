@@ -110,7 +110,7 @@ class EloquentTableRepository implements TableRepositoryInterface
         $query = $query->take($limit)->offset($offset);
         
         $builder->fire('queried', compact('builder', 'query'));
-        app('events')->fire(new TableHasQueried($builder, $query));
+        app('events')->fire(new TableWasQueried($builder, $query));
 
         /*
          * Order the query results.
