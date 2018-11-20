@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableWasQueried;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
@@ -103,6 +104,9 @@ class TableRepository implements TableRepositoryInterface
         $offset = $limit * (app('request')->get($builder->getTableOption('prefix') . 'page', 1) - 1);
 
         $query = $query->take($limit)->offset($offset);
+        
+        $builder->fire('queried', compact('builder', 'query'));
+        app('events')->fire(new TableHasQueried($builder, $query));
 
         /*
          * Order the query results.
