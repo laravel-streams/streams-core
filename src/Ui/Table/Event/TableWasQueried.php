@@ -4,13 +4,13 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class TableHasQueried
+ * Class TableWasQueried
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class TableHasQueried
+class TableWasQueried
 {
 
     /**
