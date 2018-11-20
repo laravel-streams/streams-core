@@ -44,6 +44,10 @@ class DropAssignmentColumn
             return;
         }
 
+        if (!$type) {
+            return;
+        }
+
         if (!$this->assignment->isTranslatable()) {
             $table = $stream->getEntryTableName();
         } else {

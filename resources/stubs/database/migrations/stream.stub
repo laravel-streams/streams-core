@@ -14,6 +14,7 @@ class {class} extends Migration
         'slug' => '{stream}',
          'title_column' => 'name',
          'translatable' => true,
+         'versionable' => false,
          'trashable' => false,
          'searchable' => false,
          'sortable' => false,

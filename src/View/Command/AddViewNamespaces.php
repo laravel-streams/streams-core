@@ -16,7 +16,7 @@ class AddViewNamespaces
     /**
      * Handle the command.
      *
-     * @param Factory     $views
+     * @param Factory $views
      * @param Application $application
      */
     public function handle(Factory $views, Application $application)
@@ -31,6 +31,9 @@ class AddViewNamespaces
         $views->addNamespace(
             'streams',
             [
+                $application->getResourcesPath(
+                    "streams/views/"
+                ),
                 base_path('resources/streams/views'),
                 __DIR__ . '/../../../resources/views',
             ]

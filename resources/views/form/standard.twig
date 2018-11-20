@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {{ form_open({'class': 'form', 'enctype': 'multipart/form-data', 'url': form.options.url ?: url_full()}) }}
+    {{ form.open()|raw }}
 
     {{ view("streams::form/partials/heading", {'form': form}) }}
 
@@ -10,6 +10,10 @@
 
     {{ view("streams::buttons/buttons", {'buttons': form.actions}) }}
 
-    {{ form_close() }}
+    {% if form.buttons.count() %}
+        {{ view("streams::buttons/buttons", {'buttons': form.buttons}) }}
+    {% endif %}
+
+    {{ form.close()|raw }}
 
 {% endblock %}

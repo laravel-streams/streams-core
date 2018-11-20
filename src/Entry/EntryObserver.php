@@ -10,10 +10,12 @@ use Anomaly\Streams\Platform\Entry\Event\EntryWasSaved;
 use Anomaly\Streams\Platform\Entry\Event\EntryWasUpdated;
 use Anomaly\Streams\Platform\Model\Command\CascadeDelete;
 use Anomaly\Streams\Platform\Model\Command\CascadeRestore;
+use Anomaly\Streams\Platform\Model\Command\RestrictDelete;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereDeleted;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereUpdated;
 use Anomaly\Streams\Platform\Support\Observer;
+use Anomaly\Streams\Platform\Version\Command\SaveVersion;
 
 /**
  * Class EntryObserver
@@ -73,7 +75,7 @@ class EntryObserver extends Observer
     /**
      * Run after multiple entries have been updated.
      *
-     * @param EntryInterface $entry
+     * @param EntryInterface|EloquentModel $entry
      */
     public function updatedMultiple(EntryInterface $entry)
     {
@@ -86,11 +88,15 @@ class EntryObserver extends Observer
      * Before saving an entry touch the
      * meta information.
      *
-     * @param  EntryInterface $entry
+     * @param  EntryInterface|EntryModel $entry
      */
     public function saving(EntryInterface $entry)
     {
         //$entry->fireFieldTypeEvents('entry_saving');
+
+        if ($entry->isVersionable() && !$entry->versioningDisabled()) {
+            $entry->setVersionComparisonData($entry->toArrayForComparison());
+        }
 
         $this->commands->dispatch(new SetMetaInformation($entry));
     }
@@ -98,12 +104,16 @@ class EntryObserver extends Observer
     /**
      * Run after saving a record.
      *
-     * @param EntryInterface $entry
+     * @param EntryInterface|EntryModel $entry
      */
     public function saved(EntryInterface $entry)
     {
         $entry->flushCache();
         $entry->fireFieldTypeEvents('entry_saved');
+
+        if ($entry->isVersionable() && $entry->shouldVersion()) {
+            $this->commands->dispatch(new SaveVersion($entry));
+        }
 
         $this->events->fire(new EntryWasSaved($entry));
     }
@@ -115,6 +125,10 @@ class EntryObserver extends Observer
      */
     public function deleting(EntryInterface $entry)
     {
+        if ($this->dispatch(new RestrictDelete($entry))) {
+            return false;
+        }
+
         $this->dispatch(new CascadeDelete($entry));
     }
 

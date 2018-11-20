@@ -1,8 +1,8 @@
 // Reference https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
-var storageAvailable = function (type) {
+let storageAvailable = function (type) {
 
     try {
-        var
+        let
             storage = window[type],
             x = '__storage_test__';
 
@@ -29,38 +29,96 @@ var storageAvailable = function (type) {
 };
 
 // Construction below, is the shorthand of $(document).ready() already.
-$(function () {
+(function (window, document) {
 
-    $('body').on('click', '[data-toggle="lang"]', function (e) {
+    let forms = Array.prototype.slice.call(
+        document.querySelectorAll('form.form')
+    );
 
-        e.preventDefault();
+    forms.forEach(function (form) {
 
-        var selected = $(this);
-        var locale = selected.attr('lang');
-        var form = selected.closest('form');
+        /**
+         * Grab ALL the actual language
+         * toggle's in our current form.
+         */
+        let toggles = Array.prototype.slice.call(
+            form.querySelectorAll('[data-toggle="lang"]')
+        );
 
-        var toggles = form.find('[data-toggle="lang"][lang="' + locale + '"]');
-        var triggers = form.find('[data-toggle="lang"]');
-        var group = triggers.closest('.btn-group');
-        var toggle = group.find('.dropdown-toggle');
-        var dropdown = group.find('.dropdown-menu');
+        /**
+         * Handle clicking a locale toggle
+         * in the locales dropdown menus.
+         */
+        document.addEventListener('click', function (event) {
 
-        toggle.text(selected.text());
+            /**
+             * If this is not a lang toggle
+             * then skip it all together.
+             */
+            if (!event.target.hasAttribute('data-toggle') || event.target.getAttribute('data-toggle') !== 'lang') {
+                return;
+            }
 
-        dropdown.find('a').removeClass('active');
-        selected.addClass('active');
+            event.preventDefault();
 
-        form.find('.form-group[lang]').addClass('hidden');
-        form.find('.form-group[lang="' + locale + '"]').removeClass('hidden');
+            /**
+             * Grab ALL language menus
+             * within our current form.
+             */
+            let menus = Array.prototype.slice.call(
+                form.querySelectorAll('[data-dropdown="locales"]')
+            );
 
-        toggles.addClass('active');
+            // This is the target locale.
+            let locale = event.target.getAttribute('lang');
 
-        if (storageAvailable('localStorage')) {
-            localStorage.setItem('formTranslations', locale);
+            // Replace menu text with selected locale.
+            menus.map(menu => menu.innerHTML = event.target.innerHTML);
+
+            // Remove active classes from all toggles.
+            toggles.map(toggle => toggle.classList.remove('active'));
+
+            // Mark only target locale toggles active.
+            toggles.filter(function (toggle) {
+                return toggle.getAttribute('lang') == locale;
+            }).map(toggle => toggle.classList.add('active'));
+
+            /**
+             * Grab ALL form field groups
+             * within our current form.
+             */
+            let groups = Array.prototype.slice.call(
+                form.querySelectorAll('.form-group[lang]')
+            );
+
+            // Hide all input form groups.
+            groups.map(group => group.classList.add('hidden'));
+
+            // Display only the target locale form groups.
+            groups.filter(function (group) {
+                return group.getAttribute('lang') == locale;
+            }).map(group => group.classList.remove('hidden'));
+
+            if (storageAvailable('localStorage')) {
+                localStorage.setItem('formTranslations', locale);
+            }
+        }, false);
+
+        /**
+         * Pre-select the locale
+         * from local storage
+         */
+        if (storageAvailable('localStorage') && !!localStorage.getItem('formTranslations')) {
+
+            let lang = localStorage.getItem('formTranslations');
+
+            // Pre target locale toggles from storage.
+            toggles.filter(function (toggle) {
+                return toggle.getAttribute('lang') == lang;
+            }).some(function (toggle) {
+                toggle.dispatchEvent(new Event('click'));
+                return true;
+            });
         }
     });
-
-    if (storageAvailable('localStorage') && !!localStorage.getItem('formTranslations')) {
-        $('[data-toggle="lang"][lang="' + localStorage.getItem('formTranslations') + '"]').first().click();
-    }
-});
+})(window, document);

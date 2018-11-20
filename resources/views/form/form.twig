@@ -2,22 +2,24 @@
 {{ asset_add("scripts.js", "streams::js/form/keyboard.js") }}
 {{ asset_add("scripts.js", "streams::js/form/translations.js") }}
 
+{% if not form.options.locked %}
+    {{ asset_add("scripts.js", "streams::js/form/lock.js") }}
+{% endif %}
+
 {% block content %}
 
     <div class="container-fluid">
 
-        {{ form_open({
-            'class': 'form ' ~ form.options.class ,
-            'enctype': 'multipart/form-data',
-            'url': form.options.url ?: url_full()
-        }) }}
+        {{ form.open({
+            'class': 'form ' ~ form.options.class,
+        })|raw }}
 
         {#{% include "streams::form/partials/controls" with {"position": "top"} %}#}
         {% include form.options.get('heading', "streams::form/partials/heading") %}
         {% include "streams::form/partials/layout" %}
         {% include "streams::form/partials/controls" %}
 
-        {{ form_close() }}
+        {{ form.close()|raw }}
 
     </div>
 

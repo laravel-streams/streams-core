@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Contracts\Config\Repository;
 
 /**
@@ -50,6 +51,14 @@ class Locator
     {
         if (!is_object($object)) {
             return null;
+        }
+
+        /* @var Hookable $object */
+        if (
+            in_array(Hookable::class, class_uses_recursive($object)) &&
+            $object->hasHook('__locate')
+        ) {
+            return $object->call('__locate');
         }
 
         $class = explode('\\', get_class($object));

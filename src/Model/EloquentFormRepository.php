@@ -1,8 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class EloquentFormRepository
@@ -13,6 +16,8 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class EloquentFormRepository implements FormRepositoryInterface
 {
+
+    use DispatchesJobs;
 
     /**
      * The form model.
@@ -51,6 +56,25 @@ class EloquentFormRepository implements FormRepositoryInterface
     {
         $entry = $builder->getFormEntry();
 
+        $classes = class_uses_recursive($entry);
+
+        /**
+         * If the model is versionable let's disable
+         * that here since the model will potentially
+         * have post-processing relationships. We will
+         * however stash the dirty attributes for later.
+         *
+         * @var Versionable|EntryModel|EloquentModel $entry
+         */
+        if (in_array(Versionable::class, $classes) && $entry->isVersionable()) {
+
+            $entry->disableVersioning(); // Disable for observer versioning.
+
+            $entry->setVersionComparisonData($entry->toArrayForComparison());
+
+            $entry->pushVersion();
+        }
+
         $data = $this->prepareValueData($builder);
 
         $entry->unguard();
@@ -74,6 +98,14 @@ class EloquentFormRepository implements FormRepositoryInterface
         $builder->setFormEntry($entry);
 
         $this->processSelfHandlingFields($builder);
+
+        /**
+         * Put the versioning flag
+         * back the way it was.
+         */
+        if (in_array(Versionable::class, $classes)) {
+            $entry->enableVersioning();
+        }
     }
 
     /**
@@ -91,9 +123,8 @@ class EloquentFormRepository implements FormRepositoryInterface
 
         $allowed = $fields
             ->autoHandling()
+            ->enabled()
             ->savable();
-
-        $disabled = $fields->disabled();
 
         /*
          * Set initial data from the
@@ -101,10 +132,7 @@ class EloquentFormRepository implements FormRepositoryInterface
          */
         $data = array_diff_key(
             $entry->getUnguardedAttributes(),
-            array_merge(
-                ['id', 'created_at', 'created_by_id', 'updated_at', 'updated_by_id'],
-                array_flip($disabled->fieldSlugs())
-            )
+            ['id', 'created_at', 'created_by_id', 'updated_at', 'updated_by_id']
         );
 
         /**
@@ -153,7 +181,10 @@ class EloquentFormRepository implements FormRepositoryInterface
         $entry  = $form->getEntry();
         $fields = $form->getFields();
 
-        $fields = $fields->selfHandling();
+        $fields = $fields
+            ->selfHandling()
+            ->writable()
+            ->enabled();
 
         /* @var FieldType $field */
         foreach ($fields as $field) {

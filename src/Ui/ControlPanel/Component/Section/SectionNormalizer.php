@@ -44,7 +44,18 @@ class SectionNormalizer
          */
         foreach ($sections as $slug => &$section) {
             if (isset($section['sections'])) {
-                foreach ($section['sections'] as $key => &$child) {
+                foreach ($section['sections'] as $key => $child) {
+
+                    /**
+                     * It's a slug only!
+                     */
+                    if (is_string($child)) {
+
+                        $key = $child;
+
+                        $child = ['slug' => $child];
+                    }
+
                     $child['parent'] = array_get($section, 'slug', $slug);
                     $child['slug']   = array_get($child, 'slug', $key);
 

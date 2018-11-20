@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Guesser\DisabledGuesser;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Guesser\EnabledGuesser;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Guesser\RedirectGuesser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -22,6 +23,13 @@ class ActionGuesser
     protected $enabled;
 
     /**
+     * The disabled guesser.
+     *
+     * @var DisabledGuesser
+     */
+    protected $disabled;
+
+    /**
      * The redirect guesser.
      *
      * @var RedirectGuesser
@@ -32,11 +40,16 @@ class ActionGuesser
      * Create a new ActionGuesser instance.
      *
      * @param EnabledGuesser  $enabled
+     * @param DisabledGuesser $disabled
      * @param RedirectGuesser $redirect
      */
-    public function __construct(EnabledGuesser $enabled, RedirectGuesser $redirect)
-    {
+    public function __construct(
+        EnabledGuesser $enabled,
+        DisabledGuesser $disabled,
+        RedirectGuesser $redirect
+    ) {
         $this->enabled  = $enabled;
+        $this->disabled = $disabled;
         $this->redirect = $redirect;
     }
 
@@ -48,6 +61,7 @@ class ActionGuesser
     public function guess(FormBuilder $builder)
     {
         $this->enabled->guess($builder);
+        $this->disabled->guess($builder);
         $this->redirect->guess($builder);
     }
 }

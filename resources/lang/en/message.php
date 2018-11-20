@@ -16,6 +16,7 @@ return [
     'no_results'                => 'No results.',
     'access_denied'             => 'Access denied.',
     'no_fields_available'       => 'No fields available.',
+    'delete_restrict'           => 'Unable to delete :name because it is restricted. Delete related ":relation" first.',
     'delete_success'            => ':count row(s) were deleted successfully.',
     'reorder_success'           => ':count row(s) were reordered successfully.',
     'csrf_token_mismatch'       => 'Your security token has expired. Please submit the form again.',
@@ -33,4 +34,6 @@ return [
     'choose_field_type'         => 'What field type would you like to use?',
     'change_field_type'         => 'What field type would you like to use instead?',
     'choose_field'              => 'What field would you like to add?',
+    'confirm_load_title'        => 'Load Version',
+    'confirm_load_message'      => 'You are about to load a previous version. No changes will be made until you save.',
 ];

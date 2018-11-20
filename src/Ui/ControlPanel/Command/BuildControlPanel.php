@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Command;
 
+use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Command\BuildButtons;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command\BuildNavigation;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command\SetActiveNavigationLink;
@@ -43,9 +44,11 @@ class BuildControlPanel
     /**
      * Handle the command.
      */
-    public function handle(Dispatcher $events)
+    public function handle(Dispatcher $events, Asset $asset)
     {
         $events->fire(new ControlPanelIsBuilding($this->builder));
+
+        $asset->add('scripts.js', 'streams::js/cp/click.js');
 
         $this->dispatch(new BuildNavigation($this->builder));
         $this->dispatch(new SetActiveNavigationLink($this->builder));

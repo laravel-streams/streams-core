@@ -334,6 +334,16 @@ class Image
     }
 
     /**
+     * Return the CSS URL for background images.
+     *
+     * @return string
+     */
+    public function css()
+    {
+        return 'url(' . $this->path() . ')';
+    }
+
+    /**
      * Run a macro on the image.
      *
      * @param $macro
@@ -368,7 +378,9 @@ class Image
     {
         $attributes = array_merge($this->getAttributes(), $attributes);
 
-        $attributes['src'] = $this->path();
+        if (!isset($attributes['src'])) {
+            $attributes['src'] = $this->path();
+        }
 
         if ($srcset = $this->srcset()) {
             $attributes['srcset'] = $srcset;
@@ -389,6 +401,21 @@ class Image
         }
 
         return '<img ' . $this->html->attributes($attributes) . '>';
+    }
+
+    /**
+     * Return the image tag to a
+     * data encoded inline image.
+     *
+     * @param  null $alt
+     * @param  array $attributes
+     * @return string
+     */
+    public function inline($alt = null, array $attributes = [])
+    {
+        $attributes['src'] = $this->base64();
+
+        return $this->image($alt, $attributes);
     }
 
     /**
@@ -465,13 +492,13 @@ class Image
     }
 
     /**
-     * Return the base64_encoded image.
+     * Return the base64_encoded image source.
      *
      * @return string
      */
     public function base64()
     {
-        return base64_encode($this->data());
+        return 'data:image/' . $this->getExtension() . ';base64,' . base64_encode($this->data());
     }
 
     /**
@@ -1312,7 +1339,7 @@ class Image
             return;
         }
 
-        if (array_pop($arguments) !== false && (is_null($arguments[0]) || is_null($arguments[1]))) {
+        if (array_pop($arguments) == true) {
             $arguments[] = function (Constraint $constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();

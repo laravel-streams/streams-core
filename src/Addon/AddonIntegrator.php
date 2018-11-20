@@ -179,11 +179,12 @@ class AddonIntegrator
                 $this->application->getResourcesPath(
                     "addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/views/"
                 ),
+                base_path("resources/addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/views/"),
                 $addon->getPath('resources/views'),
             ]
         );
         $this->translator->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));
-        
+
         /*
          * If the addon is a plugin then
          * load it into Twig when appropriate.

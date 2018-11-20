@@ -38,6 +38,7 @@ class HandleErrors
     {
         /* @var FormBuilder $builder */
         foreach ($this->builder->getForms() as $builder) {
+
             if ($builder->hasFormErrors()) {
 
                 // We can't save now!

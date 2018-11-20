@@ -19,7 +19,9 @@ class HeaderDefaults
      */
     public function defaults(TableBuilder $builder)
     {
-        $stream = $builder->getTableStream();
+        if (!$stream = $builder->getTableStream()) {
+            return;
+        }
 
         if ($builder->getColumns() == []) {
             $builder->setColumns([$stream->getTitleColumn()]);

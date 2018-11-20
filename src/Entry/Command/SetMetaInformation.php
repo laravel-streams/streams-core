@@ -4,6 +4,13 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Database\Query\Builder;
 
+/**
+ * Class SetMetaInformation
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class SetMetaInformation
 {
 
@@ -31,13 +38,9 @@ class SetMetaInformation
      */
     public function handle(Guard $auth)
     {
-        if ($this->entry->created_at) {
-            $this->entry->updated_at    = time();
-            $this->entry->updated_by_id = $auth->id();
-        }
+        $this->entry->updated_by_id = $auth->id();
 
-        if (!$this->entry->created_at) {
-            $this->entry->created_at    = time();
+        if (!$this->entry->created_by_id) {
             $this->entry->created_by_id = $auth->id();
         }
 

@@ -49,9 +49,9 @@ class ActionHandler
     /**
      * Create a new ActionHandler instance.
      *
-     * @param Parser     $parser
-     * @param Store      $session
-     * @param Request    $request
+     * @param Parser $parser
+     * @param Store $session
+     * @param Request $request
      * @param Redirector $redirector
      */
     public function __construct(Parser $parser, Store $session, Request $request, Redirector $redirector)
@@ -76,7 +76,7 @@ class ActionHandler
         if ($builder->getFormResponse()) {
             return;
         }
-        
+
         /**
          * If a redirect is undesired then
          * skip this step all together.
@@ -125,8 +125,10 @@ class ActionHandler
         /*
          * Restore the query string prior if
          * we're coming from a table.
+         *
+         * Do not manipulate versionable workflow.
          */
-        if ($query = $this->session->get('table::' . $redirect)) {
+        if (($query = $this->session->get('table::' . $redirect)) && !strpos($query, 'versionable')) {
             $redirect = strpos($redirect, '?') ? $redirect . '&' . $query : $redirect . '?' . $query;
         }
 

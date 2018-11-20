@@ -44,6 +44,7 @@ class SetFormModel
          * then use it as is.
          */
         if (is_object($model)) {
+
             $form->setModel($model);
 
             return;
@@ -54,11 +55,10 @@ class SetFormModel
          * guessing the model based on the entry.
          */
         if ($model === null && $entry instanceof EntryInterface) {
+
             $stream = $entry->getStream();
 
-            $this->builder->setModel($stream->getEntryModel());
-
-            return;
+            $this->builder->setModel($model = get_class($stream->getEntryModel()));
         }
 
         /*
@@ -66,6 +66,7 @@ class SetFormModel
          * model based on best practices.
          */
         if ($model === null) {
+
             $parts = explode('\\', str_replace('FormBuilder', 'Model', get_class($this->builder)));
 
             unset($parts[count($parts) - 2]);
@@ -80,6 +81,7 @@ class SetFormModel
          * is disabled then skip it.
          */
         if (!$model || !class_exists($model)) {
+
             $this->builder->setModel(null);
 
             return;

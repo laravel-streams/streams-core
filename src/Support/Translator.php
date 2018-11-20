@@ -42,7 +42,9 @@ class Translator
         if (is_array($target)) {
             foreach ($target as &$value) {
                 if (is_string($value) && $this->translator->has($value)) {
-                    $value = $this->translator->trans($value);
+                    if (is_string($translated = $this->translator->trans($value))) {
+                        $value = $translated;
+                    }
                 } elseif (is_array($value)) {
                     $value = $this->translate($value);
                 }

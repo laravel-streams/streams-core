@@ -162,6 +162,13 @@ class FieldType extends Addon
     protected $class = 'form-control';
 
     /**
+     * The input type.
+     *
+     * @var string
+     */
+    protected $inputType = null;
+
+    /**
      * The database column type.
      *
      * @var string
@@ -249,7 +256,7 @@ class FieldType extends Addon
      * Return a config value.
      *
      * @param        $key
-     * @param  null $default
+     * @param  null  $default
      * @return mixed
      */
     public function config($key, $default = null)
@@ -438,7 +445,7 @@ class FieldType extends Addon
      * Get a config value.
      *
      * @param        $key
-     * @param  null $default
+     * @param  null  $default
      * @return mixed
      */
     public function configGet($key, $default = null)
@@ -526,11 +533,11 @@ class FieldType extends Addon
     {
         $value = $this->getValue();
 
-        if ($value === null) {
+        if ($value == '') {
             return false;
         }
 
-        if (empty($value)) {
+        if ($value === null) {
             return false;
         }
 
@@ -982,6 +989,16 @@ class FieldType extends Addon
     public function getColumnLength()
     {
         return $this->columnLength;
+    }
+
+    /**
+     * Get the input type.
+     *
+     * @return string
+     */
+    public function getInputType()
+    {
+        return $this->inputType;
     }
 
     /**

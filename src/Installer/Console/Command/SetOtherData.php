@@ -57,11 +57,11 @@ class SetOtherData
         );
 
         $this->data->put(
-            'TIMEZONE',
+            'APP_TIMEZONE',
             $this->command->askWithCompletion(
                 'Enter the default timezone',
                 timezone_identifiers_list(),
-                env('APPLICATION_TIMEZONE', 'UTC')
+                env('APP_TIMEZONE', 'UTC')
             )
         );
 

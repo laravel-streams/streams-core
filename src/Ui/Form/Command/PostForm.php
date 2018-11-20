@@ -59,6 +59,7 @@ class PostForm
         $this->dispatch(new RemoveSkippedFields($this->builder));
         $this->dispatch(new HandleForm($this->builder));
         $this->dispatch(new SetSuccessMessage($this->builder));
+        $this->dispatch(new HandleVersioning($this->builder));
         $this->dispatch(new SetActionResponse($this->builder));
 
         if ($this->builder->isAjax()) {

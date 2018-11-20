@@ -153,16 +153,38 @@ class MessageBag
     }
 
     /**
-     * Flush the messages.
+     * Add an important message.
      *
+     * @param $message
      * @return $this
      */
-    public function flush()
+    public function important($message)
     {
+        $this->merge(__FUNCTION__, $message);
+
+        return $this;
+    }
+
+    /**
+     * Flush the messages.
+     *
+     * @param null $type
+     * @return $this
+     */
+    public function flush($type = null)
+    {
+        if ($type) {
+
+            $this->session->forget($type);
+
+            return $this;
+        }
+
         $this->session->forget('info');
         $this->session->forget('error');
         $this->session->forget('success');
         $this->session->forget('warning');
+        $this->session->forget('important');
 
         return $this;
     }

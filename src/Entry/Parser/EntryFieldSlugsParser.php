@@ -23,7 +23,7 @@ class EntryFieldSlugsParser
         $string = "[";
 
         foreach ($stream->getAssignmentFieldSlugs() as $slug) {
-            $string .= "\n'{$slug}',";
+            $string .= "\n        '{$slug}',";
         }
 
         $string .= "\n]";

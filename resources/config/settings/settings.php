@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Illuminate\Contracts\Config\Repository;
-use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\Request;
 
 return [
     'name'            => [
@@ -24,11 +24,39 @@ return [
             },
         ],
     ],
+    'domain'          => [
+        'required' => true,
+        'env'      => 'APPLICATION_DOMAIN',
+        'bind'     => 'streams::system.domain',
+        'type'     => 'anomaly.field_type.url',
+        'config'   => [
+            'default_value' => function (Request $request) {
+                return $request->getHttpHost();
+            },
+        ],
+    ],
+    'force_ssl'       => [
+        'env'  => 'FORCE_SSL',
+        'bind' => 'streams::system.force_ssl',
+        'type' => 'anomaly.field_type.boolean',
+    ],
+    'domain_prefix'   => [
+        'env'    => 'DOMAIN_PREFIX',
+        'bind'   => 'streams::system.domain_prefix',
+        'type'   => 'anomaly.field_type.select',
+        'config' => [
+            'options' => [
+                'www'     => 'www.domain.com',
+                'non-www' => 'domain.com',
+            ],
+        ],
+    ],
     'timezone'        => [
         'env'    => 'APP_TIMEZONE',
         'bind'   => 'app.timezone',
         'type'   => 'anomaly.field_type.select',
         'config' => [
+            'mode'          => 'search',
             'handler'       => 'timezones',
             'default_value' => config('app.timezone'),
         ],
@@ -55,6 +83,9 @@ return [
                 },
                 'Y-m-d'  => function () {
                     return date('Y-m-d'); // 2015-07-10
+                },
+                'd.m.Y'  => function () {
+                    return date('d.m.Y'); // 10.07.2015
                 },
             ],
         ],
@@ -201,7 +232,7 @@ return [
             'off_text'      => 'OFF',
         ],
     ],
-    'debug_bar'           => [
+    'debug_bar'       => [
         'env'    => 'DEBUG_BAR',
         'bind'   => 'debugbar.enabled',
         'type'   => 'anomaly.field_type.boolean',
@@ -215,9 +246,8 @@ return [
     ],
     'maintenance'     => [
         'type'   => 'anomaly.field_type.boolean',
-        'value'  => function (Application $application) {
-            return $application->isDownForMaintenance();
-        },
+        'env'    => 'MAINTENANCE_MODE',
+        'bind'   => 'streams::maintenance.enabled',
         'config' => [
             'on_text'  => 'ON',
             'off_text' => 'OFF',
@@ -259,6 +289,46 @@ return [
             'default_value' => function (Repository $config) {
                 return $config->get('streams::distribution.name');
             },
+        ],
+    ],
+    'mail_driver'     => [
+        'env'      => 'MAIL_DRIVER',
+        'bind'     => 'mail.driver',
+        'type'     => 'anomaly.field_type.select',
+        'required' => true,
+        'config'   => [
+            'default_value' => 'mail',
+            'options'       => [
+                'smtp'     => 'streams::setting.mail_driver.option.smtp',
+                'mail'     => 'streams::setting.mail_driver.option.mail',
+                'sendmail' => 'streams::setting.mail_driver.option.sendmail',
+                'mailgun'  => 'streams::setting.mail_driver.option.mailgun',
+                'mandrill' => 'streams::setting.mail_driver.option.mandrill',
+                'log'      => 'streams::setting.mail_driver.option.log',
+            ],
+        ],
+    ],
+    'mail_host'       => [
+        'env'  => 'MAIL_HOST',
+        'bind' => 'mail.host',
+        'type' => 'anomaly.field_type.text',
+    ],
+    'mail_port'       => [
+        'env'  => 'MAIL_PORT',
+        'bind' => 'mail.port',
+        'type' => 'anomaly.field_type.integer',
+    ],
+    'mail_username'   => [
+        'env'  => 'MAIL_USERNAME',
+        'bind' => 'mail.username',
+        'type' => 'anomaly.field_type.text',
+    ],
+    'mail_password'   => [
+        'env'    => 'MAIL_PASSWORD',
+        'bind'   => 'mail.password',
+        'type'   => 'anomaly.field_type.text',
+        'config' => [
+            'type' => 'password',
         ],
     ],
 ];

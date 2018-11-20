@@ -1,14 +1,15 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
 
 class TableRepository implements TableRepositoryInterface
 {
+
     use DispatchesJobs;
 
     /**
@@ -70,9 +71,9 @@ class TableRepository implements TableRepositoryInterface
         $total = clone($query);
 
         $total = $total
-            ->select($this->model->getTable() . '.id')
-            ->groupBy($this->model->getTable() . '.id')
-            ->count($this->model->getTable() . '.id');
+            ->select($this->model->getTable() . '.' . $this->model->getKeyName())
+            ->groupBy($this->model->getTable() . '.' . $this->model->getKeyName())
+            ->count($this->model->getTable() . '.' . $this->model->getKeyName());
 
         $builder->setTableOption('total_results', $total);
 

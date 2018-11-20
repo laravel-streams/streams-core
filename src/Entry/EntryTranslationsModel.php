@@ -22,6 +22,15 @@ class EntryTranslationsModel extends EloquentModel
     public $timestamps = true;
 
     /**
+     * Don't array these.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'parent',
+    ];
+
+    /**
      * Cache minutes.
      *
      * @var int

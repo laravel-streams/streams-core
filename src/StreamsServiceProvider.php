@@ -8,6 +8,7 @@ use Anomaly\Streams\Platform\Application\Command\ConfigureUriValidator;
 use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
 use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
 use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
+use Anomaly\Streams\Platform\Application\Command\SetApplicationDomain;
 use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
 use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
@@ -101,6 +102,8 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Stream\StreamModel'                                    => 'Anomaly\Streams\Platform\Stream\StreamModel',
         'Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface'             => 'Anomaly\Streams\Platform\Stream\StreamRepository',
         'Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface'            => 'Anomaly\Streams\Platform\Model\EloquentRepository',
+        'Anomaly\Streams\Platform\Version\Contract\VersionRepositoryInterface'           => 'Anomaly\Streams\Platform\Version\VersionRepository',
+        'Anomaly\Streams\Platform\Lock\Contract\LockRepositoryInterface'                 => 'Anomaly\Streams\Platform\Lock\LockRepository',
         'Anomaly\Streams\Platform\Assignment\AssignmentModel'                            => 'Anomaly\Streams\Platform\Assignment\AssignmentModel',
         'Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface'     => 'Anomaly\Streams\Platform\Assignment\AssignmentRepository',
         'Anomaly\Streams\Platform\Addon\Module\ModuleModel'                              => 'Anomaly\Streams\Platform\Addon\Module\ModuleModel',
@@ -123,6 +126,7 @@ class StreamsServiceProvider extends ServiceProvider
     protected $singletons = [
         'Illuminate\Database\Migrations\Migrator'                                            => 'Anomaly\Streams\Platform\Database\Migration\Migrator',
         'Illuminate\Contracts\Routing\UrlGenerator'                                          => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
+        'Anomaly\Streams\Platform\Routing\UrlGenerator'                                      => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
         'Intervention\Image\ImageManager'                                                    => 'image',
         'League\Flysystem\MountManager'                                                      => 'League\Flysystem\MountManager',
         'Illuminate\Database\Seeder'                                                         => 'Anomaly\Streams\Platform\Database\Seeder\Seeder',
@@ -172,6 +176,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Addon\Theme\Listener\PutThemeInCollection'                 => 'Anomaly\Streams\Platform\Addon\Theme\Listener\PutThemeInCollection',
         'Anomaly\Streams\Platform\View\ViewComposer'                                         => 'Anomaly\Streams\Platform\View\ViewComposer',
         'Anomaly\Streams\Platform\View\ViewTemplate'                                         => 'Anomaly\Streams\Platform\View\ViewTemplate',
+        'Anomaly\Streams\Platform\View\ViewIncludes'                                         => 'Anomaly\Streams\Platform\View\ViewIncludes',
         'Anomaly\Streams\Platform\View\ViewOverrides'                                        => 'Anomaly\Streams\Platform\View\ViewOverrides',
         'Anomaly\Streams\Platform\View\ViewMobileOverrides'                                  => 'Anomaly\Streams\Platform\View\ViewMobileOverrides',
         'Anomaly\Streams\Platform\View\Listener\LoadTemplateData'                            => 'Anomaly\Streams\Platform\View\Listener\LoadTemplateData',
@@ -254,10 +259,6 @@ class StreamsServiceProvider extends ServiceProvider
                             }
                         }
 
-                        if (!$twig->hasExtension('compress')) {
-                            $twig->addExtension(new \nochso\HtmlCompressTwig\Extension(env('HTML_COMPRESS', true)));
-                        }
-
                         $twig->addExtension(
                             new Extension(
                                 new CacheStrategy(
@@ -280,6 +281,7 @@ class StreamsServiceProvider extends ServiceProvider
 
                 $this->dispatch(new LoadCurrentTheme());
                 $this->dispatch(new AddViewNamespaces());
+                $this->dispatch(new SetApplicationDomain());
 
                 /*
                  * Do this after addons are registered
@@ -314,6 +316,23 @@ class StreamsServiceProvider extends ServiceProvider
 
         if (env('APP_ENV') !== 'production' && class_exists(\Laravel\Tinker\TinkerServiceProvider::class)) {
             $this->app->registerDeferredProvider(\Laravel\Tinker\TinkerServiceProvider::class);
+        }
+
+        // Register listeners.
+        $events = $this->app->make(Dispatcher::class);
+
+        foreach (config('streams.listeners', []) as $event => $listeners) {
+
+            foreach ($listeners as $key => $listener) {
+                if (is_integer($listener)) {
+                    $priority = $listener;
+                    $listener = $key;
+                } else {
+                    $priority = 0;
+                }
+
+                $events->listen($event, $listener, $priority);
+            }
         }
 
         // Register bindings.
@@ -391,6 +410,16 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->make('router')->get(
             'entry/handle/export/{addon}/{namespace}/{stream}',
             'Anomaly\Streams\Platform\Http\Controller\EntryController@export'
+        );
+
+        $this->app->make('router')->get(
+            'locks/touch',
+            'Anomaly\Streams\Platform\Http\Controller\LocksController@touch'
+        );
+
+        $this->app->make('router')->get(
+            'locks/release',
+            'Anomaly\Streams\Platform\Http\Controller\LocksController@release'
         );
     }
 }

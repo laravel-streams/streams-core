@@ -1,4 +1,4 @@
-var modal = $('.modal.remote.in');
+var modal = $('.modal.remote.in, .tingle-modal-box');
 var form = modal.find('form.modal-filter');
 var input = form.find('input');
 var list = modal.find('ul');
@@ -92,7 +92,17 @@ input.on('keydown', function (e) {
                     return false;
                 }
 
-                window.location = selected.find('a').attr('href');
+                /**
+                 * If control or the meta key is
+                 * being held open a new window.
+                 */
+                if (e.ctrlKey || e.metaKey) {
+                    window.open(selected.find('a').attr('href'), "_blank");
+
+                    modal.modal('hide');
+                } else {
+                    window.location = selected.find('a').attr('href');
+                }
 
                 modal.find('.modal-content').append('<div class="modal-loading"><div class="active large loader"></div></div>');
             }

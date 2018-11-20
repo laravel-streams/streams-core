@@ -25,4 +25,18 @@ class FormCollection extends Collection
 
         return $this;
     }
+
+    /**
+     * Return only locked forms.
+     *
+     * @return $this
+     */
+    public function locked()
+    {
+        return $this->filter(
+            function (FormBuilder $form) {
+                return $form->isLocked();
+            }
+        );
+    }
 }

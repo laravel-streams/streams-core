@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Table;
 
 use Anomaly\Streams\Platform\Assignment\Table\Command\SetDefaultProperties;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Stream\Command\CompileStream;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
@@ -22,6 +24,12 @@ class AssignmentTableBuilder extends TableBuilder
      */
     protected $stream = null;
 
+    protected $filters = [
+        'example' => [
+            'filter' => 'datetime',
+        ],
+    ];
+
     /**
      * The table columns.
      *
@@ -30,7 +38,7 @@ class AssignmentTableBuilder extends TableBuilder
     protected $columns = [
         [
             'heading' => 'streams::field.name.name',
-            'value'   => 'entry.field.name',
+            'value'   => 'entry.label ?: entry.field.name',
         ],
         [
             'heading' => 'streams::field.slug.name',
@@ -118,9 +126,22 @@ class AssignmentTableBuilder extends TableBuilder
     }
 
     /**
+     * Manually recompile the stream.
+     */
+    public function onReordered()
+    {
+        /* @var StreamInterface $stream */
+        $stream = $this->getStream();
+
+        $stream->load('assignments');
+
+        $this->dispatch(new CompileStream($this->getStream()));
+    }
+
+    /**
      * Get the stream.
      *
-     * @return StreamInterface|null
+     * @return StreamInterface|EloquentModel|null
      */
     public function getStream()
     {

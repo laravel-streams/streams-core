@@ -56,6 +56,7 @@ class BuildForm
         $this->dispatch(new SetFormStream($this->builder));
         $this->dispatch(new SetRepository($this->builder));
         $this->dispatch(new SetFormEntry($this->builder));
+        $this->dispatch(new SetFormVersion($this->builder));
         $this->dispatch(new SetDefaultParameters($this->builder));
         $this->dispatch(new SetFormOptions($this->builder));
         $this->dispatch(new SetDefaultOptions($this->builder));
@@ -69,6 +70,11 @@ class BuildForm
          * Before we go any further, authorize the request.
          */
         $this->dispatch(new AuthorizeForm($this->builder));
+
+        /*
+         * Lock form model.
+         */
+        $this->dispatch(new LockFormModel($this->builder));
 
         /*
          * Build form fields.

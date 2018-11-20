@@ -1,18 +1,73 @@
-$(function() {
+(function (window, document) {
 
-    // Toggle all table actions
-    $('[data-toggle="all"]').on('change', function() {
+    let tables = Array.prototype.slice.call(
+        document.querySelectorAll('table.table')
+    );
 
-        $(this).closest('table').find(':checkbox').prop('checked', $(this).is(':checked'));
-    });
+    tables.forEach(function (table) {
 
-    // Only allow actions if rows are selected.
-    $('table').find(':checkbox').on('change', function() {
+        let toggle = table.querySelector('input[data-toggle="all"]');
 
-        if ($(this).closest('form').find(':checkbox:checked').length) {
-            $(this).closest('form').find('.actions').find('button:not([data-ignore])').removeAttr('disabled').removeClass('disabled');
-        } else {
-            $(this).closest('form').find('.actions').find('button:not([data-ignore])').attr('disabled', 'disabled').addClass('disabled');
+        if (!toggle) {
+            return;
         }
+
+        let checkboxes = Array.prototype.slice.call(
+            table.querySelectorAll('input[type="checkbox"][data-toggle="action"]')
+        );
+
+        let actions = Array.prototype.slice.call(
+            table.querySelectorAll('.table__actions button')
+        );
+
+        /**
+         * If the toggle all checkbox is
+         * clicked then toggle imprint it's
+         * checked status on ALL action toggles.
+         * @type {Element}
+         */
+        toggle.addEventListener('change', function (event) {
+            checkboxes.forEach(function (checkbox) {
+
+                checkbox.checked = event.target.checked;
+
+                checkbox.dispatchEvent(new Event('change'));
+            });
+        });
+
+        /**
+         * Enable and disable the table
+         * actions based on the toggles.
+         */
+        checkboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+
+                let checked = checkboxes.filter(function (checkbox) {
+                    return checkbox.checked === true;
+                });
+
+                if (checked.length) {
+                    actions.forEach(function (action) {
+
+                        if (action.hasAttribute('data-ignore')) {
+                            return;
+                        }
+
+                        action.removeAttribute('disabled');
+                        action.classList.remove('disabled');
+                    });
+                } else {
+                    actions.forEach(function (action) {
+
+                        if (action.hasAttribute('data-ignore')) {
+                            return;
+                        }
+
+                        action.setAttribute('disabled', 'disabled');
+                        action.classList.add('disabled');
+                    });
+                }
+            });
+        });
     });
-});
+})(window, document);

@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Model\Command\CascadeDelete;
 use Anomaly\Streams\Platform\Model\Command\CascadeRestore;
+use Anomaly\Streams\Platform\Model\Command\RestrictDelete;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereDeleted;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereUpdated;
 use Anomaly\Streams\Platform\Model\Event\ModelWasCreated;
@@ -10,6 +11,7 @@ use Anomaly\Streams\Platform\Model\Event\ModelWasRestored;
 use Anomaly\Streams\Platform\Model\Event\ModelWasSaved;
 use Anomaly\Streams\Platform\Model\Event\ModelWasUpdated;
 use Anomaly\Streams\Platform\Support\Observer;
+use Anomaly\Streams\Platform\Version\Command\SaveVersion;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -52,7 +54,7 @@ class EloquentObserver extends Observer
     public function saved(EloquentModel $model)
     {
         $model->flushCache();
-
+        
         $this->events->fire(new ModelWasSaved($model));
     }
 
@@ -87,6 +89,10 @@ class EloquentObserver extends Observer
      */
     public function deleting(EloquentModel $entry)
     {
+        if ($this->dispatch(new RestrictDelete($entry))) {
+            return false;
+        }
+
         $this->dispatch(new CascadeDelete($entry));
     }
 

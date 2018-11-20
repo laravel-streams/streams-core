@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Model\Traits\Translatable;
+use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Collection;
@@ -80,6 +81,13 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     protected $cascades = [];
 
     /**
+     * The restricting delete-able relations.
+     *
+     * @var array
+     */
+    protected $restricts = [];
+
+    /**
      * Runtime cache.
      *
      * @var array
@@ -112,11 +120,20 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      *
      * @param $key
      * @param $ttl
-     * @param $value
+     * @param null $value
      * @return mixed
      */
-    public function cache($key, $ttl, $value)
+    public function cache($key, $ttl, $value = null)
     {
+        if (!$value) {
+            $value = $ttl;
+            $ttl   = 60 * 24 * 360; // Forever-ish
+        }
+
+        if (!config('streams::system.cache_enabled', false)) {
+            return value($value);
+        }
+
         (new CacheCollection())
             ->make([$key])
             ->setKey($this->getCacheCollectionKey())
@@ -124,7 +141,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
 
         return app('cache')->remember(
             $key,
-            $ttl ?: $this->getTtl(),
+            $ttl,
             $value
         );
     }
@@ -441,6 +458,21 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     }
 
     /**
+     * Perform any actions that are necessary after the model is saved.
+     *
+     * @param  array $options
+     * @return void
+     */
+    protected function finishSave(array $options)
+    {
+        if (($options['version'] ?? true) == false && $this instanceof Versionable) {
+            $this->disableVersioning();
+        }
+
+        parent::finishSave($options);
+    }
+
+    /**
      * Fill the model attributes.
      *
      * @param array $attributes
@@ -546,6 +578,54 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     }
 
     /**
+     * Return the model as an array with relations.
+     *
+     * @return array
+     */
+    public function toArrayWithRelations()
+    {
+        return array_merge(
+            $this->toArray(),
+            $this->relationsToArray()
+        );
+    }
+
+    /**
+     * Return the object as an
+     * array for comparison.
+     *
+     * @return array
+     */
+    public function toArrayForComparison()
+    {
+        $array = array_dot($this->toArrayWithRelations());
+
+        $remove = ['created_at', 'updated_at', 'created_by_id', 'updated_by_id'];
+
+        array_walk(
+            $array,
+            function ($value, $key) use (&$array, $remove) {
+
+                /**
+                 * Remove keys that are not tracked.
+                 */
+                if (in_array($key, $remove) || ends_with($key, $remove)) {
+                    unset($array[$key]);
+                }
+
+                /**
+                 * Make sure any nested arrays are serialized.
+                 */
+                if (is_array($value)) {
+                    $array[$key] = serialize($value);
+                }
+            }
+        );
+
+        return $array;
+    }
+
+    /**
      * Return the routable array information.
      *
      * @return array
@@ -599,6 +679,16 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     public function getCascades()
     {
         return $this->cascades;
+    }
+
+    /**
+     * Get the restricting actions.
+     *
+     * @return array
+     */
+    public function getRestricts()
+    {
+        return $this->restricts;
     }
 
     /**
@@ -656,6 +746,8 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     /**
      * Remove volatile cache from
      * objects before serialization.
+     *
+     * @todo Should 'stream' be removed too?
      *
      * @return array
      */

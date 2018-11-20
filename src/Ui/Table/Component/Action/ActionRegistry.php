@@ -43,11 +43,14 @@ class ActionRegistry
             'handler' => Edit::class,
         ],
         'reorder'      => [
-            'handler' => Reorder::class,
-            'text'    => 'streams::button.reorder',
-            'icon'    => 'fa fa-sort-amount-asc',
-            'class'   => 'reorder',
-            'type'    => 'success',
+            'handler'    => Reorder::class,
+            'text'       => 'streams::button.reorder',
+            'icon'       => 'fa fa-sort-amount-asc',
+            'class'      => 'reorder',
+            'type'       => 'success',
+            'attributes' => [
+                'data-ignore',
+            ],
         ],
     ];
 

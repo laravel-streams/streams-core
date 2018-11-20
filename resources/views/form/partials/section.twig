@@ -13,6 +13,11 @@
         {# No card block - tabs push to the edges #}
         {% include "streams::form/partials/tabs" with {"tabs": section.tabs, "stacked": section.stacked} %}
 
+    {% elseif section.groups %}
+
+        {# No card block - tabs push to the edges #}
+        {% include "streams::form/partials/groups" with {"groups": section.groups} %}
+
     {% elseif section.rows %}
 
         <div class="card-block">

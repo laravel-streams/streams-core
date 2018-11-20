@@ -15,6 +15,28 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Primary Domain
+    |--------------------------------------------------------------------------
+    |
+    | Define the primary domain for the app.
+    |
+    */
+
+    'domain' => env('APPLICATION_DOMAIN', config('app.url', 'localhost')),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Domain Prefix
+    |--------------------------------------------------------------------------
+    |
+    | Normalize the domain prefix.
+    |
+    */
+
+    'domain_prefix' => env('DOMAIN_PREFIX', 'ignore'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Results Per Page
     |--------------------------------------------------------------------------
     |
@@ -60,4 +82,36 @@ return [
     */
 
     'lazy_translations' => env('LAZY_TRANSLATIONS'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | CACHE ENABLED
+    |--------------------------------------------------------------------------
+    |
+    | Do you want to enable system caching?
+    |
+    | By default the system will cache things intelligently
+    | as long as the system is not in debug mode. You can however
+    | enable debugging and cache at the same time by specifying it here.
+    |
+    |
+    */
+
+    'cache_enabled' => env('CACHE_ENABLED', env('APP_DEBUG', false) == false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | LOCKING ENABLED
+    |--------------------------------------------------------------------------
+    |
+    | Do you want to enable edit locks?
+    |
+    | Edit locks prevent multiple users from working on the same
+    | content at the same time by locking forms to other users.
+    |
+    |
+    */
+
+    'locking_enabled' => env('LOCKING_ENABLED', true),
+
 ];

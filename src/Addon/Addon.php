@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Robbo\Presenter\PresentableInterface;
@@ -16,6 +17,7 @@ use Robbo\Presenter\Presenter;
 class Addon implements PresentableInterface, Arrayable
 {
 
+    use Hookable;
     use FiresCallbacks;
     use DispatchesJobs;
 
@@ -53,6 +55,34 @@ class Addon implements PresentableInterface, Arrayable
      * @var string
      */
     protected $slug = null;
+
+    /**
+     * Get the name.
+     *
+     * @var null|string
+     */
+    protected $name = null;
+
+    /**
+     * Get the title.
+     *
+     * @var null|string
+     */
+    protected $title = null;
+
+    /**
+     * Get the title.
+     *
+     * @var null|string
+     */
+    protected $description = null;
+
+    /**
+     * The sub-addons to load.
+     *
+     * @var array
+     */
+    protected $addons = [];
 
     /**
      * The addon vendor.
@@ -135,13 +165,39 @@ class Addon implements PresentableInterface, Arrayable
     }
 
     /**
+     * Set the name.
+     *
+     * @param $name
+     * @return $this
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
      * Get the addon name string.
      *
      * @return string
      */
     public function getName()
     {
-        return $this->getNamespace('addon.name');
+        return $this->name ?: $this->getNamespace('addon.name');
+    }
+
+    /**
+     * Set the title.
+     *
+     * @param $title
+     * @return $this
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
     }
 
     /**
@@ -151,7 +207,22 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function getTitle()
     {
-        return trans()->has($this->getNamespace('addon.title')) ? $this->getNamespace('addon.title') : $this->getName();
+        return $this->title ?: (trans()->has($this->getNamespace('addon.title')) ? $this->getNamespace(
+            'addon.title'
+        ) : $this->getName());
+    }
+
+    /**
+     * Set the description.
+     *
+     * @param $description
+     * @return $this
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
     }
 
     /**
@@ -161,7 +232,7 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function getDescription()
     {
-        return $this->getNamespace('addon.description');
+        return $this->description ?: $this->getNamespace('addon.description');
     }
 
     /**
@@ -416,6 +487,29 @@ class Addon implements PresentableInterface, Arrayable
     public function getVendor()
     {
         return $this->vendor;
+    }
+
+    /**
+     * Get the sub-addons.
+     *
+     * @return array
+     */
+    public function getAddons()
+    {
+        return $this->addons;
+    }
+
+    /**
+     * Set the loads
+     *
+     * @param $addons
+     * @return $this
+     */
+    public function setAddons(array $addons)
+    {
+        $this->addons = $addons;
+
+        return $this;
     }
 
     /**

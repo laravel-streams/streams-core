@@ -11,6 +11,20 @@ return [
         'instructions' => 'What is the description or slogan of your application?',
         'placeholder'  => trans('distribution::addon.description'),
     ],
+    'domain'          => [
+        'label'        => 'Primary Domain',
+        'instructions' => 'What is the primary of your application?',
+        'placeholder'  => 'domain.com',
+    ],
+    'force_ssl'       => [
+        'label'        => 'Force SSL',
+        'instructions' => 'Do you want to force SSL for all incoming connections?',
+    ],
+    'domain_prefix'   => [
+        'label'        => 'Domain Prefix',
+        'instructions' => 'Do you want to force a domain prefix?',
+        'placeholder'  => 'No-preference',
+    ],
     'timezone'        => [
         'label'        => 'Timezone',
         'instructions' => 'Specify the default timezone for your site.',
@@ -89,5 +103,35 @@ return [
     'per_page'        => [
         'label'        => 'Results Per Page',
         'instructions' => 'Specify the default number of results to display on each page.',
+    ],
+    'mail_driver'     => [
+        'label'        => 'Email Driver',
+        'instructions' => 'How does your application send email?',
+        'option'       => [
+            'smtp'     => 'SMTP',
+            'mail'     => 'PHP Mail',
+            'sendmail' => 'Sendmail',
+            'mailgun'  => 'Mailgun',
+            'mandrill' => 'Mandrill',
+            'log'      => 'Log File',
+        ],
+    ],
+    'mail_host'       => [
+        'label'        => 'SMTP Host',
+        'instructions' => 'Specify the SMTP host to use.',
+        'placeholder'  => 'smtp.mailgun.org',
+    ],
+    'mail_port'       => [
+        'label'        => 'SMTP Port',
+        'instructions' => 'Specify the SMTP port to use.',
+        'placeholder'  => '587',
+    ],
+    'mail_username'   => [
+        'label'        => 'SMTP Username',
+        'instructions' => 'Specify the SMTP username to use.',
+    ],
+    'mail_password'   => [
+        'label'        => 'SMTP Password',
+        'instructions' => 'Specify the SMTP password to use.',
     ],
 ];

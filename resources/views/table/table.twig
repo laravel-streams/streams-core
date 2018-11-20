@@ -5,7 +5,6 @@
 {% endif %}
 
 {% if table.options.sortable %}
-    {{ asset_add("scripts.js", "streams::js/table/jquery-sortable.js") }}
     {{ asset_add("scripts.js", "streams::js/table/sortable.js") }}
 {% endif %}
 
@@ -23,7 +22,10 @@
                 {{ form_open({ 'url': url_full() }) }}
                 <div class="table-stack">
                     <table
-                            class="{{ table.options.class ?: 'table' }}"
+                            class="
+                                {{ table.options.class ?: 'table' }}
+                                {{ table.options.sortable ? 'table--sortable' }}
+                                "
                             {{ table.options.sortable ? 'data-sortable' }}
                             {{ html_attributes(table.options.attributes) }}>
 

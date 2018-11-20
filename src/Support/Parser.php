@@ -40,8 +40,8 @@ class Parser
      * Create a new Parser instance.
      *
      * @param UrlGenerator $url
-     * @param Engine       $parser
-     * @param Request      $request
+     * @param Engine $parser
+     * @param Request $request
      */
     public function __construct(UrlGenerator $url, Engine $parser, Request $request)
     {
@@ -149,6 +149,7 @@ class Parser
             'root'     => $this->request->root(),
             'input'    => $this->request->input(),
             'full_url' => $this->request->fullUrl(),
+            'segments' => $this->request->segments(),
             'uri'      => $this->request->getRequestUri(),
             'query'    => $this->request->getQueryString(),
         ];

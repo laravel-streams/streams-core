@@ -38,6 +38,10 @@ class FilterRegistry
         'field'      => [
             'filter' => FieldFilter::class,
         ],
+        'datetime'   => [
+            'slug'   => 'datetime',
+            'filter' => DatetimeFilter::class,
+        ],
         'created_at' => [
             'filter'      => DatetimeFilter::class,
             'placeholder' => 'streams::entry.created_at',

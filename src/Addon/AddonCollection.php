@@ -41,7 +41,9 @@ class AddonCollection extends Collection
     {
         return array_values(
             $this->map(
-                function (Addon $addon) use ($key) {
+                function ($addon) use ($key) {
+
+                    /* @var Addon $addon */
                     return $addon->getNamespace($key);
                 }
             )->all()
@@ -192,7 +194,9 @@ class AddonCollection extends Collection
     public function registered()
     {
         $this->map(
-            function (Addon $addon) {
+            function ($addon) {
+
+                /* @var Addon $addon */
                 $addon->fire('registered');
             }
         );
@@ -248,7 +252,10 @@ class AddonCollection extends Collection
     public function sort(callable $callback = null)
     {
         return parent::sort(
-            $callback ?: function (Addon $a, Addon $b) {
+            $callback ?: function ($a, $b) {
+
+                /* @var Addon $a */
+                /* @var Addon $b */
                 if ($a->getSlug() == $b->getSlug()) {
                     return 0;
                 }
@@ -266,7 +273,9 @@ class AddonCollection extends Collection
     public function installable()
     {
         return $this->filter(
-            function (Addon $addon) {
+            function ($addon) {
+
+                /* @var Addon $addon */
                 return in_array($addon->getType(), ['module', 'extension']);
             }
         );

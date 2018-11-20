@@ -1,33 +1,26 @@
-$(function () {
+(function (window, document) {
 
-    var grid = $('ul.grid.sortable').sortable({
+    let grids = Array.prototype.slice.call(
+        document.querySelectorAll('ul.grid--sortable')
+    );
 
-        /**
-         * Fires after moving a row
-         *
-         * @param      {String}  $placeholder  The placeholder
-         */
-        afterMove: function ($placeholder) {
-            $placeholder.closest('ul.grid').find('.dragged')
-                .detach().insertBefore($placeholder);
-        },
+    grids.forEach(function (grid) {
 
-        /**
-         * Fires after item was dropped
-         *
-         * @param      {$}          $item      The item
-         * @param      {Object}     container  The container
-         * @param      {Function}   _super     The super
-         * @param      {Event}      event      The event
-         */
-        onDrop: function ($item, container, _super, event) {
+        Sortable.create(grid, {
+            handle: '.handle',
+            draggable: 'tr',
+            onUpdate: function () {
 
-            $.post(window.location.href, {
-                // This needs to return [0] for some reason..
-                items: grid.sortable('serialize').get()[0]
-            });
+                let request = new XMLHttpRequest();
 
-            _super($item, container);
-        }
+                request.open('POST', window.location.href, true);
+                request.setRequestHeader('Content-Type', 'application/json');
+
+                request.send(JSON.stringify({
+                    _token: CSRF_TOKEN,
+                    items: this.toArray().map(item => item.dataset.id),
+                }));
+            }
+        });
     });
-});
+})(window, document);

@@ -52,6 +52,9 @@ return [
                 'Y-m-d'  => function () {
                     return date('Y-m-d'); // 2015-07-10
                 },
+                'd.m.Y'  => function () {
+                    return date('d.m.Y'); // 10.07.2015
+                },
             ],
         ],
     ],

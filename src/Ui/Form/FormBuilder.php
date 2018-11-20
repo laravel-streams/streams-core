@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Lock\Contract\LockInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Support\Collection;
@@ -47,6 +48,14 @@ class FormBuilder
      * @var bool
      */
     protected $ajax = false;
+
+    /**
+     * Set to false to disable
+     * default versioning behavior.
+     *
+     * @var bool
+     */
+    protected $versioning = true;
 
     /**
      * The form handler.
@@ -152,6 +161,27 @@ class FormBuilder
      * @var bool
      */
     protected $readOnly = false;
+
+    /**
+     * The lock instance.
+     *
+     * @var LockInterface
+     */
+    protected $lock = null;
+
+    /**
+     * The lock flag.
+     *
+     * @var bool
+     */
+    protected $locked = false;
+
+    /**
+     * The parent form builder.
+     *
+     * @var null|FormBuilder
+     */
+    protected $parentBuilder = null;
 
     /**
      * The form object.
@@ -336,6 +366,31 @@ class FormBuilder
     }
 
     /**
+     * Touch the form entry.
+     *
+     * @return $this
+     */
+    public function touchFormEntry()
+    {
+        $entry = $this->getFormEntry();
+
+        if ($entry instanceof EloquentModel) {
+
+            $time = $entry->freshTimestamp();
+
+            if (!is_null($entry::UPDATED_AT) && !$entry->isDirty($entry::UPDATED_AT)) {
+                $entry->setUpdatedAt($time);
+            }
+
+            if (!$entry->exists && !$entry->isDirty($entry::CREATED_AT)) {
+                $entry->setCreatedAt($time);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * Get the ajax flag.
      *
      * @return bool
@@ -354,6 +409,41 @@ class FormBuilder
     public function setAjax($ajax)
     {
         $this->ajax = $ajax;
+
+        return $this;
+    }
+
+    /**
+     * Return if the versioning
+     * system is enabled or not.
+     *
+     * @return bool
+     */
+    public function versioningEnabled()
+    {
+        return $this->versioning === true;
+    }
+
+    /**
+     * Disable the versioning system.
+     *
+     * @return $this
+     */
+    public function disableVersioning()
+    {
+        $this->versioning = false;
+
+        return $this;
+    }
+
+    /**
+     * Enable the versioning system.
+     *
+     * @return $this
+     */
+    public function enableVersioning()
+    {
+        $this->versioning = true;
 
         return $this;
     }
@@ -499,11 +589,19 @@ class FormBuilder
     /**
      * Add a field.
      *
-     * @param   $field
+     * @param       $field
+     * @param array $definition
+     * @return $this
      */
-    public function addField($field)
+    public function addField($field, array $definition = [])
     {
-        $this->fields[array_get($field, 'field')] = $field;
+        if (!$definition) {
+            $this->fields[array_get($field, 'field')] = $field;
+        } else {
+            $this->fields[$field] = $definition;
+        }
+
+        return $this;
     }
 
     /**
@@ -513,7 +611,7 @@ class FormBuilder
      */
     public function addFields(array $fields)
     {
-        $this->fields = array_merge($this->fields, $fields);
+        $this->fields = array_unique(array_merge($this->fields, $fields), SORT_REGULAR);
     }
 
     /**
@@ -667,6 +765,24 @@ class FormBuilder
     }
 
     /**
+     * Add a button.
+     *
+     * @param       $button
+     * @param array $definition
+     * @return $this
+     */
+    public function addButton($button, array $definition = [])
+    {
+        if (!$definition) {
+            $this->buttons[] = $button;
+        } else {
+            $this->buttons[$button] = $definition;
+        }
+
+        return $this;
+    }
+
+    /**
      * The the options.
      *
      * @return array
@@ -748,6 +864,19 @@ class FormBuilder
     }
 
     /**
+     * Merge in additional sections.
+     *
+     * @param array $sections
+     * @return $this
+     */
+    public function mergeSections(array $sections)
+    {
+        $this->sections = array_merge($this->sections, $sections);
+
+        return $this;
+    }
+
+    /**
      * Add a section tab.
      *
      * @param        $section
@@ -775,6 +904,39 @@ class FormBuilder
     }
 
     /**
+     * Recursively prefix all section fields.
+     *
+     * @param      $prefix
+     * @param null $sections
+     * @return array|null
+     */
+    public function prefixSectionFields($prefix, $sections = null)
+    {
+        if (!$sections) {
+            $sections = &$this->sections;
+        }
+
+        if (!is_array($sections)) {
+            return $sections;
+        }
+
+        foreach ($sections as $key => &$value) {
+            if ($key === 'fields') {
+                $value = array_map(
+                    function ($field) use ($key, $prefix) {
+                        return $prefix . $field;
+                    },
+                    array_values($value)
+                );
+            } elseif (is_array($value)) {
+                $value = $this->prefixSectionFields($prefix, $value);
+            }
+        }
+
+        return $sections;
+    }
+
+    /**
      * Get an option value.
      *
      * @param        $key
@@ -798,6 +960,17 @@ class FormBuilder
         array_set($this->options, $key, $value);
 
         return $this;
+    }
+
+    /**
+     * Return if the form has an option.
+     *
+     * @param $key
+     * @return bool
+     */
+    public function hasOption($key)
+    {
+        return array_key_exists($key, $this->options);
     }
 
     /**
@@ -895,6 +1068,16 @@ class FormBuilder
     public function getFormModel()
     {
         return $this->form->getModel();
+    }
+
+    /**
+     * Get the form model name.
+     *
+     * @return \Anomaly\Streams\Platform\Entry\EntryModel|EloquentModel|null
+     */
+    public function getFormModelName()
+    {
+        return get_class($this->form->getModel());
     }
 
     /**
@@ -1326,6 +1509,20 @@ class FormBuilder
     }
 
     /**
+     * Get an attribute from the form's entry.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed|null
+     */
+    public function getFormEntryAttribute($key, $default = null)
+    {
+        return $this
+            ->getFormEntry()
+            ->getAttribute($key, $default);
+    }
+
+    /**
      * Get a request value.
      *
      * @param        $key
@@ -1435,4 +1632,84 @@ class FormBuilder
     {
         return $this->readOnly;
     }
+
+    /**
+     * Set the lock instance.
+     *
+     * @param LockInterface $lock
+     * @return $this
+     */
+    public function setLock(LockInterface $lock)
+    {
+        $this->lock = $lock;
+
+        return $this;
+    }
+
+    /**
+     * Get the lock instance.
+     *
+     * @return LockInterface
+     */
+    public function getLock()
+    {
+        return $this->lock;
+    }
+
+    /**
+     * Set the locked flag.
+     *
+     * @param $locked
+     * @return $this
+     */
+    public function setLocked($locked)
+    {
+        $this->locked = $locked;
+
+        return $this;
+    }
+
+    /**
+     * Return if the form is locked.
+     *
+     * @return bool
+     */
+    public function isLocked()
+    {
+        return $this->locked;
+    }
+
+    /**
+     * Set the parent.
+     *
+     * @param FormBuilder $parent
+     * @return $this
+     */
+    public function setParentBuilder(FormBuilder $parent)
+    {
+        $this->parentBuilder = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get the parent.
+     *
+     * @return FormBuilder|null
+     */
+    public function getParentBuilder()
+    {
+        return $this->parentBuilder;
+    }
+
+    /**
+     * Return if has parent.
+     *
+     * @return bool
+     */
+    public function isChildForm()
+    {
+        return (bool)$this->parentBuilder;
+    }
+
 }
