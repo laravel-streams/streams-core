@@ -38,8 +38,8 @@ class Template
     /**
      * Create a new Template instance.
      *
-     * @param Factory     $view
-     * @param Filesystem  $files
+     * @param Factory $view
+     * @param Filesystem $files
      * @param Application $application
      */
     public function __construct(
@@ -63,14 +63,6 @@ class Template
     {
         $path = $this->path($template);
 
-        if (!$this->files->isDirectory($directory = dirname($path))) {
-            $this->files->makeDirectory($directory, 0777, true);
-        }
-
-        if (!$this->files->exists($path . '.twig')) {
-            $this->files->put($path . '.twig', $template);
-        }
-
         return $this->view->make(
             'storage::' . ltrim(
                 str_replace($this->application->getStoragePath(), '', $path),
@@ -84,20 +76,12 @@ class Template
      * Make a string template.
      *
      * @param       $template
-     * @param array $payload
+     * @param string $extension
      * @return string
      */
-    public function make($template)
+    public function make($template, $extension = 'twig')
     {
-        $path = $this->path($template);
-
-        if (!$this->files->isDirectory($directory = dirname($path))) {
-            $this->files->makeDirectory($directory, 0777, true);
-        }
-
-        if (!$this->files->exists($path . '.twig')) {
-            $this->files->put($path . '.twig', $template);
-        }
+        $path = $this->path($template, $extension);
 
         return 'storage::' . ltrim(
                 str_replace($this->application->getStoragePath(), '', $path),
@@ -106,15 +90,42 @@ class Template
     }
 
     /**
+     * Make a string asset template.
+     *
+     * @param $template
+     * @param $extension
+     * @return string
+     */
+    public function asset($template, $extension)
+    {
+        $path = $this->path($template, $extension);
+
+        return 'storage::' . ltrim(
+                str_replace($this->application->getStoragePath(), '', $path),
+                '\\/'
+            ) . '.' . $extension;
+    }
+
+    /**
      * Return the path to a string template.
      *
      * @param $template
+     * @param string $extension
      * @return string
      */
-    public function path($template)
+    public function path($template, $extension = 'twig')
     {
-        return $this->application
-            ->getStoragePath('support/parsed/' . md5($template));
+        $path = $this->application->getStoragePath('support/parsed/' . md5($template));
+
+        if (!$this->files->isDirectory($directory = dirname($path))) {
+            $this->files->makeDirectory($directory, 0777, true);
+        }
+
+        if (!$this->files->exists($path . '.' . $extension)) {
+            $this->files->put($path . '.' . $extension, $template);
+        }
+
+        return $path;
     }
 
 }
