@@ -324,7 +324,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $type->setEntry($entry);
 
         $type->setValue($this->getFieldValue($fieldSlug));
-        $type->setEntry($this);
 
         return $type;
     }
