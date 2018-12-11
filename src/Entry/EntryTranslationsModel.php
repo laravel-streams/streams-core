@@ -194,6 +194,15 @@ class EntryTranslationsModel extends EloquentModel
     {
         $value = parent::__get($key);
 
+        // Check if the attribute was actually a foreign key and resolve it.
+        // This solves for an issue where a translated relationship column to
+        // a file (like image_id) was causing a `property not defined error`
+        // if it had a NULL value.
+        if (!isset($value)
+            && array_key_exists($key.'_id', $this->attributes)) {
+            return $this->{$key.'_id'};
+        }
+
         if (!$value && $parent = $this->getParent()) {
             return $parent->{$key};
         }
