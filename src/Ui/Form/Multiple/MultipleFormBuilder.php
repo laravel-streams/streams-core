@@ -110,6 +110,11 @@ class MultipleFormBuilder extends FormBuilder
 
         /* @var FormBuilder $builder */
         foreach ($forms = $this->getForms() as $slug => $builder) {
+
+            $builder->setSave($this->canSave());
+
+            $builder->touchFormEntry();
+
             $this->fire('saving_' . $slug, compact('builder', 'forms'));
 
             $builder->saveForm();
@@ -146,18 +151,31 @@ class MultipleFormBuilder extends FormBuilder
     /**
      * Add a form.
      *
-     * @param                      $key
-     * @param  FormBuilder         $builder
+     * @param              $key
+     * @param  FormBuilder $builder
+     * @param null         $position
      * @return MultipleFormBuilder
      */
-    public function addForm($key, FormBuilder $builder)
+    public function addForm($key, FormBuilder $builder, $position = null)
     {
-        $this->forms->put(
-            $key,
-            $builder
-                ->setSave(false)
-                ->setOption('prefix', $key . '_')
-        );
+        $builder
+            ->setSave(false)
+            ->setParentBuilder($this)
+            ->setOption('prefix', $this->getOption('prefix') . $key . '_');
+
+        if ($position === null) {
+
+            $this->forms->add($key, $builder);
+
+            return $this;
+        }
+
+        $front = array_slice($this->forms->all(), 0, $position, true);
+        $back  = array_slice($this->forms->all(), $position, $this->forms->count() - $position, true);
+
+        $forms = $this->getForms();
+
+        $this->setForms($forms::make($front + [$key => $builder] + $back));
 
         return $this;
     }
@@ -171,6 +189,17 @@ class MultipleFormBuilder extends FormBuilder
     public function getChildForm($key)
     {
         return $this->forms->get($key);
+    }
+
+    /**
+     * Return if has a child form.
+     *
+     * @param $key
+     * @return bool
+     */
+    public function hasChildForm($key)
+    {
+        return $this->forms->has($key);
     }
 
     /**
@@ -194,7 +223,9 @@ class MultipleFormBuilder extends FormBuilder
      */
     public function getChildFormEntry($key)
     {
-        $builder = $this->getChildForm($key);
+        if (!$builder = $this->getChildForm($key)) {
+            return null;
+        }
 
         return $builder->getFormEntry();
     }
@@ -271,6 +302,12 @@ class MultipleFormBuilder extends FormBuilder
      */
     public function getContextualId()
     {
+
+        // Check normal behavior first.
+        if ($id = parent::getContextualId()) {
+            return $id;
+        }
+
         /* @var FormBuilder $form */
         $form = $this->forms->first();
 

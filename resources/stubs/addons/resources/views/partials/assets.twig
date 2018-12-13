@@ -11,12 +11,14 @@
 {#{{ asset_add("theme.js", "theme::js/plugins/*") }}#}
 {{ asset_add("theme.js", "theme::js/theme/initialize.js") }}
 
-{{ html_script(asset_path("theme.js", ["min"])) }}
+{{ asset_script("theme.js", ["min"]) }}
 
 {# Include Scripts Loaded From Outside #}
 {% for script in asset_scripts("scripts.js") %}
     {{ script|raw }}
 {% endfor %}
+
+{{ template.includes.render('scripts')|raw }}
 
 {# Include Styles Loaded From Outside #}
 {% for style in asset_styles("styles.css") %}

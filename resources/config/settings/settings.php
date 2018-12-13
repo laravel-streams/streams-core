@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Illuminate\Contracts\Config\Repository;
-use Illuminate\Contracts\Foundation\Application;
 
 return [
     'name'            => [
@@ -29,6 +28,7 @@ return [
         'bind'   => 'app.timezone',
         'type'   => 'anomaly.field_type.select',
         'config' => [
+            'mode'          => 'search',
             'handler'       => 'timezones',
             'default_value' => config('app.timezone'),
         ],
@@ -201,7 +201,7 @@ return [
             'off_text'      => 'OFF',
         ],
     ],
-    'debug_bar'           => [
+    'debug_bar'       => [
         'env'    => 'DEBUG_BAR',
         'bind'   => 'debugbar.enabled',
         'type'   => 'anomaly.field_type.boolean',
@@ -215,9 +215,8 @@ return [
     ],
     'maintenance'     => [
         'type'   => 'anomaly.field_type.boolean',
-        'value'  => function (Application $application) {
-            return $application->isDownForMaintenance();
-        },
+        'env'    => 'MAINTENANCE_MODE',
+        'bind'   => 'streams::maintenance.enabled',
         'config' => [
             'on_text'  => 'ON',
             'off_text' => 'OFF',

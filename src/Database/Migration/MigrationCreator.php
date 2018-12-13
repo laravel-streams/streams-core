@@ -24,16 +24,16 @@ class MigrationCreator extends \Illuminate\Database\Migrations\MigrationCreator
      * Get the migration stub file.
      *
      * @param  string $table
-     * @param  bool   $create
+     * @param  bool $create
      * @return string
      */
     protected function getStub($table, $create)
     {
-        if ($this->input->getOption('fields')) {
+        if ($this->input && $this->input->getOption('fields')) {
             return $this->files->get($this->getStubPath() . '/fields.stub');
         }
 
-        if ($this->input->getOption('stream')) {
+        if ($this->input && $this->input->getOption('stream')) {
             return $this->files->get($this->getStubPath() . '/stream.stub');
         }
 
@@ -51,14 +51,20 @@ class MigrationCreator extends \Illuminate\Database\Migrations\MigrationCreator
      * @param  string $stub
      * @param  string $table
      * @return string
+     * @todo This needs cleaned up
      */
     protected function populateStub($name, $stub, $table)
     {
         $class = $this->getClassName($name);
 
-        $stream = $this->input->getOption('stream');
+        if ($this->input) {
 
-        return app(Parser::class)->parse($stub, compact('class', 'table', 'stream'));
+            $stream = $this->input->getOption('stream');
+
+            return app(Parser::class)->parse($stub, compact('class', 'table', 'stream'));
+        }
+
+        return parent::populateStub($name, $stub, $table);
     }
 
     /**

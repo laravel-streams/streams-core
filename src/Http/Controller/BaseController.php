@@ -2,6 +2,12 @@
 
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Event\Response;
+use Anomaly\Streams\Platform\Http\Middleware\ApplicationReady;
+use Anomaly\Streams\Platform\Http\Middleware\CheckLocale;
+use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
+use Anomaly\Streams\Platform\Http\Middleware\PoweredBy;
+use Anomaly\Streams\Platform\Http\Middleware\SetLocale;
+use Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
@@ -135,13 +141,14 @@ class BaseController extends Controller
 
         $this->events->fire(new Response($this));
 
-        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken');
-        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\PoweredBy');
-        
-        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\SetLocale');
-        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\ApplicationReady');
+        $this->middleware(VerifyCsrfToken::class);
+        $this->middleware(PoweredBy::class);
 
-        foreach (app('Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection') as $middleware) {
+        $this->middleware(SetLocale::class);
+        $this->middleware(CheckLocale::class);
+        $this->middleware(ApplicationReady::class);
+
+        foreach (app(MiddlewareCollection::class) as $middleware) {
             $this->middleware($middleware);
         }
     }

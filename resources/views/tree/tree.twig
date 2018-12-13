@@ -1,4 +1,5 @@
-{{ asset_add("scripts.js", "streams::js/table/jquery-sortable.js") }}
+{#{{ asset_add("scripts.js", "streams::js/tree/jquery.min.js") }}#}
+{{ asset_add("scripts.js", "streams::js/tree/jquery-sortable.js") }}
 {{ asset_add("scripts.js", "streams::js/tree/tree.js") }}
 
 {% import "streams::tree/macro" as macro %}
@@ -8,7 +9,7 @@
     <div class="container-fluid">
 
         {% if not tree.items.empty() %}
-            <ul class="tree sortable">
+            <ul class="tree tree--sortable sortable">
                 {{ macro.tree(tree.items.root(), tree) }}
             </ul>
         {% else %}

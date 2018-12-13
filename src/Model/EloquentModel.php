@@ -73,11 +73,27 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     ];
 
     /**
+     * Hide these from toArray.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'translations',
+    ];
+
+    /**
      * The cascading delete-able relations.
      *
      * @var array
      */
     protected $cascades = [];
+
+    /**
+     * The restricting delete-able relations.
+     *
+     * @var array
+     */
+    protected $restricts = [];
 
     /**
      * Runtime cache.
@@ -112,11 +128,20 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      *
      * @param $key
      * @param $ttl
-     * @param $value
+     * @param null $value
      * @return mixed
      */
-    public function cache($key, $ttl, $value)
+    public function cache($key, $ttl, $value = null)
     {
+        if (!$value) {
+            $value = $ttl;
+            $ttl   = 60 * 24 * 360; // Forever-ish
+        }
+
+        if (!config('streams::system.cache_enabled', false)) {
+            return value($value);
+        }
+
         (new CacheCollection())
             ->make([$key])
             ->setKey($this->getCacheCollectionKey())
@@ -124,7 +149,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
 
         return app('cache')->remember(
             $key,
-            $ttl ?: $this->getTtl(),
+            $ttl,
             $value
         );
     }
@@ -546,6 +571,19 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     }
 
     /**
+     * Return the model as an array with relations.
+     *
+     * @return array
+     */
+    public function toArrayWithRelations()
+    {
+        return array_merge(
+            $this->toArray(),
+            $this->relationsToArray()
+        );
+    }
+
+    /**
      * Return the routable array information.
      *
      * @return array
@@ -599,6 +637,16 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     public function getCascades()
     {
         return $this->cascades;
+    }
+
+    /**
+     * Get the restricting actions.
+     *
+     * @return array
+     */
+    public function getRestricts()
+    {
+        return $this->restricts;
     }
 
     /**

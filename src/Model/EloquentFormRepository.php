@@ -91,9 +91,8 @@ class EloquentFormRepository implements FormRepositoryInterface
 
         $allowed = $fields
             ->autoHandling()
+            ->enabled()
             ->savable();
-
-        $disabled = $fields->disabled();
 
         /*
          * Set initial data from the
@@ -101,10 +100,7 @@ class EloquentFormRepository implements FormRepositoryInterface
          */
         $data = array_diff_key(
             $entry->getUnguardedAttributes(),
-            array_merge(
-                ['id', 'created_at', 'created_by_id', 'updated_at', 'updated_by_id'],
-                array_flip($disabled->fieldSlugs())
-            )
+            ['id', 'created_at', 'created_by_id', 'updated_at', 'updated_by_id']
         );
 
         /**
@@ -153,7 +149,10 @@ class EloquentFormRepository implements FormRepositoryInterface
         $entry  = $form->getEntry();
         $fields = $form->getFields();
 
-        $fields = $fields->selfHandling();
+        $fields = $fields
+            ->selfHandling()
+            ->writable()
+            ->enabled();
 
         /* @var FieldType $field */
         foreach ($fields as $field) {

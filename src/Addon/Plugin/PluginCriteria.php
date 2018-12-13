@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Plugin;
 
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Support\Collection;
 use Closure;
 
@@ -12,6 +13,20 @@ use Closure;
  */
 class PluginCriteria
 {
+
+    /**
+     * The model name.
+     *
+     * @var null|string|EloquentModel
+     */
+    protected $model = null;
+
+    /**
+     * The cache prefix.
+     *
+     * @var null|string
+     */
+    protected $cachePrefix = null;
 
     /**
      * The options.
@@ -51,6 +66,31 @@ class PluginCriteria
     {
         $this->trigger  = $trigger;
         $this->callback = $callback;
+    }
+
+    /**
+     * Set the cache parameters.
+     *
+     * @param null $parameters
+     * @return $this
+     */
+    public function cache($parameters = null)
+    {
+        if (is_numeric($parameters)) {
+            $parameters = [
+                'ttl' => $parameters,
+            ];
+        }
+
+        if (is_string($parameters)) {
+            $parameters = [
+                'namespace' => $parameters,
+            ];
+        }
+
+        $this->options['cache'] = $parameters;
+
+        return $this;
     }
 
     /**
@@ -121,6 +161,106 @@ class PluginCriteria
     }
 
     /**
+     * Get the model.
+     *
+     * @return null|EloquentModel
+     */
+    public function getModel()
+    {
+        if ($this->model && !is_object($this->model)) {
+            $this->model = app($this->model);
+        }
+
+        return $this->model;
+    }
+
+    /**
+     * Set the model.
+     *
+     * @param $model
+     * @return $this
+     */
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    /**
+     * Get the cache key.
+     *
+     * @return null|string
+     */
+    public function getCacheKey()
+    {
+        $key = array_get(
+            $this->options,
+            'cache.key',
+            $this->getCachePrefix() . '.' . md5(json_encode($this->collection))
+        );
+
+        $namespace = array_get($this->options, 'cache.namespace');
+
+        if ($namespace == 'user') {
+            $key .= auth()->id();
+        }
+
+        if ($namespace == 'session') {
+            $key .= session()->getId();
+        }
+
+        return $key;
+    }
+
+    /**
+     * Get the cache prefix.
+     *
+     * @return null|string
+     */
+    public function getCachePrefix()
+    {
+        if ($model = $this->getModel())
+        return $this->cachePrefix;
+    }
+
+    /**
+     * Set the cache prefix.
+     *
+     * @param $cachePrefix
+     * @return $this
+     */
+    public function setCachePrefix($cachePrefix)
+    {
+        $this->cachePrefix = $cachePrefix;
+
+        return $this;
+    }
+
+    /**
+     * Get the cache TTL.
+     *
+     * @return null|int
+     */
+    public function getCacheTtl()
+    {
+        return array_get($this->collection, 'ttl', 60 * 24 * 7);
+    }
+
+    /**
+     * Set the cache ttl.
+     *
+     * @param $cacheTtl
+     * @return $this
+     */
+    public function setCacheTtl($cacheTtl)
+    {
+        $this->cacheTtl = $cacheTtl;
+
+        return $this;
+    }
+
+    /**
      * Route through __call
      *
      * @param $name
@@ -139,13 +279,7 @@ class PluginCriteria
     public function __call($name, $arguments)
     {
         if ($name == $this->trigger) {
-            return app()->call(
-                $this->callback,
-                [
-                    'options'  => $this->newCollection(),
-                    'criteria' => $this,
-                ]
-            );
+            return $this->__fire();
         }
 
         if (method_exists($this, $name)) {
@@ -159,6 +293,51 @@ class PluginCriteria
         }
 
         return $this;
+    }
+
+    /**
+     * Return the plugin result.
+     *
+     * @return mixed
+     */
+    protected function __fire()
+    {
+        $collection = $this->newCollection();
+
+        if ($collection->has('cache')) {
+
+            $callback = function () use ($collection) {
+                return app()->call(
+                    $this->callback,
+                    [
+                        'options'  => $collection,
+                        'criteria' => $this,
+                    ]
+                );
+            };
+
+            if ($model = $this->getModel()) {
+                return $model->cache(
+                    $this->getCacheKey(),
+                    $this->getCacheTtl(),
+                    $callback
+                );
+            }
+
+            return cache()->remember(
+                $this->getCacheKey(),
+                $this->getCacheTtl(),
+                $callback
+            );
+        }
+
+        return app()->call(
+            $this->callback,
+            [
+                'options'  => $collection,
+                'criteria' => $this,
+            ]
+        );
     }
 
     /**

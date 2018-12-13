@@ -2,7 +2,7 @@ $(function () {
 
     var adjustment;
 
-    var tree = $('ul.tree.sortable').sortable({
+    var tree = $('ul.tree--sortable').sortable({
         handle: '.handle',
         onDragStart: function ($item, container, _super, event) {
             $item.css({
@@ -73,7 +73,7 @@ $(function () {
     /**
      * Toggle displaying children.
      */
-    $('ul.tree.sortable .handle').click(function (e) {
+    $('ul.tree--sortable .handle').click(function (e) {
 
         e.preventDefault();
 

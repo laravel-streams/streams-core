@@ -90,6 +90,7 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
     public function cleanup()
     {
         $assignments = $this->model
+            ->select('streams_assignments.*')
             ->leftJoin(
                 'streams_streams',
                 'streams_assignments.stream_id',
@@ -113,6 +114,7 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
         $translations = $this->model->getTranslationModel();
 
         $translations = $translations
+            ->select('streams_assignments.*')
             ->leftJoin(
                 'streams_assignments',
                 'streams_assignments_translations.assignment_id',

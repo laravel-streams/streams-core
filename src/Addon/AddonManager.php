@@ -165,12 +165,26 @@ class AddonManager
 
             $namespace = $this->getAddonNamespace($path);
 
-            $this->integrator->register(
+            $addon = $this->integrator->register(
                 $path,
                 $namespace,
                 in_array($namespace, $enabled),
                 in_array($namespace, $installed)
             );
+
+            foreach ($addon->getAddons() as $class) {
+
+                $namespace = $this->getAddonNamespace(
+                    $path = dirname(dirname((new \ReflectionClass($class))->getFileName()))
+                );
+
+                $this->integrator->register(
+                    $path,
+                    $namespace,
+                    in_array($namespace, $enabled),
+                    in_array($namespace, $installed)
+                );
+            }
         }
 
         // Sort all addons.

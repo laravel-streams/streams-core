@@ -23,20 +23,26 @@ class Reorder extends ActionHandler
      */
     public function handle(TableBuilder $builder, Request $request)
     {
-        $count = 0;
+        $items = $request->get($builder->getTableOption('prefix') . 'order', []);
 
         $model = $builder->getTableModel();
 
         /* @var EloquentModel $entry */
-        foreach ($request->get($builder->getTableOption('prefix') . 'order', []) as $k => $id) {
-            if ($entry = $model->find($id)) {
-                $entry->sort_order = $k + 1;
+        foreach ($items as $k => $id) {
 
-                $entry->save();
-
-                $count++;
-            }
+            $model
+                ->newQuery()
+                ->where('id', $id)
+                ->update(
+                    [
+                        'sort_order' => $k + 1,
+                    ]
+                );
         }
+
+        $model->flushCache();
+
+        $count = count($items);
 
         $builder->fire('reordered', compact('count', 'builder'));
 

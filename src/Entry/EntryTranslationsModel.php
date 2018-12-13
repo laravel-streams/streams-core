@@ -22,6 +22,15 @@ class EntryTranslationsModel extends EloquentModel
     public $timestamps = true;
 
     /**
+     * Don't array these.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'parent',
+    ];
+
+    /**
      * Cache minutes.
      *
      * @var int
@@ -198,7 +207,7 @@ class EntryTranslationsModel extends EloquentModel
     {
         $value = parent::__get($key);
 
-        if (!$value && $parent = $this->getParent()) {
+        if (!isset($value) && $parent = $this->getParent()) {
             return $parent->{$key};
         }
 

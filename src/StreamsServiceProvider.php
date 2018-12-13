@@ -172,6 +172,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Addon\Theme\Listener\PutThemeInCollection'                 => 'Anomaly\Streams\Platform\Addon\Theme\Listener\PutThemeInCollection',
         'Anomaly\Streams\Platform\View\ViewComposer'                                         => 'Anomaly\Streams\Platform\View\ViewComposer',
         'Anomaly\Streams\Platform\View\ViewTemplate'                                         => 'Anomaly\Streams\Platform\View\ViewTemplate',
+        'Anomaly\Streams\Platform\View\ViewIncludes'                                         => 'Anomaly\Streams\Platform\View\ViewIncludes',
         'Anomaly\Streams\Platform\View\ViewOverrides'                                        => 'Anomaly\Streams\Platform\View\ViewOverrides',
         'Anomaly\Streams\Platform\View\ViewMobileOverrides'                                  => 'Anomaly\Streams\Platform\View\ViewMobileOverrides',
         'Anomaly\Streams\Platform\View\Listener\LoadTemplateData'                            => 'Anomaly\Streams\Platform\View\Listener\LoadTemplateData',
@@ -314,6 +315,23 @@ class StreamsServiceProvider extends ServiceProvider
 
         if (env('APP_ENV') !== 'production' && class_exists(\Laravel\Tinker\TinkerServiceProvider::class)) {
             $this->app->registerDeferredProvider(\Laravel\Tinker\TinkerServiceProvider::class);
+        }
+
+        // Register listeners.
+        $events = $this->app->make(Dispatcher::class);
+
+        foreach (config('streams.listeners', []) as $event => $listeners) {
+
+            foreach ($listeners as $key => $listener) {
+                if (is_integer($listener)) {
+                    $priority = $listener;
+                    $listener = $key;
+                } else {
+                    $priority = 0;
+                }
+
+                $events->listen($event, $listener, $priority);
+            }
         }
 
         // Register bindings.

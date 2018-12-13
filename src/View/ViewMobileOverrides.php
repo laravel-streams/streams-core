@@ -13,6 +13,44 @@ class ViewMobileOverrides extends Collection
 {
 
     /**
+     * Add an override.
+     *
+     * @param $view
+     * @param $override
+     * @return $this
+     */
+    public function add($view, $override)
+    {
+        list($namespace, $view) = explode('::', $view);
+
+        $overrides = $this->get($namespace, []);
+
+        $overrides[$namespace . '::' . $view] = $override;
+
+        $this->put($namespace, $overrides);
+
+        return $this;
+    }
+
+    /**
+     * Force an override.
+     *
+     * @param $view
+     * @param $override
+     * @return $this
+     */
+    public function force($view, $override)
+    {
+        $overrides = $this->get('*', []);
+
+        $overrides[$view] = $override;
+
+        $this->put('*', $overrides);
+
+        return $this;
+    }
+
+    /**
      * When putting overrides replace "/" with "."
      * to match the way Laravel interprets views.
      *

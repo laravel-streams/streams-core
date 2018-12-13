@@ -31,9 +31,9 @@ class GetStream
      * Create a new GetStream instance.
      *
      * @param string $namespace
-     * @param string $slug
+     * @param string|null $slug
      */
-    public function __construct($namespace, $slug)
+    public function __construct($namespace, $slug = null)
     {
         $this->slug      = $slug;
         $this->namespace = $namespace;
@@ -42,11 +42,27 @@ class GetStream
     /**
      * Handle the command.
      *
-     * @param  Container                                                      $container
+     * @param  Container $container
      * @return \Anomaly\Streams\Platform\Stream\Contract\StreamInterface|null
      */
     public function handle(Container $container)
     {
+
+        /**
+         * If the slug is not provided then
+         * we will assume dot notation.
+         */
+        if (!$this->slug) {
+
+            $parts = explode('.', $this->namespace);
+
+            $this->namespace = $parts[0];
+            $this->slug      = $parts[1];
+        }
+        
+        $this->slug      = studly_case($this->slug);
+        $this->namespace = studly_case($this->namespace);
+
         /* @var EntryInterface $model */
         $model = $container->make(
             "Anomaly\\Streams\\Platform\\Model\\{$this->namespace}\\{$this->namespace}{$this->slug}EntryModel"

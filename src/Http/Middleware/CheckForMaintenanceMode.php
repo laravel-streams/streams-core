@@ -58,10 +58,10 @@ class CheckForMaintenanceMode
     /**
      * Create a new CheckForMaintenanceMode instance.
      *
-     * @param Laravel     $app
-     * @param Guard       $guard
-     * @param Repository  $config
-     * @param Authorizer  $authorizer
+     * @param Laravel $app
+     * @param Guard $guard
+     * @param Repository $config
+     * @param Authorizer $authorizer
      * @param Application $application
      */
     public function __construct(
@@ -82,7 +82,7 @@ class CheckForMaintenanceMode
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \Closure                 $next
+     * @param  \Closure $next
      * @return void|mixed
      */
     public function handle(Request $request, Closure $next)
@@ -91,7 +91,10 @@ class CheckForMaintenanceMode
             abort(503);
         }
 
-        if (!$this->app->isDownForMaintenance()) {
+        if (
+            !$this->app->isDownForMaintenance() &&
+            !$this->config->get('streams::maintenance.enabled', false)
+        ) {
             return $next($request);
         }
 

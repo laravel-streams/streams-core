@@ -74,13 +74,13 @@ class AddonIntegrator
     /**
      * Create a new AddonIntegrator instance.
      *
-     * @param Factory $views
-     * @param Dispatcher $events
-     * @param Container $container
-     * @param Translator $translator
-     * @param AddonProvider $provider
-     * @param Application $application
-     * @param Configurator $configurator
+     * @param Factory         $views
+     * @param Dispatcher      $events
+     * @param Container       $container
+     * @param Translator      $translator
+     * @param AddonProvider   $provider
+     * @param Application     $application
+     * @param Configurator    $configurator
      * @param AddonCollection $collection
      * @internal param Asset $asset
      * @internal param Image $image
@@ -183,7 +183,7 @@ class AddonIntegrator
             ]
         );
         $this->translator->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));
-        
+
         /*
          * If the addon is a plugin then
          * load it into Twig when appropriate.

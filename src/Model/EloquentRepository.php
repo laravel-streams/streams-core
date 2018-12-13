@@ -33,6 +33,18 @@ class EloquentRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * Return all records without relations.
+     *
+     * @return EloquentCollection
+     */
+    public function allWithoutRelations()
+    {
+        return $this->model
+            ->newQueryWithoutRelationships()
+            ->get();
+    }
+
+    /**
      * Find a record by it's ID.
      *
      * @param $id
@@ -64,6 +76,18 @@ class EloquentRepository implements EloquentRepositoryInterface
     public function findAll(array $ids)
     {
         return $this->model->whereIn('id', $ids)->get();
+    }
+
+    /**
+     * Find all by column value.
+     *
+     * @param $column
+     * @param $value
+     * @return EloquentCollection
+     */
+    public function findAllBy($column, $value)
+    {
+        return $this->model->where($column, $value)->get();
     }
 
     /**
@@ -274,7 +298,7 @@ class EloquentRepository implements EloquentRepositoryInterface
      * @param $value
      * @return mixed
      */
-    public function cache($key, $ttl, $value)
+    public function cache($key, $ttl, $value = null)
     {
         return $this->model->cache($key, $ttl, $value);
     }

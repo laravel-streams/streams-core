@@ -26,8 +26,7 @@ class ReadOnlyGuesser
         }
 
         foreach ($fields as &$field) {
-            $field['read_only'] = true;
-            $field['disabled']  = true;
+            $field['readonly'] = true;
         }
 
         $builder->setFields($fields);

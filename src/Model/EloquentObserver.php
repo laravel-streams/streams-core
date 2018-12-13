@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Model\Command\CascadeDelete;
 use Anomaly\Streams\Platform\Model\Command\CascadeRestore;
+use Anomaly\Streams\Platform\Model\Command\RestrictDelete;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereDeleted;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereUpdated;
 use Anomaly\Streams\Platform\Model\Event\ModelWasCreated;
@@ -87,6 +88,10 @@ class EloquentObserver extends Observer
      */
     public function deleting(EloquentModel $entry)
     {
+        if ($this->dispatch(new RestrictDelete($entry))) {
+            return false;
+        }
+
         $this->dispatch(new CascadeDelete($entry));
     }
 

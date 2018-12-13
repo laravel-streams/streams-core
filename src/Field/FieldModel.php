@@ -30,6 +30,17 @@ class FieldModel extends EloquentModel implements FieldInterface
     ];
 
     /**
+     * Hide these from toArray.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'translations',
+        'assignments',
+        'stream',
+    ];
+
+    /**
      * Do not use timestamps.
      *
      * @var bool

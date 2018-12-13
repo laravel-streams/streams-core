@@ -208,6 +208,10 @@ class FieldTypeSchema
      */
     public function renameColumn(Blueprint $table, FieldType $from)
     {
+        if ($this->fieldType->getColumnType() === false) {
+            return;
+        }
+        
         $table->renameColumn($from->getColumnName(), $this->fieldType->getColumnName());
     }
 

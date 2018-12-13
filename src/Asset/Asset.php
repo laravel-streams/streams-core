@@ -39,6 +39,15 @@ class Asset
     protected $collections = [];
 
     /**
+     * Loaded provisions. When tagging
+     * assets using "as:*" they will be
+     * added to the loaded array.
+     *
+     * @var array
+     */
+    protected $loaded = [];
+
+    /**
      * The URL generator.
      *
      * @var UrlGenerator
@@ -177,17 +186,69 @@ class Asset
      * @param             $collection
      * @param             $file
      * @param  array      $filters
+     * @param bool        $internal A flag telling the system
+     *                              this is an internal request
+     *                              and should be processed differently.
      * @return $this
      * @throws \Exception
      */
-    public function add($collection, $file, array $filters = [])
+    public function add($collection, $file, array $filters = [], $internal = false)
     {
         if (!isset($this->collections[$collection])) {
             $this->collections[$collection] = [];
         }
 
+        /**
+         * Check for named asset tags
+         * and mark as loaded if found.
+         */
+        $names = array_map(
+            function ($filter) {
+                return strtolower(preg_replace('/^as:/', '', $filter));
+            },
+            array_filter(
+                $filters,
+                function ($filter) {
+                    return starts_with($filter, 'as:');
+                }
+            )
+        );
+
+        /**
+         * Required assets should clear
+         * any that may already be loaded.
+         */
+        if ($internal == false && in_array('required', $filters)) {
+            $this->removeLoaded($names);
+        }
+
+        /**
+         * Check that we don't have any
+         * named assets that are loaded
+         * already unless it's a glob file.
+         */
+        if (
+            $internal == false
+            && !in_array('required', $filters)
+            && array_intersect_key(array_flip($names), $this->getLoaded())
+        ) {
+            return $this;
+        }
+
+        foreach ($names as $name) {
+            $this->addLoaded($name, $collection . '@' . $file);
+        }
+
+        /**
+         * Guess some common
+         * sense filters.
+         */
         $filters = array_unique(array_merge($filters, AssetGuesser::guess($file)));
 
+        /**
+         * Determine the actual
+         * path of the file.
+         */
         $file = $this->paths->realPath($file);
 
         /*
@@ -195,6 +256,7 @@ class Asset
          * file then add it normally.
          */
         if (starts_with($file, ['http', '//']) || file_exists($file)) {
+
             $this->collections[$collection][$file] = $filters;
 
             return $this;
@@ -205,13 +267,18 @@ class Asset
          * it to the collection and add the glob filter.
          */
         if (count(glob($file)) > 0) {
+
             $this->collections[$collection][$file] = array_merge($filters, ['glob']);
 
             return $this;
         }
 
-        if ($this->config->get('app.debug') && $this->collectionHasFilter($collection, ['ignore'])) {
-            throw new \Exception("Asset [{$file}] does not exist!");
+        if (
+            $this->config->get('app.debug') &&
+            !$this->collectionHasFilter($collection, 'ignore') &&
+            !in_array('ignore', $filters)
+        ) {
+            \Log::error("Asset [{$file}] requested by [{$collection}] does not exist!");
         }
     }
 
@@ -262,7 +329,7 @@ class Asset
     public function url($collection, array $filters = [], array $parameters = [], $secure = null)
     {
         if (!isset($this->collections[$collection])) {
-            $this->add($collection, $collection, $filters);
+            $this->add($collection, $collection, $filters, true);
         }
 
         if (!$path = $this->getPath($collection, $filters)) {
@@ -282,7 +349,7 @@ class Asset
     public function path($collection, array $filters = [])
     {
         if (!isset($this->collections[$collection])) {
-            $this->add($collection, $collection, $filters);
+            $this->add($collection, $collection, $filters, true);
         }
 
         return $this->request->getBasePath() . $this->getPath($collection, $filters);
@@ -298,7 +365,7 @@ class Asset
     public function asset($collection, array $filters = [])
     {
         if (!isset($this->collections[$collection])) {
-            $this->add($collection, $collection, $filters);
+            $this->add($collection, $collection, $filters, true);
         }
 
         return $this->path($collection, $filters);
@@ -428,6 +495,38 @@ class Asset
                 return $this->url($path, [], $attributes, $secure);
             },
             $this->paths($collection, $filters)
+        );
+    }
+
+    /**
+     * Return an array of inline assets from a collection.
+     *
+     * Instead of combining the collection contents into a single
+     * dump, returns an array of individual processed dumps instead.
+     *
+     * @param        $collection
+     * @param  array $additionalFilters
+     * @return array
+     */
+    public function inlines($collection, array $additionalFilters = [])
+    {
+        if (!isset($this->collections[$collection])) {
+            return [];
+        }
+
+        return array_filter(
+            array_map(
+                function ($file, $filters) use ($additionalFilters) {
+
+                    $filters = array_filter(array_unique(array_merge($filters, $additionalFilters, ['noversion'])));
+
+                    return file_get_contents(
+                        $this->paths->realPath('public::' . ltrim($this->path($file, $filters), '/\\'))
+                    );
+                },
+                array_keys($this->collections[$collection]),
+                array_values($this->collections[$collection])
+            )
         );
     }
 
@@ -586,7 +685,22 @@ class Asset
             return true;
         }
 
-        if ($this->request->isNoCache() && $this->lastModifiedAt('theme::') > filemtime($path)) {
+        /**
+         * If we're busting cache and have watched
+         * files that have been modified then publish.
+         */
+        if ($this->request->isNoCache() && array_filter(
+                $filters,
+                function ($filter) use ($path) {
+
+                    if (!starts_with($filter, 'watch@')) {
+                        return false;
+                    }
+
+                    return $this->lastModifiedAt(substr($filter, 6)) > filemtime($path);
+                }
+            )
+        ) {
             return true;
         }
 
@@ -597,12 +711,15 @@ class Asset
 
         $assets = $this->getAssetCollection($collection);
 
-        // If any of the files are more recent than the cache file, publish, otherwise skip
-        if ($assets->getLastModified() < filemtime($path)) {
-            return false;
+        /**
+         * If any of the files are more recent
+         * than the cache file then publish.
+         */
+        if ($assets->getLastModified() > filemtime($path)) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -612,8 +729,12 @@ class Asset
      */
     public function lastModifiedAt($path)
     {
-        $files = glob($this->paths->realPath($path) . '*.{*}', GLOB_BRACE);
-        $files = array_combine($files, array_map("filemtime", $files));
+        $files = array_map(
+            function (\SplFileInfo $file) {
+                return $file->getMTime();
+            },
+            $this->files->allFiles(rtrim($this->paths->realPath($path), DIRECTORY_SEPARATOR))
+        );
 
         arsort($files);
 
@@ -713,6 +834,62 @@ class Asset
         }
 
         return false;
+    }
+
+    /**
+     * Mark an named asset as loaded.
+     *
+     * @param $name
+     * @param $asset
+     * @return $this
+     */
+    public function addLoaded($name, $asset)
+    {
+        $this->loaded[strtolower($name)] = $asset;
+
+        return $this;
+    }
+
+    /**
+     * Remove loaded names from collections.
+     *
+     * @param array $names
+     * @return $this
+     */
+    public function removeLoaded(array $names)
+    {
+        foreach ($names as $name) {
+
+            if ($this->isLoaded($name)) {
+
+                list($collection, $path) = explode('@', $this->loaded[$name]);
+
+                unset($this->collections[$collection][$this->paths->realPath($path)]);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Return if a named asset is loaded or not.
+     *
+     * @param $name
+     * @return bool
+     */
+    public function isLoaded($name)
+    {
+        return isset($this->loaded[strtolower($name)]);
+    }
+
+    /**
+     * Get the named and loaded assets.
+     *
+     * @return array
+     */
+    public function getLoaded()
+    {
+        return $this->loaded;
     }
 
     /**

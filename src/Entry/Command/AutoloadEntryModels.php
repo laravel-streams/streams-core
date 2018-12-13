@@ -23,7 +23,7 @@ class AutoloadEntryModels
         $loader = null;
 
         foreach (spl_autoload_functions() as $autoloader) {
-            if ($autoloader[0] instanceof ClassLoader) {
+            if (is_array($autoloader) && $autoloader[0] instanceof ClassLoader) {
                 $loader = $autoloader[0];
             }
         }

@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel;
 
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Command\BuildControlPanel;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\ButtonHandler;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationHandler;
@@ -17,6 +18,7 @@ class ControlPanelBuilder
 {
 
     use DispatchesJobs;
+    use FiresCallbacks;
 
     /**
      * The section buttons.
@@ -61,7 +63,11 @@ class ControlPanelBuilder
      */
     public function build()
     {
+        $this->fire('ready', ['builder' => $this]);
+
         $this->dispatch(new BuildControlPanel($this));
+
+        $this->fire('built', ['builder' => $this]);
 
         return $this->controlPanel;
     }
@@ -220,6 +226,43 @@ class ControlPanelBuilder
         $sections = $this->getControlPanelSections();
 
         return $sections->active();
+    }
+
+    /**
+     * Return the active control
+     * panel section's HREF.
+     *
+     * @param null $path
+     * @return null|string
+     */
+    public function getActiveControlPanelSectionHref($path = null)
+    {
+        $sections = $this->getControlPanelSections();
+
+        if (!$active = $sections->active()) {
+            return null;
+        }
+
+        return $active->getHref($path);
+    }
+
+    /**
+     * Return the desired control
+     * panel section's HREF.
+     *
+     * @param $section
+     * @param $path
+     * @return null|string
+     */
+    public function getControlPanelSectionHref($section, $path)
+    {
+        $sections = $this->getControlPanelSections();
+
+        if (!$section = $sections->get($section)) {
+            return null;
+        }
+
+        return $section->getHref($path);
     }
 
     /**

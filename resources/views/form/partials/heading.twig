@@ -1,16 +1,19 @@
 {% if form.options.title or form.options.description %}
     <div class="card">
-        <div class="card-block">
-            {% if form.options.title %}
+
+        {% if form.options.title %}
+            <div class="card-block">
                 <h4 class="card-title">
                     {{ trans(form.options.title)|raw }}
+
+                    {% if form.options.description %}
+                        <small>
+                            <br>{{ trans(form.options.description)|raw }}
+                        </small>
+                    {% endif %}
                 </h4>
-            {% endif %}
-            {% if form.options.description %}
-                <p>
-                    {{ trans(form.options.description)|raw }}
-                </p>
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
+
     </div>
 {% endif %}
