@@ -69,6 +69,9 @@ class GetTableEntries
          */
         if ($repository instanceof TableRepositoryInterface) {
             $this->builder->setTableEntries($repository->get($this->builder));
+            
+            $this->builder->fire('fetchedEntries', ['builder' => $this->builder]);
+            app('events')->fire(new EntriesWasFetched($this->builder));
         }
     }
 }
