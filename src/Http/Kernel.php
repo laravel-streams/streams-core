@@ -24,7 +24,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken::class,
-        \Barryvdh\HttpCache\Middleware\CacheRequests::class,
+        //\Anomaly\Streams\Platform\Http\Middleware\CacheRequests::class,
         \Barryvdh\HttpCache\Middleware\ParseEsi::class,
     ];
 
