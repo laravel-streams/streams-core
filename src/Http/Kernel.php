@@ -24,8 +24,13 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken::class,
+        /**
+         * This needs work yet. Currently the CacheRequests
+         * cause circular issues OR drop sessions if not
+         * directly overridden on our end.
+         */
         //\Anomaly\Streams\Platform\Http\Middleware\CacheRequests::class,
-        \Barryvdh\HttpCache\Middleware\ParseEsi::class,
+        //\Barryvdh\HttpCache\Middleware\ParseEsi::class,
     ];
 
     /**
