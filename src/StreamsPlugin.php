@@ -599,6 +599,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction('session_has', [$this->session, 'has']),
             new \Twig_SimpleFunction('agent_device', [$this->agent, 'device']),
             new \Twig_SimpleFunction('agent_browser', [$this->agent, 'browser']),
+            new \Twig_SimpleFunction('agent_version', [$this->agent, 'version']),
             new \Twig_SimpleFunction('agent_platform', [$this->agent, 'platform']),
             new \Twig_SimpleFunction('agent_is_phone', [$this->agent, 'isPhone']),
             new \Twig_SimpleFunction('agent_is_robot', [$this->agent, 'isRobot']),
