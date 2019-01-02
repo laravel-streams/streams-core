@@ -12,15 +12,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="description" content="{{ trans(template.meta_description) }}"/>
 
-{% block ogdata %}
-    <meta property="og:site_name" content="{{ template.get('og_site_name', setting_value('streams::name', config_get('streams::distribution.name'))) }}"/>
-    <meta property="og:description" content="{{ template.get('og_description', trans(template.meta_description)) }}"/>
-    <meta property="og:title" content="{{ template.get('og_title', trans(template.meta_title)) }}"/>
-    <meta property="og:url" content="{{ template.get('og_url', url_current()) }}"/>
-    <meta property="og:image" content="{{ template.get('og_image') }}"/>
-    <meta property="og:type" content="website"/>
-{% endblock %}
-
 <title>
     {{ setting_value('streams::name', config_get('streams::distribution.name')) }}
     &#8250;
@@ -31,16 +22,17 @@
 {#{{ favicons("theme::img/favicon.png") }}#}
 
 {# Base Theme Components #}
-{{ asset_add("theme.css", "theme::scss/bootstrap/bootstrap.scss") }}
-{{ asset_add("theme.css", "theme::scss/font-awesome/font-awesome.scss") }}
+{{ asset_add("theme.css", "theme::css/bootstrap.css") }}
+{{ asset_add("fonts.css", "theme::scss/theme/fonts.scss") }}
 
 {# Specific Build Files #}
-{{ asset_add("build.css", "theme::scss/theme/theme.scss", ["live"]) }}
+{{ asset_add("build.css", "theme::css/theme.css") }}
 
 {# Include Asset Collections #}
 <style type="text/css">
     {{ asset_inline("theme.css", ["min"]) }}
-    {{ asset_inline("build.css", ["parse", "min", "watch@theme::scss/theme"]) }}
+    {{ asset_inline("fonts.css", ["parse", "min"]) }}
+    {{ asset_inline("build.css", ["parse", "min"]) }}
 </style>
 
 {{ template.includes.render('head')|raw }}
