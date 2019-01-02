@@ -33,9 +33,7 @@
             </ul>
 
             {{ structure()
-            .linkAttributesDropdown({'data-toggle': 'dropdown'})
-            .listClass('nav navbar-nav navbar-right')
-            .childListClass('dropdown-menu')
+            .bootstrap4()
             .cache({'namespace': 'user'})
             .render()|raw }}
         </div>
