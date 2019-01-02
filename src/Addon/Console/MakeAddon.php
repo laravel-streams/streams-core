@@ -17,6 +17,8 @@ use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPhpUnit;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonSectionLang;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonServiceProvider;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonStreamLang;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteThemePackage;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteThemeWebpack;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -140,6 +142,8 @@ class MakeAddon extends Command
          */
         if ($type == 'theme') {
             $this->dispatch(new ScaffoldTheme($path));
+            $this->dispatch(new WriteThemeWebpack($path));
+            $this->dispatch(new WriteThemePackage($path));
         }
     }
 
