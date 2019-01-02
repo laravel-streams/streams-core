@@ -11,12 +11,14 @@ use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonFeatureTest;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonFieldLang;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonGitIgnore;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonLang;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPackage;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPermissionLang;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPermissions;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPhpUnit;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonSectionLang;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonServiceProvider;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonStreamLang;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonWebpack;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteThemePackage;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteThemeWebpack;
 use Illuminate\Console\Command;
@@ -137,13 +139,21 @@ class MakeAddon extends Command
         /**
          * Scaffold themes.
          *
-         * This moves in Bootstrap 3
-         * Font-Awesome and jQuery.
+         * This moves in resources
+         * and front-end tooling.
          */
         if ($type == 'theme') {
             $this->dispatch(new ScaffoldTheme($path));
             $this->dispatch(new WriteThemeWebpack($path));
             $this->dispatch(new WriteThemePackage($path));
+        }
+
+        /**
+         * Scaffold non-themes.
+         */
+        if ($type !== 'theme') {
+            $this->dispatch(new WriteAddonWebpack($path));
+            $this->dispatch(new WriteAddonPackage($path));
         }
     }
 
