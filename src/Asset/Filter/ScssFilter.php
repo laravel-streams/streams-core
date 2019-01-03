@@ -26,10 +26,12 @@ class ScssFilter extends ScssphpFilter
      * Filters an asset just before it's dumped.
      *
      * @param AssetInterface $asset
+     * @todo Remove this variable stuff completely.
      */
     public function filterDump(AssetInterface $asset)
     {
-        $this->dispatch(new LoadThemeVariables($variables = new Collection()));
+        //$this->dispatch(new LoadThemeVariables($variables = new Collection()));
+        $variables = new Collection();
 
         $compiler = new Compiler();
 
