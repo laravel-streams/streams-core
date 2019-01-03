@@ -23,7 +23,6 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-        \Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken::class,
         /**
          * This needs work yet. Currently the CacheRequests
          * cause circular issues OR drop sessions if not
