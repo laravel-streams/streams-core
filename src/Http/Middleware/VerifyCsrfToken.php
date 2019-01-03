@@ -92,6 +92,7 @@ class VerifyCsrfToken
         if (
             $this->isReading($request) ||
             $this->runningUnitTests() ||
+            $this->shouldPassThrough($request) ||
             $this->inExceptArray($request) ||
             $this->tokensMatch($request)
         ) {
@@ -122,6 +123,22 @@ class VerifyCsrfToken
     protected function runningUnitTests()
     {
         return $this->app->runningInConsole() && $this->app->runningUnitTests();
+    }
+
+    /**
+     * If the route disabled the
+     * CSRF then we can skip it.
+     *
+     * @param Request $request
+     * @return bool
+     */
+    public function shouldPassThrough(Request $request)
+    {
+        if (array_get($request->route->getAction(), 'csrf') === false) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
