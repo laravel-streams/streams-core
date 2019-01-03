@@ -6,6 +6,7 @@ use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Routing\Route;
 use Illuminate\Support\InteractsWithTime;
 use Symfony\Component\HttpFoundation\Cookie;
 
@@ -27,6 +28,13 @@ class VerifyCsrfToken
      * @var \Illuminate\Foundation\Application
      */
     protected $app;
+
+    /**
+     * The route instance.
+     *
+     * @var Route
+     */
+    protected $route;
 
     /**
      * The encrypter implementation.
@@ -65,6 +73,7 @@ class VerifyCsrfToken
      * @param Redirector $redirector
      */
     public function __construct(
+        Route $route,
         Application $app,
         Encrypter $encrypter,
         MessageBag $messages,
@@ -73,6 +82,7 @@ class VerifyCsrfToken
         $this->except = config('streams::security.csrf.except', []);
 
         $this->app        = $app;
+        $this->route      = $route;
         $this->encrypter  = $encrypter;
         $this->messages   = $messages;
         $this->redirector = $redirector;
@@ -92,7 +102,7 @@ class VerifyCsrfToken
         if (
             $this->isReading($request) ||
             $this->runningUnitTests() ||
-            $this->shouldPassThrough($request) ||
+            $this->shouldPassThrough() ||
             $this->inExceptArray($request) ||
             $this->tokensMatch($request)
         ) {
@@ -129,12 +139,11 @@ class VerifyCsrfToken
      * If the route disabled the
      * CSRF then we can skip it.
      *
-     * @param Request $request
      * @return bool
      */
-    public function shouldPassThrough(Request $request)
+    public function shouldPassThrough()
     {
-        if (array_get($request->route->getAction(), 'csrf') === false) {
+        if (array_get($this->route->getAction(), 'csrf') === false) {
             return true;
         }
 
