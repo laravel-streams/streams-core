@@ -256,7 +256,7 @@ class FieldType extends Addon
      * Return a config value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function config($key, $default = null)
@@ -445,7 +445,7 @@ class FieldType extends Addon
      * Get a config value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function configGet($key, $default = null)
@@ -1316,21 +1316,29 @@ class FieldType extends Addon
     /**
      * Render the input.
      *
+     * @param array $payload
      * @return string
      */
-    public function getInput()
+    public function getInput(array $payload = [])
     {
-        return view($this->getInputView(), ['field_type' => $this])->render();
+        return view(
+            $this->getInputView(),
+            array_merge($payload, ['field_type' => $this])
+        )->render();
     }
 
     /**
      * Render the filter.
      *
+     * @param array $payload
      * @return string
      */
-    public function getFilter()
+    public function getFilter(array $payload = [])
     {
-        return view($this->getFilterView(), ['field_type' => $this])->render();
+        return view(
+            $this->getFilterView(),
+            array_merge($payload, ['field_type' => $this])
+        )->render();
     }
 
     /**
