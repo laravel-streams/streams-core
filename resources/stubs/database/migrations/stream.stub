@@ -12,12 +12,12 @@ class {class} extends Migration
      */
     protected $stream = [
         'slug' => '{stream}',
-         'title_column' => 'name',
-         'translatable' => true,
-         'versionable' => false,
-         'trashable' => false,
-         'searchable' => false,
-         'sortable' => false,
+        'title_column' => 'name',
+        'translatable' => true,
+        'versionable' => false,
+        'trashable' => false,
+        'searchable' => false,
+        'sortable' => false,
     ];
 
     /**
