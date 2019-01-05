@@ -13,7 +13,7 @@ return [
     'no_results'                => 'Rezultatų nėra',
     'access_denied'             => 'Prieiga uždrausta.',
     'no_fields_available'       => 'Nėra laukų',
-    'delete_success'            => ':count eil. ištrintos sėkmingao',
+    'delete_success'            => ':count eil. ištrintos sėkmingai',
     'reorder_success'           => ':count eil. perrikiuotos sėkmingai',
     'csrf_token_mismatch'       => 'Jūsų saugumo rakto galiojimo laikas pasibaigė. Bandykite pildyti formą dar kartą.',
     'create_success'            => ':name sukurtas sėkmingai',
