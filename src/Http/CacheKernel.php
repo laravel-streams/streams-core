@@ -16,6 +16,19 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
 {
 
     /**
+     * System excluded.
+     *
+     * @var array
+     */
+    protected static $excluded = [
+        '/admin',
+        '/admin/*',
+        '/streams/*-field_type/*',
+        '/streams/*-extension/*',
+        '/streams/*-module/*',
+    ];
+
+    /**
      * Wrap a Laravel Kernel in a Symfony HttpKernel
      *
      * @param Kernel $kernel
@@ -48,6 +61,13 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
                 return $cache;
             }
         );
+
+        /**
+         * Disable for Control Panel
+         */
+        if (str_is(self::$excluded, $_SERVER['REQUEST_URI'])) {
+            return $kernel;
+        }
 
         return $cache;
     }
