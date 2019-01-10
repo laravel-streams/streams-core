@@ -22,6 +22,8 @@ class ClearHttpCache
      */
     public function handle(Filesystem $files, Repository $config)
     {
-        $files->cleanDirectory($config->get('httpcache.cache_dir', storage_path('httpcache')));
+        foreach ($files->directories($config->get('httpcache.cache_dir', storage_path('httpcache'))) as $directory) {
+            $files->deleteDirectory($directory);
+        }
     }
 }
