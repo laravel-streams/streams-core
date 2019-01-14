@@ -244,7 +244,7 @@ class StreamsPlugin extends Plugin
                 'stream',
                 function ($namespace, $slug = null) {
                     return (new Decorator())->decorate(
-                        $this->dispatch(new GetStream($namespace, $slug ?: $namespace))
+                        $this->dispatchNow(new GetStream($namespace, $slug ?: $namespace))
                     );
                 }
             ),
@@ -252,7 +252,7 @@ class StreamsPlugin extends Plugin
                 'streams',
                 function ($namespace) {
                     return (new Decorator())->decorate(
-                        $this->dispatch(new GetStreams($namespace))
+                        $this->dispatchNow(new GetStreams($namespace))
                     );
                 }
             ),
@@ -260,7 +260,7 @@ class StreamsPlugin extends Plugin
                 'entry',
                 function ($namespace, $stream = null) {
                     return (new Decorator())->decorate(
-                        $this->dispatch(new GetEntryCriteria($namespace, $stream ?: $namespace, 'first'))
+                        $this->dispatchNow(new GetEntryCriteria($namespace, $stream ?: $namespace, 'first'))
                     );
                 }
             ),
@@ -268,7 +268,7 @@ class StreamsPlugin extends Plugin
                 'entries',
                 function ($namespace, $stream = null) {
                     return (new Decorator())->decorate(
-                        $this->dispatch(new GetEntryCriteria($namespace, $stream ?: $namespace, 'get'))
+                        $this->dispatchNow(new GetEntryCriteria($namespace, $stream ?: $namespace, 'get'))
                     );
                 }
             ),
@@ -276,7 +276,7 @@ class StreamsPlugin extends Plugin
                 'query',
                 function ($model = null) {
                     return (new Decorator())->decorate(
-                        $this->dispatch(new GetEloquentCriteria($model, 'get'))
+                        $this->dispatchNow(new GetEloquentCriteria($model, 'get'))
                     );
                 }
             ),
@@ -289,7 +289,7 @@ class StreamsPlugin extends Plugin
                      */
                     $image = current(array_slice(func_get_args(), 1));
 
-                    return $this->dispatch(new MakeImageInstance($image, $name));
+                    return $this->dispatchNow(new MakeImageInstance($image, $name));
                 },
                 [
                     'is_safe' => ['html'],
@@ -302,7 +302,7 @@ class StreamsPlugin extends Plugin
                     /**
                      * @deprecated Use img()
                      */
-                    return $this->dispatch(new MakeImageInstance($image, 'img'));
+                    return $this->dispatchNow(new MakeImageInstance($image, 'img'));
                 },
                 [
                     'is_safe' => ['html'],
@@ -311,7 +311,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'img',
                 function ($image) {
-                    return $this->dispatch(new MakeImageInstance($image, 'img'));
+                    return $this->dispatchNow(new MakeImageInstance($image, 'img'));
                 },
                 [
                     'is_safe' => ['html'],
@@ -334,7 +334,7 @@ class StreamsPlugin extends Plugin
                         $arguments = func_get_arg(0);
                     }
 
-                    return $this->dispatch(new GetFormCriteria($arguments));
+                    return $this->dispatchNow(new GetFormCriteria($arguments));
                 },
                 [
                     'is_safe' => ['html'],
@@ -365,7 +365,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'icon',
                 function ($type, $class = null) {
-                    return (new Decorator())->decorate($this->dispatch(new GetIcon($type, $class)));
+                    return (new Decorator())->decorate($this->dispatchNow(new GetIcon($type, $class)));
                 },
                 [
                     'is_safe' => ['html'],
@@ -374,7 +374,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'view',
                 function ($view, array $data = []) {
-                    return $this->dispatch(new GetView($view, $data))->render();
+                    return $this->dispatchNow(new GetView($view, $data))->render();
                 },
                 [
                     'is_safe' => ['html'],
@@ -383,7 +383,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'buttons',
                 function ($buttons) {
-                    return $this->dispatch(new GetButtons($buttons))->render();
+                    return $this->dispatchNow(new GetButtons($buttons))->render();
                 },
                 [
                     'is_safe' => ['html'],
@@ -392,7 +392,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'constants',
                 function () {
-                    return $this->dispatch(new GetConstants())->render();
+                    return $this->dispatchNow(new GetConstants())->render();
                 },
                 [
                     'is_safe' => ['html'],
@@ -425,19 +425,19 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'request_time',
                 function ($decimal = 2) {
-                    return $this->dispatch(new GetElapsedTime($decimal));
+                    return $this->dispatchNow(new GetElapsedTime($decimal));
                 }
             ),
             new \Twig_SimpleFunction(
                 'memory_usage',
                 function ($precision = 1) {
-                    return $this->dispatch(new GetMemoryUsage($precision));
+                    return $this->dispatchNow(new GetMemoryUsage($precision));
                 }
             ),
             new \Twig_SimpleFunction(
                 'layout',
                 function ($layout, $default = 'default') {
-                    return $this->dispatch(new GetLayoutName($layout, $default));
+                    return $this->dispatchNow(new GetLayoutName($layout, $default));
                 }
             ),
             new \Twig_SimpleFunction(
@@ -451,7 +451,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'trans',
                 function ($key, array $parameters = [], $locale = null) {
-                    return $this->dispatch(new GetTranslatedString($key, $parameters, $locale));
+                    return $this->dispatchNow(new GetTranslatedString($key, $parameters, $locale));
                 }
             ),
             new \Twig_SimpleFunction(

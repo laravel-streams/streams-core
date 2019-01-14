@@ -40,26 +40,26 @@ class BuildTree
         /*
          * Resolve and set the tree model and stream.
          */
-        $this->dispatch(new SetTreeModel($this->builder));
-        $this->dispatch(new SetTreeStream($this->builder));
-        $this->dispatch(new SetTreeOptions($this->builder));
-        $this->dispatch(new SetDefaultOptions($this->builder));
-        $this->dispatch(new SetTreeRepository($this->builder));
-        $this->dispatch(new SetDefaultParameters($this->builder));
+        $this->dispatchNow(new SetTreeModel($this->builder));
+        $this->dispatchNow(new SetTreeStream($this->builder));
+        $this->dispatchNow(new SetTreeOptions($this->builder));
+        $this->dispatchNow(new SetDefaultOptions($this->builder));
+        $this->dispatchNow(new SetTreeRepository($this->builder));
+        $this->dispatchNow(new SetDefaultParameters($this->builder));
 
         /*
          * Before we go any further, authorize the request.
          */
-        $this->dispatch(new AuthorizeTree($this->builder));
+        $this->dispatchNow(new AuthorizeTree($this->builder));
 
         /*
          * Get tree entries.
          */
-        $this->dispatch(new GetTreeEntries($this->builder));
+        $this->dispatchNow(new GetTreeEntries($this->builder));
 
         /*
          * Lastly tree items.
          */
-        $this->dispatch(new BuildItems($this->builder));
+        $this->dispatchNow(new BuildItems($this->builder));
     }
 }

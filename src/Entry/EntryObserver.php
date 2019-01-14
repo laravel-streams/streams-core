@@ -58,7 +58,7 @@ class EntryObserver extends Observer
      */
     public function updating(EntryInterface $entry)
     {
-        $this->dispatch(new PurgeHttpCache($entry));
+        $this->dispatchNow(new PurgeHttpCache($entry));
     }
 
     /**
@@ -70,7 +70,7 @@ class EntryObserver extends Observer
     {
         $entry->flushCache();
 
-        $this->dispatch(new PurgeHttpCache($entry));
+        $this->dispatchNow(new PurgeHttpCache($entry));
 
         $entry->fireFieldTypeEvents('entry_updated');
 
@@ -130,11 +130,11 @@ class EntryObserver extends Observer
      */
     public function deleting(EntryInterface $entry)
     {
-        if ($this->dispatch(new RestrictDelete($entry))) {
+        if ($this->dispatchNow(new RestrictDelete($entry))) {
             return false;
         }
 
-        $this->dispatch(new CascadeDelete($entry));
+        $this->dispatchNow(new CascadeDelete($entry));
     }
 
     /**
@@ -184,7 +184,7 @@ class EntryObserver extends Observer
         $entry->flushCache();
         $entry->fireFieldTypeEvents('entry_restored');
 
-        $this->dispatch(new CascadeRestore($entry));
+        $this->dispatchNow(new CascadeRestore($entry));
 
         $this->events->dispatch(new EntryWasRestored($entry));
     }

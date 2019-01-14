@@ -77,7 +77,7 @@ class InstallModule
 
         $this->module->fire('installed');
 
-        $dispatcher->fire(new ModuleWasInstalled($this->module));
+        $dispatcher->dispatch(new ModuleWasInstalled($this->module));
 
         return true;
     }

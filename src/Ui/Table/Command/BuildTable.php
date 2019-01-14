@@ -48,55 +48,55 @@ class BuildTable
         /*
          * Resolve and set the table model and stream.
          */
-        $this->dispatch(new SetTableModel($this->builder));
-        $this->dispatch(new SetTableStream($this->builder));
-        $this->dispatch(new SetDefaultParameters($this->builder));
-        $this->dispatch(new SetRepository($this->builder));
+        $this->dispatchNow(new SetTableModel($this->builder));
+        $this->dispatchNow(new SetTableStream($this->builder));
+        $this->dispatchNow(new SetDefaultParameters($this->builder));
+        $this->dispatchNow(new SetRepository($this->builder));
 
         /*
          * Build table views and mark active.
          */
-        $this->dispatch(new BuildViews($this->builder));
-        $this->dispatch(new SetActiveView($this->builder));
+        $this->dispatchNow(new BuildViews($this->builder));
+        $this->dispatchNow(new SetActiveView($this->builder));
 
         /**
          * Set the table options going forward.
          */
-        $this->dispatch(new SetTableOptions($this->builder));
-        $this->dispatch(new SetDefaultOptions($this->builder));
-        $this->dispatch(new SaveTableState($this->builder));
+        $this->dispatchNow(new SetTableOptions($this->builder));
+        $this->dispatchNow(new SetDefaultOptions($this->builder));
+        $this->dispatchNow(new SaveTableState($this->builder));
 
         /*
          * Before we go any further, authorize the request.
          */
-        $this->dispatch(new AuthorizeTable($this->builder));
+        $this->dispatchNow(new AuthorizeTable($this->builder));
 
         /*
          * Build table filters and flag active.
          */
-        $this->dispatch(new BuildFilters($this->builder));
-        $this->dispatch(new SetActiveFilters($this->builder));
+        $this->dispatchNow(new BuildFilters($this->builder));
+        $this->dispatchNow(new SetActiveFilters($this->builder));
 
         /*
          * Build table actions and flag active.
          */
-        $this->dispatch(new BuildActions($this->builder));
-        $this->dispatch(new SetActiveAction($this->builder));
+        $this->dispatchNow(new BuildActions($this->builder));
+        $this->dispatchNow(new SetActiveAction($this->builder));
 
         /*
          * Build table headers.
          */
-        $this->dispatch(new BuildHeaders($this->builder));
-        $this->dispatch(new EagerLoadRelations($this->builder));
+        $this->dispatchNow(new BuildHeaders($this->builder));
+        $this->dispatchNow(new EagerLoadRelations($this->builder));
 
         /*
          * Get table entries.
          */
-        $this->dispatch(new GetTableEntries($this->builder));
+        $this->dispatchNow(new GetTableEntries($this->builder));
 
         /*
          * Lastly table rows.
          */
-        $this->dispatch(new BuildRows($this->builder));
+        $this->dispatchNow(new BuildRows($this->builder));
     }
 }

@@ -196,22 +196,22 @@ class StreamsServiceProvider extends ServiceProvider
         $events->dispatch(new Booting());
 
         // Next take care of core utilities.
-        $this->dispatch(new SetCoreConnection());
-        $this->dispatch(new ConfigureUriValidator());
-        $this->dispatch(new InitializeApplication());
+        $this->dispatchNow(new SetCoreConnection());
+        $this->dispatchNow(new ConfigureUriValidator());
+        $this->dispatchNow(new InitializeApplication());
 
         // Load application specific .env file.
-        $this->dispatch(new LoadEnvironmentOverrides());
+        $this->dispatchNow(new LoadEnvironmentOverrides());
 
         // Setup and preparing utilities.
-        $this->dispatch(new LoadStreamsConfiguration());
-        $this->dispatch(new ConfigureFileCacheStore());
-        $this->dispatch(new ConfigureTranslator());
-        $this->dispatch(new AutoloadEntryModels());
-        $this->dispatch(new AddAssetNamespaces());
-        $this->dispatch(new AddImageNamespaces());
-        $this->dispatch(new ConfigureRequest());
-        $this->dispatch(new ConfigureScout());
+        $this->dispatchNow(new LoadStreamsConfiguration());
+        $this->dispatchNow(new ConfigureFileCacheStore());
+        $this->dispatchNow(new ConfigureTranslator());
+        $this->dispatchNow(new AutoloadEntryModels());
+        $this->dispatchNow(new AddAssetNamespaces());
+        $this->dispatchNow(new AddImageNamespaces());
+        $this->dispatchNow(new ConfigureRequest());
+        $this->dispatchNow(new ConfigureScout());
 
         // Observe our base models.
         EntryModel::observe(EntryObserver::class);
@@ -283,15 +283,15 @@ class StreamsServiceProvider extends ServiceProvider
                     $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
                 }
 
-                $this->dispatch(new LoadCurrentTheme());
-                $this->dispatch(new AddViewNamespaces());
-                $this->dispatch(new SetApplicationDomain());
+                $this->dispatchNow(new LoadCurrentTheme());
+                $this->dispatchNow(new AddViewNamespaces());
+                $this->dispatchNow(new SetApplicationDomain());
 
                 /*
                  * Do this after addons are registered
                  * so that they can override named routes.
                  */
-                $this->dispatch(new IncludeRoutes());
+                $this->dispatchNow(new IncludeRoutes());
 
                 $events->dispatch(new Ready());
             }

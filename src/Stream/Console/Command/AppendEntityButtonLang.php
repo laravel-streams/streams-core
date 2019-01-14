@@ -54,7 +54,7 @@ class AppendEntityButtonLang
     {
 
         if (!$files->exists($path = $this->addon->getPath("resources/lang/en/button.php"))) {
-            $this->dispatch(new WriteAddonButtonLang($this->addon->getPath()));
+            $this->dispatchNow(new WriteAddonButtonLang($this->addon->getPath()));
         }
 
         $singular = str_singular($this->slug);

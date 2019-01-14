@@ -41,7 +41,7 @@ class FieldObserver extends Observer
      */
     public function updating(FieldInterface $model)
     {
-        $this->dispatch(new RenameFieldAssignments($model));
+        $this->dispatchNow(new RenameFieldAssignments($model));
     }
 
     /**
@@ -53,8 +53,8 @@ class FieldObserver extends Observer
     {
         $model->flushCache();
 
-        $this->dispatch(new ChangeFieldAssignments($model));
-        $this->dispatch(new UpdateFieldAssignments($model));
+        $this->dispatchNow(new ChangeFieldAssignments($model));
+        $this->dispatchNow(new UpdateFieldAssignments($model));
 
         $this->events->dispatch(new FieldWasUpdated($model));
     }
@@ -79,7 +79,7 @@ class FieldObserver extends Observer
      */
     public function deleting(FieldInterface $model)
     {
-        $this->dispatch(new DeleteFieldAssignments($model));
+        $this->dispatchNow(new DeleteFieldAssignments($model));
     }
 
     /**
@@ -91,7 +91,7 @@ class FieldObserver extends Observer
     {
         $model->flushCache();
 
-        $this->dispatch(new DeleteFieldTranslations($model));
+        $this->dispatchNow(new DeleteFieldTranslations($model));
 
         $this->events->dispatch(new FieldWasDeleted($model));
     }

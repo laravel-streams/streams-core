@@ -51,51 +51,51 @@ class BuildForm
          * Setup some objects and options using
          * provided input or sensible defaults.
          */
-        $this->dispatch(new AddAssets($this->builder));
-        $this->dispatch(new SetFormModel($this->builder));
-        $this->dispatch(new SetFormStream($this->builder));
-        $this->dispatch(new SetRepository($this->builder));
-        $this->dispatch(new SetFormEntry($this->builder));
-        $this->dispatch(new SetFormVersion($this->builder));
-        $this->dispatch(new SetDefaultParameters($this->builder));
-        $this->dispatch(new SetFormOptions($this->builder));
-        $this->dispatch(new SetDefaultOptions($this->builder));
+        $this->dispatchNow(new AddAssets($this->builder));
+        $this->dispatchNow(new SetFormModel($this->builder));
+        $this->dispatchNow(new SetFormStream($this->builder));
+        $this->dispatchNow(new SetRepository($this->builder));
+        $this->dispatchNow(new SetFormEntry($this->builder));
+        $this->dispatchNow(new SetFormVersion($this->builder));
+        $this->dispatchNow(new SetDefaultParameters($this->builder));
+        $this->dispatchNow(new SetFormOptions($this->builder));
+        $this->dispatchNow(new SetDefaultOptions($this->builder));
 
         /*
          * Load anything we need that might be flashed.
          */
-        $this->dispatch(new LoadFormErrors($this->builder));
+        $this->dispatchNow(new LoadFormErrors($this->builder));
 
         /*
          * Before we go any further, authorize the request.
          */
-        $this->dispatch(new AuthorizeForm($this->builder));
+        $this->dispatchNow(new AuthorizeForm($this->builder));
 
         /*
          * Lock form model.
          */
-        $this->dispatch(new LockFormModel($this->builder));
+        $this->dispatchNow(new LockFormModel($this->builder));
 
         /*
          * Build form fields.
          */
-        $this->dispatch(new BuildFields($this->builder));
+        $this->dispatchNow(new BuildFields($this->builder));
 
         /*
          * Build form sections.
          */
-        $this->dispatch(new BuildSections($this->builder));
+        $this->dispatchNow(new BuildSections($this->builder));
 
         /*
          * Build form actions and flag active.
          */
-        $this->dispatch(new BuildActions($this->builder));
-        $this->dispatch(new SetActiveAction($this->builder));
+        $this->dispatchNow(new BuildActions($this->builder));
+        $this->dispatchNow(new SetActiveAction($this->builder));
 
         /*
          * Build form buttons.
          */
-        $this->dispatch(new BuildButtons($this->builder));
+        $this->dispatchNow(new BuildButtons($this->builder));
 
         $events->dispatch(new FormWasBuilt($this->builder));
     }

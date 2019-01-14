@@ -38,7 +38,7 @@ class LessFilter extends LessphpFilter
     {
         $compiler = new \lessc();
 
-        //$this->dispatch(new LoadThemeVariables($variables = new Collection()));
+        //$this->dispatchNow(new LoadThemeVariables($variables = new Collection()));
         $variables = new Collection();
 
         $compiler->setVariables($variables->all());

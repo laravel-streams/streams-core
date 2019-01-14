@@ -137,9 +137,9 @@ class FormValidator
                 }
             }
 
-            $this->dispatch(new SetErrorMessages($builder));
+            $this->dispatchNow(new SetErrorMessages($builder));
         }
 
-        $this->dispatch(new RepopulateFields($builder));
+        $this->dispatchNow(new RepopulateFields($builder));
     }
 }

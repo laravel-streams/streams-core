@@ -214,7 +214,7 @@ class FormBuilder
 
         $this->fire('ready', ['builder' => $this]);
 
-        $this->dispatch(new BuildForm($this));
+        $this->dispatchNow(new BuildForm($this));
 
         $this->fire('built', ['builder' => $this]);
 
@@ -235,8 +235,8 @@ class FormBuilder
         $this->fire('make', ['builder' => $this]);
 
         if ($this->getFormResponse() === null) {
-            $this->dispatch(new LoadForm($this));
-            $this->dispatch(new MakeForm($this));
+            $this->dispatchNow(new LoadForm($this));
+            $this->dispatchNow(new MakeForm($this));
         }
 
         return $this;
@@ -273,10 +273,10 @@ class FormBuilder
             $this->fire('post', ['builder' => $this]);
 
             if ($this->hasPostData()) {
-                $this->dispatch(new PostForm($this));
+                $this->dispatchNow(new PostForm($this));
             }
         } else {
-            $this->dispatch(new PopulateFields($this));
+            $this->dispatchNow(new PopulateFields($this));
         }
 
         return $this;
@@ -289,8 +289,8 @@ class FormBuilder
      */
     public function validate()
     {
-        $this->dispatch(new LoadFormValues($this));
-        $this->dispatch(new ValidateForm($this));
+        $this->dispatchNow(new LoadFormValues($this));
+        $this->dispatchNow(new ValidateForm($this));
 
         return $this;
     }
@@ -302,8 +302,8 @@ class FormBuilder
      */
     public function flash()
     {
-        $this->dispatch(new FlashFormErrors($this));
-        $this->dispatch(new FlashFieldValues($this));
+        $this->dispatchNow(new FlashFormErrors($this));
+        $this->dispatchNow(new FlashFieldValues($this));
     }
 
     /**
@@ -317,7 +317,7 @@ class FormBuilder
         $this->make($entry);
 
         if (!$this->form->getResponse()) {
-            $this->dispatch(new SetFormResponse($this));
+            $this->dispatchNow(new SetFormResponse($this));
         }
 
         return $this->form->getResponse();
@@ -342,7 +342,7 @@ class FormBuilder
      */
     public function saveForm()
     {
-        $this->dispatch(new SaveForm($this));
+        $this->dispatchNow(new SaveForm($this));
     }
 
     /**

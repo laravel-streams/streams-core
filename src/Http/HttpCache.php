@@ -41,7 +41,7 @@ class HttpCache extends \Symfony\Component\HttpKernel\HttpCache\HttpCache implem
      */
     public function clear()
     {
-        $this->dispatch(new ClearHttpCache());
+        $this->dispatchNow(new ClearHttpCache());
     }
 
     /**

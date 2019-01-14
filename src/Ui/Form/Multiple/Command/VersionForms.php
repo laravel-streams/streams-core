@@ -53,7 +53,7 @@ class VersionForms
 
             $this->builder->fire('versioning_' . $slug, compact('builder', 'forms'));
 
-            $this->dispatch(new HandleVersioning($builder));
+            $this->dispatchNow(new HandleVersioning($builder));
         }
     }
 }

@@ -65,7 +65,7 @@ class ControlPanelBuilder
     {
         $this->fire('ready', ['builder' => $this]);
 
-        $this->dispatch(new BuildControlPanel($this));
+        $this->dispatchNow(new BuildControlPanel($this));
 
         $this->fire('built', ['builder' => $this]);
 

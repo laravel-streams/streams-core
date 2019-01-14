@@ -44,7 +44,7 @@ class AssignmentObserver extends Observer
         $model->flushCache();
         $model->compileStream();
 
-        $this->dispatch(new AddAssignmentColumn($model));
+        $this->dispatchNow(new AddAssignmentColumn($model));
 
         $this->events->dispatch(new AssignmentWasCreated($model));
     }
@@ -56,9 +56,9 @@ class AssignmentObserver extends Observer
      */
     public function updating(AssignmentInterface $model)
     {
-        $this->dispatch(new BackupAssignmentData($model));
-        $this->dispatch(new MoveAssignmentColumn($model));
-        $this->dispatch(new RestoreAssignmentData($model));
+        $this->dispatchNow(new BackupAssignmentData($model));
+        $this->dispatchNow(new MoveAssignmentColumn($model));
+        $this->dispatchNow(new RestoreAssignmentData($model));
     }
 
     /**
@@ -71,7 +71,7 @@ class AssignmentObserver extends Observer
         $model->flushCache();
         $model->compileStream();
 
-        $this->dispatch(new UpdateAssignmentColumn($model));
+        $this->dispatchNow(new UpdateAssignmentColumn($model));
 
         $this->events->dispatch(new AssignmentWasUpdated($model));
     }
@@ -99,8 +99,8 @@ class AssignmentObserver extends Observer
         $model->flushCache();
         $model->compileStream();
 
-        $this->dispatch(new DropAssignmentColumn($model));
-        $this->dispatch(new DeleteAssignmentTranslations($model));
+        $this->dispatchNow(new DropAssignmentColumn($model));
+        $this->dispatchNow(new DeleteAssignmentTranslations($model));
 
         $this->events->dispatch(new AssignmentWasDeleted($model));
     }

@@ -40,11 +40,11 @@ class EnvSet extends Command
 
         list($variable, $value) = explode('=', $line, 2);
 
-        $data = $this->dispatch(new ReadEnvironmentFile());
+        $data = $this->dispatchNow(new ReadEnvironmentFile());
 
         array_set($data, $variable, $value);
 
-        $this->dispatch(new WriteEnvironmentFile($data));
+        $this->dispatchNow(new WriteEnvironmentFile($data));
     }
 
     /**

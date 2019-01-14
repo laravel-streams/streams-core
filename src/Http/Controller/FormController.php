@@ -29,7 +29,7 @@ class FormController extends PublicController
         $parameters = $cache->get('form::' . $key);
 
         /* @var FormCriteria $criteria */
-        $criteria = $this->dispatch(new GetFormCriteria($parameters));
+        $criteria = $this->dispatchNow(new GetFormCriteria($parameters));
 
         /* @var FormBuilder $builder */
         $builder = $criteria->build();

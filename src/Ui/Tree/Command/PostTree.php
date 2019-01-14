@@ -36,6 +36,6 @@ class PostTree
      */
     public function handle()
     {
-        $this->dispatch(new SaveTree($this->builder));
+        $this->dispatchNow(new SaveTree($this->builder));
     }
 }

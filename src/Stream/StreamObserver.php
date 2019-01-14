@@ -45,7 +45,7 @@ class StreamObserver extends Observer
         $model->compile();
         $model->flushCache();
 
-        $this->dispatch(new CreateStreamsEntryTable($model));
+        $this->dispatchNow(new CreateStreamsEntryTable($model));
 
         $model->fireFieldTypeEvents('stream_created');
 
@@ -76,7 +76,7 @@ class StreamObserver extends Observer
     {
         $model->fireFieldTypeEvents('stream_updating');
 
-        $this->dispatch(new RenameStreamsEntryTable($model));
+        $this->dispatchNow(new RenameStreamsEntryTable($model));
     }
 
     /**
@@ -103,12 +103,12 @@ class StreamObserver extends Observer
 
         $model->fireFieldTypeEvents('stream_deleted');
 
-        $this->dispatch(new DeleteEntryIndex($model));
-        $this->dispatch(new DropStreamsEntryTable($model));
-        $this->dispatch(new DeleteStreamEntryModels($model));
-        $this->dispatch(new DeleteStreamAssignments($model));
-        $this->dispatch(new DeleteStreamTranslations($model));
-        $this->dispatch(new GenerateEntryModelClassmap());
+        $this->dispatchNow(new DeleteEntryIndex($model));
+        $this->dispatchNow(new DropStreamsEntryTable($model));
+        $this->dispatchNow(new DeleteStreamEntryModels($model));
+        $this->dispatchNow(new DeleteStreamAssignments($model));
+        $this->dispatchNow(new DeleteStreamTranslations($model));
+        $this->dispatchNow(new GenerateEntryModelClassmap());
 
         $this->events->dispatch(new StreamWasDeleted($model));
     }

@@ -132,7 +132,7 @@ class TableBuilder
     {
         $this->fire('ready', ['builder' => $this]);
 
-        $this->dispatch(new BuildTable($this));
+        $this->dispatchNow(new BuildTable($this));
 
         $this->fire('built', ['builder' => $this]);
 
@@ -160,9 +160,9 @@ class TableBuilder
      */
     public function load()
     {
-        $this->dispatch(new LoadTable($this));
-        $this->dispatch(new AddAssets($this));
-        $this->dispatch(new MakeTable($this));
+        $this->dispatchNow(new LoadTable($this));
+        $this->dispatchNow(new AddAssets($this));
+        $this->dispatchNow(new MakeTable($this));
 
         return $this;
     }
@@ -176,7 +176,7 @@ class TableBuilder
     public function post()
     {
         if (app('request')->isMethod('post')) {
-            $this->dispatch(new PostTable($this));
+            $this->dispatchNow(new PostTable($this));
         }
 
         return $this;
@@ -192,7 +192,7 @@ class TableBuilder
         $this->make();
 
         if ($this->table->getResponse() === null) {
-            $this->dispatch(new SetTableResponse($this));
+            $this->dispatchNow(new SetTableResponse($this));
         }
 
         return $this->table->getResponse();

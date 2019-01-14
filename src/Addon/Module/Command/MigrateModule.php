@@ -69,7 +69,7 @@ class MigrateModule
 
         $this->module->fire('migrated');
 
-        $dispatcher->fire(new ModuleWasMigrated($this->module));
+        $dispatcher->dispatch(new ModuleWasMigrated($this->module));
 
         return true;
     }

@@ -65,7 +65,7 @@ class ConfigureMigrator
             return;
         }
 
-        if (!$addon = $this->dispatch(new GetAddon($addon))) {
+        if (!$addon = $this->dispatchNow(new GetAddon($addon))) {
             throw new \Exception("Addon could not be found.");
         }
 

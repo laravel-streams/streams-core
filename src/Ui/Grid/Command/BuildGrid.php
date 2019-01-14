@@ -40,26 +40,26 @@ class BuildGrid
         /*
          * Resolve and set the grid model and stream.
          */
-        $this->dispatch(new SetGridModel($this->builder));
-        $this->dispatch(new SetGridStream($this->builder));
-        $this->dispatch(new SetGridOptions($this->builder));
-        $this->dispatch(new SetDefaultOptions($this->builder));
-        $this->dispatch(new SetGridRepository($this->builder));
-        $this->dispatch(new SetDefaultParameters($this->builder));
+        $this->dispatchNow(new SetGridModel($this->builder));
+        $this->dispatchNow(new SetGridStream($this->builder));
+        $this->dispatchNow(new SetGridOptions($this->builder));
+        $this->dispatchNow(new SetDefaultOptions($this->builder));
+        $this->dispatchNow(new SetGridRepository($this->builder));
+        $this->dispatchNow(new SetDefaultParameters($this->builder));
 
         /*
          * Before we go any further, authorize the request.
          */
-        $this->dispatch(new AuthorizeGrid($this->builder));
+        $this->dispatchNow(new AuthorizeGrid($this->builder));
 
         /*
          * Get grid entries.
          */
-        $this->dispatch(new GetGridEntries($this->builder));
+        $this->dispatchNow(new GetGridEntries($this->builder));
 
         /*
          * Lastly grid items.
          */
-        $this->dispatch(new BuildItems($this->builder));
+        $this->dispatchNow(new BuildItems($this->builder));
     }
 }

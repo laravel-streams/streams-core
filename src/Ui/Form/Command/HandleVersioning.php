@@ -69,7 +69,7 @@ class HandleVersioning
 
             $entry->unguard();
 
-            $this->dispatch(new SaveVersion($entry));
+            $this->dispatchNow(new SaveVersion($entry));
 
             $entry->reguard();
         }

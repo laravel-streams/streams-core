@@ -51,7 +51,7 @@ class WriteEnvironmentFile
             }
         }
 
-        $file = $this->dispatch(new GetEnvironmentFile());
+        $file = $this->dispatchNow(new GetEnvironmentFile());
 
         file_put_contents($file, $contents);
     }

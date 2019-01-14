@@ -69,29 +69,29 @@ class Install extends Command
 
         if (!$this->option('ready')) {
 
-            $this->dispatch(new ConfirmLicense($this));
-            $this->dispatch(new SetStreamsData($data));
-            $this->dispatch(new SetDatabaseData($data, $this));
-            $this->dispatch(new SetApplicationData($data, $this));
-            $this->dispatch(new SetAdminData($data, $this));
-            $this->dispatch(new SetOtherData($data, $this));
+            $this->dispatchNow(new ConfirmLicense($this));
+            $this->dispatchNow(new SetStreamsData($data));
+            $this->dispatchNow(new SetDatabaseData($data, $this));
+            $this->dispatchNow(new SetApplicationData($data, $this));
+            $this->dispatchNow(new SetAdminData($data, $this));
+            $this->dispatchNow(new SetOtherData($data, $this));
 
-            $this->dispatch(new WriteEnvironmentFile($data->all()));
+            $this->dispatchNow(new WriteEnvironmentFile($data->all()));
         }
 
-        $this->dispatch(new ReloadEnvironmentFile());
-        $this->dispatch(new LoadEnvironmentOverrides());
-        $this->dispatch(new InitializeApplication());
+        $this->dispatchNow(new ReloadEnvironmentFile());
+        $this->dispatchNow(new LoadEnvironmentOverrides());
+        $this->dispatchNow(new InitializeApplication());
 
-        $this->dispatch(new ConfigureDatabase());
-        $this->dispatch(new SetDatabasePrefix());
+        $this->dispatchNow(new ConfigureDatabase());
+        $this->dispatchNow(new SetDatabasePrefix());
 
         $installers = new InstallerCollection();
 
-        $this->dispatch(new LoadCoreInstallers($installers));
-        $this->dispatch(new LoadApplicationInstallers($installers));
-        $this->dispatch(new LoadModuleInstallers($installers));
-        $this->dispatch(new LoadExtensionInstallers($installers));
+        $this->dispatchNow(new LoadCoreInstallers($installers));
+        $this->dispatchNow(new LoadApplicationInstallers($installers));
+        $this->dispatchNow(new LoadModuleInstallers($installers));
+        $this->dispatchNow(new LoadExtensionInstallers($installers));
 
         $installers->add(
             new Installer(
@@ -100,21 +100,21 @@ class Install extends Command
 
                     $this->call('env:set', ['line' => 'INSTALLED=true']);
 
-                    $this->dispatch(new ReloadEnvironmentFile());
-                    $this->dispatch(new AutoloadEntryModels()); // Don't forget!
+                    $this->dispatchNow(new ReloadEnvironmentFile());
+                    $this->dispatchNow(new AutoloadEntryModels()); // Don't forget!
 
                     $manager->register(); // Register all of our addons.
                 }
             )
         );
 
-        $this->dispatch(new LoadModuleSeeders($installers));
-        $this->dispatch(new LoadExtensionSeeders($installers));
+        $this->dispatchNow(new LoadModuleSeeders($installers));
+        $this->dispatchNow(new LoadExtensionSeeders($installers));
 
-        $this->dispatch(new LoadBaseMigrations($installers));
-        $this->dispatch(new LoadBaseSeeders($installers));
+        $this->dispatchNow(new LoadBaseMigrations($installers));
+        $this->dispatchNow(new LoadBaseSeeders($installers));
 
-        $this->dispatch(new RunInstallers($installers, $this));
+        $this->dispatchNow(new RunInstallers($installers, $this));
     }
 
     /**

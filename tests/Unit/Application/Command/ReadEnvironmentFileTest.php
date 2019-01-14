@@ -7,7 +7,7 @@ class ReadEnvironmentFileTest extends TestCase
 
     public function testCanReadEnvironmentFile()
     {
-        $data = $this->dispatch(new \Anomaly\Streams\Platform\Application\Command\ReadEnvironmentFile());
+        $data = $this->dispatchNow(new \Anomaly\Streams\Platform\Application\Command\ReadEnvironmentFile());
 
         $this->assertTrue(isset($data['INSTALLED']));
     }

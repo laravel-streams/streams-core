@@ -48,7 +48,7 @@ class PostTable
             return;
         }
         
-        $this->dispatch(new ExecuteAction($this->builder));
+        $this->dispatchNow(new ExecuteAction($this->builder));
 
         if (!$this->builder->getTableResponse()) {
             $this->builder->setTableResponse($response->redirectTo($request->fullUrl()));

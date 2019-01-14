@@ -37,7 +37,7 @@ class RubyScssFilter extends ScssFilter
      */
     public function filterDump(AssetInterface $asset)
     {
-        $this->dispatch(new LoadThemeVariables($variables = new Collection()));
+        $this->dispatchNow(new LoadThemeVariables($variables = new Collection()));
 
         $compiler = new Compiler();
 

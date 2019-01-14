@@ -72,7 +72,7 @@ class MigrateExtension
 
         $this->extension->fire('migrated');
 
-        $dispatcher->fire(new ExtensionWasMigrated($this->extension));
+        $dispatcher->dispatch(new ExtensionWasMigrated($this->extension));
 
         return true;
     }

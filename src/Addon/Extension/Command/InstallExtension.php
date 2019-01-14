@@ -77,7 +77,7 @@ class InstallExtension
 
         $this->extension->fire('installed');
 
-        $dispatcher->fire(new ExtensionWasInstalled($this->extension));
+        $dispatcher->dispatch(new ExtensionWasInstalled($this->extension));
 
         return true;
     }
