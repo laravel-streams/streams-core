@@ -42,7 +42,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Illuminate\Session\Store;
-use Illuminate\Translation\Translator;
 use Jenssegers\Agent\Agent;
 use Symfony\Component\Yaml\Yaml;
 
@@ -176,13 +175,6 @@ class StreamsPlugin extends Plugin
     protected $template;
 
     /**
-     * The translator utility.
-     *
-     * @var Translator
-     */
-    protected $translator;
-
-    /**
      * Create a new AgentPlugin instance.
      *
      * @param UrlGenerator $url
@@ -201,7 +193,6 @@ class StreamsPlugin extends Plugin
      * @param Store $session
      * @param Currency $currency
      * @param Template $template
-     * @param Translator $translator
      */
     public function __construct(
         UrlGenerator $url,
@@ -219,8 +210,7 @@ class StreamsPlugin extends Plugin
         Request $request,
         Store $session,
         Currency $currency,
-        Template $template,
-        Translator $translator
+        Template $template
     ) {
         $this->url        = $url;
         $this->str        = $str;
@@ -238,7 +228,6 @@ class StreamsPlugin extends Plugin
         $this->session    = $session;
         $this->currency   = $currency;
         $this->template   = $template;
-        $this->translator = $translator;
 
         $this->route = $request->route();
     }
@@ -586,8 +575,8 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction('auth_user', [$this->auth, 'user']),
             new \Twig_SimpleFunction('auth_check', [$this->auth, 'check']),
             new \Twig_SimpleFunction('auth_guest', [$this->auth, 'guest']),
-            new \Twig_SimpleFunction('trans_exists', [$this->translator, 'exists']),
-            new \Twig_SimpleFunction('trans_choice', [$this->translator, 'choice']),
+            new \Twig_SimpleFunction('trans_exists', [trans(), 'exists']),
+            new \Twig_SimpleFunction('trans_choice', [trans(), 'choice']),
             new \Twig_SimpleFunction('message_get', [$this->session, 'pull']),
             new \Twig_SimpleFunction('message_exists', [$this->session, 'has']),
             new \Twig_SimpleFunction('session', [$this->session, 'get']),

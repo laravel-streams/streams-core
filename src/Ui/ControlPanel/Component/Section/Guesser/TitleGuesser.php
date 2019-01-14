@@ -1,9 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Illuminate\Translation\Translator;
 
 /**
  * Class TitleGuesser
@@ -16,11 +14,6 @@ class TitleGuesser
 {
 
     /**
-     * @var Str
-     */
-    protected $string;
-
-    /**
      * The module collection.
      *
      * @var ModuleCollection
@@ -28,23 +21,13 @@ class TitleGuesser
     protected $modules;
 
     /**
-     * The translator utility.
-     *
-     * @var Translator
-     */
-    protected $translator;
-
-    /**
      * Create a new TitleGuesser instance.
      *
      * @param ModuleCollection $modules
-     * @param Translator       $translator
-     * @param Str              $string
      */
-    public function __construct(ModuleCollection $modules, Translator $translator, Str $string)
+    public function __construct(ModuleCollection $modules)
     {
-        $this->modules    = $modules;
-        $this->translator = $translator;
+        $this->modules = $modules;
     }
 
     /**
@@ -57,7 +40,7 @@ class TitleGuesser
         if (!$module = $this->modules->active()) {
             return;
         }
-        
+
         $sections = $builder->getSections();
 
         foreach ($sections as &$section) {
@@ -69,18 +52,18 @@ class TitleGuesser
 
             $title = $module->getNamespace('section.' . $section['slug'] . '.title');
 
-            if (!isset($section['title']) && $this->translator->has($title)) {
+            if (!isset($section['title']) && trans()->has($title)) {
                 $section['title'] = $title;
             }
 
             $title = $module->getNamespace('addon.section.' . $section['slug']);
 
-            if (!isset($section['title']) && $this->translator->has($title)) {
+            if (!isset($section['title']) && trans()->has($title)) {
                 $section['title'] = $title;
             }
 
             if (!isset($section['title']) && config('streams::system.lazy_translations')) {
-                $section['title'] = ucwords($this->string->humanize($section['slug']));
+                $section['title'] = ucwords(str_humanize($section['slug']));
             }
 
             if (!isset($section['title'])) {

@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Command;
 
-use Illuminate\Translation\Translator;
-
 /**
  * Class GetTranslatedString
  *
@@ -37,7 +35,7 @@ class GetTranslatedString
      * Create a new GetTranslatedString instance.
      *
      * @param string $key
-     * @param array  $parameters
+     * @param array $parameters
      * @param string $locale
      */
     public function __construct($key, array $parameters, $locale)
@@ -50,7 +48,6 @@ class GetTranslatedString
     /**
      * Handle the command.
      *
-     * @param  Translator $translator
      * @return string
      */
     public function handle()

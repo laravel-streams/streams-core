@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Illuminate\Translation\Translator;
 
 /**
  * Class DescriptionGuesser
@@ -22,22 +21,13 @@ class DescriptionGuesser
     protected $modules;
 
     /**
-     * The translator utility.
-     *
-     * @var Translator
-     */
-    protected $translator;
-
-    /**
      * Create a new DescriptionGuesser instance.
      *
      * @param ModuleCollection $modules
-     * @param Translator       $translator
      */
-    public function __construct(ModuleCollection $modules, Translator $translator)
+    public function __construct(ModuleCollection $modules)
     {
-        $this->modules    = $modules;
-        $this->translator = $translator;
+        $this->modules = $modules;
     }
 
     /**
@@ -62,7 +52,7 @@ class DescriptionGuesser
 
             $description = $module->getNamespace('section.' . $section['slug'] . '.description');
 
-            if ($this->translator->has($description)) {
+            if (trans()->has($description)) {
                 $section['description'] = $description;
             }
         }

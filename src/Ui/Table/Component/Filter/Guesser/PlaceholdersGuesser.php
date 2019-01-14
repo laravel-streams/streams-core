@@ -1,9 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Translation\Translator;
 
 /**
  * Class PlaceholdersGuesser
@@ -16,13 +14,6 @@ class PlaceholdersGuesser
 {
 
     /**
-     * The string utility.
-     *
-     * @var Str
-     */
-    protected $string;
-
-    /**
      * The module collection.
      *
      * @var ModuleCollection
@@ -30,29 +21,13 @@ class PlaceholdersGuesser
     protected $modules;
 
     /**
-     * The translator service.
-     *
-     * @var Translator
-     */
-    protected $translator;
-
-    /**
-     * @var Str
-     */
-    private $str;
-
-    /**
      * Create a new PlaceholdersGuesser instance.
      *
-     * @param Str $string
      * @param ModuleCollection $modules
-     * @param Translator $translator
      */
-    public function __construct(Str $string, ModuleCollection $modules, Translator $translator)
+    public function __construct(ModuleCollection $modules)
     {
-        $this->string     = $string;
-        $this->modules    = $modules;
-        $this->translator = $translator;
+        $this->modules = $modules;
     }
 
     /**
@@ -86,7 +61,7 @@ class PlaceholdersGuesser
                  */
                 $placeholder = $assignment->getFieldName();
 
-                if ($this->translator->has($placeholder)) {
+                if (trans()->has($placeholder)) {
                     $filter['placeholder'] = $placeholder;
                 }
             }
@@ -97,13 +72,13 @@ class PlaceholdersGuesser
 
             $placeholder = $module->getNamespace('field.' . $filter['slug'] . '.placeholder');
 
-            if (!isset($filter['placeholder']) && $this->translator->has($placeholder)) {
+            if (!isset($filter['placeholder']) && trans()->has($placeholder)) {
                 $filter['placeholder'] = $placeholder;
             }
 
             $placeholder = $module->getNamespace('field.' . $filter['slug'] . '.name');
 
-            if (!isset($filter['placeholder']) && $this->translator->has($placeholder)) {
+            if (!isset($filter['placeholder']) && trans()->has($placeholder)) {
                 $filter['placeholder'] = $placeholder;
             }
 
@@ -112,10 +87,10 @@ class PlaceholdersGuesser
             }
 
             if (
-                !$this->translator->has($filter['placeholder'])
+                !trans()->has($filter['placeholder'])
                 && config('streams::system.lazy_translations')
             ) {
-                $filter['placeholder'] = ucwords($this->string->humanize($filter['placeholder']));
+                $filter['placeholder'] = ucwords(str_humanize($filter['placeholder']));
             }
         }
 

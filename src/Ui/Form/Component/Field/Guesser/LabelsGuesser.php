@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -14,23 +13,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class LabelsGuesser
 {
-
-    /**
-     * The string utility.
-     *
-     * @var Str
-     */
-    protected $string;
-
-    /**
-     * Create a new LabelsGuesser instance.
-     *
-     * @param Str $string
-     */
-    public function __construct(Str $string)
-    {
-        $this->string = $string;
-    }
 
     /**
      * Guess the field labels.
@@ -174,7 +156,7 @@ class LabelsGuesser
              * in leu of displaying an untranslated key.
              */
             if (!isset($field['label']) && config('streams::system.lazy_translations')) {
-                $field['label'] = ucwords($this->string->humanize($field['field']));
+                $field['label'] = ucwords(str_humanize($field['field']));
             }
         }
 

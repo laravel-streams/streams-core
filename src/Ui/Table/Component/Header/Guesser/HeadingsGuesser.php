@@ -2,9 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Translation\Translator;
 
 /**
  * Class HeadingsGuesser
@@ -17,13 +15,6 @@ class HeadingsGuesser
 {
 
     /**
-     * The string utility.
-     *
-     * @var Str
-     */
-    protected $string;
-
-    /**
      * The module collection.
      *
      * @var ModuleCollection
@@ -31,24 +22,13 @@ class HeadingsGuesser
     protected $modules;
 
     /**
-     * The translator utility.
-     *
-     * @var Translator
-     */
-    protected $translator;
-
-    /**
      * Create a new HeadingsGuesser instance.
      *
-     * @param Str              $string
      * @param ModuleCollection $modules
-     * @param Translator       $translator
      */
-    public function __construct(Str $string, ModuleCollection $modules, Translator $translator)
+    public function __construct(ModuleCollection $modules)
     {
-        $this->string     = $string;
-        $this->modules    = $modules;
-        $this->translator = $translator;
+        $this->modules = $modules;
     }
 
     /**
@@ -132,7 +112,7 @@ class HeadingsGuesser
                 $title &&
                 !$field &&
                 $column['field'] == 'title' &&
-                $this->translator->has($heading = $title->getName())
+                trans()->has($heading = $title->getName())
             ) {
                 $column['heading'] = $heading;
             }
@@ -148,7 +128,7 @@ class HeadingsGuesser
              * If no field look for
              * a name anyways.
              */
-            if ($module && !$field && $this->translator->has(
+            if ($module && !$field && trans()->has(
                     $heading = $module->getNamespace('field.' . $column['field'] . '.name')
                 )
             ) {
@@ -161,7 +141,7 @@ class HeadingsGuesser
              * then humanize the heading value.
              */
             if (!isset($column['heading']) && config('streams::system.lazy_translations')) {
-                $column['heading'] = ucwords($this->string->humanize($column['field']));
+                $column['heading'] = ucwords(str_humanize($column['field']));
             }
 
             /*
@@ -172,10 +152,10 @@ class HeadingsGuesser
             if (
                 isset($column['heading']) &&
                 str_is('*.*.*::*', $column['heading']) &&
-                !$this->translator->has($column['heading']) &&
+                !trans()->has($column['heading']) &&
                 config('streams::system.lazy_translations')
             ) {
-                $column['heading'] = ucwords($this->string->humanize($column['field']));
+                $column['heading'] = ucwords(str_humanize($column['field']));
             }
 
             /*

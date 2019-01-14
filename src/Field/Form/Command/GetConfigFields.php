@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Translation\Translator;
 
 /**
  * Class GetConfigFields
@@ -45,7 +44,7 @@ class GetConfigFields
      *
      * @param Evaluator $evaluator
      */
-    public function handle(Evaluator $evaluator, Translator $translator)
+    public function handle(Evaluator $evaluator)
     {
         if (!$fields = config($this->fieldType->getNamespace('config/config'))) {
             $fields = config($this->fieldType->getNamespace('config'), []);
@@ -60,7 +59,7 @@ class GetConfigFields
              */
             $label = $this->fieldType->getNamespace('config.' . $slug . '.label');
 
-            if (!$translator->has($label)) {
+            if (!trans()->has($label)) {
                 $label = $this->fieldType->getNamespace('config.' . $slug . '.name');
             }
 
@@ -71,7 +70,7 @@ class GetConfigFields
              */
             $instructions = $this->fieldType->getNamespace('config.' . $slug . '.instructions');
 
-            if ($translator->has($instructions)) {
+            if (trans()->has($instructions)) {
                 $field['instructions'] = $instructions;
             }
 
@@ -80,7 +79,7 @@ class GetConfigFields
              */
             $placeholder = $this->fieldType->getNamespace('config.' . $slug . '.placeholder');
 
-            if ($translator->has($placeholder)) {
+            if (trans()->has($placeholder)) {
                 $field['placeholder'] = $placeholder;
             }
 
@@ -89,7 +88,7 @@ class GetConfigFields
              */
             $warning = $this->fieldType->getNamespace('config.' . $slug . '.warning');
 
-            if ($translator->has($warning)) {
+            if (trans()->has($warning)) {
                 $field['warning'] = $warning;
             }
 

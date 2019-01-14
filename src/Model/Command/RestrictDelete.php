@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Translation\Translator;
 
 /**
  * Class RestrictDelete
@@ -36,11 +35,10 @@ class RestrictDelete
      * Handle the command.
      *
      * @param MessageBag $messages
-     * @param Translator $translator
      *
      * @return bool
      */
-    public function handle(MessageBag $messages, Translator $translator)
+    public function handle(MessageBag $messages)
     {
         foreach ($this->model->getRestricts() as $relation) {
 
@@ -56,7 +54,7 @@ class RestrictDelete
             if ($relation->count()) {
 
                 $messages->warning(
-                    $translator->trans(
+                    trans(
                         'streams::message.delete_restrict',
                         [
                             'relation' => $humanize,

@@ -2,10 +2,8 @@
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Translation\Translator;
 
 /**
  * Class TextGuesser
@@ -16,13 +14,6 @@ use Illuminate\Translation\Translator;
  */
 class TextGuesser
 {
-
-    /**
-     * The string utility.
-     *
-     * @var Str
-     */
-    protected $string;
 
     /**
      * The button registry.
@@ -39,30 +30,17 @@ class TextGuesser
     protected $modules;
 
     /**
-     * The translator utility.
-     *
-     * @var Translator
-     */
-    protected $translator;
-
-    /**
      * Create a new TextGuesser instance.
      *
-     * @param Str $string
      * @param ButtonRegistry $buttons
      * @param ModuleCollection $modules
-     * @param Translator $translator
      */
     public function __construct(
-        Str $string,
         ButtonRegistry $buttons,
-        ModuleCollection $modules,
-        Translator $translator
+        ModuleCollection $modules
     ) {
-        $this->string     = $string;
-        $this->buttons    = $buttons;
-        $this->modules    = $modules;
-        $this->translator = $translator;
+        $this->buttons = $buttons;
+        $this->modules = $modules;
     }
 
     /**
@@ -95,15 +73,15 @@ class TextGuesser
 
             $text = $module->getNamespace('button.' . $button['button']);
 
-            if (!isset($button['text']) && $this->translator->has($text)) {
+            if (!isset($button['text']) && trans()->has($text)) {
                 $button['text'] = $text;
             }
 
             if (
-                (!isset($button['text']) || !$this->translator->has($button['text']))
+                (!isset($button['text']) || !trans()->has($button['text']))
                 && config('streams::system.lazy_translations')
             ) {
-                $button['text'] = ucwords($this->string->humanize($button['button']));
+                $button['text'] = ucwords(str_humanize($button['button']));
             }
 
             if (!isset($button['text'])) {

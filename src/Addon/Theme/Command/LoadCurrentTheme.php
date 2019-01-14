@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\View\ViewTemplate;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
-use Illuminate\Translation\Translator;
 
 /**
  * Class LoadCurrentTheme
@@ -29,7 +28,6 @@ class LoadCurrentTheme
      * @param Request $request
      * @param Repository $config
      * @param ThemeCollection $themes
-     * @param Translator $translator
      * @param ViewTemplate $template
      * @param Application $application
      */
@@ -40,7 +38,6 @@ class LoadCurrentTheme
         Request $request,
         Repository $config,
         ThemeCollection $themes,
-        Translator $translator,
         ViewTemplate $template,
         Application $application
     ) {
@@ -71,7 +68,7 @@ class LoadCurrentTheme
                     $theme->getPath('resources/views'),
                 ]
             );
-            $translator->addNamespace('theme', $theme->getPath('resources/lang'));
+            trans()->addNamespace('theme', $theme->getPath('resources/lang'));
 
             $asset->addPath('theme', $theme->getPath('resources'));
             $image->addPath('theme', $theme->getPath('resources'));

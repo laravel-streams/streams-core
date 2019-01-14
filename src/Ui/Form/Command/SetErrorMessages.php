@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Http\Request;
-use Illuminate\Translation\Translator;
 
 /**
  * Class SetErrorMessages
@@ -36,11 +35,10 @@ class SetErrorMessages
     /**
      * Handle the command.
      *
-     * @param Request    $request
+     * @param Request $request
      * @param MessageBag $messages
-     * @param Translator $translator
      */
-    public function handle(Request $request, MessageBag $messages, Translator $translator)
+    public function handle(Request $request, MessageBag $messages)
     {
         if ($this->builder->isAjax()) {
             return;
@@ -56,10 +54,10 @@ class SetErrorMessages
             foreach ($stream->getUniqueAssignments() as $assignment) {
                 if ($this->builder->hasFormError($assignment->getFieldSlug())) {
                     $messages->warning(
-                        $translator->trans(
+                        trans(
                             'streams::validation.unique_trash',
                             [
-                                'attribute' => '"' . $translator->trans($assignment->getFieldName()) . '"',
+                                'attribute' => '"' . trans($assignment->getFieldName()) . '"',
                             ]
                         )
                     );

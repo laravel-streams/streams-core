@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Support\Locator;
-use Anomaly\Streams\Platform\Support\Str;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -18,13 +17,6 @@ class EntryRouter
 {
 
     use DispatchesJobs;
-
-    /**
-     * The string utility.
-     *
-     * @var Str
-     */
-    protected $str;
 
     /**
      * The URL generator;
@@ -57,20 +49,17 @@ class EntryRouter
     /**
      * Create a new EntryRouter instance.
      *
-     * @param UrlGenerator   $url
-     * @param Str            $str
+     * @param UrlGenerator $url
      * @param EntryInterface $entry
-     * @param Locator        $locator
-     * @param Container      $container
+     * @param Locator $locator
+     * @param Container $container
      */
     public function __construct(
         UrlGenerator $url,
-        Str $str,
         EntryInterface $entry,
         Locator $locator,
         Container $container
     ) {
-        $this->str       = $str;
         $this->url       = $url;
         $this->entry     = $entry;
         $this->locator   = $locator;
@@ -81,12 +70,12 @@ class EntryRouter
      * Make a route.
      *
      * @param                    $route
-     * @param  array             $parameters
+     * @param  array $parameters
      * @return mixed|null|string
      */
     public function make($route, array $parameters = [])
     {
-        if (method_exists($this, $method = $this->str->camel(str_replace('.', '_', $route)))) {
+        if (method_exists($this, $method = camel_case(str_replace('.', '_', $route)))) {
 
             $parameters['parameters'] = $parameters;
 

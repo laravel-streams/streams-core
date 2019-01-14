@@ -11,23 +11,6 @@ class Translator
 {
 
     /**
-     * The laravel translator.
-     *
-     * @var \Illuminate\Translation\Translator
-     */
-    protected $translator;
-
-    /**
-     * Create a new translator instance.
-     *
-     * @param \Illuminate\Translation\Translator $translator
-     */
-    public function __construct(\Illuminate\Translation\Translator $translator)
-    {
-        $this->translator = $translator;
-    }
-
-    /**
      * Translate a target array.
      *
      * @param  array $target
@@ -36,13 +19,13 @@ class Translator
     public function translate($target)
     {
         if (is_string($target)) {
-            return $this->translator->trans($target);
+            return trans($target);
         }
 
         if (is_array($target)) {
             foreach ($target as &$value) {
-                if (is_string($value) && $this->translator->has($value)) {
-                    if (is_string($translated = $this->translator->trans($value))) {
+                if (is_string($value) && trans()->has($value)) {
+                    if (is_string($translated = trans($value))) {
                         $value = $translated;
                     }
                 } elseif (is_array($value)) {

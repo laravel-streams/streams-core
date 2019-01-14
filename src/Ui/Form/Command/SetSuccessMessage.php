@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Http\Request;
-use Illuminate\Translation\Translator;
 
 /**
  * Class SetSuccessMessage
@@ -37,9 +36,8 @@ class SetSuccessMessage
      *
      * @param Request    $request
      * @param MessageBag $messages
-     * @param Translator $translator
      */
-    public function handle(Request $request, MessageBag $messages, Translator $translator)
+    public function handle(Request $request, MessageBag $messages)
     {
 
         // If we can't save or there are errors then skip it.
@@ -63,7 +61,7 @@ class SetSuccessMessage
         ];
 
         // If the name doesn't exist we need to be clever.
-        if (str_contains($parameters['name'], '::') && !$translator->has($parameters['name']) && $stream) {
+        if (str_contains($parameters['name'], '::') && !trans()->has($parameters['name']) && $stream) {
             $parameters['name'] = ucfirst(str_singular(str_replace('_', ' ', $stream->getSlug())));
         } elseif ($parameters['name']) {
             $parameters['name'] = str_singular(trans($parameters['name']));

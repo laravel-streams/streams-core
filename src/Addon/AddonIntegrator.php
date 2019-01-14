@@ -9,9 +9,15 @@ use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Translation\Translator;
 use Twig_ExtensionInterface;
 
+/**
+ * Class AddonIntegrator
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class AddonIntegrator
 {
 
@@ -51,13 +57,6 @@ class AddonIntegrator
     protected $collection;
 
     /**
-     * The translator utility.
-     *
-     * @var Translator
-     */
-    protected $translator;
-
-    /**
      * The application instance.
      *
      * @var Application
@@ -77,7 +76,6 @@ class AddonIntegrator
      * @param Factory $views
      * @param Dispatcher $events
      * @param Container $container
-     * @param Translator $translator
      * @param AddonProvider $provider
      * @param Application $application
      * @param Configurator $configurator
@@ -89,7 +87,6 @@ class AddonIntegrator
         Factory $views,
         Dispatcher $events,
         Container $container,
-        Translator $translator,
         AddonProvider $provider,
         Application $application,
         Configurator $configurator,
@@ -100,7 +97,6 @@ class AddonIntegrator
         $this->provider     = $provider;
         $this->container    = $container;
         $this->collection   = $collection;
-        $this->translator   = $translator;
         $this->application  = $application;
         $this->configurator = $configurator;
     }
@@ -183,7 +179,7 @@ class AddonIntegrator
                 $addon->getPath('resources/views'),
             ]
         );
-        $this->translator->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));
+        trans()->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));
 
         /*
          * If the addon is a plugin then
