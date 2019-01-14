@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\UsersModule\User\Contract\UserInterface;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application as Laravel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -35,13 +34,6 @@ class CheckForMaintenanceMode
     protected $guard;
 
     /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
-
-    /**
      * The permission authorizer.
      *
      * @var Authorizer
@@ -60,20 +52,17 @@ class CheckForMaintenanceMode
      *
      * @param Laravel $app
      * @param Guard $guard
-     * @param Repository $config
      * @param Authorizer $authorizer
      * @param Application $application
      */
     public function __construct(
         Laravel $app,
         Guard $guard,
-        Repository $config,
         Authorizer $authorizer,
         Application $application
     ) {
         $this->app         = $app;
         $this->guard       = $guard;
-        $this->config      = $config;
         $this->authorizer  = $authorizer;
         $this->application = $application;
     }
@@ -93,7 +82,7 @@ class CheckForMaintenanceMode
 
         if (
             !$this->app->isDownForMaintenance() &&
-            !$this->config->get('streams::maintenance.enabled', false)
+            !config('streams::maintenance.enabled', false)
         ) {
             return $next($request);
         }
@@ -102,7 +91,7 @@ class CheckForMaintenanceMode
             return $next($request);
         }
 
-        if (in_array($request->getClientIp(), $this->config->get('streams::maintenance.ip_whitelist', []))) {
+        if (in_array($request->getClientIp(), config('streams::maintenance.ip_whitelist', []))) {
             return $next($request);
         }
 
@@ -117,7 +106,7 @@ class CheckForMaintenanceMode
             return $next($request);
         }
 
-        if (!$user && $this->config->get('streams::maintenance.auth')) {
+        if (!$user && config('streams::maintenance.auth')) {
 
             /* @var Response|null $response */
             $response = $this->guard->onceBasic();

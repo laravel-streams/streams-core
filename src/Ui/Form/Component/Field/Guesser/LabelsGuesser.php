@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class LabelsGuesser
@@ -17,13 +16,6 @@ class LabelsGuesser
 {
 
     /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
-
-    /**
      * The string utility.
      *
      * @var Str
@@ -33,12 +25,10 @@ class LabelsGuesser
     /**
      * Create a new LabelsGuesser instance.
      *
-     * @param Str        $string
-     * @param Repository $config
+     * @param Str $string
      */
-    public function __construct(Str $string, Repository $config)
+    public function __construct(Str $string)
     {
-        $this->config = $config;
         $this->string = $string;
     }
 
@@ -183,7 +173,7 @@ class LabelsGuesser
              * we're not debugging then humanize the slug
              * in leu of displaying an untranslated key.
              */
-            if (!isset($field['label']) && $this->config->get('streams::system.lazy_translations')) {
+            if (!isset($field['label']) && config('streams::system.lazy_translations')) {
                 $field['label'] = ucwords($this->string->humanize($field['field']));
             }
         }

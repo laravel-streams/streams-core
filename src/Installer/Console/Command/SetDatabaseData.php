@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class SetDatabaseData
@@ -32,7 +31,7 @@ class SetDatabaseData
      * Create a new SetDatabaseData instance.
      *
      * @param Collection $data
-     * @param Command    $command
+     * @param Command $command
      */
     public function __construct(Collection $data, Command $command)
     {

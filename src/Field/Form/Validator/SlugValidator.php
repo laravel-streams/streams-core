@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Field\Form\Validator;
 
-use Illuminate\Contracts\Config\Repository;
-
 /**
  * Class SlugValidator
  *
@@ -15,11 +13,10 @@ class SlugValidator
     /**
      * Handle the validation.
      *
-     * @param Repository $config
-     * @param            $value
+     * @param $value
      */
-    public function handle(Repository $config, $value)
+    public function handle($value)
     {
-        return !in_array($value, array_keys($config->get('streams::locales.supported')));
+        return !in_array($value, array_keys(config('streams::locales.supported')));
     }
 }

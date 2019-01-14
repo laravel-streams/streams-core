@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Version\Table;
 
 use Anomaly\Streams\Platform\Version\Contract\VersionInterface;
-use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class VersionTableColumns
@@ -17,12 +16,11 @@ class VersionTableColumns
      * Handle the columns.
      *
      * @param VersionTableBuilder $builder
-     * @param Repository          $config
      */
-    public function handle(VersionTableBuilder $builder, Repository $config)
+    public function handle(VersionTableBuilder $builder)
     {
-        $date = $config->get('streams::datetime.date_format');
-        $time = $config->get('streams::datetime.time_format');
+        $date = config('streams::datetime.date_format');
+        $time = config('streams::datetime.time_format');
 
         $current = $builder->getCurrent();
 

@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class SetAdminData

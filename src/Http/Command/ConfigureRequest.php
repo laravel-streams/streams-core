@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Http\Command;
 
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
 
 /**
@@ -16,12 +15,11 @@ class ConfigureRequest
     /**
      * Handle the command.
      *
-     * @param Request    $request
-     * @param Repository $config
+     * @param Request $request
      */
-    public function handle(Request $request, Repository $config)
+    public function handle(Request $request)
     {
-        if ($config->get('streams::system.force_ssl')) {
+        if (config('streams::system.force_ssl')) {
             $request->server->set('HTTPS', true);
         }
     }

@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class SetOtherData
@@ -32,7 +31,7 @@ class SetOtherData
      * Create a new SetOtherData instance.
      *
      * @param Collection $data
-     * @param Command    $command
+     * @param Command $command
      */
     public function __construct(Collection $data, Command $command)
     {
@@ -42,16 +41,14 @@ class SetOtherData
 
     /**
      * Handle the command.
-     *
-     * @param Repository $config
      */
-    public function handle(Repository $config)
+    public function handle()
     {
         $this->data->put(
             'LOCALE',
             $this->command->askWithCompletion(
                 'Enter the default locale',
-                array_keys($config->get('streams::locales.supported')),
+                array_keys(config('streams::locales.supported')),
                 env('APPLICATION_LOCALE', 'en')
             )
         );

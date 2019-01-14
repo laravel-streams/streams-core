@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Translation\Translator;
 
 /**
@@ -15,13 +14,6 @@ use Illuminate\Translation\Translator;
  */
 class TitleGuesser
 {
-
-    /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
 
     /**
      * @var Str
@@ -47,13 +39,10 @@ class TitleGuesser
      *
      * @param ModuleCollection $modules
      * @param Translator       $translator
-     * @param Repository       $config
      * @param Str              $string
      */
-    public function __construct(ModuleCollection $modules, Translator $translator, Repository $config, Str $string)
+    public function __construct(ModuleCollection $modules, Translator $translator, Str $string)
     {
-        $this->config     = $config;
-        $this->string     = $string;
         $this->modules    = $modules;
         $this->translator = $translator;
     }
@@ -90,7 +79,7 @@ class TitleGuesser
                 $section['title'] = $title;
             }
 
-            if (!isset($section['title']) && $this->config->get('streams::system.lazy_translations')) {
+            if (!isset($section['title']) && config('streams::system.lazy_translations')) {
                 $section['title'] = ucwords($this->string->humanize($section['slug']));
             }
 

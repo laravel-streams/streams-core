@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
 use Anomaly\UsersModule\User\Contract\UserInterface;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class HandleLocks
@@ -37,19 +36,17 @@ class HandleLocks
      * Handle the command.
      *
      * @param MessageBag $messages
-     * @param Repository $config
      * @param Guard $auth
      */
     public function handle(
         MessageBag $messages,
-        Repository $config,
         Guard $auth
     ) {
 
         /**
          * If locking is disabled then skip it!
          */
-        if ($config->get('streams::system.locking_enabled', true) == false) {
+        if (config('streams::system.locking_enabled', true) == false) {
             return;
         }
 

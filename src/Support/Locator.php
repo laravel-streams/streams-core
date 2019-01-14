@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Traits\Hookable;
-use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class Locator
@@ -22,22 +21,13 @@ class Locator
     protected $addons;
 
     /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
-
-    /**
      * Create a new Locator instance.
      *
      * @param AddonCollection $addons
-     * @param Repository      $config
      */
-    public function __construct(AddonCollection $addons, Repository $config)
+    public function __construct(AddonCollection $addons)
     {
         $this->addons = $addons;
-        $this->config = $config;
     }
 
     /**
@@ -66,7 +56,7 @@ class Locator
         $vendor = snake_case(array_shift($class));
         $addon  = snake_case(array_shift($class));
 
-        foreach ($this->config->get('streams::addons.types') as $type) {
+        foreach (config('streams::addons.types') as $type) {
             if (ends_with($addon, $type)) {
                 $addon = str_replace('_' . $type, '', $addon);
 

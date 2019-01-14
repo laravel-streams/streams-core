@@ -3,17 +3,9 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
-use Illuminate\Contracts\Config\Repository;
 
 class TranslationGuesser
 {
-
-    /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
 
     /**
      * The stream repository.
@@ -25,12 +17,10 @@ class TranslationGuesser
     /**
      * Create a new AssignmentInput instance.
      *
-     * @param Repository                $config
      * @param StreamRepositoryInterface $streams
      */
-    public function __construct(Repository $config, StreamRepositoryInterface $streams)
+    public function __construct(StreamRepositoryInterface $streams)
     {
-        $this->config  = $config;
         $this->streams = $streams;
     }
 
@@ -62,7 +52,7 @@ class TranslationGuesser
             return;
         }
 
-        $locale = $this->config->get('app.fallback_locale');
+        $locale = config('app.fallback_locale');
 
         $assignments = $migration->getAssignments();
 

@@ -6,7 +6,6 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Collective\Html\HtmlBuilder;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use Intervention\Image\Constraint;
@@ -213,13 +212,6 @@ class Image
     protected $agent;
 
     /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
-
-    /**
      * The request object.
      *
      * @var Request
@@ -247,7 +239,6 @@ class Image
      * @param HtmlBuilder $html
      * @param Filesystem $files
      * @param Mobile_Detect $agent
-     * @param Repository $config
      * @param ImageManager $manager
      * @param Request $request
      * @param Application $application
@@ -259,7 +250,6 @@ class Image
         HtmlBuilder $html,
         Filesystem $files,
         Mobile_Detect $agent,
-        Repository $config,
         ImageManager $manager,
         Request $request,
         Application $application,
@@ -271,7 +261,6 @@ class Image
         $this->files       = $files;
         $this->agent       = $agent;
         $this->paths       = $paths;
-        $this->config      = $config;
         $this->macros      = $macros;
         $this->manager     = $manager;
         $this->request     = $request;
@@ -386,7 +375,7 @@ class Image
             $attributes['srcset'] = $srcset;
         }
 
-        if (!$alt && $this->config->get('streams::images.auto_alt', true)) {
+        if (!$alt && config('streams::images.auto_alt', true)) {
 
             $attributes['alt'] = array_get(
                 $this->getAttributes(),
@@ -613,10 +602,10 @@ class Image
                 $this->publish($path);
             }
         } catch (\Exception $e) {
-            return $this->config->get('app.debug', false) ? $e->getMessage() : null;
+            return config('app.debug', false) ? $e->getMessage() : null;
         }
 
-        if ($this->config->get('streams::images.version') && $this->getVersion() !== false) {
+        if (config('streams::images.version') && $this->getVersion() !== false) {
             $path .= '?v=' . filemtime(public_path(trim($path, '/\\')));
         }
 
@@ -685,7 +674,7 @@ class Image
             $this->addAlteration('orientate');
         }
 
-        if (in_array($this->getExtension(), ['jpeg', 'jpg']) && $this->config->get('streams::images.interlace')) {
+        if (in_array($this->getExtension(), ['jpeg', 'jpg']) && config('streams::images.interlace')) {
             $this->addAlteration('interlace');
         }
 
@@ -716,7 +705,7 @@ class Image
             }
         }
 
-        $image->save($path, $this->getQuality() ?: $this->config->get('streams::images.quality', 80));
+        $image->save($path, $this->getQuality() ?: config('streams::images.quality', 80));
     }
 
     /**

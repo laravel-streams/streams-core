@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Application\Application as App;
 use Anomaly\Streams\Platform\Support\Locale;
 use Carbon\Carbon;
 use Closure;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -25,13 +24,6 @@ class SetLocale
      * @var App
      */
     protected $app;
-
-    /**
-     * The config config.
-     *
-     * @var Repository
-     */
-    protected $config;
 
     /**
      * The locale helper.
@@ -59,19 +51,16 @@ class SetLocale
      *
      * @param App $app
      * @param Locale $locale
-     * @param Repository $config
      * @param Redirector $redirect
      * @param Application $application
      */
     public function __construct(
         App $app,
         Locale $locale,
-        Repository $config,
         Redirector $redirect,
         Application $application
     ) {
         $this->app         = $app;
-        $this->config      = $config;
         $this->locale      = $locale;
         $this->redirect    = $redirect;
         $this->application = $application;
@@ -108,12 +97,12 @@ class SetLocale
 
             setlocale(LC_TIME, $this->locale->full($locale));
 
-            $this->config->set('_locale', $locale);
+            config()->set('_locale', $locale);
         }
 
         if (!$locale) {
 
-            $locale = $this->app->getLocale() ?: $this->config->get('streams::locales.default');
+            $locale = $this->app->getLocale() ?: config('streams::locales.default');
 
             $this->application->setLocale($locale);
 

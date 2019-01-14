@@ -1,10 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Field;
 
 use Anomaly\Streams\Platform\Database\Migration\Migration;
-use Anomaly\Streams\Platform\Database\Migration\Field\FieldGuesser;
-use Anomaly\Streams\Platform\Database\Migration\Field\FieldNormalizer;
-use Illuminate\Contracts\Config\Repository;
 
+/**
+ * Class FieldInput
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class FieldInput
 {
 
@@ -25,7 +29,7 @@ class FieldInput
     /**
      * Create a new FieldInput instance.
      *
-     * @param FieldGuesser    $guesser
+     * @param FieldGuesser $guesser
      * @param FieldNormalizer $normalizer
      */
     public function __construct(FieldGuesser $guesser, FieldNormalizer $normalizer)

@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Http\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 
@@ -16,13 +15,6 @@ class ForceSsl
 {
 
     /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
-
-    /**
      * The redirect utility.
      *
      * @var Redirector
@@ -32,11 +24,10 @@ class ForceSsl
     /**
      * Create a new PoweredBy instance.
      *
-     * @param Repository $config
+     * @param Redirector $redirect
      */
-    public function __construct(Repository $config, Redirector $redirect)
+    public function __construct(Redirector $redirect)
     {
-        $this->config   = $config;
         $this->redirect = $redirect;
     }
 
@@ -49,7 +40,7 @@ class ForceSsl
      */
     public function handle(Request $request, Closure $next)
     {
-        $force = $this->config->get('streams::system.force_ssl', false);
+        $force = config('streams::system.force_ssl', false);
 
         if ($force && !$request->isSecure()) {
             return $this->redirect->secure($request->getRequestUri(), 301);

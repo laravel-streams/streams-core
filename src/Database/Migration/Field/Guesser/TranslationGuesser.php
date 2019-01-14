@@ -2,27 +2,16 @@
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Database\Migration\Migration;
-use Illuminate\Contracts\Config\Repository;
 
+/**
+ * Class TranslationGuesser
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class TranslationGuesser
 {
-
-    /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
-
-    /**
-     * Create a new FieldInput instance.
-     *
-     * @param Repository $config
-     */
-    public function __construct(Repository $config)
-    {
-        $this->config = $config;
-    }
 
     /**
      * Guess the field names.
@@ -42,7 +31,7 @@ class TranslationGuesser
             return;
         }
 
-        $locale = $this->config->get('app.fallback_locale');
+        $locale = config('app.fallback_locale');
 
         $fields = $migration->getFields();
 

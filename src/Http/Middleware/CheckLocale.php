@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Http\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
 
 /**
@@ -15,26 +14,9 @@ class CheckLocale
 {
 
     /**
-     * The config config.
-     *
-     * @var Repository
-     */
-    protected $config;
-
-    /**
-     * Create a new CheckLocale instance.
-     *
-     * @param Repository $config
-     */
-    public function __construct(Repository $config)
-    {
-        $this->config = $config;
-    }
-
-    /**
      * Look for locale=LOCALE in the query string.
      *
-     * @param  Request  $request
+     * @param  Request $request
      * @param  \Closure $next
      * @return mixed
      */
@@ -55,7 +37,7 @@ class CheckLocale
          * that's defined from the kernel
          * is present in our enabled locales.
          */
-        if (!in_array(strtolower(LOCALE), $this->config->get('streams::locales.enabled'))) {
+        if (!in_array(strtolower(LOCALE), config('streams::locales.enabled'))) {
             abort(404);
         }
 

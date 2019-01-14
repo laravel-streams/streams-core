@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Image;
 
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
 
 /**
@@ -30,20 +29,19 @@ class ImageMacros
     /**
      * Create a new ImageMacros instance.
      *
-     * @param Container  $container
-     * @param Repository $config
+     * @param Container $container
      */
-    public function __construct(Repository $config, Container $container)
+    public function __construct(Container $container)
     {
-        $this->macros    = $config->get('streams::images.macros', []);
+        $this->macros    = config('streams::images.macros', []);
         $this->container = $container;
     }
 
     /**
      * Run a macro.
      *
-     * @param             $macro
-     * @param  Image      $image
+     * @param $macro
+     * @param  Image $image
      * @return Image
      * @throws \Exception
      */

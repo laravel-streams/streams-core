@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Installer\Console\Command;
 
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -12,6 +11,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class SetDatabasePrefix
 {
+
     use DispatchesJobs;
 
     /**

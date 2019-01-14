@@ -1,26 +1,16 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Field;
 
 use Anomaly\Streams\Platform\Database\Migration\Migration;
-use Illuminate\Contracts\Config\Repository;
 
+/**
+ * Class FieldNormalizer
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class FieldNormalizer
 {
-    /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
-
-    /**
-     * Create a new FieldInput instance.
-     *
-     * @param Repository $config
-     */
-    public function __construct(Repository $config)
-    {
-        $this->config = $config;
-    }
 
     /**
      * Normalize the fields input.
@@ -29,7 +19,7 @@ class FieldNormalizer
      */
     public function normalize(Migration $migration)
     {
-        $locale = $this->config->get('app.fallback_locale');
+        $locale = config('app.fallback_locale');
 
         $fields = $migration->getFields();
 

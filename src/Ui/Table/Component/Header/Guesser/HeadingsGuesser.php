@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Translation\Translator;
 
 /**
@@ -25,13 +24,6 @@ class HeadingsGuesser
     protected $string;
 
     /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
-
-    /**
      * The module collection.
      *
      * @var ModuleCollection
@@ -49,14 +41,12 @@ class HeadingsGuesser
      * Create a new HeadingsGuesser instance.
      *
      * @param Str              $string
-     * @param Repository       $config
      * @param ModuleCollection $modules
      * @param Translator       $translator
      */
-    public function __construct(Str $string, Repository $config, ModuleCollection $modules, Translator $translator)
+    public function __construct(Str $string, ModuleCollection $modules, Translator $translator)
     {
         $this->string     = $string;
-        $this->config     = $config;
         $this->modules    = $modules;
         $this->translator = $translator;
     }
@@ -170,7 +160,7 @@ class HeadingsGuesser
              * the heading matches the value (default)
              * then humanize the heading value.
              */
-            if (!isset($column['heading']) && $this->config->get('streams::system.lazy_translations')) {
+            if (!isset($column['heading']) && config('streams::system.lazy_translations')) {
                 $column['heading'] = ucwords($this->string->humanize($column['field']));
             }
 
@@ -183,7 +173,7 @@ class HeadingsGuesser
                 isset($column['heading']) &&
                 str_is('*.*.*::*', $column['heading']) &&
                 !$this->translator->has($column['heading']) &&
-                $this->config->get('streams::system.lazy_translations')
+                config('streams::system.lazy_translations')
             ) {
                 $column['heading'] = ucwords($this->string->humanize($column['field']));
             }

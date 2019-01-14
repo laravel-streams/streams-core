@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Http\Command;
 
 use Anomaly\Streams\Platform\Http\HttpCache;
-use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class PurgeHttpCache
@@ -32,12 +31,10 @@ class PurgeHttpCache
 
     /**
      * Handle the command.
-     *
-     * @param Repository $config
      */
-    public function handle(Repository $config)
+    public function handle()
     {
-        if (!env('INSTALLED') || !$config->get('streams::httpcache.enabled')) {
+        if (!env('INSTALLED') || !config('streams::httpcache.enabled')) {
             return;
         }
 

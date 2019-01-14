@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
 use SplFileInfo;
 
@@ -22,22 +21,13 @@ class Configurator
     protected $files;
 
     /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
-
-    /**
      * Create a new Configurator instance.
      *
      * @param Filesystem $files
-     * @param Repository $config
      */
-    public function __construct(Filesystem $files, Repository $config)
+    public function __construct(Filesystem $files)
     {
-        $this->files  = $files;
-        $this->config = $config;
+        $this->files = $files;
     }
 
     /**
@@ -57,7 +47,7 @@ class Configurator
 
             $key = $this->getKeyFromFile($directory, $file);
 
-            $this->config->set("{$namespace}::{$key}", $this->files->getRequire($file->getPathname()));
+            config()->set("{$namespace}::{$key}", $this->files->getRequire($file->getPathname()));
         }
     }
 
@@ -78,10 +68,10 @@ class Configurator
 
             $key = $this->getKeyFromFile($directory, $file);
 
-            $this->config->set(
+            config()->set(
                 "{$namespace}::{$key}",
                 array_replace(
-                    $this->config->get("{$namespace}::{$key}", []),
+                    config("{$namespace}::{$key}", []),
                     $this->files->getRequire($file->getPathname())
                 )
             );

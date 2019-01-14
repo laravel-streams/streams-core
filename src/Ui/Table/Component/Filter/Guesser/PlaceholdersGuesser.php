@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Translation\Translator;
 
 /**
@@ -22,13 +21,6 @@ class PlaceholdersGuesser
      * @var Str
      */
     protected $string;
-
-    /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
 
     /**
      * The module collection.
@@ -52,15 +44,13 @@ class PlaceholdersGuesser
     /**
      * Create a new PlaceholdersGuesser instance.
      *
-     * @param Str              $string
-     * @param Repository       $config
+     * @param Str $string
      * @param ModuleCollection $modules
-     * @param Translator       $translator
+     * @param Translator $translator
      */
-    public function __construct(Str $string, Repository $config, ModuleCollection $modules, Translator $translator)
+    public function __construct(Str $string, ModuleCollection $modules, Translator $translator)
     {
         $this->string     = $string;
-        $this->config     = $config;
         $this->modules    = $modules;
         $this->translator = $translator;
     }
@@ -123,7 +113,7 @@ class PlaceholdersGuesser
 
             if (
                 !$this->translator->has($filter['placeholder'])
-                && $this->config->get('streams::system.lazy_translations')
+                && config('streams::system.lazy_translations')
             ) {
                 $filter['placeholder'] = ucwords($this->string->humanize($filter['placeholder']));
             }

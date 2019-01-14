@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Installer\Console\Command;
 
 use Anomaly\Streams\Platform\Support\Collection;
-use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class SetStreamsData

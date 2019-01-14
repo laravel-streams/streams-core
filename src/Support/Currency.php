@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Illuminate\Contracts\Config\Repository;
-
 /**
  * Class Currency
  *
@@ -13,23 +11,6 @@ class Currency
 {
 
     /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
-
-    /**
-     * Create a new Currency instance.
-     *
-     * @param Repository $config
-     */
-    public function __construct(Repository $config)
-    {
-        $this->config = $config;
-    }
-
-    /**
      * Return a formatted currency string.
      *
      * @param      $number
@@ -39,27 +20,27 @@ class Currency
      */
     public function format($number, $currency = null, array $options = [])
     {
-        $currency = strtoupper($currency ?: $this->config->get('streams::currencies.default'));
+        $currency = strtoupper($currency ?: config('streams::currencies.default'));
 
         $direction = array_get(
             $options,
             'direction',
-            $this->config->get('streams::currencies.supported.' . $currency . '.direction', 'ltr')
+            config('streams::currencies.supported.' . $currency . '.direction', 'ltr')
         );
         $separator = array_get(
             $options,
             'separator',
-            $this->config->get('streams::currencies.supported.' . $currency . '.separator', ',')
+            config('streams::currencies.supported.' . $currency . '.separator', ',')
         );
         $decimals  = array_get(
             $options,
             'decimals',
-            $this->config->get('streams::currencies.supported.' . $currency . '.decimals', 2)
+            config('streams::currencies.supported.' . $currency . '.decimals', 2)
         );
         $point     = array_get(
             $options,
             'point',
-            $this->config->get('streams::currencies.supported.' . $currency . '.point' . '.')
+            config('streams::currencies.supported.' . $currency . '.point' . '.')
         );
 
         $prefix = null;
@@ -84,17 +65,17 @@ class Currency
      */
     public function normalize($number, $currency = null, array $options = [])
     {
-        $currency = strtoupper($currency ?: $this->config->get('streams::currencies.default'));
+        $currency = strtoupper($currency ?: config('streams::currencies.default'));
 
         $decimals = array_get(
             $options,
             'decimals',
-            $this->config->get('streams::currencies.supported.' . $currency . '.decimals', 2)
+            config('streams::currencies.supported.' . $currency . '.decimals', 2)
         );
         $point    = array_get(
             $options,
             'point',
-            $this->config->get('streams::currencies.supported.' . $currency . '.point' . '.')
+            config('streams::currencies.supported.' . $currency . '.point' . '.')
         );
 
         return floatval(number_format(floor(($number * 100)) / 100, $decimals, $point, ''));
@@ -109,9 +90,9 @@ class Currency
     public function symbol($currency = null)
     {
         if (!$currency) {
-            $currency = $this->config->get('streams::currencies.default');
+            $currency = config('streams::currencies.default');
         }
 
-        return $this->config->get('streams::currencies.supported.' . strtoupper($currency) . '.symbol');
+        return config('streams::currencies.supported.' . strtoupper($currency) . '.symbol');
     }
 }

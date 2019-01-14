@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Http\HttpCache;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class PurgeHttpCache
@@ -34,12 +33,10 @@ class PurgeHttpCache
 
     /**
      * Handle the command.
-     *
-     * @param Repository $config
      */
-    public function handle(Repository $config)
+    public function handle()
     {
-        if (!env('INSTALLED') || PHP_SAPI == 'cli' || !$config->get('streams::httpcache.enabled')) {
+        if (!env('INSTALLED') || PHP_SAPI == 'cli' || !config('streams::httpcache.enabled')) {
             return;
         }
 

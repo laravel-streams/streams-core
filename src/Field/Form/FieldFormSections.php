@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Field\Form;
 
-use Illuminate\Contracts\Config\Repository;
-
 /**
  * Class FieldFormSections
  *
@@ -17,7 +15,7 @@ class FieldFormSections
      *
      * @param FieldFormBuilder $builder
      */
-    public function handle(FieldFormBuilder $builder, Repository $config)
+    public function handle(FieldFormBuilder $builder)
     {
         $builder->setSections(
             [
@@ -51,7 +49,7 @@ class FieldFormSections
         );
 
         if (($type = $builder->getFormEntry()->getType()) || ($type = $builder->getFieldType())) {
-            if ($sections = $config->get($type->getNamespace('config/sections'))) {
+            if ($sections = config($type->getNamespace('config/sections'))) {
                 foreach ($sections as $slug => $section) {
                     $builder->addSection($slug, $section);
                 }

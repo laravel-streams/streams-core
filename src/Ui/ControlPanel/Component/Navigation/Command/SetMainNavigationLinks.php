@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class SetMainNavigationLinks
@@ -33,14 +32,12 @@ class SetMainNavigationLinks
 
     /**
      * Handle the command.
-     *
-     * @param Repository $config
      */
-    public function handle(Repository $config)
+    public function handle()
     {
         $links = $this->builder->getControlPanelNavigation();
 
-        $favorites = $config->get('streams::navigation.favorites', []);
+        $favorites = config('streams::navigation.favorites', []);
 
         /* @var NavigationLinkInterface $link */
         foreach ($links as $link) {

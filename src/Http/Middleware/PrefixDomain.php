@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Http\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 
@@ -16,13 +15,6 @@ class PrefixDomain
 {
 
     /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
-
-    /**
      * The redirect utility.
      *
      * @var Redirector
@@ -32,11 +24,10 @@ class PrefixDomain
     /**
      * Create a new PoweredBy instance.
      *
-     * @param Repository $config
+     * @param Redirector $redirect
      */
-    public function __construct(Repository $config, Redirector $redirect)
+    public function __construct(Redirector $redirect)
     {
-        $this->config   = $config;
         $this->redirect = $redirect;
     }
 
@@ -49,7 +40,7 @@ class PrefixDomain
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!$prefix = $this->config->get('streams::system.domain_prefix')) {
+        if (!$prefix = config('streams::system.domain_prefix')) {
             return $next($request);
         }
 

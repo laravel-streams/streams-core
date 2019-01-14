@@ -2,7 +2,6 @@
 
 use Anomaly\FilesModule\File\Contract\FileInterface;
 use Anomaly\Streams\Platform\Application\Application;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
 
 /**
@@ -23,13 +22,6 @@ class ImagePaths
     protected $paths = [];
 
     /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
-
-    /**
      * The request object.
      *
      * @var Request
@@ -46,17 +38,15 @@ class ImagePaths
     /**
      * Create a new ImagePaths instance.
      *
-     * @param Repository $config
      * @param Request $request
      * @param Application $application
      */
-    public function __construct(Repository $config, Request $request, Application $application)
+    public function __construct(Request $request, Application $application)
     {
-        $this->config      = $config;
         $this->request     = $request;
         $this->application = $application;
 
-        $this->paths = $config->get('streams::images.paths', []);
+        $this->paths = config('streams::images.paths', []);
     }
 
     /**

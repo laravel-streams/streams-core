@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Translation\Translator;
 
 /**
@@ -17,13 +16,6 @@ use Illuminate\Translation\Translator;
  */
 class TextGuesser
 {
-
-    /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
 
     /**
      * The string utility.
@@ -57,19 +49,16 @@ class TextGuesser
      * Create a new TextGuesser instance.
      *
      * @param Str              $string
-     * @param Repository       $config
      * @param ButtonRegistry   $buttons
      * @param ModuleCollection $modules
      * @param Translator       $translator
      */
     public function __construct(
         Str $string,
-        Repository $config,
         ButtonRegistry $buttons,
         ModuleCollection $modules,
         Translator $translator
     ) {
-        $this->config     = $config;
         $this->string     = $string;
         $this->buttons    = $buttons;
         $this->modules    = $modules;
@@ -112,7 +101,7 @@ class TextGuesser
 
             if (
                 (!isset($button['text']) || !$this->translator->has($button['text']))
-                && $this->config->get('streams::system.lazy_translations')
+                && config('streams::system.lazy_translations')
             ) {
                 $button['text'] = ucwords($this->string->humanize(array_get($button, 'slug', $button['button'])));
             }

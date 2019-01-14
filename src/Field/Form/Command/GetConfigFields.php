@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Translation\Translator;
 
 /**
@@ -44,13 +43,12 @@ class GetConfigFields
     /**
      * Handle the command.
      *
-     * @param Repository $config
-     * @param Evaluator  $evaluator
+     * @param Evaluator $evaluator
      */
-    public function handle(Repository $config, Evaluator $evaluator, Translator $translator)
+    public function handle(Evaluator $evaluator, Translator $translator)
     {
-        if (!$fields = $config->get($this->fieldType->getNamespace('config/config'))) {
-            $fields = $config->get($this->fieldType->getNamespace('config'), []);
+        if (!$fields = config($this->fieldType->getNamespace('config/config'))) {
+            $fields = config($this->fieldType->getNamespace('config'), []);
         }
 
         $fields = $evaluator->evaluate($fields);

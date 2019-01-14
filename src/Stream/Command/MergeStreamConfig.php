@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class MergeStreamConfig
@@ -35,9 +34,8 @@ class MergeStreamConfig
      * Handle the command.
      *
      * @param AddonCollection $addons
-     * @param Repository      $repository
      */
-    public function handle(AddonCollection $addons, Repository $repository)
+    public function handle(AddonCollection $addons)
     {
         $slug      = $this->stream->getSlug();
         $namespace = $this->stream->getNamespace();
@@ -46,6 +44,6 @@ class MergeStreamConfig
             $this->stream->mergeConfig($config);
         }
 
-        $this->stream->mergeConfig($repository->get("streams::streams.{$namespace}.{$slug}", []));
+        $this->stream->mergeConfig(config("streams::streams.{$namespace}.{$slug}", []));
     }
 }

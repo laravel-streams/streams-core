@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Version\Contract\VersionInterface;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -82,14 +81,13 @@ class VersionTableBuilder extends TableBuilder
      * Fired during the query for entries.
      *
      * @param Builder $query
-     * @param Repository $config
      */
-    public function onQuerying(Builder $query, Repository $config)
+    public function onQuerying(Builder $query)
     {
         $query->where('versionable_type', $this->getType());
         $query->where('versionable_id', $this->getId());
 
-        $model = $config->get('auth.providers.users.model');
+        $model = config('auth.providers.users.model');
 
         /* @var Model $model */
         $model = (new $model);

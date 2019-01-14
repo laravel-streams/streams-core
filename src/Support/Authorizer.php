@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\UsersModule\Role\Contract\RoleInterface;
 use Anomaly\UsersModule\User\Contract\UserInterface;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
 
 /**
@@ -32,13 +31,6 @@ class Authorizer
     protected $guest;
 
     /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
-
-    /**
      * The request object.
      *
      * @var Request
@@ -48,14 +40,12 @@ class Authorizer
     /**
      * Create a new Authorizer instance.
      *
-     * @param Guard      $guard
-     * @param Repository $config
-     * @param Request    $request
+     * @param Guard $guard
+     * @param Request $request
      */
-    public function __construct(Guard $guard, Repository $config, Request $request)
+    public function __construct(Guard $guard, Request $request)
     {
         $this->guard   = $guard;
-        $this->config  = $config;
         $this->request = $request;
     }
 
@@ -90,9 +80,9 @@ class Authorizer
     /**
      * Authorize a user against any permission.
      *
-     * @param  array         $permissions
+     * @param  array $permissions
      * @param  UserInterface $user
-     * @param  bool          $strict
+     * @param  bool $strict
      * @return bool
      */
     public function authorizeAny(array $permissions, UserInterface $user = null, $strict = false)
@@ -117,9 +107,9 @@ class Authorizer
     /**
      * Authorize a user against all permission.
      *
-     * @param  array         $permissions
+     * @param  array $permissions
      * @param  UserInterface $user
-     * @param  bool          $strict
+     * @param  bool $strict
      * @return bool
      */
     public function authorizeAll(array $permissions, UserInterface $user = null, $strict = false)
@@ -168,7 +158,7 @@ class Authorizer
             $parts = explode('::', $permission);
 
             // If it does not exist, we are authorized.
-            if (!in_array($end, (array)$this->config->get($parts[0] . '::permissions.' . $group))) {
+            if (!in_array($end, (array)config($parts[0] . '::permissions.' . $group))) {
                 return true;
             }
         } elseif (ends_with($permission, '*')) {
@@ -183,7 +173,7 @@ class Authorizer
             if (str_is('*.*.*::*.*.*', $permission)) {
                 $end = trim(substr($permission, strpos($permission, '::') + 2), '.*');
 
-                if (!$permissions = $this->config->get($addon . '::permissions.' . $end)) {
+                if (!$permissions = config($addon . '::permissions.' . $end)) {
                     return true;
                 } else {
                     return $user->hasAnyPermission($permissions);
@@ -191,7 +181,7 @@ class Authorizer
             } elseif (str_is('*.*.*::*.*', $permission)) {
                 $end = trim(substr($permission, strpos($permission, '::') + 2), '.*');
 
-                if (!$permissions = $this->config->get($addon . '::permissions.' . $end)) {
+                if (!$permissions = config($addon . '::permissions.' . $end)) {
                     return true;
                 } else {
                     $check = [];
@@ -203,7 +193,7 @@ class Authorizer
                     return $user->hasAnyPermission($check);
                 }
             } else {
-                if (!$permissions = $this->config->get($addon . '::permissions')) {
+                if (!$permissions = config($addon . '::permissions')) {
                     return true;
                 } else {
                     $check = [];
@@ -222,7 +212,7 @@ class Authorizer
 
             $end = array_pop($parts);
 
-            if (!in_array($end, (array)$this->config->get($parts[0] . '::permissions'))) {
+            if (!in_array($end, (array)config($parts[0] . '::permissions'))) {
                 return true;
             }
         }
@@ -238,7 +228,7 @@ class Authorizer
     /**
      * Authorize a user against a role.
      *
-     * @param RoleInterface  $role
+     * @param RoleInterface $role
      * @param  UserInterface $user
      * @return bool
      */
@@ -267,7 +257,7 @@ class Authorizer
      * Authorize a user against any role.
      *
      * @param EloquentCollection $roles
-     * @param  UserInterface     $user
+     * @param  UserInterface $user
      * @return bool
      */
     public function authorizeAnyRole(EloquentCollection $roles, UserInterface $user = null)
@@ -275,7 +265,7 @@ class Authorizer
         if ($roles->isEmpty()) {
             return true;
         }
-        
+
         if (!$user) {
             $user = $this->guard->user();
         }

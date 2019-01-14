@@ -1,10 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Stream;
 
 use Anomaly\Streams\Platform\Database\Migration\Migration;
-use Anomaly\Streams\Platform\Database\Migration\Stream\StreamGuesser;
-use Anomaly\Streams\Platform\Database\Migration\Stream\StreamNormalizer;
-use Illuminate\Contracts\Config\Repository;
 
+/**
+ * Class StreamInput
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class StreamInput
 {
 
@@ -25,7 +29,7 @@ class StreamInput
     /**
      * Create a new StreamInput instance.
      *
-     * @param StreamGuesser    $guesser
+     * @param StreamGuesser $guesser
      * @param StreamNormalizer $normalizer
      */
     public function __construct(StreamGuesser $guesser, StreamNormalizer $normalizer)
@@ -44,7 +48,7 @@ class StreamInput
         if (!$migration->getStream()) {
             return;
         }
-        
+
         $this->normalizer->normalize($migration);
         $this->guesser->guess($migration);
     }
