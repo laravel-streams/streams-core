@@ -42,7 +42,7 @@ class RestrictDelete
     {
         foreach ($this->model->getRestricts() as $relation) {
 
-            $humanize = str_humanize($relation);
+            $humanize = humanize($relation);
 
             /* @var Relation $relation */
             $relation = $this->model->{$relation}();

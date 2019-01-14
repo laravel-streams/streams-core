@@ -22,7 +22,7 @@ class FieldTypeParser
     public function relation(AssignmentInterface $assignment)
     {
         $fieldSlug = $assignment->getFieldSlug();
-        $fieldName = str_humanize($fieldSlug);
+        $fieldName = humanize($fieldSlug);
         $method    = camel_case($fieldSlug);
 
         return "

@@ -57,7 +57,7 @@ class AppendEntitySectionLang
             $this->dispatchNow(new WriteAddonSectionLang($this->addon->getPath()));
         }
 
-        $name = ucfirst(str_humanize($this->slug));
+        $name = ucfirst(humanize($this->slug));
 
         $section = "    '{$this->slug}' => [\n";
         $section .= "        'title' => '{$name}',\n";

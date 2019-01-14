@@ -40,6 +40,21 @@ if (!function_exists('str_humanize')) {
     }
 }
 
+if (!function_exists('humanize')) {
+
+    /**
+     * Humanize the string.
+     *
+     * @param        $target
+     * @param string $separator
+     * @return string
+     */
+    function humanize($target, $separator = '_')
+    {
+        return app(Str::class)->humanize($target, $separator);
+    }
+}
+
 if (!function_exists('parse')) {
 
     /**

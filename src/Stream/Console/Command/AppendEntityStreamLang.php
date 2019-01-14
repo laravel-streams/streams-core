@@ -57,7 +57,7 @@ class AppendEntityStreamLang
             $this->dispatchNow(new WriteAddonStreamLang($this->addon->getPath()));
         }
 
-        $name = ucfirst(str_humanize($this->slug));
+        $name = ucfirst(humanize($this->slug));
 
         $stream = "    '{$this->slug}' => [\n";
         $stream .= "        'name' => '{$name}',\n";

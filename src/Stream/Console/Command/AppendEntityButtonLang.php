@@ -59,7 +59,7 @@ class AppendEntityButtonLang
 
         $singular = str_singular($this->slug);
 
-        $name = ucfirst(str_humanize($singular));
+        $name = ucfirst(humanize($singular));
 
         $button = "    'new_{$singular}' => 'New {$name}',\n";
 

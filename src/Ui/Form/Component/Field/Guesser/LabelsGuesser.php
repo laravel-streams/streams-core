@@ -156,7 +156,7 @@ class LabelsGuesser
              * in leu of displaying an untranslated key.
              */
             if (!isset($field['label']) && config('streams::system.lazy_translations')) {
-                $field['label'] = ucwords(str_humanize($field['field']));
+                $field['label'] = ucwords(humanize($field['field']));
             }
         }
 

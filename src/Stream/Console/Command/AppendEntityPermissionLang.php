@@ -57,7 +57,7 @@ class AppendEntityPermissionLang
             $this->dispatchNow(new WriteAddonPermissionLang($this->addon->getPath()));
         }
 
-        $human = str_humanize($this->slug);
+        $human = humanize($this->slug);
 
         $name = ucfirst($human);
 

@@ -81,7 +81,7 @@ class TextGuesser
                 (!isset($button['text']) || !trans()->has($button['text']))
                 && config('streams::system.lazy_translations')
             ) {
-                $button['text'] = ucwords(str_humanize(array_get($button, 'slug', $button['button'])));
+                $button['text'] = ucwords(humanize(array_get($button, 'slug', $button['button'])));
             }
 
             if (!isset($button['text'])) {

@@ -63,7 +63,7 @@ class TitleGuesser
             }
 
             if (!isset($section['title']) && config('streams::system.lazy_translations')) {
-                $section['title'] = ucwords(str_humanize($section['slug']));
+                $section['title'] = ucwords(humanize($section['slug']));
             }
 
             if (!isset($section['title'])) {

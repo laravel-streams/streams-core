@@ -381,7 +381,7 @@ class Image
                 $this->getAttributes(),
                 'alt',
                 ucwords(
-                    str_humanize(
+                    humanize(
                         trim(basename($this->getOriginal(), $this->getExtension()), '.'),
                         '^a-zA-Z0-9'
                     )

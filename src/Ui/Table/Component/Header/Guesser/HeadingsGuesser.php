@@ -141,7 +141,7 @@ class HeadingsGuesser
              * then humanize the heading value.
              */
             if (!isset($column['heading']) && config('streams::system.lazy_translations')) {
-                $column['heading'] = ucwords(str_humanize($column['field']));
+                $column['heading'] = ucwords(humanize($column['field']));
             }
 
             /*
@@ -155,7 +155,7 @@ class HeadingsGuesser
                 !trans()->has($column['heading']) &&
                 config('streams::system.lazy_translations')
             ) {
-                $column['heading'] = ucwords(str_humanize($column['field']));
+                $column['heading'] = ucwords(humanize($column['field']));
             }
 
             /*
