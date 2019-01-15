@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\HigherOrderCollectionProxy;
 
 /**
  * Class EloquentCollection
@@ -50,7 +51,7 @@ class EloquentCollection extends Collection
      * Pad to the specified size with a value.
      *
      * @param        $size
-     * @param  null  $value
+     * @param  null $value
      * @return $this
      */
     public function pad($size, $value = null)
@@ -109,7 +110,7 @@ class EloquentCollection extends Collection
      * Group an associative array by a field or using a callback.
      *
      * @param  callable|string $groupBy
-     * @param  bool            $preserveKeys
+     * @param  bool $preserveKeys
      * @return static
      */
     public function groupBy($groupBy, $preserveKeys = false)
@@ -179,6 +180,10 @@ class EloquentCollection extends Collection
      */
     public function __get($name)
     {
+        if (in_array($name, static::$proxies)) {
+            return new HigherOrderCollectionProxy($this, $name);
+        }
+
         if ($this->hasHook($name)) {
             return $this->call($name, []);
         }
@@ -194,7 +199,7 @@ class EloquentCollection extends Collection
      * Map to get.
      *
      * @param string $method
-     * @param array  $parameters
+     * @param array $parameters
      */
     public function __call($method, $parameters)
     {

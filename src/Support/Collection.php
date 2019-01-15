@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
+use Exception;
+use Illuminate\Support\HigherOrderCollectionProxy;
+
 /**
  * Class Collection
  *
@@ -9,6 +12,11 @@
  */
 class Collection extends \Illuminate\Support\Collection
 {
+
+    public function shouldBeSearchable()
+    {
+        return $this;
+    }
 
     /**
      * Alias for pluck.
@@ -70,6 +78,11 @@ class Collection extends \Illuminate\Support\Collection
      */
     public function __get($name)
     {
+
+        if (in_array($name, static::$proxies)) {
+            return new HigherOrderCollectionProxy($this, $name);
+        }
+
         if ($this->has($name)) {
             return $this->get($name);
         }
