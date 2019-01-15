@@ -82,7 +82,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected $plugins = [
         'Anomaly\Streams\Platform\StreamsPlugin',
-        'Phive\Twig\Extensions\Deferred\DeferredExtension',
     ];
 
     /**
