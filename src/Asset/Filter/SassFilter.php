@@ -1,12 +1,18 @@
 <?php namespace Anomaly\Streams\Platform\Asset\Filter;
 
-use Anomaly\Streams\Platform\Asset\Command\LoadThemeVariables;
 use Anomaly\Streams\Platform\Support\Collection;
 use Assetic\Asset\AssetInterface;
 use Assetic\Filter\SassphpFilter;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Leafo\ScssPhp\Compiler;
 
+/**
+ * Class SassFilter
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class SassFilter extends SassphpFilter
 {
 
@@ -29,9 +35,8 @@ class SassFilter extends SassphpFilter
      */
     public function filterDump(AssetInterface $asset)
     {
-        $this->dispatchNow(new LoadThemeVariables($variables = new Collection()));
-
-        $compiler = new Compiler();
+        $variables = new Collection();
+        $compiler  = new Compiler();
 
         if ($dir = $asset->getSourceDirectory()) {
             $compiler->addImportPath($dir);

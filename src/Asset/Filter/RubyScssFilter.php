@@ -1,12 +1,18 @@
 <?php namespace Anomaly\Streams\Platform\Asset\Filter;
 
-use Anomaly\Streams\Platform\Asset\Command\LoadThemeVariables;
 use Anomaly\Streams\Platform\Support\Collection;
 use Assetic\Asset\AssetInterface;
 use Assetic\Filter\Sass\ScssFilter;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Leafo\ScssPhp\Compiler;
 
+/**
+ * Class RubyScssFilter
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class RubyScssFilter extends ScssFilter
 {
 
@@ -37,9 +43,8 @@ class RubyScssFilter extends ScssFilter
      */
     public function filterDump(AssetInterface $asset)
     {
-        $this->dispatchNow(new LoadThemeVariables($variables = new Collection()));
-
-        $compiler = new Compiler();
+        $variables = new Collection();
+        $compiler  = new Compiler();
 
         if ($dir = $asset->getSourceDirectory()) {
             $compiler->addImportPath($dir);
