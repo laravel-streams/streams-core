@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormCriteria;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Routing\Redirector;
+use Illuminate\Session\Store;
 
 /**
  * Class FormController
@@ -19,14 +20,24 @@ class FormController extends PublicController
     /**
      * Handle the form.
      *
-     * @param  Repository                                 $cache
-     * @param  Redirector                                 $redirect
-     * @param                                             $key
+     * @param  Repository $cache
+     * @param  Redirector $redirect
+     * @param Store $session
+     * @param $key
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handle(Repository $cache, Redirector $redirect, $key)
+    public function handle(Repository $cache, Redirector $redirect, Store $session, $key)
     {
-        $parameters = $cache->get('form::' . $key);
+        if (!$parameters = $cache->get('form::' . $key)) {
+
+            $this->messages->error('streams::message.form_expired');
+
+            foreach ($this->request->except('_token') as $key => $value) {
+                $session->flash($key, $value);
+            }
+
+            return $redirect->back();
+        }
 
         /* @var FormCriteria $criteria */
         $criteria = $this->dispatchNow(new GetFormCriteria($parameters));
