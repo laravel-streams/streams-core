@@ -66,8 +66,6 @@ class CacheCollection extends Collection
 
         $this->unique();
 
-        app('cache')->forget($this->key);
-
         $self = $this;
 
         app('cache')->rememberForever(
@@ -106,8 +104,6 @@ class CacheCollection extends Collection
     public function unique($key = null, $strict = false)
     {
         $this->items = array_unique($this->items);
-
-        $this->values();
 
         return $this;
     }
