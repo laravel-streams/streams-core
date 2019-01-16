@@ -208,18 +208,19 @@ class EloquentRepository implements EloquentRepositoryInterface
     }
 
     /**
-     * Save a record without firing events.
+     * Perform an action without events.
      *
      * @param  EloquentModel $entry
-     * @return bool
+     * @param \Closure       $closure
+     * @return mixed
      */
-    public function saveWithoutEvents(EloquentModel $entry)
+    public function withoutEvents(EloquentModel $entry, \Closure $closure)
     {
         $dispatcher = $entry->getEventDispatcher();
 
         $entry->unsetEventDispatcher();
 
-        $result = $entry->save();
+        $result = call_user_func($closure, $entry);
 
         $entry->setEventDispatcher($dispatcher);
 

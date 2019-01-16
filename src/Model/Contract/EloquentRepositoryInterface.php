@@ -110,6 +110,15 @@ interface EloquentRepositoryInterface
     public function paginate(array $parameters = []);
 
     /**
+     * Perform an action without events.
+     *
+     * @param  EloquentModel $entry
+     * @param \Closure       $closure
+     * @return mixed
+     */
+    public function withoutEvents(EloquentModel $entry, \Closure $closure);
+
+    /**
      * Save a record.
      *
      * @param  EloquentModel $entry
