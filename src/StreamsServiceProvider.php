@@ -245,7 +245,6 @@ class StreamsServiceProvider extends ServiceProvider
                     }
                 }
 
-
                 /* @var AddonManager $manager */
                 $manager = $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager');
 
@@ -275,14 +274,6 @@ class StreamsServiceProvider extends ServiceProvider
 
                 $manager->register();
 
-                /**
-                 * Load again in case anything has
-                 * changed during registration.
-                 */
-                if (config('app.debug')) {
-                    $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
-                }
-
                 $this->dispatch(new LoadCurrentTheme());
                 $this->dispatch(new AddViewNamespaces());
                 $this->dispatch(new SetApplicationDomain());
@@ -296,6 +287,14 @@ class StreamsServiceProvider extends ServiceProvider
                 $events->dispatch(new Ready());
             }
         );
+
+        /**
+         * Load again in case anything has
+         * changed during registration.
+         */
+        if (config('app.debug')) {
+            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+        }
     }
 
     /**
