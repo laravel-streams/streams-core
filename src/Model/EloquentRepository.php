@@ -208,6 +208,25 @@ class EloquentRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * Save a record without firing events.
+     *
+     * @param  EloquentModel $entry
+     * @return bool
+     */
+    public function saveWithoutEvents(EloquentModel $entry)
+    {
+        $dispatcher = $entry->getEventDispatcher();
+
+        $entry->unsetEventDispatcher();
+
+        $result = $entry->save();
+
+        $entry->setEventDispatcher($dispatcher);
+
+        return $result;
+    }
+
+    /**
      * Update multiple records.
      *
      * @param  array $attributes
