@@ -274,14 +274,6 @@ class StreamsServiceProvider extends ServiceProvider
 
                 $manager->register();
 
-                /**
-                 * Load again in case anything has
-                 * changed during registration.
-                 */
-                if (config('app.debug')) {
-                    $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
-                }
-
                 $this->dispatchNow(new LoadCurrentTheme());
                 $this->dispatchNow(new AddViewNamespaces());
                 $this->dispatchNow(new SetApplicationDomain());
@@ -295,6 +287,14 @@ class StreamsServiceProvider extends ServiceProvider
                 $events->dispatch(new Ready());
             }
         );
+
+        /**
+         * Load again in case anything has
+         * changed during registration.
+         */
+        if (config('app.debug')) {
+            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+        }
     }
 
     /**
@@ -312,11 +312,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register(\Collective\Html\HtmlServiceProvider::class);
         $this->app->register(\Intervention\Image\ImageServiceProvider::class);
         $this->app->register(\TeamTNT\Scout\TNTSearchScoutServiceProvider::class);
-
-        // Register debuggers.
-        if (config('app.debug')) {
-            $this->app->registerDeferredProvider(\Barryvdh\Debugbar\ServiceProvider::class);
-        }
 
         // Register listeners.
         $events = $this->app->make(Dispatcher::class);
