@@ -38,6 +38,7 @@ class StreamFormFields
                     'instructions' => 'streams::field.slug.instructions',
                     'unique'       => true,
                     'required'     => true,
+                    'disabled'     => 'edit',
                     'type'         => 'anomaly.field_type.slug',
                     'config'       => [
                         'slugify' => 'name',
@@ -61,7 +62,7 @@ class StreamFormFields
                     'disabled'     => 'edit',
                     'type'         => 'anomaly.field_type.boolean',
                 ],
-                'versionable' => [
+                'versionable'  => [
                     'label'        => 'streams::field.versionable.name',
                     'instructions' => 'streams::field.versionable.instructions',
                     'translatable' => true,
