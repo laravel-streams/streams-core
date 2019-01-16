@@ -25,16 +25,21 @@ class EloquentRepository implements EloquentRepositoryInterface
     /**
      * Return all records.
      *
-     * @param bool $withTrashed
      * @return EloquentCollection
      */
-    public function all($withTrashed = false)
+    public function all()
     {
-        if ($withTrashed) {
-            return $this->model->withTrashed()->all();
-        }
-
         return $this->model->all();
+    }
+
+    /**
+     * Return all records with trashed.
+     *
+     * @return EloquentCollection
+     */
+    public function allWithTrashed()
+    {
+        return $this->model->withTrashed()->all();
     }
 
     /**

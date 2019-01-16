@@ -18,10 +18,16 @@ interface EloquentRepositoryInterface
     /**
      * Return all records.
      *
-     * @param bool $withTrashed
      * @return EloquentCollection
      */
-    public function all($withTrashed = false);
+    public function all();
+
+    /**
+     * Return all records with trashed.
+     *
+     * @return EloquentCollection
+     */
+    public function allWithTrashed();
 
     /**
      * Return all records without relations.
