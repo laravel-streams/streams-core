@@ -39,7 +39,7 @@ class EloquentRepository implements EloquentRepositoryInterface
      */
     public function allWithTrashed()
     {
-        return $this->model->withTrashed()->all();
+        return $this->model->withTrashed()->get();
     }
 
     /**
