@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\UsersModule\User\Contract\UserInterface;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
-use Illuminate\Session\Store;
 
 /**
  * Class LockFormModel
@@ -101,7 +100,6 @@ class LockFormModel
                     'locked_by_id'  => $user->getId(),
                     'lockable_id'   => $entry->getId(),
                     'lockable_type' => get_class($entry),
-                    'session_id'    => str_random(24), // @todo Remove this in 1.6
                     'url'           => $request->fullUrl(),
                 ]
             );
