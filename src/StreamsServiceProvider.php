@@ -347,7 +347,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         /*
          * Change the default language path so
-         * that there MUST be a prefix hint.
+         * that there MUST be a prefix hint.w
          */
         $this->app->singleton(
             'path.lang',
