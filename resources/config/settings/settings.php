@@ -237,9 +237,7 @@ return [
         'bind'   => 'debugbar.enabled',
         'type'   => 'anomaly.field_type.boolean',
         'config' => [
-            'default_value' => function (Repository $config) {
-                return $config->get('debugbar.enabled');
-            },
+            'default_value' => false,
             'on_text'       => 'ON',
             'off_text'      => 'OFF',
         ],
@@ -389,6 +387,14 @@ return [
         'config'   => [
             'default_value' => 3600,
             'min'           => 60,
+        ],
+    ],
+    'locking_enabled'       => [
+        'env'    => 'LOCKING_ENABLED',
+        'bind'   => 'streams::system.locking_enabled',
+        'type'   => 'anomaly.field_type.boolean',
+        'config' => [
+            'default_value' => true,
         ],
     ],
 ];

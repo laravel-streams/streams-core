@@ -166,4 +166,8 @@ return [
         'label'        => 'Default TTL',
         'instructions' => 'Specify the default cache time in seconds.',
     ],
+    'locking_enabled'       => [
+        'label'        => 'Content Locking',
+        'instructions' => 'Prevent multiple users from modifying the same content at once?',
+    ],
 ];

@@ -43,14 +43,12 @@ class LockFormModel
      * @param LockRepositoryInterface $locks
      * @param MessageBag $messages
      * @param Request $request
-     * @param Store $session
      * @param Guard $auth
      */
     public function handle(
         LockRepositoryInterface $locks,
         MessageBag $messages,
         Request $request,
-        Store $session,
         Guard $auth
     ) {
 
@@ -103,17 +101,17 @@ class LockFormModel
                     'locked_by_id'  => $user->getId(),
                     'lockable_id'   => $entry->getId(),
                     'lockable_type' => get_class($entry),
-                    'session_id'    => $session->getId(),
+                    'session_id'    => str_random(24), // @todo Remove this in 1.6
                     'url'           => $request->fullUrl(),
                 ]
             );
         }
 
-        if ($lock->session_id == $session->getId()) {
+        if ($lock->locked_by_id == $user->getId()) {
             $lock->touch();
         }
 
-        if ($lock->session_id !== $session->getId()) {
+        if ($lock->locked_by_id !== $user->getId()) {
 
             $this->builder->setLock($lock);
 
