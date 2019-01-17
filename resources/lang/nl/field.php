@@ -43,6 +43,10 @@ return [
         'name'         => 'In prullenbak gooien',
         'instructions' => 'Moeten ingaves eerst in een prullenbak terecht komen in plaats van ze meteen permanent te verwijderen?',
     ],
+    'versionable'  => [
+        'name'         => 'Versionable',
+        'instructions' => 'Wil je elke verandering bijhouden bij elke keer nadat ze opgeslagen worden?',
+    ],
     'sortable'     => [
         'name'         => 'Sorteerbaar',
         'instructions' => 'Zijn de ingaves in deze stream sorteerbaar?',

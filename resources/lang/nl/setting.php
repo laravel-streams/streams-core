@@ -3,13 +3,27 @@
 return [
     'name'            => [
         'label'        => 'Sitenaam',
-        'instructions' => 'What is the name of your application? Wat is de naam van je applicatie?',
+        'instructions' => 'Wat is de naam van je applicatie?',
         'placeholder'  => trans('distribution::addon.name'),
     ],
     'description'     => [
         'label'        => 'Site omschrijving',
         'instructions' => 'Wat is de omschrijving of slogan van je applicatie?',
         'placeholder'  => trans('distribution::addon.description'),
+    ],
+    'domain'                => [
+        'label'        => 'Primair domein',
+        'instructions' => 'Wat is de domeinnaam van je applicatie?',
+        'placeholder'  => 'domein.nl',
+    ],
+    'force_ssl'             => [
+        'label'        => 'Forceer SSL',
+        'instructions' => 'Wil je SSL forceren voor alle inkomende verbindingen?',
+    ],
+    'domain_prefix'         => [
+        'label'        => 'Domein prefix',
+        'instructions' => 'Wil je een domein prefix forceren?',
+        'placeholder'  => 'Geen voorkeur',
     ],
     'timezone'        => [
         'label'        => 'Tijdzone',
@@ -24,7 +38,7 @@ return [
         ],
     ],
     'currency'        => [
-        'label'        => 'Valulta',
+        'label'        => 'Valuta',
         'instructions' => 'Specificeer de standaard valuta voor je site.',
     ],
     'date_format'     => [
@@ -85,5 +99,71 @@ return [
     'per_page'        => [
         'label'        => 'Resultaten per pagina',
         'instructions' => 'Specificeer het standaard aantal resultaaten om te weergeven op elke pagina.',
+    ],
+    'per_page'              => [
+        'label'        => 'Resultaten per pagina',
+        'instructions' => 'Specificeer het standaard aantal resultaten om te weergeven per pagina.',
+    ],
+    'mail_driver'           => [
+        'label'        => 'Email Driver',
+        'instructions' => 'Hoe verzend jouw applicatie mail?',
+        'option'       => [
+            'smtp'     => 'SMTP',
+            'mail'     => 'PHP Mail',
+            'sendmail' => 'Sendmail',
+            'mailgun'  => 'Mailgun',
+            'mandrill' => 'Mandrill',
+            'log'      => 'Log File',
+        ],
+    ],
+    'mail_host'             => [
+        'label'        => 'SMTP Host',
+        'instructions' => 'Specificeer de SMTP host.',
+        'placeholder'  => 'smtp.mailgun.org',
+    ],
+    'mail_port'             => [
+        'label'        => 'SMTP Port',
+        'instructions' => 'Specificeer de SMTP port.',
+        'placeholder'  => '587',
+    ],
+    'mail_username'         => [
+        'label'        => 'SMTP Username',
+        'instructions' => 'Specificeer de SMTP gebruikersnaam.',
+    ],
+    'mail_password'         => [
+        'label'        => 'SMTP Password',
+        'instructions' => 'Specificeer het SMTP wachtwoord.',
+    ],
+    'http_cache'            => [
+        'label'        => 'HTTP Cache',
+        'instructions' => 'Wil je HTTP Cache inschakelen?',
+        'warning'      => 'Uitschakelen wist alle HTTP Cache opslag.',
+    ],
+    'http_cache_ttl'        => [
+        'label'        => 'Standaard TTL',
+        'instructions' => 'Specificeer de standaard cache tijd in seconden.',
+    ],
+    'http_cache_allow_bots' => [
+        'label'        => 'Bot Policy',
+        'instructions' => 'Laat bots cache bestanden <em>genereren</em>?',
+        'warning'      => 'Bots zullen nog steeds vorig gegenereerde Cache bestanden inzien.',
+    ],
+    'http_cache_excluded'   => [
+        'label'        => 'Uitgesloten paden',
+        'instructions' => 'Specificeer elk pad op een nieuwe regel. Gebruik "*" voor partial matching.',
+        'placeholder'  => '/account/*',
+    ],
+    'http_cache_rules'      => [
+        'label'        => 'Timeout regels',
+        'instructions' => 'Specificeer elk <strong>pad TTL</strong> op een nieuwe regel. Gebruik "*" voor partial matching.',
+        'placeholder'  => '/news/* 1800',
+    ],
+    'db_cache'              => [
+        'label'        => 'Database Cache',
+        'instructions' => 'Wil je database query caching inschakelen?',
+    ],
+    'db_cache_ttl'          => [
+        'label'        => 'Standaard TTL',
+        'instructions' => 'Specificeer de standaard cache tijd in seconden.',
     ],
 ];
