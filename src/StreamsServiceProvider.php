@@ -289,10 +289,10 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         /**
-         * Load again in case anything has
-         * changed during registration.
+         * Fire this last cause it causes some
+         * issues with configuration and sessions.
          */
-        if (config('app.debug')) {
+        if (config('app.debug') && config('debugbar.enabled')) {
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
         }
     }

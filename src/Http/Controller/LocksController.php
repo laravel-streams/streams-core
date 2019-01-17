@@ -17,22 +17,25 @@ class LocksController extends PublicController
      * Touch the locks for a given URL by session ID.
      *
      * @param LockRepositoryInterface $locks
-     * @param Store                   $session
+     * @param Store $session
      */
-    public function touch(LockRepositoryInterface $locks, Store $session)
+    public function touch(LockRepositoryInterface $locks)
     {
-        $locks->touchLocks($this->url->previous(), $session->getId());
+        if (!auth()->check()) {
+            return;
+        }
+
+        $locks->touchLocks($this->url->previous());
     }
 
     /**
      * Release the locks for a given URL by session ID.
      *
      * @param LockRepositoryInterface $locks
-     * @param Store                   $session
      */
-    public function release(LockRepositoryInterface $locks, Store $session)
+    public function release(LockRepositoryInterface $locks)
     {
-        $locks->releaseLocks($this->url->previous(), $session->getId());
+        $locks->releaseLocks($this->url->previous());
     }
 
 }

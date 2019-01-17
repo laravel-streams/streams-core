@@ -22,25 +22,25 @@ interface LockRepositoryInterface extends EloquentRepositoryInterface
     public function findByLockable(EloquentModel $model);
 
     /**
-     * Touch locks by URL and session.
+     * Touch locks by URL.
      *
      * @param $url
-     * @param $session
      * @return $this
      */
-    public function touchLocks($url, $session);
+    public function touchLocks($url);
 
     /**
      * Release locks by URL and session.
      *
      * @param $url
-     * @param $session
      * @return $this
      */
-    public function releaseLocks($url, $session);
+    public function releaseLocks($url);
 
     /**
      * Clean up old lock files.
+     *
+     * @return $this
      */
     public function cleanup();
 

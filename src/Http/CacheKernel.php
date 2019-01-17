@@ -26,6 +26,10 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
         '/streams/*-field_type/*',
         '/streams/*-extension/*',
         '/streams/*-module/*',
+        '/entry/handle/*',
+        'form/handle/*',
+        '/locks/touch',
+        '/locks/release',
     ];
 
     /**

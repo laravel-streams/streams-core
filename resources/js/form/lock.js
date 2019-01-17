@@ -1,4 +1,4 @@
-(function (window, document) {
+(function () {
 
     setInterval(function () {
 
@@ -9,6 +9,6 @@
 
         request.send();
 
-    }, 55 * 1000);
+    }, 30 * 1000);
 
-})(window, document);
+});

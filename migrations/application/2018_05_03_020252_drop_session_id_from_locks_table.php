@@ -2,15 +2,16 @@
 
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 /**
- * Class AddVersionableColumnToStreams
+ * Class DropSessionIdLocksTable
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class AddVersionableColumnToStreams extends Migration
+class DropSessionIdLocksTable extends Migration
 {
 
     /**
@@ -21,9 +22,9 @@ class AddVersionableColumnToStreams extends Migration
     public function up()
     {
         $this->schema()->table(
-            'streams_streams',
+            'streams_locks',
             function (Blueprint $table) {
-                $table->boolean('versionable')->default(0)->after('translatable');
+                $table->dropColumn('session_id');
             }
         );
     }
@@ -36,11 +37,10 @@ class AddVersionableColumnToStreams extends Migration
     public function down()
     {
         $this->schema()->table(
-            'streams_streams',
+            'streams_locks',
             function (Blueprint $table) {
-                $table->dropColumn('versionable');
+                $table->string('session_id');
             }
         );
     }
-
 }

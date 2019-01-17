@@ -12,6 +12,7 @@ return [
                     'domain',
                     'force_ssl',
                     'domain_prefix',
+                    'locking_enabled',
                 ],
             ],
             'display'      => [
