@@ -58,4 +58,6 @@ return [
     'add_field'      => 'Voeg veld toe',
     'new_field'      => 'Nieuw veld',
     'assign_fields'  => 'Velden toewijzen',
+    'load'           => 'Laden',
+    'versions'       => 'Versies'
 ];

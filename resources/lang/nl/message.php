@@ -1,13 +1,6 @@
 <?php
 
 return [
-    '403'                       => 'Toegang geweigerd',
-    '401'                       => 'Ongeldige inloggegevens.',
-    '408'                       => 'Het verzoek duurde te lang.',
-    '429'                       => 'Te veel verzoeken.<br><small>Probeer het later opnieuw aub.</small>',
-    '503'                       => 'Ben zo terug.',
-    '404'                       => 'Pagina niet gevonden.',
-    '500'                       => 'Er is een fout opgetreden.',
     'help'                      => 'Help',
     'search'                    => 'Zoeken',
     'system'                    => 'Systeem',
@@ -19,6 +12,7 @@ return [
     'delete_success'            => ':count rij(en) zijn succesvol verwijderd.',
     'reorder_success'           => ':count rij(en) zijn succesvol herordend.',
     'csrf_token_mismatch'       => 'Je beveiligingstoken is verlopen. Vul het formulier opnieuw in aub.',
+    'form_expired'              => 'Het formulier is vervallen. Probeer het opnieuw aub.',
     'create_success'            => ':name succesvol aangemaakt.',
     'edit_success'              => ':name succesvol bijgewerkt.',
     'confirm_delete_title'      => 'Weet je zeker dat je dit wilt verwijderen?',
@@ -33,4 +27,6 @@ return [
     'choose_field_type'         => 'Welk veldtype wil je gebruiken?',
     'change_field_type'         => 'Welk veldtype wil je in plaats daarvan gebruiken?',
     'choose_field'              => 'Welk veld wil je toevoegen?',
+    'confirm_load_title'        => 'Laad versie',
+    'confirm_load_message'      => 'Je staat op het punt om een vorige versie in te laden. Wijzigingen worden niet toegepast tot er opgeslagen wordt.',
 ];
