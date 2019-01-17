@@ -5,13 +5,13 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Class DropSessionIdLocksTable
+ * Class DropSessionIdFromLocksTable
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class DropSessionIdLocksTable extends Migration
+class DropSessionIdFromLocksTable extends Migration
 {
 
     /**
