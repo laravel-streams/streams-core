@@ -82,7 +82,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected $plugins = [
         'Anomaly\Streams\Platform\StreamsPlugin',
-        'Phive\Twig\Extensions\Deferred\DeferredExtension',
     ];
 
     /**
@@ -196,22 +195,22 @@ class StreamsServiceProvider extends ServiceProvider
         $events->dispatch(new Booting());
 
         // Next take care of core utilities.
-        $this->dispatch(new SetCoreConnection());
-        $this->dispatch(new ConfigureUriValidator());
-        $this->dispatch(new InitializeApplication());
+        $this->dispatchNow(new SetCoreConnection());
+        $this->dispatchNow(new ConfigureUriValidator());
+        $this->dispatchNow(new InitializeApplication());
 
         // Load application specific .env file.
-        $this->dispatch(new LoadEnvironmentOverrides());
+        $this->dispatchNow(new LoadEnvironmentOverrides());
 
         // Setup and preparing utilities.
-        $this->dispatch(new LoadStreamsConfiguration());
-        $this->dispatch(new ConfigureFileCacheStore());
-        $this->dispatch(new ConfigureTranslator());
-        $this->dispatch(new AutoloadEntryModels());
-        $this->dispatch(new AddAssetNamespaces());
-        $this->dispatch(new AddImageNamespaces());
-        $this->dispatch(new ConfigureRequest());
-        $this->dispatch(new ConfigureScout());
+        $this->dispatchNow(new LoadStreamsConfiguration());
+        $this->dispatchNow(new ConfigureFileCacheStore());
+        $this->dispatchNow(new ConfigureTranslator());
+        $this->dispatchNow(new AutoloadEntryModels());
+        $this->dispatchNow(new AddAssetNamespaces());
+        $this->dispatchNow(new AddImageNamespaces());
+        $this->dispatchNow(new ConfigureRequest());
+        $this->dispatchNow(new ConfigureScout());
 
         // Observe our base models.
         EntryModel::observe(EntryObserver::class);
@@ -220,12 +219,9 @@ class StreamsServiceProvider extends ServiceProvider
         EloquentModel::observe(EloquentObserver::class);
         AssignmentModel::observe(AssignmentObserver::class);
 
-        /**
-         * After streams platform is booted
-         * let's boot up the addons and finish.
-         */
         $this->app->booted(
             function () use ($events) {
+
                 $events->dispatch(new Booted());
 
                 /* @var Schedule $schedule */
@@ -276,15 +272,21 @@ class StreamsServiceProvider extends ServiceProvider
                 // Set the timezone for PHP.
                 date_default_timezone_set(config('app.timezone'));
 
-                $this->dispatch(new LoadCurrentTheme());
-                $this->dispatch(new AddViewNamespaces());
-                $this->dispatch(new SetApplicationDomain());
+                /*
+                 * Do this after addons are registered
+                 * so that they can override named routes.
+                 */
+                $this->dispatchNow(new IncludeRoutes());
+
+                $this->dispatchNow(new LoadCurrentTheme());
+                $this->dispatchNow(new AddViewNamespaces());
+                $this->dispatchNow(new SetApplicationDomain());
 
                 /*
                  * Do this after addons are registered
                  * so that they can override named routes.
                  */
-                $this->dispatch(new IncludeRoutes());
+                $this->dispatchNow(new IncludeRoutes());
 
                 $events->dispatch(new Ready());
             }
@@ -349,7 +351,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         /*
          * Change the default language path so
-         * that there MUST be a prefix hint.
+         * that there MUST be a prefix hint.w
          */
         $this->app->singleton(
             'path.lang',
