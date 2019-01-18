@@ -221,7 +221,7 @@ class EloquentRepository implements EloquentRepositoryInterface
      * Perform an action without events.
      *
      * @param  EloquentModel $entry
-     * @param \Closure       $closure
+     * @param \Closure $closure
      * @return mixed
      */
     public function withoutEvents(EloquentModel $entry, \Closure $closure)
@@ -341,6 +341,8 @@ class EloquentRepository implements EloquentRepositoryInterface
     public function flushCache()
     {
         $this->model->flushCache();
+
+        $this->fire('flushed_cache');
 
         return $this;
     }
