@@ -125,7 +125,7 @@ class LockFormModel
                 trans(
                     'streams::lock.locked_by_user',
                     [
-                        'username' => $user->getUsername(),
+                        'username' => $lock->lockedByUsername(),
                     ]
                 )
             );
