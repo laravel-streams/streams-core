@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Lock\Contract;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 /**
  * Interface LockInterface
  *
@@ -16,5 +19,26 @@ interface LockInterface
      * @return bool
      */
     public function touch();
-    
+
+    /**
+     * Return the locked by username.
+     *
+     * @return string
+     */
+    public function lockedByUsername();
+
+    /**
+     * Get the related locked by user.
+     *
+     * @return EntryInterface
+     */
+    public function getLockedBy();
+
+    /**
+     * Return the locked by relation.
+     *
+     * @return BelongsTo
+     */
+    public function lockedBy();
+
 }

@@ -9,7 +9,6 @@ use Anomaly\UsersModule\User\Contract\UserInterface;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;
-use Illuminate\Session\Store;
 
 /**
  * Class LockFormModel
@@ -130,7 +129,7 @@ class LockFormModel
                 trans(
                     'streams::lock.locked_by_user',
                     [
-                        'username' => $user->getUsername(),
+                        'username' => $lock->lockedByUsername(),
                     ]
                 )
             );
