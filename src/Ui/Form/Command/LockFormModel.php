@@ -113,7 +113,7 @@ class LockFormModel
             $lock->touch();
         }
 
-        if ($lock->locked_by_id !== $user->getId()) {
+        if ($lock->locked_by_id != $user->getId()) {
 
             $this->builder->setLock($lock);
 
