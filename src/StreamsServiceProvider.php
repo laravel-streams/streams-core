@@ -219,74 +219,73 @@ class StreamsServiceProvider extends ServiceProvider
         EloquentModel::observe(EloquentObserver::class);
         AssignmentModel::observe(AssignmentObserver::class);
 
-        /**
-         * After streams platform is booted
-         * let's boot up the addons and finish.
-         */
-        $this->app->booted(
-            function () use ($events) {
+        $events->dispatch(new Booted());
 
-                $events->dispatch(new Booted());
+        /* @var Schedule $schedule */
+        $schedule = $this->app->make(Schedule::class);
 
-                /* @var Schedule $schedule */
-                $schedule = $this->app->make(Schedule::class);
+        foreach (array_merge($this->schedule, config('streams.schedule', [])) as $frequency => $commands) {
+            foreach (array_filter($commands) as $command) {
 
-                foreach (array_merge($this->schedule, config('streams.schedule', [])) as $frequency => $commands) {
-                    foreach (array_filter($commands) as $command) {
+                if (str_contains($frequency, ' ')) {
+                    $schedule->command($command)->cron($frequency);
+                }
 
-                        if (str_contains($frequency, ' ')) {
-                            $schedule->command($command)->cron($frequency);
-                        }
+                if (!str_contains($frequency, ' ')) {
+                    $schedule->command($command)->{camel_case($frequency)}();
+                }
+            }
+        }
 
-                        if (!str_contains($frequency, ' ')) {
-                            $schedule->command($command)->{camel_case($frequency)}();
-                        }
+        /* @var AddonManager $manager */
+        $manager = $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager');
+
+        /* @var Dispatcher $events */
+        $events = $this->app->make('Illuminate\Contracts\Events\Dispatcher');
+
+        $events->listen(
+            'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
+            function (RegisteringTwigPlugins $event) {
+                $twig = $event->getTwig();
+
+                foreach ($this->plugins as $plugin) {
+                    if (!$twig->hasExtension($plugin)) {
+                        $twig->addExtension($this->app->make($plugin));
                     }
                 }
 
-
-                /* @var AddonManager $manager */
-                $manager = $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager');
-
-                /* @var Dispatcher $events */
-                $events = $this->app->make('Illuminate\Contracts\Events\Dispatcher');
-
-                $events->listen(
-                    'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
-                    function (RegisteringTwigPlugins $event) {
-                        $twig = $event->getTwig();
-
-                        foreach ($this->plugins as $plugin) {
-                            if (!$twig->hasExtension($plugin)) {
-                                $twig->addExtension($this->app->make($plugin));
-                            }
-                        }
-
-                        $twig->addExtension(
-                            new Extension(
-                                new CacheStrategy(
-                                    new CacheAdapter($this->app->make(Repository::class)), new CacheKey()
-                                )
-                            )
-                        );
-                    }
+                $twig->addExtension(
+                    new Extension(
+                        new CacheStrategy(
+                            new CacheAdapter($this->app->make(Repository::class)), new CacheKey()
+                        )
+                    )
                 );
-
-                $manager->register();
-
-                $this->dispatchNow(new LoadCurrentTheme());
-                $this->dispatchNow(new AddViewNamespaces());
-                $this->dispatchNow(new SetApplicationDomain());
-
-                /*
-                 * Do this after addons are registered
-                 * so that they can override named routes.
-                 */
-                $this->dispatchNow(new IncludeRoutes());
-
-                $events->dispatch(new Ready());
             }
         );
+
+        $manager->register();
+
+        // Set the timezone for PHP.
+        date_default_timezone_set(config('app.timezone'));
+
+        /*
+         * Do this after addons are registered
+         * so that they can override named routes.
+         */
+        $this->dispatchNow(new IncludeRoutes());
+
+        $this->dispatchNow(new LoadCurrentTheme());
+        $this->dispatchNow(new AddViewNamespaces());
+        $this->dispatchNow(new SetApplicationDomain());
+
+        /*
+         * Do this after addons are registered
+         * so that they can override named routes.
+         */
+        $this->dispatchNow(new IncludeRoutes());
+
+        $events->dispatch(new Ready());
 
         /**
          * Fire this last cause it causes some

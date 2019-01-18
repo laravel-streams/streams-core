@@ -1328,7 +1328,7 @@ class Image
             return;
         }
 
-        if (array_pop($arguments) == true) {
+        if (array_pop($arguments) !== false) {
             $arguments[] = function (Constraint $constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
