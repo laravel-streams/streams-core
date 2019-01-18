@@ -219,6 +219,10 @@ class StreamsServiceProvider extends ServiceProvider
         EloquentModel::observe(EloquentObserver::class);
         AssignmentModel::observe(AssignmentObserver::class);
 
+        /**
+         * Boot event is used to help scheduler
+         * and artisan command registering.
+         */
         $this->app->booted(
             function () use ($events) {
 
