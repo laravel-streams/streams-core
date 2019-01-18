@@ -1,9 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Container\Container;
 
+/**
+ * Class GetTableEntries
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class GetTableEntries
 {
 
@@ -39,6 +47,17 @@ class GetTableEntries
          */
         if (is_string($entries) || $entries instanceof \Closure) {
             $container->call($entries, ['builder' => $this->builder], 'handle');
+        }
+
+        /**
+         * If the builder already has a collection
+         * of entries set on it then use those.
+         */
+        if ($entries instanceof Collection) {
+
+            $this->builder->setTableEntries($entries);
+
+            return;
         }
 
         $entries = $this->builder->getTableEntries();
