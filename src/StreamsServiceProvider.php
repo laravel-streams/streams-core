@@ -389,6 +389,23 @@ class StreamsServiceProvider extends ServiceProvider
         }
 
         /**
+         * Cache a couple files we may use heavily.
+         */
+        $this->app->singleton(
+            'composer.json',
+            function () {
+                return json_decode(file_get_contents(base_path('composer.json')), true);
+            }
+        );
+
+        $this->app->singleton(
+            'composer.lock',
+            function () {
+                return json_decode(file_get_contents(base_path('composer.lock')), true);
+            }
+        );
+
+        /**
          * Correct path for Paginator.
          */
         Paginator::currentPathResolver(
