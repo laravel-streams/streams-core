@@ -61,7 +61,7 @@ class FieldModel extends EloquentModel implements FieldInterface
      *
      * @var int
      */
-    protected $cacheMinutes = 99999;
+    protected $cacheMinutes = 0;
 
     /**
      * The foreign key for translations.

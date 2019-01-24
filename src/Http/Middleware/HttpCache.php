@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Closure;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Route;
@@ -74,6 +75,13 @@ class HttpCache
          * And skip the rest.
          */
         if ($request->segment(1) == 'admin') {
+            return $response->setTtl(0);
+        }
+
+        /**
+         * Don't cache if redirect is desired.
+         */
+        if ($response instanceof RedirectResponse) {
             return $response->setTtl(0);
         }
 
