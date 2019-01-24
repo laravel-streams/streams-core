@@ -30,7 +30,7 @@ class ImageMacros
     /**
      * Create a new ImageMacros instance.
      *
-     * @param Container  $container
+     * @param Container $container
      * @param Repository $config
      */
     public function __construct(Repository $config, Container $container)
@@ -43,12 +43,14 @@ class ImageMacros
      * Run a macro.
      *
      * @param             $macro
-     * @param  Image      $image
+     * @param  Image $image
      * @return Image
      * @throws \Exception
      */
     public function run($macro, Image $image)
     {
+        array_pull($macro, 'description');
+
         if (!$process = array_get($this->getMacros(), $macro)) {
             return $image;
         }
@@ -57,6 +59,10 @@ class ImageMacros
             foreach ($process as $method => $arguments) {
                 $image->addAlteration($method, $arguments);
             }
+        }
+
+        if (is_string($process)) {
+            $this->container->call($process, compact('image', 'macro'), 'handle');
         }
 
         if ($process instanceof \Closure) {
