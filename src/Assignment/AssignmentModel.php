@@ -18,6 +18,13 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
 {
 
     /**
+     * The cache minutes.
+     *
+     * @var int
+     */
+    protected $ttl = 0;
+
+    /**
      * Do not use timestamps.
      *
      * @var bool
@@ -43,13 +50,6 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
     protected $attributes = [
         'config' => 'a:0:{}',
     ];
-
-    /**
-     * The cache minutes.
-     *
-     * @var int
-     */
-    protected $cacheMinutes = 0;
 
     /**
      * The foreign key for translations.
