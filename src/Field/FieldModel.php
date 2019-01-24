@@ -21,6 +21,20 @@ class FieldModel extends EloquentModel implements FieldInterface
 {
 
     /**
+     * The cache minutes.
+     *
+     * @var int
+     */
+    protected $ttl = 0;
+
+    /**
+     * Do not use timestamps.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * Eager loaded relations.
      *
      * @var array
@@ -41,13 +55,6 @@ class FieldModel extends EloquentModel implements FieldInterface
     ];
 
     /**
-     * Do not use timestamps.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
      * Default attributes.
      *
      * @var array
@@ -55,13 +62,6 @@ class FieldModel extends EloquentModel implements FieldInterface
     protected $attributes = [
         'config' => 'a:0:{}',
     ];
-
-    /**
-     * The cache minutes.
-     *
-     * @var int
-     */
-    protected $cacheMinutes = 0;
 
     /**
      * The foreign key for translations.
