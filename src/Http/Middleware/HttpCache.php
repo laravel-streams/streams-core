@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Closure;
-use Illuminate\Contracts\Config\Repository;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Route;
@@ -30,13 +30,6 @@ class HttpCache
     ];
 
     /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
-
-    /**
      * The session store.
      *
      * @var Store
@@ -53,13 +46,11 @@ class HttpCache
     /**
      * Create a new PoweredBy instance.
      *
-     * @param Store      $session
-     * @param Repository $config
+     * @param Store $session
      * @param MessageBag $messages
      */
-    public function __construct(Store $session, Repository $config, MessageBag $messages)
+    public function __construct(Store $session, MessageBag $messages)
     {
-        $this->config   = $config;
         $this->session  = $session;
         $this->messages = $messages;
     }
@@ -67,7 +58,7 @@ class HttpCache
     /**
      * Say it loud.
      *
-     * @param  Request  $request
+     * @param  Request $request
      * @param  \Closure $next
      * @return mixed
      */
@@ -84,6 +75,13 @@ class HttpCache
          * And skip the rest.
          */
         if ($request->segment(1) == 'admin') {
+            return $response->setTtl(0);
+        }
+
+        /**
+         * Don't cache if redirect is desired.
+         */
+        if ($response instanceof RedirectResponse) {
             return $response->setTtl(0);
         }
 
@@ -107,14 +105,14 @@ class HttpCache
          * Don't cache if HTTP cache
          * is disabled in the system.
          */
-        if ($this->config->get('streams::httpcache.enabled', false) === false) {
+        if (config('streams::httpcache.enabled', false) === false) {
             return $response->setTtl(0);
         }
 
         /**
          * Don't let BOTs generate cache files.
          */
-        if (!$this->config->get('streams::httpcache.allow_bots', false) === false) {
+        if (!config('streams::httpcache.allow_bots', false) === false) {
             return $response->setTtl(0);
         }
 
@@ -138,13 +136,13 @@ class HttpCache
         /**
          * Determine the default TTL value.
          */
-        $default = $route->getAction('streams::http_cache') ?: $this->config->get('streams::httpcache.ttl', 3600);
+        $default = $route->getAction('streams::http_cache') ?: config('streams::httpcache.ttl', 3600);
 
         /**
          * Exclude these paths from caching
          * based on partial / exact URI.
          */
-        $excluded = $this->config->get('streams::httpcache.excluded', []);
+        $excluded = config('streams::httpcache.excluded', []);
 
         if (is_string($excluded)) {
             $excluded = array_map(
@@ -168,7 +166,7 @@ class HttpCache
          * Define timeout rules based on
          * partial / exact URI matching.
          */
-        $rules = $this->config->get('streams::httpcache.rules', []);
+        $rules = config('streams::httpcache.rules', []);
 
         if (is_string($rules)) {
             $rules = array_map(
