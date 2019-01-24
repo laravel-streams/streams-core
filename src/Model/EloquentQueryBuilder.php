@@ -1,10 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\PostsModule\Post\PostModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Database\Eloquent\Builder;
@@ -99,7 +97,7 @@ class EloquentQueryBuilder extends Builder
          * we are not installed or
          * if we're running CLI.
          */
-        if (!env('INSTALLED') || PHP_SAPI == 'cli') {
+        if (!$ttl && !env('INSTALLED') || PHP_SAPI == 'cli') {
             return parent::get($columns);
         }
 
@@ -322,7 +320,7 @@ class EloquentQueryBuilder extends Builder
      * Add hookable catch to the query builder system.
      *
      * @param string $method
-     * @param array  $parameters
+     * @param array $parameters
      * @return mixed
      */
     public function __call($method, $parameters)

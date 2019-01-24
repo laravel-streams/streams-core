@@ -49,7 +49,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
      *
      * @var int
      */
-    protected $cacheMinutes = 99999;
+    protected $cacheMinutes = 0;
 
     /**
      * The foreign key for translations.
