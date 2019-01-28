@@ -269,7 +269,7 @@ class TreeBuilder
      */
     public function getOption($key, $default = null)
     {
-        return array_value($this->options, $key, $default);
+        return array_get($this->options, $key, $default);
     }
 
     /**
@@ -481,6 +481,6 @@ class TreeBuilder
      */
     public function getRequestValue($key, $default = null)
     {
-        return array_value($_REQUEST, $this->getOption('prefix') . $key, $default);
+        return array_get($_REQUEST, $this->getOption('prefix') . $key, $default);
     }
 }

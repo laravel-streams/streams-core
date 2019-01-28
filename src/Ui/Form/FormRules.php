@@ -46,7 +46,7 @@ class FormRules
 
                 $rules[$field->getInputName()] = array_merge(
                     array_unique($fieldRules),
-                    array_value($rules, $field->getInputName(), [])
+                    array_get($rules, $field->getInputName(), [])
                 );
 
                 continue;
@@ -78,7 +78,7 @@ class FormRules
 
             $rules[$field->getInputName()] = array_merge(
                 array_unique($fieldRules),
-                array_value($rules, $field->getInputName(), [])
+                array_get($rules, $field->getInputName(), [])
             );
         }
 

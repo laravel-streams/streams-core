@@ -49,7 +49,7 @@ class AssetFilters
             /**
              * Transform filters.
              */
-            if ($class = array_value($this->filters, $filter)) {
+            if ($class = array_get($this->filters, $filter)) {
                 $filter = new $class;
             }
         }

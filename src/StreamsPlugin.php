@@ -324,9 +324,9 @@ class StreamsPlugin extends Plugin
 
                     if (count($arguments) >= 2) {
                         $arguments = [
-                            'namespace' => array_value(func_get_args(), 0),
-                            'stream'    => array_value(func_get_args(), 1),
-                            'entry'     => array_value(func_get_args(), 2),
+                            'namespace' => array_get(func_get_args(), 0),
+                            'stream'    => array_get(func_get_args(), 1),
+                            'entry'     => array_get(func_get_args(), 2),
                         ];
                     }
 
@@ -555,7 +555,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'cookie',
                 function ($key, $default = null) {
-                    return array_value($_COOKIE, $key, $default);
+                    return array_get($_COOKIE, $key, $default);
                 }
             ),
             new \Twig_SimpleFunction('input_get', [$this->request, 'input']),

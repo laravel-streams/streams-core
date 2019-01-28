@@ -58,7 +58,7 @@ class ButtonNormalizer
             /*
              * Make sure some default parameters exist.
              */
-            $button['attributes'] = array_value($button, 'attributes', []);
+            $button['attributes'] = array_get($button, 'attributes', []);
 
             /*
              * Move the HREF if any to the attributes.
@@ -109,7 +109,7 @@ class ButtonNormalizer
                     }
 
                     // Make sure we have attributes.
-                    $dropdown['attributes'] = array_value($dropdown, 'attributes', []);
+                    $dropdown['attributes'] = array_get($dropdown, 'attributes', []);
 
                     // Move the HREF if any to the attributes.
                     if (isset($dropdown['href'])) {

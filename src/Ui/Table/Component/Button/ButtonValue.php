@@ -39,7 +39,7 @@ class ButtonValue
      */
     public function replace(array $button, $entry)
     {
-        $enabled = array_value($button, 'enabled');
+        $enabled = array_get($button, 'enabled');
 
         if (is_string($enabled)) {
             $enabled = filter_var($this->value->make($enabled, $entry), FILTER_VALIDATE_BOOLEAN);

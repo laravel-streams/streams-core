@@ -66,7 +66,7 @@ class ButtonNormalizer
         /*
          * Make sure some default parameters exist.
          */
-        $button['attributes'] = array_value($button, 'attributes', []);
+        $button['attributes'] = array_get($button, 'attributes', []);
 
         /*
          * Move the HREF if any to the attributes.

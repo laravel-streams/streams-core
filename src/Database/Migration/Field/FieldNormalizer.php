@@ -34,8 +34,8 @@ class FieldNormalizer
                 $field = ['type' => $field];
             }
 
-            $field['slug']      = array_value($field, 'slug', $slug);
-            $field['namespace'] = array_value($field, 'namespace', $migration->contextualNamespace());
+            $field['slug']      = array_get($field, 'slug', $slug);
+            $field['namespace'] = array_get($field, 'namespace', $migration->contextualNamespace());
 
             if (!isset($field['type'])) {
                 throw new \Exception("The [type] parameter must be defined for \"{$field['slug']}\".");

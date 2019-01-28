@@ -69,8 +69,8 @@ class AssignmentMigrator
         $assignments = $migration->getAssignments();
 
         $stream = $this->streams->findBySlugAndNamespace(
-            array_value($stream, 'slug'),
-            array_value($stream, 'namespace')
+            array_get($stream, 'slug'),
+            array_get($stream, 'namespace')
         );
 
         if (!$stream) {
@@ -78,7 +78,7 @@ class AssignmentMigrator
         }
 
         foreach ($assignments as $assignment) {
-            $namespace = array_value($assignment, 'namespace', $stream->getNamespace());
+            $namespace = array_get($assignment, 'namespace', $stream->getNamespace());
 
             /*
              * Make sure that we can find the
@@ -127,8 +127,8 @@ class AssignmentMigrator
         $assignments = $migration->getAssignments();
 
         $stream = $this->streams->findBySlugAndNamespace(
-            array_value($stream, 'slug'),
-            array_value($stream, 'namespace')
+            array_get($stream, 'slug'),
+            array_get($stream, 'namespace')
         );
 
         if (!$stream) {

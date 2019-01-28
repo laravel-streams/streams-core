@@ -56,8 +56,8 @@ class SectionNormalizer
                         $child = ['slug' => $child];
                     }
 
-                    $child['parent'] = array_value($section, 'slug', $slug);
-                    $child['slug']   = array_value($child, 'slug', $key);
+                    $child['parent'] = array_get($section, 'slug', $slug);
+                    $child['slug']   = array_get($child, 'slug', $key);
 
                     $sections[$key] = $child;
                 }
@@ -91,7 +91,7 @@ class SectionNormalizer
             /*
              * Make sure we have attributes.
              */
-            $section['attributes'] = array_value($section, 'attributes', []);
+            $section['attributes'] = array_get($section, 'attributes', []);
 
             /*
              * Move the HREF into attributes.

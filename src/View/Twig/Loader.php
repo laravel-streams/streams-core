@@ -195,9 +195,9 @@ class Loader extends OriginalLoader
 
         $name = str_replace('theme::', $this->theme->getNamespace() . '::', $name);
 
-        if ($this->mobile && $path = array_value($mobile, $name)) {
+        if ($this->mobile && $path = array_get($mobile, $name)) {
             $result = $path;
-        } elseif ($path = array_value($overrides, $name)) {
+        } elseif ($path = array_get($overrides, $name)) {
             $result = $path;
         }
 
@@ -205,11 +205,11 @@ class Loader extends OriginalLoader
             $mobile    = $this->mobiles->get($this->module->getNamespace(), []);
             $overrides = $this->overrides->get($this->module->getNamespace(), []);
 
-            if ($this->mobile && $path = array_value($mobile, $name)) {
+            if ($this->mobile && $path = array_get($mobile, $name)) {
                 $result = $path;
-            } elseif ($path = array_value($overrides, $name)) {
+            } elseif ($path = array_get($overrides, $name)) {
                 $result = $path;
-            } elseif ($path = array_value(config('streams.overrides'), $name)) {
+            } elseif ($path = array_get(config('streams.overrides'), $name)) {
                 $result = $path;
             }
         }
@@ -251,7 +251,7 @@ class Loader extends OriginalLoader
          * it's real easy to guess what the
          * override path should be.
          */
-        $disabled = array_value(self::$disabled, 'theme::streams');
+        $disabled = array_get(self::$disabled, 'theme::streams');
 
         if ($disabled === null) {
             self::$disabled['theme::streams'] = $disabled = !$this->files->isDirectory(
@@ -267,7 +267,7 @@ class Loader extends OriginalLoader
          * If the view uses a dot syntax namespace then
          * transform it all into the override view path.
          */
-        $disabled = array_value(self::$disabled, 'theme::addons');
+        $disabled = array_get(self::$disabled, 'theme::addons');
 
         if ($disabled === null) {
             self::$disabled['theme::addons'] = $disabled = !$this->files->isDirectory(
@@ -303,7 +303,7 @@ class Loader extends OriginalLoader
 
         $name = $this->normalizeName($name);
 
-        if ($cached = array_value($this->cache, $name)) {
+        if ($cached = array_get($this->cache, $name)) {
             return $cached;
         }
 
@@ -319,7 +319,7 @@ class Loader extends OriginalLoader
             throw new \Twig_Error_Loader($e->getMessage());
         }
 
-        return array_value($this->cache, $name);
+        return array_get($this->cache, $name);
     }
 
 }

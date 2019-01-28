@@ -170,7 +170,7 @@ class ViewComposer
         /**
          * If view path is already in internal cache use it.
          */
-        if ($path = array_value($this->cache, $view->getName())) {
+        if ($path = array_get($this->cache, $view->getName())) {
 
             $view->setPath($path);
 
@@ -195,9 +195,9 @@ class ViewComposer
 
         $name = str_replace('theme::', $this->theme->getNamespace() . '::', $view->getName());
 
-        if ($this->mobile && $path = array_value($mobile, $name, null)) {
+        if ($this->mobile && $path = array_get($mobile, $name, null)) {
             $view->setPath($path);
-        } elseif ($path = array_value($overrides, $name, null)) {
+        } elseif ($path = array_get($overrides, $name, null)) {
             $view->setPath($path);
         }
 
@@ -206,11 +206,11 @@ class ViewComposer
             $mobile    = $this->mobiles->get($this->module->getNamespace(), []);
             $overrides = $this->overrides->get($this->module->getNamespace(), []);
 
-            if ($this->mobile && $path = array_value($mobile, $view->getName(), null)) {
+            if ($this->mobile && $path = array_get($mobile, $view->getName(), null)) {
                 $view->setPath($path);
-            } elseif ($path = array_value($overrides, $view->getName(), null)) {
+            } elseif ($path = array_get($overrides, $view->getName(), null)) {
                 $view->setPath($path);
-            } elseif ($path = array_value(config('streams.overrides'), $view->getName(), null)) {
+            } elseif ($path = array_get(config('streams.overrides'), $view->getName(), null)) {
                 $view->setPath($path);
             }
         }

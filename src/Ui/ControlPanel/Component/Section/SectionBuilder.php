@@ -61,7 +61,7 @@ class SectionBuilder
 
         foreach ($builder->getSections() as $section) {
 
-            if (!$this->authorizer->authorize(array_value($section, 'permission'))) {
+            if (!$this->authorizer->authorize(array_get($section, 'permission'))) {
                 continue;
             }
 

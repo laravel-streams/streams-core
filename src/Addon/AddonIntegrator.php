@@ -150,7 +150,7 @@ class AddonIntegrator
         $this->configurator->addNamespace($addon->getNamespace(), $addon->getPath('resources/config'));
 
         // Load system overrides.
-        $disabled = array_value(self::$disabled, 'system::addons');
+        $disabled = array_get(self::$disabled, 'system::addons');
 
         if ($disabled === null) {
             self::$disabled['system::addons'] = $disabled = !app('files')->isDirectory(base_path('resources/addons'));
@@ -169,7 +169,7 @@ class AddonIntegrator
         }
 
         // Load application overrides.
-        $disabled = array_value(self::$disabled, 'application::addons');
+        $disabled = array_get(self::$disabled, 'application::addons');
 
         if ($disabled === null) {
             self::$disabled['application::addons'] = $disabled = !app('files')->isDirectory(

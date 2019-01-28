@@ -166,7 +166,7 @@ class IconRegistry
      */
     public function get($icon)
     {
-        return array_value($this->icons, $icon, $icon);
+        return array_get($this->icons, $icon, $icon);
     }
 
     /**

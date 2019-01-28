@@ -116,7 +116,7 @@ class ButtonNormalizer
         /*
          * Use small buttons for tables.
          */
-        $button['size'] = array_value($button, 'size', 'sm');
+        $button['size'] = array_get($button, 'size', 'sm');
 
         if (isset($button['dropdown'])) {
             foreach ($button['dropdown'] as $key => &$dropdown) {

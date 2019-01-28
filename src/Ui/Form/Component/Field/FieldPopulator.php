@@ -63,7 +63,7 @@ class FieldPopulator
              */
             if (!isset($field['value']) && $entry instanceof EloquentModel && $entry->getId()) {
 
-                $locale = array_value($field, 'locale');
+                $locale = array_get($field, 'locale');
 
                 if ($locale && $translation = $entry->translate($locale)) {
                     $field['value'] = $translation->getAttribute($field['field']);
@@ -98,7 +98,7 @@ class FieldPopulator
                     $field['field']
                 )
             ) {
-                $field['value'] = array_value($type->getConfig(), 'default_value');
+                $field['value'] = array_get($type->getConfig(), 'default_value');
             }
 
             /*

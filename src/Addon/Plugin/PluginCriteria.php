@@ -102,7 +102,7 @@ class PluginCriteria
      */
     public function option($key, $default = null)
     {
-        return array_value($this->options, $key, $default);
+        return array_get($this->options, $key, $default);
     }
 
     /**
@@ -194,7 +194,7 @@ class PluginCriteria
      */
     public function getCacheKey()
     {
-        $key = array_value(
+        $key = array_get(
             $this->options,
             'cache.key',
             $this->getCachePrefix() . '.'
@@ -202,7 +202,7 @@ class PluginCriteria
             . md5(json_encode($this->options))
         );
 
-        $namespace = array_value($this->options, 'cache.namespace');
+        $namespace = array_get($this->options, 'cache.namespace');
 
         if ($namespace == 'user') {
             $key .= auth()->id();
@@ -247,7 +247,7 @@ class PluginCriteria
      */
     public function getCacheTtl()
     {
-        return array_value($this->collection, 'ttl', 60 * 24 * 7);
+        return array_get($this->collection, 'ttl', 60 * 24 * 7);
     }
 
     /**

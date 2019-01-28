@@ -45,7 +45,7 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
         array_set(
             $attributes,
             'sort_order',
-            array_value(
+            array_get(
                 $attributes,
                 'sort_order',
                 $this->model->count('id') + 1

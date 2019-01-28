@@ -47,8 +47,8 @@ class RollbackAssignments
         $addon  = $this->migration->getAddon();
         $stream = $this->migration->getStream();
 
-        $namespace = array_value($stream, 'namespace', $this->migration->getNamespace());
-        $slug      = array_value($stream, 'slug', $addon ? $addon->getSlug() : null);
+        $namespace = array_get($stream, 'namespace', $this->migration->getNamespace());
+        $slug      = array_get($stream, 'slug', $addon ? $addon->getSlug() : null);
 
         $stream = $streams->findBySlugAndNamespace($slug, $namespace);
 

@@ -40,7 +40,7 @@ class SectionNormalizer
             /*
              * Make sure some default parameters exist.
              */
-            $section['attributes'] = array_value($section, 'attributes', []);
+            $section['attributes'] = array_get($section, 'attributes', []);
 
             /*
              * Move all data-* keys

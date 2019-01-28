@@ -55,7 +55,7 @@ class PermissionGuesser
             /*
              * Try and guess the permission value.
              */
-            switch (array_value($button, 'button')) {
+            switch (array_get($button, 'button')) {
 
                 case 'edit':
                     $button['permission'] = $module->getNamespace($stream->getSlug() . '.write');
@@ -63,7 +63,7 @@ class PermissionGuesser
 
                 default:
                     $button['permission'] = $module->getNamespace(
-                        $stream->getSlug() . '.' . array_value($button, 'slug')
+                        $stream->getSlug() . '.' . array_get($button, 'slug')
                     );
                     break;
             }

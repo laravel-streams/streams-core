@@ -116,7 +116,7 @@ class Loader extends FileLoader
      */
     protected function loadSystemOverrides(array $lines, $locale, $group, $namespace = null)
     {
-        $disabled = array_value(self::$disabled, $key = 'system::streams', false);
+        $disabled = array_get(self::$disabled, $key = 'system::streams', false);
 
         if (!$disabled && !$this->files->isDirectory(base_path("resources/streams/lang"))) {
             self::$disabled[$key] = $disabled = true;
@@ -131,7 +131,7 @@ class Loader extends FileLoader
             }
         }
 
-        $disabled = array_value(self::$disabled, $key = 'system::addons', false);
+        $disabled = array_get(self::$disabled, $key = 'system::addons', false);
 
         if (!$disabled && !$this->files->isDirectory(base_path("resources/addons"))) {
             self::$disabled[$key] = $disabled = true;
@@ -162,7 +162,7 @@ class Loader extends FileLoader
      */
     protected function loadApplicationOverrides(array $lines, $locale, $group, $namespace = null)
     {
-        $disabled = array_value(self::$disabled, $key = 'application::streams', false);
+        $disabled = array_get(self::$disabled, $key = 'application::streams', false);
 
         if (!$disabled && !$this->files->isDirectory($this->application->getResourcesPath("streams/lang"))) {
             self::$disabled[$key] = $disabled = true;
@@ -209,7 +209,7 @@ class Loader extends FileLoader
         /** @var Addon $addon */
         foreach ($this->addons->enabled() as $addon) {
 
-            $disabled = array_value(self::$disabled, $key = $addon->getNamespace('streams'), false);
+            $disabled = array_get(self::$disabled, $key = $addon->getNamespace('streams'), false);
 
             if (!$disabled && !$this->files->isDirectory($addon->getPath('resources/streams'))) {
                 self::$disabled[$key] = $disabled = true;
@@ -224,7 +224,7 @@ class Loader extends FileLoader
                 }
             }
 
-            $disabled = array_value(self::$disabled, $key = $addon->getNamespace('addons'), false);
+            $disabled = array_get(self::$disabled, $key = $addon->getNamespace('addons'), false);
 
             if (!$disabled && !$this->files->isDirectory($addon->getPath('resources/addons'))) {
                 self::$disabled[$key] = $disabled = true;

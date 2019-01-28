@@ -79,7 +79,7 @@ trait FiresCallbacks
 
         foreach (array_keys($classes) as $caller) {
 
-            foreach (array_value(self::$listeners, $caller . '::' . $trigger, []) as $callback) {
+            foreach (array_get(self::$listeners, $caller . '::' . $trigger, []) as $callback) {
 
                 if (is_string($callback) || $callback instanceof \Closure) {
                     app()->call($callback, $parameters);
@@ -105,7 +105,7 @@ trait FiresCallbacks
          * Finally, run through all of
          * the registered callbacks.
          */
-        foreach (array_value($this->callbacks, $trigger, []) as $callback) {
+        foreach (array_get($this->callbacks, $trigger, []) as $callback) {
 
             if (is_string($callback) || $callback instanceof \Closure) {
                 app()->call($callback, $parameters);

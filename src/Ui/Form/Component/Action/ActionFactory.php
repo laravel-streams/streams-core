@@ -48,7 +48,7 @@ class ActionFactory
      */
     public function make(array $parameters)
     {
-        $action = $this->container->make(array_value($parameters, 'action', Action::class), $parameters);
+        $action = $this->container->make(array_get($parameters, 'action', Action::class), $parameters);
 
         $this->hydrator->hydrate($action, $parameters);
 

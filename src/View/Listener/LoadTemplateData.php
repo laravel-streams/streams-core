@@ -70,7 +70,7 @@ class LoadTemplateData
     {
         $view = $event->getView();
 
-        if (array_value($view->getData(), 'template')) {
+        if (array_get($view->getData(), 'template')) {
             return;
         }
 

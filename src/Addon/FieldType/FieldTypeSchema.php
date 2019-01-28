@@ -106,7 +106,7 @@ class FieldTypeSchema
         $column->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true);
 
         if (!str_contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
-            $column->default(array_value($this->fieldType->getConfig(), 'default_value'));
+            $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
         }
 
         // Mark the column unique if it's unique AND not translatable.
@@ -154,7 +154,7 @@ class FieldTypeSchema
         $column->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true)->change();
 
         if (!str_contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
-            $column->default(array_value($this->fieldType->getConfig(), 'default_value'));
+            $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
         }
 
         /*
@@ -246,7 +246,7 @@ class FieldTypeSchema
         $column->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true)->change();
 
         if (!str_contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
-            $column->default(array_value($this->fieldType->getConfig(), 'default_value'));
+            $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
         }
 
         /*

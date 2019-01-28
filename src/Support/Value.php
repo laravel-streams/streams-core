@@ -94,19 +94,19 @@ class Value
             ];
         }
 
-        $value = array_value($parameters, 'value');
+        $value = array_get($parameters, 'value');
 
         /*
          * If the value is a view path then return a view.
          */
-        if ($view = array_value($parameters, 'view')) {
+        if ($view = array_get($parameters, 'view')) {
             return view($view, ['value' => $value, $term => $entry]);
         }
 
         /*
          * If the value uses a template then parse it.
          */
-        if ($template = array_value($parameters, 'template')) {
+        if ($template = array_get($parameters, 'template')) {
             return $this->template->render($template, ['value' => $value, $term => $entry]);
         }
 
@@ -160,7 +160,7 @@ class Value
         /*
          * Parse the value with the entry.
          */
-        if ($wrapper = array_value($parameters, 'wrapper')) {
+        if ($wrapper = array_get($parameters, 'wrapper')) {
             $value = $this->parser->parse(
                 $wrapper,
                 ['value' => $value, $term => $entry]
@@ -196,7 +196,7 @@ class Value
             $value = $this->template->render($value, [$term => $entry]);
         }
 
-        if (array_value($parameters, 'is_safe') !== true) {
+        if (array_get($parameters, 'is_safe') !== true) {
             $value = $this->purifier->purify($value);
         }
 

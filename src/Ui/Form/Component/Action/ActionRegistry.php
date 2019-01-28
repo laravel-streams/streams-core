@@ -54,7 +54,7 @@ class ActionRegistry
             return null;
         }
 
-        return array_value($this->actions, $action);
+        return array_get($this->actions, $action);
     }
 
     /**

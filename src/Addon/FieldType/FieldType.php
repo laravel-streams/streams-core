@@ -261,7 +261,7 @@ class FieldType extends Addon
      */
     public function config($key, $default = null)
     {
-        return array_value($this->config, $key, $default);
+        return array_get($this->config, $key, $default);
     }
 
     /**
@@ -450,7 +450,7 @@ class FieldType extends Addon
      */
     public function configGet($key, $default = null)
     {
-        return array_value($this->config, $key, $default);
+        return array_get($this->config, $key, $default);
     }
 
     /**
@@ -556,7 +556,7 @@ class FieldType extends Addon
      */
     public function getPostValue($default = null)
     {
-        $value = array_value($_POST, $this->getInputName(), $default);
+        $value = array_get($_POST, $this->getInputName(), $default);
 
         if ($value == '') {
             $value = null;

@@ -47,7 +47,7 @@ class ImageMacros
      */
     public function run($macro, Image $image)
     {
-        if (!$process = array_value($this->getMacros(), $macro)) {
+        if (!$process = array_get($this->getMacros(), $macro)) {
             return $image;
         }
 

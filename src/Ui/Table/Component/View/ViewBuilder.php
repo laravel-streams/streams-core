@@ -54,7 +54,7 @@ class ViewBuilder
         }
 
         foreach ($builder->getViews() as $view) {
-            if (array_value($view, 'enabled', true)) {
+            if (array_get($view, 'enabled', true)) {
                 $table->addView($this->factory->make($view));
             }
         }

@@ -45,7 +45,7 @@ class ColumnFactory
      */
     public function make(array $parameters)
     {
-        $column = app()->make(array_value($parameters, 'column', $this->column), $parameters);
+        $column = app()->make(array_get($parameters, 'column', $this->column), $parameters);
 
         $this->hydrator->hydrate($column, $parameters);
 

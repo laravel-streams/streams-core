@@ -75,7 +75,7 @@ class ButtonBuilder
         $this->input->read($builder, $entry);
 
         foreach ($builder->getButtons() as $button) {
-            if (!array_value($button, 'enabled', true)) {
+            if (!array_get($button, 'enabled', true)) {
                 continue;
             }
 

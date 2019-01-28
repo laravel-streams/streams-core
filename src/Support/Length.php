@@ -48,7 +48,7 @@ class Length
             $unit   = $parts[1];
         }
 
-        if (!$multiplier = array_value($this->units, strtolower($unit))) {
+        if (!$multiplier = array_get($this->units, strtolower($unit))) {
             throw new \Exception("Invalid unit [{$unit}] provided.");
         }
 
@@ -64,7 +64,7 @@ class Length
      */
     public function to($unit)
     {
-        if (!$multiplier = array_value($this->units, strtolower($unit))) {
+        if (!$multiplier = array_get($this->units, strtolower($unit))) {
             throw new \Exception("Invalid unit [{$unit}] provided.");
         }
 

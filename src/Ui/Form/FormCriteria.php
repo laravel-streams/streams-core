@@ -128,7 +128,7 @@ class FormCriteria
         array_set(
             $this->parameters,
             'options.breadcrumb',
-            array_value(
+            array_get(
                 $this->parameters,
                 'options.breadcrumb',
                 false
@@ -147,22 +147,22 @@ class FormCriteria
         array_set(
             $this->parameters,
             'options.url',
-            array_value(
+            array_get(
                 $this->parameters,
                 'options.url',
-                $this->url->to($this->builder->getOption('url', 'form/handle/' . array_value($this->parameters, 'key')))
+                $this->url->to($this->builder->getOption('url', 'form/handle/' . array_get($this->parameters, 'key')))
             )
         );
 
         $this->cache->remember(
-            'form::' . array_value($this->parameters, 'key'),
+            'form::' . array_get($this->parameters, 'key'),
             1440,
             function () {
                 return $this->parameters;
             }
         );
 
-        if (is_array(array_value($this->parameters, 'options'))) {
+        if (is_array(array_get($this->parameters, 'options'))) {
             foreach (array_pull($this->parameters, 'options') as $key => $value) {
                 $this->builder->setOption($key, $value);
             }

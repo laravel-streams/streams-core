@@ -25,7 +25,7 @@ class InstructionsGuesser
         $stream = $builder->getFormStream();
 
         foreach ($fields as &$field) {
-            $locale = array_value($field, 'locale');
+            $locale = array_get($field, 'locale');
 
             /*
              * If the instructions are already set then use it.

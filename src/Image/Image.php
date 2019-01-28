@@ -377,7 +377,7 @@ class Image
 
         if (!$alt && config('streams::images.auto_alt', true)) {
 
-            $attributes['alt'] = array_value(
+            $attributes['alt'] = array_get(
                 $this->getAttributes(),
                 'alt',
                 ucwords(

@@ -98,7 +98,7 @@ class RedirectGuesser
             }
 
             // Determine the HREF based on the action type.
-            switch (array_value($action, 'action')) {
+            switch (array_get($action, 'action')) {
 
                 case 'save':
                 case 'submit':

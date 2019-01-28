@@ -323,6 +323,6 @@ class NavigationLink implements NavigationLinkInterface
      */
     public function getHref($path = null)
     {
-        return array_value($this->attributes, 'href') . ($path ? '/' . $path : $path);
+        return array_get($this->attributes, 'href') . ($path ? '/' . $path : $path);
     }
 }

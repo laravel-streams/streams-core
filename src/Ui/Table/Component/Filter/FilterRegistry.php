@@ -60,7 +60,7 @@ class FilterRegistry
      */
     public function get($filter)
     {
-        return array_value($this->filters, $filter);
+        return array_get($this->filters, $filter);
     }
 
     /**

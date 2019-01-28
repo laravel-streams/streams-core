@@ -71,7 +71,7 @@ class HrefGuesser
                 continue;
             }
 
-            switch (array_value($button, 'button')) {
+            switch (array_get($button, 'button')) {
 
                 case 'cancel':
                     $button['attributes']['href'] = $section->getHref();
@@ -84,7 +84,7 @@ class HrefGuesser
                 default:
 
                     // Determine the HREF based on the button type.
-                    $type = array_value($button, 'segment', array_value($button, 'button'));
+                    $type = array_get($button, 'segment', array_get($button, 'button'));
 
                     if ($type && !str_contains($type, '\\') && !class_exists($type)) {
                         if ($builder instanceof MultipleFormBuilder) {

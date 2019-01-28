@@ -20,8 +20,8 @@ class StreamNormalizer
             ];
         }
 
-        $stream['slug']      = array_value($stream, 'slug', $migration->contextualNamespace());
-        $stream['namespace'] = array_value($stream, 'namespace', $migration->contextualNamespace());
+        $stream['slug']      = array_get($stream, 'slug', $migration->contextualNamespace());
+        $stream['namespace'] = array_get($stream, 'namespace', $migration->contextualNamespace());
         
         $migration->setStream($stream);
     }

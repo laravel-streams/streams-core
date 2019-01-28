@@ -37,11 +37,11 @@ class TranslationGuesser
 
         foreach ($fields as &$field) {
             foreach (['name', 'warning', 'instructions', 'placeholder'] as $key) {
-                if (is_null(array_value($field, $locale . '.' . $key))) {
+                if (is_null(array_get($field, $locale . '.' . $key))) {
                     $field = array_add(
                         $field,
                         $locale . '.' . $key,
-                        $addon->getNamespace('field.' . array_value($field, 'slug') . '.' . $key)
+                        $addon->getNamespace('field.' . array_get($field, 'slug') . '.' . $key)
                     );
                 }
             }

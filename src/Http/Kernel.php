@@ -80,17 +80,17 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
 
         $config = require base_path('config/streams.php');
 
-        $middleware         = array_value($config, 'middleware', []);
-        $routeMiddleware    = array_value($config, 'route_middleware', []);
-        $middlewareGroups   = array_value($config, 'middleware_groups', []);
-        $middlewarePriority = array_value($config, 'middleware_priority', []);
+        $middleware         = array_get($config, 'middleware', []);
+        $routeMiddleware    = array_get($config, 'route_middleware', []);
+        $middlewareGroups   = array_get($config, 'middleware_groups', []);
+        $middlewarePriority = array_get($config, 'middleware_priority', []);
 
         $this->middleware         = array_merge($this->middleware, $middleware);
         $this->routeMiddleware    = array_merge($this->routeMiddleware, $routeMiddleware);
         $this->middlewareGroups   = array_merge($this->middlewareGroups, $middlewareGroups);
         $this->middlewarePriority = array_merge($this->middlewarePriority, $middlewarePriority);
 
-        define('IS_ADMIN', starts_with(array_value($_SERVER, 'REQUEST_URI', ''), '/admin'));
+        define('IS_ADMIN', starts_with(array_get($_SERVER, 'REQUEST_URI', ''), '/admin'));
 
         parent::__construct($app, $router);
     }
@@ -109,7 +109,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
          * Make sure the ORIGINAL_REQUEST_URI is always available
          * Overwrite later as necessary
          */
-        $_SERVER['ORIGINAL_REQUEST_URI'] = array_value($_SERVER, 'REQUEST_URI');
+        $_SERVER['ORIGINAL_REQUEST_URI'] = array_get($_SERVER, 'REQUEST_URI');
 
         /*
          * First grab the supported i18n locales
@@ -121,20 +121,20 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
             $locales = array_replace_recursive($locales, require $override);
         }
 
-        if (!$hint = array_value($locales, 'hint')) {
+        if (!$hint = array_get($locales, 'hint')) {
             return;
         }
 
         /*
          * Check the domain for a locale.
          */
-        $url = parse_url(array_value($_SERVER, 'HTTP_HOST'));
+        $url = parse_url(array_get($_SERVER, 'HTTP_HOST'));
 
         if ($url === false) {
             throw new \Exception('Malformed URL: ' . $url);
         }
 
-        $host = array_value($url, 'host');
+        $host = array_get($url, 'host');
 
         $pattern = '/^(' . implode('|', array_keys($locales['supported'])) . ')(\.)./';
 
@@ -151,7 +151,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
          */
         $pattern = '/^\/(' . implode('|', array_keys($locales['supported'])) . ')(\/|(?:$)|(?=\?))/';
 
-        $uri = array_value($_SERVER, 'REQUEST_URI', filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL));
+        $uri = array_get($_SERVER, 'REQUEST_URI', filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL));
 
         if (($hint === 'uri' || $hint === true) && preg_match($pattern, $uri, $matches)) {
 
@@ -188,7 +188,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
          */
         $pattern = '/^\/(admin)(?=\/?)/';
 
-        $uri = array_value($_SERVER, 'REQUEST_URI', filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL));
+        $uri = array_get($_SERVER, 'REQUEST_URI', filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL));
 
         if (preg_match($pattern, $uri, $matches)) {
             abort(404);
@@ -200,7 +200,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
          */
         $pattern = '/^\/(' . $segment . ')(?=\/?)/';
 
-        $uri = array_value($_SERVER, 'REQUEST_URI', filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL));
+        $uri = array_get($_SERVER, 'REQUEST_URI', filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL));
 
         if (preg_match($pattern, $uri, $matches)) {
 

@@ -78,7 +78,7 @@ class ButtonFactory
      */
     public function make(array $parameters)
     {
-        $button = array_value($parameters, 'button');
+        $button = array_get($parameters, 'button');
 
         if ($button && $registered = $this->buttons->get($button)) {
             $parameters = array_replace_recursive($registered, array_except($parameters, 'button'));
@@ -86,12 +86,12 @@ class ButtonFactory
 
         $parameters = $this->translator->translate($parameters);
 
-        if (!array_value($parameters, 'button') || !class_exists(array_value($parameters, 'button'))) {
+        if (!array_get($parameters, 'button') || !class_exists(array_get($parameters, 'button'))) {
             array_set($parameters, 'button', $this->button);
         }
 
         /* @var ButtonInterface $button */
-        $button = app()->make(array_value($parameters, 'button'), $parameters);
+        $button = app()->make(array_get($parameters, 'button'), $parameters);
 
         $this->hydrator->hydrate($button, $parameters);
 

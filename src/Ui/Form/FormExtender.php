@@ -55,7 +55,7 @@ class FormExtender
     protected function registerValidators(Factory $factory, FormBuilder $builder, FieldType $fieldType)
     {
         foreach ($fieldType->getValidators() as $rule => $validator) {
-            $handler = array_value($validator, 'handler');
+            $handler = array_get($validator, 'handler');
 
             if (is_string($handler) && !str_contains($handler, '@')) {
                 $handler .= '@handle';
@@ -69,7 +69,7 @@ class FormExtender
                         compact('attribute', 'value', 'parameters', 'builder', 'validator', 'fieldType')
                     );
                 },
-                array_value($validator, 'message')
+                array_get($validator, 'message')
             );
         }
     }

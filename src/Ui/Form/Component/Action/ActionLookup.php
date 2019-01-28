@@ -55,7 +55,7 @@ class ActionLookup
                 $parameters = array_replace_recursive($action, array_except($parameters, 'action'));
             }
 
-            $button = array_value($parameters, 'button', $original);
+            $button = array_get($parameters, 'button', $original);
 
             if ($button && $button = $this->buttons->get($button)) {
                 $parameters = array_replace_recursive($button, array_except($parameters, 'button'));

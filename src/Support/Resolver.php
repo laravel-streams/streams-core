@@ -44,7 +44,7 @@ class Resolver
      */
     public function resolve($target, array $arguments = [], array $options = [])
     {
-        $method = array_value($options, 'method', 'handle');
+        $method = array_get($options, 'method', 'handle');
 
         if ((is_string($target) && str_contains($target, '@')) || is_callable($target)) {
             $target = $this->container->call($target, $arguments);

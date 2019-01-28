@@ -79,12 +79,12 @@ class ColumnNormalizer
              * If no value wrap is set
              * then use a default.
              */
-            array_set($column, 'wrapper', array_value($column, 'wrapper', '{value}'));
+            array_set($column, 'wrapper', array_get($column, 'wrapper', '{value}'));
 
             /*
              * If there is no value then use NULL
              */
-            array_set($column, 'value', array_value($column, 'value', null));
+            array_set($column, 'value', array_get($column, 'value', null));
         }
 
         $builder->setColumns($columns);

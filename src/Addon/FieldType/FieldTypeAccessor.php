@@ -54,7 +54,7 @@ class FieldTypeAccessor
 
         $attributes = $entry->getAttributes();
 
-        return array_value($attributes, $this->fieldType->getColumnName());
+        return array_get($attributes, $this->fieldType->getColumnName());
     }
 
     /**

@@ -86,7 +86,7 @@ class ActionNormalizer
         /*
          * Make sure the attributes array is set.
          */
-        $action['attributes'] = array_value($action, 'attributes', []);
+        $action['attributes'] = array_get($action, 'attributes', []);
 
         /*
          * Move all data-* keys
@@ -109,14 +109,14 @@ class ActionNormalizer
         /*
          * Set defaults as expected for actions.
          */
-        $action['size']     = array_value($action, 'small', 'sm');
-        $action['disabled'] = array_value($action, 'disabled', array_value($action, 'toggle', true));
+        $action['size']     = array_get($action, 'small', 'sm');
+        $action['disabled'] = array_get($action, 'disabled', array_get($action, 'toggle', true));
 
         $action['attributes']['name']  = $prefix . 'action';
         $action['attributes']['value'] = $action['slug'];
 
         // If not toggle add the ignore attribute.
-        if (array_value($action, 'toggle', true) === false) {
+        if (array_get($action, 'toggle', true) === false) {
             $action['attributes']['data-ignore'] = '';
         }
 

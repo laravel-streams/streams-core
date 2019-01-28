@@ -104,8 +104,8 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
         $streamModel        = new StreamModel();
         $streamTranslations = new EloquentCollection();
 
-        if (!is_string(array_value($data, 'config'))) {
-            $data['config'] = serialize(array_value($data, 'config', []));
+        if (!is_string(array_get($data, 'config'))) {
+            $data['config'] = serialize(array_get($data, 'config', []));
         }
 
         if ($translations = array_pull($data, 'translations')) {
@@ -323,7 +323,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
         $this->cache['cache'] = $this->config;
 
         if ($key) {
-            return array_value($this->config, $key, $default);
+            return array_get($this->config, $key, $default);
         }
 
         return $this->config;

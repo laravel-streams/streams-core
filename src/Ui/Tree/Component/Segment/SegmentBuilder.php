@@ -77,7 +77,7 @@ class SegmentBuilder
 
             $segment = $this->evaluator->evaluate($segment, compact('entry', 'tree'));
 
-            if (array_value($segment, 'enabled', null) === false) {
+            if (array_get($segment, 'enabled', null) === false) {
                 continue;
             }
 
