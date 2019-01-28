@@ -97,13 +97,13 @@ class AddonProvider
     /**
      * Create a new AddonProvider instance.
      *
-     * @param Router               $router
-     * @param Dispatcher           $events
-     * @param Schedule             $schedule
-     * @param Application          $application
-     * @param ViewOverrides        $viewOverrides
+     * @param Router $router
+     * @param Dispatcher $events
+     * @param Schedule $schedule
+     * @param Application $application
+     * @param ViewOverrides $viewOverrides
      * @param MiddlewareCollection $middlewares
-     * @param ViewMobileOverrides  $viewMobileOverrides
+     * @param ViewMobileOverrides $viewMobileOverrides
      */
     public function __construct(
         Router $router,
@@ -226,13 +226,7 @@ class AddonProvider
      */
     protected function registerFactories(Addon $addon)
     {
-        /**
-         * @todo Move this back into a
-         *       dependency for 3.4
-         *       causes issues with
-         *       3.2 conversions.
-         */
-        if (is_dir($factories = $addon->getPath('factories'))) {
+        if (env('APP_ENV') == 'testing' && is_dir($factories = $addon->getPath('factories'))) {
             app(Factory::class)->load($factories);
         }
     }
@@ -302,7 +296,7 @@ class AddonProvider
      * Register the addon routes.
      *
      * @param AddonServiceProvider $provider
-     * @param Addon                $addon
+     * @param Addon $addon
      */
     protected function registerRoutes(AddonServiceProvider $provider, Addon $addon)
     {
@@ -352,7 +346,7 @@ class AddonProvider
      * Register the addon routes.
      *
      * @param AddonServiceProvider $provider
-     * @param Addon                $addon
+     * @param Addon $addon
      */
     protected function registerApi(AddonServiceProvider $provider, Addon $addon)
     {
@@ -411,7 +405,7 @@ class AddonProvider
      *
      * @param Addon $addon
      * @param       $controller
-     * @param null  $segment
+     * @param null $segment
      */
     public function registerFieldsRoutes(Addon $addon, $controller, $segment = null)
     {
@@ -553,7 +547,7 @@ class AddonProvider
      * Register view overrides.
      *
      * @param AddonServiceProvider $provider
-     * @param Addon                $addon
+     * @param Addon $addon
      */
     protected function registerOverrides(AddonServiceProvider $provider, Addon $addon)
     {
