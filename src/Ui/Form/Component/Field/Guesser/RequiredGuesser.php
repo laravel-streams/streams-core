@@ -26,21 +26,21 @@ class RequiredGuesser
                 && $entry instanceof EntryInterface
                 && $assignment = $entry->getAssignment($field['field'])
             ) {
-                $field['required'] = array_get($field, 'required', $assignment->isRequired());
+                $field['required'] = array_value($field, 'required', $assignment->isRequired());
             }
 
             // Guess based on the form mode if applicable.
-            if (in_array(($required = array_get($field, 'required')), ['create', 'edit'])) {
+            if (in_array(($required = array_value($field, 'required')), ['create', 'edit'])) {
                 $field['required'] = $required === $mode;
             }
 
             // Guess based on the rules.
-            if (in_array('required', array_get($field, 'rules', []))) {
+            if (in_array('required', array_value($field, 'rules', []))) {
                 $field['required'] = true;
             }
 
             // Check builder rules for required flag too.
-            if (in_array('required', array_get($rules, $field['field'], []))) {
+            if (in_array('required', array_value($rules, $field['field'], []))) {
                 $field['required'] = true;
             }
         }

@@ -58,7 +58,7 @@ class ViewRegistry
             return null;
         }
 
-        return array_get($this->views, $view);
+        return array_value($this->views, $view);
     }
 
     /**

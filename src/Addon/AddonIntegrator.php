@@ -22,6 +22,13 @@ class AddonIntegrator
 {
 
     /**
+     * The runtime cache.
+     *
+     * @var array
+     */
+    protected static $disabled = [];
+
+    /**
      * The view factory.
      *
      * @var Factory
@@ -143,27 +150,45 @@ class AddonIntegrator
         $this->configurator->addNamespace($addon->getNamespace(), $addon->getPath('resources/config'));
 
         // Load system overrides.
-        $this->configurator->addNamespaceOverrides(
-            $addon->getNamespace(),
-            base_path(
-                'resources/addons/'
-                . $addon->getVendor() . '/'
-                . $addon->getSlug() . '-'
-                . $addon->getType()
-            )
-        );
+        $disabled = array_value(self::$disabled, 'system::addons');
+
+        if ($disabled === null) {
+            self::$disabled['system::addons'] = $disabled = !app('files')->isDirectory(base_path('resources/addons'));
+        }
+
+        if (!$disabled) {
+            $this->configurator->addNamespaceOverrides(
+                $addon->getNamespace(),
+                base_path(
+                    'resources/addons/'
+                    . $addon->getVendor() . '/'
+                    . $addon->getSlug() . '-'
+                    . $addon->getType()
+                )
+            );
+        }
 
         // Load application overrides.
-        $this->configurator->addNamespaceOverrides(
-            $addon->getNamespace(),
-            $this->application->getResourcesPath(
-                'addons/'
-                . $addon->getVendor() . '/'
-                . $addon->getSlug() . '-'
-                . $addon->getType()
-                . '/config'
-            )
-        );
+        $disabled = array_value(self::$disabled, 'application::addons');
+
+        if ($disabled === null) {
+            self::$disabled['application::addons'] = $disabled = !app('files')->isDirectory(
+                $this->application->getResourcesPath('addons')
+            );
+        }
+
+        if (!$disabled) {
+            $this->configurator->addNamespaceOverrides(
+                $addon->getNamespace(),
+                $this->application->getResourcesPath(
+                    'addons/'
+                    . $addon->getVendor() . '/'
+                    . $addon->getSlug() . '-'
+                    . $addon->getType()
+                    . '/config'
+                )
+            );
+        }
 
         // Continue loading things.
         $this->provider->register($addon);

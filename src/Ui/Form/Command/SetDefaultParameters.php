@@ -134,7 +134,7 @@ class SetDefaultParameters
              * If the handler does not exist and
              * we have a default handler, use it.
              */
-            if ($default = array_get($this->defaults, $property->getName())) {
+            if ($default = array_value($this->defaults, $property->getName())) {
                 $this->builder->{'set' . ucfirst($property->getName())}($default);
             }
         }

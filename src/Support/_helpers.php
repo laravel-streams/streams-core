@@ -25,6 +25,27 @@ if (!function_exists('app_storage_path')) {
     }
 }
 
+if (!function_exists('array_value')) {
+
+    /**
+     * Get the literal key value of an array
+     * without any of the funny business.
+     *
+     * @param $array
+     * @param $key
+     * @param null $default
+     * @return mixed
+     */
+    function array_value($array, $key, $default = null)
+    {
+        if (isset($array[$key]) || array_key_exists($key, $array)) {
+            return $array[$key];
+        }
+
+        return $default;
+    }
+}
+
 if (!function_exists('str_humanize')) {
 
     /**
@@ -94,7 +115,7 @@ if (!function_exists('valuate')) {
      * @param        $parameters
      * @param        $entry
      * @param string $term
-     * @param array  $payload
+     * @param array $payload
      * @return mixed
      */
     function valuate($parameters, $entry, $term = 'entry', $payload = [])
@@ -108,9 +129,9 @@ if (!function_exists('data')) {
     /**
      * Get an item from an array or object using "dot" notation.
      *
-     * @param  mixed        $target
+     * @param  mixed $target
      * @param  string|array $key
-     * @param  mixed        $default
+     * @param  mixed $default
      * @return mixed
      */
     function data($target, $key, $default = null)
@@ -155,7 +176,7 @@ if (!function_exists('filesize_for_humans')) {
     /**
      * Humanize the filesize
      *
-     * @param      integer $bytes    The bytes
+     * @param      integer $bytes The bytes
      * @param      integer $decimals The decimals
      * @return     string
      */

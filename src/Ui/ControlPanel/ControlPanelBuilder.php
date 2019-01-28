@@ -158,7 +158,7 @@ class ControlPanelBuilder
      */
     public function addSectionButton($section, $slug, array $button, $position = null)
     {
-        $buttons = (array)array_get($this->sections, "{$section}.buttons");
+        $buttons = (array)array_value($this->sections, "{$section}.buttons");
 
         if ($position === null) {
             $position = count($buttons) + 1;

@@ -58,7 +58,7 @@ class ActionFactory
         $parameters = $this->translator->translate($parameters);
 
         $this->hydrator->hydrate(
-            $action = app()->make(array_get($parameters, 'action', $this->action), $parameters),
+            $action = app()->make(array_value($parameters, 'action', $this->action), $parameters),
             $parameters
         );
 

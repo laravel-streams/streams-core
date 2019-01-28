@@ -90,7 +90,7 @@ class HrefGuesser
                 continue;
             }
 
-            switch (array_get($button, 'button')) {
+            switch (array_value($button, 'button')) {
 
                 case 'restore':
 
@@ -104,7 +104,7 @@ class HrefGuesser
                 default:
 
                     // Determine the HREF based on the button type.
-                    $type = array_get($button, 'segment', array_get($button, 'button'));
+                    $type = array_value($button, 'segment', array_value($button, 'button'));
 
                     if ($type && !str_contains($type, '\\') && !class_exists($type)) {
                         $button['attributes']['href'] = $section->getHref($type . '/{entry.id}');

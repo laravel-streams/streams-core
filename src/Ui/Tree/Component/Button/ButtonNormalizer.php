@@ -45,7 +45,7 @@ class ButtonNormalizer
             /*
              * Make sure some default parameters exist.
              */
-            $button['attributes'] = array_get($button, 'attributes', []);
+            $button['attributes'] = array_value($button, 'attributes', []);
 
             /*
              * Move the HREF if any to the attributes.
@@ -85,7 +85,7 @@ class ButtonNormalizer
             /*
              * Use small buttons for trees.
              */
-            $button['size'] = array_get($button, 'size', 'xs');
+            $button['size'] = array_value($button, 'size', 'xs');
         }
 
         $builder->setButtons($buttons);

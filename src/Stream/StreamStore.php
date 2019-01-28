@@ -38,8 +38,8 @@ class StreamStore
      */
     protected function getCacheKey(array $data)
     {
-        $stream    = array_get($data, 'slug');
-        $namespace = array_get($data, 'namespace');
+        $stream    = array_value($data, 'slug');
+        $namespace = array_value($data, 'namespace');
 
         return "stream.make::{$namespace}.{$stream}";
     }

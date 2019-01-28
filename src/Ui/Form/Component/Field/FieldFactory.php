@@ -63,16 +63,16 @@ class FieldFactory
     public function make(array $parameters, StreamInterface $stream = null, $entry = null)
     {
         /* @var EntryInterface $entry */
-        if ($stream && $entry instanceof EntryInterface && $entry->hasField(array_get($parameters, 'field'))) {
+        if ($stream && $entry instanceof EntryInterface && $entry->hasField(array_value($parameters, 'field'))) {
 
             /*
              * Allow overriding the type here
              * should they want to do that.
              */
-            if (array_get($parameters, 'type')) {
+            if (array_value($parameters, 'type')) {
                 $field = $this->builder->build($parameters);
             } else {
-                $field = clone($entry->getFieldType(array_get($parameters, 'field')));
+                $field = clone($entry->getFieldType(array_value($parameters, 'field')));
             }
 
             $modifier = $field->getModifier();

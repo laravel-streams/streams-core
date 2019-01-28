@@ -54,7 +54,7 @@ class HrefGuesser
             // Only automate it if not set.
             if (!isset($view['attributes']['href'])) {
                 $view['attributes']['href'] = $this->url->to(
-                    $this->request->path() . '?' . array_get($view, 'prefix') . 'view=' . $view['slug']
+                    $this->request->path() . '?' . array_value($view, 'prefix') . 'view=' . $view['slug']
                 );
             }
         }

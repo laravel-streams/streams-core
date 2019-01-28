@@ -25,7 +25,7 @@ class PlaceholdersGuesser
         $stream = $builder->getFormStream();
 
         foreach ($fields as &$field) {
-            $locale = array_get($field, 'locale');
+            $locale = array_value($field, 'locale');
 
             /*
              * If the placeholder are already set then use it.

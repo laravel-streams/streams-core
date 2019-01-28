@@ -50,8 +50,8 @@ class Purifier extends \HTMLPurifier
 
         foreach ($matches as $id => $match) {
             str_replace(
-                array_get($match, 0),
-                strtoupper(array_get($match, 1)) . '_PLACEHOLDER_' . $id,
+                array_value($match, 0),
+                strtoupper(array_value($match, 1)) . '_PLACEHOLDER_' . $id,
                 $html
             );
         }
@@ -65,8 +65,8 @@ class Purifier extends \HTMLPurifier
          */
         foreach ($matches as $id => $match) {
             str_replace(
-                strtoupper(array_get($match, 1)) . '_PLACEHOLDER_' . $id,
-                array_get($match, 0),
+                strtoupper(array_value($match, 1)) . '_PLACEHOLDER_' . $id,
+                array_value($match, 0),
                 $html
             );
         }

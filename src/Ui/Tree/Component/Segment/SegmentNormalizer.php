@@ -71,12 +71,12 @@ class SegmentNormalizer
              * If no value wrap is set
              * then use a default.
              */
-            array_set($segment, 'wrapper', array_get($segment, 'wrapper', '{value}'));
+            array_set($segment, 'wrapper', array_value($segment, 'wrapper', '{value}'));
 
             /*
              * If there is no value then use NULL
              */
-            array_set($segment, 'value', array_get($segment, 'value', null));
+            array_set($segment, 'value', array_value($segment, 'value', null));
         }
 
         $builder->setSegments($segments);

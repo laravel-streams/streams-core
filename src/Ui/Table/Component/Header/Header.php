@@ -104,11 +104,11 @@ class Header implements HeaderInterface
 
         $builder = $this->getBuilder();
 
-        if (array_get($query, $builder->getTableOption('prefix') . 'order_by') !== $this->getSortColumn()) {
+        if (array_value($query, $builder->getTableOption('prefix') . 'order_by') !== $this->getSortColumn()) {
             return null;
         }
 
-        return array_get($query, $builder->getTableOption('prefix') . 'sort', $default);
+        return array_value($query, $builder->getTableOption('prefix') . 'sort', $default);
     }
 
     /**

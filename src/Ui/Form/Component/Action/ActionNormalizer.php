@@ -95,7 +95,7 @@ class ActionNormalizer
         /*
          * Make sure the attributes array is set.
          */
-        $action['attributes'] = array_get($action, 'attributes', []);
+        $action['attributes'] = array_value($action, 'attributes', []);
 
         /*
          * Move all data-* keys

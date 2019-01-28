@@ -22,22 +22,22 @@ class Currency
     {
         $currency = strtoupper($currency ?: config('streams::currencies.default'));
 
-        $direction = array_get(
+        $direction = array_value(
             $options,
             'direction',
             config('streams::currencies.supported.' . $currency . '.direction', 'ltr')
         );
-        $separator = array_get(
+        $separator = array_value(
             $options,
             'separator',
             config('streams::currencies.supported.' . $currency . '.separator', ',')
         );
-        $decimals  = array_get(
+        $decimals  = array_value(
             $options,
             'decimals',
             config('streams::currencies.supported.' . $currency . '.decimals', 2)
         );
-        $point     = array_get(
+        $point     = array_value(
             $options,
             'point',
             config('streams::currencies.supported.' . $currency . '.point' . '.')
@@ -67,12 +67,12 @@ class Currency
     {
         $currency = strtoupper($currency ?: config('streams::currencies.default'));
 
-        $decimals = array_get(
+        $decimals = array_value(
             $options,
             'decimals',
             config('streams::currencies.supported.' . $currency . '.decimals', 2)
         );
-        $point    = array_get(
+        $point    = array_value(
             $options,
             'point',
             config('streams::currencies.supported.' . $currency . '.point' . '.')

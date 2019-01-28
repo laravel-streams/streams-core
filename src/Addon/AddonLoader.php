@@ -73,19 +73,19 @@ class AddonLoader
             return $this;
         }
 
-        foreach (array_get($composer['autoload'], 'psr-4', []) as $namespace => $autoload) {
+        foreach (array_value($composer['autoload'], 'psr-4', []) as $namespace => $autoload) {
             $this->loader->addPsr4($namespace, $path . '/' . $autoload, false);
         }
 
-        foreach (array_get($composer['autoload'], 'psr-0', []) as $namespace => $autoload) {
+        foreach (array_value($composer['autoload'], 'psr-0', []) as $namespace => $autoload) {
             $this->loader->add($namespace, $path . '/' . $autoload, false);
         }
 
-        foreach (array_get($composer['autoload'], 'files', []) as $file) {
+        foreach (array_value($composer['autoload'], 'files', []) as $file) {
             include($path . '/' . $file);
         }
 
-        if ($classmap = array_get($composer['autoload'], 'classmap')) {
+        if ($classmap = array_value($composer['autoload'], 'classmap')) {
             $this->loader->addClassMap($classmap);
         }
 

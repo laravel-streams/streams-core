@@ -71,7 +71,7 @@ class HrefGuesser
             }
 
             // Determine the HREF based on the button type.
-            switch (array_get($button, 'button')) {
+            switch (array_value($button, 'button')) {
 
                 case 'add':
                 case 'new':
@@ -82,16 +82,16 @@ class HrefGuesser
                 case 'export':
                     if ($module) {
                         $button['attributes']['href'] = $this->url->to(
-                            'entry/handle/export/' . $module->getNamespace() . '/' . array_get(
+                            'entry/handle/export/' . $module->getNamespace() . '/' . array_value(
                                 $button,
                                 'namespace'
-                            ) . '/' . array_get($button, 'stream')
+                            ) . '/' . array_value($button, 'stream')
                         );
                     }
                     break;
             }
 
-            $type = array_get($button, 'segment', array_get($button, 'button'));
+            $type = array_value($button, 'segment', array_value($button, 'button'));
 
             if (!isset($button['attributes']['href']) && $type) {
                 $button['attributes']['href'] = $active->getHref($type);

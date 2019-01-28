@@ -79,7 +79,7 @@ class FieldBuilder
             }
 
             // Continue if not enabled.
-            if (!array_get($field, 'enabled', true)) {
+            if (!array_value($field, 'enabled', true)) {
                 continue;
             }
 

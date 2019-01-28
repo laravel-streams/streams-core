@@ -50,7 +50,7 @@ class ActionBuilder
         $this->input->read($builder);
 
         foreach ($builder->getActions() as $action) {
-            if (array_get($action, 'enabled', true)) {
+            if (array_value($action, 'enabled', true)) {
                 $table->addAction($this->factory->make($action));
             }
         }

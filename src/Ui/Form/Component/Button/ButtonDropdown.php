@@ -44,9 +44,9 @@ class ButtonDropdown
         $buttons = $builder->getButtons();
 
         foreach ($buttons as $key => &$button) {
-            if ($dropdown = array_get($button, 'parent')) {
+            if ($dropdown = array_value($button, 'parent')) {
                 foreach ($buttons as &$parent) {
-                    if (array_get($parent, 'button') == $dropdown) {
+                    if (array_value($parent, 'button') == $dropdown) {
                         if (!isset($parent['dropdown'])) {
                             $parent['dropdown'] = [];
                         }

@@ -40,7 +40,7 @@ class ButtonLookup
         $buttons = $builder->getButtons();
 
         foreach ($buttons as &$parameters) {
-            if ($button = $this->buttons->get(array_get($parameters, 'button'))) {
+            if ($button = $this->buttons->get(array_value($parameters, 'button'))) {
                 $parameters = array_replace_recursive($button, $parameters);
             }
         }

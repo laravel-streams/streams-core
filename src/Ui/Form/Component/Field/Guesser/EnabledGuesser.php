@@ -25,7 +25,7 @@ class EnabledGuesser
         foreach ($fields as &$field) {
 
             // Guess based on the form mode if applicable.
-            if (in_array((string)$enabled = array_get($field, 'enabled', null), ['create', 'edit'])) {
+            if (in_array((string)$enabled = array_value($field, 'enabled', null), ['create', 'edit'])) {
                 $field['enabled'] = $enabled === $mode;
             }
         }

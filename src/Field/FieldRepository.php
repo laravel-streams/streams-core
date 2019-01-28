@@ -33,8 +33,8 @@ class FieldRepository extends EloquentRepository implements FieldRepositoryInter
      */
     public function create(array $attributes = [])
     {
-        $attributes['config'] = array_get($attributes, 'config', []);
-        $attributes['locked'] = (array_get($attributes, 'locked', true));
+        $attributes['config'] = array_value($attributes, 'config', []);
+        $attributes['locked'] = (array_value($attributes, 'locked', true));
 
         return $this->model->create($attributes);
     }

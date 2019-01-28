@@ -68,7 +68,7 @@ class ViewNormalizer
             /*
              * Make sure some default parameters exist.
              */
-            $view['attributes'] = array_get($view, 'attributes', []);
+            $view['attributes'] = array_value($view, 'attributes', []);
 
             /*
              * Move the HREF if any to the attributes.

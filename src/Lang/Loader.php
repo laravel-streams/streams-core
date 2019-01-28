@@ -17,6 +17,13 @@ class Loader extends FileLoader
 {
 
     /**
+     * The runtime cache.
+     *
+     * @var array
+     */
+    protected static $disabled = [];
+
+    /**
      * The streams path.
      *
      * @var string
@@ -41,7 +48,7 @@ class Loader extends FileLoader
      * Create a new Loader instance.
      *
      * @param Filesystem $files
-     * @param string     $path
+     * @param string $path
      */
     public function __construct(Filesystem $files, $path)
     {
@@ -83,7 +90,7 @@ class Loader extends FileLoader
      * Load namespaced overrides from
      * system AND application paths.
      *
-     * @param  array  $lines
+     * @param  array $lines
      * @param  string $locale
      * @param  string $group
      * @param  string $namespace
@@ -109,7 +116,13 @@ class Loader extends FileLoader
      */
     protected function loadSystemOverrides(array $lines, $locale, $group, $namespace = null)
     {
-        if (!$namespace || $namespace == 'streams') {
+        $disabled = array_value(self::$disabled, $key = 'system::streams', false);
+
+        if (!$disabled && !$this->files->isDirectory(base_path("resources/streams/lang"))) {
+            self::$disabled[$key] = $disabled = true;
+        }
+
+        if (!$disabled && (!$namespace || $namespace == 'streams')) {
 
             $file = base_path("resources/streams/lang/{$locale}/{$group}.php");
 
@@ -118,7 +131,13 @@ class Loader extends FileLoader
             }
         }
 
-        if (str_is('*.*.*', $namespace)) {
+        $disabled = array_value(self::$disabled, $key = 'system::addons', false);
+
+        if (!$disabled && !$this->files->isDirectory(base_path("resources/addons"))) {
+            self::$disabled[$key] = $disabled = true;
+        }
+
+        if (!$disabled && str_is('*.*.*', $namespace)) {
 
             list($vendor, $type, $slug) = explode('.', $namespace);
 
@@ -143,7 +162,13 @@ class Loader extends FileLoader
      */
     protected function loadApplicationOverrides(array $lines, $locale, $group, $namespace = null)
     {
-        if (!$namespace || $namespace == 'streams') {
+        $disabled = array_value(self::$disabled, $key = 'application::streams', false);
+
+        if (!$disabled && !$this->files->isDirectory($this->application->getResourcesPath("streams/lang"))) {
+            self::$disabled[$key] = $disabled = true;
+        }
+
+        if (!$disabled && (!$namespace || $namespace == 'streams')) {
 
             $file = $this->application->getResourcesPath("streams/lang/{$locale}/{$group}.php");
 
@@ -152,7 +177,11 @@ class Loader extends FileLoader
             }
         }
 
-        if (str_is('*.*.*', $namespace)) {
+        if (!$disabled && !$this->files->isDirectory($this->application->getResourcesPath("addons"))) {
+            self::$disabled[$key] = $disabled = true;
+        }
+
+        if (!$disabled && str_is('*.*.*', $namespace)) {
 
             list($vendor, $type, $slug) = explode('.', $namespace);
 
@@ -172,7 +201,7 @@ class Loader extends FileLoader
      * @param array $lines
      * @param       $locale
      * @param       $group
-     * @param null  $namespace
+     * @param null $namespace
      * @return array
      */
     protected function loadAddonOverrides(array $lines, $locale, $group, $namespace = null)
@@ -180,7 +209,13 @@ class Loader extends FileLoader
         /** @var Addon $addon */
         foreach ($this->addons->enabled() as $addon) {
 
-            if (!$namespace || $namespace == 'streams') {
+            $disabled = array_value(self::$disabled, $key = $addon->getNamespace('streams'), false);
+
+            if (!$disabled && !$this->files->isDirectory($addon->getPath('resources/streams'))) {
+                self::$disabled[$key] = $disabled = true;
+            }
+
+            if (!$disabled && (!$namespace || $namespace == 'streams')) {
 
                 $file = $addon->getPath("resources/streams/lang/{$locale}/{$group}.php");
 
@@ -189,7 +224,13 @@ class Loader extends FileLoader
                 }
             }
 
-            if (str_is('*.*.*', $namespace)) {
+            $disabled = array_value(self::$disabled, $key = $addon->getNamespace('addons'), false);
+
+            if (!$disabled && !$this->files->isDirectory($addon->getPath('resources/addons'))) {
+                self::$disabled[$key] = $disabled = true;
+            }
+
+            if (!$disabled && str_is('*.*.*', $namespace)) {
 
                 list($vendor, $type, $slug) = explode('.', $namespace);
 

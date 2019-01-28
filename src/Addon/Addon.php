@@ -323,7 +323,7 @@ class Addon implements PresentableInterface, Arrayable
             return self::$_cache[$key] = null;
         }
 
-        if (!$json = array_get(self::$_cache, $key)) {
+        if (!$json = array_value(self::$_cache, $key)) {
             return self::$_cache[$key] = json_decode(file_get_contents($composer), true);
         }
 
@@ -349,7 +349,7 @@ class Addon implements PresentableInterface, Arrayable
             return self::$_cache[$key] = null;
         }
 
-        if (!$json = array_get(self::$_cache, 'composer.lock')) {
+        if (!$json = array_value(self::$_cache, 'composer.lock')) {
             $json = self::$_cache['composer.lock'] = json_decode(file_get_contents($lock), true);
         }
 

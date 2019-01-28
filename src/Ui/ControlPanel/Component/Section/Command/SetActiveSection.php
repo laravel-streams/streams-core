@@ -65,11 +65,11 @@ class SetActiveSection
              * Get the HREF for both the active
              * and loop iteration section.
              */
-            $href       = $parser->parse($section->getPermalink() ?: array_get($section->getAttributes(), 'href'));
+            $href       = $parser->parse($section->getPermalink() ?: array_value($section->getAttributes(), 'href'));
             $activeHref = '';
 
             if ($active && $active instanceof SectionInterface) {
-                $activeHref = $active->getPermalink() ?: array_get($active->getAttributes(), 'href');
+                $activeHref = $active->getPermalink() ?: array_value($active->getAttributes(), 'href');
             }
 
             /*

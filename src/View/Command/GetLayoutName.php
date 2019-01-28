@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\View\Command;
 
-use Illuminate\Contracts\View\Factory;
-
 /**
  * Class GetLayoutName
  *
@@ -41,17 +39,16 @@ class GetLayoutName
     /**
      * Handle the command.
      *
-     * @param  Factory $view
      * @return string
      */
-    public function handle(Factory $view)
+    public function handle()
     {
-        if ($view->exists($this->layout)) {
+        if (str_contains($this->layout, '::')) {
             return $this->layout;
         }
 
-        if ($view->exists($layout = "theme::layouts/{$this->layout}")) {
-            return $layout;
+        if (!str_contains($this->layout, '::')) {
+            return "theme::layouts/{$this->layout}";
         }
 
         return str_contains($this->default, '::') ? $this->default : "theme::layouts/{$this->default}";

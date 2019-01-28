@@ -143,7 +143,7 @@ class VerifyCsrfToken
      */
     public function shouldPassThrough()
     {
-        if (array_get($this->route->getAction(), 'csrf') === false) {
+        if (array_value($this->route->getAction(), 'csrf') === false) {
             return true;
         }
 

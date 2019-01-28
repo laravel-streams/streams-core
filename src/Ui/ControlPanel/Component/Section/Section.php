@@ -532,7 +532,7 @@ class Section implements SectionInterface
      */
     public function getHref($path = null)
     {
-        return ($this->getPermalink() ?: array_get($this->attributes, 'href')) . ($path ? '/' . $path : $path);
+        return ($this->getPermalink() ?: array_value($this->attributes, 'href')) . ($path ? '/' . $path : $path);
     }
 
     /**

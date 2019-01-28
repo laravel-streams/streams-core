@@ -24,7 +24,7 @@ class WarningsGuesser
         $stream = $builder->getFormStream();
 
         foreach ($fields as &$field) {
-            $locale = array_get($field, 'locale');
+            $locale = array_value($field, 'locale');
 
             /*
              * If the warning is already set then use it.

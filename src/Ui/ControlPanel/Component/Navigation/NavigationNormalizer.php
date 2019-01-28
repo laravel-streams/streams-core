@@ -37,7 +37,7 @@ class NavigationNormalizer
             /*
              * Make sure we have attributes.
              */
-            $link['attributes'] = array_get($link, 'attributes', []);
+            $link['attributes'] = array_value($link, 'attributes', []);
 
             /*
              * Move the HREF into attributes.

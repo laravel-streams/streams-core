@@ -45,7 +45,7 @@ class FilterFactory
      */
     public function make(array $parameters)
     {
-        $filter = app()->make(array_get($parameters, 'filter', $this->filter), $parameters);
+        $filter = app()->make(array_value($parameters, 'filter', $this->filter), $parameters);
 
         $this->hydrator->hydrate($filter, $parameters);
 

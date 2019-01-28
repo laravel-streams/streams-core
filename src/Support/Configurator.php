@@ -14,6 +14,13 @@ class Configurator
 {
 
     /**
+     * The runtime cache.
+     *
+     * @var array
+     */
+    protected $disabled = [];
+
+    /**
      * The file system.
      *
      * @var Filesystem

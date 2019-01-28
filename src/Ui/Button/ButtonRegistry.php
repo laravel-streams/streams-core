@@ -287,7 +287,7 @@ class ButtonRegistry
             return null;
         }
 
-        return array_get($this->buttons, $button);
+        return array_value($this->buttons, $button);
     }
 
     /**

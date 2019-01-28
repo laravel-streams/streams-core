@@ -63,7 +63,7 @@ class GetConfigFields
                 $label = $this->fieldType->getNamespace('config.' . $slug . '.name');
             }
 
-            $field['label'] = array_get($field, 'label', $label);
+            $field['label'] = array_value($field, 'label', $label);
 
             /*
              * Determine the instructions.
@@ -95,7 +95,7 @@ class GetConfigFields
             /*
              * Set the configuration value.
              */
-            $field['value'] = array_get($this->fieldType->getConfig(), $slug);
+            $field['value'] = array_value($this->fieldType->getConfig(), $slug);
 
             // Prefix the slugs.
             $field['field'] = 'config__' . $slug;

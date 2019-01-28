@@ -44,9 +44,9 @@ class ActionDropdown
         $actions = $builder->getActions();
 
         foreach ($actions as $key => &$action) {
-            if ($dropdown = array_get($action, 'parent')) {
+            if ($dropdown = array_value($action, 'parent')) {
                 foreach ($actions as &$parent) {
-                    if (array_get($parent, 'slug') == $dropdown) {
+                    if (array_value($parent, 'slug') == $dropdown) {
                         if (!isset($parent['dropdown'])) {
                             $parent['dropdown'] = [];
                         }

@@ -102,7 +102,7 @@ class AssetPaths
      */
     public function getPath($namespace)
     {
-        return array_get($this->paths, $namespace);
+        return array_value($this->paths, $namespace);
     }
 
     /**
@@ -172,7 +172,7 @@ class AssetPaths
     public function downloadPath($url, $path = null)
     {
         if (!$path && $parsed = parse_url($url)) {
-            $path = array_get($parsed, 'host') . '/' . basename(array_get($parsed, 'path'));
+            $path = array_value($parsed, 'host') . '/' . basename(array_value($parsed, 'path'));
         }
 
         return $path = str_replace(public_path(), '', $this->application->getAssetsPath('downloads/' . $path));

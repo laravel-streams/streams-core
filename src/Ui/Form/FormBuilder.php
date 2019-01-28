@@ -596,7 +596,7 @@ class FormBuilder
     public function addField($field, array $definition = [])
     {
         if (!$definition) {
-            $this->fields[array_get($field, 'field')] = $field;
+            $this->fields[array_value($field, 'field')] = $field;
         } else {
             $this->fields[$field] = $definition;
         }
@@ -887,7 +887,7 @@ class FormBuilder
      */
     public function addSectionTab($section, $slug, array $tab, $position = null)
     {
-        $tabs = (array)array_get($this->sections, "{$section}.tabs");
+        $tabs = (array)array_value($this->sections, "{$section}.tabs");
 
         if ($position === null) {
             $position = count($tabs) + 1;
@@ -945,7 +945,7 @@ class FormBuilder
      */
     public function getOption($key, $default = null)
     {
-        return array_get($this->options, $key, $default);
+        return array_value($this->options, $key, $default);
     }
 
     /**
@@ -1531,7 +1531,7 @@ class FormBuilder
      */
     public function getRequestValue($key, $default = null)
     {
-        return array_get($_REQUEST, $this->getOption('prefix') . $key, $default);
+        return array_value($_REQUEST, $this->getOption('prefix') . $key, $default);
     }
 
     /**
@@ -1543,7 +1543,7 @@ class FormBuilder
      */
     public function getPostValue($key, $default = null)
     {
-        return array_get($_POST, $this->getOption('prefix') . $key, $default);
+        return array_value($_POST, $this->getOption('prefix') . $key, $default);
     }
 
     /**

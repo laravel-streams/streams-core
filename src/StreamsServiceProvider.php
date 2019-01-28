@@ -134,6 +134,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Addon\AddonLoader'                                         => 'Anomaly\Streams\Platform\Addon\AddonLoader',
         'Anomaly\Streams\Platform\Addon\AddonBinder'                                         => 'Anomaly\Streams\Platform\Addon\AddonBinder',
         'Anomaly\Streams\Platform\Addon\AddonManager'                                        => 'Anomaly\Streams\Platform\Addon\AddonManager',
+        'Anomaly\Streams\Platform\Addon\AddonIntegrator'                                     => 'Anomaly\Streams\Platform\Addon\AddonIntegrator',
         'Anomaly\Streams\Platform\Addon\AddonProvider'                                       => 'Anomaly\Streams\Platform\Addon\AddonProvider',
         'Anomaly\Streams\Platform\Addon\AddonCollection'                                     => 'Anomaly\Streams\Platform\Addon\AddonCollection',
         'Anomaly\Streams\Platform\Message\MessageBag'                                        => 'Anomaly\Streams\Platform\Message\MessageBag',

@@ -51,7 +51,7 @@ class FilterBuilder
 
         foreach ($builder->getFilters() as $filter) {
 
-            if (array_get($filter, 'enabled') === false) {
+            if (array_value($filter, 'enabled') === false) {
                 continue;
             }
 

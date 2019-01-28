@@ -66,8 +66,8 @@ class FieldNormalizer
              * If the field is required then it must have
              * the rule as well.
              */
-            if (array_get($field, 'required') === true) {
-                $field['rules'] = array_unique(array_merge(array_get($field, 'rules', []), ['required']));
+            if (array_value($field, 'required') === true) {
+                $field['rules'] = array_unique(array_merge(array_value($field, 'rules', []), ['required']));
             }
         }
 

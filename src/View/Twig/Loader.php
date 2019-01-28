@@ -22,6 +22,13 @@ class Loader extends OriginalLoader
 {
 
     /**
+     * The runtime cache.
+     *
+     * @var array
+     */
+    protected static $disabled = [];
+
+    /**
      * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
@@ -111,20 +118,23 @@ class Loader extends OriginalLoader
      */
     protected $mobiles;
 
+    /**
+     * @var bool
+     */
     protected $mobile;
 
     /**
      * Loader constructor.
      *
-     * @param Filesystem          $files
+     * @param Filesystem $files
      * @param ViewFinderInterface $finder
-     * @param string              $extension
-     * @param Factory             $view
-     * @param Mobile_Detect       $agent
-     * @param Dispatcher          $events
-     * @param AddonCollection     $addons
-     * @param ViewOverrides       $overrides
-     * @param Request             $request
+     * @param string $extension
+     * @param Factory $view
+     * @param Mobile_Detect $agent
+     * @param Dispatcher $events
+     * @param AddonCollection $addons
+     * @param ViewOverrides $overrides
+     * @param Request $request
      * @param ViewMobileOverrides $mobiles
      */
     public function __construct(
@@ -185,9 +195,9 @@ class Loader extends OriginalLoader
 
         $name = str_replace('theme::', $this->theme->getNamespace() . '::', $name);
 
-        if ($this->mobile && $path = array_get($mobile, $name)) {
+        if ($this->mobile && $path = array_value($mobile, $name)) {
             $result = $path;
-        } elseif ($path = array_get($overrides, $name)) {
+        } elseif ($path = array_value($overrides, $name)) {
             $result = $path;
         }
 
@@ -195,11 +205,11 @@ class Loader extends OriginalLoader
             $mobile    = $this->mobiles->get($this->module->getNamespace(), []);
             $overrides = $this->overrides->get($this->module->getNamespace(), []);
 
-            if ($this->mobile && $path = array_get($mobile, $name)) {
+            if ($this->mobile && $path = array_value($mobile, $name)) {
                 $result = $path;
-            } elseif ($path = array_get($overrides, $name)) {
+            } elseif ($path = array_value($overrides, $name)) {
                 $result = $path;
-            } elseif ($path = array_get(config('streams.overrides'), $name)) {
+            } elseif ($path = array_value(config('streams.overrides'), $name)) {
                 $result = $path;
             }
         }
@@ -241,7 +251,15 @@ class Loader extends OriginalLoader
          * it's real easy to guess what the
          * override path should be.
          */
-        if ($namespace == 'streams') {
+        $disabled = array_value(self::$disabled, 'theme::streams');
+
+        if ($disabled === null) {
+            self::$disabled['theme::streams'] = $disabled = !$this->files->isDirectory(
+                $this->theme->getPath('resources/views/streams')
+            );
+        }
+
+        if (!$disabled && $namespace == 'streams') {
             $override = $this->theme->getNamespace("streams/{$path}");
         }
 
@@ -249,13 +267,21 @@ class Loader extends OriginalLoader
          * If the view uses a dot syntax namespace then
          * transform it all into the override view path.
          */
-        if ($addon = $this->addons->get($namespace)) {
+        $disabled = array_value(self::$disabled, 'theme::addons');
+
+        if ($disabled === null) {
+            self::$disabled['theme::addons'] = $disabled = !$this->files->isDirectory(
+                $this->theme->getPath('resources/views/addons')
+            );
+        }
+
+        if (!$disabled && $addon = $this->addons->get($namespace)) {
             $override = $this->theme->getNamespace(
                 "addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/{$path}"
             );
         }
 
-        if ($this->view->exists($override)) {
+        if ($override && $this->view->exists($override)) {
             return $override;
         }
 
@@ -277,7 +303,7 @@ class Loader extends OriginalLoader
 
         $name = $this->normalizeName($name);
 
-        if ($cached = array_get($this->cache, $name)) {
+        if ($cached = array_value($this->cache, $name)) {
             return $cached;
         }
 
@@ -293,7 +319,7 @@ class Loader extends OriginalLoader
             throw new \Twig_Error_Loader($e->getMessage());
         }
 
-        return array_get($this->cache, $name);
+        return array_value($this->cache, $name);
     }
 
 }

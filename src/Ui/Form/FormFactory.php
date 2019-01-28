@@ -68,10 +68,10 @@ class FormFactory
          * Set the default builder and model based
          * a stream and namespace parameter provided.
          */
-        if (!$builder = array_get($parameters, 'builder')) {
-            if (!$model = array_get($parameters, 'model')) {
-                $stream    = ucfirst(camel_case(array_get($parameters, 'stream')));
-                $namespace = ucfirst(camel_case(array_get($parameters, 'namespace')));
+        if (!$builder = array_value($parameters, 'builder')) {
+            if (!$model = array_value($parameters, 'model')) {
+                $stream    = ucfirst(camel_case(array_value($parameters, 'stream')));
+                $namespace = ucfirst(camel_case(array_value($parameters, 'namespace')));
 
                 $model = 'Anomaly\Streams\Platform\Model\\' . $namespace . '\\' . $namespace . $stream . 'EntryModel';
 

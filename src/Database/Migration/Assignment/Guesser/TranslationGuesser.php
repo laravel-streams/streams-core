@@ -44,8 +44,8 @@ class TranslationGuesser
         $stream = $migration->getStream();
 
         $stream = $this->streams->findBySlugAndNamespace(
-            array_get($stream, 'slug'),
-            array_get($stream, 'namespace')
+            array_value($stream, 'slug'),
+            array_value($stream, 'namespace')
         );
 
         if (!$stream) {
@@ -58,12 +58,12 @@ class TranslationGuesser
 
         foreach ($assignments as &$assignment) {
             foreach (['label', 'warning', 'instructions', 'placeholder'] as $key) {
-                if (is_null(array_get($assignment, $locale . '.' . $key))) {
+                if (is_null(array_value($assignment, $locale . '.' . $key))) {
                     $assignment = array_add(
                         $assignment,
                         $locale . '.' . $key,
                         $addon->getNamespace(
-                            'field.' . array_get($assignment, 'field') . '.' . $key . '.' . $stream->getSlug()
+                            'field.' . array_value($assignment, 'field') . '.' . $key . '.' . $stream->getSlug()
                         )
                     );
                 }

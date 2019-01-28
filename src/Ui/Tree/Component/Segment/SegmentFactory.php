@@ -45,7 +45,7 @@ class SegmentFactory
      */
     public function make(array $parameters)
     {
-        $segment = app()->make(array_get($parameters, 'segment', $this->segment), $parameters);
+        $segment = app()->make(array_value($parameters, 'segment', $this->segment), $parameters);
 
         $this->hydrator->hydrate($segment, $parameters);
 

@@ -23,7 +23,7 @@ class NullableGuesser
 
         foreach ($fields as &$field) {
 
-            $rules = array_get($field, 'rules', []);
+            $rules = array_value($field, 'rules', []);
 
             if (is_string($rules)) {
                 $rules = explode('|', $rules);
@@ -47,7 +47,7 @@ class NullableGuesser
              * If specifically not
              * required then nullable.
              */
-            if (array_get($field, 'required', false) == false) {
+            if (array_value($field, 'required', false) == false) {
                 $field['rules'][] = 'nullable';
             }
         }
