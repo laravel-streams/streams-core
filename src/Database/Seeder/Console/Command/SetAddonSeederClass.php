@@ -28,7 +28,7 @@ class SetAddonSeederClass
     /**
      * Create a new SetAddonPath instance.
      *
-     * @param Command        $command
+     * @param Command $command
      * @param InputInterface $input
      */
     public function __construct(Command $command, InputInterface $input)
@@ -41,7 +41,6 @@ class SetAddonSeederClass
      * Handle the command.
      *
      * @param Decorator $decorator
-     *
      * @throws \Exception
      */
     public function handle(Decorator $decorator)
