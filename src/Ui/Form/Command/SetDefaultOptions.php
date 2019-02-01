@@ -59,7 +59,7 @@ class SetDefaultOptions
         }
 
         if (!$this->builder->getFormOption('form_view')) {
-            $this->builder->setFormOption('form_view', 'streams::form/admin/form');
+            $this->builder->setFormOption('form_view', 'streams::form/form');
         }
 
         /*

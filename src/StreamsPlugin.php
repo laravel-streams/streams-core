@@ -27,6 +27,7 @@ use Anomaly\Streams\Platform\Ui\Command\GetElapsedTime;
 use Anomaly\Streams\Platform\Ui\Command\GetMemoryUsage;
 use Anomaly\Streams\Platform\Ui\Command\GetTranslatedString;
 use Anomaly\Streams\Platform\Ui\Form\Command\GetFormCriteria;
+use Anomaly\Streams\Platform\Ui\Form\Command\GetTableCriteria;
 use Anomaly\Streams\Platform\Ui\Icon\Command\GetIcon;
 use Anomaly\Streams\Platform\View\Command\GetConstants;
 use Anomaly\Streams\Platform\View\Command\GetLayoutName;
@@ -323,6 +324,28 @@ class StreamsPlugin extends Plugin
                 'img',
                 function ($image) {
                     return $this->dispatch(new MakeImageInstance($image, 'img'));
+                },
+                [
+                    'is_safe' => ['html'],
+                ]
+            ),
+            new \Twig_SimpleFunction(
+                'table',
+                function () {
+                    $arguments = func_get_args();
+
+                    if (count($arguments) >= 2) {
+                        $arguments = [
+                            'namespace' => array_get(func_get_args(), 0),
+                            'stream'    => array_get(func_get_args(), 1),
+                        ];
+                    }
+
+                    if (count($arguments) == 1) {
+                        $arguments = func_get_arg(0);
+                    }
+
+                    return $this->dispatchNow(new GetTableCriteria($arguments));
                 },
                 [
                     'is_safe' => ['html'],
