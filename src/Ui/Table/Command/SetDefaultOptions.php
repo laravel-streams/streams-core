@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Http\Request;
 
@@ -35,10 +36,13 @@ class SetDefaultOptions
      * Handle the command.
      *
      * @param ModuleCollection $modules
-     * @param Request          $request
+     * @param ThemeCollection $themes
+     * @param Request $request
      */
-    public function handle(ModuleCollection $modules, Request $request)
+    public function handle(ModuleCollection $modules, ThemeCollection $themes, Request $request)
     {
+        $theme = $themes->current();
+
         $table = $this->builder->getTable();
 
         /*
@@ -50,6 +54,25 @@ class SetDefaultOptions
             if ($stream && $stream->isSortable()) {
                 $table->setOption('sortable', true);
             }
+        }
+
+        /*
+         * Default the table view based on the request.
+         */
+        if (!$this->builder->getTableOption('table_view') && $this->builder->isAjax()) {
+            $this->builder->setTableOption('table_view', 'streams::table/ajax');
+        }
+
+        if (!$this->builder->getTableOption('table_view') && $theme && $theme->isAdmin()) {
+            $this->builder->setTableOption('table_view', 'streams::table/table');
+        }
+
+        if (!$this->builder->getTableOption('table_view') && $theme && !$theme->isAdmin()) {
+            $this->builder->setTableOption('table_view', 'streams::table/standard');
+        }
+
+        if (!$this->builder->getTableOption('table_view')) {
+            $this->builder->setTableOption('table_view', 'streams::table/table');
         }
 
         /*
