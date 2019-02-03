@@ -120,10 +120,10 @@ interface EloquentRepositoryInterface
      * Perform an action without events.
      *
      * @param  EloquentModel $entry
-     * @param \Closure       $closure
+     * @param \Closure $closure
      * @return mixed
      */
-    public function withoutEvents(EloquentModel $entry, \Closure $closure);
+    public function withoutEvents(\Closure $closure);
 
     /**
      * Save a record.

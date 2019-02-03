@@ -220,19 +220,18 @@ class EloquentRepository implements EloquentRepositoryInterface
     /**
      * Perform an action without events.
      *
-     * @param  EloquentModel $entry
      * @param \Closure $closure
      * @return mixed
      */
-    public function withoutEvents(EloquentModel $entry, \Closure $closure)
+    public function withoutEvents(\Closure $closure)
     {
-        $dispatcher = $entry->getEventDispatcher();
+        $dispatcher = $this->model->getEventDispatcher();
 
-        $entry->unsetEventDispatcher();
+        $this->model->unsetEventDispatcher();
 
-        $result = call_user_func($closure, $entry);
+        $result = call_user_func($closure);
 
-        $entry->setEventDispatcher($dispatcher);
+        $this->model->setEventDispatcher($dispatcher);
 
         return $result;
     }
