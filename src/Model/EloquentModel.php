@@ -171,7 +171,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
             ->make([$key])
             ->setKey($this->getCacheCollectionKey())
             ->index();
-dd($value);
+
         return cache()->forever(
             $key,
             $value
