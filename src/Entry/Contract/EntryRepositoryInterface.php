@@ -17,7 +17,7 @@ interface EntryRepositoryInterface extends EloquentRepositoryInterface
      * Get the entries by sort order.
      *
      * @param  string                 $direction
-     * @return EntryCollection|static
+     * @return EntryCollection
      */
     public function sorted($direction = 'asc');
 
