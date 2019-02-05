@@ -107,7 +107,7 @@ class ExceptionHandler extends Handler
         $name    = trans("streams::error.{$code}.name");
         $message = trans("streams::error.{$code}.message");
         $id      = $this->container->make(ExceptionIdentifier::class)->identify($this->original);
-        
+        dd($e->getMessage());
         if (view()->exists($view = "streams::errors/{$code}")) {
             return response()->view($view, compact('id', 'code', 'name', 'message', 'summary'), $code, $headers);
         }

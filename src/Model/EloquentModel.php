@@ -146,7 +146,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
             ->setKey($this->getCacheCollectionKey())
             ->index();
 
-        return cache()->remember(
+        return app('cache')->remember(
             $key,
             $ttl / 60,
             $value
@@ -172,8 +172,14 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
             ->setKey($this->getCacheCollectionKey())
             ->index();
 
-        return cache()->forever(
+        /**
+         * Due to issues with forever and
+         * closures we have to use remember
+         * function here with a very large ttl.
+         */
+        return app('cache')->remember(
             $key,
+            60 * 24 * 365,
             $value
         );
     }
