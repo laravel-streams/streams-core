@@ -134,11 +134,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     {
         if (!$value) {
             $value = $ttl;
-            $ttl   = 60 * 60 * 24 * 360; // Forever-ish
-        }
-
-        if (!config('streams::system.cache_enabled', false)) {
-            return value($value);
+            $ttl   = 60 * 60 * 24 * 365; // Forever-ish
         }
 
         (new CacheCollection())
@@ -146,7 +142,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
             ->setKey($this->getCacheCollectionKey())
             ->index();
 
-        return app('cache')->remember(
+        return cache()->remember(
             $key,
             $ttl / 60,
             $value
@@ -163,10 +159,6 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      */
     public function cacheForever($key, $value)
     {
-        if (!config('streams::system.cache_enabled', false)) {
-            return value($value);
-        }
-
         (new CacheCollection())
             ->make([$key])
             ->setKey($this->getCacheCollectionKey())
@@ -177,7 +169,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
          * closures we have to use remember
          * function here with a very large ttl.
          */
-        return app('cache')->remember(
+        return cache()->remember(
             $key,
             60 * 24 * 365,
             $value
