@@ -53,6 +53,17 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
          */
         $storagePath = $storagePath ?: storage_path('httpcache');
 
+        /**
+         * This is a special case for the domains
+         * module. This is really the only place to
+         * put this since addons are not registered.
+         */
+        $domains = [];
+
+        if (file_exists($file = __DIR__ . '/../../../../../bootstrap/cache/domains.php')) {
+            $domains = include $file;
+        }
+
         $store = new Store($storagePath);
 
         $wrapper = new static($kernel);
@@ -69,7 +80,7 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
         /**
          * Disable for Control Panel
          */
-        if (str_is(self::$excluded, $_SERVER['REQUEST_URI'])) {
+        if (str_is(self::$excluded, $_SERVER['REQUEST_URI']) || in_array($_SERVER['HTTP_HOST'], $domains)) {
             return $kernel;
         }
 
