@@ -37,6 +37,13 @@ class EloquentQueryBuilder extends Builder
     protected $model;
 
     /**
+     * The cache key.
+     *
+     * @var null|string
+     */
+    protected $cacheKey = null;
+
+    /**
      * Execute the query as a "select" statement.
      *
      * @param  array $columns
@@ -173,9 +180,26 @@ class EloquentQueryBuilder extends Builder
      */
     public function getCacheKey()
     {
+        if ($this->cacheKey) {
+            return $this->cacheKey;
+        }
+
         $name = $this->model->getConnectionName();
 
         return md5($name . $this->toSql() . serialize($this->getBindings()));
+    }
+
+    /**
+     * Set the cache key.
+     *
+     * @param $key
+     * @return string
+     */
+    public function setCacheKey($key)
+    {
+        $this->cacheKey = $key;
+
+        return $this;
     }
 
     /**

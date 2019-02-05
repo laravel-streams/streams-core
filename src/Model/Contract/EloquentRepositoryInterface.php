@@ -184,6 +184,16 @@ interface EloquentRepositoryInterface
     public function cache($key, $ttl, $value = null);
 
     /**
+     * Cache (forever) a value in
+     * the model's cache collection.
+     *
+     * @param $key
+     * @param $value
+     * @return mixed
+     */
+    public function cacheForever($key, $value);
+
+    /**
      * Flush the cache.
      *
      * @return $this

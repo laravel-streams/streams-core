@@ -146,9 +146,34 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
             ->setKey($this->getCacheCollectionKey())
             ->index();
 
-        return app('cache')->remember(
+        return cache()->remember(
             $key,
             $ttl / 60,
+            $value
+        );
+    }
+
+    /**
+     * Cache (forever) a value in
+     * the model's cache collection.
+     *
+     * @param $key
+     * @param $value
+     * @return mixed
+     */
+    public function cacheForever($key, $value)
+    {
+        if (!config('streams::system.cache_enabled', false)) {
+            return value($value);
+        }
+
+        (new CacheCollection())
+            ->make([$key])
+            ->setKey($this->getCacheCollectionKey())
+            ->index();
+dd($value);
+        return cache()->forever(
+            $key,
             $value
         );
     }
@@ -387,7 +412,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      * Set an attribute.
      *
      * @param  string $key
-     * @param  mixed  $value
+     * @param  mixed $value
      * @return $this
      */
     public function setAttribute($key, $value)
@@ -739,7 +764,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      * Check hooks for the missing method.
      *
      * @param string $method
-     * @param array  $parameters
+     * @param array $parameters
      * @return mixed
      */
     public function __call($method, $parameters)

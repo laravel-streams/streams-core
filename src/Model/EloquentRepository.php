@@ -334,6 +334,19 @@ class EloquentRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * Cache a value in the
+     * model's cache collection.
+     *
+     * @param $key
+     * @param $value
+     * @return mixed
+     */
+    public function cacheForever($key, $value)
+    {
+        return $this->model->cacheForever($key, $value);
+    }
+
+    /**
      * Flush the cache.
      *
      * @return $this
