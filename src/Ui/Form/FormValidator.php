@@ -112,8 +112,11 @@ class FormValidator
         $validator->setCustomMessages($messages);
         $validator->setAttributeNames($attributes);
 
+        $builder->fire('validating', ['builder' => $builder]);
+
         $this->setResponse($validator, $builder);
 
+        $builder->fire('validated', ['builder' => $builder]);
         $this->events->dispatch(new FormWasValidated($builder));
     }
 
