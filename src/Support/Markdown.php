@@ -35,6 +35,4 @@ class Markdown extends \ParsedownExtra
 
         return $Quote;
     }
-
-
 }
