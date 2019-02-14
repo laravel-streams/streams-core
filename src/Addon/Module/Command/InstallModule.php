@@ -58,7 +58,7 @@ class InstallModule
         Dispatcher $dispatcher,
         ModuleRepositoryInterface $modules
     ) {
-        $this->module->fire('installing');
+        $this->module->fire('installing', ['module' => $this->module]);
 
         $options = [
             '--addon' => $this->module->getNamespace(),
@@ -75,7 +75,7 @@ class InstallModule
             $console->call('db:seed', $options);
         }
 
-        $this->module->fire('installed');
+        $this->module->fire('installed', ['module' => $this->module]);
 
         $dispatcher->dispatch(new ModuleWasInstalled($this->module));
 

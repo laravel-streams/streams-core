@@ -41,7 +41,7 @@ class UninstallModule
      */
     public function handle(Kernel $console, Dispatcher $events, ModuleRepositoryInterface $modules)
     {
-        $this->module->fire('uninstalling');
+        $this->module->fire('uninstalling', ['module' => $this->module]);
 
         $options = [
             '--addon' => $this->module->getNamespace(),
@@ -54,7 +54,7 @@ class UninstallModule
 
         $modules->uninstall($this->module);
 
-        $this->module->fire('uninstalled');
+        $this->module->fire('uninstalled', ['module' => $this->module]);
 
         $events->dispatch(new ModuleWasUninstalled($this->module));
     }
