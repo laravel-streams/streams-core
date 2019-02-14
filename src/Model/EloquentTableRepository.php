@@ -108,9 +108,6 @@ class EloquentTableRepository implements TableRepositoryInterface
         }
 
         $query = $query->take($limit)->offset($offset);
-        
-        $builder->fire('queried', compact('builder', 'query'));
-        app('events')->fire(new TableWasQueried($builder, $query));
 
         /*
          * Order the query results.
@@ -128,6 +125,9 @@ class EloquentTableRepository implements TableRepositoryInterface
         if ($builder->getTableOption('sortable')) {
             $query = $query->orderBy('sort_order', 'ASC');
         }
+
+        $builder->fire('queried', compact('builder', 'query'));
+        app('events')->fire(new TableWasQueried($builder, $query));
 
         return $query->get();
     }
