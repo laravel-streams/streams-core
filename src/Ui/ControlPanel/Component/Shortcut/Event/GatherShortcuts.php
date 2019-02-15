@@ -1,15 +1,15 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Event;
+<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Event;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
- * Class GatherSections
+ * Class GatherShortcuts
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class GatherSections
+class GatherShortcuts
 {
 
     /**
@@ -20,7 +20,7 @@ class GatherSections
     protected $builder;
 
     /**
-     * Create a new GatherSections instance.
+     * Create a new GatherShortcuts instance.
      *
      * @param ControlPanelBuilder $builder
      */

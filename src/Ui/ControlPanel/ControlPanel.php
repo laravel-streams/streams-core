@@ -5,6 +5,8 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\Navig
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Contract\ShortcutInterface;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\ShortcutCollection;
 use Illuminate\Support\Collection;
 
 /**
@@ -32,6 +34,13 @@ class ControlPanel
     protected $sections;
 
     /**
+     * The shortcut collection.
+     *
+     * @var ShortcutCollection
+     */
+    protected $shortcuts;
+
+    /**
      * The navigation collection.
      *
      * @var NavigationCollection
@@ -41,14 +50,20 @@ class ControlPanel
     /**
      * Create a new ControlPanel instance.
      *
-     * @param Collection           $buttons
-     * @param SectionCollection    $sections
+     * @param Collection $buttons
+     * @param SectionCollection $sections
+     * @param ShortcutCollection $shortcuts
      * @param NavigationCollection $navigation
      */
-    public function __construct(Collection $buttons, SectionCollection $sections, NavigationCollection $navigation)
-    {
+    public function __construct(
+        Collection $buttons,
+        SectionCollection $sections,
+        ShortcutCollection $shortcuts,
+        NavigationCollection $navigation
+    ) {
         $this->buttons    = $buttons;
         $this->sections   = $sections;
+        $this->shortcuts  = $shortcuts;
         $this->navigation = $navigation;
     }
 
@@ -106,6 +121,29 @@ class ControlPanel
     public function getActiveSection()
     {
         return $this->sections->active();
+    }
+
+    /**
+     * Add a shortcut to the shortcut collection.
+     *
+     * @param  ShortcutInterface $shortcut
+     * @return $this
+     */
+    public function addShortcut(ShortcutInterface $shortcut)
+    {
+        $this->shortcuts->put($shortcut->getSlug(), $shortcut);
+
+        return $this;
+    }
+
+    /**
+     * Get the module shortcuts.
+     *
+     * @return ShortcutCollection
+     */
+    public function getShortcuts()
+    {
+        return $this->shortcuts;
     }
 
     /**

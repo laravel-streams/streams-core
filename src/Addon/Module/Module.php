@@ -20,6 +20,13 @@ class Module extends Addon
     protected $sections = [];
 
     /**
+     * The module's shortcuts.
+     *
+     * @var string|array
+     */
+    protected $shortcuts = [];
+
+    /**
      * The module's menu.
      *
      * @var string|array
@@ -136,6 +143,51 @@ class Module extends Addon
         $buttons = $front + [$slug => $button] + $back;
 
         array_set($this->sections, "{$section}.buttons", $buttons);
+
+        return $this;
+    }
+
+    /**
+     * Get the module's shortcuts.
+     *
+     * @return array
+     */
+    public function getShortcuts()
+    {
+        return $this->shortcuts;
+    }
+
+    /**
+     * Set the shortcuts.
+     *
+     * @param array $shortcuts
+     * @return $this
+     */
+    public function setShortcuts($shortcuts)
+    {
+        $this->shortcuts = $shortcuts;
+
+        return $this;
+    }
+
+    /**
+     * Add a shortcut.
+     *
+     * @param        $slug
+     * @param  array $shortcut
+     * @param null   $position
+     * @return $this
+     */
+    public function addShortcut($slug, array $shortcut, $position = null)
+    {
+        if ($position === null) {
+            $position = count($this->shortcuts) + 1;
+        }
+
+        $front = array_slice($this->shortcuts, 0, $position, true);
+        $back  = array_slice($this->shortcuts, $position, count($this->shortcuts) - $position, true);
+
+        $this->shortcuts = $front + [$slug => $shortcut] + $back;
 
         return $this;
     }

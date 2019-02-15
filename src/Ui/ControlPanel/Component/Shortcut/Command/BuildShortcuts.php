@@ -1,26 +1,27 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Event;
+<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Command;
 
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\ShortcutBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
- * Class GatherSections
+ * Class BuildShortcuts
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class GatherSections
+class BuildShortcuts
 {
 
     /**
-     * The control panel builder.
+     * The control_panel builder.
      *
      * @var ControlPanelBuilder
      */
     protected $builder;
 
     /**
-     * Create a new GatherSections instance.
+     * Create a new BuildShortcuts instance.
      *
      * @param ControlPanelBuilder $builder
      */
@@ -30,12 +31,12 @@ class GatherSections
     }
 
     /**
-     * Get the control panel builder.
+     * Handle the command.
      *
-     * @return ControlPanelBuilder
+     * @param ShortcutBuilder $builder
      */
-    public function getBuilder()
+    public function handle(ShortcutBuilder $builder)
     {
-        return $this->builder;
+        $builder->build($this->builder);
     }
 }
