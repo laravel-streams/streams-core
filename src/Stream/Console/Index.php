@@ -40,7 +40,7 @@ class Index extends Command
     public function handle(Kernel $console, StreamRepositoryInterface $streams)
     {
 
-        $slug      = $this->argument('slug');
+        $slug      = $this->argument('stream');
         $namespace = $this->argument('namespace');
 
         if ($slug && $namespace) {
@@ -112,7 +112,7 @@ class Index extends Command
     {
         return [
             ['namespace', InputArgument::OPTIONAL, 'The stream namespace to index.'],
-            ['slug', InputArgument::OPTIONAL, 'The stream slug to index.'],
+            ['stream', InputArgument::OPTIONAL, 'The slug of the stream to index.'],
         ];
     }
 

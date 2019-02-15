@@ -72,7 +72,7 @@ class AddonInstall extends Command
     protected function getArguments()
     {
         return [
-            ['addon', InputArgument::OPTIONAL, 'The addon to install.'],
+            ['addon', InputArgument::REQUIRED, 'The addon to install.'],
         ];
     }
 

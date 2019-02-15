@@ -6,7 +6,6 @@ use Anomaly\Streams\Platform\Database\Migration\Console\RefreshCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\ResetCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\RollbackCommand;
 use Anomaly\Streams\Platform\Database\Seeder\Console\SeedCommand;
-use Anomaly\Streams\Platform\View\Twig\Console\TwigClear;
 
 /**
  * Class StreamsConsoleProvider
@@ -26,40 +25,33 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
     protected $streamsCommands = [
 
         // Asset Commands
-        'Anomaly\Streams\Platform\Asset\Console\Clear',
+        \Anomaly\Streams\Platform\Asset\Console\Clear::class,
 
         // Installer Commands
-        'Anomaly\Streams\Platform\Installer\Console\Install',
+        \Anomaly\Streams\Platform\Installer\Console\Install::class,
 
         // Twig Commands
-        'Anomaly\Streams\Platform\View\Twig\Console\TwigClear',
-        'Anomaly\Streams\Platform\View\Twig\Console\TwigClean', // @deprecated in 1.3 remove in 1.4 - use twig:clear
+        \Anomaly\Streams\Platform\View\Twig\Console\TwigClear::class,
 
         // Streams Commands
-        'Anomaly\Streams\Platform\Stream\Console\Make',
-        'Anomaly\Streams\Platform\Stream\Console\Index',
-        'Anomaly\Streams\Platform\Stream\Console\Compile',
-        'Anomaly\Streams\Platform\Stream\Console\Refresh',
-        'Anomaly\Streams\Platform\Stream\Console\Cleanup',
-        'Anomaly\Streams\Platform\Stream\Console\Destroy',
+        \Anomaly\Streams\Platform\Stream\Console\Make::class,
+        \Anomaly\Streams\Platform\Stream\Console\Index::class,
+        \Anomaly\Streams\Platform\Stream\Console\Compile::class,
+        \Anomaly\Streams\Platform\Stream\Console\Refresh::class,
+        \Anomaly\Streams\Platform\Stream\Console\Cleanup::class,
+        \Anomaly\Streams\Platform\Stream\Console\Destroy::class,
 
         // Addon Commands
-        'Anomaly\Streams\Platform\Addon\Console\MakeAddon',
-        'Anomaly\Streams\Platform\Addon\Console\AddonInstall',
-        'Anomaly\Streams\Platform\Addon\Console\AddonUninstall',
-        'Anomaly\Streams\Platform\Addon\Console\AddonReinstall',
-        'Anomaly\Streams\Platform\Addon\Console\AddonPublish',
-        'Anomaly\Streams\Platform\Addon\Module\Console\Install',
-        'Anomaly\Streams\Platform\Addon\Module\Console\Uninstall',
-        'Anomaly\Streams\Platform\Addon\Module\Console\Reinstall',
-        'Anomaly\Streams\Platform\Addon\Extension\Console\Install',
-        'Anomaly\Streams\Platform\Addon\Extension\Console\Uninstall',
-        'Anomaly\Streams\Platform\Addon\Extension\Console\Reinstall',
+        \Anomaly\Streams\Platform\Addon\Console\MakeAddon::class,
+        \Anomaly\Streams\Platform\Addon\Console\AddonPublish::class,
+        \Anomaly\Streams\Platform\Addon\Console\AddonInstall::class,
+        \Anomaly\Streams\Platform\Addon\Console\AddonUninstall::class,
+        \Anomaly\Streams\Platform\Addon\Console\AddonReinstall::class,
 
         // Application Commands
-        'Anomaly\Streams\Platform\Application\Console\EnvSet',
-        'Anomaly\Streams\Platform\Application\Console\AppPublish',
-        'Anomaly\Streams\Platform\Application\Console\StreamsPublish',
+        \Anomaly\Streams\Platform\Application\Console\EnvSet::class,
+        \Anomaly\Streams\Platform\Application\Console\AppPublish::class,
+        \Anomaly\Streams\Platform\Application\Console\StreamsPublish::class,
     ];
 
     /**
