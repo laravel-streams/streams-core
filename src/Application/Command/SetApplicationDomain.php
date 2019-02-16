@@ -25,7 +25,7 @@ class SetApplicationDomain
     {
         if (PHP_SAPI == 'cli') {
 
-            $force = $config->get('streams::system.force_url', false);
+            $force = $config->get('streams::system.force_ssl', false);
 
             $protocol = 'http';
 
