@@ -194,17 +194,6 @@ class FieldCollection extends Collection
     }
 
     /**
-     * Return non-self handling fields.
-     *
-     * @deprecated use autoHandling() - removing in 1.4
-     * @return FieldCollection
-     */
-    public function allowed()
-    {
-        return $this->autoHandling();
-    }
-
-    /**
      * Return auto handling fields.
      *
      * @return FieldCollection

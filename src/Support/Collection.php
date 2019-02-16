@@ -13,24 +13,12 @@ use Illuminate\Support\HigherOrderCollectionProxy;
 class Collection extends \Illuminate\Support\Collection
 {
 
+    /**
+     * @return $this
+     */
     public function shouldBeSearchable()
     {
         return $this;
-    }
-
-    /**
-     * Alias for pluck.
-     *
-     * @deprecated in 3.1. Will remove in 3.2
-     *
-     * @param string $value
-     * @param string $key
-     *
-     * @return $this
-     */
-    public function lists($value, $key = null)
-    {
-        return self::pluck($value, $key);
     }
 
     /**

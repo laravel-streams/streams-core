@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
 use Anomaly\Streams\Platform\Model\EloquentCollection;
-use Anomaly\UsersModule\Role\Contract\RoleInterface;
-use Anomaly\UsersModule\User\Contract\UserInterface;
+use Anomaly\Streams\Platform\User\Contract\RoleInterface;
+use Anomaly\Streams\Platform\User\Contract\UserInterface;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 

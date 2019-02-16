@@ -54,7 +54,6 @@ if (!function_exists('str_humanize')) {
      * @param        $target
      * @param string $separator
      * @return string
-     * @deprecated use "humanize" - remove in 1.7
      */
     function str_humanize($target, $separator = '_')
     {

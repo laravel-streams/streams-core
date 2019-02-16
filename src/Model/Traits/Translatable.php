@@ -76,19 +76,6 @@ trait Translatable
     }
 
     /**
-     * Alias for isTranslatedAttribute()
-     *
-     * @deprecated 1.3 remove in 1.4
-     *
-     * @param $key
-     * @return bool
-     */
-    protected function isTranslationAttribute($key)
-    {
-        return $this->isTranslatedAttribute($key);
-    }
-
-    /**
      * Return the translatable flag.
      *
      * @return bool

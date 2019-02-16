@@ -111,15 +111,6 @@ class ShortcutNormalizer
             }
 
             /*
-             * Move the data-href into the permalink.
-             *
-             * @deprecated as of v3.2
-             */
-            if (!isset($shortcut['permalink']) && isset($shortcut['attributes']['data-href'])) {
-                $shortcut['permalink'] = array_pull($shortcut, 'attributes.data-href');
-            }
-
-            /*
              * Make sure the HREF and permalink are absolute.
              */
             if (

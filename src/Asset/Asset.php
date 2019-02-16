@@ -561,23 +561,6 @@ class Asset
     }
 
     /**
-     * Return the collection path. This
-     * is primarily used to determine paths
-     * to single assets.
-     *
-     * @deprecated Deprecated in 1.4 - remove in 1.5+
-     * @param $collection
-     * @return string
-     */
-    public function getCollectionPath($collection)
-    {
-        return ($this->request->segment(1) == 'admin' ? 'admin' : 'public') . '/' . ltrim(
-                str_replace(base_path(), '', $this->paths->realPath($collection)),
-                '/\\'
-            );
-    }
-
-    /**
      * Publish the collection of assets to the path.
      *
      * @param $path

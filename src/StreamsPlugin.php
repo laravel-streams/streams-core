@@ -6,9 +6,6 @@ use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Entry\Command\GetEntryCriteria;
 use Anomaly\Streams\Platform\Image\Command\MakeImageInstance;
-use Anomaly\Streams\Platform\Image\Command\MakeImagePath;
-use Anomaly\Streams\Platform\Image\Command\MakeImageTag;
-use Anomaly\Streams\Platform\Image\Command\MakeImageUrl;
 use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Model\Command\GetEloquentCriteria;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
@@ -213,22 +210,22 @@ class StreamsPlugin extends Plugin
         Currency $currency,
         Template $template
     ) {
-        $this->url        = $url;
-        $this->str        = $str;
-        $this->auth       = $auth;
-        $this->form       = $form;
-        $this->html       = $html;
-        $this->yaml       = $yaml;
-        $this->agent      = $agent;
-        $this->asset      = $asset;
-        $this->cache      = $cache;
-        $this->image      = $image;
-        $this->router     = $router;
-        $this->config     = $config;
-        $this->request    = $request;
-        $this->session    = $session;
-        $this->currency   = $currency;
-        $this->template   = $template;
+        $this->url      = $url;
+        $this->str      = $str;
+        $this->auth     = $auth;
+        $this->form     = $form;
+        $this->html     = $html;
+        $this->yaml     = $yaml;
+        $this->agent    = $agent;
+        $this->asset    = $asset;
+        $this->cache    = $cache;
+        $this->image    = $image;
+        $this->router   = $router;
+        $this->config   = $config;
+        $this->request  = $request;
+        $this->session  = $session;
+        $this->currency = $currency;
+        $this->template = $template;
 
         $this->route = $request->route();
     }
@@ -280,34 +277,6 @@ class StreamsPlugin extends Plugin
                         $this->dispatchNow(new GetEloquentCriteria($model, 'get'))
                     );
                 }
-            ),
-            new \Twig_SimpleFunction(
-                'image_*',
-                function ($name) {
-
-                    /**
-                     * @deprecated Use img().*
-                     */
-                    $image = current(array_slice(func_get_args(), 1));
-
-                    return $this->dispatchNow(new MakeImageInstance($image, $name));
-                },
-                [
-                    'is_safe' => ['html'],
-                ]
-            ),
-            new \Twig_SimpleFunction(
-                'image',
-                function ($image) {
-
-                    /**
-                     * @deprecated Use img()
-                     */
-                    return $this->dispatchNow(new MakeImageInstance($image, 'img'));
-                },
-                [
-                    'is_safe' => ['html'],
-                ]
             ),
             new \Twig_SimpleFunction(
                 'img',
