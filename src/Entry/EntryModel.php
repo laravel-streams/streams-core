@@ -97,6 +97,8 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     protected static function boot()
     {
+        parent::boot();
+
         $instance = new static;
 
         $class     = get_class($instance);
@@ -115,8 +117,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         if ($events && !$observing) {
             self::observe(EntryObserver::class);
         }
-
-        parent::boot();
     }
 
     /**
