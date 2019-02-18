@@ -58,6 +58,34 @@ class SegmentNormalizer
             }
 
             /*
+             * If the key is non-numerical and
+             * the segment is an array without
+             * a value then use the key.
+             */
+            if (!is_numeric($key) && is_array($segment) && !isset($segment['value'])) {
+                $segment['value'] = $key;
+            }
+
+            /*
+             * Make sure some default parameters exist.
+             */
+            $segment['attributes'] = array_get($segment, 'attributes', []);
+
+            /*
+             * Move the HREF if any to the attributes.
+             */
+            if (isset($segment['href'])) {
+                array_set($segment['attributes'], 'href', array_pull($segment, 'href'));
+            }
+
+            /*
+             * Move the target if any to the attributes.
+             */
+            if (isset($segment['target'])) {
+                array_set($segment['attributes'], 'target', array_pull($segment, 'target'));
+            }
+
+            /*
              * Move all data-* keys
              * to attributes.
              */

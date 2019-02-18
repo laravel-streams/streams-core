@@ -92,4 +92,9 @@ class EntryRouter
 
         return $this->url->make($route, $this->entry, $parameters);
     }
+
+    public function edit()
+    {
+        return 'Test';
+    }
 }
