@@ -264,8 +264,9 @@ class EloquentQueryBuilder extends Builder
                      *
                      * Sorry!
                      */
-                    $dbconn = $this->model->getConnectionName() ?: config('database.default');
-                    if (preg_match('/sqlsrv|pgsql/', config('database.connections')[$dbconn]['driver'])) {
+                    $connection = $this->model->getConnectionName() ?: config('database.default');
+                    
+                    if (preg_match('/sqlsrv|pgsql/', config('database.connections')[$connection]['driver'])) {
                         return;
                     }
 
