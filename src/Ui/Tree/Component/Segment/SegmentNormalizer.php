@@ -96,6 +96,17 @@ class SegmentNormalizer
             }
 
             /*
+             * Make sure the HREF is absolute.
+             */
+            if (
+                isset($segment['attributes']['href']) &&
+                is_string($segment['attributes']['href']) &&
+                !starts_with($segment['attributes']['href'], ['http', '{'])
+            ) {
+                $segment['attributes']['href'] = url($segment['attributes']['href']);
+            }
+
+            /*
              * If no value wrap is set
              * then use a default.
              */
