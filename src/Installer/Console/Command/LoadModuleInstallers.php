@@ -53,9 +53,9 @@ class LoadModuleInstallers
                     trans('streams::installer.installing', ['installing' => trans($module->getName())]),
                     function (Kernel $console) use ($module, $application) {
                         $console->call(
-                            'module:install',
+                            'addon:install',
                             [
-                                'module' => $module->getNamespace(),
+                                'addon' => $module->getNamespace(),
                                 '--app'  => $application->getReference(),
                             ]
                         );
