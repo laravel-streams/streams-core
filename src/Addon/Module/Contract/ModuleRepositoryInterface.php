@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
+use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
@@ -11,31 +12,8 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-interface ModuleRepositoryInterface
+interface ModuleRepositoryInterface extends EloquentRepositoryInterface
 {
-
-    /**
-     * Return all modules in the database.
-     *
-     * @return EloquentCollection
-     */
-    public function all();
-
-    /**
-     * Create a module record.
-     *
-     * @param  Module $module
-     * @return bool
-     */
-    public function create(Module $module);
-
-    /**
-     * Delete a module record.
-     *
-     * @param  Module      $module
-     * @return ModuleModel
-     */
-    public function delete(Module $module);
 
     /**
      * Mark a module as installed.

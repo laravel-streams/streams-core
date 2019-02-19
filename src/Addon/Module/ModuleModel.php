@@ -30,16 +30,6 @@ class ModuleModel extends EloquentModel implements ModuleInterface
     public $timestamps = false;
 
     /**
-     * Boot the model
-     */
-    protected static function boot()
-    {
-        self::observe(app(EloquentObserver::class));
-
-        parent::boot();
-    }
-
-    /**
      * Find a module by it's namespace or return a new
      * module with the given namespace.
      *

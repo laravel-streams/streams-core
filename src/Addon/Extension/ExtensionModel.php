@@ -30,16 +30,6 @@ class ExtensionModel extends EloquentModel implements ExtensionInterface
     public $timestamps = false;
 
     /**
-     * Boot the model
-     */
-    protected static function boot()
-    {
-        self::observe(app(EloquentObserver::class));
-
-        parent::boot();
-    }
-
-    /**
      * Find a extension by it's namespace or return a new
      * extension with the given namespace.
      *
