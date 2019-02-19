@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
+use Anomaly\Streams\Platform\Model\EloquentRepository;
 
 /**
  * Class ModuleRepository
@@ -9,13 +10,13 @@ use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class ModuleRepository implements ModuleRepositoryInterface
+class ModuleRepository extends EloquentRepository implements ModuleRepositoryInterface
 {
 
     /**
      * The module model.
      *
-     * @var
+     * @var ModuleModel
      */
     protected $model;
 
@@ -27,50 +28,6 @@ class ModuleRepository implements ModuleRepositoryInterface
     public function __construct(ModuleModel $model)
     {
         $this->model = $model;
-    }
-
-    /**
-     * Return all modules in the database.
-     *
-     * @return mixed
-     */
-    public function all()
-    {
-        return $this->model->all();
-    }
-
-    /**
-     * Create a module record.
-     *
-     * @param  Module $module
-     * @return bool
-     */
-    public function create(Module $module)
-    {
-        $instance = $this->model->newInstance();
-
-        $instance->namespace = $module->getNamespace();
-        $instance->installed = false;
-        $instance->enabled   = false;
-
-        return $instance->save();
-    }
-
-    /**
-     * Delete a module record.
-     *
-     * @param  Module      $module
-     * @return ModuleModel
-     */
-    public function delete(Module $module)
-    {
-        $module = $this->model->findByNamespace($module->getNamespace());
-
-        if ($module) {
-            $module->delete();
-        }
-
-        return $module;
     }
 
     /**
@@ -87,6 +44,8 @@ class ModuleRepository implements ModuleRepositoryInterface
 
         $module->installed = true;
         $module->enabled   = true;
+
+        cache()->clear();
 
         return $module->save();
     }
@@ -106,6 +65,8 @@ class ModuleRepository implements ModuleRepositoryInterface
         $module->installed = false;
         $module->enabled   = false;
 
+        cache()->clear();
+
         return $module->save();
     }
 
@@ -121,6 +82,8 @@ class ModuleRepository implements ModuleRepositoryInterface
 
         $module->enabled = false;
 
+        cache()->clear();
+
         return $module->save();
     }
 
@@ -135,6 +98,8 @@ class ModuleRepository implements ModuleRepositoryInterface
         $module = $this->model->findByNamespace($module->getNamespace());
 
         $module->enabled = true;
+
+        cache()->clear();
 
         return $module->save();
     }

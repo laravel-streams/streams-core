@@ -1,8 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension\Contract;
 
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
-use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
-use Anomaly\Streams\Platform\Model\EloquentCollection;
+use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
 
 /**
  * Interface ExtensionRepositoryInterface
@@ -11,31 +10,8 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-interface ExtensionRepositoryInterface
+interface ExtensionRepositoryInterface extends EloquentRepositoryInterface
 {
-
-    /**
-     * Return all extensions in the database.
-     *
-     * @return EloquentCollection
-     */
-    public function all();
-
-    /**
-     * Create a extension record.
-     *
-     * @param  Extension $extension
-     * @return bool
-     */
-    public function create(Extension $extension);
-
-    /**
-     * Delete a extension record.
-     *
-     * @param  Extension      $extension
-     * @return ExtensionModel
-     */
-    public function delete(Extension $extension);
 
     /**
      * Mark a extension as installed.
