@@ -1,7 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Http;
 
+use Anomaly\Streams\Platform\Addon\Module\Module;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Facade;
 
 /**
  * Class Kernel
@@ -93,6 +96,108 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         define('IS_ADMIN', starts_with(array_get($_SERVER, 'REQUEST_URI', ''), '/admin'));
 
         parent::__construct($app, $router);
+    }
+
+    /**
+     * Send the request through the router.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function sendRequestThroughRouter($request)
+    {
+        $this->app->instance('request', $request);
+
+        Facade::clearResolvedInstance('request');
+
+        $this->bootstrap();
+
+        $this->routeAutomatically($request);
+
+        return parent::sendRequestThroughRouter($request);
+    }
+
+    /**
+     * Attempt to route the request automatically.
+     *
+     * Huge thanks to @frednwt for this one.
+     *
+     * @param Request $request
+     */
+    protected function routeAutomatically(Request $request)
+    {
+        /**
+         * Use the segments to figure
+         * out what we need to do.
+         */
+        $segments = $request->segments();
+
+        /**
+         * Remove "admin"
+         * from beginning.
+         */
+        array_shift($segments);
+
+        $module = null;
+        $stream = null;
+        $method = null;
+        $id     = null;
+
+        $path = '';
+
+        if (count($segments) == 1) {
+            $module = $segments[0];
+            $stream = $segments[0];
+            $method = 'index';
+
+            $path = implode('/', ['admin', $module]);
+        }
+
+        if (count($segments) == 2) {
+            $module = $segments[0];
+            $stream = $segments[1];
+            $method = 'index';
+
+            $path = implode('/', ['admin', $module, $stream]);
+        }
+
+        if (count($segments) == 3) {
+            $module = $segments[0];
+            $stream = $segments[1];
+            $method = $segments[2];
+
+            $path = implode('/', ['admin', $module, $stream, $method]);
+        }
+
+        if (count($segments) == 4) {
+            $module = $segments[0];
+            $stream = $segments[1];
+            $method = $segments[2];
+            $id     = $segments[3];
+
+            $path = implode('/', ['admin', $module, $stream, $method, '{id}']);
+        }
+
+        /* @var Module $module */
+        if (!$module = app('module.collection')->get($module)) {
+            return;
+        }
+
+        $namespace  = (new \ReflectionClass($module))->getNamespaceName();
+        $controller = ucfirst(studly_case($stream)) . 'Controller';
+        $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
+
+        if (!class_exists($controller)) {
+            return;
+        }
+
+        app('router')->any(
+            $path,
+            [
+                'streams::addon' => $module->getNamespace(),
+                'uses'           => $controller . '@' . $method,
+            ]
+        );
     }
 
     /**

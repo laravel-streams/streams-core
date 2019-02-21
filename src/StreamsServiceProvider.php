@@ -457,5 +457,13 @@ class StreamsServiceProvider extends ServiceProvider
                 'uses' => 'Anomaly\Streams\Platform\Http\Controller\LocksController@release',
             ]
         );
+
+//        $this->app->make('router')->get(
+//            'admin/{module}/{stream?}/{action?}/{id?}',
+//            [
+//                'ttl'  => 0,
+//                'uses' => 'Anomaly\Streams\Platform\Http\Controller\RouteController@map',
+//            ]
+//        );
     }
 }
