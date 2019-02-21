@@ -101,6 +101,9 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
     /**
      * Send the request through the router.
      *
+     * This is the same as the parent logic
+     * with the exception of "routeAutomatically"
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
