@@ -190,6 +190,19 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
             $path = implode('/', ['admin', $module, $stream, $method, $id]);
         }
 
+        /* @var Router $router */
+        $router = app('router');
+
+        /**
+         * If the route has already been
+         * defined then let it handle itself.
+         */
+        try {
+            $router->getRoutes()->match($request); return;
+        } catch (\Exception $exception) {
+            // Not found. Onward!
+        }
+
         /* @var Module $module */
         if (!$module = app('module.collection')->get($module)) {
             return;
@@ -203,7 +216,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
             return;
         }
 
-        app('router')->any(
+        $router->any(
             $path,
             [
                 'streams::addon' => $module->getNamespace(),
