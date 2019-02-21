@@ -126,6 +126,15 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      */
     protected function routeAutomatically(Request $request)
     {
+
+        /**
+         * This only applies to admin
+         * controllers at this time.
+         */
+        if ($request->segment(1) !== 'admin') {
+            return;
+        }
+
         /**
          * Use the segments to figure
          * out what we need to do.
@@ -173,9 +182,9 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
             $module = $segments[0];
             $stream = $segments[1];
             $method = $segments[2];
-            $id     = $segments[3];
+            $id     = '{id}';
 
-            $path = implode('/', ['admin', $module, $stream, $method, '{id}']);
+            $path = implode('/', ['admin', $module, $stream, $method, $id]);
         }
 
         /* @var Module $module */
