@@ -150,12 +150,25 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
          */
         array_shift($segments);
 
-        $module = null;
-        $stream = null;
-        $method = null;
-        $id     = null;
+        /**
+         * The first segment MUST
+         * be a unique addon slug.
+         *
+         * @var Module $module
+         */
+        if (!$addon = app('module.collection')->get($segments[0])) {
+            return;
+        }
 
-        $path = '';
+        $namespace = (new \ReflectionClass($addon))->getNamespaceName();
+
+        $controller = null;
+        $module     = null;
+        $stream     = null;
+        $method     = null;
+        $path       = null;
+        $id         = null;
+
 
         if (count($segments) == 1) {
             $module = $segments[0];
@@ -163,6 +176,9 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
             $method = 'index';
 
             $path = implode('/', ['admin', $module]);
+
+            $controller = ucfirst(studly_case($stream)) . 'Controller';
+            $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
         }
 
         if (count($segments) == 2) {
@@ -171,6 +187,24 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
             $method = 'index';
 
             $path = implode('/', ['admin', $module, $stream]);
+
+            $controller = ucfirst(studly_case($stream)) . 'Controller';
+            $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
+
+            if (!class_exists($controller)) {
+                $controller = null;
+            }
+        }
+
+        if (!$controller && count($segments) == 2) {
+            $module = $segments[0];
+            $stream = $segments[0];
+            $method = $segments[1];
+
+            $path = implode('/', array_unique(['admin', $module, $stream, $method]));
+
+            $controller = ucfirst(studly_case($stream)) . 'Controller';
+            $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
         }
 
         if (count($segments) == 3) {
@@ -179,6 +213,25 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
             $method = $segments[2];
 
             $path = implode('/', ['admin', $module, $stream, $method]);
+
+            $controller = ucfirst(studly_case($stream)) . 'Controller';
+            $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
+
+            if (!class_exists($controller)) {
+                $controller = null;
+            }
+        }
+
+        if (!$controller && count($segments) == 3) {
+            $module = $segments[0];
+            $stream = $segments[0];
+            $method = $segments[1];
+            $id     = '{id}';
+
+            $path = implode('/', array_unique(['admin', $module, $stream, $method, $id]));
+
+            $controller = ucfirst(studly_case($stream)) . 'Controller';
+            $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
         }
 
         if (count($segments) == 4) {
@@ -188,6 +241,9 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
             $id     = '{id}';
 
             $path = implode('/', ['admin', $module, $stream, $method, $id]);
+
+            $controller = ucfirst(studly_case($stream)) . 'Controller';
+            $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
         }
 
         /* @var Router $router */
@@ -198,19 +254,12 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
          * defined then let it handle itself.
          */
         try {
-            $router->getRoutes()->match($request); return;
+            $router->getRoutes()->match($request);
+
+            return;
         } catch (\Exception $exception) {
             // Not found. Onward!
         }
-
-        /* @var Module $module */
-        if (!$module = app('module.collection')->get($module)) {
-            return;
-        }
-
-        $namespace  = (new \ReflectionClass($module))->getNamespaceName();
-        $controller = ucfirst(studly_case($stream)) . 'Controller';
-        $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
 
         if (!class_exists($controller)) {
             return;
@@ -219,7 +268,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         $router->any(
             $path,
             [
-                'streams::addon' => $module->getNamespace(),
+                'streams::addon' => $addon->getNamespace(),
                 'uses'           => $controller . '@' . $method,
             ]
         );
