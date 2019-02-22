@@ -43,7 +43,7 @@ class EntryTranslationsModel extends EloquentModel
     protected static function boot()
     {
         parent::boot();
-        
+
         self::observe(app(substr(__CLASS__, 0, -5) . 'Observer'));
     }
 
