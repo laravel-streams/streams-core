@@ -151,6 +151,13 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         array_shift($segments);
 
         /**
+         * This is just /admin
+         */
+        if (!$segments) {
+            return;
+        }
+
+        /**
          * The first segment MUST
          * be a unique addon slug.
          *
