@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\SearchFilterInte
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Concerns\HasAttributes;
 
 /**
  * Class SearchFilterQuery
@@ -37,7 +38,7 @@ class SearchFilterQuery
     /**
      * Handle the filter.
      *
-     * @param Builder               $query
+     * @param Builder $query
      * @param SearchFilterInterface $filter
      */
     public function handle(Builder $query, TableBuilder $builder, SearchFilterInterface $filter)
@@ -68,11 +69,24 @@ class SearchFilterQuery
         $query->where(
             function (Builder $query) use ($filter, $stream) {
 
+                /* @var Builder|HasAttributes $query */
+                $casts = $query
+                    ->getModel()
+                    ->getCasts();
+
                 foreach ($filter->getColumns() as $column) {
-                    $query->orWhere($column, 'LIKE', "%{$filter->getValue()}%");
+
+                    $value = $filter->getValue();
+
+                    if (array_get($casts, $column) == 'json') {
+                        $value = addslashes(substr(json_encode($value), 1, -1));
+                    }
+
+                    $query->orWhere($column, 'LIKE', "%{$value}%");
                 }
 
                 foreach ($filter->getFields() as $field) {
+
                     $filter->setField($field);
 
                     $fieldType      = $stream->getFieldType($field);
