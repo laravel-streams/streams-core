@@ -93,7 +93,9 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         $this->middlewareGroups   = array_merge($this->middlewareGroups, $middlewareGroups);
         $this->middlewarePriority = array_merge($this->middlewarePriority, $middlewarePriority);
 
-        define('IS_ADMIN', starts_with(array_get($_SERVER, 'REQUEST_URI', ''), '/admin'));
+        if (!defined('IS_ADMIN')) {
+            define('IS_ADMIN', starts_with(array_get($_SERVER, 'REQUEST_URI', ''), '/admin'));
+        }
 
         parent::__construct($app, $router);
     }
