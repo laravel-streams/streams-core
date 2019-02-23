@@ -58,6 +58,13 @@ class Filter implements FilterInterface
     protected $active = false;
 
     /**
+     * The filter column.
+     *
+     * @var bool
+     */
+    protected $column = null;
+
+    /**
      * The filter placeholder.
      *
      * @var null|string
@@ -237,6 +244,29 @@ class Filter implements FilterInterface
     public function isActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Get the column.
+     *
+     * @return bool
+     */
+    public function getColumn()
+    {
+        return $this->column;
+    }
+
+    /**
+     * Set the column.
+     *
+     * @param $column
+     * @return $this
+     */
+    public function setColumn($column)
+    {
+        $this->column = $column;
+
+        return $this;
     }
 
     /**
