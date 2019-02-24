@@ -88,7 +88,7 @@ class PluginCriteria
             ];
         }
 
-        $this->options['cache'] = $parameters;
+        $this->options['cache'] = array_merge($this->option('cache', []), $parameters);
 
         return $this;
     }
