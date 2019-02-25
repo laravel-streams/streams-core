@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Entry\Command\GetEntryCriteria;
 use Anomaly\Streams\Platform\Image\Command\MakeImageInstance;
 use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Model\Command\GetEloquentCriteria;
-use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Stream\Command\GetStream;
 use Anomaly\Streams\Platform\Stream\Command\GetStreams;
 use Anomaly\Streams\Platform\Support\Currency;
@@ -31,15 +30,8 @@ use Anomaly\Streams\Platform\View\Command\GetLayoutName;
 use Anomaly\Streams\Platform\View\Command\GetView;
 use Anomaly\Streams\Platform\View\Support\CompressHtmlTokenParser;
 use Carbon\Carbon;
-use Collective\Html\FormBuilder;
-use Collective\Html\HtmlBuilder;
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Cache\Repository as CacheRepository;
-use Illuminate\Contracts\Config\Repository as ConfigRepository;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Route;
-use Illuminate\Routing\Router;
 use Illuminate\Session\Store;
+use Illuminate\Support\Arr;
 use Jenssegers\Agent\Agent;
 use Symfony\Component\Yaml\Yaml;
 
@@ -54,183 +46,6 @@ class StreamsPlugin extends Plugin
 {
 
     /**
-     * The string utility.
-     *
-     * @var Str
-     */
-    protected $str;
-
-    /**
-     * The URL generator.
-     *
-     * @var UrlGenerator
-     */
-    protected $url;
-
-    /**
-     * The auth guard.
-     *
-     * @var Guard
-     */
-    protected $auth;
-
-    /**
-     * The form HTML builder.
-     *
-     * @var FormBuilder
-     */
-    protected $form;
-
-    /**
-     * The base HTML builder.
-     *
-     * @var HtmlBuilder
-     */
-    protected $html;
-
-    /**
-     * The YAML parser.
-     *
-     * @var Yaml
-     */
-    protected $yaml;
-
-    /**
-     * The agent utility.
-     *
-     * @var Agent
-     */
-    protected $agent;
-
-    /**
-     * The cache repository.
-     *
-     * @var CacheRepository
-     */
-    protected $cache;
-
-    /**
-     * The asset utility.
-     *
-     * @var Asset
-     */
-    protected $asset;
-
-    /**
-     * The config repository.
-     *
-     * @var ConfigRepository
-     */
-    protected $config;
-
-    /**
-     * The image utility.
-     *
-     * @var Image
-     */
-    protected $image;
-
-    /**
-     * The active route.
-     *
-     * @var Route
-     */
-    protected $route;
-
-    /**
-     * The router service.
-     *
-     * @var Router
-     */
-    protected $router;
-
-    /**
-     * The request object.
-     *
-     * @var Request
-     */
-    protected $request;
-
-    /**
-     * The session store.
-     *
-     * @var Store
-     */
-    protected $session;
-
-    /**
-     * The currency utility.
-     *
-     * @var Currency
-     */
-    protected $currency;
-
-    /**
-     * The template parser.
-     *
-     * @var Template
-     */
-    protected $template;
-
-    /**
-     * Create a new AgentPlugin instance.
-     *
-     * @param UrlGenerator $url
-     * @param Str $str
-     * @param Guard $auth
-     * @param Yaml $yaml
-     * @param Agent $agent
-     * @param Asset $asset
-     * @param Image $image
-     * @param Router $router
-     * @param FormBuilder $form
-     * @param HtmlBuilder $html
-     * @param CacheRepository $cache
-     * @param ConfigRepository $config
-     * @param Request $request
-     * @param Store $session
-     * @param Currency $currency
-     * @param Template $template
-     */
-    public function __construct(
-        UrlGenerator $url,
-        Str $str,
-        Guard $auth,
-        Yaml $yaml,
-        Agent $agent,
-        Asset $asset,
-        Image $image,
-        Router $router,
-        FormBuilder $form,
-        HtmlBuilder $html,
-        ConfigRepository $config,
-        CacheRepository $cache,
-        Request $request,
-        Store $session,
-        Currency $currency,
-        Template $template
-    ) {
-        $this->url      = $url;
-        $this->str      = $str;
-        $this->auth     = $auth;
-        $this->form     = $form;
-        $this->html     = $html;
-        $this->yaml     = $yaml;
-        $this->agent    = $agent;
-        $this->asset    = $asset;
-        $this->cache    = $cache;
-        $this->image    = $image;
-        $this->router   = $router;
-        $this->config   = $config;
-        $this->request  = $request;
-        $this->session  = $session;
-        $this->currency = $currency;
-        $this->template = $template;
-
-        $this->route = $request->route();
-    }
-
-    /**
      * Get the plugin functions.
      *
      * @return array
@@ -242,7 +57,7 @@ class StreamsPlugin extends Plugin
                 'stream',
                 function ($namespace, $slug = null) {
                     return (new Decorator())->decorate(
-                        $this->dispatchNow(new GetStream($namespace, $slug ?: $namespace))
+                        dispatch_now(new GetStream($namespace, $slug ?: $namespace))
                     );
                 }
             ),
@@ -250,7 +65,7 @@ class StreamsPlugin extends Plugin
                 'streams',
                 function ($namespace) {
                     return (new Decorator())->decorate(
-                        $this->dispatchNow(new GetStreams($namespace))
+                        dispatch_now(new GetStreams($namespace))
                     );
                 }
             ),
@@ -258,7 +73,7 @@ class StreamsPlugin extends Plugin
                 'entry',
                 function ($namespace, $stream = null) {
                     return (new Decorator())->decorate(
-                        $this->dispatchNow(new GetEntryCriteria($namespace, $stream ?: $namespace, 'first'))
+                        dispatch_now(new GetEntryCriteria($namespace, $stream ?: $namespace, 'first'))
                     );
                 }
             ),
@@ -266,7 +81,7 @@ class StreamsPlugin extends Plugin
                 'entries',
                 function ($namespace, $stream = null) {
                     return (new Decorator())->decorate(
-                        $this->dispatchNow(new GetEntryCriteria($namespace, $stream ?: $namespace, 'get'))
+                        dispatch_now(new GetEntryCriteria($namespace, $stream ?: $namespace, 'get'))
                     );
                 }
             ),
@@ -274,14 +89,14 @@ class StreamsPlugin extends Plugin
                 'query',
                 function ($model = null) {
                     return (new Decorator())->decorate(
-                        $this->dispatchNow(new GetEloquentCriteria($model, 'get'))
+                        dispatch_now(new GetEloquentCriteria($model, 'get'))
                     );
                 }
             ),
             new \Twig_SimpleFunction(
                 'img',
                 function ($image) {
-                    return $this->dispatchNow(new MakeImageInstance($image, 'img'));
+                    return dispatch_now(new MakeImageInstance($image, 'img'));
                 },
                 [
                     'is_safe' => ['html'],
@@ -303,7 +118,7 @@ class StreamsPlugin extends Plugin
                         $arguments = func_get_arg(0);
                     }
 
-                    return $this->dispatchNow(new GetTableCriteria($arguments));
+                    return dispatch_now(new GetTableCriteria($arguments));
                 },
                 [
                     'is_safe' => ['html'],
@@ -325,7 +140,7 @@ class StreamsPlugin extends Plugin
                         $arguments = func_get_arg(0);
                     }
 
-                    return $this->dispatchNow(new GetTableCriteria($arguments));
+                    return dispatch_now(new GetTableCriteria($arguments));
                 },
                 [
                     'is_safe' => ['html'],
@@ -348,7 +163,7 @@ class StreamsPlugin extends Plugin
                         $arguments = func_get_arg(0);
                     }
 
-                    return $this->dispatchNow(new GetFormCriteria($arguments));
+                    return dispatch_now(new GetFormCriteria($arguments));
                 },
                 [
                     'is_safe' => ['html'],
@@ -357,9 +172,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'form_*',
                 function ($name) {
-                    $arguments = array_slice(func_get_args(), 1);
-
-                    return call_user_func_array([$this->form, camel_case($name)], $arguments);
+                    return call_user_func_array([app('form'), camel_case($name)], array_slice(func_get_args(), 1));
                 },
                 [
                     'is_safe' => ['html'],
@@ -368,18 +181,22 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'html_*',
                 function ($name) {
-                    $arguments = array_slice(func_get_args(), 1);
-
-                    return call_user_func_array([$this->html, camel_case($name)], $arguments);
+                    return call_user_func_array([app('html'), camel_case($name)], array_slice(func_get_args(), 1));
                 },
                 [
                     'is_safe' => ['html'],
                 ]
             ),
             new \Twig_SimpleFunction(
+                'array_*',
+                function ($name) {
+                    return call_user_func_array([app(Arr::class), camel_case($name)], array_slice(func_get_args(), 1));
+                }
+            ),
+            new \Twig_SimpleFunction(
                 'icon',
                 function ($type, $class = null) {
-                    return (new Decorator())->decorate($this->dispatchNow(new GetIcon($type, $class)));
+                    return (new Decorator())->decorate(dispatch_now(new GetIcon($type, $class)));
                 },
                 [
                     'is_safe' => ['html'],
@@ -388,7 +205,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'view',
                 function ($view, array $data = []) {
-                    return $this->dispatchNow(new GetView($view, $data))->render();
+                    return dispatch_now(new GetView($view, $data))->render();
                 },
                 [
                     'is_safe' => ['html'],
@@ -397,7 +214,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'buttons',
                 function ($buttons) {
-                    return $this->dispatchNow(new GetButtons($buttons))->render();
+                    return dispatch_now(new GetButtons($buttons))->render();
                 },
                 [
                     'is_safe' => ['html'],
@@ -406,7 +223,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'constants',
                 function () {
-                    return $this->dispatchNow(new GetConstants())->render();
+                    return dispatch_now(new GetConstants())->render();
                 },
                 [
                     'is_safe' => ['html'],
@@ -439,33 +256,31 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'request_time',
                 function ($decimal = 2) {
-                    return $this->dispatchNow(new GetElapsedTime($decimal));
+                    return dispatch_now(new GetElapsedTime($decimal));
                 }
             ),
             new \Twig_SimpleFunction(
                 'memory_usage',
                 function ($precision = 1) {
-                    return $this->dispatchNow(new GetMemoryUsage($precision));
+                    return dispatch_now(new GetMemoryUsage($precision));
                 }
             ),
             new \Twig_SimpleFunction(
                 'layout',
                 function ($layout, $default = 'default') {
-                    return $this->dispatchNow(new GetLayoutName($layout, $default));
+                    return dispatch_now(new GetLayoutName($layout, $default));
                 }
             ),
             new \Twig_SimpleFunction(
                 'request_*',
                 function ($name) {
-                    $arguments = array_slice(func_get_args(), 1);
-
-                    return call_user_func_array([$this->request, camel_case($name)], $arguments);
+                    return call_user_func_array([request(), camel_case($name)], array_slice(func_get_args(), 1));
                 }
             ),
             new \Twig_SimpleFunction(
                 'trans',
                 function ($key, array $parameters = [], $locale = null) {
-                    return $this->dispatchNow(new GetTranslatedString($key, $parameters, $locale));
+                    return dispatch_now(new GetTranslatedString($key, $parameters, $locale));
                 }
             ),
             new \Twig_SimpleFunction(
@@ -477,41 +292,46 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'str_*',
                 function ($name) {
-                    $arguments = array_slice(func_get_args(), 1);
-
-                    return call_user_func_array([$this->str, camel_case($name)], $arguments);
+                    return call_user_func_array(
+                        [app(Str::class), camel_case($name)],
+                        array_slice(func_get_args(), 1)
+                    );
                 }
             ),
             new \Twig_SimpleFunction(
                 'url_*',
                 function ($name) {
-                    $arguments = array_slice(func_get_args(), 1);
-
-                    return call_user_func_array([$this->url, camel_case($name)], $arguments);
+                    return call_user_func_array(
+                        [url(), camel_case($name)],
+                        array_slice(func_get_args(), 1)
+                    );
                 }
             ),
             new \Twig_SimpleFunction(
                 'route_*',
                 function ($name) {
-                    $arguments = array_slice(func_get_args(), 1);
-
-                    return call_user_func_array([$this->route, camel_case($name)], $arguments);
+                    return call_user_func_array(
+                        [request()->route(), camel_case($name)],
+                        array_slice(func_get_args(), 1)
+                    );
                 }
             ),
             new \Twig_SimpleFunction(
                 'asset_*',
                 function ($name) {
-                    $arguments = array_slice(func_get_args(), 1);
-
-                    return call_user_func_array([$this->asset, camel_case($name)], $arguments);
+                    return call_user_func_array(
+                        [app(Asset::class), camel_case($name)],
+                        array_slice(func_get_args(), 1)
+                    );
                 }, ['is_safe' => ['html']]
             ),
             new \Twig_SimpleFunction(
                 'currency_*',
                 function ($name) {
-                    $arguments = array_slice(func_get_args(), 1);
-
-                    return call_user_func_array([$this->currency, camel_case($name)], $arguments);
+                    return call_user_func_array(
+                        [app(Currency::class), camel_case($name)],
+                        array_slice(func_get_args(), 1)
+                    );
                 }
             ),
             new \Twig_SimpleFunction(
@@ -522,7 +342,7 @@ class StreamsPlugin extends Plugin
                         $input = $input->__toString();
                     }
 
-                    return $this->yaml->parse($input);
+                    return app(Yaml::class)->parse($input);
                 }
             ),
             new \Twig_SimpleFunction(
@@ -558,7 +378,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'gravatar',
                 function ($email, array $parameters = []) {
-                    return $this->image->make(
+                    return app(Image::class)->make(
                         'https://www.gravatar.com/avatar/' . md5($email) . '?' . http_build_query(
                             $parameters
                         ),
@@ -572,43 +392,260 @@ class StreamsPlugin extends Plugin
                     return array_get($_COOKIE, $key, $default);
                 }
             ),
-            new \Twig_SimpleFunction('input_get', [$this->request, 'input']),
-            new \Twig_SimpleFunction('asset', [$this->url, 'asset'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('action', [$this->url, 'action'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('url', [$this, 'url'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('route', [$this->url, 'route'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('route_has', [$this->router, 'has'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('secure_url', [$this->url, 'secure'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('secure_asset', [$this->url, 'secureAsset'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('config', [$this->config, 'get']),
-            new \Twig_SimpleFunction('config_get', [$this->config, 'get']),
-            new \Twig_SimpleFunction('config_has', [$this->config, 'has']),
-            new \Twig_SimpleFunction('cache', [$this->cache, 'get']),
-            new \Twig_SimpleFunction('cache_get', [$this->cache, 'get']),
-            new \Twig_SimpleFunction('cache_has', [$this->cache, 'has']),
-            new \Twig_SimpleFunction('auth_user', [$this->auth, 'user']),
-            new \Twig_SimpleFunction('auth_check', [$this->auth, 'check']),
-            new \Twig_SimpleFunction('auth_guest', [$this->auth, 'guest']),
-            new \Twig_SimpleFunction('trans_exists', [trans(), 'exists']),
-            new \Twig_SimpleFunction('trans_choice', [trans(), 'choice']),
-            new \Twig_SimpleFunction('message_get', [$this->session, 'pull']),
-            new \Twig_SimpleFunction('message_exists', [$this->session, 'has']),
-            new \Twig_SimpleFunction('session', [$this->session, 'get']),
-            new \Twig_SimpleFunction('parse', [$this->template, 'render']),
-            new \Twig_SimpleFunction('csrf_token', [$this->session, 'token'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('csrf_field', 'csrf_field', ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('session_get', [$this->session, 'get']),
-            new \Twig_SimpleFunction('session_pull', [$this->session, 'pull']),
-            new \Twig_SimpleFunction('session_has', [$this->session, 'has']),
-            new \Twig_SimpleFunction('agent_device', [$this->agent, 'device']),
-            new \Twig_SimpleFunction('agent_browser', [$this->agent, 'browser']),
-            new \Twig_SimpleFunction('agent_version', [$this->agent, 'version']),
-            new \Twig_SimpleFunction('agent_platform', [$this->agent, 'platform']),
-            new \Twig_SimpleFunction('agent_is_phone', [$this->agent, 'isPhone']),
-            new \Twig_SimpleFunction('agent_is_robot', [$this->agent, 'isRobot']),
-            new \Twig_SimpleFunction('agent_is_tablet', [$this->agent, 'isTablet']),
-            new \Twig_SimpleFunction('agent_is_mobile', [$this->agent, 'isMobile']),
-            new \Twig_SimpleFunction('agent_is_desktop', [$this->agent, 'isDesktop']),
+            new \Twig_SimpleFunction(
+                'csrf_*',
+                function ($name) {
+
+                    if (!in_array($name, ['token', 'field'])) {
+                        throw new \Exception('Function [csrf_' . $name . '] does not exist.');
+                    }
+
+                    $helper = 'csrf_' . $name;
+
+                    return call_user_func(
+                        $helper,
+                        array_slice(func_get_args(), 1)
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'input_get',
+                function () {
+                    return call_user_func_array(
+                        [request(), 'input'],
+                        func_get_args()
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'asset',
+                function () {
+                    return call_user_func_array(
+                        [url(), 'asset'],
+                        func_get_args()
+                    );
+                }, ['is_safe' => ['html']]
+            ),
+            new \Twig_SimpleFunction(
+                'action',
+                function () {
+                    return call_user_func_array(
+                        [url(), 'action'],
+                        func_get_args()
+                    );
+                }, ['is_safe' => ['html']]
+            ),
+            new \Twig_SimpleFunction(
+                'url',
+                function () {
+
+                    if (!array_slice(func_get_args(), 1)) {
+                        return url()->current();
+                    }
+
+                    return call_user_func_array(
+                        [url(), 'to'],
+                        func_get_args()
+                    );
+                }, ['is_safe' => ['html']]
+            ),
+            new \Twig_SimpleFunction(
+                'route',
+                function () {
+                    return call_user_func_array(
+                        [url(), 'route'],
+                        func_get_args()
+                    );
+                }, ['is_safe' => ['html']]
+            ),
+            new \Twig_SimpleFunction(
+                'route_has',
+                function () {
+                    return call_user_func_array(
+                        [request()->route(), 'has'],
+                        func_get_args()
+                    );
+                }, ['is_safe' => ['html']]
+            ),
+            new \Twig_SimpleFunction(
+                'secure_url',
+                function () {
+                    return call_user_func_array(
+                        [url(), 'secure'],
+                        func_get_args()
+                    );
+                }, ['is_safe' => ['html']]
+            ),
+            new \Twig_SimpleFunction(
+                'secure_asset',
+                function () {
+                    return call_user_func_array(
+                        [url(), 'secureAsset'],
+                        func_get_args()
+                    );
+                }, ['is_safe' => ['html']]
+            ),
+            new \Twig_SimpleFunction(
+                'config',
+                function () {
+                    return call_user_func_array(
+                        [config(), 'get'],
+                        func_get_args()
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'config_*',
+                function ($name) {
+
+                    if (!in_array($name, ['get', 'has'])) {
+                        throw new \Exception('Function [config_' . $name . '] does not exist.');
+                    }
+
+                    return call_user_func_array(
+                        [config(), $name],
+                        array_slice(func_get_args(), 1)
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'cache',
+                function () {
+                    return call_user_func_array(
+                        [cache(), 'get'],
+                        func_get_args()
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'cache_*',
+                function ($name) {
+
+                    if (!in_array($name, ['get', 'has'])) {
+                        throw new \Exception('Function [cache_' . $name . '] does not exist.');
+                    }
+
+                    return call_user_func_array(
+                        [cache(), $name],
+                        array_slice(func_get_args(), 1)
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'auth_*',
+                function ($name) {
+
+                    if (!in_array($name, ['user', 'check', 'guest'])) {
+                        throw new \Exception('Function [auth_' . $name . '] does not exist.');
+                    }
+
+                    return call_user_func_array(
+                        [auth(), $name],
+                        array_slice(func_get_args(), 1)
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'trans_*',
+                function ($name) {
+
+                    if (!in_array($name, ['exists', 'choice'])) {
+                        throw new \Exception('Function [trans_' . $name . '] does not exist.');
+                    }
+
+                    return call_user_func_array(
+                        [trans(), $name],
+                        array_slice(func_get_args(), 1)
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'message_*',
+                function ($name) {
+
+                    if (!in_array($name, ['get', 'has', 'exists'])) {
+                        throw new \Exception('Function [message_' . $name . '] does not exist.');
+                    }
+
+                    if ($name == 'exists') {
+                        $name = 'has';
+                    }
+
+                    return call_user_func_array(
+                        [config(), $name],
+                        array_slice(func_get_args(), 1)
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'session',
+                function () {
+                    return call_user_func_array(
+                        [app(Store::class), 'get'],
+                        func_get_args()
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'parse',
+                function () {
+                    return call_user_func_array(
+                        [$this->template, 'render'],
+                        func_get_args()
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'session_*',
+                function ($name) {
+
+                    if (!in_array($name, ['get', 'pull', 'has'])) {
+                        throw new \Exception('Function [session_' . $name . '] does not exist.');
+                    }
+
+                    return call_user_func_array(
+                        [app(Store::class), $name],
+                        array_slice(func_get_args(), 1)
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'agent_*',
+                function ($name) {
+
+                    if (!in_array(
+                        $name,
+                        [
+                            'device',
+                            'browser',
+                            'version',
+                            'platform',
+                            'is_phone',
+                            'is_robot',
+                            'is_tablet',
+                            'is_mobile',
+                            'is_desktop',
+                        ]
+                    )
+                    ) {
+                        throw new \Exception('Function [agent_' . $name . '] does not exist.');
+                    }
+
+                    return call_user_func_array(
+                        [app(Agent::class), camel_case($name)],
+                        array_slice(func_get_args(), 1)
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'app',
+                function () {
+                    return call_user_func_array(
+                        ['app'],
+                        func_get_args()
+                    );
+                }
+            ),
         ];
     }
 
@@ -620,11 +657,51 @@ class StreamsPlugin extends Plugin
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('camel_case', [$this->str, 'camel']),
-            new \Twig_SimpleFilter('snake_case', [$this->str, 'snake']),
-            new \Twig_SimpleFilter('studly_case', [$this->str, 'studly']),
-            new \Twig_SimpleFilter('humanize', [$this->str, 'humanize']),
-            new \Twig_SimpleFilter('parse', [$this->template, 'render']),
+            new \Twig_SimpleFilter(
+                'camel_case',
+                function () {
+                    return call_user_func_array(
+                        [app(Str::class), 'camel'],
+                        func_get_args()
+                    );
+                }
+            ),
+            new \Twig_SimpleFilter(
+                'snake_case',
+                function () {
+                    return call_user_func_array(
+                        [app(Str::class), 'snake'],
+                        func_get_args()
+                    );
+                }
+            ),
+            new \Twig_SimpleFilter(
+                'studly_case',
+                function () {
+                    return call_user_func_array(
+                        [app(Str::class), 'studly'],
+                        func_get_args()
+                    );
+                }
+            ),
+            new \Twig_SimpleFilter(
+                'humanize',
+                function () {
+                    return call_user_func_array(
+                        [app(Str::class), 'humanize'],
+                        func_get_args()
+                    );
+                }
+            ),
+            new \Twig_SimpleFilter(
+                'parse',
+                function () {
+                    return call_user_func_array(
+                        [app(Template::class), 'render'],
+                        func_get_args()
+                    );
+                }
+            ),
             new \Twig_SimpleFilter(
                 'markdown',
                 function ($content) {
@@ -635,9 +712,10 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFilter(
                 'str_*',
                 function ($name) {
-                    $arguments = array_slice(func_get_args(), 1);
-
-                    return call_user_func_array([$this->str, camel_case($name)], $arguments);
+                    return call_user_func_array(
+                        [app(Str::class), camel_case($name)],
+                        array_slice(func_get_args(), 1)
+                    );
                 }
             ),
         ];
@@ -655,20 +733,6 @@ class StreamsPlugin extends Plugin
         ];
     }
 
-
-    /**
-     * Returns a list of global variables
-     * to add to the existing variables.
-     *
-     * @return array
-     */
-    public function getGlobals()
-    {
-        return [
-            'app' => app(),
-        ];
-    }
-
     /**
      * Return a URL.
      *
@@ -679,6 +743,6 @@ class StreamsPlugin extends Plugin
      */
     public function url($path = null, $parameters = [], $secure = null)
     {
-        return $this->url->to($path, $parameters, $secure);
+        return url()->to($path, $parameters, $secure);
     }
 }
