@@ -17,6 +17,7 @@ use Anomaly\Streams\Platform\Support\Locale;
 use Anomaly\Streams\Platform\Support\Markdown;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Support\Template;
+use Anomaly\Streams\Platform\Support\Value;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\Ui\Button\Command\GetButtons;
 use Anomaly\Streams\Platform\Ui\Command\GetElapsedTime;
@@ -331,6 +332,15 @@ class StreamsPlugin extends Plugin
                     return call_user_func_array(
                         [app(Currency::class), camel_case($name)],
                         array_slice(func_get_args(), 1)
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'value',
+                function () {
+                    return call_user_func_array(
+                        [app(Value::class), 'make'],
+                        func_get_args()
                     );
                 }
             ),
