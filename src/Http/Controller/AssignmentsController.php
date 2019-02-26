@@ -73,7 +73,7 @@ class AssignmentsController extends AdminController
             ->notAssignedTo($stream)
             ->unlocked();
 
-        return $this->view->make('streams::assignments/choose', compact('fields', 'group', 'module'));
+        return $this->view->make('streams::assignments/choose', compact('fields', 'module'));
     }
 
     /**
