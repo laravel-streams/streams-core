@@ -63,12 +63,12 @@ class EloquentTableRepository implements TableRepositoryInterface
         $query = $query->with($builder->getTableOption('eager', []));
 
         /*
-         * Raise and fire an event here to allow
+         * Raise and dispatch an event here to allow
          * other things (including filters / views)
          * to modify the query before proceeding.
          */
         $builder->fire('querying', compact('builder', 'query'));
-        app('events')->fire(new TableIsQuerying($builder, $query));
+        app('events')->dispatch(new TableIsQuerying($builder, $query));
 
         /*
          * Before we actually adjust the baseline query
@@ -127,7 +127,7 @@ class EloquentTableRepository implements TableRepositoryInterface
         }
 
         $builder->fire('queried', compact('builder', 'query'));
-        app('events')->fire(new TableWasQueried($builder, $query));
+        app('events')->dispatch(new TableWasQueried($builder, $query));
 
         return $query->get();
     }
