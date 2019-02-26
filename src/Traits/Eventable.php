@@ -7,12 +7,12 @@ use Anomaly\Streams\Platform\Notification\Command\TransmitNotification;
 trait Eventable
 {
     /**
-     * Fire the event.
+     * Dispatch the event.
      *
      * @param mixed $event
      */
     public function fire($event)
     {
-        app('events')->fire($event);
+        app('events')->dispatch($event);
     }
 }
