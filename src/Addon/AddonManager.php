@@ -203,7 +203,7 @@ class AddonManager
         $this->addons->registered();
         $this->integrator->finish();
 
-        $this->dispatcher->fire(new AddonsHaveRegistered($this->addons));
+        $this->dispatcher->dispatch(new AddonsHaveRegistered($this->addons));
     }
 
     /**
