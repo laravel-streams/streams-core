@@ -229,7 +229,7 @@ class EloquentRepository implements EloquentRepositoryInterface
 
         $this->model->unsetEventDispatcher();
 
-        $result = call_user_func($closure);
+        $result = \Closure::bind($closure, $this, get_class());
 
         $this->model->setEventDispatcher($dispatcher);
 
