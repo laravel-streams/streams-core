@@ -58,12 +58,12 @@ class EloquentTreeRepository implements TreeRepositoryInterface
         $query = $query->with($builder->getTreeOption('eager', []));
 
         /*
-         * Raise and fire an event here to allow
+         * Raise and dispatch an event here to allow
          * other things (including filters / views)
          * to modify the query before proceeding.
          */
         $builder->fire('querying', compact('builder', 'query'));
-        app('events')->fire(new TreeIsQuerying($builder, $query));
+        app('events')->dispatch(new TreeIsQuerying($builder, $query));
 
         /*
          * Before we actually adjust the baseline query
