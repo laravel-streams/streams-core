@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Http\Controller;
 
-use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Event\Response;
 use Anomaly\Streams\Platform\Http\Middleware\ApplicationReady;
 use Anomaly\Streams\Platform\Http\Middleware\CheckLocale;
@@ -11,20 +10,9 @@ use Anomaly\Streams\Platform\Http\Middleware\PoweredBy;
 use Anomaly\Streams\Platform\Http\Middleware\PrefixDomain;
 use Anomaly\Streams\Platform\Http\Middleware\SetLocale;
 use Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken;
-use Anomaly\Streams\Platform\Message\MessageBag;
-use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
-use Anomaly\Streams\Platform\View\ViewTemplate;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Routing\Redirector;
-use Illuminate\Routing\Route;
 
 /**
  * Class BaseController
@@ -42,84 +30,84 @@ class BaseController extends Controller
     /**
      * The service container.
      *
-     * @var Container
+     * @var \Illuminate\Contracts\Container\Container
      */
     protected $container;
 
     /**
      * The URL generator.
      *
-     * @var UrlGenerator
+     * @var \Anomaly\Streams\Platform\Routing\UrlGenerator
      */
     protected $url;
 
     /**
      * The view factory.
      *
-     * @var Factory
+     * @var \Illuminate\Contracts\View\Factory
      */
     protected $view;
 
     /**
      * The asset manager.
      *
-     * @var Asset
+     * @var \Anomaly\Streams\Platform\Asset\Asset
      */
     protected $asset;
 
     /**
      * The route object.
      *
-     * @var Route
+     * @var \Illuminate\Routing\Route
      */
     protected $route;
 
     /**
      * The event dispatcher.
      *
-     * @var Dispatcher
+     * @var \Illuminate\Contracts\Events\Dispatcher
      */
     protected $events;
 
     /**
      * The request object.
      *
-     * @var Request
+     * @var \Illuminate\Http\Request
      */
     protected $request;
 
     /**
      * The flash messages.
      *
-     * @var MessageBag
+     * @var \Anomaly\Streams\Platform\Message\MessageBag
      */
     protected $messages;
 
     /**
      * The redirect utility.
      *
-     * @var Redirector
+     * @var \Illuminate\Routing\Redirector
      */
     protected $redirect;
 
     /**
      * The view template.
      *
-     * @var ViewTemplate
+     * @var \Anomaly\Streams\Platform\View\ViewTemplate
      */
     protected $template;
 
     /**
      * The response factory.
      *
-     * @var ResponseFactory
+     * @var \Illuminate\Contracts\Routing\ResponseFactory
      */
     protected $response;
 
     /**
      * The breadcrumb collection.
      *
-     * @var BreadcrumbCollection
+     * @var \Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection
      */
     protected $breadcrumbs;
 
