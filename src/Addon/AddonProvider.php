@@ -594,6 +594,7 @@ class AddonProvider
     protected function registerRouteMiddleware(AddonServiceProvider $provider)
     {
         foreach ($provider->getRouteMiddleware() as $name => $class) {
+            $this->router->aliasMiddleware($name, $class);
             $this->router->middleware($name, $class);
         }
     }
