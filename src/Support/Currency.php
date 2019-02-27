@@ -89,7 +89,7 @@ class Currency
         $separator = array_get(
             $options,
             'decimals',
-            config('streams::currencies.supported.' . $currency . '.separator', ',')
+            $this->config->get('streams::currencies.supported.' . $currency . '.separator', ',')
         );
         $decimals  = array_get(
             $options,
