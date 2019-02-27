@@ -102,7 +102,7 @@ class Currency
             $this->config->get('streams::currencies.supported.' . $currency . '.point' . '.')
         );
 
-        return floatval(number_format(floor(($number * 100)) / 100, $decimals, $point, $separator));
+        return number_format(floor(($number * 100)) / 100, $decimals, $point, $separator);
     }
 
     /**
