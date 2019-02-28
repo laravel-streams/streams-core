@@ -49,9 +49,9 @@ class LoadExtensionInstallers
                     trans('streams::installer.installing', ['installing' => trans($extension->getName())]),
                     function (Kernel $console) use ($extension, $application) {
                         $console->call(
-                            'extension:install',
+                            'addon:install',
                             [
-                                'extension' => $extension->getNamespace(),
+                                'addon' => $extension->getNamespace(),
                                 '--app'     => $application->getReference(),
                             ]
                         );

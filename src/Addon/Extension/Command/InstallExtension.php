@@ -58,7 +58,7 @@ class InstallExtension
         Dispatcher $dispatcher,
         ExtensionRepositoryInterface $extensions
     ) {
-        $this->extension->fire('installing');
+        $this->extension->fire('installing', ['extension' => $this->extension]);
 
         $options = [
             '--addon' => $this->extension->getNamespace(),
@@ -75,7 +75,7 @@ class InstallExtension
             $console->call('db:seed', $options);
         }
 
-        $this->extension->fire('installed');
+        $this->extension->fire('installed', ['extension' => $this->extension]);
 
         $dispatcher->dispatch(new ExtensionWasInstalled($this->extension));
 

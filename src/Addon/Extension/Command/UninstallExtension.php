@@ -43,7 +43,7 @@ class UninstallExtension
      */
     public function handle(Kernel $console, Dispatcher $events, ExtensionRepositoryInterface $extensions)
     {
-        $this->extension->fire('uninstalling');
+        $this->extension->fire('uninstalling', ['extension' => $this->extension]);
 
         $options = [
             '--addon' => $this->extension->getNamespace(),
@@ -55,7 +55,7 @@ class UninstallExtension
 
         $extensions->uninstall($this->extension);
 
-        $this->extension->fire('uninstalled');
+        $this->extension->fire('uninstalled', ['extension' => $this->extension]);
 
         $events->dispatch(new ExtensionWasUninstalled($this->extension));
 

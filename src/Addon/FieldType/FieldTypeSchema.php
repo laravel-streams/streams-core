@@ -187,8 +187,6 @@ class FieldTypeSchema
         }
 
         /*
-         * @deprecated Will be removed in 3.5
-         *
          * If the assignment is NOT unique and not translatable
          * and the table DOES have the given table index
          * then we need to remove.

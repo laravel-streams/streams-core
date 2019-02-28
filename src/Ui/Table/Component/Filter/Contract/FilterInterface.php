@@ -80,6 +80,21 @@ interface FilterInterface
     public function isActive();
 
     /**
+     * Get the column.
+     *
+     * @return bool
+     */
+    public function getColumn();
+
+    /**
+     * Set the column.
+     *
+     * @param $column
+     * @return $this
+     */
+    public function setColumn($column);
+
+    /**
      * Set the field.
      *
      * @param  $field

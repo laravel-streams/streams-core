@@ -12,9 +12,15 @@
 
                 {% for segment in item.segments %}
                     {% if segment.value %}
-                        <span class="{{ segment.class }}" {{ html_attributes(segment.attributes) }}>
-                        {{ segment.value|raw }}
-                    </span>
+                        {% if segment.attributes.href %}
+                            <a class="{{ segment.class }}" {{ html_attributes(segment.attributes) }}>
+                                {{ segment.value|raw }}
+                            </a>
+                        {% else %}
+                            <span class="{{ segment.class }}" {{ html_attributes(segment.attributes) }}>
+                                {{ segment.value|raw }}
+                            </span>
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
 

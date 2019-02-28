@@ -24,6 +24,7 @@ class AddImageNamespaces
         $image->addPath('public', base_path('public'));
         $image->addPath('node', base_path('node_modules'));
         $image->addPath('asset', $application->getAssetsPath());
+        $image->addPath('resources', $application->getResourcesPath());
         $image->addPath('streams', $container->make('streams.path') . '/resources');
         $image->addPath('bower', $container->make('path.base') . '/bin/bower_components');
     }

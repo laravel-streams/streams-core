@@ -55,7 +55,7 @@ class MigrateExtension
         AddonManager $manager,
         Dispatcher $dispatcher
     ) {
-        $this->extension->fire('migrating');
+        $this->extension->fire('migrating', ['extension' => $this->extension]);
 
         $options = [
             '--addon' => $this->extension->getNamespace(),
@@ -70,7 +70,7 @@ class MigrateExtension
             $console->call('db:seed', $options);
         }
 
-        $this->extension->fire('migrated');
+        $this->extension->fire('migrated', ['extension' => $this->extension]);
 
         $dispatcher->dispatch(new ExtensionWasMigrated($this->extension));
 

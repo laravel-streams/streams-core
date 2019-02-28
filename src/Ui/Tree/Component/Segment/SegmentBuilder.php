@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
 
 use Anomaly\Streams\Platform\Support\Evaluator;
+use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 
 /**
@@ -28,6 +29,13 @@ class SegmentBuilder
     protected $value;
 
     /**
+     * The parser utility.
+     *
+     * @var Parser
+     */
+    protected $parser;
+
+    /**
      * The segment factory.
      *
      * @var SegmentFactory
@@ -44,15 +52,22 @@ class SegmentBuilder
     /**
      * Create a new SegmentBuilder instance.
      *
-     * @param SegmentInput   $input
-     * @param SegmentValue   $value
+     * @param SegmentInput $input
+     * @param SegmentValue $value
      * @param SegmentFactory $factory
-     * @param Evaluator      $evaluator
+     * @param Evaluator $evaluator
+     * @param Parser $parser
      */
-    public function __construct(SegmentInput $input, SegmentValue $value, SegmentFactory $factory, Evaluator $evaluator)
-    {
+    public function __construct(
+        SegmentInput $input,
+        SegmentValue $value,
+        SegmentFactory $factory,
+        Evaluator $evaluator,
+        Parser $parser
+    ) {
         $this->input     = $input;
         $this->value     = $value;
+        $this->parser    = $parser;
         $this->factory   = $factory;
         $this->evaluator = $evaluator;
     }
@@ -60,7 +75,7 @@ class SegmentBuilder
     /**
      * Build the segments.
      *
-     * @param  TreeBuilder       $builder
+     * @param  TreeBuilder $builder
      * @param                    $entry
      * @return SegmentCollection
      */
@@ -76,6 +91,7 @@ class SegmentBuilder
             array_set($segment, 'entry', $entry);
 
             $segment = $this->evaluator->evaluate($segment, compact('entry', 'tree'));
+            $segment = $this->parser->parse($segment, compact('entry'));
 
             if (array_get($segment, 'enabled', null) === false) {
                 continue;

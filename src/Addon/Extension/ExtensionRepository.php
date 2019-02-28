@@ -1,14 +1,22 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension;
 
 use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface;
+use Anomaly\Streams\Platform\Model\EloquentRepository;
 
-class ExtensionRepository implements ExtensionRepositoryInterface
+/**
+ * Class ExtensionRepository
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
+class ExtensionRepository extends EloquentRepository implements ExtensionRepositoryInterface
 {
 
     /**
      * The extension model.
      *
-     * @var
+     * @var ExtensionModel
      */
     protected $model;
 
@@ -20,52 +28,6 @@ class ExtensionRepository implements ExtensionRepositoryInterface
     public function __construct(ExtensionModel $model)
     {
         $this->model = $model;
-    }
-
-    /**
-     * Return all extensions in the database.
-     *
-     * @return mixed
-     */
-    public function all()
-    {
-        return $this->model->all();
-    }
-
-    /**
-     * Create a extension record.
-     *
-     * @param  Extension $extension
-     * @return bool
-     */
-    public function create(Extension $extension)
-    {
-        $instance = $this->model->newInstance();
-
-        $instance->namespace = $extension->getNamespace();
-        $instance->installed = false;
-        $instance->enabled   = false;
-
-        return $instance->save();
-    }
-
-    /**
-     * Delete a extension record.
-     *
-     * @param  Extension      $extension
-     * @return ExtensionModel
-     */
-    public function delete(Extension $extension)
-    {
-        if (!$extension = $this->model->findByNamespace($extension->getNamespace())) {
-            return false;
-        }
-
-        if ($extension) {
-            $extension->delete();
-        }
-
-        return $extension;
     }
 
     /**
@@ -83,6 +45,8 @@ class ExtensionRepository implements ExtensionRepositoryInterface
         $extension->installed = true;
         $extension->enabled   = true;
 
+        $this->model->flushCache();
+
         return $extension->save();
     }
 
@@ -99,6 +63,8 @@ class ExtensionRepository implements ExtensionRepositoryInterface
         $extension->installed = false;
         $extension->enabled   = false;
 
+        $this->model->flushCache();
+
         return $extension->save();
     }
 
@@ -114,6 +80,8 @@ class ExtensionRepository implements ExtensionRepositoryInterface
 
         $extension->enabled = false;
 
+        cache()->clear();
+
         return $extension->save();
     }
 
@@ -128,6 +96,8 @@ class ExtensionRepository implements ExtensionRepositoryInterface
         $extension = $this->model->findByNamespace($extension->getNamespace());
 
         $extension->enabled = true;
+
+        cache()->clear();
 
         return $extension->save();
     }

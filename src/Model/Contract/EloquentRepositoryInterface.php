@@ -120,10 +120,10 @@ interface EloquentRepositoryInterface
      * Perform an action without events.
      *
      * @param  EloquentModel $entry
-     * @param \Closure       $closure
+     * @param \Closure $closure
      * @return mixed
      */
-    public function withoutEvents(EloquentModel $entry, \Closure $closure);
+    public function withoutEvents(\Closure $closure);
 
     /**
      * Save a record.
@@ -182,6 +182,16 @@ interface EloquentRepositoryInterface
      * @return mixed
      */
     public function cache($key, $ttl, $value = null);
+
+    /**
+     * Cache (forever) a value in
+     * the model's cache collection.
+     *
+     * @param $key
+     * @param $value
+     * @return mixed
+     */
+    public function cacheForever($key, $value);
 
     /**
      * Flush the cache.

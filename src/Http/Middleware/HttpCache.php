@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Route;
 use Illuminate\Session\Store;
+use Jenssegers\Agent\Agent;
 
 /**
  * Class HttpCache
@@ -30,6 +31,13 @@ class HttpCache
     ];
 
     /**
+     * The agent utility.
+     *
+     * @var Agent
+     */
+    protected $agent;
+
+    /**
      * The session store.
      *
      * @var Store
@@ -46,11 +54,13 @@ class HttpCache
     /**
      * Create a new PoweredBy instance.
      *
+     * @param Agent $agent
      * @param Store $session
      * @param MessageBag $messages
      */
-    public function __construct(Store $session, MessageBag $messages)
+    public function __construct(Agent $agent, Store $session, MessageBag $messages)
     {
+        $this->agent    = $agent;
         $this->session  = $session;
         $this->messages = $messages;
     }
@@ -112,7 +122,7 @@ class HttpCache
         /**
          * Don't let BOTs generate cache files.
          */
-        if (!config('streams::httpcache.allow_bots', false) === false) {
+        if (config('streams::httpcache.allow_bots', false) === false && $this->agent->isRobot()) {
             return $response->setTtl(0);
         }
 

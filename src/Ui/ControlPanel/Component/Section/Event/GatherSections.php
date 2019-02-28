@@ -2,6 +2,13 @@
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
+/**
+ * Class GatherSections
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class GatherSections
 {
 

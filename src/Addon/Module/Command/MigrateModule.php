@@ -52,7 +52,7 @@ class MigrateModule
      */
     public function handle(Kernel $console, AddonManager $manager, Dispatcher $dispatcher)
     {
-        $this->module->fire('migrating');
+        $this->module->fire('migrating', ['module' => $this->module]);
 
         $options = [
             '--addon' => $this->module->getNamespace(),
@@ -67,7 +67,7 @@ class MigrateModule
             $console->call('db:seed', $options);
         }
 
-        $this->module->fire('migrated');
+        $this->module->fire('migrated', ['module' => $this->module]);
 
         $dispatcher->dispatch(new ModuleWasMigrated($this->module));
 

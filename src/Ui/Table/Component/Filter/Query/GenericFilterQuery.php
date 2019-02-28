@@ -58,9 +58,9 @@ class GenericFilterQuery
         }
 
         if ($filter->isExact()) {
-            $query->where($filter->getSlug(), $filter->getValue());
+            $query->where($filter->getColumn() ?: $filter->getSlug(), $filter->getValue());
         } else {
-            $query->where($filter->getSlug(), 'LIKE', "%{$filter->getValue()}%");
+            $query->where($filter->getColumn() ?: $filter->getSlug(), 'LIKE', "%{$filter->getValue()}%");
         }
     }
 }

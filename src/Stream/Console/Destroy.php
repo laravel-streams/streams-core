@@ -4,6 +4,13 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * Class Destroy
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class Destroy extends Command
 {
 

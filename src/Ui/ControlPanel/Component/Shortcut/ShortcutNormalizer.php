@@ -1,0 +1,135 @@
+<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
+
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+
+/**
+ * Class ShortcutNormalizer
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
+class ShortcutNormalizer
+{
+
+    /**
+     * The module collection.
+     *
+     * @var ModuleCollection
+     */
+    protected $modules;
+
+    /**
+     * Create a new ShortcutNormalizer instance.
+     *
+     * @param ModuleCollection $modules
+     */
+    public function __construct(ModuleCollection $modules)
+    {
+        $this->modules = $modules;
+    }
+
+    /**
+     * Normalize the shortcut input.
+     *
+     * @param ControlPanelBuilder $builder
+     */
+    public function normalize(ControlPanelBuilder $builder)
+    {
+        $shortcuts = $builder->getShortcuts();
+
+        /*
+         * Move child shortcuts into main array.
+         */
+        foreach ($shortcuts as $slug => &$shortcut) {
+            if (isset($shortcut['shortcuts'])) {
+                foreach ($shortcut['shortcuts'] as $key => $child) {
+
+                    /**
+                     * It's a slug only!
+                     */
+                    if (is_string($child)) {
+
+                        $key = $child;
+
+                        $child = ['slug' => $child];
+                    }
+
+                    $child['parent'] = array_get($shortcut, 'slug', $slug);
+                    $child['slug']   = array_get($child, 'slug', $key);
+
+                    $shortcuts[$key] = $child;
+                }
+            }
+        }
+
+        /*
+         * Loop over each shortcut and make sense of the input
+         * provided for the given module.
+         */
+        foreach ($shortcuts as $slug => &$shortcut) {
+
+            /*
+             * If the slug is not valid and the shortcut
+             * is a string then use the shortcut as the slug.
+             */
+            if (is_numeric($slug) && is_string($shortcut)) {
+                $shortcut = [
+                    'slug' => $shortcut,
+                ];
+            }
+
+            /*
+             * If the slug is a string and the title is not
+             * set then use the slug as the slug.
+             */
+            if (is_string($slug) && !isset($shortcut['slug'])) {
+                $shortcut['slug'] = $slug;
+            }
+
+            /*
+             * Make sure we have attributes.
+             */
+            $shortcut['attributes'] = array_get($shortcut, 'attributes', []);
+
+            /*
+             * Move the HREF into attributes.
+             */
+            if (isset($shortcut['href'])) {
+                $shortcut['attributes']['href'] = array_pull($shortcut, 'href');
+            }
+
+            /*
+             * Move all data-* keys
+             * to attributes.
+             */
+            foreach ($shortcut as $attribute => $value) {
+                if (str_is('data-*', $attribute)) {
+                    array_set($shortcut, 'attributes.' . $attribute, array_pull($shortcut, $attribute));
+                }
+            }
+
+            /*
+             * Make sure the HREF and permalink are absolute.
+             */
+            if (
+                isset($shortcut['attributes']['href']) &&
+                is_string($shortcut['attributes']['href']) &&
+                !starts_with($shortcut['attributes']['href'], 'http')
+            ) {
+                $shortcut['attributes']['href'] = url($shortcut['attributes']['href']);
+            }
+
+            if (
+                isset($shortcut['permalink']) &&
+                is_string($shortcut['permalink']) &&
+                !starts_with($shortcut['permalink'], 'http')
+            ) {
+                $shortcut['permalink'] = url($shortcut['permalink']);
+            }
+        }
+
+        $builder->setShortcuts(array_values($shortcuts));
+    }
+}

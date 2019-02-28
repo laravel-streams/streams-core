@@ -32,7 +32,8 @@ class FieldFormActions
                     'redirect' => $cp->getActiveControlPanelSectionHref('#click:[href="' . $choose . '"]'),
                 ],
                 'update'      => [
-                    'enabled' => 'edit',
+                    'enabled'  => 'edit',
+                    'redirect' => $cp->getActiveControlPanelSectionHref('edit/{request.route.parameters.id}'),
                 ],
                 'save_exit'   => [
                     'enabled' => 'edit',

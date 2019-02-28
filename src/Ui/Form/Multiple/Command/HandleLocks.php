@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
-use Anomaly\UsersModule\User\Contract\UserInterface;
+use Anomaly\Streams\Platform\User\Contract\UserInterface;
 use Illuminate\Contracts\Auth\Guard;
 
 /**

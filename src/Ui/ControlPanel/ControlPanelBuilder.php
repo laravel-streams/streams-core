@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Command\BuildControlPanel;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\ButtonHandler;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationHandler;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionHandler;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\ShortcutHandler;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -33,6 +34,13 @@ class ControlPanelBuilder
      * @var array
      */
     protected $sections = SectionHandler::class;
+
+    /**
+     * The shortcut components.
+     *
+     * @var array
+     */
+    protected $shortcuts = ShortcutHandler::class;
 
     /**
      * The navigation links.
@@ -273,6 +281,64 @@ class ControlPanelBuilder
     public function getControlPanelSections()
     {
         return $this->controlPanel->getSections();
+    }
+
+    /**
+     * Get the module shortcuts.
+     *
+     * @return array
+     */
+    public function getShortcuts()
+    {
+        return $this->shortcuts;
+    }
+
+    /**
+     * Set the shortcuts.
+     *
+     * @param array $shortcuts
+     * @return $this
+     */
+    public function setShortcuts($shortcuts)
+    {
+        $this->shortcuts = $shortcuts;
+
+        return $this;
+    }
+
+    /**
+     * Add shortcuts.
+     *
+     * @param array $shortcuts
+     * @return $this
+     */
+    public function addShortcuts($shortcuts)
+    {
+        $this->shortcuts = array_merge($this->shortcuts, $shortcuts);
+
+        return $this;
+    }
+
+    /**
+     * Add a shortcut.
+     *
+     * @param        $slug
+     * @param  array $shortcut
+     * @param null   $position
+     * @return $this
+     */
+    public function addShortcut($slug, array $shortcut, $position = null)
+    {
+        if ($position === null) {
+            $position = count($this->shortcuts) + 1;
+        }
+
+        $front = array_slice($this->shortcuts, 0, $position, true);
+        $back  = array_slice($this->shortcuts, $position, count($this->shortcuts) - $position, true);
+
+        $this->shortcuts = $front + [$slug => $shortcut] + $back;
+
+        return $this;
     }
 
     /**

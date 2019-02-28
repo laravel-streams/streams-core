@@ -32,6 +32,7 @@ class Refresh extends Command
      * Execute the console command.
      *
      * @param Dispatcher $events
+     * @TODO Is this class a thing? Deprecate me?
      */
     public function handle(Dispatcher $events)
     {

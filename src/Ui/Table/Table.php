@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Form\FormPresenter;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
@@ -13,6 +14,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Illuminate\Support\Collection;
+use Robbo\Presenter\PresentableInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -22,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Table
+class Table implements PresentableInterface
 {
 
     /**
@@ -119,12 +121,12 @@ class Table
     /**
      * Create a new Table instance.
      *
-     * @param Collection       $data
-     * @param Collection       $options
-     * @param Collection       $entries
-     * @param Collection       $headers
-     * @param RowCollection    $rows
-     * @param ViewCollection   $views
+     * @param Collection $data
+     * @param Collection $options
+     * @param Collection $entries
+     * @param Collection $headers
+     * @param RowCollection $rows
+     * @param ViewCollection $views
      * @param ActionCollection $actions
      * @param FilterCollection $filters
      */
@@ -387,7 +389,7 @@ class Table
      * Get an option value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getOption($key, $default = null)
@@ -562,4 +564,21 @@ class Table
     {
         return $this->rows;
     }
+
+    /**
+     * Return a created presenter.
+     *
+     * @return FormPresenter
+     */
+    public function getPresenter()
+    {
+        $presenter = get_class($this) . 'Presenter';
+
+        if (class_exists($presenter)) {
+            return app()->make($presenter, ['object' => $this]);
+        }
+
+        return app()->make(TablePresenter::class, ['object' => $this]);
+    }
+
 }

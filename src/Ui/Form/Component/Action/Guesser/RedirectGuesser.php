@@ -100,7 +100,6 @@ class RedirectGuesser
             // Determine the HREF based on the action type.
             switch (array_get($action, 'action')) {
 
-                case 'save':
                 case 'submit':
                 case 'save_exit':
                     $action['redirect'] = $section ? $section->getHref() : $this->request->url() . $query;
@@ -110,6 +109,7 @@ class RedirectGuesser
                     $action['redirect'] = $this->request->url() . $query;
                     break;
 
+                case 'save':
                 case 'update':
                 case 'save_edit':
                 case 'save_continue':

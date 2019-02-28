@@ -134,11 +134,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     {
         if (!$value) {
             $value = $ttl;
-            $ttl   = 60 * 60 * 24 * 360; // Forever-ish
-        }
-
-        if (!config('streams::system.cache_enabled', false)) {
-            return value($value);
+            $ttl   = 60 * 60 * 24 * 365; // Forever-ish
         }
 
         (new CacheCollection())
@@ -146,9 +142,36 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
             ->setKey($this->getCacheCollectionKey())
             ->index();
 
-        return app('cache')->remember(
+        return cache()->remember(
             $key,
             $ttl / 60,
+            $value
+        );
+    }
+
+    /**
+     * Cache (forever) a value in
+     * the model's cache collection.
+     *
+     * @param $key
+     * @param $value
+     * @return mixed
+     */
+    public function cacheForever($key, $value)
+    {
+        (new CacheCollection())
+            ->make([$key])
+            ->setKey($this->getCacheCollectionKey())
+            ->index();
+
+        /**
+         * Due to issues with forever and
+         * closures we have to use remember
+         * function here with a very large ttl.
+         */
+        return cache()->remember(
+            $key,
+            60 * 24 * 365,
             $value
         );
     }
@@ -246,7 +269,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      */
     public function getCacheCollectionKey()
     {
-        return get_called_class();
+        return static::class;
     }
 
     /**
@@ -387,7 +410,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      * Set an attribute.
      *
      * @param  string $key
-     * @param  mixed  $value
+     * @param  mixed $value
      * @return $this
      */
     public function setAttribute($key, $value)
@@ -739,7 +762,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      * Check hooks for the missing method.
      *
      * @param string $method
-     * @param array  $parameters
+     * @param array $parameters
      * @return mixed
      */
     public function __call($method, $parameters)

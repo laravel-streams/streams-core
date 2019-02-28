@@ -220,19 +220,18 @@ class EloquentRepository implements EloquentRepositoryInterface
     /**
      * Perform an action without events.
      *
-     * @param  EloquentModel $entry
      * @param \Closure $closure
      * @return mixed
      */
-    public function withoutEvents(EloquentModel $entry, \Closure $closure)
+    public function withoutEvents(\Closure $closure)
     {
-        $dispatcher = $entry->getEventDispatcher();
+        $dispatcher = $this->model->getEventDispatcher();
 
-        $entry->unsetEventDispatcher();
+        $this->model->unsetEventDispatcher();
 
-        $result = call_user_func($closure, $entry);
+        $result = \Closure::bind($closure, $this, get_class());
 
-        $entry->setEventDispatcher($dispatcher);
+        $this->model->setEventDispatcher($dispatcher);
 
         return $result;
     }
@@ -331,6 +330,19 @@ class EloquentRepository implements EloquentRepositoryInterface
     public function cache($key, $ttl, $value = null)
     {
         return $this->model->cache($key, $ttl, $value);
+    }
+
+    /**
+     * Cache a value in the
+     * model's cache collection.
+     *
+     * @param $key
+     * @param $value
+     * @return mixed
+     */
+    public function cacheForever($key, $value)
+    {
+        return $this->model->cacheForever($key, $value);
     }
 
     /**

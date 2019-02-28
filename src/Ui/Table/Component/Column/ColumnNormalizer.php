@@ -60,7 +60,7 @@ class ColumnNormalizer
             /*
              * If the key is non-numerical and
              * the column is an array without
-             * a heading then use the key.
+             * a field then use the key.
              */
             if (!is_numeric($key) && is_array($column) && !array_has($column, 'field')) {
                 $column['field'] = $key;
