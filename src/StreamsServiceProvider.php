@@ -198,7 +198,7 @@ class StreamsServiceProvider extends ServiceProvider
         // Next take care of core utilities.
         $this->dispatchNow(new SetCoreConnection());
         $this->dispatchNow(new ConfigureUriValidator());
-        $this->dispatchNow(new InitializeApplication());
+        $this->dispatchNow(new InitializeApplication()); // 24
 
         // Load application specific .env file.
         $this->dispatchNow(new LoadEnvironmentOverrides());

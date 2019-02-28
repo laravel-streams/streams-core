@@ -22,13 +22,6 @@ class AddonIntegrator
 {
 
     /**
-     * The runtime cache.
-     *
-     * @var array
-     */
-    protected static $disabled = [];
-
-    /**
      * The view factory.
      *
      * @var Factory
