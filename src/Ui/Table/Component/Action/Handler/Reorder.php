@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Model\EloquentRepository;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Http\Request;
@@ -19,28 +20,35 @@ class Reorder extends ActionHandler
      * Save the order of the entries.
      *
      * @param TableBuilder $builder
-     * @param Request      $request
+     * @param Request $request
      */
     public function handle(TableBuilder $builder, Request $request)
     {
         $items = $request->get($builder->getTableOption('prefix') . 'order', []);
 
-        $model = $builder->getTableModel();
+        $repository = (new EloquentRepository())->setModel($model = $builder->getTableModel());
 
         /* @var EloquentModel $entry */
-        foreach ($items as $k => $id) {
+        $repository->withoutEvents(
+            function () use ($items) {
+                foreach ($items as $k => $id) {
 
-            $model
-                ->newQuery()
-                ->where('id', $id)
-                ->update(
-                    [
-                        'sort_order' => $k + 1,
-                    ]
-                );
-        }
+                    /* @var EloquentRepository $this */
+                    $this
+                        ->newQuery()
+                        ->where('id', $id)
+                        ->update(
+                            [
+                                'sort_order' => $k + 1,
+                            ]
+                        );
+                }
+            }
+        );
 
-        $model->flushCache();
+        $model->fireEvent('updatedMany');
+
+        $repository->flushCache();
 
         $count = count($items);
 
