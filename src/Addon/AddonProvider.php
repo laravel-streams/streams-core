@@ -17,12 +17,19 @@ use Illuminate\Routing\Router;
 /**
  * Class AddonProvider
  *
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
+ * @link    http://pyrocms.com/
+ * @author  PyroCMS, Inc. <support@pyrocms.com>
+ * @author  Ryan Thompson <ryan@pyrocms.com>
  */
 class AddonProvider
 {
+
+    /**
+     * The cached services.
+     *
+     * @var array
+     */
+    protected $cached = [];
 
     /**
      * The registered providers.
@@ -625,6 +632,14 @@ class AddonProvider
      */
     protected function routesAreCached()
     {
-        return file_exists(base_path('bootstrap/cache/routes.php'));
+        if (in_array('routes', $this->cached)) {
+            return true;
+        }
+
+        if (file_exists(base_path('bootstrap/cache/routes.php'))) {
+            return $this->cached[] = 'routes';
+        }
+
+        return false;
     }
 }

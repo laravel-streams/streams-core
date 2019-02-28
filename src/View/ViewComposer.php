@@ -180,9 +180,9 @@ class ViewComposer
         $name = str_replace('theme::', $this->theme->getNamespace() . '::', $view->getName());
 
         if ($this->mobile && $path = array_get($mobile, $name, null)) {
-            $view->setPath($path);
+            $view->setPath(str_replace('theme::', $this->theme->getNamespace() . '::', $path));
         } elseif ($path = array_get($overrides, $name, null)) {
-            $view->setPath($path);
+            $view->setPath(str_replace('theme::', $this->theme->getNamespace() . '::', $path));
         }
 
         /**

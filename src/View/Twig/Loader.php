@@ -190,9 +190,9 @@ class Loader extends OriginalLoader
         $name = str_replace('theme::', $this->theme->getNamespace() . '::', $name);
 
         if ($this->mobile && $path = array_get($mobile, $name)) {
-            $result = $path;
+            $result = str_replace('theme::', $this->theme->getNamespace() . '::', $path);
         } elseif ($path = array_get($overrides, $name)) {
-            $result = $path;
+            $result = str_replace('theme::', $this->theme->getNamespace() . '::', $path);
         }
 
         /**
