@@ -101,14 +101,14 @@ class ViewComposer
     /**
      * Create a new ViewComposer instance.
      *
-     * @param Factory             $view
-     * @param Mobile_Detect       $agent
-     * @param Dispatcher          $events
-     * @param AddonCollection     $addons
-     * @param ViewOverrides       $overrides
-     * @param Request             $request
+     * @param Factory $view
+     * @param Mobile_Detect $agent
+     * @param Dispatcher $events
+     * @param AddonCollection $addons
+     * @param ViewOverrides $overrides
+     * @param Request $request
      * @param ViewMobileOverrides $mobiles
-     * @param Application         $application
+     * @param Application $application
      */
     public function __construct(
         Factory $view,
@@ -167,29 +167,13 @@ class ViewComposer
      */
     protected function setPath(View $view)
     {
-        /**
-         * If view path is already in internal cache use it.
-         */
-        if ($path = array_get($this->cache, $view->getName())) {
-
-            $view->setPath($path);
-
-            return;
-        }
-
         $mobile = array_merge(
-            $this->mobiles->get($this->theme->getNamespace(), []),
-            $this->mobiles->get('*', []),
+            $this->mobiles->all(),
             config('streams.mobile', [])
         );
 
-        /**
-         * Merge system configured overrides
-         * with the overrides from the addon.
-         */
         $overrides = array_merge(
-            $this->overrides->get($this->theme->getNamespace(), []),
-            $this->overrides->get('*', []),
+            $this->overrides->all(),
             config('streams.overrides', [])
         );
 
@@ -201,25 +185,18 @@ class ViewComposer
             $view->setPath($path);
         }
 
-        if ($this->module) {
-
-            $mobile    = $this->mobiles->get($this->module->getNamespace(), []);
-            $overrides = $this->overrides->get($this->module->getNamespace(), []);
-
-            if ($this->mobile && $path = array_get($mobile, $view->getName(), null)) {
-                $view->setPath($path);
-            } elseif ($path = array_get($overrides, $view->getName(), null)) {
-                $view->setPath($path);
-            } elseif ($path = array_get(config('streams.overrides'), $view->getName(), null)) {
-                $view->setPath($path);
-            }
-        }
-
-        if ($overload = $this->getOverloadPath($view)) {
+        /**
+         * Get the overloaded view path.
+         *
+         * This is very expensive for IO
+         * so we're going to remove it in
+         * favor of manual overrides only.
+         *
+         * @deprecated since 1.6; Use override collection.
+         */
+        if (env('AUTOMATIC_VIEW_OVERLOADS', true) && $overload = $this->getOverloadPath($view)) {
             $view->setPath($overload);
         }
-
-        $this->cache[$view->getName()] = $view->getPath();
     }
 
     /**

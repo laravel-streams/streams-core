@@ -149,9 +149,9 @@ class AddonProvider
         $this->bindAliases($provider);
         $this->bindClasses($provider);
         $this->bindSingletons($provider);
+        $this->registerOverrides($provider);
 
         $this->registerRoutes($provider, $addon);
-        $this->registerOverrides($provider, $addon);
         $this->registerApi($provider, $addon);
 
         $this->registerEvents($provider);
@@ -547,9 +547,8 @@ class AddonProvider
      * Register view overrides.
      *
      * @param AddonServiceProvider $provider
-     * @param Addon $addon
      */
-    protected function registerOverrides(AddonServiceProvider $provider, Addon $addon)
+    protected function registerOverrides(AddonServiceProvider $provider)
     {
         $overrides = $provider->getOverrides();
         $mobiles   = $provider->getMobile();
@@ -558,8 +557,13 @@ class AddonProvider
             return;
         }
 
-        $this->viewOverrides->put($addon->getNamespace(), $overrides);
-        $this->viewMobileOverrides->put($addon->getNamespace(), $mobiles);
+        foreach ($overrides as $view => $override) {
+            $this->viewOverrides->add($view, $override);
+        }
+
+        foreach ($mobiles as $view => $override) {
+            $this->viewMobileOverrides->add($view, $override);
+        }
     }
 
     /**
