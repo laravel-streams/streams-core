@@ -449,7 +449,7 @@ class StreamsPlugin extends Plugin
                 'url',
                 function () {
 
-                    if (!array_slice(func_get_args(), 1)) {
+                    if (!func_get_args()) {
                         return url()->current();
                     }
 
