@@ -22,13 +22,6 @@ class PluginCriteria
     protected $model = null;
 
     /**
-     * The cache prefix.
-     *
-     * @var null|string
-     */
-    protected $cachePrefix = null;
-
-    /**
      * The options.
      *
      * @var array
@@ -88,7 +81,17 @@ class PluginCriteria
             ];
         }
 
-        $this->options['cache'] = $parameters;
+        array_set(
+            $this->options,
+            'cache',
+            array_merge(
+                array_get(
+                    $this->options,
+                    'cache', []
+                ),
+                $parameters
+            )
+        );
 
         return $this;
     }
@@ -188,6 +191,18 @@ class PluginCriteria
     }
 
     /**
+     * Get the static variables of this->callback.
+     *
+     * @return array
+     */
+    public function getCallbackStaticVariables()
+    {
+        $callbackReflectionClass = new \ReflectionFunction($this->callback);
+
+        return $callbackReflectionClass->getStaticVariables();
+    }
+
+    /**
      * Get the cache key.
      *
      * @return null|string
@@ -198,8 +213,8 @@ class PluginCriteria
             $this->options,
             'cache.key',
             $this->getCachePrefix() . '.'
-            . md5(json_encode($this->collection)) . '.'
-            . md5(json_encode($this->options))
+            . md5(json_encode($this->options)) . '.'
+            . md5(json_encode($this->getCallbackStaticVariables()))
         );
 
         $namespace = array_get($this->options, 'cache.namespace');
@@ -222,9 +237,11 @@ class PluginCriteria
      */
     public function getCachePrefix()
     {
-        if ($model = $this->getModel()) {
-            return $this->cachePrefix;
+        if($prefix = array_get($this->options, 'cache.prefix')) {
+            return $prefix;
         }
+
+        return '';
     }
 
     /**
@@ -235,7 +252,7 @@ class PluginCriteria
      */
     public function setCachePrefix($cachePrefix)
     {
-        $this->cachePrefix = $cachePrefix;
+        array_set($this->options, 'cache.prefix', $cachePrefix);
 
         return $this;
     }
@@ -247,7 +264,7 @@ class PluginCriteria
      */
     public function getCacheTtl()
     {
-        return array_get($this->collection, 'ttl', 60 * 24 * 7);
+        return array_get($this->options, 'cache.ttl', 60 * 24 * 7);
     }
 
     /**
@@ -258,7 +275,7 @@ class PluginCriteria
      */
     public function setCacheTtl($cacheTtl)
     {
-        $this->cacheTtl = $cacheTtl;
+        array_set($this->options, 'cache.ttl', $cacheTtl);
 
         return $this;
     }
