@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\Addon\Theme\Theme;
 use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Anomaly\Streams\Platform\View\ViewMobileOverrides;
@@ -138,6 +139,10 @@ class AddonProvider
             return;
         }
 
+        if ($addon instanceof Theme && !$addon->isActive()) {
+            return;
+        }
+
         $provider = $addon->getServiceProvider();
 
         if (!class_exists($provider)) {
@@ -177,7 +182,16 @@ class AddonProvider
      */
     public function boot()
     {
+        $booted = array_get($this->cached, 'booted', []);
+
         foreach ($this->providers as $provider) {
+
+            if (in_array($class = get_class($provider), $booted)) {
+                continue;
+            }
+
+            $this->cached['booted'][] = $class;
+
             if (method_exists($provider, 'boot')) {
                 $this->application->call([$provider, 'boot']);
             }
