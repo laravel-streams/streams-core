@@ -116,6 +116,11 @@ class ButtonNormalizer
                         array_set($dropdown['attributes'], 'href', array_pull($dropdown, 'href'));
                     }
 
+                    // Move the target if any to the attributes.
+                    if (isset($dropdown['target'])) {
+                        array_set($dropdown['attributes'], 'target', array_pull($dropdown, 'target'));
+                    }
+
                     // Make sure the HREF is absolute.
                     if (
                         isset($dropdown['attributes']['href']) &&
