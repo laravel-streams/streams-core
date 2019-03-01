@@ -233,7 +233,7 @@ class PluginCriteria
     /**
      * Get the cache prefix.
      *
-     * @return null|string
+     * @return string
      */
     public function getCachePrefix()
     {
