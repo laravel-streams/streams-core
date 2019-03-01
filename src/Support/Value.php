@@ -52,9 +52,9 @@ class Value
     /**
      * Create a new ColumnValue instance.
      *
-     * @param Parser    $parser
-     * @param Purifier  $purifier
-     * @param Template  $template
+     * @param Parser $parser
+     * @param Purifier $purifier
+     * @param Template $template
      * @param Evaluator $evaluator
      * @param Decorator $decorator
      */
@@ -77,7 +77,7 @@ class Value
      *
      * @param               $parameters
      * @param               $payload
-     * @param  array        $payload
+     * @param  array $payload
      * @return mixed|string
      */
     public function make($parameters, $entry, $term = 'entry', $payload = [])
@@ -196,7 +196,7 @@ class Value
             $value = $this->template->render($value, [$term => $entry]);
         }
 
-        if (array_get($parameters, 'is_safe') !== true) {
+        if (is_string($value) && array_get($parameters, 'is_safe') !== true) {
             $value = $this->purifier->purify($value);
         }
 
