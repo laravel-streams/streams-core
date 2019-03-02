@@ -52,9 +52,25 @@ class LockFormModel
     ) {
 
         /**
+         * We don't need to lock models
+         * on the POST action. Only GET.
+         */
+        if (request()->method() !== 'GET') {
+            return;
+        }
+
+        /**
          * If locking is disabled then skip it!
          */
         if (config('streams::system.locking_enabled', true) == false) {
+            return;
+        }
+
+        /**
+         * If the builder has disabled locking
+         * then we can skip this as well.
+         */
+        if ($this->builder->getOption('locking_enabled', true) == false) {
             return;
         }
 

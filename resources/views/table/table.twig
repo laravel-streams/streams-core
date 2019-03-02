@@ -8,7 +8,7 @@
     {{ asset_add("scripts.js", "streams::js/table/sortable.js") }}
 {% endif %}
 
-<div class="container-fluid">
+<div class="{{ table.options.container_class ?: 'container-fluid' }}">
 
     {{ view("streams::table/partials/filters", {'table': table}) }}
     {{ view("streams::table/partials/views", {'table': table}) }}

@@ -104,7 +104,7 @@ class EloquentQueryBuilder extends Builder
          * we are not installed or
          * if we're running CLI.
          */
-        if (!$ttl || !env('INSTALLED') || PHP_SAPI == 'cli') {
+        if ((!$ttl && $ttl !== false) || !env('INSTALLED') || PHP_SAPI == 'cli') {
             return parent::get($columns);
         }
 
