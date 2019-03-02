@@ -160,9 +160,11 @@ class TableBuilder
      */
     public function load()
     {
-        $this->dispatchNow(new LoadTable($this));
-        $this->dispatchNow(new AddAssets($this));
-        $this->dispatchNow(new MakeTable($this));
+        if (!app('request')->isMethod('post')) {
+            $this->dispatchNow(new LoadTable($this));
+            $this->dispatchNow(new AddAssets($this));
+            $this->dispatchNow(new MakeTable($this));
+        }
 
         return $this;
     }
