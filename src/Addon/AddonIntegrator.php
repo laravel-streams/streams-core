@@ -140,18 +140,21 @@ class AddonIntegrator
         $this->container->instance($alias, $addon);
 
         // Load package configuration.
-        $this->configurator->addNamespace($addon->getNamespace(), $addon->getPath('resources/config'));
+        if (!file_exists(base_path('bootstrap/cache/config.php'))) {
 
-        // Load published overrides.
-        $this->configurator->addNamespaceOverrides(
-            $addon->getNamespace(),
-            base_path(
-                'resources/addons/'
-                . $addon->getVendor() . '/'
-                . $addon->getSlug() . '-'
-                . $addon->getType()
-            )
-        );
+            $this->configurator->addNamespace($addon->getNamespace(), $addon->getPath('resources/config'));
+
+            // Load published overrides.
+            $this->configurator->addNamespaceOverrides(
+                $addon->getNamespace(),
+                base_path(
+                    'resources/addons/'
+                    . $addon->getVendor() . '/'
+                    . $addon->getSlug() . '-'
+                    . $addon->getType()
+                )
+            );
+        }
 
         // Load application overrides.
         $this->configurator->addNamespaceOverrides(
