@@ -93,8 +93,50 @@ class EntryRouter
         return $this->url->make($route, $this->entry, $parameters);
     }
 
+    /**
+     * Return the create route.
+     *
+     * @return string|null
+     */
+    public function create()
+    {
+        $namespace = explode('.', $this->locator->locate($this->entry));
+
+        if (!$addon = $this->locator->locate($this->entry)) {
+            return null;
+        }
+
+        $segments = [
+            'admin',
+            array_pop($namespace),
+            $this->entry->getStreamSlug(),
+            'create',
+        ];
+
+        return implode('/', array_unique($segments));
+    }
+
+    /**
+     * Return the edit route.
+     *
+     * @return string|null
+     */
     public function edit()
     {
-        return 'Test';
+        $namespace = explode('.', $this->locator->locate($this->entry));
+
+        if (!$addon = $this->locator->locate($this->entry)) {
+            return null;
+        }
+
+        $segments = [
+            'admin',
+            array_pop($namespace),
+            $this->entry->getStreamSlug(),
+            'edit',
+            $this->entry->getId(),
+        ];
+
+        return implode('/', array_unique($segments));
     }
 }
