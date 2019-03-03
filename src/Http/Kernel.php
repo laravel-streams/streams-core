@@ -63,7 +63,6 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
             \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
-
         'api' => [
             'throttle:60,1',
             'bindings',

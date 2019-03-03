@@ -4,9 +4,9 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Theme\Theme;
 use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\View\Event\ViewComposed;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Mobile_Detect;
@@ -22,18 +22,11 @@ class ViewComposer
 {
 
     /**
-     * Runtime cache.
+     * The loaded flag.
      *
-     * @var array
+     * @var bool
      */
-    protected $cache = [];
-
-    /**
-     * The view factory.
-     *
-     * @var Factory
-     */
-    protected $view;
+    protected static $loaded = false;
 
     /**
      * The agent utility.
@@ -101,7 +94,6 @@ class ViewComposer
     /**
      * Create a new ViewComposer instance.
      *
-     * @param Factory $view
      * @param Mobile_Detect $agent
      * @param Dispatcher $events
      * @param AddonCollection $addons
@@ -111,7 +103,6 @@ class ViewComposer
      * @param Application $application
      */
     public function __construct(
-        Factory $view,
         Mobile_Detect $agent,
         Dispatcher $events,
         AddonCollection $addons,
@@ -120,7 +111,6 @@ class ViewComposer
         ViewMobileOverrides $mobiles,
         Application $application
     ) {
-        $this->view        = $view;
         $this->agent       = $agent;
         $this->events      = $events;
         $this->addons      = $addons;
@@ -145,17 +135,34 @@ class ViewComposer
      */
     public function compose(View $view)
     {
+        if ($data = array_merge($view->getFactory()->getShared(), $view->getData())) {
+
+            array_walk(
+                $data,
+                function (&$value) {
+                    $value = (new Decorator())->decorate($value);
+                }
+            );
+
+            $data['template'] = (new Decorator())->decorate(app(ViewTemplate::class));
+
+            $view->with($data);
+        }
 
         if (!$this->theme || !env('INSTALLED')) {
 
-            $this->events->dispatch(new ViewComposed($view));
+            if (!self::$loaded && self::$loaded = true) {
+                $this->events->dispatch(new ViewComposed($view));
+            }
 
             return $view;
         }
 
         $this->setPath($view);
 
-        $this->events->dispatch(new ViewComposed($view));
+        if (!self::$loaded && self::$loaded = true) {
+            $this->events->dispatch(new ViewComposed($view));
+        }
 
         return $view;
     }
@@ -245,7 +252,7 @@ class ViewComposer
             );
         }
 
-        if ($this->view->exists($override)) {
+        if (view()->exists($override)) {
             return $override;
         }
 
