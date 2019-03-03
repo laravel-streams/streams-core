@@ -256,7 +256,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
         $ttl = $this->getTtl();
 
         if ($ttl === null) {
-            $ttl = config('streams::database.ttl', 3600) / 60;
+            $ttl = config('streams::database.ttl', 3600);
         }
 
         return $ttl / 60;
