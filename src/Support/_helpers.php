@@ -175,7 +175,7 @@ if (!function_exists('filesize_for_humans')) {
     /**
      * Humanize the filesize
      *
-     * @param      integer $bytes The bytes
+     * @param      integer $bytes    The bytes
      * @param      integer $decimals The decimals
      * @return     string
      */
@@ -185,5 +185,37 @@ if (!function_exists('filesize_for_humans')) {
         $factor = (int)floor((strlen($bytes) - 1) / 3);
 
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . '&nbsp;' . @$size[$factor];
+    }
+}
+
+if (!function_exists('template')) {
+
+    /**
+     * Template data helper function.
+     *
+     * @return \Anomaly\Streams\Platform\View\ViewTemplate
+     */
+    function template()
+    {
+        $arguments = func_get_args();
+
+        /* @var \Anomaly\Streams\Platform\View\ViewTemplate $template */
+        $template = app(\Anomaly\Streams\Platform\View\ViewTemplate::class);
+
+        if (empty($arguments)) {
+            return $template;
+        }
+
+        if (is_string($arguments[0])) {
+            return $template->get(...$arguments);
+        }
+
+        if (!is_array($arguments[0])) {
+            throw new Exception(
+                'When setting a value in the template data, you must pass an array of key / value pairs.'
+            );
+        }
+
+        return $template->set(key($arguments[0]), reset($arguments[0]));
     }
 }

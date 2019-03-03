@@ -144,6 +144,7 @@ class ViewComposer
                 }
             );
 
+            /* @deprecated since 1.6; use template() helper/function instead. */
             $data['template'] = (new Decorator())->decorate(app(ViewTemplate::class));
 
             $view->with($data);
@@ -152,6 +153,7 @@ class ViewComposer
         if (!$this->theme || !env('INSTALLED')) {
 
             if (!self::$loaded && self::$loaded = true) {
+                /* @deprecated since 1.6; this is no longer needed for every view. */
                 $this->events->dispatch(new ViewComposed($view));
             }
 
@@ -161,6 +163,7 @@ class ViewComposer
         $this->setPath($view);
 
         if (!self::$loaded && self::$loaded = true) {
+            /* @deprecated since 1.6; this is no longer needed for every view. */
             $this->events->dispatch(new ViewComposed($view));
         }
 

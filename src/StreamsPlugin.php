@@ -30,6 +30,7 @@ use Anomaly\Streams\Platform\View\Command\GetConstants;
 use Anomaly\Streams\Platform\View\Command\GetLayoutName;
 use Anomaly\Streams\Platform\View\Command\GetView;
 use Anomaly\Streams\Platform\View\Support\CompressHtmlTokenParser;
+use Anomaly\Streams\Platform\View\ViewTemplate;
 use Carbon\Carbon;
 use Illuminate\Session\Store;
 use Illuminate\Support\Arr;
@@ -211,6 +212,20 @@ class StreamsPlugin extends Plugin
                 [
                     'is_safe' => ['html'],
                 ]
+            ),
+            new \Twig_SimpleFunction(
+                'template',
+                function ($key = null, $default = null) {
+
+                    /* @var ViewTemplate $template */
+                    $template = app(ViewTemplate::class);
+
+                    if (!$key) {
+                        return $template;
+                    }
+
+                    return $template->get($key, $default);
+                }
             ),
             new \Twig_SimpleFunction(
                 'buttons',
