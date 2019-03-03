@@ -285,7 +285,7 @@ class Asset
     public function inline($collection, array $filters = [])
     {
         return file_get_contents(
-            $this->paths->realPath('public::' . ltrim($this->path($collection, $filters), '/\\'))
+            $this->paths->realPath('public::' . ltrim($this->path($collection, $filters, false), '/\\'))
         );
     }
 
@@ -314,15 +314,16 @@ class Asset
      *
      * @param         $collection
      * @param  array $filters
+     * @param bool $basePath
      * @return string
      */
-    public function path($collection, array $filters = [])
+    public function path($collection, array $filters = [], $basePath = true)
     {
         if (!isset($this->collections[$collection])) {
             $this->add($collection, $collection, $filters, true);
         }
 
-        return request()->getBasePath() . $this->getPath($collection, $filters);
+        return ($basePath ? request()->getBasePath() : '') . $this->getPath($collection, $filters);
     }
 
     /**
@@ -491,7 +492,7 @@ class Asset
                     $filters = array_filter(array_unique(array_merge($filters, $additionalFilters, ['noversion'])));
 
                     return file_get_contents(
-                        $this->paths->realPath('public::' . ltrim($this->path($file, $filters), '/\\'))
+                        $this->paths->realPath('public::' . ltrim($this->path($file, $filters, false), '/\\'))
                     );
                 },
                 array_keys($this->collections[$collection]),
