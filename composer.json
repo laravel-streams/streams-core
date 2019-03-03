@@ -33,7 +33,8 @@
         "symfony/class-loader": "3.4.*",
         "ezyang/htmlpurifier": "~4.0",
         "barryvdh/laravel-httpcache": "^0.3.0",
-        "tubalmartin/cssmin": "~4.0"
+        "tubalmartin/cssmin": "~4.0",
+        "mrclay/jsmin-php": "~2.4"
     },
     "autoload": {
         "psr-4": {
