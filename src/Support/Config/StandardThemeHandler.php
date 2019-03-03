@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Config\Support;
+<?php namespace Anomaly\Streams\Platform\Support\Config;
 
 use Anomaly\SelectFieldType\SelectFieldType;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;

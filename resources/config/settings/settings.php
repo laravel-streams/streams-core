@@ -111,7 +111,7 @@ return [
         'required' => true,
         'config'   => [
             'default_value' => config('streams::themes.standard'),
-            'handler'       => \Anomaly\Streams\Platform\Config\Support\StandardThemeHandler::class,
+            'handler'       => \Anomaly\Streams\Platform\Support\Config\StandardThemeHandler::class,
         ],
     ],
     'admin_theme'           => [
@@ -121,7 +121,7 @@ return [
         'required' => true,
         'config'   => [
             'default_value' => config('streams::themes.admin'),
-            'handler'       => \Anomaly\Streams\Platform\Config\Support\AdminThemeHandler::class,
+            'handler'       => \Anomaly\Streams\Platform\Support\Config\AdminThemeHandler::class,
         ],
     ],
     'per_page'              => [
@@ -150,7 +150,7 @@ return [
         'required' => true,
         'config'   => [
             'default_value' => config('streams::locales.default'),
-            'handler'       => \Anomaly\Streams\Platform\Config\Support\DefaultLocaleHandler::class,
+            'handler'       => \Anomaly\Streams\Platform\Support\Config\DefaultLocaleHandler::class,
         ],
     ],
     'enabled_locales'       => [
@@ -160,7 +160,7 @@ return [
         'required' => true,
         'config'   => [
             'default_value' => [config('streams::locales.default')],
-            'handler'       => \Anomaly\Streams\Platform\Config\Support\EnabledLocalesHandler::class,
+            'handler'       => \Anomaly\Streams\Platform\Support\Config\EnabledLocalesHandler::class,
         ],
     ],
     'debug'                 => [
