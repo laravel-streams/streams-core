@@ -4,13 +4,13 @@ use Anomaly\SelectFieldType\SelectFieldType;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 
 /**
- * Class AdminThemeOptions
+ * Class StandardThemeHandler
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class AdminThemeOptions
+class StandardThemeHandler
 {
 
     /**
@@ -21,6 +21,6 @@ class AdminThemeOptions
      */
     public function handle(SelectFieldType $fieldType, ThemeCollection $themes)
     {
-        $fieldType->setOptions($themes->admin()->pluck('title', 'namespace')->all());
+        $fieldType->setOptions($themes->standard()->pluck('title', 'namespace')->all());
     }
 }

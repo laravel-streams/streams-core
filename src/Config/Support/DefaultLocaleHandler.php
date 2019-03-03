@@ -1,23 +1,23 @@
 <?php namespace Anomaly\Streams\Platform\Config\Support;
 
-use Anomaly\CheckboxesFieldType\CheckboxesFieldType;
+use Anomaly\SelectFieldType\SelectFieldType;
 
 /**
- * Class EnabledLocalesOptions
+ * Class DefaultLocaleHandler
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class EnabledLocalesOptions
+class DefaultLocaleHandler
 {
 
     /**
      * Handle the command.
      *
-     * @param CheckboxesFieldType $fieldType
+     * @param SelectFieldType $fieldType
      */
-    public function handle(CheckboxesFieldType $fieldType)
+    public function handle(SelectFieldType $fieldType)
     {
         $fieldType->setOptions(
             array_combine(
