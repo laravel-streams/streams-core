@@ -2,15 +2,12 @@
 
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Support\Template;
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
 use Assetic\Asset\GlobAsset;
 use Collective\Html\HtmlBuilder;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Http\Request;
 use League\Flysystem\MountManager;
 
 /**
@@ -46,13 +43,6 @@ class Asset
      * @var array
      */
     protected $loaded = [];
-
-    /**
-     * The URL generator.
-     *
-     * @var UrlGenerator
-     */
-    protected $url;
 
     /**
      * The HTML utility.
@@ -99,13 +89,6 @@ class Asset
     protected $manager;
 
     /**
-     * The HTTP request.
-     *
-     * @var Request
-     */
-    protected $request;
-
-    /**
      * The template utility.
      *
      * @var Template
@@ -126,27 +109,19 @@ class Asset
      */
     protected $filters;
 
-    /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
 
     /**
-     * Create a new Application instance.
+     * Create a new Asset instance.
      *
      * @param Application $application
      * @param ThemeCollection $themes
      * @param MountManager $manager
+     * @param AssetFilters $filters
      * @param AssetParser $parser
-     * @param Repository $config
      * @param Template $template
      * @param Filesystem $files
      * @param AssetPaths $paths
-     * @param Request $request
      * @param HtmlBuilder $html
-     * @param UrlGenerator $url
      */
     public function __construct(
         Application $application,
@@ -154,24 +129,18 @@ class Asset
         MountManager $manager,
         AssetFilters $filters,
         AssetParser $parser,
-        Repository $config,
         Template $template,
         Filesystem $files,
         AssetPaths $paths,
-        Request $request,
-        HtmlBuilder $html,
-        UrlGenerator $url
+        HtmlBuilder $html
     ) {
-        $this->url         = $url;
         $this->html        = $html;
         $this->files       = $files;
         $this->paths       = $paths;
-        $this->config      = $config;
         $this->themes      = $themes;
         $this->parser      = $parser;
         $this->filters     = $filters;
         $this->manager     = $manager;
-        $this->request     = $request;
         $this->template    = $template;
         $this->application = $application;
     }
@@ -274,7 +243,7 @@ class Asset
         }
 
         if (
-            $this->config->get('app.debug') &&
+            config('app.debug') &&
             !$this->collectionHasFilter($collection, 'ignore') &&
             !in_array('ignore', $filters)
         ) {
@@ -285,7 +254,7 @@ class Asset
     /**
      * Download a file and return it's path.
      *
-     * @param              $url
+     * @param $url
      * @param  int $ttl
      * @param  null $path
      * @return null|string
@@ -336,7 +305,7 @@ class Asset
             return null;
         }
 
-        return $this->url->asset($path, $parameters, $secure);
+        return url()->asset($path, $parameters, $secure);
     }
 
     /**
@@ -352,7 +321,7 @@ class Asset
             $this->add($collection, $collection, $filters, true);
         }
 
-        return $this->request->getBasePath() . $this->getPath($collection, $filters);
+        return request()->getBasePath() . $this->getPath($collection, $filters);
     }
 
     /**
@@ -492,7 +461,7 @@ class Asset
     {
         return array_map(
             function ($path) use ($attributes, $secure) {
-                return $this->url->to($path, $attributes, $secure);
+                return url()->to($path, $attributes, $secure);
             },
             $this->paths($collection, $filters)
         );
@@ -547,12 +516,16 @@ class Asset
         $path = $this->paths->outputPath($collection);
 
         if ($this->shouldPublish($path, $collection, $filters)) {
-            $this->publish($path, $collection, $filters);
+            if (!env('ASSETIC_ENABLED', true)) {
+                $this->publishWithoutAssetic($path, $collection, $filters);
+            } else {
+                $this->publish($path, $collection, $filters);
+            }
         }
 
         if (
             !in_array('noversion', $filters) &&
-            ($this->config->get('streams::assets.version') || in_array('version', $filters))
+            (config('streams::assets.version') || in_array('version', $filters))
         ) {
             $path .= '?v=' . filemtime(public_path(trim($path, '/\\')));
         }
@@ -598,7 +571,7 @@ class Asset
                     ->render();
             } catch (\Exception $e) {
 
-                if ($this->config->get('app.debug')) {
+                if (config('app.debug')) {
                     dd($e->getMessage());
                 }
 
@@ -632,6 +605,133 @@ class Asset
     }
 
     /**
+     * Publish the collection of assets to the path.
+     *
+     * @param $path
+     * @param $collection
+     * @param $additionalFilters
+     */
+    protected function publishWithoutAssetic($path, $collection, $additionalFilters)
+    {
+        $path = ltrim($path, '/\\');
+
+        if (str_contains($collection, public_path())) {
+            return;
+        }
+
+        $hint = $this->paths->hint($collection);
+
+        $filters = $this->collectionFilters($collection, $additionalFilters); // Returns combined filter flags
+
+        /**
+         * Get the concatenated content
+         * of the asset collection.
+         */
+        $contents = $this->content($collection);
+
+        /**
+         * Parse the content. Always parse CSS.
+         */
+        if (in_array('parse', $filters) || $hint == 'css') {
+            try {
+                $contents = (string)render($contents);
+            } catch (\Exception $e) {
+
+                if (config('app.debug')) {
+                    dd($e->getMessage());
+                }
+
+                \Log::error($e->getMessage());
+            }
+        }
+
+        /**
+         * Minify CSS separately because of the
+         * issue with filter ordering in Assetic.
+         */
+        if (in_array('min', $filters) && $hint == 'css') {
+
+            $compressor = new CSSmin;
+
+// Set the compressor up before compressing (global setup):
+
+// Keep sourcemap comment in the output.
+// Default behavior removes it.
+            $compressor->keepSourceMapComment();
+
+// Remove important comments from output.
+            $compressor->removeImportantComments();
+
+// Split long lines in the output approximately every 1000 chars.
+            $compressor->setLineBreakPosition(1000);
+
+// Override any PHP configuration options before calling run() (optional)
+            $compressor->setMemoryLimit('256M');
+            $compressor->setMaxExecutionTime(120);
+            $compressor->setPcreBacktrackLimit(3000000);
+            $compressor->setPcreRecursionLimit(150000);
+
+// Compress the CSS code!
+            $output_css = $compressor->run($input_css);
+
+// You can override any setup between runs without having to create another CSSmin object.
+// Let's say you want to remove the sourcemap comment from the output and
+// disable splitting long lines in the output.
+// You can achieve that using the methods `keepSourceMap` and `setLineBreakPosition`:
+            $compressor->keepSourceMapComment(false);
+            $compressor->setLineBreakPosition(0);
+            $output_css = $compressor->run($input_css);
+
+// Do whatever you need with the compressed CSS code
+            $contents = $output_css;
+        }
+
+        /**
+         * Minify JS separately because of the
+         * issue with filter ordering in Assetic.
+         */
+        if (in_array('min', $filters) && $hint == 'js') {
+            $contents = preg_replace("/\;{2,}$/", ';', \JSMin::minify($contents));
+        }
+
+        $path = $this->directory . DIRECTORY_SEPARATOR . $path;
+
+        $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
+        dd($contents);
+        /**
+         * Save the processed content.
+         */
+        $this->files->put(
+            $path,
+            $contents
+        );
+    }
+
+    /**
+     * Return the content of a collection.
+     *
+     * @param $collection
+     */
+    public function content($collection)
+    {
+        $assets = [];
+
+        array_walk(
+            $this->collections[$collection],
+            function ($filters, $file) use (&$assets) {
+
+                if (in_array('glob', $filters)) {
+                    dd('Test');
+                }
+
+                $assets[$file] = file_get_contents($file);
+            }
+        );
+
+        return join("\n\n", $assets);
+    }
+
+    /**
      * Decide whether we need to publish the file
      * to the path or not.
      *
@@ -656,7 +756,7 @@ class Asset
             return true;
         }
 
-        $debug = $this->config->get('streams::assets.live', false);
+        $debug = config('streams::assets.live', false);
 
         $live = in_array('live', $this->collectionFilters($collection, $filters));
 
@@ -664,11 +764,11 @@ class Asset
             return true;
         }
 
-        if ($debug == 'public' && $live && $this->request->segment(1) !== 'admin') {
+        if ($debug == 'public' && $live && request()->segment(1) !== 'admin') {
             return true;
         }
 
-        if ($debug == 'admin' && $live && $this->request->segment(1) === 'admin') {
+        if ($debug == 'admin' && $live && request()->segment(1) === 'admin') {
             return true;
         }
 
@@ -676,7 +776,7 @@ class Asset
          * If we're busting cache and have watched
          * files that have been modified then publish.
          */
-        if ($this->request->isNoCache() && array_filter(
+        if (request()->isNoCache() && array_filter(
                 $filters,
                 function ($filter) use ($path) {
 
