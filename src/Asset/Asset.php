@@ -9,6 +9,7 @@ use Assetic\Asset\GlobAsset;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Filesystem\Filesystem;
 use League\Flysystem\MountManager;
+use tubalmartin\CssMin\Minifier;
 
 /**
  * Class Asset
@@ -638,7 +639,7 @@ class Asset
             } catch (\Exception $e) {
 
                 if (config('app.debug')) {
-                    dd($e->getMessage());
+                    dump($contents);
                 }
 
                 \Log::error($e->getMessage());
@@ -651,39 +652,13 @@ class Asset
          */
         if (in_array('min', $filters) && $hint == 'css') {
 
-            $compressor = new CSSmin;
+            $compressor = new Minifier;
 
-// Set the compressor up before compressing (global setup):
-
-// Keep sourcemap comment in the output.
-// Default behavior removes it.
-            $compressor->keepSourceMapComment();
-
-// Remove important comments from output.
-            $compressor->removeImportantComments();
-
-// Split long lines in the output approximately every 1000 chars.
-            $compressor->setLineBreakPosition(1000);
-
-// Override any PHP configuration options before calling run() (optional)
-            $compressor->setMemoryLimit('256M');
-            $compressor->setMaxExecutionTime(120);
-            $compressor->setPcreBacktrackLimit(3000000);
-            $compressor->setPcreRecursionLimit(150000);
-
-// Compress the CSS code!
-            $output_css = $compressor->run($input_css);
-
-// You can override any setup between runs without having to create another CSSmin object.
-// Let's say you want to remove the sourcemap comment from the output and
-// disable splitting long lines in the output.
-// You can achieve that using the methods `keepSourceMap` and `setLineBreakPosition`:
-            $compressor->keepSourceMapComment(false);
             $compressor->setLineBreakPosition(0);
-            $output_css = $compressor->run($input_css);
+            $compressor->removeImportantComments();
+            $compressor->keepSourceMapComment(false);
 
-// Do whatever you need with the compressed CSS code
-            $contents = $output_css;
+            $contents = $compressor->run($contents);
         }
 
         /**
@@ -691,13 +666,13 @@ class Asset
          * issue with filter ordering in Assetic.
          */
         if (in_array('min', $filters) && $hint == 'js') {
-            $contents = preg_replace("/\;{2,}$/", ';', \JSMin::minify($contents));
+            $contents = \JSMin::minify($contents);
         }
 
         $path = $this->directory . DIRECTORY_SEPARATOR . $path;
 
         $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
-        dd($contents);
+
         /**
          * Save the processed content.
          */
@@ -714,21 +689,22 @@ class Asset
      */
     public function content($collection)
     {
-        $assets = [];
-
-        array_walk(
-            $this->collections[$collection],
-            function ($filters, $file) use (&$assets) {
-
-                if (in_array('glob', $filters)) {
-                    dd('Test');
-                }
-
-                $assets[$file] = file_get_contents($file);
-            }
+        return join(
+            "\n\n",
+            array_flatten(
+                array_map(
+                    function ($asset) {
+                        return array_map(
+                            function ($file) {
+                                return file_get_contents($file);
+                            },
+                            glob($asset)
+                        );
+                    },
+                    array_keys($this->collections[$collection])
+                )
+            )
         );
-
-        return join("\n\n", $assets);
     }
 
     /**
