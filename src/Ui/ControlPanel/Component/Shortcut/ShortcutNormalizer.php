@@ -120,14 +120,6 @@ class ShortcutNormalizer
             ) {
                 $shortcut['attributes']['href'] = url($shortcut['attributes']['href']);
             }
-
-            if (
-                isset($shortcut['permalink']) &&
-                is_string($shortcut['permalink']) &&
-                !starts_with($shortcut['permalink'], 'http')
-            ) {
-                $shortcut['permalink'] = url($shortcut['permalink']);
-            }
         }
 
         $builder->setShortcuts(array_values($shortcuts));

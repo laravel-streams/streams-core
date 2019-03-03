@@ -1,7 +1,7 @@
+<tfoot>
 {% if table.actions|length or table.data.pagination.links|length %}
-    <tfoot>
     <tr>
-        <th colspan="50%" style="padding: 10px;">
+        <th colspan="100%" style="padding: 10px;">
 
             <div class="pull-left actions table__actions">
                 {{ buttons(table.actions)|raw }}
@@ -49,5 +49,14 @@
 
         </th>
     </tr>
-    </tfoot>
 {% endif %}
+{% if table.options.total_results %}
+    <tr>
+        <td colspan="100%">
+            <small class="text-muted pull-right">
+                {{ table.options.total_results }} {{ trans('streams::message.results') }}
+            </small>
+        </td>
+    </tr>
+{% endif %}
+</tfoot>

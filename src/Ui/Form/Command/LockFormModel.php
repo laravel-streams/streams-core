@@ -52,9 +52,25 @@ class LockFormModel
     ) {
 
         /**
+         * We don't need to lock models
+         * on the POST action. Only GET.
+         */
+        if (request()->method() !== 'GET') {
+            return;
+        }
+
+        /**
          * If locking is disabled then skip it!
          */
         if (config('streams::system.locking_enabled', true) == false) {
+            return;
+        }
+
+        /**
+         * If the builder has disabled locking
+         * then we can skip this as well.
+         */
+        if ($this->builder->getOption('locking_enabled', true) == false) {
             return;
         }
 
@@ -91,22 +107,34 @@ class LockFormModel
             return;
         }
 
-        $locks->cleanup();
+        $locks->withoutEvents(
+            function () use ($locks) {
+                $locks->cleanup();
+            }
+        );
 
         /* @var LockInterface|EloquentModel $lock */
         if (!$lock = $locks->findByLockable($entry)) {
-            $lock = $locks->create(
-                [
-                    'locked_by_id'  => $user->getId(),
-                    'lockable_id'   => $entry->getId(),
-                    'lockable_type' => get_class($entry),
-                    'url'           => $request->fullUrl(),
-                ]
+            $lock = $locks->withoutEvents(
+                function () use ($locks, $user, $entry, $request) {
+                    return $locks->create(
+                        [
+                            'locked_by_id'  => $user->getId(),
+                            'lockable_id'   => $entry->getId(),
+                            'lockable_type' => get_class($entry),
+                            'url'           => $request->fullUrl(),
+                        ]
+                    );
+                }
             );
         }
 
         if ($lock->locked_by_id == $user->getId()) {
-            $lock->touch();
+            $locks->withoutEvents(
+                function () use ($lock) {
+                    $lock->touch();
+                }
+            );
         }
 
         if ($lock->locked_by_id != $user->getId()) {
