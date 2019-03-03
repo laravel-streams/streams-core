@@ -318,7 +318,7 @@ class StreamsServiceProvider extends ServiceProvider
          * When config is cached by Laravel we
          * end up oddly not loading .env data.
          */
-        if (is_file(base_path('bootstrap/config/cache.php')) && is_file($file = base_path('.env'))) {
+        if (is_file(base_path('bootstrap/cache/config.php')) && is_file($file = base_path('.env'))) {
             foreach (file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
 
                 // Check for # comments.
