@@ -28,7 +28,7 @@ class CacheConfig
 
             unlink($cache);
 
-            $console->queue('config:cache');
+            $console->call('config:cache');
         }
     }
 }

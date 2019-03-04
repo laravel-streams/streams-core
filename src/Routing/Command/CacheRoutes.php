@@ -28,7 +28,7 @@ class CacheRoutes
 
             unlink($cache);
 
-            $console->queue('route:cache');
+            $console->call('route:cache');
         }
     }
 }
