@@ -75,7 +75,7 @@ class EloquentQueryBuilder extends Builder
          */
         if (
             env('INSTALLED') &&
-            //!IS_ADMIN &&
+            !IS_ADMIN &&
             $enabled &&
             PHP_SAPI != 'cli' &&
             $ttl
