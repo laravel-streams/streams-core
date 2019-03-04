@@ -204,7 +204,7 @@ class Loader extends OriginalLoader
          *
          * @deprecated since 1.6; Use override collection.
          */
-        if (env('AUTOMATIC_VIEW_OVERLOADS', true) && $path = $this->getOverloadPath($name)) {
+        if (env('AUTOMATIC_ADDON_OVERRIDES', true) && $path = $this->getOverloadPath($name)) {
             return $path;
         }
 
