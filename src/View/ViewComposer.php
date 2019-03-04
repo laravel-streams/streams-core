@@ -204,7 +204,7 @@ class ViewComposer
          *
          * @deprecated since 1.6; Use override collection.
          */
-        if (env('AUTOMATIC_VIEW_OVERLOADS', true) && $overload = $this->getOverloadPath($view)) {
+        if (env('AUTOMATIC_ADDON_OVERRIDES', true) && $overload = $this->getOverloadPath($view)) {
             $view->setPath($overload);
         }
     }
