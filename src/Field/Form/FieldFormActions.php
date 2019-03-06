@@ -25,7 +25,8 @@ class FieldFormActions
         $builder->setActions(
             [
                 'save'        => [
-                    'enabled' => 'create',
+                    'enabled'  => 'create',
+                    'redirect' => $cp->getActiveControlPanelSectionHref(),
                 ],
                 'save_create' => [
                     'enabled'  => 'create',
