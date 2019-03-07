@@ -166,7 +166,7 @@ class EntryTranslationsModel extends EloquentModel
             $fieldType->setEntry($this);
             $fieldType->setLocale($this->locale);
 
-            $fieldType->fire($trigger, array_merge(compact('fieldType', 'entry'), $payload));
+            $fieldType->fire($trigger, array_merge(compact('fieldType'), $payload));
         }
     }
 
