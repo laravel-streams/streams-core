@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
 
 use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
-use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
@@ -31,7 +30,7 @@ class ForceDelete extends ActionHandler
         foreach ($selected as $id) {
             if ($entry = $repository->findTrashed($id)) {
                 if ($entry->trashed() && $repository->forceDelete($entry)) {
-                    $builder->fire('row_deleted', compact('builder', 'model', 'entry'));
+                    $builder->fire('row_deleted', compact('builder', 'entry'));
 
                     $count++;
                 }
@@ -39,7 +38,7 @@ class ForceDelete extends ActionHandler
         }
 
         if ($count) {
-            $builder->fire('rows_deleted', compact('count', 'builder', 'model'));
+            $builder->fire('rows_deleted', compact('count', 'builder'));
         }
 
         if ($selected) {
