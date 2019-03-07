@@ -246,7 +246,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      */
     public function getCacheCollectionKey()
     {
-        return static::class;
+        return get_class(app(static::class));
     }
 
     /**
