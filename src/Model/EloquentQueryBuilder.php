@@ -104,7 +104,7 @@ class EloquentQueryBuilder extends Builder
          * we are not installed or
          * if we're running CLI.
          */
-        if (!$ttl || !env('INSTALLED') || PHP_SAPI == 'cli') {
+        if ($this->model->getTtl() === false || !env('INSTALLED') || PHP_SAPI == 'cli') {
             return parent::get($columns);
         }
 
@@ -210,9 +210,20 @@ class EloquentQueryBuilder extends Builder
      * @param $ttl
      * @return $this
      */
-    public function cache($ttl)
+    public function cache($ttl = null)
     {
-        $this->model->setTtl($ttl);
+        if (!config('streams::database.cache', false)) {
+
+            $this->model->setTtl(0);
+
+            return $this;
+        }
+
+        if ($ttl === null) {
+            $ttl = config('streams::database.ttl', 3600);
+        }
+
+        $this->model->setTtl($ttl / 60);
 
         return $this;
     }

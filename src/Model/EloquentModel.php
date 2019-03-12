@@ -25,6 +25,13 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     use DispatchesJobs;
 
     /**
+     * The number of minutes to cache query results.
+     *
+     * @var null|false|int
+     */
+    protected $ttl = null;
+
+    /**
      * Disable timestamps for this model.
      *
      * @var bool
@@ -37,13 +44,6 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      * @var array
      */
     protected $searchableAttributes = [];
-
-    /**
-     * The number of minutes to cache query results.
-     *
-     * @var null|false|int
-     */
-    protected $ttl = null;
 
     /**
      * The attributes that are
@@ -100,6 +100,13 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      * @var array
      */
     protected $cache = [];
+
+    /**
+     * The cache collection.
+     *
+     * @var CacheCollection
+     */
+    protected $cacheCollection;
 
     /**
      * Get the ID.
@@ -259,17 +266,37 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
             $ttl = config('streams::database.ttl', 3600);
         }
 
+        if ($ttl === false) {
+            return 0;
+        }
+
         return $ttl / 60;
     }
 
     /**
      * Get cache collection key.
      *
+     * @param null $key
      * @return string
      */
-    public function getCacheCollectionKey()
+    public function getCacheCollectionKey($key = null)
     {
-        return get_class(app(static::class));
+        return get_class(app(static::class)) . ($key ? '::' . $key : null);
+    }
+
+    /**
+     * Get the cache collection.
+     *
+     * @return CacheCollection|mixed
+     */
+    public function getCacheCollection()
+    {
+
+        if ($this->cacheCollection) {
+            return $this->cacheCollection;
+        }
+
+        return $this->cacheCollection = new CacheCollection([], $this->getCacheCollectionKey());
     }
 
     /**
@@ -337,6 +364,14 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
         if ($this->isTranslatable()) {
             foreach ($this->getTranslations() as $translation) {
                 $translation->flushCache();
+            }
+        }
+
+        foreach ($this->getCascades() as $relation) {
+
+            /* @var EloquentModel $relation */
+            if (($relation = $this->getRelation($relation)) instanceof EloquentModel) {
+                $relation->flushCache();
             }
         }
 
