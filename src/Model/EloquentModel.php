@@ -441,24 +441,14 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
         }
 
         if ($this->exists) {
-            if (count($this->getDirty()) > 0) {
 
-                // If $this->exists and dirty, $this->saveModel() has to return true. If not,
-                // an error has occurred. Therefore we shouldn't save the translations.
-                if ($this->saveModel($options)) {
-                    return $this->saveTranslations();
-                }
-
-                return false;
-            } else {
-
-                // If $this->exists and not dirty, $this->saveModel() skips saving and returns
-                // false. So we have to save the translations
+            if ($this->saveModel($options)) {
                 return $this->saveTranslations();
             }
-        } elseif ($this->saveModel($options)) {
 
-            // We save the translations only if the instance is saved in the database.
+            return false;
+
+        } elseif ($this->saveModel($options)) {
             return $this->saveTranslations();
         }
 
