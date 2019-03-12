@@ -66,7 +66,7 @@ class HttpCache
     }
 
     /**
-     * Say it loud.
+     * Handle the command.
      *
      * @param  Request $request
      * @param  \Closure $next
