@@ -7,6 +7,7 @@ return [
     'running_application_migrations' => 'Uygulama geçişleri çalıştırılıyor.',
     'running_migrations'             => 'Başka göçler yapmak.',
     'running_seeds'                  => 'Proje tohumlarını çalıştırmak.',
-    'installing'                     => 'Yükleme:: yükleme',
-    'seeding'                        => 'Tohumlama:: tohumlama',
+    'installing'                     => 'Yüklenen: :installing',
+    'seeding'                        => 'Verileri yükleniyor: :seeding',
+
 ];
