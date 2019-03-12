@@ -90,8 +90,6 @@ class CacheCollection extends Collection
             $this->push($key);
         }
 
-        $this->unique();
-
         return $this;
     }
 
