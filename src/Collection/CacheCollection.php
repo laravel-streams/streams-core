@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Collection;
 
-use Anomaly\PostsModule\Post\PostModel;
-use Anomaly\Streams\Platform\Model\EloquentQueryBuilder;
 use Illuminate\Support\Collection;
 
 /**
@@ -25,7 +23,7 @@ class CacheCollection extends Collection
      * Create a new CacheCollection instance.
      *
      * @param array $items
-     * @param null  $key
+     * @param null $key
      */
     public function __construct(array $items = [], $key = null)
     {
@@ -43,10 +41,10 @@ class CacheCollection extends Collection
         $this->index();
 
         foreach ($this->items as $key) {
-            app('cache')->forget($key);
+            cache()->forget($key);
         }
 
-        app('cache')->forget($this->key);
+        cache()->forget($this->key);
 
         $this->items = [];
 
@@ -60,7 +58,7 @@ class CacheCollection extends Collection
      */
     public function index()
     {
-        if ($keys = app('cache')->get($this->key)) {
+        if ($keys = cache($this->key, [])) {
             $this->addKeys($keys);
         }
 
@@ -68,7 +66,16 @@ class CacheCollection extends Collection
 
         $self = $this;
 
-        app('cache')->rememberForever(
+        sort($keys);
+        sort($this->items);
+
+        if ($keys == $this->items) {
+            return $this;
+        }
+
+        cache()->forget($this->key);
+
+        cache()->rememberForever(
             $this->key,
             function () use ($self) {
                 return $self->all();
@@ -104,6 +111,21 @@ class CacheCollection extends Collection
         $this->items = array_unique($this->items);
 
         return $this;
+    }
+
+    /**
+     * Store a key and return it.
+     *
+     * @param $key
+     * @return mixed
+     */
+    public function key($key)
+    {
+        $this->push($key);
+
+        $this->index();
+
+        return $key;
     }
 
     /**
