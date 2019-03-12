@@ -44,7 +44,7 @@
 
             {# Render the actual dropdown links #}
             <ul class="dropdown-menu dropdown-menu-{{ button.position }}">
-                {% for link in button.dropdown if link.enabled %}
+                {% for link in button.dropdown if link.enabled is null or link.enabled %}
                     {% if link.text %}
                         <li>
 
