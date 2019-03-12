@@ -379,6 +379,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'addons',
                 function ($type = null) {
+
                     $addons = app(AddonCollection::class);
 
                     if ($type) {
