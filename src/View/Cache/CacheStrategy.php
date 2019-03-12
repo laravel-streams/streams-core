@@ -78,7 +78,7 @@ class CacheStrategy implements CacheStrategyInterface
         if (is_numeric($value)) {
             return [
                 'lifetime' => $value,
-                'key'      => '__CS__' . $annotation,
+                'key'      => $annotation,
             ];
         }
 
@@ -88,7 +88,7 @@ class CacheStrategy implements CacheStrategyInterface
             throw new \RuntimeException('You must provide a cache key.');
         }
 
-        return $annotation . '__CS__' . $key;
+        return $annotation . $key;
     }
 
     /**

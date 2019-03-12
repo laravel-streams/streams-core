@@ -39,7 +39,8 @@ class CacheAdapter implements CacheProviderInterface
      */
     public function fetch($key)
     {
-        // @todo: Will end up needing a view.php config for streams platform
+        // @todo: Replace ENV usage with view.php configuration in streams.
+        // Caching config will break this.
         return $this->cache->get(env('TWIG_CACHE', true) ? $key : null, false);
     }
 

@@ -71,6 +71,14 @@ class ConfigureMigrator
 
         $this->migrator->setAddon($addon);
 
-        $this->input->setOption('path', $addon->getAppPath('migrations'));
+        $paths = [
+            $addon->getPath('migrations'),
+            $this->command->getLaravel()->databasePath()
+            . DIRECTORY_SEPARATOR.'migrations'
+            . DIRECTORY_SEPARATOR.$addon->getNamespace(),
+        ];
+
+        $this->input->setOption('path', $paths);
+        $this->input->setOption('realpath', true);
     }
 }

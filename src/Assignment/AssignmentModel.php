@@ -18,11 +18,11 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
 {
 
     /**
-     * The cache minutes.
+     * Don't cache this model.
      *
-     * @var int
+     * @var bool
      */
-    protected $ttl = 0;
+    protected $ttl = false;
 
     /**
      * Do not use timestamps.

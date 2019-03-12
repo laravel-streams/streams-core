@@ -66,10 +66,6 @@ class CacheKey implements KeyGeneratorInterface
                 );
         }
 
-        if (is_string($value)) {
-            return 'string_' . md5($value);
-        }
-
-        return '';
+        return $value;
     }
 }

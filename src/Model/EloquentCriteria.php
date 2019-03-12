@@ -40,6 +40,7 @@ class EloquentCriteria
         'whereDay',
         'whereYear',
         'whereColumn',
+        'key',
     ];
 
     /**
@@ -70,7 +71,7 @@ class EloquentCriteria
      * Create a new EntryCriteria instance.
      *
      * @param Builder $query
-     * @param string  $method
+     * @param string $method
      */
     public function __construct(Builder $query, $method = 'get')
     {
@@ -79,10 +80,28 @@ class EloquentCriteria
     }
 
     /**
+     * Store a cache collection key.
+     *
+     * @param null $key
+     * @return null|string
+     */
+    public function key($key = null)
+    {
+        $key = $key ?: $this->query->getCacheKey();
+
+        $this
+            ->getQueryModel()
+            ->getCacheCollection()
+            ->key($key);
+
+        return $key;
+    }
+
+    /**
      * Get the paginated entries.
      *
-     * @param int    $perPage
-     * @param array  $columns
+     * @param int $perPage
+     * @param array $columns
      * @param string $pageName
      * @return array|\ArrayAccess|\IteratorAggregate|Presenter
      */
@@ -175,7 +194,7 @@ class EloquentCriteria
      * Find an entry.
      *
      * @param                           $identifier
-     * @param  array                    $columns
+     * @param  array $columns
      * @return Presenter|EntryPresenter
      */
     public function find($identifier, array $columns = ['*'])
@@ -188,7 +207,7 @@ class EloquentCriteria
      *
      * @param                           $column
      * @param                           $value
-     * @param  array                    $columns
+     * @param  array $columns
      * @return Presenter|EntryPresenter
      */
     public function findBy($column, $value, array $columns = ['*'])
@@ -240,6 +259,16 @@ class EloquentCriteria
     protected function methodExists($name)
     {
         return method_exists($this->query->getQuery(), $name) || method_exists($this->query, $name);
+    }
+
+    /**
+     * Get the query model.
+     *
+     * @return EloquentModel
+     */
+    protected function getQueryModel()
+    {
+        return $this->query->getModel();
     }
 
     /**

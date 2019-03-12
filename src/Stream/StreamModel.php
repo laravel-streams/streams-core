@@ -31,11 +31,11 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
 {
 
     /**
-     * The cache minutes.
+     * Don't cache this model.
      *
      * @var int
      */
-    protected $ttl = 0;
+    protected $ttl = false;
 
     /**
      * The foreign key for translations.

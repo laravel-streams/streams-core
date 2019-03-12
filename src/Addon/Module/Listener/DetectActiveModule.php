@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
+use Anomaly\Streams\Platform\View\ViewTemplate;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
@@ -48,6 +49,13 @@ class DetectActiveModule
     protected $modules;
 
     /**
+     * The view template.
+     *
+     * @var ViewTemplate
+     */
+    protected $template;
+
+    /**
      * The services container.
      *
      * @var Container
@@ -64,25 +72,28 @@ class DetectActiveModule
     /**
      * Create a new DetectActiveModule instance.
      *
-     * @param Asset            $asset
-     * @param Image            $image
-     * @param Request          $request
+     * @param Asset $asset
+     * @param Image $image
+     * @param Request $request
+     * @param Container $container
+     * @param ViewTemplate $template
+     * @param Application $application
      * @param ModuleCollection $modules
-     * @param Container        $container
-     * @param Application      $application
      */
     public function __construct(
         Asset $asset,
         Image $image,
         Request $request,
-        ModuleCollection $modules,
         Container $container,
-        Application $application
+        ViewTemplate $template,
+        Application $application,
+        ModuleCollection $modules
     ) {
         $this->asset       = $asset;
         $this->image       = $image;
         $this->request     = $request;
         $this->modules     = $modules;
+        $this->template    = $template;
         $this->container   = $container;
         $this->application = $application;
     }
@@ -125,6 +136,8 @@ class DetectActiveModule
         if (!$module) {
             return;
         }
+
+        $this->template->set('module', $module);
 
         $this->container->make('view')->addNamespace(
             'module',
