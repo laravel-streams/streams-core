@@ -337,7 +337,9 @@ class AddonProvider
                 ];
             }
 
-            $verb        = array_pull($route, 'verb', 'any');
+            $verb = array_pull($route, 'verb', 'any');
+           
+            $group       = array_pull($route, 'group', []);
             $middleware  = array_pull($route, 'middleware', []);
             $constraints = array_pull($route, 'constraints', []);
 
@@ -351,6 +353,10 @@ class AddonProvider
 
                 if ($middleware) {
                     call_user_func_array([$route, 'middleware'], (array)$middleware);
+                }
+
+                if ($group) {
+                    call_user_func_array([$route, 'group'], (array)$group);
                 }
             }
         }
