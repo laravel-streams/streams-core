@@ -321,4 +321,20 @@ class FieldCollection extends Collection
             $this->all()
         );
     }
+    
+    /**
+     * Return the fields partial.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->map(
+            function ($fieldType) {
+
+                /* @var FieldType $fieldType */
+                return $fieldType->render();
+            }
+        )->implode("\n");
+    }
 }
