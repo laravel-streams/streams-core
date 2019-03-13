@@ -369,6 +369,10 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
 
         foreach ($this->getCascades() as $relation) {
 
+            if (!$this->relationLoaded($relation)) {
+                continue;
+            }
+
             /* @var EloquentModel $relation */
             if (($relation = $this->getRelation($relation)) instanceof EloquentModel) {
                 $relation->flushCache();
