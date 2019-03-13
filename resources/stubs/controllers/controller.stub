@@ -1,0 +1,10 @@
+<?php
+
+namespace DummyNamespace;
+
+use Anomaly\Streams\Platform\Http\Controller\PublicController;
+
+class DummyClass extends PublicController
+{
+    //
+}
