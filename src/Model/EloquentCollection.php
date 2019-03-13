@@ -107,6 +107,22 @@ class EloquentCollection extends Collection
     }
 
     /**
+     * Filter items such where key contains value.
+     *
+     * @param  string $key
+     * @param  array $value
+     * @return static|$this
+     */
+    public function whereLike($key, $values)
+    {
+        return $this->filter(
+            function ($item) use ($key, $values) {
+                return str_contains(data_get($item, $key), $values);
+            }
+        );
+    }
+
+    /**
      * An alias for slice.
      *
      * @param $offset

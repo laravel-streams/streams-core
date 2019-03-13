@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\Addon\Theme\Theme;
 use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Anomaly\Streams\Platform\View\ViewMobileOverrides;
@@ -138,6 +139,10 @@ class AddonProvider
             return;
         }
 
+        if ($addon instanceof Theme && !$addon->isActive()) {
+            return;
+        }
+
         $provider = $addon->getServiceProvider();
 
         if (!class_exists($provider)) {
@@ -149,9 +154,9 @@ class AddonProvider
         $this->bindAliases($provider);
         $this->bindClasses($provider);
         $this->bindSingletons($provider);
+        $this->registerOverrides($provider);
 
         $this->registerRoutes($provider, $addon);
-        $this->registerOverrides($provider, $addon);
         $this->registerApi($provider, $addon);
 
         $this->registerEvents($provider);
@@ -177,7 +182,16 @@ class AddonProvider
      */
     public function boot()
     {
+        $booted = array_get($this->cached, 'booted', []);
+
         foreach ($this->providers as $provider) {
+
+            if (in_array($class = get_class($provider), $booted)) {
+                continue;
+            }
+
+            $this->cached['booted'][] = $class;
+
             if (method_exists($provider, 'boot')) {
                 $this->application->call([$provider, 'boot']);
             }
@@ -323,7 +337,9 @@ class AddonProvider
                 ];
             }
 
-            $verb        = array_pull($route, 'verb', 'any');
+            $verb = array_pull($route, 'verb', 'any');
+           
+            $group       = array_pull($route, 'group', []);
             $middleware  = array_pull($route, 'middleware', []);
             $constraints = array_pull($route, 'constraints', []);
 
@@ -337,6 +353,10 @@ class AddonProvider
 
                 if ($middleware) {
                     call_user_func_array([$route, 'middleware'], (array)$middleware);
+                }
+
+                if ($group) {
+                    call_user_func_array([$route, 'group'], (array)$group);
                 }
             }
         }
@@ -547,9 +567,8 @@ class AddonProvider
      * Register view overrides.
      *
      * @param AddonServiceProvider $provider
-     * @param Addon $addon
      */
-    protected function registerOverrides(AddonServiceProvider $provider, Addon $addon)
+    protected function registerOverrides(AddonServiceProvider $provider)
     {
         $overrides = $provider->getOverrides();
         $mobiles   = $provider->getMobile();
@@ -558,8 +577,13 @@ class AddonProvider
             return;
         }
 
-        $this->viewOverrides->put($addon->getNamespace(), $overrides);
-        $this->viewMobileOverrides->put($addon->getNamespace(), $mobiles);
+        foreach ($overrides as $view => $override) {
+            $this->viewOverrides->add($view, $override);
+        }
+
+        foreach ($mobiles as $view => $override) {
+            $this->viewMobileOverrides->add($view, $override);
+        }
     }
 
     /**

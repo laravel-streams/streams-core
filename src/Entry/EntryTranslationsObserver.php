@@ -20,6 +20,9 @@ class EntryTranslationsObserver extends Observer
      */
     public function created(EntryTranslationsModel $entry)
     {
+        $entry->flushCache();
+        $entry->flushParentCache();
+
         $entry->fireFieldTypeEvents('entry_translation_created');
     }
 
@@ -40,6 +43,9 @@ class EntryTranslationsObserver extends Observer
      */
     public function saved(EntryTranslationsModel $entry)
     {
+        $entry->flushCache();
+        $entry->flushParentCache();
+
         $entry->fireFieldTypeEvents('entry_translation_saved');
     }
 
@@ -51,5 +57,18 @@ class EntryTranslationsObserver extends Observer
     public function updated(EntryTranslationsModel $entry)
     {
         $entry->fireFieldTypeEvents('entry_translation_updated');
+    }
+
+    /**
+     * Fired just after a record is deleted.
+     *
+     * @param EntryTranslationsModel $entry
+     */
+    public function deleted(EntryTranslationsModel $entry)
+    {
+        $entry->flushCache();
+        $entry->flushParentCache();
+
+        $entry->fireFieldTypeEvents('entry_translation_deleted');
     }
 }

@@ -45,6 +45,14 @@ interface EloquentRepositoryInterface
     public function find($id);
 
     /**
+     * Return all records without relations.
+     *
+     * @param $id
+     * @return EloquentModel
+     */
+    public function findWithoutRelations($id);
+
+    /**
      * Find a record by it's column value.
      *
      * @param $column

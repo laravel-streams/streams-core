@@ -21,13 +21,7 @@ class ViewOverrides extends Collection
      */
     public function add($view, $override)
     {
-        list($namespace, $view) = explode('::', $view);
-
-        $overrides = $this->get($namespace, []);
-
-        $overrides[$namespace . '::' . $view] = $override;
-
-        $this->put($namespace, $overrides);
+        $this->put(str_replace(['\\', '/'], '.', $view), str_replace(['\\', '/'], '.', $override));
 
         return $this;
     }
@@ -38,37 +32,12 @@ class ViewOverrides extends Collection
      * @param $view
      * @param $override
      * @return $this
+     * @deprecated since 1.6; Use add($view, $override)
      */
     public function force($view, $override)
     {
-        $overrides = $this->get('*', []);
-
-        $overrides[$view] = $override;
-
-        $this->put('*', $overrides);
+        $this->add($view, $override);
 
         return $this;
-    }
-
-    /**
-     * When putting overrides replace "/" with "."
-     * to match the way Laravel interprets views.
-     *
-     * @param mixed $key
-     * @param mixed $value
-     */
-    public function put($namespace, $overrides)
-    {
-        parent::put(
-            $namespace,
-            array_flip(
-                array_map(
-                    function ($view) {
-                        return str_replace('/', '.', $view);
-                    },
-                    array_flip($overrides)
-                )
-            )
-        );
     }
 }

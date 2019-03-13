@@ -67,18 +67,23 @@ class Currency
     {
         $currency = strtoupper($currency ?: config('streams::currencies.default'));
 
-        $decimals = array_get(
+        $separator = array_get(
+            $options,
+            'separator',
+            config('streams::currencies.supported.' . $currency . '.separator', ',')
+        );
+        $decimals  = array_get(
             $options,
             'decimals',
             config('streams::currencies.supported.' . $currency . '.decimals', 2)
         );
-        $point    = array_get(
+        $point     = array_get(
             $options,
             'point',
             config('streams::currencies.supported.' . $currency . '.point' . '.')
         );
 
-        return floatval(number_format(floor(($number * 100)) / 100, $decimals, $point, ''));
+        return number_format(floor(($number * 100)) / 100, $decimals, $point, $separator);
     }
 
     /**

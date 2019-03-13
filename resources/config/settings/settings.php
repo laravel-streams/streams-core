@@ -1,27 +1,20 @@
 <?php
 
-use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
-use Illuminate\Contracts\Config\Repository;
-use Illuminate\Http\Request;
-
 return [
     'name'                  => [
-        'env'    => 'APP_NAME',
-        'bind'   => 'app.name',
-        'type'   => 'anomaly.field_type.text',
-        'config' => [
-            'default_value' => function (Repository $config) {
-                return $config->get('streams::distribution.name');
-            },
+        'env'         => 'APP_NAME',
+        'bind'        => 'app.name',
+        'type'        => 'anomaly.field_type.text',
+        'placeholder' => config('streams::distribution.name'),
+        'config'      => [
+            'default_value' => config('streams::distribution.name'),
         ],
     ],
     'description'           => [
         'type'   => 'anomaly.field_type.text',
         'bind'   => 'app.description',
         'config' => [
-            'default_value' => function (Repository $config) {
-                return $config->get('streams::distribution.description');
-            },
+            'default_value' => config('streams::distribution.description'),
         ],
     ],
     'domain'                => [
@@ -30,9 +23,7 @@ return [
         'bind'     => 'streams::system.domain',
         'type'     => 'anomaly.field_type.url',
         'config'   => [
-            'default_value' => function (Request $request) {
-                return $request->getHttpHost();
-            },
+            'default_value' => request()->getHttpHost(),
         ],
     ],
     'force_ssl'             => [
@@ -69,24 +60,12 @@ return [
         'required'    => true,
         'config'      => [
             'options' => [
-                'j F, Y' => function () {
-                    return date('j F, Y'); // 10 July, 2015
-                },
-                'j M, y' => function () {
-                    return date('j M, y'); // 10 Jul, 15
-                },
-                'm/d/Y'  => function () {
-                    return date('m/d/Y'); // 07/10/2015
-                },
-                'd/m/Y'  => function () {
-                    return date('d/m/Y'); // 10/07/2015
-                },
-                'Y-m-d'  => function () {
-                    return date('Y-m-d'); // 2015-07-10
-                },
-                'd.m.Y'  => function () {
-                    return date('d.m.Y'); // 10.07.2015
-                },
+                'j F, Y' => date('j F, Y'), // 10 July, 2015
+                'j M, y' => date('j M, y'), // 10 Jul, 15
+                'm/d/Y'  => date('m/d/Y'),  // 07/10/2015
+                'd/m/Y'  => date('d/m/Y'),  // 10/07/2015
+                'Y-m-d'  => date('Y-m-d'),  // 2015-07-10
+                'd.m.Y'  => date('d.m.Y'),  // 10.07.2015
             ],
         ],
     ],
@@ -98,15 +77,9 @@ return [
         'required'    => true,
         'config'      => [
             'options' => [
-                'g:i A' => function () {
-                    return date('g:i A'); // 4:00 PM
-                },
-                'g:i a' => function () {
-                    return date('g:i a'); // 4:00 pm
-                },
-                'H:i'   => function () {
-                    return date('H:i'); // 16:00
-                },
+                'g:i A' => date('g:i A'),   // 4:00 PM
+                'g:i a' => date('g:i a'),   // 4:00 pm
+                'H:i'   => date('H:i'),     // 16:00
             ],
         ],
     ],
@@ -137,12 +110,8 @@ return [
         'type'     => 'anomaly.field_type.select',
         'required' => true,
         'config'   => [
-            'default_value' => function (Repository $config) {
-                return $config->get('streams::themes.standard');
-            },
-            'options'       => function (ThemeCollection $themes) {
-                return $themes->standard()->pluck('title', 'namespace')->all();
-            },
+            'default_value' => config('streams::themes.standard'),
+            'handler'       => \Anomaly\Streams\Platform\Support\Config\StandardThemeHandler::class,
         ],
     ],
     'admin_theme'           => [
@@ -151,12 +120,8 @@ return [
         'type'     => 'anomaly.field_type.select',
         'required' => true,
         'config'   => [
-            'default_value' => function (Repository $config) {
-                return $config->get('streams::themes.admin');
-            },
-            'options'       => function (ThemeCollection $themes) {
-                return $themes->admin()->pluck('title', 'namespace')->all();
-            },
+            'default_value' => config('streams::themes.admin'),
+            'handler'       => \Anomaly\Streams\Platform\Support\Config\AdminThemeHandler::class,
         ],
     ],
     'per_page'              => [
@@ -185,17 +150,7 @@ return [
         'required' => true,
         'config'   => [
             'default_value' => config('streams::locales.default'),
-            'options'       => function (Repository $config) {
-                return array_combine(
-                    $keys = array_keys($config->get('streams::locales.supported')),
-                    array_map(
-                        function ($locale) {
-                            return trans('streams::locale.' . $locale . '.name') . ' (' . $locale . ')';
-                        },
-                        $keys
-                    )
-                );
-            },
+            'handler'       => \Anomaly\Streams\Platform\Support\Config\DefaultLocaleHandler::class,
         ],
     ],
     'enabled_locales'       => [
@@ -204,20 +159,8 @@ return [
         'type'     => 'anomaly.field_type.checkboxes',
         'required' => true,
         'config'   => [
-            'default_value' => function () {
-                return [config('streams::locales.default')];
-            },
-            'options'       => function (Repository $config) {
-                return array_combine(
-                    $keys = array_keys($config->get('streams::locales.supported')),
-                    array_map(
-                        function ($locale) {
-                            return trans('streams::locale.' . $locale . '.name') . ' (' . $locale . ')';
-                        },
-                        $keys
-                    )
-                );
-            },
+            'default_value' => [config('streams::locales.default')],
+            'handler'       => \Anomaly\Streams\Platform\Support\Config\EnabledLocalesHandler::class,
         ],
     ],
     'debug'                 => [
@@ -225,9 +168,7 @@ return [
         'bind'   => 'app.debug',
         'type'   => 'anomaly.field_type.boolean',
         'config' => [
-            'default_value' => function (Repository $config) {
-                return $config->get('app.debug');
-            },
+            'default_value' => config('app.debug'),
             'on_text'       => 'ON',
             'off_text'      => 'OFF',
         ],
@@ -270,12 +211,7 @@ return [
         'type'     => 'anomaly.field_type.email',
         'required' => true,
         'config'   => [
-            'default_value' => function (Repository $config) {
-
-                $host = array_get(parse_url($config->get('app.url')), 'host');
-
-                return 'noreply@' . (str_contains($host, '.') ? $host : $host . '.com');
-            },
+            'default_value' => 'noreply@' . request()->getHost(),
         ],
     ],
     'sender'                => [
@@ -284,9 +220,7 @@ return [
         'type'     => 'anomaly.field_type.text',
         'required' => true,
         'config'   => [
-            'default_value' => function (Repository $config) {
-                return $config->get('streams::distribution.name');
-            },
+            'default_value' => config('streams::distribution.name'),
         ],
     ],
     'mail_driver'           => [

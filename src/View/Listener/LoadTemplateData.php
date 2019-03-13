@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\View\Listener;
 
-use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Anomaly\Streams\Platform\View\Event\TemplateDataIsLoading;
 use Anomaly\Streams\Platform\View\Event\ViewComposed;
@@ -50,8 +49,8 @@ class LoadTemplateData
      *
      * @param ViewTemplate $template
      * @param ViewIncludes $includes
-     * @param Dispatcher   $events
-     * @param Bridge       $twig
+     * @param Dispatcher $events
+     * @param Bridge $twig
      */
     public function __construct(ViewTemplate $template, ViewIncludes $includes, Dispatcher $events, Bridge $twig)
     {
@@ -63,29 +62,17 @@ class LoadTemplateData
 
     /**
      * Handle the event.
-     *
-     * @param ViewComposed $event
      */
-    public function handle(ViewComposed $event)
+    public function handle()
     {
-        $view = $event->getView();
-
-        if (array_get($view->getData(), 'template')) {
-            return;
-        }
-
         if (!$this->template->isLoaded()) {
 
             $this->template->set('includes', $this->includes);
 
-            $this->events->dispatch(new RegisteringTwigPlugins($this->twig));
-            $this->events->dispatch(new TemplateDataIsLoading($this->template));
+            event(new RegisteringTwigPlugins($this->twig));
+            event(new TemplateDataIsLoading($this->template));
 
             $this->template->setLoaded(true);
-        }
-
-        if (array_merge($view->getFactory()->getShared(), $view->getData())) {
-            $view['template'] = (new Decorator())->decorate($this->template);
         }
     }
 }

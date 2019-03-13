@@ -4,9 +4,9 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Theme\Theme;
 use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\View\Event\ViewComposed;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Mobile_Detect;
@@ -22,18 +22,11 @@ class ViewComposer
 {
 
     /**
-     * Runtime cache.
+     * The loaded flag.
      *
-     * @var array
+     * @var bool
      */
-    protected $cache = [];
-
-    /**
-     * The view factory.
-     *
-     * @var Factory
-     */
-    protected $view;
+    protected static $loaded = false;
 
     /**
      * The agent utility.
@@ -101,17 +94,15 @@ class ViewComposer
     /**
      * Create a new ViewComposer instance.
      *
-     * @param Factory             $view
-     * @param Mobile_Detect       $agent
-     * @param Dispatcher          $events
-     * @param AddonCollection     $addons
-     * @param ViewOverrides       $overrides
-     * @param Request             $request
+     * @param Mobile_Detect $agent
+     * @param Dispatcher $events
+     * @param AddonCollection $addons
+     * @param ViewOverrides $overrides
+     * @param Request $request
      * @param ViewMobileOverrides $mobiles
-     * @param Application         $application
+     * @param Application $application
      */
     public function __construct(
-        Factory $view,
         Mobile_Detect $agent,
         Dispatcher $events,
         AddonCollection $addons,
@@ -120,7 +111,6 @@ class ViewComposer
         ViewMobileOverrides $mobiles,
         Application $application
     ) {
-        $this->view        = $view;
         $this->agent       = $agent;
         $this->events      = $events;
         $this->addons      = $addons;
@@ -145,17 +135,37 @@ class ViewComposer
      */
     public function compose(View $view)
     {
+        if ($data = array_merge($view->getFactory()->getShared(), $view->getData())) {
+
+            array_walk(
+                $data,
+                function (&$value) {
+                    $value = (new Decorator())->decorate($value);
+                }
+            );
+
+            /* @deprecated since 1.6; use template() helper/function instead. */
+            $data['template'] = (new Decorator())->decorate(app(ViewTemplate::class));
+
+            $view->with($data);
+        }
 
         if (!$this->theme || !env('INSTALLED')) {
 
-            $this->events->dispatch(new ViewComposed($view));
+            if (!self::$loaded && self::$loaded = true) {
+                /* @deprecated since 1.6; this is no longer needed for every view. */
+                $this->events->dispatch(new ViewComposed($view));
+            }
 
             return $view;
         }
 
         $this->setPath($view);
 
-        $this->events->dispatch(new ViewComposed($view));
+        if (!self::$loaded && self::$loaded = true) {
+            /* @deprecated since 1.6; this is no longer needed for every view. */
+            $this->events->dispatch(new ViewComposed($view));
+        }
 
         return $view;
     }
@@ -167,59 +177,36 @@ class ViewComposer
      */
     protected function setPath(View $view)
     {
-        /**
-         * If view path is already in internal cache use it.
-         */
-        if ($path = array_get($this->cache, $view->getName())) {
-
-            $view->setPath($path);
-
-            return;
-        }
-
         $mobile = array_merge(
-            $this->mobiles->get($this->theme->getNamespace(), []),
-            $this->mobiles->get('*', []),
+            $this->mobiles->all(),
             config('streams.mobile', [])
         );
 
-        /**
-         * Merge system configured overrides
-         * with the overrides from the addon.
-         */
         $overrides = array_merge(
-            $this->overrides->get($this->theme->getNamespace(), []),
-            $this->overrides->get('*', []),
+            $this->overrides->all(),
             config('streams.overrides', [])
         );
 
         $name = str_replace('theme::', $this->theme->getNamespace() . '::', $view->getName());
 
         if ($this->mobile && $path = array_get($mobile, $name, null)) {
-            $view->setPath($path);
+            $view->setPath(str_replace('theme::', $this->theme->getNamespace() . '::', $path));
         } elseif ($path = array_get($overrides, $name, null)) {
-            $view->setPath($path);
+            $view->setPath(str_replace('theme::', $this->theme->getNamespace() . '::', $path));
         }
 
-        if ($this->module) {
-
-            $mobile    = $this->mobiles->get($this->module->getNamespace(), []);
-            $overrides = $this->overrides->get($this->module->getNamespace(), []);
-
-            if ($this->mobile && $path = array_get($mobile, $view->getName(), null)) {
-                $view->setPath($path);
-            } elseif ($path = array_get($overrides, $view->getName(), null)) {
-                $view->setPath($path);
-            } elseif ($path = array_get(config('streams.overrides'), $view->getName(), null)) {
-                $view->setPath($path);
-            }
-        }
-
-        if ($overload = $this->getOverloadPath($view)) {
+        /**
+         * Get the overloaded view path.
+         *
+         * This is very expensive for IO
+         * so we're going to remove it in
+         * favor of manual overrides only.
+         *
+         * @deprecated since 1.6; Use override collection.
+         */
+        if (env('AUTOMATIC_ADDON_OVERRIDES', true) && $overload = $this->getOverloadPath($view)) {
             $view->setPath($overload);
         }
-
-        $this->cache[$view->getName()] = $view->getPath();
     }
 
     /**
@@ -268,7 +255,7 @@ class ViewComposer
             );
         }
 
-        if ($this->view->exists($override)) {
+        if (view()->exists($override)) {
             return $override;
         }
 

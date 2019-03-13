@@ -13,11 +13,11 @@ class AssignmentModelTranslation extends EloquentModel
 {
 
     /**
-     * The cache minutes.
+     * Don't cache this model.
      *
      * @var int
      */
-    protected $ttl = 0;
+    protected $ttl = false;
 
     /**
      * Do not use timestamps.

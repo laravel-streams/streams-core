@@ -63,6 +63,7 @@ class EntryFactory
         ) {
             return null;
         }
+
         /* @var EntryModel $model */
         $model = $this->container->make($model);
 

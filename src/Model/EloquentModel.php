@@ -25,6 +25,13 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     use DispatchesJobs;
 
     /**
+     * The number of minutes to cache query results.
+     *
+     * @var null|false|int
+     */
+    protected $ttl = null;
+
+    /**
      * Disable timestamps for this model.
      *
      * @var bool
@@ -37,13 +44,6 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      * @var array
      */
     protected $searchableAttributes = [];
-
-    /**
-     * The number of minutes to cache query results.
-     *
-     * @var null|false|int
-     */
-    protected $ttl = null;
 
     /**
      * The attributes that are
@@ -100,6 +100,13 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      * @var array
      */
     protected $cache = [];
+
+    /**
+     * The cache collection.
+     *
+     * @var CacheCollection
+     */
+    protected $cacheCollection;
 
     /**
      * Get the ID.
@@ -256,7 +263,11 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
         $ttl = $this->getTtl();
 
         if ($ttl === null) {
-            $ttl = config('streams::database.ttl', 3600) / 60;
+            $ttl = config('streams::database.ttl', 3600);
+        }
+
+        if ($ttl === false) {
+            return 0;
         }
 
         return $ttl / 60;
@@ -265,11 +276,27 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     /**
      * Get cache collection key.
      *
+     * @param null $key
      * @return string
      */
-    public function getCacheCollectionKey()
+    public function getCacheCollectionKey($key = null)
     {
-        return get_called_class();
+        return get_class(app(static::class)) . ($key ? '::' . $key : null);
+    }
+
+    /**
+     * Get the cache collection.
+     *
+     * @return CacheCollection|mixed
+     */
+    public function getCacheCollection()
+    {
+
+        if ($this->cacheCollection) {
+            return $this->cacheCollection;
+        }
+
+        return $this->cacheCollection = new CacheCollection([], $this->getCacheCollectionKey());
     }
 
     /**
@@ -337,6 +364,18 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
         if ($this->isTranslatable()) {
             foreach ($this->getTranslations() as $translation) {
                 $translation->flushCache();
+            }
+        }
+
+        foreach ($this->getCascades() as $relation) {
+
+            if (!$this->relationLoaded($relation)) {
+                continue;
+            }
+
+            /* @var EloquentModel $relation */
+            if (($relation = $this->getRelation($relation)) instanceof EloquentModel) {
+                $relation->flushCache();
             }
         }
 
@@ -441,24 +480,14 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
         }
 
         if ($this->exists) {
-            if (count($this->getDirty()) > 0) {
 
-                // If $this->exists and dirty, $this->saveModel() has to return true. If not,
-                // an error has occurred. Therefore we shouldn't save the translations.
-                if ($this->saveModel($options)) {
-                    return $this->saveTranslations();
-                }
-
-                return false;
-            } else {
-
-                // If $this->exists and not dirty, $this->saveModel() skips saving and returns
-                // false. So we have to save the translations
+            if ($this->saveModel($options)) {
                 return $this->saveTranslations();
             }
-        } elseif ($this->saveModel($options)) {
 
-            // We save the translations only if the instance is saved in the database.
+            return false;
+
+        } elseif ($this->saveModel($options)) {
             return $this->saveTranslations();
         }
 

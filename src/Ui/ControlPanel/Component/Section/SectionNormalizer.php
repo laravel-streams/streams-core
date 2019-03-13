@@ -111,6 +111,15 @@ class SectionNormalizer
             }
 
             /*
+             * Move the data-href into the permalink.
+             *
+             * @deprecated as of v3.2
+             */
+            if (!isset($section['permalink']) && isset($section['attributes']['data-href'])) {
+                $section['permalink'] = array_pull($section, 'attributes.data-href');
+            }
+
+            /*
              * Make sure the HREF and permalink are absolute.
              */
             if (

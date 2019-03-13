@@ -112,10 +112,24 @@ class EntryTranslationsModel extends EloquentModel
     }
 
     /**
+     * Flush the parent's cache.
+     *
+     * @return $this
+     */
+    public function flushParentCache()
+    {
+        if ($parent = $this->getParent()) {
+            $parent->flushCache();
+        }
+
+        return $this;
+    }
+
+    /**
      * Set the attribute.
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      */
     public function setAttribute($key, $value)
     {
@@ -166,7 +180,7 @@ class EntryTranslationsModel extends EloquentModel
             $fieldType->setEntry($this);
             $fieldType->setLocale($this->locale);
 
-            $fieldType->fire($trigger, array_merge(compact('fieldType', 'entry'), $payload));
+            $fieldType->fire($trigger, array_merge(compact('fieldType'), $payload));
         }
     }
 
@@ -184,7 +198,7 @@ class EntryTranslationsModel extends EloquentModel
      * Let the parent handle calls if they don't exist here.
      *
      * @param  string $name
-     * @param  array  $arguments
+     * @param  array $arguments
      * @return mixed
      */
     public function __call($name, $arguments)

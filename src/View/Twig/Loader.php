@@ -175,46 +175,36 @@ class Loader extends OriginalLoader
      */
     protected function getPath($name)
     {
+        $result = null;
+
         $mobile = array_merge(
-            $this->mobiles->get($this->theme->getNamespace(), []),
-            $this->mobiles->get('*', []),
+            $this->mobiles->all(),
             config('streams.mobile', [])
         );
 
-        $result = false;
-
-        /**
-         * Merge system configured overrides
-         * with the overrides from the addon.
-         */
         $overrides = array_merge(
-            $this->overrides->get($this->theme->getNamespace(), []),
-            $this->overrides->get('*', []),
+            $this->overrides->all(),
             config('streams.overrides', [])
         );
 
         $name = str_replace('theme::', $this->theme->getNamespace() . '::', $name);
 
         if ($this->mobile && $path = array_get($mobile, $name)) {
-            $result = $path;
+            $result = str_replace('theme::', $this->theme->getNamespace() . '::', $path);
         } elseif ($path = array_get($overrides, $name)) {
-            $result = $path;
+            $result = str_replace('theme::', $this->theme->getNamespace() . '::', $path);
         }
 
-        if ($this->module) {
-            $mobile    = $this->mobiles->get($this->module->getNamespace(), []);
-            $overrides = $this->overrides->get($this->module->getNamespace(), []);
-
-            if ($this->mobile && $path = array_get($mobile, $name)) {
-                $result = $path;
-            } elseif ($path = array_get($overrides, $name)) {
-                $result = $path;
-            } elseif ($path = array_get(config('streams.overrides'), $name)) {
-                $result = $path;
-            }
-        }
-
-        if ($path = $this->getOverloadPath($name)) {
+        /**
+         * Get the overloaded view path.
+         *
+         * This is very expensive for IO
+         * so we're going to remove it in
+         * favor of manual overrides only.
+         *
+         * @deprecated since 1.6; Use override collection.
+         */
+        if (env('AUTOMATIC_ADDON_OVERRIDES', true) && $path = $this->getOverloadPath($name)) {
             return $path;
         }
 
@@ -287,39 +277,4 @@ class Loader extends OriginalLoader
 
         return null;
     }
-
-    /**
-     * Return path to template without the need for the extension.
-     *
-     * @param string $name Template file name or path.
-     * @throws \Twig_Error_Loader
-     * @return string Path to template
-     */
-    public function findTemplate($name)
-    {
-        if ($this->files->exists($name)) {
-            return $name;
-        }
-
-        $name = $this->normalizeName($name);
-
-        if ($cached = array_get($this->cache, $name)) {
-            return $cached;
-        }
-
-        $file = $name;
-
-        if ($path = $this->getPath($name)) {
-            $file = $path;
-        }
-
-        try {
-            $this->cache[$name] = $this->finder->find($file);
-        } catch (\InvalidArgumentException $e) {
-            throw new \Twig_Error_Loader($e->getMessage());
-        }
-
-        return array_get($this->cache, $name);
-    }
-
 }

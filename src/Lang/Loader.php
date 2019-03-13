@@ -98,7 +98,13 @@ class Loader extends FileLoader
      */
     protected function loadNamespaceOverrides(array $lines, $locale, $group, $namespace)
     {
-        $lines = $this->loadAddonOverrides($lines, $locale, $group, $namespace);
+        /**
+         * @deprecated since 1.6; Use manual loading or publishing.
+         */
+        if (env('AUTOMATIC_ADDON_OVERRIDES', true)) {
+            $lines = $this->loadAddonOverrides($lines, $locale, $group, $namespace);
+        }
+
         $lines = $this->loadSystemOverrides($lines, $locale, $group, $namespace);
         $lines = $this->loadApplicationOverrides($lines, $locale, $group, $namespace);
 
@@ -116,34 +122,22 @@ class Loader extends FileLoader
      */
     protected function loadSystemOverrides(array $lines, $locale, $group, $namespace = null)
     {
-        $disabled = array_get(self::$disabled, $key = 'system::streams', false);
-
-        if (!$disabled && !$this->files->isDirectory(base_path("resources/streams/lang"))) {
-            self::$disabled[$key] = $disabled = true;
-        }
-
-        if (!$disabled && (!$namespace || $namespace == 'streams')) {
+        if (!$namespace || $namespace == 'streams') {
 
             $file = base_path("resources/streams/lang/{$locale}/{$group}.php");
 
-            if ($this->files->exists($file)) {
+            if (is_dir(base_path("resources/streams/lang")) && $this->files->exists($file)) {
                 $lines = array_replace_recursive($lines, $this->files->getRequire($file));
             }
         }
 
-        $disabled = array_get(self::$disabled, $key = 'system::addons', false);
-
-        if (!$disabled && !$this->files->isDirectory(base_path("resources/addons"))) {
-            self::$disabled[$key] = $disabled = true;
-        }
-
-        if (!$disabled && str_is('*.*.*', $namespace)) {
+        if (str_is('*.*.*', $namespace)) {
 
             list($vendor, $type, $slug) = explode('.', $namespace);
 
             $file = base_path("resources/addons/{$vendor}/{$slug}-{$type}/lang/{$locale}/{$group}.php");
 
-            if ($this->files->exists($file)) {
+            if (is_dir(base_path("resources/addons/{$vendor}/{$slug}-{$type}/lang")) && $this->files->exists($file)) {
                 $lines = array_replace_recursive($lines, $this->files->getRequire($file));
             }
         }
@@ -162,26 +156,16 @@ class Loader extends FileLoader
      */
     protected function loadApplicationOverrides(array $lines, $locale, $group, $namespace = null)
     {
-        $disabled = array_get(self::$disabled, $key = 'application::streams', false);
-
-        if (!$disabled && !$this->files->isDirectory($this->application->getResourcesPath("streams/lang"))) {
-            self::$disabled[$key] = $disabled = true;
-        }
-
-        if (!$disabled && (!$namespace || $namespace == 'streams')) {
+        if (!$namespace || $namespace == 'streams') {
 
             $file = $this->application->getResourcesPath("streams/lang/{$locale}/{$group}.php");
 
-            if ($this->files->exists($file)) {
+            if (is_dir($this->application->getResourcesPath("streams/lang")) && $this->files->exists($file)) {
                 $lines = array_replace_recursive($lines, $this->files->getRequire($file));
             }
         }
 
-        if (!$disabled && !$this->files->isDirectory($this->application->getResourcesPath("addons"))) {
-            self::$disabled[$key] = $disabled = true;
-        }
-
-        if (!$disabled && str_is('*.*.*', $namespace)) {
+        if (str_is('*.*.*', $namespace)) {
 
             list($vendor, $type, $slug) = explode('.', $namespace);
 
@@ -189,7 +173,10 @@ class Loader extends FileLoader
                 "addons/{$vendor}/{$slug}-{$type}/lang/{$locale}/{$group}.php"
             );
 
-            if ($this->files->exists($file)) {
+            if (
+                is_dir($this->application->getResourcesPath("addons/{$vendor}/{$slug}-{$type}/lang"))
+                && $this->files->exists($file)
+            ) {
                 $lines = array_replace_recursive($lines, $this->files->getRequire($file));
             }
         }

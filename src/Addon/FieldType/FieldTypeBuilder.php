@@ -66,7 +66,7 @@ class FieldTypeBuilder
          * parameter has been set.
          */
         if (!is_string($type)) {
-            throw new \Exception("The [type] parameter is required and should be string.");
+            throw new \Exception("The [type] parameter of [".array_get($parameters, 'field')."] is required and should be string.");
         }
 
         /*

@@ -22,13 +22,6 @@ class AddonIntegrator
 {
 
     /**
-     * The runtime cache.
-     *
-     * @var array
-     */
-    protected static $disabled = [];
-
-    /**
      * The view factory.
      *
      * @var Factory
@@ -147,16 +140,11 @@ class AddonIntegrator
         $this->container->instance($alias, $addon);
 
         // Load package configuration.
-        $this->configurator->addNamespace($addon->getNamespace(), $addon->getPath('resources/config'));
+        if (!file_exists(base_path('bootstrap/cache/config.php'))) {
 
-        // Load system overrides.
-        $disabled = array_get(self::$disabled, 'system::addons');
+            $this->configurator->addNamespace($addon->getNamespace(), $addon->getPath('resources/config'));
 
-        if ($disabled === null) {
-            self::$disabled['system::addons'] = $disabled = !app('files')->isDirectory(base_path('resources/addons'));
-        }
-
-        if (!$disabled) {
+            // Load published overrides.
             $this->configurator->addNamespaceOverrides(
                 $addon->getNamespace(),
                 base_path(
@@ -169,26 +157,16 @@ class AddonIntegrator
         }
 
         // Load application overrides.
-        $disabled = array_get(self::$disabled, 'application::addons');
-
-        if ($disabled === null) {
-            self::$disabled['application::addons'] = $disabled = !app('files')->isDirectory(
-                $this->application->getResourcesPath('addons')
-            );
-        }
-
-        if (!$disabled) {
-            $this->configurator->addNamespaceOverrides(
-                $addon->getNamespace(),
-                $this->application->getResourcesPath(
-                    'addons/'
-                    . $addon->getVendor() . '/'
-                    . $addon->getSlug() . '-'
-                    . $addon->getType()
-                    . '/config'
-                )
-            );
-        }
+        $this->configurator->addNamespaceOverrides(
+            $addon->getNamespace(),
+            $this->application->getResourcesPath(
+                'addons/'
+                . $addon->getVendor() . '/'
+                . $addon->getSlug() . '-'
+                . $addon->getType()
+                . '/config'
+            )
+        );
 
         // Continue loading things.
         $this->provider->register($addon);
