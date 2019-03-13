@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Database\Migration\Console\RefreshCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\ResetCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\RollbackCommand;
 use Anomaly\Streams\Platform\Database\Seeder\Console\SeedCommand;
+use Anomaly\Streams\Platform\Http\Command\ControllerMakeCommand;
 
 /**
  * Class StreamsConsoleProvider
@@ -170,6 +171,21 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
             'command.migrate.rollback',
             function ($app) {
                 return new RollbackCommand($app['migrator']);
+            }
+        );
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerControllerMakeCommand()
+    {
+        $this->app->singleton(
+            'command.controller.make',
+            function ($app) {
+                return new ControllerMakeCommand($app['files']);
             }
         );
     }
