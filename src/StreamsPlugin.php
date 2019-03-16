@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Entry\Command\GetEntryCriteria;
 use Anomaly\Streams\Platform\Image\Command\MakeImageInstance;
 use Anomaly\Streams\Platform\Image\Image;
+use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Model\Command\GetEloquentCriteria;
 use Anomaly\Streams\Platform\Stream\Command\GetStream;
 use Anomaly\Streams\Platform\Stream\Command\GetStreams;
@@ -588,7 +589,7 @@ class StreamsPlugin extends Plugin
                 'message_*',
                 function ($name) {
 
-                    if (!in_array($name, ['get', 'has', 'exists'])) {
+                    if (!in_array($name, ['pull', 'get', 'has', 'exists'])) {
                         throw new \Exception('Function [message_' . $name . '] does not exist.');
                     }
 
@@ -597,7 +598,7 @@ class StreamsPlugin extends Plugin
                     }
 
                     return call_user_func_array(
-                        [session(), $name],
+                        [app(MessageBag::class), $name],
                         array_slice(func_get_args(), 1)
                     );
                 }
