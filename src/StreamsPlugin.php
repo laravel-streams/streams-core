@@ -32,7 +32,6 @@ use Anomaly\Streams\Platform\View\Command\GetView;
 use Anomaly\Streams\Platform\View\Support\CompressHtmlTokenParser;
 use Anomaly\Streams\Platform\View\ViewTemplate;
 use Carbon\Carbon;
-use Illuminate\Session\Store;
 use Illuminate\Support\Arr;
 use Jenssegers\Agent\Agent;
 use Symfony\Component\Yaml\Yaml;
@@ -598,7 +597,7 @@ class StreamsPlugin extends Plugin
                     }
 
                     return call_user_func_array(
-                        [config(), $name],
+                        [session(), $name],
                         array_slice(func_get_args(), 1)
                     );
                 }
@@ -607,7 +606,7 @@ class StreamsPlugin extends Plugin
                 'session',
                 function () {
                     return call_user_func_array(
-                        [app(Store::class), 'get'],
+                        [session(), 'get'],
                         func_get_args()
                     );
                 }
@@ -630,7 +629,7 @@ class StreamsPlugin extends Plugin
                     }
 
                     return call_user_func_array(
-                        [app(Store::class), $name],
+                        [session(), $name],
                         array_slice(func_get_args(), 1)
                     );
                 }
