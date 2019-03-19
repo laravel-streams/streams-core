@@ -48,20 +48,8 @@ class RestoreAssignmentIndexes
             return;
         }
 
-        /*
-         * If it's NOW translatable then move it from
-         * the main table to the translations table.
-         */
-        if ($this->assignment->isTranslatable()) {
-            $schema->addIndex($stream->getEntryTranslationsTableName(), $assignment->getFieldType(true), $assignment);
-        }
-
-        /*
-         * If it's NOT translatable then move it from
-         * the translations table to the main table.
-         */
         if (!$this->assignment->isTranslatable()) {
-            $schema->addIndex($stream->getEntryTableName(), $assignment->getFieldType(true), $assignment);
+            $schema->addIndex($stream->getEntryTableName(), $assignment->getFieldType(true), $this->assignment);
         }
     }
 }
