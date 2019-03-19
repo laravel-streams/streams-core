@@ -40,5 +40,6 @@ class AddAssignmentColumn
         }
 
         $schema->addColumn($table, $type, $this->assignment);
+        $schema->addIndex($table, $type, $this->assignment);
     }
 }

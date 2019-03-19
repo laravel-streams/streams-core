@@ -53,7 +53,8 @@ class MoveAssignmentColumn
          * the main table to the translations table.
          */
         if ($this->assignment->isTranslatable()) {
-            $schema->dropColumn($stream->getEntryTableName(), $assignment->getFieldType(true));
+            $schema->dropIndex($stream->getEntryTableName(), $assignment->getFieldType(true), $assignment);
+            $schema->dropColumn($stream->getEntryTableName(), $assignment->getFieldType(true), $assignment);
             $schema->addColumn($stream->getEntryTranslationsTableName(), $assignment->getFieldType(true), $assignment);
         }
 
@@ -62,7 +63,8 @@ class MoveAssignmentColumn
          * the translations table to the main table.
          */
         if (!$this->assignment->isTranslatable()) {
-            $schema->dropColumn($stream->getEntryTranslationsTableName(), $assignment->getFieldType(true));
+            $schema->dropIndex($stream->getEntryTranslationsTableName(), $assignment->getFieldType(true), $assignment);
+            $schema->dropColumn($stream->getEntryTranslationsTableName(), $assignment->getFieldType(true), $assignment);
             $schema->addColumn($stream->getEntryTableName(), $assignment->getFieldType(true), $assignment);
         }
     }

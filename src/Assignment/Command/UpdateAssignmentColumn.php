@@ -47,5 +47,6 @@ class UpdateAssignmentColumn
         }
 
         $schema->updateColumn($table, $type, $this->assignment);
+        $schema->updateIndex($table, $type, $this->assignment);
     }
 }

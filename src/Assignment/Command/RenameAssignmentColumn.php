@@ -54,5 +54,6 @@ class RenameAssignmentColumn
         $assignment = clone($assignment);
 
         $schema->renameColumn($table, $type, $assignment);
+        $schema->updateIndex($table, $type, $assignment);
     }
 }

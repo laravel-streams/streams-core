@@ -53,7 +53,7 @@ class BackupAssignmentData
          * back it up from the main table.
          */
         if ($this->assignment->isTranslatable()) {
-            $schema->backupColumn($stream->getEntryTableName(), $assignment->getFieldType(true));
+            $schema->backupColumn($stream->getEntryTableName(), $assignment->getFieldType(true), $this->assignment);
         }
 
         /*
@@ -61,7 +61,7 @@ class BackupAssignmentData
          * it up from the translations table.
          */
         if (!$this->assignment->isTranslatable()) {
-            $schema->backupColumn($stream->getEntryTranslationsTableName(), $assignment->getFieldType(true));
+            $schema->backupColumn($stream->getEntryTranslationsTableName(), $assignment->getFieldType(true), $this->assignment);
         }
     }
 }
