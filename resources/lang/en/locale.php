@@ -182,7 +182,7 @@ return [
         'name' => 'Cree',
     ],
     'cu'    => [
-        'name' => 'Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic',
+        'name' => 'Church Slavic',
     ],
     'cv'    => [
         'name' => 'Chuvash',
@@ -252,12 +252,6 @@ return [
     ],
     'hz'    => [
         'name' => 'Herero',
-    ],
-    'ia'    => [
-        'name' => 'Interlingua (International Auxiliary Language Association)',
-    ],
-    'ie'    => [
-        'name' => 'Interlingue; Occidental',
     ],
     'ig'    => [
         'name' => 'Igbo',

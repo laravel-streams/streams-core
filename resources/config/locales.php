@@ -367,12 +367,6 @@ return [
         'hz'    => [
             'direction' => 'ltr',
         ],
-        'ia'    => [
-            'direction' => 'ltr',
-        ],
-        'ie'    => [
-            'direction' => 'ltr',
-        ],
         'ig'    => [
             'direction' => 'ltr',
         ],
