@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Model\Pages\PagesPagesEntryTranslationsModel;
 use Carbon\Carbon;
 
 /**
@@ -44,7 +45,20 @@ class EntryTranslationsModel extends EloquentModel
     {
         parent::boot();
 
-        self::observe(app(substr(__CLASS__, 0, -5) . 'Observer'));
+        $instance = new static;
+
+        $class     = get_class($instance);
+        $events    = $instance->getObservableEvents();
+        $observer  = substr($class, 0, -5) . 'Observer';
+        $observing = class_exists($observer);
+
+        if ($events && $observing) {
+            self::observe(app($observer));
+        }
+
+        if ($events && !$observing) {
+            self::observe(EntryTranslationsObserver::class);
+        }
     }
 
     /**
@@ -141,9 +155,10 @@ class EntryTranslationsModel extends EloquentModel
         $assignment = $parent->getAssignment($key);
 
         if (!$assignment) {
+
             parent::setAttribute($key, $value);
 
-            return;
+            return $this;
         }
 
         $type = $assignment->getFieldType($this);
@@ -155,6 +170,8 @@ class EntryTranslationsModel extends EloquentModel
         $modifier = $type->getModifier();
 
         $accessor->set($modifier->modify($value));
+
+        return $this;
     }
 
     /**
