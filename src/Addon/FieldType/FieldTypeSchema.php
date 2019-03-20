@@ -252,9 +252,8 @@ class FieldTypeSchema
      * Drop the field type column from the table.
      *
      * @param Blueprint $table
-     * @param AssignmentInterface $assignment
      */
-    public function dropColumn(Blueprint $table, AssignmentInterface $assignment)
+    public function dropColumn(Blueprint $table)
     {
         // Skip if no column type.
         if (!$this->fieldType->getColumnType()) {

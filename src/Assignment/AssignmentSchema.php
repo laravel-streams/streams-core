@@ -157,9 +157,8 @@ class AssignmentSchema
      *
      * @param           $table
      * @param FieldType $type
-     * @param AssignmentInterface $assignment
      */
-    public function dropColumn($table, FieldType $type, AssignmentInterface $assignment)
+    public function dropColumn($table, FieldType $type)
     {
         $schema = $type->getSchema();
 
@@ -169,8 +168,8 @@ class AssignmentSchema
 
         $this->schema->table(
             $table,
-            function (Blueprint $table) use ($schema, $assignment) {
-                $schema->dropColumn($table, $assignment);
+            function (Blueprint $table) use ($schema) {
+                $schema->dropColumn($table);
             }
         );
     }
