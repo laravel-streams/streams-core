@@ -7,8 +7,11 @@ use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\EntryPresenter;
 use Anomaly\Streams\Platform\Entry\EntryRouter;
+use Anomaly\Streams\Platform\Entry\EntryTranslationsModel;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Model\Traits\Translatable;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Carbon\Carbon;
 
@@ -119,6 +122,23 @@ interface EntryInterface
      * @return string
      */
     public function getTableName();
+
+    /*
+     * Alias for getTranslation()
+     *
+     * @return EloquentModel|Translatable|null
+     */
+    public function translate($locale = null, $withFallback = false);
+
+    /*
+     * Alias for getTranslation()
+     *
+     */
+    /**
+     * @param null $locale
+     * @return EloquentModel|Translatable
+     */
+    public function translateOrDefault($locale = null);
 
     /**
      * Get related translations.
