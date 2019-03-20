@@ -92,6 +92,11 @@ class ButtonRegistry
             'icon' => 'fa fa-plus',
             'type' => 'success',
         ],
+        'add_all'       => [
+            'text' => 'streams::button.add_all',
+            'icon' => 'fa fa-plus-circle',
+            'type' => 'success',
+        ],
         'add_field'     => [
             'text' => 'streams::button.add_field',
             'icon' => 'fa fa-plus',
