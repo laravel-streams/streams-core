@@ -20,6 +20,7 @@ return [
     'remove'         => 'Remove',
     'delete'         => 'Delete',
     'add_all'        => 'Add All',
+    'add_selected'   => 'Add Selected',
     'restore'        => 'Restore',
     'force_delete'   => 'Force Delete',
     'change'         => 'Change',
