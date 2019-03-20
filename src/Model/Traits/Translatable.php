@@ -247,7 +247,7 @@ trait Translatable
      */
     public function getTranslationModelName()
     {
-        return $this->translationModel;
+        return $this->translationModel ? get_class(app($this->translationModel)) : null;
     }
 
     /**
@@ -297,7 +297,8 @@ trait Translatable
         foreach ($this->getTranslations() as $translation) {
 
             /* @var EloquentModel $translation */
-            if ($saved && $this->isTranslationDirty($translation)) {
+            if ($saved) {
+
                 $translation->setAttribute($this->getRelationKey(), $this->getKey());
 
                 $saved = $translation->save();
