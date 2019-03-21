@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Support\Resolver;
 use Illuminate\Contracts\Container\Container;
 
 /**
@@ -34,10 +35,14 @@ class ValidateForm
      * Handle the event.
      *
      * @param Container $container
+     * @param Resolver  $resolver
      */
-    public function handle(Container $container)
+    public function handle(Container $container, Resolver $resolver)
     {
+        $rules     = $this->builder->getRules();
         $validator = $this->builder->getValidator();
+
+        $resolver->resolve($rules, ['builder' => $this->builder]);
 
         /*
          * If it's self handling just add @handle
