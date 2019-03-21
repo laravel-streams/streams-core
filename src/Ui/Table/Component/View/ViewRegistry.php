@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\All;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\RecentlyCreated;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\RecentlyModified;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\Trash;
 
 /**
@@ -20,12 +21,12 @@ class ViewRegistry
      * @var array
      */
     protected $views = [
-        'all'              => [
+        'all'               => [
             'slug' => 'all',
             'text' => 'streams::view.all',
             'view' => All::class,
         ],
-        'trash'            => [
+        'trash'             => [
             'slug'    => 'trash',
             'text'    => 'streams::view.trash',
             'view'    => Trash::class,
@@ -39,10 +40,15 @@ class ViewRegistry
                 'sortable' => false,
             ],
         ],
-        'recently_created' => [
+        'recently_created'  => [
             'slug' => 'recently_created',
             'text' => 'streams::view.recently_created',
             'view' => RecentlyCreated::class,
+        ],
+        'recently_modified' => [
+            'slug' => 'recently_modified',
+            'text' => 'streams::view.recently_modified',
+            'view' => RecentlyModified::class,
         ],
     ];
 
