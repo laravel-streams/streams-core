@@ -288,6 +288,12 @@ class StreamsPlugin extends Plugin
                 }
             ),
             new \Twig_SimpleFunction(
+                'request',
+                function () {
+                    return request(func_get_args() ?: null);
+                }
+            ),
+            new \Twig_SimpleFunction(
                 'request_*',
                 function ($name) {
                     return call_user_func_array([request(), camel_case($name)], array_slice(func_get_args(), 1));

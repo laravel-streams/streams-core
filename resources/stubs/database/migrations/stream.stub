@@ -6,6 +6,14 @@ class {class} extends Migration
 {
 
     /**
+     * This migration creates the stream.
+     * It should be deleted on rollback.
+     *
+     * @var bool
+     */
+    protected $delete = true;
+
+    /**
      * The stream definition.
      *
      * @var array

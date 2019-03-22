@@ -13,6 +13,13 @@ class Button implements ButtonInterface
 {
 
     /**
+     * The action tag.
+     *
+     * @var string
+     */
+    protected $tag = 'a';
+
+    /**
      * The button URL.
      *
      * @var null|string
@@ -468,6 +475,29 @@ class Button implements ButtonInterface
     public function setUrl($url)
     {
         $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * Get the button tag.
+     *
+     * @return null|string
+     */
+    public function getTag()
+    {
+        return $this->tag;
+    }
+
+    /**
+     * Set the tag.
+     *
+     * @param $tag
+     * @return $this
+     */
+    public function setTag($tag)
+    {
+        $this->tag = $tag;
 
         return $this;
     }

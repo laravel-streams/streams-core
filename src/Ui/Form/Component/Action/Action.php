@@ -14,6 +14,13 @@ class Action extends Button implements ActionInterface
 {
 
     /**
+     * The button tag.
+     *
+     * @var string
+     */
+    protected $tag = 'button';
+
+    /**
      * The active flag.
      *
      * @var bool
@@ -103,7 +110,7 @@ class Action extends Button implements ActionInterface
     /**
      * Set the active flag.
      *
-     * @param  bool  $active
+     * @param  bool $active
      * @return $this
      */
     public function setActive($active)

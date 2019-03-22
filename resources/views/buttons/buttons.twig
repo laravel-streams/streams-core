@@ -4,20 +4,10 @@
     {% if button.dropdown is empty and not button.parent %}
 
         {# Render normal buttons as an anchor #}
-        {% if not button.attributes.name %}
-            <a class="btn btn-{{ button.size }} btn-{{ button.type }} {{ button.disabled ? 'disabled' }} {{ button.class }}" {{ button.disabled ? 'disabled' }} {{ html_attributes(button.attributes) }}>
-                {{ button.icon ? icon(button.icon)|raw }}
-                {{ trans(button.text)|raw }}
-            </a>
-        {% endif %}
-
-        {# Render normal buttons as a button #}
-        {% if button.attributes.name %}
-            <button class="btn btn-{{ button.size }} btn-{{ button.type }} {{ button.disabled ? 'disabled' }} {{ button.class }}" {{ button.disabled ? 'disabled' }} {{ html_attributes(button.attributes) }}>
-                {{ button.icon ? icon(button.icon)|raw }}
-                {{ trans(button.text)|raw }}
-            </button>
-        {% endif %}
+        <{{ button.tag ?: 'a' }} class="btn btn-{{ button.size }} btn-{{ button.type }} {{ button.disabled ? 'disabled' }} {{ button.class }}" {{ button.disabled ? 'disabled' }} {{ html_attributes(button.attributes) }}>
+            {{ button.icon ? icon(button.icon)|raw }}
+            {{ trans(button.text)|raw }}
+        </{{ button.tag ?: 'a' }}>
 
     {% endif %}
 
