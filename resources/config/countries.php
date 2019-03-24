@@ -5,10 +5,12 @@ return [
     'common'    => ['US'],
     'available' => [
         'AD' => [
-            'name' => 'Andorra',
+            'name'         => 'Andorra',
+            'country_code' => 376,
         ],
         'AE' => [
-            'name' => 'United Arab Emirates',
+            'name'         => 'United Arab Emirates',
+            'country_code' => 971,
         ],
         'AF' => [
             'name' => 'Afghanistan',
@@ -41,10 +43,12 @@ return [
             'name' => 'American Samoa',
         ],
         'AT' => [
-            'name' => 'Austria',
+            'name'         => 'Austria',
+            'country_code' => 43,
         ],
         'AU' => [
-            'name' => 'Australia',
+            'name'         => 'Australia',
+            'country_code' => 61,
         ],
         'AW' => [
             'name' => 'Aruba',
@@ -134,7 +138,8 @@ return [
             'name' => 'Congo (Brazzaville)',
         ],
         'CH' => [
-            'name' => 'Switzerland',
+            'name'         => 'Switzerland',
+            'country_code' => 41,
         ],
         'CI' => [
             'name' => 'Ivory Coast',
@@ -176,7 +181,8 @@ return [
             'name' => 'Czech Republic',
         ],
         'DE' => [
-            'name' => 'Germany',
+            'name'         => 'Germany',
+            'country_code' => 49,
         ],
         'DJ' => [
             'name' => 'Djibouti',
@@ -236,7 +242,8 @@ return [
             'name' => 'Gabon',
         ],
         'GB' => [
-            'name' => 'United Kingdom',
+            'name'         => 'United Kingdom',
+            'country_code' => 44,
         ],
         'GD' => [
             'name' => 'Grenada',
@@ -698,9 +705,10 @@ return [
             'name' => 'United States Minor Outlying Islands',
         ],
         'US' => [
-            'name'     => 'United States',
-            'currency' => 'USD',
-            'locale'   => 'en',
+            'name'         => 'United States',
+            'currency'     => 'USD',
+            'locale'       => 'en',
+            'country_code' => 1,
         ],
         'UY' => [
             'name' => 'Uruguay',
