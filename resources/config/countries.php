@@ -6,11 +6,11 @@ return [
     'available' => [
         'AD' => [
             'name'         => 'Andorra',
-            'country_code' => 376,
+            'calling_code' => 376,
         ],
         'AE' => [
             'name'         => 'United Arab Emirates',
-            'country_code' => 971,
+            'calling_code' => 971,
         ],
         'AF' => [
             'name' => 'Afghanistan',
@@ -44,11 +44,11 @@ return [
         ],
         'AT' => [
             'name'         => 'Austria',
-            'country_code' => 43,
+            'calling_code' => 43,
         ],
         'AU' => [
             'name'         => 'Australia',
-            'country_code' => 61,
+            'calling_code' => 61,
         ],
         'AW' => [
             'name' => 'Aruba',
@@ -139,7 +139,7 @@ return [
         ],
         'CH' => [
             'name'         => 'Switzerland',
-            'country_code' => 41,
+            'calling_code' => 41,
         ],
         'CI' => [
             'name' => 'Ivory Coast',
@@ -182,7 +182,7 @@ return [
         ],
         'DE' => [
             'name'         => 'Germany',
-            'country_code' => 49,
+            'calling_code' => 49,
         ],
         'DJ' => [
             'name' => 'Djibouti',
@@ -243,7 +243,7 @@ return [
         ],
         'GB' => [
             'name'         => 'United Kingdom',
-            'country_code' => 44,
+            'calling_code' => 44,
         ],
         'GD' => [
             'name' => 'Grenada',
@@ -708,7 +708,7 @@ return [
             'name'         => 'United States',
             'currency'     => 'USD',
             'locale'       => 'en',
-            'country_code' => 1,
+            'calling_code' => 1,
         ],
         'UY' => [
             'name' => 'Uruguay',
