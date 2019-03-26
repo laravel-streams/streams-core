@@ -272,7 +272,7 @@ class FormBuilder
         if (app('request')->isMethod('post')) {
             $this->fire('post', ['builder' => $this]);
 
-            if ($this->hasPostData()) {
+            if ($this->hasPostData() || $this->isAjax()) {
                 $this->dispatchNow(new PostForm($this));
             }
         } else {
