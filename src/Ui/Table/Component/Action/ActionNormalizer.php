@@ -99,11 +99,33 @@ class ActionNormalizer
         }
 
         /*
-         * If the HREF is present outside of the attributes
-         * then pull it and put it in the attributes array.
+         * Move the URL/HREF if any to the attributes.
          */
         if (isset($action['url'])) {
             $action['attributes']['url'] = array_pull($action, 'url');
+        }
+
+        if (isset($action['href'])) {
+            $action['attributes']['href'] = array_pull($action, 'href');
+        }
+
+        /*
+         * Make sure the URL/HREF is absolute.
+         */
+        if (
+            isset($action['attributes']['url']) &&
+            is_string($action['attributes']['url']) &&
+            !starts_with($action['attributes']['url'], ['http', '{'])
+        ) {
+            $action['attributes']['url'] = url($action['attributes']['url']);
+        }
+
+        if (
+            isset($action['attributes']['href']) &&
+            is_string($action['attributes']['href']) &&
+            !starts_with($action['attributes']['href'], ['http', '{'])
+        ) {
+            $action['attributes']['href'] = url($action['attributes']['href']);
         }
 
         /*

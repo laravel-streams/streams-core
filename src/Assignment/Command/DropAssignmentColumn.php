@@ -54,6 +54,7 @@ class DropAssignmentColumn
             $table = $stream->getEntryTranslationsTableName();
         }
 
+        $schema->dropIndex($table, $type, $this->assignment);
         $schema->dropColumn($table, $type);
     }
 }

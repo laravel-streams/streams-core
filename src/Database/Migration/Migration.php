@@ -55,7 +55,7 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
      *
      * @var bool
      */
-    protected $delete = true;
+    protected $delete = false;
 
     /**
      * Return the migration's contextual namespace.

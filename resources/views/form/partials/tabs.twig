@@ -11,7 +11,7 @@
     {% endspaceless %}
 </ul>
 
-<div class="card-block">
+<div class="card-block card-body">
     {% for slug, tab in section.tabs %}
         <div class="tab__pane tab-pane {{ loop.first ? ' active' }}" id="tab-{{ form.options.prefix }}{{ tab.slug ?: slug }}">
             {% if tab.view %}

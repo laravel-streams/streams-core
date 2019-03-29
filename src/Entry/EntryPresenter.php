@@ -72,6 +72,30 @@ class EntryPresenter extends EloquentPresenter
     }
 
     /**
+     * Return the date string for last modified.
+     *
+     * @return string
+     */
+    public function lastModifiedDate()
+    {
+        return $this->object->lastModified()
+            ->setTimezone(config('app.timezone'))
+            ->format(config('streams::datetime.date_format'));
+    }
+
+    /**
+     * Return the datetime string for last modified.
+     *
+     * @return string
+     */
+    public function lastModifiedDatetime()
+    {
+        return $this->object->lastModified()
+            ->setTimezone(config('app.timezone'))
+            ->format(config('streams::datetime.date_format') . ' ' . config('streams::datetime.time_format'));
+    }
+
+    /**
      * Return a label.
      *
      * @param         $text

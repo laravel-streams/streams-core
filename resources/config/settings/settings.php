@@ -149,6 +149,7 @@ return [
         'type'     => 'anomaly.field_type.select',
         'required' => true,
         'config'   => [
+            'mode'          => 'search',
             'default_value' => config('streams::locales.default'),
             'handler'       => \Anomaly\Streams\Platform\Support\Config\DefaultLocaleHandler::class,
         ],
@@ -159,6 +160,7 @@ return [
         'type'     => 'anomaly.field_type.checkboxes',
         'required' => true,
         'config'   => [
+            'mode'          => 'tags',
             'default_value' => [config('streams::locales.default')],
             'handler'       => \Anomaly\Streams\Platform\Support\Config\EnabledLocalesHandler::class,
         ],

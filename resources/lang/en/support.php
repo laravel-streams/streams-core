@@ -3,6 +3,7 @@
 return [
     'link'        => 'Link',
     'rss'         => 'RSS Feed',
+    'more'        => 'More Help',
     'slack'       => 'Slack Team',
     'irc'         => 'IRC Channel',
     'source'      => 'Source Code',

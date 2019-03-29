@@ -30,7 +30,23 @@ class FieldTranslator
          * parameters to assist in rendering.
          */
         foreach ($builder->getFields() as $field) {
+
             if (!array_get($field, 'translatable', false)) {
+
+                $translations[] = $field;
+
+                continue;
+            }
+
+            if (isset($field['locale'])) {
+
+                array_set($field, 'hidden', $field['locale'] !== $defaultLocale);
+
+                if ($field['locale'] !== $defaultLocale) {
+                    array_set($field, 'hidden', true);
+                    array_set($field, 'required', false);
+                    array_set($field, 'rules', array_diff(array_get($field, 'rules', []), ['required']));
+                }
 
                 $translations[] = $field;
 
@@ -43,7 +59,7 @@ class FieldTranslator
 
                 array_set($translation, 'locale', $locale);
                 array_set($translation, 'hidden', array_get($field, 'hidden', false) ?: ($locale !== $locale));
-                
+
                 if ($value = array_get($field, 'values.' . $locale)) {
                     array_set($translation, 'value', $value);
                 }

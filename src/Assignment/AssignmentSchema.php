@@ -26,8 +26,8 @@ class AssignmentSchema
     /**
      * Add a column.
      *
-     * @param                     $table
-     * @param FieldType           $type
+     * @param $table
+     * @param FieldType $type
      * @param AssignmentInterface $assignment
      */
     public function addColumn($table, FieldType $type, AssignmentInterface $assignment)
@@ -43,10 +43,29 @@ class AssignmentSchema
     }
 
     /**
+     * Add a column index.
+     *
+     * @param $table
+     * @param FieldType $type
+     * @param AssignmentInterface $assignment
+     */
+    public function addIndex($table, FieldType $type, AssignmentInterface $assignment)
+    {
+        $schema = $type->getSchema();
+
+        $this->schema->table(
+            $table,
+            function (Blueprint $table) use ($schema, $assignment) {
+                $schema->addIndex($table, $assignment);
+            }
+        );
+    }
+
+    /**
      * Update a column.
      *
-     * @param                     $table
-     * @param FieldType           $type
+     * @param $table
+     * @param FieldType $type
      * @param AssignmentInterface $assignment
      */
     public function updateColumn($table, FieldType $type, AssignmentInterface $assignment)
@@ -62,10 +81,29 @@ class AssignmentSchema
     }
 
     /**
+     * Update a column index.
+     *
+     * @param $table
+     * @param FieldType $type
+     * @param AssignmentInterface $assignment
+     */
+    public function updateIndex($table, FieldType $type, AssignmentInterface $assignment)
+    {
+        $schema = $type->getSchema();
+
+        $this->schema->table(
+            $table,
+            function (Blueprint $table) use ($schema, $assignment) {
+                $schema->updateIndex($table, $assignment);
+            }
+        );
+    }
+
+    /**
      * Rename a column.
      *
-     * @param                     $table
-     * @param FieldType           $type
+     * @param $table
+     * @param FieldType $type
      * @param AssignmentInterface $assignment
      */
     public function renameColumn($table, FieldType $type, AssignmentInterface $assignment)
@@ -79,8 +117,9 @@ class AssignmentSchema
 
         $this->schema->table(
             $table,
-            function (Blueprint $table) use ($schema, $from) {
+            function (Blueprint $table) use ($schema, $from, $assignment) {
                 $schema->renameColumn($table, $from);
+                $schema->updateIndex($table, $assignment);
             }
         );
     }
@@ -88,8 +127,8 @@ class AssignmentSchema
     /**
      * Change a column.
      *
-     * @param                     $table
-     * @param FieldType           $type
+     * @param $table
+     * @param FieldType $type
      * @param AssignmentInterface $assignment
      */
     public function changeColumn($table, FieldType $type, AssignmentInterface $assignment)
@@ -108,7 +147,7 @@ class AssignmentSchema
         $this->schema->table(
             $table,
             function (Blueprint $table) use ($schema, $assignment) {
-                $schema->changeColumn($table, $assignment);
+                $schema->updateColumn($table, $assignment);
             }
         );
     }
@@ -136,12 +175,36 @@ class AssignmentSchema
     }
 
     /**
-     * Backup a column's data.
+     * Drop a column index.
      *
      * @param           $table
      * @param FieldType $type
+     * @param AssignmentInterface $assignment
      */
-    public function backupColumn($table, FieldType $type)
+    public function dropIndex($table, FieldType $type, AssignmentInterface $assignment)
+    {
+        $schema = $type->getSchema();
+
+        if (!$this->schema->hasTable($table)) {
+            return;
+        }
+
+        $this->schema->table(
+            $table,
+            function (Blueprint $table) use ($schema, $assignment) {
+                $schema->dropIndex($table, $assignment);
+            }
+        );
+    }
+
+    /**
+     * Backup a column's data.
+     *
+     * @param $table
+     * @param FieldType $type
+     * @param AssignmentInterface $assignment
+     */
+    public function backupColumn($table, FieldType $type, AssignmentInterface $assignment)
     {
         if (!$this->schema->hasTable($table)) {
             return;
@@ -151,8 +214,8 @@ class AssignmentSchema
 
         $this->schema->table(
             $table,
-            function (Blueprint $table) use ($schema) {
-                $schema->backupColumn($table);
+            function (Blueprint $table) use ($schema, $assignment) {
+                $schema->backupColumn($table, $assignment);
             }
         );
     }
@@ -160,10 +223,11 @@ class AssignmentSchema
     /**
      * Restore a column's data.
      *
-     * @param           $table
+     * @param $table
      * @param FieldType $type
+     * @param AssignmentInterface $assignment
      */
-    public function restoreColumn($table, FieldType $type)
+    public function restoreColumn($table, FieldType $type, AssignmentInterface $assignment)
     {
         if (!$this->schema->hasTable($table)) {
             return;
@@ -173,8 +237,8 @@ class AssignmentSchema
 
         $this->schema->table(
             $table,
-            function (Blueprint $table) use ($schema) {
-                $schema->restoreColumn($table);
+            function (Blueprint $table) use ($schema, $assignment) {
+                $schema->restoreColumn($table, $assignment);
             }
         );
     }

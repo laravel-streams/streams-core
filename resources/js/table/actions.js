@@ -17,8 +17,27 @@
         );
 
         let actions = Array.prototype.slice.call(
-            table.querySelectorAll('.table__actions button')
+            table.querySelectorAll('.table__actions > button, .table__actions > a')
         );
+
+        /**
+         * Actions that fire modals should
+         * not submit the table on click.
+         */
+        actions.forEach(function (action) {
+            if (action.hasAttribute('href') && action.tagName == 'A') {
+                action.addEventListener('click', function () {
+
+                    let checked = checkboxes.filter(function (checkbox) {
+                        return checkbox.checked === true;
+                    });
+
+                    checked = checked.map(item => item.value).join(',');
+
+                    action.href += (action.href.indexOf('?') > -1) ? '&selected=' + checked : '?selected=' + checked;
+                });
+            }
+        });
 
         /**
          * If the toggle all checkbox is

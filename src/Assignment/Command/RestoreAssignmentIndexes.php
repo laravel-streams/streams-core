@@ -5,13 +5,13 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 
 /**
- * Class RestoreAssignmentData
+ * Class RestoreAssignmentIndexes
  *
  * @link    http://pyrocms.com/
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class RestoreAssignmentData
+class RestoreAssignmentIndexes
 {
 
     /**
@@ -22,7 +22,7 @@ class RestoreAssignmentData
     protected $assignment;
 
     /**
-     * Create a new RestoreAssignmentData instance.
+     * Create a new RestoreAssignmentIndexes instance.
      *
      * @param AssignmentInterface $assignment
      */
@@ -48,20 +48,8 @@ class RestoreAssignmentData
             return;
         }
 
-        /*
-         * If it's NOW translatable then
-         * restore it to the main table.
-         */
-        if ($this->assignment->isTranslatable()) {
-            $schema->restoreColumn($stream->getEntryTranslationsTableName(), $assignment->getFieldType(true), $this->assignment);
-        }
-
-        /*
-         * If it's NOT translatable then back
-         * it up from the translations table.
-         */
         if (!$this->assignment->isTranslatable()) {
-            $schema->restoreColumn($stream->getEntryTableName(), $assignment->getFieldType(true), $this->assignment);
+            $schema->addIndex($stream->getEntryTableName(), $assignment->getFieldType(true), $this->assignment);
         }
     }
 }

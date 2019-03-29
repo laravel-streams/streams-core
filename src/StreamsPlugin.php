@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Entry\Command\GetEntryCriteria;
 use Anomaly\Streams\Platform\Image\Command\MakeImageInstance;
 use Anomaly\Streams\Platform\Image\Image;
+use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Model\Command\GetEloquentCriteria;
 use Anomaly\Streams\Platform\Stream\Command\GetStream;
 use Anomaly\Streams\Platform\Stream\Command\GetStreams;
@@ -32,7 +33,6 @@ use Anomaly\Streams\Platform\View\Command\GetView;
 use Anomaly\Streams\Platform\View\Support\CompressHtmlTokenParser;
 use Anomaly\Streams\Platform\View\ViewTemplate;
 use Carbon\Carbon;
-use Illuminate\Session\Store;
 use Illuminate\Support\Arr;
 use Jenssegers\Agent\Agent;
 use Symfony\Component\Yaml\Yaml;
@@ -285,6 +285,12 @@ class StreamsPlugin extends Plugin
                 'layout',
                 function ($layout, $default = 'default') {
                     return dispatch_now(new GetLayoutName($layout, $default));
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'request',
+                function () {
+                    return request(func_get_args() ?: null);
                 }
             ),
             new \Twig_SimpleFunction(
@@ -589,7 +595,7 @@ class StreamsPlugin extends Plugin
                 'message_*',
                 function ($name) {
 
-                    if (!in_array($name, ['get', 'has', 'exists'])) {
+                    if (!in_array($name, ['pull', 'get', 'has', 'exists'])) {
                         throw new \Exception('Function [message_' . $name . '] does not exist.');
                     }
 
@@ -598,7 +604,7 @@ class StreamsPlugin extends Plugin
                     }
 
                     return call_user_func_array(
-                        [config(), $name],
+                        [app(MessageBag::class), $name],
                         array_slice(func_get_args(), 1)
                     );
                 }
@@ -607,7 +613,7 @@ class StreamsPlugin extends Plugin
                 'session',
                 function () {
                     return call_user_func_array(
-                        [app(Store::class), 'get'],
+                        [session(), 'get'],
                         func_get_args()
                     );
                 }
@@ -630,7 +636,7 @@ class StreamsPlugin extends Plugin
                     }
 
                     return call_user_func_array(
-                        [app(Store::class), $name],
+                        [session(), $name],
                         array_slice(func_get_args(), 1)
                     );
                 }

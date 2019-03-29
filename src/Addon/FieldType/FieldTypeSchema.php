@@ -56,7 +56,7 @@ class FieldTypeSchema
     /**
      * Create a new FieldTypeSchema instance.
      *
-     * @param FieldType  $fieldType
+     * @param FieldType $fieldType
      * @param Repository $cache
      */
     public function __construct(FieldType $fieldType, Container $container, Repository $cache)
@@ -73,7 +73,7 @@ class FieldTypeSchema
     /**
      * Add the field type column to the table.
      *
-     * @param Blueprint           $table
+     * @param Blueprint $table
      * @param AssignmentInterface $assignment
      */
     public function addColumn(Blueprint $table, AssignmentInterface $assignment)
@@ -108,20 +108,31 @@ class FieldTypeSchema
         if (!str_contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
             $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
         }
+    }
 
-        // Mark the column unique if it's unique AND not translatable.
-        if ($assignment->isUnique() && !$assignment->isTranslatable()) {
-            $table->unique(
-                $this->fieldType->getColumnName(),
-                md5($assignment->getId())
-            );
+    /**
+     * Add an index for unique fields if applicable.
+     *
+     * @param Blueprint $table
+     * @param AssignmentInterface $assignment
+     */
+    public function addIndex(Blueprint $table, AssignmentInterface $assignment)
+    {
+        $connection = $this->schema->getConnection();
+        $manager    = $connection->getDoctrineSchemaManager();
+        $doctrine   = $manager->listTableDetails($connection->getTablePrefix() . $table->getTable());
+
+        $unique = md5($assignment->getId());
+
+        if ($assignment->isUnique() && !$assignment->isTranslatable() && !$doctrine->hasIndex($unique)) {
+            $table->unique($this->fieldType->getColumnName(), $unique);
         }
     }
 
     /**
      * Update the field type column to the table.
      *
-     * @param Blueprint           $table
+     * @param Blueprint $table
      * @param AssignmentInterface $assignment
      */
     public function updateColumn(Blueprint $table, AssignmentInterface $assignment)
@@ -156,41 +167,30 @@ class FieldTypeSchema
         if (!str_contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
             $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
         }
+    }
 
-        /*
-         * Mark the column unique if desired and not translatable.
-         * Otherwise, drop the unique index.
-         */
+    /**
+     * Update the field's column index.
+     *
+     * @param Blueprint $table
+     * @param AssignmentInterface $assignment
+     */
+    public function updateIndex(Blueprint $table, AssignmentInterface $assignment)
+    {
         $connection = $this->schema->getConnection();
         $manager    = $connection->getDoctrineSchemaManager();
         $doctrine   = $manager->listTableDetails($connection->getTablePrefix() . $table->getTable());
 
-        // The unique index name.
         $unique = md5($assignment->getId());
 
-        /*
-         * If the assignment is unique and not translatable
-         * and the table does not already have the given the
-         * given table index then go ahead and add it.
-         */
         if ($assignment->isUnique() && !$assignment->isTranslatable() && !$doctrine->hasIndex($unique)) {
             $table->unique($this->fieldType->getColumnName(), $unique);
         }
 
-        /*
-         * If the assignment is NOT unique and not translatable
-         * and the table DOES have the given table index
-         * then we need to remove.
-         */
         if (!$assignment->isUnique() && !$assignment->isTranslatable() && $doctrine->hasIndex($unique)) {
             $table->dropIndex($unique);
         }
 
-        /*
-         * If the assignment is NOT unique and not translatable
-         * and the table DOES have the given table index
-         * then we need to remove.
-         */
         $unique = md5('unique_' . $table->getTable() . '_' . $this->fieldType->getColumnName());
 
         if (!$assignment->isUnique() && !$assignment->isTranslatable() && $doctrine->hasIndex($unique)) {
@@ -209,14 +209,14 @@ class FieldTypeSchema
         if ($this->fieldType->getColumnType() === false) {
             return;
         }
-        
+
         $table->renameColumn($from->getColumnName(), $this->fieldType->getColumnName());
     }
 
     /**
      * Change the column type.
      *
-     * @param Blueprint           $table
+     * @param Blueprint $table
      * @param AssignmentInterface $assignment
      */
     public function changeColumn(Blueprint $table, AssignmentInterface $assignment)
@@ -246,35 +246,6 @@ class FieldTypeSchema
         if (!str_contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
             $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
         }
-
-        /*
-         * Mark the column unique if desired and not translatable.
-         * Otherwise, drop the unique index.
-         */
-        $connection = $this->schema->getConnection();
-        $manager    = $connection->getDoctrineSchemaManager();
-        $doctrine   = $manager->listTableDetails($connection->getTablePrefix() . $table->getTable());
-
-        // The unique index name.
-        $unique = md5($assignment->getId());
-
-        /*
-         * If the assignment is unique and not translatable
-         * and the table does not already have the given the
-         * given table index then go ahead and add it.
-         */
-        if ($assignment->isUnique() && !$assignment->isTranslatable() && !$doctrine->hasIndex($unique)) {
-            $table->unique($this->fieldType->getColumnName(), $unique);
-        }
-
-        /*
-         * If the assignment is NOT unique and not translatable
-         * and the table DOES have the given table index
-         * then we need to remove.
-         */
-        if (!$assignment->isUnique() && !$assignment->isTranslatable() && $doctrine->hasIndex($unique)) {
-            $column->dropIndex($unique);
-        }
     }
 
     /**
@@ -299,11 +270,37 @@ class FieldTypeSchema
     }
 
     /**
+     * Drop the field's column index.
+     *
+     * @param Blueprint $table
+     * @param AssignmentInterface $assignment
+     */
+    public function dropIndex(Blueprint $table, AssignmentInterface $assignment)
+    {
+        $connection = $this->schema->getConnection();
+        $manager    = $connection->getDoctrineSchemaManager();
+        $doctrine   = $manager->listTableDetails($connection->getTablePrefix() . $table->getTable());
+
+        $unique = md5($assignment->getId());
+
+        if ($doctrine->hasIndex($unique)) {
+            $table->dropIndex($unique);
+        }
+
+        $unique = md5('unique_' . $table->getTable() . '_' . $this->fieldType->getColumnName());
+
+        if ($doctrine->hasIndex($unique)) {
+            $table->dropIndex($unique);
+        }
+    }
+
+    /**
      * Backup the field type column to cache.
      *
      * @param Blueprint $table
+     * @param AssignmentInterface $assignment
      */
-    public function backupColumn(Blueprint $table)
+    public function backupColumn(Blueprint $table, AssignmentInterface $assignment)
     {
         // Skip if no column type.
         if (!$this->fieldType->getColumnType()) {
@@ -314,21 +311,46 @@ class FieldTypeSchema
         if (!$this->schema->hasColumn($table->getTable(), $this->fieldType->getColumnName())) {
             return;
         }
-        // Back dat data up.
-        $results = $this->connection
-            ->table($table->getTable())
-            ->select(['id', $this->fieldType->getColumnName()])
-            ->get();
 
-        $this->cache->put(__CLASS__ . $this->fieldType->getColumnName(), $results, 10);
+        // Translatable or no?
+        $translatable = ends_with($table->getTable(), '_translations');
+
+        // Back dat data up.
+        if ($translatable) {
+
+            $results = $this->connection
+                ->table($table->getTable())
+                ->select(['entry_id', $this->fieldType->getColumnName()])
+                ->groupBy($table->getTable() . '.entry_id')
+                ->where(
+                    function (\Illuminate\Database\Query\Builder $query) use ($table) {
+                        $query->where($table->getTable() . '.locale', config('app.locale'));
+                        $query->orWhere(
+                            $table->getTable() . '.locale',
+                            config('app.fallback_locale')
+                        );
+                        $query->orWhereNull($table->getTable() . '.locale');
+                    }
+                )
+                ->get();
+        } else {
+
+            $results = $this->connection
+                ->table($table->getTable())
+                ->select(['id', $this->fieldType->getColumnName()])
+                ->get();
+        }
+
+        $this->cache->forever(__CLASS__ . $this->fieldType->getColumnName(), $results);
     }
 
     /**
      * Restore the field type column to cache.
      *
      * @param Blueprint $table
+     * @param AssignmentInterface $assignment
      */
-    public function restoreColumn(Blueprint $table)
+    public function restoreColumn(Blueprint $table, AssignmentInterface $assignment)
     {
         // Skip if no column type.
         if (!$this->fieldType->getColumnType()) {
@@ -347,11 +369,12 @@ class FieldTypeSchema
         $results = $this->cache->get(__CLASS__ . $this->fieldType->getColumnName());
 
         foreach ($results as $result) {
+
             $result = (array)$result;
 
             $this->connection
                 ->table($table->getTable())
-                ->where($translatable ? 'entry_id' : 'id', array_pull($result, 'id'))
+                ->where($translatable ? 'entry_id' : 'id', array_pull($result, $translatable ? 'id' : 'entry_id'))
                 ->update($result);
         }
 

@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
+use Anomaly\Streams\Platform\Assignment\Command\RestoreAssignmentIndexes;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasSaved;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasUpdated;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated;
@@ -59,6 +60,7 @@ class AssignmentObserver extends Observer
         $this->dispatchNow(new BackupAssignmentData($model));
         $this->dispatchNow(new MoveAssignmentColumn($model));
         $this->dispatchNow(new RestoreAssignmentData($model));
+        $this->dispatchNow(new RestoreAssignmentIndexes($model));
     }
 
     /**

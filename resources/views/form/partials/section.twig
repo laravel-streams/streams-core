@@ -4,7 +4,7 @@
 
     {% if section.fields %}
 
-        <div class="card-block">
+        <div class="card-block card-body">
             {% include "streams::form/partials/fields" with {"fields": section.fields} %}
         </div>
 
@@ -20,7 +20,7 @@
 
     {% elseif section.rows %}
 
-        <div class="card-block">
+        <div class="card-block card-body">
             {% include "streams::form/partials/rows" with {"rows": section.rows} %}
         </div>
 

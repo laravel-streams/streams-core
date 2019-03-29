@@ -30,11 +30,10 @@ class Reorder extends ActionHandler
 
         /* @var EloquentModel $entry */
         $repository->withoutEvents(
-            function () use ($items) {
+            function () use ($repository, $items) {
                 foreach ($items as $k => $id) {
-
-                    /* @var EloquentRepository $this */
-                    $this
+                    
+                    $repository
                         ->newQuery()
                         ->where('id', $id)
                         ->update(

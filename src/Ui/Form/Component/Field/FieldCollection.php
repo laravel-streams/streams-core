@@ -66,7 +66,7 @@ class FieldCollection extends Collection
      * Get a field.
      *
      * @param  mixed $key
-     * @param  null  $default
+     * @param  null $default
      * @return FieldType
      */
     public function get($key, $default = null)
@@ -310,4 +310,22 @@ class FieldCollection extends Collection
             $this->all()
         );
     }
+
+    /**
+     * Return an input string.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->map(
+            function ($fieldType) {
+
+                /* @var FieldType $fieldType */
+                return $fieldType->render();
+            }
+        )->implode("\n");
+    }
+
+
 }

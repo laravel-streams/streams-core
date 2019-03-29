@@ -43,10 +43,10 @@
                 {{ view("streams::table/partials/body", {'table': table}) }}
             {% endblock %}
 
+            {{ view("streams::table/partials/footer", {'table': table}) }}
+
         </table>
     </div>
-
-    {{ view("streams::table/ajax/footer", {'table': table}) }}
 
     {{ form_close() }}
 

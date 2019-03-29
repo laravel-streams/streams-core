@@ -17,7 +17,11 @@ class ReloadEnvironmentFile
      */
     public function handle()
     {
-        foreach (file(base_path('.env'), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+        if (!is_file($file = base_path('.env'))) {
+            return;
+        }
+
+        foreach (file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
 
             // Check for # comments.
             if (!starts_with($line, '#')) {

@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Database\Eloquent\Builder;
@@ -335,6 +336,60 @@ class EloquentQueryBuilder extends Builder
                 }
             }
         }
+    }
+
+    /**
+     * Join the translations table.
+     *
+     * @param null $locale
+     */
+    public function translate($locale = null)
+    {
+        /* @var EntryModel $model */
+        $model = $this->getModel();
+
+        if (!$this->hasJoin($model->getTranslationsTableName())) {
+            $this->query->leftJoin(
+                $model->getTranslationsTableName(),
+                $model->getTableName() . '.id',
+                '=',
+                $model->getTranslationsTableName() . '.entry_id'
+            );
+        }
+
+        $this->query->addSelect(
+            [$model->getTableName() . '.*'] +
+            array_map(
+                function ($column) use ($model) {
+                    return $model->getTranslationTableName() . '.' . $column;
+                },
+                array_diff(
+                    $this->getConnection()->getSchemaBuilder()->getColumnListing($model->getTranslationTableName()),
+                    [
+                        'entry_id',
+                        'created_at',
+                        'created_by_id',
+                        'updated_at',
+                        'updated_by_id',
+                    ]
+                )
+            )
+        );
+
+        $this->query->groupBy($model->getTableName() . '.id');
+
+        $this->query->where(
+            function (\Illuminate\Database\Query\Builder $query) use ($model, $locale) {
+                $query->where($model->getTranslationsTableName() . '.locale', $locale ?: config('app.locale'));
+//                $query->orWhere(
+//                    $model->getTranslationsTableName() . '.locale',
+//                    config('app.fallback_locale')
+//                );
+                $query->orWhereNull($model->getTranslationsTableName() . '.locale');
+            }
+        );
+
+        return $this;
     }
 
     /**
