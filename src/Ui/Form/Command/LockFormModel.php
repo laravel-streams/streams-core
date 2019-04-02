@@ -119,6 +119,7 @@ class LockFormModel
                 function () use ($locks, $user, $entry, $request) {
                     return $locks->create(
                         [
+                            'locked_at'     => now('UTC'),
                             'locked_by_id'  => $user->getId(),
                             'lockable_id'   => $entry->getId(),
                             'lockable_type' => get_class($entry),
