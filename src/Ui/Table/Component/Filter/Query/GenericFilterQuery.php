@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -34,10 +35,11 @@ class GenericFilterQuery
     /**
      * Handle the filter.
      *
-     * @param Builder         $query
+     * @param Builder $query
      * @param FilterInterface $filter
+     * @param TableBuilder $builder
      */
-    public function handle(Builder $query, FilterInterface $filter)
+    public function handle(Builder $query, FilterInterface $filter, TableBuilder $builder)
     {
         $stream = $filter->getStream();
 

@@ -318,7 +318,12 @@ class EloquentQueryBuilder extends Builder
                     }
 
                     $this
-                        ->groupBy($model->getTableName() . '.id')
+                        ->groupBy(
+                            [
+                                $model->getTableName() . '.id',
+                                $model->getTranslationsTableName() . '.' . $model->getTitleName(),
+                            ]
+                        )
                         ->select($model->getTableName() . '.*')
                         ->where(
                             function (Builder $query) use ($model) {
@@ -366,6 +371,7 @@ class EloquentQueryBuilder extends Builder
                 array_diff(
                     $this->getConnection()->getSchemaBuilder()->getColumnListing($model->getTranslationTableName()),
                     [
+                        'entry_id',
                         'created_at',
                         'created_by_id',
                         'updated_at',

@@ -67,7 +67,7 @@ class SearchFilterQuery
         }
 
         $query->where(
-            function (Builder $query) use ($filter, $stream) {
+            function (Builder $query) use ($filter, $stream, $builder) {
 
                 /* @var Builder|HasAttributes $query */
                 $casts = $query
