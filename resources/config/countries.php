@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'default'   => 'US',
-    'common'    => ['US'],
+    'default'   => env('DEFAULT_COUNTRY', 'US'),
+    'common'    => explode(',', env('COMMON_COUNTRIES', 'US')),
     'available' => [
         'AD' => [
             'name'         => 'Andorra',
