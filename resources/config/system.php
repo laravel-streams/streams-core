@@ -31,6 +31,8 @@ return [
     |
     | Normalize the domain prefix.
     |
+    | Valid options are "ignore", "www", and "non-www".
+    |
     */
 
     'domain_prefix' => env('DOMAIN_PREFIX', 'ignore'),
@@ -81,7 +83,7 @@ return [
     |
     */
 
-    'lazy_translations' => env('LAZY_TRANSLATIONS'),
+    'lazy_translations' => env('LAZY_TRANSLATIONS', false),
 
     /*
     |--------------------------------------------------------------------------
