@@ -128,7 +128,7 @@ class ShortcutNormalizer
             if (isset($shortcut['dropdown'])) {
 
                 foreach ($shortcut['dropdown'] as $index => &$dropdown) {
-                    
+
                     if (is_string($dropdown)) {
                         $dropdown = [
                             'text' => $index,
