@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'default'   => 'US',
-    'common'    => ['US'],
+    'default'   => env('DEFAULT_COUNTRY', 'US'),
+    'common'    => explode(',', env('COMMON_COUNTRIES', 'US')),
     'available' => [
         'AD' => [
             'name'         => 'Andorra',
@@ -236,7 +236,8 @@ return [
             'name' => 'Faroe Islands',
         ],
         'FR' => [
-            'name' => 'France',
+            'name'         => 'France',
+            'calling_code' => 33,
         ],
         'GA' => [
             'name' => 'Gabon',
@@ -660,7 +661,8 @@ return [
             'name' => 'Togo',
         ],
         'TH' => [
-            'name' => 'Thailand',
+            'name'         => 'Thailand',
+            'calling_code' => 66,
         ],
         'TJ' => [
             'name' => 'Tajikistan',

@@ -1001,7 +1001,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function __get($key)
     {
-        if ($key === 'decorated') {
+        if ($key === 'decorated' || $key === 'decorate') {
             return $this->getPresenter();
         }
 

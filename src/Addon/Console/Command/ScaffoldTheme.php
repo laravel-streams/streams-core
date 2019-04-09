@@ -21,6 +21,7 @@ class ScaffoldTheme
     protected $copy = [
         'fonts',
         'js',
+        'css',
         'scss',
         'views',
     ];

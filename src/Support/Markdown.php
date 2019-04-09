@@ -13,26 +13,52 @@ class Markdown extends \ParsedownExtra
     /**
      * Custom attributes on block quotes.
      *
-     * @param $Line
+     * @param $line
      * @return array
      */
-    protected function blockQuote($Line)
+    protected function blockQuote($line)
     {
-        $Quote = parent::blockQuote($Line);
+        $quote = parent::blockQuote($line);
 
         if (preg_match(
             '/[ #]*{(' . $this->regexAttribute . '+)}[ ]*$/',
-            $Quote['element']['text'][0],
+            $quote['element']['text'][0],
             $matches,
             PREG_OFFSET_CAPTURE
         )) {
             $attributeString = $matches[1][0];
 
-            $Quote['element']['attributes'] = $this->parseAttributeData($attributeString);
+            $quote['element']['attributes'] = $this->parseAttributeData($attributeString);
 
-            $Quote['element']['text'][0] = substr($Quote['element']['text'][0], 0, $matches[0][1]);
+            $quote['element']['text'][0] = substr($quote['element']['text'][0], 0, $matches[0][1]);
         }
 
-        return $Quote;
+        return $quote;
+    }
+
+    /**
+     * Custom attributes on block quotes.
+     *
+     * @param $excerpt
+     * @return array
+     */
+    protected function inlineLink($excerpt)
+    {
+        $link = parent::inlineLink($excerpt);
+
+        if (preg_match(
+            '/[ #]*{(' . $this->regexAttribute . '+)}[ ]*$/',
+            $link['element']['text'][0],
+            $matches,
+            PREG_OFFSET_CAPTURE
+        )) {
+            $attributeString = $matches[1][0];
+
+            $link['element']['attributes'] = $this->parseAttributeData($attributeString);
+
+            $link['element']['text'][0] = substr($link['element']['text'][0], 0, $matches[0][1]);
+        }
+
+        return $link;
     }
 }
