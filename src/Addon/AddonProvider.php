@@ -240,7 +240,10 @@ class AddonProvider
      */
     protected function registerFactories(Addon $addon)
     {
-        if ($this->application->runningInConsole() && is_dir($factories = $addon->getPath('factories'))) {
+        if (
+            (env('APP_ENV') == 'testing' || $this->application->runningInConsole())
+            && is_dir($factories = $addon->getPath('factories'))
+        ) {
             app(Factory::class)->load($factories);
         }
     }
@@ -338,7 +341,7 @@ class AddonProvider
             }
 
             $verb = array_pull($route, 'verb', 'any');
-           
+
             $group       = array_pull($route, 'group', []);
             $middleware  = array_pull($route, 'middleware', []);
             $constraints = array_pull($route, 'constraints', []);
