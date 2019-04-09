@@ -240,7 +240,7 @@ class AddonProvider
      */
     protected function registerFactories(Addon $addon)
     {
-        if (env('APP_ENV') == 'testing' && is_dir($factories = $addon->getPath('factories'))) {
+        if ($this->application->runningInConsole() && is_dir($factories = $addon->getPath('factories'))) {
             app(Factory::class)->load($factories);
         }
     }
