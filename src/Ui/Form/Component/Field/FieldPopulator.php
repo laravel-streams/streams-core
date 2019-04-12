@@ -61,7 +61,7 @@ class FieldPopulator
              * If the field is not already set
              * then get the value off the entry.
              */
-            if (!isset($field['value']) && $entry instanceof EloquentModel) {
+            if (!isset($field['value']) && $entry instanceof EloquentModel && $entry->getId()) {
 
                 $locale = array_get($field, 'locale');
 
