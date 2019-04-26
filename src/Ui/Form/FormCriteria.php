@@ -262,7 +262,7 @@ class FormCriteria
 
         if (method_exists($this->builder, $method = camel_case($name))) {
 
-            array_set($this->parameters, $method, (new Decorator())->undecorate(array_shift($arguments)));
+            array_set($this->parameters, $method, (new Decorator())->undecorate($arguments));
 
             return $this;
         }
