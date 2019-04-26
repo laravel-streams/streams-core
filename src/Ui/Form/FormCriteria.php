@@ -73,12 +73,12 @@ class FormCriteria
      * Create a new FormCriteria instance.
      *
      * @param UrlGenerator $url
-     * @param Repository   $cache
-     * @param Request      $request
-     * @param Hydrator     $hydrator
-     * @param Container    $container
-     * @param FormBuilder  $builder
-     * @param array        $parameters
+     * @param Repository $cache
+     * @param Request $request
+     * @param Hydrator $hydrator
+     * @param Container $container
+     * @param FormBuilder $builder
+     * @param array $parameters
      */
     public function __construct(
         UrlGenerator $url,
@@ -168,6 +168,12 @@ class FormCriteria
             }
         }
 
+        foreach ($this->parameters as $method => $arguments) {
+            if (method_exists($this->builder, $method)) {
+                call_user_func([$this->builder, $method], (new Decorator())->undecorate($arguments));
+            }
+        }
+
         return $this->hydrator->hydrate($this->builder, $this->parameters);
     }
 
@@ -213,6 +219,12 @@ class FormCriteria
             array_set($this->parameters, 'builder', get_class($this->builder));
         }
 
+        foreach ($this->parameters as $method => $arguments) {
+            if (method_exists($this->builder, $method)) {
+                call_user_func([$this->builder, $method], (new Decorator())->undecorate($arguments));
+            }
+        }
+
         return $this;
     }
 
@@ -244,6 +256,13 @@ class FormCriteria
         if (method_exists($this, $method = camel_case('add_' . $name))) {
 
             call_user_func([$this, $method], (new Decorator())->undecorate(array_shift($arguments)));
+
+            return $this;
+        }
+
+        if (method_exists($this->builder, $method = camel_case($name))) {
+
+            array_set($this->parameters, $method, (new Decorator())->undecorate($arguments));
 
             return $this;
         }
