@@ -12,6 +12,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="description" content="{{ trans(template.meta_description) }}"/>
 
+{{ template.includes.render('meta')|raw }}
+
 <title>
     {{ setting_value('streams::name', config_get('streams::distribution.name')) }}
     &#8250;
@@ -20,6 +22,9 @@
 
 <!-- Favicon -->
 {#{{ favicons("theme::img/favicon.png") }}#}
+
+{# Important!! #}
+{{ constants() }}
 
 {# Base Theme Components #}
 {{ asset_add("theme.css", "theme::css/bootstrap.css") }}
@@ -34,6 +39,3 @@
 </style>
 
 {{ template.includes.render('head')|raw }}
-
-{# Important!! #}
-{{ constants() }}
