@@ -49,11 +49,12 @@ class ImageMacros
      */
     public function run($macro, Image $image)
     {
-        array_pull($macro, 'description');
-
+        
         if (!$process = array_get($this->getMacros(), $macro)) {
             return $image;
         }
+        
+        array_forget($process, 'description');
 
         if (is_array($process)) {
             foreach ($process as $method => $arguments) {
