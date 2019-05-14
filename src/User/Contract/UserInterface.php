@@ -53,10 +53,10 @@ interface UserInterface
      * Return if the user
      * has a given role.
      *
-     * @param RoleInterface $role
+     * @param RoleInterface|string $role
      * @return bool
      */
-    public function hasRole(RoleInterface $role);
+    public function hasRole($role);
 
     /**
      * Return if the user has
