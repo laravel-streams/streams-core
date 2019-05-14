@@ -301,6 +301,8 @@ class EloquentQueryBuilder extends Builder
                      * distinct results so let's avoid it entirely.
                      *
                      * Sorry!
+                     *
+                     * @var EntryModel|EloquentModel $model
                      */
                     $connection = $this->model->getConnectionName() ?: config('database.default');
 
@@ -308,34 +310,10 @@ class EloquentQueryBuilder extends Builder
                         return;
                     }
 
-                    if (!$this->hasJoin($model->getTranslationsTableName())) {
-                        $this->query->leftJoin(
-                            $model->getTranslationsTableName(),
-                            $model->getTableName() . '.id',
-                            '=',
-                            $model->getTranslationsTableName() . '.entry_id'
-                        );
-                    }
-
                     $this
-                        ->groupBy(
-                            [
-                                $model->getTableName() . '.id',
-                                $model->getTranslationsTableName() . '.' . $model->getTitleName(),
-                            ]
-                        )
-                        ->select($model->getTableName() . '.*')
-                        ->where(
-                            function (Builder $query) use ($model) {
-                                $query->where($model->getTranslationsTableName() . '.locale', config('app.locale'));
-                                $query->orWhere(
-                                    $model->getTranslationsTableName() . '.locale',
-                                    config('app.fallback_locale')
-                                );
-                                $query->orWhereNull($model->getTranslationsTableName() . '.locale');
-                            }
-                        )
+                        ->translate()
                         ->orderBy($model->getTranslationsTableName() . '.' . $model->getTitleName(), 'ASC');
+
                 } elseif ($model->getTitleName() && $model->getTitleName() !== 'id') {
                     $query->orderBy($model->getTitleName(), 'ASC');
                 }
@@ -350,7 +328,7 @@ class EloquentQueryBuilder extends Builder
      */
     public function translate($locale = null)
     {
-        /* @var EntryModel $model */
+        /* @var EntryModel|EloquentModel $model */
         $model = $this->getModel();
 
         if (!$this->hasJoin($model->getTranslationsTableName())) {
@@ -381,7 +359,7 @@ class EloquentQueryBuilder extends Builder
             )
         );
 
-        $this->query->groupBy($model->getTableName() . '.id');
+        $this->query->groupBy([$model->getTableName() . '.id', $model->getTranslationsTableName() . '.id']);
 
         $this->query->where(
             function (\Illuminate\Database\Query\Builder $query) use ($model, $locale) {
