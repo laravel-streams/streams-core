@@ -148,7 +148,10 @@ class TableBuilder
     {
         $this->build();
         $this->post();
-        $this->load();
+
+        if (!app('request')->isMethod('post')) {
+            $this->load();
+        }
 
         return $this;
     }
@@ -160,11 +163,9 @@ class TableBuilder
      */
     public function load()
     {
-        if (!app('request')->isMethod('post')) {
-            $this->dispatchNow(new LoadTable($this));
-            $this->dispatchNow(new AddAssets($this));
-            $this->dispatchNow(new MakeTable($this));
-        }
+        $this->dispatchNow(new LoadTable($this));
+        $this->dispatchNow(new AddAssets($this));
+        $this->dispatchNow(new MakeTable($this));
 
         return $this;
     }
@@ -499,7 +500,7 @@ class TableBuilder
      * Get an option value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getOption($key, $default = null)
@@ -597,7 +598,7 @@ class TableBuilder
      * Get a table option value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getTableOption($key, $default = null)
@@ -699,7 +700,7 @@ class TableBuilder
      * Get a table filter value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getTableFilterValue($key, $default = null)
@@ -838,7 +839,7 @@ class TableBuilder
      * Get a request value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getRequestValue($key, $default = null)
