@@ -94,6 +94,6 @@ class Icon
      */
     public function output()
     {
-        return '<i class="' . $this->type . ' ' . $this->class . '"></i>';
+        return view('streams::icon/icon', ['icon' => $this])->render();
     }
 }
