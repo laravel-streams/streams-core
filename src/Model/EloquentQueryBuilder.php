@@ -278,7 +278,7 @@ class EloquentQueryBuilder extends Builder
                 $query->orderBy('streams_streams.sort_order', 'ASC');
             } elseif ($model instanceof EntryInterface) {
                 if ($model->getStream()->isSortable()) {
-                    $query->orderBy('sort_order', 'ASC');
+                    $query->orderBy($model->getTable() . '.sort_order', 'ASC');
                 } elseif ($model->titleColumnIsTranslatable()) {
 
                     /**
