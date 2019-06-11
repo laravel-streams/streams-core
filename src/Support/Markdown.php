@@ -20,12 +20,21 @@ class Markdown extends \ParsedownExtra
     {
         $quote = parent::blockQuote($line);
 
+        if (!isset($quote['element']['text'][0])) {
+            return $quote;
+        }
+
         if (preg_match(
             '/[ #]*{(' . $this->regexAttribute . '+)}[ ]*$/',
             $quote['element']['text'][0],
             $matches,
             PREG_OFFSET_CAPTURE
         )) {
+
+            if (!isset($matches[1][0])) {
+                return $quote;
+            }
+
             $attributeString = $matches[1][0];
 
             $quote['element']['attributes'] = $this->parseAttributeData($attributeString);
@@ -46,12 +55,21 @@ class Markdown extends \ParsedownExtra
     {
         $link = parent::inlineLink($excerpt);
 
+        if (!isset($link['element']['text'][0])) {
+            return $link;
+        }
+
         if (preg_match(
             '/[ #]*{(' . $this->regexAttribute . '+)}[ ]*$/',
             $link['element']['text'][0],
             $matches,
             PREG_OFFSET_CAPTURE
         )) {
+
+            if (!isset($matches[1][0])) {
+                return $link;
+            }
+
             $attributeString = $matches[1][0];
 
             $link['element']['attributes'] = $this->parseAttributeData($attributeString);
