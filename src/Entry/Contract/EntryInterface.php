@@ -95,6 +95,13 @@ interface EntryInterface
     public function getStream();
 
     /**
+     * Get the stream ID.
+     *
+     * @return int
+     */
+    public function getStreamId();
+
+    /**
      * Get the stream namespace.
      *
      * @return string
