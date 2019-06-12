@@ -24,6 +24,7 @@ use Anomaly\Streams\Platform\Ui\Form\Command\ValidateForm;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
+use Anomaly\Streams\Platform\Version\Contract\VersionInterface;
 use Closure;
 use Illuminate\Contracts\Support\MessageBag;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -56,6 +57,13 @@ class FormBuilder
      * @var bool
      */
     protected $versioning = true;
+
+    /**
+     * The version instance.
+     *
+     * @var null|VersionInterface
+     */
+    protected $version = null;
 
     /**
      * The form handler.
@@ -446,6 +454,39 @@ class FormBuilder
         $this->versioning = true;
 
         return $this;
+    }
+
+    /**
+     * Get the version.
+     *
+     * @return VersionInterface|null
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * Set the version.
+     *
+     * @param VersionInterface $version
+     * @return $this
+     */
+    public function setVersion(VersionInterface $version)
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+
+    /**
+     * Return if a version is loaded or not.
+     *
+     * @return bool
+     */
+    public function hasVersion()
+    {
+        return (bool)$this->version;
     }
 
     /**
@@ -846,7 +887,7 @@ class FormBuilder
      *
      * @param        $slug
      * @param  array $section
-     * @param null   $position
+     * @param null $position
      * @return $this
      */
     public function addSection($slug, array $section, $position = null)
@@ -882,7 +923,7 @@ class FormBuilder
      * @param        $section
      * @param        $slug
      * @param  array $tab
-     * @param null   $position
+     * @param null $position
      * @return $this
      */
     public function addSectionTab($section, $slug, array $tab, $position = null)
@@ -940,7 +981,7 @@ class FormBuilder
      * Get an option value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getOption($key, $default = null)
@@ -1028,7 +1069,7 @@ class FormBuilder
      * Get a form option value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getFormOption($key, $default = null)
@@ -1143,7 +1184,7 @@ class FormBuilder
      * Get a form value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getFormValue($key, $default = null)
@@ -1526,7 +1567,7 @@ class FormBuilder
      * Get a request value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getRequestValue($key, $default = null)
@@ -1538,7 +1579,7 @@ class FormBuilder
      * Get a post value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function getPostValue($key, $default = null)
@@ -1550,7 +1591,7 @@ class FormBuilder
      * Return a post key flag.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function hasPostedInput($key)
