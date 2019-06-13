@@ -37,7 +37,15 @@ class BuildForms
     {
         /* @var FormBuilder $builder */
         foreach ($this->builder->getForms() as $builder) {
+
             $builder->build();
+
+            /**
+             * Distribute the versionable entry data.
+             */
+            if ($builder->hasVersion()) {
+                dispatch_now(new DistributeVersion($this->builder, $builder->getVersion()));
+            }
         }
     }
 }

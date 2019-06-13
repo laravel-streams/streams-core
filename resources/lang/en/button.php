@@ -18,6 +18,7 @@ return [
     'info'           => 'Info',
     'help'           => 'Help',
     'remove'         => 'Remove',
+    'remove_all'     => 'Remove All',
     'delete'         => 'Delete',
     'add_all'        => 'Add All',
     'add_selected'   => 'Add Selected',

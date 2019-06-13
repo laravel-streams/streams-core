@@ -55,6 +55,8 @@ class SetFormVersion
             return;
         }
 
-        $this->builder->setFormEntry($version->getModel());
+        $this->builder
+            ->setVersion($version)
+            ->setFormEntry($version->getModel());
     }
 }
