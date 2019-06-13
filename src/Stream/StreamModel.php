@@ -69,6 +69,15 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
     protected $table = 'streams_streams';
 
     /**
+     * Default attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'config' => 'a:0:{}',
+    ];
+
+    /**
      * The streams store.
      *
      * @var StreamStore
