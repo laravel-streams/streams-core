@@ -57,14 +57,19 @@ class SaveVersion
                          ->fieldSlugs()
                  ) as $relationship) {
 
+            /* @var EntryModel $related */
+            if (!($related = $this->model
+                ->{camel_case($relationship)}()
+                ->getRelated()) instanceof EntryModel) {
+                continue;
+            }
+
             /**
              * Loop over the relations of the relations
              * so that we get two levels deep for type
              * pattern entry models with say, blocks.
              */
-            foreach ($this->model
-                         ->{camel_case($relationship)}()
-                         ->getRelated()
+            foreach ($related
                          ->getRelationshipAssignments()
                          ->fieldSlugs() as $deepRelationship) {
 
