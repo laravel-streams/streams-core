@@ -681,20 +681,14 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      */
     public function toArrayForComparison()
     {
-        $array = array_dot($this->toArrayWithRelations());
-
-        $remove = ['created_at', 'updated_at', 'created_by_id', 'updated_by_id'];
+        $array = array_diff_key(
+            $this->toArrayWithRelations(),
+            array_flip(['id', 'created_at', 'updated_at', 'created_by_id', 'updated_by_id'])
+        );
 
         array_walk(
             $array,
-            function ($value, $key) use (&$array, $remove) {
-
-                /**
-                 * Remove keys that are not tracked.
-                 */
-                if (in_array($key, $remove) || ends_with($key, $remove)) {
-                    unset($array[$key]);
-                }
+            function ($value, $key) use (&$array) {
 
                 /**
                  * Make sure any nested arrays are serialized.
