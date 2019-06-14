@@ -85,6 +85,7 @@ class EloquentObserver extends Observer
      * Run before a record is deleted.
      *
      * @param  EloquentModel $entry
+     * @return bool
      */
     public function deleting(EloquentModel $entry)
     {
@@ -93,6 +94,8 @@ class EloquentObserver extends Observer
         }
 
         $this->dispatchNow(new CascadeDelete($entry));
+
+        return true;
     }
 
     /**
