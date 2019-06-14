@@ -7,8 +7,7 @@ return [
         'type'     => 'anomaly.field_type.select',
         'required' => true,
         'config'   => [
-            'default_value' => 15,
-            'options'       => [
+            'options' => [
                 5   => 5,
                 10  => 10,
                 15  => 15,
@@ -25,8 +24,8 @@ return [
         'bind'   => 'app.timezone',
         'type'   => 'anomaly.field_type.select',
         'config' => [
-            'handler'       => 'timezones',
-            'default_value' => config('app.timezone'),
+            'mode'    => 'search',
+            'handler' => 'timezones',
         ],
     ],
     'date_format' => [

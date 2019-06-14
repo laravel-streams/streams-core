@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Model\Traits\Translatable;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -508,6 +509,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      */
     public function saveModel(array $options = [])
     {
+        /* @var Builder $query */
         $query = $this->newQueryWithoutScopes();
 
         // If the "saving" event returns false we'll bail out of the save and return
@@ -521,14 +523,14 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
         // that is already in this database using the current IDs in this "where"
         // clause to only update this model. Otherwise, we'll just insert them.
         if ($this->exists) {
-            $saved = $this->performUpdate($query, $options);
+            $saved = $this->performUpdate($query);
         }
 
         // If the model is brand new, we'll insert it into our database and set the
         // ID attribute on the model to the value of the newly inserted row's ID
         // which is typically an auto-increment value managed by the database.
         else {
-            $saved = $this->performInsert($query, $options);
+            $saved = $this->performInsert($query);
         }
 
         if ($saved && !$this->isTranslatable()) {

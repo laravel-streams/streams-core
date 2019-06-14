@@ -18,6 +18,13 @@ interface UserInterface
     public function getId();
 
     /**
+     * Return if an admin or not.
+     *
+     * @return bool
+     */
+    public function isAdmin();
+
+    /**
      * Get the username.
      *
      * @return string
@@ -41,4 +48,22 @@ interface UserInterface
      * @return bool
      */
     public function hasAnyPermission(array $permissions);
+
+    /**
+     * Return if the user
+     * has a given role.
+     *
+     * @param RoleInterface|string $role
+     * @return bool
+     */
+    public function hasRole($role);
+
+    /**
+     * Return if the user has
+     * any of the given roles.
+     *
+     * @param $roles
+     * @return bool
+     */
+    public function hasAnyRole($roles);
 }

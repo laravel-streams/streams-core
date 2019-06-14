@@ -885,12 +885,12 @@ class Image
             $this->setWidth($image->getWidth());
             $this->setHeight($image->getHeight());
 
-            if ($image->hasField('alt_text')) {
-                $this->addAttribute('alt', $image->getAttribute('alt_text'));
+            if ($alt = array_get($image->getAttributes(), 'alt_text')) {
+                $this->addAttribute('alt', $alt);
             }
 
-            if ($image->hasField('title')) {
-                $this->addAttribute('title', $image->getAttribute('title'));
+            if ($title = array_get($image->getAttributes(), 'title')) {
+                $this->addAttribute('title', $title);
             }
         }
 
@@ -905,12 +905,12 @@ class Image
             $this->setWidth($image->getWidth());
             $this->setHeight($image->getHeight());
 
-            if ($image->hasField('alt_text')) {
-                $this->addAttribute('alt', $image->getAttribute('alt_text'));
+            if ($alt = array_get($image->getAttributes(), 'alt_text')) {
+                $this->addAttribute('alt', $alt);
             }
 
-            if ($image->hasField('title')) {
-                $this->addAttribute('title', $image->getAttribute('title'));
+            if ($title = array_get($image->getAttributes(), 'title')) {
+                $this->addAttribute('title', $title);
             }
         }
 

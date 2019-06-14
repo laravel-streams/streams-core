@@ -93,6 +93,16 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     ];
 
     /**
+     * Date casted attributes.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'created_at',
+        'updated_at',
+    ];
+
+    /**
      * Boot the model
      */
     protected static function boot()
@@ -467,6 +477,18 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function getStream()
     {
         return $this->stream();
+    }
+
+    /**
+     * Get the stream ID.
+     *
+     * @return int
+     */
+    public function getStreamId()
+    {
+        $stream = $this->getStream();
+
+        return $stream->getId();
     }
 
     /**

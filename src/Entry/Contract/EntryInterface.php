@@ -7,16 +7,22 @@ use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\EntryPresenter;
 use Anomaly\Streams\Platform\Entry\EntryRouter;
-use Anomaly\Streams\Platform\Entry\EntryTranslationsModel;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\Traits\Translatable;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Carbon\Carbon;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Interface EntryInterface
+ *
+ * @property Carbon $created_at
+ * @property int $created_by_id
+ * @property Carbon $updated_at
+ * @property int $updated_by_id
  *
  * @link    http://pyrocms.com/
  * @author  PyroCMS, Inc. <support@pyrocms.com>
@@ -87,6 +93,13 @@ interface EntryInterface
      * @return StreamInterface
      */
     public function getStream();
+
+    /**
+     * Get the stream ID.
+     *
+     * @return int
+     */
+    public function getStreamId();
 
     /**
      * Get the stream namespace.
@@ -560,6 +573,34 @@ interface EntryInterface
      * @return array
      */
     public function getCascades();
+
+    /**
+     * Return the related creator.
+     *
+     * @return Authenticatable
+     */
+    public function getCreatedBy();
+
+    /**
+     * Return the creator relation.
+     *
+     * @return BelongsTo
+     */
+    public function createdBy();
+
+    /**
+     * Return the related updater.
+     *
+     * @return Authenticatable
+     */
+    public function getUpdatedBy();
+
+    /**
+     * Return the updater relation.
+     *
+     * @return BelongsTo
+     */
+    public function updatedBy();
 
     /**
      * Call a hook.

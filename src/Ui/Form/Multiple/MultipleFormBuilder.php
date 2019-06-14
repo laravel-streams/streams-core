@@ -36,7 +36,7 @@ class MultipleFormBuilder extends FormBuilder
     /**
      * Create a new MultipleFormBuilder instance.
      *
-     * @param Form           $form
+     * @param Form $form
      * @param FormCollection $forms
      */
     public function __construct(Form $form, FormCollection $forms)
@@ -158,7 +158,7 @@ class MultipleFormBuilder extends FormBuilder
      *
      * @param              $key
      * @param  FormBuilder $builder
-     * @param null         $position
+     * @param null $position
      * @return MultipleFormBuilder
      */
     public function addForm($key, FormBuilder $builder, $position = null)
@@ -233,6 +233,23 @@ class MultipleFormBuilder extends FormBuilder
         }
 
         return $builder->getFormEntry();
+    }
+
+    /**
+     * Set the entry of a child form.
+     *
+     * @param $key
+     * @param EloquentModel|EntryInterface|FieldInterface|AssignmentInterface|null $entry
+     * @return $this
+     */
+    public function setChildFormEntry($key, $entry)
+    {
+        if ($builder = $this->getChildForm($key)) {
+            $builder->setEntry($entry);
+            $builder->setFormEntry($entry);
+        }
+
+        return $this;
     }
 
     /**

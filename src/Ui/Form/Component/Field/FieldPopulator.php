@@ -60,6 +60,10 @@ class FieldPopulator
             /*
              * If the field is not already set
              * then get the value off the entry.
+             *
+             * @var todo
+             * This needs to be tweaked slightly for duplication in the near future.
+             * The " && $entry->getId()" get's removed but needs replaced with something duplication specific.
              */
             if (!isset($field['value']) && $entry instanceof EloquentModel && $entry->getId()) {
 

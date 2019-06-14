@@ -1,10 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Support\Value;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Version\Contract\VersionInterface;
 use Anomaly\Streams\Platform\Version\Contract\VersionRepositoryInterface;
-use Illuminate\Http\Request;
 
 /**
  * Class SetFormVersion
@@ -36,16 +34,19 @@ class SetFormVersion
     /**
      * Set the form model object from the builder's model.
      *
-     * @param Request                    $request
      * @param VersionRepositoryInterface $versions
      */
-    public function handle(Request $request, VersionRepositoryInterface $versions)
+    public function handle(VersionRepositoryInterface $versions)
     {
-        if (!$version = $request->get('version')) {
+        if (request()->method() == 'POST') {
             return;
         }
 
-        if ($this->builder->getFormModelName() != $request->get('versionable')) {
+        if (!$version = request('version')) {
+            return;
+        }
+
+        if ($this->builder->getFormModel() && $this->builder->getFormModelName() != request('versionable')) {
             return;
         }
 
@@ -54,6 +55,8 @@ class SetFormVersion
             return;
         }
 
-        $this->builder->setFormEntry($version->getModel());
+        $this->builder
+            ->setVersion($version)
+            ->setFormEntry($version->getModel());
     }
 }

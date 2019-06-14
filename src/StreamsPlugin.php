@@ -622,7 +622,7 @@ class StreamsPlugin extends Plugin
                 'parse',
                 function () {
                     return call_user_func_array(
-                        [$this->template, 'render'],
+                        [app(Template::class), 'render'],
                         func_get_args()
                     );
                 }

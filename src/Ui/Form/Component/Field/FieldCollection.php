@@ -312,7 +312,7 @@ class FieldCollection extends Collection
     }
 
     /**
-     * Return an input string.
+     * Return the field partial.
      *
      * @return string
      */
@@ -326,6 +326,5 @@ class FieldCollection extends Collection
             }
         )->implode("\n");
     }
-
 
 }
