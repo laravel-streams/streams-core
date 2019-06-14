@@ -32,6 +32,7 @@ class StreamPresenter extends Presenter
             ' ',
             [
                 $this->translatableLabel($size),
+                $this->versionableLabel($size),
                 $this->trashableLabel($size),
                 $this->sortableLabel($size),
             ]
@@ -50,6 +51,23 @@ class StreamPresenter extends Presenter
             return '<span class="tag tag-info tag-' . $size . '">' . trans(
                 'streams::field.translatable.name'
             ) . '</span>';
+        }
+
+        return null;
+    }
+
+    /**
+     * Return the versionable label.
+     *
+     * @param  string $size
+     * @return null|string
+     */
+    protected function versionableLabel($size = 'sm')
+    {
+        if ($this->object->isVersionable()) {
+            return '<span class="tag tag-primary tag-' . $size . '">' . trans(
+                    'streams::field.versionable.name'
+                ) . '</span>';
         }
 
         return null;
