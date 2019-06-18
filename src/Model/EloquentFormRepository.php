@@ -158,7 +158,7 @@ class EloquentFormRepository implements FormRepositoryInterface
                     if ($field->getLocale() == $locale) {
 
                         array_pull($data, $field->getField());
-                        
+
                         array_set(
                             $data,
                             $locale . '.' . $field->getField(),
