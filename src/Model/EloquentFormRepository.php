@@ -156,6 +156,9 @@ class EloquentFormRepository implements FormRepositoryInterface
             foreach (config('streams::locales.enabled') as $locale) {
                 foreach ($allowed->translatable() as $field) {
                     if ($field->getLocale() == $locale) {
+
+                        array_pull($data, $field->getField());
+                        
                         array_set(
                             $data,
                             $locale . '.' . $field->getField(),
