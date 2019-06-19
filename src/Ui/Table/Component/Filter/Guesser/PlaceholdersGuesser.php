@@ -61,8 +61,11 @@ class PlaceholdersGuesser
                  */
                 $placeholder = $assignment->getFieldName();
 
-                if (trans()->has($placeholder)) {
+                if (!str_is('*::*.*.*', $placeholder) || trans()->has($placeholder)) {
+
                     $filter['placeholder'] = $placeholder;
+
+                    continue;
                 }
             }
 
@@ -82,15 +85,12 @@ class PlaceholdersGuesser
                 $filter['placeholder'] = $placeholder;
             }
 
-            if (!array_get($filter, 'placeholder')) {
-                $filter['placeholder'] = $filter['slug'];
-            }
-
-            if (
-                !trans()->has($filter['placeholder'])
-                && config('streams::system.lazy_translations')
-            ) {
-                $filter['placeholder'] = ucwords(humanize($filter['placeholder']));
+            /**
+             * As a last resort just humanize
+             * the filter's slug.
+             */
+            if (!isset($filter['placeholder'])) {
+                $filter['placeholder'] = ucwords(humanize($filter['slug']));
             }
         }
 
