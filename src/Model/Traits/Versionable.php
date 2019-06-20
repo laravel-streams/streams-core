@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Model\Traits;
 
-use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Version\Command\SaveVersion;
 use Anomaly\Streams\Platform\Version\Contract\VersionInterface;
@@ -101,6 +100,8 @@ trait Versionable
                 ->toArrayForComparison()
         );
 
+        $this->fireFieldTypeEvents('versioning', ['entry' => $this]);
+
         if (!$this->shouldVersion() && $force == false) {
             return null;
         }
@@ -115,8 +116,6 @@ trait Versionable
      */
     public function pushVersion()
     {
-        $this->fireFieldTypeEvents('versioning', ['entry' => $this]);
-
         return dispatch(new SaveVersion($this));
     }
 
@@ -197,6 +196,7 @@ trait Versionable
         return array_merge(
             $this->nonVersionedAttributes,
             [
+                'id',
                 'sort_order',
                 'created_at',
                 'created_by_id',
@@ -236,8 +236,8 @@ trait Versionable
         }
 
         $this->versionDifferences = array_diff_assoc(
-            $comparison,
-            $this->toArrayForComparison()
+            $this->toArrayForComparison(),
+            $comparison
         );
 
         return $this->versionDifferences;

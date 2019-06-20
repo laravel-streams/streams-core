@@ -14,6 +14,7 @@ use Anomaly\Streams\Platform\Stream\StreamModel;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Laravel\Scout\ModelObserver;
 use Laravel\Scout\Searchable;
 use Robbo\Presenter\PresentableInterface;
@@ -1011,6 +1012,63 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
                 ->getFieldType($field)
                 ->getSearchableValue();
         }
+
+        return $array;
+    }
+
+    /**
+     * Return the object as an
+     * array for comparison.
+     *
+     * @return array
+     */
+    public function toArrayForComparison()
+    {
+        $array = array_diff_key(
+            $this->toArrayWithRelations(),
+            array_flip($this->getNonVersionedAttributes())
+        );
+
+        /* @var AssignmentInterface $assignment */
+        foreach ($this->getRelationshipAssignments() as $assignment) {
+
+            $related = $this->{$assignment->getFieldSlug()};
+
+            $type = $assignment->getFieldType();
+
+            if (!method_exists($type, 'toArrayForComparison') && !$type->hasHook('to_array_for_comparison')) {
+                continue;
+            }
+
+            if ($related instanceof Collection) {
+
+                /* @var EloquentModel $entry */
+                $array[$assignment->getFieldSlug()] = app()->call(
+                    [$type, 'toArrayForComparison'],
+                    ['related' => $related]
+                );
+            }
+
+            if ($related instanceof EntryModel) {
+                $array[$assignment->getFieldSlug()] = app()->call(
+                    [$type, 'toArrayForComparison'],
+                    ['related' => $related]
+                );
+            }
+        }
+
+        array_walk(
+            $array,
+            function ($value, $key) use (&$array) {
+
+                /**
+                 * Make sure any nested arrays are serialized.
+                 */
+                if (is_array($value)) {
+                    $array[$key] = serialize($value);
+                }
+            }
+        );
 
         return $array;
     }

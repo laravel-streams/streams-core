@@ -686,6 +686,29 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
             array_flip(['id', 'sort_order', 'created_at', 'updated_at', 'created_by_id', 'updated_by_id'])
         );
 
+        foreach ($this->getRelations() as $attribute => $relation) {
+
+            if ($relation instanceof Collection) {
+                foreach ($relation as $index => $model) {
+
+                    /* @var EloquentModel $model */
+                    $array[$attribute][$index] = array_diff_key(
+                        $model->toArrayWithRelations(),
+                        array_flip(['id', 'sort_order', 'created_at', 'updated_at', 'created_by_id', 'updated_by_id'])
+                    );
+                }
+            }
+
+            if ($relation instanceof EloquentModel) {
+
+                /* @var EloquentModel $relation */
+                $array[$attribute] = array_diff_key(
+                    $relation->toArrayWithRelations(),
+                    array_flip(['id', 'sort_order', 'created_at', 'updated_at', 'created_by_id', 'updated_by_id'])
+                );
+            }
+        }
+
         array_walk(
             $array,
             function ($value, $key) use (&$array) {
