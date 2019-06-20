@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
-use Anomaly\Streams\Platform\Version\Command\SaveVersion;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -65,12 +64,13 @@ class HandleVersioning
          * Now that the model has finished
          * post-processing we can version.
          */
-        if (in_array(Versionable::class, class_uses_recursive($entry))) {
-
+        if (
+            in_array(Versionable::class, class_uses_recursive($entry)) &&
+            !$entry->versioningDisabled() &&
+            $entry->isVersionable()
+        ) {
             $entry->unguard();
-
-            $this->dispatchNow(new SaveVersion($entry));
-
+            $entry->version();
             $entry->reguard();
         }
     }

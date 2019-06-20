@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Model\Traits;
 
+use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Version\Command\SaveVersion;
 use Anomaly\Streams\Platform\Version\Contract\VersionInterface;
 use Anomaly\Streams\Platform\Version\VersionCollection;
 use Anomaly\Streams\Platform\Version\VersionModel;
@@ -23,14 +26,6 @@ trait Versionable
     protected $versionable = false;
 
     /**
-     * A flag to allow forcing the
-     * creating of a new version.
-     *
-     * @var bool
-     */
-    protected $pushVersion = false;
-
-    /**
      * The versioning-disabled flag.
      *
      * @var bool
@@ -45,18 +40,18 @@ trait Versionable
     protected $versionedAttributes = [];
 
     /**
-     * The non-versioned attributes.
-     *
-     * @var array
-     */
-    protected $nonVersionedAttributes = [];
-
-    /**
      * The version comparison data.
      *
      * @var array
      */
     protected $versionComparisonData = [];
+
+    /**
+     * The non-versioned attributes.
+     *
+     * @var array
+     */
+    protected $nonVersionedAttributes = [];
 
     /**
      * The version differences.
@@ -80,25 +75,49 @@ trait Versionable
             return true;
         }
 
-        if ($this->pushVersion) {
+        if ($this->getVersionDifferences()) {
             return true;
         }
 
-        return (count($this->versionedAttributeChanges()) > 0);
+        return false;
     }
 
     /**
-     * Push the version or no?
-     * Pushing == Force
+     * Push a version if applicable.
+     * Push a version anyways if forced.
      *
-     * @param bool $push
-     * @return $this
+     * @param bool $force
+     * @return VersionInterface|null
      */
-    public function pushVersion($push = true)
+    public function version($force = false)
     {
-        $this->pushVersion = $push;
+        if (!$latest = $this->getCurrentVersion()) {
+            return $this->pushVersion();
+        }
 
-        return $this;
+        $this->setVersionComparisonData(
+            $latest
+                ->getModel()
+                ->toArrayForComparison()
+        );
+
+        if (!$this->shouldVersion() && $force == false) {
+            return null;
+        }
+
+        return $this->pushVersion();
+    }
+
+    /**
+     * Push a new version.
+     *
+     * @return VersionInterface|EloquentModel
+     */
+    public function pushVersion()
+    {
+        $this->fireFieldTypeEvents('versioning', ['entry' => $this]);
+
+        return dispatch(new SaveVersion($this));
     }
 
     /**
@@ -178,6 +197,7 @@ trait Versionable
         return array_merge(
             $this->nonVersionedAttributes,
             [
+                'sort_order',
                 'created_at',
                 'created_by_id',
                 'updated_at',
@@ -201,44 +221,24 @@ trait Versionable
     }
 
     /**
-     * Set the versioned attribute changes (dirty).
-     *
-     * @param array $attributes
-     * @return $this
-     */
-    public function setVersionComparisonData(array $attributes)
-    {
-        $this->versionComparisonData = $attributes;
-
-        return $this;
-    }
-
-    /**
-     * Get the versioned attribute changes (dirty).
-     *
-     * @return array
-     */
-    public function getVersionComparisonData()
-    {
-        return $this->versionComparisonData;
-    }
-
-    /**
      * Get the version comparison differences.
      *
      * @return array
      */
     public function getVersionDifferences()
     {
-        if ($this->versionDifferences === null) {
-
-            $comparison = $this->getVersionComparisonData();
-
-            $this->versionDifferences = array_diff_assoc(
-                $comparison,
-                $this->toArrayForComparison()
-            );
+        if ($this->versionDifferences !== null) {
+            return $this->versionDifferences;
         }
+
+        if (!$comparison = $this->getVersionComparisonData()) {
+            return $this->versionDifferences = $this->toArrayForComparison();
+        }
+
+        $this->versionDifferences = array_diff_assoc(
+            $comparison,
+            $this->toArrayForComparison()
+        );
 
         return $this->versionDifferences;
     }
@@ -255,6 +255,7 @@ trait Versionable
             array_flip($this->getNonVersionedAttributes())
         );
     }
+
 
     /**
      * Return the latest version.
@@ -291,7 +292,7 @@ trait Versionable
      */
     public function getVersions()
     {
-        return $this->versions;
+        return $this->getAttribute('versions');
     }
 
     /**
@@ -302,6 +303,29 @@ trait Versionable
     public function versions()
     {
         return $this->morphMany(VersionModel::class, 'versionable');
+    }
+
+    /**
+     * Get the version comparison data.
+     *
+     * @return array
+     */
+    public function getVersionComparisonData()
+    {
+        return $this->versionComparisonData;
+    }
+
+    /**
+     * Set the version comparison data.
+     *
+     * @param array $data
+     * @return $this
+     */
+    public function setVersionComparisonData(array $data)
+    {
+        $this->versionComparisonData = $data;
+
+        return $this;
     }
 
 }

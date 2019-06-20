@@ -61,18 +61,19 @@ class EloquentFormRepository implements FormRepositoryInterface
         /**
          * If the model is versionable let's disable
          * that here since the model will potentially
-         * have post-processing relationships. We will
-         * however stash the dirty attributes for later.
+         * have post-processing relationships.
+         * We're handling this ourselves.
+         *
+         * See: \Anomaly\Streams\Platform\Ui\Form\Command\HandleVersioning
+         * in `post` stage.
          *
          * @var Versionable|EntryModel|EloquentModel $entry
          */
-        if (in_array(Versionable::class, $classes) && $entry->isVersionable()) {
+        if (in_array(Versionable::class, $classes)) {
 
-            $entry->disableVersioning(); // Disable for observer versioning.
+            $enabled = !$entry->versioningDisabled();
 
-            $entry->setVersionComparisonData($entry->toArrayForComparison());
-
-            $entry->pushVersion();
+            $entry->disableVersioning();
         }
 
         $data = $this->prepareValueData($builder);
@@ -100,12 +101,13 @@ class EloquentFormRepository implements FormRepositoryInterface
         $this->processSelfHandlingFields($builder);
 
         /**
-         * Put the versioning flag
-         * back the way it was.
+         * Enable versioning again
+         * if it was enabled before.
          */
-        if (in_array(Versionable::class, $classes)) {
+        if (in_array(Versionable::class, $classes) && isset($enabled) && $enabled == true) {
             $entry->enableVersioning();
         }
+
     }
 
     /**

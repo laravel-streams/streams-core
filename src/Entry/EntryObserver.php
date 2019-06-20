@@ -16,7 +16,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereDeleted;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereUpdated;
 use Anomaly\Streams\Platform\Support\Observer;
-use Anomaly\Streams\Platform\Version\Command\SaveVersion;
 
 /**
  * Class EntryObserver
@@ -99,10 +98,6 @@ class EntryObserver extends Observer
     {
         //$entry->fireFieldTypeEvents('entry_saving');
 
-        if ($entry->isVersionable() && !$entry->versioningDisabled()) {
-            $entry->setVersionComparisonData($entry->toArrayForComparison());
-        }
-
         $this->commands->dispatch(new SetMetaInformation($entry));
     }
 
@@ -116,8 +111,12 @@ class EntryObserver extends Observer
         $entry->flushCache();
         $entry->fireFieldTypeEvents('entry_saved');
 
-        if ($entry->isVersionable() && $entry->shouldVersion()) {
-            $this->commands->dispatch(new SaveVersion($entry));
+        if (
+            !$entry->versioningDisabled() &&
+            $entry->isVersionable() &&
+            $entry->shouldVersion()
+        ) {
+            $entry->version();
         }
 
         $this->events->dispatch(new EntryWasSaved($entry));

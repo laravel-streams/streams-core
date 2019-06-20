@@ -683,7 +683,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     {
         $array = array_diff_key(
             $this->toArrayWithRelations(),
-            array_flip(['id', 'created_at', 'updated_at', 'created_by_id', 'updated_by_id'])
+            array_flip(['id', 'sort_order', 'created_at', 'updated_at', 'created_by_id', 'updated_by_id'])
         );
 
         array_walk(
