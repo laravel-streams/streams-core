@@ -40,6 +40,7 @@ class SaveVersion
     {
         $versions->create(
             [
+                'created_by_id' => auth()->id(),
                 'versionable'   => $this->model,
                 'ip_address'    => request()->ip(),
                 'model'         => serialize($this->model),

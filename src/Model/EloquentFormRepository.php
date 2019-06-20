@@ -69,7 +69,7 @@ class EloquentFormRepository implements FormRepositoryInterface
          *
          * @var Versionable|EntryModel|EloquentModel $entry
          */
-        if (in_array(Versionable::class, $classes)) {
+        if ($builder->versioningEnabled() && in_array(Versionable::class, $classes)) {
 
             $enabled = !$entry->versioningDisabled();
 
@@ -104,7 +104,7 @@ class EloquentFormRepository implements FormRepositoryInterface
          * Enable versioning again
          * if it was enabled before.
          */
-        if (in_array(Versionable::class, $classes) && isset($enabled) && $enabled == true) {
+        if ($builder->versioningEnabled() && in_array(Versionable::class, $classes) && isset($enabled) && $enabled == true) {
             $entry->enableVersioning();
         }
 

@@ -6,7 +6,6 @@ use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Version\Contract\VersionInterface;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Robbo\Presenter\PresentableInterface;
@@ -22,6 +21,11 @@ class VersionModel extends EloquentModel implements VersionInterface, Presentabl
 {
 
     /**
+     * No updated_at column here.
+     */
+    const UPDATED_AT = null;
+
+    /**
      * Eager load these relations.
      *
      * @var array
@@ -35,7 +39,7 @@ class VersionModel extends EloquentModel implements VersionInterface, Presentabl
      *
      * @var bool
      */
-    public $timestamps = false;
+    public $timestamps = true;
 
     /**
      * The model table.
