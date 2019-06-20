@@ -66,6 +66,10 @@ trait Versionable
      */
     public function shouldVersion()
     {
+        if (!config('streams::system.versioning_enabled', true)) {
+            return false;
+        }
+
         if ($this->versioningDisabled()) {
             return false;
         }

@@ -100,4 +100,19 @@ return [
 
     'locking_enabled' => env('LOCKING_ENABLED', true),
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | VERSIONING ENABLED
+    |--------------------------------------------------------------------------
+    |
+    | Do you want to enable versioning?
+    |
+    | Versioning keeps tracks of changes made to versionable models.
+    |
+    |
+    */
+
+    'versioning_enabled' => env('VERSIONING_ENABLED', true),
+
 ];
