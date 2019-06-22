@@ -1097,7 +1097,13 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         $variables = parent::__sleep();
 
-        $variables = array_diff($variables, ['stream']);
+        $variables = array_diff(
+            $variables,
+            [
+                'stream',
+                'cacheCollection',
+            ]
+        );
 
         return $variables;
     }

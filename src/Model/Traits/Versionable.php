@@ -240,8 +240,8 @@ trait Versionable
         }
 
         $this->versionDifferences = array_diff_assoc(
-            $this->toArrayForComparison(),
-            $comparison
+            $comparison,
+            $this->toArrayForComparison()
         );
 
         return $this->versionDifferences;
