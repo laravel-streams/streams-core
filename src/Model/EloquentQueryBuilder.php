@@ -354,6 +354,7 @@ class EloquentQueryBuilder extends Builder
                         'created_by_id',
                         'updated_at',
                         'updated_by_id',
+                        'sort_order',
                     ]
                 )
             )
