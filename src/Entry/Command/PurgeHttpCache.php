@@ -40,8 +40,22 @@ class PurgeHttpCache
             return;
         }
 
-        /* @var HttpCache $cache */
-        $cache = app(HttpCache::class);
+        /**
+         * In some very special and fancy
+         * situations this might not happen.
+         *
+         * So let's just try it.
+         *
+         * @var HttpCache $cache
+         */
+        try {
+            $cache = app(HttpCache::class);
+        } catch (\Exception $exception) {
+
+            \Log::error($exception->getMessage() . 'in [' . __CLASS__ . ']');
+
+            return;
+        }
 
         array_map(
             function ($route) use ($cache) {
