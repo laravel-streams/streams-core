@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Model\Pages\PagesPagesEntryTranslationsModel;
 use Carbon\Carbon;
 
 /**
@@ -243,5 +242,37 @@ class EntryTranslationsModel extends EloquentModel
         }
 
         return $value;
+    }
+
+    /**
+     * Clean up the object before serializing.
+     *
+     * @return array
+     */
+    function __sleep()
+    {
+
+        /**
+         * Remove the parent relation
+         * as it tends to cause recursion
+         * and closure errors when included.
+         */
+        $this->unsetRelation('parent');
+
+        /**
+         * Remove a volatile memory attribute
+         * and remove the problematic parent.
+         */
+        $variables = parent::__sleep();
+
+        $variables = array_diff(
+            $variables,
+            [
+                'parent',
+                'cacheCollection',
+            ]
+        );
+
+        return $variables;
     }
 }
