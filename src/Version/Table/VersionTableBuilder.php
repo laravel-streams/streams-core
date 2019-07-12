@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Anomaly\Streams\Platform\Version\Contract\VersionInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,13 +31,6 @@ class VersionTableBuilder extends TableBuilder
     protected $type = null;
 
     /**
-     * The current version.
-     *
-     * @var null|VersionInterface
-     */
-    protected $current = null;
-
-    /**
      * The table filters.
      *
      * @var array
@@ -64,18 +56,6 @@ class VersionTableBuilder extends TableBuilder
         ],
         'breadcrumb' => 'streams::breadcrumb.revisions',
     ];
-
-    /**
-     * Fired just before building.
-     */
-    public function onReady()
-    {
-        $versionable = $this->getVersionableInstance();
-
-        if ($current = $versionable->getCurrentVersion()) {
-            $this->setCurrent($current);
-        }
-    }
 
     /**
      * Fired during the query for entries.
@@ -155,29 +135,6 @@ class VersionTableBuilder extends TableBuilder
     public function setType($type)
     {
         $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get the current version.
-     *
-     * @return VersionInterface|null
-     */
-    public function getCurrent()
-    {
-        return $this->current;
-    }
-
-    /**
-     * Set the current version.
-     *
-     * @param VersionInterface $current
-     * @return $this
-     */
-    public function setCurrent(VersionInterface $current)
-    {
-        $this->current = $current;
 
         return $this;
     }

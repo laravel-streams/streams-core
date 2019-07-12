@@ -22,11 +22,9 @@ class VersionTableColumns
         $date = config('streams::datetime.date_format');
         $time = config('streams::datetime.time_format');
 
-        $current = $builder->getCurrent();
-
         $builder->setColumns(
             [
-                'author'          => [
+                'author'     => [
                     'heading'    => 'streams::label.author',
                     'wrapper'    => '
                         <strong>{value.name}</strong>
@@ -45,7 +43,7 @@ class VersionTableColumns
                         'style' => 'width: 250px;',
                     ],
                 ],
-                'created_at'      => [
+                'created_at' => [
                     'heading'     => 'streams::label.date',
                     'sort_column' => 'created_at',
                     'wrapper'     => '
@@ -57,7 +55,7 @@ class VersionTableColumns
                         'timeago'  => 'entry.created_at.diffForHumans()',
                     ],
                 ],
-                'changes'         => [
+                'changes'    => [
                     'heading' => false,
                     'value'   => function (VersionInterface $entry) {
 
@@ -68,19 +66,6 @@ class VersionTableColumns
                         return '<span class="tag tag-warning">' . $count . ' ' . trans_choice(
                                 'streams::version.changes',
                                 $count
-                            ) . '</span>';
-                    },
-                ],
-                'current_version' => [
-                    'heading' => false,
-                    'value'   => function (VersionInterface $entry) use ($current) {
-
-                        if ($current->getVersion() !== $entry->getVersion()) {
-                            return null;
-                        }
-
-                        return '<span class="tag tag-success">' . trans(
-                                'streams::label.current_version'
                             ) . '</span>';
                     },
                 ],
