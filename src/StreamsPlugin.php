@@ -127,28 +127,6 @@ class StreamsPlugin extends Plugin
                 ]
             ),
             new \Twig_SimpleFunction(
-                'table',
-                function () {
-                    $arguments = func_get_args();
-
-                    if (count($arguments) >= 2) {
-                        $arguments = [
-                            'namespace' => array_get(func_get_args(), 0),
-                            'stream'    => array_get(func_get_args(), 1),
-                        ];
-                    }
-
-                    if (count($arguments) == 1) {
-                        $arguments = func_get_arg(0);
-                    }
-
-                    return dispatch_now(new GetTableCriteria($arguments));
-                },
-                [
-                    'is_safe' => ['html'],
-                ]
-            ),
-            new \Twig_SimpleFunction(
                 'form',
                 function () {
                     $arguments = func_get_args();
@@ -581,8 +559,12 @@ class StreamsPlugin extends Plugin
                 'trans_*',
                 function ($name) {
 
-                    if (!in_array($name, ['exists', 'choice'])) {
+                    if (!in_array($name, ['has', 'exists', 'choice'])) {
                         throw new \Exception('Function [trans_' . $name . '] does not exist.');
+                    }
+
+                    if ($name == 'exists') {
+                        $name = 'has';
                     }
 
                     return call_user_func_array(
