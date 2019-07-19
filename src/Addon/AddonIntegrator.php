@@ -152,6 +152,7 @@ class AddonIntegrator
                     . $addon->getVendor() . '/'
                     . $addon->getSlug() . '-'
                     . $addon->getType()
+                    . '/config'
                 )
             );
         }
