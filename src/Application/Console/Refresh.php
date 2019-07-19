@@ -41,6 +41,6 @@ class Refresh extends Command
         $console->call('view:clear', [], $this->getOutput());
         $console->call('twig:clear', [], $this->getOutput());
 
-        event(new SystemIsRefreshing());
+        event(new SystemIsRefreshing($this));
     }
 }

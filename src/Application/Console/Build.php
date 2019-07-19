@@ -38,6 +38,6 @@ class Build extends Command
     {
         $console->call('streams:compile', [], $this->getOutput());
 
-        event(new SystemIsBuilding());
+        event(new SystemIsBuilding($this));
     }
 }
