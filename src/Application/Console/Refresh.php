@@ -36,10 +36,13 @@ class Refresh extends Command
      */
     public function handle(Kernel $console)
     {
+        $console->call('httpcache:clear', [], $this->getOutput());
         $console->call('assets:clear', [], $this->getOutput());
         $console->call('cache:clear', [], $this->getOutput());
         $console->call('view:clear', [], $this->getOutput());
         $console->call('twig:clear', [], $this->getOutput());
+
+        $console->call('queue:restart', [], $this->getOutput());
 
         event(new SystemIsRefreshing($this));
     }
