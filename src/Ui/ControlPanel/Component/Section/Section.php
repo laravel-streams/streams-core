@@ -131,7 +131,37 @@ class Section implements SectionInterface
      * @var bool
      */
     protected $hidden = false;
+    
+    /**
+     * Heading Flag
+     *
+     * @var bool
+     */
+    protected $heading_only = false;
 
+    /**
+     * Get the heading_only flag.
+     *
+     * @return boolean
+     */
+    public function isHeadingOnly()
+    {
+        return $this->heading_only;
+    }
+
+    /**
+     * Set the heading_only.
+     *
+     * @param $heading_only
+     * @return $this
+     */
+    public function setHeadingOnly($flag)
+    {
+        $this->heading_only = $flag;
+
+        return $this;
+    }
+    
     /**
      * Get the slug.
      *
