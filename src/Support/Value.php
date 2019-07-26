@@ -193,7 +193,7 @@ class Value
          * string then render it.
          */
         if (is_string($value) && str_contains($value, ['{{', '{%'])) {
-            $value = $this->template->render($value, [$term => $entry]);
+            $value = (string)$this->template->render($value, [$term => $entry]);
         }
 
         if (is_string($value) && array_get($parameters, 'is_safe') !== true) {
