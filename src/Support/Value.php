@@ -100,14 +100,14 @@ class Value
          * If the value is a view path then return a view.
          */
         if ($view = array_get($parameters, 'view')) {
-            return view($view, ['value' => $value, $term => $entry]);
+            return view($view, ['value' => $value, $term => $entry])->render();
         }
 
         /*
          * If the value uses a template then parse it.
          */
         if ($template = array_get($parameters, 'template')) {
-            return $this->template->render($template, ['value' => $value, $term => $entry]);
+            return (string)$this->template->render($template, ['value' => $value, $term => $entry]);
         }
 
         /*
@@ -138,7 +138,7 @@ class Value
          * then parse it as a template.
          */
         if (is_string($value) && preg_match("/^{$term}.([a-zA-Z\\_]+)/", $value, $match)) {
-            $value = $this->template->render("{{ {$value}|raw }}", $payload);
+            $value = (string)$this->template->render("{{ {$value}|raw }}", $payload);
         }
 
         $payload[$term] = $entry;
