@@ -197,7 +197,7 @@ class AddonCollection extends Collection
             function ($addon) {
 
                 /* @var Addon $addon */
-                $addon->fire('registered');
+                $addon->fire('registered', compact('addon'));
             }
         );
     }
