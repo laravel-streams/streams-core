@@ -232,7 +232,7 @@ class StreamsServiceProvider extends ServiceProvider
                 /* @var Schedule $schedule */
                 $schedule = $this->app->make(Schedule::class);
 
-                foreach (array_merge($this->schedule, config('streams.schedule', [])) as $frequency => $commands) {
+                foreach (array_merge($this->schedule, config('streams.schedules', [])) as $frequency => $commands) {
                     foreach (array_filter($commands) as $command) {
 
                         if (str_contains($frequency, ' ')) {
