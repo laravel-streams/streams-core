@@ -57,10 +57,25 @@ trait Hookable
      */
     public function call($hook, array $parameters = [])
     {
+
+        /*
+         * Check if the method exists
+         * first and run it if it does.
+         */
+        if (method_exists($this, $method = camel_case($hook))) {
+            return app()->call([$this, $method], $parameters);
+        }
+
+        /**
+         * Get the registered hook otherwise.
+         */
         if (!$hook = $this->getHook($hook)) {
             throw new \Exception('The hook [' . $hook . '] does not exist for [' . get_class($this) . '].');
         }
 
+        /**
+         * Setup the closure to call.
+         */
         if ($hook['bind']) {
             $hook['callback'] = \Closure::bind($hook['callback'], $this, get_class());
         }
