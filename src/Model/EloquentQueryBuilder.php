@@ -365,10 +365,10 @@ class EloquentQueryBuilder extends Builder
         $this->query->where(
             function (\Illuminate\Database\Query\Builder $query) use ($model, $locale) {
                 $query->where($model->getTranslationsTableName() . '.locale', $locale ?: config('app.locale'));
-//                $query->orWhere(
-//                    $model->getTranslationsTableName() . '.locale',
-//                    config('app.fallback_locale')
-//                );
+                $query->orWhere(
+                    $model->getTranslationsTableName() . '.locale',
+                    config('app.fallback_locale')
+                );
                 $query->orWhereNull($model->getTranslationsTableName() . '.locale');
             }
         );
