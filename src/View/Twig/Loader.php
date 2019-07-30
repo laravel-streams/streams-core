@@ -168,47 +168,20 @@ class Loader extends OriginalLoader
     }
 
     /**
-     * Gets the path.
+     * Return path to template without the need for the extension.
      *
-     * @param      string $name The name
-     * @return     boolean  The path.
+     * @param string $name Template file name or path.
+     *
+     * @throws \Twig_Error_Loader
+     * @return string Path to template
      */
-    protected function getPath($name)
+    public function findTemplate($name)
     {
-        $result = null;
+        $overload = $this->getOverloadPath($name);
 
-        $mobile = array_merge(
-            $this->mobiles->all(),
-            config('streams.mobile', [])
-        );
+        $name = $overload ?: $name;
 
-        $overrides = array_merge(
-            $this->overrides->all(),
-            config('streams.overrides', [])
-        );
-
-        $name = str_replace('theme::', $this->theme->getNamespace() . '::', $name);
-
-        if ($this->mobile && $path = array_get($mobile, $name)) {
-            $result = str_replace('theme::', $this->theme->getNamespace() . '::', $path);
-        } elseif ($path = array_get($overrides, $name)) {
-            $result = str_replace('theme::', $this->theme->getNamespace() . '::', $path);
-        }
-
-        /**
-         * Get the overloaded view path.
-         *
-         * This is very expensive for IO
-         * so we're going to remove it in
-         * favor of manual overrides only.
-         *
-         * @deprecated since 1.6; Use override collection.
-         */
-        if (env('AUTOMATIC_ADDON_OVERRIDES', true) && $path = $this->getOverloadPath($name)) {
-            return $path;
-        }
-
-        return $result;
+        return parent::findTemplate($name);
     }
 
     /**
@@ -224,6 +197,60 @@ class Loader extends OriginalLoader
          * views right now.
          */
         if (!str_contains($name, '::')) {
+            return null;
+        }
+
+        // Normalize the name.
+        $name = str_replace(['/', '\\'], '.', $name);
+
+        /**
+         * Pull mobile override.
+         *
+         * @TODO move this to merge once. self::cache
+         */
+        $mobile = array_merge(
+            $this->mobiles->all(),
+            config('streams.mobile', [])
+        );
+
+        /**
+         * Pull standard override.
+         *
+         * @TODO move this to merge once. self::cache
+         */
+        $overrides = array_merge(
+            $this->overrides->all(),
+            config('streams.overrides', [])
+        );
+
+        if (str_contains($name, 'partials/footer')) {
+            dd($name);
+        }
+
+        /**
+         * Normalize the theme:: shortcut prefix.
+         */
+        $name = str_replace('theme::', $this->theme->getNamespace() . '::', $name);
+
+        /**
+         * If the override
+         */
+        if ($this->mobile && $path = array_get($mobile, $name)) {
+            return str_replace('theme::', $this->theme->getNamespace() . '::', $path);
+        } elseif ($path = array_get($overrides, $name)) {
+            return str_replace('theme::', $this->theme->getNamespace() . '::', $path);
+        }
+
+        /**
+         * Get the overloaded view path.
+         *
+         * This is very expensive for IO
+         * so we're going to remove it in
+         * favor of manual overrides only.
+         *
+         * @deprecated since 1.6; Use override collection.
+         */
+        if (!env('AUTOMATIC_ADDON_OVERRIDES', true)) {
             return null;
         }
 
