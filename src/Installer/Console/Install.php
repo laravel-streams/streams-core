@@ -104,6 +104,8 @@ class Install extends Command
                     $this->dispatchNow(new AutoloadEntryModels()); // Don't forget!
 
                     $manager->register(); // Register all of our addons.
+
+                    $this->dispatchNow(new AutoloadEntryModels()); // Yes, again.
                 }
             )
         );
