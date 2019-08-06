@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Button\Guesser;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Illuminate\Http\Request;
@@ -39,8 +40,8 @@ class HrefGuesser
     /**
      * Create a new HrefGuesser instance.
      *
-     * @param UrlGenerator      $url
-     * @param Request           $request
+     * @param UrlGenerator $url
+     * @param Request $request
      * @param SectionCollection $sections
      */
     public function __construct(UrlGenerator $url, Request $request, SectionCollection $sections)
@@ -68,6 +69,21 @@ class HrefGuesser
 
             // If we already have an HREF then skip it.
             if (isset($button['attributes']['href'])) {
+                continue;
+            }
+
+            /**
+             * If a route has been defined then
+             * move that to an HREF closure.
+             */
+            if (isset($button['route']) && $builder->getTreeStream()) {
+
+                $button['attributes']['href'] = function ($entry) use ($button) {
+
+                    /* @var EntryInterface $entry */
+                    return $entry->route($button['route']);
+                };
+
                 continue;
             }
 

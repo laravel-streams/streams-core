@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
@@ -40,8 +41,8 @@ class HrefGuesser
     /**
      * Create a new HrefGuesser instance.
      *
-     * @param UrlGenerator      $url
-     * @param Request           $request
+     * @param UrlGenerator $url
+     * @param Request $request
      * @param SectionCollection $sections
      */
     public function __construct(UrlGenerator $url, Request $request, SectionCollection $sections)
@@ -67,7 +68,24 @@ class HrefGuesser
         }
 
         foreach ($buttons as &$button) {
+
+            // Skip if already defined.
             if (isset($button['attributes']['href'])) {
+                continue;
+            }
+
+            /**
+             * If a route has been defined then
+             * move that to an HREF closure.
+             */
+            if (isset($button['route']) && $builder->getFormStream()) {
+
+                $button['attributes']['href'] = function ($entry) use ($button) {
+
+                    /* @var EntryInterface $entry */
+                    return $entry->route($button['route']);
+                };
+
                 continue;
             }
 
