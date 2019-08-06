@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Http\Request;
@@ -47,9 +48,9 @@ class HrefGuesser
     /**
      * Create a new HrefGuesser instance.
      *
-     * @param UrlGenerator      $url
-     * @param Request           $request
-     * @param ModuleCollection  $modules
+     * @param UrlGenerator $url
+     * @param Request $request
+     * @param ModuleCollection $modules
      * @param SectionCollection $sections
      */
     public function __construct(
@@ -87,6 +88,21 @@ class HrefGuesser
 
             // If we already have an HREF then skip it.
             if (isset($button['attributes']['href'])) {
+                continue;
+            }
+
+            /**
+             * If a route has been defined then
+             * move that to an HREF closure.
+             */
+            if (isset($button['route']) && $builder->getTableStream()) {
+
+                $button['attributes']['href'] = function ($entry) use ($button) {
+
+                    /* @var EntryInterface $entry */
+                    return $entry->route($button['route']);
+                };
+
                 continue;
             }
 
