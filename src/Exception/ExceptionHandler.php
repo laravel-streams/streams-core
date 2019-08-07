@@ -2,12 +2,10 @@
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -60,7 +58,7 @@ class ExceptionHandler extends Handler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  Request   $request
+     * @param  Request $request
      * @param  Exception $e
      * @return Response|\Symfony\Component\HttpFoundation\Response
      */
@@ -88,10 +86,10 @@ class ExceptionHandler extends Handler
     /**
      * Render the given HttpException.
      *
-     * @param  \Symfony\Component\HttpKernel\Exception\HttpException $e
+     * @param HttpExceptionInterface $e
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function renderHttpException(HttpException $e)
+    protected function renderHttpException(HttpExceptionInterface $e)
     {
         /**
          * Always show exceptions
@@ -101,7 +99,7 @@ class ExceptionHandler extends Handler
             return $this->convertExceptionToResponse($e);
         }
 
-        $summary = $e->getMessage();
+        $summary = 'No Message';//$e->getMessage();
         $headers = $e->getHeaders();
         $code    = $e->getStatusCode();
         $name    = trans("streams::error.{$code}.name");
@@ -159,7 +157,7 @@ class ExceptionHandler extends Handler
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param  \Illuminate\Http\Request                 $request
+     * @param  \Illuminate\Http\Request $request
      * @param  \Illuminate\Auth\AuthenticationException $exception
      * @return \Illuminate\Http\Response
      */
