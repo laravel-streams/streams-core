@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasEnabled;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
-use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class EnableExtension
@@ -36,14 +35,13 @@ class EnableExtension
      * Handle the command.
      *
      * @param  ExtensionRepositoryInterface $extensions
-     * @param  Dispatcher                   $events
      * @return bool
      */
-    public function handle(ExtensionRepositoryInterface $extensions, Dispatcher $events)
+    public function handle(ExtensionRepositoryInterface $extensions)
     {
         $extensions->enabled($this->extension);
 
-        $events->dispatch(new ExtensionWasEnabled($this->extension));
+        event(new ExtensionWasEnabled($this->extension));
 
         return true;
     }

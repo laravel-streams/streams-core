@@ -63,7 +63,7 @@ class EloquentGridRepository implements GridRepositoryInterface
          * to modify the query before proceeding.
          */
         $builder->fire('querying', compact('builder', 'query'));
-        app('events')->fire(new GridIsQuerying($builder, $query));
+        event(new GridIsQuerying($builder, $query));
 
         /*
          * Before we actually adjust the baseline query

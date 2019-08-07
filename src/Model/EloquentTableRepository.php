@@ -68,7 +68,7 @@ class EloquentTableRepository implements TableRepositoryInterface
          * to modify the query before proceeding.
          */
         $builder->fire('querying', compact('builder', 'query'));
-        app('events')->fire(new TableIsQuerying($builder, $query));
+        event(new TableIsQuerying($builder, $query));
 
         /*
          * Before we actually adjust the baseline query
@@ -127,7 +127,7 @@ class EloquentTableRepository implements TableRepositoryInterface
         }
 
         $builder->fire('queried', compact('builder', 'query'));
-        app('events')->fire(new TableWasQueried($builder, $query));
+        event(new TableWasQueried($builder, $query));
 
         return $query->get();
     }

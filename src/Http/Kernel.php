@@ -56,7 +56,8 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      */
     protected $middlewareGroups = [
         'web' => [
-            \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
+            //\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
+            \Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
         'api' => [

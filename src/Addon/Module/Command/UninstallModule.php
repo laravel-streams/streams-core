@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasUninstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Console\Kernel;
-use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class UninstallModule
@@ -36,16 +35,15 @@ class UninstallModule
     /**
      * Handle the command.
      *
-     * @param Kernel     $console
-     * @param Dispatcher $events
+     * @param Kernel $console
      */
-    public function handle(Kernel $console, Dispatcher $events, ModuleRepositoryInterface $modules)
+    public function handle(Kernel $console, ModuleRepositoryInterface $modules)
     {
         $this->module->fire('uninstalling', ['module' => $this->module]);
 
         $options = [
             '--addon' => $this->module->getNamespace(),
-            '--force' => true
+            '--force' => true,
         ];
 
         $console->call('migrate:reset', $options);
@@ -56,6 +54,6 @@ class UninstallModule
 
         $this->module->fire('uninstalled', ['module' => $this->module]);
 
-        $events->dispatch(new ModuleWasUninstalled($this->module));
+        event(new ModuleWasUninstalled($this->module));
     }
 }

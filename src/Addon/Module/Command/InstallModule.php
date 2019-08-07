@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Console\Kernel;
-use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class InstallModule
@@ -35,7 +34,7 @@ class InstallModule
      * Create a new InstallModule instance.
      *
      * @param Module $module
-     * @param bool   $seed
+     * @param bool $seed
      */
     public function __construct(Module $module, $seed = false)
     {
@@ -46,16 +45,14 @@ class InstallModule
     /**
      * Handle the command.
      *
-     * @param  Kernel                    $console
-     * @param  AddonManager              $manager
-     * @param  Dispatcher                $dispatcher
+     * @param  Kernel $console
+     * @param  AddonManager $manager
      * @param  ModuleRepositoryInterface $modules
      * @return bool
      */
     public function handle(
         Kernel $console,
         AddonManager $manager,
-        Dispatcher $dispatcher,
         ModuleRepositoryInterface $modules
     ) {
         $this->module->fire('installing', ['module' => $this->module]);
@@ -77,7 +74,7 @@ class InstallModule
 
         $this->module->fire('installed', ['module' => $this->module]);
 
-        $dispatcher->dispatch(new ModuleWasInstalled($this->module));
+        event(new ModuleWasInstalled($this->module));
 
         return true;
     }

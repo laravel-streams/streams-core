@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Event\SortNavigation;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class NavigationSorter
@@ -13,23 +12,6 @@ use Illuminate\Contracts\Events\Dispatcher;
  */
 class NavigationSorter
 {
-
-    /**
-     * The event dispatcher.
-     *
-     * @var Dispatcher
-     */
-    protected $events;
-
-    /**
-     * Create a new NavigationSorter instance.
-     *
-     * @param Dispatcher $events
-     */
-    public function __construct(Dispatcher $events)
-    {
-        $this->events = $events;
-    }
 
     /**
      * Create a new NavigationSorter instance.
@@ -74,6 +56,6 @@ class NavigationSorter
 
         $builder->setNavigation($navigation);
 
-        $this->events->dispatch(new SortNavigation($builder));
+        event(new SortNavigation($builder));
     }
 }

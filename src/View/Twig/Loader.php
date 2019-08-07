@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Addon\Theme\Theme;
 use Anomaly\Streams\Platform\View\ViewMobileOverrides;
 use Anomaly\Streams\Platform\View\ViewOverrides;
 use Illuminate\Console\Application;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
@@ -61,13 +60,6 @@ class Loader extends OriginalLoader
      * @var Mobile_Detect
      */
     protected $agent;
-
-    /**
-     * The event dispatcher.
-     *
-     * @var Dispatcher
-     */
-    protected $events;
 
     /**
      * The current theme.
@@ -131,7 +123,6 @@ class Loader extends OriginalLoader
      * @param string $extension
      * @param Factory $view
      * @param Mobile_Detect $agent
-     * @param Dispatcher $events
      * @param AddonCollection $addons
      * @param ViewOverrides $overrides
      * @param Request $request
@@ -143,7 +134,6 @@ class Loader extends OriginalLoader
         $extension = 'twig',
         Factory $view,
         Mobile_Detect $agent,
-        Dispatcher $events,
         AddonCollection $addons,
         ViewOverrides $overrides,
         Request $request,
@@ -151,7 +141,6 @@ class Loader extends OriginalLoader
     ) {
         $this->view      = $view;
         $this->agent     = $agent;
-        $this->events    = $events;
         $this->addons    = $addons;
         $this->mobiles   = $mobiles;
         $this->request   = $request;

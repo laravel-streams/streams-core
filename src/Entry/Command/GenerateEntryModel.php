@@ -22,7 +22,6 @@ use Anomaly\Streams\Platform\Entry\Parser\EntryWithParser;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Support\Parser;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
 
 /**
@@ -57,10 +56,9 @@ class GenerateEntryModel
      *
      * @param Filesystem $files
      * @param Parser $parser
-     * @param Dispatcher $events
      * @param Application $application
      */
-    public function handle(Filesystem $files, Parser $parser, Dispatcher $events, Application $application)
+    public function handle(Filesystem $files, Parser $parser, Application $application)
     {
         $data = new Collection(
             [
@@ -89,7 +87,7 @@ class GenerateEntryModel
          * to extend the template and
          * the data parsed within it!
          */
-        $events->dispatch(new GatherParserData($data, $this->stream));
+        event(new GatherParserData($data, $this->stream));
 
         $template = $data->pull(
             'template',

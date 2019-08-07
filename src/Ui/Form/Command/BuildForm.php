@@ -7,7 +7,6 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Field\Command\BuildFields;
 use Anomaly\Streams\Platform\Ui\Form\Component\Section\Command\BuildSections;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasBuilt;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -41,10 +40,8 @@ class BuildForm
 
     /**
      * Handle the command.
-     *
-     * @param Dispatcher $events
      */
-    public function handle(Dispatcher $events)
+    public function handle()
     {
 
         /*
@@ -97,6 +94,6 @@ class BuildForm
          */
         $this->dispatchNow(new BuildButtons($this->builder));
 
-        $events->dispatch(new FormWasBuilt($this->builder));
+        event(new FormWasBuilt($this->builder));
     }
 }

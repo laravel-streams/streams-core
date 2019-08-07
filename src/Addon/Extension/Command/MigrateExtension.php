@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasMigrated;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Console\Kernel;
-use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class InstallExtension
@@ -34,7 +33,7 @@ class MigrateExtension
      * Create a new InstallExtension instance.
      *
      * @param Extension $extension
-     * @param bool      $seed
+     * @param bool $seed
      */
     public function __construct(Extension $extension, $seed = false)
     {
@@ -45,15 +44,13 @@ class MigrateExtension
     /**
      * Handle the command.
      *
-     * @param  InstallExtension|Kernel      $console
-     * @param  AddonManager                 $manager
-     * @param  Dispatcher                   $dispatcher
+     * @param  InstallExtension|Kernel $console
+     * @param  AddonManager $manager
      * @return bool
      */
     public function handle(
         Kernel $console,
-        AddonManager $manager,
-        Dispatcher $dispatcher
+        AddonManager $manager
     ) {
         $this->extension->fire('migrating', ['extension' => $this->extension]);
 
@@ -72,7 +69,7 @@ class MigrateExtension
 
         $this->extension->fire('migrated', ['extension' => $this->extension]);
 
-        $dispatcher->dispatch(new ExtensionWasMigrated($this->extension));
+        event(new ExtensionWasMigrated($this->extension));
 
         return true;
     }

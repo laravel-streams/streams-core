@@ -40,7 +40,6 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
         \Anomaly\Streams\Platform\Stream\Console\Make::class,
         \Anomaly\Streams\Platform\Stream\Console\Index::class,
         \Anomaly\Streams\Platform\Stream\Console\Compile::class,
-        \Anomaly\Streams\Platform\Stream\Console\Refresh::class,
         \Anomaly\Streams\Platform\Stream\Console\Cleanup::class,
         \Anomaly\Streams\Platform\Stream\Console\Destroy::class,
 

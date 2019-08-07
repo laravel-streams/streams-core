@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterfa
 use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasInstalled;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Console\Kernel;
-use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class InstallExtension
@@ -35,7 +34,7 @@ class InstallExtension
      * Create a new InstallExtension instance.
      *
      * @param Extension $extension
-     * @param bool      $seed
+     * @param bool $seed
      */
     public function __construct(Extension $extension, $seed = false)
     {
@@ -46,16 +45,14 @@ class InstallExtension
     /**
      * Handle the command.
      *
-     * @param  InstallExtension|Kernel      $console
-     * @param  AddonManager                 $manager
-     * @param  Dispatcher                   $dispatcher
+     * @param  InstallExtension|Kernel $console
+     * @param  AddonManager $manager
      * @param  ExtensionRepositoryInterface $extensions
      * @return bool
      */
     public function handle(
         Kernel $console,
         AddonManager $manager,
-        Dispatcher $dispatcher,
         ExtensionRepositoryInterface $extensions
     ) {
         $this->extension->fire('installing', ['extension' => $this->extension]);
@@ -77,7 +74,7 @@ class InstallExtension
 
         $this->extension->fire('installed', ['extension' => $this->extension]);
 
-        $dispatcher->dispatch(new ExtensionWasInstalled($this->extension));
+        event(new ExtensionWasInstalled($this->extension));
 
         return true;
     }

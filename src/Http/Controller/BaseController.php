@@ -10,14 +10,12 @@ use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
 use Anomaly\Streams\Platform\Http\Middleware\PoweredBy;
 use Anomaly\Streams\Platform\Http\Middleware\PrefixDomain;
 use Anomaly\Streams\Platform\Http\Middleware\SetLocale;
-use Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\View\ViewTemplate;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -75,13 +73,6 @@ class BaseController extends Controller
     protected $route;
 
     /**
-     * The event dispatcher.
-     *
-     * @var Dispatcher
-     */
-    protected $events;
-
-    /**
      * The request object.
      *
      * @var Request
@@ -128,23 +119,21 @@ class BaseController extends Controller
      */
     public function __construct()
     {
-        $this->container   = app();
-        $this->request     = app('Illuminate\Http\Request');
-        $this->redirect    = app('Illuminate\Routing\Redirector');
-        $this->view        = app('Illuminate\Contracts\View\Factory');
+        $this->container   = app(); // @deprecated in 1.7 remove in 1.8
+        $this->request     = app('Illuminate\Http\Request'); // @deprecated in 1.7 remove in 1.8
+        $this->redirect    = app('Illuminate\Routing\Redirector'); // @deprecated in 1.7 remove in 1.8
+        $this->view        = app('Illuminate\Contracts\View\Factory'); // @deprecated in 1.7 remove in 1.8
         $this->asset       = app('Anomaly\Streams\Platform\Asset\Asset');
-        $this->events      = app('Illuminate\Contracts\Events\Dispatcher');
+        $this->events      = app('Illuminate\Contracts\Events\Dispatcher'); // @deprecated in 1.7 remove in 1.8
         $this->template    = app('Anomaly\Streams\Platform\View\ViewTemplate');
         $this->messages    = app('Anomaly\Streams\Platform\Message\MessageBag');
-        $this->response    = app('Illuminate\Contracts\Routing\ResponseFactory');
-        $this->url         = app('Anomaly\Streams\Platform\Routing\UrlGenerator');
+        $this->response    = app('Illuminate\Contracts\Routing\ResponseFactory'); // @deprecated in 1.7 remove in 1.8
+        $this->url         = app('Anomaly\Streams\Platform\Routing\UrlGenerator'); // @deprecated in 1.7 remove in 1.8
         $this->breadcrumbs = app('Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection');
 
         $this->route = $this->request->route();
 
-        $this->middleware(VerifyCsrfToken::class);
-
-        $this->events->dispatch(new Response($this));
+        event(new Response($this));
 
         $this->middleware(PoweredBy::class);
 

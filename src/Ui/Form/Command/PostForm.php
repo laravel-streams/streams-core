@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasPosted;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -37,10 +36,8 @@ class PostForm
 
     /**
      * Handle the command.
-     *
-     * @param Dispatcher $events
      */
-    public function handle(Dispatcher $events)
+    public function handle()
     {
         $this->builder->fire('posting', ['builder' => $this->builder]);
         $this->builder->fireFieldEvents('form_posting');
@@ -69,6 +66,6 @@ class PostForm
         $this->builder->fire('posted', ['builder' => $this->builder]);
         $this->builder->fireFieldEvents('form_posted');
 
-        $events->dispatch(new FormWasPosted($this->builder));
+        event(new FormWasPosted($this->builder));
     }
 }

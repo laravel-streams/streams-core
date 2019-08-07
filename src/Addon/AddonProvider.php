@@ -47,13 +47,6 @@ class AddonProvider
     protected $router;
 
     /**
-     * The event dispatcher.
-     *
-     * @var Dispatcher
-     */
-    protected $events;
-
-    /**
      * The factory manager.
      *
      * @var Factory
@@ -99,7 +92,6 @@ class AddonProvider
      * Create a new AddonProvider instance.
      *
      * @param Router $router
-     * @param Dispatcher $events
      * @param Schedule $schedule
      * @param Application $application
      * @param ViewOverrides $viewOverrides
@@ -108,7 +100,6 @@ class AddonProvider
      */
     public function __construct(
         Router $router,
-        Dispatcher $events,
         Schedule $schedule,
         Application $application,
         ViewOverrides $viewOverrides,
@@ -116,7 +107,6 @@ class AddonProvider
         ViewMobileOverrides $viewMobileOverrides
     ) {
         $this->router              = $router;
-        $this->events              = $events;
         $this->schedule            = $schedule;
         $this->application         = $application;
         $this->middlewares         = $middlewares;
@@ -224,7 +214,7 @@ class AddonProvider
             // To register the commands with Artisan, we will grab each of the arguments
             // passed into the method and listen for Artisan "start" event which will
             // give us the Artisan console instance which we will give commands to.
-            $this->events->listen(
+            app(Dispatcher::class)->listen(
                 'Illuminate\Console\Events\ArtisanStarting',
                 function (ArtisanStarting $event) use ($commands) {
                     $event->artisan->resolveCommands($commands);
@@ -304,7 +294,7 @@ class AddonProvider
                     $priority = 0;
                 }
 
-                $this->events->listen($event, $listener, $priority);
+                app(Dispatcher::class)->listen($event, $listener, $priority);
             }
         }
     }
@@ -504,7 +494,7 @@ class AddonProvider
             return;
         }
 
-        $this->events->listen(
+        app(Dispatcher::class)->listen(
             'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
             function (RegisteringTwigPlugins $event) use ($plugins) {
 
@@ -581,11 +571,11 @@ class AddonProvider
         }
 
         foreach ($overrides as $view => $override) {
-            $this->viewOverrides->add($view, $override);
+            $this->viewOverrides->put($view, $override);
         }
 
         foreach ($mobiles as $view => $override) {
-            $this->viewMobileOverrides->add($view, $override);
+            $this->viewMobileOverrides->put($view, $override);
         }
     }
 
@@ -622,7 +612,6 @@ class AddonProvider
     {
         foreach ($provider->getRouteMiddleware() as $name => $class) {
             $this->router->aliasMiddleware($name, $class);
-            $this->router->middleware($name, $class);
         }
     }
 

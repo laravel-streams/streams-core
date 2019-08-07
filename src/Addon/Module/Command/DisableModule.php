@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasDisabled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
-use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class DisableModule
@@ -36,14 +35,13 @@ class DisableModule
      * Handle the command.
      *
      * @param  ModuleRepositoryInterface $modules
-     * @param  Dispatcher                $events
      * @return bool
      */
-    public function handle(ModuleRepositoryInterface $modules, Dispatcher $events)
+    public function handle(ModuleRepositoryInterface $modules)
     {
         $modules->disable($this->module);
 
-        $events->dispatch(new ModuleWasDisabled($this->module));
+        event(new ModuleWasDisabled($this->module));
 
         return true;
     }

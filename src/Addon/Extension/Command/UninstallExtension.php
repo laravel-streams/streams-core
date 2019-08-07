@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterfa
 use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasUninstalled;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Console\Kernel;
-use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class UninstallExtension
@@ -36,12 +35,11 @@ class UninstallExtension
     /**
      * Handle the command.
      *
-     * @param  Kernel                       $console
-     * @param  Dispatcher                   $events
+     * @param  Kernel $console
      * @param  ExtensionRepositoryInterface $extensions
      * @return bool
      */
-    public function handle(Kernel $console, Dispatcher $events, ExtensionRepositoryInterface $extensions)
+    public function handle(Kernel $console, ExtensionRepositoryInterface $extensions)
     {
         $this->extension->fire('uninstalling', ['extension' => $this->extension]);
 
@@ -57,7 +55,7 @@ class UninstallExtension
 
         $this->extension->fire('uninstalled', ['extension' => $this->extension]);
 
-        $events->dispatch(new ExtensionWasUninstalled($this->extension));
+        event(new ExtensionWasUninstalled($this->extension));
 
         return true;
     }

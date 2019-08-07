@@ -2,11 +2,9 @@
 
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Anomaly\Streams\Platform\View\Event\TemplateDataIsLoading;
-use Anomaly\Streams\Platform\View\Event\ViewComposed;
 use Anomaly\Streams\Platform\View\Twig\Bridge;
 use Anomaly\Streams\Platform\View\ViewIncludes;
 use Anomaly\Streams\Platform\View\ViewTemplate;
-use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class LoadTemplateData
@@ -26,13 +24,6 @@ class LoadTemplateData
     protected $twig;
 
     /**
-     * The event dispatcher.
-     *
-     * @var Dispatcher
-     */
-    protected $events;
-
-    /**
      * The view template.
      *
      * @var ViewTemplate
@@ -49,13 +40,11 @@ class LoadTemplateData
      *
      * @param ViewTemplate $template
      * @param ViewIncludes $includes
-     * @param Dispatcher $events
      * @param Bridge $twig
      */
-    public function __construct(ViewTemplate $template, ViewIncludes $includes, Dispatcher $events, Bridge $twig)
+    public function __construct(ViewTemplate $template, ViewIncludes $includes, Bridge $twig)
     {
         $this->twig     = $twig;
-        $this->events   = $events;
         $this->template = $template;
         $this->includes = $includes;
     }

@@ -6,7 +6,6 @@ use Anomaly\Streams\Platform\Addon\Theme\Theme;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\View\Event\ViewComposed;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Mobile_Detect;
@@ -34,13 +33,6 @@ class ViewComposer
      * @var Mobile_Detect
      */
     protected $agent;
-
-    /**
-     * The event dispatcher.
-     *
-     * @var Dispatcher
-     */
-    protected $events;
 
     /**
      * The current theme.
@@ -95,7 +87,6 @@ class ViewComposer
      * Create a new ViewComposer instance.
      *
      * @param Mobile_Detect $agent
-     * @param Dispatcher $events
      * @param AddonCollection $addons
      * @param ViewOverrides $overrides
      * @param Request $request
@@ -104,7 +95,6 @@ class ViewComposer
      */
     public function __construct(
         Mobile_Detect $agent,
-        Dispatcher $events,
         AddonCollection $addons,
         ViewOverrides $overrides,
         Request $request,
@@ -112,7 +102,6 @@ class ViewComposer
         Application $application
     ) {
         $this->agent       = $agent;
-        $this->events      = $events;
         $this->addons      = $addons;
         $this->mobiles     = $mobiles;
         $this->request     = $request;
@@ -154,7 +143,7 @@ class ViewComposer
 
             if (!self::$loaded && self::$loaded = true) {
                 /* @deprecated since 1.6; this is no longer needed for every view. */
-                $this->events->dispatch(new ViewComposed($view));
+                event(new ViewComposed($view));
             }
 
             return $view;
@@ -164,7 +153,7 @@ class ViewComposer
 
         if (!self::$loaded && self::$loaded = true) {
             /* @deprecated since 1.6; this is no longer needed for every view. */
-            $this->events->dispatch(new ViewComposed($view));
+            event(new ViewComposed($view));
         }
 
         return $view;

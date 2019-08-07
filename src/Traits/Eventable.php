@@ -13,6 +13,6 @@ trait Eventable
      */
     public function fire($event)
     {
-        app('events')->fire($event);
+        event($event);
     }
 }

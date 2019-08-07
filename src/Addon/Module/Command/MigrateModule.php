@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasMigrated;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Console\Kernel;
-use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class MigrateModule
@@ -34,7 +33,7 @@ class MigrateModule
      * Create a new InstallModule instance.
      *
      * @param Module $module
-     * @param bool   $seed
+     * @param bool $seed
      */
     public function __construct(Module $module, $seed = false)
     {
@@ -45,12 +44,11 @@ class MigrateModule
     /**
      * Handle the command.
      *
-     * @param  Kernel       $console
+     * @param  Kernel $console
      * @param  AddonManager $manager
-     * @param  Dispatcher   $dispatcher
      * @return bool
      */
-    public function handle(Kernel $console, AddonManager $manager, Dispatcher $dispatcher)
+    public function handle(Kernel $console, AddonManager $manager)
     {
         $this->module->fire('migrating', ['module' => $this->module]);
 
@@ -69,7 +67,7 @@ class MigrateModule
 
         $this->module->fire('migrated', ['module' => $this->module]);
 
-        $dispatcher->dispatch(new ModuleWasMigrated($this->module));
+        event(new ModuleWasMigrated($this->module));
 
         return true;
     }

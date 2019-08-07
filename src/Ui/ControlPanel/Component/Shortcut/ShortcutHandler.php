@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Event\GatherShortcuts;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class ShortcutHandler
@@ -16,13 +15,6 @@ use Illuminate\Contracts\Events\Dispatcher;
  */
 class ShortcutHandler
 {
-
-    /**
-     * The event dispatcher.
-     *
-     * @var Dispatcher
-     */
-    protected $events;
 
     /**
      * The module collection.
@@ -41,13 +33,11 @@ class ShortcutHandler
     /**
      * Create a new ShortcutHandler instance.
      *
-     * @param Dispatcher $events
      * @param ModuleCollection $modules
      * @param Resolver $resolver
      */
-    public function __construct(Dispatcher $events, ModuleCollection $modules, Resolver $resolver)
+    public function __construct(ModuleCollection $modules, Resolver $resolver)
     {
-        $this->events   = $events;
         $this->modules  = $modules;
         $this->resolver = $resolver;
     }
@@ -88,6 +78,6 @@ class ShortcutHandler
             }
         }
 
-        $this->events->dispatch(new GatherShortcuts($builder));
+        event(new GatherShortcuts($builder));
     }
 }

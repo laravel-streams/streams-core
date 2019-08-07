@@ -19,7 +19,7 @@ class ViewIncludes extends Collection
      * @param $include
      * @return $this
      */
-    public function add($slot, $include)
+    public function include($slot, $include)
     {
         if (!$this->has($slot)) {
             $this->put($slot, new Collection());

@@ -27,7 +27,6 @@ use Anomaly\Streams\Platform\Installer\Installer;
 use Anomaly\Streams\Platform\Installer\InstallerCollection;
 use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -60,10 +59,9 @@ class Install extends Command
     /**
      * Execute the console command.
      *
-     * @param Dispatcher   $events
      * @param AddonManager $manager
      */
-    public function handle(Dispatcher $events, AddonManager $manager)
+    public function handle(AddonManager $manager)
     {
         $data = new Collection();
 
@@ -96,7 +94,7 @@ class Install extends Command
         $installers->add(
             new Installer(
                 'streams::installer.reloading_application',
-                function () use ($manager, $events) {
+                function () use ($manager) {
 
                     $this->call('env:set', ['line' => 'INSTALLED=true']);
 

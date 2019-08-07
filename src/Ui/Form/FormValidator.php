@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Ui\Form\Command\RepopulateFields;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetErrorMessages;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasValidated;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\MessageBag;
 use Illuminate\Validation\Validator;
@@ -35,13 +34,6 @@ class FormValidator
     protected $input;
 
     /**
-     * The event dispatcher.
-     *
-     * @var Dispatcher
-     */
-    protected $events;
-
-    /**
      * The extender utility.
      *
      * @var FormExtender
@@ -65,24 +57,21 @@ class FormValidator
     /**
      * Create a new FormValidator instance.
      *
-     * @param FormRules      $rules
-     * @param FormInput      $input
-     * @param Dispatcher     $events
-     * @param FormExtender   $extender
-     * @param FormMessages   $messages
+     * @param FormRules $rules
+     * @param FormInput $input
+     * @param FormExtender $extender
+     * @param FormMessages $messages
      * @param FormAttributes $attributes
      */
     public function __construct(
         FormRules $rules,
         FormInput $input,
-        Dispatcher $events,
         FormExtender $extender,
         FormMessages $messages,
         FormAttributes $attributes
     ) {
         $this->rules      = $rules;
         $this->input      = $input;
-        $this->events     = $events;
         $this->extender   = $extender;
         $this->messages   = $messages;
         $this->attributes = $attributes;
@@ -117,13 +106,14 @@ class FormValidator
         $this->setResponse($validator, $builder);
 
         $builder->fire('validated', ['builder' => $builder]);
-        $this->events->dispatch(new FormWasValidated($builder));
+
+        event(new FormWasValidated($builder));
     }
 
     /**
      * Set the response based on validation.
      *
-     * @param Validator   $validator
+     * @param Validator $validator
      * @param FormBuilder $builder
      */
     protected function setResponse(Validator $validator, FormBuilder $builder)

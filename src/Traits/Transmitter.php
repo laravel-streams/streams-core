@@ -20,6 +20,6 @@ trait Transmitter
      */
     public function transmit(Notification $notification)
     {
-        app('events')->fire(new Transmission($notification));
+        event(new Transmission($notification));
     }
 }

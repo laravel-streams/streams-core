@@ -63,7 +63,7 @@ class EloquentTreeRepository implements TreeRepositoryInterface
          * to modify the query before proceeding.
          */
         $builder->fire('querying', compact('builder', 'query'));
-        app('events')->fire(new TreeIsQuerying($builder, $query));
+        event(new TreeIsQuerying($builder, $query));
 
         /*
          * Before we actually adjust the baseline query

@@ -29,13 +29,6 @@ class AddonIntegrator
     protected $views;
 
     /**
-     * The event dispatcher.
-     *
-     * @var Dispatcher
-     */
-    protected $events;
-
-    /**
      * The addon provider.
      *
      * @var AddonProvider
@@ -74,7 +67,6 @@ class AddonIntegrator
      * Create a new AddonIntegrator instance.
      *
      * @param Factory $views
-     * @param Dispatcher $events
      * @param Container $container
      * @param AddonProvider $provider
      * @param Application $application
@@ -85,7 +77,6 @@ class AddonIntegrator
      */
     public function __construct(
         Factory $views,
-        Dispatcher $events,
         Container $container,
         AddonProvider $provider,
         Application $application,
@@ -93,7 +84,6 @@ class AddonIntegrator
         AddonCollection $collection
     ) {
         $this->views        = $views;
-        $this->events       = $events;
         $this->provider     = $provider;
         $this->container    = $container;
         $this->collection   = $collection;
@@ -190,7 +180,7 @@ class AddonIntegrator
          * load it into Twig when appropriate.
          */
         if ($addon->getType() === 'plugin') {
-            $this->events->listen(
+            app(Dispatcher::class)->listen(
                 'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
                 function (RegisteringTwigPlugins $event) use ($addon) {
 
@@ -207,7 +197,7 @@ class AddonIntegrator
 
         $this->collection->put($addon->getNamespace(), $addon);
 
-        $this->events->dispatch(new AddonWasRegistered($addon));
+        event(new AddonWasRegistered($addon));
 
         return $addon;
     }

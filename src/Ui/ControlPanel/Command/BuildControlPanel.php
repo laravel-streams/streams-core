@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Event\ControlPanelIsBuilding;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Event\ControlPanelWasBuilt;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class BuildControlPanel
@@ -23,6 +22,7 @@ use Illuminate\Contracts\Events\Dispatcher;
  */
 class BuildControlPanel
 {
+
     use DispatchesJobs;
 
     /**
@@ -45,9 +45,9 @@ class BuildControlPanel
     /**
      * Handle the command.
      */
-    public function handle(Dispatcher $events, Asset $asset)
+    public function handle(Asset $asset)
     {
-        $events->dispatch(new ControlPanelIsBuilding($this->builder));
+        event(new ControlPanelIsBuilding($this->builder));
 
         $asset->add('scripts.js', 'streams::js/cp/click.js');
 
@@ -62,6 +62,6 @@ class BuildControlPanel
 
         $this->dispatchNow(new BuildButtons($this->builder));
 
-        $events->dispatch(new ControlPanelWasBuilt($this->builder));
+        event(new ControlPanelWasBuilt($this->builder));
     }
 }

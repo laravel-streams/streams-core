@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Event\GatherNavigation;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class NavigationHandler
@@ -20,10 +19,9 @@ class NavigationHandler
      * Handle the navigation.
      *
      * @param ControlPanelBuilder $builder
-     * @param ModuleCollection    $modules
-     * @param Dispatcher          $events
+     * @param ModuleCollection $modules
      */
-    public function handle(ControlPanelBuilder $builder, ModuleCollection $modules, Dispatcher $events)
+    public function handle(ControlPanelBuilder $builder, ModuleCollection $modules)
     {
         $navigation = [];
 
@@ -49,6 +47,6 @@ class NavigationHandler
             )
         );
 
-        $events->dispatch(new GatherNavigation($builder));
+        event(new GatherNavigation($builder));
     }
 }

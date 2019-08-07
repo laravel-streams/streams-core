@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasSaved;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class SaveForm
@@ -33,10 +32,8 @@ class SaveForm
 
     /**
      * Handle the command.
-     *
-     * @param Dispatcher $events
      */
-    public function handle(Dispatcher $events)
+    public function handle()
     {
         // We can't save if there is no repository.
         if (!$repository = $this->builder->getRepository()) {
@@ -51,6 +48,6 @@ class SaveForm
         $this->builder->fire('saved', ['builder' => $this->builder]);
         $this->builder->fireFieldEvents('form_saved');
 
-        $events->dispatch(new FormWasSaved($this->builder));
+        event(new FormWasSaved($this->builder));
     }
 }

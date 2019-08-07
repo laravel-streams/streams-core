@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
 use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class AddonManager
@@ -59,13 +58,6 @@ class AddonManager
     protected $modules;
 
     /**
-     * The event dispatcher.
-     *
-     * @var Dispatcher
-     */
-    protected $dispatcher;
-
-    /**
      * The extensions model.
      *
      * @var ExtensionModel
@@ -79,7 +71,6 @@ class AddonManager
      * @param AddonLoader $loader
      * @param ModuleModel $modules
      * @param Container $container
-     * @param Dispatcher $dispatcher
      * @param ExtensionModel $extensions
      * @param AddonIntegrator $integrator
      * @param AddonCollection $addons
@@ -89,7 +80,6 @@ class AddonManager
         AddonLoader $loader,
         ModuleModel $modules,
         Container $container,
-        Dispatcher $dispatcher,
         ExtensionModel $extensions,
         AddonIntegrator $integrator,
         AddonCollection $addons
@@ -100,7 +90,6 @@ class AddonManager
         $this->modules    = $modules;
         $this->container  = $container;
         $this->integrator = $integrator;
-        $this->dispatcher = $dispatcher;
         $this->extensions = $extensions;
         $this->loader     = $loader;
     }
@@ -203,7 +192,7 @@ class AddonManager
         $this->addons->registered();
         $this->integrator->finish();
 
-        $this->dispatcher->fire(new AddonsHaveRegistered($this->addons));
+        event(new AddonsHaveRegistered($this->addons));
     }
 
     /**
