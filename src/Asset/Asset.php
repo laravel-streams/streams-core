@@ -3,9 +3,6 @@
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Support\Template;
-use Assetic\Asset\AssetCollection;
-use Assetic\Asset\FileAsset;
-use Assetic\Asset\GlobAsset;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Filesystem\Filesystem;
 use League\Flysystem\MountManager;
@@ -518,11 +515,7 @@ class Asset
         $path = $this->paths->outputPath($collection);
 
         if ($this->shouldPublish($path, $collection, $filters)) {
-            if (!env('ASSETIC_ENABLED', true)) {
-                $this->publishWithoutAssetic($path, $collection, $filters);
-            } else {
-                $this->publish($path, $collection, $filters);
-            }
+            $this->publish($path, $collection, $filters);
         }
 
         if (
@@ -543,77 +536,6 @@ class Asset
      * @param $additionalFilters
      */
     protected function publish($path, $collection, $additionalFilters)
-    {
-        $path = ltrim($path, '/\\');
-
-        if (str_contains($collection, public_path())) {
-            return;
-        }
-
-        $hint    = $this->paths->hint($collection);
-        $filters = $this->collectionFilters($collection, $additionalFilters);
-        $assets  = $this->getAssetCollection($collection, $additionalFilters);
-
-        $path = $this->directory . DIRECTORY_SEPARATOR . $path;
-
-        $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
-
-        /**
-         * Process the contents with Assetic.
-         */
-        $contents = $assets->dump();
-
-        /**
-         * Parse the content. Always parse CSS.
-         */
-        if (in_array('parse', $filters) || $hint == 'css') {
-            try {
-                $contents = $this->template
-                    ->render($contents)
-                    ->render();
-            } catch (\Exception $e) {
-
-                if (config('app.debug')) {
-                    dd($e->getMessage());
-                }
-
-                \Log::error($e->getMessage());
-            }
-        }
-
-        /**
-         * Minify CSS separately because of the
-         * issue with filter ordering in Assetic.
-         */
-        if (in_array('min', $filters) && $hint == 'css') {
-            $contents = \CssMin::minify($contents);
-        }
-
-        /**
-         * Minify JS separately because of the
-         * issue with filter ordering in Assetic.
-         */
-        if (in_array('min', $filters) && $hint == 'js') {
-            $contents = preg_replace("/\;{2,}$/", ';', \JSMin::minify($contents));
-        }
-
-        /**
-         * Save the processed content.
-         */
-        $this->files->put(
-            $path,
-            $contents
-        );
-    }
-
-    /**
-     * Publish the collection of assets to the path.
-     *
-     * @param $path
-     * @param $collection
-     * @param $additionalFilters
-     */
-    protected function publishWithoutAssetic($path, $collection, $additionalFilters)
     {
         $path = ltrim($path, '/\\');
 
@@ -647,10 +569,6 @@ class Asset
             }
         }
 
-        /**
-         * Minify CSS separately because of the
-         * issue with filter ordering in Assetic.
-         */
         if (in_array('min', $filters) && $hint == 'css') {
 
             $compressor = new Minifier;
@@ -662,10 +580,6 @@ class Asset
             $contents = $compressor->run($contents);
         }
 
-        /**
-         * Minify JS separately because of the
-         * issue with filter ordering in Assetic.
-         */
         if (in_array('min', $filters) && $hint == 'js') {
             $contents = \JSMin::minify($contents);
         }
