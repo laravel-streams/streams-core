@@ -687,15 +687,15 @@ class Asset
             $filters = array_filter(array_unique(array_merge($filters, $fileFilters)));
         }
 
-        $assets = $this->getAssetCollection($collection);
-
         /**
          * If any of the files are more recent
          * than the cache file then publish.
+         *
+         * @todo See about fixing this so that it still tracks.. Maybe force @watch?
          */
-        if ($assets->getLastModified() > filemtime($path)) {
-            return true;
-        }
+//        if ($this->lastModifiedAt($collection) > filemtime($path)) {
+//            return true;
+//        }
 
         return false;
     }
@@ -744,44 +744,6 @@ class Asset
         $this->directory = $directory;
 
         return $this;
-    }
-
-    /**
-     * Create asset collection from collection array
-     *
-     * @param                  $collection
-     * @param  array $additionalFilters
-     * @return AssetCollection
-     */
-    protected function getAssetCollection($collection, $additionalFilters = [])
-    {
-        $assets = new AssetCollection();
-
-        foreach ($this->collections[$collection] as $file => $filters) {
-
-            $filters = array_filter(array_merge($filters, $additionalFilters));
-
-            $filters = $this->filters->transform($filters);
-
-            $asset = FileAsset::class;
-
-            if (in_array('glob', $filters)) {
-                $asset = GlobAsset::class;
-            }
-
-            $file = new $asset(
-                $file, array_filter(
-                    $filters,
-                    function ($value) {
-                        return !is_string($value);
-                    }
-                )
-            );
-
-            $assets->add($file);
-        }
-
-        return $assets;
     }
 
     /**
