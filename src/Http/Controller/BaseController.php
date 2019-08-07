@@ -10,6 +10,7 @@ use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
 use Anomaly\Streams\Platform\Http\Middleware\PoweredBy;
 use Anomaly\Streams\Platform\Http\Middleware\PrefixDomain;
 use Anomaly\Streams\Platform\Http\Middleware\SetLocale;
+use Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
@@ -136,6 +137,8 @@ class BaseController extends Controller
         event(new Response($this));
 
         $this->middleware(PoweredBy::class);
+
+        $this->middleware(VerifyCsrfToken::class);
 
         $this->middleware(ForceSsl::class);
         $this->middleware(PrefixDomain::class);

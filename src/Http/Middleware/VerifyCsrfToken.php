@@ -52,7 +52,7 @@ class VerifyCsrfToken extends \Illuminate\Foundation\Http\Middleware\VerifyCsrfT
         Encrypter $encrypter,
         MessageBag $messages,
         Redirector $redirector
-    ) {dd('Test');
+    ) {
         parent::__construct($app, $encrypter);
 
         $this->except = config('streams::security.csrf.except', []);
