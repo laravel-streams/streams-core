@@ -42,7 +42,7 @@ class LoadExtensionSeeders
     {
         /* @var Extension $extension */
         foreach ($extensions as $extension) {
-            $this->installers->add(
+            $this->installers->push(
                 new Installer(
                     trans('streams::installer.seeding', ['seeding' => trans($extension->getName())]),
                     function (Kernel $console) use ($extension) {

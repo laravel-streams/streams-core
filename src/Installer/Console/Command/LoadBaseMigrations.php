@@ -36,7 +36,7 @@ class LoadBaseMigrations
      */
     public function handle()
     {
-        $this->installers->add(
+        $this->installers->push(
             new Installer(
                 'streams::installer.running_migrations',
                 function (Kernel $console) {

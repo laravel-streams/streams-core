@@ -12,13 +12,4 @@ use Anomaly\Streams\Platform\Support\Collection;
 class InstallerCollection extends Collection
 {
 
-    /**
-     * Add an installer ot the collection.
-     *
-     * @param Installer $installer
-     */
-    public function add(Installer $installer)
-    {
-        $this->push($installer);
-    }
 }

@@ -46,7 +46,7 @@ class LoadModuleSeeders
                 continue;
             }
 
-            $this->installers->add(
+            $this->installers->push(
                 new Installer(
                     trans('streams::installer.seeding', ['seeding' => trans($module->getName())]),
                     function (Kernel $console) use ($module) {
