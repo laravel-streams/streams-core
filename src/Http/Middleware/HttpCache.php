@@ -107,6 +107,14 @@ class HttpCache
          * Don't cache if HTTP cache
          * is disabled in the route.
          */
+        if ($route->getAction('httpcache') === false) {
+            return $response->setTtl(0);
+        }
+
+        /**
+         * Same thing.. no need for prefixing.
+         * @deprecated in 1.6 removing in 1.7
+         */
         if ($route->getAction('streams::httpcache') === false) {
             return $response->setTtl(0);
         }
