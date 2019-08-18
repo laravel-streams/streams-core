@@ -36,6 +36,10 @@ class PopulateFields
      */
     public function handle(Request $request)
     {
+        if (!$request->old()) {
+            return;
+        }
+
         /* @var FieldType $field */
         foreach ($request->old() as $key => $value) {
             if ($field = $this->builder->getFormField($key)) {

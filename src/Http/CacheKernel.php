@@ -27,9 +27,11 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
         '/streams/*-extension/*',
         '/streams/*-module/*',
         '/entry/handle/*',
-        'form/handle/*',
+        '/form/handle/*',
         '/locks/touch',
         '/locks/release',
+        '/logout*',
+        '/login*',
     ];
 
     /**
@@ -81,6 +83,14 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
          * Disable for Control Panel
          */
         if (str_is(self::$excluded, $_SERVER['REQUEST_URI']) || in_array($_SERVER['HTTP_HOST'], $domains)) {
+            return $kernel;
+        }
+
+        /**
+         * Disable if they are or have been
+         * accessing the control panel as well.
+         */
+        if (isset($_COOKIE['session_proxy'])) {
             return $kernel;
         }
 
