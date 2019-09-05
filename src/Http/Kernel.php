@@ -22,10 +22,11 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      * @var array
      */
     protected $middleware = [
-        \Illuminate\Cookie\Middleware\EncryptCookies::class,
-        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \Illuminate\Cookie\Middleware\EncryptCookies::class,
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \Anomaly\Streams\Platform\Http\Middleware\ProxySession::class,
         /**
          * This needs work yet. Currently the CacheRequests
          * cause circular issues OR drop sessions if not

@@ -44,7 +44,7 @@ class LoadExtensionInstallers
     {
         /* @var Extension $extension */
         foreach ($extensions as $extension) {
-            $this->installers->add(
+            $this->installers->push(
                 new Installer(
                     trans('streams::installer.installing', ['installing' => trans($extension->getName())]),
                     function (Kernel $console) use ($extension, $application) {

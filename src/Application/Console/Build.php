@@ -37,6 +37,7 @@ class Build extends Command
     public function handle(Kernel $console)
     {
         $console->call('streams:compile', [], $this->getOutput());
+        $console->call('streams:index', ['--flush' => true], $this->getOutput());
 
         event(new SystemIsBuilding($this));
     }

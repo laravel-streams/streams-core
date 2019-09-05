@@ -48,7 +48,7 @@ class LoadModuleInstallers
                 continue;
             }
 
-            $this->installers->add(
+            $this->installers->push(
                 new Installer(
                     trans('streams::installer.installing', ['installing' => trans($module->getName())]),
                     function (Kernel $console) use ($module, $application) {

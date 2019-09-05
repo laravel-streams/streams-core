@@ -91,7 +91,7 @@ class Install extends Command
         $this->dispatchNow(new LoadModuleInstallers($installers));
         $this->dispatchNow(new LoadExtensionInstallers($installers));
 
-        $installers->add(
+        $installers->push(
             new Installer(
                 'streams::installer.reloading_application',
                 function () use ($manager) {

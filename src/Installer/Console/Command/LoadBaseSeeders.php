@@ -36,7 +36,7 @@ class LoadBaseSeeders
      */
     public function handle()
     {
-        $this->installers->add(
+        $this->installers->push(
             new Installer(
                 'streams::installer.running_seeds',
                 function (Kernel $console) {
