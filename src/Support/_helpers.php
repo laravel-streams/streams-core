@@ -219,3 +219,16 @@ if (!function_exists('template')) {
         return $template->set(key($arguments[0]), reset($arguments[0]));
     }
 }
+
+if (!function_exists('console')) {
+
+    /**
+     * Return the console instance.
+     *
+     * @return \Anomaly\Streams\Platform\Console\Kernel
+     */
+    function console()
+    {
+        return app(\Anomaly\Streams\Platform\Console\Kernel::class);
+    }
+}
