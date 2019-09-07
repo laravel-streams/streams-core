@@ -5,6 +5,13 @@ use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Model\EloquentRepository;
 
+/**
+ * Class FieldRepository
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class FieldRepository extends EloquentRepository implements FieldRepositoryInterface
 {
 
@@ -74,6 +81,7 @@ class FieldRepository extends EloquentRepository implements FieldRepositoryInter
         )->all();
 
         $fields = $this->model
+            ->select('streams_fields.*')
             ->leftJoin('streams_streams', 'streams_fields.namespace', '=', 'streams_streams.namespace')
             ->whereNull('streams_streams.id')
             ->get();
@@ -97,6 +105,7 @@ class FieldRepository extends EloquentRepository implements FieldRepositoryInter
         $translations = $this->model->getTranslationModel();
 
         $translations = $translations
+            ->select('streams_fields_translations.*')
             ->leftJoin(
                 'streams_fields',
                 'streams_fields_translations.field_id',
