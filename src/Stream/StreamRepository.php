@@ -158,7 +158,6 @@ class StreamRepository extends EloquentRepository implements StreamRepositoryInt
         $translations = $this->model->getTranslationModel();
 
         $translations = $translations
-            ->select('streams_streams_translations.*')
             ->leftJoin(
                 'streams_streams',
                 'streams_streams_translations.stream_id',
