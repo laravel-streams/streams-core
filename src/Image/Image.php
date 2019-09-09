@@ -487,7 +487,13 @@ class Image
      */
     public function base64()
     {
-        return 'data:image/' . $this->getExtension() . ';base64,' . base64_encode($this->data());
+        $extension = $this->getExtension();
+
+        if ($extension == 'svg') {
+            $extension = 'svg+xml';
+        }
+
+        return 'data:image/' . $extension . ';base64,' . base64_encode($this->data());
     }
 
     /**
