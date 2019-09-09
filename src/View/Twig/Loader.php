@@ -211,11 +211,7 @@ class Loader extends OriginalLoader
             $this->overrides->all(),
             config('streams.overrides', [])
         );
-
-        if (str_contains($name, 'partials/footer')) {
-            dd($name);
-        }
-
+        
         /**
          * Normalize the theme:: shortcut prefix.
          */
