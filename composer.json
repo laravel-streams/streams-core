@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "laravel/framework": "5.8.*",
+        "laravel/framework": "6.0.*",
         "laravel/scout": "7.1.*",
         "intervention/image": "2.5.*",
         "laravelcollective/html": "5.8.*",
