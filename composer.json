@@ -9,6 +9,7 @@
     ],
     "require": {
         "laravel/framework": "6.0.*",
+        "doctrine/dbal": "^2.6",
         "laravel/scout": "7.1.*",
         "intervention/image": "2.5.*",
         "laravelcollective/html": "5.8.*",
