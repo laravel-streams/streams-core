@@ -35,7 +35,7 @@ class FormExtender
     /**
      * Extend the validation factory.
      *
-     * @param Factory     $factory
+     * @param Factory $factory
      * @param FormBuilder $builder
      */
     public function extend(Factory $factory, FormBuilder $builder)
@@ -48,14 +48,13 @@ class FormExtender
     /**
      * Register field's custom validators.
      *
-     * @param Factory     $factory
+     * @param Factory $factory
      * @param FormBuilder $builder
-     * @param FieldType   $fieldType
+     * @param FieldType $fieldType
      */
     protected function registerValidators(Factory $factory, FormBuilder $builder, FieldType $fieldType)
     {
         foreach ($fieldType->getValidators() as $rule => $validator) {
-
             $handler = array_get($validator, 'handler');
 
             if (is_string($handler) && !str_contains($handler, '@')) {
@@ -64,7 +63,10 @@ class FormExtender
 
             $factory->extend(
                 $rule,
-                function ($attribute, $value, $parameters, Validator $validator) use ($handler, $builder, $fieldType) {
+                function ($attribute, $value, $parameters, Validator $validator) use ($handler, $builder) {
+
+                    $fieldType = $builder->getFormField($attribute);
+
                     return $this->container->call(
                         $handler,
                         compact('attribute', 'value', 'parameters', 'builder', 'validator', 'fieldType')
