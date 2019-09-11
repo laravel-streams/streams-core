@@ -1,11 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Application\Console;
 
-use Anomaly\Streams\Platform\Application\Command\ReadEnvironmentFile;
-use Anomaly\Streams\Platform\Application\Command\WriteEnvironmentFile;
 use Anomaly\Streams\Platform\Application\Event\SystemIsBuilding;
 use Anomaly\Streams\Platform\Console\Kernel;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Class Build
@@ -36,8 +33,13 @@ class Build extends Command
      */
     public function handle(Kernel $console)
     {
-        $console->call('streams:compile', [], $this->getOutput());
-        $console->call('streams:index', ['--flush' => true], $this->getOutput());
+        $this->info('Compiling entry models.');
+
+        $console->call('streams:compile');
+
+        $this->info('Building search index.');
+
+        $console->call('streams:index', ['--flush' => true]);
 
         event(new SystemIsBuilding($this));
     }

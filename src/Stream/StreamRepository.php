@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentRepository;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -138,6 +139,8 @@ class StreamRepository extends EloquentRepository implements StreamRepositoryInt
         foreach ($this->findAllByNamespace($namespace) as $stream) {
             $this->delete($stream);
         }
+
+        $this->cleanup();
     }
 
     /**
