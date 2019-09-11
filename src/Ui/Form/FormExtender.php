@@ -63,9 +63,9 @@ class FormExtender
 
             $factory->extend(
                 $rule,
-                function ($attribute, $value, $parameters, Validator $validator) use ($handler, $builder) {
+                function ($attribute, $value, $parameters, Validator $validator) use ($handler, $builder, $fieldType) {
 
-                    $fieldType = $builder->getFormField($attribute);
+                    $fieldType = $builder->getFormField($attribute) ?: $fieldType;
 
                     return $this->container->call(
                         $handler,
