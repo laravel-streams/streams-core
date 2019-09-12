@@ -4,16 +4,13 @@ use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Addon\Theme\Command\LoadCurrentTheme;
 use Anomaly\Streams\Platform\Application\Command\ConfigureFileCacheStore;
 use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
-use Anomaly\Streams\Platform\Application\Command\ConfigureUriValidator;
 use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
 use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
 use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
 use Anomaly\Streams\Platform\Application\Command\SetApplicationDomain;
 use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
-use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
-use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Entry\EntryObserver;
 use Anomaly\Streams\Platform\Event\Booted;
@@ -21,24 +18,15 @@ use Anomaly\Streams\Platform\Event\Booting;
 use Anomaly\Streams\Platform\Event\Ready;
 use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Field\FieldObserver;
-use Anomaly\Streams\Platform\Http\Command\ConfigureRequest;
-use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
 use Anomaly\Streams\Platform\Routing\Command\IncludeRoutes;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
-use Anomaly\Streams\Platform\Search\Command\ConfigureScout;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Stream\StreamObserver;
-use Anomaly\Streams\Platform\View\Cache\CacheAdapter;
-use Anomaly\Streams\Platform\View\Cache\CacheKey;
-use Anomaly\Streams\Platform\View\Cache\CacheStrategy;
 use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
-use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Anomaly\Streams\Platform\View\ViewServiceProvider;
-use Asm89\Twig\CacheExtension\Extension;
 use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Pagination\Paginator;
@@ -191,13 +179,13 @@ class StreamsServiceProvider extends ServiceProvider
     /**
      * Boot the service provider.
      */
-    public function boot(Dispatcher $events)
+    public function boot()
     {
-        $events->dispatch(new Booting());
+        event(new Booting());
 
         // Next take care of core utilities.
         $this->dispatchNow(new SetCoreConnection());
-        $this->dispatchNow(new ConfigureUriValidator());
+        //$this->dispatchNow(new ConfigureUriValidator());
         $this->dispatchNow(new InitializeApplication()); // 24
 
         // Load application specific .env file.
@@ -207,11 +195,11 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatchNow(new LoadStreamsConfiguration());
         $this->dispatchNow(new ConfigureFileCacheStore());
         $this->dispatchNow(new ConfigureTranslator());
-        $this->dispatchNow(new AutoloadEntryModels());
-        $this->dispatchNow(new AddAssetNamespaces());
-        $this->dispatchNow(new AddImageNamespaces());
-        $this->dispatchNow(new ConfigureRequest());
-        $this->dispatchNow(new ConfigureScout());
+        //$this->dispatchNow(new AutoloadEntryModels());
+        //$this->dispatchNow(new AddAssetNamespaces());
+        //$this->dispatchNow(new AddImageNamespaces());
+        //$this->dispatchNow(new ConfigureRequest());
+        //$this->dispatchNow(new ConfigureScout());
 
         // Observe our base models.
         EntryModel::observe(EntryObserver::class);
@@ -225,52 +213,31 @@ class StreamsServiceProvider extends ServiceProvider
          * and artisan command registering.
          */
         $this->app->booted(
-            function () use ($events) {
+            function () {
 
-                $events->dispatch(new Booted());
+                event(new Booted());
 
                 /* @var Schedule $schedule */
-                $schedule = $this->app->make(Schedule::class);
+                $schedule = app(Schedule::class);
 
-                foreach (array_merge($this->schedule, config('streams.schedules', [])) as $frequency => $commands) {
-                    foreach (array_filter($commands) as $command) {
-
-                        if (str_contains($frequency, ' ')) {
-                            $schedule->command($command)->cron($frequency);
-                        }
-
-                        if (!str_contains($frequency, ' ')) {
-                            $schedule->command($command)->{camel_case($frequency)}();
-                        }
-                    }
-                }
+                /**
+                 * @todo move this kinda logic to the app service providers
+                 */
+//                foreach (array_merge($this->schedule, config('streams.schedules', [])) as $frequency => $commands) {
+//                    foreach (array_filter($commands) as $command) {
+//
+//                        if (str_contains($frequency, ' ')) {
+//                            $schedule->command($command)->cron($frequency);
+//                        }
+//
+//                        if (!str_contains($frequency, ' ')) {
+//                            $schedule->command($command)->{camel_case($frequency)}();
+//                        }
+//                    }
+//                }
 
                 /* @var AddonManager $manager */
-                $manager = $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager');
-
-                /* @var Dispatcher $events */
-                $events = $this->app->make('Illuminate\Contracts\Events\Dispatcher');
-
-                $events->listen(
-                    'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
-                    function (RegisteringTwigPlugins $event) {
-                        $twig = $event->getTwig();
-
-                        foreach ($this->plugins as $plugin) {
-                            if (!$twig->hasExtension($plugin)) {
-                                $twig->addExtension($this->app->make($plugin));
-                            }
-                        }
-
-                        $twig->addExtension(
-                            new Extension(
-                                new CacheStrategy(
-                                    new CacheAdapter($this->app->make(Repository::class)), new CacheKey()
-                                )
-                            )
-                        );
-                    }
-                );
+                $manager = app(AddonManager::class);
 
                 $manager->register();
 
@@ -293,7 +260,7 @@ class StreamsServiceProvider extends ServiceProvider
                  */
                 $this->dispatchNow(new IncludeRoutes());
 
-                $events->dispatch(new Ready());
+                event(new Ready());
             }
         );
     }
@@ -329,7 +296,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register(\Intervention\Image\ImageServiceProvider::class);
 
         // Register listeners.
-        $events = $this->app->make(Dispatcher::class);
+        $events = app(Dispatcher::class);
 
         foreach (config('streams.listeners', []) as $event => $listeners) {
 
@@ -377,15 +344,15 @@ class StreamsServiceProvider extends ServiceProvider
          */
         $this->app->instance(
             'streams.path',
-            $this->app->make('path.base') . '/vendor/anomaly/streams-platform'
+            app('path.base') . '/vendor/anomaly/streams-platform'
         );
 
         /*
          * If we don't have an .env file we need to head
          * to the installer (unless that's where we're at).
          */
-        if (!env('INSTALLED') && $this->app->make('request')->segment(1) !== 'installer') {
-            $this->app->make('router')->any(
+        if (!env('INSTALLED') && app('request')->segment(1) !== 'installer') {
+            app('router')->any(
                 '{url?}',
                 function (Redirector $redirector) {
                     return $redirector->to('installer');
@@ -417,14 +384,14 @@ class StreamsServiceProvider extends ServiceProvider
          */
         Paginator::currentPathResolver(
             function () {
-                return $this->app->make(UrlGenerator::class)->current();
+                return app(UrlGenerator::class)->current();
             }
         );
 
         /*
          * Register system routes.
          */
-        $this->app->make('router')->post(
+        app('router')->post(
             'form/handle/{key}',
             [
                 'ttl'  => 0,
@@ -432,7 +399,7 @@ class StreamsServiceProvider extends ServiceProvider
             ]
         );
 
-        $this->app->make('router')->get(
+        app('router')->get(
             'entry/handle/restore/{addon}/{namespace}/{stream}/{id}',
             [
                 'ttl'  => 0,
@@ -440,7 +407,7 @@ class StreamsServiceProvider extends ServiceProvider
             ]
         );
 
-        $this->app->make('router')->get(
+        app('router')->get(
             'entry/handle/export/{addon}/{namespace}/{stream}',
             [
                 'ttl'  => 0,
@@ -448,7 +415,7 @@ class StreamsServiceProvider extends ServiceProvider
             ]
         );
 
-        $this->app->make('router')->get(
+        app('router')->get(
             'locks/touch',
             [
                 'ttl'  => 0,
@@ -456,7 +423,7 @@ class StreamsServiceProvider extends ServiceProvider
             ]
         );
 
-        $this->app->make('router')->get(
+        app('router')->get(
             'locks/release',
             [
                 'ttl'  => 0,
