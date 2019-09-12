@@ -24,8 +24,6 @@ use Anomaly\Streams\Platform\Routing\Command\IncludeRoutes;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Stream\StreamObserver;
-use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
-use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Pagination\Paginator;
@@ -216,8 +214,8 @@ class StreamsServiceProvider extends ServiceProvider
 
                 event(new Booted());
 
-                /* @var Schedule $schedule */
-                $schedule = app(Schedule::class);
+//                /* @var Schedule $schedule */
+//                $schedule = app(Schedule::class);
 
                 /**
                  * @todo move this kinda logic to the app service providers
@@ -240,24 +238,13 @@ class StreamsServiceProvider extends ServiceProvider
 
                 $manager->register();
 
-                // Set the timezone for PHP.
-                date_default_timezone_set(config('app.timezone'));
-
                 /*
                  * Do this after addons are registered
                  * so that they can override named routes.
                  */
-                $this->dispatchNow(new IncludeRoutes());
-
                 $this->dispatchNow(new LoadCurrentTheme());
-                $this->dispatchNow(new AddViewNamespaces());
+                //$this->dispatchNow(new AddViewNamespaces());
                 $this->dispatchNow(new SetApplicationDomain());
-
-                /*
-                 * Do this after addons are registered
-                 * so that they can override named routes.
-                 */
-                $this->dispatchNow(new IncludeRoutes());
 
                 event(new Ready());
             }
@@ -289,13 +276,10 @@ class StreamsServiceProvider extends ServiceProvider
         /*
          * Register all third party packages first.
          */
-        $this->app->register(\Laravel\Scout\ScoutServiceProvider::class);
-        $this->app->register(\Barryvdh\HttpCache\ServiceProvider::class);
-        $this->app->register(\Collective\Html\HtmlServiceProvider::class);
-        $this->app->register(\Intervention\Image\ImageServiceProvider::class);
-
-        // Register listeners.
-        $events = app(Dispatcher::class);
+        app()->register(\Laravel\Scout\ScoutServiceProvider::class);
+        app()->register(\Barryvdh\HttpCache\ServiceProvider::class);
+        app()->register(\Collective\Html\HtmlServiceProvider::class);
+        app()->register(\Intervention\Image\ImageServiceProvider::class);
 
         foreach (config('streams.listeners', []) as $event => $listeners) {
 
@@ -307,7 +291,7 @@ class StreamsServiceProvider extends ServiceProvider
                     $priority = 0;
                 }
 
-                $events->listen($event, $listener, $priority);
+                app('events')->listen($event, $listener, $priority);
             }
         }
 
