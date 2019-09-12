@@ -40,5 +40,10 @@
     "config": {
         "bin-dir": "bin"
     },
+    "extra": {
+        "branch-alias": {
+            "2.0.x-dev": "2.0.0"
+        }
+    },
     "license": "MIT"
 }
