@@ -296,14 +296,6 @@ class StreamsServiceProvider extends ServiceProvider
                 $events->dispatch(new Ready());
             }
         );
-
-        /**
-         * Fire this last cause it causes some
-         * issues with configuration and sessions.
-         */
-        if (config('app.debug') && config('debugbar.enabled')) {
-            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
-        }
     }
 
     /**
