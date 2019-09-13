@@ -9,8 +9,10 @@ use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
 use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
 use Anomaly\Streams\Platform\Application\Command\SetApplicationDomain;
 use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
+use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
+use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Entry\EntryObserver;
 use Anomaly\Streams\Platform\Event\Booted;
@@ -18,13 +20,15 @@ use Anomaly\Streams\Platform\Event\Booting;
 use Anomaly\Streams\Platform\Event\Ready;
 use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Field\FieldObserver;
+use Anomaly\Streams\Platform\Http\Command\ConfigureRequest;
+use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
-use Anomaly\Streams\Platform\Routing\Command\IncludeRoutes;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
+use Anomaly\Streams\Platform\Search\Command\ConfigureScout;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Stream\StreamObserver;
-use Illuminate\Contracts\Events\Dispatcher;
+use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Redirector;
@@ -55,7 +59,6 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     protected $providers = [
-        //ViewServiceProvider::class,
         StreamsEventProvider::class,
         StreamsConsoleProvider::class,
     ];
@@ -192,11 +195,11 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatchNow(new LoadStreamsConfiguration());
         $this->dispatchNow(new ConfigureFileCacheStore());
         $this->dispatchNow(new ConfigureTranslator());
-        //$this->dispatchNow(new AutoloadEntryModels());
-        //$this->dispatchNow(new AddAssetNamespaces());
-        //$this->dispatchNow(new AddImageNamespaces());
-        //$this->dispatchNow(new ConfigureRequest());
-        //$this->dispatchNow(new ConfigureScout());
+        $this->dispatchNow(new AutoloadEntryModels());
+        $this->dispatchNow(new AddAssetNamespaces());
+        $this->dispatchNow(new AddImageNamespaces());
+        $this->dispatchNow(new ConfigureRequest());
+        $this->dispatchNow(new ConfigureScout());
 
         // Observe our base models.
         EntryModel::observe(EntryObserver::class);
@@ -243,7 +246,7 @@ class StreamsServiceProvider extends ServiceProvider
                  * so that they can override named routes.
                  */
                 $this->dispatchNow(new LoadCurrentTheme());
-                //$this->dispatchNow(new AddViewNamespaces());
+                $this->dispatchNow(new AddViewNamespaces());
                 $this->dispatchNow(new SetApplicationDomain());
 
                 event(new Ready());
