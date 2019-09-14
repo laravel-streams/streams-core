@@ -266,54 +266,9 @@ class StreamsPlugin extends Plugin
                 }
             ),
             new \Twig_SimpleFunction(
-                'request',
-                function () {
-                    return request(func_get_args() ?: null);
-                }
-            ),
-            new \Twig_SimpleFunction(
-                'request_*',
-                function ($name) {
-                    return call_user_func_array([request(), camel_case($name)], array_slice(func_get_args(), 1));
-                }
-            ),
-            new \Twig_SimpleFunction(
-                'trans',
-                function ($key, array $parameters = [], $locale = null) {
-                    return dispatch_now(new GetTranslatedString($key, $parameters, $locale));
-                }
-            ),
-            new \Twig_SimpleFunction(
                 'locale',
                 function ($locale = null) {
                     return (new Locale($locale));
-                }
-            ),
-            new \Twig_SimpleFunction(
-                'str_*',
-                function ($name) {
-                    return call_user_func_array(
-                        [app(Str::class), camel_case($name)],
-                        array_slice(func_get_args(), 1)
-                    );
-                }
-            ),
-            new \Twig_SimpleFunction(
-                'url_*',
-                function ($name) {
-                    return call_user_func_array(
-                        [url(), camel_case($name)],
-                        array_slice(func_get_args(), 1)
-                    );
-                }
-            ),
-            new \Twig_SimpleFunction(
-                'route_*',
-                function ($name) {
-                    return call_user_func_array(
-                        [request()->route(), camel_case($name)],
-                        array_slice(func_get_args(), 1)
-                    );
                 }
             ),
             new \Twig_SimpleFunction(
@@ -397,37 +352,6 @@ class StreamsPlugin extends Plugin
                 }, ['is_safe' => ['html']]
             ),
             new \Twig_SimpleFunction(
-                'cookie',
-                function ($key, $default = null) {
-                    return array_get($_COOKIE, $key, $default);
-                }
-            ),
-            new \Twig_SimpleFunction(
-                'csrf_*',
-                function ($name) {
-
-                    if (!in_array($name, ['token', 'field'])) {
-                        throw new \Exception('Function [csrf_' . $name . '] does not exist.');
-                    }
-
-                    $helper = 'csrf_' . $name;
-
-                    return call_user_func(
-                        $helper,
-                        array_slice(func_get_args(), 1)
-                    );
-                }
-            ),
-            new \Twig_SimpleFunction(
-                'input_get',
-                function () {
-                    return call_user_func_array(
-                        [request(), 'input'],
-                        func_get_args()
-                    );
-                }
-            ),
-            new \Twig_SimpleFunction(
                 'asset',
                 function () {
                     return call_user_func_array(
@@ -494,29 +418,6 @@ class StreamsPlugin extends Plugin
                         func_get_args()
                     );
                 }, ['is_safe' => ['html']]
-            ),
-            new \Twig_SimpleFunction(
-                'config',
-                function () {
-                    return call_user_func_array(
-                        [config(), 'get'],
-                        func_get_args()
-                    );
-                }
-            ),
-            new \Twig_SimpleFunction(
-                'config_*',
-                function ($name) {
-
-                    if (!in_array($name, ['get', 'has'])) {
-                        throw new \Exception('Function [config_' . $name . '] does not exist.');
-                    }
-
-                    return call_user_func_array(
-                        [config(), $name],
-                        array_slice(func_get_args(), 1)
-                    );
-                }
             ),
             new \Twig_SimpleFunction(
                 'cache',

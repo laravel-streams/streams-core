@@ -108,7 +108,7 @@ class StreamObserver extends Observer
         $this->dispatchNow(new DeleteStreamEntryModels($model));
         $this->dispatchNow(new DeleteStreamAssignments($model));
         $this->dispatchNow(new DeleteStreamTranslations($model));
-        $this->dispatchNow(new GenerateEntryModelClassmap());
+        //$this->dispatchNow(new GenerateEntryModelClassmap());
 
         $this->events->dispatch(new StreamWasDeleted($model));
     }

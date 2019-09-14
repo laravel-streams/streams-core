@@ -29,6 +29,7 @@ use Anomaly\Streams\Platform\Search\Command\ConfigureScout;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Stream\StreamObserver;
 use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
+use Anomaly\Streams\Platform\View\ViewServiceProvider;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Redirector;
@@ -59,6 +60,7 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     protected $providers = [
+        ViewServiceProvider::class,
         StreamsEventProvider::class,
         StreamsConsoleProvider::class,
     ];
@@ -78,7 +80,7 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $bindings = [
-        'Illuminate\Contracts\Debug\ExceptionHandler'                                    => 'Anomaly\Streams\Platform\Exception\ExceptionHandler',
+        //'Illuminate\Contracts\Debug\ExceptionHandler'                                    => 'Anomaly\Streams\Platform\Exception\ExceptionHandler',
         'Illuminate\Routing\UrlGenerator'                                                => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
         'Illuminate\Contracts\Routing\UrlGenerator'                                      => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
         'Illuminate\Database\Migrations\MigrationRepositoryInterface'                    => 'Anomaly\Streams\Platform\Database\Migration\MigrationRepository',

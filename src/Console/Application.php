@@ -21,6 +21,7 @@ class Application extends \Illuminate\Console\Application
     {
         $definition = parent::getDefaultInputDefinition();
 
+        $definition->addOption($this->getAddonIdentifierOption());
         $definition->addOption($this->getApplicationReferenceOption());
 
         return $definition;
@@ -38,6 +39,16 @@ class Application extends \Illuminate\Console\Application
             null,
             InputOption::VALUE_OPTIONAL,
             'The application this command should run under.'
+        );
+    }
+
+    protected function getAddonIdentifierOption()
+    {
+        return new InputOption(
+            '--addon',
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'The addon in which to carry out the command.'
         );
     }
 }

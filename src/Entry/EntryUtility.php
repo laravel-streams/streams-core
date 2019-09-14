@@ -36,6 +36,6 @@ class EntryUtility
             $this->dispatchNow(new GenerateEntryTranslationsModel($stream));
         }
 
-        $this->dispatchNow(new GenerateEntryModelClassmap());
+        //$this->dispatchNow(new GenerateEntryModelClassmap());
     }
 }
