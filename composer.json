@@ -24,7 +24,7 @@
         "misd/linkify": "1.1.*",
         "ezyang/htmlpurifier": "~4.0",
         "barryvdh/laravel-httpcache": "~0.3.0",
-        "fzaninotto/faker": "~1.4.0",
+        "fzaninotto/faker": "^1.4",
         "composer/composer": "~1.9.0"
     },
     "autoload": {
