@@ -1,5 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Command;
+<?php
 
+namespace Anomaly\Streams\Platform\Entry\Command;
+
+use Composer\Autoload\ClassMapGenerator;
 use Illuminate\Filesystem\Filesystem;
 
 /**

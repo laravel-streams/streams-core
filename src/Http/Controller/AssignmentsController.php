@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Http\Controller;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Assignment\Form\AssignmentFormBuilder;
 use Anomaly\Streams\Platform\Assignment\Table\AssignmentTableBuilder;
@@ -29,7 +30,7 @@ class AssignmentsController extends AdminController
     /**
      * Return an index of existing assignments.
      *
-     * @param  AssignmentTableBuilder    $table
+     * @param  AssignmentTableBuilder $table
      * @param  StreamRepositoryInterface $streams
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -51,9 +52,9 @@ class AssignmentsController extends AdminController
     /**
      * Choose a field to assign.
      *
-     * @param  FieldRepositoryInterface  $fields
+     * @param  FieldRepositoryInterface $fields
      * @param  StreamRepositoryInterface $streams
-     * @param ModuleCollection           $modules
+     * @param ModuleCollection $modules
      * @return \Illuminate\Contracts\View\View|mixed
      */
     public function choose(
@@ -73,15 +74,15 @@ class AssignmentsController extends AdminController
             ->notAssignedTo($stream)
             ->unlocked();
 
-        return $this->view->make('streams::assignments/choose', compact('fields', 'module'));
+        return view('streams::assignments/choose', compact('fields', 'module'));
     }
 
     /**
      * Create a new assignment.
      *
-     * @param  AssignmentFormBuilder     $builder
+     * @param  AssignmentFormBuilder $builder
      * @param  StreamRepositoryInterface $streams
-     * @param  FieldRepositoryInterface  $fields
+     * @param  FieldRepositoryInterface $fields
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function create(
@@ -95,7 +96,7 @@ class AssignmentsController extends AdminController
         }
 
         /* @var FieldInterface $field */
-        $field = $fields->find($this->request->get('field'));
+        $field = $fields->find(request('field'));
 
         return $builder
             ->setField($field)

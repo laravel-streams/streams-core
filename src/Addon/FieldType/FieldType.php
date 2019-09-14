@@ -159,7 +159,7 @@ class FieldType extends Addon
      *
      * @var null|string
      */
-    protected $class = 'form-control';
+    protected $class = '';
 
     /**
      * The input type.
@@ -764,7 +764,13 @@ class FieldType extends Addon
         return array_filter(
             array_merge(
                 [
-                    'class'           => $this->getClass(),
+                    'value'       => $this->getValue(),
+                    'name'        => $this->getInputName(),
+                    'placeholder' => $this->getPlaceholder(),
+
+                    'readonly' => $this->isReadonly() ? 'readonly' : '',
+                    'disabled' => $this->isDisabled() ? 'disabled' : '',
+
                     'data-field'      => $this->getField(),
                     'data-field_name' => $this->getFieldName(),
                     'data-provides'   => $this->getNamespace(),
@@ -1030,7 +1036,12 @@ class FieldType extends Addon
     {
         return view(
             $this->getWrapperView(),
-            array_merge($payload, ['field_type' => $this])
+            array_merge(
+                $payload,
+                [
+                    'fieldType' => $this,
+                ]
+            )
         )->render();
     }
 
@@ -1319,7 +1330,7 @@ class FieldType extends Addon
     {
         return view(
             $this->getInputView(),
-            array_merge($payload, ['field_type' => $this])
+            array_merge($payload, ['fieldType' => $this])
         )->render();
     }
 
@@ -1333,7 +1344,7 @@ class FieldType extends Addon
     {
         return view(
             $this->getFilterView(),
-            array_merge($payload, ['field_type' => $this])
+            array_merge($payload, ['fieldType' => $this])
         )->render();
     }
 

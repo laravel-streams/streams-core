@@ -9,6 +9,7 @@ use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
 use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
 use Anomaly\Streams\Platform\Application\Command\SetApplicationDomain;
 use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
+use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
@@ -22,6 +23,7 @@ use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Field\FieldObserver;
 use Anomaly\Streams\Platform\Http\Command\ConfigureRequest;
 use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
+use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
@@ -113,6 +115,12 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $singletons = [
+        'asset'    => Asset::class,
+        'messages' => MessageBag::class,
+
+        Asset::class      => Asset::class,
+        MessageBag::class => MessageBag::class,
+
         'Illuminate\Database\Migrations\Migrator'                                            => 'Anomaly\Streams\Platform\Database\Migration\Migrator',
         'Illuminate\Contracts\Routing\UrlGenerator'                                          => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
         'Anomaly\Streams\Platform\Routing\UrlGenerator'                                      => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
@@ -127,7 +135,6 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Addon\AddonIntegrator'                                     => 'Anomaly\Streams\Platform\Addon\AddonIntegrator',
         'Anomaly\Streams\Platform\Addon\AddonProvider'                                       => 'Anomaly\Streams\Platform\Addon\AddonProvider',
         'Anomaly\Streams\Platform\Addon\AddonCollection'                                     => 'Anomaly\Streams\Platform\Addon\AddonCollection',
-        'Anomaly\Streams\Platform\Message\MessageBag'                                        => 'Anomaly\Streams\Platform\Message\MessageBag',
         'Anomaly\Streams\Platform\Stream\StreamStore'                                        => 'Anomaly\Streams\Platform\Stream\StreamStore',
         'Anomaly\Streams\Platform\Support\Configurator'                                      => 'Anomaly\Streams\Platform\Support\Configurator',
         'Anomaly\Streams\Platform\Support\Authorizer'                                        => 'Anomaly\Streams\Platform\Support\Authorizer',
@@ -137,7 +144,6 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Support\Hydrator'                                          => 'Anomaly\Streams\Platform\Support\Hydrator',
         'Anomaly\Streams\Platform\Support\Resolver'                                          => 'Anomaly\Streams\Platform\Support\Resolver',
         'Anomaly\Streams\Platform\Support\Translator'                                        => 'Anomaly\Streams\Platform\Support\Translator',
-        'Anomaly\Streams\Platform\Asset\Asset'                                               => 'Anomaly\Streams\Platform\Asset\Asset',
         'Anomaly\Streams\Platform\Asset\AssetPaths'                                          => 'Anomaly\Streams\Platform\Asset\AssetPaths',
         'Anomaly\Streams\Platform\Asset\AssetParser'                                         => 'Anomaly\Streams\Platform\Asset\AssetParser',
         'Anomaly\Streams\Platform\Asset\AssetFilters'                                        => 'Anomaly\Streams\Platform\Asset\AssetFilters',

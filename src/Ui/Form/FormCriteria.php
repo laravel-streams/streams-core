@@ -115,6 +115,21 @@ class FormCriteria
     }
 
     /**
+     * Make the form.
+     *
+     * @param null $entry
+     * @return FormPresenter
+     */
+    public function make($entry = null)
+    {
+        if ($entry) {
+            $this->setParameter('entry', $entry);
+        }
+
+        return $this->get();
+    }
+
+    /**
      * Build the builder.
      *
      * @return FormBuilder

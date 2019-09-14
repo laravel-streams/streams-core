@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Console;
 
 use Anomaly\Streams\Platform\Database\Migration\Console\Command\ConfigureMigrator;
 use Anomaly\Streams\Platform\Database\Migration\Console\Command\MigrateAllAddons;

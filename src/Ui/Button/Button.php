@@ -125,6 +125,27 @@ class Button implements ButtonInterface
     protected $entry = null;
 
     /**
+     * Return the open tag.
+     *
+     * @param array $attributes
+     * @return string
+     */
+    public function open(array $attributes = [])
+    {
+        return '<' . $this->getTag() . ' ' . html_attributes(array_merge($this->getAttributes(), $attributes)) . '>';
+    }
+
+    /**
+     * Return the open tag.
+     *
+     * @return string
+     */
+    public function close()
+    {
+        return '</' . $this->getTag() . '>';
+    }
+
+    /**
      * Return whether the button is a dropdown or not.
      *
      * @return bool
@@ -183,7 +204,7 @@ class Button implements ButtonInterface
     /**
      * Get the dropdown position.
      *
-     * @return array
+     * @return string
      */
     public function getPosition()
     {
@@ -201,6 +222,16 @@ class Button implements ButtonInterface
         $this->position = $position;
 
         return $this;
+    }
+
+    /**
+     * Get the parent.
+     *
+     * @return bool
+     */
+    public function hasParent()
+    {
+        return (bool)$this->getParent();
     }
 
     /**

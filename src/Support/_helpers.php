@@ -1,12 +1,19 @@
 <?php
 
 use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Asset\Asset;
+use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Support\Value;
+use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
+use Anomaly\Streams\Platform\Ui\Button\Command\GetButtons;
+use Anomaly\Streams\Platform\Ui\Form\Command\GetFormCriteria;
+use Anomaly\Streams\Platform\View\ViewTemplate;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\View\View;
 
 if (!function_exists('app_storage_path')) {
 
@@ -199,8 +206,8 @@ if (!function_exists('template')) {
     {
         $arguments = func_get_args();
 
-        /* @var \Anomaly\Streams\Platform\View\ViewTemplate $template */
-        $template = app(\Anomaly\Streams\Platform\View\ViewTemplate::class);
+        /* @var ViewTemplate $template */
+        $template = app(ViewTemplate::class);
 
         if (empty($arguments)) {
             return $template;
@@ -230,5 +237,122 @@ if (!function_exists('console')) {
     function console()
     {
         return app(\Anomaly\Streams\Platform\Console\Kernel::class);
+    }
+}
+
+if (!function_exists('form')) {
+
+    /**
+     * Return a form criteria.
+     *
+     * @return \Anomaly\Streams\Platform\Ui\Form\FormCriteria|\Anomaly\Streams\Platform\Ui\Form\FormBuilder
+     */
+    function form()
+    {
+        $arguments = func_get_args();
+
+        if (count($arguments) >= 2) {
+            $arguments = [
+                'namespace' => array_get(func_get_args(), 0),
+                'stream'    => array_get(func_get_args(), 1),
+                'entry'     => array_get(func_get_args(), 2),
+            ];
+        }
+
+        if (count($arguments) == 1) {
+            $arguments = func_get_arg(0);
+        }
+
+        return dispatch_now(new GetFormCriteria($arguments));
+    }
+}
+
+if (!function_exists('buttons')) {
+
+    /**
+     * Return button HTML.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\Button\ButtonCollection $buttons
+     * @return \Illuminate\View\View
+     */
+    function buttons(ButtonCollection $buttons)
+    {
+        return dispatch_now(new GetButtons($buttons));
+    }
+}
+
+if (!function_exists('html_attributes')) {
+
+    /**
+     * Return an HTML attribute string.
+     *
+     * @param array $attributes
+     * @return string
+     */
+    function html_attributes(array $attributes = [])
+    {
+        return app('html')->attributes($attributes);
+    }
+}
+
+if (!function_exists('messages')) {
+
+    /**
+     * Shortcut message bag functionality.
+     *
+     * @param null $type
+     * @param null $message
+     * @return \Illuminate\Contracts\Foundation\Application|mixed
+     */
+    function messages($type = null, $message = null)
+    {
+        if (!$type && !$message) {
+            return app(MessageBag::class);
+        }
+
+        if ($type && !$message) {
+            return app(MessageBag::class)->get($type);
+        }
+
+        if ($type && $message) {
+            return app(MessageBag::class)->add($type, $message);
+        }
+
+        return app(MessageBag::class);
+    }
+}
+
+if (!function_exists('parse')) {
+
+    /**
+     * Parse a string as a view.
+     *
+     * @param $template
+     * @param array $payload
+     * @return View
+     */
+    function parse($template, array $payload = [])
+    {
+        return app(Template::class)->render($template, $payload);
+    }
+}
+
+if (!function_exists('assets')) {
+
+    /**
+     * Add an asset to a collection or instance.
+     *
+     * @param null $collection
+     * @param null $asset
+     * @param array $filters
+     * @return \Illuminate\Contracts\Foundation\Application|mixed
+     */
+    function assets($collection = null, $asset = null, array $filters = [])
+    {
+        if ($collection && $asset) {
+            return app(Asset::class)->add($collection, $asset, $filters);
+        }
+
+        return app(Asset::class);
     }
 }

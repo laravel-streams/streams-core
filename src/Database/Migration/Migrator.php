@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Database\Migration\Command\Migrate;
@@ -92,7 +94,7 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
 
                 $rolledBack[] = $files[$migration];
 
-                $this->runDown($files[$migration], (object)['migration' => $migration], $pretend);
+                $this->runDown($files[$migration], (object) ['migration' => $migration], $pretend);
             }
         }
 

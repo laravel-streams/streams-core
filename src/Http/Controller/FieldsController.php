@@ -45,7 +45,7 @@ class FieldsController extends AdminController
      */
     public function choose(FieldTypeCollection $fieldTypes, ModuleCollection $modules)
     {
-        return $this->view->make(
+        return view(
             'streams::fields/choose',
             [
                 'field_types' => $fieldTypes,
@@ -65,7 +65,7 @@ class FieldsController extends AdminController
     {
         return $form
             ->setNamespace($this->getNamespace())
-            ->setFieldType($fieldTypes->get($this->request->get('field_type')))
+            ->setFieldType($fieldTypes->get(request('field_type')))
             ->render();
     }
 
@@ -80,7 +80,7 @@ class FieldsController extends AdminController
     {
         return $form
             ->setNamespace($this->getNamespace())
-            ->setFieldType($fieldTypes->get($this->request->get('field_type')))
+            ->setFieldType($fieldTypes->get(request('field_type')))
             ->render($this->route->parameter('id'));
     }
 
@@ -92,7 +92,7 @@ class FieldsController extends AdminController
      */
     public function change(FieldTypeCollection $fieldTypes, ModuleCollection $modules)
     {
-        return $this->view->make(
+        return view(
             'streams::fields/change',
             [
                 'field_types' => $fieldTypes->filter(

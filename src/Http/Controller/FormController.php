@@ -32,7 +32,7 @@ class FormController extends PublicController
 
             $this->messages->error('streams::message.form_expired');
 
-            foreach ($this->request->except('_token') as $key => $value) {
+            foreach (request()->except('_token') as $key => $value) {
                 $session->flash($key, $value);
             }
 
@@ -40,7 +40,7 @@ class FormController extends PublicController
         }
 
         /* @var FormCriteria $criteria */
-        $criteria = $this->dispatchNow(new GetFormCriteria($parameters));
+        $criteria = dispatch_now(new GetFormCriteria($parameters));
 
         /* @var FormBuilder $builder */
         $builder = $criteria->build();
