@@ -1,10 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\View;
 
-<<<<<<< HEAD
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
-=======
 use Anomaly\Streams\Platform\View\Twig\Bridge;
 use Anomaly\Streams\Platform\View\Twig\Compiler;
 use Anomaly\Streams\Platform\View\Twig\Engine;
@@ -12,26 +10,16 @@ use Anomaly\Streams\Platform\View\Twig\Loader;
 use InvalidArgumentException;
 use Twig_Loader_Array;
 use Twig_Loader_Chain;
->>>>>>> parent of bd3595ffb... Rip it out.
 
 /**
  * Class ViewServiceProvider
  *
-<<<<<<< HEAD
-=======
  * This is adopted from https://github.com/rcrowe/TwigBridge
  *
->>>>>>> parent of bd3595ffb... Rip it out.
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-<<<<<<< HEAD
-class ViewServiceProvider extends ServiceProvider implements DeferrableProvider
-{
-
-    /**
-=======
 class ViewServiceProvider extends \Illuminate\View\ViewServiceProvider
 {
 
@@ -308,7 +296,6 @@ class ViewServiceProvider extends \Illuminate\View\ViewServiceProvider
     }
 
     /**
->>>>>>> parent of bd3595ffb... Rip it out.
      * Get the services provided by the provider.
      *
      * @return array
@@ -316,16 +303,7 @@ class ViewServiceProvider extends \Illuminate\View\ViewServiceProvider
     public function provides()
     {
         return [
-<<<<<<< HEAD
             ViewCollection::class,
-        ];
-    }
-
-    public function register()
-    {
-        //View::share
-    }
-=======
             'command.twig',
             'command.twig.clean',
             'command.twig.lint',
@@ -342,5 +320,4 @@ class ViewServiceProvider extends \Illuminate\View\ViewServiceProvider
             'twig.engine',
         ];
     }
->>>>>>> parent of bd3595ffb... Rip it out.
 }

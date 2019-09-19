@@ -13,6 +13,7 @@
         "laravel/scout": "^7.1.0",
         "doctrine/dbal": "^2.6",
         "intervention/image": "^2.5.0",
+        "jenssegers/agent": "2.6.*",
         "laravelcollective/html": "^6.0.0",
         "barryvdh/laravel-debugbar": "3.2.*",
         "erusev/parsedown-extra": "0.7.1",
