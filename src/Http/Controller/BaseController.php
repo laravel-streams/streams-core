@@ -13,13 +13,11 @@ use Anomaly\Streams\Platform\Http\Middleware\SetLocale;
 use Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
-use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\View\ViewTemplate;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Routing\Redirector;
@@ -35,50 +33,12 @@ use Illuminate\Routing\Route;
 class BaseController extends Controller
 {
 
-    use DispatchesJobs;
-    use FiresCallbacks;
-
-    /**
-     * The service container.
-     *
-     * @var Container
-     */
-    protected $container;
-
-    /**
-     * The URL generator.
-     *
-     * @var UrlGenerator
-     */
-    protected $url;
-
-    /**
-     * The view factory.
-     *
-     * @var Factory
-     */
-    protected $view;
-
-    /**
-     * The asset manager.
-     *
-     * @var Asset
-     */
-    protected $asset;
-
     /**
      * The route object.
      *
      * @var Route
      */
     protected $route;
-
-    /**
-     * The request object.
-     *
-     * @var Request
-     */
-    protected $request;
 
     /**
      * The flash messages.
@@ -88,25 +48,11 @@ class BaseController extends Controller
     protected $messages;
 
     /**
-     * The redirect utility.
-     *
-     * @var Redirector
-     */
-    protected $redirect;
-
-    /**
      * The view template.
      *
      * @var ViewTemplate
      */
     protected $template;
-
-    /**
-     * The response factory.
-     *
-     * @var ResponseFactory
-     */
-    protected $response;
 
     /**
      * The breadcrumb collection.
@@ -120,20 +66,6 @@ class BaseController extends Controller
      */
     public function __construct()
     {
-        $this->container   = app(); // @deprecated in 1.7 remove in 1.8
-        $this->request     = app('Illuminate\Http\Request'); // @deprecated in 1.7 remove in 1.8
-        $this->redirect    = app('Illuminate\Routing\Redirector'); // @deprecated in 1.7 remove in 1.8
-        $this->view        = app('Illuminate\Contracts\View\Factory'); // @deprecated in 1.7 remove in 1.8
-        $this->asset       = app('Anomaly\Streams\Platform\Asset\Asset');
-        $this->events      = app('Illuminate\Contracts\Events\Dispatcher'); // @deprecated in 1.7 remove in 1.8
-        $this->template    = app('Anomaly\Streams\Platform\View\ViewTemplate');
-        $this->messages    = app('Anomaly\Streams\Platform\Message\MessageBag');
-        $this->response    = app('Illuminate\Contracts\Routing\ResponseFactory'); // @deprecated in 1.7 remove in 1.8
-        $this->url         = app('Anomaly\Streams\Platform\Routing\UrlGenerator'); // @deprecated in 1.7 remove in 1.8
-        $this->breadcrumbs = app('Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection');
-
-        $this->route = $this->request->route();
-
         event(new Response($this));
 
         $this->middleware(PoweredBy::class);

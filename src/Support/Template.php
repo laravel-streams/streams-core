@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
 use Anomaly\Streams\Platform\Application\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Filesystem\Filesystem;
 
 /**
@@ -13,13 +12,6 @@ use Illuminate\Filesystem\Filesystem;
  */
 class Template
 {
-
-    /**
-     * The view factory.
-     *
-     * @var Factory
-     */
-    protected $view;
 
     /**
      * The file system.
@@ -38,16 +30,13 @@ class Template
     /**
      * Create a new Template instance.
      *
-     * @param Factory $view
      * @param Filesystem $files
      * @param Application $application
      */
     public function __construct(
-        Factory $view,
         Filesystem $files,
         Application $application
     ) {
-        $this->view        = $view;
         $this->files       = $files;
         $this->application = $application;
     }
@@ -63,7 +52,7 @@ class Template
     {
         $path = $this->path($template);
 
-        return $this->view->make(
+        return view(
             'storage::' . ltrim(
                 str_replace($this->application->getStoragePath(), '', $path),
                 '\\/'

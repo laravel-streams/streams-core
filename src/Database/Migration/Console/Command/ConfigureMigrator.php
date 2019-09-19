@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Console\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Console\Command;
 
 use Anomaly\Streams\Platform\Addon\Command\GetAddon;
 use Anomaly\Streams\Platform\Database\Migration\Migrator;
@@ -74,8 +76,8 @@ class ConfigureMigrator
         $paths = [
             $addon->getPath('migrations'),
             $this->command->getLaravel()->databasePath()
-            . DIRECTORY_SEPARATOR.'migrations'
-            . DIRECTORY_SEPARATOR.$addon->getNamespace(),
+                . DIRECTORY_SEPARATOR . 'migrations'
+                . DIRECTORY_SEPARATOR . $addon->getNamespace(),
         ];
 
         $this->input->setOption('path', $paths);

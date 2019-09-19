@@ -6,7 +6,6 @@ use Anomaly\Streams\Platform\Addon\Extension\ExtensionManager;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleManager;
 use Illuminate\Console\Command;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -20,14 +19,12 @@ use Symfony\Component\Console\Input\InputOption;
 class AddonUninstall extends Command
 {
 
-    use DispatchesJobs;
-
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'addon:uninstall';
+    protected $signature = 'addon:uninstall {addon} {--seed}';
 
     /**
      * The console command description.
@@ -39,8 +36,8 @@ class AddonUninstall extends Command
     /**
      * Execute the console command.
      *
-     * @param AddonCollection  $addons
-     * @param ModuleManager    $modules
+     * @param AddonCollection $addons
+     * @param ModuleManager $modules
      * @param ExtensionManager $extensions
      */
     public function handle(AddonCollection $addons, ModuleManager $modules, ExtensionManager $extensions)

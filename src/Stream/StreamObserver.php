@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Stream;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModelClassmap;
 use Anomaly\Streams\Platform\Search\Command\DeleteEntryIndex;
@@ -45,11 +47,11 @@ class StreamObserver extends Observer
         $model->compile();
         $model->flushCache();
 
-        $this->dispatchNow(new CreateStreamsEntryTable($model));
+        dispatch_now(new CreateStreamsEntryTable($model));
 
         $model->fireFieldTypeEvents('stream_created');
 
-        $this->events->dispatch(new StreamWasCreated($model));
+        event(new StreamWasCreated($model));
     }
 
     /**
@@ -64,7 +66,7 @@ class StreamObserver extends Observer
 
         $model->fireFieldTypeEvents('stream_saved');
 
-        $this->events->dispatch(new StreamWasSaved($model));
+        event(new StreamWasSaved($model));
     }
 
     /**
@@ -76,7 +78,7 @@ class StreamObserver extends Observer
     {
         $model->fireFieldTypeEvents('stream_updating');
 
-        $this->dispatchNow(new RenameStreamsEntryTable($model));
+        dispatch_now(new RenameStreamsEntryTable($model));
     }
 
     /**
@@ -88,7 +90,7 @@ class StreamObserver extends Observer
     {
         $model->fireFieldTypeEvents('stream_updated');
 
-        $this->events->dispatch(new StreamWasUpdated($model));
+        event(new StreamWasUpdated($model));
     }
 
     /**
@@ -103,13 +105,13 @@ class StreamObserver extends Observer
 
         $model->fireFieldTypeEvents('stream_deleted');
 
-        $this->dispatchNow(new DeleteEntryIndex($model));
-        $this->dispatchNow(new DropStreamsEntryTable($model));
-        $this->dispatchNow(new DeleteStreamEntryModels($model));
-        $this->dispatchNow(new DeleteStreamAssignments($model));
-        $this->dispatchNow(new DeleteStreamTranslations($model));
-        $this->dispatchNow(new GenerateEntryModelClassmap());
+        dispatch_now(new DeleteEntryIndex($model));
+        dispatch_now(new DropStreamsEntryTable($model));
+        dispatch_now(new DeleteStreamEntryModels($model));
+        dispatch_now(new DeleteStreamAssignments($model));
+        dispatch_now(new DeleteStreamTranslations($model));
+        dispatch_now(new GenerateEntryModelClassmap());
 
-        $this->events->dispatch(new StreamWasDeleted($model));
+        event(new StreamWasDeleted($model));
     }
 }
