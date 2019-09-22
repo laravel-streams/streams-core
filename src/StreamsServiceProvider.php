@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
+use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Entry\EntryObserver;
 use Anomaly\Streams\Platform\Event\Booted;
@@ -27,10 +28,18 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
 use Anomaly\Streams\Platform\Routing\Command\IncludeRoutes;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
+use Anomaly\Streams\Platform\Search\Command\ConfigureScout;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Stream\StreamObserver;
+use Anomaly\Streams\Platform\View\Cache\CacheAdapter;
+use Anomaly\Streams\Platform\View\Cache\CacheKey;
+use Anomaly\Streams\Platform\View\Cache\CacheStrategy;
 use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
+use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Anomaly\Streams\Platform\View\ViewServiceProvider;
+use Asm89\Twig\CacheExtension\Extension;
+use Illuminate\Cache\Repository;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Pagination\Paginator;
@@ -85,20 +94,14 @@ class StreamsServiceProvider extends ServiceProvider
         'Illuminate\Routing\UrlGenerator'                                                => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
         'Illuminate\Contracts\Routing\UrlGenerator'                                      => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
         'Illuminate\Database\Migrations\MigrationRepositoryInterface'                    => 'Anomaly\Streams\Platform\Database\Migration\MigrationRepository',
-        'Anomaly\Streams\Platform\Entry\EntryModel'                                      => 'Anomaly\Streams\Platform\Entry\EntryModel',
         'Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface'               => 'Anomaly\Streams\Platform\Entry\EntryRepository',
-        'Anomaly\Streams\Platform\Field\FieldModel'                                      => 'Anomaly\Streams\Platform\Field\FieldModel',
         'Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface'               => 'Anomaly\Streams\Platform\Field\FieldRepository',
-        'Anomaly\Streams\Platform\Stream\StreamModel'                                    => 'Anomaly\Streams\Platform\Stream\StreamModel',
         'Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface'             => 'Anomaly\Streams\Platform\Stream\StreamRepository',
         'Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface'            => 'Anomaly\Streams\Platform\Model\EloquentRepository',
         'Anomaly\Streams\Platform\Version\Contract\VersionRepositoryInterface'           => 'Anomaly\Streams\Platform\Version\VersionRepository',
         'Anomaly\Streams\Platform\Lock\Contract\LockRepositoryInterface'                 => 'Anomaly\Streams\Platform\Lock\LockRepository',
-        'Anomaly\Streams\Platform\Assignment\AssignmentModel'                            => 'Anomaly\Streams\Platform\Assignment\AssignmentModel',
         'Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface'     => 'Anomaly\Streams\Platform\Assignment\AssignmentRepository',
-        'Anomaly\Streams\Platform\Addon\Module\ModuleModel'                              => 'Anomaly\Streams\Platform\Addon\Module\ModuleModel',
         'Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface'       => 'Anomaly\Streams\Platform\Addon\Module\ModuleRepository',
-        'Anomaly\Streams\Platform\Addon\Extension\ExtensionModel'                        => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionModel',
         'Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface' => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionRepository',
         'addon.collection'                                                               => 'Anomaly\Streams\Platform\Addon\AddonCollection',
         'module.collection'                                                              => 'Anomaly\Streams\Platform\Addon\Module\ModuleCollection',
@@ -202,11 +205,11 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatchNow(new LoadStreamsConfiguration());
         $this->dispatchNow(new ConfigureFileCacheStore());
         $this->dispatchNow(new ConfigureTranslator());
-        //$this->dispatchNow(new AutoloadEntryModels());
-        //$this->dispatchNow(new AddAssetNamespaces());
-        //$this->dispatchNow(new AddImageNamespaces());
-        //$this->dispatchNow(new ConfigureRequest());
-        //$this->dispatchNow(new ConfigureScout());
+        $this->dispatchNow(new AutoloadEntryModels());
+        $this->dispatchNow(new AddAssetNamespaces());
+        $this->dispatchNow(new AddImageNamespaces());
+        $this->dispatchNow(new ConfigureRequest());
+        $this->dispatchNow(new ConfigureScout());
 
         // Observe our base models.
         EntryModel::observe(EntryObserver::class);
@@ -224,36 +227,61 @@ class StreamsServiceProvider extends ServiceProvider
 
                 event(new Booted());
 
-//                /* @var Schedule $schedule */
-//                $schedule = app(Schedule::class);
+                /* @var Schedule $schedule */
+                $schedule = app(Schedule::class);
 
                 /**
                  * @todo move this kinda logic to the app service providers
                  */
-//                foreach (array_merge($this->schedule, config('streams.schedules', [])) as $frequency => $commands) {
-//                    foreach (array_filter($commands) as $command) {
-//
-//                        if (str_contains($frequency, ' ')) {
-//                            $schedule->command($command)->cron($frequency);
-//                        }
-//
-//                        if (!str_contains($frequency, ' ')) {
-//                            $schedule->command($command)->{camel_case($frequency)}();
-//                        }
-//                    }
-//                }
+                foreach (array_merge($this->schedule, config('streams.schedules', [])) as $frequency => $commands) {
+                    foreach (array_filter($commands) as $command) {
+
+                        if (str_contains($frequency, ' ')) {
+                            $schedule->command($command)->cron($frequency);
+                        }
+
+                        if (!str_contains($frequency, ' ')) {
+                            $schedule->command($command)->{camel_case($frequency)}();
+                        }
+                    }
+                }
 
                 /* @var AddonManager $manager */
                 $manager = app(AddonManager::class);
 
                 $manager->register();
 
+                /* @var Dispatcher $events */
+                $events = app(Dispatcher::class);
+
+                $events->listen(
+                    'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
+                    function (RegisteringTwigPlugins $event) {
+
+                        $twig = $event->getTwig();
+
+                        foreach ($this->plugins as $plugin) {
+                            if (!$twig->hasExtension($plugin)) {
+                                $twig->addExtension($this->app->make($plugin));
+                            }
+                        }
+
+                        $twig->addExtension(
+                            new Extension(
+                                new CacheStrategy(
+                                    new CacheAdapter($this->app->make(Repository::class)), new CacheKey()
+                                )
+                            )
+                        );
+                    }
+                );
+
                 /*
                  * Do this after addons are registered
                  * so that they can override named routes.
                  */
                 $this->dispatchNow(new LoadCurrentTheme());
-                //$this->dispatchNow(new AddViewNamespaces());
+                $this->dispatchNow(new AddViewNamespaces());
                 $this->dispatchNow(new SetApplicationDomain());
 
                 event(new Ready());

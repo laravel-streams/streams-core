@@ -127,6 +127,29 @@ class StreamsPlugin extends Plugin
                 ]
             ),
             new \Twig_SimpleFunction(
+                'form',
+                function () {
+                    $arguments = func_get_args();
+
+                    if (count($arguments) >= 2) {
+                        $arguments = [
+                            'namespace' => array_get(func_get_args(), 0),
+                            'stream'    => array_get(func_get_args(), 1),
+                            'entry'     => array_get(func_get_args(), 2),
+                        ];
+                    }
+
+                    if (count($arguments) == 1) {
+                        $arguments = func_get_arg(0);
+                    }
+
+                    return dispatch_now(new GetFormCriteria($arguments));
+                },
+                [
+                    'is_safe' => ['html'],
+                ]
+            ),
+            new \Twig_SimpleFunction(
                 'form_*',
                 function ($name) {
                     return call_user_func_array([app('form'), camel_case($name)], array_slice(func_get_args(), 1));
@@ -183,6 +206,15 @@ class StreamsPlugin extends Plugin
                 }
             ),
             new \Twig_SimpleFunction(
+                'buttons',
+                function ($buttons) {
+                    return dispatch_now(new GetButtons($buttons))->render();
+                },
+                [
+                    'is_safe' => ['html'],
+                ]
+            ),
+            new \Twig_SimpleFunction(
                 'constants',
                 function () {
                     return dispatch_now(new GetConstants())->render();
@@ -234,9 +266,54 @@ class StreamsPlugin extends Plugin
                 }
             ),
             new \Twig_SimpleFunction(
+                'request',
+                function () {
+                    return request(func_get_args() ?: null);
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'request_*',
+                function ($name) {
+                    return call_user_func_array([request(), camel_case($name)], array_slice(func_get_args(), 1));
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'trans',
+                function ($key, array $parameters = [], $locale = null) {
+                    return dispatch_now(new GetTranslatedString($key, $parameters, $locale));
+                }
+            ),
+            new \Twig_SimpleFunction(
                 'locale',
                 function ($locale = null) {
                     return (new Locale($locale));
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'str_*',
+                function ($name) {
+                    return call_user_func_array(
+                        [app(Str::class), camel_case($name)],
+                        array_slice(func_get_args(), 1)
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'url_*',
+                function ($name) {
+                    return call_user_func_array(
+                        [url(), camel_case($name)],
+                        array_slice(func_get_args(), 1)
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'route_*',
+                function ($name) {
+                    return call_user_func_array(
+                        [request()->route(), camel_case($name)],
+                        array_slice(func_get_args(), 1)
+                    );
                 }
             ),
             new \Twig_SimpleFunction(
@@ -320,6 +397,37 @@ class StreamsPlugin extends Plugin
                 }, ['is_safe' => ['html']]
             ),
             new \Twig_SimpleFunction(
+                'cookie',
+                function ($key, $default = null) {
+                    return array_get($_COOKIE, $key, $default);
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'csrf_*',
+                function ($name) {
+
+                    if (!in_array($name, ['token', 'field'])) {
+                        throw new \Exception('Function [csrf_' . $name . '] does not exist.');
+                    }
+
+                    $helper = 'csrf_' . $name;
+
+                    return call_user_func(
+                        $helper,
+                        array_slice(func_get_args(), 1)
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'input_get',
+                function () {
+                    return call_user_func_array(
+                        [request(), 'input'],
+                        func_get_args()
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
                 'asset',
                 function () {
                     return call_user_func_array(
@@ -388,6 +496,29 @@ class StreamsPlugin extends Plugin
                 }, ['is_safe' => ['html']]
             ),
             new \Twig_SimpleFunction(
+                'config',
+                function () {
+                    return call_user_func_array(
+                        [config(), 'get'],
+                        func_get_args()
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'config_*',
+                function ($name) {
+
+                    if (!in_array($name, ['get', 'has'])) {
+                        throw new \Exception('Function [config_' . $name . '] does not exist.');
+                    }
+
+                    return call_user_func_array(
+                        [config(), $name],
+                        array_slice(func_get_args(), 1)
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
                 'cache',
                 function () {
                     return call_user_func_array(
@@ -439,6 +570,93 @@ class StreamsPlugin extends Plugin
                     return call_user_func_array(
                         [trans(), $name],
                         array_slice(func_get_args(), 1)
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'message_*',
+                function ($name) {
+
+                    if (!in_array($name, ['pull', 'get', 'has', 'exists'])) {
+                        throw new \Exception('Function [message_' . $name . '] does not exist.');
+                    }
+
+                    if ($name == 'exists') {
+                        $name = 'has';
+                    }
+
+                    return call_user_func_array(
+                        [app(MessageBag::class), $name],
+                        array_slice(func_get_args(), 1)
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'session',
+                function () {
+                    return call_user_func_array(
+                        [session(), 'get'],
+                        func_get_args()
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'parse',
+                function () {
+                    return call_user_func_array(
+                        [app(Template::class), 'render'],
+                        func_get_args()
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'session_*',
+                function ($name) {
+
+                    if (!in_array($name, ['get', 'pull', 'has'])) {
+                        throw new \Exception('Function [session_' . $name . '] does not exist.');
+                    }
+
+                    return call_user_func_array(
+                        [session(), $name],
+                        array_slice(func_get_args(), 1)
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'agent_*',
+                function ($name) {
+
+                    if (!in_array(
+                        $name,
+                        [
+                            'device',
+                            'browser',
+                            'version',
+                            'platform',
+                            'is_phone',
+                            'is_robot',
+                            'is_tablet',
+                            'is_mobile',
+                            'is_desktop',
+                        ]
+                    )
+                    ) {
+                        throw new \Exception('Function [agent_' . $name . '] does not exist.');
+                    }
+
+                    return call_user_func_array(
+                        [app(Agent::class), camel_case($name)],
+                        array_slice(func_get_args(), 1)
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'app',
+                function () {
+                    return call_user_func_array(
+                        ['app'],
+                        func_get_args()
                     );
                 }
             ),
