@@ -2,6 +2,7 @@
 
 use Closure;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class ProxySession
@@ -27,9 +28,14 @@ class ProxySession
     {
         $check = auth()->check();
 
-        return $next($request)
-            ->withCookie(
+        $response = $next($request);
+
+        if ($response instanceof Response) {
+            return $response->withCookie(
                 cookie('session_proxy', $check, $check ? config('session.lifetime', 120) : -1)
             );
+        }
+
+        return $response;
     }
 }
