@@ -182,7 +182,7 @@ if (!function_exists('filesize_for_humans')) {
     /**
      * Humanize the filesize
      *
-     * @param      integer $bytes    The bytes
+     * @param      integer $bytes The bytes
      * @param      integer $decimals The decimals
      * @return     string
      */
@@ -354,5 +354,70 @@ if (!function_exists('assets')) {
         }
 
         return app(Asset::class);
+    }
+}
+
+if (!function_exists('decorate')) {
+
+    /**
+     * Decorate a target
+     *
+     * @param null $collection
+     * @param null $asset
+     * @param array $filters
+     * @return \Anomaly\Streams\Platform\Support\Presenter
+     */
+    function decorate($target)
+    {
+        return app(\Anomaly\Streams\Platform\Support\Decorator::class)->decorate($target);
+    }
+}
+
+if (!function_exists('undecorate')) {
+
+    /**
+     * Un-decorate a target
+     *
+     * @return mixed
+     */
+    function undecorate($target)
+    {
+        return app(\Anomaly\Streams\Platform\Support\Decorator::class)->undecorate($target);
+    }
+}
+
+if (!function_exists('share')) {
+
+    /**
+     * Share data with the view system.
+     *
+     * @param $key
+     * @param $value
+     * @param bool $global
+     * @return ViewTemplate
+     */
+    function share($key, $value, $global = false)
+    {
+        if (!$global) {
+            return app(ViewTemplate::class)->set($key, $value);
+        }
+
+        \View::share($key, $value);
+
+        // @todo revisit and fix this - test.
+        return app(Anomaly\Streams\Platform\View\Twig\Engine::class)->global($key, $value);
+    }
+}
+
+if (!function_exists('user')) {
+
+    /**
+     * Return the active user or null.
+     *
+     * @return \Anomaly\Streams\Platform\User\Contract\UserInterface
+     */
+    function user()
+    {
+        return auth()->user();
     }
 }
