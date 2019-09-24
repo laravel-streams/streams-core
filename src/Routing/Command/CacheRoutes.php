@@ -25,7 +25,6 @@ class CacheRoutes
          * a cache file exists in bootstrap.
          */
         if (file_exists($cache = base_path('bootstrap/cache/routes.php'))) {
-
             unlink($cache);
 
             $console->call('route:cache');

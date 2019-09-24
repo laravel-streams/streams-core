@@ -196,7 +196,6 @@ class HttpCache
         }
 
         foreach ((array)$rules as $rule) {
-
             $parts = explode(' ', $rule);
 
             $path = array_shift($parts);
@@ -229,5 +228,4 @@ class HttpCache
 
         return $response;
     }
-
 }

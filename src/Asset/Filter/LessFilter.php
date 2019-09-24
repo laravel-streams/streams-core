@@ -14,7 +14,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class LessFilter extends LessphpFilter
 {
-
     use DispatchesJobs;
 
     /**

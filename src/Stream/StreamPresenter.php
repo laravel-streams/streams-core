@@ -66,8 +66,8 @@ class StreamPresenter extends Presenter
     {
         if ($this->object->isVersionable()) {
             return '<span class="tag tag-primary tag-' . $size . '">' . trans(
-                    'streams::field.versionable.name'
-                ) . '</span>';
+                'streams::field.versionable.name'
+            ) . '</span>';
         }
 
         return null;

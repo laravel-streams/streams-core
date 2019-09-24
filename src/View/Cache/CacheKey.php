@@ -55,7 +55,7 @@ class CacheKey implements KeyGeneratorInterface
 
         if (is_array($value)) {
             return 'array_' . md5(
-                    json_encode(
+                json_encode(
                         array_map(
                             function ($value) {
                                 return $this->generateKey($value);
@@ -63,7 +63,7 @@ class CacheKey implements KeyGeneratorInterface
                             $value
                         )
                     )
-                );
+            );
         }
 
         return $value;

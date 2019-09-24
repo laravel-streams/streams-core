@@ -200,5 +200,4 @@ interface AssignmentInterface
      * @return AssignmentInterface
      */
     public function compileStream();
-
 }

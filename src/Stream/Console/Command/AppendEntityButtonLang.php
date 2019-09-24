@@ -15,7 +15,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class AppendEntityButtonLang
 {
-
     use DispatchesJobs;
 
     /**
@@ -52,7 +51,6 @@ class AppendEntityButtonLang
      */
     public function handle(Writer $writer, Filesystem $files)
     {
-
         if (!$files->exists($path = $this->addon->getPath("resources/lang/en/button.php"))) {
             $this->dispatchNow(new WriteAddonButtonLang($this->addon->getPath()));
         }

@@ -30,16 +30,13 @@ class FieldTranslator
          * parameters to assist in rendering.
          */
         foreach ($builder->getFields() as $field) {
-
             if (!array_get($field, 'translatable', false)) {
-
                 $translations[] = $field;
 
                 continue;
             }
 
             if (isset($field['locale'])) {
-
                 array_set($field, 'hidden', $field['locale'] !== $defaultLocale);
 
                 if ($field['locale'] !== $defaultLocale) {
@@ -54,7 +51,6 @@ class FieldTranslator
             }
 
             foreach ($enabledLocales as $locale) {
-
                 $translation = $field;
 
                 array_set($translation, 'locale', $locale);

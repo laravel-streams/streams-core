@@ -66,7 +66,6 @@ class Collection extends \Illuminate\Support\Collection
      */
     public function __get($name)
     {
-
         if (in_array($name, static::$proxies)) {
             return new HigherOrderCollectionProxy($this, $name);
         }

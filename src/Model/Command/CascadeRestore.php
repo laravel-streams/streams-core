@@ -36,7 +36,6 @@ class CascadeRestore
     public function handle()
     {
         foreach ($this->model->getCascades() as $relation) {
-
             $relation = $this->model
                 ->{camel_case($relation)}()
                 ->onlyTrashed()
@@ -47,7 +46,6 @@ class CascadeRestore
             }
 
             if ($relation instanceof EloquentCollection) {
-
                 $relation->each(
                     function (EloquentModel $item) {
                         $item->restore();

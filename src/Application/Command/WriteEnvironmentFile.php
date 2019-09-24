@@ -11,7 +11,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class WriteEnvironmentFile
 {
-
     use DispatchesJobs;
 
     /**
@@ -39,7 +38,6 @@ class WriteEnvironmentFile
         $contents = '';
 
         foreach ($this->data as $key => $value) {
-            
             if (str_contains($value, [' ', '$', '\n'])) {
                 $value = '"' . trim($value, '"') . '"';
             }

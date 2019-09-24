@@ -39,7 +39,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class FormBuilder
 {
-
     use DispatchesJobs;
     use FiresCallbacks;
 
@@ -383,7 +382,6 @@ class FormBuilder
         $entry = $this->getFormEntry();
 
         if ($entry instanceof EloquentModel) {
-
             $time = $entry->freshTimestamp();
 
             if (!is_null($entry::UPDATED_AT) && !$entry->isDirty($entry::UPDATED_AT)) {
@@ -1752,5 +1750,4 @@ class FormBuilder
     {
         return (bool)$this->parentBuilder;
     }
-
 }

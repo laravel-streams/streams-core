@@ -87,12 +87,12 @@ class EntryStreamParser
             }
 
             // Cast objects to strings.
-            if(is_object($value)){
+            if (is_object($value)) {
                 $value = (string)$value;
             }
 
             // Quote and escape non numeric values.
-            if(!is_numeric($value)){
+            if (!is_numeric($value)) {
                 $value = "'" . addcslashes($value, "'") . "'";
             }
 
@@ -174,12 +174,12 @@ class EntryStreamParser
             }
 
             // Cast objects to strings.
-            if(is_object($value)){
+            if (is_object($value)) {
                 $value = (string)$value;
             }
 
             // Quote and escape non numeric values.
-            if(!is_numeric($value)){
+            if (!is_numeric($value)) {
                 $value = "'" . addcslashes($value, "'") . "'";
             }
 

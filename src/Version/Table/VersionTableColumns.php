@@ -58,15 +58,14 @@ class VersionTableColumns
                 'changes'    => [
                     'heading' => false,
                     'value'   => function (VersionInterface $entry) {
-
                         if (!$count = $count = count($entry->getData())) {
                             return null;
                         }
 
                         return '<span class="tag tag-warning">' . $count . ' ' . trans_choice(
-                                'streams::version.changes',
-                                $count
-                            ) . '</span>';
+                            'streams::version.changes',
+                            $count
+                        ) . '</span>';
                     },
                 ],
             ]

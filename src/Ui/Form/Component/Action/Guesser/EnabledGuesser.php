@@ -42,7 +42,6 @@ class EnabledGuesser
         $mode = $builder->getFormMode();
 
         foreach ($actions as &$action) {
-
             if (!isset($action['enabled'])) {
                 continue;
             }
@@ -53,7 +52,6 @@ class EnabledGuesser
             );
 
             if (is_bool($action['enabled']) || in_array($action['enabled'], ['true', 'false'])) {
-
                 $action['enabled'] = filter_var($action['enabled'], FILTER_VALIDATE_BOOLEAN);
 
                 continue;

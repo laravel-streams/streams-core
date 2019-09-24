@@ -28,7 +28,6 @@ use Robbo\Presenter\PresentableInterface;
  */
 class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface
 {
-
     use Searchable;
     use Versionable;
 
@@ -809,7 +808,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         /* @var AssignmentInterface $assignment */
         foreach ($assignments->notTranslatable() as $assignment) {
-
             $fieldType = $assignment->getFieldType();
 
             $fieldType->setValue($this->getRawAttribute($assignment->getFieldSlug()));
@@ -1003,7 +1001,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         }
 
         foreach ($searchable as $field) {
-
             if (!in_array($field, $searchable)) {
                 continue;
             }
@@ -1031,7 +1028,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         /* @var AssignmentInterface $assignment */
         foreach ($this->getRelationshipAssignments() as $assignment) {
-
             $related = $this->{$assignment->getFieldSlug()};
 
             $type = $assignment->getFieldType();
@@ -1093,7 +1089,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      *
      * @return array
      */
-    function __sleep()
+    public function __sleep()
     {
         $variables = parent::__sleep();
 

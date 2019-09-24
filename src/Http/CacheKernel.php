@@ -107,5 +107,4 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
     {
         $this->kernel->terminate($request, $response);
     }
-
 }

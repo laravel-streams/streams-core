@@ -73,9 +73,9 @@ class Template
         $path = $this->path($template, $extension);
 
         return 'storage::' . ltrim(
-                str_replace($this->application->getStoragePath(), '', $path),
-                '\\/'
-            );
+            str_replace($this->application->getStoragePath(), '', $path),
+            '\\/'
+        );
     }
 
     /**
@@ -90,9 +90,9 @@ class Template
         $path = $this->path($template, $extension);
 
         return 'storage::' . ltrim(
-                str_replace($this->application->getStoragePath(), '', $path),
-                '\\/'
-            ) . '.' . $extension;
+            str_replace($this->application->getStoragePath(), '', $path),
+            '\\/'
+        ) . '.' . $extension;
     }
 
     /**
@@ -116,5 +116,4 @@ class Template
 
         return $path;
     }
-
 }

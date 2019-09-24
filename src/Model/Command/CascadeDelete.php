@@ -63,7 +63,6 @@ class CascadeDelete
             }
 
             if ($relation instanceof EloquentCollection) {
-
                 $relation->each(
                     function (EloquentModel $item) use ($action) {
                         $item->{$action}();

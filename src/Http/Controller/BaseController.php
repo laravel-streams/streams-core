@@ -96,7 +96,6 @@ class BaseController extends Controller
     {
         foreach ($this->middleware as $key => $item) {
             if ($item['middleware'] == $middleware) {
-
                 unset($this->middleware[$key]);
 
                 return $this;

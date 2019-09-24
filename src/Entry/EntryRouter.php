@@ -15,7 +15,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class EntryRouter
 {
-
     use DispatchesJobs;
 
     /**
@@ -76,7 +75,6 @@ class EntryRouter
     public function make($route, array $parameters = [])
     {
         if (method_exists($this, $method = camel_case(str_replace('.', '_', $route)))) {
-
             $parameters['parameters'] = $parameters;
 
             return $this->container->call([$this, $method], $parameters);

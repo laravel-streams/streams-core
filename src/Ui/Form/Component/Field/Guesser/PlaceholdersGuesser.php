@@ -72,9 +72,9 @@ class PlaceholdersGuesser
             $placeholder = $assignment->getPlaceholder() . '.default';
 
             if (!isset($field['placeholder']) && str_is('*::*', $placeholder) && trans()->has(
-                    $placeholder,
-                    $locale
-                )
+                $placeholder,
+                $locale
+            )
             ) {
                 $field['placeholder'] = trans($placeholder, [], null, $locale);
             }

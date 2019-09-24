@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 class StreamsPublish extends Command
 {
-
     use DispatchesJobs;
 
     /**

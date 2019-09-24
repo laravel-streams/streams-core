@@ -228,7 +228,6 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
 
         /* @var AssignmentInterface $assignment */
         foreach ($assignments->notTranslatable() as $assignment) {
-
             $fieldType = $assignment->getFieldType();
 
             $payload['stream']    = $this;

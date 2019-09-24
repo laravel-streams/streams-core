@@ -20,7 +20,6 @@ use Robbo\Presenter\PresentableInterface;
  */
 class EloquentModel extends Model implements Arrayable, PresentableInterface
 {
-
     use Hookable;
     use Translatable;
     use DispatchesJobs;
@@ -292,7 +291,6 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      */
     public function getCacheCollection()
     {
-
         if ($this->cacheCollection) {
             return $this->cacheCollection;
         }
@@ -369,7 +367,6 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
         }
 
         foreach ($this->getCascades() as $relation) {
-
             if (!$this->relationLoaded($relation)) {
                 continue;
             }
@@ -433,7 +430,6 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
     public function getAttribute($key)
     {
         if ($this->isTranslatedAttribute($key)) {
-
             if (($translation = $this->getTranslation()) === null) {
                 return null;
             }
@@ -481,13 +477,11 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
         }
 
         if ($this->exists) {
-
             if ($this->saveModel($options)) {
                 return $this->saveTranslations();
             }
 
             return false;
-
         } elseif ($this->saveModel($options)) {
             return $this->saveTranslations();
         }
@@ -687,7 +681,6 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
         );
 
         foreach ($this->getRelations() as $attribute => $relation) {
-
             if ($relation instanceof Collection) {
                 foreach ($relation as $index => $model) {
 

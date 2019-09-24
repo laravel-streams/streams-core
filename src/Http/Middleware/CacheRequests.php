@@ -17,5 +17,4 @@ class CacheRequests
     {
         throw new \Exception('This is just a stub class, aliased to the HttpCache in the StreamsServiceProvider.');
     }
-
 }

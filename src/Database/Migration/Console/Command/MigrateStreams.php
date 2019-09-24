@@ -13,7 +13,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class MigrateStreams
 {
-
     use DispatchesJobs;
 
     /**
@@ -49,7 +48,6 @@ class MigrateStreams
     public function handle()
     {
         foreach ($this->paths as $path) {
-
             $options = [
                 '--path' => $path,
             ];

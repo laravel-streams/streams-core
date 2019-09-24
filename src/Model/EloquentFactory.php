@@ -14,7 +14,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class EloquentFactory
 {
-
     use DispatchesJobs;
     use FiresCallbacks;
 

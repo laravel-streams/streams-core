@@ -11,5 +11,4 @@ use Anomaly\Streams\Platform\Support\Presenter;
  */
 class VersionPresenter extends Presenter
 {
-
 }

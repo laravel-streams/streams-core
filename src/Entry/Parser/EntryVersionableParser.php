@@ -26,5 +26,4 @@ class EntryVersionableParser
 
         return 'true';
     }
-
 }

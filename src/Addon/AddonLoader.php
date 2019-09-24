@@ -44,9 +44,7 @@ class AddonLoader
      */
     public function load($path)
     {
-
         if (is_array($path) && $paths = $path) {
-
             foreach ($paths as $path) {
                 $this->load($path);
             }
@@ -55,7 +53,6 @@ class AddonLoader
         }
 
         if (file_exists($autoload = $path . '/vendor/autoload.php')) {
-
             include $autoload;
 
             return $this;

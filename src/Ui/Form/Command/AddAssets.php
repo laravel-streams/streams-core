@@ -39,13 +39,11 @@ class AddAssets
     public function handle(Asset $asset)
     {
         foreach ($this->builder->getAssets() as $collection => $assets) {
-
             if (!is_array($assets)) {
                 $assets = [$assets];
             }
 
             foreach ($assets as $file) {
-
                 $filters = explode('|', $file);
 
                 $file = array_shift($filters);

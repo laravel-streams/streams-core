@@ -17,7 +17,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class AddonReinstall extends Command
 {
-
     use DispatchesJobs;
 
     /**
@@ -46,13 +45,11 @@ class AddonReinstall extends Command
         }
 
         if ($addon instanceof Module) {
-
             $this->call('addon:uninstall', ['addon' => $this->argument('addon')]);
             $this->call('addon:install', ['addon' => $this->argument('addon'), '--seed' => $this->option('seed')]);
         }
 
         if ($addon instanceof Extension) {
-
             $this->call('addon:uninstall', ['addon' => $this->argument('addon')]);
             $this->call('addon:install', ['addon' => $this->argument('addon'), '--seed' => $this->option('seed')]);
         }

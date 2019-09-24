@@ -30,7 +30,6 @@ class Markdown extends \ParsedownExtra
             $matches,
             PREG_OFFSET_CAPTURE
         )) {
-
             if (!isset($matches[1][0])) {
                 return $quote;
             }
@@ -65,7 +64,6 @@ class Markdown extends \ParsedownExtra
             $matches,
             PREG_OFFSET_CAPTURE
         )) {
-
             if (!isset($matches[1][0])) {
                 return $link;
             }

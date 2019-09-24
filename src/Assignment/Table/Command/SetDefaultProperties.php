@@ -37,7 +37,6 @@ class SetDefaultProperties
     {
         /* @var StreamInterface $stream */
         if (!$stream = $this->builder->getStream()) {
-
             $parts = explode('\\', str_replace('AssignmentTableBuilder', 'Model', get_class($this->builder)));
 
             unset($parts[count($parts) - 2]);

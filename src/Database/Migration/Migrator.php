@@ -16,7 +16,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class Migrator extends \Illuminate\Database\Migrations\Migrator
 {
-
     use DispatchesJobs;
 
     /**

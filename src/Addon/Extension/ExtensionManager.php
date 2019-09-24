@@ -73,5 +73,4 @@ class ExtensionManager
     {
         $this->dispatchNow(new DisableExtension($extension));
     }
-
 }

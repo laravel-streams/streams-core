@@ -22,7 +22,6 @@ class DisabledGuesser
         $actions = $builder->getActions();
 
         foreach ($actions as &$action) {
-
             if ($builder->isLocked()) {
                 $action['disabled'] = true;
             }

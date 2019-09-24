@@ -16,7 +16,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class NavigationLink implements NavigationLinkInterface
 {
-
     use DispatchesJobs;
 
     /**

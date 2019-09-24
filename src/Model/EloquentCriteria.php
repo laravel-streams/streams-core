@@ -19,7 +19,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class EloquentCriteria
 {
-
     use Hookable;
     use DispatchesJobs;
 
@@ -302,21 +301,18 @@ class EloquentCriteria
         }
 
         if ($this->methodExists($name) && $this->methodIsSafe($name)) {
-
             call_user_func_array([$this->query, $name], $arguments);
 
             return $this;
         }
 
         if (starts_with($name, 'findBy') && $column = snake_case(substr($name, 6))) {
-
             call_user_func_array([$this->query, 'where'], array_merge([$column], $arguments));
 
             return $this->first();
         }
 
         if (starts_with($name, 'where') && $column = snake_case(substr($name, 5))) {
-
             call_user_func_array([$this->query, 'where'], array_merge([$column], $arguments));
 
             return $this;

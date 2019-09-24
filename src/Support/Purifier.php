@@ -73,5 +73,4 @@ class Purifier extends \HTMLPurifier
 
         return $html;
     }
-
 }

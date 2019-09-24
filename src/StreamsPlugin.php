@@ -323,7 +323,8 @@ class StreamsPlugin extends Plugin
                         [app(Asset::class), camel_case($name)],
                         array_slice(func_get_args(), 1)
                     );
-                }, ['is_safe' => ['html']]
+                },
+                ['is_safe' => ['html']]
             ),
             new \Twig_SimpleFunction(
                 'currency_*',
@@ -346,7 +347,6 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'yaml',
                 function ($input) {
-
                     if ($input instanceof FieldTypePresenter) {
                         $input = $input->__toString();
                     }
@@ -363,7 +363,6 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'addons',
                 function ($type = null) {
-
                     $addons = app(AddonCollection::class);
 
                     if ($type) {
@@ -377,13 +376,15 @@ class StreamsPlugin extends Plugin
                 'breadcrumb',
                 function () {
                     return app(BreadcrumbCollection::class);
-                }, ['is_safe' => ['html']]
+                },
+                ['is_safe' => ['html']]
             ),
             new \Twig_SimpleFunction(
                 'favicons',
                 function ($source) {
                     return view('streams::partials.favicons', compact('source'));
-                }, ['is_safe' => ['html']]
+                },
+                ['is_safe' => ['html']]
             ),
             new \Twig_SimpleFunction(
                 'gravatar',
@@ -394,7 +395,8 @@ class StreamsPlugin extends Plugin
                         ),
                         'image'
                     );
-                }, ['is_safe' => ['html']]
+                },
+                ['is_safe' => ['html']]
             ),
             new \Twig_SimpleFunction(
                 'cookie',
@@ -405,7 +407,6 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'csrf_*',
                 function ($name) {
-
                     if (!in_array($name, ['token', 'field'])) {
                         throw new \Exception('Function [csrf_' . $name . '] does not exist.');
                     }
@@ -434,7 +435,8 @@ class StreamsPlugin extends Plugin
                         [url(), 'asset'],
                         func_get_args()
                     );
-                }, ['is_safe' => ['html']]
+                },
+                ['is_safe' => ['html']]
             ),
             new \Twig_SimpleFunction(
                 'action',
@@ -443,12 +445,12 @@ class StreamsPlugin extends Plugin
                         [url(), 'action'],
                         func_get_args()
                     );
-                }, ['is_safe' => ['html']]
+                },
+                ['is_safe' => ['html']]
             ),
             new \Twig_SimpleFunction(
                 'url',
                 function () {
-
                     if (!func_get_args()) {
                         return url()->current();
                     }
@@ -457,7 +459,8 @@ class StreamsPlugin extends Plugin
                         [url(), 'to'],
                         func_get_args()
                     );
-                }, ['is_safe' => ['html']]
+                },
+                ['is_safe' => ['html']]
             ),
             new \Twig_SimpleFunction(
                 'route',
@@ -466,7 +469,8 @@ class StreamsPlugin extends Plugin
                         [url(), 'route'],
                         func_get_args()
                     );
-                }, ['is_safe' => ['html']]
+                },
+                ['is_safe' => ['html']]
             ),
             new \Twig_SimpleFunction(
                 'route_has',
@@ -475,7 +479,8 @@ class StreamsPlugin extends Plugin
                         [request()->route(), 'has'],
                         func_get_args()
                     );
-                }, ['is_safe' => ['html']]
+                },
+                ['is_safe' => ['html']]
             ),
             new \Twig_SimpleFunction(
                 'secure_url',
@@ -484,7 +489,8 @@ class StreamsPlugin extends Plugin
                         [url(), 'secure'],
                         func_get_args()
                     );
-                }, ['is_safe' => ['html']]
+                },
+                ['is_safe' => ['html']]
             ),
             new \Twig_SimpleFunction(
                 'secure_asset',
@@ -493,7 +499,8 @@ class StreamsPlugin extends Plugin
                         [url(), 'secureAsset'],
                         func_get_args()
                     );
-                }, ['is_safe' => ['html']]
+                },
+                ['is_safe' => ['html']]
             ),
             new \Twig_SimpleFunction(
                 'config',
@@ -507,7 +514,6 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'config_*',
                 function ($name) {
-
                     if (!in_array($name, ['get', 'has'])) {
                         throw new \Exception('Function [config_' . $name . '] does not exist.');
                     }
@@ -530,7 +536,6 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'cache_*',
                 function ($name) {
-
                     if (!in_array($name, ['get', 'has'])) {
                         throw new \Exception('Function [cache_' . $name . '] does not exist.');
                     }
@@ -544,7 +549,6 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'auth_*',
                 function ($name) {
-
                     if (!in_array($name, ['user', 'check', 'guest'])) {
                         throw new \Exception('Function [auth_' . $name . '] does not exist.');
                     }
@@ -558,7 +562,6 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'trans_*',
                 function ($name) {
-
                     if (!in_array($name, ['has', 'exists', 'choice'])) {
                         throw new \Exception('Function [trans_' . $name . '] does not exist.');
                     }
@@ -576,7 +579,6 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'message_*',
                 function ($name) {
-
                     if (!in_array($name, ['pull', 'get', 'has', 'exists'])) {
                         throw new \Exception('Function [message_' . $name . '] does not exist.');
                     }
@@ -612,7 +614,6 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'session_*',
                 function ($name) {
-
                     if (!in_array($name, ['get', 'pull', 'has'])) {
                         throw new \Exception('Function [session_' . $name . '] does not exist.');
                     }
@@ -626,7 +627,6 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'agent_*',
                 function ($name) {
-
                     if (!in_array(
                         $name,
                         [

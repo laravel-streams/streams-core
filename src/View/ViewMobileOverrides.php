@@ -11,5 +11,4 @@ use Illuminate\Support\Collection;
  */
 class ViewMobileOverrides extends Collection
 {
-
 }

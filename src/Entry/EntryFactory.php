@@ -14,7 +14,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class EntryFactory
 {
-
     use DispatchesJobs;
     use FiresCallbacks;
 

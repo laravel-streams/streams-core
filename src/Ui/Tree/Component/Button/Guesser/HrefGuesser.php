@@ -77,7 +77,6 @@ class HrefGuesser
              * move that to an HREF closure.
              */
             if (isset($button['route']) && $builder->getTreeStream()) {
-
                 $button['attributes']['href'] = function ($entry) use ($button) {
 
                     /* @var EntryInterface $entry */

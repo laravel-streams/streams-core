@@ -154,7 +154,6 @@ class EntryTranslationsModel extends EloquentModel
         $assignment = $parent->getAssignment($key);
 
         if (!$assignment) {
-
             parent::setAttribute($key, $value);
 
             return $this;
@@ -249,7 +248,7 @@ class EntryTranslationsModel extends EloquentModel
      *
      * @return array
      */
-    function __sleep()
+    public function __sleep()
     {
 
         /**

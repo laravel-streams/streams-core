@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class RefreshCommand extends \Illuminate\Database\Console\Migrations\RefreshCommand
 {
-
     use DispatchesJobs;
 
     /**

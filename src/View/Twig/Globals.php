@@ -12,11 +12,9 @@
 if (version_compare(\Twig_Environment::VERSION, '1.23.0') === -1) {
     interface Globals
     {
-
     }
 } else {
     interface Globals extends \Twig_Extension_GlobalsInterface
     {
-
     }
 }

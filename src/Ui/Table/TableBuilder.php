@@ -25,7 +25,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class TableBuilder
 {
-
     use DispatchesJobs;
     use FiresCallbacks;
 

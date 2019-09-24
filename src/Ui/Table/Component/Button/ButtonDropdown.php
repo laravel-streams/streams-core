@@ -22,13 +22,10 @@ class ButtonDropdown
         $buttons = $builder->getButtons();
 
         foreach ($buttons as $key => &$button) {
-
             if (isset($button['dropdown'])) {
-
                 $button['position'] = 'right';
 
                 foreach (array_pull($button, 'dropdown') as $dropdown) {
-
                     $dropdown['parent'] = $button['button'];
 
                     $buttons[$dropdown['slug']] = $dropdown;

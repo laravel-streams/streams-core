@@ -18,7 +18,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateCommand
 {
-
     use DispatchesJobs;
 
     /**

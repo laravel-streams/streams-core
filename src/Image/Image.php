@@ -376,7 +376,6 @@ class Image
         }
 
         if (!$alt && config('streams::images.auto_alt', true)) {
-
             $attributes['alt'] = array_get(
                 $this->getAttributes(),
                 'alt',
@@ -637,8 +636,8 @@ class Image
         }
 
         if (is_string($this->image) && str_is('*://*', $this->image) && filemtime($path) < app(
-                'League\Flysystem\MountManager'
-            )->getTimestamp($this->image)
+            'League\Flysystem\MountManager'
+        )->getTimestamp($this->image)
         ) {
             return true;
         }
@@ -666,7 +665,6 @@ class Image
         $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
         if ($this->hasAlteration('copy') || !$this->supportsType($this->getExtension())) {
-
             $this->files->put($path, $this->dumpImage());
 
             return;
@@ -685,7 +683,6 @@ class Image
         }
 
         if (!$this->getAlterations() && !$this->getQuality() && $content = $this->dumpImage()) {
-
             $this->files->put($path, $content);
 
             return;
@@ -696,13 +693,11 @@ class Image
         }
 
         foreach ($this->getAlterations() as $method => $arguments) {
-
             if ($method == 'resize') {
                 $this->guessResizeArguments($arguments);
             }
 
             if (in_array($method, $this->getAllowedMethods())) {
-
                 if (is_array($arguments)) {
                     call_user_func_array([$image, $method], $arguments);
                 } else {
@@ -870,7 +865,6 @@ class Image
 
         // Replace path prefixes.
         if (is_string($image) && str_contains($image, '::')) {
-
             $image = $this->paths->realPath($image);
 
             $this->setOriginal(basename($image));

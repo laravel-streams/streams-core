@@ -15,7 +15,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class AppendEntityStreamLang
 {
-
     use DispatchesJobs;
 
     /**
@@ -52,7 +51,6 @@ class AppendEntityStreamLang
      */
     public function handle(Writer $writer, Filesystem $files)
     {
-
         if (!$files->exists($path = $this->addon->getPath("resources/lang/en/stream.php"))) {
             $this->dispatchNow(new WriteAddonStreamLang($this->addon->getPath()));
         }

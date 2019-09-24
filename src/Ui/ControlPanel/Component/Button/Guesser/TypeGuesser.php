@@ -58,7 +58,6 @@ class TypeGuesser
              */
             if (isset($button['button']) && starts_with($button['button'], 'new_')) {
                 if (!isset($button['text'])) {
-
                     $text = $module->getNamespace('button.' . $button['button']);
 
                     if (trans()->has($text)) {

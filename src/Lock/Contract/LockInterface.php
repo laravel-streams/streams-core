@@ -40,5 +40,4 @@ interface LockInterface
      * @return BelongsTo
      */
     public function lockedBy();
-
 }

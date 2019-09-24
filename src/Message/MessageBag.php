@@ -174,7 +174,6 @@ class MessageBag
     public function flush($type = null)
     {
         if ($type) {
-
             $this->session->forget($type);
 
             return $this;

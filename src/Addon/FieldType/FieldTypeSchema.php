@@ -317,7 +317,6 @@ class FieldTypeSchema
 
         // Back dat data up.
         if ($translatable) {
-
             $results = $this->connection
                 ->table($table->getTable())
                 ->select(['entry_id', $this->fieldType->getColumnName()])
@@ -334,7 +333,6 @@ class FieldTypeSchema
                 )
                 ->get();
         } else {
-
             $results = $this->connection
                 ->table($table->getTable())
                 ->select(['id', $this->fieldType->getColumnName()])
@@ -369,7 +367,6 @@ class FieldTypeSchema
         $results = $this->cache->get(__CLASS__ . $this->fieldType->getColumnName());
 
         foreach ($results as $result) {
-
             $result = (array)$result;
 
             $this->connection

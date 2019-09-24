@@ -75,7 +75,6 @@ class SearchFilterQuery
                     ->getCasts();
 
                 foreach ($filter->getColumns() as $column) {
-
                     $value = $filter->getValue();
 
                     if (array_get($casts, $column) == 'json') {
@@ -86,7 +85,6 @@ class SearchFilterQuery
                 }
 
                 foreach ($filter->getFields() as $field) {
-
                     $filter->setField($field);
 
                     $fieldType      = $stream->getFieldType($field);

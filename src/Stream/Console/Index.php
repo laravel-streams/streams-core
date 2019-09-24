@@ -39,7 +39,6 @@ class Index extends Command
      */
     public function handle(Kernel $console, StreamRepositoryInterface $streams)
     {
-
         $slug      = $this->argument('stream');
         $namespace = $this->argument('namespace');
 
@@ -63,7 +62,6 @@ class Index extends Command
              * then skip over it.
              */
             if (!$stream->isSearchable()) {
-
                 $this->warn($stream->getNamespace() . '.' . $stream->getSlug() . ' is not searchable.');
 
                 continue;
@@ -80,7 +78,6 @@ class Index extends Command
              * Optionally flush before indexing.
              */
             if ($this->option('flush')) {
-
                 $console->call(
                     'scout:flush',
                     [
@@ -127,5 +124,4 @@ class Index extends Command
             ['flush', null, InputOption::VALUE_NONE, 'Indicates if index(es) should first be flushed.'],
         ];
     }
-
 }

@@ -64,5 +64,4 @@ interface VersionInterface
      * @return BelongsTo
      */
     public function createdBy();
-
 }

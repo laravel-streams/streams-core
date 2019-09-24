@@ -78,9 +78,7 @@ trait FiresCallbacks
         $classes = array_merge(class_parents($this), [get_class($this) => get_class($this)]);
 
         foreach (array_keys($classes) as $caller) {
-
             foreach (array_get(self::$listeners, $caller . '::' . $trigger, []) as $callback) {
-
                 if (is_string($callback) || $callback instanceof \Closure) {
                     app()->call($callback, $parameters);
                 }
@@ -106,7 +104,6 @@ trait FiresCallbacks
          * the registered callbacks.
          */
         foreach (array_get($this->callbacks, $trigger, []) as $callback) {
-
             if (is_string($callback) || $callback instanceof \Closure) {
                 app()->call($callback, $parameters);
             }

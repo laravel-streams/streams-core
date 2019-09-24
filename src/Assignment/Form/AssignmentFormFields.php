@@ -59,7 +59,6 @@ class AssignmentFormFields
                     'instructions' => 'streams::assignment.translatable.instructions',
                     'type'         => 'anomaly.field_type.boolean',
                     'warning'      => function (AssignmentFormBuilder $builder) {
-
                         $stream = $builder->getStream();
 
                         if ($stream && !$stream->isTranslatable()) {
@@ -75,7 +74,6 @@ class AssignmentFormFields
                         return null;
                     },
                     'disabled'     => function (AssignmentFormBuilder $builder) {
-
                         $stream = $builder->getStream();
 
                         if ($stream && !$stream->isTranslatable()) {

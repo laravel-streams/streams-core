@@ -47,14 +47,12 @@ class AddonUninstall extends Command
         }
 
         if ($addon instanceof Module) {
-
             $modules->uninstall($addon);
 
             $this->info('The [' . $this->argument('addon') . '] module was uninstalled.');
         }
 
         if ($addon instanceof Extension) {
-
             $extensions->uninstall($addon);
 
             $this->info('The [' . $this->argument('addon') . '] extension was uninstalled.');

@@ -59,12 +59,12 @@ class Csv
         $header = null;
 
         while (($row = fgetcsv(
-                $handle,
-                $this->getLength(),
-                $this->getDelimiter(),
-                $this->getEnclosure(),
-                $this->getEscape()
-            )) !== false) {
+            $handle,
+            $this->getLength(),
+            $this->getDelimiter(),
+            $this->getEnclosure(),
+            $this->getEscape()
+        )) !== false) {
             if ($this->hasHeader() && !$header) {
                 $header = $row;
             } elseif ($this->hasHeader()) {

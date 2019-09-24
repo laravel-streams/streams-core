@@ -18,7 +18,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class BuildForm
 {
-
     use DispatchesJobs;
 
     /**

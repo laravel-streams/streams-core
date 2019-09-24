@@ -18,7 +18,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class AddonPublish extends Command
 {
-
     use DispatchesJobs;
 
     /**

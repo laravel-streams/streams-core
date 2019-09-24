@@ -326,5 +326,4 @@ class FieldCollection extends Collection
             }
         )->implode("\n");
     }
-
 }

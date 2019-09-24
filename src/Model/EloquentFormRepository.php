@@ -16,7 +16,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class EloquentFormRepository implements FormRepositoryInterface
 {
-
     use DispatchesJobs;
 
     /**
@@ -70,7 +69,6 @@ class EloquentFormRepository implements FormRepositoryInterface
          * @var Versionable|EntryModel|EloquentModel $entry
          */
         if ($builder->versioningEnabled() && in_array(Versionable::class, $classes)) {
-
             $enabled = !$entry->versioningDisabled();
 
             $entry->disableVersioning();
@@ -107,7 +105,6 @@ class EloquentFormRepository implements FormRepositoryInterface
         if ($builder->versioningEnabled() && in_array(Versionable::class, $classes) && isset($enabled) && $enabled == true) {
             $entry->enableVersioning();
         }
-
     }
 
     /**
@@ -158,7 +155,6 @@ class EloquentFormRepository implements FormRepositoryInterface
             foreach (config('streams::locales.enabled') as $locale) {
                 foreach ($allowed->translatable() as $field) {
                     if ($field->getLocale() == $locale) {
-
                         array_pull($data, $field->getField());
 
                         array_set(

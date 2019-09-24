@@ -72,9 +72,9 @@ class InstructionsGuesser
             $instructions = $assignment->getInstructions() . '.default';
 
             if (!isset($field['instructions']) && str_is('*::*', $instructions) && trans()->has(
-                    $instructions,
-                    $locale
-                )
+                $instructions,
+                $locale
+            )
             ) {
                 $field['instructions'] = trans($instructions, [], null, $locale);
             }

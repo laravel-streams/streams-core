@@ -16,7 +16,6 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class ConfigureCreator
 {
-
     use DispatchesJobs;
 
     /**

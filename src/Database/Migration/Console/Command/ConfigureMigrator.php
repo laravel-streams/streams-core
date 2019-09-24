@@ -17,7 +17,6 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class ConfigureMigrator
 {
-
     use DispatchesJobs;
 
     /**
@@ -61,7 +60,6 @@ class ConfigureMigrator
     public function handle()
     {
         if (!$addon = $this->input->getOption('addon')) {
-
             $this->migrator->clearAddon();
 
             return;

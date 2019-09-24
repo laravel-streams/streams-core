@@ -331,5 +331,4 @@ trait Versionable
 
         return $this;
     }
-
 }

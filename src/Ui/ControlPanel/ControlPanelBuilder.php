@@ -17,7 +17,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class ControlPanelBuilder
 {
-
     use DispatchesJobs;
     use FiresCallbacks;
 

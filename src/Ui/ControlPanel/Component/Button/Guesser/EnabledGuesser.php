@@ -40,7 +40,6 @@ class EnabledGuesser
         $buttons = $builder->getButtons();
 
         foreach ($buttons as &$button) {
-            
             if (!isset($button['enabled']) || is_bool($button['enabled'])) {
                 continue;
             }

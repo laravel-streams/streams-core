@@ -42,5 +42,4 @@ class VersionRepository extends EloquentRepository implements VersionRepositoryI
 
         return $this;
     }
-
 }

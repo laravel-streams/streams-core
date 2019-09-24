@@ -20,7 +20,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class BuildTable
 {
-
     use DispatchesJobs;
 
     /**

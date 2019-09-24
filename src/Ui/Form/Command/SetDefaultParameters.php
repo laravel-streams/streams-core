@@ -79,7 +79,6 @@ class SetDefaultParameters
 
         /* @var \ReflectionProperty $property */
         foreach ($reflection->getProperties(\ReflectionProperty::IS_PROTECTED) as $property) {
-
             if (in_array($property->getName(), $this->skips)) {
                 continue;
             }

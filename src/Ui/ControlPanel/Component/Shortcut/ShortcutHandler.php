@@ -58,7 +58,6 @@ class ShortcutHandler
 
         /* @var Module $module */
         foreach ($this->modules as $module) {
-
             $shortcuts = $module->getShortcuts();
 
             if ($shortcuts && is_array($shortcuts)) {

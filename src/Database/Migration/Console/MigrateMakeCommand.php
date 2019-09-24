@@ -13,7 +13,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\MigrateMakeCommand
 {
-
     use DispatchesJobs;
 
     /**

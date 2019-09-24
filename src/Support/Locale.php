@@ -9,7 +9,6 @@
  */
 class Locale
 {
-
     protected $locale;
 
     /**
@@ -72,7 +71,7 @@ class Locale
      *
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         return (string)$this->locale;
     }

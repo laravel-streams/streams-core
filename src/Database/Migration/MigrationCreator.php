@@ -58,7 +58,6 @@ class MigrationCreator extends \Illuminate\Database\Migrations\MigrationCreator
         $class = $this->getClassName($name);
 
         if ($this->input) {
-
             $stream = $this->input->getOption('stream');
 
             return app(Parser::class)->parse($stub, compact('class', 'table', 'stream'));

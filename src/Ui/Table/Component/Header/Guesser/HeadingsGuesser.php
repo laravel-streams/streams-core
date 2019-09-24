@@ -85,7 +85,6 @@ class HeadingsGuesser
              * Detect some built in columns.
              */
             if (in_array($column['field'], ['id', 'created_at', 'created_by', 'updated_at', 'updated_by'])) {
-
                 $column['heading']     = 'streams::entry.' . $column['field'];
                 $column['sort_column'] = str_replace('_by', '_by_id', $column['field']);
 
@@ -129,8 +128,8 @@ class HeadingsGuesser
              * a name anyways.
              */
             if ($module && !$field && trans()->has(
-                    $heading = $module->getNamespace('field.' . $column['field'] . '.name')
-                )
+                $heading = $module->getNamespace('field.' . $column['field'] . '.name')
+            )
             ) {
                 $column['heading'] = $heading;
             }

@@ -34,7 +34,6 @@ class MigrateAllAddons
     public function handle(AddonCollection $addons)
     {
         foreach ($addons->enabled() as $addon) {
-
             $options = [
                 '--addon' => $addon->getNamespace(),
             ];

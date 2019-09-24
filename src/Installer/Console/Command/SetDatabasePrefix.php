@@ -11,7 +11,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class SetDatabasePrefix
 {
-
     use DispatchesJobs;
 
     /**

@@ -46,7 +46,6 @@ class PostForms
 
         /* @var FormBuilder $builder */
         foreach ($forms = $this->builder->getForms() as $slug => $builder) {
-
             $builder->disableVersioning();
 
             $this->builder->fire('posting_' . $slug, compact('builder', 'forms'));

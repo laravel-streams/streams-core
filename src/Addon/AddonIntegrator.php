@@ -109,8 +109,8 @@ class AddonIntegrator
         list($vendor, $type, $slug) = explode('.', $namespace);
 
         $class = studly_case($vendor) . '\\' . studly_case($slug) . studly_case($type) . '\\' . studly_case(
-                $slug
-            ) . studly_case($type);
+            $slug
+        ) . studly_case($type);
 
         /* @var Addon|Module|Extension|Twig_ExtensionInterface $addon */
         $addon = app($class)
@@ -131,7 +131,6 @@ class AddonIntegrator
 
         // Load package configuration.
         if (!file_exists(base_path('bootstrap/cache/config.php'))) {
-
             $this->configurator->addNamespace($addon->getNamespace(), $addon->getPath('resources/config'));
 
             // Load published overrides.
@@ -183,7 +182,6 @@ class AddonIntegrator
             app(Dispatcher::class)->listen(
                 'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
                 function (RegisteringTwigPlugins $event) use ($addon) {
-
                     $twig = $event->getTwig();
 
                     if ($twig->hasExtension(get_class($addon))) {

@@ -127,8 +127,8 @@ class DetectActiveModule
         }
 
         if (!$module && $this->request->segment(1) == 'admin' && $module = $this->modules->findBySlug(
-                $this->request->segment(2)
-            )
+            $this->request->segment(2)
+        )
         ) {
             $module->setActive(true);
         }

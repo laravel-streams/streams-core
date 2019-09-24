@@ -39,7 +39,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class Install extends Command
 {
-
     use DispatchesJobs;
 
     /**
@@ -66,7 +65,6 @@ class Install extends Command
         $data = new Collection();
 
         if (!$this->option('ready')) {
-
             $this->dispatchNow(new ConfirmLicense($this));
             $this->dispatchNow(new SetStreamsData($data));
             $this->dispatchNow(new SetDatabaseData($data, $this));
@@ -95,7 +93,6 @@ class Install extends Command
             new Installer(
                 'streams::installer.reloading_application',
                 function () use ($manager) {
-
                     $this->call('env:set', ['line' => 'INSTALLED=true']);
 
                     $this->dispatchNow(new ReloadEnvironmentFile());

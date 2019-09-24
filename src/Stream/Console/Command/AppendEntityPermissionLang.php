@@ -15,7 +15,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class AppendEntityPermissionLang
 {
-
     use DispatchesJobs;
 
     /**
@@ -52,7 +51,6 @@ class AppendEntityPermissionLang
      */
     public function handle(Writer $writer, Filesystem $files)
     {
-
         if (!$files->exists($path = $this->addon->getPath("resources/lang/en/permission.php"))) {
             $this->dispatchNow(new WriteAddonPermissionLang($this->addon->getPath()));
         }

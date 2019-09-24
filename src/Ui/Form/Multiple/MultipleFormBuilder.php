@@ -113,7 +113,6 @@ class MultipleFormBuilder extends FormBuilder
 
         /* @var FormBuilder $builder */
         foreach ($forms = $this->getForms() as $slug => $builder) {
-
             $builder->setSave($this->canSave());
 
             $builder->touchFormEntry();
@@ -169,7 +168,6 @@ class MultipleFormBuilder extends FormBuilder
             ->setOption('prefix', $this->getOption('prefix') . $key . '_');
 
         if ($position === null) {
-
             $this->forms->put($key, $builder);
 
             return $this;

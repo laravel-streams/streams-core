@@ -37,5 +37,4 @@ class LocksController extends PublicController
     {
         $locks->releaseLocks($this->url->previous());
     }
-
 }

@@ -34,7 +34,6 @@ class Refresh extends Command
      */
     public function handle(Kernel $console, Filesystem $files)
     {
-
         $this->info('Refreshing system...');
 
         /**
@@ -67,7 +66,6 @@ class Refresh extends Command
          * delete it and regenerate again.
          */
         if ($files->exists($config = base_path('bootstrap/cache/config.php'))) {
-
             $files->delete($config);
 
             $console->call('config:cache', [], $this->getOutput());
@@ -78,7 +76,6 @@ class Refresh extends Command
          * delete them and regenerate.
          */
         if ($files->exists($routes = base_path('bootstrap/cache/routes.php'))) {
-
             $files->delete($routes);
 
             $console->call('route:cache', [], $this->getOutput());

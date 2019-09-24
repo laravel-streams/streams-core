@@ -12,7 +12,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class FieldTypeCriteria
 {
-
     use DispatchesJobs;
 
     /**
@@ -40,5 +39,4 @@ class FieldTypeCriteria
         $this->query     = $query;
         $this->fieldType = $fieldType;
     }
-
 }

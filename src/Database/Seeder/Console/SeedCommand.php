@@ -13,7 +13,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
 {
-
     use DispatchesJobs;
 
     /**
@@ -31,7 +30,6 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
         $path = $this->input->getOption('class');
 
         if ($path && !class_exists($path)) {
-
             $this->info('Nothing to seed.');
 
             return;

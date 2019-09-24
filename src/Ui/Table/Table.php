@@ -580,5 +580,4 @@ class Table implements PresentableInterface
 
         return app()->make(TablePresenter::class, ['object' => $this]);
     }
-
 }

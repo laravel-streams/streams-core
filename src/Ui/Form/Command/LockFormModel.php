@@ -139,7 +139,6 @@ class LockFormModel
         }
 
         if ($lock->locked_by_id != $user->getId()) {
-
             $this->builder->setLock($lock);
 
             //$this->builder->setReadOnly(true);

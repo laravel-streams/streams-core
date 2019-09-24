@@ -22,7 +22,6 @@ class SectionNormalizer
         $sections = $builder->getSections();
 
         foreach ($sections as $slug => &$section) {
-
             if (is_string($section)) {
                 $section = [
                     'view' => $section,

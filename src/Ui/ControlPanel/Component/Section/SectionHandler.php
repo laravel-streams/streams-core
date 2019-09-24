@@ -63,7 +63,6 @@ class SectionHandler
          * prior if needed!
          */
         if (!$module = $this->modules->active()) {
-
             event(new GatherSections($builder));
 
             return;

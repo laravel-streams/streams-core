@@ -58,7 +58,6 @@ class PublishTranslations
         );
 
         if (is_dir($destination) && !$this->command->option('force')) {
-
             $this->command->error("$destination already exists.");
 
             return;

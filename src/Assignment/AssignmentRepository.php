@@ -65,8 +65,7 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
     public function findByStreamAndField(
         StreamInterface $stream,
         FieldInterface $field
-    )
-    {
+    ) {
         return $this->model
             ->where('stream_id', $stream->getId())
             ->where('field_id', $field->getId())

@@ -59,7 +59,6 @@ class SetJsonResponse
          * from the action handler then grab the redirect.
          */
         if ($action = $this->builder->getActiveFormAction()) {
-
             $responder->setFormResponse($this->builder, $action);
 
             if ($original instanceof RedirectResponse) {

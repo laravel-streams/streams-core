@@ -24,7 +24,6 @@ class SetApplicationDomain
     public function handle(UrlGenerator $url, Repository $config, Request $request)
     {
         if (PHP_SAPI == 'cli') {
-
             $force = $config->get('streams::system.force_ssl', false);
 
             $protocol = 'http';

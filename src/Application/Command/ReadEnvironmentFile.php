@@ -11,7 +11,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class ReadEnvironmentFile
 {
-
     use DispatchesJobs;
 
     /**
@@ -35,7 +34,6 @@ class ReadEnvironmentFile
             if (starts_with($line, '#')) {
                 $data[] = $line;
             } elseif ($operator = strpos($line, '=')) {
-
                 $key   = substr($line, 0, $operator);
                 $value = substr($line, $operator + 1);
 

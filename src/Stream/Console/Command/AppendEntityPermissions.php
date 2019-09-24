@@ -15,7 +15,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class AppendEntityPermissions
 {
-
     use DispatchesJobs;
 
     /**
@@ -52,7 +51,6 @@ class AppendEntityPermissions
      */
     public function handle(Writer $writer, Filesystem $files)
     {
-
         if (!$files->exists($path = $this->addon->getPath("resources/config/permissions.php"))) {
             $this->dispatchNow(new WriteAddonPermissions($this->addon->getPath()));
         }

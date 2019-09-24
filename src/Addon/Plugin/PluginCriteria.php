@@ -308,7 +308,6 @@ class PluginCriteria
         $collection = $this->newCollection();
 
         if ($collection->has('cache')) {
-
             $callback = function () use ($collection) {
                 return app()->call(
                     $this->callback,

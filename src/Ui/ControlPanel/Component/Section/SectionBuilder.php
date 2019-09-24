@@ -60,7 +60,6 @@ class SectionBuilder
         $this->input->read($builder);
 
         foreach ($builder->getSections() as $section) {
-
             if (!$this->authorizer->authorize(array_get($section, 'permission'))) {
                 continue;
             }

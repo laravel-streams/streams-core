@@ -90,7 +90,6 @@ class SetLocale
         }
 
         if ($locale = $request->session()->get('_locale')) {
-
             $this->application->setLocale($locale);
 
             Carbon::setLocale($locale);
@@ -101,7 +100,6 @@ class SetLocale
         }
 
         if (!$locale) {
-
             $locale = $this->app->getLocale() ?: config('streams::locales.default');
 
             $this->application->setLocale($locale);

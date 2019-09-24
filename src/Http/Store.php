@@ -38,5 +38,4 @@ class Store extends \Symfony\Component\HttpKernel\HttpCache\Store
 
         return 'md' . hash('sha256', $uri);
     }
-
 }

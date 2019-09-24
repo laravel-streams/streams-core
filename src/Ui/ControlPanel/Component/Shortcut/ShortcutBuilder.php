@@ -60,7 +60,6 @@ class ShortcutBuilder
         $this->input->read($builder);
 
         foreach ($builder->getShortcuts() as $shortcut) {
-
             if (!$this->authorizer->authorize(array_get($shortcut, 'permission'))) {
                 continue;
             }

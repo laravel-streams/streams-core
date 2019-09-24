@@ -15,7 +15,6 @@ use Leafo\ScssPhp\Compiler;
  */
 class SassFilter extends SassphpFilter
 {
-
     use DispatchesJobs;
 
     /**

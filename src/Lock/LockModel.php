@@ -82,5 +82,4 @@ class LockModel extends EloquentModel implements LockInterface
     {
         return $this->belongsTo(config('auth.providers.users.model'));
     }
-
 }

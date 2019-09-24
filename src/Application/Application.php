@@ -109,8 +109,8 @@ class Application
     public function getStoragePath($path = '')
     {
         return storage_path(
-                'streams' . DIRECTORY_SEPARATOR . $this->getReference()
-            ) . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+            'streams' . DIRECTORY_SEPARATOR . $this->getReference()
+        ) . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 
     /**
@@ -122,8 +122,8 @@ class Application
     public function getAssetsPath($path = '')
     {
         return public_path(
-                'app' . DIRECTORY_SEPARATOR . $this->getReference()
-            ) . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+            'app' . DIRECTORY_SEPARATOR . $this->getReference()
+        ) . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 
     /**
@@ -135,8 +135,8 @@ class Application
     public function getResourcesPath($path = '')
     {
         return base_path(
-                'resources' . DIRECTORY_SEPARATOR . $this->getReference()
-            ) . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+            'resources' . DIRECTORY_SEPARATOR . $this->getReference()
+        ) . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 
     /**
@@ -158,7 +158,6 @@ class Application
     public function locate()
     {
         if ($app = $this->applications->findByDomain(app('request')->root())) {
-
             $this->installed = true;
             $this->locale    = $app->locale;
             $this->enabled   = $app->enabled;

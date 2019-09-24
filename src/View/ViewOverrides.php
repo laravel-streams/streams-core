@@ -11,7 +11,6 @@ use Illuminate\Support\Collection;
  */
 class ViewOverrides extends Collection
 {
-
     public function put($key, $value)
     {
 
@@ -21,5 +20,4 @@ class ViewOverrides extends Collection
          */
         return parent::put(str_replace('/', '.', $key), str_replace('/', '.', $value));
     }
-
 }

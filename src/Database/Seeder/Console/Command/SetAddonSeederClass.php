@@ -8,7 +8,6 @@ use Symfony\Component\Console\Input\InputInterface;
 
 class SetAddonSeederClass
 {
-
     use DispatchesJobs;
 
     /**

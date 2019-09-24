@@ -22,5 +22,4 @@ class Messages extends Facade
     {
         return MessageBag::class;
     }
-
 }

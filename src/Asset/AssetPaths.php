@@ -145,7 +145,6 @@ class AssetPaths
     public function realPath($path)
     {
         if (str_contains($path, '::')) {
-
             list($namespace, $path) = explode('::', $path);
 
             if (!isset($this->paths[$namespace])) {

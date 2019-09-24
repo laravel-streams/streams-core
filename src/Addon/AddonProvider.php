@@ -175,7 +175,6 @@ class AddonProvider
         $booted = array_get($this->cached, 'booted', []);
 
         foreach ($this->providers as $provider) {
-
             if (in_array($class = get_class($provider), $booted)) {
                 continue;
             }
@@ -341,7 +340,6 @@ class AddonProvider
             if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
                 $this->router->resource($uri, $route['uses']);
             } else {
-
                 $route = $this->router->{$verb}($uri, $route)->where($constraints);
 
                 if ($middleware) {
@@ -376,7 +374,6 @@ class AddonProvider
                 'middleware' => 'auth:api',
             ],
             function (Router $router) use ($routes, $addon) {
-
                 foreach ($routes as $uri => $route) {
 
                     /*
@@ -401,7 +398,6 @@ class AddonProvider
                     if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
                         $router->resource($uri, $route['uses']);
                     } else {
-
                         $route = $router->{$verb}($uri, $route)->where($constraints);
 
                         if ($middleware) {
@@ -473,7 +469,6 @@ class AddonProvider
             if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
                 $this->router->resource($uri, $route['uses']);
             } else {
-
                 $route = $this->router->{$verb}($uri, $route)->where($constraints);
 
                 if ($middleware) {
@@ -497,11 +492,9 @@ class AddonProvider
         app(Dispatcher::class)->listen(
             'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
             function (RegisteringTwigPlugins $event) use ($plugins) {
-
                 $twig = $event->getTwig();
 
                 foreach ($plugins as $plugin) {
-
                     if ($twig->hasExtension($plugin)) {
                         continue;
                     }
@@ -525,7 +518,6 @@ class AddonProvider
 
         foreach ($schedules as $frequency => $commands) {
             foreach (array_filter($commands) as $command => $options) {
-
                 if (!is_array($options)) {
                     $command = $options;
                     $options = [];
@@ -534,7 +526,6 @@ class AddonProvider
                 if (str_is('* * * *', $frequency)) {
                     $command = $this->schedule->command($command)->cron($frequency);
                 } else {
-
                     $parts = explode('|', $frequency);
 
                     $method    = camel_case(array_shift($parts));
@@ -544,7 +535,6 @@ class AddonProvider
                 }
 
                 foreach ($options as $option => $arguments) {
-
                     if (!is_array($arguments)) {
                         $option    = $arguments;
                         $arguments = [];

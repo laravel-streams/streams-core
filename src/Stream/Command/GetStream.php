@@ -53,7 +53,6 @@ class GetStream
          * we will assume dot notation.
          */
         if (!$this->slug) {
-
             $parts = explode('.', $this->namespace);
 
             $this->namespace = $parts[0];

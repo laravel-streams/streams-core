@@ -11,5 +11,4 @@ use Anomaly\Streams\Platform\Support\Collection;
  */
 class InstallerCollection extends Collection
 {
-
 }

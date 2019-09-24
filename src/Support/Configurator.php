@@ -51,7 +51,6 @@ class Configurator
 
         /* @var SplFileInfo $file */
         foreach ($this->files->allFiles($directory) as $file) {
-
             $key = $this->getKeyFromFile($directory, $file);
 
             config()->set("{$namespace}::{$key}", $this->files->getRequire($file->getPathname()));
@@ -72,7 +71,6 @@ class Configurator
 
         /* @var SplFileInfo $file */
         foreach ($this->files->allFiles($directory) as $file) {
-
             $key = $this->getKeyFromFile($directory, $file);
 
             config()->set(

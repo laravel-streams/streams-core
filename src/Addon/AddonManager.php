@@ -134,7 +134,6 @@ class AddonManager
          * Autoload testing addons.
          */
         if (env('APP_ENV') === 'testing' && $testing = $this->paths->testing()) {
-
             foreach ($testing as $path) {
                 $this->loader->load($path);
             }
@@ -151,7 +150,6 @@ class AddonManager
          * Register all of the addons.
          */
         foreach ($paths as $path) {
-
             $namespace = $this->getAddonNamespace($path);
 
             $addon = $this->integrator->register(
@@ -166,7 +164,6 @@ class AddonManager
             }
 
             foreach ($addon->getAddons() as $class) {
-
                 $namespace = $this->getAddonNamespace(
                     $path = dirname(dirname((new \ReflectionClass($class))->getFileName()))
                 );

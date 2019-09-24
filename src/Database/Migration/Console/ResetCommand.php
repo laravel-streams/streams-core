@@ -14,7 +14,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class ResetCommand extends \Illuminate\Database\Console\Migrations\ResetCommand
 {
-
     use DispatchesJobs;
 
     /**

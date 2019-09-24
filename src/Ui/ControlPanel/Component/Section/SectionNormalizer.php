@@ -50,7 +50,6 @@ class SectionNormalizer
                      * It's a slug only!
                      */
                     if (is_string($child)) {
-
                         $key = $child;
 
                         $child = ['slug' => $child];

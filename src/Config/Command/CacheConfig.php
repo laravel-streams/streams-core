@@ -25,7 +25,6 @@ class CacheConfig
          * a cache file exists in bootstrap.
          */
         if (file_exists($cache = base_path('bootstrap/cache/config.php'))) {
-
             unlink($cache);
 
             $console->call('config:cache');

@@ -41,7 +41,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class Make extends Command
 {
-
     use DispatchesJobs;
 
     /**
@@ -112,7 +111,6 @@ class Make extends Command
 
         // Module Specific.
         if ($addon->getType() == 'module') {
-
             $this->dispatchNow(new AppendEntityRoutes($addon, $slug, $namespace));
             $this->dispatchNow(new AppendEntitySection($addon, $slug, $namespace));
 

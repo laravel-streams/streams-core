@@ -55,7 +55,6 @@ use Illuminate\Support\ServiceProvider;
  */
 class StreamsServiceProvider extends ServiceProvider
 {
-
     use DispatchesJobs;
 
     /**
@@ -224,7 +223,6 @@ class StreamsServiceProvider extends ServiceProvider
          */
         $this->app->booted(
             function () {
-
                 event(new Booted());
 
                 /* @var Schedule $schedule */
@@ -235,7 +233,6 @@ class StreamsServiceProvider extends ServiceProvider
                  */
                 foreach (array_merge($this->schedule, config('streams.schedules', [])) as $frequency => $commands) {
                     foreach (array_filter($commands) as $command) {
-
                         if (str_contains($frequency, ' ')) {
                             $schedule->command($command)->cron($frequency);
                         }
@@ -257,7 +254,6 @@ class StreamsServiceProvider extends ServiceProvider
                 $events->listen(
                     RegisteringTwigPlugins::class,
                     function (RegisteringTwigPlugins $event) {
-
                         $twig = $event->getTwig();
 
                         foreach ($this->plugins as $plugin) {
@@ -269,7 +265,8 @@ class StreamsServiceProvider extends ServiceProvider
                         $twig->addExtension(
                             new Extension(
                                 new CacheStrategy(
-                                    new CacheAdapter($this->app->make(Repository::class)), new CacheKey()
+                                    new CacheAdapter($this->app->make(Repository::class)),
+                                    new CacheKey()
                                 )
                             )
                         );
@@ -320,7 +317,6 @@ class StreamsServiceProvider extends ServiceProvider
         app()->register(\Intervention\Image\ImageServiceProvider::class);
 
         foreach (config('streams.listeners', []) as $event => $listeners) {
-
             foreach ($listeners as $key => $listener) {
                 if (is_integer($listener)) {
                     $priority = $listener;

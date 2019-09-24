@@ -224,7 +224,6 @@ class Asset
          * file then add it normally.
          */
         if (starts_with($file, ['http', '//']) || file_exists($file)) {
-
             $this->collections[$collection][$file] = $filters;
 
             return $this;
@@ -235,7 +234,6 @@ class Asset
          * it to the collection and add the glob filter.
          */
         if (count(glob($file)) > 0) {
-
             $this->collections[$collection][$file] = array_merge($filters, ['glob']);
 
             return $this;
@@ -486,7 +484,6 @@ class Asset
         return array_filter(
             array_map(
                 function ($file, $filters) use ($additionalFilters) {
-
                     $filters = array_filter(array_unique(array_merge($filters, $additionalFilters, ['noversion'])));
 
                     return file_get_contents(
@@ -561,7 +558,6 @@ class Asset
             try {
                 $contents = (string)render($contents);
             } catch (\Exception $e) {
-
                 if (config('app.debug')) {
                     dump($contents);
                 }
@@ -571,7 +567,6 @@ class Asset
         }
 
         if (in_array('min', $filters) && $hint == 'css') {
-
             $compressor = new Minifier;
 
             $compressor->setLineBreakPosition(0);
@@ -669,16 +664,15 @@ class Asset
          * files that have been modified then publish.
          */
         if (request()->isNoCache() && array_filter(
-                $filters,
-                function ($filter) use ($path) {
-
-                    if (!starts_with($filter, 'watch@')) {
-                        return false;
-                    }
-
-                    return $this->lastModifiedAt(substr($filter, 6)) > filemtime($path);
+            $filters,
+            function ($filter) use ($path) {
+                if (!starts_with($filter, 'watch@')) {
+                    return false;
                 }
-            )
+
+                return $this->lastModifiedAt(substr($filter, 6)) > filemtime($path);
+            }
+        )
         ) {
             return true;
         }
@@ -800,9 +794,7 @@ class Asset
     public function removeLoaded(array $names)
     {
         foreach ($names as $name) {
-
             if ($this->isLoaded($name)) {
-
                 list($collection, $path) = explode('@', $this->loaded[$name]);
 
                 unset($this->collections[$collection][$this->paths->realPath($path)]);
@@ -850,10 +842,8 @@ class Asset
      *
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         return '';
     }
-
-
 }

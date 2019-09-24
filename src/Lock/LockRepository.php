@@ -90,5 +90,4 @@ class LockRepository extends EloquentRepository implements LockRepositoryInterfa
 
         return $this;
     }
-
 }

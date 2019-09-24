@@ -125,7 +125,6 @@ class ViewComposer
     public function compose(View $view)
     {
         if ($data = array_merge($view->getFactory()->getShared(), $view->getData())) {
-
             array_walk(
                 $data,
                 function (&$value) {
@@ -140,7 +139,6 @@ class ViewComposer
         }
 
         if (!$this->theme || !env('INSTALLED')) {
-
             if (!self::$loaded && self::$loaded = true) {
                 /* @deprecated since 1.6; this is no longer needed for every view. */
                 event(new ViewComposed($view));
@@ -250,5 +248,4 @@ class ViewComposer
 
         return null;
     }
-
 }

@@ -17,7 +17,6 @@ use Illuminate\Support\Collection;
  */
 class TableRepository implements TableRepositoryInterface
 {
-
     use DispatchesJobs;
 
     /**

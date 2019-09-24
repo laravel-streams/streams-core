@@ -43,7 +43,6 @@ class StreamSchema
         $this->schema->create(
             $table,
             function (Blueprint $table) use ($stream) {
-
                 $table->engine = $stream->getConfig('database.engine');
 
                 $table->increments('id');
@@ -72,7 +71,6 @@ class StreamSchema
         $this->schema->create(
             $stream->getEntryTranslationsTableName(),
             function (Blueprint $table) use ($stream) {
-
                 $table->engine = $stream->getConfig('database.engine');
 
                 $table->increments('id');

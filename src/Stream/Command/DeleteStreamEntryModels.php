@@ -43,8 +43,8 @@ class DeleteStreamEntryModels
         $path = $application->getStoragePath('models/' . studly_case($this->stream->getNamespace()));
 
         $model = $path . '/' . studly_case($this->stream->getNamespace()) . studly_case(
-                $this->stream->getSlug()
-            ) . 'EntryModel.php';
+            $this->stream->getSlug()
+        ) . 'EntryModel.php';
 
         if ($files->exists($model)) {
             $files->delete($model);
@@ -55,8 +55,8 @@ class DeleteStreamEntryModels
         }
 
         $model = $path . '/' . studly_case($this->stream->getNamespace()) . studly_case(
-                $this->stream->getSlug()
-            ) . 'EntryTranslationsModel.php';
+            $this->stream->getSlug()
+        ) . 'EntryTranslationsModel.php';
 
         if ($files->exists($model)) {
             $files->delete($model);

@@ -298,7 +298,6 @@ trait Translatable
 
             /* @var EloquentModel $translation */
             if ($saved) {
-
                 $translation->setAttribute($this->getRelationKey(), $this->getKey());
 
                 $saved = $translation->save();
@@ -306,7 +305,6 @@ trait Translatable
         }
 
         if ($translations->isEmpty()) {
-
             $translation = $this->translateOrNew(config('streams::locales.default'));
 
             $translation->save();
@@ -341,7 +339,6 @@ trait Translatable
     protected function getTranslationByLocaleKey($key)
     {
         foreach ($this->getTranslations() as $translation) {
-
             if ($translation->getAttribute($this->getLocaleKey()) == $key) {
                 return $translation;
             }

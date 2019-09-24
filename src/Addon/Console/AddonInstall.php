@@ -19,7 +19,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class AddonInstall extends Command
 {
-
     use DispatchesJobs;
 
     /**
@@ -50,14 +49,12 @@ class AddonInstall extends Command
         }
 
         if ($addon instanceof Module) {
-
             $modules->install($addon, $this->option('seed'));
 
             $this->info('The [' . $this->argument('addon') . '] module was installed.');
         }
 
         if ($addon instanceof Extension) {
-
             $extensions->install($addon, $this->option('seed'));
 
             $this->info('The [' . $this->argument('addon') . '] extension was installed.');

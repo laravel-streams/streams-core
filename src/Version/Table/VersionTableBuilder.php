@@ -138,5 +138,4 @@ class VersionTableBuilder extends TableBuilder
 
         return $this;
     }
-
 }

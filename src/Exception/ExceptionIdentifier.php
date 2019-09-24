@@ -78,5 +78,4 @@ class ExceptionIdentifier
 
         return vsprintf('%08s-%04s-%04s-%02s%02s-%012s', $params);
     }
-
 }

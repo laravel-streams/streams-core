@@ -13,7 +13,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class Observer
 {
-
     use FiresCallbacks;
 
     /**

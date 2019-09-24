@@ -15,7 +15,6 @@ use Leafo\ScssPhp\Compiler;
  */
 class RubySassFilter extends SassFilter
 {
-
     use DispatchesJobs;
 
     /**

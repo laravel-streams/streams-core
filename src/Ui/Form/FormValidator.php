@@ -16,7 +16,6 @@ use Illuminate\Validation\Validator;
  */
 class FormValidator
 {
-
     use DispatchesJobs;
 
     /**
@@ -119,7 +118,6 @@ class FormValidator
     protected function setResponse(Validator $validator, FormBuilder $builder)
     {
         if (!$validator->passes()) {
-
             $builder->setSave(false);
 
             $bag = $validator->getMessageBag();

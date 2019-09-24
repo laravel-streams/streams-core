@@ -50,7 +50,6 @@ class ButtonBuilder
 
         foreach ($builder->getButtons() as $button) {
             if (array_get($button, 'enabled', true)) {
-
                 $button = $this->factory->make($button);
 
                 $builder->addFormButton($button);

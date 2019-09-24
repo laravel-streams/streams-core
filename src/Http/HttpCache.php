@@ -15,7 +15,6 @@ use Symfony\Component\HttpKernel\TerminableInterface;
  */
 class HttpCache extends \Symfony\Component\HttpKernel\HttpCache\HttpCache implements TerminableInterface
 {
-
     use DispatchesJobs;
 
     /**
@@ -54,5 +53,4 @@ class HttpCache extends \Symfony\Component\HttpKernel\HttpCache\HttpCache implem
     {
         $this->getKernel()->terminate($request, $response);
     }
-
 }

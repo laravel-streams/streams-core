@@ -14,7 +14,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class RollbackCommand extends \Illuminate\Database\Console\Migrations\RollbackCommand
 {
-
     use DispatchesJobs;
 
     /**

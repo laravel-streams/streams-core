@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class EloquentRepository implements EloquentRepositoryInterface
 {
-
     use FiresCallbacks;
     use Hookable;
 

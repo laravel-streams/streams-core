@@ -50,7 +50,6 @@ class ShortcutNormalizer
                      * It's a slug only!
                      */
                     if (is_string($child)) {
-
                         $key = $child;
 
                         $child = ['slug' => $child];
@@ -126,9 +125,7 @@ class ShortcutNormalizer
              * process those real quick.
              */
             if (isset($shortcut['dropdown'])) {
-
                 foreach ($shortcut['dropdown'] as $index => &$dropdown) {
-
                     if (is_string($dropdown)) {
                         $dropdown = [
                             'text' => $index,

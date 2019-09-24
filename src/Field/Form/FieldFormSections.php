@@ -73,8 +73,8 @@ class FieldFormSections
 
                                         // Only default locale fields.
                                         if (isset($field['locale']) && $field['locale'] !== config(
-                                                'app.fallback_locale'
-                                            )
+                                            'app.fallback_locale'
+                                        )
                                         ) {
                                             return false;
                                         }

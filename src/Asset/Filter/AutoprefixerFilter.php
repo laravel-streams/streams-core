@@ -17,5 +17,4 @@ class AutoprefixerFilter extends \Assetic\Filter\AutoprefixerFilter
     {
         parent::__construct(config('streams::assets.autoprefixer', null));
     }
-
 }

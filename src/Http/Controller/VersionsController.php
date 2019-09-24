@@ -53,5 +53,4 @@ class VersionsController extends AdminController
     {
         return $this->prefix;
     }
-
 }

@@ -14,7 +14,6 @@ use Illuminate\Support\HigherOrderCollectionProxy;
  */
 class EloquentCollection extends Collection
 {
-
     use Hookable;
 
     /**

@@ -15,7 +15,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class AppendEntitySectionLang
 {
-
     use DispatchesJobs;
 
     /**
@@ -52,7 +51,6 @@ class AppendEntitySectionLang
      */
     public function handle(Writer $writer, Filesystem $files)
     {
-
         if (!$files->exists($path = $this->addon->getPath("resources/lang/en/section.php"))) {
             $this->dispatchNow(new WriteAddonSectionLang($this->addon->getPath()));
         }

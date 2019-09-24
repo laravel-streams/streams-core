@@ -48,14 +48,12 @@ class LoadCurrentTheme
         $standard = $themes->get($config->get('streams::themes.standard'));
 
         if ($admin) {
-
             $admin->setActive(true);
 
             $provider->register($admin);
         }
 
         if ($standard) {
-
             $standard->setActive(true);
 
             $provider->register($standard);

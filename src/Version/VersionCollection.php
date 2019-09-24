@@ -11,5 +11,4 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
  */
 class VersionCollection extends EloquentCollection
 {
-
 }

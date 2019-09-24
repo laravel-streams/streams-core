@@ -70,5 +70,4 @@ class ModuleManager
     {
         $this->dispatchNow(new MigrateModule($module, $seed));
     }
-
 }

@@ -39,14 +39,13 @@ class ImageMacros
 
     /**
      * Run a macro.
-     * 
+     *
      * @param $macro
      * @param Image $image
      * @return Image
      */
     public function run($macro, Image $image)
     {
-
         if (!$process = array_get($this->getMacros(), $macro)) {
             return $image;
         }

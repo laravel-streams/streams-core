@@ -136,19 +136,17 @@ class ImagePaths
          * put it in /app/{$application}/files/disk/folder/filename.ext
          */
         if (is_string($path) && str_is('*://*', $path)) {
-
             $application = $this->application->getReference();
 
             list($disk, $folder, $filename) = explode('/', str_replace('://', '/', $path));
 
             if ($image->getAlterations() || $image->getQuality()) {
                 $filename = md5(
-                        var_export([$path, $image->getAlterations()], true) . $image->getQuality()
-                    ) . '.' . $image->getExtension();
+                    var_export([$path, $image->getAlterations()], true) . $image->getQuality()
+                ) . '.' . $image->getExtension();
             }
 
             if ($rename = $image->getFilename()) {
-
                 $filename = $rename;
 
                 if (strpos($filename, DIRECTORY_SEPARATOR)) {
@@ -173,8 +171,8 @@ class ImagePaths
 
         if ($image->getAlterations() || $image->getQuality()) {
             $filename = md5(
-                    var_export([$path, $image->getAlterations()], true) . $image->getQuality()
-                ) . '.' . $image->getExtension();
+                var_export([$path, $image->getAlterations()], true) . $image->getQuality()
+            ) . '.' . $image->getExtension();
         }
 
         if ($rename = $image->getFilename()) {

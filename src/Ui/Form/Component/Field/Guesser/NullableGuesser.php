@@ -22,7 +22,6 @@ class NullableGuesser
         $fields = $builder->getFields();
 
         foreach ($fields as &$field) {
-
             $rules = array_get($field, 'rules', []);
 
             if (is_string($rules)) {

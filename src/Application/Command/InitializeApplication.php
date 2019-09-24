@@ -24,7 +24,6 @@ class InitializeApplication
         $app = env('APPLICATION_REFERENCE', 'default');
 
         if (PHP_SAPI == 'cli') {
-
             if (!defined('IS_ADMIN')) {
                 define('IS_ADMIN', false);
             }
@@ -66,11 +65,8 @@ class InitializeApplication
          * initialize.
          */
         if ($application->isInstalled()) {
-
             if (env('DB_CONNECTION', env('DB_DRIVER'))) {
-
                 try {
-
                     if (PHP_SAPI != 'cli') {
                         $application->locate();
                     }

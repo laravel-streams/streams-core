@@ -62,7 +62,6 @@ class SetFormEntry
          */
         if (is_numeric($entry) || $entry === null) {
             if ($repository instanceof FormRepositoryInterface) {
-
                 $this->builder->setFormEntry($entry = $repository->findOrNew($entry));
 
                 $this->builder->fire('entry_set', ['builder' => $this->builder, 'entry' => $entry]);
@@ -76,7 +75,6 @@ class SetFormEntry
          * object  then just use it as is.
          */
         if (is_object($entry)) {
-
             $this->builder->setFormEntry($entry);
 
             $this->builder->fire('entry_set', ['builder' => $this->builder, 'entry' => $entry]);

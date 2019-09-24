@@ -36,7 +36,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class MakeAddon extends Command
 {
-
     use DispatchesJobs;
 
     /**

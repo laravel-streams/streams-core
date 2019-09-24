@@ -22,7 +22,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class BuildControlPanel
 {
-
     use DispatchesJobs;
 
     /**

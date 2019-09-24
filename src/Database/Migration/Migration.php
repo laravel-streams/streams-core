@@ -8,7 +8,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 
 abstract class Migration extends \Illuminate\Database\Migrations\Migration
 {
-
     use DispatchesJobs;
 
     /**

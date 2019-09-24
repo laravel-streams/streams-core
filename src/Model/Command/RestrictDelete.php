@@ -41,7 +41,6 @@ class RestrictDelete
     public function handle(MessageBag $messages)
     {
         foreach ($this->model->getRestricts() as $relation) {
-
             $humanize = humanize($relation);
 
             /* @var Relation $relation */
@@ -52,7 +51,6 @@ class RestrictDelete
             }
 
             if ($relation->count()) {
-
                 $messages->warning(
                     trans(
                         'streams::message.delete_restrict',

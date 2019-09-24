@@ -71,7 +71,6 @@ class RowBuilder
     public function build(TableBuilder $builder)
     {
         foreach ($builder->getTableEntries() as $entry) {
-
             $columns = $this->columns->build($builder, $entry);
             $buttons = $this->buttons->build($builder, $entry);
 

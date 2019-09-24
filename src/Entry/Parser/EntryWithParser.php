@@ -29,5 +29,4 @@ class EntryWithParser
 
         return '[' . implode(', ', $relationships) . ']';
     }
-
 }

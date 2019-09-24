@@ -51,7 +51,6 @@ class PurgeHttpCache
         try {
             $cache = app(HttpCache::class);
         } catch (\Exception $exception) {
-
             \Log::error($exception->getMessage() . 'in [' . __CLASS__ . ']');
 
             return;
@@ -70,5 +69,4 @@ class PurgeHttpCache
             )
         );
     }
-
 }

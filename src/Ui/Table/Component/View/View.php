@@ -13,7 +13,6 @@ use Closure;
  */
 class View implements ViewInterface
 {
-
     use FiresCallbacks;
 
     /**

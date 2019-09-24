@@ -26,7 +26,6 @@ class Warm extends Command
     public function handle()
     {
         if (config('streams::httpcache.enabled', false) === false) {
-
             $this->error('HTTP cache is not enabled.');
 
             return;
@@ -41,7 +40,6 @@ class Warm extends Command
         $sitemaps = simplexml_load_string(file_get_contents(config('app.url') . '/sitemap.xml'));
 
         foreach ($sitemaps as $sitemap) {
-
             if ($sleep) {
                 sleep($sleep);
             }
@@ -51,7 +49,6 @@ class Warm extends Command
             $items = simplexml_load_string(file_get_contents((string)$sitemap->loc));
 
             foreach ($items as $item) {
-
                 if ($sleep) {
                     sleep($sleep);
                 }

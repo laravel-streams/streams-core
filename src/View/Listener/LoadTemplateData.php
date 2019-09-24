@@ -55,7 +55,6 @@ class LoadTemplateData
     public function handle()
     {
         if (!$this->template->isLoaded()) {
-
             $this->template->set('includes', $this->includes);
 
             event(new RegisteringTwigPlugins($this->twig));

@@ -19,7 +19,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class EloquentQueryBuilder extends Builder
 {
-
     use Hookable;
     use DispatchesJobs;
 
@@ -81,7 +80,6 @@ class EloquentQueryBuilder extends Builder
             PHP_SAPI != 'cli' &&
             $ttl
         ) {
-
             $this->rememberIndex();
             $this->orderByDefault();
 
@@ -188,8 +186,8 @@ class EloquentQueryBuilder extends Builder
         $name = $this->model->getConnectionName();
 
         return $this->model->getCacheCollectionKey() . ':' . md5(
-                $name . $this->toSql() . serialize($this->getBindings())
-            );
+            $name . $this->toSql() . serialize($this->getBindings())
+        );
     }
 
     /**
@@ -214,7 +212,6 @@ class EloquentQueryBuilder extends Builder
     public function cache($ttl = null)
     {
         if (!config('streams::database.cache', false)) {
-
             $this->model->setTtl(0);
 
             return $this;
@@ -313,7 +310,6 @@ class EloquentQueryBuilder extends Builder
                     $this
                         ->translate()
                         ->orderBy($model->getTranslationsTableName() . '.' . $model->getTitleName(), 'ASC');
-
                 } elseif ($model->getTitleName() && $model->getTitleName() !== 'id') {
                     $query->orderBy($model->getTitleName(), 'ASC');
                 }

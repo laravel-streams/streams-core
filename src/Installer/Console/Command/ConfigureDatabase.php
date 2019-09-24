@@ -12,7 +12,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class ConfigureDatabase
 {
-
     use DispatchesJobs;
 
     /**

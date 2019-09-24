@@ -45,9 +45,7 @@ class NavigationSorter
          * module to the top of the navigation.
          */
         foreach ($navigation as $key => $module) {
-
             if ($key == 'anomaly.module.dashboard') {
-
                 $navigation = [$key => $module] + $navigation;
 
                 break;

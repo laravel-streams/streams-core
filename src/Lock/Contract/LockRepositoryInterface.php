@@ -43,5 +43,4 @@ interface LockRepositoryInterface extends EloquentRepositoryInterface
      * @return $this
      */
     public function cleanup();
-
 }
