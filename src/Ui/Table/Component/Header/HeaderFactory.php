@@ -48,7 +48,7 @@ class HeaderFactory
      */
     public function make(array $parameters)
     {
-        $header = $this->container->make(Header::class, $parameters);
+        $header = app(Header::class, $parameters);
 
         $this->hydrator->hydrate($header, $parameters);
 

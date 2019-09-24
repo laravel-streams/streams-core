@@ -64,9 +64,9 @@ class EntryFactory
         }
 
         /* @var EntryModel $model */
-        $model = $this->container->make($model);
+        $model = app($model);
 
-        return $this->container->make(
+        return app(
             $model->getCriteriaName(),
             [
                 'query'  => $model->newQuery(),

@@ -55,7 +55,7 @@ class NavigationFactory
      */
     public function make(array $parameters)
     {
-        $link = $this->container->make(array_get($parameters, 'link', $this->link), $parameters);
+        $link = app(array_get($parameters, 'link', $this->link), $parameters);
 
         $this->hydrator->hydrate($link, $parameters);
 

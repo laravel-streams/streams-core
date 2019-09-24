@@ -53,7 +53,7 @@ class SectionFactory
      */
     public function make(array $parameters)
     {
-        $section = $this->container->make(array_get($parameters, 'section', $this->section), $parameters);
+        $section = app(array_get($parameters, 'section', $this->section), $parameters);
 
         $this->hydrator->hydrate($section, $parameters);
 

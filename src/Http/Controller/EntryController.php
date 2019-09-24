@@ -86,7 +86,7 @@ class EntryController extends AdminController
          * Resolve the model and set
          * it on the repository.
          */
-        $this->repository->setModel($this->container->make($stream->getEntryModelName()));
+        $this->repository->setModel(app($stream->getEntryModelName()));
 
         $entry = $this->repository->findTrashed($id);
 
@@ -126,7 +126,7 @@ class EntryController extends AdminController
          * Resolve the model and set
          * it on the repository.
          */
-        $this->repository->setModel($this->container->make($stream->getEntryModelName()));
+        $this->repository->setModel(app($stream->getEntryModelName()));
 
         if (!$this->authorizer->authorize($addon->getNamespace($stream->getSlug() . '.read'))) {
             abort(403);

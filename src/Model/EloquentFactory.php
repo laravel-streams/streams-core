@@ -57,12 +57,12 @@ class EloquentFactory
         }
 
         /* @var EloquentModel $model */
-        $model = $this->container->make($model);
+        $model = app($model);
 
         $criteria = $model->getCriteriaName();
         $query    = $model->newQuery();
 
-        return $this->container->make(
+        return app(
             $criteria,
             [
                 'query'  => $query,

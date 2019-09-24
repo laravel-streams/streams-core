@@ -104,7 +104,7 @@ class ExceptionHandler extends Handler
         $code    = $e->getStatusCode();
         $name    = trans("streams::error.{$code}.name");
         $message = trans("streams::error.{$code}.message");
-        $id      = $this->container->make(ExceptionIdentifier::class)->identify($this->original);
+        $id      = app(ExceptionIdentifier::class)->identify($this->original);
 
         if (view()->exists($view = "streams::errors/{$code}")) {
             return response()->view($view, compact('id', 'code', 'name', 'message', 'summary'), $code, $headers);
@@ -146,7 +146,7 @@ class ExceptionHandler extends Handler
                     'user'       => \Auth::id(),
                     'email'      => \Auth::user() ? \Auth::user()->email : null,
                     'url'        => request() ? request()->fullUrl() : null,
-                    'identifier' => $this->container->make(ExceptionIdentifier::class)->identify($this->original),
+                    'identifier' => app(ExceptionIdentifier::class)->identify($this->original),
                 ]
             );
         } catch (Throwable $e) {

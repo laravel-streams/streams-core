@@ -48,7 +48,7 @@ class RowFactory
      */
     public function make(array $parameters)
     {
-        $row = $this->container->make(Row::class, $parameters);
+        $row = app(Row::class, $parameters);
 
         $this->hydrator->hydrate($row, $parameters);
 

@@ -139,7 +139,7 @@ class DetectActiveModule
 
         $this->template->set('module', $module);
 
-        $this->container->make('view')->addNamespace(
+        app('view')->addNamespace(
             'module',
             [
                 $this->application->getResourcesPath(
@@ -148,7 +148,7 @@ class DetectActiveModule
                 $module->getPath('resources/views'),
             ]
         );
-        $this->container->make('translator')->addNamespace('module', $module->getPath('resources/lang'));
+        app('translator')->addNamespace('module', $module->getPath('resources/lang'));
 
         $this->asset->addPath('module', $module->getPath('resources'));
         $this->image->addPath('module', $module->getPath('resources'));

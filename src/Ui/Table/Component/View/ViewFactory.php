@@ -60,7 +60,7 @@ class ViewFactory
         }
 
         $this->hydrator->hydrate(
-            $view = $this->container->make(array_get($parameters, 'view'), $parameters),
+            $view = app(array_get($parameters, 'view'), $parameters),
             $parameters
         );
 

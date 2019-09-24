@@ -13,6 +13,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class FieldTypeBuilder
 {
+
     use DispatchesJobs;
 
     /**
@@ -39,8 +40,8 @@ class FieldTypeBuilder
     /**
      * Handle the command.
      *
-     * @param Hydrator            $hydrator
-     * @param Container           $container
+     * @param Hydrator $hydrator
+     * @param Container $container
      * @param FieldTypeCollection $fieldTypes
      */
     public function __construct(Hydrator $hydrator, Container $container, FieldTypeCollection $fieldTypes)
@@ -65,7 +66,9 @@ class FieldTypeBuilder
          * parameter has been set.
          */
         if (!is_string($type)) {
-            throw new \Exception("The [type] parameter of [".array_get($parameters, 'field')."] is required and should be string.");
+            throw new \Exception(
+                "The [type] parameter of [" . array_get($parameters, 'field') . "] is required and should be string."
+            );
         }
 
         /*
@@ -75,7 +78,7 @@ class FieldTypeBuilder
          * we can resolve it from the container.
          */
         if (str_contains($type, '\\') && class_exists($type)) {
-            $fieldType = clone($this->container->make($type));
+            $fieldType = clone(app($type));
         }
 
         /*
