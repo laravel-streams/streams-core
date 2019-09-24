@@ -47,10 +47,10 @@ class EntryController extends AdminController
     /**
      * Create a new EntryController instance.
      *
-     * @param AddonCollection           $addons
-     * @param Authorizer                $authorizer
+     * @param AddonCollection $addons
+     * @param Authorizer $authorizer
      * @param StreamRepositoryInterface $streams
-     * @param EntryRepositoryInterface  $repository
+     * @param EntryRepositoryInterface $repository
      */
     public function __construct(
         AddonCollection $addons,
@@ -95,16 +95,16 @@ class EntryController extends AdminController
         }
 
         if (!$entry->isRestorable()) {
-            $this->messages->error('streams::message.restore_failed');
+            messages('error', 'streams::message.restore_failed');
 
-            return $this->redirect->back();
+            return back();
         }
 
         $this->repository->restore($entry);
 
-        $this->messages->success('streams::message.restore_success');
+        messages('success', 'streams::message.restore_success');
 
-        return $this->redirect->back();
+        return back();
     }
 
     /**
