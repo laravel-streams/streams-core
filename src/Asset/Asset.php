@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Support\Template;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Filesystem\Filesystem;
+use JSMin\JSMin;
 use League\Flysystem\MountManager;
 use tubalmartin\CssMin\Minifier;
 
@@ -153,7 +154,7 @@ class Asset
      * @param             $collection
      * @param             $file
      * @param  array $filters
-     * @param bool $internal        A flag telling the system
+     * @param bool $internal A flag telling the system
      *                              this is an internal request
      *                              and should be processed differently.
      * @return $this
@@ -581,7 +582,7 @@ class Asset
         }
 
         if (in_array('min', $filters) && $hint == 'js') {
-            $contents = \JSMin::minify($contents);
+            $contents = JSMin::minify($contents);
         }
 
         $path = $this->directory . DIRECTORY_SEPARATOR . $path;

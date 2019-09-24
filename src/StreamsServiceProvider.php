@@ -82,7 +82,7 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     protected $plugins = [
-        'Anomaly\Streams\Platform\StreamsPlugin',
+        StreamsPlugin::class,
     ];
 
     /**
@@ -255,7 +255,7 @@ class StreamsServiceProvider extends ServiceProvider
                 $events = app(Dispatcher::class);
 
                 $events->listen(
-                    'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
+                    RegisteringTwigPlugins::class,
                     function (RegisteringTwigPlugins $event) {
 
                         $twig = $event->getTwig();

@@ -16,46 +16,44 @@ use Anomaly\Streams\Platform\View\ViewTemplate;
 class LoadTemplateData
 {
 
-//    /**
-//     * The Twig instance.
-//     *
-//     * @var Bridge
-//     */
-//    protected $twig;
-//
-//    /**
-//     * The view template.
-//     *
-//     * @var ViewTemplate
-//     */
-//    protected $template;
-//
-//    /**
-//     * @var ViewIncludes
-//     */
-//    protected $includes;
-//
-//    /**
-//     * Create a new LoadTemplateData instance.
-//     *
-//     * @param ViewTemplate $template
-//     * @param ViewIncludes $includes
-//     * @param Bridge $twig
-//     */
-//    public function __construct(ViewTemplate $template, ViewIncludes $includes, Bridge $twig)
-//    {
-//        $this->twig     = $twig;
-//        $this->template = $template;
-//        $this->includes = $includes;
-//    }
+    /**
+     * The Twig instance.
+     *
+     * @var Bridge
+     */
+    protected $twig;
+
+    /**
+     * The view template.
+     *
+     * @var ViewTemplate
+     */
+    protected $template;
+
+    /**
+     * @var ViewIncludes
+     */
+    protected $includes;
+
+    /**
+     * Create a new LoadTemplateData instance.
+     *
+     * @param ViewTemplate $template
+     * @param ViewIncludes $includes
+     * @param Bridge $twig
+     */
+    public function __construct(ViewTemplate $template, ViewIncludes $includes, Bridge $twig)
+    {
+        $this->twig     = $twig;
+        $this->template = $template;
+        $this->includes = $includes;
+    }
 
     /**
      * Handle the event.
      */
     public function handle()
     {
-        return;
-        //@todo remove this
         if (!$this->template->isLoaded()) {
 
             $this->template->set('includes', $this->includes);
