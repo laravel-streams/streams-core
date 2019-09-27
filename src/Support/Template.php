@@ -1,8 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Anomaly\Streams\Platform\Application\Application;
-use Illuminate\Filesystem\Filesystem;
-
 /**
  * Class Template
  *
@@ -12,34 +9,6 @@ use Illuminate\Filesystem\Filesystem;
  */
 class Template
 {
-
-    /**
-     * The file system.
-     *
-     * @var Filesystem
-     */
-    protected $files;
-
-    /**
-     * The application instance.
-     *
-     * @var Application
-     */
-    protected $application;
-
-    /**
-     * Create a new Template instance.
-     *
-     * @param Filesystem $files
-     * @param Application $application
-     */
-    public function __construct(
-        Filesystem $files,
-        Application $application
-    ) {
-        $this->files       = $files;
-        $this->application = $application;
-    }
 
     /**
      * Render a string template.
@@ -54,7 +23,7 @@ class Template
 
         return view(
             'storage::' . ltrim(
-                str_replace($this->application->getStoragePath(), '', $path),
+                str_replace(application()->getStoragePath(), '', $path),
                 '\\/'
             ),
             $payload
@@ -73,9 +42,9 @@ class Template
         $path = $this->path($template, $extension);
 
         return 'storage::' . ltrim(
-            str_replace($this->application->getStoragePath(), '', $path),
-            '\\/'
-        );
+                str_replace(application()->getStoragePath(), '', $path),
+                '\\/'
+            );
     }
 
     /**
@@ -90,9 +59,9 @@ class Template
         $path = $this->path($template, $extension);
 
         return 'storage::' . ltrim(
-            str_replace($this->application->getStoragePath(), '', $path),
-            '\\/'
-        ) . '.' . $extension;
+                str_replace(application()->getStoragePath(), '', $path),
+                '\\/'
+            ) . '.' . $extension;
     }
 
     /**
@@ -104,14 +73,14 @@ class Template
      */
     public function path($template, $extension = 'twig')
     {
-        $path = $this->application->getStoragePath('support/parsed/' . md5($template));
+        $path = application()->getStoragePath('support/parsed/' . md5($template));
 
-        if (!$this->files->isDirectory($directory = dirname($path))) {
-            $this->files->makeDirectory($directory, 0777, true);
+        if (!is_dir($directory = dirname($path))) {
+            mkdir($directory, 0777, true);
         }
 
-        if (!$this->files->exists($path . '.' . $extension)) {
-            $this->files->put($path . '.' . $extension, $template);
+        if (!file_exists($path . '.' . $extension)) {
+            file_put_contents($path . '.' . $extension, $template);
         }
 
         return $path;

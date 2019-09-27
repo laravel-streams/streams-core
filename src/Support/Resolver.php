@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Illuminate\Contracts\Container\Container;
-
 /**
  * Class Resolver
  *
@@ -18,28 +16,11 @@ class Resolver
 {
 
     /**
-     * The IoC container.
-     *
-     * @var \Illuminate\Contracts\Container\Container
-     */
-    protected $container;
-
-    /**
-     * Create a new Resolver instance.
-     *
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
      * Resolve the target.
      *
-     * @param        $target
-     * @param  array $arguments
-     * @param  array $options
+     * @param $target
+     * @param array $arguments
+     * @param array $options
      * @return mixed
      */
     public function resolve($target, array $arguments = [], array $options = [])
@@ -47,9 +28,9 @@ class Resolver
         $method = array_get($options, 'method', 'handle');
 
         if ((is_string($target) && str_contains($target, '@')) || is_callable($target)) {
-            $target = $this->container->call($target, $arguments);
+            $target = app()->call($target, $arguments);
         } elseif (is_string($target) && class_exists($target) && method_exists($target, $method)) {
-            $target = $this->container->call($target . '@' . $method, $arguments);
+            $target = app()->call($target . '@' . $method, $arguments);
         }
 
         return $target;

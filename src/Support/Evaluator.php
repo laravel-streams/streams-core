@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Illuminate\Contracts\Container\Container;
-
 /**
  * Class Evaluator
  *
@@ -13,27 +11,10 @@ class Evaluator
 {
 
     /**
-     * The IoC container.
-     *
-     * @var \Illuminate\Contracts\Container\Container
-     */
-    protected $container;
-
-    /**
-     * Create a new Evaluator instance.
-     *
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
      * Evaluate a target entity with arguments.
      *
-     * @param        $target
-     * @param  array $arguments
+     * @param $target
+     * @param array $arguments
      * @return mixed
      */
     public function evaluate($target, array $arguments = [])
@@ -43,7 +24,7 @@ class Evaluator
          * call through the IoC it with the arguments.
          */
         if ($target instanceof \Closure) {
-            return $this->container->call($target, $arguments);
+            return app()->call($target, $arguments);
         }
 
         /*

@@ -139,6 +139,22 @@ class Extension extends Addon
      */
     public function getPresenter()
     {
-        return app()->make('Anomaly\Streams\Platform\Addon\Extension\ExtensionPresenter', ['object' => $this]);
+        return app()->make(ExtensionPresenter::class, ['object' => $this]);
+    }
+
+    /**
+     * Return the addon as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return array_merge(
+            parent::toArray(),
+            [
+                'enabled'   => $this->isEnabled(),
+                'installed' => $this->isInstalled(),
+            ]
+        );
     }
 }

@@ -3,12 +3,10 @@
 use Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
-use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Support\Configurator;
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Contracts\View\Factory;
 use Twig_ExtensionInterface;
 
 /**
@@ -22,25 +20,11 @@ class AddonIntegrator
 {
 
     /**
-     * The view factory.
-     *
-     * @var Factory
-     */
-    protected $views;
-
-    /**
      * The addon provider.
      *
      * @var AddonProvider
      */
     protected $provider;
-
-    /**
-     * The IoC container.
-     *
-     * @var Container
-     */
-    protected $container;
 
     /**
      * The addon collection.
@@ -50,45 +34,15 @@ class AddonIntegrator
     protected $collection;
 
     /**
-     * The application instance.
-     *
-     * @var Application
-     */
-    protected $application;
-
-    /**
-     * The configurator utility.
-     *
-     * @var Configurator
-     */
-    protected $configurator;
-
-    /**
      * Create a new AddonIntegrator instance.
      *
-     * @param Factory $views
-     * @param Container $container
      * @param AddonProvider $provider
-     * @param Application $application
-     * @param Configurator $configurator
      * @param AddonCollection $collection
-     * @internal param Asset $asset
-     * @internal param Image $image
      */
-    public function __construct(
-        Factory $views,
-        Container $container,
-        AddonProvider $provider,
-        Application $application,
-        Configurator $configurator,
-        AddonCollection $collection
-    ) {
-        $this->views        = $views;
-        $this->provider     = $provider;
-        $this->container    = $container;
-        $this->collection   = $collection;
-        $this->application  = $application;
-        $this->configurator = $configurator;
+    public function __construct(AddonProvider $provider, AddonCollection $collection)
+    {
+        $this->provider   = $provider;
+        $this->collection = $collection;
     }
 
     /**
@@ -109,8 +63,8 @@ class AddonIntegrator
         list($vendor, $type, $slug) = explode('.', $namespace);
 
         $class = studly_case($vendor) . '\\' . studly_case($slug) . studly_case($type) . '\\' . studly_case(
-            $slug
-        ) . studly_case($type);
+                $slug
+            ) . studly_case($type);
 
         /* @var Addon|Module|Extension|Twig_ExtensionInterface $addon */
         $addon = app($class)
@@ -126,46 +80,51 @@ class AddonIntegrator
         }
 
         // Bind to the service container.
-        $this->container->alias($addon->getNamespace(), $alias = get_class($addon));
-        $this->container->instance($alias, $addon);
+        app()->alias($addon->getNamespace(), $alias = get_class($addon));
+        app()->instance($alias, $addon);
 
         // Load package configuration.
         if (!file_exists(base_path('bootstrap/cache/config.php'))) {
-            $this->configurator->addNamespace($addon->getNamespace(), $addon->getPath('resources/config'));
+
+            if (is_dir($directory = $addon->getPath('resources/config'))) {
+                Configurator::load($directory, $addon->getNamespace());
+            }
 
             // Load published overrides.
-            $this->configurator->addNamespaceOverrides(
-                $addon->getNamespace(),
-                base_path(
+            if (is_dir(
+                $directory = base_path(
                     'resources/addons/'
                     . $addon->getVendor() . '/'
                     . $addon->getSlug() . '-'
                     . $addon->getType()
                     . '/config'
                 )
-            );
+            )) {
+                Configurator::merge($directory, $addon->getNamespace());
+            }
         }
 
         // Load application overrides.
-        $this->configurator->addNamespaceOverrides(
-            $addon->getNamespace(),
-            $this->application->getResourcesPath(
+        if (is_dir(
+            $directory = application()->getResourcesPath(
                 'addons/'
                 . $addon->getVendor() . '/'
                 . $addon->getSlug() . '-'
                 . $addon->getType()
                 . '/config'
             )
-        );
+        )) {
+            Configurator::merge($directory, $addon->getNamespace());
+        }
 
         // Continue loading things.
         $this->provider->register($addon);
 
         // Add the view / translation namespaces.
-        $this->views->addNamespace(
+        view()->addNamespace(
             $addon->getNamespace(),
             [
-                $this->application->getResourcesPath(
+                application()->getResourcesPath(
                     "addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/views/"
                 ),
                 base_path("resources/addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/views/"),

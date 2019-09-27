@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
@@ -141,21 +143,22 @@ class AddonProvider
 
         $this->providers[] = $provider = $addon->newServiceProvider();
 
-        $this->bindAliases($provider);
-        $this->bindClasses($provider);
-        $this->bindSingletons($provider);
-        $this->registerOverrides($provider);
+        $this->bindAliases($provider->getAliases());
+        $this->bindClasses($provider->getBindings());
+        $this->registerMobile($provider->getOverrides());
+        $this->bindSingletons($provider->getSingletons());
+        $this->registerOverrides($provider->getOverrides());
 
-        $this->registerRoutes($provider, $addon);
-        $this->registerApi($provider, $addon);
+        $this->registerRoutes($provider->getRoutes(), $addon->getNamespace());
+        $this->registerApi($provider->getApi(), $addon->getNamespace());
 
-        $this->registerEvents($provider);
-        $this->registerPlugins($provider);
-        $this->registerCommands($provider);
-        $this->registerSchedules($provider);
-        $this->registerMiddleware($provider);
-        $this->registerGroupMiddleware($provider);
-        $this->registerRouteMiddleware($provider);
+        $this->registerEvents($provider->getListeners());
+        $this->registerPlugins($provider->getPlugins());
+        $this->registerCommands($provider->getCommands());
+        $this->registerSchedules($provider->getSchedules());
+        $this->registerMiddleware($provider->getMiddleware());
+        $this->registerGroupMiddleware($provider->getGroupMiddleware());
+        $this->registerRouteMiddleware($provider->getRouteMiddleware());
 
         $this->registerFactories($addon);
 
@@ -164,7 +167,7 @@ class AddonProvider
         }
 
         // Call other providers last.
-        $this->registerProviders($provider);
+        $this->registerProviders($provider->getProviders());
     }
 
     /**
@@ -192,11 +195,11 @@ class AddonProvider
     /**
      * Register the addon providers.
      *
-     * @param AddonServiceProvider $provider
+     * @param array $providers
      */
-    protected function registerProviders(AddonServiceProvider $provider)
+    public function registerProviders(array $providers)
     {
-        foreach ($provider->getProviders() as $provider) {
+        foreach ($providers as $provider) {
             $this->application->register($provider);
         }
     }
@@ -206,9 +209,9 @@ class AddonProvider
      *
      * @param AddonServiceProvider $provider
      */
-    protected function registerCommands(AddonServiceProvider $provider)
+    public function registerCommands(array $commands)
     {
-        if ($commands = $provider->getCommands()) {
+        if ($commands) {
 
             // To register the commands with Artisan, we will grab each of the arguments
             // passed into the method and listen for Artisan "start" event which will
@@ -227,7 +230,7 @@ class AddonProvider
      *
      * @param Addon $addon
      */
-    protected function registerFactories(Addon $addon)
+    public function registerFactories(Addon $addon)
     {
         if (
             (env('APP_ENV') == 'testing' || $this->application->runningInConsole())
@@ -240,11 +243,11 @@ class AddonProvider
     /**
      * Bind class aliases.
      *
-     * @param AddonServiceProvider $provider
+     * @param array $aliases
      */
-    protected function bindAliases(AddonServiceProvider $provider)
+    public function bindAliases(array $aliases)
     {
-        if ($aliases = $provider->getAliases()) {
+        if ($aliases) {
             AliasLoader::getInstance($aliases)->register();
         }
     }
@@ -252,11 +255,11 @@ class AddonProvider
     /**
      * Bind addon classes.
      *
-     * @param AddonServiceProvider $provider
+     * @param array $bindings
      */
-    protected function bindClasses(AddonServiceProvider $provider)
+    public function bindClasses(array $bindings)
     {
-        foreach ($provider->getBindings() as $abstract => $concrete) {
+        foreach ($bindings as $abstract => $concrete) {
             $this->application->bind($abstract, $concrete);
         }
     }
@@ -264,11 +267,11 @@ class AddonProvider
     /**
      * Bind addon singletons.
      *
-     * @param AddonServiceProvider $provider
+     * @param array $singletons
      */
-    protected function bindSingletons(AddonServiceProvider $provider)
+    public function bindSingletons(array $singletons)
     {
-        foreach ($provider->getSingletons() as $abstract => $concrete) {
+        foreach ($singletons as $abstract => $concrete) {
             $this->application->singleton($abstract, $concrete);
         }
     }
@@ -276,21 +279,18 @@ class AddonProvider
     /**
      * Register the addon events.
      *
-     * @param AddonServiceProvider $provider
+     * @param array $listeners
      */
-    protected function registerEvents(AddonServiceProvider $provider)
+    public function registerEvents(array $listeners)
     {
-        if (!$listen = $provider->getListeners()) {
-            return;
-        }
+        foreach ($listeners as $event => $classes) {
+            foreach ($classes as $key => $listener) {
 
-        foreach ($listen as $event => $listeners) {
-            foreach ($listeners as $key => $listener) {
+                $priority = 0;
+
                 if (is_integer($listener)) {
                     $priority = $listener;
                     $listener = $key;
-                } else {
-                    $priority = 0;
                 }
 
                 app(Dispatcher::class)->listen($event, $listener, $priority);
@@ -301,16 +301,16 @@ class AddonProvider
     /**
      * Register the addon routes.
      *
-     * @param AddonServiceProvider $provider
-     * @param Addon $addon
+     * @param array $routes
+     * @param null $addon
      */
-    protected function registerRoutes(AddonServiceProvider $provider, Addon $addon)
+    public function registerRoutes(array $routes, $addon = null)
     {
         if ($this->routesAreCached()) {
             return;
         }
 
-        if (!$routes = $provider->getRoutes()) {
+        if (!$routes) {
             return;
         }
 
@@ -335,7 +335,9 @@ class AddonProvider
             $middleware  = array_pull($route, 'middleware', []);
             $constraints = array_pull($route, 'constraints', []);
 
-            array_set($route, 'streams::addon', $addon->getNamespace());
+            if ($addon) {
+                array_set($route, 'streams::addon', $addon);
+            }
 
             if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
                 $this->router->resource($uri, $route['uses']);
@@ -356,16 +358,16 @@ class AddonProvider
     /**
      * Register the addon routes.
      *
-     * @param AddonServiceProvider $provider
-     * @param Addon $addon
+     * @param array $routes
+     * @param null $addon
      */
-    protected function registerApi(AddonServiceProvider $provider, Addon $addon)
+    public function registerApi(array $routes, $addon = null)
     {
         if ($this->routesAreCached()) {
             return;
         }
 
-        if (!$routes = $provider->getApi()) {
+        if (!$routes) {
             return;
         }
 
@@ -393,7 +395,9 @@ class AddonProvider
                     $middleware  = array_pull($route, 'middleware', []);
                     $constraints = array_pull($route, 'constraints', []);
 
-                    array_set($route, 'streams::addon', $addon->getNamespace());
+                    if ($addon) {
+                        array_set($route, 'streams::addon', $addon);
+                    }
 
                     if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
                         $router->resource($uri, $route['uses']);
@@ -481,11 +485,11 @@ class AddonProvider
     /**
      * Register the addon plugins.
      *
-     * @param AddonServiceProvider $provider
+     * @param array $plugins
      */
-    protected function registerPlugins(AddonServiceProvider $provider)
+    public function registerPlugins(array $plugins)
     {
-        if (!$plugins = $provider->getPlugins()) {
+        if (!$plugins) {
             return;
         }
 
@@ -508,14 +512,10 @@ class AddonProvider
     /**
      * Register the addon schedules.
      *
-     * @param AddonServiceProvider $provider
+     * @param array $schedules
      */
-    protected function registerSchedules(AddonServiceProvider $provider)
+    public function registerSchedules(array $schedules)
     {
-        if (!$schedules = $provider->getSchedules()) {
-            return;
-        }
-
         foreach ($schedules as $frequency => $commands) {
             foreach (array_filter($commands) as $command => $options) {
                 if (!is_array($options)) {
@@ -549,58 +549,59 @@ class AddonProvider
     /**
      * Register view overrides.
      *
-     * @param AddonServiceProvider $provider
+     * @param array $overrides
      */
-    protected function registerOverrides(AddonServiceProvider $provider)
+    public function registerMobile(array $overrides)
     {
-        $overrides = $provider->getOverrides();
-        $mobiles   = $provider->getMobile();
-
-        if (!$overrides && !$mobiles) {
-            return;
+        foreach ($overrides as $view => $override) {
+            $this->viewMobileOverrides->put($view, $override);
         }
+    }
 
+    /**
+     * Register view overrides.
+     *
+     * @param array $overrides
+     */
+    public function registerOverrides(array $overrides)
+    {
         foreach ($overrides as $view => $override) {
             $this->viewOverrides->put($view, $override);
-        }
-
-        foreach ($mobiles as $view => $override) {
-            $this->viewMobileOverrides->put($view, $override);
         }
     }
 
     /**
      * Register middleware.
      *
-     * @param AddonServiceProvider $provider
+     * @param array $middleware
      */
-    protected function registerMiddleware(AddonServiceProvider $provider)
+    public function registerMiddleware(array $middleware)
     {
-        foreach ($provider->getMiddleware() as $middleware) {
-            $this->middlewares->push($middleware);
+        foreach ($middleware as $class) {
+            $this->middlewares->push($class);
         }
     }
 
     /**
      * Register group middleware.
      *
-     * @param AddonServiceProvider $provider
+     * @param array $middleware
      */
-    protected function registerGroupMiddleware(AddonServiceProvider $provider)
+    public function registerGroupMiddleware(array $middleware)
     {
-        foreach ($provider->getGroupMiddleware() as $group => $middleware) {
-            $this->router->pushMiddlewareToGroup($group, $middleware);
+        foreach ($middleware as $group => $classes) {
+            $this->router->pushMiddlewareToGroup($group, $classes);
         }
     }
 
     /**
      * Register route middleware.
      *
-     * @param AddonServiceProvider $provider
+     * @param array $middleware
      */
-    protected function registerRouteMiddleware(AddonServiceProvider $provider)
+    public function registerRouteMiddleware(array $middleware)
     {
-        foreach ($provider->getRouteMiddleware() as $name => $class) {
+        foreach ($middleware as $name => $class) {
             $this->router->aliasMiddleware($name, $class);
         }
     }
@@ -610,7 +611,7 @@ class AddonProvider
      *
      * @param AddonServiceProvider $provider
      */
-    protected function registerAdditionalRoutes(AddonServiceProvider $provider)
+    public function registerAdditionalRoutes(AddonServiceProvider $provider)
     {
         if ($this->routesAreCached()) {
             return;
@@ -632,7 +633,7 @@ class AddonProvider
     /**
      * Check if routes are cached.
      */
-    protected function routesAreCached()
+    public function routesAreCached()
     {
         if (in_array('routes', $this->cached)) {
             return true;

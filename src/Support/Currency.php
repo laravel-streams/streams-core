@@ -13,7 +13,7 @@ class Currency
     /**
      * Return a formatted currency string.
      *
-     * @param      $number
+     * @param $number
      * @param null $currency
      * @param array $options
      * @return string
@@ -58,10 +58,10 @@ class Currency
     /**
      * Normalize the currency value.
      *
-     * @param      $number
+     * @param $number
      * @param null $currency
      * @param array $options
-     * @return float
+     * @return string
      */
     public function normalize($number, $currency = null, array $options = [])
     {

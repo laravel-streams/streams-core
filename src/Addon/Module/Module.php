@@ -103,7 +103,7 @@ class Module extends Addon
      *
      * @param        $slug
      * @param  array $section
-     * @param null   $position
+     * @param null $position
      * @return $this
      */
     public function addSection($slug, array $section, $position = null)
@@ -126,7 +126,7 @@ class Module extends Addon
      * @param        $section
      * @param        $slug
      * @param  array $button
-     * @param null   $position
+     * @param null $position
      * @return $this
      */
     public function addSectionButton($section, $slug, array $button, $position = null)
@@ -175,7 +175,7 @@ class Module extends Addon
      *
      * @param        $slug
      * @param  array $shortcut
-     * @param null   $position
+     * @param null $position
      * @return $this
      */
     public function addShortcut($slug, array $shortcut, $position = null)
@@ -311,6 +311,22 @@ class Module extends Addon
      */
     public function getPresenter()
     {
-        return app()->make('Anomaly\Streams\Platform\Addon\Module\ModulePresenter', ['object' => $this]);
+        return app()->make(ModulePresenter::class, ['object' => $this]);
+    }
+
+    /**
+     * Return the addon as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return array_merge(
+            parent::toArray(),
+            [
+                'enabled'   => $this->isEnabled(),
+                'installed' => $this->isInstalled(),
+            ]
+        );
     }
 }

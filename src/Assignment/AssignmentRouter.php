@@ -14,23 +14,6 @@ class AssignmentRouter
 {
 
     /**
-     * The router instance.
-     *
-     * @var Router
-     */
-    protected $router;
-
-    /**
-     * Create a new AssignmentRouter instance.
-     *
-     * @param Router $router
-     */
-    public function __construct(Router $router)
-    {
-        $this->router = $router;
-    }
-
-    /**
      * Register field routes.
      *
      * @param Addon  $addon
@@ -67,7 +50,7 @@ class AssignmentRouter
         ];
 
         foreach ($routes as $uri => $route) {
-            $this->router->any($uri, $route);
+            \Route::any($uri, $route);
         }
     }
 }

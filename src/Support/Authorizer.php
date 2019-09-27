@@ -3,8 +3,6 @@
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\User\Contract\RoleInterface;
 use Anomaly\Streams\Platform\User\Contract\UserInterface;
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Http\Request;
 
 /**
  * Class Authorizer
@@ -17,13 +15,6 @@ class Authorizer
 {
 
     /**
-     * The auth utility.
-     *
-     * @var null|Guard
-     */
-    protected $guard = null;
-
-    /**
      * The guest role.
      *
      * @var RoleInterface
@@ -31,39 +22,20 @@ class Authorizer
     protected $guest;
 
     /**
-     * The request object.
-     *
-     * @var Request
-     */
-    protected $request;
-
-    /**
-     * Create a new Authorizer instance.
-     *
-     * @param Guard $guard
-     * @param Request $request
-     */
-    public function __construct(Guard $guard, Request $request)
-    {
-        $this->guard   = $guard;
-        $this->request = $request;
-    }
-
-    /**
      * Authorize a user against a permission.
      *
-     * @param                $permission
-     * @param  UserInterface $user
+     * @param $permission
+     * @param UserInterface|null $user
      * @return bool
      */
     public function authorize($permission, UserInterface $user = null)
     {
         if (!$user) {
-            $user = $this->guard->user();
+            $user = user();
         }
 
         if (!$user) {
-            $user = $this->request->user();
+            $user = request()->user();
         }
 
         if (!$user && $guest = $this->getGuest()) {
@@ -88,7 +60,7 @@ class Authorizer
     public function authorizeAny(array $permissions, UserInterface $user = null, $strict = false)
     {
         if (!$user) {
-            $user = $this->guard->user();
+            $user = user();
         }
 
         if (!$user) {
@@ -115,7 +87,7 @@ class Authorizer
     public function authorizeAll(array $permissions, UserInterface $user = null, $strict = false)
     {
         if (!$user) {
-            $user = $this->guard->user();
+            $user = user();
         }
 
         if (!$user) {
@@ -235,11 +207,11 @@ class Authorizer
     public function authorizeRole(RoleInterface $role, UserInterface $user = null)
     {
         if (!$user) {
-            $user = $this->guard->user();
+            $user = user();
         }
 
         if (!$user) {
-            $user = $this->request->user();
+            $user = request()->user();
         }
 
         if ($this->isGuest($role)) {
@@ -267,11 +239,11 @@ class Authorizer
         }
 
         if (!$user) {
-            $user = $this->guard->user();
+            $user = user();
         }
 
         if (!$user) {
-            $user = $this->request->user();
+            $user = request()->user();
         }
 
         if (!$user) {

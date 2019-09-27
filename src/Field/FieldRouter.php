@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Illuminate\Routing\Router;
 
 /**
  * Class FieldRouter
@@ -14,28 +13,11 @@ class FieldRouter
 {
 
     /**
-     * The router instance.
-     *
-     * @var Router
-     */
-    protected $router;
-
-    /**
-     * Create a new FieldRouter instance.
-     *
-     * @param Router $router
-     */
-    public function __construct(Router $router)
-    {
-        $this->router = $router;
-    }
-
-    /**
      * Register field routes.
      *
-     * @param Addon  $addon
+     * @param Addon $addon
      * @param        $controller
-     * @param null   $prefix
+     * @param null $prefix
      * @param string $base
      */
     public function route(Addon $addon, $controller, $prefix = null, $base = '/fields')
@@ -71,7 +53,7 @@ class FieldRouter
         ];
 
         foreach ($routes as $uri => $route) {
-            $this->router->any($uri, $route);
+            \Route::any($uri, $route);
         }
     }
 }

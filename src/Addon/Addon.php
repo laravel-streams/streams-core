@@ -15,6 +15,7 @@ use Robbo\Presenter\Presenter;
  */
 class Addon implements PresentableInterface, Arrayable
 {
+
     use Hookable;
     use FiresCallbacks;
 
@@ -573,6 +574,11 @@ class Addon implements PresentableInterface, Arrayable
         return $this->getNamespace();
     }
 
+    function __sleep()
+    {
+        return array_diff(array_keys(get_object_vars($this)), ['cache']);
+    }
+
     /**
      * Get the instance as an array.
      *
@@ -581,10 +587,13 @@ class Addon implements PresentableInterface, Arrayable
     public function toArray()
     {
         return [
-            'id'        => $this->getNamespace(),
             'name'      => $this->getName(),
-            'namespace' => $this->getNamespace(),
             'type'      => $this->getType(),
+            'path'      => $this->getPath(),
+            'slug'      => $this->getSlug(),
+            'vendor'    => $this->getVendor(),
+            'namespace' => $this->getNamespace(),
+            'id'        => $this->getNamespace(),
         ];
     }
 }

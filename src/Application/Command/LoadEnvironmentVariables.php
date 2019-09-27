@@ -26,5 +26,13 @@ class LoadEnvironmentVariables
                 putenv($line);
             }
         }
+
+        /**
+         * Force the internal management to reload
+         * and overload from the changes that may
+         * have taken place.
+         */
+        $dotenv = \Dotenv\Dotenv::create(base_path());
+        $dotenv->overload();
     }
 }

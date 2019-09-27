@@ -1,6 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
 
-use Illuminate\Filesystem\Filesystem;
+namespace Anomaly\Streams\Platform\Support;
+
+use FilesystemIterator;
+use RecursiveDirectoryIterator;
 use SplFileInfo;
 
 /**
@@ -14,70 +17,50 @@ class Configurator
 {
 
     /**
-     * The runtime cache.
+     * Load configuration from a directory.
      *
-     * @var array
-     */
-    protected $disabled = [];
-
-    /**
-     * The file system.
-     *
-     * @var Filesystem
-     */
-    protected $files;
-
-    /**
-     * Create a new Configurator instance.
-     *
-     * @param Filesystem $files
-     */
-    public function __construct(Filesystem $files)
-    {
-        $this->files = $files;
-    }
-
-    /**
-     * Add a namespace to configuration.
-     *
-     * @param $namespace
      * @param $directory
+     * @param $hint
      */
-    public function addNamespace($namespace, $directory)
+    static public function load($directory, $hint)
     {
-        if (!$this->files->isDirectory($directory)) {
-            return;
-        }
 
         /* @var SplFileInfo $file */
-        foreach ($this->files->allFiles($directory) as $file) {
-            $key = $this->getKeyFromFile($directory, $file);
+        foreach ((new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS)) as $file) {
 
-            config()->set("{$namespace}::{$key}", $this->files->getRequire($file->getPathname()));
+            if (!$file->isFile()) {
+                continue;
+            }
+
+            $key = self::getKeyFromFile($directory, $file);
+
+            config()->set("{$hint}::{$key}", include_once $file->getPathname());
         }
     }
 
     /**
      * Add namespace overrides to configuration.
      *
-     * @param $namespace
      * @param $directory
+     * @param $hint
      */
-    public function addNamespaceOverrides($namespace, $directory)
+    static public function merge($directory, $hint)
     {
-        if (!$this->files->isDirectory($directory)) {
-            return;
-        }
 
         /* @var SplFileInfo $file */
-        foreach ($this->files->allFiles($directory) as $file) {
-            $key = $this->getKeyFromFile($directory, $file);
+        foreach ((new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS)) as $file) {
+
+            if (!$file->isFile()) {
+                continue;
+            }
+
+            $key = self::getKeyFromFile($directory, $file);
 
             config()->set(
-                "{$namespace}::{$key}",
+                "{$hint}::{$key}",
                 array_replace(
-                    config("{$namespace}::{$key}", []),
-                    $this->files->getRequire($file->getPathname())
+                    config("{$hint}::{$key}", []),
+                    include_once $file->getPathname()
                 )
             );
         }
@@ -86,11 +69,11 @@ class Configurator
     /**
      * Parse a key from the file
      *
-     * @param             $directory
+     * @param $directory
      * @param SplFileInfo $file
      * @return string
      */
-    private function getKeyFromFile($directory, SplFileInfo $file)
+    static protected function getKeyFromFile($directory, SplFileInfo $file)
     {
         $key = trim(
             str_replace(

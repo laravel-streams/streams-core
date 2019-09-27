@@ -43,7 +43,8 @@ class AddonLoader
      * @return $this
      */
     public function load($path)
-    {
+    {return;
+    // @todo destroy this
         if (is_array($path) && $paths = $path) {
             foreach ($paths as $path) {
                 $this->load($path);

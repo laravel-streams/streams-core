@@ -105,7 +105,7 @@ class AddonCollection extends Collection
      * Get an addon.
      *
      * @param  mixed $key
-     * @param  null  $default
+     * @param  null $default
      * @return Addon|mixed|null
      */
     public function get($key, $default = null)
@@ -325,6 +325,26 @@ class AddonCollection extends Collection
 
                 /* @var Module|Extension $addon */
                 return !$addon->isInstalled();
+            }
+        );
+    }
+
+    /**
+     * Return loaded addons.
+     *
+     * @return AddonCollection
+     */
+    public function loaded()
+    {
+        return $this->filter(
+            function ($addon) {
+
+                /* @var Addon|Module|Extension $addon */
+                if (!in_array($addon->getType(), ['module', 'extension'])) {
+                    return true;
+                }
+
+                return $addon->isInstalled();
             }
         );
     }

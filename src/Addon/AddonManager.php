@@ -1,9 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Addon;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
 use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
-use Illuminate\Contracts\Container\Container;
 
 /**
  * Class AddonManager
@@ -37,13 +38,6 @@ class AddonManager
     protected $loader;
 
     /**
-     * The service container.
-     *
-     * @var Container
-     */
-    protected $container;
-
-    /**
      * The addon integrator.
      *
      * @var AddonIntegrator
@@ -65,33 +59,37 @@ class AddonManager
     protected $extensions;
 
     /**
+     * @var AddonProvider
+     */
+    private $provider;
+
+    /**
      * Create a new AddonManager instance.
      *
      * @param AddonPaths $paths
      * @param AddonLoader $loader
      * @param ModuleModel $modules
-     * @param Container $container
+     * @param AddonProvider $provider
+     * @param AddonCollection $addons
      * @param ExtensionModel $extensions
      * @param AddonIntegrator $integrator
-     * @param AddonCollection $addons
      */
     public function __construct(
         AddonPaths $paths,
         AddonLoader $loader,
         ModuleModel $modules,
-        Container $container,
+        AddonProvider $provider,
+        AddonCollection $addons,
         ExtensionModel $extensions,
-        AddonIntegrator $integrator,
-        AddonCollection $addons
+        AddonIntegrator $integrator
     ) {
         $this->paths      = $paths;
+        $this->loader     = $loader;
         $this->addons     = $addons;
-        $this->loader     = $loader;
         $this->modules    = $modules;
-        $this->container  = $container;
-        $this->integrator = $integrator;
+        $this->provider   = $provider;
         $this->extensions = $extensions;
-        $this->loader     = $loader;
+        $this->integrator = $integrator;
     }
 
     /**
@@ -101,17 +99,64 @@ class AddonManager
      */
     public function register($reload = false)
     {
+        if (PHP_SAPI != 'cli' && file_exists($manifest = base_path('bootstrap/cache/addons.php'))) {
+
+            $config = [];
+
+            $manifest = include $manifest;
+
+            foreach (array_get($manifest, 'config', []) as $key => $value) {
+                array_set($config, $key, $value);
+            }
+
+            config($config);
+
+            $this->provider->bindAliases(array_get($manifest, 'aliases', []));
+            $this->provider->bindClasses(array_get($manifest, 'bindings', []));
+            $this->provider->registerMobile(array_get($manifest, 'overrides', []));
+            $this->provider->bindSingletons(array_get($manifest, 'singletons', []));
+            $this->provider->registerOverrides(array_get($manifest, 'overrides', []));
+
+            $this->provider->registerApi(array_get($manifest, 'api', []));
+            $this->provider->registerRoutes(array_get($manifest, 'routes', []));
+
+            $this->provider->registerPlugins(array_get($manifest, 'plugins', []));
+            $this->provider->registerEvents(array_get($manifest, 'listeners', []));
+            $this->provider->registerCommands(array_get($manifest, 'commands', []));
+            $this->provider->registerSchedules(array_get($manifest, 'schedules', []));
+            $this->provider->registerMiddleware(array_get($manifest, 'middleware', []));
+            $this->provider->registerGroupMiddleware(array_get($manifest, 'group_middleware', []));
+            $this->provider->registerRouteMiddleware(array_get($manifest, 'route_middleware', []));
+
+            // Call other providers last.
+            $this->provider->registerProviders(array_get($manifest, 'providers', []));
+
+            foreach (array_get($manifest, 'registered', []) as $provider) {
+                app()->call([app($provider), 'register']);
+            }
+
+            foreach (array_get($manifest, 'booted', []) as $provider) {
+                app()->call([app($provider), 'boot']);
+            }
+
+            foreach (array_get($manifest, 'mapped', []) as $provider) {
+                app()->call([app($provider), 'map']);
+            }
+
+            return;
+        }
+
         $enabled   = $this->getEnabledAddonNamespaces();
         $installed = $this->getInstalledAddonNamespaces();
 
-        $this->container->bind(
+        app()->bind(
             'streams::addons.enabled',
             function () use ($enabled) {
                 return $enabled;
             }
         );
 
-        $this->container->bind(
+        app()->bind(
             'streams::addons.installed',
             function () use ($installed) {
                 return $installed;
@@ -150,6 +195,7 @@ class AddonManager
          * Register all of the addons.
          */
         foreach ($paths as $path) {
+
             $namespace = $this->getAddonNamespace($path);
 
             $addon = $this->integrator->register(
@@ -164,6 +210,7 @@ class AddonManager
             }
 
             foreach ($addon->getAddons() as $class) {
+
                 $namespace = $this->getAddonNamespace(
                     $path = dirname(dirname((new \ReflectionClass($class))->getFileName()))
                 );

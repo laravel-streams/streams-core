@@ -13,8 +13,8 @@ class Hydrator
     /**
      * Hydrate an object with parameters.
      *
-     * @param        $object
-     * @param  array $parameters
+     * @param $object
+     * @param array $parameters
      * @return mixed
      */
     public function hydrate($object, array $parameters)

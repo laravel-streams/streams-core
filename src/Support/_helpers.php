@@ -182,7 +182,7 @@ if (!function_exists('filesize_for_humans')) {
     /**
      * Humanize the filesize
      *
-     * @param      integer $bytes The bytes
+     * @param      integer $bytes    The bytes
      * @param      integer $decimals The decimals
      * @return     string
      */
@@ -419,5 +419,33 @@ if (!function_exists('user')) {
     function user()
     {
         return auth()->user();
+    }
+}
+
+if (!function_exists('application')) {
+
+    /**
+     * Return the active user or null.
+     *
+     * @return \Anomaly\Streams\Platform\Application\Application
+     */
+    function application()
+    {
+        return app(\Anomaly\Streams\Platform\Application\Application::class);
+    }
+}
+
+if (!function_exists('elapsed_time')) {
+
+    /**
+     * Return the elapsed application time.
+     *
+     * @return float
+     */
+    function elapsed_time($decimals = 3, $since = null)
+    {
+        $since = $since ?: request()->server('REQUEST_TIME_FLOAT');
+
+        return number_format(microtime(true) - $since, $decimals);
     }
 }

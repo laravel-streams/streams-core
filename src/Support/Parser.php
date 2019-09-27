@@ -16,25 +16,11 @@ class Parser
 {
 
     /**
-     * The URL generator.
-     *
-     * @var UrlGenerator
-     */
-    protected $url;
-
-    /**
      * The string parser.
      *
      * @var Engine
      */
     protected $parser;
-
-    /**
-     * The request object.
-     *
-     * @var Request
-     */
-    protected $request;
 
     /**
      * Create a new Parser instance.
@@ -43,11 +29,9 @@ class Parser
      * @param Engine $parser
      * @param Request $request
      */
-    public function __construct(UrlGenerator $url, Engine $parser, Request $request)
+    public function __construct(Engine $parser)
     {
-        $this->url     = $url;
-        $this->parser  = $parser;
-        $this->request = $request;
+        $this->parser = $parser;
     }
 
     /**
@@ -132,7 +116,7 @@ class Parser
     protected function urlData()
     {
         return [
-            'previous' => $this->url->previous(),
+            'previous' => url()->previous(),
         ];
     }
 
@@ -144,17 +128,18 @@ class Parser
     protected function requestData()
     {
         $request = [
-            'url'      => $this->request->url(),
-            'path'     => $this->request->path(),
-            'root'     => $this->request->root(),
-            'input'    => $this->request->input(),
-            'full_url' => $this->request->fullUrl(),
-            'segments' => $this->request->segments(),
-            'uri'      => $this->request->getRequestUri(),
-            'query'    => $this->request->getQueryString(),
+            'url'      => request()->url(),
+            'path'     => request()->path(),
+            'root'     => request()->root(),
+            'input'    => request()->input(),
+            'full_url' => request()->fullUrl(),
+            'segments' => request()->segments(),
+            'uri'      => request()->getRequestUri(),
+            'query'    => request()->getQueryString(),
         ];
 
-        if ($route = $this->request->route()) {
+        if ($route = request()->route()) {
+
             $request['route'] = [
                 'uri'                      => $route->uri(),
                 'parameters'               => $route->parameters(),
@@ -170,7 +155,7 @@ class Parser
                     'parameters_suffix' => str_replace(
                         $route->getCompiled()->getStaticPrefix(),
                         '',
-                        $this->request->getRequestUri()
+                        request()->getRequestUri()
                     ),
                 ],
             ];
