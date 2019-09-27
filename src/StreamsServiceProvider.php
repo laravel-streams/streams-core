@@ -672,7 +672,7 @@ class StreamsServiceProvider extends ServiceProvider
         $asset->addPath('resources', application()->getResourcesPath());
         $asset->addPath('download', application()->getAssetsPath('assets/downloads'));
 
-        $asset->addPath('streams', __DIR__ . '/../resources');
+        $asset->addPath('streams', base_path('vendor/anomaly/streams-platform/resources'));
     }
 
     /**

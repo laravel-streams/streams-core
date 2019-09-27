@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Command;
 
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Command\BuildButtons;
