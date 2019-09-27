@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
@@ -90,15 +92,15 @@ class AddonOptimizer
             }
 
             if (method_exists($provider, 'register')) {
-                $manifest['registered'][] = get_class($provider);
+                $manifest['registered'][$addon->getNamespace()] = get_class($provider);
             }
 
             if (method_exists($provider, 'boot')) {
-                $manifest['booted'][] = get_class($provider);
+                $manifest['booted'][$addon->getNamespace()] = get_class($provider);
             }
 
             if (method_exists($provider, 'map')) {
-                $manifest['mapped'][] = get_class($provider);
+                $manifest['mapped'][$addon->getNamespace()] = get_class($provider);
             }
 
             foreach ($this->optimize as $attribute) {

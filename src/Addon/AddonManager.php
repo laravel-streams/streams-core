@@ -2,9 +2,11 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
-use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
+use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
+use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
+use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
+use Anomaly\Streams\Platform\Support\Hydrator;
 
 /**
  * Class AddonManager
@@ -131,17 +133,30 @@ class AddonManager
             // Call other providers last.
             $this->provider->registerProviders(array_get($manifest, 'providers', []));
 
-            foreach (array_get($manifest, 'registered', []) as $provider) {
-                app()->call([app($provider), 'register']);
+            foreach (array_get($manifest, 'loaded', []) as $namespace => $addon) {
+
+                /* @var Addon $instance */
+                $instance = app($addon['definition']);
+
+                $this->addons->put($namespace, $instance = (new Hydrator)->hydrate($instance, $addon));
+
+                app()->alias($namespace, $addon['definition']);
+                app()->instance($addon['definition'], $instance);
             }
 
-            foreach (array_get($manifest, 'booted', []) as $provider) {
-                app()->call([app($provider), 'boot']);
+            foreach (array_get($manifest, 'registered', []) as $namespace => $provider) {
+                //app()->call([app($provider, ['addon' => $this->addons->get($namespace)]), 'register']);
             }
 
-            foreach (array_get($manifest, 'mapped', []) as $provider) {
-                app()->call([app($provider), 'map']);
+            foreach (array_get($manifest, 'booted', []) as $namespace => $provider) {
+                //app()->call([app($provider, ['addon' => $this->addons->get($namespace)]), 'boot']);
             }
+
+            foreach (array_get($manifest, 'mapped', []) as $namespace => $provider) {
+                //app()->call([app($provider, ['addon' => $this->addons->get($namespace)]), 'map']);
+            }
+
+            $this->addons->disperse();
 
             return;
         }

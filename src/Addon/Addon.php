@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Traits\Hookable;
@@ -281,7 +283,7 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function hasConfig($key = '*')
     {
-        return (bool)config($this->getNamespace($key));
+        return (bool) config($this->getNamespace($key));
     }
 
     /**
@@ -587,13 +589,14 @@ class Addon implements PresentableInterface, Arrayable
     public function toArray()
     {
         return [
-            'name'      => $this->getName(),
-            'type'      => $this->getType(),
-            'path'      => $this->getPath(),
-            'slug'      => $this->getSlug(),
-            'vendor'    => $this->getVendor(),
-            'namespace' => $this->getNamespace(),
-            'id'        => $this->getNamespace(),
+            'name'       => $this->getName(),
+            'type'       => $this->getType(),
+            'path'       => $this->getPath(),
+            'slug'       => $this->getSlug(),
+            'vendor'     => $this->getVendor(),
+            'namespace'  => $this->getNamespace(),
+            'id'         => $this->getNamespace(),
+            'definition' => get_class($this),
         ];
     }
 }
