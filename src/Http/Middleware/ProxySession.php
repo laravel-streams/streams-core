@@ -1,8 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Http\Middleware;
+<?php
+
+namespace Anomaly\Streams\Platform\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class ProxySession
@@ -30,7 +31,7 @@ class ProxySession
 
         $response = $next($request);
 
-        if ($response instanceof Response) {
+        if (method_exists($response, 'withCookie')) {
             return $response->withCookie(
                 cookie('session_proxy', $check, $check ? config('session.lifetime', 120) : -1)
             );
