@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Artisan;
+<?php
+
+namespace Anomaly\Streams\Platform\Artisan;
 
 use Anomaly\Streams\Platform\Database\Migration\Console\MigrateCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\MigrateMakeCommand;
@@ -45,6 +47,7 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
 
         // Addon Commands
         \Anomaly\Streams\Platform\Addon\Console\MakeAddon::class,
+        \Anomaly\Streams\Platform\Addon\Console\AddonsClear::class,
         \Anomaly\Streams\Platform\Addon\Console\AddonPublish::class,
         \Anomaly\Streams\Platform\Addon\Console\AddonInstall::class,
         \Anomaly\Streams\Platform\Addon\Console\AddonUninstall::class,
