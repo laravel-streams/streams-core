@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Console;
 
 use Anomaly\Streams\Platform\Addon\AddonOptimizer;
 use Illuminate\Console\Command;
@@ -35,5 +37,7 @@ class AddonsOptimize extends Command
     public function handle(AddonOptimizer $optimizer)
     {
         $optimizer->optimize();
+
+        $this->info('Addons optimized.');
     }
 }

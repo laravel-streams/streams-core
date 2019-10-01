@@ -3,10 +3,12 @@
 namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Addon\Addon;
+use Illuminate\Contracts\Events\Dispatcher;
+use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
 use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
-use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 
 /**
  * Class AddonManager
@@ -142,6 +144,34 @@ class AddonManager
 
                 app()->alias($namespace, $addon['definition']);
                 app()->instance($addon['definition'], $instance);
+
+                // Add the view / translation namespaces.
+                view()->addNamespace(
+                    $instance->getNamespace(),
+                    [
+                        application()->getResourcesPath(
+                            "addons/{$instance->getVendor()}/{$instance->getSlug()}-{$instance->getType()}/views/"
+                        ),
+                        base_path("resources/instances/{$instance->getVendor()}/{$instance->getSlug()}-{$instance->getType()}/views/"),
+                        $instance->getPath('resources/views'),
+                    ]
+                );
+                trans()->addNamespace($instance->getNamespace(), $instance->getPath('resources/lang'));
+
+                if ($instance->getType() === 'plugin') {
+                    app(Dispatcher::class)->listen(
+                        'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
+                        function (RegisteringTwigPlugins $event) use ($instance) {
+                            $twig = $event->getTwig();
+
+                            if ($twig->hasExtension(get_class($instance))) {
+                                return;
+                            }
+
+                            $twig->addExtension($instance);
+                        }
+                    );
+                }
             }
 
             foreach (array_get($manifest, 'registered', []) as $namespace => $provider) {
@@ -156,7 +186,16 @@ class AddonManager
                 //app()->call([app($provider, ['addon' => $this->addons->get($namespace)]), 'map']);
             }
 
+            /*
+             * Disperse addons to their
+             * respective collections and
+             * finish the integration service.
+             */
             $this->addons->disperse();
+            $this->addons->registered();
+            $this->integrator->finish();
+
+            event(new AddonsHaveRegistered($this->addons));
 
             return;
         }

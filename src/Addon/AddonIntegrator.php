@@ -1,11 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Addon;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Support\Configurator;
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
 use Twig_ExtensionInterface;
 
@@ -63,8 +64,8 @@ class AddonIntegrator
         list($vendor, $type, $slug) = explode('.', $namespace);
 
         $class = studly_case($vendor) . '\\' . studly_case($slug) . studly_case($type) . '\\' . studly_case(
-                $slug
-            ) . studly_case($type);
+            $slug
+        ) . studly_case($type);
 
         /* @var Addon|Module|Extension|Twig_ExtensionInterface $addon */
         $addon = app($class)
@@ -94,10 +95,10 @@ class AddonIntegrator
             if (is_dir(
                 $directory = base_path(
                     'resources/addons/'
-                    . $addon->getVendor() . '/'
-                    . $addon->getSlug() . '-'
-                    . $addon->getType()
-                    . '/config'
+                        . $addon->getVendor() . '/'
+                        . $addon->getSlug() . '-'
+                        . $addon->getType()
+                        . '/config'
                 )
             )) {
                 Configurator::merge($directory, $addon->getNamespace());
@@ -108,10 +109,10 @@ class AddonIntegrator
         if (is_dir(
             $directory = application()->getResourcesPath(
                 'addons/'
-                . $addon->getVendor() . '/'
-                . $addon->getSlug() . '-'
-                . $addon->getType()
-                . '/config'
+                    . $addon->getVendor() . '/'
+                    . $addon->getSlug() . '-'
+                    . $addon->getType()
+                    . '/config'
             )
         )) {
             Configurator::merge($directory, $addon->getNamespace());
