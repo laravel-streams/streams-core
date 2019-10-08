@@ -323,6 +323,10 @@ class AddonProvider
              * and allow us to pass information in the
              * request's route action array.
              */
+            if (!is_array($route) && str_contains($route, ['::', '.'])) {
+                $this->router->view($uri, $route);
+            }
+
             if (!is_array($route)) {
                 $route = [
                     'uses' => $route,
@@ -345,11 +349,11 @@ class AddonProvider
                 $route = $this->router->{$verb}($uri, $route)->where($constraints);
 
                 if ($middleware) {
-                    call_user_func_array([$route, 'middleware'], (array)$middleware);
+                    call_user_func_array([$route, 'middleware'], (array) $middleware);
                 }
 
                 if ($group) {
-                    call_user_func_array([$route, 'group'], (array)$group);
+                    call_user_func_array([$route, 'group'], (array) $group);
                 }
             }
         }
@@ -405,7 +409,7 @@ class AddonProvider
                         $route = $router->{$verb}($uri, $route)->where($constraints);
 
                         if ($middleware) {
-                            call_user_func_array([$route, 'middleware'], (array)$middleware);
+                            call_user_func_array([$route, 'middleware'], (array) $middleware);
                         }
                     }
                 }
@@ -476,7 +480,7 @@ class AddonProvider
                 $route = $this->router->{$verb}($uri, $route)->where($constraints);
 
                 if ($middleware) {
-                    call_user_func_array([$route, 'middleware'], (array)$middleware);
+                    call_user_func_array([$route, 'middleware'], (array) $middleware);
                 }
             }
         }
@@ -540,7 +544,7 @@ class AddonProvider
                         $arguments = [];
                     }
 
-                    $command = call_user_func_array([$command, camel_case($option)], (array)$arguments);
+                    $command = call_user_func_array([$command, camel_case($option)], (array) $arguments);
                 }
             }
         }
@@ -625,8 +629,7 @@ class AddonProvider
                  * If, for whatever reason, this fails let
                  * it fail silently. Mapping additional routes
                  * could be volatile at certain application states.
-                 */
-            }
+                 */ }
         }
     }
 
