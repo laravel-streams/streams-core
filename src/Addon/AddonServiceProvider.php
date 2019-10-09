@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\Module\Module;
@@ -6,6 +8,7 @@ use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 use Anomaly\Streams\Platform\Addon\Theme\Theme;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Support\ServiceProvider;
 
 /**
  * Class AddonServiceProvider
@@ -14,107 +17,105 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class AddonServiceProvider
+class AddonServiceProvider extends ServiceProvider
 {
-    use DispatchesJobs;
-
     /**
      * Class aliases.
      *
      * @var array
      */
-    protected $aliases = [];
+    public $aliases = [];
 
     /**
      * Class bindings.
      *
      * @var array
      */
-    protected $bindings = [];
+    public $bindings = [];
 
     /**
      * The addon commands.
      *
      * @var array
      */
-    protected $commands = [];
+    public $commands = [];
 
     /**
      * The addon command schedules.
      *
      * @var array
      */
-    protected $schedules = [];
+    public $schedules = [];
 
     /**
      * The addon view overrides.
      *
      * @var array
      */
-    protected $overrides = [];
+    public $overrides = [];
 
     /**
      * The addon plugins.
      *
      * @var array
      */
-    protected $plugins = [];
+    public $plugins = [];
 
     /**
      * Addon routes.
      *
      * @var array
      */
-    protected $routes = [];
+    public $routes = [];
 
     /**
      * Addon API routes.
      *
      * @var array
      */
-    protected $api = [];
+    public $api = [];
 
     /**
      * Addon middleware.
      *
      * @var array
      */
-    protected $middleware = [];
+    public $middleware = [];
 
     /**
      * Addon group middleware.
      *
      * @var array
      */
-    protected $groupMiddleware = [];
+    public $groupMiddleware = [];
 
     /**
      * Addon route middleware.
      *
      * @var array
      */
-    protected $routeMiddleware = [];
+    public $routeMiddleware = [];
 
     /**
      * Addon event listeners.
      *
      * @var array
      */
-    protected $listeners = [];
+    public $listeners = [];
 
     /**
      * Addon providers.
      *
      * @var array
      */
-    protected $providers = [];
+    public $providers = [];
 
     /**
      * Singleton bindings.
      *
      * @var array
      */
-    protected $singletons = [];
+    public $singletons = [];
 
     /**
      * The addon view overrides
@@ -122,32 +123,23 @@ class AddonServiceProvider
      *
      * @var array
      */
-    protected $mobile = [];
+    public $mobile = [];
 
-    /**
-     * The application instance.
-     *
-     * @var Application
-     */
-    protected $app;
-
-    /**
-     * The addon instance.
-     *
-     * @var FieldType|Module|Plugin|Theme
-     */
-    protected $addon;
-
-    /**
-     * Create a new AddonServiceProvider instance.
-     *
-     * @param Application $app
-     * @param Addon       $addon
-     */
-    public function __construct(Application $app, Addon $addon)
+    public function boot()
     {
-        $this->app   = $app;
-        $this->addon = $addon;
+
+
+        if (is_dir($migrations = (__DIR__ . '/../../migrations'))) {
+            $this->loadMigrationsFrom($migrations);
+        }
+
+        if (is_dir($translations = (__DIR__ . '/../../resources/lang'))) {
+            //$this->loadTranslationsFrom($translations, $this->namespace);
+        }
+
+        if (is_dir($routes = (__DIR__ . '/../../routes'))) {
+            $this->loadRoutesFrom($routes);
+        }
     }
 
     /**

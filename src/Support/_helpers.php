@@ -13,9 +13,13 @@ use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\View\ViewTemplate;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Stream\Command\GetStream;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Button\Command\GetButtons;
+use Anomaly\Streams\Platform\Entry\Command\GetEntryCriteria;
 use Anomaly\Streams\Platform\Ui\Form\Command\GetFormCriteria;
+use Anomaly\Streams\Platform\Ui\Form\Command\GetTableCriteria;
+use Anomaly\Streams\Platform\Model\Command\GetEloquentCriteria;
 
 if (!function_exists('app_storage_path')) {
 
@@ -269,6 +273,32 @@ if (!function_exists('form')) {
     }
 }
 
+if (!function_exists('table')) {
+
+    /**
+     * Return a table criteria.
+     *
+     * @return \Anomaly\Streams\Platform\Ui\Table\TableCriteria|\Anomaly\Streams\Platform\Ui\Table\TableBuilder
+     */
+    function table()
+    {
+        $arguments = func_get_args();
+
+        if (count($arguments) >= 2) {
+            $arguments = [
+                'namespace' => array_get(func_get_args(), 0),
+                'stream'    => array_get(func_get_args(), 1),
+            ];
+        }
+
+        if (count($arguments) == 1) {
+            $arguments = func_get_arg(0);
+        }
+
+        return dispatch_now(new GetTableCriteria($arguments));
+    }
+}
+
 if (!function_exists('buttons')) {
 
     /**
@@ -487,5 +517,70 @@ if (!function_exists('markdown')) {
     function markdown($content)
     {
         return (new Markdown())->parse($content);
+    }
+}
+
+if (!function_exists('entry')) {
+
+    /**
+     * Return a single entry.
+     * 
+     * @return string
+     */
+    function entry(string $namespace, string $stream = null)
+    {
+        return decorate(dispatch_now(new GetEntryCriteria($namespace, $stream ?: $namespace, 'first')));
+    }
+}
+
+if (!function_exists('entries')) {
+
+    /**
+     * Return a collection of entries.
+     * 
+     * @return string
+     */
+    function entries(string $namespace, string $stream = null)
+    {
+        return decorate(dispatch_now(new GetEntryCriteria($namespace, $stream ?: $namespace, 'get')));
+    }
+}
+
+if (!function_exists('stream')) {
+
+    /**
+     * Return a single stream.
+     * 
+     * @return string
+     */
+    function stream(string $namespace, string $stream)
+    {
+        return decorate(dispatch_now(new GetStream($namespace, $stream ?: $namespace, 'first')));
+    }
+}
+
+if (!function_exists('streams')) {
+
+    /**
+     * Return a collection of streams.
+     * 
+     * @return string
+     */
+    function streams(string $namespace)
+    {
+        return decorate(dispatch_now(new GetStreams($namespace, 'get')));
+    }
+}
+
+if (!function_exists('queries')) {
+
+    /**
+     * Return a new query criteria.
+     *
+     * @param string $model
+     */
+    function queries(string $model)
+    {
+        return decorate(dispatch_now(new GetEloquentCriteria($model, 'get')));
     }
 }

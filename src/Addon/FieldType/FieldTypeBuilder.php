@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\FieldType;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Illuminate\Contracts\Container\Container;
@@ -78,7 +80,7 @@ class FieldTypeBuilder
          * we can resolve it from the container.
          */
         if (str_contains($type, '\\') && class_exists($type)) {
-            $fieldType = clone(app($type));
+            $fieldType = clone (app($type));
         }
 
         /*

@@ -103,6 +103,7 @@ class AddonManager
      */
     public function register($reload = false)
     {
+        return;
         $enabled   = $this->getEnabledAddonNamespaces();
         $installed = $this->getInstalledAddonNamespaces();
 
