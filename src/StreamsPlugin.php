@@ -795,13 +795,6 @@ class StreamsPlugin extends Plugin
                 }
             ),
             new \Twig_SimpleFilter(
-                'markdown',
-                function ($content) {
-                    return (new Markdown())->parse($content);
-                },
-                ['is_safe' => ['html']]
-            ),
-            new \Twig_SimpleFilter(
                 'str_*',
                 function ($name) {
                     return call_user_func_array(
