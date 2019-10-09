@@ -129,7 +129,7 @@ class AddonIntegrator
                     "addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/views/"
                 ),
                 base_path("resources/addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/views/"),
-                $addon->getPath('resources/views'),
+                $addon->getPath('resources/views/'),
             ]
         );
         trans()->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));

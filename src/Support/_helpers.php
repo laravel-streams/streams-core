@@ -1,19 +1,20 @@
 <?php
 
-use Anomaly\Streams\Platform\Application\Application;
+use Illuminate\View\View;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Asset\Asset;
-use Anomaly\Streams\Platform\Message\MessageBag;
-use Anomaly\Streams\Platform\Support\Parser;
+use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Support\Str;
-use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Support\Value;
+use Anomaly\Streams\Platform\Support\Parser;
+use Anomaly\Streams\Platform\Support\Template;
+use Anomaly\Streams\Platform\View\ViewTemplate;
+use Anomaly\Streams\Platform\Message\MessageBag;
+use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Button\Command\GetButtons;
 use Anomaly\Streams\Platform\Ui\Form\Command\GetFormCriteria;
-use Anomaly\Streams\Platform\View\ViewTemplate;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
-use Illuminate\View\View;
 
 if (!function_exists('app_storage_path')) {
 
@@ -189,7 +190,7 @@ if (!function_exists('filesize_for_humans')) {
     function filesize_for_humans($bytes, $decimals = 2)
     {
         $size   = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-        $factor = (int)floor((strlen($bytes) - 1) / 3);
+        $factor = (int) floor((strlen($bytes) - 1) / 3);
 
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . '&nbsp;' . @$size[$factor];
     }
@@ -357,6 +358,19 @@ if (!function_exists('assets')) {
     }
 }
 
+if (!function_exists('img')) {
+
+    /**
+     * Return an image instance.
+     *
+     * @return \Anomaly\Streams\Platform\Image\Image
+     */
+    function img($source)
+    {
+        return app(Image::class)->make($source);
+    }
+}
+
 if (!function_exists('decorate')) {
 
     /**
@@ -447,5 +461,32 @@ if (!function_exists('elapsed_time')) {
         $since = $since ?: request()->server('REQUEST_TIME_FLOAT');
 
         return number_format(microtime(true) - $since, $decimals);
+    }
+}
+
+if (!function_exists('favicons')) {
+
+    /**
+     * Return favicons from a single source.
+     *
+     * @param $source
+     * @return \Illuminate\View\View
+     */
+    function favicons($source)
+    {
+        return view('streams::partials.favicons', compact('source'));
+    }
+}
+
+if (!function_exists('constants')) {
+
+    /**
+     * Return required JS constants.
+     * 
+     * @return \Illuminate\View\View
+     */
+    function constants()
+    {
+        return view('streams::partials.constants');
     }
 }

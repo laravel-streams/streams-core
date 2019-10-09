@@ -1,6 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\View;
+<?php
 
-use Illuminate\Support\Collection;
+namespace Anomaly\Streams\Platform\View;
+
+use Anomaly\Streams\Platform\Support\Collection;
 
 /**
  * Class ViewTemplate

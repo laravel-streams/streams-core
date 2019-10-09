@@ -1,8 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\View\Listener;
+<?php
 
-use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
+namespace Anomaly\Streams\Platform\View\Listener;
+
 use Anomaly\Streams\Platform\View\Event\TemplateDataIsLoading;
-use Anomaly\Streams\Platform\View\Twig\Bridge;
 use Anomaly\Streams\Platform\View\ViewIncludes;
 use Anomaly\Streams\Platform\View\ViewTemplate;
 
@@ -15,13 +15,6 @@ use Anomaly\Streams\Platform\View\ViewTemplate;
  */
 class LoadTemplateData
 {
-
-    /**
-     * The Twig instance.
-     *
-     * @var Bridge
-     */
-    protected $twig;
 
     /**
      * The view template.
@@ -40,11 +33,9 @@ class LoadTemplateData
      *
      * @param ViewTemplate $template
      * @param ViewIncludes $includes
-     * @param Bridge $twig
      */
-    public function __construct(ViewTemplate $template, ViewIncludes $includes, Bridge $twig)
+    public function __construct(ViewTemplate $template, ViewIncludes $includes)
     {
-        $this->twig     = $twig;
         $this->template = $template;
         $this->includes = $includes;
     }
@@ -55,10 +46,12 @@ class LoadTemplateData
     public function handle()
     {
         if (!$this->template->isLoaded()) {
+
             $this->template->set('includes', $this->includes);
 
-            event(new RegisteringTwigPlugins($this->twig));
             event(new TemplateDataIsLoading($this->template));
+
+            \View::share('template', $this->template);
 
             $this->template->setLoaded(true);
         }

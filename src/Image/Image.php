@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Image;
+<?php
+
+namespace Anomaly\Streams\Platform\Image;
 
 use Anomaly\FilesModule\File\Contract\FileInterface;
 use Anomaly\FilesModule\File\FilePresenter;
@@ -284,7 +286,7 @@ class Image
             $this->setOutput($output);
         }
 
-        $clone = clone($this);
+        $clone = clone ($this);
 
         $clone->setAlterations([]);
         $clone->setSources([]);
@@ -584,7 +586,7 @@ class Image
      */
     public function setQuality($quality)
     {
-        $this->quality = (int)$quality;
+        $this->quality = (int) $quality;
 
         return $this;
     }
@@ -635,9 +637,10 @@ class Image
             return true;
         }
 
-        if (is_string($this->image) && str_is('*://*', $this->image) && filemtime($path) < app(
-            'League\Flysystem\MountManager'
-        )->getTimestamp($this->image)
+        if (
+            is_string($this->image) && str_is('*://*', $this->image) && filemtime($path) < app(
+                'League\Flysystem\MountManager'
+            )->getTimestamp($this->image)
         ) {
             return true;
         }
@@ -1356,7 +1359,7 @@ class Image
      */
     public function __toString()
     {
-        return (string)$this->output();
+        return (string) $this->output();
     }
 
     /**

@@ -24,17 +24,9 @@ use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Stream\StreamObserver;
 use Anomaly\Streams\Platform\Support\Configurator;
-use Anomaly\Streams\Platform\View\Cache\CacheAdapter;
-use Anomaly\Streams\Platform\View\Cache\CacheKey;
-use Anomaly\Streams\Platform\View\Cache\CacheStrategy;
 use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
-use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
-use Anomaly\Streams\Platform\View\ViewServiceProvider;
-use Asm89\Twig\CacheExtension\Extension;
 use Composer\Autoload\ClassLoader;
-use Illuminate\Cache\Repository;
 use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Application as Laravel;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Matching\UriValidator;
@@ -73,7 +65,7 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     protected $providers = [
-        ViewServiceProvider::class,
+        //ViewServiceProvider::class,
         StreamsEventProvider::class,
         StreamsConsoleProvider::class,
     ];
@@ -242,31 +234,6 @@ class StreamsServiceProvider extends ServiceProvider
                 $manager = app(AddonManager::class);
 
                 $manager->register();
-
-                /* @var Dispatcher $events */
-                $events = app(Dispatcher::class);
-
-                $events->listen(
-                    RegisteringTwigPlugins::class,
-                    function (RegisteringTwigPlugins $event) {
-                        $twig = $event->getTwig();
-
-                        foreach ($this->plugins as $plugin) {
-                            if (!$twig->hasExtension($plugin)) {
-                                $twig->addExtension($this->app->make($plugin));
-                            }
-                        }
-
-                        $twig->addExtension(
-                            new Extension(
-                                new CacheStrategy(
-                                    new CacheAdapter($this->app->make(Repository::class)),
-                                    new CacheKey()
-                                )
-                            )
-                        );
-                    }
-                );
 
                 /*
                  * Do this after addons are registered

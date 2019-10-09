@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\View\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\View\Command;
 
 use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\View\Factory;
@@ -43,6 +45,7 @@ class AddViewNamespaces
         $views->addNamespace('app', $application->getResourcesPath('views'));
         $views->addNamespace('storage', $application->getStoragePath());
         $views->addNamespace('shared', base_path('resources/views'));
+        $views->addNamespace('theme', base_path('resources/views'));
         $views->addNamespace('root', base_path());
         $views->addExtension('html', 'php');
     }
