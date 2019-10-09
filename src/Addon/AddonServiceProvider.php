@@ -125,16 +125,27 @@ class AddonServiceProvider extends ServiceProvider
      */
     public $mobile = [];
 
+    /**
+     * Register the addon.
+     */
+    public function register()
+    {
+        //
+    }
+
+    /**
+     * Boot the addon.
+     */
     public function boot()
     {
-
+        $namespace = $this->packageNamespace();
 
         if (is_dir($migrations = (__DIR__ . '/../../migrations'))) {
             $this->loadMigrationsFrom($migrations);
         }
 
         if (is_dir($translations = (__DIR__ . '/../../resources/lang'))) {
-            //$this->loadTranslationsFrom($translations, $this->namespace);
+            $this->loadTranslationsFrom($translations, $namespace);
         }
 
         if (is_dir($routes = (__DIR__ . '/../../routes'))) {
@@ -302,5 +313,22 @@ class AddonServiceProvider extends ServiceProvider
     public function getPlugins()
     {
         return $this->plugins;
+    }
+
+    /**
+     * Return the generated package namespace.
+     */
+    protected function packageNamespace()
+    {
+        $class = explode('\\', get_class($this));
+        $vendor = snake_case(array_shift($class));
+        $addon  = snake_case(array_shift($class));
+
+        preg_match('/_' . implode('$|', config('streams::addons.types')) . '$/', $addon, $type);
+
+        $addon = str_replace($type, '', $addon);
+        $type = ltrim(array_shift($type), '_');
+
+        return "{$vendor}.{$type}.{$addon}";
     }
 }
