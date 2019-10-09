@@ -188,7 +188,6 @@ class StreamsServiceProvider extends ServiceProvider
         // Setup and preparing utilities.
         $this->loadStreamsConfiguration();
         $this->configureFileCacheStore();
-        dispatch_now(new ConfigureTranslator()); // @todo revisit
         $this->autoloadEntryModels();
         $this->addAssetNamespaces();
         $this->addImageNamespaces();

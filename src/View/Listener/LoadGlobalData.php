@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\View\Listener;
+<?php
+
+namespace Anomaly\Streams\Platform\View\Listener;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\View\Event\TemplateDataIsLoading;
