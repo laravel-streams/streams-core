@@ -35,9 +35,6 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
         // Installer Commands
         \Anomaly\Streams\Platform\Installer\Console\Install::class,
 
-        // Twig Commands
-        \Anomaly\Streams\Platform\View\Twig\Console\TwigClear::class,
-
         // Streams Commands
         \Anomaly\Streams\Platform\Stream\Console\Make::class,
         \Anomaly\Streams\Platform\Stream\Console\Index::class,

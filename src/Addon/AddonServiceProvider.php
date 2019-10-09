@@ -324,7 +324,13 @@ class AddonServiceProvider extends ServiceProvider
         $vendor = snake_case(array_shift($class));
         $addon  = snake_case(array_shift($class));
 
-        preg_match('/_' . implode('$|', config('streams::addons.types')) . '$/', $addon, $type);
+        preg_match('/_' . implode('$|', [
+            'field_type',
+            'extension',
+            'module',
+            'plugin',
+            'theme',
+        ]) . '$/', $addon, $type);
 
         $addon = str_replace($type, '', $addon);
         $type = ltrim(array_shift($type), '_');

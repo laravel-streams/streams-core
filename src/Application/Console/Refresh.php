@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Application\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Application\Console;
 
 use Anomaly\Streams\Platform\Application\Event\SystemIsRefreshing;
 use Anomaly\Streams\Platform\Console\Kernel;
@@ -52,7 +54,6 @@ class Refresh extends Command
         $this->info('Cache cleared.');
 
         $console->call('view:clear', []);
-        $console->call('twig:clear', []);
 
         $this->info('View caches cleared.');
 
