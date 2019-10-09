@@ -324,21 +324,6 @@ if (!function_exists('messages')) {
     }
 }
 
-if (!function_exists('parse')) {
-
-    /**
-     * Parse a string as a view.
-     *
-     * @param $template
-     * @param array $payload
-     * @return View
-     */
-    function parse($template, array $payload = [])
-    {
-        return app(Template::class)->render($template, $payload);
-    }
-}
-
 if (!function_exists('assets')) {
 
     /**

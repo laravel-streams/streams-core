@@ -75,9 +75,7 @@ class StreamsServiceProvider extends ServiceProvider
      *
      * @var array
      */
-    protected $plugins = [
-        StreamsPlugin::class,
-    ];
+    protected $plugins = [];
 
     /**
      * The class bindings.
