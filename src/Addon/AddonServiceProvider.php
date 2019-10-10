@@ -130,7 +130,18 @@ class AddonServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $namespace = $this->namespace();
+
+        $this->app->singleton($addon = $this->addon(), function ($app) use ($addon, $namespace) {
+
+            [$vendor, $type, $slug] = explode('.', $namespace);
+
+            return (new $addon)
+                ->setType($type)
+                ->setSlug($slug)
+                ->setVendor($vendor)
+                ->setPath(base_path("vendor/{$vendor}/{$slug}-{$type}"));
+        });
     }
 
     /**
@@ -140,7 +151,7 @@ class AddonServiceProvider extends ServiceProvider
     {
 
         // Determine the namespace.
-        $namespace = $this->addon();
+        $namespace = $this->namespace();
 
         $this->loadRoutes($namespace);
 
@@ -223,7 +234,7 @@ class AddonServiceProvider extends ServiceProvider
      * 
      * @return string
      */
-    protected function addon()
+    protected function namespace()
     {
         $class = explode('\\', get_class($this));
         $vendor = snake_case(array_shift($class));
@@ -237,9 +248,19 @@ class AddonServiceProvider extends ServiceProvider
             'theme',
         ]) . '$/', $addon, $type);
 
-        $addon = str_replace($type, '', $addon);
+        $addon = str_replace('_' . $type[0], '', $addon);
         $type = ltrim(array_shift($type), '_');
 
         return "{$vendor}.{$type}.{$addon}";
+    }
+
+    /**
+     * Return the detected addon class.
+     * 
+     * @return string
+     */
+    protected function addon()
+    {
+        return str_replace('ServiceProvider', '', get_class($this));
     }
 }
