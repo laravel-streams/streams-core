@@ -195,7 +195,7 @@ class AddonServiceProvider extends ServiceProvider
             $verb = array_pull($route, 'verb', 'any');
 
             $group       = array_pull($route, 'group', []);
-            $middleware  = array_pull($route, 'middleware', []);
+            $middleware  = array_pull($route, 'middleware', ['web']);
             $constraints = array_pull($route, 'constraints', []);
 
             if ($this->addon) {
@@ -205,7 +205,7 @@ class AddonServiceProvider extends ServiceProvider
             if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
                 \Route::resource($uri, $route['uses']);
             } else {
-                $route = \Router::{$verb}($uri, $route)->where($constraints);
+                $route = \Route::{$verb}($uri, $route)->where($constraints);
 
                 if ($middleware) {
                     call_user_func_array([$route, 'middleware'], (array) $middleware);
