@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Model;
+<?php
+
+namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
@@ -338,33 +340,33 @@ class EloquentQueryBuilder extends Builder
 
         $this->query->addSelect(
             [$model->getTableName() . '.*'] +
-            array_map(
-                function ($column) use ($model) {
-                    return $model->getTranslationTableName() . '.' . $column;
-                },
-                array_diff(
-                    $this->getConnection()->getSchemaBuilder()->getColumnListing($model->getTranslationTableName()),
-                    [
-                        'entry_id',
-                        'created_at',
-                        'created_by_id',
-                        'updated_at',
-                        'updated_by_id',
-                        'sort_order',
-                    ]
+                array_map(
+                    function ($column) use ($model) {
+                        return $model->getTranslationTableName() . '.' . $column;
+                    },
+                    array_diff(
+                        $this->getConnection()->getSchemaBuilder()->getColumnListing($model->getTranslationTableName()),
+                        [
+                            'entry_id',
+                            'created_at',
+                            'created_by_id',
+                            'updated_at',
+                            'updated_by_id',
+                            'sort_order',
+                        ]
+                    )
                 )
-            )
         );
 
         $this->query->groupBy([$model->getTableName() . '.id', $model->getTranslationsTableName() . '.id']);
 
+        /**
+         * Grab either what matches or null because
+         * that should cover every parent record.
+         */
         $this->query->where(
             function (\Illuminate\Database\Query\Builder $query) use ($model, $locale) {
                 $query->where($model->getTranslationsTableName() . '.locale', $locale ?: config('app.locale'));
-                $query->orWhere(
-                    $model->getTranslationsTableName() . '.locale',
-                    config('app.fallback_locale')
-                );
                 $query->orWhereNull($model->getTranslationsTableName() . '.locale');
             }
         );
