@@ -1,14 +1,13 @@
 {
     "name": "anomaly/streams-platform",
     "description": "A drop-in application platform for Laravel.",
-    "authors": [
-        {
-            "name": "Ryan Thompson",
-            "email": "ryan@pyrocms.com"
-        }
-    ],
+    "authors": [{
+        "name": "Ryan Thompson",
+        "email": "ryan@pyrocms.com"
+    }],
     "require": {
         "laravel/framework": "^6.0.0",
+        "fideloper/proxy": "^4.0",
         "laravel/helpers": "^1.1.0",
         "laravel/scout": "^7.1.0",
         "doctrine/dbal": "^2.6",
