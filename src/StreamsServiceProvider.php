@@ -2,7 +2,6 @@
 
 namespace Anomaly\Streams\Platform;
 
-use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Addon\Theme\Command\LoadCurrentTheme;
 use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
 use Anomaly\Streams\Platform\Application\Command\SetApplicationDomain;
@@ -226,11 +225,6 @@ class StreamsServiceProvider extends ServiceProvider
                         }
                     }
                 }
-
-                /* @var AddonManager $manager */
-                $manager = app(AddonManager::class);
-
-                $manager->register();
 
                 /*
                  * Do this after addons are registered

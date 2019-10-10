@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Addon\Theme\Command;
 
+use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\AddonProvider;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Application\Application;
@@ -48,7 +49,7 @@ class LoadCurrentTheme
     ) {
         $admin    = $themes->get($config->get('streams::themes.admin'));
         $standard = $themes->get($config->get('streams::themes.standard'));
-        dd($admin);
+
         if ($admin) {
             $admin->setActive(true);
 

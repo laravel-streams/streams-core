@@ -11,42 +11,42 @@ class {provider} extends AddonServiceProvider
      *
      * @type array|null
      */
-    protected $plugins = [];
+    public $plugins = [];
 
     /**
      * The addon Artisan commands.
      *
      * @type array|null
      */
-    protected $commands = [];
+    public $commands = [];
 
     /**
      * The addon's scheduled commands.
      *
      * @type array|null
      */
-    protected $schedules = [];
+    public $schedules = [];
 
     /**
      * The addon API routes.
      *
      * @type array|null
      */
-    protected $api = [];
+    public $api = [];
 
     /**
      * The addon routes.
      *
      * @type array|null
      */
-    protected $routes = [];
+    public $routes = [];
 
     /**
      * The addon middleware.
      *
      * @type array|null
      */
-    protected $middleware = [
+    public $middleware = [
         //{namespace}\Http\Middleware\ExampleMiddleware::class
     ];
 
@@ -55,7 +55,7 @@ class {provider} extends AddonServiceProvider
      *
      * @var array
      */
-    protected $groupMiddleware = [
+    public $groupMiddleware = [
         //'web' => [
         //    {namespace}\Http\Middleware\ExampleMiddleware::class,
         //],
@@ -66,14 +66,14 @@ class {provider} extends AddonServiceProvider
      *
      * @type array|null
      */
-    protected $routeMiddleware = [];
+    public $routeMiddleware = [];
 
     /**
      * The addon event listeners.
      *
      * @type array|null
      */
-    protected $listeners = [
+    public $listeners = [
         //{namespace}\Event\ExampleEvent::class => [
         //    {namespace}\Listener\ExampleListener::class,
         //],
@@ -84,7 +84,7 @@ class {provider} extends AddonServiceProvider
      *
      * @type array|null
      */
-    protected $aliases = [
+    public $aliases = [
         //'Example' => {namespace}\Example::class
     ];
 
@@ -93,21 +93,21 @@ class {provider} extends AddonServiceProvider
      *
      * @type array|null
      */
-    protected $bindings = [];
+    public $bindings = [];
 
     /**
      * The addon singleton bindings.
      *
      * @type array|null
      */
-    protected $singletons = [];
+    public $singletons = [];
 
     /**
      * Additional service providers.
      *
      * @type array|null
      */
-    protected $providers = [
+    public $providers = [
         //\ExamplePackage\Provider\ExampleProvider::class
     ];
 
@@ -116,7 +116,7 @@ class {provider} extends AddonServiceProvider
      *
      * @type array|null
      */
-    protected $overrides = [
+    public $overrides = [
         //'streams::errors/404' => 'module::errors/404',
         //'streams::errors/500' => 'module::errors/500',
     ];
@@ -126,7 +126,7 @@ class {provider} extends AddonServiceProvider
      *
      * @type array|null
      */
-    protected $mobile = [
+    public $mobile = [
         //'streams::errors/404' => 'module::mobile/errors/404',
         //'streams::errors/500' => 'module::mobile/errors/500',
     ];

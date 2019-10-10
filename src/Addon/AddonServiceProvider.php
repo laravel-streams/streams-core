@@ -13,20 +13,6 @@ use Illuminate\Support\ServiceProvider;
 class AddonServiceProvider extends ServiceProvider
 {
     /**
-     * The addon identifier.
-     *
-     * @var string
-     */
-    public $addon = null;
-
-    /**
-     * Class aliases.
-     *
-     * @var array
-     */
-    public $aliases = [];
-
-    /**
      * Class bindings.
      *
      * @var array
@@ -132,16 +118,48 @@ class AddonServiceProvider extends ServiceProvider
     {
         $namespace = $this->namespace();
 
+        // if ($addon instanceof Module && !$addon->isEnabled() && $addon->getSlug() !== 'installer') {
+        //     return;
+        // }
+
+        // if ($addon instanceof Extension && !$addon->isEnabled()) {
+        //     return;
+        // }
+
+        // if ($addon instanceof Theme && !$addon->isActive()) {
+        //     return;
+        // }
+
+        // $provider = $addon->getServiceProvider();
+
+        // if (!class_exists($provider)) {
+        //     return;
+        // }
+
         $this->app->singleton($addon = $this->addon(), function ($app) use ($addon, $namespace) {
 
             [$vendor, $type, $slug] = explode('.', $namespace);
 
-            return (new $addon)
+            $addon = $app->make($addon)
                 ->setType($type)
                 ->setSlug($slug)
                 ->setVendor($vendor)
                 ->setPath(base_path("vendor/{$vendor}/{$slug}-{$type}"));
+
+            // if ($addon->getType() === 'module' || $addon->getType() === 'extension') {
+            //     $addon->setInstalled($installed);
+            //     $addon->setEnabled($enabled);
+            // }
+
+            return $addon;
         });
+
+        $this->app->alias($namespace, $addon);
+
+        $this->registerRoutes($namespace);
+        $this->registerApi($namespace);
+
+        $this->registerEvents();
     }
 
     /**
@@ -153,7 +171,21 @@ class AddonServiceProvider extends ServiceProvider
         // Determine the namespace.
         $namespace = $this->namespace();
 
-        $this->loadRoutes($namespace);
+
+        $this->registerCommands();
+        // $this->registerSchedules($namespace);
+        // $this->registerMiddleware($namespace);
+        // $this->registerGroupMiddleware($namespace);
+        // $this->registerRouteMiddleware($namespace);
+
+        // $this->registerFactories($namespace);
+
+        // if (method_exists($provider, 'register')) {
+        //     $this->app->call([$provider, 'register'], ['provider' => $this]);
+        // }
+
+        // // Call other providers last.
+        // $this->registerProviders($provider->getProviders());
 
         if (is_dir($migrations = (__DIR__ . '/../../migrations'))) {
             $this->loadMigrationsFrom($migrations);
@@ -169,9 +201,11 @@ class AddonServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load the routes.
-     */
-    protected function loadRoutes()
+     * Undocumented function
+     *
+     * @param string $namespace
+     **/
+    protected function registerRoutes(string $namespace)
     {
 
         /**
@@ -209,9 +243,7 @@ class AddonServiceProvider extends ServiceProvider
             $middleware  = array_pull($route, 'middleware', ['web']);
             $constraints = array_pull($route, 'constraints', []);
 
-            if ($this->addon) {
-                array_set($route, 'addon', $this->addon());
-            }
+            array_set($route, 'streams::addon', $namespace);
 
             if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
                 \Route::resource($uri, $route['uses']);
@@ -226,6 +258,109 @@ class AddonServiceProvider extends ServiceProvider
                     call_user_func_array([$route, 'group'], (array) $group);
                 }
             }
+        }
+    }
+
+    /**
+     * Register the addon routes.
+     *
+     * @param string $namespace
+     */
+    protected function registerApi(string $namespace)
+    {
+        /**
+         * Skip if there is nothing to do.
+         */
+        if (!$this->api || $this->app->routesAreCached()) {
+            return;
+        }
+
+        /**
+         * Loop over the routes and normalize
+         */
+        $this->router->group(
+            [
+                'middleware' => 'auth:api',
+            ],
+            function () use ($namespace) {
+                foreach ($this->api as $uri => $route) {
+
+                    /*
+                     * If the route definition is an
+                     * not an array then let's make it one.
+                     * Array type routes give us more control
+                     * and allow us to pass information in the
+                     * request's route action array.
+                     */
+                    if (!is_array($route)) {
+                        $route = [
+                            'uses' => $route,
+                        ];
+                    }
+
+                    $verb        = array_pull($route, 'verb', 'any');
+                    $middleware  = array_pull($route, 'middleware', []);
+                    $constraints = array_pull($route, 'constraints', []);
+
+                    array_set($route, 'streams::addon', $namespace);
+
+                    if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
+                        \Route::resource($uri, $route['uses']);
+                    } else {
+                        $route = \Route::{$verb}($uri, $route)->where($constraints);
+
+                        if ($middleware) {
+                            call_user_func_array([$route, 'middleware'], (array) $middleware);
+                        }
+                    }
+                }
+            }
+        );
+    }
+
+    /**
+     * Bind class aliases.
+     */
+    protected function bindAliases()
+    {
+        if ($this->aliases) {
+            AliasLoader::getInstance($this->aliases)->register();
+        }
+    }
+
+    /**
+     * Register the addon events.
+     */
+    protected function registerEvents()
+    {
+        foreach ($this->listeners as $event => $classes) {
+            foreach ($classes as $key => $listener) {
+
+                $priority = 0;
+
+                if (is_integer($listener)) {
+                    $priority = $listener;
+                    $listener = $key;
+                }
+
+                \Event::listen($event, $listener, $priority);
+            }
+        }
+    }
+
+    /**
+     * Register the addon commands.
+     */
+    protected function registerCommands()
+    {
+        if ($this->commands) {
+
+            // To register the commands with Artisan, we will grab each of the arguments
+            // passed into the method and listen for Artisan "start" event which will
+            // give us the Artisan console instance which we will give commands to.
+            \Artisan::starting(function ($artisan) {
+                $artisan->resolveCommands($this->commands);
+            });
         }
     }
 
