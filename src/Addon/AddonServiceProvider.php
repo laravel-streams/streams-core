@@ -2,23 +2,23 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Addon\Module\Module;
-use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
-use Anomaly\Streams\Platform\Addon\Theme\Theme;
-use Illuminate\Foundation\Application;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\ServiceProvider;
 
 /**
  * Class AddonServiceProvider
  *
  * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
 class AddonServiceProvider extends ServiceProvider
 {
+    /**
+     * The addon identifier.
+     *
+     * @var string
+     */
+    public $addon = null;
+
     /**
      * Class aliases.
      *
@@ -138,7 +138,11 @@ class AddonServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $namespace = $this->packageNamespace();
+
+        // Determine the namespace.
+        $namespace = $this->addon();
+
+        $this->loadRoutes($namespace);
 
         if (is_dir($migrations = (__DIR__ . '/../../migrations'))) {
             $this->loadMigrationsFrom($migrations);
@@ -154,171 +158,72 @@ class AddonServiceProvider extends ServiceProvider
     }
 
     /**
-     * Get class aliases.
-     *
-     * @return array
+     * Load the routes.
      */
-    public function getAliases()
+    protected function loadRoutes()
     {
-        return $this->aliases;
-    }
 
-    /**
-     * Get class bindings.
-     *
-     * @return array
-     */
-    public function getBindings()
-    {
-        return $this->bindings;
-    }
-
-    /**
-     * Get the singleton bindings.
-     *
-     * @return array
-     */
-    public function getSingletons()
-    {
-        return $this->singletons;
-    }
-
-    /**
-     * Get the providers.
-     *
-     * @return array
-     */
-    public function getProviders()
-    {
-        return $this->providers;
-    }
-
-    /**
-     * Get the addon commands.
-     *
-     * @return array
-     */
-    public function getCommands()
-    {
-        return $this->commands;
-    }
-
-    /**
-     * Get the addon command schedules.
-     *
-     * @return array
-     */
-    public function getSchedules()
-    {
-        return $this->schedules;
-    }
-
-    /**
-     * Get the addon view overrides.
-     *
-     * @return array
-     */
-    public function getOverrides()
-    {
-        return $this->overrides;
-    }
-
-    /**
-     * Get the mobile view overrides.
-     *
-     * @return array
-     */
-    public function getMobile()
-    {
-        return $this->mobile;
-    }
-
-    /**
-     * Ge the event listeners.
-     *
-     * @return array
-     */
-    public function getListeners()
-    {
-        return $this->listeners;
-    }
-
-    /**
-     * Get the addon routes.
-     *
-     * @return array
-     */
-    public function getRoutes()
-    {
-        $routes = [];
-
-        foreach (glob($this->addon->getPath('resources/routes/*')) as $include) {
-            $include = require $include;
-
-            if (!is_array($include)) {
-                continue;
-            }
-
-            $routes = array_merge($include, $routes);
+        /**
+         * Skip if there is nothing to do.
+         */
+        if (!$this->routes || $this->app->routesAreCached()) {
+            return;
         }
 
-        return array_merge($this->routes, $routes);
+        /**
+         * Loop over the routes and normalize
+         */
+        foreach ($this->routes as $uri => $route) {
+
+            /*
+             * If the route definition is an
+             * not an array then let's make it one.
+             * Array type routes give us more control
+             * and allow us to pass information in the
+             * request's route action array.
+             */
+            if (!is_array($route) && str_contains($route, ['::', '.'])) {
+                $this->router->view($uri, $route);
+            }
+
+            if (!is_array($route)) {
+                $route = [
+                    'uses' => $route,
+                ];
+            }
+
+            $verb = array_pull($route, 'verb', 'any');
+
+            $group       = array_pull($route, 'group', []);
+            $middleware  = array_pull($route, 'middleware', []);
+            $constraints = array_pull($route, 'constraints', []);
+
+            if ($this->addon) {
+                array_set($route, 'addon', $this->addon());
+            }
+
+            if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
+                \Route::resource($uri, $route['uses']);
+            } else {
+                $route = \Router::{$verb}($uri, $route)->where($constraints);
+
+                if ($middleware) {
+                    call_user_func_array([$route, 'middleware'], (array) $middleware);
+                }
+
+                if ($group) {
+                    call_user_func_array([$route, 'group'], (array) $group);
+                }
+            }
+        }
     }
 
     /**
-     * Get the addon API routes.
-     *
-     * @return array
+     * Return the detected addon namespace.
+     * 
+     * @return string
      */
-    public function getApi()
-    {
-        return $this->api;
-    }
-
-    /**
-     * Get the middleware.
-     *
-     * @return array
-     */
-    public function getMiddleware()
-    {
-        return $this->middleware;
-    }
-
-    /**
-     * Get the group middleware.
-     *
-     * @return array
-     */
-    public function getGroupMiddleware()
-    {
-        return $this->groupMiddleware;
-    }
-
-    /**
-     * Get the route middleware.
-     *
-     * @return array
-     */
-    public function getRouteMiddleware()
-    {
-        return $this->routeMiddleware;
-    }
-
-    /**
-     * Get the addon plugins.
-     *
-     * @return array
-     */
-    public function getPlugins()
-    {
-        return $this->plugins;
-    }
-
-    /**
-     * Return the generated package namespace.
-     */
-    protected function packageNamespace()
+    protected function addon()
     {
         $class = explode('\\', get_class($this));
         $vendor = snake_case(array_shift($class));
