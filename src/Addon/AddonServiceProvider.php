@@ -2,8 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
-use Illuminate\Console\Application as Artisan;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Console\Application as Artisan;
 
 /**
  * Class AddonServiceProvider
@@ -119,6 +120,10 @@ class AddonServiceProvider extends ServiceProvider
     {
         $namespace = $this->namespace();
 
+        [$vendor, $type, $slug] = explode('.', $namespace);
+
+        $path = base_path("vendor/{$vendor}/{$slug}-{$type}");
+
         // if ($addon instanceof Module && !$addon->isEnabled() && $addon->getSlug() !== 'installer') {
         //     return;
         // }
@@ -137,15 +142,13 @@ class AddonServiceProvider extends ServiceProvider
         //     return;
         // }
 
-        $this->app->singleton($addon = $this->addon(), function ($app) use ($addon, $namespace) {
-
-            [$vendor, $type, $slug] = explode('.', $namespace);
+        $this->app->singleton($addon = $this->addon(), function ($app) use ($addon, $type, $slug, $vendor, $path) {
 
             $addon = $app->make($addon)
                 ->setType($type)
                 ->setSlug($slug)
                 ->setVendor($vendor)
-                ->setPath(base_path("vendor/{$vendor}/{$slug}-{$type}"));
+                ->setPath($path);
 
             // if ($addon->getType() === 'module' || $addon->getType() === 'extension') {
             //     $addon->setInstalled($installed);
@@ -157,10 +160,19 @@ class AddonServiceProvider extends ServiceProvider
 
         $this->app->alias($namespace, $addon);
 
-        $this->registerRoutes($namespace);
         $this->registerApi($namespace);
+        $this->registerRoutes($namespace);
 
         $this->registerEvents();
+        $this->registerMiddleware();
+        $this->registerGroupMiddleware();
+        $this->registerRouteMiddleware();
+
+        $this->registerHints($namespace, $path);
+        $this->registerFactories($namespace, $path);
+
+        // Lastly
+        $this->registerProviders();
     }
 
     /**
@@ -172,27 +184,15 @@ class AddonServiceProvider extends ServiceProvider
         // Determine the namespace.
         $namespace = $this->namespace();
 
+        [$vendor, $type, $slug] = explode('.', $namespace);
+
+        $path = base_path("vendor/{$vendor}/{$slug}-{$type}");
+
         $this->registerCommands();
         // $this->registerSchedules($namespace);
-        $this->registerMiddleware();
-        $this->registerGroupMiddleware();
-        $this->registerRouteMiddleware();
 
-        $this->registerFactories($namespace);
-
-        // Call other providers last.
-        $this->registerProviders();
-
-        if (is_dir($migrations = (__DIR__ . '/../../migrations'))) {
-            $this->loadMigrationsFrom($migrations);
-        }
-
-        if (is_dir($translations = (__DIR__ . '/../../resources/lang'))) {
+        if (is_dir($translations = ($path . '/resources/lang'))) {
             $this->loadTranslationsFrom($translations, $namespace);
-        }
-
-        if (is_dir($routes = (__DIR__ . '/../../routes'))) {
-            $this->loadRoutesFrom($routes);
         }
     }
 
@@ -391,16 +391,34 @@ class AddonServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register the addon hints.
+     * 
+     * @param string $namespace
+     * @param string $path
+     */
+    protected function registerHints(string $namespace, string $path)
+    {
+        if (is_dir($views = ($path . '/resources/views'))) {
+            $this->loadViewsFrom($views, $namespace);
+        }
+
+        if (is_dir($migrations = ($path . '/migrations'))) {
+            $this->loadMigrationsFrom($migrations);
+        }
+
+        if (is_dir($routes = ($path . '/routes'))) {
+            $this->loadRoutesFrom($routes);
+        }
+    }
+
+    /**
      * Register the addon commands.
      * 
      * @param string $namespace
+     * @param string $path
      */
-    protected function registerFactories(string $namespace)
+    protected function registerFactories(string $namespace, string $path)
     {
-        [$vendor, $type, $slug] = explode('.', $namespace);
-
-        $path = base_path("vendor/{$vendor}/{$slug}-{$type}/factories");
-
         if (
             ($this->app->runningUnitTests() || $this->app->runningInConsole())
             && is_dir($path)
