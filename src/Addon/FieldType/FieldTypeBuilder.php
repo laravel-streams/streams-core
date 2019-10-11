@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Addon\FieldType;
 
+use Anomaly\EmailFieldType\EmailFieldType;
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -89,7 +90,7 @@ class FieldTypeBuilder
          * the field type from the container.
          */
         if (!isset($fieldType) && str_is('*.*.*', $type)) {
-            $fieldType = $this->fieldTypes->get($type);
+            $fieldType = app($type);
         }
 
         /*

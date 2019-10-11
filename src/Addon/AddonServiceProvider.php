@@ -118,6 +118,7 @@ class AddonServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $addon     = $this->addon();
         $namespace = $this->namespace();
 
         [$vendor, $type, $slug] = explode('.', $namespace);
@@ -142,7 +143,7 @@ class AddonServiceProvider extends ServiceProvider
         //     return;
         // }
 
-        $this->app->singleton($addon = $this->addon(), function ($app) use ($addon, $type, $slug, $vendor, $path) {
+        $this->app->singleton($namespace, function ($app) use ($addon, $type, $slug, $vendor, $path) {
 
             $addon = $app->make($addon)
                 ->setType($type)
@@ -157,8 +158,6 @@ class AddonServiceProvider extends ServiceProvider
 
             return $addon;
         });
-
-        $this->app->alias($namespace, $addon);
 
         $this->registerApi($namespace);
         $this->registerRoutes($namespace);
@@ -183,6 +182,7 @@ class AddonServiceProvider extends ServiceProvider
 
         // Determine the namespace.
         $namespace = $this->namespace();
+        $addon = $this->addon();
 
         [$vendor, $type, $slug] = explode('.', $namespace);
 
@@ -448,7 +448,7 @@ class AddonServiceProvider extends ServiceProvider
         $vendor = snake_case(array_shift($class));
         $addon  = snake_case(array_shift($class));
 
-        preg_match('/_' . implode('$|', [
+        preg_match('/' . implode('$|', [
             'field_type',
             'extension',
             'module',
