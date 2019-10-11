@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
+use Illuminate\Console\Application as Artisan;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -171,21 +172,16 @@ class AddonServiceProvider extends ServiceProvider
         // Determine the namespace.
         $namespace = $this->namespace();
 
-
         $this->registerCommands();
         // $this->registerSchedules($namespace);
-        // $this->registerMiddleware($namespace);
-        // $this->registerGroupMiddleware($namespace);
-        // $this->registerRouteMiddleware($namespace);
+        $this->registerMiddleware();
+        $this->registerGroupMiddleware();
+        $this->registerRouteMiddleware();
 
-        // $this->registerFactories($namespace);
+        $this->registerFactories($namespace);
 
-        // if (method_exists($provider, 'register')) {
-        //     $this->app->call([$provider, 'register'], ['provider' => $this]);
-        // }
-
-        // // Call other providers last.
-        // $this->registerProviders($provider->getProviders());
+        // Call other providers last.
+        $this->registerProviders();
 
         if (is_dir($migrations = (__DIR__ . '/../../migrations'))) {
             $this->loadMigrationsFrom($migrations);
@@ -358,9 +354,68 @@ class AddonServiceProvider extends ServiceProvider
             // To register the commands with Artisan, we will grab each of the arguments
             // passed into the method and listen for Artisan "start" event which will
             // give us the Artisan console instance which we will give commands to.
-            \Artisan::starting(function ($artisan) {
+            Artisan::starting(function ($artisan) {
                 $artisan->resolveCommands($this->commands);
             });
+        }
+    }
+
+    /**
+     * Register middleware.
+     */
+    protected function registerMiddleware()
+    {
+        foreach ($this->middleware as $middleware) {
+            \Route::pushMiddlewareToGroup('web', $middleware);
+        }
+    }
+
+    /**
+     * Register group middleware.
+     */
+    protected function registerGroupMiddleware()
+    {
+        foreach ($this->groupMiddleware as $group => $classes) {
+            \Route::pushMiddlewareToGroup($group, $classes);
+        }
+    }
+
+    /**
+     * Register route middleware.
+     */
+    protected function registerRouteMiddleware()
+    {
+        foreach ($this->routeMiddleware as $name => $class) {
+            \Route::aliasMiddleware($name, $class);
+        }
+    }
+
+    /**
+     * Register the addon commands.
+     * 
+     * @param string $namespace
+     */
+    protected function registerFactories(string $namespace)
+    {
+        [$vendor, $type, $slug] = explode('.', $namespace);
+
+        $path = base_path("vendor/{$vendor}/{$slug}-{$type}/factories");
+
+        if (
+            ($this->app->runningUnitTests() || $this->app->runningInConsole())
+            && is_dir($path)
+        ) {
+            app(Factory::class)->load($path);
+        }
+    }
+
+    /**
+     * Register the addon providers.
+     */
+    public function registerProviders()
+    {
+        foreach ($this->providers as $provider) {
+            $this->app->register($provider);
         }
     }
 
@@ -371,7 +426,7 @@ class AddonServiceProvider extends ServiceProvider
      */
     protected function namespace()
     {
-        $class = explode('\\', get_class($this));
+        $class  = explode('\\', get_class($this));
         $vendor = snake_case(array_shift($class));
         $addon  = snake_case(array_shift($class));
 

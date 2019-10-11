@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform;
 
+use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
+use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
 use Anomaly\Streams\Platform\Addon\Theme\Command\LoadCurrentTheme;
 use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
 use Anomaly\Streams\Platform\Application\Command\SetApplicationDomain;
@@ -246,6 +248,11 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+
+        //$modules = ModuleModel::get();
+        //$extensions = ExtensionModel::get();
+
+        //dd($extensions);
 
         /**
          * When config is cached by Laravel we
