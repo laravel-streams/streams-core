@@ -29,6 +29,7 @@ class CreateStreamsTables extends Migration
                 'streams_streams',
                 function (Blueprint $table) {
                     $table->increments('id');
+                    $table->integer('sort_order')->nullable();
                     $table->string('namespace', 150);
                     $table->string('slug', 150);
                     $table->string('prefix')->nullable();
@@ -38,6 +39,8 @@ class CreateStreamsTables extends Migration
                     $table->boolean('hidden')->default(0);
                     $table->boolean('sortable')->default(0);
                     $table->boolean('trashable')->default(0);
+                    $table->boolean('searchable')->default(0);
+                    $table->boolean('versionable')->default(0);
                     $table->boolean('translatable')->default(0);
                     $table->text('config');
 

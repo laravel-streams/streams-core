@@ -201,6 +201,13 @@ class StreamsServiceProvider extends ServiceProvider
         EloquentModel::observe(EloquentObserver::class);
         AssignmentModel::observe(AssignmentObserver::class);
 
+        $modules = ModuleModel::get();
+        $extensions = ExtensionModel::get();
+
+        // Addon states
+        // @todo replace with single addons table
+        $this->app->instance('addons', $modules->merge($extensions));
+
         /**
          * Boot event is used to help scheduler
          * and artisan command registering.
@@ -248,11 +255,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
-        //$modules = ModuleModel::get();
-        //$extensions = ExtensionModel::get();
-
-        //dd($extensions);
+        define('IS_ADMIN', request()->segment(1) == 'admin');
 
         /**
          * When config is cached by Laravel we
