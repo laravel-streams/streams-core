@@ -379,10 +379,15 @@ if (!function_exists('img')) {
     /**
      * Return an image instance.
      *
+     * @param mixed $source
      * @return \Anomaly\Streams\Platform\Image\Image
      */
-    function img($source)
+    function img($source = null)
     {
+        if (!$source) {
+            return app(Image::class);
+        }
+
         return app(Image::class)->make($source);
     }
 }

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Http\Controller;
+<?php
+
+namespace Anomaly\Streams\Platform\Http\Controller;
 
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Event\Response;
@@ -66,8 +68,6 @@ class BaseController extends Controller
      */
     public function __construct()
     {
-        event(new Response($this));
-
         $this->middleware(PoweredBy::class);
 
         $this->middleware(VerifyCsrfToken::class);

@@ -2,39 +2,35 @@
 
 namespace Anomaly\Streams\Platform;
 
-use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
-use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
-use Anomaly\Streams\Platform\Addon\Theme\Command\LoadCurrentTheme;
-use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
-use Anomaly\Streams\Platform\Application\Command\SetApplicationDomain;
+use Illuminate\Routing\Route;
+use Composer\Autoload\ClassLoader;
+use Illuminate\Routing\Redirector;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\ServiceProvider;
 use Anomaly\Streams\Platform\Asset\Asset;
+use Anomaly\Streams\Platform\Image\Image;
+use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Routing\Matching\UriValidator;
+use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Field\FieldModel;
+use Symfony\Component\Console\Input\ArgvInput;
+use Anomaly\Streams\Platform\View\ViewComposer;
+use Anomaly\Streams\Platform\Stream\StreamModel;
+use Anomaly\Streams\Platform\Entry\EntryObserver;
+use Anomaly\Streams\Platform\Field\FieldObserver;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Illuminate\Foundation\Application as Laravel;
+use Anomaly\Streams\Platform\Routing\UrlGenerator;
+use Anomaly\Streams\Platform\Support\Configurator;
+use Anomaly\Streams\Platform\Stream\StreamObserver;
+use Anomaly\Streams\Platform\Model\EloquentObserver;
+use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
-use Anomaly\Streams\Platform\Entry\EntryModel;
-use Anomaly\Streams\Platform\Entry\EntryObserver;
-use Anomaly\Streams\Platform\Event\Booted;
-use Anomaly\Streams\Platform\Event\Booting;
-use Anomaly\Streams\Platform\Event\Ready;
-use Anomaly\Streams\Platform\Field\FieldModel;
-use Anomaly\Streams\Platform\Field\FieldObserver;
+use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
+use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
+use Anomaly\Streams\Platform\Application\Command\SetApplicationDomain;
 use Anomaly\Streams\Platform\Http\Routing\Matching\CaseInsensitiveUriValidator;
-use Anomaly\Streams\Platform\Image\Image;
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Model\EloquentObserver;
-use Anomaly\Streams\Platform\Routing\UrlGenerator;
-use Anomaly\Streams\Platform\Stream\StreamModel;
-use Anomaly\Streams\Platform\Stream\StreamObserver;
-use Anomaly\Streams\Platform\Support\Configurator;
-use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
-use Composer\Autoload\ClassLoader;
-use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Foundation\Application as Laravel;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Routing\Matching\UriValidator;
-use Illuminate\Routing\Redirector;
-use Illuminate\Routing\Route;
-use Illuminate\Support\ServiceProvider;
-use Symfony\Component\Console\Input\ArgvInput;
 
 /**
  * Class StreamsServiceProvider
@@ -70,13 +66,6 @@ class StreamsServiceProvider extends ServiceProvider
         StreamsEventProvider::class,
         StreamsConsoleProvider::class,
     ];
-
-    /**
-     * The plugins to register.
-     *
-     * @var array
-     */
-    protected $plugins = [];
 
     /**
      * The class bindings.
@@ -175,9 +164,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-        event(new Booting());
-
         // Take care of core utilities.
         $this->setCoreConnection();
         $this->configureUriValidator();
@@ -192,6 +178,9 @@ class StreamsServiceProvider extends ServiceProvider
         $this->autoloadEntryModels();
         $this->addAssetNamespaces();
         $this->addImageNamespaces();
+        $this->addThemeNamespaces();
+        $this->addViewNamespaces();
+        $this->setConsoleDomain();
         $this->configureRequest();
 
         // Observe our base models.
@@ -201,10 +190,10 @@ class StreamsServiceProvider extends ServiceProvider
         EloquentModel::observe(EloquentObserver::class);
         AssignmentModel::observe(AssignmentObserver::class);
 
+        // Addon states
         $modules = ModuleModel::get();
         $extensions = ExtensionModel::get();
 
-        // Addon states
         // @todo replace with single addons table
         $this->app->instance('addons', $modules->merge($extensions));
 
@@ -214,8 +203,6 @@ class StreamsServiceProvider extends ServiceProvider
          */
         $this->app->booted(
             function () {
-
-                event(new Booted());
 
                 /* @var Schedule $schedule */
                 $schedule = app(Schedule::class);
@@ -234,16 +221,6 @@ class StreamsServiceProvider extends ServiceProvider
                         }
                     }
                 }
-
-                /*
-                 * Do this after addons are registered
-                 * so that they can override named routes.
-                 */
-                dispatch_now(new LoadCurrentTheme());
-                dispatch_now(new AddViewNamespaces());
-                dispatch_now(new SetApplicationDomain());
-
-                event(new Ready());
             }
         );
     }
@@ -274,10 +251,10 @@ class StreamsServiceProvider extends ServiceProvider
         /*
          * Register all third party packages first.
          */
-        app()->register(\Laravel\Scout\ScoutServiceProvider::class);
-        app()->register(\Barryvdh\HttpCache\ServiceProvider::class);
-        app()->register(\Collective\Html\HtmlServiceProvider::class);
-        app()->register(\Intervention\Image\ImageServiceProvider::class);
+        $this->app->register(\Laravel\Scout\ScoutServiceProvider::class);
+        $this->app->register(\Barryvdh\HttpCache\ServiceProvider::class);
+        $this->app->register(\Collective\Html\HtmlServiceProvider::class);
+        $this->app->register(\Intervention\Image\ImageServiceProvider::class);
 
         foreach (config('streams.listeners', []) as $event => $listeners) {
             foreach ($listeners as $key => $listener) {
@@ -664,7 +641,87 @@ class StreamsServiceProvider extends ServiceProvider
         $image->addPath('storage', application()->getStoragePath());
         $image->addPath('resources', application()->getResourcesPath());
 
-        $image->addPath('streams', __DIR__ . '/../resources');
+        $image->addPath('streams', base_path('vendor/anomaly/streams-platform/resources'));
+    }
+
+    /**
+     * Add the active theme hints.
+     */
+    public function addThemeNamespaces()
+    {
+        $view = view();
+        $image = img();
+        $trans = trans();
+        $assets = assets();
+
+        if ($admin = config('streams::themes.admin')) {
+            [$vendor, $type, $slug] = explode('.', $admin);
+
+            $path = base_path("vendor/{$vendor}/{$slug}-{$type}");
+
+            $view->addNamespace('theme', $path . '/resources/views');
+            $trans->addNamespace('theme', $path . '/resources/lang');
+
+            $assets->addPath('theme', $path . '/resources');
+            $image->addPath('theme', $path . '/resources');
+        }
+
+        if ($default = config('streams::themes.default')) {
+            [$vendor, $type, $slug] = explode('.', $default);
+
+            $path = base_path("vendor/{$vendor}/{$slug}-{$type}");
+
+            $view->addNamespace('theme', $path . '/resources/views');
+            $trans->addNamespace('theme', $path . '/resources/lang');
+
+            $assets->addPath('theme', $path . '/resources');
+            $image->addPath('theme', $path . '/resources');
+        }
+    }
+
+    /**
+     * Add view namespaces.
+     */
+    public function addViewNamespaces()
+    {
+        $views = view();
+
+        /**
+         * We still need the composer
+         * for $view->make() overloading.
+         */
+        $views->composer('*', ViewComposer::class);
+
+        $views->addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/views'));
+        //$views->addNamespace('published', $application->getResourcesPath('addons'));
+        //$views->addNamespace('app', $application->getResourcesPath('views'));
+        //$views->addNamespace('storage', $application->getStoragePath());
+        $views->addNamespace('shared', base_path('resources/views'));
+        $views->addNamespace('theme', base_path('resources/views'));
+        $views->addNamespace('root', base_path());
+
+        //$views->addExtension('html', 'php');
+    }
+
+    /**
+     * Set the domain for the console.
+     */
+    public function setConsoleDomain()
+    {
+        if (PHP_SAPI == 'cli') {
+
+            // $force = config('streams::system.force_ssl', false);
+
+            // $protocol = 'http';
+
+            // if (request()->isSecure() || $force) {
+            //     $protocol = 'https';
+            // }
+
+            config(['app.url' => config('app.url')]);
+
+            //url()->forceRootUrl($root);
+        }
     }
 
     /**

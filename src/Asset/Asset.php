@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Asset;
+<?php
+
+namespace Anomaly\Streams\Platform\Asset;
 
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Application\Application;
@@ -517,8 +519,7 @@ class Asset
         }
 
         if (
-            !in_array('noversion', $filters) &&
-            (config('streams::assets.version') || in_array('version', $filters))
+            !in_array('noversion', $filters) && (config('streams::assets.version') || in_array('version', $filters))
         ) {
             $path .= '?v=' . filemtime(public_path(trim($path, '/\\')));
         }
@@ -556,7 +557,7 @@ class Asset
          */
         if (in_array('parse', $filters) || $hint == 'css') {
             try {
-                $contents = (string)render($contents);
+                $contents = (string) render($contents);
             } catch (\Exception $e) {
                 if (config('app.debug')) {
                     dump($contents);
@@ -663,16 +664,17 @@ class Asset
          * If we're busting cache and have watched
          * files that have been modified then publish.
          */
-        if (request()->isNoCache() && array_filter(
-            $filters,
-            function ($filter) use ($path) {
-                if (!starts_with($filter, 'watch@')) {
-                    return false;
-                }
+        if (
+            request()->isNoCache() && array_filter(
+                $filters,
+                function ($filter) use ($path) {
+                    if (!starts_with($filter, 'watch@')) {
+                        return false;
+                    }
 
-                return $this->lastModifiedAt(substr($filter, 6)) > filemtime($path);
-            }
-        )
+                    return $this->lastModifiedAt(substr($filter, 6)) > filemtime($path);
+                }
+            )
         ) {
             return true;
         }
@@ -688,9 +690,9 @@ class Asset
          *
          * @todo See about fixing this so that it still tracks.. Maybe force @watch?
          */
-//        if ($this->lastModifiedAt($collection) > filemtime($path)) {
-//            return true;
-//        }
+        //        if ($this->lastModifiedAt($collection) > filemtime($path)) {
+        //            return true;
+        //        }
 
         return false;
     }

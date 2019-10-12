@@ -167,9 +167,6 @@ class AddonServiceProvider extends ServiceProvider
         $this->registerGroupMiddleware();
         $this->registerRouteMiddleware();
 
-        $this->registerHints($namespace, $path);
-        $this->registerFactories($namespace, $path);
-
         // Lastly
         $this->registerProviders();
     }
@@ -182,7 +179,7 @@ class AddonServiceProvider extends ServiceProvider
 
         // Determine the namespace.
         $namespace = $this->namespace();
-        $addon = $this->addon();
+        //$addon = $this->addon();
 
         [$vendor, $type, $slug] = explode('.', $namespace);
 
@@ -190,6 +187,9 @@ class AddonServiceProvider extends ServiceProvider
 
         $this->registerCommands();
         // $this->registerSchedules($namespace);
+
+        $this->registerHints($namespace, $path);
+        $this->registerFactories($namespace, $path);
 
         if (is_dir($translations = ($path . '/resources/lang'))) {
             $this->loadTranslationsFrom($translations, $namespace);
@@ -409,6 +409,9 @@ class AddonServiceProvider extends ServiceProvider
         if (is_dir($routes = ($path . '/routes'))) {
             $this->loadRoutesFrom($routes);
         }
+        dump($namespace);
+        img()->addPath($namespace, $path . '/resources');
+        assets()->addPath($namespace, $path . '/resources');
     }
 
     /**
