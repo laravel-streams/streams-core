@@ -409,7 +409,7 @@ class AddonServiceProvider extends ServiceProvider
         if (is_dir($routes = ($path . '/routes'))) {
             $this->loadRoutesFrom($routes);
         }
-        dump($namespace);
+
         img()->addPath($namespace, $path . '/resources');
         assets()->addPath($namespace, $path . '/resources');
     }
