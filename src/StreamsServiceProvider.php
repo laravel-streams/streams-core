@@ -348,45 +348,48 @@ class StreamsServiceProvider extends ServiceProvider
         /*
          * Register system routes.
          */
-        app('router')->post(
-            'form/handle/{key}',
-            [
-                'ttl'  => 0,
-                'uses' => 'Anomaly\Streams\Platform\Http\Controller\FormController@handle',
-            ]
-        );
+        \Route::middleware('web')
+            ->group(function () {
+                app('router')->post(
+                    'form/handle/{key}',
+                    [
+                        'ttl'  => 0,
+                        'uses' => 'Anomaly\Streams\Platform\Http\Controller\FormController@handle',
+                    ]
+                );
 
-        app('router')->get(
-            'entry/handle/restore/{addon}/{namespace}/{stream}/{id}',
-            [
-                'ttl'  => 0,
-                'uses' => 'Anomaly\Streams\Platform\Http\Controller\EntryController@restore',
-            ]
-        );
+                app('router')->get(
+                    'entry/handle/restore/{addon}/{namespace}/{stream}/{id}',
+                    [
+                        'ttl'  => 0,
+                        'uses' => 'Anomaly\Streams\Platform\Http\Controller\EntryController@restore',
+                    ]
+                );
 
-        app('router')->get(
-            'entry/handle/export/{addon}/{namespace}/{stream}',
-            [
-                'ttl'  => 0,
-                'uses' => 'Anomaly\Streams\Platform\Http\Controller\EntryController@export',
-            ]
-        );
+                app('router')->get(
+                    'entry/handle/export/{addon}/{namespace}/{stream}',
+                    [
+                        'ttl'  => 0,
+                        'uses' => 'Anomaly\Streams\Platform\Http\Controller\EntryController@export',
+                    ]
+                );
 
-        app('router')->get(
-            'locks/touch',
-            [
-                'ttl'  => 0,
-                'uses' => 'Anomaly\Streams\Platform\Http\Controller\LocksController@touch',
-            ]
-        );
+                app('router')->get(
+                    'locks/touch',
+                    [
+                        'ttl'  => 0,
+                        'uses' => 'Anomaly\Streams\Platform\Http\Controller\LocksController@touch',
+                    ]
+                );
 
-        app('router')->get(
-            'locks/release',
-            [
-                'ttl'  => 0,
-                'uses' => 'Anomaly\Streams\Platform\Http\Controller\LocksController@release',
-            ]
-        );
+                app('router')->get(
+                    'locks/release',
+                    [
+                        'ttl'  => 0,
+                        'uses' => 'Anomaly\Streams\Platform\Http\Controller\LocksController@release',
+                    ]
+                );
+            });
     }
 
     /**

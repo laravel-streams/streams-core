@@ -559,10 +559,6 @@ class Asset
             try {
                 $contents = (string) render($contents);
             } catch (\Exception $e) {
-                if (config('app.debug')) {
-                    dump($contents);
-                }
-
                 \Log::error($e->getMessage());
             }
         }
