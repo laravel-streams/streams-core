@@ -114,6 +114,13 @@ class AddonServiceProvider extends ServiceProvider
     public $mobile = [];
 
     /**
+     * The addon publishables.
+     *
+     * @var array
+     */
+    public static $publishes = [];
+
+    /**
      * Register the addon.
      */
     public function register()
@@ -162,6 +169,8 @@ class AddonServiceProvider extends ServiceProvider
         $this->registerApi($namespace);
         $this->registerRoutes($namespace);
 
+        $this->mergeConfig($path, $slug);
+
         $this->registerEvents();
         $this->registerMiddleware();
         $this->registerGroupMiddleware();
@@ -185,6 +194,7 @@ class AddonServiceProvider extends ServiceProvider
         $path = base_path("vendor/{$vendor}/{$slug}-{$type}");
 
         $this->registerCommands();
+        $this->registerPublishes();
         // $this->registerSchedules($namespace);
 
         $this->registerHints($namespace, $path);
@@ -324,6 +334,19 @@ class AddonServiceProvider extends ServiceProvider
     }
 
     /**
+     * Merge automatic config.
+     *
+     * @param string $path
+     * @param string $slug
+     */
+    protected function mergeConfig(string $path, string $slug)
+    {
+        if (file_exists($config = $path . '/resources/config/addon.php')) {
+            $this->mergeConfigFrom($config, $slug);
+        }
+    }
+
+    /**
      * Register the addon events.
      */
     protected function registerEvents()
@@ -356,6 +379,16 @@ class AddonServiceProvider extends ServiceProvider
             Artisan::starting(function ($artisan) {
                 $artisan->resolveCommands($this->commands);
             });
+        }
+    }
+
+    /**
+     * Register the publishable material.
+     */
+    protected function registerPublishes()
+    {
+        if (self::$publishes) {
+            $this->publishes(self::$publishes);
         }
     }
 

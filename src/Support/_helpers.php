@@ -589,3 +589,40 @@ if (!function_exists('queries')) {
         return decorate(dispatch_now(new GetEloquentCriteria($model, 'get')));
     }
 }
+
+if (!function_exists('config')) {
+
+    /**
+     * Get / set the specified configuration value.
+     *
+     * If an array is passed as the key, we will assume you want to set an array of values.
+     *
+     * @param  array|string|null  $key
+     * @param  mixed  $default
+     * @return mixed|\Illuminate\Config\Repository
+     */
+    function config($key = null, $default = null)
+    {
+        if (str_is('*.*.*::*', $key)) {
+
+            [$namespace, $key] = explode('::', $key);
+
+            /**
+             * @todo this needs to use like a tap() function or something
+             */
+            app($namespace);
+            dd($namespace);
+            $key = "{$namespace}::{$key}";
+        }
+
+        if (is_null($key)) {
+            return app('config');
+        }
+
+        if (is_array($key)) {
+            return app('config')->set($key);
+        }
+
+        return app('config')->get($key, $default);
+    }
+}

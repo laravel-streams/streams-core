@@ -29,7 +29,7 @@ class FormController extends PublicController
     public function handle(Repository $cache, Redirector $redirect, Store $session, $key)
     {
         if (!$parameters = $cache->get('form::' . $key)) {
-            $this->messages->error('streams::message.form_expired');
+            messages()->error('streams::message.form_expired');
 
             foreach (request()->except('_token') as $key => $value) {
                 $session->flash($key, $value);

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Console;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
@@ -6,7 +8,6 @@ use Anomaly\Streams\Platform\Addon\Extension\ExtensionManager;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleManager;
 use Illuminate\Console\Command;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -14,12 +15,10 @@ use Symfony\Component\Console\Input\InputOption;
  * Class AddonInstall
  *
  * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
 class AddonInstall extends Command
 {
-    use DispatchesJobs;
 
     /**
      * The console command name.
@@ -38,13 +37,12 @@ class AddonInstall extends Command
     /**
      * Execute the console command.
      *
-     * @param AddonCollection  $addons
      * @param ModuleManager    $modules
      * @param ExtensionManager $extensions
      */
-    public function handle(AddonCollection $addons, ModuleManager $modules, ExtensionManager $extensions)
+    public function handle(ModuleManager $modules, ExtensionManager $extensions)
     {
-        if (!$addon = $addons->get($this->argument('addon'))) {
+        if (!$addon = app($this->argument('addon'))) {
             $this->error('The [' . $this->argument('addon') . '] could not be found.');
         }
 
