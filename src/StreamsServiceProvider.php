@@ -699,7 +699,7 @@ class StreamsServiceProvider extends ServiceProvider
         $views->addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/views'));
         //$views->addNamespace('published', $application->getResourcesPath('addons'));
         //$views->addNamespace('app', $application->getResourcesPath('views'));
-        //$views->addNamespace('storage', $application->getStoragePath());
+        $views->addNamespace('storage', application()->getStoragePath());
         $views->addNamespace('shared', base_path('resources/views'));
         $views->addNamespace('theme', base_path('resources/views'));
         $views->addNamespace('root', base_path());
