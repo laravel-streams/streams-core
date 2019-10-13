@@ -789,7 +789,7 @@ class StreamsServiceProvider extends ServiceProvider
          */
         try {
             $addon = app('anomaly.module.' . $segments[0]);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             return; // Doesn't exist.
         }
 
