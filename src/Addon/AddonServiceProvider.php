@@ -251,17 +251,21 @@ class AddonServiceProvider extends ServiceProvider
             array_set($route, 'streams::addon', $namespace);
 
             if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
-                \Route::resource($uri, $route['uses']);
+                \Route::middleware('web')->group(function () use ($uri, $route) {
+                    \Route::resource($uri, $route['uses']);
+                });
             } else {
-                $route = \Route::{$verb}($uri, $route)->where($constraints);
+                \Route::middleware('web')->group(function () use ($uri, $verb, $route, $group, $middleware, $constraints) {
+                    $route = \Route::{$verb}($uri, $route)->where($constraints);
 
-                if ($middleware) {
-                    call_user_func_array([$route, 'middleware'], (array) $middleware);
-                }
+                    if ($middleware) {
+                        call_user_func_array([$route, 'middleware'], (array) $middleware);
+                    }
 
-                if ($group) {
-                    call_user_func_array([$route, 'group'], (array) $group);
-                }
+                    if ($group) {
+                        call_user_func_array([$route, 'group'], (array) $group);
+                    }
+                });
             }
         }
     }

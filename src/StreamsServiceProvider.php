@@ -176,6 +176,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->loadStreamsConfiguration();
         $this->configureFileCacheStore();
         $this->autoloadEntryModels();
+        $this->routeAutomatically();
         $this->addAssetNamespaces();
         $this->addImageNamespaces();
         $this->addThemeNamespaces();
@@ -742,5 +743,165 @@ class StreamsServiceProvider extends ServiceProvider
         if (config('streams::system.force_ssl')) {
             request()->server->set('HTTPS', true);
         }
+    }
+
+    /**
+     * Attempt to route the request automatically.
+     *
+     * Huge thanks to @frednwt for this one.
+     */
+    protected function routeAutomatically()
+    {
+        $request = request();
+
+        /**
+         * This only applies to admin
+         * controllers at this time.
+         */
+        if ($request->segment(1) !== 'admin') {
+            return;
+        }
+
+        /**
+         * Use the segments to figure
+         * out what we need to do.
+         */
+        $segments = $request->segments();
+
+        /**
+         * Remove "admin"
+         * from beginning.
+         */
+        array_shift($segments);
+
+        /**
+         * This is just /admin
+         */
+        if (!$segments) {
+            return;
+        }
+
+        /**
+         * The first segment MUST
+         * be a unique addon slug.
+         *
+         * @var Addon $addon
+         */
+        try {
+            $addon = app('anomaly.module.' . $segments[0]);
+        } catch (Exception $exception) {
+            return; // Doesn't exist.
+        }
+
+        $namespace = (new \ReflectionClass($addon))->getNamespaceName();
+
+        $controller = null;
+        $module     = null;
+        $stream     = null;
+        $method     = null;
+        $path       = null;
+        $id         = null;
+
+
+        if (count($segments) == 1) {
+            $module = $segments[0];
+            $stream = $segments[0];
+            $method = 'index';
+
+            $path = implode('/', ['admin', $module]);
+
+            $controller = ucfirst(studly_case($stream)) . 'Controller';
+            $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
+        }
+
+        if (count($segments) == 2) {
+            $module = $segments[0];
+            $stream = $segments[1];
+            $method = 'index';
+
+            $path = implode('/', ['admin', $module, $stream]);
+
+            $controller = ucfirst(studly_case($stream)) . 'Controller';
+            $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
+
+            if (!class_exists($controller)) {
+                $controller = null;
+            }
+        }
+
+        if (!$controller && count($segments) == 2) {
+            $module = $segments[0];
+            $stream = $segments[0];
+            $method = $segments[1];
+
+            $path = implode('/', array_unique(['admin', $module, $stream, $method]));
+
+            $controller = ucfirst(studly_case($stream)) . 'Controller';
+            $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
+        }
+
+        if (count($segments) == 3) {
+            $module = $segments[0];
+            $stream = $segments[1];
+            $method = $segments[2];
+
+            $path = implode('/', ['admin', $module, $stream, $method]);
+
+            $controller = ucfirst(studly_case($stream)) . 'Controller';
+            $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
+
+            if (!class_exists($controller)) {
+                $controller = null;
+            }
+        }
+
+        if (!$controller && count($segments) == 3) {
+            $module = $segments[0];
+            $stream = $segments[0];
+            $method = $segments[1];
+            $id     = '{id}';
+
+            $path = implode('/', array_unique(['admin', $module, $stream, $method, $id]));
+
+            $controller = ucfirst(studly_case($stream)) . 'Controller';
+            $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
+        }
+
+        if (count($segments) == 4) {
+            $module = $segments[0];
+            $stream = $segments[1];
+            $method = $segments[2];
+            $id     = '{id}';
+
+            $path = implode('/', ['admin', $module, $stream, $method, $id]);
+
+            $controller = ucfirst(studly_case($stream)) . 'Controller';
+            $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
+        }
+
+        /**
+         * If the route has already been
+         * defined then let it handle itself.
+         */
+        try {
+            \Route::getRoutes()->match($request);
+
+            return;
+        } catch (\Exception $exception) {
+            // Not found. Onward!
+        }
+
+        if (!class_exists($controller)) {
+            return;
+        }
+
+        \Route::middleware('web')->group(function () use ($path, $method, $controller) {
+            \Route::any(
+                $path,
+                [
+                    'uses' => $controller . '@' . $method,
+                ]
+            );
+        });
     }
 }
