@@ -181,6 +181,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->addImageNamespaces();
         $this->addThemeNamespaces();
         $this->addViewNamespaces();
+        $this->loadTranslations();
         $this->setConsoleDomain();
         $this->configureRequest();
 
@@ -705,6 +706,14 @@ class StreamsServiceProvider extends ServiceProvider
         $views->addNamespace('root', base_path());
 
         //$views->addExtension('html', 'php');
+    }
+
+    /**
+     * Load translations.
+     */
+    public function loadTranslations()
+    {
+        trans()->addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/lang'));
     }
 
     /**

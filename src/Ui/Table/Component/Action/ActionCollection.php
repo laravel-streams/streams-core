@@ -1,16 +1,17 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
+<?php
 
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
+
+use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
-use Illuminate\Support\Collection;
 
 /**
  * Class ActionCollection
  *
  * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class ActionCollection extends Collection
+class ActionCollection extends ButtonCollection
 {
 
     /**

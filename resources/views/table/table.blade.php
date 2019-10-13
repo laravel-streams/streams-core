@@ -13,46 +13,30 @@
     @include('streams::table/partials/filters')
     @include('streams::table/partials/views')
 
-    {{-- @include($table->getOption('heading', 'streams::table/partials/heading')); --}}
+    @include($table->getOption('heading', 'streams::table/partials/heading'))
 
-    {{-- {% if not table.rows.empty() %}
-        {% block card %}
-            <div class="card">
+    @if ($table->hasRows())
+        <div class="card">
 
-                {{ form_open({ 'url': url_full() }) }}
-                <div class="table-stack">
-                    <table
-                            class="
-                                {{ table.options.class ?: 'table' }}
-                                {{ table.options.sortable ? 'table--sortable' }}
-                                "
-                            {{ table.options.sortable ? 'data-sortable' }}
-                            {{ html_attributes(table.options.attributes) }}>
-
-                        {{ view("streams::table/partials/header", {'table': table}) }}
-
-                        {% block body %}
-                            {{ view("streams::table/partials/body", {'table': table}) }}
-                        {% endblock %}
-
-                        {{ view("streams::table/partials/footer", {'table': table}) }}
-
-                    </table>
-                </div>
-                {{ form_close() }}
-
+            {{ form_open(['url' => url()->full()]) }}
+            <div class="table-stack">
+                <table {{ html_attributes($table->getOption('attributes', [])) }}>
+                    @include('streams::table/partials/header')
+                    @include('streams::table/partials/body')
+                    @include('streams::table/partials/footer')
+                </table>
             </div>
-        {% endblock %}
-    {% else %}
+            {{ form_close() }}
 
-        {% block no_results %}
+        </div>
+    @else
+        @section('no_results')
             <div class="card">
                 <div class="card-block card-body">
-                    {{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}
+                    {{ trans($table->getOption('no_results_message', 'streams::message.no_results')) }}
                 </div>
             </div>
-        {% endblock %}
-
-    {% endif %} --}}
+        @endsection
+    @endif
 
 </div>

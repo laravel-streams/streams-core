@@ -422,6 +422,17 @@ class Table implements PresentableInterface
     }
 
     /**
+     * Return if table has an option.
+     *
+     * @param $key
+     * @return boolean
+     */
+    public function hasOption($key)
+    {
+        return $this->options->has($key);
+    }
+
+    /**
      * Set the table entries.
      *
      * @param  Collection $entries
@@ -607,6 +618,16 @@ class Table implements PresentableInterface
     public function getRows()
     {
         return $this->rows;
+    }
+
+    /**
+     * Return if table has rows.
+     *
+     * @return bool
+     */
+    public function hasRows()
+    {
+        return $this->rows->isNotEmpty();
     }
 
     /**
