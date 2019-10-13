@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 /**
  * Class Template
@@ -42,9 +44,9 @@ class Template
         $path = $this->path($template, $extension);
 
         return 'storage::' . ltrim(
-                str_replace(application()->getStoragePath(), '', $path),
-                '\\/'
-            );
+            str_replace(application()->getStoragePath(), '', $path),
+            '\\/'
+        );
     }
 
     /**
@@ -59,9 +61,9 @@ class Template
         $path = $this->path($template, $extension);
 
         return 'storage::' . ltrim(
-                str_replace(application()->getStoragePath(), '', $path),
-                '\\/'
-            ) . '.' . $extension;
+            str_replace(application()->getStoragePath(), '', $path),
+            '\\/'
+        ) . '.' . $extension;
     }
 
     /**
@@ -71,7 +73,7 @@ class Template
      * @param string $extension
      * @return string
      */
-    public function path($template, $extension = 'twig')
+    public function path($template, $extension = 'blade.php')
     {
         $path = application()->getStoragePath('support/parsed/' . md5($template));
 
