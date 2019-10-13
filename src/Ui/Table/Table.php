@@ -1,21 +1,24 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table;
+<?php
 
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Form\FormPresenter;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionCollection;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterCollection;
-use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowCollection;
-use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
-use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
+namespace Anomaly\Streams\Platform\Ui\Table;
+
 use Illuminate\Support\Collection;
 use Robbo\Presenter\PresentableInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Ui\Form\FormPresenter;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\View;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowCollection;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionCollection;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterCollection;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
 
 /**
  * Class Table
@@ -302,6 +305,16 @@ class Table implements PresentableInterface
     }
 
     /**
+     * Return if table has actions.
+     *
+     * @return boolean
+     */
+    public function hasActions()
+    {
+        return $this->actions->isNotEmpty();
+    }
+
+    /**
      * Add a filter to the filter collection.
      *
      * @param  FilterInterface $filter
@@ -335,6 +348,17 @@ class Table implements PresentableInterface
     public function getFilters()
     {
         return $this->filters;
+    }
+
+
+    /**
+     * Return if the table has filters.
+     *
+     * @return boolean
+     */
+    public function hasFilters()
+    {
+        return $this->filters->isNotEmpty();
     }
 
     /**
@@ -490,6 +514,26 @@ class Table implements PresentableInterface
     public function getViews()
     {
         return $this->views;
+    }
+
+    /**
+     * Get the active view.
+     *
+     * @return View
+     */
+    public function getActiveView()
+    {
+        return $this->views->active();
+    }
+
+    /**
+     * Return if table has views.
+     *
+     * @return boolean
+     */
+    public function hasViews()
+    {
+        return $this->views->isNotEmpty();
     }
 
     /**

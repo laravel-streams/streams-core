@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
@@ -313,5 +315,13 @@ class Filter implements FilterInterface
         $this->stream = $stream;
 
         return $this;
+    }
+
+    /**
+     * Return the filter URL.
+     */
+    public function url()
+    {
+        return url()->current() . (request()->has('view') ? '?view=' . request('view') : '');
     }
 }

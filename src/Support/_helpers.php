@@ -590,39 +590,26 @@ if (!function_exists('queries')) {
     }
 }
 
-if (!function_exists('config')) {
+if (!function_exists('form_open')) {
 
     /**
-     * Get / set the specified configuration value.
+     * Render a form opening.
      *
-     * If an array is passed as the key, we will assume you want to set an array of values.
-     *
-     * @param  array|string|null  $key
-     * @param  mixed  $default
-     * @return mixed|\Illuminate\Config\Repository
+     * @param array $options
      */
-    function config($key = null, $default = null)
+    function form_open(array $options = [])
     {
-        if (str_is('*.*.*::*', $key)) {
+        return \Form::open($options);
+    }
+}
 
-            [$namespace, $key] = explode('::', $key);
+if (!function_exists('form_close')) {
 
-            /**
-             * @todo this needs to use like a tap() function or something
-             */
-            app($namespace);
-            dd($namespace);
-            $key = "{$namespace}::{$key}";
-        }
-
-        if (is_null($key)) {
-            return app('config');
-        }
-
-        if (is_array($key)) {
-            return app('config')->set($key);
-        }
-
-        return app('config')->get($key, $default);
+    /**
+     * Render a form opening.
+     */
+    function form_close()
+    {
+        return \Form::close();
     }
 }

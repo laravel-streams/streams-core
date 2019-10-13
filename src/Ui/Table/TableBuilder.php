@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Table\Command\AddAssets;

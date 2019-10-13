@@ -1,21 +1,21 @@
-{{ asset_add("scripts.js", "streams::js/table/table.js") }}
+{{ assets("scripts.js", "streams::js/table/table.js") }}
 
-{% if not actions.empty() %}
-    {{ asset_add("scripts.js", "streams::js/table/actions.js") }}
-{% endif %}
+@if ($table->hasActions())
+    {{ assets("scripts.js", "streams::js/table/actions.js") }}
+@endif
 
-{% if table.options.sortable %}
-    {{ asset_add("scripts.js", "streams::js/table/sortable.js") }}
-{% endif %}
+@if ($table->getOption('sortable'))
+    {{ assets("scripts.js", "streams::js/table/sortable.js") }}
+@endif
 
-<div class="{{ table.options.container_class ?: 'container-fluid' }}">
+<div class="{{ $table->getOption('container_class', 'container-fluid') }}">
 
-    {{ view("streams::table/partials/filters", {'table': table}) }}
-    {{ view("streams::table/partials/views", {'table': table}) }}
+    @include('streams::table/partials/filters')
+    @include('streams::table/partials/views')
 
-    {{ view(table.options.heading ?: "streams::table/partials/heading", {'table': table}) }}
+    {{-- @include($table->getOption('heading', 'streams::table/partials/heading')); --}}
 
-    {% if not table.rows.empty() %}
+    {{-- {% if not table.rows.empty() %}
         {% block card %}
             <div class="card">
 
@@ -53,6 +53,6 @@
             </div>
         {% endblock %}
 
-    {% endif %}
+    {% endif %} --}}
 
 </div>
