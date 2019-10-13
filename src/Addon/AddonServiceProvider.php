@@ -176,7 +176,6 @@ class AddonServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         // Determine the namespace.
         $namespace = $this->namespace();
         //$addon = $this->addon();
@@ -422,12 +421,13 @@ class AddonServiceProvider extends ServiceProvider
      */
     protected function registerFactories(string $namespace, string $path)
     {
-        if (
-            ($this->app->runningUnitTests() || $this->app->runningInConsole())
-            && is_dir($path)
-        ) {
-            app(Factory::class)->load($path);
-        }
+        // @todo not sure about this - beaks CLI
+        // if (
+        //     ($this->app->runningUnitTests() || $this->app->runningInConsole())
+        //     && is_dir($path)
+        // ) {
+        //     app(Factory::class)->load($path);
+        // }
     }
 
     /**
