@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Image;
+<?php
+
+namespace Anomaly\Streams\Platform\Image;
 
 use Anomaly\FilesModule\File\Contract\FileInterface;
 use Anomaly\Streams\Platform\Application\Application;
@@ -96,6 +98,7 @@ class ImagePaths
     public function realPath($path)
     {
         if (str_contains($path, '::')) {
+
             list($namespace, $path) = explode('::', $path);
 
             if (!isset($this->paths[$namespace])) {

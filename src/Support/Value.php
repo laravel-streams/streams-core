@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -82,6 +84,9 @@ class Value
      */
     public function make($parameters, $entry, $term = 'entry', $payload = [])
     {
+        /**
+         * Load the termed entry.
+         */
         $payload[$term] = $entry;
 
         /*
@@ -107,7 +112,7 @@ class Value
          * If the value uses a template then parse it.
          */
         if ($template = array_get($parameters, 'template')) {
-            return (string)$this->template->render($template, ['value' => $value, $term => $entry]);
+            return (string) $this->template->render($template, ['value' => $value, $term => $entry]);
         }
 
         /*
@@ -132,16 +137,6 @@ class Value
          * can get into the presenter methods.
          */
         $payload[$term] = $entry = $this->decorator->decorate($entry);
-
-        /*
-         * If the value matches a dot notation
-         * then parse it as a template.
-         */
-        if (is_string($value) && preg_match("/^{$term}.([a-zA-Z\\_]+)/", $value, $match)) {
-            $value = (string)$this->template->render("{{ {$value}|raw }}", $payload);
-        }
-
-        $payload[$term] = $entry;
 
         /*
          * By default we can just pass the value through
@@ -193,9 +188,13 @@ class Value
          * string then render it.
          */
         if (is_string($value) && str_contains($value, ['{{', '{%'])) {
-            $value = (string)$this->template->render($value, [$term => $entry]);
+            $value = (string) $this->template->render($value, [$term => $entry]);
         }
 
+        /**
+         * If the value is not explicitly marked 
+         * safe then escape it automatically.
+         */
         if (is_string($value) && array_get($parameters, 'is_safe') !== true) {
             $value = $this->purifier->purify($value);
         }

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Console;
 
 /**
  * Class Kernel

@@ -241,18 +241,6 @@ class AddonProvider
     }
 
     /**
-     * Bind class aliases.
-     *
-     * @param array $aliases
-     */
-    public function bindAliases(array $aliases)
-    {
-        if ($aliases) {
-            AliasLoader::getInstance($aliases)->register();
-        }
-    }
-
-    /**
      * Bind addon classes.
      *
      * @param array $bindings

@@ -29,7 +29,6 @@ class CreateLocksTable extends Migration
                 $table->integer('locked_by_id');
                 $table->integer('lockable_id')->unsigned();
                 $table->string('lockable_type');
-                $table->string('session_id');
                 $table->string('url');
 
                 $table->index('lockable_id');

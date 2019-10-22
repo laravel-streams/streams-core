@@ -379,10 +379,15 @@ if (!function_exists('img')) {
     /**
      * Return an image instance.
      *
+     * @param mixed $source
      * @return \Anomaly\Streams\Platform\Image\Image
      */
-    function img($source)
+    function img($source = null)
     {
+        if (!$source) {
+            return app(Image::class);
+        }
+
         return app(Image::class)->make($source);
     }
 }
@@ -526,6 +531,8 @@ if (!function_exists('entry')) {
      * Return a single entry.
      * 
      * @return string
+     * 
+     * @return \Anomaly\Streams\Platform\Entry\EntryCriteria
      */
     function entry(string $namespace, string $stream = null)
     {
@@ -539,6 +546,8 @@ if (!function_exists('entries')) {
      * Return a collection of entries.
      * 
      * @return string
+     * 
+     * @return \Anomaly\Streams\Platform\Entry\EntryCriteria
      */
     function entries(string $namespace, string $stream = null)
     {
@@ -578,9 +587,58 @@ if (!function_exists('queries')) {
      * Return a new query criteria.
      *
      * @param string $model
+     * 
+     * @param \Anomaly\Streams\Platform\Model\EloquentCriteria
      */
     function queries(string $model)
     {
         return decorate(dispatch_now(new GetEloquentCriteria($model, 'get')));
+    }
+}
+
+if (!function_exists('form_open')) {
+
+    /**
+     * Render a form opening.
+     *
+     * @param array $options
+     * 
+     * @return \Illuminate\Support\HtmlString
+     */
+    function form_open(array $options = [])
+    {
+        return \Form::open($options);
+    }
+}
+
+if (!function_exists('form_close')) {
+
+    /**
+     * Render a form opening.
+     * 
+     * @return \Illuminate\Support\HtmlString
+     */
+    function form_close()
+    {
+        return \Form::close();
+    }
+}
+
+if (!function_exists('html_link')) {
+
+    /**
+     * Generate a HTML link.
+     *
+     * @param string $url
+     * @param string $title
+     * @param array  $attributes
+     * @param bool   $secure
+     * @param bool   $escape
+     *
+     * @return \Illuminate\Support\HtmlString
+     */
+    function html_link($url, $title = null, $attributes = [], $secure = null, $escape = true)
+    {
+        return \Html::link($url, $title, $attributes, $secure, $escape);
     }
 }
