@@ -13,46 +13,30 @@
     @include('streams::table/partials/filters')
     @include('streams::table/partials/views')
 
-    {{-- @include($table->getOption('heading', 'streams::table/partials/heading')); --}}
+    @include($table->getOption('heading', 'streams::table/partials/heading'))
 
-    {{-- {% if not table.rows.empty() %}
-        {% block card %}
-            <div class="card">
+    @if ($table->hasRows())
+    <div class="card">
 
-                {{ form_open({ 'url': url_full() }) }}
-                <div class="table-stack">
-                    <table
-                            class="
-                                {{ table.options.class ?: 'table' }}
-                                {{ table.options.sortable ? 'table--sortable' }}
-                                "
-                            {{ table.options.sortable ? 'data-sortable' }}
-                            {{ html_attributes(table.options.attributes) }}>
+        {{ form_open(['url' => url()->full()]) }}
+        <div class="table-stack">
+            <table {{ html_attributes($table->getOption('attributes', [])) }}>
 
-                        {{ view("streams::table/partials/header", {'table': table}) }}
+                @include('streams::table/partials/header')
+                @include('streams::table/partials/body');
+                @include('streams::table/partials/footer');
 
-                        {% block body %}
-                            {{ view("streams::table/partials/body", {'table': table}) }}
-                        {% endblock %}
+            </table>
+        </div>
+        {{ form_close() }}
 
-                        {{ view("streams::table/partials/footer", {'table': table}) }}
-
-                    </table>
-                </div>
-                {{ form_close() }}
-
-            </div>
-        {% endblock %}
-    {% else %}
-
-        {% block no_results %}
-            <div class="card">
-                <div class="card-block card-body">
-                    {{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}
-                </div>
-            </div>
-        {% endblock %}
-
-    {% endif %} --}}
+    </div>
+    @else
+    <div class="card">
+        <div class="card-block card-body">
+            {{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}
+        </div>
+    </div>
+    @endif
 
 </div>

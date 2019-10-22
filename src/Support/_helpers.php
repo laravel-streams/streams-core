@@ -613,3 +613,22 @@ if (!function_exists('form_close')) {
         return \Form::close();
     }
 }
+
+if (!function_exists('html_link')) {
+
+    /**
+     * Generate a HTML link.
+     *
+     * @param string $url
+     * @param string $title
+     * @param array  $attributes
+     * @param bool   $secure
+     * @param bool   $escape
+     *
+     * @return \Illuminate\Support\HtmlString
+     */
+    function html_link($url, $title = null, $attributes = [], $secure = null, $escape = true)
+    {
+        return \Html::link($url, $title, $attributes, $secure, $escape);
+    }
+}

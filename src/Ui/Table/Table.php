@@ -610,6 +610,16 @@ class Table implements PresentableInterface
     }
 
     /**
+     * Return if the table has rows.
+     *
+     * @return bool
+     */
+    public function hasRows()
+    {
+        return $this->rows->isNotEmpty();
+    }
+
+    /**
      * Return a created presenter.
      *
      * @return FormPresenter
