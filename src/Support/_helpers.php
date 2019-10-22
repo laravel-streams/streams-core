@@ -229,7 +229,11 @@ if (!function_exists('template')) {
             );
         }
 
-        return $template->set(key($arguments[0]), reset($arguments[0]));
+        foreach ($arguments[0] as $key => $value) {
+            $template->set($key, $value);
+        }
+
+        return $template;
     }
 }
 

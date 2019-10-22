@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Command;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Illuminate\Contracts\Container\Container;
@@ -49,16 +51,31 @@ class GetStream
     {
 
         /**
-         * If the slug is not provided then
-         * we will assume dot notation.
+         * If the slug is not provided but
+         * there is a dot in the namespace
+         * then split the string into 
+         * namespace and stream slug.
+         * 
+         * @todo Use a view controller here for more versatility
          */
-        if (!$this->slug) {
+        if (!$this->slug && strpos($this->namespace, '.')) {
+
             $parts = explode('.', $this->namespace);
 
-            $this->namespace = $parts[0];
             $this->slug      = $parts[1];
+            $this->namespace = $parts[0];
         }
-        
+
+        /**
+         * If the slug is not provided and
+         * the namespace does NOT contain
+         * a dot then the slug is assumed
+         * to be the same as the namespace.
+         */
+        if (!$this->slug && strpos($this->namespace, '.') === false) {
+            $this->slug = $this->namespace;
+        }
+
         $this->slug      = studly_case($this->slug);
         $this->namespace = studly_case($this->namespace);
 
