@@ -229,7 +229,11 @@ if (!function_exists('template')) {
             );
         }
 
-        return $template->set(key($arguments[0]), reset($arguments[0]));
+        foreach ($arguments[0] as $key => $value) {
+            $template->set($key, $value);
+        }
+
+        return $template;
     }
 }
 
@@ -531,6 +535,8 @@ if (!function_exists('entry')) {
      * Return a single entry.
      * 
      * @return string
+     * 
+     * @return \Anomaly\Streams\Platform\Entry\EntryCriteria
      */
     function entry(string $namespace, string $stream = null)
     {
@@ -544,6 +550,8 @@ if (!function_exists('entries')) {
      * Return a collection of entries.
      * 
      * @return string
+     * 
+     * @return \Anomaly\Streams\Platform\Entry\EntryCriteria
      */
     function entries(string $namespace, string $stream = null)
     {
@@ -583,6 +591,8 @@ if (!function_exists('queries')) {
      * Return a new query criteria.
      *
      * @param string $model
+     * 
+     * @param \Anomaly\Streams\Platform\Model\EloquentCriteria
      */
     function queries(string $model)
     {
@@ -596,6 +606,8 @@ if (!function_exists('form_open')) {
      * Render a form opening.
      *
      * @param array $options
+     * 
+     * @return \Illuminate\Support\HtmlString
      */
     function form_open(array $options = [])
     {
@@ -607,6 +619,8 @@ if (!function_exists('form_close')) {
 
     /**
      * Render a form opening.
+     * 
+     * @return \Illuminate\Support\HtmlString
      */
     function form_close()
     {

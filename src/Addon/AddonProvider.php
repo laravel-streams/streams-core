@@ -304,6 +304,17 @@ class AddonProvider
 
         foreach ($routes as $uri => $route) {
 
+            /**
+             * Check if the route is a view. In
+             * which case we can simplify things.
+             */
+            if (is_string($route) && str_contains($route, ['.', '::'])) {
+
+                \Route::view($uri, $route);
+
+                continue;
+            }
+
             /*
              * If the route definition is an
              * not an array then let's make it one.
