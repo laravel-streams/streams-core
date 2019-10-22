@@ -182,7 +182,7 @@ if (!function_exists('filesize_for_humans')) {
     function filesize_for_humans($bytes, $decimals = 2)
     {
         $size   = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-        $factor = (int)floor((strlen($bytes) - 1) / 3);
+        $factor = (int) floor((strlen($bytes) - 1) / 3);
 
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . '&nbsp;' . @$size[$factor];
     }
@@ -216,7 +216,11 @@ if (!function_exists('template')) {
             );
         }
 
-        return $template->set(key($arguments[0]), reset($arguments[0]));
+        foreach ($arguments[0] as $key => $value) {
+            $template->set($key, $value);
+        }
+
+        return $template;
     }
 }
 

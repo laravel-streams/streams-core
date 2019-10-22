@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FieldFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
@@ -28,7 +30,9 @@ class FieldFilter extends Filter implements FieldFilterInterface
      */
     public function getInput()
     {
-        $field = $this->stream->getField($this->getField());
+        if (!$field = $this->stream->getField($this->getField())) {
+            return;
+        }
 
         $type = $field->getType();
 
