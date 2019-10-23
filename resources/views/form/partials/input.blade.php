@@ -1,0 +1,1 @@
+<input value="{{ $fieldType->value }}" name="{{ $fieldType->getInputName() }}" type="{{ $fieldType->config('type', 'text') }}" placeholder="{{ $fieldType->placeholder }}" {{ html_attributes($fieldType->attributes) }}>

@@ -1,7 +1,7 @@
 <div {{ html_attributes($fieldType->wrapperAttributes()) }}>
 
     <label>
-        {{ $fieldType->label }}
+        {{ $fieldType->getLabel() }}
 
         @if ($fieldType->required)
             <span class="field__required">*</span>
