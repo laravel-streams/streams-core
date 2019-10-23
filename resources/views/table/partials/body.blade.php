@@ -4,8 +4,8 @@
 
             @if ($table->getOption('sortable'))
             <td>
-                {{ icon('fa fa-arrows handle') }}
-                <input type="hidden" name="{{ row.table.options.prefix }}order[]" value="{{ $row->getKey() }}"/>
+                {{-- {{ icon('fa fa-arrows handle') }} --}}
+                <input type="hidden" name="{{ $table->getOption('prefix') }}order[]" value="{{ $row->getKey() }}"/>
             </td>
             @endif
 
@@ -21,8 +21,8 @@
                 </td>
             @endforeach
 
-        <td class="text-lg-right">
-            <nobr>{!! buttons($row->getButtons()) !!}</nobr>
+        <td class="text-right">
+            {!! buttons($row->getButtons()) !!}
         </td>
 
     </tr>

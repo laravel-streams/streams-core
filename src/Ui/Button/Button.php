@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Button;
 
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 
@@ -152,7 +154,7 @@ class Button implements ButtonInterface
      */
     public function isDropdown()
     {
-        return (bool)$this->getDropdown();
+        return (bool) $this->getDropdown();
     }
 
     /**
@@ -231,7 +233,7 @@ class Button implements ButtonInterface
      */
     public function hasParent()
     {
-        return (bool)$this->getParent();
+        return (bool) $this->getParent();
     }
 
     /**

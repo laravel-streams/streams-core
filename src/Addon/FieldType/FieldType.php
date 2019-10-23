@@ -816,17 +816,21 @@ class FieldType extends Addon
      */
     public function wrapperAttributes()
     {
+        $class = 'form__field';
+
+        // if ($this->hasErrors()) {
+        //     $class .= '--error';
+        // }
+
+        $class .= " {$this->getFieldName()}-field";
+        $class .= " {$this->getSlug()}-field_tye";
+
+        if ($this->isHidden()) {
+            $class .= " hidden";
+        }
+
         return [
-            // 'value'       => $this->getValue(),
-            // 'name'        => $this->getInputName(),
-            // 'placeholder' => $this->getPlaceholder(),
-
-            // 'readonly' => $this->isReadonly() ? 'readonly' : '',
-            // 'disabled' => $this->isDisabled() ? 'disabled' : '',
-
-            // 'data-field'      => $this->getField(),
-            // 'data-field_name' => $this->getFieldName(),
-            // 'data-provides'   => $this->getNamespace(),
+            'class' => $class,
         ];
     }
 

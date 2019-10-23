@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\BuildActions;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\SetActiveAction;

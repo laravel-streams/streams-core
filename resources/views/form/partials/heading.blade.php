@@ -1,9 +1,8 @@
 @if ($form->getOption('title') || $form->getOption('description'))
-<div class="card">
+<div class="form__heading">
 
     @if ($form->getOption('title'))
-        <div class="card-block card-body">
-            <h4 class="card-title">
+        <h4>
                 {{ trans($form->getOption('title')) }}
 
                 @if ($form->getOption('description'))
@@ -12,7 +11,6 @@
                 </small>
                 @endif
             </h4>
-        </div>
     @endif
 
 </div>

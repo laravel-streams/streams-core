@@ -7,18 +7,18 @@
 {{--{% endif %}--}}
 
 @section('content')
-    <div class="container mx-auto">
+    <div class="form__wrapper">
 
-        {!! $form->open([
-            'class' => 'form ' . $form->getOption('class'),
-        ]) !!}
+        {!! $form->open() !!}
 
-        @include('streams::form/partials/controls', ['position' => 'top'])
+        @include('streams::form/partials/controls')
         @include('streams::form/partials/heading')
         @include('streams::form/partials/layout')
+        
         {!! $form->fields->email->input !!}
         {!! $form->fields->password->input !!}
-        @include('streams::form/partials/controls', ['position' => 'bottom'])
+
+        @include('streams::form/partials/controls')
 
         {!! $form->close() !!}
 

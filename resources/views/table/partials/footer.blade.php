@@ -10,8 +10,7 @@
             @if ($table->getData()->get('pagination')['links'])
                 <div class="pull-right">
 
-                    <select onchange="window.location=this.value;"
-                            class="custom-select table-limit">
+                    <select onchange="window.location=this.value;">
                         <option {{ $table->getOption('limit') == 5 ? 'selected' : '' }}
                                 value="{{ url()->current() }}?{{ http_build_query([($table->getOption('prefix') . 'limit') => 5] + request()->query()) }}">
                             5 {{ trans('streams::message.results') }}</option>
@@ -54,7 +53,7 @@
     @if ($table->getOption('total_results'))
     <tr>
     <td colspan="100%">
-        <small class="text-muted pull-right">
+        <small class="float-right">
             {{ $table->getOption('total_results') }} {{ trans('streams::message.results') }}
         </small>
     </td>

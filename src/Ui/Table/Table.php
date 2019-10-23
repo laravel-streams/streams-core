@@ -634,4 +634,20 @@ class Table implements PresentableInterface
 
         return app()->make(TablePresenter::class, ['object' => $this]);
     }
+
+    /**
+     * Return attributes for the table.
+     *
+     * @param array $attributes
+     */
+    public function attributes(array $attributes = [])
+    {
+        return array_merge(
+            $attributes,
+            $this->getOption('attributes', []),
+            [
+                // System attributes like sortable
+            ]
+        );
+    }
 }

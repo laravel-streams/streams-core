@@ -14,24 +14,21 @@
     @foreach ($table->getHeaders() as $header)
         <th>
             @if ($header->isSortable())
-            {{ html_link(url()->current() . '?' . $header->getQueryString(), trans($header->getHeading() ?: 'Header: Heading')) }}
-
+                {{ html_link(url()->current() . '?' . $header->getQueryString(), $header->getHeading()) }}
+                
                 @if ($header->getDirection() == 'asc')
-                ASC
-                {{-- {{ icon('sort-ascending', 'text-muted') }} --}}
+                    {{-- {{ icon('sort-ascending', 'text-muted') }} --}}
                 @elseif ($header->getDirection() == 'desc')
-                DESC
-                {{-- {{ icon('sort-descending', 'text-muted') }} --}}
+                    {{-- {{ icon('sort-descending', 'text-muted') }} --}}
                 @else
-                SRTBL
-                {{-- {{ icon('sortable', 'text-muted') }} --}}
+                    {{-- {{ icon('sortable', 'text-muted') }} --}}
                 @endif
             @else
-            {{ trans($header->getHeading() ?: 'Header: Heading') }}
+                {{ $header->getHeading() }}
             @endif
         </th>
     @endforeach
 
-    <th class="buttons">&nbsp;</th>
+    <th>&nbsp;</th>
 </tr>
 </thead>

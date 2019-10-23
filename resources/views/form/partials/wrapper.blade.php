@@ -1,10 +1,10 @@
 <div {{ html_attributes($fieldType->wrapperAttributes()) }}>
 
-    <label class="control-label">
+    <label>
         {{ $fieldType->label }}
 
         @if ($fieldType->required)
-            <span class="required">*</span>
+            <span class="field__required">*</span>
         @endif
 
         @if ($fieldType->locale)
@@ -13,19 +13,17 @@
     </label>
 
     @if ($fieldType->instructions)
-        <p class="text-muted">{{ $fieldType->instructions }}</p>
+        <div class="field__instructions">{{ $fieldType->instructions }}</p>
     @endif
         
     @if ($fieldType->warning)
-        <p class="help-block">
-            <span class="text-warning">
-                {{-- {{ icon('warning') }} --}}
-                {{ $fieldType->warning }}
-            </span>
+        <div class="field__help">
+            {{-- {{ icon('warning') }} --}}
+            {{ $fieldType->warning }}
         </p>
     @endif
 
-    <div class="input-wrapper">
+    <div class="field__input">
         {!! $fieldType->getInput(['form' => $form]) !!}
     </div>
 
