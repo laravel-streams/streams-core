@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\FieldType;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Addon\AddonPresenter;
 use Robbo\Presenter\Decorator;
@@ -66,7 +68,7 @@ class FieldTypePresenter extends AddonPresenter
     public function label($text = null, $context = null, $size = null)
     {
         if (!$text) {
-            $text = trans((string)$this->object->getValue());
+            $text = trans((string) $this->object->getValue());
         }
 
         if (!$context) {
@@ -120,7 +122,7 @@ class FieldTypePresenter extends AddonPresenter
             return json_encode($value);
         }
 
-        return (string)$this->object->getValue();
+        return (string) $this->object->getValue();
     }
 
     /**
