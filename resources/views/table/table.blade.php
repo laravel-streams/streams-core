@@ -23,8 +23,8 @@
             <table {{ html_attributes($table->getOption('attributes', [])) }}>
 
                 @include('streams::table/partials/header')
-                @include('streams::table/partials/body');
-                @include('streams::table/partials/footer');
+                @include('streams::table/partials/body')
+                @include('streams::table/partials/footer')
 
             </table>
         </div>

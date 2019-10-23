@@ -9,18 +9,18 @@
 @section('content')
     <div class="container mx-auto">
 
-        {{ $form->open([
+        {!! $form->open([
             'class' => 'form ' . $form->getOption('class'),
-        ]) }}
+        ]) !!}
 
         @include('streams::form/partials/controls', ['position' => 'top'])
-        {{--{% include form.options.get('heading', 'streams::form/partials/heading') %}--}}
-        {{--{% include 'streams::form/partials/layout' %}--}}
+        @include('streams::form/partials/heading')
+        @include('streams::form/partials/layout')
         {!! $form->fields->email->input !!}
         {!! $form->fields->password->input !!}
         @include('streams::form/partials/controls', ['position' => 'bottom'])
 
-        {{ $form->close() }}
+        {!! $form->close() !!}
 
     </div>
 @endsection

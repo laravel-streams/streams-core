@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\FieldType;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
@@ -608,7 +610,7 @@ class FieldType extends Addon
             $value = json_encode($value);
         }
 
-        return (string)$value;
+        return (string) $value;
     }
 
     /**
@@ -805,6 +807,27 @@ class FieldType extends Addon
         $this->attributes[$attribute] = $value;
 
         return $this;
+    }
+
+    /**
+     * Get the attributes.
+     *
+     * @return array
+     */
+    public function wrapperAttributes()
+    {
+        return [
+            // 'value'       => $this->getValue(),
+            // 'name'        => $this->getInputName(),
+            // 'placeholder' => $this->getPlaceholder(),
+
+            // 'readonly' => $this->isReadonly() ? 'readonly' : '',
+            // 'disabled' => $this->isDisabled() ? 'disabled' : '',
+
+            // 'data-field'      => $this->getField(),
+            // 'data-field_name' => $this->getFieldName(),
+            // 'data-provides'   => $this->getNamespace(),
+        ];
     }
 
     /**

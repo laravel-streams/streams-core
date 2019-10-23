@@ -4,9 +4,7 @@
         <nav class="navbar navbar-light">
             <div class="nav navbar-nav">
                 @foreach ($table->getViews() as $view)
-                    <a
-                            class="nav-item nav-link"
-                            {{ html_attributes($view->getAttributes()) }}>
+                    <a {{ html_attributes($view->getAttributes()) }}>
                         {{-- {{ $view->icon ? icon($view->icon)|raw }} --}}
                         {{ trans($view->getText()) }}
 
