@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 

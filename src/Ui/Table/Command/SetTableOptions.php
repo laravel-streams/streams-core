@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Support\Resolver;
@@ -43,6 +45,8 @@ class SetTableOptions
             $resolver->resolve($this->builder->getOptions(), ['builder' => $this->builder]),
             ['builder' => $this->builder]
         );
+
+        $this->builder->setOptions(translate($this->builder->getOptions()));
 
         foreach ($this->builder->getOptions() as $key => $value) {
             $this->builder->setTableOption($key, $value);

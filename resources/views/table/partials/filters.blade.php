@@ -13,11 +13,11 @@
 
         <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
             {{-- {{ icon(table.options.filters.filter_icon ?: 'filter') }} --}}
-            {{ $table->getOption('filters.filter_text', 'streams::button.filter') }}
+            {{ trans('streams::button.filter') }}
         </button>
         <a href="{{ $filter->url() }}" class="hover:bg-gray-200 text-gray-500 font-bold py-2 px-4 rounded">
             {{-- {{ icon(table.options.filters.clear_icon ? table.options.filters.clear_icon) }} --}}
-            {{ $table->getOption('filters.filter_text', 'streams::button.clear') }}
+            {{ trans('streams::button.clear') }}
         </a>
         {{ form_close() }}
     </div>

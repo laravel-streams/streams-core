@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
@@ -83,5 +85,7 @@ class ViewInput
         $this->normalizer->normalize($builder);
         $this->lookup->merge($builder);
         $this->guesser->guess($builder);
+
+        $builder->setViews(translate($builder->getViews()));
     }
 }

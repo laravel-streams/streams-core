@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
@@ -84,5 +86,7 @@ class ButtonInput
         $this->normalizer->normalize($builder);
         $this->guesser->guess($builder);
         $this->dropdown->build($builder);
+
+        $builder->setButtons(translate($builder->getButtons()));
     }
 }

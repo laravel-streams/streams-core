@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
@@ -70,5 +72,7 @@ class HeaderInput
         $this->defaults->defaults($builder);
         $this->normalizer->normalize($builder);
         $this->guesser->guess($builder);
+
+        $builder->setColumns(translate($builder->getColumns()));
     }
 }

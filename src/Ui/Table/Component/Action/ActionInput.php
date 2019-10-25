@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
@@ -117,5 +119,7 @@ class ActionInput
         $this->guesser->guess($builder);
         $this->parser->parse($builder);
         $this->dropdown->build($builder);
+
+        $builder->setActions(translate($builder->getActions()));
     }
 }

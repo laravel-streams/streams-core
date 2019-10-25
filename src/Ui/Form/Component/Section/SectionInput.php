@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Section;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Section;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
@@ -57,5 +59,7 @@ class SectionInput
         $this->resolver->resolve($builder);
         $this->evaluator->evaluate($builder);
         $this->normalizer->normalize($builder);
+
+        $builder->setSections(translate($builder->getSections()));
     }
 }

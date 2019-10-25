@@ -657,11 +657,22 @@ if (!function_exists('translate')) {
      */
     function translate($target)
     {
-        if (is_string($target) && strpos($target, '::') && trans()->has($target)) {
+        if (is_string($target) && strpos($target, '::')) {
+
+            if (!trans()->has($target)) {
+                return $target;
+            }
+
             return trans($target);
         }
 
         if (is_array($target)) {
+            foreach ($target as &$item) {
+                $item = translate($item);
+            }
+        }
+
+        if ($target instanceof Collection) {
             foreach ($target as &$item) {
                 $item = translate($item);
             }
