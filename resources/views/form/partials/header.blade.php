@@ -9,7 +9,7 @@
                 <br>
 
                 <small>
-                    {{ trans(section.description)|raw }}
+                    {{ $section['description'] }}
                 </small>
             @endif
         </h5>

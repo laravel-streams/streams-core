@@ -3,4 +3,4 @@
         class="{{ $fieldType->class }}"
         name="{{ $fieldType->getInputName() }}"
         type="{{ $fieldType->config('type', 'text') }}"
-        placeholder="{{ trans($fieldType->placeholder) }}">
+        placeholder="{{ $fieldType->placeholder }}">
