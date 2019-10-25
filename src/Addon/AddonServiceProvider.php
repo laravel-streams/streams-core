@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Addon;
 
 use Illuminate\Support\ServiceProvider;
+use Anomaly\Streams\Platform\Addon\Addon;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Console\Application as Artisan;
 
@@ -152,6 +153,7 @@ class AddonServiceProvider extends ServiceProvider
 
         $this->app->singleton($namespace, function ($app) use ($addon, $type, $slug, $vendor, $path) {
 
+            // @var Addon $addon
             $addon = $app->make($addon)
                 ->setType($type)
                 ->setSlug($slug)
@@ -162,6 +164,8 @@ class AddonServiceProvider extends ServiceProvider
             //     $addon->setInstalled($installed);
             //     $addon->setEnabled($enabled);
             // }
+
+            app("{$type}.collection")->put($addon->getNamespace(), $addon);
 
             return $addon;
         });

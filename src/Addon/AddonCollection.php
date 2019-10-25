@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;

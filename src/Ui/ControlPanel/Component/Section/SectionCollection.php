@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
+<?php
 
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
+
+use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
-use Illuminate\Support\Collection;
 
 /**
  * Class SectionCollection

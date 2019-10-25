@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 use Exception;
 use Illuminate\Support\HigherOrderCollectionProxy;
@@ -55,7 +57,17 @@ class Collection extends \Illuminate\Support\Collection
      */
     public function undecorate()
     {
-        return new static((new Decorator())->undecorate($this->items));
+        return new static(undecorate($this->items));
+    }
+
+    /**
+     * Return decorated items.
+     *
+     * @return static|$this
+     */
+    public function decorate()
+    {
+        return new static(decorate($this->items));
     }
 
     /**
