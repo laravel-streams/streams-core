@@ -646,3 +646,27 @@ if (!function_exists('html_link')) {
         return \Html::link($url, $title, $attributes, $secure, $escape);
     }
 }
+
+if (!function_exists('translate')) {
+
+    /**
+     * Return a recursively translated target.
+     *
+     * @param mixed $target
+     * @return mixed
+     */
+    function translate($target)
+    {
+        if (is_string($target) && strpos($target, '::') && trans()->has($target)) {
+            return trans($target);
+        }
+
+        if (is_array($target)) {
+            foreach ($target as &$item) {
+                $item = translate($item);
+            }
+        }
+
+        return $target;
+    }
+}

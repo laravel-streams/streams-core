@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
@@ -95,5 +97,7 @@ class SectionInput
         $this->guesser->guess($builder);
         $this->evaluator->evaluate($builder);
         $this->parser->parse($builder);
+
+        $builder->setSections(translate($builder->getSections()));
     }
 }

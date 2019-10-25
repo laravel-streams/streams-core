@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
@@ -60,6 +62,7 @@ class SectionBuilder
         $this->input->read($builder);
 
         foreach ($builder->getSections() as $section) {
+
             if (!$this->authorizer->authorize(array_get($section, 'permission'))) {
                 continue;
             }
