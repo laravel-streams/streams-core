@@ -3,11 +3,11 @@
 
     @if ($table->getOption('title'))
         <h4>
-            {{ trans($table->getOption('title')) }}
+            {{ $table->getOption('title') }}
 
             @if ($table->getOption('description'))
             <small>
-                <br>{{ trans($table->getOption('description')) }}
+                <br>{{ $table->getOption('description') }}
             </small>
             @endif
         </h4>

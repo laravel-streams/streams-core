@@ -5,11 +5,11 @@
             @foreach ($table->getViews() as $view)
                 <a {{ html_attributes($view->getAttributes()) }}>
                     {{-- {{ $view->icon ? icon($view->icon)|raw }} --}}
-                    {{ trans($view->getText()) }}
+                    {{ $view->getText() }}
 
                     @if ($view->getLabel())
                         <span class="tag tag-{{ $view->context }}">
-                            {{ trans($view->label) }}
+                            {{ $view->label }}
                         </span>
                     @endif
 

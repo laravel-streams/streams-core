@@ -24,7 +24,7 @@
                 </table>
             {{ form_close() }}
         @else
-            {{ trans($table->getOption('no_results_message', 'streams::message.no_results')) }}
+            {{ $table->getOption('no_results_message', 'streams::message.no_results') }}
         @endif
     </div>
 
