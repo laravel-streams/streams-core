@@ -527,6 +527,20 @@ class Table implements PresentableInterface
     }
 
     /**
+     * Get the active view slug.
+     * 
+     * @return string
+     */
+    public function getActiveViewSlug()
+    {
+        if (!$view = $this->getActiveView()) {
+            return;
+        }
+
+        return $view->getSlug();
+    }
+
+    /**
      * Return if table has views.
      *
      * @return boolean

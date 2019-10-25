@@ -160,11 +160,12 @@ class AddonServiceProvider extends ServiceProvider
                 ->setVendor($vendor)
                 ->setPath($path);
 
-            // if ($addon->getType() === 'module' || $addon->getType() === 'extension') {
-            //     $addon->setInstalled($installed);
-            //     $addon->setEnabled($enabled);
-            // }
+            if ($addon->getType() === 'module' || $addon->getType() === 'extension') {
+                $addon->setEnabled(true);
+                $addon->setInstalled(true);
+            }
 
+            app("addon.collection")->put($addon->getNamespace(), $addon);
             app("{$type}.collection")->put($addon->getNamespace(), $addon);
 
             return $addon;
