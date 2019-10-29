@@ -13,7 +13,7 @@
     </label>
 
     @if ($fieldType->instructions)
-        <div class="field__instructions">{{ $fieldType->instructions }}</p>
+        <div class="field__instructions">{{ $fieldType->instructions }}</div>
     @endif
         
     @if ($fieldType->warning)

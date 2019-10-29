@@ -1,18 +1,21 @@
 <div class="tabs">
-    <ul>
+    <ul class="nav nav-tabs">
         @foreach ($tabs as $slug => $tab)
-            <li>
+            <li class="nav-item">
                 <a
+                data-toggle="tab"
                 href="#{{ $form->getOption('prefix') }}{{ array_get($tab, 'slug', $slug) }}-tab"
-                class="{{ $loop->first ? 'active' : '' }}">
+                class="nav-link {{ $loop->first ? 'active' : '' }}">
                     {{ $tab['title'] }}
                 </a>
             </li>
         @endforeach
     </ul>
 
-    @foreach ($tabs as $slug => $tab)
-        <section id="{{ $form->getOption('prefix') }}{{ array_get($tab, 'slug', $slug) ?: slug }}-tab">
+    <div class="tab-content">
+
+        @foreach ($tabs as $slug => $tab)
+        <div id="{{ $form->getOption('prefix') }}{{ array_get($tab, 'slug', $slug) ?: slug }}-tab" class="tab-pane {{ $loop->first ? 'active' : '' }}">
             @if (isset($tab['view']))
                 @include($tab['view'])
             @elseif (isset($tab['html']))
@@ -24,6 +27,9 @@
                     {{ trans('streams::message.no_fields_available') }}
                 @endif
             @endif
-        </section>
-    @endforeach
+        </div>
+        @endforeach
+
+    </div>
+
 </div>
