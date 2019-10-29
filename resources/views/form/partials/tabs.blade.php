@@ -1,8 +1,10 @@
-<div class="form__section--tabs">
+<div class="tabs">
     <ul>
         @foreach ($tabs as $slug => $tab)
             <li>
-                <a href="#tab-{{ $form->getOption('prefix') }}{{ array_get($tab, 'slug', $slug) }}">
+                <a
+                href="#{{ $form->getOption('prefix') }}{{ array_get($tab, 'slug', $slug) }}-tab"
+                class="{{ $loop->first ? 'active' : '' }}">
                     {{ $tab['title'] }}
                 </a>
             </li>
@@ -10,7 +12,7 @@
     </ul>
 
     @foreach ($tabs as $slug => $tab)
-        <div class="section__tab" id="{{ $form->getOption('prefix') }} }}{{ array_get($tab, 'slug', $slug) ?: slug }}-tab">
+        <section id="{{ $form->getOption('prefix') }}{{ array_get($tab, 'slug', $slug) ?: slug }}-tab">
             @if (isset($tab['view']))
                 @include($tab['view'])
             @elseif (isset($tab['html']))
@@ -22,6 +24,6 @@
                     {{ trans('streams::message.no_fields_available') }}
                 @endif
             @endif
-        </div>
+        </section>
     @endforeach
 </div>

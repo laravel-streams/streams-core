@@ -14,10 +14,6 @@
         @include('streams::form/partials/controls')
         @include('streams::form/partials/heading')
         @include('streams::form/partials/layout')
-        
-        {!! $form->fields->email->input !!}
-        {!! $form->fields->password->input !!}
-
         @include('streams::form/partials/controls')
 
         {!! $form->close() !!}
