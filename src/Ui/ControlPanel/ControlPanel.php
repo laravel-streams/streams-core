@@ -1,13 +1,15 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel;
+<?php
 
+namespace Anomaly\Streams\Platform\Ui\ControlPanel;
+
+use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\ShortcutCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Contract\ShortcutInterface;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\ShortcutCollection;
-use Illuminate\Support\Collection;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
 
 /**
  * Class ControlPanel
@@ -50,13 +52,13 @@ class ControlPanel
     /**
      * Create a new ControlPanel instance.
      *
-     * @param Collection $buttons
+     * @param ButtonCollection $buttons
      * @param SectionCollection $sections
      * @param ShortcutCollection $shortcuts
      * @param NavigationCollection $navigation
      */
     public function __construct(
-        Collection $buttons,
+        ButtonCollection $buttons,
         SectionCollection $sections,
         ShortcutCollection $shortcuts,
         NavigationCollection $navigation
