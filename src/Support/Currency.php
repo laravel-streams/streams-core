@@ -40,7 +40,7 @@ class Currency
         $point     = array_get(
             $options,
             'point',
-            config('streams::currencies.supported.' . $currency . '.point' . '.')
+            config('streams::currencies.supported.' . $currency . '.point', '.')
         );
 
         $prefix = null;
@@ -80,7 +80,7 @@ class Currency
         $point     = array_get(
             $options,
             'point',
-            config('streams::currencies.supported.' . $currency . '.point' . '.')
+            config('streams::currencies.supported.' . $currency . '.point', '.')
         );
 
         return number_format(floor(($number * 100)) / 100, $decimals, $point, $separator);
