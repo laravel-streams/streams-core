@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform;
+<?php
+
+namespace Anomaly\Streams\Platform;
 
 use Anomaly\Streams\Platform\Artisan\ArtisanServiceProvider;
 use Anomaly\Streams\Platform\Database\Migration\MigrationServiceProvider;

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration;
 
 use Anomaly\Streams\Platform\Database\Migration\Console\MigrateCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\MigrateMakeCommand;
@@ -80,15 +82,15 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
      *
      * @return void
      */
-    protected function registerMigrateCommand()
-    {
-        $this->app->singleton(
-            'command.migrate',
-            function ($app) {
-                return new MigrateCommand($app['migrator']);
-            }
-        );
-    }
+    // protected function registerMigrateCommand()
+    // {
+    //     $this->app->singleton(
+    //         'command.migrate',
+    //         function ($app) {
+    //             return new MigrateCommand($app['migrator']);
+    //         }
+    //     );
+    // }
 
     /**
      * Register the "reset" migration command.

@@ -124,6 +124,7 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
      */
     protected function runUp($file, $batch, $pretend)
     {
+
         /**
          * Run our migrations first.
          *

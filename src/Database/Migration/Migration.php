@@ -1,11 +1,21 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
-use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
-use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Anomaly\Streams\Platform\Database\Migration\Field\FieldMigrator;
+use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
+use Anomaly\Streams\Platform\Database\Migration\Stream\StreamMigrator;
+use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 
+/**
+ * Class Migration
+ *
+ * @link   http://pyrocms.com/
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 abstract class Migration extends \Illuminate\Database\Migrations\Migration
 {
     use DispatchesJobs;
@@ -222,6 +232,11 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
      */
     public function up()
     {
+        $this->initialize();
+
+        app(FieldMigrator::class)->migrate($this);
+        app(StreamMigrator::class)->migrate($this);
+        app(AssignmentMigrator::class)->migrate($this);
     }
 
     /**
@@ -229,5 +244,33 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
      */
     public function down()
     {
+        $this->initialize();
+
+        app(FieldMigrator::class)->reset($this);
+        app(StreamMigrator::class)->reset($this);
+        app(AssignmentMigrator::class)->reset($this);
+    }
+
+    /**
+     * Initialize the migration.
+     */
+    protected function initialize()
+    {
+        if ($this->namespace) {
+            return;
+        }
+
+        $reflection = new \ReflectionClass($this);
+
+        $parts = explode(DIRECTORY_SEPARATOR, ltrim(str_replace(base_path('vendor'), '', dirname($reflection->getFileName())), DIRECTORY_SEPARATOR));
+
+        array_pop($parts); // migrations
+
+        $vendor = array_shift($parts);
+        $addon  = array_shift($parts);
+
+        [$slug, $type] = explode('-', $addon);
+
+        $this->setAddon(app("{$vendor}.{$type}.{$slug}"));
     }
 }

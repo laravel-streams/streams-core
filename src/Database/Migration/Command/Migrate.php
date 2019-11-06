@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Command;
 
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 use Anomaly\Streams\Platform\Database\Migration\Field\FieldMigrator;
@@ -37,8 +39,8 @@ class Migrate
         StreamMigrator $streams,
         AssignmentMigrator $assignments
     ) {
-        $fields->migrate($this->migration);
-        $streams->migrate($this->migration);
-        $assignments->migrate($this->migration);
+        //$fields->migrate($this->migration);
+        //$streams->migrate($this->migration);
+        //$assignments->migrate($this->migration);
     }
 }
