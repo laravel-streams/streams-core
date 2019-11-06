@@ -2,93 +2,16 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Addon;
-use Illuminate\Contracts\Events\Dispatcher;
-use Anomaly\Streams\Platform\Support\Hydrator;
-use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
-use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
-use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
-use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
-
-/**
- * Class AddonManager
- *
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
- */
-class AddonManager
+class Addon_Manager
 {
 
-    /**
-     * The addon paths.
-     *
-     * @var AddonPaths
-     */
-    protected $paths;
-
-    /**
-     * The addon collection.
-     *
-     * @var AddonCollection
-     */
-    protected $addons;
-
-    /**
-     * The addon loader.
-     *
-     * @var AddonLoader
-     */
-    protected $loader;
-
-    /**
-     * The addon integrator.
-     *
-     * @var AddonIntegrator
-     */
-    protected $integrator;
-
-    /**
-     * The modules model.
-     *
-     * @var ModuleModel
-     */
-    protected $modules;
-
-    /**
-     * The extensions model.
-     *
-     * @var ExtensionModel
-     */
-    protected $extensions;
-
-    /**
-     * @var AddonProvider
-     */
-    private $provider;
-
-    /**
-     * Create a new AddonManager instance.
-     *
-     * @param AddonPaths $paths
-     * @param AddonLoader $loader
-     * @param ModuleModel $modules
-     * @param AddonProvider $provider
-     * @param AddonCollection $addons
-     * @param ExtensionModel $extensions
-     * @param AddonIntegrator $integrator
-     */
     public function __construct(
-        AddonPaths $paths,
-        AddonLoader $loader,
         ModuleModel $modules,
         AddonProvider $provider,
         AddonCollection $addons,
         ExtensionModel $extensions,
         AddonIntegrator $integrator
     ) {
-        $this->paths      = $paths;
-        $this->loader     = $loader;
         $this->addons     = $addons;
         $this->modules    = $modules;
         $this->provider   = $provider;
@@ -103,7 +26,6 @@ class AddonManager
      */
     public function register($reload = false)
     {
-        return;
         $enabled   = $this->getEnabledAddonNamespaces();
         $installed = $this->getInstalledAddonNamespaces();
 

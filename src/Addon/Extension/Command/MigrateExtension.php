@@ -1,6 +1,7 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension\Command;
+<?php
 
-use Anomaly\Streams\Platform\Addon\AddonManager;
+namespace Anomaly\Streams\Platform\Addon\Extension\Command;
+
 use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasMigrated;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Console\Kernel;
@@ -45,13 +46,10 @@ class MigrateExtension
      * Handle the command.
      *
      * @param  InstallExtension|Kernel $console
-     * @param  AddonManager $manager
      * @return bool
      */
-    public function handle(
-        Kernel $console,
-        AddonManager $manager
-    ) {
+    public function handle(Kernel $console)
+    {
         $this->extension->fire('migrating', ['extension' => $this->extension]);
 
         $options = [
@@ -60,8 +58,6 @@ class MigrateExtension
         ];
 
         $console->call('migrate', $options);
-
-        $manager->register();
 
         if ($this->seed) {
             $console->call('db:seed', $options);

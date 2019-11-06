@@ -32,6 +32,7 @@ use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
 use Anomaly\Streams\Platform\Application\Command\SetApplicationDomain;
+use Anomaly\Streams\Platform\Entry\EntryLoader;
 use Anomaly\Streams\Platform\Http\Routing\Matching\CaseInsensitiveUriValidator;
 
 /**
@@ -167,12 +168,8 @@ class StreamsServiceProvider extends ServiceProvider
     public function boot()
     {
         // Take care of core utilities.
-        $this->setCoreConnection();
         $this->configureUriValidator();
         $this->initializeApplication();
-
-        // Load application specific .env file.
-        $this->loadEnvironmentOverrides();
 
         // Setup and preparing utilities.
         $this->loadStreamsConfiguration();
@@ -237,6 +234,9 @@ class StreamsServiceProvider extends ServiceProvider
     public function register()
     {
         define('IS_ADMIN', request()->segment(1) == 'admin');
+
+        // Setup Utilities
+        $this->setCoreConnection();
 
         /**
          * When config is cached by Laravel we
@@ -575,33 +575,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function autoloadEntryModels()
     {
-        $loader = null;
-
-        foreach (spl_autoload_functions() as $autoloader) {
-            if (is_array($autoloader) && $autoloader[0] instanceof ClassLoader) {
-                $loader = $autoloader[0];
-            }
-        }
-
-        if (!$loader) {
-            throw new \Exception("The ClassLoader could not be found.");
-        }
-
-        /**
-         * If a classmap is available then that's
-         * much more preferred than registering.
-         */
-        if (file_exists($classmap = application()->getStoragePath('models/classmap.php'))) {
-
-            $loader->addClassMap(include $classmap);
-
-            return;
-        }
-
-        /* @var ClassLoader $loader */
-        $loader->addPsr4('Anomaly\Streams\Platform\Model\\', application()->getStoragePath('models'));
-
-        $loader->register();
+        EntryLoader::load();
     }
 
     /**

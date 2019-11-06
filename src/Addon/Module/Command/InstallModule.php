@@ -1,6 +1,7 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
+<?php
 
-use Anomaly\Streams\Platform\Addon\AddonManager;
+namespace Anomaly\Streams\Platform\Addon\Module\Command;
+
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
@@ -46,13 +47,11 @@ class InstallModule
      * Handle the command.
      *
      * @param  Kernel $console
-     * @param  AddonManager $manager
      * @param  ModuleRepositoryInterface $modules
      * @return bool
      */
     public function handle(
         Kernel $console,
-        AddonManager $manager,
         ModuleRepositoryInterface $modules
     ) {
         $this->module->fire('installing', ['module' => $this->module]);
@@ -65,8 +64,6 @@ class InstallModule
         $console->call('migrate', $options);
 
         $modules->install($this->module);
-
-        $manager->register();
 
         if ($this->seed) {
             $console->call('db:seed', $options);

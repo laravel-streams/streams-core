@@ -1,11 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Installer\Console;
+<?php
 
-use Anomaly\Streams\Platform\Addon\AddonManager;
-use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
-use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
+namespace Anomaly\Streams\Platform\Installer\Console;
+
 use Anomaly\Streams\Platform\Application\Command\ReloadEnvironmentFile;
 use Anomaly\Streams\Platform\Application\Command\WriteEnvironmentFile;
-use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
+use Anomaly\Streams\Platform\Entry\EntryLoader;
 use Anomaly\Streams\Platform\Installer\Console\Command\ConfigureDatabase;
 use Anomaly\Streams\Platform\Installer\Console\Command\ConfirmLicense;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadApplicationInstallers;
@@ -57,10 +56,8 @@ class Install extends Command
 
     /**
      * Execute the console command.
-     *
-     * @param AddonManager $manager
      */
-    public function handle(AddonManager $manager)
+    public function handle()
     {
         $data = new Collection();
 
@@ -76,8 +73,6 @@ class Install extends Command
         }
 
         $this->dispatchNow(new ReloadEnvironmentFile());
-        $this->dispatchNow(new LoadEnvironmentOverrides());
-        $this->dispatchNow(new InitializeApplication());
 
         $this->dispatchNow(new ConfigureDatabase());
         $this->dispatchNow(new SetDatabasePrefix());
@@ -92,15 +87,11 @@ class Install extends Command
         $installers->push(
             new Installer(
                 'streams::installer.reloading_application',
-                function () use ($manager) {
+                function () {
                     $this->call('env:set', ['line' => 'INSTALLED=true']);
 
                     $this->dispatchNow(new ReloadEnvironmentFile());
-                    $this->dispatchNow(new AutoloadEntryModels()); // Don't forget!
-
-                    $manager->register(true); // Register all of our addons.
-
-                    $this->dispatchNow(new AutoloadEntryModels()); // Yes, again.
+                    EntryLoader::load();
                 }
             )
         );

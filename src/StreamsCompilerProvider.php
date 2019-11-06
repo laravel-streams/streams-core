@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform;
+<?php
+
+namespace Anomaly\Streams\Platform;
 
 /**
  * Class StreamsCompilerProvider
@@ -59,7 +61,6 @@ class StreamsCompilerProvider
             'vendor/anomaly/streams-platform/src/Model/EloquentPresenter.php',
             'vendor/anomaly/streams-platform/src/Addon/AddonIntegrator.php',
             'vendor/anomaly/streams-platform/src/Entry/EntryPresenter.php',
-            'vendor/anomaly/streams-platform/src/Addon/AddonManager.php',
             'vendor/anomaly/streams-platform/src/View/ViewOverrides.php',
         ];
     }

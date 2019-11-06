@@ -1,6 +1,7 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension\Command;
+<?php
 
-use Anomaly\Streams\Platform\Addon\AddonManager;
+namespace Anomaly\Streams\Platform\Addon\Extension\Command;
+
 use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasInstalled;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
@@ -46,13 +47,11 @@ class InstallExtension
      * Handle the command.
      *
      * @param  InstallExtension|Kernel $console
-     * @param  AddonManager $manager
      * @param  ExtensionRepositoryInterface $extensions
      * @return bool
      */
     public function handle(
         Kernel $console,
-        AddonManager $manager,
         ExtensionRepositoryInterface $extensions
     ) {
         $this->extension->fire('installing', ['extension' => $this->extension]);
@@ -65,8 +64,6 @@ class InstallExtension
         $console->call('migrate', $options);
 
         $extensions->install($this->extension);
-
-        $manager->register();
 
         if ($this->seed) {
             $console->call('db:seed', $options);

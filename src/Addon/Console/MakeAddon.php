@@ -1,7 +1,7 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Console;
+<?php
 
-use Anomaly\Streams\Platform\Addon\AddonLoader;
-use Anomaly\Streams\Platform\Addon\AddonManager;
+namespace Anomaly\Streams\Platform\Addon\Console;
+
 use Anomaly\Streams\Platform\Addon\Console\Command\MakeAddonPaths;
 use Anomaly\Streams\Platform\Addon\Console\Command\ScaffoldTheme;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonButtonLang;
@@ -55,12 +55,10 @@ class MakeAddon extends Command
     /**
      * Execute the console command.
      *
-     * @param AddonManager $addons
-     * @param AddonLoader $loader
      * @param Repository $config
      * @throws \Exception
      */
-    public function handle(AddonManager $addons, AddonLoader $loader, Repository $config)
+    public function handle(Repository $config)
     {
         $namespace = $this->argument('namespace');
 
@@ -94,13 +92,6 @@ class MakeAddon extends Command
         $this->dispatchNow(new WriteAddonServiceProvider($path, $type, $slug, $vendor));
 
         $this->info("Addon [{$vendor}.{$type}.{$slug}] created.");
-
-        $loader
-            ->load($path)
-            ->register()
-            ->dump();
-
-        $addons->register();
 
         /**
          * Create the initial migration file

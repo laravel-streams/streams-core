@@ -1,6 +1,7 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
+<?php
 
-use Anomaly\Streams\Platform\Addon\AddonManager;
+namespace Anomaly\Streams\Platform\Addon\Module\Command;
+
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasMigrated;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Console\Kernel;
@@ -45,10 +46,9 @@ class MigrateModule
      * Handle the command.
      *
      * @param  Kernel $console
-     * @param  AddonManager $manager
      * @return bool
      */
-    public function handle(Kernel $console, AddonManager $manager)
+    public function handle(Kernel $console)
     {
         $this->module->fire('migrating', ['module' => $this->module]);
 
@@ -58,8 +58,6 @@ class MigrateModule
         ];
 
         $console->call('migrate', $options);
-
-        $manager->register();
 
         if ($this->seed) {
             $console->call('db:seed', $options);
