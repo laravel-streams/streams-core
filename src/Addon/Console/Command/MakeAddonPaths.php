@@ -62,7 +62,6 @@ class MakeAddonPaths
      */
     public function handle(Filesystem $filesystem, Application $application)
     {
-        die('Test');
         $shared = $this->command->option('shared') ? 'shared' : $application->getReference();
 
         $path = base_path("addons/{$shared}/{$this->vendor}/{$this->slug}-{$this->type}");
