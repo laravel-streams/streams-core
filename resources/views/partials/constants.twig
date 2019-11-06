@@ -1,6 +1,6 @@
 <script type="text/javascript">
 
-    const APPLICATION_URL = "{{ url() }}";
+    const APPLICATION_URL = "{{ url()|escape }}";
     const APPLICATION_REFERENCE = "{{ env('APPLICATION_REFERENCE') }}";
     const APPLICATION_DOMAIN = "{{ env('APPLICATION_DOMAIN') }}";
 
