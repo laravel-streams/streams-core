@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform;
 
+use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Illuminate\Routing\Route;
 use Composer\Autoload\ClassLoader;
 use Illuminate\Routing\Redirector;
@@ -28,6 +29,7 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
 use Anomaly\Streams\Platform\Application\Command\SetApplicationDomain;
 use Anomaly\Streams\Platform\Http\Routing\Matching\CaseInsensitiveUriValidator;
@@ -193,8 +195,8 @@ class StreamsServiceProvider extends ServiceProvider
         AssignmentModel::observe(AssignmentObserver::class);
 
         // Addon states
-        $modules = ModuleModel::get();
-        $extensions = ExtensionModel::get();
+        $modules = env('INSTALLED', false) ? ModuleModel::get() : new ModuleCollection([]);
+        $extensions = env('INSTALLED', false) ? ExtensionModel::get() : new ExtensionCollection([]);
 
         // @todo replace with single addons table
         $this->app->instance('addons', $modules->merge($extensions));

@@ -133,7 +133,7 @@ class AddonServiceProvider extends ServiceProvider
 
         $path = base_path("vendor/{$vendor}/{$slug}-{$type}");
 
-        // if ($addon instanceof Module && !$addon->isEnabled() && $addon->getSlug() !== 'installer') {
+        // if ($type !== 'module' && !$addon->isEnabled() && $addon->getSlug() !== 'installer') {
         //     return;
         // }
 

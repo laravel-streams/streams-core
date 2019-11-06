@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Console\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Console\Command;
 
 use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Console\Command;
@@ -60,6 +62,7 @@ class MakeAddonPaths
      */
     public function handle(Filesystem $filesystem, Application $application)
     {
+        die('Test');
         $shared = $this->command->option('shared') ? 'shared' : $application->getReference();
 
         $path = base_path("addons/{$shared}/{$this->vendor}/{$this->slug}-{$this->type}");
