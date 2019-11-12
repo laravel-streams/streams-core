@@ -1,6 +1,6 @@
 <div {{ html_attributes($fieldType->wrapperAttributes()) }}>
 
-    <label>
+    <label for="{{ $fieldType->getAttribute('id') }}">
         {{ $fieldType->getLabel() }}
 
         @if ($fieldType->required)

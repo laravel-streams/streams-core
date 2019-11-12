@@ -776,6 +776,12 @@ class FieldType extends Addon
                     'data-field'      => $this->getField(),
                     'data-field_name' => $this->getFieldName(),
                     'data-provides'   => $this->getNamespace(),
+
+                    'class'           => $this->getClass(),
+                    'data-field'      => $this->getField(),
+                    'data-field_name' => $this->getFieldName(),
+                    'data-provides'   => $this->getNamespace(),
+                    'id'              => $this->getInputName(),
                 ],
                 $this->attributes
             )
@@ -807,6 +813,18 @@ class FieldType extends Addon
         $this->attributes[$attribute] = $value;
 
         return $this;
+    }
+
+    /**
+     * Get a single attribute value or default.
+     *
+     * @param string $attribute
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getAttribute($attribute, $default = null)
+    {
+        return array_get($this->getAttributes(), $attribute, $default);
     }
 
     /**
