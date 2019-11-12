@@ -24,7 +24,7 @@
     @endif
 
     <div class="field__input">
-        {!! $fieldType->getInput(['form' => $form]) !!}
+        {!! $fieldType->getInput(['form' => isset($form) ? $form : null]) !!}
     </div>
 
 </div>
