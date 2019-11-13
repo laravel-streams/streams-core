@@ -555,13 +555,13 @@ class Asset
         /**
          * Parse the content. Always parse CSS.
          */
-        if (in_array('parse', $filters) || $hint == 'css') {
-            try {
-                $contents = (string) render($contents);
-            } catch (\Exception $e) {
-                \Log::error($e->getMessage());
-            }
-        }
+        // if (in_array('parse', $filters) || $hint == 'css') {
+        //     try {
+        //         $contents = (string) render($contents);
+        //     } catch (\Exception $e) {
+        //         \Log::error($e->getMessage());
+        //     }
+        // }
 
         if (in_array('min', $filters) && $hint == 'css') {
             $compressor = new Minifier;
@@ -640,35 +640,15 @@ class Asset
             return true;
         }
 
-        $debug = config('streams::assets.live', false);
-
-        $live = in_array('live', $this->collectionFilters($collection, $filters));
-
-        if ($debug === true && $live) {
-            return true;
-        }
-
-        if ($debug == 'public' && $live && request()->segment(1) !== 'admin') {
-            return true;
-        }
-
-        if ($debug == 'admin' && $live && request()->segment(1) === 'admin') {
-            return true;
-        }
-
         /**
          * If we're busting cache and have watched
          * files that have been modified then publish.
          */
         if (
             request()->isNoCache() && array_filter(
-                $filters,
-                function ($filter) use ($path) {
-                    if (!starts_with($filter, 'watch@')) {
-                        return false;
-                    }
-
-                    return $this->lastModifiedAt(substr($filter, 6)) > filemtime($path);
+                $this->collectionAssets($collection),
+                function ($asset) use ($path) {
+                    return filemtime($asset) > filemtime($path);
                 }
             )
         ) {
@@ -737,6 +717,17 @@ class Asset
         $this->directory = $directory;
 
         return $this;
+    }
+
+    /**
+     * Return the assets in a collection.
+     *
+     * @param        $collection
+     * @return array
+     */
+    protected function collectionAssets($collection)
+    {
+        return array_keys($this->collections[$collection]);
     }
 
     /**
