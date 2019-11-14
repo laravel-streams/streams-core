@@ -35,14 +35,27 @@ class Refresh extends Command
     public function handle(Kernel $console, Filesystem $files)
     {
 
+        $this->info('Refreshing system...');
+
         /**
          * Clear the various caches.
          */
-        $console->call('httpcache:clear', [], $this->getOutput());
-        $console->call('assets:clear', [], $this->getOutput());
-        $console->call('cache:clear', [], $this->getOutput());
-        $console->call('view:clear', [], $this->getOutput());
-        $console->call('twig:clear', [], $this->getOutput());
+        $console->call('httpcache:clear', []);
+
+        $this->info('HTTP cache cleared.');
+
+        $console->call('assets:clear', []);
+
+        $this->info('Assets cache cleared.');
+
+        $console->call('cache:clear', []);
+
+        $this->info('Cache cleared.');
+
+        $console->call('view:clear', []);
+        $console->call('twig:clear', []);
+
+        $this->info('View caches cleared.');
 
         /**
          * Restart utility services.

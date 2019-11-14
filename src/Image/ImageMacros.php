@@ -30,10 +30,6 @@ class ImageMacros
      * Create a new ImageMacros instance.
      *
      * @param Container $container
-<<<<<<< HEAD
-=======
-     * @param Repository $config
->>>>>>> 1.5
      */
     public function __construct(Container $container)
     {
@@ -43,23 +39,18 @@ class ImageMacros
 
     /**
      * Run a macro.
-     *
-<<<<<<< HEAD
+     * 
      * @param $macro
-=======
-     * @param             $macro
->>>>>>> 1.5
-     * @param  Image $image
+     * @param Image $image
      * @return Image
-     * @throws \Exception
      */
     public function run($macro, Image $image)
     {
-        
+
         if (!$process = array_get($this->getMacros(), $macro)) {
             return $image;
         }
-        
+
         array_forget($process, 'description');
 
         if (is_array($process)) {

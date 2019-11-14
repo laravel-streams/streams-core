@@ -27,7 +27,9 @@ class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\Migrate
         {--fields : Create a fields migration.}
         {--addon= : The addon to create a migration for.}
         {--stream= : The stream to create a migration for.}
-        {--path= : The location where the migration file should be created.}';
+        {--path= : The location where the migration file should be created.}
+        {--realpath : Indicate any provided migration file paths are pre-resolved absolute paths}
+        {--fullpath : Output the full path of the migration}';
 
     /**
      * The migration creator.

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
@@ -317,6 +319,17 @@ class AddonProvider
 
         foreach ($routes as $uri => $route) {
 
+            /**
+             * Check if the route is a view. In
+             * which case we can simplify things.
+             */
+            if (is_string($route) && str_contains($route, ['.', '::'])) {
+
+                \Route::view($uri, $route);
+
+                continue;
+            }
+
             /*
              * If the route definition is an
              * not an array then let's make it one.
@@ -345,11 +358,11 @@ class AddonProvider
                 $route = $this->router->{$verb}($uri, $route)->where($constraints);
 
                 if ($middleware) {
-                    call_user_func_array([$route, 'middleware'], (array)$middleware);
+                    call_user_func_array([$route, 'middleware'], (array) $middleware);
                 }
 
                 if ($group) {
-                    call_user_func_array([$route, 'group'], (array)$group);
+                    call_user_func_array([$route, 'group'], (array) $group);
                 }
             }
         }
@@ -405,7 +418,7 @@ class AddonProvider
                         $route = $router->{$verb}($uri, $route)->where($constraints);
 
                         if ($middleware) {
-                            call_user_func_array([$route, 'middleware'], (array)$middleware);
+                            call_user_func_array([$route, 'middleware'], (array) $middleware);
                         }
                     }
                 }
@@ -477,7 +490,7 @@ class AddonProvider
                 $route = $this->router->{$verb}($uri, $route)->where($constraints);
 
                 if ($middleware) {
-                    call_user_func_array([$route, 'middleware'], (array)$middleware);
+                    call_user_func_array([$route, 'middleware'], (array) $middleware);
                 }
             }
         }
@@ -550,7 +563,7 @@ class AddonProvider
                         $arguments = [];
                     }
 
-                    $command = call_user_func_array([$command, camel_case($option)], (array)$arguments);
+                    $command = call_user_func_array([$command, camel_case($option)], (array) $arguments);
                 }
             }
         }
@@ -634,8 +647,7 @@ class AddonProvider
                  * If, for whatever reason, this fails let
                  * it fail silently. Mapping additional routes
                  * could be volatile at certain application states.
-                 */
-            }
+                 */ }
         }
     }
 

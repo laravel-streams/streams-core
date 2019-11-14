@@ -12,8 +12,6 @@ class ReloadEnvironmentFile
 
     /**
      * Handle the command.
-     *
-     * @return array
      */
     public function handle()
     {
@@ -28,5 +26,13 @@ class ReloadEnvironmentFile
                 putenv($line);
             }
         }
+
+        /**
+         * Force the internal management to reload
+         * and overload from the changes that may
+         * have taken place.
+         */
+        $dotenv = \Dotenv\Dotenv::create(base_path());
+        $dotenv->overload();
     }
 }

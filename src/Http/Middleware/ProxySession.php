@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Http\Middleware;
+<?php
+
+namespace Anomaly\Streams\Platform\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
@@ -27,9 +29,14 @@ class ProxySession
     {
         $check = auth()->check();
 
-        return $next($request)
-            ->withCookie(
+        $response = $next($request);
+
+        if (method_exists($response, 'withCookie')) {
+            return $response->withCookie(
                 cookie('session_proxy', $check, $check ? config('session.lifetime', 120) : -1)
             );
+        }
+
+        return $response;
     }
 }

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Illuminate\Contracts\Support\Arrayable;
@@ -162,7 +164,7 @@ class Parser
                     function ($parameter) {
                         return urlencode($parameter);
                     },
-                    $route->parameters()
+                    array_filter($route->parameters())
                 ),
                 'parameter_names'          => $route->parameterNames(),
                 'compiled'                 => [
