@@ -273,15 +273,12 @@ class StreamsServiceProvider extends ServiceProvider
             }
         }
 
-        // Register bindings.
-        foreach (array_merge($this->bindings, config('streams.bindings', [])) as $abstract => $concrete) {
-            $this->app->bind($abstract, $concrete);
-        }
-
-        // Register singletons.
-        foreach (array_merge($this->singletons, config('streams.singletons', [])) as $abstract => $concrete) {
-            $this->app->singleton($abstract, $concrete);
-        }
+        /**
+         * Merge configured bindings with Streams.
+         * Laravel will bind these after register().
+         */
+        $this->bindings = array_merge($this->bindings, config('streams.bindings', []));
+        $this->singletons = array_merge($this->singletons, config('streams.singletons', []));
 
         // Register streams other providers.
         foreach (array_merge($this->providers, config('streams.providers', [])) as $provider) {
