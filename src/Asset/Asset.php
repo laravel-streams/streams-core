@@ -320,6 +320,10 @@ class Asset
             $this->add($collection, $collection, $filters, true);
         }
 
+        if (starts_with($collection, ['http', '//'])) {
+            $basePath = false;
+        }
+
         return ($basePath ? request()->getBasePath() : '') . $this->getPath($collection, $filters);
     }
 

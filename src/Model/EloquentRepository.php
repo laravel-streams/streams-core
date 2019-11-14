@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Model;
+<?php
+
+namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
@@ -63,6 +65,17 @@ class EloquentRepository implements EloquentRepositoryInterface
     public function find($id)
     {
         return $this->model->find($id);
+    }
+
+    /**
+     * Find a record by it's ID including trash.
+     *
+     * @param $id
+     * @return EloquentModel
+     */
+    public function findWithTrashed($id)
+    {
+        return $this->model->withTrashed()->find($id);
     }
 
     /**

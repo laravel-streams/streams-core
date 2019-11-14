@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Model\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Model\Contract;
 
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -43,6 +45,14 @@ interface EloquentRepositoryInterface
      * @return null|EloquentModel
      */
     public function find($id);
+
+    /**
+     * Find a record by it's ID including trash.
+     *
+     * @param $id
+     * @return EloquentModel
+     */
+    public function findWithTrashed($id);
 
     /**
      * Return all records without relations.
