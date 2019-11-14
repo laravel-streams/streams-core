@@ -123,7 +123,7 @@ class EloquentTableRepository implements TableRepositoryInterface
         }
 
         if ($builder->getTableOption('sortable')) {
-            $query = $query->orderBy('sort_order', 'ASC');
+            $query = $query->orderBy($this->model->getTable() . '.sort_order', 'ASC');
         }
 
         $builder->fire('queried', compact('builder', 'query'));

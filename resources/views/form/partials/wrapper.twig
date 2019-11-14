@@ -1,6 +1,4 @@
-<div
-        {{ field_type.locale ? 'lang=' ~ field_type.locale }}
-        class="
+<div {{ field_type.locale ? 'lang=' ~ field_type.locale }} class="
             form-group
             {{ form.hasErrors() ? form.hasError(field_type.input_name) ? 'has-danger has-error' : 'has-success' }}
             {{ field_type.input_name }}-field
@@ -9,7 +7,7 @@
             ">
 
     {% if field_type.object.label != false and field_type.config.disable_label != true %}
-        <label class="control-label">
+        <label class="control-label" for="{{ field_type.attributes.id }}">
             {{ field_type.object.label|raw }}
 
             {% if field_type.required %}
