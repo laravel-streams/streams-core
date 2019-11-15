@@ -1,4 +1,4 @@
-<div {{ html_attributes($fieldType->wrapperAttributes()) }}>
+<div {!! html_attributes($fieldType->wrapperAttributes()) !!}>
 
     <label for="{{ $fieldType->getAttribute('id') }}">
         {{ $fieldType->getLabel() }}
