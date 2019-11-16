@@ -41,8 +41,6 @@ class Refresh extends Command
         /**
          * Clear the various caches.
          */
-        $console->call('httpcache:clear', []);
-
         $this->info('HTTP cache cleared.');
 
         $console->call('assets:clear', []);

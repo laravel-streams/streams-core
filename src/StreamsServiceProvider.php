@@ -200,9 +200,6 @@ class StreamsServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
 
-                // Cache Commands
-                \Anomaly\Streams\Platform\Http\Console\Warm::class,
-
                 // Asset Commands
                 \Anomaly\Streams\Platform\Asset\Console\Clear::class,
 
@@ -292,7 +289,6 @@ class StreamsServiceProvider extends ServiceProvider
          * Register all third party packages first.
          */
         $this->app->register(\Laravel\Scout\ScoutServiceProvider::class);
-        $this->app->register(\Barryvdh\HttpCache\ServiceProvider::class);
         $this->app->register(\Collective\Html\HtmlServiceProvider::class);
         $this->app->register(\Intervention\Image\ImageServiceProvider::class);
 
