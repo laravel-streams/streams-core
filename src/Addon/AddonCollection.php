@@ -23,6 +23,7 @@ class AddonCollection extends Collection
      */
     public function __construct($items = [])
     {
+        dd(Compo)
         /* @var Addon $item */
         foreach ($items as $key => $item) {
             if ($item instanceof Addon) {

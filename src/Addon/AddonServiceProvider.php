@@ -150,7 +150,6 @@ class AddonServiceProvider extends ServiceProvider
         // if (!class_exists($provider)) {
         //     return;
         // }
-
         $this->app->singleton($namespace, function ($app) use ($addon, $type, $slug, $vendor, $path) {
 
             // @var Addon $addon
@@ -164,9 +163,6 @@ class AddonServiceProvider extends ServiceProvider
                 $addon->setEnabled(true);
                 $addon->setInstalled(true);
             }
-
-            app("addon.collection")->put($addon->getNamespace(), $addon);
-            app("{$type}.collection")->put($addon->getNamespace(), $addon);
 
             return $addon;
         });
