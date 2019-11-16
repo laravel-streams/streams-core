@@ -4,7 +4,7 @@ namespace Anomaly\Streams\Platform\Addon\Extension\Command;
 
 use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasMigrated;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
-use Anomaly\Streams\Platform\Console\Kernel;
+use \Illuminate\Contracts\Console\Kernel;
 
 /**
  * Class InstallExtension

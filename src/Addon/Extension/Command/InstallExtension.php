@@ -5,7 +5,7 @@ namespace Anomaly\Streams\Platform\Addon\Extension\Command;
 use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasInstalled;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
-use Anomaly\Streams\Platform\Console\Kernel;
+use \Illuminate\Contracts\Console\Kernel;
 
 /**
  * Class InstallExtension

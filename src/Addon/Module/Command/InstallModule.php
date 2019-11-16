@@ -5,7 +5,7 @@ namespace Anomaly\Streams\Platform\Addon\Module\Command;
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
-use Anomaly\Streams\Platform\Console\Kernel;
+use \Illuminate\Contracts\Console\Kernel;
 
 /**
  * Class InstallModule

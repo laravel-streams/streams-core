@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Application\Console;
 
 use Anomaly\Streams\Platform\Application\Event\SystemIsRefreshing;
-use Anomaly\Streams\Platform\Console\Kernel;
+use \Illuminate\Contracts\Console\Kernel;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 

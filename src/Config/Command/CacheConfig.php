@@ -1,6 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Cache\Command;
+<?php
 
-use Anomaly\Streams\Platform\Console\Kernel;
+namespace Anomaly\Streams\Platform\Cache\Command;
+
+use \Illuminate\Contracts\Console\Kernel;
 
 /**
  * Class CacheConfig

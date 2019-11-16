@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Installer\Console\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Installer\Console\Command;
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Installer\Installer;
 use Anomaly\Streams\Platform\Installer\InstallerCollection;
-use Anomaly\Streams\Platform\Console\Kernel;
+use \Illuminate\Contracts\Console\Kernel;
 
 /**
  * Class LoadModuleSeeders

@@ -1,6 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Console;
+<?php
 
-use Anomaly\Streams\Platform\Console\Kernel;
+namespace Anomaly\Streams\Platform\Stream\Console;
+
+use \Illuminate\Contracts\Console\Kernel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Illuminate\Console\Command;

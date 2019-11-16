@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Application\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Application\Console;
 
 use Anomaly\Streams\Platform\Application\Event\SystemIsBuilding;
-use Anomaly\Streams\Platform\Console\Kernel;
+use \Illuminate\Contracts\Console\Kernel;
 use Illuminate\Console\Command;
 
 /**

@@ -4,7 +4,7 @@ namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasMigrated;
 use Anomaly\Streams\Platform\Addon\Module\Module;
-use Anomaly\Streams\Platform\Console\Kernel;
+use \Illuminate\Contracts\Console\Kernel;
 
 /**
  * Class MigrateModule

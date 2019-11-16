@@ -1,8 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Installer\Console\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Installer\Console\Command;
 
 use Anomaly\Streams\Platform\Installer\Installer;
 use Anomaly\Streams\Platform\Installer\InstallerCollection;
-use Anomaly\Streams\Platform\Console\Kernel;
+use \Illuminate\Contracts\Console\Kernel;
 
 /**
  * Class LoadBaseSeeders
