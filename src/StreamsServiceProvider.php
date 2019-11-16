@@ -210,7 +210,6 @@ class StreamsServiceProvider extends ServiceProvider
                 \Anomaly\Streams\Platform\Installer\Console\Install::class,
 
                 // Streams Commands
-                \Anomaly\Streams\Platform\Stream\Console\Make::class,
                 \Anomaly\Streams\Platform\Stream\Console\Index::class,
                 \Anomaly\Streams\Platform\Stream\Console\Compile::class,
                 \Anomaly\Streams\Platform\Stream\Console\Cleanup::class,
