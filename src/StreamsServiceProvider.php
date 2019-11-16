@@ -4,7 +4,6 @@ namespace Anomaly\Streams\Platform;
 
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Illuminate\Routing\Route;
-use Composer\Autoload\ClassLoader;
 use Illuminate\Routing\Redirector;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
@@ -67,7 +66,6 @@ class StreamsServiceProvider extends ServiceProvider
     protected $providers = [
         //ViewServiceProvider::class,
         StreamsEventProvider::class,
-        StreamsConsoleProvider::class,
     ];
 
     /**
@@ -197,6 +195,48 @@ class StreamsServiceProvider extends ServiceProvider
 
         // @todo replace with single addons table
         $this->app->instance('addons', $modules->merge($extensions));
+
+        /**
+         * Register core commands.
+         */
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+
+                // Cache Commands
+                \Anomaly\Streams\Platform\Http\Console\Warm::class,
+
+                // Asset Commands
+                \Anomaly\Streams\Platform\Asset\Console\Clear::class,
+
+                // Installer Commands
+                \Anomaly\Streams\Platform\Installer\Console\Install::class,
+
+                // Streams Commands
+                \Anomaly\Streams\Platform\Stream\Console\Make::class,
+                \Anomaly\Streams\Platform\Stream\Console\Index::class,
+                \Anomaly\Streams\Platform\Stream\Console\Compile::class,
+                \Anomaly\Streams\Platform\Stream\Console\Cleanup::class,
+                \Anomaly\Streams\Platform\Stream\Console\Destroy::class,
+
+                // Addon Commands
+                \Anomaly\Streams\Platform\Addon\Console\MakeAddon::class,
+                \Anomaly\Streams\Platform\Addon\Console\AddonSeed::class,
+                \Anomaly\Streams\Platform\Addon\Console\AddonsClear::class,
+                \Anomaly\Streams\Platform\Addon\Console\AddonPublish::class,
+                \Anomaly\Streams\Platform\Addon\Console\AddonInstall::class,
+                \Anomaly\Streams\Platform\Addon\Console\AddonMigrate::class,
+                \Anomaly\Streams\Platform\Addon\Console\AddonUninstall::class,
+                \Anomaly\Streams\Platform\Addon\Console\AddonReinstall::class,
+                \Anomaly\Streams\Platform\Addon\Console\AddonsOptimize::class,
+
+                // Application Commands
+                \Anomaly\Streams\Platform\Application\Console\Build::class,
+                \Anomaly\Streams\Platform\Application\Console\EnvSet::class,
+                \Anomaly\Streams\Platform\Application\Console\Refresh::class,
+                \Anomaly\Streams\Platform\Application\Console\AppPublish::class,
+                \Anomaly\Streams\Platform\Application\Console\StreamsPublish::class,
+            ]);
+        }
 
         /**
          * Boot event is used to help scheduler
