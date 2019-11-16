@@ -226,6 +226,7 @@ class StreamsServiceProvider extends ServiceProvider
                 \Anomaly\Streams\Platform\Addon\Console\AddonUninstall::class,
                 \Anomaly\Streams\Platform\Addon\Console\AddonReinstall::class,
                 \Anomaly\Streams\Platform\Addon\Console\AddonsOptimize::class,
+                \Anomaly\Streams\Platform\Addon\Console\MakeAddonMigration::class,
 
                 // Application Commands
                 \Anomaly\Streams\Platform\Application\Console\Build::class,

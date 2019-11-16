@@ -58,7 +58,7 @@ class MakeAddonMigration extends Command
     public function handle()
     {
         [$vendor, $type, $slug] = addon_map($addon = $this->argument('addon'));
-
+        dd('Migration');
         $path = $this->dispatchNow(new MakeAddonMigrationPaths($vendor, $type, $slug, $this));
 
         $this->dispatchNow(new WriteAddonLang($path, $type, $slug));
