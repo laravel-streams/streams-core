@@ -1,10 +1,9 @@
-<?php namespace Anomaly\Streams\Platform;
+<?php
 
-use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
+namespace Anomaly\Streams\Platform;
+
 use Anomaly\Streams\Platform\Addon\Module\Listener\DetectActiveModule;
 use Anomaly\Streams\Platform\Application\Event\ApplicationHasLoaded;
-use Anomaly\Streams\Platform\Asset\Listener\AddAddonPaths as AddAddonAssetPaths;
-use Anomaly\Streams\Platform\Image\Listener\AddAddonPaths as AddAddonImagePaths;
 use Anomaly\Streams\Platform\Message\Listener\LoadMessageBag;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\GuessBreadcrumbs;
@@ -44,10 +43,6 @@ class StreamsEventProvider extends EventServiceProvider
             GuessBreadcrumbs::class,
             LoadBreadcrumbs::class,
             LoadMessageBag::class,
-        ],
-        AddonsHaveRegistered::class  => [
-            AddAddonAssetPaths::class,
-            AddAddonImagePaths::class,
         ],
         ViewComposed::class          => [
             DecorateData::class,

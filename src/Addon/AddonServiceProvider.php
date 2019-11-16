@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Addon;
 
 use Illuminate\Support\ServiceProvider;
 use Anomaly\Streams\Platform\Addon\Addon;
+use Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Console\Application as Artisan;
 
@@ -179,6 +180,8 @@ class AddonServiceProvider extends ServiceProvider
 
         // Lastly
         $this->registerProviders();
+
+        //event(new AddonWasRegistered($namespace));
     }
 
     /**
