@@ -1,6 +1,6 @@
 @if ($table->hasFilters())
     <div class="table__filters">
-        {{ form_open(['method' => 'get', 'id' => 'filters', 'url' => url()->full(), 'class' => 'form-inline']) }}
+        {{ form_open(['method' => 'get', 'id' => 'filters', 'url' => url()->full()]) }}
         <input type="hidden" name="{{ $table->getOption('prefix') }}limit" value="{{ $table->getOption('limit') }}">
         <input type="hidden" name="{{ $table->getOption('prefix') }}view" value="{{ $table->getActiveViewSlug() }}">
         <input type="hidden" name="{{ $table->getOption('prefix') }}page" value="1">

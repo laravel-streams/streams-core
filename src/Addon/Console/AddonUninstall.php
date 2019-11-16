@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Console;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
@@ -40,19 +42,19 @@ class AddonUninstall extends Command
      * @param ModuleManager $modules
      * @param ExtensionManager $extensions
      */
-    public function handle(AddonCollection $addons, ModuleManager $modules, ExtensionManager $extensions)
+    public function handle(ModuleManager $modules, ExtensionManager $extensions)
     {
-        if (!$addon = $addons->get($this->argument('addon'))) {
-            $this->error('The [' . $this->argument('addon') . '] could not be found.');
-        }
+        $addon = app($this->argument('addon'));
 
         if ($addon instanceof Module) {
+
             $modules->uninstall($addon);
 
             $this->info('The [' . $this->argument('addon') . '] module was uninstalled.');
         }
 
         if ($addon instanceof Extension) {
+
             $extensions->uninstall($addon);
 
             $this->info('The [' . $this->argument('addon') . '] extension was uninstalled.');

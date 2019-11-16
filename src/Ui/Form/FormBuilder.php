@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
@@ -484,7 +486,7 @@ class FormBuilder
      */
     public function hasVersion()
     {
-        return (bool)$this->version;
+        return (bool) $this->version;
     }
 
     /**
@@ -926,7 +928,7 @@ class FormBuilder
      */
     public function addSectionTab($section, $slug, array $tab, $position = null)
     {
-        $tabs = (array)array_get($this->sections, "{$section}.tabs");
+        $tabs = (array) array_get($this->sections, "{$section}.tabs");
 
         if ($position === null) {
             $position = count($tabs) + 1;
@@ -1464,6 +1466,25 @@ class FormBuilder
     }
 
     /**
+     * Set the field type errors
+     * according to the form errors.
+     * 
+     * @return $this
+     */
+    public function setFieldTypeErrors()
+    {
+        $collection = $this->getFormErrors();
+
+        foreach ($collection->getMessages() as $field => $messages) {
+            if ($fieldType = $this->getFormField($field)) {
+                $fieldType->setErrors($messages);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * Get the form actions.
      *
      * @return ActionCollection
@@ -1748,6 +1769,6 @@ class FormBuilder
      */
     public function isChildForm()
     {
-        return (bool)$this->parentBuilder;
+        return (bool) $this->parentBuilder;
     }
 }

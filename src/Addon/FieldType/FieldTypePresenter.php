@@ -40,7 +40,7 @@ class FieldTypePresenter extends AddonPresenter
      */
     public function attributes(array $attributes = [])
     {
-        return array_merge($this->object->getAttributes(), $attributes);
+        return array_filter(array_merge($this->object->getAttributes(), $attributes));
     }
 
     /**

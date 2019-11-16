@@ -42,17 +42,17 @@ class AddonInstall extends Command
      */
     public function handle(ModuleManager $modules, ExtensionManager $extensions)
     {
-        if (!$addon = app($this->argument('addon'))) {
-            $this->error('The [' . $this->argument('addon') . '] could not be found.');
-        }
+        $addon = app($this->argument('addon'));
 
         if ($addon instanceof Module) {
+
             $modules->install($addon, $this->option('seed'));
 
             $this->info('The [' . $this->argument('addon') . '] module was installed.');
         }
 
         if ($addon instanceof Extension) {
+
             $extensions->install($addon, $this->option('seed'));
 
             $this->info('The [' . $this->argument('addon') . '] extension was installed.');

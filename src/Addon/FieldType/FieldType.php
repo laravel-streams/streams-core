@@ -43,6 +43,13 @@ class FieldType extends Addon
     protected $rules = [];
 
     /**
+     * The validation errors.
+     *
+     * @var array
+     */
+    protected $errors = [];
+
+    /**
      * Custom validators.
      * i.e. 'rule' => ['message', 'handler']
      *
@@ -161,7 +168,7 @@ class FieldType extends Addon
      *
      * @var null|string
      */
-    protected $class = '';
+    protected $class = 'form__input';
 
     /**
      * The input type.
@@ -359,6 +366,53 @@ class FieldType extends Addon
         // Extend here.
 
         return $rules;
+    }
+
+    /**
+     * Get the errors.
+     *
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
+    /**
+     * Set errors.
+     *
+     * @param  array $errors
+     * @return $this
+     */
+    public function setErrors(array $errors)
+    {
+        $this->errors = $errors;
+
+        return $this;
+    }
+
+    /**
+     * Return if the field
+     * has errors or not.
+     *
+     * @return bool
+     */
+    public function hasErrors()
+    {
+        return !empty(array_filter($this->errors));
+    }
+
+    /**
+     * Merge errors.
+     *
+     * @param  array $errors
+     * @return $this
+     */
+    public function mergeErrors(array $errors)
+    {
+        $this->errors = array_unique(array_merge($this->errors, $errors));
+
+        return $this;
     }
 
     /**
@@ -836,9 +890,9 @@ class FieldType extends Addon
     {
         $class = 'form__field';
 
-        // if ($this->hasErrors()) {
-        //     $class .= '--error';
-        // }
+        if ($this->hasErrors()) {
+            $class .= ' -error';
+        }
 
         $class .= " {$this->getFieldName()}-field";
         $class .= " {$this->getSlug()}-field_tye";
