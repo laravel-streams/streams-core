@@ -1,10 +1,7 @@
-{{--{{ asset_add('scripts.js', 'streams::js/form/form.js') }}--}}
-{{--{{ asset_add('scripts.js', 'streams::js/form/keyboard.js') }}--}}
-{{--{{ asset_add('scripts.js', 'streams::js/form/translations.js') }}--}}
-
-{{--{% if not form.options.locked %}--}}
-{{--{{ asset_add('scripts.js', 'streams::js/form/lock.js') }}--}}
-{{--{% endif %}--}}
+{{ assets('scripts.js', 'streams::js/form/form.js') }}
+{{-- {{ assets('scripts.js', 'streams::js/form/lock.js') }} --}}
+{{ assets('scripts.js', 'streams::js/form/keyboard.js') }}
+{{--{{ assets('scripts.js', 'streams::js/form/translations.js') }}--}}
 
 @section('content')
     <div class="form__wrapper">

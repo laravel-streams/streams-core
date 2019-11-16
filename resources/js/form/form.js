@@ -1,6 +1,7 @@
 (function (window, document) {
 
     document.addEventListener('click', function (event) {
+
         if (event.target.hasAttribute('data-reload')) {
 
             event.preventDefault();
@@ -10,7 +11,7 @@
     });
 
     let forms = Array.prototype.slice.call(
-        document.querySelectorAll('form.form')
+        document.querySelectorAll('.form__wrapper form')
     );
 
     forms.forEach(function (form) {
