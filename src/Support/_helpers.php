@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Asset\Asset;
@@ -246,7 +245,7 @@ if (!function_exists('console')) {
      */
     function console()
     {
-        return app(\Anomaly\Streams\Platform\Console\Kernel::class);
+        return app(\Illuminate\Contracts\Console\Kernel::class);
     }
 }
 
