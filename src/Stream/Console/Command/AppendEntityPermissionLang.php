@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Console\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Console\Command;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\MakerExtension\Console\Command\WriteAddonPermissionLang;
+use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPermissionLang;
 use Anomaly\Streams\Platform\Support\Writer;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Bus\DispatchesJobs;

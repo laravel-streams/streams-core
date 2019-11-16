@@ -217,16 +217,14 @@ class StreamsServiceProvider extends ServiceProvider
                 \Anomaly\Streams\Platform\Stream\Console\Destroy::class,
 
                 // Addon Commands
-                \Anomaly\MakerExtension\Console\MakeAddon::class,
-                \Anomaly\MakerExtension\Console\AddonSeed::class,
-                \Anomaly\MakerExtension\Console\AddonsClear::class,
-                \Anomaly\MakerExtension\Console\AddonPublish::class,
-                \Anomaly\MakerExtension\Console\AddonInstall::class,
-                \Anomaly\MakerExtension\Console\AddonMigrate::class,
-                \Anomaly\MakerExtension\Console\AddonUninstall::class,
-                \Anomaly\MakerExtension\Console\AddonReinstall::class,
-                \Anomaly\MakerExtension\Console\AddonsOptimize::class,
-                \Anomaly\MakerExtension\Console\MakeAddonMigration::class,
+                \Anomaly\Streams\Platform\Addon\Console\AddonSeed::class,
+                \Anomaly\Streams\Platform\Addon\Console\AddonsClear::class,
+                \Anomaly\Streams\Platform\Addon\Console\AddonPublish::class,
+                \Anomaly\Streams\Platform\Addon\Console\AddonInstall::class,
+                \Anomaly\Streams\Platform\Addon\Console\AddonMigrate::class,
+                \Anomaly\Streams\Platform\Addon\Console\AddonUninstall::class,
+                \Anomaly\Streams\Platform\Addon\Console\AddonReinstall::class,
+                \Anomaly\Streams\Platform\Addon\Console\AddonsOptimize::class,
 
                 // Application Commands
                 \Anomaly\Streams\Platform\Application\Console\Build::class,

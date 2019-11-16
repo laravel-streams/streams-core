@@ -1,4 +1,6 @@
-<?php namespace Anomaly\MakerExtension\Console\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Console\Command;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Application\Application;
@@ -52,9 +54,9 @@ class PublishTranslations
     {
         $destination = $application->getResourcesPath(
             'addons/' .
-            $this->addon->getVendor() . '/' .
-            $this->addon->getSlug() . '-' .
-            $this->addon->getType() . '/lang'
+                $this->addon->getVendor() . '/' .
+                $this->addon->getSlug() . '-' .
+                $this->addon->getType() . '/lang'
         );
 
         if (is_dir($destination) && !$this->command->option('force')) {
