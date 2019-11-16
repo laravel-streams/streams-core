@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Addon\Console;
 
-use Anomaly\Streams\Platform\Addon\Console\Command\MakeAddonPaths;
+use Anomaly\Streams\Platform\Addon\Console\Command\MakeAddonMigrationPaths;
 use Anomaly\Streams\Platform\Addon\Console\Command\ScaffoldTheme;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonButtonLang;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonClass;
@@ -22,14 +22,18 @@ use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonWebpack;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteThemePackage;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteThemeWebpack;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Config\Repository;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Class MakeAddon
+ * Class MakeAddonMigration
  *
  * @link   http://pyrocms.com/
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class MakeAddon extends Command
+class MakeAddonMigration extends Command
 {
 
     /**
@@ -37,7 +41,7 @@ class MakeAddon extends Command
      *
      * @var string
      */
-    protected $signature = 'make:addon {addon} {--shared} {--migration=}';
+    protected $signature = 'make:addon_migration addon name';
 
     /**
      * The console command description.
@@ -55,17 +59,17 @@ class MakeAddon extends Command
     {
         [$vendor, $type, $slug] = addon_map($addon = $this->argument('addon'));
 
-        $path = dispatch_now(new MakeAddonPaths($vendor, $type, $slug, $this));
+        $path = $this->dispatchNow(new MakeAddonMigrationPaths($vendor, $type, $slug, $this));
 
-        dispatch_now(new WriteAddonLang($path, $type, $slug));
-        dispatch_now(new WriteAddonClass($path, $type, $slug, $vendor));
-        dispatch_now(new WriteAddonPhpUnit($path, $type, $slug, $vendor));
-        dispatch_now(new WriteAddonComposer($path, $type, $slug, $vendor));
+        $this->dispatchNow(new WriteAddonLang($path, $type, $slug));
+        $this->dispatchNow(new WriteAddonClass($path, $type, $slug, $vendor));
+        $this->dispatchNow(new WriteAddonPhpUnit($path, $type, $slug, $vendor));
+        $this->dispatchNow(new WriteAddonComposer($path, $type, $slug, $vendor));
         // @todo Autoloading issues...
-        //->dispatch_now(new WriteAddonTestCase($path, $type, $slug, $vendor));
-        dispatch_now(new WriteAddonGitIgnore($path, $type, $slug, $vendor));
-        dispatch_now(new WriteAddonFeatureTest($path, $type, $slug, $vendor));
-        dispatch_now(new WriteAddonServiceProvider($path, $type, $slug, $vendor));
+        //$this->dispatchNow(new WriteAddonTestCase($path, $type, $slug, $vendor));
+        $this->dispatchNow(new WriteAddonGitIgnore($path, $type, $slug, $vendor));
+        $this->dispatchNow(new WriteAddonFeatureTest($path, $type, $slug, $vendor));
+        $this->dispatchNow(new WriteAddonServiceProvider($path, $type, $slug, $vendor));
 
         $this->info("Addon [{$vendor}.{$type}.{$slug}] created.");
 
@@ -88,18 +92,18 @@ class MakeAddon extends Command
          * Scaffold Modules and Extensions.
          */
         if (in_array($type, ['module', 'extension'])) {
-            dispatch_now(new WriteAddonFieldLang($path));
-            dispatch_now(new WriteAddonStreamLang($path));
-            dispatch_now(new WriteAddonPermissions($path));
-            dispatch_now(new WriteAddonPermissionLang($path));
+            $this->dispatchNow(new WriteAddonFieldLang($path));
+            $this->dispatchNow(new WriteAddonStreamLang($path));
+            $this->dispatchNow(new WriteAddonPermissions($path));
+            $this->dispatchNow(new WriteAddonPermissionLang($path));
         }
 
         /**
          * Scaffold Modules.
          */
         if ($type == 'module') {
-            dispatch_now(new WriteAddonButtonLang($path));
-            dispatch_now(new WriteAddonSectionLang($path));
+            $this->dispatchNow(new WriteAddonButtonLang($path));
+            $this->dispatchNow(new WriteAddonSectionLang($path));
         }
 
         /**
@@ -109,17 +113,17 @@ class MakeAddon extends Command
          * and front-end tooling.
          */
         if ($type == 'theme') {
-            dispatch_now(new ScaffoldTheme($path));
-            dispatch_now(new WriteThemeWebpack($path));
-            dispatch_now(new WriteThemePackage($path));
+            $this->dispatchNow(new ScaffoldTheme($path));
+            $this->dispatchNow(new WriteThemeWebpack($path));
+            $this->dispatchNow(new WriteThemePackage($path));
         }
 
         /**
          * Scaffold non-themes.
          */
         if ($type !== 'theme') {
-            dispatch_now(new WriteAddonWebpack($path));
-            dispatch_now(new WriteAddonPackage($path));
+            $this->dispatchNow(new WriteAddonWebpack($path));
+            $this->dispatchNow(new WriteAddonPackage($path));
         }
     }
 }

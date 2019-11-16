@@ -646,6 +646,38 @@ if (!function_exists('html_link')) {
     }
 }
 
+if (!function_exists('addon_map')) {
+
+    /**
+     * Return the variable map
+     * for an addon namespace.
+     *
+     * @param string $namespace
+     * @param bool $verify
+     *
+     * @return array
+     */
+    function addon_map($namespace, $verify = true)
+    {
+        [$vendor, $type, $slug] = array_map(
+            function ($value) {
+                return str_slug(strtolower($value), '_');
+            },
+            explode('.', $namespace)
+        );
+
+        if ($verify && preg_match('/^\w+\.[a-zA-Z_]+\.\w+\z/u', $namespace) !== 1) {
+            throw new \Exception('Addon identifiers must be snake case and follow the following pattern: {vendor}.{type}.{slug}');
+        }
+
+        if ($verify && !in_array($type, config('streams::addons.types'))) {
+            throw new \Exception("The [{$type}] addon type is invalid.");
+        }
+
+        return [$vendor, $type, $slug];
+    }
+}
+
 if (!function_exists('translate')) {
 
     /**
