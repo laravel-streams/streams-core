@@ -41,7 +41,7 @@ class MakeAddonMigration extends Command
      *
      * @var string
      */
-    protected $signature = 'make:addon_migration addon name';
+    protected $signature = 'make:addon_migration {addon} {name} {--fields}';
 
     /**
      * The console command description.

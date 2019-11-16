@@ -77,8 +77,8 @@ class MakeAddon extends Command
             $this->call(
                 'make:addon_migration',
                 [
+                    'addon'    => $addon,
                     'name'     => 'create_' . $slug . '_fields',
-                    '--addon'  => $addon,
                     '--fields' => true,
                 ]
             );
