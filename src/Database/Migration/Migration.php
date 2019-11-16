@@ -3,11 +3,11 @@
 namespace Anomaly\Streams\Platform\Database\Migration;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Anomaly\Streams\Platform\Database\Migration\Field\FieldMigrator;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Database\Migration\Stream\StreamMigrator;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
+use Anomaly\Streams\Platform\Database\Migration\Assignment\AssignmentMigrator;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 
 /**
@@ -18,7 +18,6 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
  */
 abstract class Migration extends \Illuminate\Database\Migrations\Migration
 {
-    use DispatchesJobs;
 
     /**
      * The addon instance.
@@ -262,7 +261,14 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
 
         $reflection = new \ReflectionClass($this);
 
-        $parts = explode(DIRECTORY_SEPARATOR, ltrim(str_replace(base_path('vendor'), '', dirname($reflection->getFileName())), DIRECTORY_SEPARATOR));
+        $parts = explode(
+            DIRECTORY_SEPARATOR,
+            ltrim(str_replace(
+                base_path('vendor'),
+                '',
+                dirname($reflection->getFileName())
+            ), DIRECTORY_SEPARATOR)
+        );
 
         array_pop($parts); // migrations
 

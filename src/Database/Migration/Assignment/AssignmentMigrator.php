@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Assignment;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Assignment;
 
 use Anomaly\Streams\Platform\Field\FieldInterface;
 use Anomaly\Streams\Platform\Database\Migration\Migration;
@@ -45,8 +47,12 @@ class AssignmentMigrator
      * @param StreamRepositoryInterface     $streams
      * @param AssignmentRepositoryInterface $assignments
      */
-    public function __construct(AssignmentInput $input, FieldRepositoryInterface $fields, StreamRepositoryInterface $streams, AssignmentRepositoryInterface $assignments)
-    {
+    public function __construct(
+        AssignmentInput $input,
+        FieldRepositoryInterface $fields,
+        StreamRepositoryInterface $streams,
+        AssignmentRepositoryInterface $assignments
+    ) {
         $this->input       = $input;
         $this->fields      = $fields;
         $this->streams     = $streams;
