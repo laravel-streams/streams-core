@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Console;
+<?php
+
+namespace Anomaly\MakerExtension\Console;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Addon\Console;
+namespace Anomaly\MakerExtension\Console;
 
 use Anomaly\Streams\Platform\Addon\AddonOptimizer;
 use Illuminate\Console\Command;

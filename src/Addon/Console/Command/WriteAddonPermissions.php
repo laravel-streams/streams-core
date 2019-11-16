@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Console\Command;
+<?php namespace Anomaly\MakerExtension\Console\Command;
 
 use Anomaly\Streams\Platform\Support\Parser;
 use Illuminate\Filesystem\Filesystem;

@@ -1,26 +1,26 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Addon\Console;
+namespace Anomaly\MakerExtension\Console;
 
-use Anomaly\Streams\Platform\Addon\Console\Command\MakeAddonPaths;
-use Anomaly\Streams\Platform\Addon\Console\Command\ScaffoldTheme;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonButtonLang;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonClass;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonComposer;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonFeatureTest;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonFieldLang;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonGitIgnore;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonLang;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPackage;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPermissionLang;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPermissions;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonPhpUnit;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonSectionLang;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonServiceProvider;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonStreamLang;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonWebpack;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteThemePackage;
-use Anomaly\Streams\Platform\Addon\Console\Command\WriteThemeWebpack;
+use Anomaly\MakerExtension\Console\Command\MakeAddonPaths;
+use Anomaly\MakerExtension\Console\Command\ScaffoldTheme;
+use Anomaly\MakerExtension\Console\Command\WriteAddonButtonLang;
+use Anomaly\MakerExtension\Console\Command\WriteAddonClass;
+use Anomaly\MakerExtension\Console\Command\WriteAddonComposer;
+use Anomaly\MakerExtension\Console\Command\WriteAddonFeatureTest;
+use Anomaly\MakerExtension\Console\Command\WriteAddonFieldLang;
+use Anomaly\MakerExtension\Console\Command\WriteAddonGitIgnore;
+use Anomaly\MakerExtension\Console\Command\WriteAddonLang;
+use Anomaly\MakerExtension\Console\Command\WriteAddonPackage;
+use Anomaly\MakerExtension\Console\Command\WriteAddonPermissionLang;
+use Anomaly\MakerExtension\Console\Command\WriteAddonPermissions;
+use Anomaly\MakerExtension\Console\Command\WriteAddonPhpUnit;
+use Anomaly\MakerExtension\Console\Command\WriteAddonSectionLang;
+use Anomaly\MakerExtension\Console\Command\WriteAddonServiceProvider;
+use Anomaly\MakerExtension\Console\Command\WriteAddonStreamLang;
+use Anomaly\MakerExtension\Console\Command\WriteAddonWebpack;
+use Anomaly\MakerExtension\Console\Command\WriteThemePackage;
+use Anomaly\MakerExtension\Console\Command\WriteThemeWebpack;
 use Illuminate\Console\Command;
 
 /**

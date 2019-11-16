@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Console;
+<?php
+
+namespace Anomaly\MakerExtension\Console;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Anomaly\Streams\Platform\Addon\Console\Command\PublishConfig;
-use Anomaly\Streams\Platform\Addon\Console\Command\PublishTranslations;
-use Anomaly\Streams\Platform\Addon\Console\Command\PublishViews;
+use Anomaly\MakerExtension\Console\Command\PublishConfig;
+use Anomaly\MakerExtension\Console\Command\PublishTranslations;
+use Anomaly\MakerExtension\Console\Command\PublishViews;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputArgument;
