@@ -238,7 +238,7 @@ class ViewComposer
          * If the view uses a dot syntax namespace then
          * transform it all into the override view path.
          */
-        if ($addon = $this->addons->get($namespace)) {
+        if ($addon = $this->addons->instance($namespace)) {
             $override = $this->theme->getNamespace(
                 "addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/" . $path
             );

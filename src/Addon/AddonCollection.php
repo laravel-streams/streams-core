@@ -111,14 +111,14 @@ class AddonCollection extends Collection
      */
     public function findBySlug(string $slug, $instance = true)
     {
-        $this->first(function ($addon, $namespace) use ($slug, $instance) {
+        return $this->first(function ($addon, $namespace) use ($slug, $instance) {
 
             if (!str_is("*.*.{$slug}", $namespace)) {
                 return null;
             }
 
             return $instance ? app($namespace) : $addon;
-        })->filter()->first();
+        });
     }
 
     /**
@@ -183,10 +183,14 @@ class AddonCollection extends Collection
      * Return an addon instance.
      *
      * @param string $addon
-     * @return Addon
+     * @return Addon|null
      */
     public function instance($addon)
     {
+        if (!isset($this->items[$addon])) {
+            return null;
+        }
+
         return app($addon);
     }
 
