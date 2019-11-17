@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module\Listener;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Module\Listener;
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
@@ -122,13 +124,14 @@ class DetectActiveModule
         $module = array_get($route->getAction(), 'streams::addon');
 
         /* @var Module $module */
-        if ($module && $module = $this->modules->get($module)) {
+        if ($module && $module = $this->modules->instance($module)) {
             $module->setActive(true);
         }
 
-        if (!$module && $this->request->segment(1) == 'admin' && $module = $this->modules->findBySlug(
-            $this->request->segment(2)
-        )
+        if (
+            !$module && $this->request->segment(1) == 'admin' && $module = $this->modules->findBySlug(
+                $this->request->segment(2)
+            )
         ) {
             $module->setActive(true);
         }

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Support\Authorizer;
@@ -51,6 +53,7 @@ class ModuleCollection extends AddonCollection
      */
     public function accessible()
     {
+        return $this;
         $accessible = [];
 
         /* @var Authorizer $authorizer */
@@ -73,6 +76,7 @@ class ModuleCollection extends AddonCollection
      */
     public function enabled()
     {
+        return $this;
         $enabled = [];
 
         /* @var Module $item */

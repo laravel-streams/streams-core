@@ -28,7 +28,7 @@ class NavigationHandler
         $navigation = [];
 
         /* @var Module $module */
-        foreach ($modules->enabled()->accessible() as $module) {
+        foreach ($modules->enabled()->accessible()->instances() as $module) {
             if ($module->getNavigation()) {
                 $navigation[$module->getSlug()] = $module;
             }

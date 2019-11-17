@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Addon;
 
 use Illuminate\Support\Collection;
+use Anomaly\Streams\Platform\Addon\Addon;
 
 /**
  * Class AddonCollection
@@ -109,11 +110,11 @@ class AddonCollection extends Collection
      */
     public function findBySlug($slug)
     {
-        /* @var Addon $item */
-        foreach ($this->items as $item) {
-            if ($item->getSlug() == $slug) {
-                return $item;
-            }
+        /* @var Addon $addon */
+        if ($addon = $this->first(function ($addon, $namespace) use ($slug) {
+            return str_is("*.*.{$slug}", $namespace);
+        })) {
+            return $addon;
         }
 
         return null;
@@ -148,18 +149,44 @@ class AddonCollection extends Collection
      * Disperse addons to their
      * respective collections.
      * 
-     * @return $this;
+     * @return $this
      */
     public function disperse()
     {
-        $this->each(function ($addon, $namespace) {
+        foreach (config('streams::addons.types', []) as $type) {
 
-            [$vendor, $type, $slug] = addon_map($namespace);
+            /* @var AddonCollection $collection */
+            $collection = app("{$type}.collection");
 
-            app("{$type}.collection")->put($namespace, $addon);
-        });
+            $this->type($type)->each(function ($addon, $namespace) use ($collection) {
+                $collection->put($namespace, $addon);
+            });
+        }
 
         return $this;
+    }
+
+    /**
+     * Return addon instances.
+     * 
+     * @return $this
+     */
+    public function instances()
+    {
+        return $this->each(function ($addon, $namespace) {
+            return $this->instance($namespace);
+        });
+    }
+
+    /**
+     * Return an addon instance.
+     *
+     * @param string $addon
+     * @return Addon
+     */
+    public function instance($addon)
+    {
+        return app($addon);
     }
 
     /**
@@ -175,6 +202,18 @@ class AddonCollection extends Collection
                 $addon->fire('registered', compact('addon'));
             }
         );
+    }
+
+    /**
+     * Return only a certain type.
+     *
+     * @param string $type
+     */
+    public function type(string $type)
+    {
+        return $this->filter(function ($addon, $namespace) use ($type) {
+            return str_is("*.{$type}.*", $namespace);
+        });
     }
 
     /**
