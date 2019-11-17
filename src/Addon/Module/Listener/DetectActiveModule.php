@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
+use Anomaly\Streams\Platform\Support\Locator;
 use Anomaly\Streams\Platform\View\ViewTemplate;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Http\Request;
@@ -121,22 +122,7 @@ class DetectActiveModule
          * Pull the addon namespace
          * out of the route action.
          */
-        $module = array_get($route->getAction(), 'streams::addon');
-
-        /* @var Module $module */
-        if ($module && $module = $this->modules->instance($module)) {
-            $module->setActive(true);
-        }
-
-        if (
-            !$module && $this->request->segment(1) == 'admin' && $module = $this->modules->findBySlug(
-                $this->request->segment(2)
-            )
-        ) {
-            $module->setActive(true);
-        }
-
-        if (!$module) {
+        if (!$module = app(Locator::class)->resolve(\Route::currentRouteAction())) {
             return;
         }
 

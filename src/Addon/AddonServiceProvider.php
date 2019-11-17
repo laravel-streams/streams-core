@@ -253,14 +253,13 @@ class AddonServiceProvider extends ServiceProvider
             $middleware  = array_pull($route, 'middleware', ['web']);
             $constraints = array_pull($route, 'constraints', []);
 
-            array_set($route, 'streams::addon', $namespace);
-
             if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
                 \Route::middleware('web')->group(function () use ($uri, $route) {
                     \Route::resource($uri, $route['uses']);
                 });
             } else {
                 \Route::middleware('web')->group(function () use ($uri, $verb, $route, $group, $middleware, $constraints) {
+
                     $route = \Route::{$verb}($uri, $route)->where($constraints);
 
                     if ($middleware) {

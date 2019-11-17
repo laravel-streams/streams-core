@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
@@ -68,7 +70,7 @@ class SetDefaultOptions
         }
 
         if (!$this->builder->getTableOption('table_view') && $theme && !$theme->isAdmin()) {
-            $this->builder->setTableOption('table_view', 'streams::table/standard');
+            $this->builder->setTableOption('table_view', 'streams::table/table');
         }
 
         if (!$this->builder->getTableOption('table_view')) {
@@ -116,9 +118,7 @@ class SetDefaultOptions
          */
         if (
             $table->getOption('permission') === null &&
-            $request->segment(1) == 'admin' &&
-            ($module = $modules->active()) &&
-            ($stream = $this->builder->getTableStream())
+            $request->segment(1) == 'admin' && ($module = $modules->active()) && ($stream = $this->builder->getTableStream())
         ) {
             $table->setOption('permission', $module->getNamespace($stream->getSlug() . '.read'));
         }

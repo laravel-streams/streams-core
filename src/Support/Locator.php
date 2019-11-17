@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Traits\Hookable;
@@ -39,25 +41,15 @@ class Locator
      */
     public function locate($object)
     {
-        if (!is_object($object)) {
-            return null;
-        }
-
-        /* @var Hookable $object */
-        if (
-            in_array(Hookable::class, class_uses_recursive($object)) &&
-            $object->hasHook('__locate')
-        ) {
-            return $object->call('__locate');
-        }
-
-        $class = explode('\\', get_class($object));
+        $class = explode('\\', $this->class($object));
 
         $vendor = snake_case(array_shift($class));
         $addon  = snake_case(array_shift($class));
 
         foreach (config('streams::addons.types') as $type) {
+
             if (ends_with($addon, $type)) {
+
                 $addon = str_replace('_' . $type, '', $addon);
 
                 $namespace = "{$vendor}.{$type}.{$addon}";
@@ -81,6 +73,29 @@ class Locator
             return null;
         }
 
-        return $this->addons->get($namespace);
+        return $this->addons->instance($namespace);
+    }
+
+    /**
+     * Get the locatatable string.
+     *
+     * @param [type] $target
+     */
+    protected function class($target)
+    {
+        if (!is_object($target)) {
+            return $target;
+        }
+
+        /* @var Hookable $object */
+        if (
+            is_object($target) &&
+            in_array(Hookable::class, class_uses_recursive($target)) &&
+            $target->hasHook('__locate')
+        ) {
+            return $target->call('__locate');
+        }
+
+        return null;
     }
 }
