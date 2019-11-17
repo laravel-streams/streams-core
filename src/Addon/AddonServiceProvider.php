@@ -151,6 +151,7 @@ class AddonServiceProvider extends ServiceProvider
         // if (!class_exists($provider)) {
         //     return;
         // }
+
         $this->app->singleton($namespace, function ($app) use ($addon, $type, $slug, $vendor, $path) {
 
             // @var Addon $addon

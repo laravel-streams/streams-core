@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Extension;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 
@@ -16,22 +18,14 @@ class ExtensionCollection extends AddonCollection
      * Search for and return matching extensions.
      *
      * @param  mixed               $pattern
-     * @param  bool                $strict
+     * @param  bool                $intance
      * @return ExtensionCollection
      */
-    public function search($pattern, $strict = false)
+    public function search($pattern, $instance = true)
     {
-        $matches = [];
-
-        foreach ($this->items as $item) {
-
-            /* @var Extension $item */
-            if (str_is($pattern, $item->getProvides())) {
-                $matches[] = $item;
-            }
-        }
-
-        return self::make($matches);
+        return $this->instances()->map(function (Extension $addon, $namespace) use ($pattern) {
+            return str_is($pattern, $addon->getProvides());
+        });
     }
 
     /**
