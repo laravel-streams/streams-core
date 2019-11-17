@@ -57,16 +57,16 @@ class InstallExtension
         $this->extension->fire('installing', ['extension' => $this->extension]);
 
         $options = [
-            '--addon' => $this->extension->getNamespace(),
-            '--force' => true,
+            'addon' => $this->extension->getNamespace(),
+            //'--force' => true,
         ];
 
-        $console->call('migrate', $options);
+        $console->call('addon:migrate', $options);
 
         $extensions->install($this->extension);
 
         if ($this->seed) {
-            $console->call('db:seed', $options);
+            $console->call('addon:seed', $options);
         }
 
         $this->extension->fire('installed', ['extension' => $this->extension]);

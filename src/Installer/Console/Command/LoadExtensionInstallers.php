@@ -45,7 +45,8 @@ class LoadExtensionInstallers
     public function handle(ExtensionCollection $extensions, Application $application)
     {
         /* @var Extension $extension */
-        foreach ($extensions as $extension) {
+        foreach ($extensions->instances() as $extension) {
+
             $this->installers->push(
                 new Installer(
                     trans('streams::installer.installing', ['installing' => trans($extension->getName())]),
@@ -54,7 +55,7 @@ class LoadExtensionInstallers
                             'addon:install',
                             [
                                 'addon' => $extension->getNamespace(),
-                                '--app'     => $application->getReference(),
+                                //'--app'     => $application->getReference(),
                             ]
                         );
                     }

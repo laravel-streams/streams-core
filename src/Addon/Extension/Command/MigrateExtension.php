@@ -53,11 +53,11 @@ class MigrateExtension
         $this->extension->fire('migrating', ['extension' => $this->extension]);
 
         $options = [
-            '--addon' => $this->extension->getNamespace(),
-            '--force' => true,
+            'addon' => $this->extension->getNamespace(),
+            //'--force' => true,
         ];
 
-        $console->call('migrate', $options);
+        $console->call('addon:migrate', $options);
 
         if ($this->seed) {
             $console->call('db:seed', $options);

@@ -43,7 +43,8 @@ class LoadModuleSeeders
     public function handle(ModuleCollection $modules)
     {
         /* @var Module $module */
-        foreach ($modules as $module) {
+        foreach ($modules->instances() as $module) {
+
             if ($module->getNamespace() == 'anomaly.module.installer') {
                 continue;
             }

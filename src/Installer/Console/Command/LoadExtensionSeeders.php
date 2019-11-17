@@ -43,7 +43,8 @@ class LoadExtensionSeeders
     public function handle(ExtensionCollection $extensions)
     {
         /* @var Extension $extension */
-        foreach ($extensions as $extension) {
+        foreach ($extensions->instances() as $extension) {
+
             $this->installers->push(
                 new Installer(
                     trans('streams::installer.seeding', ['seeding' => trans($extension->getName())]),

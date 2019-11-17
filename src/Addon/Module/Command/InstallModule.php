@@ -57,16 +57,16 @@ class InstallModule
         $this->module->fire('installing', ['module' => $this->module]);
 
         $options = [
-            '--addon' => $this->module->getNamespace(),
-            '--force' => true,
+            'addon' => $this->module->getNamespace(),
+            //'--force' => true,
         ];
 
-        $console->call('migrate', $options);
+        $console->call('addon:migrate', $options);
 
         $modules->install($this->module);
 
         if ($this->seed) {
-            $console->call('db:seed', $options);
+            $console->call('addon:seed', $options);
         }
 
         $this->module->fire('installed', ['module' => $this->module]);

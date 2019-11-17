@@ -45,7 +45,8 @@ class LoadModuleInstallers
     public function handle(ModuleCollection $modules, Application $application)
     {
         /* @var Module $module */
-        foreach ($modules as $module) {
+        foreach ($modules->instances() as $module) {
+
             if ($module->getNamespace() == 'anomaly.module.installer') {
                 continue;
             }
@@ -58,7 +59,7 @@ class LoadModuleInstallers
                             'addon:install',
                             [
                                 'addon' => $module->getNamespace(),
-                                '--app'  => $application->getReference(),
+                                //'--app'  => $application->getReference(),
                             ]
                         );
                     }

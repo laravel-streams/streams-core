@@ -232,7 +232,7 @@ class AddonCollection extends Collection
         $addons = [];
 
         /* @var Addon $item */
-        foreach ($this->items as $item) {
+        foreach ($this->instances() as $item) {
             if ($item->hasConfig($key)) {
                 $addons[] = $item;
             }
@@ -253,7 +253,7 @@ class AddonCollection extends Collection
         $addons = [];
 
         /* @var Addon $item */
-        foreach ($this->items as $item) {
+        foreach ($this->instances() as $item) {
             if ($item->hasAnyConfig($keys)) {
                 $addons[] = $item;
             }
