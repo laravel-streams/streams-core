@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Theme;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Theme;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 
@@ -15,41 +17,44 @@ class ThemeCollection extends AddonCollection
     /**
      * Return the active theme.
      *
+     * @param string $type
+     * @param bool $instance
      * @return Theme
      */
-    public function active($type = null)
+    public function active($type = null, $instance = true)
     {
         if (!$type) {
-            return $this->current();
+            return $this->current($instance);
         }
 
-        $admin = $type == 'standard' ? false : true;
+        return $this->map(function ($addon, $namespace) use ($type, $instance) {
 
-        /* @var Theme $item */
-        foreach ($this->items as $item) {
-            if ($item->isActive() && $item->isAdmin() === $admin) {
-                return $item;
+            if ($namespace !== config("streams::themes.{$type}")) {
+                return null;
             }
-        }
 
-        return null;
+            return $instance ? app($namespace) : $addon;
+        })->filter()->first();
     }
 
     /**
      * Return the current theme.
      *
+     * @param bool $instance
      * @return null|Theme
      */
-    public function current()
+    public function current($instance = true)
     {
-        /* @var Theme $item */
-        foreach ($this->items as $item) {
-            if ($item->isCurrent()) {
-                return $item;
-            }
-        }
+        $current = config('streams::themes.current');
 
-        return null;
+        return $this->map(function ($addon, $namespace) use ($current, $instance) {
+
+            if ($namespace !== $current) {
+                return null;
+            }
+
+            return $instance ? app($namespace) : $addon;
+        })->filter()->first();
     }
 
     /**

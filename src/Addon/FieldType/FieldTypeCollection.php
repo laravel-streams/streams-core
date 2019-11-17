@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\FieldType;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 
@@ -28,25 +30,23 @@ class FieldTypeCollection extends AddonCollection
             return null;
         }
 
-        return clone($type);
+        return clone ($type);
     }
 
     /**
      * Find an addon by it's slug.
      *
-     * @param  $slug
+     * @param  string $slug
+     * @param bool $instance
      *
      * @return null|FieldType
      */
-    public function findBySlug($slug)
+    public function findBySlug(string $slug, $instance = true)
     {
-        /* @var FieldType $item */
-        foreach ($this->items as $item) {
-            if ($item->getSlug() == $slug) {
-                return clone($item);
-            }
+        if (!$addon = parent::findBySlug($slug, $instance)) {
+            return null;
         }
 
-        return null;
+        return is_array($addon) ? $addon : clone ($addon);
     }
 }

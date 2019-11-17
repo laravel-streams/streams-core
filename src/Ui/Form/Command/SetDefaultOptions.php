@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
@@ -55,7 +57,7 @@ class SetDefaultOptions
         }
 
         if (!$this->builder->getFormOption('form_view') && $theme && !$theme->isAdmin()) {
-            $this->builder->setFormOption('form_view', 'streams::form/standard');
+            $this->builder->setFormOption('form_view', 'streams::form/form');
         }
 
         if (!$this->builder->getFormOption('form_view')) {
@@ -79,9 +81,7 @@ class SetDefaultOptions
          */
         if (
             $this->builder->getFormOption('permission') === null &&
-            $request->segment(1) == 'admin' &&
-            ($module = $modules->active()) &&
-            ($stream = $this->builder->getFormStream())
+            $request->segment(1) == 'admin' && ($module = $modules->active()) && ($stream = $this->builder->getFormStream())
         ) {
             $this->builder->setFormOption(
                 'permission',

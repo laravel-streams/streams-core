@@ -717,6 +717,10 @@ class StreamsServiceProvider extends ServiceProvider
             $assets->addPath('theme', $path . '/resources');
             $image->addPath('theme', $path . '/resources');
         }
+
+        config([
+            'streams::themes.current' => IS_ADMIN ? $admin : $default,
+        ]);
     }
 
     /**

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
@@ -57,7 +59,7 @@ class ShortcutHandler
         $builder->setShortcuts([]);
 
         /* @var Module $module */
-        foreach ($this->modules as $module) {
+        foreach ($this->modules->instances() as $module) {
             $shortcuts = $module->getShortcuts();
 
             if ($shortcuts && is_array($shortcuts)) {

@@ -116,7 +116,7 @@ class ModuleCollection extends AddonCollection
     public function active()
     {
         /* @var Module $item */
-        foreach ($this->items as $item) {
+        foreach ($this->instances() as $item) {
             if ($item->isActive()) {
                 return $item;
             }

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\View;
+<?php
+
+namespace Anomaly\Streams\Platform\View;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Module\Module;
@@ -108,7 +110,7 @@ class ViewComposer
         $this->overrides   = $overrides;
         $this->application = $application;
 
-        $area = $request->segment(1) == 'admin' ? 'admin' : 'standard';
+        $area = $request->segment(1) == 'admin' ? 'admin' : 'default';
 
         $this->theme  = $this->addons->themes->active($area);
         $this->module = $this->addons->modules->active();
