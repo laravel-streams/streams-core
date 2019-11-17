@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform;
 
+use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\Redirector;
@@ -119,12 +120,6 @@ class StreamsServiceProvider extends ServiceProvider
 
         'Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection' => 'Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection',
 
-        'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection'         => 'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection',
-        'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection'       => 'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection',
-        'Anomaly\Streams\Platform\Addon\Module\ModuleCollection'       => 'Anomaly\Streams\Platform\Addon\Module\ModuleCollection',
-        'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection' => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection',
-        'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection' => 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
-
         'Anomaly\Streams\Platform\Asset\Asset'      => 'Anomaly\Streams\Platform\Asset\Asset',
         'Anomaly\Streams\Platform\Asset\AssetPaths' => 'Anomaly\Streams\Platform\Asset\AssetPaths',
 
@@ -137,6 +132,12 @@ class StreamsServiceProvider extends ServiceProvider
         //'Anomaly\Streams\Platform\Support\Translator'                                        => 'Anomaly\Streams\Platform\Support\Translator',
         //'Anomaly\Streams\Platform\Asset\AssetParser'                                         => 'Anomaly\Streams\Platform\Asset\AssetParser',
         //'Anomaly\Streams\Platform\Asset\AssetFilters'                                        => 'Anomaly\Streams\Platform\Asset\AssetFilters',
+
+        'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection'         => 'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection',
+        'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection'       => 'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection',
+        'Anomaly\Streams\Platform\Addon\Module\ModuleCollection'       => 'Anomaly\Streams\Platform\Addon\Module\ModuleCollection',
+        'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection' => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection',
+        'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection' => 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
 
         'Anomaly\Streams\Platform\Image\Image'       => 'Anomaly\Streams\Platform\Image\Image',
         'Anomaly\Streams\Platform\Image\ImagePaths'  => 'Anomaly\Streams\Platform\Image\ImagePaths',
@@ -169,6 +170,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         // Setup and preparing utilities.
         $this->loadStreamsConfiguration();
+        $this->registerAddonCollections();
         $this->configureFileCacheStore();
         $this->autoloadEntryModels();
         $this->routeAutomatically();
@@ -437,6 +439,34 @@ class StreamsServiceProvider extends ServiceProvider
                 'database.connections.core' => config('database.connections.' . config('database.default')),
             ]
         );
+    }
+
+    /**
+     * Register addon collections.
+     */
+    protected function registerAddonCollections()
+    {
+        $this->app->singleton(AddonCollection::class, function ($app) {
+
+            $lock = json_decode(file_get_contents($path = base_path('composer.lock')), true);
+
+            $addons = array_filter($lock['packages'], function (array $package) {
+                return array_get($package, 'type') == 'streams-addon';
+            });
+
+            $addons = array_combine(array_map(function ($addon) {
+
+                [$vendor, $addon, $type] = preg_split("/(\/|-)/", $addon['name']);
+
+                return "{$vendor}.{$type}.{$addon}";
+            }, $addons), $addons);
+
+            ksort($addons);
+
+            return new AddonCollection($addons);
+        });
+
+        app(AddonCollection::class)->disperse();
     }
 
     /**

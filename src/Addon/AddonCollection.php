@@ -2,8 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Extension\Extension;
-use Anomaly\Streams\Platform\Addon\Module\Module;
 use Illuminate\Support\Collection;
 
 /**
@@ -17,23 +15,6 @@ class AddonCollection extends Collection
 {
 
     /**
-     * Create a new AddonCollection instance.
-     *
-     * @param array $items
-     */
-    public function __construct($items = [])
-    {
-        /* @var Addon $item */
-        foreach ($items as $key => $item) {
-            if ($item instanceof Addon) {
-                $key = $item->getNamespace();
-            }
-
-            $this->items[$key] = $item;
-        }
-    }
-
-    /**
      * Return all addon namespaces.
      *
      * @param  null $key
@@ -41,15 +22,11 @@ class AddonCollection extends Collection
      */
     public function namespaces($key = null)
     {
-        return array_values(
-            $this->map(
-                function ($addon) use ($key) {
-
-                    /* @var Addon $addon */
-                    return $addon->getNamespace($key);
-                }
-            )->all()
-        );
+        return $this->map(
+            function ($item) use ($key) {
+                return $item . ($key ? "::{$key}" : null);
+            }
+        )->all();
     }
 
     /**
@@ -170,23 +147,19 @@ class AddonCollection extends Collection
     /**
      * Disperse addons to their
      * respective collections.
+     * 
+     * @return $this;
      */
     public function disperse()
     {
-        foreach (config('streams::addons.types') as $type) {
+        $this->each(function ($addon, $namespace) {
 
-            /* @var AddonCollection $collection */
-            $collection = app("{$type}.collection");
+            [$vendor, $type, $slug] = addon_map($namespace);
 
-            /* @var Addon $addon */
-            foreach ($this->items as $addon) {
-                if ($addon->getType() !== $type) {
-                    continue;
-                }
+            app("{$type}.collection")->put($namespace, $addon);
+        });
 
-                $collection->put($addon->getNamespace(), $addon);
-            }
-        }
+        return $this;
     }
 
     /**
