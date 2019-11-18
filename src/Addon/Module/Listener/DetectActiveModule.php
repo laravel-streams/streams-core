@@ -128,6 +128,8 @@ class DetectActiveModule
 
         $this->template->set('module', $module);
 
+        $module->setActive(true);
+
         app('view')->addNamespace(
             'module',
             [
