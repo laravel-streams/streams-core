@@ -54,10 +54,9 @@ class LoadModuleSeeders
                     trans('streams::installer.seeding', ['seeding' => trans($module->getName())]),
                     function (Kernel $console) use ($module) {
                         $console->call(
-                            'db:seed',
+                            'addon:seed',
                             [
-                                '--addon' => $module->getNamespace(),
-                                '--force' => true,
+                                'addon' => $module->getNamespace(),
                             ]
                         );
                     }

@@ -55,7 +55,14 @@ class AddonSeed extends Command
         // }, $paths);
 
         //console()->call('migrate', ['--path' => implode(' ', $migrations), '--realpath' => true]);
-        console()->call('db:seed', ['--class' => get_class($addon) . 'Seeder']);
+        if (!class_exists($class = get_class($addon) . 'Seeder')) {
+
+            $this->info("Nothing do seed [{$this->argument('addon')}].");
+
+            return;
+        }
+
+        console()->call('db:seed', ['--class' => $class]);
     }
 
     /**

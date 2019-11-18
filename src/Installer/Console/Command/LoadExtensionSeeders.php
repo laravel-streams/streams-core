@@ -50,10 +50,9 @@ class LoadExtensionSeeders
                     trans('streams::installer.seeding', ['seeding' => trans($extension->getName())]),
                     function (Kernel $console) use ($extension) {
                         $console->call(
-                            'db:seed',
+                            'addon:seed',
                             [
-                                '--addon' => $extension->getNamespace(),
-                                '--force' => true,
+                                'addon' => $extension->getNamespace(),
                             ]
                         );
                     }
