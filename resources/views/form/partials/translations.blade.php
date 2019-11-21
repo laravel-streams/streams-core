@@ -1,4 +1,4 @@
-<div class="btn-group" style="display: inline-block;">
+{{-- <div class="btn-group" style="display: inline-block;">
     <a href="#" class="btn btn-xs btn-default dropdown-toggle" data-dropdown="locales" data-toggle="dropdown">
         {{ trans('streams::locale.' ~ field_type.locale ~ '.name') }}
     </a>
@@ -11,4 +11,4 @@
             </a>
         {% endfor %}
     </div>
-</div>
+</div> --}}

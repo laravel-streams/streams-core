@@ -1,12 +1,7 @@
 {{ assets("scripts.js", "streams::js/table/table.js") }}
-
-@if ($table->hasActions())
-    {{ assets("scripts.js", "streams::js/table/actions.js") }}
-@endif
-
-@if ($table->getOption('sortable'))
-    {{ assets("scripts.js", "streams::js/table/sortable.js") }}
-@endif
+{{ assets("scripts.js", "streams::js/table/actions.js") }}
+{{ assets("scripts.js", "streams::js/table/sortable.js") }}
+{{-- Combine these into single table.js --}}
 
 <div class="table__wrapper" id="{{ $table->getOption('prefix') }}table-instance">
 
@@ -16,13 +11,13 @@
 
     <div class="table__container">
         @if ($table->hasRows())
-            {{ form_open(['url' => url()->full()]) }}
-                <table {!! html_attributes($table->attributes()) !!}>
+            {!! form_open(['url' => url()->full()]) !!}
+                <table {!! html_attributes($table->attributes(['class' => 'table'])) !!}>
                     @include('streams::table/partials/header')
                     @include('streams::table/partials/body')
                     @include('streams::table/partials/footer')
                 </table>
-            {{ form_close() }}
+            {!! form_close() !!}
         @else
             {{ trans('streams::message.no_results') }}
         @endif
