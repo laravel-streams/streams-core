@@ -268,7 +268,9 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        define('IS_ADMIN', request()->segment(1) == 'admin');
+        if (!defined('IS_ADMIN')) {
+            define('IS_ADMIN', request()->segment(1) == 'admin');
+        }
 
         // Setup Utilities
         $this->setCoreConnection();
