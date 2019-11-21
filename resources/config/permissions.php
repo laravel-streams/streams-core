@@ -9,5 +9,5 @@ return [
     ],
     'developer' => [
         'access'
-    ]
+    ],
 ];
