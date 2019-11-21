@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
@@ -97,6 +99,13 @@ class ShortcutNormalizer
              */
             if (isset($shortcut['href'])) {
                 $shortcut['attributes']['href'] = array_pull($shortcut, 'href');
+            }
+
+            /*
+            * Move the target if any to the attributes.
+            */
+            if (isset($shortcut['target'])) {
+                array_set($shortcut['attributes'], 'target', array_pull($shortcut, 'target'));
             }
 
             /*

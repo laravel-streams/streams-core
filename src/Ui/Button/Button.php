@@ -266,7 +266,7 @@ class Button implements ButtonInterface
      */
     public function getAttributes()
     {
-        return $this->attributes;
+        return array_merge(['class' => $this->getClass()], $this->attributes);
     }
 
     /**
@@ -381,7 +381,7 @@ class Button implements ButtonInterface
      */
     public function getClass()
     {
-        return $this->class;
+        return $this->class . 'button -' . $this->getType();
     }
 
     /**

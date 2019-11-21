@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Contract\ShortcutInterface;
 
@@ -45,7 +47,7 @@ class Shortcut implements ShortcutInterface
      *
      * @var null|string
      */
-    protected $class = null;
+    protected $class = 'shortcut';
 
     /**
      * The highlighted flag.
@@ -171,7 +173,7 @@ class Shortcut implements ShortcutInterface
      */
     public function getClass()
     {
-        return $this->class;
+        return $this->class . ' shortcut--' . $this->getSlug();
     }
 
     /**
@@ -240,7 +242,9 @@ class Shortcut implements ShortcutInterface
      */
     public function getAttributes()
     {
-        return $this->attributes;
+        return array_merge([
+            'class' => implode(' ', [$this->getClass(), $this->getSlug() . '-shortcut'])
+        ], $this->attributes);
     }
 
     /**

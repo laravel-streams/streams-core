@@ -11,11 +11,11 @@
             </div>
         @endforeach
 
-        <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+        <button type="submit" class="button -primary">
             {{-- {{ icon(table.options.filters.filter_icon ?: 'filter') }} --}}
             {{ trans('streams::button.filter') }}
         </button>
-        <a href="{{ $filter->url() }}" class="hover:bg-gray-200 text-gray-500 font-bold py-2 px-4 rounded">
+        <a href="{{ $filter->url() }}" class="button -ghost">
             {{-- {{ icon(table.options.filters.clear_icon ? table.options.filters.clear_icon) }} --}}
             {{ trans('streams::button.clear') }}
         </a>

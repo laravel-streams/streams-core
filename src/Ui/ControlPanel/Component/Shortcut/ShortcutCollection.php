@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
+<?php
 
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
+
+use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Contract\ShortcutInterface;
-use Illuminate\Support\Collection;
 
 /**
  * Class ShortcutCollection

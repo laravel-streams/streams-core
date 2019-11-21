@@ -6,7 +6,7 @@
 @section('content')
     <div class="form__wrapper">
 
-        {!! $form->open() !!}
+        {!! $form->open(['class' => 'form']) !!}
 
         @include('streams::form/partials/controls')
         @include('streams::form/partials/heading')

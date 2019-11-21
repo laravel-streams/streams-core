@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
@@ -90,6 +92,22 @@ class ShortcutInput
     public function read(ControlPanelBuilder $builder)
     {
         $this->resolver->resolve($builder);
+
+        // Defaults
+        if (!$builder->getShortcuts()) {
+            $builder->setShortcuts([
+                'view_site' => [
+                    'href'   => '/',
+                    'target' => '_blank',
+                    'title' => trans('anomaly.theme.flow::control_panel.view_site')
+                ],
+                'logout' => [
+                    'href'  => 'admin/logout',
+                    'title' => trans('anomaly.theme.flow::control_panel.logout')
+                ],
+            ]);
+        }
+
         $this->evaluator->evaluate($builder);
         $this->normalizer->normalize($builder);
         $this->guesser->guess($builder);
