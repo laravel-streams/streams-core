@@ -6,5 +6,8 @@ return [
     ],
     'control_panel' => [
         'access'
+    ],
+    'developer' => [
+        'access'
     ]
 ];
