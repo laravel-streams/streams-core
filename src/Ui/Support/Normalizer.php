@@ -12,25 +12,46 @@ class Normalizer
 {
 
     /**
-     * Start normalization for a compoent.
+     * Start normalization for a component.
      *
      * @param array $input
-     * @param [type] $component
+     * @param string $default
+     * @param string $secondary
+     * @return array
      */
-    public static function component(array &$input, $component)
+    public static function start(array $input, $default, $secondary = null)
     {
-        foreach ($input as $key => $item) {
+        foreach ($input as $key => &$item) {
+
+            /*
+             * Skip placeholders.
+             */
+            if ($item == '*') {
+                continue;
+            }
 
             /**
              * If the item is a string then use
-             * it as the comopnent parameter.
+             * it as the default parameter.
              * 
              * This is essentially for
              * registered components.
              */
             if (is_string($item)) {
                 $item = [
-                    $component => $item,
+                    $default => $item,
+                ];
+            }
+
+            /*
+             * If the key is a string and the component
+             * is a string too then use the component as the
+             * secondary and the default as well.
+             */
+            if ($secondary && !is_numeric($key) && is_string($key) && is_string($item)) {
+                $item = [
+                    $default => $key,
+                    $secondary  => $item,
                 ];
             }
 
@@ -39,10 +60,28 @@ class Normalizer
              * is an array without a component parameter then
              * move the key into the component as that parameter.
              */
-            if (!is_integer($key) && !isset($item[$component])) {
-                $item[$component] = $key;
+            if (!is_integer($key) && !isset($item[$default])) {
+                $item[$default] = $key;
             }
         }
+
+        return $input;
+    }
+
+    /**
+     * Normalize for a slug.
+     *
+     * @param array $input
+     * @param string $slug
+     * @return array
+     */
+    public static function slug(array $input, $slug)
+    {
+        foreach ($input as $key => &$item) {
+            //
+        }
+
+        return $input;
     }
 
 
@@ -51,15 +90,18 @@ class Normalizer
      *
      * @param array $input
      * @param array $default
+     * @return array
      */
-    public static function attributes(array &$input, array $default = [])
+    public static function attributes(array $input, array $default = [])
     {
-        foreach ($input as $key => $item) {
+        foreach ($input as $key => &$item) {
 
             /**
              * Make sure default parameters exist.
              */
-            $item['attributes'] = array_merge($default, array_get($item, 'attributes', []));
+            if ($attributes = array_merge($default, array_get($item, 'attributes', []))) {
+                $item['attributes'] = $attributes;
+            }
 
             /**
              * Move the HREF if any to attributes.
@@ -96,5 +138,67 @@ class Normalizer
                 $item['attributes']['href'] = url($item['attributes']['href']);
             }
         }
+
+        return $input;
+    }
+
+    /**
+     * Normalize dropdons.
+     *
+     * @param array $input
+     * @param array $default
+     */
+    public static function dropdowns(array $input, string $component = 'item')
+    {
+
+        $input = self::start($input, $component);
+        $input = self::start($input, $component);
+
+        foreach ($input as $key => &$item) {
+            //
+        }
+
+        return $input;
+    }
+
+    /**
+     * Normalize fields.
+     *
+     * @param array $input
+     */
+    public static function fields(array $input)
+    {
+
+        $input = self::start($input, 'field');
+
+        foreach ($input as $key => &$item) {
+
+            /*
+             * If the field is a wild card marker
+             * then just continue.
+             */
+            if ($item == '*') {
+                continue;
+            }
+
+            /*
+             * If the field is an array and does not
+             * have the field parameter set then
+             * use the slug.
+             */
+            if (is_array($item) && !isset($item['field'])) {
+                $item['field'] = $key;
+            }
+
+            /*
+             * If the field is required then it must have
+             * the rule as well.
+             */
+            if (array_get($item, 'required') === true) {
+                $item['rules'] = array_unique(array_merge(array_get($item, 'rules', []), ['required']));
+            }
+        }
+
+        return $input;
     }
 }

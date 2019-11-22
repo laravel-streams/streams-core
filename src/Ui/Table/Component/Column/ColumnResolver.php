@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
 
 use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -37,6 +39,6 @@ class ColumnResolver
      */
     public function resolve(TableBuilder $builder)
     {
-        $this->resolver->resolve($builder->getColumns(), compact('builder'));
+        resolve($builder->getColumns(), compact('builder'));
     }
 }

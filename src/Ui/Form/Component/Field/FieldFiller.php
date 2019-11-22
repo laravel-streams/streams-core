@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
@@ -31,7 +33,6 @@ class FieldFiller
 
                 $builder->setFields($fields);
             }
-
             return;
         }
 

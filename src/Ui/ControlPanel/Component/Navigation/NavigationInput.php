@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
@@ -18,13 +20,6 @@ class NavigationInput
      * @var NavigationSorter
      */
     protected $sorter;
-
-    /**
-     * The navigation resolver.
-     *
-     * @var NavigationResolver
-     */
-    protected $resolver;
 
     /**
      * The navigation evaluator.
@@ -50,12 +45,10 @@ class NavigationInput
      */
     public function __construct(
         NavigationSorter $sorter,
-        NavigationResolver $resolver,
         NavigationEvaluator $evaluator,
         NavigationNormalizer $normalizer
     ) {
         $this->sorter     = $sorter;
-        $this->resolver   = $resolver;
         $this->evaluator  = $evaluator;
         $this->normalizer = $normalizer;
     }
@@ -67,7 +60,14 @@ class NavigationInput
      */
     public function read(ControlPanelBuilder $builder)
     {
-        $this->resolver->resolve($builder);
+        $navigation = $builder->getNavigation();
+
+        $navigation = resolver($navigation, compact('builder'));
+
+        $navigation = $navigation ?: $builder->getNavigation();
+
+        $builder->setNavigation($navigation);
+
         $this->evaluator->evaluate($builder);
         $this->normalizer->normalize($builder);
         $this->sorter->sort($builder);

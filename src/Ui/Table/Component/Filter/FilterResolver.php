@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -37,6 +39,6 @@ class FilterResolver
      */
     public function resolve(TableBuilder $builder)
     {
-        $this->resolver->resolve($builder->getFilters(), compact('builder'));
+        resolve($builder->getFilters(), compact('builder'));
     }
 }

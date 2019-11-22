@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
 
 use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -37,6 +39,6 @@ class ButtonResolver
      */
     public function resolve(TableBuilder $builder)
     {
-        $this->resolver->resolve($builder->getButtons(), compact('builder'));
+        resolve($builder->getButtons(), compact('builder'));
     }
 }

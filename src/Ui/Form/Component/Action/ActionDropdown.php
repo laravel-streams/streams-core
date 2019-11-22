@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
@@ -11,28 +13,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class ActionDropdown
 {
-
-    /**
-     * Flatten the dropdowns
-     *
-     * @param FormBuilder $builder
-     */
-    public function flatten(FormBuilder $builder)
-    {
-        $actions = $builder->getActions();
-
-        foreach ($actions as $key => &$action) {
-            if (isset($action['dropdown'])) {
-                foreach (array_pull($action, 'dropdown') as $dropdown) {
-                    $dropdown['parent'] = $action['slug'];
-
-                    $actions[] = $dropdown;
-                }
-            }
-        }
-
-        $builder->setActions($actions);
-    }
 
     /**
      * Build dropdown items.

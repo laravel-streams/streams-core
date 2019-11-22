@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Section;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 
 /**
  * Class SectionInput
@@ -15,51 +16,29 @@ class SectionInput
 {
 
     /**
-     * The resolver utility.
-     *
-     * @var SectionResolver
-     */
-    protected $resolver;
-
-    /**
-     * The section evaluator.
-     *
-     * @var SectionEvaluator
-     */
-    protected $evaluator;
-
-    /**
-     * The section normalizer.
-     *
-     * @var SectionNormalizer
-     */
-    protected $normalizer;
-
-    /**
-     * Create a new SectionInput instance.
-     *
-     * @param SectionResolver   $resolver
-     * @param SectionEvaluator  $evaluator
-     * @param SectionNormalizer $normalizer
-     */
-    public function __construct(SectionResolver $resolver, SectionEvaluator $evaluator, SectionNormalizer $normalizer)
-    {
-        $this->resolver   = $resolver;
-        $this->evaluator  = $evaluator;
-        $this->normalizer = $normalizer;
-    }
-
-    /**
      * Read the form section input.
      *
      * @param FormBuilder $builder
      */
     public function read(FormBuilder $builder)
     {
-        $this->resolver->resolve($builder);
-        $this->evaluator->evaluate($builder);
-        $this->normalizer->normalize($builder);
+        $sections = $builder->getSections();
+        $entry = $builder->getFormEntry();
 
-        $builder->setSections(translate($builder->getSections()));
+        /**
+         * Resolve & Evaluate
+         */
+        $sections = resolver($sections, compact('builder', 'entry'));
+
+        $sections = $sections ?: $builder->getButtons();
+
+        $sections = evaluate($sections, compact('builder', 'entry'));
+
+        $sections = Normalizer::start($sections, 'view');
+        $sections = Normalizer::attributes($sections);
+
+        $sections = translate($sections);
+
+        $builder->setSections($sections);
     }
 }

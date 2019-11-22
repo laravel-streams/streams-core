@@ -36,13 +36,6 @@ class ActionInput
     protected $dropdown;
 
     /**
-     * The resolver utility.
-     *
-     * @var ActionResolver
-     */
-    protected $resolver;
-
-    /**
      * The action predictor.
      *
      * @var ActionPredictor
@@ -77,7 +70,6 @@ class ActionInput
      * @param ActionLookup     $lookup
      * @param ActionGuesser    $guesser
      * @param ActionDropdown   $dropdown
-     * @param ActionResolver   $resolver
      * @param ActionPredictor  $predictor
      * @param ActionEvaluator  $evaluator
      * @param ActionNormalizer $normalizer
@@ -87,7 +79,6 @@ class ActionInput
         ActionLookup $lookup,
         ActionGuesser $guesser,
         ActionDropdown $dropdown,
-        ActionResolver $resolver,
         ActionPredictor $predictor,
         ActionEvaluator $evaluator,
         ActionNormalizer $normalizer
@@ -96,7 +87,6 @@ class ActionInput
         $this->lookup     = $lookup;
         $this->guesser    = $guesser;
         $this->dropdown   = $dropdown;
-        $this->resolver   = $resolver;
         $this->predictor  = $predictor;
         $this->evaluator  = $evaluator;
         $this->normalizer = $normalizer;
@@ -110,7 +100,12 @@ class ActionInput
      */
     public function read(TableBuilder $builder)
     {
-        $this->resolver->resolve($builder);
+        $actions = $builder->getActions();
+
+        $actions = resolver($actions, compact('builder'));
+
+        $builder->setActions($actions);
+
         $this->evaluator->evaluate($builder);
         $this->predictor->predict($builder);
         $this->normalizer->normalize($builder);
@@ -119,6 +114,8 @@ class ActionInput
         $this->guesser->guess($builder);
         $this->parser->parse($builder);
         $this->dropdown->build($builder);
+
+        $actions = translate($actions);
 
         $builder->setActions(translate($builder->getActions()));
     }

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
 use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -37,6 +39,6 @@ class ViewResolver
      */
     public function resolve(TableBuilder $builder)
     {
-        $this->resolver->resolve($builder->getViews(), compact('builder'));
+        resolve($builder->getViews(), compact('builder'));
     }
 }

@@ -44,13 +44,6 @@ class ShortcutInput
     protected $evaluator;
 
     /**
-     * The resolver utility.
-     *
-     * @var ShortcutResolver
-     */
-    protected $resolver;
-
-    /**
      * The shortcut normalizer.
      *
      * @var ShortcutNormalizer
@@ -63,7 +56,6 @@ class ShortcutInput
      * @param ShortcutParser     $parser
      * @param ShortcutGuesser    $guesser
      * @param ModuleCollection  $modules
-     * @param ShortcutResolver   $resolver
      * @param ShortcutEvaluator  $evaluator
      * @param ShortcutNormalizer $normalizer
      */
@@ -71,14 +63,12 @@ class ShortcutInput
         ShortcutParser $parser,
         ShortcutGuesser $guesser,
         ModuleCollection $modules,
-        ShortcutResolver $resolver,
         ShortcutEvaluator $evaluator,
         ShortcutNormalizer $normalizer
     ) {
         $this->parser     = $parser;
         $this->guesser    = $guesser;
         $this->modules    = $modules;
-        $this->resolver   = $resolver;
         $this->evaluator  = $evaluator;
         $this->normalizer = $normalizer;
     }
@@ -91,7 +81,13 @@ class ShortcutInput
      */
     public function read(ControlPanelBuilder $builder)
     {
-        $this->resolver->resolve($builder);
+        $shortcuts = $builder->getShortcuts();
+
+        $shortcuts = resolver($shortcuts, compact('builder'));
+
+        $shortcuts = $shortcuts ?: $builder->getShortcuts();
+
+        $builder->setShortcuts($shortcuts);
 
         // Defaults
         if (!$builder->getShortcuts()) {

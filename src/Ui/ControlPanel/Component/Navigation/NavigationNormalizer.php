@@ -1,6 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 
 /**
  * Class NavigationNormalizer
@@ -20,7 +23,7 @@ class NavigationNormalizer
     public function normalize(ControlPanelBuilder $builder)
     {
         $links = $builder->getNavigation();
-
+        
         foreach ($links as $path => &$link) {
 
             /*

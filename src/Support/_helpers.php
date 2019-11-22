@@ -725,3 +725,34 @@ if (!function_exists('translate')) {
         return $target;
     }
 }
+
+if (!function_exists('resolver')) {
+
+    /**
+     * Resolve the target.
+     *
+     * @param $target
+     * @param array $arguments
+     * @param array $options
+     * @return mixed
+     */
+    function resolver($target, array $arguments = [], array $options = [])
+    {
+        return \Anomaly\Streams\Platform\Support\Resolver::resolve($target, $arguments, $options);
+    }
+}
+
+if (!function_exists('evaluate')) {
+
+    /**
+     * Resolve the target.
+     *
+     * @param $target
+     * @param array $arguments
+     * @return mixed
+     */
+    function evaluate($target, array $arguments = [])
+    {
+        return \Anomaly\Streams\Platform\Support\Evaluator::evaluate($target, $arguments);
+    }
+}

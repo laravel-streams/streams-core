@@ -44,13 +44,6 @@ class SectionInput
     protected $evaluator;
 
     /**
-     * The resolver utility.
-     *
-     * @var SectionResolver
-     */
-    protected $resolver;
-
-    /**
      * The section normalizer.
      *
      * @var SectionNormalizer
@@ -63,7 +56,6 @@ class SectionInput
      * @param SectionParser     $parser
      * @param SectionGuesser    $guesser
      * @param ModuleCollection  $modules
-     * @param SectionResolver   $resolver
      * @param SectionEvaluator  $evaluator
      * @param SectionNormalizer $normalizer
      */
@@ -71,14 +63,12 @@ class SectionInput
         SectionParser $parser,
         SectionGuesser $guesser,
         ModuleCollection $modules,
-        SectionResolver $resolver,
         SectionEvaluator $evaluator,
         SectionNormalizer $normalizer
     ) {
         $this->parser     = $parser;
         $this->guesser    = $guesser;
         $this->modules    = $modules;
-        $this->resolver   = $resolver;
         $this->evaluator  = $evaluator;
         $this->normalizer = $normalizer;
     }
@@ -91,7 +81,14 @@ class SectionInput
      */
     public function read(ControlPanelBuilder $builder)
     {
-        $this->resolver->resolve($builder);
+        $sections = $builder->getSections();
+
+        $sections = resolver($sections, compact('builder'));
+
+        $sections = $sections ?: $builder->getSections();
+
+        $builder->setSections($sections);
+
         $this->evaluator->evaluate($builder);
         $this->normalizer->normalize($builder);
         $this->guesser->guess($builder);

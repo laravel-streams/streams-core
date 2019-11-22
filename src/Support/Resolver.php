@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 /**
  * Class Resolver
@@ -23,16 +25,23 @@ class Resolver
      * @param array $options
      * @return mixed
      */
-    public function resolve($target, array $arguments = [], array $options = [])
+    public static function resolve($target, array $arguments = [], array $options = [])
     {
         $method = array_get($options, 'method', 'handle');
 
-        if ((is_string($target) && str_contains($target, '@')) || is_callable($target)) {
-            $target = app()->call($target, $arguments);
-        } elseif (is_string($target) && class_exists($target) && method_exists($target, $method)) {
-            $target = app()->call($target . '@' . $method, $arguments);
+        if (
+            (is_string($target) && str_contains($target, '@'))
+            || is_callable($target)
+        ) {
+            return app()->call($target, $arguments);
+        } elseif (
+            is_string($target)
+            && class_exists($target)
+            && method_exists($target, $method)
+        ) {
+            return app()->call($target . '@' . $method, $arguments);
         }
 
-        return $target;
+        return null;
     }
 }

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
@@ -34,13 +36,6 @@ class ButtonInput
     protected $guesser;
 
     /**
-     * The resolver utility.
-     *
-     * @var ButtonResolver
-     */
-    protected $resolver;
-
-    /**
      * The button normalizer.
      *
      * @var ButtonNormalizer
@@ -53,20 +48,17 @@ class ButtonInput
      * @param ButtonParser     $parser
      * @param ButtonLookup     $lookup
      * @param ButtonGuesser    $guesser
-     * @param ButtonResolver   $resolver
      * @param ButtonNormalizer $normalizer
      */
     public function __construct(
         ButtonParser $parser,
         ButtonLookup $lookup,
         ButtonGuesser $guesser,
-        ButtonResolver $resolver,
         ButtonNormalizer $normalizer
     ) {
         $this->parser     = $parser;
         $this->lookup     = $lookup;
         $this->guesser    = $guesser;
-        $this->resolver   = $resolver;
         $this->normalizer = $normalizer;
     }
 
@@ -78,7 +70,14 @@ class ButtonInput
      */
     public function read(ControlPanelBuilder $builder)
     {
-        $this->resolver->resolve($builder);
+        $buttons = $builder->getButtons();
+
+        $buttons = resolver($buttons, compact('builder'));
+
+        $buttons = $buttons ?: $builder->getButtons();
+
+        $builder->setButtons($buttons);
+
         $this->normalizer->normalize($builder);
         $this->lookup->merge($builder);
         $this->guesser->guess($builder);

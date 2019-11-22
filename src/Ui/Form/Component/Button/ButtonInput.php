@@ -1,6 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 
 /**
  * Class ButtonInput
@@ -11,13 +14,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class ButtonInput
 {
-
-    /**
-     * The button parser.
-     *
-     * @var ButtonParser
-     */
-    protected $parser;
 
     /**
      * The button lookup.
@@ -41,13 +37,6 @@ class ButtonInput
     protected $dropdown;
 
     /**
-     * The button defaults.
-     *
-     * @var ButtonDefaults
-     */
-    protected $defaults;
-
-    /**
      * The resolver utility.
      *
      * @var ButtonResolver
@@ -55,49 +44,23 @@ class ButtonInput
     protected $resolver;
 
     /**
-     * The button evaluator.
-     *
-     * @var ButtonEvaluator
-     */
-    protected $evaluator;
-
-    /**
-     * The button normalizer.
-     *
-     * @var ButtonNormalizer
-     */
-    protected $normalizer;
-
-    /**
      * Create a new ButtonInput instance.
      *
-     * @param ButtonParser     $parser
      * @param ButtonLookup     $lookup
      * @param ButtonGuesser    $guesser
-     * @param ButtonDefaults   $defaults
      * @param ButtonDropdown   $dropdown
      * @param ButtonResolver   $resolver
-     * @param ButtonEvaluator  $evaluator
-     * @param ButtonNormalizer $normalizer
      */
     public function __construct(
-        ButtonParser $parser,
         ButtonLookup $lookup,
         ButtonGuesser $guesser,
-        ButtonDefaults $defaults,
         ButtonDropdown $dropdown,
-        ButtonResolver $resolver,
-        ButtonEvaluator $evaluator,
-        ButtonNormalizer $normalizer
+        ButtonResolver $resolver
     ) {
-        $this->parser     = $parser;
         $this->lookup     = $lookup;
         $this->guesser    = $guesser;
-        $this->defaults   = $defaults;
         $this->dropdown   = $dropdown;
         $this->resolver   = $resolver;
-        $this->evaluator  = $evaluator;
-        $this->normalizer = $normalizer;
     }
 
     /**
@@ -107,14 +70,43 @@ class ButtonInput
      */
     public function read(FormBuilder $builder)
     {
-        $this->resolver->resolve($builder);
-        $this->evaluator->evaluate($builder);
-        $this->defaults->defaults($builder);
-        $this->normalizer->normalize($builder);
+        $buttons = $builder->getButtons();
+        $entry = $builder->getFormEntry();
+
+        /**
+         * Resolve & Evaluate
+         */
+        $buttons = resolver($buttons, compact('builder', 'entry'));
+
+        $buttons = $buttons ?: $builder->getButtons();
+
+        $buttons = evaluate($buttons, compact('builder', 'entry'));
+
+        /**
+         * Default
+         */
+        if ($buttons === [] && request()->segment(1) == 'admin') {
+            $buttons[] = 'cancel';
+        }
+
+        /**
+         * Normalize
+         */
+        $buttons = Normalizer::start($buttons, 'button');
+        $buttons = Normalizer::attributes($buttons);
+        $buttons = Normalizer::dropdowns($buttons);
+
+        $builder->setButtons($buttons);
+
+        // UN-CONVERTED BELOW
+        // -------------------------------
         $this->dropdown->flatten($builder);
         $this->lookup->merge($builder);
         $this->guesser->guess($builder);
-        $this->parser->parse($builder);
+
+        $builder->setButtons(parse($builder->getButtons(), compact('entry')));
+
         $this->dropdown->build($builder);
+        // -------------------------------
     }
 }

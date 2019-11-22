@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 /**
  * Class Evaluator
@@ -17,7 +19,7 @@ class Evaluator
      * @param array $arguments
      * @return mixed
      */
-    public function evaluate($target, array $arguments = [])
+    public static function evaluate($target, array $arguments = [])
     {
         /*
          * If the target is an instance of Closure then
@@ -33,7 +35,7 @@ class Evaluator
          */
         if (is_array($target)) {
             foreach ($target as &$value) {
-                $value = $this->evaluate($value, $arguments);
+                $value = self::evaluate($value, $arguments);
             }
         }
 
@@ -41,7 +43,7 @@ class Evaluator
          * if the target is a string and is in a traversable
          * format then traverse the target using the arguments.
          */
-        if (is_string($target) && !isset($arguments[$target]) && $this->isTraversable($target)) {
+        if (is_string($target) && !isset($arguments[$target]) && self::isTraversable($target)) {
             $target = data($arguments, $target, $target);
         }
 
@@ -54,7 +56,7 @@ class Evaluator
      * @param  $target
      * @return bool
      */
-    protected function isTraversable($target)
+    public static function isTraversable($target)
     {
         return (!preg_match('/[^a-z._]/', $target));
     }

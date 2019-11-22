@@ -50,5 +50,7 @@ class NavigationHandler
         );
 
         event(new GatherNavigation($builder));
+
+        return $builder->getNavigation();
     }
 }

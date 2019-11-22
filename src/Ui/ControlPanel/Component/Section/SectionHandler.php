@@ -85,5 +85,7 @@ class SectionHandler
         }
 
         event(new GatherSections($builder));
+
+        return $builder->getSections();
     }
 }
