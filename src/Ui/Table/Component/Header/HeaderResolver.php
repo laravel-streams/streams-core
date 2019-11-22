@@ -39,6 +39,6 @@ class HeaderResolver
      */
     public function resolve(TableBuilder $builder)
     {
-        resolve($builder->getColumns(), compact('builder'));
+        resolver($builder->getColumns(), compact('builder'));
     }
 }

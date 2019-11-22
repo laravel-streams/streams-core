@@ -39,6 +39,6 @@ class ViewResolver
      */
     public function resolve(TableBuilder $builder)
     {
-        resolve($builder->getViews(), compact('builder'));
+        resolver($builder->getViews(), compact('builder'));
     }
 }

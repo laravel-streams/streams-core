@@ -39,6 +39,6 @@ class ButtonResolver
      */
     public function resolve(GridBuilder $builder)
     {
-        resolve($builder->getButtons(), compact('builder'));
+        resolver($builder->getButtons(), compact('builder'));
     }
 }

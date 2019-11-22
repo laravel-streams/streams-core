@@ -39,6 +39,6 @@ class FilterResolver
      */
     public function resolve(TableBuilder $builder)
     {
-        resolve($builder->getFilters(), compact('builder'));
+        resolver($builder->getFilters(), compact('builder'));
     }
 }

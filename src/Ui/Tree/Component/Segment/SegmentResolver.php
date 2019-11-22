@@ -37,6 +37,6 @@ class SegmentResolver
      */
     public function resolve(TreeBuilder $builder)
     {
-        resolve($builder->getSegments(), compact('builder'));
+        resolver($builder->getSegments(), compact('builder'));
     }
 }
