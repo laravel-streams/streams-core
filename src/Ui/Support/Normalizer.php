@@ -31,15 +31,26 @@ class Normalizer
             }
 
             /**
-             * If the item is a string then use
-             * it as the default parameter.
-             * 
-             * This is essentially for
-             * registered components.
+             * If the key is numeric and the item is
+             * a string then treat the item as both the
+             * default and the secondary.
              */
-            if (is_string($item)) {
+            if ($secondary && is_numeric($key) && is_string($item)) {
                 $item = [
-                    $default => $item,
+                    $secondary => $item,
+                    $default   => $item,
+                ];
+            }
+
+            /**
+             * If the key is NOT numeric and the item is a
+             * string then use the key as the secondary and the
+             * item as the default.
+             */
+            if ($secondary && !is_numeric($key) && is_string($item)) {
+                $item = [
+                    $secondary => $key,
+                    $default   => $item,
                 ];
             }
 
@@ -52,6 +63,37 @@ class Normalizer
                 $item = [
                     $default => $key,
                     $secondary  => $item,
+                ];
+            }
+
+            /**
+             * If the key is not numeric and the item is an
+             * array without a secondary then use the key for
+             * the secondary by default.
+             */
+            if ($secondary && is_array($item) && !isset($item[$secondary]) && !is_numeric($key)) {
+                $item[$secondary] = $key;
+            }
+
+            /**
+             * If the key is not numeric and the item is an
+             * array without a default then use the key for
+             * the defualt by default.
+             */
+            if (is_array($item) && !isset($item[$default]) && !is_numeric($key)) {
+                $item[$default] = $key;
+            }
+
+            /**
+             * If the item is a string then use
+             * it as the default parameter.
+             * 
+             * This is essentially for
+             * registered components.
+             */
+            if (is_string($item)) {
+                $item = [
+                    $default => $item,
                 ];
             }
 
@@ -111,6 +153,13 @@ class Normalizer
             }
 
             /**
+             * Move the URL if any to attributes.
+             */
+            if (isset($item['url'])) {
+                array_set($item['attributes'], 'url', array_pull($item, 'url'));
+            }
+
+            /**
              * Move the target if any to attributes.
              */
             if (isset($item['target'])) {
@@ -151,11 +200,11 @@ class Normalizer
     public static function dropdowns(array $input, string $component = 'item')
     {
 
-        $input = self::start($input, $component);
-        $input = self::start($input, $component);
-
         foreach ($input as $key => &$item) {
-            //
+            if (isset($item['dropdown'])) {
+                $item['dropdown'] = self::start($item['dropdown'], $component, 'slug');
+                $item['dropdown'] = self::start($item['dropdown'], $component, 'slug');
+            }
         }
 
         return $input;

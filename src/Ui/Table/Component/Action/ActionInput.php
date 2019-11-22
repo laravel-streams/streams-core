@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
+use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -43,27 +44,6 @@ class ActionInput
     protected $predictor;
 
     /**
-     * The evaluator utility.
-     *
-     * @var ActionEvaluator
-     */
-    protected $evaluator;
-
-    /**
-     * The action normalizer.
-     *
-     * @var ActionNormalizer
-     */
-    protected $normalizer;
-
-    /**
-     * The action parser.
-     *
-     * @var ActionParser
-     */
-    private $parser;
-
-    /**
      * Create a new ActionInput instance.
      *
      * @param ActionParser     $parser
@@ -75,21 +55,15 @@ class ActionInput
      * @param ActionNormalizer $normalizer
      */
     public function __construct(
-        ActionParser $parser,
         ActionLookup $lookup,
         ActionGuesser $guesser,
         ActionDropdown $dropdown,
-        ActionPredictor $predictor,
-        ActionEvaluator $evaluator,
-        ActionNormalizer $normalizer
+        ActionPredictor $predictor
     ) {
-        $this->parser     = $parser;
         $this->lookup     = $lookup;
         $this->guesser    = $guesser;
         $this->dropdown   = $dropdown;
         $this->predictor  = $predictor;
-        $this->evaluator  = $evaluator;
-        $this->normalizer = $normalizer;
     }
 
     /**
@@ -113,14 +87,32 @@ class ActionInput
 
         $builder->setActions($actions);
 
-        $this->evaluator->evaluate($builder);
+        // ------------------------------
         $this->predictor->predict($builder);
-        $this->normalizer->normalize($builder);
+        // ------------------------------
+
+        $actions = $builder->getActions();
+        $actions = Normalizer::start($actions, 'action', 'slug');
+        $actions = Normalizer::attributes($actions);
+        $actions = Normalizer::dropdowns($actions);
+
+        $builder->setActions($actions);
+
+        // ------------------------------
         $this->dropdown->flatten($builder);
         $this->lookup->merge($builder);
         $this->guesser->guess($builder);
-        $this->parser->parse($builder);
+        // ------------------------------
+
+        $actions = $builder->getActions();
+        $actions = parse($actions);
+        $builder->setActions($actions);
+
+        // ------------------------------
         $this->dropdown->build($builder);
+        // ------------------------------
+
+        $actions = $builder->getActions();
 
         $actions = translate($actions);
 
