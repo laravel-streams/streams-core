@@ -46,13 +46,10 @@ class ActionInput
     /**
      * Create a new ActionInput instance.
      *
-     * @param ActionParser     $parser
      * @param ActionLookup     $lookup
      * @param ActionGuesser    $guesser
      * @param ActionDropdown   $dropdown
      * @param ActionPredictor  $predictor
-     * @param ActionEvaluator  $evaluator
-     * @param ActionNormalizer $normalizer
      */
     public function __construct(
         ActionLookup $lookup,
