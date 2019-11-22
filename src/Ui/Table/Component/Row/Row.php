@@ -1,9 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
+<?php
 
-use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
-use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
-use Anomaly\Streams\Platform\Ui\Table\Table;
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
+
 use Illuminate\Support\Collection;
+use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
+use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
 
 /**
  * Class Row
@@ -14,6 +17,7 @@ use Illuminate\Support\Collection;
  */
 class Row implements RowInterface
 {
+    use HasHtmlAttributes;
 
     /**
      * The row key.

@@ -1,6 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 
 /**
  * Class Section
@@ -11,6 +14,7 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionI
  */
 class Section implements SectionInterface
 {
+    use HasHtmlAttributes;
 
     /**
      * The section slug.
@@ -103,13 +107,6 @@ class Section implements SectionInterface
      * @var array
      */
     protected $buttons = [];
-
-    /**
-     * The section attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [];
 
     /**
      * The section permission.
@@ -399,7 +396,7 @@ class Section implements SectionInterface
      */
     public function isSubSection()
     {
-        return (bool)$this->getParent();
+        return (bool) $this->getParent();
     }
 
     /**
@@ -433,26 +430,6 @@ class Section implements SectionInterface
     public function setButtons($buttons)
     {
         $this->buttons = $buttons;
-    }
-
-    /**
-     * Get the attributes.
-     *
-     * @return array
-     */
-    public function getAttributes()
-    {
-        return $this->attributes;
-    }
-
-    /**
-     * Set the attributes.
-     *
-     * @param array $attributes
-     */
-    public function setAttributes(array $attributes)
-    {
-        $this->attributes = $attributes;
     }
 
     /**

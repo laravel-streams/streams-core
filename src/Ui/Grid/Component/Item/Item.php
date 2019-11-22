@@ -1,6 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Component\Item;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Component\Item;
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Anomaly\Streams\Platform\Ui\Grid\Component\Item\Contract\ItemInterface;
 
 /**
@@ -12,6 +15,8 @@ use Anomaly\Streams\Platform\Ui\Grid\Component\Item\Contract\ItemInterface;
  */
 class Item implements ItemInterface
 {
+
+    use HasHtmlAttributes;
 
     /**
      * The item ID.

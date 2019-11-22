@@ -2,10 +2,11 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
+use Closure;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\GenericFilterQuery;
-use Closure;
 
 /**
  * Class Filter
@@ -16,6 +17,7 @@ use Closure;
  */
 class Filter implements FilterInterface
 {
+    use HasHtmlAttributes;
 
     /**
      * The filter slug.

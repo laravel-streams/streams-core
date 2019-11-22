@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Presenter;
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
@@ -20,6 +21,7 @@ use Illuminate\Support\Collection;
  */
 class FieldType extends Addon
 {
+    use HasHtmlAttributes;
 
     /**
      * The disabled flag.
@@ -113,13 +115,6 @@ class FieldType extends Addon
      * @var null|string
      */
     protected $locale = null;
-
-    /**
-     * The field's attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [];
 
     /**
      * The field instructions.
@@ -815,7 +810,7 @@ class FieldType extends Addon
      *
      * @return array
      */
-    public function getAttributes()
+    public function attributes()
     {
         return array_filter(
             array_merge(
@@ -840,45 +835,6 @@ class FieldType extends Addon
                 $this->attributes
             )
         );
-    }
-
-    /**
-     * Set the attributes.
-     *
-     * @param  array $attributes
-     * @return $this
-     */
-    public function setAttributes(array $attributes)
-    {
-        $this->attributes = $attributes;
-
-        return $this;
-    }
-
-    /**
-     * Add an attribute.
-     *
-     * @param $attribute
-     * @param $value
-     * @return $this
-     */
-    public function addAttribute($attribute, $value)
-    {
-        $this->attributes[$attribute] = $value;
-
-        return $this;
-    }
-
-    /**
-     * Get a single attribute value or default.
-     *
-     * @param string $attribute
-     * @param mixed $default
-     * @return mixed
-     */
-    public function getAttribute($attribute, $default = null)
-    {
-        return array_get($this->getAttributes(), $attribute, $default);
     }
 
     /**

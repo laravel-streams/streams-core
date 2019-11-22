@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
 /*
  * Class Header
@@ -8,8 +10,10 @@
  * @author Ryan Thompson <ryan@pyrocms.com>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Header
  */
-use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
+
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
+use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
 
 /**
  * Class Header
@@ -20,6 +24,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class Header implements HeaderInterface
 {
+    use HasHtmlAttributes;
 
     /**
      * The table builder.

@@ -1,7 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Button\Button;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 
 /**
  * Class Action
@@ -12,6 +15,7 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
  */
 class Action extends Button implements ActionInterface
 {
+    use HasHtmlAttributes;
 
     /**
      * The button tag.

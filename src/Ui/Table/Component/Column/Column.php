@@ -1,5 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
+<?php
 
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
+
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
 
 /**
@@ -11,6 +14,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
  */
 class Column implements ColumnInterface
 {
+    use HasHtmlAttributes;
 
     /**
      * The column wrapper.
@@ -53,13 +57,6 @@ class Column implements ColumnInterface
      * @var null|mixed
      */
     protected $entry = null;
-
-    /**
-     * The column attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [];
 
     /**
      * Get the wrapper.
@@ -195,29 +192,6 @@ class Column implements ColumnInterface
     public function setEntry($entry)
     {
         $this->entry = $entry;
-
-        return $this;
-    }
-
-    /**
-     * Get the attributes.
-     *
-     * @return array
-     */
-    public function getAttributes()
-    {
-        return $this->attributes;
-    }
-
-    /**
-     * Get the attributes.
-     *
-     * @param array $attributes
-     * @return $this
-     */
-    public function setAttributes(array $attributes)
-    {
-        $this->attributes = $attributes;
 
         return $this;
     }

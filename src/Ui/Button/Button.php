@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Button;
 
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 
 /**
@@ -13,6 +14,8 @@ use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
  */
 class Button implements ButtonInterface
 {
+
+    use HasHtmlAttributes;
 
     /**
      * The action tag.
@@ -83,13 +86,6 @@ class Button implements ButtonInterface
      * @var bool
      */
     protected $enabled = true;
-
-    /**
-     * The button's attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [];
 
     /**
      * The button's dropdown.
@@ -255,29 +251,6 @@ class Button implements ButtonInterface
     public function setParent($parent)
     {
         $this->parent = $parent;
-
-        return $this;
-    }
-
-    /**
-     * Get the attributes.
-     *
-     * @return array
-     */
-    public function getAttributes()
-    {
-        return array_merge(['class' => $this->getClass()], $this->attributes);
-    }
-
-    /**
-     * Set the attributes.
-     *
-     * @param  array $attributes
-     * @return $this
-     */
-    public function setAttributes(array $attributes)
-    {
-        $this->attributes = $attributes;
 
         return $this;
     }

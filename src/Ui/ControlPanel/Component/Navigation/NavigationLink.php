@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
 use Anomaly\Streams\Platform\Ui\Icon\Command\GetIcon;
 use Anomaly\Streams\Platform\Ui\Icon\IconRegistry;
-use Illuminate\Foundation\Bus\DispatchesJobs;
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 
 /**
  * Class NavigationLink
@@ -16,7 +18,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class NavigationLink implements NavigationLinkInterface
 {
-    use DispatchesJobs;
+    use HasHtmlAttributes;
 
     /**
      * The links slug.
@@ -59,13 +61,6 @@ class NavigationLink implements NavigationLinkInterface
      * @var bool
      */
     protected $favorite = false;
-
-    /**
-     * The links attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [];
 
     /**
      * The links permission.
@@ -112,7 +107,7 @@ class NavigationLink implements NavigationLinkInterface
             return $this->image->make($icon)->data();
         }
 
-        return $this->dispatchNow(new GetIcon($icon));
+        return dispatch_now(new GetIcon($icon));
     }
 
     /**
@@ -249,26 +244,6 @@ class NavigationLink implements NavigationLinkInterface
     }
 
     /**
-     * Get the attributes.
-     *
-     * @return array
-     */
-    public function getAttributes()
-    {
-        return $this->attributes;
-    }
-
-    /**
-     * Set the attributes.
-     *
-     * @param array $attributes
-     */
-    public function setAttributes(array $attributes)
-    {
-        $this->attributes = $attributes;
-    }
-
-    /**
      * Get the permission.
      *
      * @return null|string
@@ -323,5 +298,18 @@ class NavigationLink implements NavigationLinkInterface
     public function getHref($path = null)
     {
         return array_get($this->attributes, 'href') . ($path ? '/' . $path : $path);
+    }
+
+    /**
+     * Return merged attributes.
+     *
+     * @param array $attributes
+     */
+    public function attributes(array $attributes = [])
+    {
+        return array_merge($this->attributes, [
+            'active' => json_encode($this->isActive()),
+            'title' => $this->getTitle(),
+        ], $attributes);
     }
 }

@@ -249,6 +249,19 @@ if (!function_exists('console')) {
     }
 }
 
+if (!function_exists('cp')) {
+
+    /**
+     * Return the control panel builder instance.
+     *
+     * @return \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder
+     */
+    function cp()
+    {
+        return decorate(app(\Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder::class)->getControlPanel());
+    }
+}
+
 if (!function_exists('form')) {
 
     /**
@@ -272,7 +285,7 @@ if (!function_exists('form')) {
             $arguments = func_get_arg(0);
         }
 
-        return dispatch_now(new GetFormCriteria($arguments));
+        return decorate(dispatch_now(new GetFormCriteria($arguments)));
     }
 }
 
@@ -298,7 +311,7 @@ if (!function_exists('table')) {
             $arguments = func_get_arg(0);
         }
 
-        return dispatch_now(new GetTableCriteria($arguments));
+        return decorate(dispatch_now(new GetTableCriteria($arguments)));
     }
 }
 

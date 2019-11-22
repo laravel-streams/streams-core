@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Contract\ShortcutInterface;
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 
 /**
  * Class Shortcut
@@ -13,6 +14,7 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Contract\Shortcu
  */
 class Shortcut implements ShortcutInterface
 {
+    use HasHtmlAttributes;
 
     /**
      * The shortcut slug.
@@ -62,13 +64,6 @@ class Shortcut implements ShortcutInterface
      * @var string
      */
     protected $context = 'danger';
-
-    /**
-     * The shortcut attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [];
 
     /**
      * The shortcut permission.
@@ -231,51 +226,6 @@ class Shortcut implements ShortcutInterface
     public function setContext($context)
     {
         $this->context = $context;
-
-        return $this;
-    }
-
-    /**
-     * Get the attributes.
-     *
-     * @return array
-     */
-    public function getAttributes()
-    {
-        return array_merge([
-            'class' => implode(' ', [$this->getClass(), $this->getSlug() . '-shortcut'])
-        ], $this->attributes);
-    }
-
-    /**
-     * Set the attributes.
-     *
-     * @param array $attributes
-     */
-    public function setAttributes(array $attributes)
-    {
-        $this->attributes = $attributes;
-    }
-
-    /**
-     * Get the permission.
-     *
-     * @return null|string
-     */
-    public function getPermission()
-    {
-        return $this->permission;
-    }
-
-    /**
-     * Set the permission.
-     *
-     * @param $permission
-     * @return $this
-     */
-    public function setPermission($permission)
-    {
-        $this->permission = $permission;
 
         return $this;
     }
