@@ -34,16 +34,6 @@ class FieldTypePresenter extends AddonPresenter
     }
 
     /**
-     * Return input attributes.
-     *
-     * @param array $attributes
-     */
-    public function attributes(array $attributes = [])
-    {
-        return array_filter(array_merge($this->object->getAttributes(), $attributes));
-    }
-
-    /**
      * Alias for label. Bootstrap
      * changed label to tag.
      *

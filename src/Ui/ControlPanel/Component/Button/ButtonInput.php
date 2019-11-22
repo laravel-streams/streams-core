@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 
 /**
  * Class ButtonInput
@@ -13,13 +14,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  */
 class ButtonInput
 {
-
-    /**
-     * The button parser.
-     *
-     * @var ButtonParser
-     */
-    protected $parser;
 
     /**
      * The button lookup.
@@ -36,30 +30,17 @@ class ButtonInput
     protected $guesser;
 
     /**
-     * The button normalizer.
-     *
-     * @var ButtonNormalizer
-     */
-    protected $normalizer;
-
-    /**
      * Create a new ButtonInput instance.
      *
-     * @param ButtonParser     $parser
      * @param ButtonLookup     $lookup
      * @param ButtonGuesser    $guesser
-     * @param ButtonNormalizer $normalizer
      */
     public function __construct(
-        ButtonParser $parser,
         ButtonLookup $lookup,
-        ButtonGuesser $guesser,
-        ButtonNormalizer $normalizer
+        ButtonGuesser $guesser
     ) {
-        $this->parser     = $parser;
         $this->lookup     = $lookup;
         $this->guesser    = $guesser;
-        $this->normalizer = $normalizer;
     }
 
     /**
@@ -72,15 +53,30 @@ class ButtonInput
     {
         $buttons = $builder->getButtons();
 
+        /**
+         * Resolve & Evaluate
+         */
         $buttons = resolver($buttons, compact('builder'));
 
         $buttons = $buttons ?: $builder->getButtons();
 
+        $buttons = evaluate($buttons, compact('builder'));
+
+        $buttons = Normalizer::start($buttons, 'button', 'text');
+
+        $buttons = Normalizer::attributes($buttons);
+
         $builder->setButtons($buttons);
 
-        $this->normalizer->normalize($builder);
+        // -----------------------------
         $this->lookup->merge($builder);
         $this->guesser->guess($builder);
-        $this->parser->parse($builder);
+        // -----------------------------
+
+        $buttons = $builder->getButtons();
+
+        $buttons = parse($buttons);
+
+        $builder->setButtons($buttons);
     }
 }
