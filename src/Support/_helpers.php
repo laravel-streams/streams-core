@@ -378,7 +378,7 @@ if (!function_exists('assets')) {
      * @param null $collection
      * @param null $asset
      * @param array $filters
-     * @return \Illuminate\Contracts\Foundation\Application|mixed
+     * @return \Anomaly\Streams\Platform\Asset\Asset
      */
     function assets($collection = null, $asset = null, array $filters = [])
     {

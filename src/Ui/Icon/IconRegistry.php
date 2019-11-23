@@ -175,12 +175,12 @@ class IconRegistry
      * Register an icon.
      *
      * @param        $icon
-     * @param  array $parameters
+     * @param  array $class
      * @return $this
      */
-    public function register($icon, array $parameters)
+    public function register($icon, array $class)
     {
-        array_set($this->icons, $icon, $parameters);
+        array_set($this->icons, $icon, $class);
 
         return $this;
     }
