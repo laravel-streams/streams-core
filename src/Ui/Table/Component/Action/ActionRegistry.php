@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Edit;
@@ -45,7 +47,7 @@ class ActionRegistry
         'reorder'      => [
             'handler'    => Reorder::class,
             'text'       => 'streams::button.reorder',
-            'icon'       => 'fa fa-sort-amount-asc',
+            'icon'       => 'fas fa-sort-amount-asc',
             'class'      => 'reorder',
             'type'       => 'success',
             'attributes' => [

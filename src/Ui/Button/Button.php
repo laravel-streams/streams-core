@@ -60,13 +60,6 @@ class Button implements ButtonInterface
     protected $type = 'default';
 
     /**
-     * The button size.
-     *
-     * @var string
-     */
-    protected $size = 'md';
-
-    /**
      * The required permission.
      *
      * @var null|string
@@ -366,29 +359,6 @@ class Button implements ButtonInterface
     public function setClass($class)
     {
         $this->class = $class;
-
-        return $this;
-    }
-
-    /**
-     * Get the button size.
-     *
-     * @return string
-     */
-    public function getSize()
-    {
-        return $this->size;
-    }
-
-    /**
-     * Set the button size.
-     *
-     * @param $size
-     * @return $this
-     */
-    public function setSize($size)
-    {
-        $this->size = $size;
 
         return $this;
     }

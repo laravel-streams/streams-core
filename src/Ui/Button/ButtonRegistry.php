@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Button;
 
 /**
  * Class ButtonRegistry
@@ -74,42 +76,42 @@ class ButtonRegistry
         ],
         'create'        => [
             'text' => 'streams::button.create',
-            'icon' => 'fa fa-asterisk',
+            'icon' => 'fas fa-asterisk',
             'type' => 'success',
         ],
         'new'           => [
             'text' => 'streams::button.new',
-            'icon' => 'fa fa-plus',
+            'icon' => 'fas fa-plus',
             'type' => 'success',
         ],
         'new_field'     => [
             'text' => 'streams::button.new_field',
-            'icon' => 'fa fa-plus',
+            'icon' => 'fas fa-plus',
             'type' => 'success',
         ],
         'add'           => [
             'text' => 'streams::button.add',
-            'icon' => 'fa fa-plus',
+            'icon' => 'fas fa-plus',
             'type' => 'success',
         ],
         'add_all'       => [
             'text' => 'streams::button.add_all',
-            'icon' => 'fa fa-plus-circle',
+            'icon' => 'fas fa-plus-circle',
             'type' => 'success',
         ],
         'add_field'     => [
             'text' => 'streams::button.add_field',
-            'icon' => 'fa fa-plus',
+            'icon' => 'fas fa-plus',
             'type' => 'success',
         ],
         'add_selected'       => [
             'text' => 'streams::button.add_selected',
-            'icon' => 'fa fa-check-circle',
+            'icon' => 'fas fa-check-circle',
             'type' => 'success',
         ],
         'assign_fields' => [
             'text' => 'streams::button.assign_fields',
-            'icon' => 'fa fa-plus',
+            'icon' => 'fas fa-plus',
             'type' => 'success',
         ],
         'send'          => [
@@ -168,7 +170,7 @@ class ButtonRegistry
         ],
         'information'   => [
             'text' => 'streams::button.info',
-            'icon' => 'fa fa-info',
+            'icon' => 'fas fa-info',
             'type' => 'info',
         ],
         'help'          => [
@@ -180,7 +182,7 @@ class ButtonRegistry
         ],
         'view'          => [
             'text' => 'streams::button.view',
-            'icon' => 'fa fa-eye',
+            'icon' => 'fas fa-eye',
             'type' => 'info',
         ],
         'export'        => [
@@ -240,7 +242,7 @@ class ButtonRegistry
             'type' => 'danger',
         ],
         'danger'        => [
-            'icon' => 'fa fa-exclamation-circle',
+            'icon' => 'fas fa-exclamation-circle',
             'type' => 'danger',
         ],
         'remove'        => [

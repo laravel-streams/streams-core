@@ -555,13 +555,13 @@ class Asset
         /**
          * Parse the content. Always parse CSS.
          */
-        // if (in_array('parse', $filters) || $hint == 'css') {
-        //     try {
-        //         $contents = (string) render($contents);
-        //     } catch (\Exception $e) {
-        //         \Log::error($e->getMessage());
-        //     }
-        // }
+        if (in_array('parse', $filters) || $hint == 'css') {
+            try {
+                $contents = (string) render($contents);
+            } catch (\Exception $e) {
+                \Log::error($e->getMessage());
+            }
+        }
 
         if (in_array('min', $filters) && $hint == 'css') {
             $compressor = new Minifier;

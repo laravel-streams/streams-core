@@ -99,7 +99,13 @@ class NavigationLink implements NavigationLinkInterface
         $this->asset = $asset;
     }
 
-    public function icon($default = 'fa fa-puzzle-piece')
+    /**
+     * Return an icon via the registry.
+     *
+     * @param string $default
+     * @return string
+     */
+    public function icon($default = 'fas fa-puzzle-piece')
     {
         $icon = $this->getIcon() ?: $default;
 

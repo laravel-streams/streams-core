@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Button\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Button\Contract;
 
 /**
  * Interface ButtonInterface
@@ -158,21 +160,6 @@ interface ButtonInterface
      * @return string
      */
     public function getType();
-
-    /**
-     * Set the button size.
-     *
-     * @param $size
-     * @return $this
-     */
-    public function setSize($size);
-
-    /**
-     * Get the button size.
-     *
-     * @return string
-     */
-    public function getSize();
 
     /**
      * Get the permission.
