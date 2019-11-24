@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Button;
 
+use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 
@@ -15,6 +16,7 @@ use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 class Button implements ButtonInterface
 {
 
+    use HasIcon;
     use HasHtmlAttributes;
 
     /**
@@ -37,13 +39,6 @@ class Button implements ButtonInterface
      * @var null|string
      */
     protected $text = null;
-
-    /**
-     * The button icon.
-     *
-     * @var null|string
-     */
-    protected $icon = null;
 
     /**
      * The button class.
@@ -313,29 +308,6 @@ class Button implements ButtonInterface
     public function setEntry($entry)
     {
         $this->entry = $entry;
-
-        return $this;
-    }
-
-    /**
-     * Get the icon.
-     *
-     * @return string
-     */
-    public function getIcon()
-    {
-        return $this->icon;
-    }
-
-    /**
-     * Set the icon.
-     *
-     * @param  string $icon
-     * @return $this
-     */
-    public function setIcon($icon)
-    {
-        $this->icon = $icon;
 
         return $this;
     }
