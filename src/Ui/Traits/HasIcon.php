@@ -10,7 +10,7 @@ use Anomaly\Streams\Platform\Ui\Icon\IconRegistry;
  * @link   http://pyrocms.com/
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-trait HasHtmlAttributes
+trait HasIcon
 {
 
     /**
@@ -36,7 +36,7 @@ trait HasHtmlAttributes
      * @param array $icon
      * @return $this
      */
-    public function setIcon(string $icon)
+    public function setIcon($icon)
     {
         $this->icon = $icon;
 
@@ -55,6 +55,6 @@ trait HasHtmlAttributes
             return null;
         }
 
-        return '<i class="' . app(IconRegistry::class)->icon($this->icon) . '"></i>';
+        return '<i class="' . app(IconRegistry::class)->get($this->icon) . '"></i>';
     }
 }

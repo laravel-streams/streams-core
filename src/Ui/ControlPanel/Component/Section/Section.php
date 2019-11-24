@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
+use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 
 /**
  * Class Section
@@ -14,6 +15,7 @@ use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
  */
 class Section implements SectionInterface
 {
+    use HasIcon;
     use HasHtmlAttributes;
 
     /**
@@ -22,13 +24,6 @@ class Section implements SectionInterface
      * @var null|string
      */
     protected $slug = null;
-
-    /**
-     * The section icon.
-     *
-     * @var null|string
-     */
-    protected $icon = null;
 
     /**
      * The section title.
@@ -148,29 +143,6 @@ class Section implements SectionInterface
     public function setSlug($slug)
     {
         $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get the icon.
-     *
-     * @return null|string
-     */
-    public function getIcon()
-    {
-        return $this->icon;
-    }
-
-    /**
-     * Set the icon.
-     *
-     * @param $icon
-     * @return $this
-     */
-    public function setIcon($icon)
-    {
-        $this->icon = $icon;
 
         return $this;
     }

@@ -12,7 +12,7 @@
 
             {{--{% if button.attributes.href %}--}}
                 {{--<a class="btn btn-{{ button.size }} btn-{{ button.type }} {{ button.disabled ? 'disabled' }} {{ button.class }}" {{ button.disabled ? 'disabled' }} {{ html_attributes(button.attributes) }}>--}}
-                    {{--{{ button.icon ? icon(button.icon)|raw }}--}}
+                    {{-- {!! $button->icon() !!} --}}
                     {{--{{ trans(button.text)|raw }}--}}
                 {{--</a>--}}
 
@@ -23,7 +23,7 @@
             {{--{% else %}--}}
                 {{--<a class="dropdown-toggle btn btn-{{ button.size }} btn-{{ button.type }} {{ button.disabled ? 'disabled' }} {{ button.class }}" {{ button.disabled ? 'disabled' }}--}}
                    {{--data-toggle="dropdown" {{ html_attributes(button.attributes) }}>--}}
-                    {{--{{ button.icon ? icon(button.icon)|raw }}--}}
+                    {{-- {!! $button->icon() !!} --}}
                     {{--{{ trans(button.text)|raw }}--}}
                 {{--</a>--}}
             {{--{% endif %}--}}
@@ -37,7 +37,7 @@
                             {{--{# Render normal buttons as an anchor #}--}}
                             {{--{% if not link.attributes.name %}--}}
                                 {{--<a class="dropdown-item" {{ html_attributes(link.attributes) }}>--}}
-                                    {{--{{ link.icon ? icon(link.icon)|raw }}--}}
+                                    {{-- {!! $link->icon() !!} --}}
                                     {{--{{ trans(link.text)|raw }}--}}
                                 {{--</a>--}}
                             {{--{% endif %}--}}
@@ -45,7 +45,7 @@
                             {{--{# Render normal buttons as a button #}--}}
                             {{--{% if link.attributes.name %}--}}
                                 {{--<button class="dropdown-item" {{ html_attributes(link.attributes) }}>--}}
-                                    {{--{{ link.icon ? icon(link.icon)|raw }}--}}
+                                    {{-- {!! $link->icon() !!} --}}
                                     {{--{{ trans(link.text)|raw }}--}}
                                 {{--</button>--}}
                             {{--{% endif %}--}}

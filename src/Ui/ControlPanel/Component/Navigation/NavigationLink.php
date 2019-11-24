@@ -4,10 +4,11 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
-use Anomaly\Streams\Platform\Ui\Icon\Command\GetIcon;
+use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 use Anomaly\Streams\Platform\Ui\Icon\IconRegistry;
+use Anomaly\Streams\Platform\Ui\Icon\Command\GetIcon;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
 
 /**
  * Class NavigationLink
@@ -18,6 +19,8 @@ use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
  */
 class NavigationLink implements NavigationLinkInterface
 {
+
+    use HasIcon;
     use HasHtmlAttributes;
 
     /**
@@ -26,13 +29,6 @@ class NavigationLink implements NavigationLinkInterface
      * @var null|string
      */
     protected $slug = null;
-
-    /**
-     * The link icon.
-     *
-     * @var null|string
-     */
-    protected $icon = null;
 
     /**
      * The links title.
@@ -135,29 +131,6 @@ class NavigationLink implements NavigationLinkInterface
     public function setSlug($slug)
     {
         $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get the icon.
-     *
-     * @return null|string
-     */
-    public function getIcon()
-    {
-        return $this->icon;
-    }
-
-    /**
-     * Set the icon.
-     *
-     * @param $icon
-     * @return $this
-     */
-    public function setIcon($icon)
-    {
-        $this->icon = $icon;
 
         return $this;
     }

@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Contract\ShortcutInterface;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
+use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 
 /**
  * Class Shortcut
@@ -14,6 +15,7 @@ use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
  */
 class Shortcut implements ShortcutInterface
 {
+    use HasIcon;
     use HasHtmlAttributes;
 
     /**
@@ -22,13 +24,6 @@ class Shortcut implements ShortcutInterface
      * @var null|string
      */
     protected $slug = null;
-
-    /**
-     * The shortcut icon.
-     *
-     * @var null|string
-     */
-    protected $icon = null;
 
     /**
      * The shortcut title.
@@ -91,29 +86,6 @@ class Shortcut implements ShortcutInterface
     public function setSlug($slug)
     {
         $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get the icon.
-     *
-     * @return null|string
-     */
-    public function getIcon()
-    {
-        return $this->icon;
-    }
-
-    /**
-     * Set the icon.
-     *
-     * @param $icon
-     * @return $this
-     */
-    public function setIcon($icon)
-    {
-        $this->icon = $icon;
 
         return $this;
     }

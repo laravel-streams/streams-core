@@ -1,7 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Closure;
 
 /**
@@ -13,7 +16,9 @@ use Closure;
  */
 class View implements ViewInterface
 {
+    use HasIcon;
     use FiresCallbacks;
+    use HasHtmlAttributes;
 
     /**
      * The view slug.
@@ -28,13 +33,6 @@ class View implements ViewInterface
      * @var null|string
      */
     protected $text = null;
-
-    /**
-     * The view icon.
-     *
-     * @var null|string
-     */
-    protected $icon = null;
 
     /**
      * The view label.
@@ -63,13 +61,6 @@ class View implements ViewInterface
      * @var string
      */
     protected $context = 'danger';
-
-    /**
-     * The attributes array.
-     *
-     * @var array
-     */
-    protected $attributes = [];
 
     /**
      * The view filters.
@@ -169,29 +160,6 @@ class View implements ViewInterface
     public function setContext($context)
     {
         $this->context = $context;
-
-        return $this;
-    }
-
-    /**
-     * Get the attributes.
-     *
-     * @return array
-     */
-    public function getAttributes()
-    {
-        return $this->attributes;
-    }
-
-    /**
-     * Set the attributes.
-     *
-     * @param  array $attributes
-     * @return $this
-     */
-    public function setAttributes(array $attributes)
-    {
-        $this->attributes = $attributes;
 
         return $this;
     }
@@ -330,29 +298,6 @@ class View implements ViewInterface
     public function setText($text)
     {
         $this->text = $text;
-
-        return $this;
-    }
-
-    /**
-     * Get the icon.
-     *
-     * @return null|string
-     */
-    public function getIcon()
-    {
-        return $this->icon;
-    }
-
-    /**
-     * Set the icon.
-     *
-     * @param $icon
-     * @return $this
-     */
-    public function setIcon($icon)
-    {
-        $this->icon = $icon;
 
         return $this;
     }
