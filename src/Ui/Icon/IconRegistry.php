@@ -100,7 +100,7 @@ class IconRegistry
         'order'                => 'glyphicons glyphicons-sort',
         'paperclip'            => 'glyphicons glyphicons-paperclip',
         'paypal'               => 'fas fa-cc-paypal',
-        'pencil'               => 'fas fa-pencil',
+        'pencil'               => 'fas fa-pencil-alt',
         'percent'              => 'fas fa-percent',
         'phone'                => 'fas fa-phone',
         'picture'              => 'glyphicons glyphicons-picture',

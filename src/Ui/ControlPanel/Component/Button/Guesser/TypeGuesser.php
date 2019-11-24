@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
@@ -57,6 +59,7 @@ class TypeGuesser
              * "new" and move the rest to the text.
              */
             if (isset($button['button']) && starts_with($button['button'], 'new_')) {
+                
                 if (!isset($button['text'])) {
                     $text = $module->getNamespace('button.' . $button['button']);
 

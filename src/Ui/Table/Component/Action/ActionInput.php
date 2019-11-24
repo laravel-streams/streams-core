@@ -89,7 +89,7 @@ class ActionInput
         // ------------------------------
 
         $actions = $builder->getActions();
-        $actions = Normalizer::start($actions, 'action', 'slug');
+        $actions = Normalizer::start($actions, 'action', 'slug', true);
         $actions = Normalizer::attributes($actions);
         $actions = Normalizer::dropdowns($actions);
 

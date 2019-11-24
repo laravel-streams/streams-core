@@ -1,14 +1,14 @@
-{{-- <div class="btn-group" style="display: inline-block;">
-    <a href="#" class="btn btn-xs btn-default dropdown-toggle" data-dropdown="locales" data-toggle="dropdown">
-        {{ trans('streams::locale.' ~ field_type.locale ~ '.name') }}
-    </a>
+<div style="display: inline-block;">
+    <button>
+        {{ trans('streams::locale.' . $fieldType->getLocale() . '.name') }}
+    </button>
     <div class="dropdown-menu">
-        {% for iso in config_get('streams::locales.enabled') %}
-            <a class="dropdown-item {{ iso == config_get('streams::locales.default') ? 'active' }}"
+        @foreach (config('streams::locales.enabled', []) as $iso)
+            <a class="dropdown-item {{ $iso == config('streams::locales.default') ? 'active' : null }}"
                href="#"
-               data-toggle="lang" lang="{{ iso }}">
-                {{ trans('streams::locale.' ~ iso ~ '.name') }}
+               data-toggle="lang" lang="{{ $iso }}">
+                {{ trans('streams::locale.' . $iso . '.name') }}
             </a>
-        {% endfor %}
+        @endforeach
     </div>
-</div> --}}
+</div>

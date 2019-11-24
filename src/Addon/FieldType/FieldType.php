@@ -832,7 +832,7 @@ class FieldType extends Addon
                     'data-provides'   => $this->getNamespace(),
                     'id'              => $this->getInputName(),
                 ],
-                $this->attributes
+                $this->getAttributes()
             )
         );
     }

@@ -756,3 +756,17 @@ if (!function_exists('evaluate')) {
         return \Anomaly\Streams\Platform\Support\Evaluator::evaluate($target, $arguments);
     }
 }
+
+if (!function_exists('icon')) {
+
+    /**
+     * Return an icon.
+     *
+     * @param $icon
+     * @return string
+     */
+    function icon($icon)
+    {
+        return '<i class="' . app(\Anomaly\Streams\Platform\Ui\Icon\IconRegistry::class)->get($icon) . '"></i>';
+    }
+}

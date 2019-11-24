@@ -2,10 +2,11 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
-use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
-use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Closure;
+use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 
 /**
  * Class View

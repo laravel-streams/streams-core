@@ -19,7 +19,7 @@ class Normalizer
      * @param string $secondary
      * @return array
      */
-    public static function start(array $input, $default, $secondary = null)
+    public static function start(array $input, $default, $secondary = null, $eager = false)
     {
         foreach ($input as $key => &$item) {
 
@@ -35,10 +35,10 @@ class Normalizer
              * a string then treat the item as both the
              * default and the secondary.
              */
-            if ($secondary && is_numeric($key) && is_string($item)) {
+            if ($secondary && $eager && is_numeric($key) && is_string($item)) {
                 $item = [
-                    $secondary => $item,
                     $default   => $item,
+                    $secondary => $item,
                 ];
             }
 
@@ -49,8 +49,8 @@ class Normalizer
              */
             if ($secondary && !is_numeric($key) && is_string($item)) {
                 $item = [
-                    $secondary => $key,
                     $default   => $item,
+                    $secondary => $key,
                 ];
             }
 

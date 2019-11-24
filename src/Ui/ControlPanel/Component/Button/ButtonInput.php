@@ -76,6 +76,7 @@ class ButtonInput
         $buttons = $builder->getButtons();
 
         $buttons = parse($buttons);
+        $buttons = translate($buttons);
 
         $builder->setButtons($buttons);
     }

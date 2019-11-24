@@ -1,3 +1,4 @@
+
 {{ assets('scripts.js', 'streams::js/form/form.js') }}
 {{-- {{ assets('scripts.js', 'streams::js/form/lock.js') }} --}}
 {{ assets('scripts.js', 'streams::js/form/keyboard.js') }}
