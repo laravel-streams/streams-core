@@ -1,5 +1,5 @@
 @if ($table->getOption('title') || $table->getOption('description'))
-<div class="table__heading">
+<div class="table__header">
 
     @if ($table->getOption('title'))
         <h4>
@@ -7,7 +7,7 @@
 
             @if ($table->getOption('description'))
             <small>
-                <br>{{ $table->getOption('description') }}
+                {{ $table->getOption('description') }}
             </small>
             @endif
         </h4>

@@ -1,27 +1,27 @@
 <tbody>
     @foreach ($table->getRows() as $row)
-        <tr id="{{ $row->getKey() }}">
+        <tr {!! html_attributes($row->attributes()) !!}>
 
             @if ($table->getOption('sortable'))
-            <td>
-                {{-- {{ icon('fa fa-arrows handle') }} --}}
-                <input type="hidden" name="{{ $table->getOption('prefix') }}order[]" value="{{ $row->getKey() }}"/>
+            <td class="table__handle">
+                {{ icon('fas fa-arrows') }}
+                <input type="hidden" name="{{ $table->prefix('order[]') }}" value="{{ $row->getKey() }}"/>
             </td>
             @endif
 
             @if ($table->hasActions())
-            <td>
-                <input type="checkbox" data-toggle="action" name="{{ $table->getOption('prefix') }}id[]" value="{{ $row->getKey() }}"/>
+            <td class="table__selector">
+                <input type="checkbox" name="{{ $table->prefix('id[]') }}" value="{{ $row->getKey() }}"/>
             </td>
             @endif
 
             @foreach ($row->getColumns() as $column)
-                <td {{ html_attributes($column->getAttributes()) }}>
+                <td {{ html_attributes($column->attributes()) }}>
                     {!! $column->getValue() !!}
                 </td>
             @endforeach
 
-        <td class="text-right">
+        <td class="table__buttons">
             {!! buttons($row->getButtons()) !!}
         </td>
 

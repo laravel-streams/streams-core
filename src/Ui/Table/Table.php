@@ -664,4 +664,15 @@ class Table implements PresentableInterface
             ]
         );
     }
+
+    /**
+     * Return a prefixed target.
+     *
+     * @param string $target
+     * @return string
+     */
+    public function prefix($target = null)
+    {
+        return $this->getOption('prefix') . $target;
+    }
 }

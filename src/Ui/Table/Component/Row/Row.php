@@ -198,4 +198,16 @@ class Row implements RowInterface
     {
         return $this->entry;
     }
+
+    /**
+     * Return merged attributes.
+     *
+     * @param array $attributes
+     */
+    public function attributes(array $attributes = [])
+    {
+        return array_merge($this->attributes, [
+            'id' => $this->table->getOption('prefix') . 'row-' . $this->getKey()
+        ], $attributes);
+    }
 }

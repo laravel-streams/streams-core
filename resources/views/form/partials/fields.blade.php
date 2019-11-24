@@ -1,11 +1,9 @@
-<div class="form__fields">
 @foreach ($fields as $field)
     @if ($form->fields->translations($field)->isNotEmpty())
-        <div class="field__group {{ $field }}">
+        <div id="{{ $form->prefix('field-' . $field) }}" class="form__fields">
             @foreach ($form->fields->translations($field) as $field)
                 {!! $field->render(['form' => $form]) !!}
             @endforeach        
         </div>
     @endif
 @endforeach
-</div>

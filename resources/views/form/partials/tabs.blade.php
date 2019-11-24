@@ -1,7 +1,7 @@
 <div class="tabs">
-    <ul class="nav nav-tabs">
+    <ul>
         @foreach ($tabs as $slug => $tab)
-            <li class="nav-item">
+            <li>
                 <a
                 data-toggle="tab"
                 href="#{{ $form->getOption('prefix') }}{{ array_get($tab, 'slug', $slug) }}-tab"
@@ -12,9 +12,7 @@
         @endforeach
     </ul>
 
-    <div class="tab-content">
-
-        @foreach ($tabs as $slug => $tab)
+    @foreach ($tabs as $slug => $tab)
         <div id="{{ $form->getOption('prefix') }}{{ array_get($tab, 'slug', $slug) ?: slug }}-tab" class="tab-pane {{ $loop->first ? 'active' : '' }}">
             @if (isset($tab['view']))
                 @include($tab['view'])
@@ -28,8 +26,6 @@
                 @endif
             @endif
         </div>
-        @endforeach
-
-    </div>
+    @endforeach
 
 </div>

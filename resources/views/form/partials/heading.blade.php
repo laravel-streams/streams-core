@@ -7,7 +7,7 @@
 
                 @if ($form->getOption('description'))
                 <small>
-                    <br>{{ $form->getOption('description') }}
+                    {{ $form->getOption('description') }}
                 </small>
                 @endif
             </h4>

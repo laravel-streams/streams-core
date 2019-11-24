@@ -3,7 +3,7 @@
 {{ assets("scripts.js", "streams::js/table/sortable.js") }}
 {{-- Combine these into single table.js --}}
 
-<div class="table__wrapper" id="{{ $table->getOption('prefix') }}table-instance">
+<div class="table__wrapper" id="{{ $table->prefix() }}table-instance">
 
     @include('streams::table/partials/filters')
     @include('streams::table/partials/views')
@@ -12,7 +12,7 @@
     <div class="table__container">
         @if ($table->hasRows())
             {!! form_open(['url' => url()->full()]) !!}
-                <table {!! html_attributes($table->attributes(['class' => 'table'])) !!}>
+                <table {!! html_attributes($table->attributes()) !!}>
                     @include('streams::table/partials/header')
                     @include('streams::table/partials/body')
                     @include('streams::table/partials/footer')

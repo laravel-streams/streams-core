@@ -5,7 +5,7 @@ namespace Anomaly\Streams\Platform\Ui\Traits;
 use Anomaly\Streams\Platform\Ui\Icon\IconRegistry;
 
 /**
- * Trait HasHtmlAttributes
+ * Trait HasIcon
  *
  * @link   http://pyrocms.com/
  * @author Ryan Thompson <ryan@pyrocms.com>

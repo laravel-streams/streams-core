@@ -1,5 +1,4 @@
 <script type="text/javascript">
-
     const APPLICATION_URL = "{{ request()->root() }}";
     const APPLICATION_REFERENCE = "{{ env('APPLICATION_REFERENCE') }}";
     const APPLICATION_DOMAIN = "{{ env('APPLICATION_DOMAIN') }}";
@@ -11,5 +10,4 @@
     const REQUEST_ROOT_PATH = "{{ array_get(parse_url(request()->root()), 'path') }}";
     const TIMEZONE = "{{ config('app.timezone') }}";
     const LOCALE = "{{ config('app.locale') }}";
-
 </script>

@@ -3,7 +3,7 @@
     @if(!$button->isDropdown() && !$button->hasParent())
         {!! $button->open() !!}
             {!! $button->icon() !!}
-            {!! $button->getText() !!}
+            {{ $button->getText() }}
         {!! $button->close() !!}
     @endif
 

@@ -2,11 +2,11 @@
 <tr>
 
     @if ($table->getOption('sortable'))
-    <th style="width: 30px;">&nbsp;</th>
+    <th class="table__handle"></th>
     @endif
     
     @if ($table->hasActions())
-    <th style="width: 30px;">
+    <th class="table__selector">
         <input data-toggle="all" type="checkbox">
     </th>
     @endif
@@ -17,11 +17,11 @@
                 {{ html_link(url()->current() . '?' . $header->getQueryString(), $header->getHeading()) }}
                 
                 @if ($header->getDirection() == 'asc')
-                    {{-- {{ icon('sort-ascending', 'text-muted') }} --}}
+                    {!! icon('sort-ascending') !!}
                 @elseif ($header->getDirection() == 'desc')
-                    {{-- {{ icon('sort-descending', 'text-muted') }} --}}
+                    {!! icon('sort-descending') !!}
                 @else
-                    {{-- {{ icon('sortable', 'text-muted') }} --}}
+                    {!! icon('sortable') !!}
                 @endif
             @else
                 {{ $header->getHeading() }}
@@ -29,6 +29,6 @@
         </th>
     @endforeach
 
-    <th>&nbsp;</th>
+    <th></th>
 </tr>
 </thead>
