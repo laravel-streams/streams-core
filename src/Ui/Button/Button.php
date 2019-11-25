@@ -90,13 +90,6 @@ class Button implements ButtonInterface
     protected $dropup = false;
 
     /**
-     * The dropdown position.
-     *
-     * @var string
-     */
-    protected $position = 'left';
-
-    /**
      * The parent dropdown.
      *
      * @var null|string
@@ -118,7 +111,7 @@ class Button implements ButtonInterface
      */
     public function open(array $attributes = [])
     {
-        return '<' . $this->getTag() . ' ' . html_attributes(array_merge($this->getAttributes(), $attributes)) . '>';
+        return '<' . $this->getTag() . ' ' . html_attributes(array_merge($this->attributes(), $attributes)) . '>';
     }
 
     /**
@@ -183,29 +176,6 @@ class Button implements ButtonInterface
     public function setDropup($dropup)
     {
         $this->dropup = $dropup;
-
-        return $this;
-    }
-
-    /**
-     * Get the dropdown position.
-     *
-     * @return string
-     */
-    public function getPosition()
-    {
-        return $this->position;
-    }
-
-    /**
-     * Set the dropdown position.
-     *
-     * @param  array $position
-     * @return $this
-     */
-    public function setPosition($position)
-    {
-        $this->position = $position;
 
         return $this;
     }
@@ -448,5 +418,15 @@ class Button implements ButtonInterface
         $this->tag = $tag;
 
         return $this;
+    }
+
+    /**
+     * Return merged attributes.
+     *
+     * @param array $attributes
+     */
+    public function attributes(array $attributes = [])
+    {
+        return array_merge($this->attributes, $attributes);
     }
 }

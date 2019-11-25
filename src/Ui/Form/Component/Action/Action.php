@@ -179,4 +179,18 @@ class Action extends Button implements ActionInterface
 
         return $this;
     }
+
+    /**
+     * Return merged attributes.
+     *
+     * @param array $attributes
+     */
+    public function attributes(array $attributes = [])
+    {
+        return array_merge($this->attributes, [
+            'name' => 'action',
+            'type' => 'submit',
+            'value' => $this->getSlug(),
+        ], $attributes);
+    }
 }

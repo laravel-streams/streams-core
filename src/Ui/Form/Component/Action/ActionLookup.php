@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -49,6 +51,7 @@ class ActionLookup
         $actions = $builder->getActions();
 
         foreach ($actions as &$parameters) {
+
             $action = $original = array_pull($parameters, 'action');
 
             if ($action && $action = $this->actions->get($action)) {

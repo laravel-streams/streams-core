@@ -35,21 +35,6 @@ interface ButtonInterface
     public function isDropup();
 
     /**
-     * Set the dropdown position.
-     *
-     * @param  array $position
-     * @return $this
-     */
-    public function setPosition($position);
-
-    /**
-     * Get the dropdown position.
-     *
-     * @return array
-     */
-    public function getPosition();
-
-    /**
      * Set the parent.
      *
      * @param $parent

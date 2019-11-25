@@ -1,15 +1,5 @@
 (function (window, document) {
 
-    document.addEventListener('click', function (event) {
-
-        if (event.target.hasAttribute('data-reload')) {
-
-            event.preventDefault();
-
-            window.location.reload();
-        }
-    });
-
     let forms = Array.prototype.slice.call(
         document.querySelectorAll('.form__wrapper form')
     );
@@ -20,13 +10,13 @@
             form.querySelectorAll('input')
         );
 
-        let tabs = Array.prototype.slice.call(
-            form.querySelectorAll('a[data-toggle="tab"]')
-        );
+        // let tabs = Array.prototype.slice.call(
+        //     form.querySelectorAll('a[data-toggle="tab"]')
+        // );
 
-        let panes = Array.prototype.slice.call(
-            form.querySelectorAll('.tab__pane')
-        );
+        // let panes = Array.prototype.slice.call(
+        //     form.querySelectorAll('.tab__pane')
+        // );
 
         let actions = Array.prototype.slice.call(
             form.querySelectorAll('.form__actions button')
@@ -63,10 +53,10 @@
                     }
                 }
 
-                NProgress.start({
-                    trickleSpeed: 25,
-                    showSpinner: false,
-                });
+                // NProgress.start({
+                //     trickleSpeed: 25,
+                //     showSpinner: false,
+                // });
 
                 actions.forEach(function (action) {
 
@@ -80,7 +70,7 @@
                     });
                 });
 
-                NProgress.set(0.70);
+                //NProgress.set(0.70);
             });
         }
 
@@ -88,14 +78,14 @@
          * If the form has errors then highlight
          * the tabs containing invalid input.
          */
-        panes.forEach(function (pane) {
+        // panes.forEach(function (pane) {
 
-            if (pane.querySelector('.has-danger')) {
-                tabs
-                    .filter(tab => tab.hash == '#' + pane.id)
-                    .map(tab => tab.classList.add('text-danger'));
-            }
-        });
+        //     if (pane.querySelector('.has-danger')) {
+        //         tabs
+        //             .filter(tab => tab.hash == '#' + pane.id)
+        //             .map(tab => tab.classList.add('text-danger'));
+        //     }
+        // });
 
         /**
          * If the window location contains
@@ -119,14 +109,14 @@
          * Change the window hash and push to
          * the popstate when tabs are changed.
          */
-        tabs.forEach(function (tab) {
-            tab.addEventListener('click', function (event) {
-                if (history.pushState) {
-                    history.pushState(null, "Show Tab", event.target.hash);
-                } else {
-                    window.hash(event.target.hash);
-                }
-            });
-        });
+        // tabs.forEach(function (tab) {
+        //     tab.addEventListener('click', function (event) {
+        //         if (history.pushState) {
+        //             history.pushState(null, "Show Tab", event.target.hash);
+        //         } else {
+        //             window.hash(event.target.hash);
+        //         }
+        //     });
+        // });
     });
 })(window, document);
