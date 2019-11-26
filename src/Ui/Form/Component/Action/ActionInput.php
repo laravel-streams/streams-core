@@ -111,7 +111,7 @@ class ActionInput
         /**
          * Normalize
          */
-        $actions = Normalizer::start($actions, 'actions');
+        $actions = Normalizer::start($actions, 'action');
         $actions = Normalizer::attributes($actions);
 
         $builder->setActions($actions);
@@ -120,6 +120,7 @@ class ActionInput
         $this->guesser->guess($builder);
         $this->lookup->merge($builder);
         // ---------------------------------
+        $actions = $builder->getActions();
         $actions = parse($actions, compact('entry'));
         // ---------------------------------
         $this->dropdown->build($builder);
