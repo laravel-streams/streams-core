@@ -46,10 +46,10 @@ trait HasClassAttribute
     /**
      * Return class HTML.
      *
-     * @param array $class
+     * @param string $class
      * @return null|string
      */
-    public function class($class)
+    public function class($class = null)
     {
         return trim(implode(' ', [
             $class,

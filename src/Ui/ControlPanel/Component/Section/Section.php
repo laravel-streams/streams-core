@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
+use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 
@@ -16,6 +17,7 @@ use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 class Section implements SectionInterface
 {
     use HasIcon;
+    use HasClassAttribute;
     use HasHtmlAttributes;
 
     /**
@@ -38,13 +40,6 @@ class Section implements SectionInterface
      * @var null|string
      */
     protected $label = null;
-
-    /**
-     * The class.
-     *
-     * @var null|string
-     */
-    protected $class = null;
 
     /**
      * The active flag.
@@ -186,29 +181,6 @@ class Section implements SectionInterface
     public function setLabel($label)
     {
         $this->label = $label;
-
-        return $this;
-    }
-
-    /**
-     * Get the class.
-     *
-     * @return string
-     */
-    public function getClass()
-    {
-        return $this->class;
-    }
-
-    /**
-     * Set the class.
-     *
-     * @param $class
-     * @return $this
-     */
-    public function setClass($class)
-    {
-        $this->class = $class;
 
         return $this;
     }
@@ -503,5 +475,33 @@ class Section implements SectionInterface
     public function hasChildren()
     {
         return !$this->getChildren()->isEmpty();
+    }
+
+    /**
+     * Return merged attributes.
+     *
+     * @param array $attributes
+     */
+    public function attributes(array $attributes = [])
+    {
+        return array_merge($this->attributes, [
+            'class' => $this->class()
+        ], $attributes);
+    }
+
+    /**
+     * Return class HTML.
+     *
+     * @param string $class
+     * @return null|string
+     */
+    public function class($class = null)
+    {
+        return trim(implode(' ', [
+            $class,
+            $this->getClass(),
+            $this->isActive() ? 'active' : null,
+            $this->isHighlighted() ? 'highlighted' : null,
+        ]));
     }
 }

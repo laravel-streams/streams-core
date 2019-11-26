@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\SearchFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
@@ -48,7 +50,7 @@ class SearchFilter extends Filter implements SearchFilterInterface
             $this->getInputName(),
             $this->getValue(),
             [
-                'class'       => 'form-control',
+                'class'       => 'form__input',
                 'placeholder' => trans($this->getPlaceholder()),
             ]
         );
