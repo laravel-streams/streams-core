@@ -30,7 +30,7 @@ class SectionInput
          */
         $sections = resolver($sections, compact('builder', 'entry'));
 
-        $sections = $sections ?: $builder->getButtons();
+        $sections = $sections ?: $builder->getSections();
 
         $sections = evaluate($sections, compact('builder', 'entry'));
 

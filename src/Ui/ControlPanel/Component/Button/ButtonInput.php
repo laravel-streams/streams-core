@@ -62,7 +62,7 @@ class ButtonInput
 
         $buttons = evaluate($buttons, compact('builder'));
 
-        $buttons = Normalizer::start($buttons, 'button', 'text');
+        $buttons = Normalizer::start($buttons, 'button', 'slug');
 
         $buttons = Normalizer::attributes($buttons);
 

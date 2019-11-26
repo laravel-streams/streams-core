@@ -24,10 +24,10 @@ class FieldTypeCollection extends AddonCollection
      */
     public function get($key, $default = null)
     {
-        $type = parent::get($key, $default);
+        $type = $this->instance($key);
 
         if (!$type) {
-            return null;
+            return $default;
         }
 
         return clone ($type);

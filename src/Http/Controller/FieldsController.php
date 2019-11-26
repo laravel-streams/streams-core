@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Http\Controller;
+<?php
+
+namespace Anomaly\Streams\Platform\Http\Controller;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection;

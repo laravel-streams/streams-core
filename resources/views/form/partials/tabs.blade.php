@@ -1,19 +1,19 @@
 <div class="tabs">
+    
     <ul>
         @foreach ($tabs as $slug => $tab)
-            <li>
+            <li class="{{ $loop->first ? 'active' : '' }}">
                 <a
                 data-toggle="tab"
-                href="#{{ $form->getOption('prefix') }}{{ array_get($tab, 'slug', $slug) }}-tab"
-                class="nav-link {{ $loop->first ? 'active' : '' }}">
+                href="#{{ $form->getOption('prefix') }}{{ array_get($tab, 'slug', $slug) }}-tab">
                     {{ $tab['title'] }}
-                </a>
+            </a>
             </li>
         @endforeach
     </ul>
 
     @foreach ($tabs as $slug => $tab)
-        <div id="{{ $form->getOption('prefix') }}{{ array_get($tab, 'slug', $slug) ?: slug }}-tab" class="tab-pane {{ $loop->first ? 'active' : '' }}">
+        <div id="{{ $form->getOption('prefix') }}{{ array_get($tab, 'slug', $slug) }}-tab" class="{{ $loop->first ? 'active' : '' }}">
             @if (isset($tab['view']))
                 @include($tab['view'])
             @elseif (isset($tab['html']))

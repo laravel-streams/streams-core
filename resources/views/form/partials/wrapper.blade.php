@@ -17,7 +17,7 @@
     @endif
         
     @if ($fieldType->warning)
-        <div class="field__help">
+        <div class="field__warning">
             {!! icon('warning') !!}
             {{ $fieldType->warning }}
         </p>

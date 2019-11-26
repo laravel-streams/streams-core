@@ -10,13 +10,13 @@
             form.querySelectorAll('input')
         );
 
-        // let tabs = Array.prototype.slice.call(
-        //     form.querySelectorAll('a[data-toggle="tab"]')
-        // );
+        let tabs = Array.prototype.slice.call(
+            form.querySelectorAll('a[data-toggle="tab"]')
+        );
 
-        // let panes = Array.prototype.slice.call(
-        //     form.querySelectorAll('.tab__pane')
-        // );
+        let panes = Array.prototype.slice.call(
+            form.querySelectorAll('.tab__pane')
+        );
 
         let actions = Array.prototype.slice.call(
             form.querySelectorAll('.form__actions button')
@@ -78,14 +78,14 @@
          * If the form has errors then highlight
          * the tabs containing invalid input.
          */
-        // panes.forEach(function (pane) {
+        panes.forEach(function (pane) {
 
-        //     if (pane.querySelector('.has-danger')) {
-        //         tabs
-        //             .filter(tab => tab.hash == '#' + pane.id)
-        //             .map(tab => tab.classList.add('text-danger'));
-        //     }
-        // });
+            if (pane.querySelector('.has-danger')) {
+                tabs
+                    .filter(tab => tab.hash == '#' + pane.id)
+                    .map(tab => tab.classList.add('text-danger'));
+            }
+        });
 
         /**
          * If the window location contains
@@ -109,14 +109,14 @@
          * Change the window hash and push to
          * the popstate when tabs are changed.
          */
-        // tabs.forEach(function (tab) {
-        //     tab.addEventListener('click', function (event) {
-        //         if (history.pushState) {
-        //             history.pushState(null, "Show Tab", event.target.hash);
-        //         } else {
-        //             window.hash(event.target.hash);
-        //         }
-        //     });
-        // });
+        tabs.forEach(function (tab) {
+            tab.addEventListener('click', function (event) {
+                if (history.pushState) {
+                    history.pushState(null, "Show Tab", event.target.hash);
+                } else {
+                    window.hash(event.target.hash);
+                }
+            });
+        });
     });
 })(window, document);
