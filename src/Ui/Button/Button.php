@@ -5,6 +5,7 @@ namespace Anomaly\Streams\Platform\Ui\Button;
 use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
+use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 
 /**
  * Class Button
@@ -17,6 +18,7 @@ class Button implements ButtonInterface
 {
 
     use HasIcon;
+    use HasClassAttribute;
     use HasHtmlAttributes;
 
     /**
@@ -39,13 +41,6 @@ class Button implements ButtonInterface
      * @var null|string
      */
     protected $text = null;
-
-    /**
-     * The button class.
-     *
-     * @var null|string
-     */
-    protected $class = null;
 
     /**
      * The button type.
@@ -283,29 +278,6 @@ class Button implements ButtonInterface
     }
 
     /**
-     * Get the class.
-     *
-     * @return null|string
-     */
-    public function getClass()
-    {
-        return $this->class . 'button -' . $this->getType();
-    }
-
-    /**
-     * Set the class.
-     *
-     * @param $class
-     * @return $this
-     */
-    public function setClass($class)
-    {
-        $this->class = $class;
-
-        return $this;
-    }
-
-    /**
      * Get the permission.
      *
      * @return null|string
@@ -427,6 +399,23 @@ class Button implements ButtonInterface
      */
     public function attributes(array $attributes = [])
     {
-        return array_merge($this->attributes, $attributes);
+        return array_merge($this->attributes, [
+            'class' => $this->class(),
+        ], $attributes);
+    }
+
+    /**
+     * Return class HTML.
+     *
+     * @param string $class
+     * @return null|string
+     */
+    public function class($class = null)
+    {
+        return trim(implode(' ', [
+            $class,
+            'button',
+            $this->getClass()
+        ]));
     }
 }

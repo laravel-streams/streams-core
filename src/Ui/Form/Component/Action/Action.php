@@ -187,7 +187,7 @@ class Action extends Button implements ActionInterface
      */
     public function attributes(array $attributes = [])
     {
-        return array_merge($this->attributes, [
+        return array_merge([
             'name' => 'action',
             'type' => 'submit',
             'value' => $this->getSlug(),

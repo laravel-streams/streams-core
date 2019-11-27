@@ -163,7 +163,7 @@ class FieldType extends Addon
      *
      * @var null|string
      */
-    protected $class = 'form__input';
+    protected $class = 'input';
 
     /**
      * The input type.
@@ -844,7 +844,7 @@ class FieldType extends Addon
      */
     public function wrapperAttributes()
     {
-        $class = 'form__field';
+        $class = 'field';
 
         if ($this->hasErrors()) {
             $class .= ' -error';

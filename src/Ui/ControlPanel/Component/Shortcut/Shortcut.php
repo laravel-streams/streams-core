@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Contract\ShortcutInterface;
+use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 
@@ -16,6 +17,7 @@ use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 class Shortcut implements ShortcutInterface
 {
     use HasIcon;
+    use HasClassAttribute;
     use HasHtmlAttributes;
 
     /**
@@ -38,13 +40,6 @@ class Shortcut implements ShortcutInterface
      * @var null|string
      */
     protected $label = null;
-
-    /**
-     * The class.
-     *
-     * @var null|string
-     */
-    protected $class = 'shortcut';
 
     /**
      * The highlighted flag.
@@ -138,22 +133,14 @@ class Shortcut implements ShortcutInterface
      *
      * @return string
      */
-    public function getClass()
+    public function class($class = null)
     {
-        return $this->class . ' shortcut--' . $this->getSlug();
-    }
-
-    /**
-     * Set the class.
-     *
-     * @param $class
-     * @return $this
-     */
-    public function setClass($class)
-    {
-        $this->class = $class;
-
-        return $this;
+        return trim(implode(' ', array_unique([
+            $class,
+            'shortcut',
+            'shortcut--' . $this->getSlug(),
+            $this->getClass()
+        ])));
     }
 
     /**
@@ -234,5 +221,17 @@ class Shortcut implements ShortcutInterface
     public function getHref($path = null)
     {
         return array_get($this->attributes, 'href') . ($path ? '/' . $path : $path);
+    }
+
+    /**
+     * Return merged attributes.
+     *
+     * @param array $attributes
+     */
+    public function attributes(array $attributes = [])
+    {
+        return array_merge($this->attributes, [
+            'class' => $this->class(),
+        ], $attributes);
     }
 }

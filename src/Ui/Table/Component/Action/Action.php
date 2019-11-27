@@ -15,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
  */
 class Action extends Button implements ActionInterface
 {
-    use HasHtmlAttributes;
 
     /**
      * The action tag.

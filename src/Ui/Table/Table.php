@@ -657,11 +657,11 @@ class Table implements PresentableInterface
     public function attributes(array $attributes = [])
     {
         return array_merge(
-            $attributes,
             $this->getOption('attributes', []),
             [
                 // System attributes like sortable
-            ]
+            ],
+            $attributes
         );
     }
 
