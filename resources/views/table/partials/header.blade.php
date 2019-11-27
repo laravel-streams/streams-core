@@ -6,8 +6,8 @@
     @endif
     
     @if ($table->hasActions())
-    <th class="table__selector">
-        <input data-toggle="all" type="checkbox">
+    <th class="table__checkbox">
+        <input type="checkbox">
     </th>
     @endif
 

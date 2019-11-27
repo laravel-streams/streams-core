@@ -10,7 +10,7 @@
             @endif
 
             @if ($table->hasActions())
-            <td class="table__selector">
+            <td class="table__checkbox">
                 <input type="checkbox" name="{{ $table->prefix('id[]') }}" value="{{ $row->getKey() }}"/>
             </td>
             @endif

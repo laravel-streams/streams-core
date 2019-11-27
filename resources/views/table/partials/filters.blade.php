@@ -11,11 +11,11 @@
             </div>
         @endforeach
 
-        <button type="submit">
+        <button type="submit" class="button">
             {{-- {{ icon(table.options.filters.filter_icon ?: 'filter') }} --}}
             {{ trans('streams::button.filter') }}
         </button>
-        <a href="{{ $filter->url() }}">
+        <a href="{{ $filter->url() }}" class="button">
             {{-- {{ icon(table.options.filters.clear_icon ? table.options.filters.clear_icon) }} --}}
             {{ trans('streams::button.clear') }}
         </a>

@@ -50,7 +50,7 @@ class SearchFilter extends Filter implements SearchFilterInterface
             $this->getInputName(),
             $this->getValue(),
             [
-                'class'       => 'form__input',
+                'class'       => 'input',
                 'placeholder' => trans($this->getPlaceholder()),
             ]
         );
