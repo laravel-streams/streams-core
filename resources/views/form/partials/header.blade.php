@@ -1,5 +1,5 @@
 @if (isset($section['title']))
-    <div class="form__section_header">
+    <div class="section__header">
         <h5>
             {{-- {{ section.icon ? icon(section.icon) }} --}}
 
