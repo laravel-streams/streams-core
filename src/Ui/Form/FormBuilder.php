@@ -2,35 +2,36 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-use Anomaly\Streams\Platform\Lock\Contract\LockInterface;
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Support\Collection;
-use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
-use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
-use Anomaly\Streams\Platform\Ui\Form\Command\FlashFieldValues;
-use Anomaly\Streams\Platform\Ui\Form\Command\FlashFormErrors;
-use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
-use Anomaly\Streams\Platform\Ui\Form\Command\LoadFormValues;
-use Anomaly\Streams\Platform\Ui\Form\Command\MakeForm;
-use Anomaly\Streams\Platform\Ui\Form\Command\PopulateFields;
-use Anomaly\Streams\Platform\Ui\Form\Command\PostForm;
-use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
-use Anomaly\Streams\Platform\Ui\Form\Command\SetFormResponse;
-use Anomaly\Streams\Platform\Ui\Form\Command\ValidateForm;
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
-use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
-use Anomaly\Streams\Platform\Version\Contract\VersionInterface;
 use Closure;
 use Illuminate\Contracts\Support\MessageBag;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\HttpFoundation\Response;
+use Anomaly\Streams\Platform\Support\Collection;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\MakeForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\PostForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
+use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
+use Anomaly\Streams\Platform\Lock\Contract\LockInterface;
+use Anomaly\Streams\Platform\Ui\Form\Command\ValidateForm;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Ui\Form\Command\LoadFormValues;
+use Anomaly\Streams\Platform\Ui\Form\Command\PopulateFields;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Form\Command\FlashFormErrors;
+use Anomaly\Streams\Platform\Ui\Form\Command\SetFormResponse;
+use Anomaly\Streams\Platform\Ui\Form\Command\FlashFieldValues;
+use Anomaly\Streams\Platform\Version\Contract\VersionInterface;
+use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 
 /**
  * Class FormBuilder
@@ -1523,6 +1524,16 @@ class FormBuilder
         $this->form->addButton($button);
 
         return $this;
+    }
+
+    /**
+     * Get the form buttons.
+     *
+     * @return ButtonCollection
+     */
+    public function getFormButtons()
+    {
+        return $this->form->getButtons();
     }
 
     /**

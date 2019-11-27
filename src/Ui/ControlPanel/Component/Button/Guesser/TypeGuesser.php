@@ -59,8 +59,9 @@ class TypeGuesser
              * "new" and move the rest to the text.
              */
             if (isset($button['button']) && starts_with($button['button'], 'new_')) {
-                
+
                 if (!isset($button['text'])) {
+
                     $text = $module->getNamespace('button.' . $button['button']);
 
                     if (trans()->has($text)) {
@@ -72,6 +73,8 @@ class TypeGuesser
                 $button['slug'] = $button['button'];
 
                 array_set($button, 'button', substr($button['button'], 0, 3));
+
+                array_set($button, 'attributes.data-keymap', 'n');
             }
 
             /*
@@ -87,6 +90,8 @@ class TypeGuesser
                 $button['slug'] = $button['button'];
 
                 array_set($button, 'button', substr($button['button'], 0, 3));
+
+                array_set($button, 'attributes.data-keymap', 'a');
             }
         }
 

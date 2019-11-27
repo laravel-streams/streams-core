@@ -23,16 +23,6 @@
         );
 
         /**
-         * Focus on the first input.
-         */
-        inputs.some(function (input) {
-            if (input.type !== 'hidden') {
-                input.focus();
-                return true;
-            }
-        });
-
-        /**
          * Disable actions after the
          * form has been submitted.
          */
