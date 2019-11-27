@@ -25,8 +25,8 @@ class ButtonRegistry
             'type' => 'default',
         ],
         'cancel'        => [
-            'text' => 'streams::button.cancel',
             'type' => 'default',
+            'text' => 'streams::button.cancel',
         ],
         /*
          * Primary Buttons

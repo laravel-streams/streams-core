@@ -86,7 +86,9 @@ class ButtonInput
          * Default
          */
         if ($buttons === [] && request()->segment(1) == 'admin') {
-            $buttons[] = 'cancel';
+            $buttons[] = [
+                'cancel',
+            ];
         }
 
         /**

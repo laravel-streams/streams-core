@@ -76,16 +76,6 @@ class Normalizer
             }
 
             /**
-             * If the key is not numeric and the item is an
-             * array without a default then use the key for
-             * the defualt by default.
-             * @todo force this to setDefaultToKeyIfNotNumeric() or force()
-             */
-            // if (is_array($item) && !isset($item[$default]) && !is_numeric($key)) {
-            //     $item[$default] = $key;
-            // }
-
-            /**
              * If the item is a string then use
              * it as the default parameter.
              * 
@@ -97,16 +87,6 @@ class Normalizer
                     $default => $item,
                 ];
             }
-
-            /**
-             * If the key is a string and the component
-             * is an array without a component parameter then
-             * move the key into the component as that parameter.
-             * @todo move this to force() method or something with the above similar function.
-             */
-            // if (!is_integer($key) && !isset($item[$default])) {
-            //     $item[$default] = $key;
-            // }
         }
 
         return $input;
@@ -119,10 +99,18 @@ class Normalizer
      * @param string $slug
      * @return array
      */
-    public static function slug(array $input, $slug)
+    public static function ensure(array $input, $promise)
     {
         foreach ($input as $key => &$item) {
-            //
+
+            /**
+             * If the key is not numeric and the item is an
+             * array without a promise then use the key for
+             * the defualt by promise.
+             */
+            if (is_array($item) && !isset($item[$promise]) && !is_numeric($key)) {
+                $item[$promise] = $key;
+            }
         }
 
         return $input;
