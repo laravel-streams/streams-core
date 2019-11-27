@@ -1,7 +1,7 @@
 <tfoot>
     @if ($table->hasActions() || $table->getData()->get('pagination')['links'])
         <tr>
-        <th>
+        <th colspan="100%">
 
             <div>
                 {{ buttons($table->getActions()) }}
@@ -50,7 +50,7 @@
 
     @if ($table->getOption('total_results'))
     <tr>
-        <td>
+        <td colspan="100%">
             <small>
                 {{ $table->getOption('total_results') }} {{ trans('streams::message.results') }}
             </small>

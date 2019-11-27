@@ -78,7 +78,7 @@ class ActionInput
          */
         $actions = resolver($actions, compact('builder'));
 
-        $actions = $actions ?: $builder->getButtons();
+        $actions = $actions ?: $builder->getActions();
 
         $actions = evaluate($actions, compact('builder'));
 
