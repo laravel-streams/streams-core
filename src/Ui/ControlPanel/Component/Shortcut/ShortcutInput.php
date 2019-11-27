@@ -94,10 +94,12 @@ class ShortcutInput
             $builder->setShortcuts([
                 'view_site' => [
                     'href'   => '/',
+                    'class'  => 'button',
                     'target' => '_blank',
-                    'title' => trans('anomaly.theme.flow::control_panel.view_site')
+                    'title'  => trans('anomaly.theme.flow::control_panel.view_site')
                 ],
                 'logout' => [
+                    'class' => 'button',
                     'href'  => 'admin/logout',
                     'title' => trans('anomaly.theme.flow::control_panel.logout')
                 ],
