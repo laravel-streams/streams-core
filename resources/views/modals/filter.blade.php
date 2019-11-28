@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    {{ asset_inline('streams::js/modal/filter.js') }}
+    {!! assets()->inline('streams::js/modal/filter.js') !!}
 </script>
 
 <form class="modal-filter">
