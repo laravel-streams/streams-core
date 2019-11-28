@@ -44,11 +44,11 @@ class UninstallModule
         $this->module->fire('uninstalling', ['module' => $this->module]);
 
         $options = [
-            '--addon' => $this->module->getNamespace(),
-            '--force' => true,
+            'addon' => $this->module->getNamespace(),
+            //'--force' => true,
         ];
 
-        $console->call('migrate:reset', $options);
+        $console->call('addon:reset', $options);
         $console->call('streams:destroy', ['namespace' => $this->module->getSlug()]);
         $console->call('streams:cleanup');
 

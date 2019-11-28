@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Field;
+<?php
+
+namespace Anomaly\Streams\Platform\Field;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
@@ -74,7 +76,7 @@ class FieldRepository extends EloquentRepository implements FieldRepositoryInter
      */
     public function cleanup()
     {
-        $fieldTypes = app('field_type.collection')->map(
+        $fieldTypes = app('field_type.collection')->instances()->map(
             function (FieldType $fieldType) {
                 return $fieldType->getNamespace();
             }
