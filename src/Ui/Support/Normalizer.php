@@ -225,75 +225,6 @@ class Normalizer
     }
 
     /**
-     * Normalize builder actions.
-     *
-     * @param array $actions
-     * @param string $prefix
-     */
-    public static function actions(array $actions, $prefix)
-    {
-        foreach ($actions as $slug => &$action) {
-
-            /*
-            * If the slug is numeric and the action is
-            * a string then treat the string as both the
-            * action and the slug. This is OK as long as
-            * there are not multiple instances of this
-            * input using the same action which is not likely.
-            */
-            if (is_numeric($slug) && is_string($action)) {
-                $action = [
-                    'slug'   => $action,
-                    'action' => $action,
-                ];
-            }
-
-            /*
-            * If the slug is NOT numeric and the action is a
-            * string then use the slug as the slug and the
-            * action as the action.
-            */
-            if (!is_numeric($slug) && is_string($action)) {
-                $action = [
-                    'slug'   => $slug,
-                    'action' => $action,
-                ];
-            }
-
-            /*
-            * If the slug is not numeric and the action is an
-            * array without a slug then use the slug for
-            * the slug for the action.
-            */
-            if (is_array($action) && !isset($action['slug']) && !is_numeric($slug)) {
-                $action['slug'] = $slug;
-            }
-
-            /*
-            * If the slug is not numeric and the action is an
-            * array without a action then use the slug for
-            * the action for the action.
-            */
-            if (is_array($action) && !isset($action['action']) && !is_numeric($slug)) {
-                $action['action'] = $slug;
-            }
-
-            /*
-            * Make sure the HREF is absolute.
-            */
-            if (
-                isset($action['redirect']) &&
-                is_string($action['redirect']) &&
-                !starts_with($action['redirect'], ['http', '{url.'])
-            ) {
-                $action['redirect'] = url($action['redirect']);
-            }
-        }
-
-        return $actions;
-    }
-
-    /**
      * Start normalization for a component.
      *
      * @param array $input
@@ -481,47 +412,6 @@ class Normalizer
             if (isset($item['dropdown'])) {
                 $item['dropdown'] = self::start($item['dropdown'], $component, 'slug');
                 $item['dropdown'] = self::start($item['dropdown'], $component, 'slug');
-            }
-        }
-
-        return $input;
-    }
-
-    /**
-     * Normalize fields.
-     *
-     * @param array $input
-     */
-    public static function fields(array $input)
-    {
-
-        $input = self::start($input, 'field');
-
-        foreach ($input as $key => &$item) {
-
-            /*
-             * If the field is a wild card marker
-             * then just continue.
-             */
-            if ($item == '*') {
-                continue;
-            }
-
-            /*
-             * If the field is an array and does not
-             * have the field parameter set then
-             * use the slug.
-             */
-            if (is_array($item) && !isset($item['field'])) {
-                $item['field'] = $key;
-            }
-
-            /*
-             * If the field is required then it must have
-             * the rule as well.
-             */
-            if (array_get($item, 'required') === true) {
-                $item['rules'] = array_unique(array_merge(array_get($item, 'rules', []), ['required']));
             }
         }
 

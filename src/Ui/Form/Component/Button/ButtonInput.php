@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\Ui\Support\Normalizer;
+use Anomaly\Streams\Platform\Ui\Form\FormNormalizer;
 
 /**
  * Class ButtonInput
@@ -94,9 +94,9 @@ class ButtonInput
         /**
          * Normalize
          */
-        $buttons = Normalizer::start($buttons, 'button');
-        $buttons = Normalizer::attributes($buttons);
-        $buttons = Normalizer::dropdowns($buttons);
+        $buttons = FormNormalizer::buttons($buttons);
+        $buttons = FormNormalizer::attributes($buttons);
+        $buttons = FormNormalizer::dropdowns($buttons);
 
         $builder->setButtons($buttons);
 
