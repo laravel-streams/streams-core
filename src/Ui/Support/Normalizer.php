@@ -209,7 +209,7 @@ class Normalizer
     {
 
         $input = self::start($input, 'field');
-
+        
         foreach ($input as $key => &$item) {
 
             /*

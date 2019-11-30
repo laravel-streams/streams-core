@@ -67,22 +67,6 @@ class FieldInput
 
         $fields = Normalizer::fields($fields);
 
-        // -------------------------------------
-        // -------------- EXTRA ----------------
-        // -------------------------------------
-        if ($fields === []) {
-            $fields = ['*'];
-        }
-
-        $first = array_shift($fields);
-
-        array_set($first, 'attributes.data-keymap', 'f');
-
-        array_unshift($fields, $first);
-        // -------------------------------------
-        // ------------ EOF EXTRA --------------
-        // -------------------------------------
-
         $builder->setFields($fields);
 
         // -------------------------------------
@@ -92,6 +76,18 @@ class FieldInput
         $fields = $builder->getFields();
 
         $fields = Normalizer::fields($fields);
+
+        // -------------------------------------
+        // -------------- EXTRA ----------------
+        // -------------------------------------
+        $first = array_shift($fields);
+
+        array_set($first, 'attributes.data-keymap', 'f');
+
+        array_unshift($fields, $first);
+        // -------------------------------------
+        // ------------ EOF EXTRA --------------
+        // -------------------------------------
 
         $builder->setFields($fields);
 
