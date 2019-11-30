@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 
 /**
  * Class SectionInput
@@ -14,13 +15,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  */
 class SectionInput
 {
-
-    /**
-     * The section parser.
-     *
-     * @var SectionParser
-     */
-    protected $parser;
 
     /**
      * The module collection.
@@ -37,40 +31,17 @@ class SectionInput
     protected $guesser;
 
     /**
-     * The section evaluator.
-     *
-     * @var SectionEvaluator
-     */
-    protected $evaluator;
-
-    /**
-     * The section normalizer.
-     *
-     * @var SectionNormalizer
-     */
-    protected $normalizer;
-
-    /**
      * Create a new SectionInput instance.
      *
-     * @param SectionParser     $parser
      * @param SectionGuesser    $guesser
      * @param ModuleCollection  $modules
-     * @param SectionEvaluator  $evaluator
-     * @param SectionNormalizer $normalizer
      */
     public function __construct(
-        SectionParser $parser,
         SectionGuesser $guesser,
-        ModuleCollection $modules,
-        SectionEvaluator $evaluator,
-        SectionNormalizer $normalizer
+        ModuleCollection $modules
     ) {
-        $this->parser     = $parser;
         $this->guesser    = $guesser;
         $this->modules    = $modules;
-        $this->evaluator  = $evaluator;
-        $this->normalizer = $normalizer;
     }
 
     /**
@@ -85,15 +56,20 @@ class SectionInput
 
         $sections = resolver($sections, compact('builder'));
 
-        $sections = $sections ?: $builder->getSections();
+        $sections = evaluate($sections ?: $builder->getSections(), compact('builder'));
+
+        $sections = Normalizer::sections($sections);
 
         $builder->setSections($sections);
 
-        $this->evaluator->evaluate($builder);
-        $this->normalizer->normalize($builder);
         $this->guesser->guess($builder);
-        $this->evaluator->evaluate($builder);
-        $this->parser->parse($builder);
+
+        $sections = $builder->getSections();
+
+        $sections = evaluate($sections, compact('builder'));
+        $sections = parse($sections);
+
+        $builder->setSections($sections);
 
         $builder->setSections(translate($builder->getSections()));
     }

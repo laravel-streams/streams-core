@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
+use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
@@ -22,35 +23,14 @@ class NavigationInput
     protected $sorter;
 
     /**
-     * The navigation evaluator.
-     *
-     * @var NavigationEvaluator
-     */
-    protected $evaluator;
-
-    /**
-     * The navigation normalizer.
-     *
-     * @var NavigationNormalizer
-     */
-    protected $normalizer;
-
-    /**
      * Create a new NavigationInput instance.
      *
      * @param NavigationSorter     $sorter
-     * @param NavigationResolver   $resolver
-     * @param NavigationEvaluator  $evaluator
-     * @param NavigationNormalizer $normalizer
      */
     public function __construct(
-        NavigationSorter $sorter,
-        NavigationEvaluator $evaluator,
-        NavigationNormalizer $normalizer
+        NavigationSorter $sorter
     ) {
         $this->sorter     = $sorter;
-        $this->evaluator  = $evaluator;
-        $this->normalizer = $normalizer;
     }
 
     /**
@@ -66,10 +46,13 @@ class NavigationInput
 
         $navigation = $navigation ?: $builder->getNavigation();
 
+        Normalizer::navigation($navigation);
+        Normalizer::attributes($navigation);
+
+        $navigation = evaluate($navigation, compact('builder'));
+
         $builder->setNavigation($navigation);
 
-        $this->evaluator->evaluate($builder);
-        $this->normalizer->normalize($builder);
         $this->sorter->sort($builder);
     }
 }

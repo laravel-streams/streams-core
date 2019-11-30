@@ -70,8 +70,10 @@ class ActionInput
      */
     public function read(FormBuilder $builder)
     {
-        $actions = $builder->getActions();
         $entry = $builder->getFormEntry();
+        $actions = $builder->getActions();
+
+        $prefix = $builder->getFormOption('prefix');
 
         /**
          * Resolve & Evaluate
@@ -111,7 +113,7 @@ class ActionInput
         /**
          * Normalize
          */
-        $actions = Normalizer::start($actions, 'action');
+        $actions = Normalizer::actions($actions, $prefix);
         $actions = Normalizer::attributes($actions);
 
         $builder->setActions($actions);

@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 
 /**
  * Class ShortcutInput
@@ -14,13 +15,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  */
 class ShortcutInput
 {
-
-    /**
-     * The shortcut parser.
-     *
-     * @var ShortcutParser
-     */
-    protected $parser;
 
     /**
      * The module collection.
@@ -37,40 +31,17 @@ class ShortcutInput
     protected $guesser;
 
     /**
-     * The shortcut evaluator.
-     *
-     * @var ShortcutEvaluator
-     */
-    protected $evaluator;
-
-    /**
-     * The shortcut normalizer.
-     *
-     * @var ShortcutNormalizer
-     */
-    protected $normalizer;
-
-    /**
      * Create a new ShortcutInput instance.
      *
-     * @param ShortcutParser     $parser
      * @param ShortcutGuesser    $guesser
      * @param ModuleCollection  $modules
-     * @param ShortcutEvaluator  $evaluator
-     * @param ShortcutNormalizer $normalizer
      */
     public function __construct(
-        ShortcutParser $parser,
         ShortcutGuesser $guesser,
-        ModuleCollection $modules,
-        ShortcutEvaluator $evaluator,
-        ShortcutNormalizer $normalizer
+        ModuleCollection $modules
     ) {
-        $this->parser     = $parser;
         $this->guesser    = $guesser;
         $this->modules    = $modules;
-        $this->evaluator  = $evaluator;
-        $this->normalizer = $normalizer;
     }
 
     /**
@@ -87,11 +58,9 @@ class ShortcutInput
 
         $shortcuts = $shortcuts ?: $builder->getShortcuts();
 
-        $builder->setShortcuts($shortcuts);
-
         // Defaults
-        if (!$builder->getShortcuts()) {
-            $builder->setShortcuts([
+        if (!$shortcuts) {
+            $shortcuts = [
                 'view_site' => [
                     'href'   => '/',
                     'class'  => 'button',
@@ -103,13 +72,26 @@ class ShortcutInput
                     'href'  => 'admin/logout',
                     'title' => trans('anomaly.theme.flow::control_panel.logout')
                 ],
-            ]);
+            ];
         }
 
-        $this->evaluator->evaluate($builder);
-        $this->normalizer->normalize($builder);
+        $shortcuts = evaluate($shortcuts, compact('builder'));
+
+        $shortcuts = $shortcuts ?: $builder->getShortcuts();
+
+        $shortcuts = Normalizer::shortcuts($shortcuts);
+        $shortcuts = Normalizer::attributes($shortcuts);
+        $shortcuts = Normalizer::dropdowns($shortcuts);
+
+        $builder->setShortcuts($shortcuts);
+
         $this->guesser->guess($builder);
-        $this->evaluator->evaluate($builder);
-        $this->parser->parse($builder);
+
+        $shortcuts = $builder->getShortcuts();
+
+        $shortcuts = evaluate($shortcuts, compact('builder'));
+        $shortcuts = parse($shortcuts);
+
+        $builder->setShortcuts($shortcuts);
     }
 }
