@@ -22,29 +22,29 @@ class ColumnInput
      */
     public function read(TableBuilder $builder)
     {
-        $columns = $builder->getButtons();
+        $columns = $builder->getColumns();
 
         /**
          * Resolve & Evaluate
          */
         $columns = resolver($columns, compact('builder'));
 
-        $columns = $columns ?: $builder->getButtons();
+        $columns = $columns ?: $builder->getColumns();
 
         $columns = evaluate($columns, compact('builder'));
 
-        $builder->setButtons($columns);
+        $builder->setColumns($columns);
 
         // ---------------------------------
-        $columns = $builder->getButtons();
+        $columns = $builder->getColumns();
 
         $columns = TableNormalizer::columns($columns);
         $columns = TableNormalizer::attributes($columns);
         $columns = TableNormalizer::dropdowns($columns);
 
-        $builder->setButtons($columns);
+        $builder->setColumns($columns);
         // ---------------------------------
 
-        $builder->setButtons(translate($builder->getButtons()));
+        $builder->setColumns(translate($builder->getColumns()));
     }
 }

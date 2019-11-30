@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\TableNormalizer;
 
 /**
  * Class HeaderInput
@@ -20,13 +21,6 @@ class HeaderInput
     protected $guesser;
 
     /**
-     * The resolver utility.
-     *
-     * @var HeaderResolver
-     */
-    protected $resolver;
-
-    /**
      * The header defaults;
      *
      * @var HeaderDefaults
@@ -34,30 +28,17 @@ class HeaderInput
     protected $defaults;
 
     /**
-     * The header normalizer.
-     *
-     * @var HeaderNormalizer
-     */
-    protected $normalizer;
-
-    /**
      * Create a new HeaderInput instance.
      *
      * @param HeaderGuesser    $guesser
-     * @param HeaderResolver   $resolver
      * @param HeaderDefaults   $defaults
-     * @param HeaderNormalizer $normalizer
      */
     public function __construct(
         HeaderGuesser $guesser,
-        HeaderResolver $resolver,
-        HeaderDefaults $defaults,
-        HeaderNormalizer $normalizer
+        HeaderDefaults $defaults
     ) {
         $this->guesser    = $guesser;
-        $this->resolver   = $resolver;
         $this->defaults   = $defaults;
-        $this->normalizer = $normalizer;
     }
 
     /**
@@ -68,9 +49,31 @@ class HeaderInput
      */
     public function read(TableBuilder $builder)
     {
-        $this->resolver->resolve($builder);
+        $columns = $builder->getFilters();
+        $stream = $builder->getTableStream();
+
+        /**
+         * Resolve & Evaluate
+         */
+        $columns = resolver($columns, compact('builder'));
+
+        $columns = $columns ?: $builder->getFilters();
+
+        $columns = evaluate($columns, compact('builder'));
+
+        $builder->setColumns($columns);
+
+        // ---------------------------------
+        $columns = $builder->getFilters();
+
+        $columns = TableNormalizer::headers($columns);
+        $columns = TableNormalizer::attributes($columns);
+
+        $builder->setColumns($columns);
+        // ---------------------------------
+
+
         $this->defaults->defaults($builder);
-        $this->normalizer->normalize($builder);
         $this->guesser->guess($builder);
 
         $builder->setColumns(translate($builder->getColumns()));
