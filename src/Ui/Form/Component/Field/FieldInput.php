@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\Ui\Support\Normalizer;
+use Anomaly\Streams\Platform\Ui\Form\FormNormalizer;
 
 class FieldInput
 {
@@ -65,7 +65,7 @@ class FieldInput
 
         $fields = evaluate($fields, compact('builder', 'entry'));
 
-        $fields = Normalizer::fields($fields);
+        $fields = FormNormalizer::fields($fields);
 
         $builder->setFields($fields);
 
@@ -75,7 +75,7 @@ class FieldInput
 
         $fields = $builder->getFields();
 
-        $fields = Normalizer::fields($fields);
+        $fields = FormNormalizer::fields($fields);
 
         // -------------------------------------
         // -------------- EXTRA ----------------

@@ -2,7 +2,7 @@
     <div class="table__views">
         <nav>
             @foreach ($table->getViews() as $view)
-                <a {{ html_attributes($view->attributes()) }}>
+                <a {!! html_attributes($view->attributes()) !!}>
                     {!! $view->icon() !!}
                     {{ $view->getText() }}
 

@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Section;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\Ui\Support\Normalizer;
+use Anomaly\Streams\Platform\Ui\Form\FormNormalizer;
 
 /**
  * Class SectionInput
@@ -34,8 +34,8 @@ class SectionInput
 
         $sections = evaluate($sections, compact('builder', 'entry'));
 
-        $sections = Normalizer::start($sections, 'view');
-        $sections = Normalizer::attributes($sections);
+        $sections = FormNormalizer::sections($sections);
+        $sections = FormNormalizer::attributes($sections);
 
         $sections = translate($sections);
 

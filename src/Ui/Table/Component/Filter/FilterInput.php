@@ -1,6 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\TableNormalizer;
 
 /**
  * Class FilterInput
@@ -27,37 +30,17 @@ class FilterInput
     protected $guesser;
 
     /**
-     * The resolver utility.
-     *
-     * @var FilterResolver
-     */
-    protected $resolver;
-
-    /**
-     * The filter normalizer.
-     *
-     * @var FilterNormalizer
-     */
-    protected $normalizer;
-
-    /**
      * Create a new FilterInput instance.
      *
      * @param FilterLookup     $lookup
      * @param FilterGuesser    $guesser
-     * @param FilterResolver   $resolver
-     * @param FilterNormalizer $normalizer
      */
     public function __construct(
         FilterLookup $lookup,
-        FilterGuesser $guesser,
-        FilterResolver $resolver,
-        FilterNormalizer $normalizer
+        FilterGuesser $guesser
     ) {
         $this->lookup     = $lookup;
         $this->guesser    = $guesser;
-        $this->resolver   = $resolver;
-        $this->normalizer = $normalizer;
     }
 
     /**
@@ -67,8 +50,29 @@ class FilterInput
      */
     public function read(TableBuilder $builder)
     {
-        $this->resolver->resolve($builder);
-        $this->normalizer->normalize($builder);
+        $filters = $builder->getFilters();
+        $stream = $builder->getTableStream();
+
+        /**
+         * Resolve & Evaluate
+         */
+        $filters = resolver($filters, compact('builder'));
+
+        $filters = $filters ?: $builder->getFilters();
+
+        $filters = evaluate($filters, compact('builder'));
+
+        $builder->setFilters($filters);
+
+        // ---------------------------------
+        $filters = $builder->getFilters();
+
+        $filters = TableNormalizer::filters($filters, $stream);
+        $filters = TableNormalizer::attributes($filters);
+
+        $builder->setFilters($filters);
+        // ---------------------------------
+
         $this->lookup->merge($builder);
         $this->guesser->guess($builder);
     }

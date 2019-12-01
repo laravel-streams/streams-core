@@ -49,7 +49,7 @@ class NavigationInput
         Normalizer::navigation($navigation);
         Normalizer::attributes($navigation);
 
-        $navigation = evaluate($navigation, compact('builder'));
+        $navigation = translate(evaluate($navigation, compact('builder')));
 
         $builder->setNavigation($navigation);
 

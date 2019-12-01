@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\Ui\Support\Normalizer;
+use Anomaly\Streams\Platform\Ui\Form\FormNormalizer;
 
 /**
  * Class ActionInput
@@ -113,8 +113,8 @@ class ActionInput
         /**
          * Normalize
          */
-        $actions = Normalizer::actions($actions, $prefix);
-        $actions = Normalizer::attributes($actions);
+        $actions = FormNormalizer::actions($actions);
+        $actions = FormNormalizer::attributes($actions);
 
         $builder->setActions($actions);
 

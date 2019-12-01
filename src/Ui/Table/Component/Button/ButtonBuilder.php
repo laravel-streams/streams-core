@@ -32,13 +32,6 @@ class ButtonBuilder
     protected $value;
 
     /**
-     * The button parser.
-     *
-     * @var ButtonParser
-     */
-    protected $parser;
-
-    /**
      * The button factory.
      *
      * @var ButtonFactory
@@ -57,20 +50,17 @@ class ButtonBuilder
      *
      * @param ButtonInput $input
      * @param ButtonValue $value
-     * @param ButtonParser $parser
      * @param ButtonFactory $factory
      * @param Evaluator $evaluator
      */
     public function __construct(
         ButtonInput $input,
         ButtonValue $value,
-        ButtonParser $parser,
         ButtonFactory $factory,
         Evaluator $evaluator
     ) {
         $this->input     = $input;
         $this->value     = $value;
-        $this->parser    = $parser;
         $this->factory   = $factory;
         $this->evaluator = $evaluator;
     }
@@ -94,8 +84,8 @@ class ButtonBuilder
 
             array_set($button, 'entry', $entry);
 
-            $button = $this->evaluator->evaluate($button, compact('entry', 'table'));
-            $button = $this->parser->parse($button, $entry);
+            $button = evaluate($button, compact('entry', 'builder'));
+            $button = parse($button, compact('entry'));
             $button = $this->value->replace($button, $entry);
             $button = $this->factory->make($button);
 

@@ -2,8 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
-use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\TableNormalizer;
 
 /**
  * Class ActionInput
@@ -89,9 +89,10 @@ class ActionInput
         // ------------------------------
 
         $actions = $builder->getActions();
-        $actions = Normalizer::start($actions, 'action', 'slug', true);
-        $actions = Normalizer::attributes($actions);
-        $actions = Normalizer::dropdowns($actions);
+
+        $actions = TableNormalizer::actions($actions);
+        $actions = TableNormalizer::attributes($actions);
+        $actions = TableNormalizer::dropdowns($actions);
 
         $builder->setActions($actions);
 

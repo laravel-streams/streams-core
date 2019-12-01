@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\TableNormalizer;
 
 /**
  * Class ColumnInput
@@ -15,39 +16,35 @@ class ColumnInput
 {
 
     /**
-     * The resolver utility.
-     *
-     * @var ColumnResolver
-     */
-    protected $resolver;
-
-    /**
-     * The column normalizer.
-     *
-     * @var ColumnNormalizer
-     */
-    protected $normalizer;
-
-    /**
-     * Create a new ColumnInput instance.
-     *
-     * @param ColumnResolver   $resolver
-     * @param ColumnNormalizer $normalizer
-     */
-    public function __construct(ColumnResolver $resolver, ColumnNormalizer $normalizer)
-    {
-        $this->resolver   = $resolver;
-        $this->normalizer = $normalizer;
-    }
-
-    /**
      * Read the builder's column input.
      *
      * @param TableBuilder $builder
      */
     public function read(TableBuilder $builder)
     {
-        $this->resolver->resolve($builder);
-        $this->normalizer->normalize($builder);
+        $columns = $builder->getColumns();
+
+        /**
+         * Resolve & Evaluate
+         */
+        $columns = resolver($columns, compact('builder'));
+
+        $columns = $columns ?: $builder->getColumns();
+
+        $columns = evaluate($columns, compact('builder'));
+
+        $builder->setColumns($columns);
+
+        // ---------------------------------
+        $columns = $builder->getColumns();
+
+        $columns = TableNormalizer::columns($columns);
+        $columns = TableNormalizer::attributes($columns);
+        $columns = TableNormalizer::dropdowns($columns);
+
+        $builder->setColumns($columns);
+        // ---------------------------------
+
+        $builder->setColumns(translate($builder->getColumns()));
     }
 }
