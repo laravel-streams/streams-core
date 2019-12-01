@@ -1,4 +1,4 @@
-<div class="section">
+<div class="form__section">
 
     @include('streams::form/partials/header')
 

@@ -67,6 +67,10 @@ class FieldInput
 
         $fields = FormNormalizer::fields($fields);
 
+        if ($fields === []) {
+            $fields = ['*'];
+        }
+
         $builder->setFields($fields);
 
         // -------------------------------------

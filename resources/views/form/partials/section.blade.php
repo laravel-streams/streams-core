@@ -1,4 +1,4 @@
-<div {{ html_attributes(array_get($section, 'attributes', [])) }}>
+<div {{ html_attributes(array_get($section, 'attributes', [])) }} class="form__section">
 
     @include('streams::form/partials/header')
 
