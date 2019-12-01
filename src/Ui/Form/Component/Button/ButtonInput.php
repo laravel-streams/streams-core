@@ -37,30 +37,20 @@ class ButtonInput
     protected $dropdown;
 
     /**
-     * The resolver utility.
-     *
-     * @var ButtonResolver
-     */
-    protected $resolver;
-
-    /**
      * Create a new ButtonInput instance.
      *
      * @param ButtonLookup     $lookup
      * @param ButtonGuesser    $guesser
      * @param ButtonDropdown   $dropdown
-     * @param ButtonResolver   $resolver
      */
     public function __construct(
         ButtonLookup $lookup,
         ButtonGuesser $guesser,
-        ButtonDropdown $dropdown,
-        ButtonResolver $resolver
+        ButtonDropdown $dropdown
     ) {
         $this->lookup     = $lookup;
         $this->guesser    = $guesser;
         $this->dropdown   = $dropdown;
-        $this->resolver   = $resolver;
     }
 
     /**
