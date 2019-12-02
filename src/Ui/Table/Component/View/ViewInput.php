@@ -3,6 +3,8 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\TableGuesser;
+use Anomaly\Streams\Platform\Ui\Table\TableNormalizer;
 
 /**
  * Class ViewInput
@@ -22,34 +24,14 @@ class ViewInput
     protected $lookup;
 
     /**
-     * The view guesser.
-     *
-     * @var ViewGuesser
-     */
-    protected $guesser;
-
-    /**
-     * The view defaults.
-     *
-     * @var ViewDefaults
-     */
-    protected $defaults;
-
-    /**
      * Create a new ViewInput instance.
      *
      * @param ViewLookup     $lookup
      * @param ViewGuesser    $guesser
-     * @param ViewDefaults   $defaults
      */
-    public function __construct(
-        ViewLookup $lookup,
-        ViewGuesser $guesser,
-        ViewDefaults $defaults
-    ) {
+    public function __construct(ViewLookup $lookup)
+    {
         $this->lookup     = $lookup;
-        $this->guesser    = $guesser;
-        $this->defaults   = $defaults;
     }
 
     /**
@@ -76,17 +58,35 @@ class ViewInput
         // ---------------------------------
         $views = $builder->getViews();
 
+        /**
+         * Defaults
+         */
+        if (
+            ($stream = $builder->getTableStream())
+            && $stream->isTrashable()
+            && !$builder->getViews()
+            && !$builder->isAjax()
+        ) {
+            $builder->setViews(
+                [
+                    'all',
+                    'trash',
+                ]
+            );
+        }
+
+        /**
+         * Normalize
+         */
         $views = TableNormalizer::views($views);
         $views = TableNormalizer::attributes($views);
 
         $builder->setViews($views);
         // ---------------------------------
 
-        $this->resolver->resolve($builder);
-        $this->defaults->defaults($builder);
-        $this->normalizer->normalize($builder);
         $this->lookup->merge($builder);
-        $this->guesser->guess($builder);
+
+        TableGuesser::views($builder);
 
         $builder->setViews(translate($builder->getViews()));
     }

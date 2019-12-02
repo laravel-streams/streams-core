@@ -92,6 +92,7 @@ class StreamsServiceProvider extends ServiceProvider
         'field_type.collection'                                                          => 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
         'plugin.collection'                                                              => 'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection',
         'theme.collection'                                                               => 'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection',
+        'cp.sections'                                                                    => 'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection',
     ];
 
     /**

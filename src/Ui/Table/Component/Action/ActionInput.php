@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\TableGuesser;
 use Anomaly\Streams\Platform\Ui\Table\TableNormalizer;
 
 /**
@@ -23,13 +24,6 @@ class ActionInput
     protected $lookup;
 
     /**
-     * The action guesser.
-     *
-     * @var ActionGuesser
-     */
-    protected $guesser;
-
-    /**
      * The dropdown utility.
      *
      * @var ActionDropdown
@@ -47,18 +41,15 @@ class ActionInput
      * Create a new ActionInput instance.
      *
      * @param ActionLookup     $lookup
-     * @param ActionGuesser    $guesser
      * @param ActionDropdown   $dropdown
      * @param ActionPredictor  $predictor
      */
     public function __construct(
         ActionLookup $lookup,
-        ActionGuesser $guesser,
         ActionDropdown $dropdown,
         ActionPredictor $predictor
     ) {
         $this->lookup     = $lookup;
-        $this->guesser    = $guesser;
         $this->dropdown   = $dropdown;
         $this->predictor  = $predictor;
     }
@@ -99,8 +90,9 @@ class ActionInput
         // ------------------------------
         $this->dropdown->flatten($builder);
         $this->lookup->merge($builder);
-        $this->guesser->guess($builder);
         // ------------------------------
+
+        TableGuesser::actions($builder);
 
         $actions = $builder->getActions();
         $actions = parse($actions);

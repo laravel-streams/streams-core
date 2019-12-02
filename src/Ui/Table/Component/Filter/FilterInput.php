@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\TableGuesser;
 use Anomaly\Streams\Platform\Ui\Table\TableNormalizer;
 
 /**
@@ -23,24 +24,14 @@ class FilterInput
     protected $lookup;
 
     /**
-     * The filter guesser.
-     *
-     * @var FilterGuesser
-     */
-    protected $guesser;
-
-    /**
      * Create a new FilterInput instance.
      *
      * @param FilterLookup     $lookup
-     * @param FilterGuesser    $guesser
      */
     public function __construct(
-        FilterLookup $lookup,
-        FilterGuesser $guesser
+        FilterLookup $lookup
     ) {
         $this->lookup     = $lookup;
-        $this->guesser    = $guesser;
     }
 
     /**
@@ -74,6 +65,7 @@ class FilterInput
         // ---------------------------------
 
         $this->lookup->merge($builder);
-        $this->guesser->guess($builder);
+
+        TableGuesser::filters($builder);
     }
 }

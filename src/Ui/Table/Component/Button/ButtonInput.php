@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\TableGuesser;
 use Anomaly\Streams\Platform\Ui\Table\TableNormalizer;
 
 /**
@@ -86,6 +87,9 @@ class ButtonInput
 
         $this->dropdown->flatten($builder);
         $this->lookup->merge($builder);
+
+        TableGuesser::buttons($builder, $builder->getTableStream());
+
         $this->guesser->guess($builder);
         $this->dropdown->build($builder);
 

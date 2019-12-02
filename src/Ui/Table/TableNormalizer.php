@@ -409,5 +409,7 @@ class TableNormalizer extends Normalizer
                 $view['view'] = $view['slug'];
             }
         }
+
+        return $views;
     }
 }

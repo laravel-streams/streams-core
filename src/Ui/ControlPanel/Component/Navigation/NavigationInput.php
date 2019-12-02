@@ -46,8 +46,8 @@ class NavigationInput
 
         $navigation = $navigation ?: $builder->getNavigation();
 
-        Normalizer::navigation($navigation);
-        Normalizer::attributes($navigation);
+        $navigation = Normalizer::navigation($navigation);
+        $navigation = Normalizer::attributes($navigation);
 
         $navigation = translate(evaluate($navigation, compact('builder')));
 
