@@ -1,6 +1,4 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;

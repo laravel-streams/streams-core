@@ -7,7 +7,7 @@
 
         @foreach ($table->getFilters() as $filter)
             <div class="table__filter">
-                {!! $filter->getInput() !!}
+                {{-- {!! $filter->getInput() !!} --}}
             </div>
         @endforeach
 
@@ -15,7 +15,8 @@
             {{-- {{ icon(table.options.filters.filter_icon ?: 'filter') }} --}}
             {{ trans('streams::button.filter') }}
         </button>
-        <a href="{{ $filter->url() }}" class="button">
+        
+        <a href="{{ url()->current() }}" class="button">
             {{-- {{ icon(table.options.filters.clear_icon ? table.options.filters.clear_icon) }} --}}
             {{ trans('streams::button.clear') }}
         </a>

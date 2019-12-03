@@ -24,7 +24,7 @@ class ControlPanel
     /**
      * The section buttons.
      *
-     * @var Collection
+     * @var ButtonCollection
      */
     protected $buttons;
 

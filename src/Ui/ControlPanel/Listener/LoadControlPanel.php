@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
  */
 class LoadControlPanel
 {
+
     use DispatchesJobs;
 
     /**

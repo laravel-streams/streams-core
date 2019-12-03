@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Traits;
 
+use Anomaly\Streams\Platform\Ui\Icon\Icon;
 use Anomaly\Streams\Platform\Ui\Icon\IconRegistry;
 
 /**
@@ -55,6 +56,6 @@ trait HasIcon
             return null;
         }
 
-        return '<i class="' . app(IconRegistry::class)->get($this->icon) . '"></i>';
+        return (new Icon())->setType(app(IconRegistry::class)->get($this->icon));
     }
 }

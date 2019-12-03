@@ -4,7 +4,7 @@
         <th colspan="100%">
             <div class="table__footer">
                 <div class="table__actions">
-                    {{ buttons($table->getActions()) }}
+                    {!! buttons($table->getActions()) !!}
                 </div>
 
                 @if ($table->getData()->get('pagination')['links'])

@@ -1,6 +1,4 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -41,9 +39,7 @@ class LoadFormErrors
     {
         /* @var MessageBag $errors */
         if ($errors = $session->get($this->builder->getOption('prefix') . 'errors')) {
-            $this->builder
-                ->setFormErrors($errors)
-                ->setFieldTypeErrors();
+            $this->builder->setFormErrors($errors);
         }
     }
 }

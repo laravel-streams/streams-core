@@ -1,12 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Icon;
+<?php
 
-/**
- * Class Icon
- *
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
- */
+namespace Anomaly\Streams\Platform\Ui\Icon;
+
+use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
+
 /**
  * Class Icon
  *
@@ -17,19 +15,15 @@
 class Icon
 {
 
+    use HasClassAttribute;
+    use HasHtmlAttributes;
+
     /**
      * The icon type.
      *
      * @var string
      */
     protected $type;
-
-    /**
-     * The icon class.
-     *
-     * @var string
-     */
-    protected $class;
 
     /**
      * Get the type.
@@ -55,26 +49,40 @@ class Icon
     }
 
     /**
-     * Get the class.
+     * Return the icon output.
      *
      * @return string
      */
-    public function getClass()
+    public function output()
     {
-        return $this->class;
+        return '<i ' . html_attributes($this->attributes()) . '></i>';
     }
 
     /**
-     * Set the class.
+     * Return class HTML.
      *
-     * @param $class
-     * @return $this
+     * @param string $class
+     * @return null|string
      */
-    public function setClass($class)
+    public function class($class = null)
     {
-        $this->class = $class;
+        return trim(implode(' ', [
+            $class,
+            $this->getType(),
+            $this->getClass()
+        ]));
+    }
 
-        return $this;
+    /**
+     * Return merged attributes.
+     *
+     * @param array $attributes
+     */
+    public function attributes(array $attributes = [])
+    {
+        return array_merge($this->attributes, [
+            'class' => $this->class()
+        ], $attributes);
     }
 
     /**
@@ -85,15 +93,5 @@ class Icon
     public function __toString()
     {
         return $this->output();
-    }
-
-    /**
-     * Return the icon output.
-     *
-     * @return string
-     */
-    public function output()
-    {
-        return '<i class="' . $this->type . ' ' . $this->class . '"></i>';
     }
 }

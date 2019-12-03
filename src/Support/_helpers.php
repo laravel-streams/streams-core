@@ -14,7 +14,6 @@ use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Stream\Command\GetStream;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
-use Anomaly\Streams\Platform\Ui\Button\Command\GetButtons;
 use Anomaly\Streams\Platform\Entry\Command\GetEntryCriteria;
 use Anomaly\Streams\Platform\Ui\Form\Command\GetFormCriteria;
 use Anomaly\Streams\Platform\Ui\Form\Command\GetTableCriteria;
@@ -325,7 +324,7 @@ if (!function_exists('buttons')) {
      */
     function buttons(ButtonCollection $buttons)
     {
-        return dispatch_now(new GetButtons($buttons));
+        return view('streams::buttons/buttons', ['buttons' => $buttons]);
     }
 }
 
@@ -768,5 +767,20 @@ if (!function_exists('icon')) {
     function icon($icon)
     {
         return '<i class="' . app(\Anomaly\Streams\Platform\Ui\Icon\IconRegistry::class)->get($icon) . '"></i>';
+    }
+}
+
+if (!function_exists('authorize')) {
+
+    /**
+     * Authorize a user against a permission.
+     *
+     * @param $permission
+     * @param UserInterface|null $user
+     * @return bool
+     */
+    function authorize($permission, \Anomaly\Streams\Platform\User\Contract\UserInterface $user = null)
+    {
+        return app(\Anomaly\Streams\Platform\Support\Authorizer::class)->authorize($permission, $user);
     }
 }

@@ -28,6 +28,7 @@ class Delete extends ActionHandler
 
         /* @var EloquentModel $entry */
         foreach ($selected as $id) {
+
             $entry = $model->find($id);
 
             $deletable = true;

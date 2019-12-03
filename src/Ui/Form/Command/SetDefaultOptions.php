@@ -49,7 +49,7 @@ class SetDefaultOptions
          * Default the form view based on the request.
          */
         if (!$this->builder->getFormOption('form_view') && $this->builder->isAjax()) {
-            $this->builder->setFormOption('form_view', 'streams::form/ajax');
+            $this->builder->setFormOption('form_view', 'streams::form/form');
         }
 
         if (!$this->builder->getFormOption('form_view') && $theme && $theme->isAdmin()) {
@@ -68,7 +68,7 @@ class SetDefaultOptions
          * Default the form wrapper view as well.
          */
         if (!$this->builder->getFormOption('wrapper_view') && $this->builder->isAjax()) {
-            $this->builder->setFormOption('wrapper_view', 'streams::ajax');
+            $this->builder->setFormOption('wrapper_view', 'streams::form');
         }
 
         if (!$this->builder->getFormOption('wrapper_view')) {

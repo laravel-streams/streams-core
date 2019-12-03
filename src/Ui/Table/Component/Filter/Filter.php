@@ -1,12 +1,9 @@
-<?php
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
-namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
-
-use Closure;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\GenericFilterQuery;
+use Closure;
 
 /**
  * Class Filter
@@ -17,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\GenericFilterQuery;
  */
 class Filter implements FilterInterface
 {
-    use HasHtmlAttributes;
 
     /**
      * The filter slug.
@@ -317,13 +313,5 @@ class Filter implements FilterInterface
         $this->stream = $stream;
 
         return $this;
-    }
-
-    /**
-     * Return the filter URL.
-     */
-    public function url()
-    {
-        return url()->current() . (request()->has('view') ? '?view=' . request('view') : '');
     }
 }

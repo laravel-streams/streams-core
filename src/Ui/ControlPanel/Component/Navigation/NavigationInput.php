@@ -2,8 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
-use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Event\SortNavigation;
 
 /**
  * Class NavigationInput
@@ -16,43 +16,129 @@ class NavigationInput
 {
 
     /**
-     * The navigation sorter.
-     *
-     * @var NavigationSorter
-     */
-    protected $sorter;
-
-    /**
-     * Create a new NavigationInput instance.
-     *
-     * @param NavigationSorter     $sorter
-     */
-    public function __construct(
-        NavigationSorter $sorter
-    ) {
-        $this->sorter     = $sorter;
-    }
-
-    /**
      * Read the navigation input.
      *
      * @param ControlPanelBuilder $builder
      */
-    public function read(ControlPanelBuilder $builder)
+    public static function read(ControlPanelBuilder $builder)
     {
-        $navigation = $builder->getNavigation();
+        self::resolve($builder);
+        self::normalize($builder);
+        self::sort($builder);
+    }
 
-        $navigation = resolver($navigation, compact('builder'));
+    /**
+     * Resolve input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder $builder
+     */
+    protected static function resolve(ControlPanelBuilder $builder)
+    {
+        $navigation = resolver($builder->getNavigation(), compact('builder'));
 
-        $navigation = $navigation ?: $builder->getNavigation();
+        $builder->setNavigation(evaluate($navigation ?: $builder->getNavigation(), compact('builder')));
+    }
 
-        $navigation = Normalizer::navigation($navigation);
-        $navigation = Normalizer::attributes($navigation);
+    /**
+     * Normalize input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder $builder
+     */
+    protected static function normalize(ControlPanelBuilder $builder)
+    {
+        $links = $builder->getNavigation();
 
-        $navigation = translate(evaluate($navigation, compact('builder')));
+        foreach ($links as $path => &$link) {
+
+            /*
+             * If the link is a string
+             * then it must be in the
+             * $path => $title format.
+             */
+            if (is_string($link)) {
+                $link = [
+                    'href' => $path,
+                ];
+            }
+
+            /*
+             * Make sure we have attributes.
+             */
+            $link['attributes'] = array_get($link, 'attributes', []);
+
+            /*
+             * Move the HREF into attributes.
+             */
+            if (isset($link['href'])) {
+                $link['attributes']['href'] = array_pull($link, 'href');
+            }
+
+            /*
+             * Move all data-* keys
+             * to attributes.
+             */
+            foreach ($link as $attribute => $value) {
+                if (str_is('data-*', $attribute)) {
+                    array_set($link, 'attributes.' . $attribute, array_pull($link, $attribute));
+                }
+            }
+
+            /*
+             * Make sure the HREF is absolute.
+             */
+            if (
+                isset($link['attributes']['href']) &&
+                is_string($link['attributes']['href']) &&
+                !starts_with($link['attributes']['href'], 'http')
+            ) {
+                $link['attributes']['href'] = url($link['attributes']['href']);
+            }
+        }
+
+        $builder->setNavigation($links);
+    }
+
+    /**
+     * Sort input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder $builder
+     */
+    protected static function sort(ControlPanelBuilder $builder)
+    {
+        if (!$navigation = $builder->getNavigation()) {
+            return;
+        }
+
+        ksort($navigation);
+
+        /**
+         * Make the namespaces the key now
+         * that we've applied default sorting.
+         */
+        $navigation = array_combine(
+            array_map(
+                function ($item) {
+                    return $item['slug'];
+                },
+                $navigation
+            ),
+            array_values($navigation)
+        );
+
+        /**
+         * Again by default push the dashboard
+         * module to the top of the navigation.
+         */
+        foreach ($navigation as $key => $module) {
+            if ($key == 'anomaly.module.dashboard') {
+                $navigation = [$key => $module] + $navigation;
+
+                break;
+            }
+        }
 
         $builder->setNavigation($navigation);
 
-        $this->sorter->sort($builder);
+        event(new SortNavigation($builder));
     }
 }

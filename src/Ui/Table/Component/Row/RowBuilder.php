@@ -1,6 +1,4 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
 
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Button\ButtonBuilder;

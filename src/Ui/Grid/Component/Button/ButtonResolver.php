@@ -1,6 +1,4 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\Grid\Component\Button;
+<?php namespace Anomaly\Streams\Platform\Ui\Grid\Component\Button;
 
 use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
@@ -39,6 +37,6 @@ class ButtonResolver
      */
     public function resolve(GridBuilder $builder)
     {
-        resolver($builder->getButtons(), compact('builder'));
+        $this->resolver->resolve($builder->getButtons(), compact('builder'));
     }
 }

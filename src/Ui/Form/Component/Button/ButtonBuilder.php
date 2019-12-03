@@ -1,6 +1,4 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -52,6 +50,7 @@ class ButtonBuilder
 
         foreach ($builder->getButtons() as $button) {
             if (array_get($button, 'enabled', true)) {
+
                 $button = $this->factory->make($button);
 
                 $builder->addFormButton($button);

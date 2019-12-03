@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
@@ -16,52 +18,17 @@ class HrefGuesser
 {
 
     /**
-     * The URL generator.
-     *
-     * @var UrlGenerator
-     */
-    protected $url;
-
-    /**
-     * The request object.
-     *
-     * @var Request
-     */
-    protected $request;
-
-    /**
-     * The module collection.
-     *
-     * @var ModuleCollection
-     */
-    protected $modules;
-
-    /**
-     * Create a new HrefGuesser instance.
-     *
-     * @param UrlGenerator     $url
-     * @param Request          $request
-     * @param ModuleCollection $modules
-     */
-    public function __construct(UrlGenerator $url, Request $request, ModuleCollection $modules)
-    {
-        $this->url     = $url;
-        $this->request = $request;
-        $this->modules = $modules;
-    }
-
-    /**
      * Guess the HREF for a button.
      *
      * @param ControlPanelBuilder $builder
      */
-    public function guess(ControlPanelBuilder $builder)
+    public static function guess(ControlPanelBuilder $builder)
     {
         $buttons  = $builder->getButtons();
         $sections = $builder->getControlPanelSections();
 
         $active = $sections->active();
-        $module = $this->modules->active();
+        $module = app('module.collection')->active();
 
         foreach ($buttons as &$button) {
 
@@ -81,7 +48,7 @@ class HrefGuesser
 
                 case 'export':
                     if ($module) {
-                        $button['attributes']['href'] = $this->url->to(
+                        $button['attributes']['href'] = url(
                             'entry/handle/export/' . $module->getNamespace() . '/' . array_get(
                                 $button,
                                 'namespace'

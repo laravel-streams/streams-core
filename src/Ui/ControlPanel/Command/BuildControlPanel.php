@@ -3,12 +3,14 @@
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Command;
 
 use Anomaly\Streams\Platform\Asset\Asset;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Command\BuildButtons;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\ButtonBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command\BuildNavigation;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command\SetActiveNavigationLink;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command\SetMainNavigationLinks;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command\BuildSections;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command\SetActiveSection;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Command\BuildShortcuts;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Event\ControlPanelIsBuilding;
@@ -24,7 +26,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class BuildControlPanel
 {
-    use DispatchesJobs;
 
     /**
      * The builder object.
@@ -52,16 +53,17 @@ class BuildControlPanel
 
         $asset->add('scripts.js', 'streams::js/cp/click.js');
 
-        $this->dispatchNow(new BuildNavigation($this->builder));
-        $this->dispatchNow(new SetActiveNavigationLink($this->builder));
-        $this->dispatchNow(new SetMainNavigationLinks($this->builder));
+        NavigationBuilder::build($this->builder);
 
-        $this->dispatchNow(new BuildSections($this->builder));
-        $this->dispatchNow(new SetActiveSection($this->builder));
+        dispatch_now(new SetActiveNavigationLink($this->builder));
+        dispatch_now(new SetMainNavigationLinks($this->builder));
 
-        $this->dispatchNow(new BuildShortcuts($this->builder));
+        SectionBuilder::build($this->builder);
+        dispatch_now(new SetActiveSection($this->builder));
 
-        $this->dispatchNow(new BuildButtons($this->builder));
+        dispatch_now(new BuildShortcuts($this->builder));
+
+        ButtonBuilder::build($this->builder);
 
         event(new ControlPanelWasBuilt($this->builder));
     }

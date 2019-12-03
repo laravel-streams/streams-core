@@ -17,6 +17,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class HandleVersioning
 {
+
     use DispatchesJobs;
 
     /**

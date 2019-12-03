@@ -1,6 +1,4 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\Form;
+<?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Ui\Form\Command\RepopulateFields;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetErrorMessages;
@@ -18,6 +16,7 @@ use Illuminate\Validation\Validator;
  */
 class FormValidator
 {
+
     use DispatchesJobs;
 
     /**
@@ -130,8 +129,6 @@ class FormValidator
                     $builder->addFormError($field, $message);
                 }
             }
-
-            $builder->setFieldTypeErrors();
 
             $this->dispatchNow(new SetErrorMessages($builder));
         }

@@ -40,7 +40,7 @@ class FormFactory
     {
         $parameters = $this->resolve($parameters);
 
-        $builder = app($parameters['builder']);
+        $builder = $this->container->make($parameters['builder']);
 
         $criteria = substr(get_class($builder), 0, -7) . 'Criteria';
 
@@ -48,7 +48,7 @@ class FormFactory
             $criteria = 'Anomaly\Streams\Platform\Ui\Form\FormCriteria';
         }
 
-        return app(
+        return $this->container->make(
             $criteria,
             [
                 'builder'    => $builder,

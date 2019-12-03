@@ -32,6 +32,7 @@ class FilterLookup
         $filters = $builder->getFilters();
 
         foreach ($filters as &$parameters) {
+
             $filter = array_pull($parameters, 'filter');
 
             if ($filter && $filter = $this->filters->get($filter)) {

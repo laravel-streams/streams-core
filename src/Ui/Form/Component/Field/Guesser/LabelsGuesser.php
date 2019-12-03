@@ -25,6 +25,7 @@ class LabelsGuesser
         $stream = $builder->getFormStream();
 
         foreach ($fields as &$field) {
+
             $locale = array_get($field, 'locale');
 
             /*
@@ -72,9 +73,9 @@ class LabelsGuesser
             $label = $assignment->getLabel() . '.default';
 
             if (!isset($field['label']) && str_is('*::*', $label) && trans()->has(
-                $label,
-                $locale
-            )
+                    $label,
+                    $locale
+                )
             ) {
                 $field['label'] = trans($label, [], null, $locale);
             }

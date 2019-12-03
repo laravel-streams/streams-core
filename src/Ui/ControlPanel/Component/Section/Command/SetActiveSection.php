@@ -56,6 +56,7 @@ class SetActiveSection
 
         /* @var SectionInterface $section */
         foreach ($sections as $section) {
+
             if (($matcher = $section->getMatcher()) && str_is($matcher, $request->path())) {
                 $active = $section;
             }

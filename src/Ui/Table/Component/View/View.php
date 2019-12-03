@@ -2,11 +2,15 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
-use Closure;
-use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
+use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
+use Anomaly\Streams\Platform\Ui\Contract\HtmlAttributesInterface;
+use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
+use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
+use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
+use Closure;
 
 /**
  * Class View
@@ -15,10 +19,12 @@ use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class View implements ViewInterface
+class View implements ViewInterface, IconInterface, ClassAttributeInterface, HtmlAttributesInterface
 {
+
     use HasIcon;
     use FiresCallbacks;
+    use HasClassAttribute;
     use HasHtmlAttributes;
 
     /**
@@ -34,6 +40,13 @@ class View implements ViewInterface
      * @var null|string
      */
     protected $text = null;
+
+    /**
+     * The view icon.
+     *
+     * @var null|string
+     */
+    protected $icon = null;
 
     /**
      * The view label.
@@ -62,6 +75,13 @@ class View implements ViewInterface
      * @var string
      */
     protected $context = 'danger';
+
+    /**
+     * The attributes array.
+     *
+     * @var array
+     */
+    protected $attributes = [];
 
     /**
      * The view filters.
@@ -161,6 +181,29 @@ class View implements ViewInterface
     public function setContext($context)
     {
         $this->context = $context;
+
+        return $this;
+    }
+
+    /**
+     * Get the attributes.
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Set the attributes.
+     *
+     * @param  array $attributes
+     * @return $this
+     */
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
 
         return $this;
     }
@@ -299,6 +342,29 @@ class View implements ViewInterface
     public function setText($text)
     {
         $this->text = $text;
+
+        return $this;
+    }
+
+    /**
+     * Get the icon.
+     *
+     * @return null|string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * Set the icon.
+     *
+     * @param $icon
+     * @return $this
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
 
         return $this;
     }

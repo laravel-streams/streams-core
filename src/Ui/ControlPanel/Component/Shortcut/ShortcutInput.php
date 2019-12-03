@@ -1,10 +1,7 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
+<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 
 /**
  * Class ShortcutInput
@@ -15,6 +12,13 @@ use Anomaly\Streams\Platform\Ui\Support\Normalizer;
  */
 class ShortcutInput
 {
+
+    /**
+     * The shortcut parser.
+     *
+     * @var ShortcutParser
+     */
+    protected $parser;
 
     /**
      * The module collection.
@@ -31,17 +35,50 @@ class ShortcutInput
     protected $guesser;
 
     /**
+     * The shortcut evaluator.
+     *
+     * @var ShortcutEvaluator
+     */
+    protected $evaluator;
+
+    /**
+     * The resolver utility.
+     *
+     * @var ShortcutResolver
+     */
+    protected $resolver;
+
+    /**
+     * The shortcut normalizer.
+     *
+     * @var ShortcutNormalizer
+     */
+    protected $normalizer;
+
+    /**
      * Create a new ShortcutInput instance.
      *
+     * @param ShortcutParser     $parser
      * @param ShortcutGuesser    $guesser
      * @param ModuleCollection  $modules
+     * @param ShortcutResolver   $resolver
+     * @param ShortcutEvaluator  $evaluator
+     * @param ShortcutNormalizer $normalizer
      */
     public function __construct(
+        ShortcutParser $parser,
         ShortcutGuesser $guesser,
-        ModuleCollection $modules
+        ModuleCollection $modules,
+        ShortcutResolver $resolver,
+        ShortcutEvaluator $evaluator,
+        ShortcutNormalizer $normalizer
     ) {
+        $this->parser     = $parser;
         $this->guesser    = $guesser;
         $this->modules    = $modules;
+        $this->resolver   = $resolver;
+        $this->evaluator  = $evaluator;
+        $this->normalizer = $normalizer;
     }
 
     /**
@@ -52,46 +89,11 @@ class ShortcutInput
      */
     public function read(ControlPanelBuilder $builder)
     {
-        $shortcuts = $builder->getShortcuts();
-
-        $shortcuts = resolver($shortcuts, compact('builder'));
-
-        $shortcuts = $shortcuts ?: $builder->getShortcuts();
-
-        // Defaults
-        if (!$shortcuts) {
-            $shortcuts = [
-                'view_site' => [
-                    'href'   => '/',
-                    'class'  => 'button',
-                    'target' => '_blank',
-                    'title'  => trans('anomaly.theme.flow::control_panel.view_site')
-                ],
-                'logout' => [
-                    'class' => 'button',
-                    'href'  => 'admin/logout',
-                    'title' => trans('anomaly.theme.flow::control_panel.logout')
-                ],
-            ];
-        }
-
-        $shortcuts = evaluate($shortcuts, compact('builder'));
-
-        $shortcuts = $shortcuts ?: $builder->getShortcuts();
-
-        $shortcuts = Normalizer::shortcuts($shortcuts);
-        $shortcuts = Normalizer::attributes($shortcuts);
-        $shortcuts = Normalizer::dropdowns($shortcuts);
-
-        $builder->setShortcuts($shortcuts);
-
+        $this->resolver->resolve($builder);
+        $this->evaluator->evaluate($builder);
+        $this->normalizer->normalize($builder);
         $this->guesser->guess($builder);
-
-        $shortcuts = $builder->getShortcuts();
-
-        $shortcuts = evaluate($shortcuts, compact('builder'));
-        $shortcuts = parse($shortcuts);
-
-        $builder->setShortcuts($shortcuts);
+        $this->evaluator->evaluate($builder);
+        $this->parser->parse($builder);
     }
 }

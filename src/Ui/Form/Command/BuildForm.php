@@ -1,6 +1,4 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\BuildActions;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveAction;
@@ -20,6 +18,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class BuildForm
 {
+
     use DispatchesJobs;
 
     /**

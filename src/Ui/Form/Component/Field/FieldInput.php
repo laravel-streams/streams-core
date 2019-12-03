@@ -1,9 +1,6 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\Ui\Form\FormNormalizer;
 
 class FieldInput
 {
@@ -16,11 +13,39 @@ class FieldInput
     protected $filler;
 
     /**
+     * The field parser.
+     *
+     * @var FieldParser
+     */
+    protected $parser;
+
+    /**
      * The field guesser.
      *
      * @var FieldGuesser
      */
     protected $guesser;
+
+    /**
+     * The field defaulter.
+     *
+     * @var FieldDefaults
+     */
+    protected $defaults;
+
+    /**
+     * The resolver utility.
+     *
+     * @var FieldResolver
+     */
+    protected $resolver;
+
+    /**
+     * The evaluator utility.
+     *
+     * @var FieldEvaluator
+     */
+    protected $evaluator;
 
     /**
      * The field populator.
@@ -30,20 +55,52 @@ class FieldInput
     protected $populator;
 
     /**
+     * The field normalizer.
+     *
+     * @var FieldNormalizer
+     */
+    protected $normalizer;
+
+    /**
+     * The field translator.
+     *
+     * @var FieldTranslator
+     */
+    protected $translator;
+
+    /**
      * Create a new FieldInput instance.
      *
      * @param FieldFiller     $filler
+     * @param FieldParser     $parser
      * @param FieldGuesser    $guesser
+     * @param FieldDefaults   $defaults
+     * @param FieldResolver   $resolver
+     * @param FieldEvaluator  $evaluator
      * @param FieldPopulator  $populator
+     * @param FieldNormalizer $normalizer
+     * @param FieldTranslator $translator
      */
     public function __construct(
         FieldFiller $filler,
+        FieldParser $parser,
         FieldGuesser $guesser,
-        FieldPopulator $populator
+        FieldDefaults $defaults,
+        FieldResolver $resolver,
+        FieldEvaluator $evaluator,
+        FieldPopulator $populator,
+        FieldNormalizer $normalizer,
+        FieldTranslator $translator
     ) {
         $this->filler     = $filler;
+        $this->parser     = $parser;
         $this->guesser    = $guesser;
+        $this->defaults   = $defaults;
+        $this->resolver   = $resolver;
+        $this->evaluator  = $evaluator;
         $this->populator  = $populator;
+        $this->normalizer = $normalizer;
+        $this->translator = $translator;
     }
 
     /**
@@ -53,63 +110,17 @@ class FieldInput
      */
     public function read(FormBuilder $builder)
     {
-        $fields = $builder->getFields();
-        $entry = $builder->getFormEntry();
-
-        /**
-         * Resolve & Evaluate
-         */
-        $fields = resolver($fields, compact('builder', 'entry'));
-
-        $fields = $fields ?: $builder->getFields();
-
-        $fields = evaluate($fields, compact('builder', 'entry'));
-
-        $fields = FormNormalizer::fields($fields);
-
-        if ($fields === []) {
-            $fields = ['*'];
-        }
-
-        $builder->setFields($fields);
-
-        // -------------------------------------
+        $this->resolver->resolve($builder);
+        $this->normalizer->normalize($builder);
+        $this->evaluator->evaluate($builder);
+        $this->defaults->defaults($builder);
         $this->filler->fill($builder);
-        // -------------------------------------
 
-        $fields = $builder->getFields();
-
-        $fields = FormNormalizer::fields($fields);
-
-        // -------------------------------------
-        // -------------- EXTRA ----------------
-        // -------------------------------------
-        $first = array_shift($fields);
-
-        array_set($first, 'attributes.data-keymap', 'f');
-
-        array_unshift($fields, $first);
-        // -------------------------------------
-        // ------------ EOF EXTRA --------------
-        // -------------------------------------
-
-        $builder->setFields($fields);
-
-        // -------------------------------------
+        $this->normalizer->normalize($builder); //Yes, again.
         $this->guesser->guess($builder);
-        // -------------------------------------
+        $this->parser->parse($builder);
 
-        $fields = $builder->getFields();
-
-        $fields = parse($fields, compact('entry'));
-
-        $fields = translate($fields);
-
-        $builder->setFields($fields);
-
-
-        // -------------------------------------
+        $this->translator->translate($builder);
         $this->populator->populate($builder);
-        // -------------------------------------
     }
 }

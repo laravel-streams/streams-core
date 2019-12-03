@@ -4,8 +4,13 @@ namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
 
 use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
+use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
+use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
+use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
+use Anomaly\Streams\Platform\Ui\Contract\HtmlAttributesInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
 
 /**
@@ -15,8 +20,11 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Row implements RowInterface
+class Row implements RowInterface, IconInterface, ClassAttributeInterface, HtmlAttributesInterface
 {
+
+    use HasIcon;
+    use HasClassAttribute;
     use HasHtmlAttributes;
 
     /**
@@ -25,13 +33,6 @@ class Row implements RowInterface
      * @var null
      */
     protected $key = null;
-
-    /**
-     * The row class.
-     *
-     * @var null|string
-     */
-    protected $class = null;
 
     /**
      * The row entry.
@@ -80,29 +81,6 @@ class Row implements RowInterface
     public function setKey($key)
     {
         $this->key = $key;
-
-        return $this;
-    }
-
-    /**
-     * Get the class.
-     *
-     * @return null
-     */
-    public function getClass()
-    {
-        return $this->class;
-    }
-
-    /**
-     * Set the class.
-     *
-     * @param $class
-     * @return $this
-     */
-    public function setClass($class)
-    {
-        $this->class = $class;
 
         return $this;
     }
@@ -197,17 +175,5 @@ class Row implements RowInterface
     public function getEntry()
     {
         return $this->entry;
-    }
-
-    /**
-     * Return merged attributes.
-     *
-     * @param array $attributes
-     */
-    public function attributes(array $attributes = [])
-    {
-        return array_merge($this->attributes, [
-            'id' => $this->table->getOption('prefix') . 'row-' . $this->getKey()
-        ], $attributes);
     }
 }

@@ -53,7 +53,7 @@ class ShortcutFactory
      */
     public function make(array $parameters)
     {
-        $shortcut = app(array_get($parameters, 'shortcut', $this->shortcut), $parameters);
+        $shortcut = $this->container->make(array_get($parameters, 'shortcut', $this->shortcut), $parameters);
 
         $this->hydrator->hydrate($shortcut, $parameters);
 

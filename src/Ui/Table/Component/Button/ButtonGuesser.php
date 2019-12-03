@@ -1,6 +1,4 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser\EnabledGuesser;
 use Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser\HrefGuesser;

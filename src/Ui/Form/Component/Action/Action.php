@@ -1,10 +1,7 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Button\Button;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
-use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 
 /**
  * Class Action
@@ -15,7 +12,6 @@ use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
  */
 class Action extends Button implements ActionInterface
 {
-    use HasHtmlAttributes;
 
     /**
      * The button tag.
@@ -178,19 +174,5 @@ class Action extends Button implements ActionInterface
         $this->slug = $slug;
 
         return $this;
-    }
-
-    /**
-     * Return merged attributes.
-     *
-     * @param array $attributes
-     */
-    public function attributes(array $attributes = [])
-    {
-        return array_merge([
-            'name' => 'action',
-            'type' => 'submit',
-            'value' => $this->getSlug(),
-        ], $attributes);
     }
 }

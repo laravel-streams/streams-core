@@ -1,6 +1,4 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
@@ -98,6 +96,7 @@ class HrefGuesser
              * move that to an HREF closure.
              */
             if (isset($button['route']) && $builder->getTableStream()) {
+
                 $button['attributes']['href'] = function ($entry) use ($button) {
 
                     /* @var EntryInterface $entry */
@@ -112,7 +111,8 @@ class HrefGuesser
                 case 'restore':
 
                     $button['attributes']['href'] = $this->url->to(
-                        'entry/handle/restore/' . $module->getNamespace() . '/' . $stream->getNamespace() . '/' . $stream->getSlug() . '/{entry.id}'
+                        'entry/handle/restore/' . $module->getNamespace() . '/' . $stream->getNamespace(
+                        ) . '/' . $stream->getSlug() . '/{entry.id}'
                     );
 
                     break;

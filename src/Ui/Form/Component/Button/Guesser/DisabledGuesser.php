@@ -41,6 +41,7 @@ class DisabledGuesser
         $mode    = $builder->getFormMode();
 
         foreach ($buttons as &$button) {
+
             if (!isset($button['disabled'])) {
                 continue;
             }

@@ -1,6 +1,4 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\Tree\Component\Button;
+<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Button;
 
 use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
@@ -39,6 +37,6 @@ class ButtonResolver
      */
     public function resolve(TreeBuilder $builder)
     {
-        resolver($builder->getButtons(), compact('builder'));
+        $this->resolver->resolve($builder->getButtons(), compact('builder'));
     }
 }

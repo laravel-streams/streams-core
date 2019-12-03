@@ -66,6 +66,7 @@ class FieldPopulator
              * The " && $entry->getId()" get's removed but needs replaced with something duplication specific.
              */
             if (!isset($field['value']) && $entry instanceof EloquentModel && $entry->getId()) {
+
                 $locale = array_get($field, 'locale');
 
                 if ($locale && $translation = $entry->translate($locale)) {
@@ -98,8 +99,8 @@ class FieldPopulator
              * use it's config for the default value.
              */
             if (!isset($field['value']) && $entry instanceof EntryInterface && $type = $entry->getFieldType(
-                $field['field']
-            )
+                    $field['field']
+                )
             ) {
                 $field['value'] = array_get($type->getConfig(), 'default_value');
             }

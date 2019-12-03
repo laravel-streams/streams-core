@@ -54,6 +54,7 @@ class GetTableEntries
          * of entries set on it then use those.
          */
         if ($entries instanceof Collection) {
+
             $this->builder->setTableEntries($entries);
 
             return;

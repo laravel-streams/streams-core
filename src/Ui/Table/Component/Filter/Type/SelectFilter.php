@@ -1,6 +1,4 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
 
 use Anomaly\SelectFieldType\SelectFieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
@@ -12,8 +10,9 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 /**
  * Class SelectFilter
  *
- * @link   http://pyrocms.com/
- * @author Ryan Thompson <ryan@pyrocms.com>
+ * @link    http://pyrocms.com/
+ * @author  PyroCMS, Inc. <support@pyrocms.com>
+ * @author  Ryan Thompson <ryan@pyrocms.com>
  */
 class SelectFilter extends Filter implements SelectFilterInterface
 {
@@ -67,7 +66,6 @@ class SelectFilter extends Filter implements SelectFilterInterface
      */
     public function getInput()
     {
-        return 'Replace the filter view for select generic filters.';
         $this->resolver->resolve($this->getOptions(), ['filter' => $this]);
 
         return $this->builder->build(['type' => SelectFieldType::class])

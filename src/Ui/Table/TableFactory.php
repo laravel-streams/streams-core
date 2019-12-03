@@ -40,7 +40,7 @@ class TableFactory
     {
         $parameters = $this->resolve($parameters);
 
-        $builder = app($parameters['builder']);
+        $builder = $this->container->make($parameters['builder']);
 
         $criteria = substr(get_class($builder), 0, -7) . 'Criteria';
 
@@ -48,7 +48,7 @@ class TableFactory
             $criteria = 'Anomaly\Streams\Platform\Ui\Table\TableCriteria';
         }
 
-        return app(
+        return $this->container->make(
             $criteria,
             [
                 'builder'    => $builder,
@@ -83,4 +83,5 @@ class TableFactory
 
         return $parameters;
     }
+
 }

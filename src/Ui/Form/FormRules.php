@@ -29,6 +29,7 @@ class FormRules
 
         /* @var FieldType $field */
         foreach ($builder->getEnabledFormFields() as $field) {
+
             if ($field->isDisabled()) {
                 continue;
             }
@@ -42,6 +43,7 @@ class FormRules
             $rules = $field->extendRules($rules);
 
             if (!$stream instanceof StreamInterface) {
+
                 $rules[$field->getInputName()] = array_merge(
                     array_unique($fieldRules),
                     array_get($rules, $field->getInputName(), [])
@@ -51,6 +53,7 @@ class FormRules
             }
 
             if ($assignment = $stream->getAssignment($field->getField())) {
+
                 $type = $assignment->getFieldType();
 
                 if ($type->isRequired()) {
@@ -58,6 +61,7 @@ class FormRules
                 }
 
                 if (!isset($fieldRules['unique']) && $assignment->isUnique() && !$assignment->isTranslatable()) {
+
                     $unique = 'unique:' . $stream->getEntryTableName() . ',' . $field->getUniqueColumnName();
 
                     if ($entry && $id = $entry->getId()) {

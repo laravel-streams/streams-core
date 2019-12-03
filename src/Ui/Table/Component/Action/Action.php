@@ -1,10 +1,7 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Button\Button;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
-use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 
 /**
  * Class Action

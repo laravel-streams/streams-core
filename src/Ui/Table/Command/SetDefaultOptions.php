@@ -62,7 +62,7 @@ class SetDefaultOptions
          * Default the table view based on the request.
          */
         if (!$this->builder->getTableOption('table_view') && $this->builder->isAjax()) {
-            $this->builder->setTableOption('table_view', 'streams::table/ajax');
+            $this->builder->setTableOption('table_view', 'streams::table/table');
         }
 
         if (!$this->builder->getTableOption('table_view') && $theme && $theme->isAdmin()) {

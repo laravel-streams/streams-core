@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
  */
 class VersionForms
 {
+
     use DispatchesJobs;
 
     /**
@@ -49,6 +50,7 @@ class VersionForms
 
         /* @var FormBuilder $builder */
         foreach ($forms = $this->builder->getForms() as $slug => $builder) {
+
             $this->builder->fire('versioning_' . $slug, compact('builder', 'forms'));
 
             $this->dispatchNow(new HandleVersioning($builder));

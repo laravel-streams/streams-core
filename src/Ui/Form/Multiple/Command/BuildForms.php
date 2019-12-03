@@ -37,6 +37,7 @@ class BuildForms
     {
         /* @var FormBuilder $builder */
         foreach ($this->builder->getForms() as $builder) {
+
             $builder->build();
 
             /**

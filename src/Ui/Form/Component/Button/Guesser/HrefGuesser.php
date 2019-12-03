@@ -78,6 +78,7 @@ class HrefGuesser
              * move that to an HREF closure.
              */
             if (($route = array_pull($button, 'route')) && $builder->getFormStream()) {
+
                 $button['attributes']['href'] = $entry->route($route);
 
                 continue;

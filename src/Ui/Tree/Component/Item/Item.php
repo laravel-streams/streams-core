@@ -1,11 +1,8 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item;
+<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item;
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
-use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
-use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\SegmentCollection;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
+use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\SegmentCollection;
 
 /**
  * Class Item
@@ -16,7 +13,6 @@ use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
  */
 class Item implements ItemInterface
 {
-    use HasHtmlAttributes;
 
     /**
      * The item ID.

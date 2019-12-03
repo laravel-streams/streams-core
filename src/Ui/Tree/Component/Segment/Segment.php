@@ -1,8 +1,5 @@
-<?php
+<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
 
-namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
-
-use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\Contract\SegmentInterface;
 
 /**
@@ -15,14 +12,19 @@ use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\Contract\SegmentInterface
 class Segment implements SegmentInterface
 {
 
-    use HasHtmlAttributes;
-
     /**
      * The segment wrapper.
      *
      * @var null|string
      */
     protected $wrapper = null;
+
+    /**
+     * The segment attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [];
 
     /**
      * The segment view.
@@ -71,6 +73,29 @@ class Segment implements SegmentInterface
     public function setWrapper($wrapper)
     {
         $this->wrapper = $wrapper;
+
+        return $this;
+    }
+
+    /**
+     * Get the attributes.
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Set the attributes.
+     *
+     * @param  array $attributes
+     * @return $this
+     */
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
 
         return $this;
     }

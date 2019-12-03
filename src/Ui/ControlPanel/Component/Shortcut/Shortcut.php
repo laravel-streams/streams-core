@@ -1,11 +1,6 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
+<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Contract\ShortcutInterface;
-use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
-use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
-use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 
 /**
  * Class Shortcut
@@ -16,9 +11,6 @@ use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
  */
 class Shortcut implements ShortcutInterface
 {
-    use HasIcon;
-    use HasClassAttribute;
-    use HasHtmlAttributes;
 
     /**
      * The shortcut slug.
@@ -26,6 +18,13 @@ class Shortcut implements ShortcutInterface
      * @var null|string
      */
     protected $slug = null;
+
+    /**
+     * The shortcut icon.
+     *
+     * @var null|string
+     */
+    protected $icon = null;
 
     /**
      * The shortcut title.
@@ -42,6 +41,13 @@ class Shortcut implements ShortcutInterface
     protected $label = null;
 
     /**
+     * The class.
+     *
+     * @var null|string
+     */
+    protected $class = null;
+
+    /**
      * The highlighted flag.
      *
      * @var bool
@@ -54,6 +60,13 @@ class Shortcut implements ShortcutInterface
      * @var string
      */
     protected $context = 'danger';
+
+    /**
+     * The shortcut attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [];
 
     /**
      * The shortcut permission.
@@ -81,6 +94,29 @@ class Shortcut implements ShortcutInterface
     public function setSlug($slug)
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get the icon.
+     *
+     * @return null|string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * Set the icon.
+     *
+     * @param $icon
+     * @return $this
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
 
         return $this;
     }
@@ -133,14 +169,22 @@ class Shortcut implements ShortcutInterface
      *
      * @return string
      */
-    public function class($class = null)
+    public function getClass()
     {
-        return trim(implode(' ', array_unique([
-            $class,
-            'shortcut',
-            'shortcut--' . $this->getSlug(),
-            $this->getClass()
-        ])));
+        return $this->class;
+    }
+
+    /**
+     * Set the class.
+     *
+     * @param $class
+     * @return $this
+     */
+    public function setClass($class)
+    {
+        $this->class = $class;
+
+        return $this;
     }
 
     /**
@@ -190,9 +234,29 @@ class Shortcut implements ShortcutInterface
     }
 
     /**
+     * Get the attributes.
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Set the attributes.
+     *
+     * @param array $attributes
+     */
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
+    }
+
+    /**
      * Get the permission.
      *
-     * @return string
+     * @return null|string
      */
     public function getPermission()
     {
@@ -202,7 +266,7 @@ class Shortcut implements ShortcutInterface
     /**
      * Set the permission.
      *
-     * @param  srtring $perission
+     * @param $permission
      * @return $this
      */
     public function setPermission($permission)
@@ -221,17 +285,5 @@ class Shortcut implements ShortcutInterface
     public function getHref($path = null)
     {
         return array_get($this->attributes, 'href') . ($path ? '/' . $path : $path);
-    }
-
-    /**
-     * Return merged attributes.
-     *
-     * @param array $attributes
-     */
-    public function attributes(array $attributes = [])
-    {
-        return array_merge($this->attributes, [
-            'class' => $this->class(),
-        ], $attributes);
     }
 }

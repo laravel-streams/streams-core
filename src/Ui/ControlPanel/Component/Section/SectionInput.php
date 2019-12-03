@@ -2,9 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
-use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 
 /**
  * Class SectionInput
@@ -17,60 +15,51 @@ class SectionInput
 {
 
     /**
-     * The module collection.
-     *
-     * @var ModuleCollection
-     */
-    protected $modules;
-
-    /**
-     * The section guesser.
-     *
-     * @var SectionGuesser
-     */
-    protected $guesser;
-
-    /**
-     * Create a new SectionInput instance.
-     *
-     * @param SectionGuesser    $guesser
-     * @param ModuleCollection  $modules
-     */
-    public function __construct(
-        SectionGuesser $guesser,
-        ModuleCollection $modules
-    ) {
-        $this->guesser    = $guesser;
-        $this->modules    = $modules;
-    }
-
-    /**
      * Read the section input and process it
      * before building the objects.
      *
      * @param ControlPanelBuilder $builder
      */
-    public function read(ControlPanelBuilder $builder)
+    public static function read(ControlPanelBuilder $builder)
     {
-        $sections = $builder->getSections();
+        self::resolve($builder);
 
-        $sections = resolver($sections, compact('builder'));
+        SectionNormalizer::normalize($builder);
+        SectionGuesser::guess($builder);
 
-        $sections = evaluate($sections ?: $builder->getSections(), compact('builder'));
+        self::evaluate($builder);
+        self::parse($builder);
+    }
 
-        $sections = Normalizer::sections($sections);
+    /**
+     * Resolve input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder $builder
+     */
+    protected static function resolve(ControlPanelBuilder $builder)
+    {
+        $sections = resolver($builder->getSections(), compact('builder'));
 
-        $builder->setSections($sections);
+        $builder->setSections(evaluate($sections ?: $builder->getSections(), compact('builder')));
+    }
 
-        $this->guesser->guess($builder);
+    /**
+     * Evaluate input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder $builder
+     */
+    protected static function evaluate(ControlPanelBuilder $builder)
+    {
+        $builder->setSections(evaluate($builder->getSections(), compact('builder')));
+    }
 
-        $sections = $builder->getSections();
-
-        $sections = evaluate($sections, compact('builder'));
-        $sections = parse($sections);
-
-        $builder->setSections($sections);
-
-        $builder->setSections(translate($builder->getSections()));
+    /**
+     * Parse input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder $builder
+     */
+    protected static function parse(ControlPanelBuilder $builder)
+    {
+        $builder->setButtons(parse($builder->getButtons()));
     }
 }

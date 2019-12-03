@@ -1,6 +1,4 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
@@ -51,9 +49,8 @@ class FilterBuilder
 
         $this->input->read($builder);
 
-        $builder->setFilters(translate($builder->getFilters()));
-
         foreach ($builder->getFilters() as $filter) {
+
             if (array_get($filter, 'enabled') === false) {
                 continue;
             }

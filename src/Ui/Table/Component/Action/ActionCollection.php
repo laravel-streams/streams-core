@@ -9,6 +9,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
  * Class ActionCollection
  *
  * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
 class ActionCollection extends ButtonCollection

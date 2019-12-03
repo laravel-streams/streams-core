@@ -1,10 +1,6 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Anomaly\Streams\Platform\Ui\Table\TableGuesser;
-use Anomaly\Streams\Platform\Ui\Table\TableNormalizer;
 
 /**
  * Class ActionInput
@@ -24,11 +20,25 @@ class ActionInput
     protected $lookup;
 
     /**
+     * The action guesser.
+     *
+     * @var ActionGuesser
+     */
+    protected $guesser;
+
+    /**
      * The dropdown utility.
      *
      * @var ActionDropdown
      */
     protected $dropdown;
+
+    /**
+     * The resolver utility.
+     *
+     * @var ActionResolver
+     */
+    protected $resolver;
 
     /**
      * The action predictor.
@@ -38,20 +48,56 @@ class ActionInput
     protected $predictor;
 
     /**
+     * The evaluator utility.
+     *
+     * @var ActionEvaluator
+     */
+    protected $evaluator;
+
+    /**
+     * The action normalizer.
+     *
+     * @var ActionNormalizer
+     */
+    protected $normalizer;
+
+    /**
+     * The action parser.
+     *
+     * @var ActionParser
+     */
+    private $parser;
+
+    /**
      * Create a new ActionInput instance.
      *
+     * @param ActionParser     $parser
      * @param ActionLookup     $lookup
+     * @param ActionGuesser    $guesser
      * @param ActionDropdown   $dropdown
+     * @param ActionResolver   $resolver
      * @param ActionPredictor  $predictor
+     * @param ActionEvaluator  $evaluator
+     * @param ActionNormalizer $normalizer
      */
     public function __construct(
+        ActionParser $parser,
         ActionLookup $lookup,
+        ActionGuesser $guesser,
         ActionDropdown $dropdown,
-        ActionPredictor $predictor
+        ActionResolver $resolver,
+        ActionPredictor $predictor,
+        ActionEvaluator $evaluator,
+        ActionNormalizer $normalizer
     ) {
+        $this->parser     = $parser;
         $this->lookup     = $lookup;
+        $this->guesser    = $guesser;
         $this->dropdown   = $dropdown;
+        $this->resolver   = $resolver;
         $this->predictor  = $predictor;
+        $this->evaluator  = $evaluator;
+        $this->normalizer = $normalizer;
     }
 
     /**
@@ -62,50 +108,14 @@ class ActionInput
      */
     public function read(TableBuilder $builder)
     {
-        $actions = $builder->getActions();
-
-        /**
-         * Resolve & Evaluate
-         */
-        $actions = resolver($actions, compact('builder'));
-
-        $actions = $actions ?: $builder->getActions();
-
-        $actions = evaluate($actions, compact('builder'));
-
-        $builder->setActions($actions);
-
-        // ------------------------------
+        $this->resolver->resolve($builder);
+        $this->evaluator->evaluate($builder);
         $this->predictor->predict($builder);
-        // ------------------------------
-
-        $actions = $builder->getActions();
-
-        $actions = TableNormalizer::actions($actions);
-        $actions = TableNormalizer::attributes($actions);
-        $actions = TableNormalizer::dropdowns($actions);
-
-        $builder->setActions($actions);
-
-        // ------------------------------
+        $this->normalizer->normalize($builder);
         $this->dropdown->flatten($builder);
         $this->lookup->merge($builder);
-        // ------------------------------
-
-        TableGuesser::actions($builder);
-
-        $actions = $builder->getActions();
-        $actions = parse($actions);
-        $builder->setActions($actions);
-
-        // ------------------------------
+        $this->guesser->guess($builder);
+        $this->parser->parse($builder);
         $this->dropdown->build($builder);
-        // ------------------------------
-
-        $actions = $builder->getActions();
-
-        $actions = translate($actions);
-
-        $builder->setActions(translate($builder->getActions()));
     }
 }

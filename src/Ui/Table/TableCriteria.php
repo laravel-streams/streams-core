@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
  */
 class TableCriteria
 {
+
     use FiresCallbacks;
 
     /**
@@ -234,30 +235,35 @@ class TableCriteria
     public function __call($name, $arguments)
     {
         if (method_exists($this, $method = camel_case('set_' . $name))) {
+
             call_user_func([$this, $method], (new Decorator())->undecorate(array_shift($arguments)));
 
             return $this;
         }
 
         if (method_exists($this, $method = camel_case('add_' . $name))) {
+
             call_user_func([$this, $method], (new Decorator())->undecorate(array_shift($arguments)));
 
             return $this;
         }
 
         if (method_exists($this->builder, camel_case('set_' . $name))) {
+
             array_set($this->parameters, $name, (new Decorator())->undecorate(array_shift($arguments)));
 
             return $this;
         }
 
         if (method_exists($this->builder, camel_case('add_' . $name))) {
+
             array_set($this->parameters, $name, (new Decorator())->undecorate(array_shift($arguments)));
 
             return $this;
         }
 
         if (!method_exists($this->builder, camel_case($name)) && count($arguments) === 1) {
+
             $key = snake_case($name);
 
             array_set($this->parameters, "options.{$key}", (new Decorator())->undecorate(array_shift($arguments)));
@@ -266,6 +272,7 @@ class TableCriteria
         }
 
         if (!method_exists($this->builder, camel_case($name)) && count($arguments) === 0) {
+
             $key = snake_case($name);
 
             // Helpful for table.disableLabels().disableFoo() ...

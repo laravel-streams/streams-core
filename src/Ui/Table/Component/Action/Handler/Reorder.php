@@ -32,6 +32,7 @@ class Reorder extends ActionHandler
         $repository->withoutEvents(
             function () use ($repository, $items) {
                 foreach ($items as $k => $id) {
+                    
                     $repository
                         ->newQuery()
                         ->where('id', $id)

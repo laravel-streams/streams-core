@@ -4,10 +4,15 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
+use Anomaly\Streams\Platform\Ui\Icon\Icon;
 use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 use Anomaly\Streams\Platform\Ui\Icon\IconRegistry;
 use Anomaly\Streams\Platform\Ui\Icon\Command\GetIcon;
+use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
+use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
+use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
+use Anomaly\Streams\Platform\Ui\Contract\HtmlAttributesInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
 
 /**
@@ -17,10 +22,11 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\Navig
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class NavigationLink implements NavigationLinkInterface
+class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAttributeInterface, HtmlAttributesInterface
 {
 
     use HasIcon;
+    use HasClassAttribute;
     use HasHtmlAttributes;
 
     /**
@@ -36,13 +42,6 @@ class NavigationLink implements NavigationLinkInterface
      * @var null|string
      */
     protected $title = null;
-
-    /**
-     * The class.
-     *
-     * @var null|string
-     */
-    protected $class = null;
 
     /**
      * The active flag.
@@ -71,46 +70,6 @@ class NavigationLink implements NavigationLinkInterface
      * @var null|string
      */
     protected $breadcrumb = null;
-
-    /**
-     * @var Image
-     */
-    protected $image;
-
-    /**
-     * @var Asset
-     */
-    protected $asset;
-
-    /**
-     * Create a new NavigationLink instance.
-     *
-     * @param Image        $image
-     * @param Asset        $asset
-     * @param IconRegistry $icons
-     */
-    public function __construct(Image $image, Asset $asset)
-    {
-        $this->image = $image;
-        $this->asset = $asset;
-    }
-
-    /**
-     * Return an icon via the registry.
-     *
-     * @param string $default
-     * @return string
-     */
-    public function icon($default = 'fas fa-puzzle-piece')
-    {
-        $icon = $this->getIcon() ?: $default;
-
-        if (ends_with($icon, '.svg')) {
-            return $this->image->make($icon)->data();
-        }
-
-        return dispatch_now(new GetIcon($icon));
-    }
 
     /**
      * Get the slug.
@@ -153,29 +112,6 @@ class NavigationLink implements NavigationLinkInterface
     public function setTitle($title)
     {
         $this->title = $title;
-    }
-
-    /**
-     * Get the class.
-     *
-     * @return string
-     */
-    public function getClass()
-    {
-        return $this->class;
-    }
-
-    /**
-     * Set the class.
-     *
-     * @param $class
-     * @return $this
-     */
-    public function setClass($class)
-    {
-        $this->class = $class;
-
-        return $this;
     }
 
     /**

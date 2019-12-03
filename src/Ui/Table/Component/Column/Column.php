@@ -2,7 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
 
+use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
+use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
+use Anomaly\Streams\Platform\Ui\Contract\HtmlAttributesInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
 
 /**
@@ -12,8 +15,10 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Column implements ColumnInterface
+class Column implements ColumnInterface, ClassAttributeInterface, HtmlAttributesInterface
 {
+
+    use HasClassAttribute;
     use HasHtmlAttributes;
 
     /**
@@ -36,13 +41,6 @@ class Column implements ColumnInterface
      * @var null|mixed
      */
     protected $value = null;
-
-    /**
-     * The column class.
-     *
-     * @var null|string
-     */
-    protected $class = null;
 
     /**
      * The column heading.
@@ -100,29 +98,6 @@ class Column implements ColumnInterface
     public function setView($view)
     {
         $this->view = $view;
-
-        return $this;
-    }
-
-    /**
-     * Get the column class.
-     *
-     * @return null|string
-     */
-    public function getClass()
-    {
-        return $this->class;
-    }
-
-    /**
-     * Set the column class.
-     *
-     * @param $class
-     * @return $this
-     */
-    public function setClass($class)
-    {
-        $this->class = $class;
 
         return $this;
     }

@@ -1,6 +1,4 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\Form;
+<?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
@@ -739,16 +737,5 @@ class Form implements PresentableInterface
         }
 
         return app()->make(FormPresenter::class, ['object' => $this]);
-    }
-
-    /**
-     * Return a prefixed target.
-     *
-     * @param string $target
-     * @return string
-     */
-    public function prefix($target = null)
-    {
-        return $this->getOption('prefix') . $target;
     }
 }

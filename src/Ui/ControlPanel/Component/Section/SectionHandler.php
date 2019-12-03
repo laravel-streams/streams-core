@@ -1,6 +1,4 @@
-<?php
-
-namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
+<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Support\Resolver;
@@ -85,7 +83,5 @@ class SectionHandler
         }
 
         event(new GatherSections($builder));
-
-        return $builder->getSections();
     }
 }

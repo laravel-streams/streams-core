@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
@@ -14,30 +16,13 @@ class TitleGuesser
 {
 
     /**
-     * The module collection.
-     *
-     * @var ModuleCollection
-     */
-    protected $modules;
-
-    /**
-     * Create a new TitleGuesser instance.
-     *
-     * @param ModuleCollection $modules
-     */
-    public function __construct(ModuleCollection $modules)
-    {
-        $this->modules = $modules;
-    }
-
-    /**
      * Guess the sections title.
      *
      * @param ControlPanelBuilder $builder
      */
-    public function guess(ControlPanelBuilder $builder)
+    public static function guess(ControlPanelBuilder $builder)
     {
-        if (!$module = $this->modules->active()) {
+        if (!$module = app('module.collection')->active()) {
             return;
         }
 

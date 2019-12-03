@@ -1,37 +1,34 @@
-<?php
+<?php namespace Anomaly\Streams\Platform\Ui\Form;
 
-namespace Anomaly\Streams\Platform\Ui\Form;
-
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Lock\Contract\LockInterface;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Support\Collection;
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
+use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\FlashFieldValues;
+use Anomaly\Streams\Platform\Ui\Form\Command\FlashFormErrors;
+use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\LoadFormValues;
+use Anomaly\Streams\Platform\Ui\Form\Command\MakeForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\PopulateFields;
+use Anomaly\Streams\Platform\Ui\Form\Command\PostForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\SetFormResponse;
+use Anomaly\Streams\Platform\Ui\Form\Command\ValidateForm;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
+use Anomaly\Streams\Platform\Version\Contract\VersionInterface;
 use Closure;
 use Illuminate\Contracts\Support\MessageBag;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\HttpFoundation\Response;
-use Anomaly\Streams\Platform\Support\Collection;
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
-use Anomaly\Streams\Platform\Ui\Form\Command\MakeForm;
-use Anomaly\Streams\Platform\Ui\Form\Command\PostForm;
-use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
-use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
-use Anomaly\Streams\Platform\Lock\Contract\LockInterface;
-use Anomaly\Streams\Platform\Ui\Form\Command\ValidateForm;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-use Anomaly\Streams\Platform\Ui\Form\Command\LoadFormValues;
-use Anomaly\Streams\Platform\Ui\Form\Command\PopulateFields;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Form\Command\FlashFormErrors;
-use Anomaly\Streams\Platform\Ui\Form\Command\SetFormResponse;
-use Anomaly\Streams\Platform\Ui\Form\Command\FlashFieldValues;
-use Anomaly\Streams\Platform\Version\Contract\VersionInterface;
-use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 
 /**
  * Class FormBuilder
@@ -42,6 +39,7 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
  */
 class FormBuilder
 {
+
     use DispatchesJobs;
     use FiresCallbacks;
 
@@ -385,6 +383,7 @@ class FormBuilder
         $entry = $this->getFormEntry();
 
         if ($entry instanceof EloquentModel) {
+
             $time = $entry->freshTimestamp();
 
             if (!is_null($entry::UPDATED_AT) && !$entry->isDirty($entry::UPDATED_AT)) {
@@ -487,7 +486,7 @@ class FormBuilder
      */
     public function hasVersion()
     {
-        return (bool) $this->version;
+        return (bool)$this->version;
     }
 
     /**
@@ -929,7 +928,7 @@ class FormBuilder
      */
     public function addSectionTab($section, $slug, array $tab, $position = null)
     {
-        $tabs = (array) array_get($this->sections, "{$section}.tabs");
+        $tabs = (array)array_get($this->sections, "{$section}.tabs");
 
         if ($position === null) {
             $position = count($tabs) + 1;
@@ -1467,25 +1466,6 @@ class FormBuilder
     }
 
     /**
-     * Set the field type errors
-     * according to the form errors.
-     * 
-     * @return $this
-     */
-    public function setFieldTypeErrors()
-    {
-        $collection = $this->getFormErrors();
-
-        foreach ($collection->getMessages() as $field => $messages) {
-            if ($fieldType = $this->getFormField($field)) {
-                $fieldType->setErrors($messages);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * Get the form actions.
      *
      * @return ActionCollection
@@ -1524,16 +1504,6 @@ class FormBuilder
         $this->form->addButton($button);
 
         return $this;
-    }
-
-    /**
-     * Get the form buttons.
-     *
-     * @return ButtonCollection
-     */
-    public function getFormButtons()
-    {
-        return $this->form->getButtons();
     }
 
     /**
@@ -1780,6 +1750,7 @@ class FormBuilder
      */
     public function isChildForm()
     {
-        return (bool) $this->parentBuilder;
+        return (bool)$this->parentBuilder;
     }
+
 }

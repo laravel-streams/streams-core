@@ -18,43 +18,15 @@ class TextGuesser
 {
 
     /**
-     * The button registry.
-     *
-     * @var ButtonRegistry
-     */
-    protected $buttons;
-
-    /**
-     * The module collection.
-     *
-     * @var ModuleCollection
-     */
-    protected $modules;
-
-    /**
-     * Create a new TextGuesser instance.
-     *
-     * @param ButtonRegistry $buttons
-     * @param ModuleCollection $modules
-     */
-    public function __construct(
-        ButtonRegistry $buttons,
-        ModuleCollection $modules
-    ) {
-        $this->buttons = $buttons;
-        $this->modules = $modules;
-    }
-
-    /**
      * Guess the button from the hint.
      *
      * @param ControlPanelBuilder $builder
      */
-    public function guess(ControlPanelBuilder $builder)
+    public static function guess(ControlPanelBuilder $builder)
     {
         $buttons = $builder->getButtons();
 
-        $module = $this->modules->active();
+        $module = app('module.collection')->active();
 
         /*
          * This will break if we can't figure
