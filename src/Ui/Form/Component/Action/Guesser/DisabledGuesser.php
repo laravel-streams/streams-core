@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Guesser;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
@@ -17,7 +19,7 @@ class DisabledGuesser
      *
      * @param FormBuilder $builder
      */
-    public function guess(FormBuilder $builder)
+    public static function guess(FormBuilder $builder)
     {
         $actions = $builder->getActions();
 

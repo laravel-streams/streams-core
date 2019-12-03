@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser\DisabledGuesser;
 use Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser\EnabledGuesser;
@@ -17,62 +19,15 @@ class ButtonGuesser
 {
 
     /**
-     * The HREF guesser.
-     *
-     * @var HrefGuesser
-     */
-    protected $href;
-
-    /**
-     * The text guesser.
-     *
-     * @var TextGuesser
-     */
-    protected $text;
-
-    /**
-     * The enabled guesser.
-     *
-     * @var EnabledGuesser
-     */
-    protected $enabled;
-
-    /**
-     * The disabled guesser.
-     *
-     * @var DisabledGuesser
-     */
-    protected $disabled;
-
-    /**
-     * Create a new ButtonGuesser instance.
-     *
-     * @param HrefGuesser     $href
-     * @param EnabledGuesser  $enabled
-     * @param DisabledGuesser $disabled
-     */
-    public function __construct(
-        HrefGuesser $href,
-        TextGuesser $text,
-        EnabledGuesser $enabled,
-        DisabledGuesser $disabled
-    ) {
-        $this->href     = $href;
-        $this->text     = $text;
-        $this->enabled  = $enabled;
-        $this->disabled = $disabled;
-    }
-
-    /**
      * Guess button properties.
      *
      * @param FormBuilder $builder
      */
     public function guess(FormBuilder $builder)
     {
-        $this->href->guess($builder);
-        $this->text->guess($builder);
-        $this->enabled->guess($builder);
-        $this->disabled->guess($builder);
+        HrefGuesser::guess($builder);
+        TextGuesser::guess($builder);
+        EnabledGuesser::guess($builder);
+        DisabledGuesser::guess($builder);
     }
 }

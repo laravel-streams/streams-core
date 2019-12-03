@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
@@ -16,43 +18,15 @@ class TextGuesser
 {
 
     /**
-     * The button registry.
-     *
-     * @var ButtonRegistry
-     */
-    protected $buttons;
-
-    /**
-     * The module collection.
-     *
-     * @var ModuleCollection
-     */
-    protected $modules;
-
-    /**
-     * Create a new TextGuesser instance.
-     *
-     * @param ButtonRegistry $buttons
-     * @param ModuleCollection $modules
-     */
-    public function __construct(
-        ButtonRegistry $buttons,
-        ModuleCollection $modules
-    ) {
-        $this->buttons = $buttons;
-        $this->modules = $modules;
-    }
-
-    /**
      * Guess the button from the hint.
      *
      * @param FormBuilder $builder
      */
-    public function guess(FormBuilder $builder)
+    public static function guess(FormBuilder $builder)
     {
         $buttons = $builder->getButtons();
 
-        $module = $this->modules->active();
+        $module = app('module.collection')->active();
 
         /*
          * This will break if we can't figure

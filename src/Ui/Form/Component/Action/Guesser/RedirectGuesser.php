@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Guesser;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -15,41 +17,15 @@ class RedirectGuesser
 {
 
     /**
-     * The request object.
-     *
-     * @var Request
-     */
-    protected $request;
-
-    /**
-     * The section collection.
-     *
-     * @var SectionCollection
-     */
-    protected $sections;
-
-    /**
-     * Create a new RedirectGuesser instance.
-     *
-     * @param Request           $request
-     * @param SectionCollection $sections
-     */
-    public function __construct(Request $request, SectionCollection $sections)
-    {
-        $this->request  = $request;
-        $this->sections = $sections;
-    }
-
-    /**
      * Guess some some form action parameters.
      *
      * @param FormBuilder $builder
      */
-    public function guess(FormBuilder $builder)
+    public static function guess(FormBuilder $builder)
     {
         $actions = $builder->getActions();
 
-        $section = $this->sections->active();
+        $section = app('cp.sections')->active();
 
         reset($actions);
 
@@ -59,7 +35,7 @@ class RedirectGuesser
          * Remove any system / protected query
          * string based flags for the redirect.
          */
-        parse_str($this->request->getQueryString(), $query);
+        parse_str(request()->getQueryString(), $query);
         array_pull($query, 'version');
         array_pull($query, 'versionable');
 
@@ -93,7 +69,7 @@ class RedirectGuesser
              * need to head back to the form. No redirect
              * will redirect back in this case.
              */
-            if ($this->request->segment(1) !== 'admin') {
+            if (request()->segment(1) !== 'admin') {
                 continue;
             }
 
@@ -102,11 +78,11 @@ class RedirectGuesser
 
                 case 'submit':
                 case 'save_exit':
-                    $action['redirect'] = $section ? $section->getHref() : $this->request->url() . $query;
+                    $action['redirect'] = $section ? $section->getHref() : request()->url() . $query;
                     break;
 
                 case 'save_create':
-                    $action['redirect'] = $this->request->url() . $query;
+                    $action['redirect'] = request()->url() . $query;
                     break;
 
                 case 'save':
@@ -118,7 +94,7 @@ class RedirectGuesser
                             return $section->getHref('edit/' . $builder->getContextualId());
                         }
 
-                        return $this->request->url() . $query;
+                        return request()->url() . $query;
                     };
                     break;
 
@@ -126,18 +102,18 @@ class RedirectGuesser
                     $ids = array_filter(explode(',', $builder->getRequestValue('edit_next')));
 
                     if (!$ids) {
-                        $action['redirect'] = $section ? $section->getHref() : $this->request->url() . $query;
+                        $action['redirect'] = $section ? $section->getHref() : request()->url() . $query;
                     } elseif (count($ids) == 1) {
                         $action['redirect'] = $section ? $section->getHref(
                             'edit/' . array_shift($ids)
-                        ) : $this->request->url() . $query;
+                        ) : request()->url() . $query;
                     } else {
                         $action['redirect'] = $section ? $section->getHref(
                             'edit/' . array_shift($ids) . '?' . $builder->getOption('prefix') . 'edit_next=' . implode(
                                 ',',
                                 $ids
                             )
-                        ) : $this->request->url() . $query;
+                        ) : request()->url() . $query;
                     }
                     break;
             }

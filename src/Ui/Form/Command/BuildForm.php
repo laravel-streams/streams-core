@@ -1,8 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
 
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\BuildActions;
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
+
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveAction;
-use Anomaly\Streams\Platform\Ui\Form\Component\Button\Command\BuildButtons;
+use Anomaly\Streams\Platform\Ui\Form\Component\Button\ButtonBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Command\BuildFields;
 use Anomaly\Streams\Platform\Ui\Form\Component\Section\Command\BuildSections;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasBuilt;
@@ -86,13 +88,14 @@ class BuildForm
         /*
          * Build form actions and flag active.
          */
-        $this->dispatchNow(new BuildActions($this->builder));
+        ActionBuilder::build($this->builder);
+
         $this->dispatchNow(new SetActiveAction($this->builder));
 
         /*
          * Build form buttons.
          */
-        $this->dispatchNow(new BuildButtons($this->builder));
+        ButtonBuilder::build($this->builder);
 
         event(new FormWasBuilt($this->builder));
     }

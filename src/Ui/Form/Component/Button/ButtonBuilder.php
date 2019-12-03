@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -14,44 +16,20 @@ class ButtonBuilder
 {
 
     /**
-     * The input reader.
-     *
-     * @var ButtonInput
-     */
-    protected $input;
-
-    /**
-     * The button factory.
-     *
-     * @var ButtonFactory
-     */
-    protected $factory;
-
-    /**
-     * Create a new ButtonBuilder instance.
-     *
-     * @param ButtonInput   $input
-     * @param ButtonFactory $factory
-     */
-    public function __construct(ButtonInput $input, ButtonFactory $factory)
-    {
-        $this->input   = $input;
-        $this->factory = $factory;
-    }
-
-    /**
      * Build the buttons.
      *
      * @param FormBuilder $builder
      */
-    public function build(FormBuilder $builder)
+    public static function build(FormBuilder $builder)
     {
-        $this->input->read($builder);
+        ButtonInput::read($builder);
+
+        $factory = app(ButtonFactory::class);
 
         foreach ($builder->getButtons() as $button) {
             if (array_get($button, 'enabled', true)) {
 
-                $button = $this->factory->make($button);
+                $button = $factory->make($button);
 
                 $builder->addFormButton($button);
             }

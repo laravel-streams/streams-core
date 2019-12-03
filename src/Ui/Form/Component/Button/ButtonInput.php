@@ -1,6 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
+use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 
 /**
  * Class ButtonInput
@@ -13,108 +17,128 @@ class ButtonInput
 {
 
     /**
-     * The button parser.
-     *
-     * @var ButtonParser
-     */
-    protected $parser;
-
-    /**
-     * The button lookup.
-     *
-     * @var ButtonLookup
-     */
-    protected $lookup;
-
-    /**
-     * The button guesser.
-     *
-     * @var ButtonGuesser
-     */
-    protected $guesser;
-
-    /**
-     * The button dropdown utility.
-     *
-     * @var ButtonDropdown
-     */
-    protected $dropdown;
-
-    /**
-     * The button defaults.
-     *
-     * @var ButtonDefaults
-     */
-    protected $defaults;
-
-    /**
-     * The resolver utility.
-     *
-     * @var ButtonResolver
-     */
-    protected $resolver;
-
-    /**
-     * The button evaluator.
-     *
-     * @var ButtonEvaluator
-     */
-    protected $evaluator;
-
-    /**
-     * The button normalizer.
-     *
-     * @var ButtonNormalizer
-     */
-    protected $normalizer;
-
-    /**
-     * Create a new ButtonInput instance.
-     *
-     * @param ButtonParser     $parser
-     * @param ButtonLookup     $lookup
-     * @param ButtonGuesser    $guesser
-     * @param ButtonDefaults   $defaults
-     * @param ButtonDropdown   $dropdown
-     * @param ButtonResolver   $resolver
-     * @param ButtonEvaluator  $evaluator
-     * @param ButtonNormalizer $normalizer
-     */
-    public function __construct(
-        ButtonParser $parser,
-        ButtonLookup $lookup,
-        ButtonGuesser $guesser,
-        ButtonDefaults $defaults,
-        ButtonDropdown $dropdown,
-        ButtonResolver $resolver,
-        ButtonEvaluator $evaluator,
-        ButtonNormalizer $normalizer
-    ) {
-        $this->parser     = $parser;
-        $this->lookup     = $lookup;
-        $this->guesser    = $guesser;
-        $this->defaults   = $defaults;
-        $this->dropdown   = $dropdown;
-        $this->resolver   = $resolver;
-        $this->evaluator  = $evaluator;
-        $this->normalizer = $normalizer;
-    }
-
-    /**
      * Read builder button input.
      *
      * @param FormBuilder $builder
      */
-    public function read(FormBuilder $builder)
+    public static function read(FormBuilder $builder)
     {
-        $this->resolver->resolve($builder);
-        $this->evaluator->evaluate($builder);
-        $this->defaults->defaults($builder);
-        $this->normalizer->normalize($builder);
-        $this->dropdown->flatten($builder);
-        $this->lookup->merge($builder);
-        $this->guesser->guess($builder);
-        $this->parser->parse($builder);
-        $this->dropdown->build($builder);
+        self::resolve($builder);
+        self::defaults($builder);
+        self::normalize($builder);
+        self::merge($builder);
+
+        ButtonGuesser::guess($builder);
+
+        self::translate($builder);
+        self::parse($builder);
+    }
+
+    /**
+     * Resolve input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\Form\FormBuilder $builder
+     */
+    protected static function resolve(FormBuilder $builder)
+    {
+        $buttons = resolver($builder->getButtons(), compact('builder'));
+
+        $builder->setButtons(evaluate($buttons ?: $builder->getButtons(), compact('builder')));
+    }
+
+    /**
+     * Evaluate input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\Form\FormBuilder $builder
+     */
+    protected static function evaluate(FormBuilder $builder)
+    {
+        $builder->setButtons(evaluate($builder->getButtons(), compact('builder')));
+    }
+
+    /**
+     * Default the form buttons when none are defined.
+     *
+     * @param FormBuilder $builder
+     */
+    protected static function defaults(FormBuilder $builder)
+    {
+        if ($builder->getButtons() === [] && request()->segment(1) == 'admin') {
+            $builder->addButton('cancel');
+        }
+    }
+
+    /**
+     * Normalize button input.
+     *
+     * @param FormBuilder $builder
+     */
+    protected static function normalize(FormBuilder $builder)
+    {
+        $buttons = $builder->getButtons();
+
+        foreach ($buttons as $key => &$button) {
+
+            /*
+            * If the button is a string then use
+            * it as the button parameter.
+            */
+            if (is_string($button)) {
+                $button = [
+                    'button' => $button,
+                ];
+            }
+
+            /*
+            * If the key is a string and the button
+            * is an array without a button param then
+            * move the key into the button as that param.
+            */
+            if (!is_integer($key) && !isset($button['button'])) {
+                $button['button'] = $key;
+            }
+        }
+
+        $buttons = Normalizer::attributes($buttons);
+
+        $builder->setButtons($buttons);
+    }
+
+    /**
+     * Merge in registered properties.
+     *
+     * @param FormBuilder $builder
+     */
+    protected static function merge(FormBuilder $builder)
+    {
+        $buttons = $builder->getButtons();
+
+        foreach ($buttons as &$parameters) {
+            if ($button = app(ButtonRegistry::class)->get(array_get($parameters, 'button'))) {
+                $parameters = array_replace_recursive($button, $parameters);
+            }
+        }
+
+        $builder->setButtons($buttons);
+    }
+
+    /**
+     * Parse input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\Form\FormBuilder $builder
+     */
+    protected static function parse(FormBuilder $builder)
+    {
+        $builder->setButtons(parse($builder->getButtons()));
+    }
+
+    /**
+     * Translate input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\Form\FormBuilder $builder
+     */
+    protected static function translate(FormBuilder $builder)
+    {
+        $builder->setButtons(translate($builder->getButtons()));
     }
 }

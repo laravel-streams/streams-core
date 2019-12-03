@@ -1,6 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Support\Normalizer;
+use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionRegistry;
 
 /**
  * Class ActionInput
@@ -13,119 +18,190 @@ class ActionInput
 {
 
     /**
-     * The action parser.
-     *
-     * @var ActionParser
-     */
-    protected $parser;
-
-    /**
-     * The action lookup.
-     *
-     * @var ActionLookup
-     */
-    protected $lookup;
-
-    /**
-     * The action guesser.
-     *
-     * @var ActionGuesser
-     */
-    protected $guesser;
-
-    /**
-     * The resolver utility.
-     *
-     * @var ActionResolver
-     */
-    protected $resolver;
-
-    /**
-     * The action defaults utility.
-     *
-     * @var ActionDefaults
-     */
-    protected $defaults;
-
-    /**
-     * The action dropdown utility.
-     *
-     * @var ActionDropdown
-     */
-    protected $dropdown;
-
-    /**
-     * The action predictor.
-     *
-     * @var ActionPredictor
-     */
-    protected $predictor;
-
-    /**
-     * The action normalizer.
-     *
-     * @var ActionNormalizer
-     */
-    protected $normalizer;
-
-    /**
-     * The action translator.
-     *
-     * @var ActionTranslator
-     */
-    protected $translator;
-
-    /**
-     * Create an ActionInput instance.
-     *
-     * @param ActionParser     $parser
-     * @param ActionLookup     $lookup
-     * @param ActionGuesser    $guesser
-     * @param ActionResolver   $resolver
-     * @param ActionDefaults   $defaults
-     * @param ActionDropdown   $dropdown
-     * @param ActionPredictor  $predictor
-     * @param ActionNormalizer $normalizer
-     * @param ActionTranslator $translator
-     */
-    public function __construct(
-        ActionParser $parser,
-        ActionLookup $lookup,
-        ActionGuesser $guesser,
-        ActionResolver $resolver,
-        ActionDefaults $defaults,
-        ActionDropdown $dropdown,
-        ActionPredictor $predictor,
-        ActionNormalizer $normalizer,
-        ActionTranslator $translator
-    ) {
-        $this->parser     = $parser;
-        $this->lookup     = $lookup;
-        $this->guesser    = $guesser;
-        $this->resolver   = $resolver;
-        $this->defaults   = $defaults;
-        $this->dropdown   = $dropdown;
-        $this->predictor  = $predictor;
-        $this->normalizer = $normalizer;
-        $this->translator = $translator;
-    }
-
-    /**
      * Read builder action input.
      *
      * @param FormBuilder $builder
      */
-    public function read(FormBuilder $builder)
+    public static function read(FormBuilder $builder)
     {
-        $this->resolver->resolve($builder);
-        $this->defaults->defaults($builder);
-        $this->predictor->predict($builder);
-        $this->normalizer->normalize($builder);
-        $this->dropdown->flatten($builder);
-        $this->guesser->guess($builder);
-        $this->lookup->merge($builder);
-        $this->parser->parse($builder);
-        $this->dropdown->build($builder);
-        $this->translator->translate($builder);
+        self::resolve($builder);
+        self::defaults($builder);
+        self::predict($builder);
+        self::normalize($builder);
+
+        ActionGuesser::guess($builder);
+
+        self::merge($builder);
+        self::translate($builder);
+        self::parse($builder);
+    }
+
+    /**
+     * Resolve input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\Form\FormBuilder $builder
+     */
+    protected static function resolve(FormBuilder $builder)
+    {
+        $actions = resolver($builder->getActions(), compact('builder'));
+
+        $builder->setActions(evaluate($actions ?: $builder->getActions(), compact('builder')));
+    }
+
+    /**
+     * Evaluate input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\Form\FormBuilder $builder
+     */
+    protected static function evaluate(FormBuilder $builder)
+    {
+        $builder->setActions(evaluate($builder->getActions(), compact('builder')));
+    }
+
+    /**
+     * Default the form actions when none are defined.
+     *
+     * @param FormBuilder $builder
+     */
+    protected static function defaults(FormBuilder $builder)
+    {
+        if ($builder->getActions() === []) {
+            if ($builder->getFormMode() == 'create') {
+                $builder->setActions(
+                    [
+                        'save',
+                        'save_create',
+                    ]
+                );
+            } else {
+                $builder->setActions(
+                    [
+                        'update',
+                        'save_exit',
+                    ]
+                );
+            }
+        }
+    }
+
+    /**
+     * Predict input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\Form\FormBuilder $builder
+     */
+    protected static function predict(FormBuilder $builder)
+    {
+        if (array_filter(explode(',', $builder->getRequestValue('edit_next')))) {
+            $builder->setActions(array_merge(['save_edit_next'], $builder->getActions()));
+        }
+    }
+
+    /**
+     * Normalize action input.
+     *
+     * @param FormBuilder $builder
+     */
+    protected static function normalize(FormBuilder $builder)
+    {
+        $form    = $builder->getForm();
+        $actions = $builder->getActions();
+
+        $prefix = $form->getOption('prefix');
+
+        foreach ($actions as $slug => &$action) {
+            /*
+            * If the slug is numeric and the action is
+            * a string then treat the string as both the
+            * action and the slug. This is OK as long as
+            * there are not multiple instances of this
+            * input using the same action which is not likely.
+            */
+            if (is_numeric($slug) && is_string($action)) {
+                $action = [
+                    'slug'   => $action,
+                    'action' => $action,
+                ];
+            }
+
+            /*
+            * If the slug is NOT numeric and the action is a
+            * string then use the slug as the slug and the
+            * action as the action.
+            */
+            if (!is_numeric($slug) && is_string($action)) {
+                $action = [
+                    'slug'   => $slug,
+                    'action' => $action,
+                ];
+            }
+
+            /*
+            * If the slug is not numeric and the action is an
+            * array without a slug then use the slug for
+            * the slug for the action.
+            */
+            if (is_array($action) && !isset($action['slug']) && !is_numeric($slug)) {
+                $action['slug'] = $slug;
+            }
+
+            /*
+            * If the slug is not numeric and the action is an
+            * array without a action then use the slug for
+            * the action for the action.
+            */
+            if (is_array($action) && !isset($action['action']) && !is_numeric($slug)) {
+                $action['action'] = $slug;
+            }
+        }
+
+        $actions = Normalizer::attributes($actions);
+
+        $builder->setActions($actions);
+    }
+
+    /**
+     * Merge in registered properties.
+     *
+     * @param FormBuilder $builder
+     */
+    protected static function merge(FormBuilder $builder)
+    {
+        $actions = $builder->getActions();
+
+        foreach ($actions as &$parameters) {
+            $action = $original = array_pull($parameters, 'action');
+
+            if ($action && $action = app(ActionRegistry::class)->get($action)) {
+                $parameters = array_replace_recursive($action, array_except($parameters, 'action'));
+            }
+
+            $button = array_get($parameters, 'button', $original);
+
+            if ($button && $button = app(ButtonRegistry::class)->get($button)) {
+                $parameters = array_replace_recursive($button, array_except($parameters, 'button'));
+            }
+        }
+
+        $builder->setActions($actions);
+    }
+
+    /**
+     * Parse input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\Form\FormBuilder $builder
+     */
+    protected static function parse(FormBuilder $builder)
+    {
+        $builder->setActions(parse($builder->getActions()));
+    }
+
+    /**
+     * Translate input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\Form\FormBuilder $builder
+     */
+    protected static function translate(FormBuilder $builder)
+    {
+        $builder->setActions(translate($builder->getActions()));
     }
 }

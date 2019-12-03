@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Guesser;
 
 use Anomaly\Streams\Platform\Support\Value;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -14,28 +16,11 @@ class EnabledGuesser
 {
 
     /**
-     * The value utility.
-     *
-     * @var Value
-     */
-    protected $value;
-
-    /**
-     * Create a new EnabledGuesser instance.
-     *
-     * @param Value $value
-     */
-    public function __construct(Value $value)
-    {
-        $this->value = $value;
-    }
-
-    /**
      * Guess the action's enabled parameter.
      *
      * @param FormBuilder $builder
      */
-    public function guess(FormBuilder $builder)
+    public static function guess(FormBuilder $builder)
     {
         $actions = $builder->getActions();
 
@@ -47,7 +32,7 @@ class EnabledGuesser
                 continue;
             }
 
-            $action['enabled'] = $this->value->make(
+            $action['enabled'] = valuate(
                 $action['enabled'],
                 $builder->getFormEntry()
             );
