@@ -30,8 +30,8 @@ class ButtonInput
 
         ButtonGuesser::guess($builder);
 
-        self::parse($builder);
         self::translate($builder);
+        self::parse($builder);
     }
 
     /**

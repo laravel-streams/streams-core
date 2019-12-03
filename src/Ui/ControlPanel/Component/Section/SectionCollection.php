@@ -39,14 +39,9 @@ class SectionCollection extends Collection
      */
     public function root()
     {
-        return self::make(
-            array_filter(
-                $this->all(),
-                function (SectionInterface $section) {
-                    return !$section->isSubSection();
-                }
-            )
-        );
+        return $this->filter(function (SectionInterface $section) {
+            return !$section->isSubSection();
+        });
     }
 
     /**
@@ -56,14 +51,9 @@ class SectionCollection extends Collection
      */
     public function visible()
     {
-        return self::make(
-            array_filter(
-                $this->all(),
-                function (SectionInterface $section) {
-                    return !$section->isHidden();
-                }
-            )
-        );
+        return $this->filter(function (SectionInterface $section) {
+            return !$section->isHidden();
+        });
     }
 
     /**
@@ -74,13 +64,8 @@ class SectionCollection extends Collection
      */
     public function children($parent)
     {
-        return self::make(
-            array_filter(
-                $this->all(),
-                function (SectionInterface $section) use ($parent) {
-                    return $section->getParent() === $parent;
-                }
-            )
-        );
+        return $this->filter(function (SectionInterface $section) use ($parent) {
+            return $section->getParent() === $parent;
+        });
     }
 }

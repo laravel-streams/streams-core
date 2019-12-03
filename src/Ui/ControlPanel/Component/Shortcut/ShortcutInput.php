@@ -1,7 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 
 /**
  * Class ShortcutInput
@@ -14,86 +17,115 @@ class ShortcutInput
 {
 
     /**
-     * The shortcut parser.
-     *
-     * @var ShortcutParser
-     */
-    protected $parser;
-
-    /**
-     * The module collection.
-     *
-     * @var ModuleCollection
-     */
-    protected $modules;
-
-    /**
-     * The shortcut guesser.
-     *
-     * @var ShortcutGuesser
-     */
-    protected $guesser;
-
-    /**
-     * The shortcut evaluator.
-     *
-     * @var ShortcutEvaluator
-     */
-    protected $evaluator;
-
-    /**
-     * The resolver utility.
-     *
-     * @var ShortcutResolver
-     */
-    protected $resolver;
-
-    /**
-     * The shortcut normalizer.
-     *
-     * @var ShortcutNormalizer
-     */
-    protected $normalizer;
-
-    /**
-     * Create a new ShortcutInput instance.
-     *
-     * @param ShortcutParser     $parser
-     * @param ShortcutGuesser    $guesser
-     * @param ModuleCollection  $modules
-     * @param ShortcutResolver   $resolver
-     * @param ShortcutEvaluator  $evaluator
-     * @param ShortcutNormalizer $normalizer
-     */
-    public function __construct(
-        ShortcutParser $parser,
-        ShortcutGuesser $guesser,
-        ModuleCollection $modules,
-        ShortcutResolver $resolver,
-        ShortcutEvaluator $evaluator,
-        ShortcutNormalizer $normalizer
-    ) {
-        $this->parser     = $parser;
-        $this->guesser    = $guesser;
-        $this->modules    = $modules;
-        $this->resolver   = $resolver;
-        $this->evaluator  = $evaluator;
-        $this->normalizer = $normalizer;
-    }
-
-    /**
      * Read the shortcut input and process it
      * before building the objects.
      *
      * @param ControlPanelBuilder $builder
      */
-    public function read(ControlPanelBuilder $builder)
+    public static function read(ControlPanelBuilder $builder)
     {
-        $this->resolver->resolve($builder);
-        $this->evaluator->evaluate($builder);
-        $this->normalizer->normalize($builder);
-        $this->guesser->guess($builder);
-        $this->evaluator->evaluate($builder);
-        $this->parser->parse($builder);
+        self::resolve($builder);
+        self::normalize($builder);
+
+        ShortcutGuesser::guess($builder);
+
+        self::evaluate($builder);
+        self::parse($builder);
+    }
+
+    /**
+     * Resolve input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder $builder
+     */
+    protected static function resolve(ControlPanelBuilder $builder)
+    {
+        $shortcuts = resolver($builder->getShortcuts(), compact('builder'));
+
+        $builder->setShortcuts(evaluate($shortcuts ?: $builder->getShortcuts(), compact('builder')));
+    }
+
+    /**
+     * Evaluate input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder $builder
+     */
+    protected static function evaluate(ControlPanelBuilder $builder)
+    {
+        $builder->setShortcuts(evaluate($builder->getShortcuts(), compact('builder')));
+    }
+
+    /**
+     * Normalize input.
+     *
+     * @param ControlPanelBuilder $builder
+     */
+    protected static function normalize(ControlPanelBuilder $builder)
+    {
+        $shortcuts = $builder->getShortcuts();
+
+        /*
+         * Move child shortcuts into main array.
+         */
+        foreach ($shortcuts as $slug => &$shortcut) {
+            if (isset($shortcut['shortcuts'])) {
+                foreach ($shortcut['shortcuts'] as $key => $child) {
+
+                    /**
+                     * It's a slug only!
+                     */
+                    if (is_string($child)) {
+
+                        $key = $child;
+
+                        $child = ['slug' => $child];
+                    }
+
+                    $child['parent'] = array_get($shortcut, 'slug', $slug);
+                    $child['slug']   = array_get($child, 'slug', $key);
+
+                    $shortcuts[$key] = $child;
+                }
+            }
+        }
+
+        /*
+         * Loop over each shortcut and make sense of the input
+         * provided for the given module.
+         */
+        foreach ($shortcuts as $slug => &$shortcut) {
+
+            /*
+             * If the slug is not valid and the shortcut
+             * is a string then use the shortcut as the slug.
+             */
+            if (is_numeric($slug) && is_string($shortcut)) {
+                $shortcut = [
+                    'slug' => $shortcut,
+                ];
+            }
+
+            /*
+             * If the slug is a string and the title is not
+             * set then use the slug as the slug.
+             */
+            if (is_string($slug) && !isset($shortcut['slug'])) {
+                $shortcut['slug'] = $slug;
+            }
+        }
+
+        $shortcuts = Normalizer::attributes($shortcuts);
+
+        $builder->setShortcuts(array_values($shortcuts));
+    }
+
+    /**
+     * Parse input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder $builder
+     */
+    protected static function parse(ControlPanelBuilder $builder)
+    {
+        $builder->setShortcuts(parse($builder->getShortcuts()));
     }
 }

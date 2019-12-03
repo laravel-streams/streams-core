@@ -25,6 +25,7 @@ class NavigationInput
         self::resolve($builder);
         self::normalize($builder);
         self::sort($builder);
+        self::translate($builder);
     }
 
     /**
@@ -140,5 +141,15 @@ class NavigationInput
         $builder->setNavigation($navigation);
 
         event(new SortNavigation($builder));
+    }
+
+    /**
+     * Translate input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder $builder
+     */
+    protected static function translate(ControlPanelBuilder $builder)
+    {
+        $builder->setNavigation(translate($builder->getNavigation()));
     }
 }

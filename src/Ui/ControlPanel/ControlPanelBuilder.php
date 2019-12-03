@@ -1,12 +1,23 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel;
+<?php
 
+namespace Anomaly\Streams\Platform\Ui\ControlPanel;
+
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Command\BuildControlPanel;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Event\ControlPanelWasBuilt;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Event\ControlPanelIsBuilding;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\ButtonBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\ButtonHandler;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationHandler;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionHandler;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\ShortcutBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\ShortcutHandler;
-use Illuminate\Foundation\Bus\DispatchesJobs;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationBuilder;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationHandler;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command\SetActiveSection;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command\SetMainNavigationLinks;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command\SetActiveNavigationLink;
 
 /**
  * Class ControlPanelBuilder
@@ -73,7 +84,23 @@ class ControlPanelBuilder
     {
         $this->fire('ready', ['builder' => $this]);
 
-        $this->dispatchNow(new BuildControlPanel($this));
+        event(new ControlPanelIsBuilding($this));
+
+        assets('scripts.js', 'streams::js/cp/click.js');
+
+        NavigationBuilder::build($this);
+
+        dispatch_now(new SetActiveNavigationLink($this));
+        dispatch_now(new SetMainNavigationLinks($this));
+
+        SectionBuilder::build($this);
+
+        dispatch_now(new SetActiveSection($this));
+
+        ShortcutBuilder::build($this);
+        ButtonBuilder::build($this);
+
+        event(new ControlPanelWasBuilt($this));
 
         $this->fire('built', ['builder' => $this]);
 
@@ -166,7 +193,7 @@ class ControlPanelBuilder
      */
     public function addSectionButton($section, $slug, array $button, $position = null)
     {
-        $buttons = (array)array_get($this->sections, "{$section}.buttons");
+        $buttons = (array) array_get($this->sections, "{$section}.buttons");
 
         if ($position === null) {
             $position = count($buttons) + 1;

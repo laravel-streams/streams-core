@@ -29,6 +29,7 @@ class SectionInput
         SectionGuesser::guess($builder);
 
         self::evaluate($builder);
+        self::translate($builder);
         self::parse($builder);
     }
 
@@ -125,6 +126,16 @@ class SectionInput
      */
     protected static function parse(ControlPanelBuilder $builder)
     {
-        $builder->setButtons(parse($builder->getButtons()));
+        $builder->setSections(parse($builder->getSections()));
+    }
+
+    /**
+     * Translate input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder $builder
+     */
+    protected static function translate(ControlPanelBuilder $builder)
+    {
+        $builder->setSections(translate($builder->getSections()));
     }
 }
