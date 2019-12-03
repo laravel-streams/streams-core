@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
@@ -17,7 +19,7 @@ class HandlerGuesser
      *
      * @param TableBuilder $builder
      */
-    public function guess(TableBuilder $builder)
+    public static function guess(TableBuilder $builder)
     {
         $actions = $builder->getActions();
 
@@ -25,7 +27,14 @@ class HandlerGuesser
 
             // Only if it's not already set.
             if (!isset($action['handler'])) {
-                if (class_exists($class = $this->guessClass($builder, $action))) {
+
+                $class = explode('\\', get_class($builder));
+
+                array_pop($class);
+
+                return implode('\\', $class) . '\\Action\\' . ucfirst(camel_case($action['slug'])) . 'Handler';
+
+                if (class_exists($class)) {
                     $action['handler'] = $class . '@handle';
                 }
             }
@@ -42,11 +51,5 @@ class HandlerGuesser
      * @return string
      */
     protected function guessClass(TableBuilder $builder, array $action)
-    {
-        $class = explode('\\', get_class($builder));
-
-        array_pop($class);
-
-        return implode('\\', $class) . '\\Action\\' . ucfirst(camel_case($action['slug'])) . 'Handler';
-    }
+    { }
 }

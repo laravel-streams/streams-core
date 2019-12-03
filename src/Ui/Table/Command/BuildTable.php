@@ -1,6 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\BuildActions;
+namespace Anomaly\Streams\Platform\Ui\Table\Command;
+
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\SetActiveAction;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\BuildFilters;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\SetActiveFilters;
@@ -80,7 +82,7 @@ class BuildTable
         /*
          * Build table actions and flag active.
          */
-        $this->dispatchNow(new BuildActions($this->builder));
+        ActionBuilder::build($this->builder);
         $this->dispatchNow(new SetActiveAction($this->builder));
 
         /*

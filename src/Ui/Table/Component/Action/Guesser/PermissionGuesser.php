@@ -1,7 +1,7 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser;
+<?php
 
-use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser;
+
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -15,46 +15,20 @@ class PermissionGuesser
 {
 
     /**
-     * The module collection.
-     *
-     * @var ModuleCollection
-     */
-    protected $modules;
-
-    /**
-     * The control panel builder.
-     *
-     * @var ControlPanelBuilder
-     */
-    protected $controlPanel;
-
-    /**
-     * Create a new PermissionGuesser instance.
-     *
-     * @param ModuleCollection    $modules
-     * @param ControlPanelBuilder $controlPanel
-     */
-    public function __construct(ModuleCollection $modules, ControlPanelBuilder $controlPanel)
-    {
-        $this->modules      = $modules;
-        $this->controlPanel = $controlPanel;
-    }
-
-    /**
      * Guess the action text.
      *
      * @param TableBuilder $builder
      */
-    public function guess(TableBuilder $builder)
+    public static function guess(TableBuilder $builder)
     {
         $actions = $builder->getActions();
         $stream  = $builder->getTableStream();
 
-        if (!$module = $this->modules->active()) {
+        if (!$module = app('module.collection')->active()) {
             return;
         }
 
-        $section = $this->controlPanel->getControlPanelActiveSection();
+        $section = app('cp.sections')->active();
 
         foreach ($actions as &$action) {
 
