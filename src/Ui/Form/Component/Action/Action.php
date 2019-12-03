@@ -1,7 +1,15 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Button\Button;
+use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
+use Anomaly\Streams\Platform\Ui\Contract\HtmlAttributesInterface;
+use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
+use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
+use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 
 /**
  * Class Action
@@ -10,8 +18,12 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Action extends Button implements ActionInterface
+class Action extends Button implements ActionInterface, IconInterface, ClassAttributeInterface, HtmlAttributesInterface
 {
+
+    use HasIcon;
+    use HasClassAttribute;
+    use HasHtmlAttributes;
 
     /**
      * The button tag.
