@@ -5,7 +5,7 @@ namespace Anomaly\Streams\Platform\Ui\Form\Command;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveAction;
 use Anomaly\Streams\Platform\Ui\Form\Component\Button\ButtonBuilder;
-use Anomaly\Streams\Platform\Ui\Form\Component\Field\Command\BuildFields;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Component\Section\Command\BuildSections;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasBuilt;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -78,7 +78,7 @@ class BuildForm
         /*
          * Build form fields.
          */
-        $this->dispatchNow(new BuildFields($this->builder));
+        FieldBuilder::build($this->builder);
 
         /*
          * Build form sections.

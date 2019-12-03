@@ -1,8 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
+<?php
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
-use Anomaly\Streams\Platform\Support\Evaluator;
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
+
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldFactory;
 
 /**
  * Class FieldTypeBuilder
@@ -15,57 +16,19 @@ class FieldBuilder
 {
 
     /**
-     * The field reader.
-     *
-     * @var FieldInput
-     */
-    protected $input;
-
-    /**
-     * The field type builder.
-     *
-     * @var FieldTypeBuilder
-     */
-    protected $builder;
-
-    /**
-     * The field factory.
-     *
-     * @var FieldFactory
-     */
-    protected $factory;
-
-    /**
-     * The evaluator utility.
-     *
-     * @var Evaluator
-     */
-    protected $evaluator;
-
-    /**
-     * Create a new FieldTypeBuilder instance.
-     *
-     * @param FieldInput   $input
-     * @param FieldFactory $factory
-     */
-    public function __construct(FieldInput $input, FieldFactory $factory)
-    {
-        $this->input   = $input;
-        $this->factory = $factory;
-    }
-
-    /**
      * Build the fields.
      *
      * @param FormBuilder $builder
      */
-    public function build(FormBuilder $builder)
+    public static function build(FormBuilder $builder)
     {
         $skips  = $builder->getSkips();
         $stream = $builder->getFormStream();
         $entry  = $builder->getFormEntry();
 
-        $this->input->read($builder);
+        $factory = app(FieldFactory::class);
+
+        FieldInput::read($builder);
 
         /*
          * Convert each field to a field object
@@ -83,7 +46,7 @@ class FieldBuilder
                 continue;
             }
 
-            $builder->addFormField($this->factory->make($field, $stream, $entry));
+            $builder->addFormField($factory->make($field, $stream, $entry));
         }
     }
 }

@@ -23,7 +23,7 @@ class ButtonGuesser
      *
      * @param FormBuilder $builder
      */
-    public function guess(FormBuilder $builder)
+    public static function guess(FormBuilder $builder)
     {
         HrefGuesser::guess($builder);
         TextGuesser::guess($builder);

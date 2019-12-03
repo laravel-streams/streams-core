@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -18,7 +20,7 @@ class UniqueGuesser
      *
      * @param FormBuilder $builder
      */
-    public function guess(FormBuilder $builder)
+    public static function guess(FormBuilder $builder)
     {
         $fields = $builder->getFields();
         $entry  = $builder->getFormEntry();

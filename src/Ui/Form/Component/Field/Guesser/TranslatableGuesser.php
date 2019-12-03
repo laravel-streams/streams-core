@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -18,7 +20,7 @@ class TranslatableGuesser
      *
      * @param FormBuilder $builder
      */
-    public function guess(FormBuilder $builder)
+    public static function guess(FormBuilder $builder)
     {
         $fields = $builder->getFields();
         $entry  = $builder->getFormEntry();
@@ -30,7 +32,7 @@ class TranslatableGuesser
         if (!$entry instanceof EloquentModel) {
             return;
         }
-        
+
         foreach ($fields as &$field) {
             $field['translatable'] = $entry->isTranslatedAttribute($field['field']);
         }

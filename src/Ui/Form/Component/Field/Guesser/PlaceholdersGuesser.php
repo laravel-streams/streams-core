@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -19,7 +21,7 @@ class PlaceholdersGuesser
      *
      * @param FormBuilder $builder
      */
-    public function guess(FormBuilder $builder)
+    public static function guess(FormBuilder $builder)
     {
         $fields = $builder->getFields();
         $stream = $builder->getFormStream();
@@ -71,7 +73,8 @@ class PlaceholdersGuesser
              */
             $placeholder = $assignment->getPlaceholder() . '.default';
 
-            if (!isset($field['placeholder']) && str_is('*::*', $placeholder) && trans()->has(
+            if (
+                !isset($field['placeholder']) && str_is('*::*', $placeholder) && trans()->has(
                     $placeholder,
                     $locale
                 )

@@ -1,8 +1,16 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
+/**
+ * Class RequiredGuesser
+ *
+ * @link   http://pyrocms.com/
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class RequiredGuesser
 {
 
@@ -11,7 +19,7 @@ class RequiredGuesser
      *
      * @param FormBuilder $builder
      */
-    public function guess(FormBuilder $builder)
+    public static function guess(FormBuilder $builder)
     {
         $rules  = $builder->getRules();
         $fields = $builder->getFields();
