@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Section;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Section;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
@@ -13,49 +15,80 @@ class SectionInput
 {
 
     /**
-     * The resolver utility.
-     *
-     * @var SectionResolver
-     */
-    protected $resolver;
-
-    /**
-     * The section evaluator.
-     *
-     * @var SectionEvaluator
-     */
-    protected $evaluator;
-
-    /**
-     * The section normalizer.
-     *
-     * @var SectionNormalizer
-     */
-    protected $normalizer;
-
-    /**
-     * Create a new SectionInput instance.
-     *
-     * @param SectionResolver   $resolver
-     * @param SectionEvaluator  $evaluator
-     * @param SectionNormalizer $normalizer
-     */
-    public function __construct(SectionResolver $resolver, SectionEvaluator $evaluator, SectionNormalizer $normalizer)
-    {
-        $this->resolver   = $resolver;
-        $this->evaluator  = $evaluator;
-        $this->normalizer = $normalizer;
-    }
-
-    /**
      * Read the form section input.
      *
      * @param FormBuilder $builder
      */
-    public function read(FormBuilder $builder)
+    public static function read(FormBuilder $builder)
     {
-        $this->resolver->resolve($builder);
-        $this->evaluator->evaluate($builder);
-        $this->normalizer->normalize($builder);
+        self::resolve($builder);
+        self::evaluate($builder);
+        self::normalize($builder);
+    }
+
+    /**
+     * Resolve input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\Form\FormBuilder $builder
+     */
+    protected static function resolve(FormBuilder $builder)
+    {
+        $sections = resolver($builder->getSections(), compact('builder'));
+
+        $builder->setSections(evaluate($sections ?: $builder->getSections(), compact('builder')));
+    }
+
+    /**
+     * Evaluate input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\Form\FormBuilder $builder
+     */
+    protected static function evaluate(FormBuilder $builder)
+    {
+        $builder->setSections(evaluate($builder->getSections(), compact('builder')));
+    }
+
+    /**
+     * Normalize the sections.
+     *
+     * @param FormBuilder $builder
+     */
+    protected static function normalize(FormBuilder $builder)
+    {
+        $sections = $builder->getSections();
+
+        foreach ($sections as $slug => &$section) {
+
+            if (is_string($section)) {
+                $section = [
+                    'view' => $section,
+                ];
+            }
+
+            /**
+             * If tabs are defined but no orientation
+             * then default to standard tabs.
+             */
+            if (isset($section['tabs']) && !isset($section['orientation'])) {
+                $section['orientation'] = 'horizontal';
+            }
+
+            /*
+             * Make sure some default parameters exist.
+             */
+            $section['attributes'] = array_get($section, 'attributes', []);
+
+            /*
+             * Move all data-* keys
+             * to attributes.
+             */
+            foreach ($section as $attribute => $value) {
+                if (str_is('data-*', $attribute)) {
+                    array_set($section, 'attributes.' . $attribute, array_pull($section, $attribute));
+                }
+            }
+        }
+
+        $builder->setSections($sections);
     }
 }

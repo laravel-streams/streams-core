@@ -6,10 +6,9 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveAction;
 use Anomaly\Streams\Platform\Ui\Form\Component\Button\ButtonBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldBuilder;
-use Anomaly\Streams\Platform\Ui\Form\Component\Section\Command\BuildSections;
+use Anomaly\Streams\Platform\Ui\Form\Component\Section\SectionBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasBuilt;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class BuildForm
@@ -20,8 +19,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class BuildForm
 {
-
-    use DispatchesJobs;
 
     /**
      * The form builder.
@@ -50,30 +47,30 @@ class BuildForm
          * Setup some objects and options using
          * provided input or sensible defaults.
          */
-        $this->dispatchNow(new AddAssets($this->builder));
-        $this->dispatchNow(new SetFormModel($this->builder));
-        $this->dispatchNow(new SetFormStream($this->builder));
-        $this->dispatchNow(new SetRepository($this->builder));
-        $this->dispatchNow(new SetFormEntry($this->builder));
-        $this->dispatchNow(new SetFormVersion($this->builder));
-        $this->dispatchNow(new SetDefaultParameters($this->builder));
-        $this->dispatchNow(new SetFormOptions($this->builder));
-        $this->dispatchNow(new SetDefaultOptions($this->builder));
+        dispatch_now(new AddAssets($this->builder));
+        dispatch_now(new SetFormModel($this->builder));
+        dispatch_now(new SetFormStream($this->builder));
+        dispatch_now(new SetRepository($this->builder));
+        dispatch_now(new SetFormEntry($this->builder));
+        dispatch_now(new SetFormVersion($this->builder));
+        dispatch_now(new SetDefaultParameters($this->builder));
+        dispatch_now(new SetFormOptions($this->builder));
+        dispatch_now(new SetDefaultOptions($this->builder));
 
         /*
          * Load anything we need that might be flashed.
          */
-        $this->dispatchNow(new LoadFormErrors($this->builder));
+        dispatch_now(new LoadFormErrors($this->builder));
 
         /*
          * Before we go any further, authorize the request.
          */
-        $this->dispatchNow(new AuthorizeForm($this->builder));
+        dispatch_now(new AuthorizeForm($this->builder));
 
         /*
          * Lock form model.
          */
-        $this->dispatchNow(new LockFormModel($this->builder));
+        dispatch_now(new LockFormModel($this->builder));
 
         /*
          * Build form fields.
@@ -83,14 +80,14 @@ class BuildForm
         /*
          * Build form sections.
          */
-        $this->dispatchNow(new BuildSections($this->builder));
+        SectionBuilder::build($this->builder);
 
         /*
          * Build form actions and flag active.
          */
         ActionBuilder::build($this->builder);
 
-        $this->dispatchNow(new SetActiveAction($this->builder));
+        dispatch_now(new SetActiveAction($this->builder));
 
         /*
          * Build form buttons.
