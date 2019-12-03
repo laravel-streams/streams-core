@@ -1,6 +1,14 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
+<?php
 
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
+
+use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
+use Anomaly\Streams\Platform\Ui\Contract\HtmlAttributesInterface;
+use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Contract\ShortcutInterface;
+use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
+use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 
 /**
  * Class Shortcut
@@ -9,8 +17,12 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Contract\Shortcu
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Shortcut implements ShortcutInterface
+class Shortcut implements ShortcutInterface, IconInterface, ClassAttributeInterface, HtmlAttributesInterface
 {
+
+    use HasIcon;
+    use HasClassAttribute;
+    use HasHtmlAttributes;
 
     /**
      * The shortcut slug.
@@ -18,13 +30,6 @@ class Shortcut implements ShortcutInterface
      * @var null|string
      */
     protected $slug = null;
-
-    /**
-     * The shortcut icon.
-     *
-     * @var null|string
-     */
-    protected $icon = null;
 
     /**
      * The shortcut title.
@@ -41,13 +46,6 @@ class Shortcut implements ShortcutInterface
     protected $label = null;
 
     /**
-     * The class.
-     *
-     * @var null|string
-     */
-    protected $class = null;
-
-    /**
      * The highlighted flag.
      *
      * @var bool
@@ -60,13 +58,6 @@ class Shortcut implements ShortcutInterface
      * @var string
      */
     protected $context = 'danger';
-
-    /**
-     * The shortcut attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [];
 
     /**
      * The shortcut permission.
@@ -94,29 +85,6 @@ class Shortcut implements ShortcutInterface
     public function setSlug($slug)
     {
         $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get the icon.
-     *
-     * @return null|string
-     */
-    public function getIcon()
-    {
-        return $this->icon;
-    }
-
-    /**
-     * Set the icon.
-     *
-     * @param $icon
-     * @return $this
-     */
-    public function setIcon($icon)
-    {
-        $this->icon = $icon;
 
         return $this;
     }
@@ -165,29 +133,6 @@ class Shortcut implements ShortcutInterface
     }
 
     /**
-     * Get the class.
-     *
-     * @return string
-     */
-    public function getClass()
-    {
-        return $this->class;
-    }
-
-    /**
-     * Set the class.
-     *
-     * @param $class
-     * @return $this
-     */
-    public function setClass($class)
-    {
-        $this->class = $class;
-
-        return $this;
-    }
-
-    /**
      * Get the highlighted flag.
      *
      * @return boolean
@@ -231,26 +176,6 @@ class Shortcut implements ShortcutInterface
         $this->context = $context;
 
         return $this;
-    }
-
-    /**
-     * Get the attributes.
-     *
-     * @return array
-     */
-    public function getAttributes()
-    {
-        return $this->attributes;
-    }
-
-    /**
-     * Set the attributes.
-     *
-     * @param array $attributes
-     */
-    public function setAttributes(array $attributes)
-    {
-        $this->attributes = $attributes;
     }
 
     /**

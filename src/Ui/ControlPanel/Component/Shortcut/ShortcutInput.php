@@ -2,7 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
-use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 
@@ -25,11 +24,13 @@ class ShortcutInput
     public static function read(ControlPanelBuilder $builder)
     {
         self::resolve($builder);
+        self::defaults($builder);
         self::normalize($builder);
 
         ShortcutGuesser::guess($builder);
 
         self::evaluate($builder);
+        self::translate($builder);
         self::parse($builder);
     }
 
@@ -53,6 +54,31 @@ class ShortcutInput
     protected static function evaluate(ControlPanelBuilder $builder)
     {
         $builder->setShortcuts(evaluate($builder->getShortcuts(), compact('builder')));
+    }
+
+    /**
+     * Default input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder $builder
+     */
+    protected static function defaults(ControlPanelBuilder $builder)
+    {
+        // Defaults
+        if (!$builder->getShortcuts()) {
+            $builder->setShortcuts([
+                'view_site' => [
+                    'href'   => '/',
+                    'class'  => 'button',
+                    'target' => '_blank',
+                    'title'  => 'anomaly.theme.flow::control_panel.view_site',
+                ],
+                'logout' => [
+                    'class' => 'button',
+                    'href'  => 'admin/logout',
+                    'title' => 'anomaly.theme.flow::control_panel.logout',
+                ],
+            ]);
+        }
     }
 
     /**
@@ -127,5 +153,15 @@ class ShortcutInput
     protected static function parse(ControlPanelBuilder $builder)
     {
         $builder->setShortcuts(parse($builder->getShortcuts()));
+    }
+
+    /**
+     * Translate input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder $builder
+     */
+    protected static function translate(ControlPanelBuilder $builder)
+    {
+        $builder->setShortcuts(translate($builder->getShortcuts()));
     }
 }
