@@ -1,6 +1,7 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
+<?php
 
-use Anomaly\Streams\Platform\Support\Evaluator;
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
+
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -16,85 +17,33 @@ class ButtonBuilder
 {
 
     /**
-     * The button reader.
-     *
-     * @var ButtonInput
-     */
-    protected $input;
-
-    /**
-     * The button value utility.
-     *
-     * @var ButtonValue
-     */
-    protected $value;
-
-    /**
-     * The button parser.
-     *
-     * @var ButtonParser
-     */
-    protected $parser;
-
-    /**
-     * The button factory.
-     *
-     * @var ButtonFactory
-     */
-    protected $factory;
-
-    /**
-     * The evaluator utility.
-     *
-     * @var Evaluator
-     */
-    protected $evaluator;
-
-    /**
-     * Create a new ButtonBuilder instance.
-     *
-     * @param ButtonInput $input
-     * @param ButtonValue $value
-     * @param ButtonParser $parser
-     * @param ButtonFactory $factory
-     * @param Evaluator $evaluator
-     */
-    public function __construct(
-        ButtonInput $input,
-        ButtonValue $value,
-        ButtonParser $parser,
-        ButtonFactory $factory,
-        Evaluator $evaluator
-    ) {
-        $this->input     = $input;
-        $this->value     = $value;
-        $this->parser    = $parser;
-        $this->factory   = $factory;
-        $this->evaluator = $evaluator;
-    }
-
-    /**
      * Build the buttons.
      *
      * @param  TableBuilder $builder
      * @param                   $entry
      * @return ButtonCollection
      */
-    public function build(TableBuilder $builder, $entry)
+    public static function build(TableBuilder $builder, $entry)
     {
         $table = $builder->getTable();
 
+        $factory = app(ButtonFactory::class);
+
         $buttons = new ButtonCollection();
 
-        $this->input->read($builder);
+        ButtonInput::read($builder);
 
         foreach ($builder->getButtons() as $button) {
+
             array_set($button, 'entry', $entry);
 
-            $button = $this->evaluator->evaluate($button, compact('entry', 'table'));
-            $button = $this->parser->parse($button, $entry);
-            $button = $this->value->replace($button, $entry);
-            $button = $this->factory->make($button);
+            $button = evaluate($button, compact('entry', 'table'));
+
+            $button = parse($button, compact('entry'));
+
+            $button = self::replace($button, $entry);
+
+            $button = $factory->make(translate($button));
 
             if (!$button->isEnabled()) {
                 continue;
@@ -104,5 +53,25 @@ class ButtonBuilder
         }
 
         return $buttons;
+    }
+
+    /**
+     * Replace input.
+     *
+     * @param array $button
+     * @param mixed $entry
+     */
+    protected static function replace(array $button, $entry)
+    {
+        $enabled = array_get($button, 'enabled');
+
+        if (is_string($enabled)) {
+
+            $enabled = filter_var(valuate($enabled, $entry), FILTER_VALIDATE_BOOLEAN);
+
+            $button['enabled'] = $enabled;
+        }
+
+        return $button;
     }
 }

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
@@ -18,67 +20,19 @@ class HrefGuesser
 {
 
     /**
-     * The URL generator.
-     *
-     * @var UrlGenerator
-     */
-    protected $url;
-
-    /**
-     * The request object.
-     *
-     * @var Request
-     */
-    protected $request;
-
-    /**
-     * The module collection.
-     *
-     * @var ModuleCollection
-     */
-    protected $modules;
-
-    /**
-     * The section collection.
-     *
-     * @var SectionCollection
-     */
-    protected $sections;
-
-    /**
-     * Create a new HrefGuesser instance.
-     *
-     * @param UrlGenerator $url
-     * @param Request $request
-     * @param ModuleCollection $modules
-     * @param SectionCollection $sections
-     */
-    public function __construct(
-        UrlGenerator $url,
-        Request $request,
-        ModuleCollection $modules,
-        SectionCollection $sections
-    ) {
-        $this->url      = $url;
-        $this->request  = $request;
-        $this->modules  = $modules;
-        $this->sections = $sections;
-    }
-
-    /**
      * Guess the HREF for a button.
      *
      * @param TableBuilder $builder
      */
-    public function guess(TableBuilder $builder)
+    public static function guess(TableBuilder $builder)
     {
         $buttons = $builder->getButtons();
 
-        if (!$section = $this->sections->active()) {
+        if (!$section = app('cp.sections')->active()) {
             return;
         }
 
-        if (!$module = $this->modules->active()) {
+        if (!$module = app('module.collection')->active()) {
             return;
         }
 
@@ -110,9 +64,8 @@ class HrefGuesser
 
                 case 'restore':
 
-                    $button['attributes']['href'] = $this->url->to(
-                        'entry/handle/restore/' . $module->getNamespace() . '/' . $stream->getNamespace(
-                        ) . '/' . $stream->getSlug() . '/{entry.id}'
+                    $button['attributes']['href'] = url(
+                        'entry/handle/restore/' . $module->getNamespace() . '/' . $stream->getNamespace() . '/' . $stream->getSlug() . '/{entry.id}'
                     );
 
                     break;

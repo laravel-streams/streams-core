@@ -7,11 +7,10 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\SetActiveAction;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\BuildFilters;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\SetActiveFilters;
 use Anomaly\Streams\Platform\Ui\Table\Component\Header\Command\BuildHeaders;
-use Anomaly\Streams\Platform\Ui\Table\Component\Row\Command\BuildRows;
+use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Command\BuildViews;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Command\SetActiveView;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class BuildTable
@@ -22,8 +21,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class BuildTable
 {
-
-    use DispatchesJobs;
 
     /**
      * The table builder.
@@ -50,55 +47,55 @@ class BuildTable
         /*
          * Resolve and set the table model and stream.
          */
-        $this->dispatchNow(new SetTableModel($this->builder));
-        $this->dispatchNow(new SetTableStream($this->builder));
-        $this->dispatchNow(new SetDefaultParameters($this->builder));
-        $this->dispatchNow(new SetRepository($this->builder));
+        dispatch_now(new SetTableModel($this->builder));
+        dispatch_now(new SetTableStream($this->builder));
+        dispatch_now(new SetDefaultParameters($this->builder));
+        dispatch_now(new SetRepository($this->builder));
 
         /*
          * Build table views and mark active.
          */
-        $this->dispatchNow(new BuildViews($this->builder));
-        $this->dispatchNow(new SetActiveView($this->builder));
+        dispatch_now(new BuildViews($this->builder));
+        dispatch_now(new SetActiveView($this->builder));
 
         /**
          * Set the table options going forward.
          */
-        $this->dispatchNow(new SetTableOptions($this->builder));
-        $this->dispatchNow(new SetDefaultOptions($this->builder));
-        $this->dispatchNow(new SaveTableState($this->builder));
+        dispatch_now(new SetTableOptions($this->builder));
+        dispatch_now(new SetDefaultOptions($this->builder));
+        dispatch_now(new SaveTableState($this->builder));
 
         /*
          * Before we go any further, authorize the request.
          */
-        $this->dispatchNow(new AuthorizeTable($this->builder));
+        dispatch_now(new AuthorizeTable($this->builder));
 
         /*
          * Build table filters and flag active.
          */
-        $this->dispatchNow(new BuildFilters($this->builder));
-        $this->dispatchNow(new SetActiveFilters($this->builder));
+        dispatch_now(new BuildFilters($this->builder));
+        dispatch_now(new SetActiveFilters($this->builder));
 
         /*
          * Build table actions and flag active.
          */
         ActionBuilder::build($this->builder);
-        $this->dispatchNow(new SetActiveAction($this->builder));
+        dispatch_now(new SetActiveAction($this->builder));
 
         /*
          * Build table headers.
          */
-        $this->dispatchNow(new BuildHeaders($this->builder));
-        $this->dispatchNow(new EagerLoadRelations($this->builder));
+        dispatch_now(new BuildHeaders($this->builder));
+        dispatch_now(new EagerLoadRelations($this->builder));
 
         /*
          * Get table entries.
          */
-        $this->dispatchNow(new GetTableEntries($this->builder));
+        dispatch_now(new GetTableEntries($this->builder));
 
         /*
          * Lastly table rows.
          */
-        $this->dispatchNow(new BuildRows($this->builder));
+        RowBuilder::build($this->builder);
     }
 }

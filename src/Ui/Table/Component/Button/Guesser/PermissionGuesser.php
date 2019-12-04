@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -14,32 +16,15 @@ class PermissionGuesser
 {
 
     /**
-     * The module collection.
-     *
-     * @var ModuleCollection
-     */
-    protected $modules;
-
-    /**
-     * Create a new PermissionGuesser instance.
-     *
-     * @param ModuleCollection $modules
-     */
-    public function __construct(ModuleCollection $modules)
-    {
-        $this->modules = $modules;
-    }
-
-    /**
      * Guess the text for a button.
      *
      * @param TableBuilder $builder
      */
-    public function guess(TableBuilder $builder)
+    public static function guess(TableBuilder $builder)
     {
         $buttons = $builder->getButtons();
 
-        if (!$module = $this->modules->active()) {
+        if (!$module = app('module.collection')->active()) {
             return;
         }
 
