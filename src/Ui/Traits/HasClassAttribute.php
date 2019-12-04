@@ -51,9 +51,9 @@ trait HasClassAttribute
      */
     public function class($class = null)
     {
-        return trim(implode(' ', [
+        return trim(implode(' ', array_filter([
             $class,
             $this->getClass()
-        ]));
+        ])));
     }
 }

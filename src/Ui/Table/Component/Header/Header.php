@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
 /*
  * Class Header
@@ -8,8 +10,13 @@
  * @author Ryan Thompson <ryan@pyrocms.com>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Header
  */
+
+use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
+use Anomaly\Streams\Platform\Ui\Contract\HtmlAttributesInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 
 /**
  * Class Header
@@ -18,8 +25,11 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Header implements HeaderInterface
+class Header implements HeaderInterface, ClassAttributeInterface, HtmlAttributesInterface
 {
+
+    use HasClassAttribute;
+    use HasHtmlAttributes;
 
     /**
      * The table builder.
@@ -178,5 +188,36 @@ class Header implements HeaderInterface
         $this->sortable = $sortable;
 
         return $this;
+    }
+
+    /**
+     * Return merged attributes.
+     *
+     * @param array $attributes
+     * @return array
+     */
+    public function attributes(array $attributes = [])
+    {
+        return array_filter(array_merge($this->attributes, [
+            'class' => $this->class(),
+        ], $attributes));
+    }
+
+    /**
+     * Return class HTML.
+     *
+     * @param string $class
+     * @return null|string
+     */
+    public function class($class = null)
+    {
+        if ($direction = $this->getDirection()) {
+            $class .= '--sorting --' . $direction;
+        }
+
+        return trim(implode(' ', [
+            $class,
+            $this->getClass()
+        ]));
     }
 }
