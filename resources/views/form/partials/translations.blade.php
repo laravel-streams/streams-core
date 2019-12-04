@@ -1,4 +1,4 @@
-<div style="display: inline-block;">
+<div style="display: none;">
     <button type="button">
         {{ trans('streams::locale.' . $fieldType->getLocale() . '.name') }}
     </button>
