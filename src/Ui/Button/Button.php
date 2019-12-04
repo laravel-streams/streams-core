@@ -414,7 +414,6 @@ class Button implements ButtonInterface
     {
         return trim(implode(' ', [
             $class,
-            'button',
             $this->getClass()
         ]));
     }

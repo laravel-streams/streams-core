@@ -1,8 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Command;
+<?php
 
-use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Command\BuildItems;
+namespace Anomaly\Streams\Platform\Ui\Tree\Command;
+
+use Anomaly\Streams\Platform\Ui\Tree\Component\Item\ItemBuilder;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class BuildTree
@@ -13,8 +14,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class BuildTree
 {
-    use DispatchesJobs;
-
     /**
      * The tree builder.
      *
@@ -40,26 +39,26 @@ class BuildTree
         /*
          * Resolve and set the tree model and stream.
          */
-        $this->dispatchNow(new SetTreeModel($this->builder));
-        $this->dispatchNow(new SetTreeStream($this->builder));
-        $this->dispatchNow(new SetTreeOptions($this->builder));
-        $this->dispatchNow(new SetDefaultOptions($this->builder));
-        $this->dispatchNow(new SetTreeRepository($this->builder));
-        $this->dispatchNow(new SetDefaultParameters($this->builder));
+        dispatch_now(new SetTreeModel($this->builder));
+        dispatch_now(new SetTreeStream($this->builder));
+        dispatch_now(new SetTreeOptions($this->builder));
+        dispatch_now(new SetDefaultOptions($this->builder));
+        dispatch_now(new SetTreeRepository($this->builder));
+        dispatch_now(new SetDefaultParameters($this->builder));
 
         /*
          * Before we go any further, authorize the request.
          */
-        $this->dispatchNow(new AuthorizeTree($this->builder));
+        dispatch_now(new AuthorizeTree($this->builder));
 
         /*
          * Get tree entries.
          */
-        $this->dispatchNow(new GetTreeEntries($this->builder));
+        dispatch_now(new GetTreeEntries($this->builder));
 
         /*
          * Lastly tree items.
          */
-        $this->dispatchNow(new BuildItems($this->builder));
+        ItemBuilder::build($this->builder);
     }
 }

@@ -1,5 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
+<?php
 
+namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
+
+use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 
 /**
@@ -13,75 +16,144 @@ class SegmentInput
 {
 
     /**
-     * The segment parser.
-     *
-     * @var SegmentParser
-     */
-    protected $parser;
-
-    /**
-     * The segment defaults.
-     *
-     * @var SegmentDefaults
-     */
-    protected $defaults;
-
-    /**
-     * The resolver utility.
-     *
-     * @var SegmentResolver
-     */
-    protected $resolver;
-
-    /**
-     * The segment translator.
-     *
-     * @var SegmentTranslator
-     */
-    protected $translator;
-
-    /**
-     * The segment normalizer.
-     *
-     * @var SegmentNormalizer
-     */
-    protected $normalizer;
-
-    /**
-     * Create a new SegmentInput instance.
-     *
-     * @param SegmentParser     $parser
-     * @param SegmentDefaults   $defaults
-     * @param SegmentResolver   $resolver
-     * @param SegmentTranslator $translator
-     * @param SegmentNormalizer $normalizer
-     */
-    public function __construct(
-        SegmentParser $parser,
-        SegmentDefaults $defaults,
-        SegmentResolver $resolver,
-        SegmentTranslator $translator,
-        SegmentNormalizer $normalizer
-    ) {
-        $this->parser     = $parser;
-        $this->defaults   = $defaults;
-        $this->resolver   = $resolver;
-        $this->translator = $translator;
-        $this->normalizer = $normalizer;
-    }
-
-    /**
      * Read the builder's segment input.
      *
      * @param TreeBuilder $builder
      */
-    public function read(TreeBuilder $builder)
+    public static function read(TreeBuilder $builder)
     {
-        $this->resolver->resolve($builder);
-        $this->defaults->defaults($builder);
-        $this->normalizer->normalize($builder);
-        $this->parser->parse($builder);
+        self::resolve($builder);
+        self::defaults($builder);
+        self::normalize($builder);
+        self::parse($builder);
+        self::translate($builder);
+    }
 
-        $this->translator->translate($builder);
+    /**
+     * Resolve input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\Tree\TreeBuilder $builder
+     */
+    protected static function resolve(TreeBuilder $builder)
+    {
+        $segments = resolver($builder->getSegments(), compact('builder'));
+
+        $builder->setSegments(evaluate($segments ?: $builder->getSegments(), compact('builder')));
+    }
+
+    /**
+     * Default input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\Tree\TreeBuilder $builder
+     */
+    protected static function defaults(TreeBuilder $builder)
+    {
+        if ($builder->getSegments()) {
+            return;
+        }
+
+        if (!$section = app('cp.sections')->active()) {
+            return;
+        }
+
+        $builder->setSegments(
+            [
+                [
+                    'wrapper' => '<a href="' . $section->getHref('edit') . '/{entry.id}">{value}</a>',
+                    'value'   => 'entry.title',
+                ],
+            ]
+        );
+    }
+
+    /**
+     * Normalize input.
+     *
+     * @param TreeBuilder $builder
+     */
+    protected static function normalize(TreeBuilder $builder)
+    {
+        $segments = $builder->getSegments();
+
+        foreach ($segments as $key => &$segment) {
+
+            /*
+             * If the key is non-numerical then
+             * use it as the header and use the
+             * segment as the segment if it's a class.
+             */
+            if (!is_numeric($key) && !is_array($segment) && class_exists($segment)) {
+                $segment = [
+                    'heading' => $key,
+                    'segment' => $segment,
+                ];
+            }
+
+            /*
+             * If the key is non-numerical then
+             * use it as the header and use the
+             * segment as the value.
+             */
+            if (!is_numeric($key) && !is_array($segment) && !class_exists($segment)) {
+                $segment = [
+                    'heading' => $key,
+                    'value'   => $segment,
+                ];
+            }
+
+            /*
+             * If the segment is not already an
+             * array then treat it as the value.
+             */
+            if (!is_array($segment)) {
+                $segment = [
+                    'value' => $segment,
+                ];
+            }
+
+            /*
+             * If the key is non-numerical and
+             * the segment is an array without
+             * a value then use the key.
+             */
+            if (!is_numeric($key) && is_array($segment) && !isset($segment['value'])) {
+                $segment['value'] = $key;
+            }
+
+            /*
+             * If no value wrap is set
+             * then use a default.
+             */
+            array_set($segment, 'wrapper', array_get($segment, 'wrapper', '{value}'));
+
+            /*
+             * If there is no value then use NULL
+             */
+            array_set($segment, 'value', array_get($segment, 'value', null));
+        }
+
+        $segments = Normalizer::attributes($segments);
+
+        $builder->setSegments($segments);
+    }
+
+    /**
+     * Parse input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\Tree\TreeBuilder $builder
+     */
+    protected static function parse(TreeBuilder $builder)
+    {
+        $builder->setSegments(parse($builder->getSegments()));
+    }
+
+    /**
+     * Translate input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\Tree\TreeBuilder $builder
+     */
+    protected static function translate(TreeBuilder $builder)
+    {
+        $builder->setSegments(translate($builder->getSegments()));
     }
 }

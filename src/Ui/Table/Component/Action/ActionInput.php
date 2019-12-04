@@ -26,6 +26,7 @@ class ActionInput
     public static function read(TableBuilder $builder)
     {
         self::resolve($builder);
+        self::defaults($builder);
         self::predict($builder);
         self::normalize($builder);
         self::merge($builder);
@@ -49,13 +50,19 @@ class ActionInput
     }
 
     /**
-     * Evaluate input.
+     * Default input.
      *
      * @param \Anomaly\Streams\Platform\Ui\Table\TableBuilder $builder
      */
-    protected static function evaluate(TableBuilder $builder)
+    protected static function defaults(TableBuilder $builder)
     {
-        $builder->setActions(evaluate($builder->getActions(), compact('builder')));
+        if (!$builder->getActions()) {
+            $builder->setActions([
+                'delete',
+                'edit',
+                'export',
+            ]);
+        }
     }
 
     /**

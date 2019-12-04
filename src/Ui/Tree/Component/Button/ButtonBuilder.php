@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Component\Button;
 
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
@@ -16,63 +18,21 @@ class ButtonBuilder
 {
 
     /**
-     * The button reader.
-     *
-     * @var ButtonInput
-     */
-    protected $input;
-
-    /**
-     * The button parser.
-     *
-     * @var ButtonParser
-     */
-    protected $parser;
-
-    /**
-     * The button factory.
-     *
-     * @var ButtonFactory
-     */
-    protected $factory;
-
-    /**
-     * The evaluator utility.
-     *
-     * @var Evaluator
-     */
-    protected $evaluator;
-
-    /**
-     * Create a new ButtonBuilder instance.
-     *
-     * @param ButtonInput   $input
-     * @param ButtonParser  $parser
-     * @param ButtonFactory $factory
-     * @param Evaluator     $evaluator
-     */
-    public function __construct(ButtonInput $input, ButtonParser $parser, ButtonFactory $factory, Evaluator $evaluator)
-    {
-        $this->input     = $input;
-        $this->parser    = $parser;
-        $this->factory   = $factory;
-        $this->evaluator = $evaluator;
-    }
-
-    /**
      * Build the buttons.
      *
      * @param  TreeBuilder      $builder
      * @param                   $entry
      * @return ButtonCollection
      */
-    public function build(TreeBuilder $builder, $entry)
+    public static function build(TreeBuilder $builder, $entry)
     {
         $tree = $builder->getTree();
 
+        $factory = app(ButtonFactory::class);
+
         $buttons = new ButtonCollection();
 
-        $this->input->read($builder, $entry);
+        ButtonInput::read($builder, $entry);
 
         foreach ($builder->getButtons() as $button) {
             if (!array_get($button, 'enabled', true)) {
