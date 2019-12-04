@@ -1,6 +1,7 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Guesser;
+<?php
 
-use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Guesser;
+
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -14,31 +15,16 @@ class PlaceholdersGuesser
 {
 
     /**
-     * The module collection.
-     *
-     * @var ModuleCollection
-     */
-    protected $modules;
-
-    /**
-     * Create a new PlaceholdersGuesser instance.
-     *
-     * @param ModuleCollection $modules
-     */
-    public function __construct(ModuleCollection $modules)
-    {
-        $this->modules = $modules;
-    }
-
-    /**
      * Guess some table table filter placeholders.
      *
      * @param TableBuilder $builder
      */
-    public function guess(TableBuilder $builder)
+    public static function guess(TableBuilder $builder)
     {
         $filters = $builder->getFilters();
         $stream  = $builder->getTableStream();
+
+        $module = app('module.collection')->active();
 
         foreach ($filters as &$filter) {
 
@@ -66,7 +52,7 @@ class PlaceholdersGuesser
                 }
             }
 
-            if (!$module = $this->modules->active()) {
+            if (!$module) {
                 continue;
             }
 

@@ -45,7 +45,6 @@ class FieldBuilder
             if (!array_get($field, 'enabled', true)) {
                 continue;
             }
-
             $builder->addFormField($factory->make($field, $stream, $entry));
         }
     }

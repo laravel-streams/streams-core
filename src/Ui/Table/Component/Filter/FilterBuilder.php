@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
@@ -13,41 +15,17 @@ class FilterBuilder
 {
 
     /**
-     * The filter reader.
-     *
-     * @var FilterInput
-     */
-    protected $input;
-
-    /**
-     * The filter factory.
-     *
-     * @var FilterFactory
-     */
-    protected $factory;
-
-    /**
-     * Create a new FilterBuilder instance.
-     *
-     * @param FilterInput   $input
-     * @param FilterFactory $factory
-     */
-    public function __construct(FilterInput $input, FilterFactory $factory)
-    {
-        $this->input   = $input;
-        $this->factory = $factory;
-    }
-
-    /**
      * Build the filters.
      *
      * @param TableBuilder $builder
      */
-    public function build(TableBuilder $builder)
+    public static function build(TableBuilder $builder)
     {
         $table = $builder->getTable();
 
-        $this->input->read($builder);
+        $factory = app(FilterFactory::class);
+
+        FilterInput::read($builder);
 
         foreach ($builder->getFilters() as $filter) {
 
@@ -55,7 +33,7 @@ class FilterBuilder
                 continue;
             }
 
-            $table->addFilter($this->factory->make($filter));
+            $table->addFilter($factory->make($filter));
         }
     }
 }

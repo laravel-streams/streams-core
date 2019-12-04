@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Header\Guesser;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -18,12 +20,13 @@ class SortableGuesser
      *
      * @param TableBuilder $builder
      */
-    public function guess(TableBuilder $builder)
+    public static function guess(TableBuilder $builder)
     {
         $columns = $builder->getColumns();
         $stream  = $builder->getTableStream();
 
         foreach ($columns as &$column) {
+
             if ($builder->getTableOption('sortable_headers') === false) {
                 $column['sortable'] = false;
 

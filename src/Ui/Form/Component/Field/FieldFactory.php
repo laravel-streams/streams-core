@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
@@ -72,12 +74,12 @@ class FieldFactory
             if (array_get($parameters, 'type')) {
                 $field = $this->builder->build($parameters);
             } else {
-                $field = clone($entry->getFieldType(array_get($parameters, 'field')));
+                $field = clone ($entry->getFieldType(array_get($parameters, 'field')));
             }
 
             $modifier = $field->getModifier();
 
-            $value = array_pull($parameters, 'value');
+            $value = array_pull($parameters, 'value', $field->getValue());
 
             /* @var EntryInterface $entry */
             $field->setValue(

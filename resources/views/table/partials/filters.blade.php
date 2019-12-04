@@ -7,7 +7,7 @@
 
         @foreach ($table->getFilters() as $filter)
             <div class="table__filter">
-                {{-- {!! $filter->getInput() !!} --}}
+                {!! $filter->getInput() !!}
             </div>
         @endforeach
 

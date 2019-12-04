@@ -4,12 +4,13 @@ namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\SetActiveAction;
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\BuildFilters;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\SetActiveFilters;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Header\Command\BuildHeaders;
+use Anomaly\Streams\Platform\Ui\Table\Component\Header\HeaderBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowBuilder;
-use Anomaly\Streams\Platform\Ui\Table\Component\View\Command\BuildViews;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Command\SetActiveView;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -55,7 +56,7 @@ class BuildTable
         /*
          * Build table views and mark active.
          */
-        dispatch_now(new BuildViews($this->builder));
+        ViewBuilder::build($this->builder);
         dispatch_now(new SetActiveView($this->builder));
 
         /**
@@ -73,7 +74,7 @@ class BuildTable
         /*
          * Build table filters and flag active.
          */
-        dispatch_now(new BuildFilters($this->builder));
+        FilterBuilder::build($this->builder);
         dispatch_now(new SetActiveFilters($this->builder));
 
         /*
@@ -85,8 +86,8 @@ class BuildTable
         /*
          * Build table headers.
          */
-        dispatch_now(new BuildHeaders($this->builder));
-        dispatch_now(new EagerLoadRelations($this->builder));
+        HeaderBuilder::build($this->builder);
+        dispatch_now(new EagerLoadRelations($this->builder)); // @todo Axe this?
 
         /*
          * Get table entries.

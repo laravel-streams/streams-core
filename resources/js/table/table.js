@@ -1,5 +1,8 @@
 (function (window, document) {
 
+    return;
+
+    // Shortcut this
     let filters = Array.prototype.slice.call(
         document.querySelectorAll('#filters input')
     );

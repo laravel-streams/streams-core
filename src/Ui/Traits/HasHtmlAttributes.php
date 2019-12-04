@@ -99,6 +99,7 @@ trait HasHtmlAttributes
      * Return merged attributes.
      *
      * @param array $attributes
+     * @return array
      */
     public function attributes(array $attributes = [])
     {
