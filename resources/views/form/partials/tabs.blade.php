@@ -1,7 +1,7 @@
 <div class="tabs">
     
     <ul>
-        @foreach ($tabs as $slug => $tab)
+        @foreach ($section['tabs'] as $slug => $tab)
             <li class="{{ $loop->first ? 'active' : '' }}">
                 <a
                 data-toggle="tab"
@@ -12,7 +12,7 @@
         @endforeach
     </ul>
 
-    @foreach ($tabs as $slug => $tab)
+    @foreach ($section['tabs'] as $slug => $tab)
         <div id="{{ $form->getOption('prefix') }}{{ array_get($tab, 'slug', $slug) }}-tab" class="{{ $loop->first ? 'active' : '' }}">
             @if (isset($tab['view']))
                 @include($tab['view'])

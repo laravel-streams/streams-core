@@ -79,7 +79,7 @@ class FieldFactory
 
             $modifier = $field->getModifier();
 
-            $value = array_pull($parameters, 'value', $field->getValue());
+            $value = array_pull($parameters, 'value');
 
             /* @var EntryInterface $entry */
             $field->setValue(

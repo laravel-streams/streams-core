@@ -2,7 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
  * Class FieldInput

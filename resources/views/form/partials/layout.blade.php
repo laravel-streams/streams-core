@@ -8,6 +8,8 @@
                     @include($section['view'])
                 @elseif (isset($section['html']))
                     {!! $section['html'] !!}
+                @elseif (isset($section['tabs']))
+                    @include('streams::form/partials/tabs')
                 @else
                     @include('streams::form/partials/section')
                 @endif

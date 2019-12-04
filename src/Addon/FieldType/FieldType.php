@@ -808,9 +808,10 @@ class FieldType extends Addon
     /**
      * Get the attributes.
      *
+     * @param array $attributes
      * @return array
      */
-    public function attributes()
+    public function attributes(array $attributes = [])
     {
         return array_filter(
             array_merge(
@@ -832,7 +833,8 @@ class FieldType extends Addon
                     'data-provides'   => $this->getNamespace(),
                     'id'              => $this->getInputName(),
                 ],
-                $this->getAttributes()
+                $this->getAttributes(),
+                $attributes
             )
         );
     }

@@ -24,6 +24,8 @@ class SectionInput
         self::resolve($builder);
         self::evaluate($builder);
         self::normalize($builder);
+        self::translate($builder);
+        self::parse($builder);
     }
 
     /**
@@ -90,5 +92,25 @@ class SectionInput
         }
 
         $builder->setSections($sections);
+    }
+
+    /**
+     * Translate input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\Form\FormBuilder $builder
+     */
+    protected static function translate(FormBuilder $builder)
+    {
+        $builder->setSections(translate($builder->getSections()));
+    }
+
+    /**
+     * Parse input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\Form\FormBuilder $builder
+     */
+    protected static function parse(FormBuilder $builder)
+    {
+        $builder->setSections(parse($builder->getSections()));
     }
 }
