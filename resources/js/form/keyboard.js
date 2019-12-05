@@ -16,7 +16,7 @@
         if (!event.target.matches('input, textarea, select')) {
             return;
         }
-        
+
         // Do the action
     });
 
