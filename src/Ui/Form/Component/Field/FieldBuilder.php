@@ -45,7 +45,12 @@ class FieldBuilder
             if (!array_get($field, 'enabled', true)) {
                 continue;
             }
+
             $builder->addFormField($factory->make($field, $stream, $entry));
+        }
+
+        if ($first = $builder->getFormFields()->first()) {
+            $first->addAttribute('data-keymap', 'f');
         }
     }
 }

@@ -326,4 +326,32 @@ class Filter implements FilterInterface, IconInterface, ClassAttributeInterface,
 
         return $this;
     }
+
+    /**
+     * Return merged attributes.
+     *
+     * @param array $attributes
+     * @return array
+     */
+    public function attributes(array $attributes = [])
+    {
+        return array_filter(array_merge($this->attributes, [
+            'class' => $this->class(),
+        ], $attributes));
+    }
+
+    /**
+     * Return class HTML.
+     *
+     * @param string $class
+     * @return null|string
+     */
+    public function class($class = null)
+    {
+        return trim(implode(' ', array_filter([
+            $class,
+            'input',
+            $this->getClass()
+        ])));
+    }
 }

@@ -2,7 +2,7 @@
 
     forms.forEach(function (form) {
 
-        
+
         // form.addEventListener('submit', function () {
 
         //     if (button && button.tagName == 'BUTTON') {
