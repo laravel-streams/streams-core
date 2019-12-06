@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Support\Presenter;
 use Collective\Html\FormBuilder as Html;
@@ -69,6 +71,8 @@ class FormPresenter extends Presenter
         if ($this->object->hasFileInput()) {
             $options['enctype'] = 'multipart/form-data';
         }
+
+        $options['data-moda'] = 'ajax';
 
         return $this->html->open($options);
     }

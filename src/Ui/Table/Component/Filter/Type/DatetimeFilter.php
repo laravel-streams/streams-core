@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
 
 use Anomaly\DatetimeFieldType\DatetimeFieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection;
@@ -41,6 +43,7 @@ class DatetimeFilter extends Filter
             ->setLocale(null)
             ->setField($this->getSlug())
             ->setValue($this->getValue())
+            ->setAttributes($this->getAttributes())
             ->setPlaceholder($this->getPlaceholder())
             ->setPrefix($this->getPrefix() . 'filter_')
             ->getFilter();

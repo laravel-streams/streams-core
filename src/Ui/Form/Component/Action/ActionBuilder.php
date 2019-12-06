@@ -29,7 +29,7 @@ class ActionBuilder
 
         foreach ($builder->getActions() as $action) {
             if (array_get($action, 'enabled', true)) {
-                $form->addAction($factory->make($action));
+                $form->addAction($instance = $factory->make($action));
             }
         }
     }

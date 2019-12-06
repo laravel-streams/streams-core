@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Assignment\Table;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment\Table;
 
 use Anomaly\Streams\Platform\Assignment\Table\Command\SetDefaultProperties;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -23,12 +25,6 @@ class AssignmentTableBuilder extends TableBuilder
      * @var null|StreamInterface
      */
     protected $stream = null;
-
-    protected $filters = [
-        'example' => [
-            'filter' => 'datetime',
-        ],
-    ];
 
     /**
      * The table columns.

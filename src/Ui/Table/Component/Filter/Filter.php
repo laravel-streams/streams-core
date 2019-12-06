@@ -1,8 +1,16 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
+use Anomaly\Streams\Platform\Ui\Contract\HtmlAttributesInterface;
+use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\GenericFilterQuery;
+use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
+use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 use Closure;
 
 /**
@@ -12,8 +20,12 @@ use Closure;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Filter implements FilterInterface
+class Filter implements FilterInterface, IconInterface, ClassAttributeInterface, HtmlAttributesInterface
 {
+
+    use HasIcon;
+    use HasClassAttribute;
+    use HasHtmlAttributes;
 
     /**
      * The filter slug.

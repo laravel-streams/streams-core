@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Button;
 
 /**
  * Class ButtonRegistry
@@ -25,6 +27,9 @@ class ButtonRegistry
         'cancel'        => [
             'text' => 'streams::button.cancel',
             'type' => 'default',
+            'attributes' => [
+                'data-keymap' => 'c',
+            ],
         ],
         /*
          * Primary Buttons
@@ -81,6 +86,9 @@ class ButtonRegistry
             'text' => 'streams::button.new',
             'icon' => 'fa fa-plus',
             'type' => 'success',
+            'attributes' => [
+                'data-keymap' => 'n',
+            ],
         ],
         'new_field'     => [
             'text' => 'streams::button.new_field',
@@ -91,6 +99,9 @@ class ButtonRegistry
             'text' => 'streams::button.add',
             'icon' => 'fa fa-plus',
             'type' => 'success',
+            'attributes' => [
+                'data-keymap' => 'a',
+            ],
         ],
         'add_all'       => [
             'text' => 'streams::button.add_all',

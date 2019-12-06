@@ -187,4 +187,19 @@ class Action extends Button implements ActionInterface, IconInterface, ClassAttr
 
         return $this;
     }
+
+    /**
+     * Return merged attributes.
+     *
+     * @param array $attributes
+     */
+    public function attributes(array $attributes = [])
+    {
+        return array_merge(parent::attributes(), [
+            'class' => $this->class(),
+            'value' => $this->getSlug(),
+            'type'  => $this->getType(),
+            'name'  => 'action',
+        ], $attributes);
+    }
 }

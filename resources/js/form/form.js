@@ -1,67 +1,39 @@
 (function (window, document) {
 
-    let forms = Array.prototype.slice.call(
-        document.querySelectorAll('.form__wrapper form')
-    );
-
     forms.forEach(function (form) {
 
-        let inputs = Array.prototype.slice.call(
-            form.querySelectorAll('input')
-        );
+        
+        // form.addEventListener('submit', function () {
 
-        let tabs = Array.prototype.slice.call(
-            form.querySelectorAll('a[data-toggle="tab"]')
-        );
+        //     if (button && button.tagName == 'BUTTON') {
 
-        let panes = Array.prototype.slice.call(
-            form.querySelectorAll('.tab__pane')
-        );
+        //         let icon = button.querySelector('i');
 
-        let actions = Array.prototype.slice.call(
-            form.querySelectorAll('.form__actions button')
-        );
+        //         if (icon) {
+        //             icon.classList = 'fas fa-sync-alt fa-spin';
+        //         } else {
+        //             button.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i>' + button.innerHTML;
+        //         }
+        //     }
 
-        /**
-         * Disable actions after the
-         * form has been submitted.
-         */
-        if (!form.classList.contains('ajax')) {
+        //     // NProgress.start({
+        //     //     trickleSpeed: 25,
+        //     //     showSpinner: false,
+        //     // });
 
-            form.addEventListener('submit', function () {
+        //     actions.forEach(function (action) {
 
-                let button = document.activeElement;
+        //         action.classList.add('disabled');
 
-                if (button && button.tagName == 'BUTTON') {
+        //         action.addEventListener('click', function (event) {
 
-                    let icon = button.querySelector('i');
+        //             event.preventDefault();
 
-                    if (icon) {
-                        icon.classList = 'fas fa-sync-alt fa-spin';
-                    } else {
-                        button.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i>' + button.innerHTML;
-                    }
-                }
+        //             return false;
+        //         });
+        //     });
 
-                // NProgress.start({
-                //     trickleSpeed: 25,
-                //     showSpinner: false,
-                // });
-
-                actions.forEach(function (action) {
-
-                    action.classList.add('disabled');
-
-                    action.addEventListener('click', function (event) {
-
-                        event.preventDefault();
-
-                        return false;
-                    });
-                });
-
-                //NProgress.set(0.70);
-            });
-        }
+        //     //NProgress.set(0.70);
+        // });
     });
 })(window, document);

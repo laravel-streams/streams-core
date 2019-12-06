@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Field\Table;
+<?php
+
+namespace Anomaly\Streams\Platform\Field\Table;
 
 use Anomaly\Streams\Platform\Field\Table\View\UnassignedQuery;
 use Anomaly\Streams\Platform\Field\Table\Filter\TypeFilterOptions;

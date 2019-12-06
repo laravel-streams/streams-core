@@ -35,5 +35,9 @@ class FilterBuilder
 
             $table->addFilter($factory->make($filter));
         }
+
+        if ($first = $builder->getTableFilters()->first()) {
+            $first->addAttribute('data-keymap', 'f');
+        }
     }
 }
