@@ -28,7 +28,7 @@ class RowBuilder
     {
         $factory = app(RowFactory::class);
 
-        foreach ($builder->getTableEntries() as $entry) {
+        foreach ($builder->getTableEntries() as $i => $entry) {
 
             $columns = ColumnBuilder::build($builder, $entry);
             $buttons = ButtonBuilder::build($builder, $entry);
@@ -48,7 +48,11 @@ class RowBuilder
 
             $row = evaluate($row, compact('builder', 'entry'));
 
-            $builder->addTableRow($factory->make($row));
+            $builder->addTableRow($row = $factory->make($row));
+
+            $row->mergeAttributes([
+                'tabindex' => $i + 1,
+            ]);
         }
     }
 }
