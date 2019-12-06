@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
 
 use Anomaly\SelectFieldType\SelectFieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
@@ -68,9 +70,10 @@ class SelectFilter extends Filter implements SelectFilterInterface
     {
         $this->resolver->resolve($this->getOptions(), ['filter' => $this]);
 
-        return $this->builder->build(['type' => SelectFieldType::class])
+        return $this->builder->build(['type' => 'anomaly.field_type.select'])
             ->setPlaceholder($this->getPlaceholder())
             ->setField('filter_' . $this->getSlug())
+            ->setAttributes($this->attributes())
             ->setPrefix($this->getPrefix())
             ->setValue($this->getValue())
             ->mergeConfig(
