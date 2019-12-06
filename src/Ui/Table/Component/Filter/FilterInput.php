@@ -26,6 +26,8 @@ class FilterInput
         self::merge($builder);
 
         FilterGuesser::guess($builder);
+
+        self::translate($builder);
     }
 
     /**
@@ -146,7 +148,7 @@ class FilterInput
     /**
      * Merge input.
      *
-     * @param TableBuilder $builder
+     * @param \Anomaly\Streams\Platform\Ui\Table\TableBuilder $builder
      */
     protected static function merge(TableBuilder $builder)
     {
@@ -162,5 +164,15 @@ class FilterInput
         }
 
         $builder->setFilters($filters);
+    }
+
+    /**
+     * Translate input.
+     *
+     * @param \Anomaly\Streams\Platform\Ui\Table\TableBuilder $builder
+     */
+    protected static function translate(TableBuilder $builder)
+    {
+        $builder->setFilters(translate($builder->getFilters()));
     }
 }
