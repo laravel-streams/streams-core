@@ -37,9 +37,9 @@
                     let icon = button.querySelector('i');
 
                     if (icon) {
-                        icon.classList = 'fa fa-refresh fa-spin';
+                        icon.classList = 'fas fa-sync-alt fa-spin';
                     } else {
-                        button.innerHTML = '<i class="fa fa-refresh fa-spin"></i>' + button.innerHTML;
+                        button.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i>' + button.innerHTML;
                     }
                 }
 
@@ -63,50 +63,5 @@
                 //NProgress.set(0.70);
             });
         }
-
-        /**
-         * If the form has errors then highlight
-         * the tabs containing invalid input.
-         */
-        panes.forEach(function (pane) {
-
-            if (pane.querySelector('.has-danger')) {
-                tabs
-                    .filter(tab => tab.hash == '#' + pane.id)
-                    .map(tab => tab.classList.add('text-danger'));
-            }
-        });
-
-        /**
-         * If the window location contains
-         * a has then try and open it's tab.
-         */
-        if (document.location.hash && form.querySelector(document.location.hash)) {
-            form.querySelector('a[href="' + document.location.hash + '"]').click();
-        }
-
-        /**
-         * Listen for popstate changes
-         * to manage tabs that are open.
-         */
-        window.addEventListener("popstate", function () {
-            if (document.location.hash && form.querySelector(document.location.hash)) {
-                form.querySelector('a[href="' + document.location.hash + '"]').click();
-            }
-        });
-
-        /**
-         * Change the window hash and push to
-         * the popstate when tabs are changed.
-         */
-        tabs.forEach(function (tab) {
-            tab.addEventListener('click', function (event) {
-                if (history.pushState) {
-                    history.pushState(null, "Show Tab", event.target.hash);
-                } else {
-                    window.hash(event.target.hash);
-                }
-            });
-        });
     });
 })(window, document);

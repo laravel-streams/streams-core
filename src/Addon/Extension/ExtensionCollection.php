@@ -15,6 +15,50 @@ class ExtensionCollection extends AddonCollection
 {
 
     /**
+     * Undocumented variable
+     *
+     * @var null|string
+     */
+    protected $active = null;
+
+    /**
+     * Set the active extension.
+     *
+     * @param string $active
+     * @return $this
+     */
+    public function setActive(string $active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get the active extension.
+     *
+     * @return string
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Return the active extension.
+     *
+     * @return Extension|null
+     */
+    public function active()
+    {
+        if (!$active = $this->getActive()) {
+            return null;
+        }
+
+        return app($active);
+    }
+
+    /**
      * Search for and return matching extensions.
      *
      * @param  mixed               $pattern
@@ -42,24 +86,6 @@ class ExtensionCollection extends AddonCollection
 
             /* @var Extension $item */
             if ($item->getProvides() == $key) {
-                return $item;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Return the active extension.
-     *
-     * @return Extension
-     */
-    public function active()
-    {
-        foreach ($this->items as $item) {
-
-            /* @var Extension $item */
-            if ($item->isActive()) {
                 return $item;
             }
         }
