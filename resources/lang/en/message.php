@@ -8,6 +8,7 @@ return [
     'show_all'                  => 'Show All',
     'no_results'                => 'No results.',
     'access_denied'             => 'Access denied.',
+    'no_rows_selected'          => 'No rows selected.',
     'no_fields_available'       => 'No fields available.',
     'delete_restrict'           => 'Unable to delete :name because it is restricted. Delete related ":relation" first.',
     'move_success'              => ':count entry was moved successfully.|:count entries were moved successfully.',

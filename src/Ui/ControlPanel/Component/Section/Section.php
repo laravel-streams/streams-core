@@ -485,7 +485,7 @@ class Section implements SectionInterface
     public function attributes(array $attributes = [])
     {
         return array_merge($this->attributes, [
-            'class' => $this->class()
+            'class' => $this->class(),
         ], $attributes);
     }
 

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Message\MessageBag;
@@ -104,9 +106,15 @@ class ActionExecutor
         }
 
         /*
-         * Get the IDs of the selected rows.
+         * If no rows are selected then 
+         * we have nothing to do. Heads up!
          */
-        $selected = $this->request->get($options->get('prefix') . 'id', []);
+        if (!$selected = $this->request->get($options->get('prefix') . 'id', [])) {
+
+            messages('warning', trans('streams::message.no_rows_selected'));
+
+            return;
+        }
 
         /*
          * If the handler is a callable string or Closure

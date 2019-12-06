@@ -29,13 +29,20 @@ class SectionBuilder
 
         SectionInput::read($builder);
 
-        foreach ($builder->getSections() as $section) {
+        foreach (array_values($builder->getSections()) as $i => $section) {
 
             if (!authorize(array_get($section, 'permission'))) {
                 continue;
             }
 
-            $controlPanel->addSection($factory->make($section));
+            $controlPanel->addSection($section = $factory->make($section));
+
+            /**
+             * Merge defaul attributes.
+             */
+            $section->mergeAttributes([
+                'data-keymap' => $i + 1
+            ]);
         }
     }
 }
