@@ -27,20 +27,6 @@ class SelectFilter extends Filter implements SelectFilterInterface
     protected $builder;
 
     /**
-     * The resolver utility.
-     *
-     * @var Resolver
-     */
-    protected $resolver;
-
-    /**
-     * The evaluator utility.
-     *
-     * @var Evaluator
-     */
-    protected $evaluator;
-
-    /**
      * The filter options.
      *
      * @var array
@@ -51,14 +37,10 @@ class SelectFilter extends Filter implements SelectFilterInterface
      * Create a new SelectFilter instance.
      *
      * @param FieldTypeBuilder $builder
-     * @param Resolver         $resolver
-     * @param Evaluator        $evaluator
      */
-    public function __construct(FieldTypeBuilder $builder, Resolver $resolver, Evaluator $evaluator)
+    public function __construct(FieldTypeBuilder $builder)
     {
-        $this->builder   = $builder;
-        $this->resolver  = $resolver;
-        $this->evaluator = $evaluator;
+        $this->builder = $builder;
     }
 
     /**
@@ -68,7 +50,7 @@ class SelectFilter extends Filter implements SelectFilterInterface
      */
     public function getInput()
     {
-        $this->resolver->resolve($this->getOptions(), ['filter' => $this]);
+        resolver($this->getOptions(), ['filter' => $this]);
 
         return $this->builder->build(['type' => 'anomaly.field_type.select'])
             ->setPlaceholder($this->getPlaceholder())
@@ -78,7 +60,7 @@ class SelectFilter extends Filter implements SelectFilterInterface
             ->setValue($this->getValue())
             ->mergeConfig(
                 [
-                    'options' => $this->evaluator->evaluate($this->getOptions(), ['filter' => $this]),
+                    'options' => evaluate($this->getOptions(), ['filter' => $this]),
                 ]
             )->getFilter();
     }

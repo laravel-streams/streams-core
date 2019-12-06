@@ -103,6 +103,6 @@ trait HasHtmlAttributes
      */
     public function attributes(array $attributes = [])
     {
-        return array_filter(array_merge($this->attributes, $attributes));
+        return array_merge($this->attributes, $attributes);
     }
 }

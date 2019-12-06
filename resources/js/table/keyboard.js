@@ -29,7 +29,7 @@
      */
     Mousetrap.bind(['esc'], function (event) {
 
-        if (!event.target.matches('input, textarea, select')) {
+        if (!event.target.matches('input, textarea, select, button')) {
             return;
         }
 

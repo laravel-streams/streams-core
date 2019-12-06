@@ -49,10 +49,6 @@ class RowBuilder
             $row = evaluate($row, compact('builder', 'entry'));
 
             $builder->addTableRow($row = $factory->make($row));
-
-            $row->mergeAttributes([
-                'tabindex' => $i + 1,
-            ]);
         }
     }
 }
