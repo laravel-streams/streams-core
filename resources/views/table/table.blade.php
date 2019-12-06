@@ -1,5 +1,6 @@
 {{ assets("scripts.js", "streams::js/table/table.js") }}
 {{ assets("scripts.js", "streams::js/table/actions.js") }}
+{{ assets("scripts.js", "streams::js/table/keyboard.js") }}
 {{ assets("scripts.js", "streams::js/table/sortable.js") }}
 {{-- Combine these into single table.js --}}
 
