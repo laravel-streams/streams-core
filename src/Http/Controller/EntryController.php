@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Http\Controller;
+<?php
+
+namespace Anomaly\Streams\Platform\Http\Controller;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface;
@@ -77,7 +79,7 @@ class EntryController extends AdminController
      */
     public function restore($addon, $namespace, $stream, $id)
     {
-        $addon = $this->addons->get($addon);
+        $addon = $this->addons->instance($addon);
 
         /* @var StreamInterface $stream */
         $stream = $this->streams->findBySlugAndNamespace($stream, $namespace);
