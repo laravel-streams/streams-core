@@ -43,14 +43,14 @@ document.addEventListener('keyup', function (event) {
         }
     });
 
-    let matches = items.filter((item) => !(item.offsetWidth > 0 && item.offsetHeight > 0));
+    let matches = items.filter((item) => (item.offsetWidth > 0 && item.offsetHeight > 0));
 
     /**
      * If we have matches but nothing selected then 
      * select the first visible by default.
      */
 
-    if (matches[0] && (!selected || (selected.offsetWidth > 0 && selected.offsetHeight > 0))) {
+    if (matches[0] && (!selected || !(selected.offsetWidth > 0 && selected.offsetHeight > 0))) {
 
         items.forEach((item) => item.classList.remove('selected'));
 
