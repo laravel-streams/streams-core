@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Application\Console;
 
+use Anomaly\Streams\Platform\Application\Event\SystemHasRefreshed;
 use Anomaly\Streams\Platform\Application\Event\SystemIsRefreshing;
 use \Illuminate\Contracts\Console\Kernel;
 use Illuminate\Console\Command;
@@ -36,7 +37,9 @@ class Refresh extends Command
      */
     public function handle(Kernel $console, Filesystem $files)
     {
-        $this->info('Refreshing system...');
+        $this->info('Refreshing system.');
+
+        event(new SystemIsRefreshing($this));
 
         /**
          * Clear the various caches.
@@ -90,6 +93,6 @@ class Refresh extends Command
             $files->delete($services);
         }
 
-        event(new SystemIsRefreshing($this));
+        event(new SystemHasRefreshed($this));
     }
 }

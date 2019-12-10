@@ -35,6 +35,10 @@ class Build extends Command
      */
     public function handle(Kernel $console)
     {
+        $this->info('Building system.');
+
+        event(new SystemIsBuilding($this));
+
         $this->info('Compiling entry models.');
 
         $console->call('streams:compile');

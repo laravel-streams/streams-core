@@ -5,13 +5,13 @@ namespace Anomaly\Streams\Platform\Application\Event;
 use Illuminate\Console\Command;
 
 /**
- * Class SystemIsRefreshing
+ * Class SystemHasRefreshed
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class SystemIsRefreshing
+class SystemHasRefreshed
 {
 
     /**
@@ -22,7 +22,7 @@ class SystemIsRefreshing
     protected $command;
 
     /**
-     * Create a new SystemIsRefreshing instance.
+     * Create a new SystemHasRefreshed instance.
      *
      * @param Command $command
      */

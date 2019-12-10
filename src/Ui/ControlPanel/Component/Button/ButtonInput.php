@@ -90,7 +90,7 @@ class ButtonInput
             }
         }
 
-        $buttons = Normalizer::buttons($buttons);
+        $buttons = Normalizer::attributes($buttons);
 
         $builder->setButtons($buttons);
     }
