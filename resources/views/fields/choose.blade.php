@@ -1,13 +1,6 @@
-<div class="modal-header">
-    <button class="close" data-dismiss="modal">
-        <span>&times;</span>
-    </button>
-    <h4 class="modal-title">{{ trans('streams::message.choose_field_type') }}</h4>
-</div>
+<div class="modal__filter">
 
-<div class="modal-body">
-
-    {{-- {% include "streams::modals/filter" %} --}}
+    @include('streams::modals/filter')
 
     <ul>
         @foreach ($fieldTypes->instances() as $fieldType)

@@ -1,7 +1,5 @@
-<script type="text/javascript">
-    {!! assets()->inline('streams::js/modal/filter.js') !!}
-</script>
+{!! assets()->script('streams::js/modal/filter.js') !!}
 
-<form class="modal-filter">
-    <input type="text" placeholder="{{ trans('streams::message.search') }}..." class="form-control">
+<form>
+    <input type="text" placeholder="{{ trans('streams::message.search') }}...">
 </form>

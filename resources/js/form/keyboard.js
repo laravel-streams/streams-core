@@ -4,7 +4,7 @@
      * When a key is pressed listen
      * for some common form actions.
      */
-    Mousetrap.prototype.stopCallback = function () {
+    app.mousetrap.prototype.stopCallback = function () {
         return false;
     };
 
@@ -27,7 +27,7 @@
     /**
      * ESC
      */
-    Mousetrap.bind(['esc'], function (event) {
+    app.mousetrap.bind(['esc'], function (event) {
 
         if (!event.target.matches('input, textarea, select')) {
             return;
@@ -42,7 +42,7 @@
     /**
      * Control + S
      */
-    Mousetrap.bind(['ctrl+s', 'command+s'], function (event) {
+    app.mousetrap.bind(['ctrl+s', 'command+s'], function (event) {
 
         if (!event.target.matches('input, textarea, select')) {
             return;
@@ -61,7 +61,7 @@
     /**
      * Control + Shift + S
      */
-    Mousetrap.bind(['ctrl+shift+s', 'command+shift+s'], function (event) {
+    app.mousetrap.bind(['ctrl+shift+s', 'command+shift+s'], function (event) {
 
         if (!event.target.matches('input, textarea, select')) {
             return;
