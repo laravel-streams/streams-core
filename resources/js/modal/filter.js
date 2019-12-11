@@ -1,25 +1,69 @@
 (function (window, document) {
 
+    /**
+     * Show the specified item.
+     *
+     * @param {Element} item
+     */
     let show = function (item) {
         item.style.display = 'inherit';
     }
 
+    /**
+     * Hide the specified item.
+     *
+     * @param {Element} item
+     */
     let hide = function (item) {
         item.style.display = 'none';
         item.classList.remove('selected');
     }
 
+    /**
+     * Select the specified item.
+     * 
+     * @param {Element} item 
+     */
     let select = function (item) {
         item.style.display = 'inherit';
         item.classList.add('selected');
     }
 
+    /**
+     * Clear the selected item.
+     * 
+     * @param {Array} items 
+     */
     let clearSelection = function (items) {
         items.forEach((item) => item.classList.remove('selected'));
     }
 
+    /**
+     * Return only items that are
+     * of the specified visibility.
+     * 
+     * @param {Array} items 
+     * @param {Boolean} visible 
+     */
     let visibility = function (items, visible = true) {
         return items.filter((item) => visible == (item.offsetWidth > 0 && item.offsetHeight > 0));
+    }
+
+    /**
+     * Return the initial variables
+     * for the filter component.
+     * 
+     * @param {Element} filter 
+     */
+    let setup = function (filter) {
+
+        let items = Array.prototype.slice.call(
+            filter.querySelectorAll('ul > li')
+        );
+
+        let selected = items.find((item) => item.classList.contains('selected'))
+
+        return [items, selected];
     }
 
     /**
@@ -41,11 +85,7 @@
 
         let filter = event.target.closest('.modal__filter');
 
-        let items = Array.prototype.slice.call(
-            filter.querySelectorAll('ul > li')
-        );
-
-        let selected = items.find((item) => item.classList.contains('selected'));
+        let [items, selected] = setup(filter);
 
         /**
          * Filter the list by the items to
@@ -89,23 +129,23 @@
 
         let filter = event.target.closest('.modal__filter');
 
-        let items = Array.prototype.slice.call(
-            filter.querySelectorAll('ul > li')
-        );
+        let [items, selected] = setup(filter);
 
-        if (selected = items.find((item) => item.classList.contains('selected'))) {
+        let visible = visibility(items);
+
+        if (selected) {
 
             /**
              * If we have a selection then
              * push to the next visible option.
              */
-            items.some((item, i) => {
+            visible.some((item, i) => {
                 if (item == selected && item.offsetWidth > 0 && item.offsetHeight > 0) {
 
                     // UP- (prev) | DOWN+ (next)
                     var index = event.which == 40 ? i + 1 : i - 1; // 40 = DOWN
 
-                    if ((target = items[index]) != undefined) {
+                    if ((target = visible[index]) != undefined) {
 
                         clearSelection(items);
                         select(target);
@@ -118,8 +158,6 @@
             return;
         }
 
-        let visible = visibility(items);
-
         /**
          * Select the first visible by default.
          */
@@ -128,160 +166,5 @@
             select(visible[0]);
         }
     });
-
-    // // Don't submit on return.
-    // form.on('submit', function () {
-    //     return false;
-    // });
-
-    // input.focus();
-
-    // input.on('keydown', function (e) {
-
-    //     /**
-    //      * Capture the down arrow.
-    //      */
-    //     if (e.which == 40) {
-
-    //         if (selected) {
-
-    //             /**
-    //              * If we have a selection then
-    //              * push to the next visible option.
-    //              */
-    //             if (selected.nextAll(':visible').length) {
-    //                 items.find('a').removeClass('active');
-    //                 selected = selected.nextAll(':visible').first();
-    //                 selected.find('a').addClass('active');
-    //             }
-    //         } else {
-
-    //             /**
-    //              * Otherwise select the first
-    //              * visible option in the list.
-    //              */
-    //             selected = items.filter(':visible').first();
-    //             selected.find('a').addClass('active');
-    //         }
-    //     }
-
-    //     /**
-    //      * Capture the up arrow.
-    //      */
-    //     if (e.which == 38) {
-
-    //         if (selected) {
-
-    //             /**
-    //              * If we have a selection then push
-    //              * to the previous visible option.
-    //              */
-    //             if (selected.prevAll(':visible').length) {
-    //                 items.find('a').removeClass('active');
-    //                 selected = selected.prevAll(':visible').first();
-    //                 selected.find('a').addClass('active');
-    //             }
-    //         } else {
-
-    //             /**
-    //              * Otherwise select the last
-    //              * visible option in the list.
-    //              */
-    //             selected = items.filter(':visible').last();
-    //             selected.find('a').addClass('active');
-    //         }
-    //     }
-
-    //     /**
-    //      * Capture the enter key.
-    //      */
-    //     if (e.which == 13) {
-
-    //         if (selected) {
-
-    //             /**
-    //              * If the key press was the return
-    //              * key and we have a selection
-    //              * then follow the link.
-    //              */
-    //             if (selected.find('a').hasClass('has-click-event') || selected.find('a').hasClass('ajax')) {
-    //                 selected.find('a').trigger('click');
-    //             } else {
-
-    //                 /**
-    //                  * If nothing is selected
-    //                  * there's nothing to do.
-    //                  */
-    //                 if (!selected.length) {
-    //                     return false;
-    //                 }
-
-    //                 /**
-    //                  * If control or the meta key is
-    //                  * being held open a new window.
-    //                  */
-    //                 if (e.ctrlKey || e.metaKey) {
-    //                     window.open(selected.find('a').attr('href'), "_blank");
-
-    //                     modal.modal('hide');
-    //                 } else {
-    //                     window.location = selected.find('a').attr('href');
-    //                 }
-
-    //                 modal.find('.modal-content').append('<div class="modal-loading"><div class="active large loader"></div></div>');
-    //             }
-    //         }
-    //     }
-
-    //     /**
-    //      * Capture up and down arrows.
-    //      */
-    //     if (e.which == 38 || e.which == 40) {
-
-    //         // store current positions in variables
-    //         var start = input[0].selectionStart,
-    //             end = input[0].selectionEnd;
-
-    //         // restore from variables...
-    //         input[0].setSelectionRange(start, end);
-
-    //         e.preventDefault();
-    //     }
-    // });
-
-    // input.on('keyup', function (e) {
-
-    //     /**
-    //      * If the keyup was a an arrow
-    //      * up or down then skip this step.
-    //      */
-    //     if (e.which == 38 || e.which == 40) {
-    //         return;
-    //     }
-
-    //     var value = $(this).val();
-
-    //     /**
-    //      * Filter the list by the items to
-    //      * show only those containing value.
-    //      */
-    //     items.each(function () {
-    //         if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
-    //             $(this).show();
-    //         } else {
-    //             $(this).hide();
-    //         }
-    //     });
-
-    //     /**
-    //      * If we don't have a selected item
-    //      * then choose the first visible option.
-    //      */
-    //     if (!selected || !selected.is(':visible')) {
-    //         selected = items.filter(':visible').first();
-    //         selected.find('a').addClass('active');
-    //     }
-    // });
-
 
 })(window, document);
