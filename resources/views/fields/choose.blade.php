@@ -4,8 +4,8 @@
 
     <ul>
         @foreach ($fieldTypes->instances() as $fieldType)
-            <li>{{$module->getNamespace('fields.create')}}
-                <a href="{{ url()->route($module->getNamespace('fields.create')) . '?field_type=' . $fieldType->getNamespace() }}">
+            <li>
+                <a href="{{ url()->route($module->getNamespace('fields.create'), ['field_type' => $fieldType->getNamespace()]) }}">
                     <strong>{{ trans($fieldType->getTitle()) }}</strong>
                     <br>
                     <small>{{ trans($fieldType->getDescription()) }}</small>

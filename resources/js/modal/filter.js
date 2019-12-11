@@ -1,213 +1,287 @@
-/**
- * Listen for keydown to filter
- * if focus / target matches.
- */
-document.addEventListener('keyup', function (event) {
+(function (window, document) {
 
-    // Up/Down Keys
-    if (event.which == 38 || event.which == 40) {
-        return;
+    let show = function (item) {
+        item.style.display = 'inherit';
     }
 
-    if (!event.target.matches('.modal__filter form input')) {
-        return;
+    let hide = function (item) {
+        item.style.display = 'none';
+        item.classList.remove('selected');
     }
 
-    event.preventDefault();
+    let select = function (item) {
+        item.style.display = 'inherit';
+        item.classList.add('selected');
+    }
 
-    let filter = event.target.closest('.modal__filter');
+    let clearSelection = function (items) {
+        items.forEach((item) => item.classList.remove('selected'));
+    }
 
-    let items = Array.prototype.slice.call(
-        filter.querySelectorAll('ul > li')
-    );
-
-    let selected = items.find((item) => item.classList.contains('selected'));
+    let visibility = function (items, visible = true) {
+        return items.filter((item) => visible == (item.offsetWidth > 0 && item.offsetHeight > 0));
+    }
 
     /**
-     * Filter the list by the items to
-     * show only those containing value.
-     * 
-     * @param {Element} item
+     * Listen for keydown to filter
+     * if focus / target matches.
      */
-    items.forEach(function (item) {
+    document.addEventListener('keyup', function (event) {
 
-        let text = item.innerText.toLowerCase();
+        // Up/Down Keys
+        if (event.which == 38 || event.which == 40) {
+            return;
+        }
 
-        if (text.indexOf(event.target.value.toLowerCase()) >= 0) {
+        if (!event.target.matches('.modal__filter form input')) {
+            return;
+        }
 
-            item.style.display = 'inherit';
-            item.classList.add('selected');
-        } else {
-            item.style.display = 'none';
-            item.classList.remove('selected');
+        event.preventDefault();
+
+        let filter = event.target.closest('.modal__filter');
+
+        let items = Array.prototype.slice.call(
+            filter.querySelectorAll('ul > li')
+        );
+
+        let selected = items.find((item) => item.classList.contains('selected'));
+
+        /**
+         * Filter the list by the items to
+         * show only those containing value.
+         * 
+         * @param {Element} item
+         */
+        items.forEach(function (item) {
+
+            let text = item.innerText.toLowerCase();
+
+            if (text.indexOf(event.target.value.toLowerCase()) >= 0) {
+                show(item);
+            } else {
+                hide(item);
+            }
+        });
+
+        let visible = visibility(items);
+
+        /**
+         * Select the first visible by default.
+         */
+        if (visible[0] && (!selected || !(selected.offsetWidth > 0 && selected.offsetHeight > 0))) {
+            clearSelection(items);
+            select(visible[0]);
         }
     });
 
-    let matches = items.filter((item) => (item.offsetWidth > 0 && item.offsetHeight > 0));
-
     /**
-     * If we have matches but nothing selected then 
-     * select the first visible by default.
+     * Listen for down arrow to
+     * move the item selection.
      */
+    app.mousetrap.bind(['up', 'down'], function (event) {
 
-    if (matches[0] && (!selected || !(selected.offsetWidth > 0 && selected.offsetHeight > 0))) {
+        if (!event.target.matches('.modal__filter form input')) {
+            return;
+        }
 
-        items.forEach((item) => item.classList.remove('selected'));
+        event.preventDefault();
 
-        matches[0].classList.add('selected');
-    }
-});
+        let filter = event.target.closest('.modal__filter');
 
-// // Don't submit on return.
-// form.on('submit', function () {
-//     return false;
-// });
+        let items = Array.prototype.slice.call(
+            filter.querySelectorAll('ul > li')
+        );
 
-// input.focus();
+        if (selected = items.find((item) => item.classList.contains('selected'))) {
 
-// input.on('keydown', function (e) {
+            /**
+             * If we have a selection then
+             * push to the next visible option.
+             */
+            items.some((item, i) => {
+                if (item == selected && item.offsetWidth > 0 && item.offsetHeight > 0) {
 
-//     /**
-//      * Capture the down arrow.
-//      */
-//     if (e.which == 40) {
+                    // UP- (prev) | DOWN+ (next)
+                    var index = event.which == 40 ? i + 1 : i - 1; // 40 = DOWN
 
-//         if (selected) {
+                    if ((target = items[index]) != undefined) {
 
-//             /**
-//              * If we have a selection then
-//              * push to the next visible option.
-//              */
-//             if (selected.nextAll(':visible').length) {
-//                 items.find('a').removeClass('active');
-//                 selected = selected.nextAll(':visible').first();
-//                 selected.find('a').addClass('active');
-//             }
-//         } else {
+                        clearSelection(items);
+                        select(target);
 
-//             /**
-//              * Otherwise select the first
-//              * visible option in the list.
-//              */
-//             selected = items.filter(':visible').first();
-//             selected.find('a').addClass('active');
-//         }
-//     }
+                        return true;
+                    }
+                }
+            });
 
-//     /**
-//      * Capture the up arrow.
-//      */
-//     if (e.which == 38) {
+            return;
+        }
 
-//         if (selected) {
+        let visible = visibility(items);
 
-//             /**
-//              * If we have a selection then push
-//              * to the previous visible option.
-//              */
-//             if (selected.prevAll(':visible').length) {
-//                 items.find('a').removeClass('active');
-//                 selected = selected.prevAll(':visible').first();
-//                 selected.find('a').addClass('active');
-//             }
-//         } else {
+        /**
+         * Select the first visible by default.
+         */
+        if (visible[0] && (!selected || !(selected.offsetWidth > 0 && selected.offsetHeight > 0))) {
+            clearSelection(items);
+            select(visible[0]);
+        }
+    });
 
-//             /**
-//              * Otherwise select the last
-//              * visible option in the list.
-//              */
-//             selected = items.filter(':visible').last();
-//             selected.find('a').addClass('active');
-//         }
-//     }
+    // // Don't submit on return.
+    // form.on('submit', function () {
+    //     return false;
+    // });
 
-//     /**
-//      * Capture the enter key.
-//      */
-//     if (e.which == 13) {
+    // input.focus();
 
-//         if (selected) {
+    // input.on('keydown', function (e) {
 
-//             /**
-//              * If the key press was the return
-//              * key and we have a selection
-//              * then follow the link.
-//              */
-//             if (selected.find('a').hasClass('has-click-event') || selected.find('a').hasClass('ajax')) {
-//                 selected.find('a').trigger('click');
-//             } else {
+    //     /**
+    //      * Capture the down arrow.
+    //      */
+    //     if (e.which == 40) {
 
-//                 /**
-//                  * If nothing is selected
-//                  * there's nothing to do.
-//                  */
-//                 if (!selected.length) {
-//                     return false;
-//                 }
+    //         if (selected) {
 
-//                 /**
-//                  * If control or the meta key is
-//                  * being held open a new window.
-//                  */
-//                 if (e.ctrlKey || e.metaKey) {
-//                     window.open(selected.find('a').attr('href'), "_blank");
+    //             /**
+    //              * If we have a selection then
+    //              * push to the next visible option.
+    //              */
+    //             if (selected.nextAll(':visible').length) {
+    //                 items.find('a').removeClass('active');
+    //                 selected = selected.nextAll(':visible').first();
+    //                 selected.find('a').addClass('active');
+    //             }
+    //         } else {
 
-//                     modal.modal('hide');
-//                 } else {
-//                     window.location = selected.find('a').attr('href');
-//                 }
+    //             /**
+    //              * Otherwise select the first
+    //              * visible option in the list.
+    //              */
+    //             selected = items.filter(':visible').first();
+    //             selected.find('a').addClass('active');
+    //         }
+    //     }
 
-//                 modal.find('.modal-content').append('<div class="modal-loading"><div class="active large loader"></div></div>');
-//             }
-//         }
-//     }
+    //     /**
+    //      * Capture the up arrow.
+    //      */
+    //     if (e.which == 38) {
 
-//     /**
-//      * Capture up and down arrows.
-//      */
-//     if (e.which == 38 || e.which == 40) {
+    //         if (selected) {
 
-//         // store current positions in variables
-//         var start = input[0].selectionStart,
-//             end = input[0].selectionEnd;
+    //             /**
+    //              * If we have a selection then push
+    //              * to the previous visible option.
+    //              */
+    //             if (selected.prevAll(':visible').length) {
+    //                 items.find('a').removeClass('active');
+    //                 selected = selected.prevAll(':visible').first();
+    //                 selected.find('a').addClass('active');
+    //             }
+    //         } else {
 
-//         // restore from variables...
-//         input[0].setSelectionRange(start, end);
+    //             /**
+    //              * Otherwise select the last
+    //              * visible option in the list.
+    //              */
+    //             selected = items.filter(':visible').last();
+    //             selected.find('a').addClass('active');
+    //         }
+    //     }
 
-//         e.preventDefault();
-//     }
-// });
+    //     /**
+    //      * Capture the enter key.
+    //      */
+    //     if (e.which == 13) {
 
-// input.on('keyup', function (e) {
+    //         if (selected) {
 
-//     /**
-//      * If the keyup was a an arrow
-//      * up or down then skip this step.
-//      */
-//     if (e.which == 38 || e.which == 40) {
-//         return;
-//     }
+    //             /**
+    //              * If the key press was the return
+    //              * key and we have a selection
+    //              * then follow the link.
+    //              */
+    //             if (selected.find('a').hasClass('has-click-event') || selected.find('a').hasClass('ajax')) {
+    //                 selected.find('a').trigger('click');
+    //             } else {
 
-//     var value = $(this).val();
+    //                 /**
+    //                  * If nothing is selected
+    //                  * there's nothing to do.
+    //                  */
+    //                 if (!selected.length) {
+    //                     return false;
+    //                 }
 
-//     /**
-//      * Filter the list by the items to
-//      * show only those containing value.
-//      */
-//     items.each(function () {
-//         if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
-//             $(this).show();
-//         } else {
-//             $(this).hide();
-//         }
-//     });
+    //                 /**
+    //                  * If control or the meta key is
+    //                  * being held open a new window.
+    //                  */
+    //                 if (e.ctrlKey || e.metaKey) {
+    //                     window.open(selected.find('a').attr('href'), "_blank");
 
-//     /**
-//      * If we don't have a selected item
-//      * then choose the first visible option.
-//      */
-//     if (!selected || !selected.is(':visible')) {
-//         selected = items.filter(':visible').first();
-//         selected.find('a').addClass('active');
-//     }
-// });
+    //                     modal.modal('hide');
+    //                 } else {
+    //                     window.location = selected.find('a').attr('href');
+    //                 }
+
+    //                 modal.find('.modal-content').append('<div class="modal-loading"><div class="active large loader"></div></div>');
+    //             }
+    //         }
+    //     }
+
+    //     /**
+    //      * Capture up and down arrows.
+    //      */
+    //     if (e.which == 38 || e.which == 40) {
+
+    //         // store current positions in variables
+    //         var start = input[0].selectionStart,
+    //             end = input[0].selectionEnd;
+
+    //         // restore from variables...
+    //         input[0].setSelectionRange(start, end);
+
+    //         e.preventDefault();
+    //     }
+    // });
+
+    // input.on('keyup', function (e) {
+
+    //     /**
+    //      * If the keyup was a an arrow
+    //      * up or down then skip this step.
+    //      */
+    //     if (e.which == 38 || e.which == 40) {
+    //         return;
+    //     }
+
+    //     var value = $(this).val();
+
+    //     /**
+    //      * Filter the list by the items to
+    //      * show only those containing value.
+    //      */
+    //     items.each(function () {
+    //         if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+    //             $(this).show();
+    //         } else {
+    //             $(this).hide();
+    //         }
+    //     });
+
+    //     /**
+    //      * If we don't have a selected item
+    //      * then choose the first visible option.
+    //      */
+    //     if (!selected || !selected.is(':visible')) {
+    //         selected = items.filter(':visible').first();
+    //         selected.find('a').addClass('active');
+    //     }
+    // });
+
+
+})(window, document);
