@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Entry;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -135,23 +137,16 @@ class EntryPresenter extends EloquentPresenter
     public function __get($key)
     {
         if ($assignment = $this->object->getAssignment($key)) {
+
             $type = $assignment->getFieldType();
 
-            if ($assignment->isTranslatable() && $locale = config('app.locale')) {
-                $entry = $this->object->translateOrDefault($locale);
-
-                $type->setLocale($locale);
-            } else {
-                $entry = $this->object;
-            }
-
-            $type->setEntry($entry);
+            $type->setEntry($this->object);
 
             if (method_exists($type, 'getRelation')) {
-                return $type->decorate($entry->getRelationValue(camel_case($key)));
+                return $type->decorate($this->object->getRelationValue(camel_case($key)));
             }
 
-            $type->setValue($entry->getFieldValue($key));
+            $type->setValue($this->object->getFieldValue($key));
 
             return $type->getPresenter();
         }

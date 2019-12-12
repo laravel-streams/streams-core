@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Assignment\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment\Contract;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
@@ -179,13 +181,6 @@ interface AssignmentInterface
      * @return mixed
      */
     public function getAttribute($key);
-
-    /**
-     * Get related translations.
-     *
-     * @return EloquentCollection
-     */
-    public function getTranslations();
 
     /**
      * Flush the entry model's cache.

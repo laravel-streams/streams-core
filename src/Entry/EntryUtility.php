@@ -2,9 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Entry;
 
-use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModel;
 use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModelClassmap;
-use Anomaly\Streams\Platform\Entry\Command\GenerateEntryTranslationsModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
@@ -25,15 +23,7 @@ class EntryUtility
     public function recompile(StreamInterface $stream)
     {
         // Generate the base model.
-        dispatch_now(new GenerateEntryModel($stream));
-
-        /*
-         * If the stream is translatable generate
-         * the translations model too.
-         */
-        if ($stream->isTranslatable()) {
-            dispatch_now(new GenerateEntryTranslationsModel($stream));
-        }
+        EntryGenerator::generate($stream);
 
         dispatch_now(new GenerateEntryModelClassmap());
     }

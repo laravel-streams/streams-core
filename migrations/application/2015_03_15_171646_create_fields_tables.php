@@ -32,25 +32,14 @@ class CreateFieldsTables extends Migration
                     $table->string('namespace', 150);
                     $table->string('slug', 150);
                     $table->string('type');
-                    $table->text('config');
                     $table->boolean('locked')->default(0);
+                    $table->json('name')->nullable();
+                    $table->json('warning')->nullable();
+                    $table->json('placeholder')->nullable();
+                    $table->json('instructions')->nullable();
+                    $table->json('config')->nullable();
 
                     $table->unique(['namespace', 'slug'], 'unique_fields');
-                }
-            );
-        }
-
-        if (!$schema->hasTable('streams_fields_translations')) {
-            $schema->create(
-                'streams_fields_translations',
-                function (Blueprint $table) {
-                    $table->increments('id');
-                    $table->integer('field_id');
-                    $table->string('locale')->index();
-                    $table->string('name')->nullable();
-                    $table->string('placeholder')->nullable();
-                    $table->string('warning')->nullable();
-                    $table->text('instructions')->nullable();
                 }
             );
         }
@@ -67,6 +56,5 @@ class CreateFieldsTables extends Migration
         $schema = app('db')->connection()->getSchemaBuilder();
 
         $schema->dropIfExists('streams_fields');
-        $schema->dropIfExists('streams_fields_translations');
     }
 }

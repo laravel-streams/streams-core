@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Assignment\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment\Command;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
@@ -40,11 +42,7 @@ class UpdateAssignmentColumn
         $stream = $this->assignment->getStream();
         $type   = $this->assignment->getFieldType();
 
-        if (!$this->assignment->isTranslatable()) {
-            $table = $stream->getEntryTableName();
-        } else {
-            $table = $stream->getEntryTranslationsTableName();
-        }
+        $table = $stream->getEntryTableName();
 
         $schema->updateColumn($table, $type, $this->assignment);
         $schema->updateIndex($table, $type, $this->assignment);

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Stream;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Stream;
 
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 
@@ -22,7 +24,7 @@ class StreamNormalizer
 
         $stream['slug']      = array_get($stream, 'slug', $migration->contextualNamespace());
         $stream['namespace'] = array_get($stream, 'namespace', $migration->contextualNamespace());
-        
+
         $migration->setStream($stream);
     }
 }

@@ -1,6 +1,7 @@
-<?php namespace Anomaly\Streams\Platform\Entry;
+<?php
 
-use Anomaly\Streams\Platform\Entry\Command\DeleteEntryTranslations;
+namespace Anomaly\Streams\Platform\Entry;
+
 use Anomaly\Streams\Platform\Entry\Command\SetMetaInformation;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\Event\EntryWasCreated;
@@ -132,8 +133,6 @@ class EntryObserver extends Observer
     {
         $entry->flushCache();
         $entry->fireFieldTypeEvents('entry_deleted');
-
-        $this->commands->dispatch(new DeleteEntryTranslations($entry));
 
         $this->events->dispatch(new EntryWasDeleted($entry));
     }

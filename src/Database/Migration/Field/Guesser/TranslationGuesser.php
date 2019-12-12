@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Field\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Field\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Database\Migration\Migration;
@@ -40,7 +42,7 @@ class TranslationGuesser
                 if (is_null(array_get($field, $locale . '.' . $key))) {
                     $field = array_add(
                         $field,
-                        $locale . '.' . $key,
+                        $key . '->' . $locale,
                         $addon->getNamespace('field.' . array_get($field, 'slug') . '.' . $key)
                     );
                 }

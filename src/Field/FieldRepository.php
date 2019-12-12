@@ -103,22 +103,5 @@ class FieldRepository extends EloquentRepository implements FieldRepositoryInter
         foreach ($this->model->whereNotIn('type', $fieldTypes)->get() as $field) {
             $this->delete($field);
         }
-
-        $translations = $this->model->getTranslationModel();
-
-        $translations = $translations
-            ->select('streams_fields_translations.*')
-            ->leftJoin(
-                'streams_fields',
-                'streams_fields_translations.field_id',
-                '=',
-                'streams_fields.id'
-            )
-            ->whereNull('streams_fields.id')
-            ->get();
-
-        foreach ($translations as $translation) {
-            $this->delete($translation);
-        }
     }
 }

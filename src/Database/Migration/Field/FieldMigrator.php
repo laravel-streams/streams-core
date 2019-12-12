@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Field;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Field;
 
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 use Anomaly\Streams\Platform\Database\Migration\Field\FieldInput;

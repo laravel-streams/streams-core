@@ -1,7 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Field\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Field\Contract;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
+use Anomaly\Streams\Platform\Model\Contract\EloquentInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
@@ -11,7 +14,7 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-interface FieldInterface
+interface FieldInterface extends EloquentInterface
 {
 
     /**
@@ -106,13 +109,6 @@ interface FieldInterface
      * @return bool
      */
     public function hasAssignments();
-
-    /**
-     * Get related translations.
-     *
-     * @return EloquentCollection
-     */
-    public function getTranslations();
 
     /**
      * Return whether the field is

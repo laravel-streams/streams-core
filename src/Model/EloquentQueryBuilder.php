@@ -310,8 +310,7 @@ class EloquentQueryBuilder extends Builder
                     }
 
                     $this
-                        ->translate()
-                        ->orderBy($model->getTranslationsTableName() . '.' . $model->getTitleName(), 'ASC');
+                        ->orderBy($model->getTitleName() . '->' . app()->getLocale(), 'ASC');
                 } elseif ($model->getTitleName() && $model->getTitleName() !== 'id') {
                     $query->orderBy($model->getTitleName(), 'ASC');
                 }
@@ -326,51 +325,7 @@ class EloquentQueryBuilder extends Builder
      */
     public function translate($locale = null)
     {
-        /* @var EntryModel|EloquentModel $model */
-        $model = $this->getModel();
-
-        if (!$this->hasJoin($model->getTranslationsTableName())) {
-            $this->query->leftJoin(
-                $model->getTranslationsTableName(),
-                $model->getTableName() . '.id',
-                '=',
-                $model->getTranslationsTableName() . '.entry_id'
-            );
-        }
-
-        $this->query->addSelect(
-            [$model->getTableName() . '.*'] +
-                array_map(
-                    function ($column) use ($model) {
-                        return $model->getTranslationTableName() . '.' . $column;
-                    },
-                    array_diff(
-                        $this->getConnection()->getSchemaBuilder()->getColumnListing($model->getTranslationTableName()),
-                        [
-                            'entry_id',
-                            'created_at',
-                            'created_by_id',
-                            'updated_at',
-                            'updated_by_id',
-                            'sort_order',
-                        ]
-                    )
-                )
-        );
-
-        $this->query->groupBy([$model->getTableName() . '.id', $model->getTranslationsTableName() . '.id']);
-
-        /**
-         * Grab either what matches or null because
-         * that should cover every parent record.
-         */
-        $this->query->where(
-            function (\Illuminate\Database\Query\Builder $query) use ($model, $locale) {
-                $query->where($model->getTranslationsTableName() . '.locale', $locale ?: config('app.locale'));
-                $query->orWhereNull($model->getTranslationsTableName() . '.locale');
-            }
-        );
-
+        // Nothing here anymore.
         return $this;
     }
 

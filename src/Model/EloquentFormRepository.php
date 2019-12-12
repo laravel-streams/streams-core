@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Model;
+<?php
+
+namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\EntryModel;
@@ -151,7 +153,7 @@ class EloquentFormRepository implements FormRepositoryInterface
          *
          * @var FieldType $field
          */
-        if ($entry->getTranslationModelName()) {
+        if ($entry->isTranslatable()) {
             foreach (config('streams::locales.enabled') as $locale) {
                 foreach ($allowed->translatable() as $field) {
                     if ($field->getLocale() == $locale) {
@@ -159,7 +161,7 @@ class EloquentFormRepository implements FormRepositoryInterface
 
                         array_set(
                             $data,
-                            $locale . '.' . $field->getField(),
+                            $field->getField() . $locale,
                             $form->getValue($field->getInputName())
                         );
                     }

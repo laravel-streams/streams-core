@@ -1,6 +1,7 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
 
-use Anomaly\Streams\Platform\Routing\UrlGenerator;
+namespace Anomaly\Streams\Platform\Ui\Form;
+
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
@@ -19,13 +20,6 @@ class FormCriteria
 {
 
     use FiresCallbacks;
-
-    /**
-     * The URL generator.
-     *
-     * @var UrlGenerator
-     */
-    protected $url;
 
     /**
      * The cache repository.
@@ -72,7 +66,6 @@ class FormCriteria
     /**
      * Create a new FormCriteria instance.
      *
-     * @param UrlGenerator $url
      * @param Repository $cache
      * @param Request $request
      * @param Hydrator $hydrator
@@ -81,7 +74,6 @@ class FormCriteria
      * @param array $parameters
      */
     public function __construct(
-        UrlGenerator $url,
         Repository $cache,
         Request $request,
         Hydrator $hydrator,
@@ -89,7 +81,6 @@ class FormCriteria
         FormBuilder $builder,
         array $parameters = []
     ) {
-        $this->url        = $url;
         $this->cache      = $cache;
         $this->builder    = $builder;
         $this->request    = $request;
@@ -150,7 +141,7 @@ class FormCriteria
             array_get(
                 $this->parameters,
                 'options.url',
-                $this->url->to($this->builder->getOption('url', 'form/handle/' . array_get($this->parameters, 'key')))
+                url($this->builder->getOption('url', 'form/handle/' . array_get($this->parameters, 'key')))
             )
         );
 

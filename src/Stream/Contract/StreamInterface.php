@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Contract;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
@@ -61,13 +63,6 @@ interface StreamInterface
      * @return string
      */
     public function getSlug();
-
-    /**
-     * Get the prefix.
-     *
-     * @return string
-     */
-    public function getPrefix();
 
     /**
      * Get the name.
@@ -299,20 +294,6 @@ interface StreamInterface
      * @return string
      */
     public function getEntryTableName();
-
-    /**
-     * Get the entry translations table name.
-     *
-     * @return string
-     */
-    public function getEntryTranslationsTableName();
-
-    /**
-     * Get related translations.
-     *
-     * @return EloquentCollection
-     */
-    public function getTranslations();
 
     /**
      * Get the foreign key.

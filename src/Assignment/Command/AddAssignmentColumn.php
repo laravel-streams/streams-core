@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Assignment\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment\Command;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
@@ -33,11 +35,7 @@ class AddAssignmentColumn
         $stream = $this->assignment->getStream();
         $type   = $this->assignment->getFieldType();
 
-        if (!$this->assignment->isTranslatable()) {
-            $table = $stream->getEntryTableName();
-        } else {
-            $table = $stream->getEntryTranslationsTableName();
-        }
+        $table = $stream->getEntryTableName();
 
         $schema->addColumn($table, $type, $this->assignment);
         $schema->addIndex($table, $type, $this->assignment);

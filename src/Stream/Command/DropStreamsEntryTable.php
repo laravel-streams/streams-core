@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Command;
 
 use Anomaly\Streams\Platform\Stream\StreamSchema;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -33,11 +35,5 @@ class DropStreamsEntryTable
         $table = $this->stream->getEntryTableName();
 
         $schema->dropTable($table);
-
-        if ($this->stream->isTranslatable()) {
-            $table = $this->stream->getEntryTranslationsTableName();
-
-            $schema->dropTable($table);
-        }
     }
 }

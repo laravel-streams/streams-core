@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Command;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\StreamSchema;
@@ -38,9 +40,5 @@ class CreateStreamsEntryTable
     public function handle(StreamSchema $schema)
     {
         $schema->createTable($this->stream);
-
-        if ($this->stream->isTranslatable()) {
-            $schema->createTranslationsTable($this->stream);
-        }
     }
 }

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Stream;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Illuminate\Database\Schema\Blueprint;
@@ -60,31 +62,6 @@ class StreamSchema
     }
 
     /**
-     * Create translations table.
-     *
-     * @param StreamInterface $stream
-     */
-    public function createTranslationsTable(StreamInterface $stream)
-    {
-        $this->schema->dropIfExists($stream->getEntryTranslationsTableName());
-
-        $this->schema->create(
-            $stream->getEntryTranslationsTableName(),
-            function (Blueprint $table) use ($stream) {
-                $table->engine = $stream->getConfig('database.engine');
-
-                $table->increments('id');
-                $table->integer('entry_id');
-                $table->datetime('created_at');
-                $table->integer('created_by_id')->nullable();
-                $table->datetime('updated_at')->nullable();
-                $table->integer('updated_by_id')->nullable();
-                $table->string('locale')->index();
-            }
-        );
-    }
-
-    /**
      * Rename a table.
      *
      * @param StreamInterface $from
@@ -97,21 +74,6 @@ class StreamSchema
         }
 
         $this->schema->rename($from->getEntryTableName(), $to->getEntryTableName());
-    }
-
-    /**
-     * Rename a translations table.
-     *
-     * @param StreamInterface $from
-     * @param StreamInterface $to
-     */
-    public function renameTranslationsTable(StreamInterface $from, StreamInterface $to)
-    {
-        if ($from->getEntryTranslationsTableName() === $to->getEntryTranslationsTableName()) {
-            return;
-        }
-
-        $this->schema->rename($from->getEntryTranslationsTableName(), $to->getEntryTranslationsTableName());
     }
 
     /**

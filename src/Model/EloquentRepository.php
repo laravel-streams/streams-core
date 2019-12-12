@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Model;
+<?php
+
+namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
@@ -306,10 +308,6 @@ class EloquentRepository implements EloquentRepositoryInterface
     public function truncate()
     {
         $this->truncateModel($this->model);
-
-        if ($this->model->isTranslatable()) {
-            $this->truncateModel($this->model->getTranslationModel());
-        }
 
         return $this;
     }

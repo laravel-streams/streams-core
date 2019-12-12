@@ -32,9 +32,11 @@ class CreateStreamsTables extends Migration
                     $table->integer('sort_order')->nullable();
                     $table->string('namespace', 150);
                     $table->string('slug', 150);
-                    $table->string('prefix')->nullable();
+                    $table->json('name')->nullable();
+                    $table->json('description')->nullable();
                     $table->string('title_column')->default('id');
                     $table->string('order_by')->default('id');
+                    $table->json('config')->nullable();
                     $table->boolean('locked')->default(0);
                     $table->boolean('hidden')->default(0);
                     $table->boolean('sortable')->default(0);
@@ -42,22 +44,8 @@ class CreateStreamsTables extends Migration
                     $table->boolean('searchable')->default(0);
                     $table->boolean('versionable')->default(0);
                     $table->boolean('translatable')->default(0);
-                    $table->text('config');
 
                     $table->unique(['namespace', 'slug'], 'unique_streams');
-                }
-            );
-        }
-
-        if (!$schema->hasTable('streams_streams_translations')) {
-            $schema->create(
-                'streams_streams_translations',
-                function (Blueprint $table) {
-                    $table->increments('id');
-                    $table->integer('stream_id');
-                    $table->string('locale')->index();
-                    $table->string('name')->nullable();
-                    $table->string('description')->nullable();
                 }
             );
         }
@@ -74,6 +62,5 @@ class CreateStreamsTables extends Migration
         $schema = app('db')->connection()->getSchemaBuilder();
 
         $schema->dropIfExists('streams_streams');
-        $schema->dropIfExists('streams_streams_translations');
     }
 }

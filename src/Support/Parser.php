@@ -2,7 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Support;
 
-use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use StringTemplate\Engine;
@@ -27,7 +26,6 @@ class Parser
     /**
      * Create a new Parser instance.
      *
-     * @param UrlGenerator $url
      * @param Engine $parser
      * @param Request $request
      */

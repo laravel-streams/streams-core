@@ -2,10 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser;
 
-use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Illuminate\Contracts\Routing\UrlGenerator;
-use Illuminate\Http\Request;
 
 /**
  * Class HrefGuesser

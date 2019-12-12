@@ -172,13 +172,6 @@ class Image
     protected $copy = false;
 
     /**
-     * The URL generator.
-     *
-     * @var UrlGenerator
-     */
-    protected $url;
-
-    /**
      * The HTML builder.
      *
      * @var HtmlBuilder
@@ -237,7 +230,6 @@ class Image
     /**
      * Create a new Image instance.
      *
-     * @param UrlGenerator $url
      * @param HtmlBuilder $html
      * @param Filesystem $files
      * @param Mobile_Detect $agent
@@ -248,7 +240,6 @@ class Image
      * @param ImageMacros $macros
      */
     public function __construct(
-        UrlGenerator $url,
         HtmlBuilder $html,
         Filesystem $files,
         Mobile_Detect $agent,
@@ -258,7 +249,6 @@ class Image
         ImagePaths $paths,
         ImageMacros $macros
     ) {
-        $this->url         = $url;
         $this->html        = $html;
         $this->files       = $files;
         $this->agent       = $agent;
@@ -321,7 +311,7 @@ class Image
     {
         $path = $this->getCachePath();
 
-        return $this->url->asset($path);
+        return url()->asset($path);
     }
 
     /**
@@ -355,7 +345,7 @@ class Image
      */
     public function url(array $parameters = [], $secure = null)
     {
-        return $this->url->asset($this->getCachePath(), $parameters, $secure);
+        return url()->asset($this->getCachePath(), $parameters, $secure);
     }
 
     /**

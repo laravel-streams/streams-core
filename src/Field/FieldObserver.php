@@ -1,8 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Field;
+<?php
+
+namespace Anomaly\Streams\Platform\Field;
 
 use Anomaly\Streams\Platform\Field\Command\ChangeFieldAssignments;
 use Anomaly\Streams\Platform\Field\Command\DeleteFieldAssignments;
-use Anomaly\Streams\Platform\Field\Command\DeleteFieldTranslations;
 use Anomaly\Streams\Platform\Field\Command\RenameFieldAssignments;
 use Anomaly\Streams\Platform\Field\Command\UpdateFieldAssignments;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
@@ -90,8 +91,6 @@ class FieldObserver extends Observer
     public function deleted(FieldInterface $model)
     {
         $model->flushCache();
-
-        $this->dispatchNow(new DeleteFieldTranslations($model));
 
         $this->events->dispatch(new FieldWasDeleted($model));
     }

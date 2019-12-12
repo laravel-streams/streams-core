@@ -25,11 +25,8 @@ class {class} extends EntryModel
 
     protected $relationships = {relationships};
 
+    // @todo put this in $translated and use !empty for isTranslatable.
     {translated_attributes}
-
-    {translation_foreign_key}
-
-    {translation_model}
 
     protected $stream = {stream};
 

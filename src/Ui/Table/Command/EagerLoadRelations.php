@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -42,10 +44,6 @@ class EagerLoadRelations
         }
 
         $eager = [];
-
-        if ($stream->isTranslatable()) {
-            $eager[] = 'translations';
-        }
 
         $assignments = $stream->getRelationshipAssignments();
 

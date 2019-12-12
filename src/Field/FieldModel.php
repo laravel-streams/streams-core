@@ -1,10 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Field;
+<?php
+
+namespace Anomaly\Streams\Platform\Field;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -35,40 +36,28 @@ class FieldModel extends EloquentModel implements FieldInterface
     public $timestamps = false;
 
     /**
-     * Eager loaded relations.
-     *
-     * @var array
-     */
-    protected $with = [
-        'translations',
-    ];
-
-    /**
      * Hide these from toArray.
      *
      * @var array
      */
     protected $hidden = [
-        'translations',
         'assignments',
         'stream',
     ];
 
     /**
-     * Default attributes.
+     * Attribute casts.
      *
      * @var array
      */
-    protected $attributes = [
-        'config' => 'a:0:{}',
+    protected $casts = [
+        'name' => 'array',
+        'rules' => 'array',
+        'config' => 'array',
+        'warning' => 'array',
+        'placeholder' => 'array',
+        'instructions' => 'array',
     ];
-
-    /**
-     * The foreign key for translations.
-     *
-     * @var string
-     */
-    protected $translationForeignKey = 'field_id';
 
     /**
      * Translatable attributes.
@@ -81,13 +70,6 @@ class FieldModel extends EloquentModel implements FieldInterface
         'placeholder',
         'instructions',
     ];
-
-    /**
-     * The translation model.
-     *
-     * @var string
-     */
-    protected $translationModel = 'Anomaly\Streams\Platform\Field\FieldModelTranslation';
 
     /**
      * The database table name.
@@ -284,27 +266,6 @@ class FieldModel extends EloquentModel implements FieldInterface
     }
 
     /**
-     * Set config attribute.
-     *
-     * @param array $config
-     */
-    public function setConfigAttribute($config)
-    {
-        $this->attributes['config'] = serialize((array)$config);
-    }
-
-    /**
-     * Return the decoded config attribute.
-     *
-     * @param  $config
-     * @return mixed
-     */
-    public function getConfigAttribute($config)
-    {
-        return (array)unserialize($config);
-    }
-
-    /**
      * Get the rules.
      *
      * @return array
@@ -312,27 +273,6 @@ class FieldModel extends EloquentModel implements FieldInterface
     public function getRules()
     {
         return $this->rules;
-    }
-
-    /**
-     * Set rules attribute.
-     *
-     * @param array $rules
-     */
-    public function setRulesAttribute($rules)
-    {
-        $this->attributes['rules'] = serialize((array)$rules);
-    }
-
-    /**
-     * Return the decoded rules attribute.
-     *
-     * @param  $rules
-     * @return mixed
-     */
-    public function getRulesAttribute($rules)
-    {
-        return (array)unserialize($rules);
     }
 
     /**

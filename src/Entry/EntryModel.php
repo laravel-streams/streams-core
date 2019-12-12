@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Entry;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
@@ -88,7 +90,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      * @var array
      */
     protected $hidden = [
-        'translations',
         'stream',
     ];
 
@@ -234,37 +235,11 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $accessor = $type->getAccessor();
         $modifier = $type->getModifier();
 
-        if ($assignment->isTranslatable()) {
-            $entry = $this->translateOrDefault($locale);
-
-            $type->setLocale($locale);
-        } else {
-            $entry = $this;
-        }
-
-        $type->setEntry($entry);
+        $type->setEntry($this);
 
         $value = $modifier->restore($accessor->get());
 
         $type->setValue($value);
-
-        /**
-         * Check for fallback values.
-         *
-         * @var EntryTranslationsModel $translation
-         */
-        if (
-            !$type->hasValue() &&
-            $assignment->isTranslatable() &&
-            ($translation = $this->translateOrDefault()) &&
-            $translation instanceof EntryTranslationsModel
-        ) {
-            $type->setValue($value);
-            $type->setEntry($translation);
-            $type->setLocale($translation->getLocale());
-
-            $value = $modifier->restore($accessor->get());
-        }
 
         return $value;
     }
@@ -279,30 +254,21 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function setFieldValue($fieldSlug, $value, $locale = null)
     {
-        if (!$locale) {
-            $locale = config('app.locale');
-        }
-
         $assignment = $this->getAssignment($fieldSlug);
 
         $type = $assignment->getFieldType($this);
 
-        if ($assignment->isTranslatable()) {
-            $entry = $this->translateOrNew($locale);
+        $type->setEntry($this);
 
-            $type->setLocale($locale);
-        } else {
-            $entry = $this;
-        }
-
-        $type->setEntry($entry);
-
-        $accessor = $type->getAccessor();
         $modifier = $type->getModifier();
 
-        $accessor->set($modifier->modify($value));
+        $key = $type->getColumnName();
 
-        return $this;
+        if ($assignment->isTranslatable()) {
+            $key = $key . '->' . ($locale ?: app()->getLocale());
+        }
+
+        return parent::setAttribute($key, $modifier->modify($value));
     }
 
     /**
@@ -352,15 +318,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $type = $assignment->getFieldType();
 
-        if ($assignment->isTranslatable()) {
-            $entry = $this->translateOrDefault($locale);
-
-            $type->setLocale($locale);
-        } else {
-            $entry = $this;
-        }
-
-        $type->setEntry($entry);
+        $type->setEntry($this);
 
         $type->setValue($this->getFieldValue($fieldSlug));
         $type->setEntry($this);
@@ -405,15 +363,16 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      *
      * @param  string $key
      * @param  mixed $value
+     * @param  string|null $locale
      * @return EntryModel|EloquentModel
      */
-    public function setAttribute($key, $value)
+    public function setAttribute($key, $value, $locale = null)
     {
-        if (!$this->isKeyALocale($key) && !$this->hasSetMutator($key) && $this->getFieldType($key)) {
-            return $this->setFieldValue($key, $value);
+        if ($this->isTranslatedAttribute($key) && !$this->hasSetMutator($key) && $this->getFieldType($key)) {
+            return $this->setFieldValue($key, $value, $locale);
         }
 
-        return parent::setAttribute($key, $value);
+        return parent::setAttribute($key, $value, $locale);
     }
 
     /**
@@ -549,18 +508,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $stream = $this->getStream();
 
         return $stream->getEntryTableName();
-    }
-
-    /**
-     * Get the translations table name.
-     *
-     * @return string
-     */
-    public function getTranslationsTableName()
-    {
-        $stream = $this->getStream();
-
-        return $stream->getEntryTranslationsTableName();
     }
 
     /**
@@ -1005,7 +952,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
                 continue;
             }
 
-            $array[$field] = (string)$this
+            $array[$field] = (string) $this
                 ->getFieldType($field)
                 ->getSearchableValue();
         }

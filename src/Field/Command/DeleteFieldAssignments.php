@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Field\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Field\Command;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;

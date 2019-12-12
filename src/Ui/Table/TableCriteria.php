@@ -1,6 +1,7 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table;
+<?php
 
-use Anomaly\Streams\Platform\Routing\UrlGenerator;
+namespace Anomaly\Streams\Platform\Ui\Table;
+
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
@@ -19,13 +20,6 @@ class TableCriteria
 {
 
     use FiresCallbacks;
-
-    /**
-     * The URL generator.
-     *
-     * @var UrlGenerator
-     */
-    protected $url;
 
     /**
      * The cache repository.
@@ -72,7 +66,6 @@ class TableCriteria
     /**
      * Create a new TableCriteria instance.
      *
-     * @param UrlGenerator $url
      * @param Repository $cache
      * @param Request $request
      * @param Hydrator $hydrator
@@ -81,7 +74,6 @@ class TableCriteria
      * @param array $parameters
      */
     public function __construct(
-        UrlGenerator $url,
         Repository $cache,
         Request $request,
         Hydrator $hydrator,
@@ -89,7 +81,6 @@ class TableCriteria
         TableBuilder $builder,
         array $parameters = []
     ) {
-        $this->url        = $url;
         $this->cache      = $cache;
         $this->builder    = $builder;
         $this->request    = $request;
@@ -150,7 +141,7 @@ class TableCriteria
             array_get(
                 $this->parameters,
                 'options.url',
-                $this->url->to($this->builder->getOption('url', 'table/handle/' . array_get($this->parameters, 'key')))
+                url($this->builder->getOption('url', 'table/handle/' . array_get($this->parameters, 'key')))
             )
         );
 

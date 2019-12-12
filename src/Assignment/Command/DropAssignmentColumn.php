@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Assignment\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment\Command;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
@@ -48,11 +50,7 @@ class DropAssignmentColumn
             return;
         }
 
-        if (!$this->assignment->isTranslatable()) {
-            $table = $stream->getEntryTableName();
-        } else {
-            $table = $stream->getEntryTranslationsTableName();
-        }
+        $table = $stream->getEntryTableName();
 
         $schema->dropIndex($table, $type, $this->assignment);
         $schema->dropColumn($table, $type);

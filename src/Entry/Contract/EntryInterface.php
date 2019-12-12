@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry\Contract;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
@@ -8,6 +10,7 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\EntryPresenter;
 use Anomaly\Streams\Platform\Entry\EntryRouter;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Model\Contract\EloquentInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\Traits\Translatable;
@@ -28,7 +31,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-interface EntryInterface
+interface EntryInterface extends EloquentInterface
 {
 
     /**
@@ -135,44 +138,6 @@ interface EntryInterface
      * @return string
      */
     public function getTableName();
-
-    /*
-     * Alias for getTranslation()
-     *
-     * @return EloquentModel|Translatable|null
-     */
-    public function translate($locale = null, $withFallback = false);
-
-    /*
-     * Alias for getTranslation()
-     *
-     */
-    /**
-     * @param null $locale
-     * @return EloquentModel|Translatable
-     */
-    public function translateOrDefault($locale = null);
-
-    /**
-     * Get related translations.
-     *
-     * @return EloquentCollection
-     */
-    public function getTranslations();
-
-    /**
-     * Get the translations table name.
-     *
-     * @return string
-     */
-    public function getTranslationsTableName();
-
-    /**
-     * Get the translated attributes.
-     *
-     * @return array
-     */
-    public function getTranslatedAttributes();
 
     /**
      * Get a field by it's slug.
@@ -383,7 +348,7 @@ interface EntryInterface
      *
      * @return bool
      */
-    public function trashed();
+    //public function trashed();
 
     /**
      * Return the object's ETag fingerprint.
@@ -463,11 +428,12 @@ interface EntryInterface
     /**
      * Set an attribute value.
      *
-     * @param  $key
-     * @param  $value
-     * @return $this
+     * @param  string $key
+     * @param  mixed $value
+     * @param  string|null $locale
+     * @return EntryModel|EloquentModel
      */
-    public function setAttribute($key, $value);
+    public function setAttribute($key, $value, $locale = null);
 
     /**
      * Get an attribute value.

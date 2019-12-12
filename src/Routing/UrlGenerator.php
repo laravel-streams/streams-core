@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Routing;
+<?php
+
+namespace Anomaly\Streams\Platform\Routing;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Support\Presenter;
@@ -80,7 +82,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
 
         $extra = $this->formatParameters($extra);
 
-        $tail = implode('/', array_map('rawurlencode', (array)$extra));
+        $tail = implode('/', array_map('rawurlencode', (array) $extra));
 
         // Once we have the scheme we will compile the "tail" by collapsing the values
         // into a single string delimited by slashes. This just makes it convenient
@@ -166,6 +168,6 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
      */
     public function hasRoute($name)
     {
-        return (bool)$this->routes->getByName($name);
+        return (bool) $this->routes->getByName($name);
     }
 }

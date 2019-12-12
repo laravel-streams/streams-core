@@ -1,18 +1,15 @@
-<?php namespace Anomaly\Streams\Platform\Assignment;
+<?php
 
-use Anomaly\Streams\Platform\Assignment\Command\RestoreAssignmentIndexes;
+namespace Anomaly\Streams\Platform\Assignment;
+
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasSaved;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasUpdated;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted;
 use Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumn;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Anomaly\Streams\Platform\Assignment\Command\BackupAssignmentData;
 use Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumn;
-use Anomaly\Streams\Platform\Assignment\Command\MoveAssignmentColumn;
-use Anomaly\Streams\Platform\Assignment\Command\RestoreAssignmentData;
 use Anomaly\Streams\Platform\Assignment\Command\UpdateAssignmentColumn;
-use Anomaly\Streams\Platform\Assignment\Command\DeleteAssignmentTranslations;
 use Anomaly\Streams\Platform\Support\Observer;
 
 /**
@@ -48,19 +45,6 @@ class AssignmentObserver extends Observer
         $this->dispatchNow(new AddAssignmentColumn($model));
 
         $this->events->dispatch(new AssignmentWasCreated($model));
-    }
-
-    /**
-     * Run before a record is updated.
-     *
-     * @param AssignmentInterface $model
-     */
-    public function updating(AssignmentInterface $model)
-    {
-        $this->dispatchNow(new BackupAssignmentData($model));
-        $this->dispatchNow(new MoveAssignmentColumn($model));
-        $this->dispatchNow(new RestoreAssignmentData($model));
-        $this->dispatchNow(new RestoreAssignmentIndexes($model));
     }
 
     /**
@@ -102,7 +86,6 @@ class AssignmentObserver extends Observer
         $model->compileStream();
 
         $this->dispatchNow(new DropAssignmentColumn($model));
-        $this->dispatchNow(new DeleteAssignmentTranslations($model));
 
         $this->events->dispatch(new AssignmentWasDeleted($model));
     }

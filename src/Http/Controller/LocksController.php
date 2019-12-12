@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Http\Controller;
+<?php
+
+namespace Anomaly\Streams\Platform\Http\Controller;
 
 use Anomaly\Streams\Platform\Lock\Contract\LockRepositoryInterface;
 use Illuminate\Session\Store;
@@ -25,7 +27,7 @@ class LocksController extends PublicController
             return;
         }
 
-        $locks->touchLocks($this->url->previous());
+        $locks->touchLocks(url()->previous());
     }
 
     /**
@@ -35,6 +37,6 @@ class LocksController extends PublicController
      */
     public function release(LockRepositoryInterface $locks)
     {
-        $locks->releaseLocks($this->url->previous());
+        $locks->releaseLocks(url()->previous());
     }
 }

@@ -7,7 +7,6 @@ use Anomaly\Streams\Platform\Search\Command\DeleteEntryIndex;
 use Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\Command\DeleteStreamAssignments;
 use Anomaly\Streams\Platform\Stream\Command\DeleteStreamEntryModels;
-use Anomaly\Streams\Platform\Stream\Command\DeleteStreamTranslations;
 use Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\Command\RenameStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -109,7 +108,6 @@ class StreamObserver extends Observer
         dispatch_now(new DropStreamsEntryTable($model));
         dispatch_now(new DeleteStreamEntryModels($model));
         dispatch_now(new DeleteStreamAssignments($model));
-        dispatch_now(new DeleteStreamTranslations($model));
         dispatch_now(new GenerateEntryModelClassmap());
 
         event(new StreamWasDeleted($model));

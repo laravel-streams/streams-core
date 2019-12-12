@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Assignment;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
@@ -108,23 +110,6 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
 
         foreach ($assignments as $assignment) {
             $this->delete($assignment);
-        }
-
-        $translations = $this->model->getTranslationModel();
-
-        $translations = $translations
-            ->select('streams_assignments.*')
-            ->leftJoin(
-                'streams_assignments',
-                'streams_assignments_translations.assignment_id',
-                '=',
-                'streams_assignments.id'
-            )
-            ->whereNull('streams_assignments.id')
-            ->get();
-
-        foreach ($translations as $translation) {
-            $this->delete($translation);
         }
     }
 }

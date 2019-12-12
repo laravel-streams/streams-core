@@ -1,24 +1,24 @@
-<?php namespace Anomaly\Streams\Platform\Stream;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Assignment\AssignmentModelTranslation;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\FieldModel;
-use Anomaly\Streams\Platform\Field\FieldModelTranslation;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Stream\Command\CompileStream;
 use Anomaly\Streams\Platform\Stream\Command\MergeStreamConfig;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Robbo\Presenter\PresentableInterface;
-use Robbo\Presenter\Robbo;
 
 /**
  * Class StreamModel
@@ -30,26 +30,14 @@ use Robbo\Presenter\Robbo;
 class StreamModel extends EloquentModel implements StreamInterface, PresentableInterface
 {
 
+    use Versionable;
+
     /**
      * Don't cache this model.
      *
      * @var int
      */
     protected $ttl = false;
-
-    /**
-     * The foreign key for translations.
-     *
-     * @var string
-     */
-    protected $translationForeignKey = 'stream_id';
-
-    /**
-     * The translation model.
-     *
-     * @var string
-     */
-    protected $translationModel = 'Anomaly\Streams\Platform\Stream\StreamModelTranslation';
 
     /**
      * Translatable attributes.
@@ -62,20 +50,27 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
     ];
 
     /**
+     * Attribute casts.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'name' => 'array',
+        'config' => 'array',
+        'description' => 'array',
+        'locked' => 'boolean',
+        'hidden' => 'boolean',
+        'sortable' => 'boolean',
+        'trashable' => 'boolean',
+        'translatable' => 'boolean',
+    ];
+
+    /**
      * The model's database table name.
      *
      * @var string
      */
     protected $table = 'streams_streams';
-
-    /**
-     * Default attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [
-        'config' => 'a:0:{}',
-    ];
 
     /**
      * The streams store.
@@ -114,21 +109,10 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
         $streamTranslations = new EloquentCollection();
 
         if (!is_string(array_get($data, 'config'))) {
-            $data['config'] = serialize(array_get($data, 'config', []));
-        }
-
-        if ($translations = array_pull($data, 'translations')) {
-            foreach ($translations as $attributes) {
-                $translation = new StreamModelTranslation();
-                $translation->setRawAttributes($attributes);
-
-                $streamTranslations->push($translation);
-            }
+            $data['config'] = [];
         }
 
         $streamModel->setRawAttributes($data);
-
-        $streamModel->setRelation('translations', $streamTranslations);
 
         unset($this->translations);
 
@@ -140,41 +124,20 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
                     $fieldModel        = new FieldModel();
                     $fieldTranslations = new EloquentCollection();
 
-                    if (isset($assignment['field']['translations'])) {
-                        foreach (array_pull($assignment['field'], 'translations') as $attributes) {
-                            $translation = new FieldModelTranslation();
-                            $translation->setRawAttributes($attributes);
-
-                            $fieldTranslations->push($translation);
-                        }
-                    }
-
-                    $assignment['field']['config'] = serialize($assignment['field']['config']);
+                    $assignment['field']['config'] = json_encode($assignment['field']['config']);
 
                     $fieldModel->setRawAttributes($assignment['field']);
-
-                    $fieldModel->setRelation('translations', $fieldTranslations);
 
                     unset($assignment['field']);
 
                     $assignmentModel        = new AssignmentModel();
                     $assignmentTranslations = new EloquentCollection();
 
-                    if (isset($assignment['translations'])) {
-                        foreach (array_pull($assignment, 'translations') as $attributes) {
-                            $translation = new AssignmentModelTranslation();
-                            $translation->setRawAttributes($attributes);
-
-                            $assignmentTranslations->push($translation);
-                        }
-                    }
-
                     $assignmentModel->setRawAttributes($assignment);
                     $assignmentModel->setRawAttributes($assignment);
 
                     $assignmentModel->setRelation('field', $fieldModel);
                     $assignmentModel->setRelation('stream', $streamModel);
-                    $assignmentModel->setRelation('translations', $assignmentTranslations);
 
                     $assignments[] = $assignmentModel;
                 }
@@ -238,24 +201,6 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
     }
 
     /**
-     * Because the stream record holds translatable data
-     * we have a conflict. The streams table has translations
-     * but not all streams are translatable. This helps avoid
-     * the translatable conflict during specific procedures.
-     *
-     * @param  array $attributes
-     * @return StreamModel|EloquentModel
-     */
-    public function create(array $attributes = [])
-    {
-        $model = parent::create($attributes);
-
-        $model->saveTranslations();
-
-        return $model;
-    }
-
-    /**
      * Get the ID.
      *
      * @return mixed
@@ -283,16 +228,6 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
     public function getSlug()
     {
         return $this->slug;
-    }
-
-    /**
-     * Get the prefix.
-     *
-     * @return mixed
-     */
-    public function getPrefix()
-    {
-        return $this->prefix;
     }
 
     /**
@@ -345,7 +280,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
      */
     public function mergeConfig(array $config)
     {
-        $this->config = array_merge((array)$this->config, $config);
+        $this->config = array_merge((array) $this->config, $config);
 
         return $this;
     }
@@ -567,7 +502,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
      */
     public function hasAssignment($fieldSlug)
     {
-        return (bool)$this->getAssignment($fieldSlug);
+        return (bool) $this->getAssignment($fieldSlug);
     }
 
     /**
@@ -626,17 +561,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
      */
     public function getEntryTableName()
     {
-        return $this->getPrefix() . $this->getSlug();
-    }
-
-    /**
-     * Get the entry translations table name.
-     *
-     * @return string
-     */
-    public function getEntryTranslationsTableName()
-    {
-        return $this->getEntryTableName() . '_translations';
+        return $this->getNamespace() . '_' . $this->getSlug();
     }
 
     /**
@@ -680,77 +605,6 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
     public function getForeignKey()
     {
         return str_singular($this->getSlug()) . '_id';
-    }
-
-    /**
-     * Set the config attribute.
-     *
-     * @param $config
-     */
-    public function setConfigAttribute($config)
-    {
-        $this->attributes['config'] = serialize((array)$config);
-    }
-
-    /**
-     * Get the config attribute.
-     *
-     * @param  $viewOptions
-     * @return mixed
-     */
-    public function getConfigAttribute($config)
-    {
-        return unserialize($config);
-    }
-
-    /**
-     * Set the locked attribute.
-     *
-     * @param $locked
-     */
-    public function setLockedAttribute($locked)
-    {
-        $this->attributes['locked'] = filter_var($locked, FILTER_VALIDATE_BOOLEAN);
-    }
-
-    /**
-     * Set the hidden attribute.
-     *
-     * @param $hidden
-     */
-    public function setHiddenAttribute($hidden)
-    {
-        $this->attributes['hidden'] = filter_var($hidden, FILTER_VALIDATE_BOOLEAN);
-    }
-
-    /**
-     * Set the sortable attribute.
-     *
-     * @param $sortable
-     */
-    public function setSortableAttribute($sortable)
-    {
-        $this->attributes['sortable'] = filter_var($sortable, FILTER_VALIDATE_BOOLEAN);
-    }
-
-    /**
-     * Set the trashable attribute.
-     *
-     * @param $trashable
-     */
-    public function setTrashableAttribute($trashable)
-    {
-        $this->attributes['trashable'] = filter_var($trashable, FILTER_VALIDATE_BOOLEAN);
-    }
-
-    /**
-     * Set the translatable attribute.
-     *
-     * @param $translatable
-     */
-    public function setTranslatableAttribute($translatable)
-    {
-        $this->attributes['translatable'] = filter_var($translatable, FILTER_VALIDATE_BOOLEAN);
     }
 
     /**

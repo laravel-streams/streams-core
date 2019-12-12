@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\FieldType;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Illuminate\Contracts\Cache\Repository;
@@ -79,7 +81,7 @@ class FieldTypeSchema
     public function addColumn(Blueprint $table, AssignmentInterface $assignment)
     {
         // Skip if no column type.
-        if (!$this->fieldType->getColumnType()) {
+        if (!$type = $this->fieldType->getColumnType()) {
             return;
         }
 
@@ -89,12 +91,20 @@ class FieldTypeSchema
         }
 
         /**
+         * If the field is translatable
+         * then the type becomes JSON.
+         */
+        if ($assignment->isTranslatable()) {
+            $type = 'json';
+        }
+
+        /**
          * Add the column to the table.
          *
          * @var Blueprint|Fluent $column
          */
         $column = call_user_func_array(
-            [$table, $this->fieldType->getColumnType()],
+            [$table, $type],
             array_filter(
                 [
                     $this->fieldType->getColumnName(),
@@ -124,7 +134,7 @@ class FieldTypeSchema
 
         $unique = md5($assignment->getId());
 
-        if ($assignment->isUnique() && !$assignment->isTranslatable() && !$doctrine->hasIndex($unique)) {
+        if ($assignment->isUnique() && !$doctrine->hasIndex($unique)) {
             $table->unique($this->fieldType->getColumnName(), $unique);
         }
     }
@@ -138,7 +148,7 @@ class FieldTypeSchema
     public function updateColumn(Blueprint $table, AssignmentInterface $assignment)
     {
         // Skip if no column type.
-        if (!$this->fieldType->getColumnType()) {
+        if (!$type = $this->fieldType->getColumnType()) {
             return;
         }
 
@@ -148,12 +158,20 @@ class FieldTypeSchema
         }
 
         /**
+         * If the field is translatable
+         * then the type becomes JSON.
+         */
+        if ($assignment->isTranslatable()) {
+            $type = 'json';
+        }
+
+        /**
          * Update the column to the table.
          *
          * @var Blueprint|Fluent $column
          */
         $column = call_user_func_array(
-            [$table, $this->fieldType->getColumnType()],
+            [$table, $type],
             array_filter(
                 [
                     $this->fieldType->getColumnName(),
@@ -206,7 +224,7 @@ class FieldTypeSchema
      */
     public function renameColumn(Blueprint $table, FieldType $from)
     {
-        if ($this->fieldType->getColumnType() === false) {
+        if (!$this->fieldType->getColumnType()) {
             return;
         }
 
@@ -241,7 +259,7 @@ class FieldTypeSchema
             )
         );
 
-        $column->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true)->change();
+        $column->nullable(!$assignment->isRequired())->change();
 
         if (!str_contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
             $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
@@ -312,32 +330,11 @@ class FieldTypeSchema
             return;
         }
 
-        // Translatable or no?
-        $translatable = ends_with($table->getTable(), '_translations');
-
         // Back dat data up.
-        if ($translatable) {
-            $results = $this->connection
-                ->table($table->getTable())
-                ->select(['entry_id', $this->fieldType->getColumnName()])
-                ->groupBy($table->getTable() . '.entry_id')
-                ->where(
-                    function (\Illuminate\Database\Query\Builder $query) use ($table) {
-                        $query->where($table->getTable() . '.locale', config('app.locale'));
-                        $query->orWhere(
-                            $table->getTable() . '.locale',
-                            config('app.fallback_locale')
-                        );
-                        $query->orWhereNull($table->getTable() . '.locale');
-                    }
-                )
-                ->get();
-        } else {
-            $results = $this->connection
-                ->table($table->getTable())
-                ->select(['id', $this->fieldType->getColumnName()])
-                ->get();
-        }
+        $results = $this->connection
+            ->table($table->getTable())
+            ->select(['id', $this->fieldType->getColumnName()])
+            ->get();
 
         $this->cache->forever(__CLASS__ . $this->fieldType->getColumnName(), $results);
     }
@@ -367,11 +364,11 @@ class FieldTypeSchema
         $results = $this->cache->get(__CLASS__ . $this->fieldType->getColumnName());
 
         foreach ($results as $result) {
-            $result = (array)$result;
+            $result = (array) $result;
 
             $this->connection
                 ->table($table->getTable())
-                ->where($translatable ? 'entry_id' : 'id', array_pull($result, $translatable ? 'id' : 'entry_id'))
+                ->where('id', array_pull($result, 'id'))
                 ->update($result);
         }
 

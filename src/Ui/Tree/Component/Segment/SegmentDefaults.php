@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
 
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
@@ -16,20 +18,6 @@ class SegmentDefaults
 {
 
     /**
-     * The URL generator.
-     *
-     * @var UrlGenerator
-     */
-    protected $url;
-
-    /**
-     * The request object.
-     *
-     * @var Request
-     */
-    protected $request;
-
-    /**
      * The section collection.
      *
      * @var SectionCollection
@@ -39,14 +27,10 @@ class SegmentDefaults
     /**
      * Create a new SegmentDefaults instance.
      *
-     * @param UrlGenerator      $url
-     * @param Request           $request
      * @param SectionCollection $sections
      */
-    public function __construct(UrlGenerator $url, Request $request, SectionCollection $sections)
+    public function __construct(SectionCollection $sections)
     {
-        $this->url      = $url;
-        $this->request  = $request;
         $this->sections = $sections;
     }
 

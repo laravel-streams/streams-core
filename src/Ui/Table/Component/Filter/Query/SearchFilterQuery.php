@@ -1,12 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
+<?php
 
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Model\EloquentQueryBuilder;
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
+
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\SearchFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Concerns\HasAttributes;
 
 /**
  * Class SearchFilterQuery
@@ -45,26 +44,6 @@ class SearchFilterQuery
     {
         $stream = $filter->getStream();
         $model  = $builder->getTableModel();
-
-        /**
-         * If the model is translatable then
-         * join it's translations so they
-         * are filterable too.
-         *
-         * @var EloquentQueryBuilder|\Illuminate\Database\Query\Builder $query
-         */
-        if (
-            $model instanceof EloquentModel &&
-            $model->getTranslationModelName() &&
-            !$query->hasJoin($model->getTranslationTableName())
-        ) {
-            $query->leftJoin(
-                $model->getTranslationTableName(),
-                $model->getTableName() . '.id',
-                '=',
-                $model->getTranslationTableName() . '.' . $model->getRelationKey()
-            );
-        }
 
         $query->where(
             function (Builder $query) use ($filter, $stream, $builder) {

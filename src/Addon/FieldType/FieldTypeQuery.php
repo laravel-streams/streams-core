@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\FieldType;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Model\EloquentQueryBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
@@ -51,60 +53,28 @@ class FieldTypeQuery
         $entry        = $stream->getEntryTableName();
         $column       = $this->fieldType->getColumnName();
         $assignment   = $stream->getAssignment($filter->getField());
-        $translations = $stream->getEntryTranslationsTableName();
 
-        if ($assignment->isTranslatable()) {
-            if ($query instanceof EloquentQueryBuilder && !$query->hasJoin($translations)) {
-                $query->leftJoin(
-                    $translations,
-                    "{$entry}.id",
-                    '=',
-                    "{$translations}.entry_id"
-                );
-            }
-
-            $query->addSelect("{$translations}.locale");
-            $query->addSelect("{$translations}.{$column}");
-
-            $query->{$this->where()}(
-                function (Builder $query) use ($translations, $filter, $column) {
+        $query->{$this->where()}(
+            function (Builder $query) use ($assignment, $filter, $column, $entry) {
+                if (method_exists($this->fieldType, 'getRelation')) {
                     $query->where(
-                        "{$translations}.locale",
-                        config('app.locale')
+                        "{$entry}.{$column}",
+                        $filter->getValue()
                     );
+                } else {
 
-                    if (method_exists($this->fieldType, 'getRelation')) {
-                        $query->where(
-                            "{$translations}.{$column}",
-                            $filter->getValue()
-                        );
-                    } else {
-                        $query->where(
-                            "{$translations}.{$column}",
-                            'LIKE',
-                            "%{$filter->getValue()}%"
-                        );
+                    if ($assignment->isTranslatable()) {
+                        $column = $column  . '->' . app()->getLocale();
                     }
+
+                    $query->where(
+                        "{$entry}.{$column}",
+                        'LIKE',
+                        "%{$filter->getValue()}%"
+                    );
                 }
-            );
-        } else {
-            $query->{$this->where()}(
-                function (Builder $query) use ($stream, $filter, $column, $entry) {
-                    if (method_exists($this->fieldType, 'getRelation')) {
-                        $query->where(
-                            "{$entry}.{$column}",
-                            $filter->getValue()
-                        );
-                    } else {
-                        $query->where(
-                            "{$entry}.{$column}",
-                            'LIKE',
-                            "%{$filter->getValue()}%"
-                        );
-                    }
-                }
-            );
-        }
+            }
+        );
     }
 
     /**

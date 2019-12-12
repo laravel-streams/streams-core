@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Stream;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Stream;
 
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 use Anomaly\Streams\Platform\Model\EloquentModel;

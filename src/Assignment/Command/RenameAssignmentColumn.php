@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Assignment\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment\Command;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
@@ -42,16 +44,12 @@ class RenameAssignmentColumn
         $stream = $this->assignment->getStream();
         $type   = $this->assignment->getFieldType(true);
 
-        if (!$this->assignment->isTranslatable()) {
-            $table = $stream->getEntryTableName();
-        } else {
-            $table = $stream->getEntryTranslationsTableName();
-        }
+        $table = $stream->getEntryTableName();
 
         /* @var AssignmentInterface $assignment */
         $assignment = $assignments->find($this->assignment->getId());
 
-        $assignment = clone($assignment);
+        $assignment = clone ($assignment);
 
         $schema->renameColumn($table, $type, $assignment);
         $schema->updateIndex($table, $type, $assignment);

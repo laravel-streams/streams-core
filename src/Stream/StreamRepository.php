@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Stream;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
@@ -53,7 +55,6 @@ class StreamRepository extends EloquentRepository implements StreamRepositoryInt
     {
         $attributes['config'] = array_get($attributes, 'config', []);
         $attributes['slug']   = str_slug(array_get($attributes, 'slug'), '_');
-        $attributes['prefix'] = array_get($attributes, 'prefix', array_get($attributes, 'namespace') . '_');
 
         if (isset($attributes['name'])) {
             array_set(
@@ -153,22 +154,6 @@ class StreamRepository extends EloquentRepository implements StreamRepositoryInt
             if (!$this->schema->hasTable($stream->getEntryTableName())) {
                 $this->delete($stream);
             }
-        }
-
-        $translations = $this->model->getTranslationModel();
-
-        $translations = $translations
-            ->leftJoin(
-                'streams_streams',
-                'streams_streams_translations.stream_id',
-                '=',
-                'streams_streams.id'
-            )
-            ->whereNull('streams_streams.id')
-            ->get();
-
-        foreach ($translations as $translation) {
-            $this->delete($translation);
         }
     }
 }

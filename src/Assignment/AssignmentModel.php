@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Assignment;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
@@ -37,26 +39,9 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
      * @var array
      */
     protected $hidden = [
-        'translations',
         'stream',
         'field',
     ];
-
-    /**
-     * Default attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [
-        'config' => 'a:0:{}',
-    ];
-
-    /**
-     * The foreign key for translations.
-     *
-     * @var string
-     */
-    protected $translationForeignKey = 'assignment_id';
 
     /**
      * Translatable attributes.
@@ -71,11 +56,17 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
     ];
 
     /**
-     * The translation model.
+     * Attribute casts.
      *
-     * @var string
+     * @var array
      */
-    protected $translationModel = 'Anomaly\Streams\Platform\Assignment\AssignmentModelTranslation';
+    protected $casts = [
+        'label' => 'array',
+        'config' => 'array',
+        'warning' => 'array',
+        'placeholder' => 'array',
+        'instructions' => 'array',
+    ];
 
     /**
      * The database table name.
@@ -83,24 +74,6 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
      * @var string
      */
     protected $table = 'streams_assignments';
-
-    /**
-     * Because the assignment record holds translatable data
-     * we have a conflict. The assignment table has translations
-     * but not all assignment are translatable. This helps avoid
-     * the translatable conflict during specific procedures.
-     *
-     * @param  array $attributes
-     * @return AssignmentModel|EloquentModel
-     */
-    public function create(array $attributes = [])
-    {
-        $model = parent::create($attributes);
-
-        $model->saveTranslations();
-
-        return $model;
-    }
 
     /**
      * Set the field attribute.
@@ -226,11 +199,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
             return $this->cache['config'];
         }
 
-        if (is_array($this->attributes['config'])) {
-            return $this->cache['config'] = $this->attributes['config'];
-        }
-
-        return $this->cache['config'] = $this->attributes['config'] = $this->config;
+        return $this->cache['config'] = $this->getAttribute('config');
     }
 
     /**
@@ -317,7 +286,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
     public function getStreamPrefix()
     {
         if ($stream = $this->getStream()) {
-            return $stream->getPrefix();
+            return $stream->getNamespace() . '_';
         }
 
         return null;
@@ -418,7 +387,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
      */
     public function setConfigAttribute($config)
     {
-        $this->attributes['config'] = serialize((array)$config);
+        $this->attributes['config'] = serialize((array) $config);
     }
 
     /**
@@ -430,7 +399,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
     public function getConfigAttribute($config)
     {
         if (!is_array($config)) {
-            return (array)unserialize($config);
+            return (array) unserialize($config);
         }
 
         return $config;
