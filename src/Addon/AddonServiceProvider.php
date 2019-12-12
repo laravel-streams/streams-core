@@ -169,7 +169,7 @@ class AddonServiceProvider extends ServiceProvider
         $this->registerApi($namespace);
         $this->registerRoutes($namespace);
 
-        $this->mergeConfig($path, $slug);
+        $this->mergeConfig($path, $namespace);
 
         $this->registerEvents();
         $this->registerMiddleware();
@@ -342,13 +342,21 @@ class AddonServiceProvider extends ServiceProvider
      * Merge automatic config.
      *
      * @param string $path
-     * @param string $slug
+     * @param string $namespace
      */
-    protected function mergeConfig(string $path, string $slug)
+    protected function mergeConfig(string $path, string $namespace)
     {
+        [$vendor, $type, $slug] = explode('.', $namespace);
+
         if (file_exists($config = $path . '/resources/config/addon.php')) {
             $this->mergeConfigFrom($config, $slug);
         }
+
+        // $override = implode(DIRECTORY_SEPARATOR, array_merge(['vendor', $vendor, $type, $slug], ['addon.php']));
+
+        // if (file_exists($override = config_path($override))) {
+        //     $this->mergeConfigFrom($override, $slug);
+        // }
     }
 
     /**
@@ -393,14 +401,33 @@ class AddonServiceProvider extends ServiceProvider
      * @param string $path
      * @param string $namespace
      */
-    protected function registerPublishables($path, $namespace)
+    protected function registerPublishables(string $path, string $namespace)
     {
+        [$vendor, $type, $slug] = explode('.', $namespace);
+
+        /**
+         * If an assets directory exists
+         * within the addon directory
+         * then push automatically.
+         */
         if (is_dir($assets = $path . DIRECTORY_SEPARATOR . 'assets')) {
             $this->publishes([
                 $assets => public_path(
-                    implode(DIRECTORY_SEPARATOR, array_merge(['vendor'], explode('.', $namespace)))
+                    implode(DIRECTORY_SEPARATOR, array_merge(['assets', 'vendor'], explode('.', $namespace)))
                 )
             ], 'assets');
+        }
+
+        /**
+         * Automatically publish
+         * {type}.php configuration.
+         */
+        if (file_exists($config = implode(DIRECTORY_SEPARATOR, [$path, 'resources', 'config', 'addon.php']))) {
+            $this->publishes([
+                $config => config_path(
+                    implode(DIRECTORY_SEPARATOR, array_merge(['vendor'], explode('.', $namespace), ['addon.php']))
+                )
+            ], 'config');
         }
     }
 
