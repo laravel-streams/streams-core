@@ -56,22 +56,6 @@ class StreamRepository extends EloquentRepository implements StreamRepositoryInt
         $attributes['config'] = array_get($attributes, 'config', []);
         $attributes['slug']   = str_slug(array_get($attributes, 'slug'), '_');
 
-        if (isset($attributes['name'])) {
-            array_set(
-                $attributes,
-                config('app.fallback_locale') . '.name',
-                array_pull($attributes, 'name')
-            );
-        }
-
-        if (isset($attributes['description'])) {
-            array_set(
-                $attributes,
-                config('app.fallback_locale') . '.description',
-                array_pull($attributes, 'description')
-            );
-        }
-
         return $this->model->create($attributes);
     }
 

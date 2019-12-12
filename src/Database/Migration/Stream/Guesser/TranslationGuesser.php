@@ -38,10 +38,10 @@ class TranslationGuesser
         $stream = $migration->getStream();
 
         foreach (['name', 'description'] as $key) {
-            if (is_null(array_get($stream, $locale . '.' . $key))) {
-                $stream = array_add(
+            if (is_null(array_get($stream, $key . '.' . $locale))) {
+                array_set(
                     $stream,
-                    $key . '->' . $locale,
+                    $key . '.' . $locale,
                     $addon->getNamespace('stream.' . array_get($stream, 'slug') . '.' . $key)
                 );
             }

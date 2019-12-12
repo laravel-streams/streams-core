@@ -60,10 +60,10 @@ class TranslationGuesser
 
         foreach ($assignments as &$assignment) {
             foreach (['label', 'warning', 'instructions', 'placeholder'] as $key) {
-                if (is_null(array_get($assignment, $locale . '.' . $key))) {
-                    $assignment = array_add(
+                if (is_null(array_get($assignment, $key . '.' . $locale))) {
+                    array_set(
                         $assignment,
-                        $key . '->' . $locale,
+                        $key . '.' . $locale,
                         $addon->getNamespace(
                             'field.' . array_get($assignment, 'field') . '.' . $key . '.' . $stream->getSlug()
                         )

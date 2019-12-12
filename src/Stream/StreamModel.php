@@ -121,8 +121,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
                 if (isset($assignment['field'])) {
                     $assignment['field']['config'] = unserialize($assignment['field']['config']);
 
-                    $fieldModel        = new FieldModel();
-                    $fieldTranslations = new EloquentCollection();
+                    $fieldModel = new FieldModel();
 
                     $assignment['field']['config'] = json_encode($assignment['field']['config']);
 
@@ -130,8 +129,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
 
                     unset($assignment['field']);
 
-                    $assignmentModel        = new AssignmentModel();
-                    $assignmentTranslations = new EloquentCollection();
+                    $assignmentModel = new AssignmentModel();
 
                     $assignmentModel->setRawAttributes($assignment);
                     $assignmentModel->setRawAttributes($assignment);

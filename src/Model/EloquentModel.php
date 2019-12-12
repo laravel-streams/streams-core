@@ -444,7 +444,7 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
     public function setAttribute($key, $value, $locale = null)
     {
         if ($this->isTranslatedAttribute($key)) {
-            return parent::setAttribute($key . '.' . app()->getLocale(), $value);
+            return parent::setAttribute($key . '->' . app()->getLocale(), $value);
         }
 
         return parent::setAttribute($key, $value);
@@ -477,9 +477,16 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
 
             if (isset($attributes[$key]) && !is_array($attributes[$key])) {
 
-                $attributes[$key] = [
-                    config('app.fallback_locale') => $attributes[$key],
-                ];
+                array_set($attributes, $key . '->' . config('app.fallback_locale'), array_pull($attributes, $key));
+
+                continue;
+            }
+
+            if (isset($attributes[$key]) && is_array($attributes[$key])) {
+
+                foreach (array_pull($attributes, $key) as $locale => $value) {
+                    array_set($attributes, $key . '->' . $locale, $value);
+                }
 
                 continue;
             }
