@@ -3,9 +3,6 @@
 namespace Anomaly\Streams\Platform\Addon;
 
 use Illuminate\Support\ServiceProvider;
-use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered;
-use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Console\Application as Artisan;
 
 /**
@@ -199,7 +196,7 @@ class AddonServiceProvider extends ServiceProvider
         $path = base_path("vendor/{$vendor}/{$slug}-{$type}");
 
         $this->registerCommands();
-        $this->registerPublishes();
+        $this->registerPublishables($path, $namespace);
         // $this->registerSchedules($namespace);
 
         $this->registerHints($namespace, $path);
@@ -392,11 +389,18 @@ class AddonServiceProvider extends ServiceProvider
 
     /**
      * Register the publishable material.
+     * 
+     * @param string $path
+     * @param string $namespace
      */
-    protected function registerPublishes()
+    protected function registerPublishables($path, $namespace)
     {
-        if (self::$publishes) {
-            $this->publishes(self::$publishes);
+        if (is_dir($assets = $path . DIRECTORY_SEPARATOR . 'assets')) {
+            $this->publishes([
+                $assets => public_path(
+                    implode(DIRECTORY_SEPARATOR, array_merge(['vendor'], explode('.', $namespace)))
+                )
+            ], 'assets');
         }
     }
 
