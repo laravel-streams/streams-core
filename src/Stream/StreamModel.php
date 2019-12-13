@@ -105,8 +105,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
 
         $assignments = [];
 
-        $streamModel        = new StreamModel();
-        $streamTranslations = new EloquentCollection();
+        $streamModel = new StreamModel();
 
         if (!is_string(array_get($data, 'config'))) {
             $data['config'] = [];
@@ -119,7 +118,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
         if (array_key_exists('assignments', $data)) {
             foreach ($data['assignments'] as $assignment) {
                 if (isset($assignment['field'])) {
-                    $assignment['field']['config'] = unserialize($assignment['field']['config']);
+                    $assignment['field']['config'] = json_decode($assignment['field']['config']);
 
                     $fieldModel = new FieldModel();
 

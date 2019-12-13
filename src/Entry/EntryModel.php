@@ -41,13 +41,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public $timestamps = true;
 
     /**
-     * The foreign key for translations.
-     *
-     * @var string
-     */
-    protected $translationForeignKey = 'entry_id';
-
-    /**
      * By default nothing is searchable.
      *
      * @var boolean
@@ -224,10 +217,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getFieldValue($fieldSlug, $locale = null)
     {
-        if (!$locale) {
-            $locale = config('app.locale');
-        }
-
         $assignment = $this->getAssignment($fieldSlug);
 
         $type = $assignment->getFieldType();
@@ -239,7 +228,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $value = parent::getAttributeValue($fieldSlug);
 
         if ($assignment->isTranslatable()) {
-            $value = $value[$locale];
+            $value = $value[$this->locale($locale)];
         }
 
         $value = $modifier->restore($value);
@@ -1013,7 +1002,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
                  * Make sure any nested arrays are serialized.
                  */
                 if (is_array($value)) {
-                    $array[$key] = serialize($value);
+                    $array[$key] = json_encode($value);
                 }
             }
         );

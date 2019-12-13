@@ -59,7 +59,7 @@ class LabelsGuesser
 
             $assignment = $stream->getAssignment($field['field']);
             $object     = $stream->getField($field['field']);
-
+            dd($object);
             /*
              * No assignment means we still do
              * not have anything to do here.

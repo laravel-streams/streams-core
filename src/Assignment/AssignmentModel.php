@@ -381,31 +381,6 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
     }
 
     /**
-     * Set config attribute.
-     *
-     * @param array $config
-     */
-    public function setConfigAttribute($config)
-    {
-        $this->attributes['config'] = serialize((array) $config);
-    }
-
-    /**
-     * Return the decoded config attribute.
-     *
-     * @param  $config
-     * @return mixed
-     */
-    public function getConfigAttribute($config)
-    {
-        if (!is_array($config)) {
-            return (array) unserialize($config);
-        }
-
-        return $config;
-    }
-
-    /**
      * @param  array $items
      * @return AssignmentCollection
      */

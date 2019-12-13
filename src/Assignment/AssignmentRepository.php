@@ -37,27 +37,6 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
     }
 
     /**
-     * Create a new assignment.
-     *
-     * @param  array $attributes
-     * @return AssignmentInterface
-     */
-    public function create(array $attributes = [])
-    {
-        array_set(
-            $attributes,
-            'sort_order',
-            array_get(
-                $attributes,
-                'sort_order',
-                $this->model->count('id') + 1
-            )
-        );
-
-        return $this->model->create($attributes);
-    }
-
-    /**
      * Find an assignment by stream and field.
      *
      * @param  StreamInterface $stream

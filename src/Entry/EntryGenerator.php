@@ -402,9 +402,9 @@ class EntryGenerator
             $value = $assignment->getAttribute($key);
             $key = addcslashes($key, "'");
 
-            // Serialize arrays.
+            // JSON encode arrays.
             if (is_array($value)) {
-                $value = serialize($value);
+                $value = json_encode($value);
             }
 
             // Cast objects to strings.
@@ -437,10 +437,10 @@ class EntryGenerator
         $string .= "\n'field' => [";
 
         foreach ($field->getAttributes() as $key => $value) {
-            $value = $field->getAttribute($key);
+            $value = $field->getAttributes()[$key];
 
             if (is_array($value)) {
-                $value = serialize($value);
+                $value = json_encode($value);
             }
 
             $key = addcslashes($key, "'");

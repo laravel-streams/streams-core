@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Search;
+<?php
+
+namespace Anomaly\Streams\Platform\Search;
 
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Anomaly\Streams\Platform\Support\Decorator;

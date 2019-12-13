@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Version;
+<?php
+
+namespace Anomaly\Streams\Platform\Version;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -84,7 +86,7 @@ class VersionModel extends EloquentModel implements VersionInterface, Presentabl
      */
     public function getDataAttribute()
     {
-        return unserialize($this->attributes['data']);
+        return json_decode($this->attributes['data']);
     }
 
     /**
@@ -94,7 +96,7 @@ class VersionModel extends EloquentModel implements VersionInterface, Presentabl
      */
     public function getModelAttribute()
     {
-        return unserialize($this->attributes['model']);
+        return json_decode($this->attributes['model']);
     }
 
     /**

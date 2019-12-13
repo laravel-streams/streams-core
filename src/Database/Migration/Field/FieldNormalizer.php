@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Field;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Field;
 
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 
@@ -34,7 +36,8 @@ class FieldNormalizer
                 $field = ['type' => $field];
             }
 
-            $field['slug']      = array_get($field, 'slug', $slug);
+            $field['slug'] = array_get($field, 'slug', $slug);
+            $field['config'] = array_get($field, 'config', []);
             $field['namespace'] = array_get($field, 'namespace', $migration->contextualNamespace());
 
             if (!isset($field['type'])) {

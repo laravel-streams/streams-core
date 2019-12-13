@@ -188,7 +188,7 @@ class EloquentQueryBuilder extends Builder
         $name = $this->model->getConnectionName();
 
         return $this->model->getCacheCollectionKey() . ':' . md5(
-            $name . $this->toSql() . serialize($this->getBindings())
+            $name . $this->toSql() . json_encode($this->getBindings())
         );
     }
 

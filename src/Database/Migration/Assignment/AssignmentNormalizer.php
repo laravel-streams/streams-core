@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Assignment;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Assignment;
 
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 use Illuminate\Contracts\Config\Repository;
@@ -53,6 +55,12 @@ class AssignmentNormalizer
             if (!isset($assignment['field'])) {
                 $assignment['field'] = $field;
             }
+
+            /**
+             * Default the config
+             * to empty array.
+             */
+            $assignment['config'] = array_get($assignment, 'config', []);
 
             /*
              * If any of the translatable items exist

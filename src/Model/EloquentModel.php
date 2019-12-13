@@ -422,12 +422,13 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
      * Get an attribute.
      *
      * @param string $key
+     * @param string|null $locale
      * @return mixed|null
      */
     public function getAttribute($key)
     {
         if ($this->isTranslatedAttribute($key)) {
-            return parent::getAttribute($key)[app()->getLocale()];
+            return parent::getAttribute($key)[$this->locale()];
         }
 
         return parent::getAttribute($key);
@@ -628,7 +629,7 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
                  * Make sure any nested arrays are serialized.
                  */
                 if (is_array($value)) {
-                    $array[$key] = serialize($value);
+                    $array[$key] = json_encode($value);
                 }
             }
         );

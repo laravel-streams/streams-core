@@ -109,8 +109,8 @@ class FieldTypeBuilder
             throw new \Exception("Field type [$type] not found.");
         }
 
-        $fieldType->mergeRules(array_pull($parameters, 'rules', []));
-        $fieldType->mergeConfig(array_pull($parameters, 'config', []));
+        $fieldType->mergeRules((array) array_pull($parameters, 'rules', []));
+        $fieldType->mergeConfig((array) array_pull($parameters, 'config', []));
 
         $this->hydrator->hydrate($fieldType, $parameters);
 

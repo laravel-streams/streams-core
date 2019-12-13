@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Message;
+<?php
+
+namespace Anomaly\Streams\Platform\Message;
 
 use Illuminate\Session\Store;
 
@@ -38,6 +40,10 @@ class MessageBag
      */
     public function add($type, $message)
     {
+        if (is_string($message)) {
+            $message = ['text' => $message];
+        }
+
         return $this->merge($type, $message);
     }
 
@@ -174,6 +180,7 @@ class MessageBag
     public function flush($type = null)
     {
         if ($type) {
+
             $this->session->forget($type);
 
             return $this;

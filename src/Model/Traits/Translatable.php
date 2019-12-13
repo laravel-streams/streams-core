@@ -19,6 +19,13 @@ trait Translatable
 {
 
     /**
+     * The translating locale.
+     *
+     * @var null|string
+     */
+    public $locale = null;
+
+    /**
      * The translatable attributes.
      *
      * @var array
@@ -66,7 +73,18 @@ trait Translatable
      */
     public function translate($locale = null)
     {
-        throw new \Exception('translate() method missing logic.');
-        //return $this->getTranslatedAttribute($key, $locale ?: app()->getLocale());
+        $this->locale = $locale ?: app()->getLocale();
+
+        return $this;
+    }
+
+    /**
+     * Return the translating locale.
+     *
+     * @param string|null $default
+     */
+    public function locale($default = null)
+    {
+        return $this->locale ?: ($default ?: app()->getLocale());
     }
 }

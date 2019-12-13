@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Version\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Version\Command;
 
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
@@ -43,8 +45,8 @@ class SaveVersion
                 'created_by_id' => auth()->id(),
                 'versionable'   => $this->model,
                 'ip_address'    => request()->ip(),
-                'model'         => serialize($this->model),
-                'data'          => serialize($this->model->versionedAttributeChanges()),
+                'model'         => json_encode($this->model),
+                'data'          => json_encode($this->model->versionedAttributeChanges()),
             ]
         );
     }
