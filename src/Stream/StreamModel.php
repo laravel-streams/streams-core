@@ -113,16 +113,11 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
 
         $streamModel->setRawAttributes($data);
 
-        unset($this->translations);
-
         if (array_key_exists('assignments', $data)) {
             foreach ($data['assignments'] as $assignment) {
                 if (isset($assignment['field'])) {
-                    $assignment['field']['config'] = json_decode($assignment['field']['config']);
 
                     $fieldModel = new FieldModel();
-
-                    $assignment['field']['config'] = json_encode($assignment['field']['config']);
 
                     $fieldModel->setRawAttributes($assignment['field']);
 

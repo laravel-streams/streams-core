@@ -9,6 +9,7 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Model\Contract\EloquentInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
@@ -18,7 +19,7 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-interface StreamInterface
+interface StreamInterface extends EloquentInterface
 {
 
     /**

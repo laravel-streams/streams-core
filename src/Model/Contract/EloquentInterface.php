@@ -23,4 +23,12 @@ interface EloquentInterface
      * @return array
      */
     public function getAttributes();
+
+    /**
+     * Get an attribute value.
+     *
+     * @param  $key
+     * @return mixed
+     */
+    public function getAttributeValue($key);
 }

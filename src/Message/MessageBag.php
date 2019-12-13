@@ -41,7 +41,7 @@ class MessageBag
     public function add($type, $message)
     {
         if (is_string($message)) {
-            $message = ['text' => $message];
+            //$message = ['text' => $message];
         }
 
         return $this->merge($type, $message);

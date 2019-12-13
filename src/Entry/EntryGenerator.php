@@ -364,9 +364,6 @@ class EntryGenerator
     protected static function parseStream(StreamInterface $stream, &$string)
     {
         foreach ($stream->getAttributes() as $key => $value) {
-            $key = addcslashes($key, "'");
-            $value = addcslashes($value, "'");
-
             $string .= "\n'{$key}' => '{$value}',";
         }
     }
@@ -399,8 +396,8 @@ class EntryGenerator
         $string .= "\n[";
 
         foreach ($assignment->getAttributes() as $key => $value) {
-            $value = $assignment->getAttribute($key);
-            $key = addcslashes($key, "'");
+
+            $value = $assignment->getAttributeValue($key);
 
             // JSON encode arrays.
             if (is_array($value)) {
@@ -412,10 +409,7 @@ class EntryGenerator
                 $value = (string) $value;
             }
 
-            // Quote and escape non numeric values.
-            if (!is_numeric($value)) {
-                $value = "'" . addcslashes($value, "'") . "'";
-            }
+            $value = self::prepareStringValue($value);
 
             $string .= "\n'{$key}' => {$value},";
         }
@@ -437,14 +431,14 @@ class EntryGenerator
         $string .= "\n'field' => [";
 
         foreach ($field->getAttributes() as $key => $value) {
-            $value = $field->getAttributes()[$key];
+
+            $value = $field->getAttributeValue($key);
 
             if (is_array($value)) {
                 $value = json_encode($value);
             }
 
-            $key = addcslashes($key, "'");
-            $value = addcslashes($value, "'");
+            $value = self::prepareStringValue($value);
 
             $string .= "\n'{$key}' => '{$value}',";
         }
@@ -472,12 +466,22 @@ class EntryGenerator
         }
 
         if (is_array($rules)) {
+
             $rules = implode('|', array_filter($rules));
 
-            $rules = addcslashes($rules, "'");
-            $fieldSlug = addcslashes($assignment->getFieldSlug(), "'");
+            $fieldSlug = $assignment->getFieldSlug();
 
             $string .= "\n        '{$fieldSlug}' => '{$rules}',";
         }
+    }
+
+    /**
+     * Prepare a string value.
+     *
+     * @param string $value
+     */
+    public static function prepareStringValue(string $value)
+    {
+        return str_replace('\\', '\\\\', $value);
     }
 }

@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Assignment\Contract;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Model\Contract\EloquentInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
@@ -14,7 +15,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-interface AssignmentInterface
+interface AssignmentInterface extends EloquentInterface
 {
 
     /**
@@ -173,14 +174,6 @@ interface AssignmentInterface
      * @return mixed
      */
     public function getAttributes();
-
-    /**
-     * Get an attribute.
-     *
-     * @param  $key
-     * @return mixed
-     */
-    public function getAttribute($key);
 
     /**
      * Flush the entry model's cache.
