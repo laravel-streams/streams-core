@@ -409,6 +409,8 @@ class EntryGenerator
                 $value = (string) $value;
             }
 
+            $value = "'" . addcslashes($value, "'") . "'";
+
             $value = self::prepareStringValue($value);
 
             $string .= "\n'{$key}' => {$value},";
