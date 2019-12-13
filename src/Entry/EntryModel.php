@@ -232,12 +232,17 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $type = $assignment->getFieldType();
 
-        $accessor = $type->getAccessor();
         $modifier = $type->getModifier();
 
         $type->setEntry($this);
 
-        $value = $modifier->restore($accessor->get());
+        $value = parent::getAttributeValue($fieldSlug);
+
+        if ($assignment->isTranslatable()) {
+            $value = $value[$locale];
+        }
+
+        $value = $modifier->restore($value);
 
         $type->setValue($value);
 

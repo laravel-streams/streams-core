@@ -34,6 +34,7 @@ class EntryGenerator
                 'table'                   => self::generateTable($stream),
                 'rules'                   => self::generateRules($stream),
                 'dates'                   => self::generateDates($stream),
+                'casts'                   => self::generateCasts($stream),
                 'stream'                  => self::generateStream($stream),
                 'trashable'               => self::generateTrashable($stream),
                 'relations'               => self::generateRelations($stream),
@@ -168,6 +169,24 @@ class EntryGenerator
         }
 
         return "[" . implode(', ', $dates) . "]";
+    }
+
+    /**
+     * Return the casts attribute.
+     *
+     * @param  StreamInterface $stream
+     * @return string
+     */
+    protected static function generateCasts(StreamInterface $stream)
+    {
+        $casts = [];
+
+        /* @var AssignmentInterface $assignment */
+        foreach ($stream->getTranslatableAssignments() as $assignment) {
+            $casts[] = "'{$assignment->getFieldSlug()}' => 'array'";
+        }
+
+        return "[" . implode(', ', $casts) . "]";
     }
 
     /**
