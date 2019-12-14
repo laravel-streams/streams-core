@@ -49,12 +49,12 @@ class AddonPublish extends Command
             $part = ucfirst(camel_case($part));
         });
 
-        $parts[2] = $parts[2] . $parts[1] . 'ServiceProvider';
+        $parts[1] = $parts[2] . $parts[1];
+        $parts[2] = $parts[1] . 'ServiceProvider';
 
-        //$provider = str_replace('\\', '\\\\', implode("\\", $parts));
         $provider = implode("\\", $parts);
 
-        $this->call('vendor:publish', ['--tag' => 'public', '--provider' => $provider]);
+        $this->call('vendor:publish', ['--tag' => 'assets', '--provider' => $provider]);
     }
 
     /**

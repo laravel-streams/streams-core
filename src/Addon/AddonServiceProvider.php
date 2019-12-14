@@ -408,7 +408,7 @@ class AddonServiceProvider extends ServiceProvider
                 $assets => public_path(
                     implode(DIRECTORY_SEPARATOR, array_merge(['vendor'], explode('.', $namespace)))
                 )
-            ], 'public');
+            ], 'assets');
         }
 
         /**
