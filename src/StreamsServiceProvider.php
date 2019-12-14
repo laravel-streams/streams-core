@@ -700,6 +700,7 @@ class StreamsServiceProvider extends ServiceProvider
         $assets = assets();
 
         if ($admin = config('streams::themes.admin')) {
+
             [$vendor, $type, $slug] = explode('.', $admin);
 
             $path = base_path("vendor/{$vendor}/{$slug}-{$type}");

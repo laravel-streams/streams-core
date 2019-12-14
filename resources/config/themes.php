@@ -11,6 +11,6 @@ return [
     |
     */
 
-    'admin'    => env('ADMIN_THEME', 'anomaly.theme.anomaly'),
+    'admin'    => env('ADMIN_THEME', 'anomaly.theme.flow'),
     'standard' => env('STANDARD_THEME', 'anomaly.theme.starter')
 ];

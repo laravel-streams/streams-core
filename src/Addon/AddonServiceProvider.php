@@ -113,13 +113,6 @@ class AddonServiceProvider extends ServiceProvider
     public $mobile = [];
 
     /**
-     * The addon publishables.
-     *
-     * @var array
-     */
-    public static $publishes = [];
-
-    /**
      * Register the addon.
      */
     public function register()
@@ -413,9 +406,9 @@ class AddonServiceProvider extends ServiceProvider
         if (is_dir($assets = $path . DIRECTORY_SEPARATOR . 'assets')) {
             $this->publishes([
                 $assets => public_path(
-                    implode(DIRECTORY_SEPARATOR, array_merge(['assets', 'vendor'], explode('.', $namespace)))
+                    implode(DIRECTORY_SEPARATOR, array_merge(['vendor'], explode('.', $namespace)))
                 )
-            ], 'assets');
+            ], 'public');
         }
 
         /**
@@ -428,6 +421,24 @@ class AddonServiceProvider extends ServiceProvider
                     implode(DIRECTORY_SEPARATOR, array_merge(['vendor'], explode('.', $namespace), ['addon.php']))
                 )
             ], 'config');
+        }
+    }
+
+    /**
+     * Register paths to be published by the publish command.
+     *
+     * @param  array  $paths
+     * @param  mixed  $groups
+     * @return void
+     */
+    protected function publishes(array $paths, $groups = null)
+    {
+        $this->ensurePublishArrayInitialized($class = static::class);
+
+        static::$publishes[$class] = array_merge(static::$publishes[$class], $paths);
+
+        foreach ((array) $groups as $group) {
+            $this->addPublishGroup($group, $paths);
         }
     }
 

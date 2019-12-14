@@ -41,24 +41,20 @@ class AddonPublish extends Command
      */
     public function handle(AddonCollection $addons)
     {
-        if (!$this->argument('addon')) {
-            foreach ($addons as $addon) {
-                $this->call(
-                    'addon:publish',
-                    [
-                        'addon' => $addon->getNamespace(),
-                    ]
-                );
-            }
+        $addon = $this->argument('addon');
 
-            return;
-        }
+        $parts = addon_map($addon);
 
-        $addon = $addons->get($this->argument('addon'));
+        array_walk($parts, function (&$part) {
+            $part = ucfirst(camel_case($part));
+        });
 
-        $this->dispatchNow(new PublishViews($addon, $this));
-        $this->dispatchNow(new PublishConfig($addon, $this));
-        $this->dispatchNow(new PublishTranslations($addon, $this));
+        $parts[2] = $parts[2] . $parts[1] . 'ServiceProvider';
+
+        //$provider = str_replace('\\', '\\\\', implode("\\", $parts));
+        $provider = implode("\\", $parts);
+
+        $this->call('vendor:publish', ['--tag' => 'public', '--provider' => $provider]);
     }
 
     /**
@@ -69,7 +65,7 @@ class AddonPublish extends Command
     protected function getArguments()
     {
         return [
-            ['addon', InputArgument::OPTIONAL, 'The addon to publish. Omit to publish all addons.'],
+            ['addon', InputArgument::REQUIRED, 'The addon to publish.'],
         ];
     }
 
@@ -81,7 +77,7 @@ class AddonPublish extends Command
     protected function getOptions()
     {
         return [
-            ['force', null, InputOption::VALUE_NONE, 'Force overwriting files.'],
+            ['force', null, InputOption::VALUE_NONE, 'Overwrite files.'],
         ];
     }
 }
