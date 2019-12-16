@@ -1,34 +1,26 @@
 let mix = require('laravel-mix');
 
-/*
- |--------------------------------------------------------------------------
- | Mix Asset Management
- |--------------------------------------------------------------------------
- |
- | Mix provides a clean, fluent API for defining some Webpack build steps
- | for your Laravel application. By default, we are compiling the Sass
- | file for the application as well as bundling up all the JS files.
- |
- */
-
-
 /** @var {Configuration} webpackConfig */
 const webpackConfig = {
-    output   : {
+    output: {
         libraryTarget: 'window',
-        // all exports from index.js will be available under:
-        // window.pyrocms.flow_theme
-        library      : ['anomaly', 'streams_platform']
+        library: ['streams', 'core'] // window.streams.core
     },
     externals: {
-        vue      : 'Vue',
-        lodash   : '_' // for now its okay. should be imported while using babel-imports-plugin.
+        vue: 'Vue',
+        lodash: '_' // for now its okay. should be imported while using babel-imports-plugin.
     }
 }
+
+/** @var {Configuration} babelConfig */
 const babelConfig = {
     plugins: [
-        ["@babel/plugin-proposal-decorators", { "legacy": true }],
-        ["@babel/plugin-proposal-class-properties", { "loose": true }]
+        ["@babel/plugin-proposal-decorators", {
+            "legacy": true
+        }],
+        ["@babel/plugin-proposal-class-properties", {
+            "loose": true
+        }]
     ]
 }
 

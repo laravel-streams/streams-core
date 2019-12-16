@@ -1,22 +1,23 @@
-{!! assets('platform.js', 'streams::js/vue.js') !!}
-{!! assets('platform.js', 'streams::js/lodash.js') !!}
-{!! assets('platform.js', 'streams::js/streams_platform.js') !!}
+{{ assets('platform.js', 'streams::js/vue.js') }}
+{{ assets('platform.js', 'streams::js/lodash.js') }}
+{{ assets('platform.js', 'streams::js/streams_platform.js') }}
 {!! assets()->script("platform.js") !!}
 
 <script>
 (function () {
-    var app = window.anomaly.streams_platform.app;
+    
+    var app = window.streams.core.app;
 
     app.bootstrap({
             providers: [
-                window.anomaly.streams_platform.PlatformServiceProvider
+                window.streams.core.PlatformServiceProvider
             ],
             config   : {},
             data     : {},
         })
         .then(app.boot)
         .then(function (app) {
-            console.log('app start')
+            console.log('App Start')
             return app.start('#app');
         })
         .catch(app.error);

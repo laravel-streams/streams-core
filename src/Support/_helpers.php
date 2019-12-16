@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\View\ViewTemplate;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Stream\Command\GetStream;
+use Anomaly\Streams\Platform\Stream\Command\GetStreams;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Entry\Command\GetEntryCriteria;
 use Anomaly\Streams\Platform\Ui\Form\Command\GetFormCriteria;

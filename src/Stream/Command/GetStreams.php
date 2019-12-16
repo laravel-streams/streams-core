@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Command;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 
@@ -31,6 +33,8 @@ class GetStreams
 
     /**
      * Handle the command.
+     * 
+     * @todo This needs to die. Replace with repository.
      *
      * @param  StreamRepositoryInterface                                      $streams
      * @return \Anomaly\Streams\Platform\Stream\Contract\StreamInterface|null

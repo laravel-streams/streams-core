@@ -44,6 +44,8 @@ class GetStream
     /**
      * Handle the command.
      *
+     * @todo This needs to die. Replace with repository.
+     *
      * @param  Container $container
      * @return \Anomaly\Streams\Platform\Stream\Contract\StreamInterface|null
      */
