@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
@@ -28,7 +29,10 @@ class NavigationBuilder
         NavigationInput::read($builder);
 
         foreach ($builder->getNavigation() as $link) {
-            $controlPanel->addNavigationLink($factory->make($link));
+
+            SectionBuilder::build($builder, $link = $factory->make($link));
+
+            $controlPanel->addNavigationLink($link);
         }
     }
 }

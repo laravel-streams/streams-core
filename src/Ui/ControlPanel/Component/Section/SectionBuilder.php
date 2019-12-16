@@ -5,6 +5,8 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionInput;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionFactory;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
 
 /**
  * Class SectionBuilder
@@ -20,22 +22,27 @@ class SectionBuilder
      * Build the sections and push them to the control_panel.
      *
      * @param ControlPanelBuilder $builder
+     * @param NavigationLinkInterface $link
      */
-    public static function build(ControlPanelBuilder $builder)
+    public static function build(ControlPanelBuilder $builder, NavigationLinkInterface $link)
     {
         $controlPanel = $builder->getControlPanel();
 
         $factory = app(SectionFactory::class);
 
-        SectionInput::read($builder);
+        SectionInput::read($builder, $link);
 
-        foreach (array_values($builder->getSections()) as $i => $section) {
+        $sections = array_values($builder->getSections());
+
+        foreach ($sections as $i => &$section) {
 
             if (!authorize(array_get($section, 'permission'))) {
                 continue;
             }
 
-            $controlPanel->addSection($section = $factory->make($section));
+            $controlPanel->addSection(
+                $section = $factory->make($section)
+            );
 
             /**
              * Merge defaul attributes.
@@ -44,5 +51,7 @@ class SectionBuilder
                 'data-keymap' => $i + 1
             ]);
         }
+
+        $link->setSections(new SectionCollection($sections));
     }
 }

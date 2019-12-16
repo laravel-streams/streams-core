@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
 use Anomaly\Streams\Platform\Ui\Contract\HtmlAttributesInterface;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
 
 /**
@@ -70,6 +71,13 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAtt
      * @var null|string
      */
     protected $breadcrumb = null;
+
+    /**
+     * The navigation sections.
+     *
+     * @var null|SectionCollection
+     */
+    protected $sections = null;
 
     /**
      * Get the slug.
@@ -200,6 +208,29 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAtt
     public function setBreadcrumb($breadcrumb)
     {
         $this->breadcrumb = $breadcrumb;
+
+        return $this;
+    }
+
+    /**
+     * Get the module sections.
+     *
+     * @return SectionCollection
+     */
+    public function getSections()
+    {
+        return $this->sections;
+    }
+
+    /**
+     * Set the sections.
+     *
+     * @param SectionCollection $sections
+     * @return $this
+     */
+    public function setSections(SectionCollection $sections)
+    {
+        $this->sections = $sections;
 
         return $this;
     }

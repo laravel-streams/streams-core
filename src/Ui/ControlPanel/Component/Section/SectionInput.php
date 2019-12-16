@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
 
 /**
  * Class SectionInput
@@ -20,15 +21,16 @@ class SectionInput
      * before building the objects.
      *
      * @param ControlPanelBuilder $builder
+     * @param NavigationLinkInterface $link
      */
-    public static function read(ControlPanelBuilder $builder)
+    public static function read(ControlPanelBuilder $builder, NavigationLinkInterface $link)
     {
-        self::resolve($builder);
+        self::resolve($builder, $link);
         self::normalize($builder);
 
         SectionGuesser::guess($builder);
 
-        self::evaluate($builder);
+        self::evaluate($builder, $link);
         self::translate($builder);
         self::parse($builder);
     }
@@ -36,21 +38,23 @@ class SectionInput
     /**
      * Resolve input.
      *
-     * @param \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder $builder
+     * @param ControlPanelBuilder $builder
+     * @param NavigationLinkInterface $link
      */
-    protected static function resolve(ControlPanelBuilder $builder)
+    protected static function resolve(ControlPanelBuilder $builder, NavigationLinkInterface $link)
     {
-        $sections = resolver($builder->getSections(), compact('builder'));
+        $sections = resolver($builder->getSections(), compact('builder', 'link'));
 
-        $builder->setSections(evaluate($sections ?: $builder->getSections(), compact('builder')));
+        $builder->setSections(evaluate($sections ?: $builder->getSections(), compact('builder', 'link')));
     }
 
     /**
      * Evaluate input.
      *
-     * @param \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder $builder
+     * @param ControlPanelBuilder $builder
+     * @param NavigationLinkInterface $link
      */
-    protected static function evaluate(ControlPanelBuilder $builder)
+    protected static function evaluate(ControlPanelBuilder $builder, NavigationLinkInterface $link)
     {
         $builder->setSections(evaluate($builder->getSections(), compact('builder')));
     }
@@ -122,7 +126,8 @@ class SectionInput
     /**
      * Parse input.
      *
-     * @param \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder $builder
+     * @param ControlPanelBuilder $builder
+     * @param NavigationLinkInterface $link
      */
     protected static function parse(ControlPanelBuilder $builder)
     {
@@ -132,7 +137,7 @@ class SectionInput
     /**
      * Translate input.
      *
-     * @param \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder $builder
+     * @param ControlPanelBuilder $builder
      */
     protected static function translate(ControlPanelBuilder $builder)
     {

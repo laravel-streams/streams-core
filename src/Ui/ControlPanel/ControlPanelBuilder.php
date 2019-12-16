@@ -4,7 +4,6 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Command\BuildControlPanel;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Event\ControlPanelWasBuilt;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Event\ControlPanelIsBuilding;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\ButtonBuilder;
@@ -93,7 +92,7 @@ class ControlPanelBuilder
         dispatch_now(new SetActiveNavigationLink($this));
         dispatch_now(new SetMainNavigationLinks($this));
 
-        SectionBuilder::build($this);
+        //SectionBuilder::build($this);
 
         dispatch_now(new SetActiveSection($this));
 

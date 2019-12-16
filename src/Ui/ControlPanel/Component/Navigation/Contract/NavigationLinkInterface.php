@@ -1,4 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract;
+
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 
 /**
  * Interface NavigationLinkInterface
@@ -149,6 +153,21 @@ interface NavigationLinkInterface
      * @return $this
      */
     public function setBreadcrumb($breadcrumb);
+
+    /**
+     * Get the module sections.
+     *
+     * @return SectionCollection
+     */
+    public function getSections();
+
+    /**
+     * Set the sections.
+     *
+     * @param SectionCollection $sections
+     * @return $this
+     */
+    public function setSections(SectionCollection $sections);
 
     /**
      * Get the HREF attribute.
