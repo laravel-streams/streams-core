@@ -22,9 +22,10 @@
         "nicmart/string-template": "0.1.*",
         "symfony/yaml": "3.4.*",
         "misd/linkify": "1.1.*",
-        "ezyang/htmlpurifier": "~4.0",
+        "laradic/support": "~2.0",
         "fzaninotto/faker": "^1.4",
         "composer/composer": "~1.9.0",
+        "ezyang/htmlpurifier": "~4.0",
         "ocramius/generated-hydrator": "^2.0"
     },
     "autoload": {
