@@ -122,7 +122,7 @@ class AddonServiceProvider extends ServiceProvider
 
         [$vendor, $type, $slug] = explode('.', $namespace);
 
-        $path = base_path("vendor/{$vendor}/{$slug}-{$type}");
+        $path = dirname(dirname((new \ReflectionClass(get_called_class()))->getFileName()));
 
         // if ($type !== 'module' && !$addon->isEnabled() && $addon->getSlug() !== 'installer') {
         //     return;
@@ -186,7 +186,7 @@ class AddonServiceProvider extends ServiceProvider
 
         [$vendor, $type, $slug] = explode('.', $namespace);
 
-        $path = base_path("vendor/{$vendor}/{$slug}-{$type}");
+        $path = dirname(dirname((new \ReflectionClass(get_called_class()))->getFileName()));
 
         $this->registerCommands();
         $this->registerPublishables($path, $namespace);
