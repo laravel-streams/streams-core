@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Command;
 
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Illuminate\Routing\ResponseFactory;
@@ -42,6 +44,6 @@ class SetTreeResponse
         $options = $tree->getOptions();
         $data    = $tree->getData();
 
-        $tree->setResponse($response->view($options->get('wrapper_view', 'streams::blank'), $data));
+        $tree->setResponse($response->view($options->get('wrapper_view', 'streams::default'), $data));
     }
 }

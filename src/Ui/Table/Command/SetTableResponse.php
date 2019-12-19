@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Routing\ResponseFactory;
@@ -44,7 +46,7 @@ class SetTableResponse
 
         $table->setResponse(
             $response->view(
-                $options->get('wrapper_view', $this->builder->isAjax() ? 'streams::ajax' : 'streams::blank'),
+                $options->get('wrapper_view', $this->builder->isAjax() ? 'streams::ajax' : 'streams::default'),
                 $data
             )
         );

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Command;
 
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 use Illuminate\Routing\ResponseFactory;
@@ -42,6 +44,6 @@ class SetGridResponse
         $options = $grid->getOptions();
         $data    = $grid->getData();
 
-        $grid->setResponse($response->view($options->get('wrapper_view', 'streams::blank'), $data));
+        $grid->setResponse($response->view($options->get('wrapper_view', 'streams::default'), $data));
     }
 }

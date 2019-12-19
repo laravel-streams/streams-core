@@ -136,6 +136,8 @@ class {provider} extends AddonServiceProvider
      */
     public function register()
     {
+        parent::register(); // Register parent.
+
         // Run extra pre-boot registration logic here.
         // Use method injection or commands to bring in services.
     }
@@ -145,6 +147,8 @@ class {provider} extends AddonServiceProvider
      */
     public function boot()
     {
+        parent::boot(); // Boot parent.
+
         // Run extra post-boot registration logic here.
         // Use method injection or commands to bring in services.
     }

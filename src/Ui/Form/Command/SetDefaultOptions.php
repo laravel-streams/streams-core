@@ -68,11 +68,11 @@ class SetDefaultOptions
          * Default the form wrapper view as well.
          */
         if (!$this->builder->getFormOption('wrapper_view') && $this->builder->isAjax()) {
-            $this->builder->setFormOption('wrapper_view', 'streams::form');
+            $this->builder->setFormOption('wrapper_view', 'streams::ajax');
         }
 
         if (!$this->builder->getFormOption('wrapper_view')) {
-            $this->builder->setFormOption('wrapper_view', 'streams::blank');
+            $this->builder->setFormOption('wrapper_view', 'streams::default');
         }
 
         /*
