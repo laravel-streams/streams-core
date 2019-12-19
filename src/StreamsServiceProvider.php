@@ -703,7 +703,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             [$vendor, $type, $slug] = explode('.', $admin);
 
-            $path = base_path("vendor/{$vendor}/{$slug}-{$type}");
+            $path = app($admin)->getPath();
 
             $view->addNamespace('theme', $path . '/resources/views');
             $trans->addNamespace('theme', $path . '/resources/lang');
@@ -715,7 +715,7 @@ class StreamsServiceProvider extends ServiceProvider
         if ($default = config('streams::themes.default')) {
             [$vendor, $type, $slug] = explode('.', $default);
 
-            $path = base_path("vendor/{$vendor}/{$slug}-{$type}");
+            $path = app($default)->getPath();
 
             $view->addNamespace('theme', $path . '/resources/views');
             $trans->addNamespace('theme', $path . '/resources/lang');
