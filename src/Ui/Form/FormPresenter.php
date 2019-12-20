@@ -72,7 +72,7 @@ class FormPresenter extends Presenter
             $options['enctype'] = 'multipart/form-data';
         }
 
-        $options['data-moda'] = 'ajax';
+        $options['data-async'] = 'true';
 
         return $this->html->open($options);
     }

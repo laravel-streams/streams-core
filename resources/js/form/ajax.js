@@ -1,3 +1,34 @@
+(function (window, document) {
+
+    /**
+     * If the window location contains
+     * a has then try and open it's tab.
+     */
+    let initial = document.querySelector('[data-toggle="tab"][data-target="' + document.location.hash + '"]');
+
+    if (document.location.hash && initial) {
+        initial.click();
+    }
+
+    /**
+     * Listen for popstate changes
+     * to manage tabs that are open.
+     */
+    window.addEventListener("popstate", function (event) {
+
+        let popped = document.querySelector('[data-toggle="tab"][data-target="' + document.location.hash + '"]');
+
+        if (document.location.hash && popped) {
+
+            event.preventDefault();
+
+            popped.click();
+        }
+    });
+
+})(window, document);
+
+
 $(function () {
 
     // Focus on the first input.
@@ -19,7 +50,7 @@ $(function () {
 
                 return false;
             }
-            
+
             if (!data.redirect) {
                 return;
             }
