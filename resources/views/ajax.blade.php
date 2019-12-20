@@ -1,7 +1,11 @@
-@extends($template->get('layout', 'theme::layouts/blank'))
+@yield('content')
 
-@section('content')
-    {!! $content !!}
-@endsection
+@foreach (assets()->scripts("scripts.js", ["min"]) as $script)
+    {!! $script !!}
+@endforeach
 
-@include('theme::partials/assets')
+{!! $template->includes->render('scripts') !!}
+
+@foreach (assets()->styles("styles.css", ["min"]) as $style)
+    {!! $style !!}
+@endforeach

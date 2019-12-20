@@ -29,6 +29,7 @@ class ButtonRegistry
             'type' => 'default',
             'attributes' => [
                 'data-keymap' => 'c',
+                'data-modal' => 'close',
             ],
         ],
         /*
