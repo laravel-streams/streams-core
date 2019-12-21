@@ -72,7 +72,7 @@ class FormPresenter extends Presenter
             $options['enctype'] = 'multipart/form-data';
         }
 
-        if ($this->object->isAjax()) {
+        if ($this->object->getOption('ajax') === true) {
             $options['data-async'] = 'true';
         }
 

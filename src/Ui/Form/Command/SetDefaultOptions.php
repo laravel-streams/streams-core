@@ -88,5 +88,7 @@ class SetDefaultOptions
                 $module->getNamespace($stream->getSlug() . '.write')
             );
         }
+
+        $this->builder->setFormOption('ajax', $this->builder->isAjax());
     }
 }
