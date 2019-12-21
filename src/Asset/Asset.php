@@ -557,7 +557,8 @@ class Asset
          */
         if (in_array('parse', $filters) || $hint == 'css') {
             try {
-                $contents = (string) render($contents);
+                //dd($collection);
+                //$contents = (string) render($contents);
             } catch (\Exception $e) {
                 \Log::error($e->getMessage());
             }
@@ -570,11 +571,11 @@ class Asset
             $compressor->removeImportantComments();
             $compressor->keepSourceMapComment(false);
 
-            $contents = $compressor->run($contents);
+            //$contents = $compressor->run($contents);
         }
 
         if (in_array('min', $filters) && $hint == 'js') {
-            $contents = JSMin::minify($contents);
+            //$contents = JSMin::minify($contents);
         }
 
         $path = $this->directory . DIRECTORY_SEPARATOR . $path;
