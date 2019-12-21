@@ -2,6 +2,7 @@ export * from './agent';
 export * from './general';
 export * from './kindOf';
 export * from './objectify';
+export * from './prefixAndRegisterComponents';
 export * from './scroll';
 export * from './storage';
 export * from './styleToString';

@@ -11,7 +11,7 @@ export class ServiceProvider {
     }
 
     vuePlugin(plugin, options = {}) {
-        this.app.hooks.booted.tap('Platform', () => {
+        this.app.events.on('app:booted', () => {
             Vue.use(plugin, options);
         });
         return this;

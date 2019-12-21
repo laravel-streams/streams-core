@@ -6,3 +6,4 @@ export * from './Config';
 export * from './Dispatcher';
 export * from './PlatformServiceProvider';
 export * from './ServiceProvider';
+export * from './VuePlugin';

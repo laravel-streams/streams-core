@@ -1,14 +1,14 @@
 {
-    "private": true,
-    "scripts": {
-        "dev": "npm run development",
-        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch-poll": "npm run watch -- --watch-poll",
-        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    "name": "@anomaly/streams-platform",
+    "version": "1.0.0",
+    "main": "resources/src/index.js",
+    "pyro": {
+        "srcPath": "resources/src",
+        "entrypoints": [
+            {"path": "index.js", "provider": "PlatformModuleServiceProvider"}
+        ]
     },
+    "scripts": {},
     "dependencies": {
         "inversify": "^5.0.1",
         "inversify-inject-decorators": "^3.1.0",
@@ -20,17 +20,8 @@
         "vue": "^2.6.11"
     },
     "devDependencies": {
-        "@babel/plugin-proposal-decorators": "^7.7.4",
-        "@babel/plugin-proposal-class-properties": "^7.7.4",
         "@types/js-cookie": "^2.2.4",
         "@types/lodash": "^4.14.149",
-        "@types/lz-string": "^1.3.33",
-        "@types/webpack": "^4.41.0",
-        "cross-env": "^5.1",
-        "laravel-mix": "^4.0.12",
-        "resolve-url-loader": "^2.3.1",
-        "sass": "^1.16.0",
-        "sass-loader": "^7.1.0",
-        "vue-template-compiler": "^2.6.11"
+        "@types/lz-string": "^1.3.33"
     }
 }

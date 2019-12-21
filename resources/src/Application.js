@@ -164,6 +164,7 @@ export class Application extends Container {
 
 
     start = async (elementOrSelector='#app') => {
+        log('start',{elementOrSelector,data:this.data,Root:this.Root})
         this.events.emit('app:start', elementOrSelector, {})
         this.root = new this.Root({
             data: () => {
@@ -173,6 +174,7 @@ export class Application extends Container {
         });
         this.root.$mount(elementOrSelector);
         this.events.emit('app:started')
+        log('started', this.root)
     }
     //
     // public sta123rt = async (mountPoint: string | HTMLElement = null, options: ComponentOptions<Vue> = {}) => {
