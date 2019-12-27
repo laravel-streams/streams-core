@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Asset;
+<?php
+
+namespace Anomaly\Streams\Platform\Asset;
 
 use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Contracts\Config\Repository;
@@ -145,13 +147,14 @@ class AssetPaths
     public function realPath($path)
     {
         if (str_contains($path, '::')) {
+
             list($namespace, $path) = explode('::', $path);
 
             if (!isset($this->paths[$namespace])) {
                 throw new \Exception("Path hint [{$namespace}::{$path}] does not exist!");
             }
 
-            $path = rtrim($this->paths[$namespace], '/') . '/' . $path;
+            $path = rtrim($this->paths[$namespace], '/\\') . DIRECTORY_SEPARATOR . $path;
         }
 
         if (strpos($path, '?v=')) {

@@ -97,24 +97,15 @@ class Asset
     protected $template;
 
     /**
-     * The stream application.
-     *
-     * @var Application
-     */
-    protected $application;
-
-    /**
      * The asset filters.
      *
      * @var AssetFilters
      */
     protected $filters;
 
-
     /**
      * Create a new Asset instance.
      *
-     * @param Application $application
      * @param ThemeCollection $themes
      * @param MountManager $manager
      * @param AssetFilters $filters
@@ -125,7 +116,6 @@ class Asset
      * @param HtmlBuilder $html
      */
     public function __construct(
-        Application $application,
         ThemeCollection $themes,
         MountManager $manager,
         AssetFilters $filters,
@@ -143,7 +133,6 @@ class Asset
         $this->filters     = $filters;
         $this->manager     = $manager;
         $this->template    = $template;
-        $this->application = $application;
     }
 
     /**
@@ -512,6 +501,13 @@ class Asset
             return $collection;
         }
 
+        /*
+         * If the asset is public just use it.
+         */
+        if (starts_with($collection, 'public::')) {
+            return $this->paths->outputPath($this->paths->realPath($collection));
+        }
+
         $path = $this->paths->outputPath($collection);
 
         if ($this->shouldPublish($path, $collection, $filters)) {
@@ -628,6 +624,10 @@ class Asset
     protected function shouldPublish($path, $collection, array $filters = [])
     {
         $path = ltrim($path, '/\\');
+
+        if (starts_with($collection, 'public::')) {
+            return false;
+        }
 
         if (starts_with($path, 'http')) {
             return false;
