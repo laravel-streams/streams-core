@@ -23,6 +23,7 @@ mix
     .copyDirectory('resources/js/modal', 'assets/js/modal')
     .copyDirectory('resources/js/modal', 'assets/js/modal')
     .copyDirectory('resources/js/table', 'assets/js/table')
+    .sass('resources/scss/fonts.scss', 'assets/css')
     .options({
         processCssUrls: false,
     })

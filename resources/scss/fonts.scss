@@ -1,0 +1,22 @@
+/*!
+ *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
+ *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+ */
+
+$fa-font-path : '../fonts/fontawesome';
+
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/variables";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/regular";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/solid";
+
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/mixins";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/core";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/larger";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/fixed-width";
+//@import '../../node_modules/@fortawesome/fontawesome-free/scss/list';
+//@import '../../node_modules/@fortawesome/fontawesome-free/scss/bordered-pulled';
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/animated";
+//@import '../../node_modules/@fortawesome/fontawesome-free/scss/rotated-flipped';
+//@import '../../node_modules/@fortawesome/fontawesome-free/scss/stacked';
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/icons";
+//@import '../../node_modules/@fortawesome/fontawesome-free/scss/screen-reader';
