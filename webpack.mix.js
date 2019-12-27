@@ -1,45 +1,32 @@
 let mix = require('laravel-mix');
 
-/** @var {Configuration} webpackConfig */
-const webpackConfig = {
-    output: {
-        libraryTarget: 'window',
-        library: ['streams', 'core'] // window.streams.core
-    },
-    externals: {
-        vue: 'Vue',
-        lodash: '_' // for now its okay. should be imported while using babel-imports-plugin.
-    }
-}
-
-/** @var {Configuration} babelConfig */
-const babelConfig = {
-    plugins: [
-        ["@babel/plugin-proposal-decorators", {
-            "legacy": true
-        }],
-        ["@babel/plugin-proposal-class-properties", {
-            "loose": true
-        }]
-    ]
-}
+/*
+ |--------------------------------------------------------------------------
+ | Mix Asset Management
+ |--------------------------------------------------------------------------
+ |
+ | Mix provides a clean, fluent API for defining some Webpack build steps
+ | for your Laravel application. By default, we are compiling the Sass
+ | file for the application as well as bundling up all the JS files.
+ |
+ */
 
 mix
-    .copy(
-        'node_modules/lodash/lodash.min.js',
-        'resources/js/lodash.js'
+    .copyDirectory(
+        'node_modules/@fortawesome/fontawesome-free/webfonts',
+        'assets/fonts/fontawesome'
     )
-    .copy(
-        'node_modules/vue/dist/vue.js',
-        'resources/js/vue.js'
-    )
-    .babelConfig(babelConfig)
-    .webpackConfig(webpackConfig)
-    .js('resources/src/index.js', 'resources/js/streams_platform.js')
-    .sourceMaps()
+    .copyDirectory('resources/js/cp', 'assets/js/cp')
+    .copyDirectory('resources/js/form', 'assets/js/form')
+    .copyDirectory('resources/js/grid', 'assets/js/grid')
+    .copyDirectory('resources/js/tree', 'assets/js/tree')
+    .copyDirectory('resources/js/modal', 'assets/js/modal')
+    .copyDirectory('resources/js/modal', 'assets/js/modal')
+    .copyDirectory('resources/js/table', 'assets/js/table')
     .options({
-        processCssUrls: false
-    });
+        processCssUrls: false,
+    })
+    .sourceMaps();
 
 // Full API
 // mix.js(src, output);

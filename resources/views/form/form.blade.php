@@ -1,8 +1,8 @@
-{{ assets('scripts.js', 'streams::js/form/form.js') }}
-{{ assets('scripts.js', 'streams::js/form/tabs.js') }}
-{{ assets('scripts.js', 'streams::js/form/lock.js') }}
-{{ assets('scripts.js', 'streams::js/form/keyboard.js') }}
-{{--{{ assets('scripts.js', 'streams::js/form/translations.js') }}--}}
+{{ assets('scripts.js', 'public::vendor/anomaly/core/js/form/form.js') }}
+{{ assets('scripts.js', 'public::vendor/anomaly/core/js/form/tabs.js') }}
+{{ assets('scripts.js', 'public::vendor/anomaly/core/js/form/lock.js') }}
+{{ assets('scripts.js', 'public::vendor/anomaly/core/js/form/keyboard.js') }}
+{{--{{ assets('scripts.js', 'public::vendor/anomaly/core/js/form/translations.js') }}--}}
 
 @section('content')
     <div class="form__wrapper">
