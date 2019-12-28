@@ -16,14 +16,19 @@ mix
         'node_modules/@fortawesome/fontawesome-free/webfonts',
         'assets/fonts/fontawesome'
     )
-    .copyDirectory('resources/js/cp', 'assets/js/cp')
     .copyDirectory('resources/js/form', 'assets/js/form')
     .copyDirectory('resources/js/grid', 'assets/js/grid')
     .copyDirectory('resources/js/tree', 'assets/js/tree')
     .copyDirectory('resources/js/modal', 'assets/js/modal')
-    .copyDirectory('resources/js/modal', 'assets/js/modal')
     .copyDirectory('resources/js/table', 'assets/js/table')
     .sass('resources/scss/fonts.scss', 'assets/css')
+    .js([
+        'resources/js/polyfills.js',
+        'resources/js/app.js',
+
+        'resources/js/click.js',
+        'resources/js/keyboard.js',
+    ], 'assets/js/cp.js')
     .options({
         processCssUrls: false,
     })
