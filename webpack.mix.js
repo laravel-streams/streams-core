@@ -25,10 +25,9 @@ mix
         'resources/js/cp/keyboard.js',
     ], 'assets/js/cp.js')
     .js([
-        'resources/js/form/ajax.js',
-        'resources/js/form/form.js',
         'resources/js/form/lock.js',
         'resources/js/form/tabs.js',
+        'resources/js/form/async.js',
         'resources/js/form/keyboard.js',
         'resources/js/form/translations.js',
     ], 'assets/js/form.js')
@@ -40,6 +39,7 @@ mix
     ], 'assets/js/table.js')
     .copyDirectory('resources/js/grid', 'assets/js/grid')
     .copyDirectory('resources/js/tree', 'assets/js/tree')
+    .copy('node_modules/noty/lib/noty.js', 'assets/js')
     .options({
         processCssUrls: false,
     })

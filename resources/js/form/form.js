@@ -1,17 +1,16 @@
 (function () {
 
-    document.addEventListener('submit', function (event) {
+    // Shortcut this
+    let inputs = Array.prototype.slice.call(
+        document.querySelectorAll('.modal form input, form input')
+    );
 
-        if (!event.target.matches('[data-async="true"]')) {
-            return;
+    // Focus on the first input input.
+    inputs.some(function (input) {
+        if (input.type !== 'hidden') {
+            input.focus();
+            return true;
         }
-
-        event.preventDefault();
-
-        alert('Submitting async form.');
-
-        return false;
     });
-
 
 })();

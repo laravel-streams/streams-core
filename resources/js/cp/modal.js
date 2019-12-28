@@ -81,6 +81,7 @@
         let modal = new app.tingle.modal({
             closeMethods: ['overlay', 'button', 'escape'],
             closeLabel: 'Close',
+            cssClass: ['modal'],
         });
 
         /**
@@ -109,14 +110,19 @@
                  * Focus on the first visible input.
                  */
                 let inputs = Array.prototype.slice.call(
-                    modal.modalBoxContent.querySelectorAll('.modal__filter input')
+                    modal.modalBoxContent.querySelectorAll('form input')
                 );
 
-                if (first = inputs.find((input) => (input.offsetWidth > 0 && input.offsetHeight > 0))) {
-                    first.focus();
-                }
+                // Focus on the first input input.
+                inputs.some(function (input) {
+                    if (input.type !== 'hidden') {
+                        input.focus();
+                        return true;
+                    }
+                });
             }).catch(function (error) {
                 alert(error);
             });
     });
+
 })();
