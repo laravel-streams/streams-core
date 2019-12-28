@@ -81,7 +81,6 @@
         let modal = new app.tingle.modal({
             closeMethods: ['overlay', 'button', 'escape'],
             closeLabel: 'Close',
-            cssClass: ['modal'],
         });
 
         /**
@@ -120,4 +119,4 @@
                 alert(error);
             });
     });
-});
+})();

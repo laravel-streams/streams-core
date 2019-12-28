@@ -220,27 +220,15 @@ eval("/**\n * Polyfill for matches()\n */\nif (!Element.prototype.matches) {\n  
 
 /***/ }),
 
-/***/ "./resources/scss/fonts.scss":
-/*!***********************************!*\
-  !*** ./resources/scss/fonts.scss ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-eval("// removed by extract-text-webpack-plugin//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9yZXNvdXJjZXMvc2Nzcy9mb250cy5zY3NzPzU3ODYiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEiLCJmaWxlIjoiLi9yZXNvdXJjZXMvc2Nzcy9mb250cy5zY3NzLmpzIiwic291cmNlc0NvbnRlbnQiOlsiLy8gcmVtb3ZlZCBieSBleHRyYWN0LXRleHQtd2VicGFjay1wbHVnaW4iXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./resources/scss/fonts.scss\n");
-
-/***/ }),
-
 /***/ 0:
-/*!*******************************************************************************************!*\
-  !*** multi ./resources/js/polyfills.js ./resources/js/app.js ./resources/scss/fonts.scss ***!
-  \*******************************************************************************************/
+/*!***************************************************************!*\
+  !*** multi ./resources/js/polyfills.js ./resources/js/app.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! /Users/ryanthompson/Sites/streams.local/vendor/anomaly/streams-platform/resources/js/polyfills.js */"./resources/js/polyfills.js");
-__webpack_require__(/*! /Users/ryanthompson/Sites/streams.local/vendor/anomaly/streams-platform/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/ryanthompson/Sites/streams.local/vendor/anomaly/streams-platform/resources/scss/fonts.scss */"./resources/scss/fonts.scss");
+module.exports = __webpack_require__(/*! /Users/ryanthompson/Sites/streams.local/vendor/anomaly/streams-platform/resources/js/app.js */"./resources/js/app.js");
 
 
 /***/ })

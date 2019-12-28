@@ -38,13 +38,8 @@ mix
         'resources/js/table/keyboard.js',
         'resources/js/table/sortable.js',
     ], 'assets/js/table.js')
-    .copyDirectory(
-        'node_modules/@fortawesome/fontawesome-free/webfonts',
-        'assets/fonts/fontawesome'
-    )
     .copyDirectory('resources/js/grid', 'assets/js/grid')
     .copyDirectory('resources/js/tree', 'assets/js/tree')
-    .sass('resources/scss/fonts.scss', 'assets/css')
     .options({
         processCssUrls: false,
     })

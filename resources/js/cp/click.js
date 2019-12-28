@@ -1,6 +1,5 @@
 (function () {
 
-
     /**
      * Make sure it's a click command.
      */
@@ -30,4 +29,4 @@
         target.click();
     }
 
-});
+})();

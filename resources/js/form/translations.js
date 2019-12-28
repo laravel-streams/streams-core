@@ -120,4 +120,4 @@ let storageAvailable = function (type) {
             });
         }
     });
-});
+})();

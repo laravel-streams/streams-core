@@ -99,6 +99,8 @@ $(function () {
             item.find('.count').first().remove();
         }
 
-        Cookies.set('tree', JSON.stringify(collapsed), {path: window.location.pathname});
+        Cookies.set('tree', JSON.stringify(collapsed), {
+            path: window.location.pathname
+        });
     });
-});
+})();
