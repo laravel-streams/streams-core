@@ -1,5 +1,5 @@
-(function (window, document) {
+(function () {
 
     // Go!
-    
-})(window, document);
+
+});

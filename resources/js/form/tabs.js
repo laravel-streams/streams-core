@@ -1,4 +1,4 @@
-(function (window, document) {
+(function () {
 
     document.addEventListener('click', function (event) {
 
@@ -55,4 +55,4 @@
         }
     });
 
-})(window, document);
+});

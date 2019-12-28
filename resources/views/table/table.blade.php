@@ -1,8 +1,4 @@
 {{ assets('scripts.js', 'public::vendor/anomaly/core/js/table/table.js') }}
-{{ assets('scripts.js', 'public::vendor/anomaly/core/js/table/actions.js') }}
-{{ assets('scripts.js', 'public::vendor/anomaly/core/js/table/keyboard.js') }}
-{{ assets('scripts.js', 'public::vendor/anomaly/core/js/table/sortable.js') }}
-{{-- Combine these into single table.js --}}
 
 <div class="table__wrapper" id="{{ $table->prefix() }}table-instance">
 

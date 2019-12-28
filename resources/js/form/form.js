@@ -1,4 +1,4 @@
-(function (window, document) {
+(function () {
 
     document.addEventListener('submit', function (event) {
 
@@ -14,4 +14,4 @@
     });
 
 
-})(window, document);
+});

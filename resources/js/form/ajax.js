@@ -1,4 +1,4 @@
-(function (window, document) {
+(function () {
 
     /**
      * If the window location contains
@@ -26,7 +26,7 @@
         }
     });
 
-})(window, document);
+});
 
 
 $(function () {

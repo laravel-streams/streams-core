@@ -1,4 +1,4 @@
-(function (window, document) {
+(function () {
 
     let tables = Array.prototype.slice.call(
         document.querySelectorAll('table.table--sortable')
@@ -19,4 +19,4 @@
             }
         });
     });
-})(window, document);
+});

@@ -12,23 +12,39 @@ let mix = require('laravel-mix');
  */
 
 mix
+    .js([
+        'resources/js/polyfills.js',
+        'resources/js/app.js',
+    ], 'assets/js/app.js')
+    .js([
+        'resources/js/cp/click.js',
+        'resources/js/cp/modal.js',
+        'resources/js/cp/filter.js',
+        'resources/js/cp/prompt.js',
+        'resources/js/cp/confirm.js',
+        'resources/js/cp/keyboard.js',
+    ], 'assets/js/cp.js')
+    .js([
+        'resources/js/form/ajax.js',
+        'resources/js/form/form.js',
+        'resources/js/form/lock.js',
+        'resources/js/form/tabs.js',
+        'resources/js/form/keyboard.js',
+        'resources/js/form/translations.js',
+    ], 'assets/js/form.js')
+    .js([
+        'resources/js/table/table.js',
+        'resources/js/table/actions.js',
+        'resources/js/table/keyboard.js',
+        'resources/js/table/sortable.js',
+    ], 'assets/js/table.js')
     .copyDirectory(
         'node_modules/@fortawesome/fontawesome-free/webfonts',
         'assets/fonts/fontawesome'
     )
-    .copyDirectory('resources/js/form', 'assets/js/form')
     .copyDirectory('resources/js/grid', 'assets/js/grid')
     .copyDirectory('resources/js/tree', 'assets/js/tree')
-    .copyDirectory('resources/js/modal', 'assets/js/modal')
-    .copyDirectory('resources/js/table', 'assets/js/table')
     .sass('resources/scss/fonts.scss', 'assets/css')
-    .js([
-        'resources/js/polyfills.js',
-        'resources/js/app.js',
-
-        'resources/js/click.js',
-        'resources/js/keyboard.js',
-    ], 'assets/js/cp.js')
     .options({
         processCssUrls: false,
     })

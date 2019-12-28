@@ -39,7 +39,6 @@ app.mousetrap.prototype.stopCallback = function () {
 /**
  * ESC
  */
-
 app.mousetrap.bind(['esc'], function (event) {
 
     if (!event.target.matches('input, textarea, select, button')) {

@@ -1,4 +1,4 @@
-(function (window, document) {
+(function () {
 
     // Shortcut this
     let filters = Array.prototype.slice.call(
@@ -13,4 +13,4 @@
         }
     });
 
-})(window, document);
+});

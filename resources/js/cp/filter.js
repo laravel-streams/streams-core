@@ -1,4 +1,4 @@
-(function (window, document) {
+(function () {
 
     /**
      * Show the specified item.
@@ -167,4 +167,4 @@
         }
     });
 
-})(window, document);
+});

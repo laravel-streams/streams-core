@@ -1,8 +1,4 @@
-{{ assets('scripts.js', 'public::vendor/anomaly/core/js/form/form.js') }}
-{{ assets('scripts.js', 'public::vendor/anomaly/core/js/form/tabs.js') }}
-{{ assets('scripts.js', 'public::vendor/anomaly/core/js/form/lock.js') }}
-{{ assets('scripts.js', 'public::vendor/anomaly/core/js/form/keyboard.js') }}
-{{--{{ assets('scripts.js', 'public::vendor/anomaly/core/js/form/translations.js') }}--}}
+{{ assets('scripts.js', 'public::vendor/anomaly/core/js/form.js') }}
 
 @section('content')
     <div class="form__wrapper">
