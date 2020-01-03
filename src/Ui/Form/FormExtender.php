@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Illuminate\Contracts\Container\Container;
@@ -64,6 +66,10 @@ class FormExtender
             $factory->extend(
                 $rule,
                 function ($attribute, $value, $parameters, Validator $validator) use ($handler, $builder, $fieldType) {
+
+                    if ($prefix = $builder->getFormOption('prefix')) {
+                        $attribute = preg_replace("/^{$prefix}/", '', $attribute, 1);
+                    }
 
                     $fieldType = $builder->getFormField($attribute) ?: $fieldType;
 
