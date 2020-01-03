@@ -26,7 +26,7 @@ class ButtonInput
         self::resolve($builder);
         self::normalize($builder);
         self::merge($builder);
-        dd($builder->getButtons());
+
         ButtonGuesser::guess($builder);
     }
 
