@@ -152,6 +152,29 @@ class Button implements ButtonInterface
     }
 
     /**
+     * Set the primary flag.
+     *
+     * @param bool $primary
+     * @return $this;
+     */
+    public function setPrimary($primary)
+    {
+        $this->primary = $primary;
+
+        return $this;
+    }
+
+    /**
+     * Return the primary flag.
+     *
+     * @return bool
+     */
+    public function isPrimary()
+    {
+        return $this->primary;
+    }
+
+    /**
      * Get the entry.
      *
      * @return mixed|null
