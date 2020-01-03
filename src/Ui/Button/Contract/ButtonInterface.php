@@ -73,6 +73,20 @@ interface ButtonInterface
     public function setPermission($permission);
 
     /**
+     * Set the primary flag.
+     *
+     * @param bool $primary
+     */
+    public function setPrimary($primary);
+
+    /**
+     * Return the primary flag.
+     *
+     * @return bool
+     */
+    public function isPrimary();
+
+    /**
      * Set the URL.
      *
      * @param $url

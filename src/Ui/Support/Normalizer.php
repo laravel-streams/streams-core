@@ -124,23 +124,4 @@ class Normalizer
 
         return $input;
     }
-
-    /**
-     * Normalize dropdons.
-     *
-     * @param array $input
-     * @param array $default
-     */
-    public static function dropdowns(array $input, string $component = 'item')
-    {
-        foreach ($input as $key => &$item) {
-            if (isset($item['dropdown'])) {
-                // wtf.
-                //$item['dropdown'] = self::start($item['dropdown'], $component, 'slug');
-                //$item['dropdown'] = self::start($item['dropdown'], $component, 'slug');
-            }
-        }
-
-        return $input;
-    }
 }

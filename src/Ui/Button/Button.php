@@ -71,25 +71,11 @@ class Button implements ButtonInterface
     protected $enabled = true;
 
     /**
-     * The button's dropdown.
-     *
-     * @var array
-     */
-    protected $dropdown = [];
-
-    /**
-     * The dropup flag.
+     * The primary flag.
      *
      * @var string
      */
-    protected $dropup = false;
-
-    /**
-     * The parent dropdown.
-     *
-     * @var null|string
-     */
-    protected $parent = null;
+    protected $primary = false;
 
     /**
      * The entry object.
@@ -117,95 +103,6 @@ class Button implements ButtonInterface
     public function close()
     {
         return '</' . $this->getTag() . '>';
-    }
-
-    /**
-     * Return whether the button is a dropdown or not.
-     *
-     * @return bool
-     */
-    public function isDropdown()
-    {
-        return (bool) $this->getDropdown();
-    }
-
-    /**
-     * Get the dropdown.
-     *
-     * @return array
-     */
-    public function getDropdown()
-    {
-        return $this->dropdown;
-    }
-
-    /**
-     * Set the dropdown.
-     *
-     * @param  array $dropdown
-     * @return $this
-     */
-    public function setDropdown(array $dropdown)
-    {
-        $this->dropdown = $dropdown;
-
-        return $this;
-    }
-
-    /**
-     * Return whether the button is a dropup or not.
-     *
-     * @return bool
-     */
-    public function isDropup()
-    {
-        return $this->dropup;
-    }
-
-    /**
-     * Set dropup flag.
-     *
-     * @param  $dropup
-     * @return $this
-     */
-    public function setDropup($dropup)
-    {
-        $this->dropup = $dropup;
-
-        return $this;
-    }
-
-    /**
-     * Get the parent.
-     *
-     * @return bool
-     */
-    public function hasParent()
-    {
-        return (bool) $this->getParent();
-    }
-
-    /**
-     * Get the parent.
-     *
-     * @return string|null
-     */
-    public function getParent()
-    {
-        return $this->parent;
-    }
-
-    /**
-     * Set the parent.
-     *
-     * @param $parent
-     * @return $this
-     */
-    public function setParent($parent)
-    {
-        $this->parent = $parent;
-
-        return $this;
     }
 
     /**
