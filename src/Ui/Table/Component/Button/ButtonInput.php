@@ -2,8 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
 
-use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
+use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
 
 /**
  * Class ButtonInput
@@ -25,7 +26,7 @@ class ButtonInput
         self::resolve($builder);
         self::normalize($builder);
         self::merge($builder);
-
+        dd($builder->getButtons());
         ButtonGuesser::guess($builder);
     }
 
@@ -103,6 +104,8 @@ class ButtonInput
                 $button['slug'] = $key;
             }
         }
+
+        $buttons = Normalizer::attributes($buttons);
 
         $builder->setButtons($buttons);
     }
