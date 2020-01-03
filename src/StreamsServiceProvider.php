@@ -206,11 +206,11 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatchNow(new ConfigureFileCacheStore());
         $this->dispatchNow(new ConfigureTranslator());
         $this->dispatchNow(new AutoloadEntryModels());
+        $this->overrideUrlSingleton();
         $this->dispatchNow(new AddAssetNamespaces());
         $this->dispatchNow(new AddImageNamespaces());
         $this->dispatchNow(new ConfigureRequest());
         $this->dispatchNow(new ConfigureScout());
-        $this->overrideUrlSingleton();
 
         // Observe our base models.
         EntryModel::observe(EntryObserver::class);
