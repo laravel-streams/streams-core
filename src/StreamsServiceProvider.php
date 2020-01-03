@@ -198,6 +198,11 @@ class StreamsServiceProvider extends ServiceProvider
         // @todo replace with single addons table
         $this->app->instance('addons', $modules->merge($extensions));
 
+        // Register the guessing policy for policies..
+        \Gate::guessPolicyNamesUsing(function ($model) {
+            dd(__FILE__ . ' - GATE FOR: ' . $model);
+        });
+
         /**
          * Register core commands.
          */
