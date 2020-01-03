@@ -211,6 +211,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatchNow(new AddImageNamespaces());
         $this->dispatchNow(new ConfigureRequest());
         $this->dispatchNow(new ConfigureScout());
+        $this->overrideUrlSingleton();
 
         // Observe our base models.
         EntryModel::observe(EntryObserver::class);
@@ -472,4 +473,40 @@ class StreamsServiceProvider extends ServiceProvider
             ]
         );
     }
+
+    protected function overrideUrlSingleton()
+    {
+        $this->app->singleton('url', function ($app) {
+            $routes = $app['router']->getRoutes();
+
+            $url = new \Anomaly\Streams\Platform\Routing\UrlGenerator(
+                $routes, $app->rebinding(
+                    'request', function ($app, $request) {
+                        $app['url']->setRequest($request);
+                    }
+                )
+            );
+
+            // Next we will set a few service resolvers on the URL generator so it can
+            // get the information it needs to function. This just provides some of
+            // the convenience features to this URL generator like "signed" URLs.
+            $url->setSessionResolver(function () {
+                return $this->app['session'];
+            });
+
+            $url->setKeyResolver(function () {
+                return $this->app->make('config')->get('app.key');
+            });
+
+            // If the route collection is "rebound", for example, when the routes stay
+            // cached for the application, we will need to rebind the routes on the
+            // URL generator instance so it has the latest version of the routes.
+            $app->rebinding('routes', function ($app, $routes) {
+                $app['url']->setRoutes($routes);
+            });
+
+            return $url;
+        });
+    }
+
 }
