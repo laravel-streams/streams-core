@@ -122,7 +122,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public $singletons = [
         'Illuminate\Database\Migrations\Migrator'                                            => 'Anomaly\Streams\Platform\Database\Migration\Migrator',
-        'Anomaly\Streams\Platform\Routing\UrlGenerator'                                      => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
+        'Anomaly\Streams\Platform\Routing\UrlGenerator'                                      => 'url',
         'Intervention\Image\ImageManager'                                                    => 'image',
         'League\Flysystem\MountManager'                                                      => 'League\Flysystem\MountManager',
         'Illuminate\Database\Seeder'                                                         => 'Anomaly\Streams\Platform\Database\Seeder\Seeder',
