@@ -43,6 +43,10 @@ class Build extends Command
 
         $console->call('streams:compile');
 
+        $console->call('assets:publish', []);
+
+        $this->info('Assets published.');
+
         $this->info('Building search index.');
 
         $console->call('streams:index', ['--flush' => true]);
