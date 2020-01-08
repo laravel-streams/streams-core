@@ -210,7 +210,8 @@ class StreamsServiceProvider extends ServiceProvider
             $this->commands([
 
                 // Asset Commands
-                \Anomaly\Streams\Platform\Asset\Console\Clear::class,
+                \Anomaly\Streams\Platform\Asset\Console\AssetsClear::class,
+                \Anomaly\Streams\Platform\Asset\Console\AssetsPublish::class,
 
                 // Installer Commands
                 \Anomaly\Streams\Platform\Installer\Console\Install::class,

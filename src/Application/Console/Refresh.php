@@ -50,6 +50,10 @@ class Refresh extends Command
 
         $this->info('Assets cache cleared.');
 
+        $console->call('assets:publish', []);
+
+        $this->info('Addon assets published.');
+
         $console->call('cache:clear', []);
 
         $this->info('Cache cleared.');

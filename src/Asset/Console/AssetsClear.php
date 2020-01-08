@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Asset\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Asset\Console;
 
 use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Console\Command;
@@ -6,13 +8,13 @@ use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
- * Class Clear
+ * Class AssetsClear
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Clear extends Command
+class AssetsClear extends Command
 {
 
     /**
