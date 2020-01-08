@@ -42,6 +42,7 @@ class TypeGuesser
              * "new" and move the rest to the text.
              */
             if (isset($button['button']) && starts_with($button['button'], 'new_')) {
+
                 if (!isset($button['text'])) {
 
                     $text = $module->getNamespace('button.' . $button['button']);
@@ -55,6 +56,7 @@ class TypeGuesser
                 $button['slug'] = $button['button'];
 
                 array_set($button, 'button', substr($button['button'], 0, 3));
+                array_set($button, 'primary', array_get($button, 'primary', true));
             }
 
             /*
