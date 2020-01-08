@@ -81,11 +81,13 @@ class ButtonRegistry
             'text' => 'streams::button.create',
             'icon' => 'fa fa-asterisk',
             'type' => 'success',
+            'primary' => true,
         ],
         'new'           => [
             'text' => 'streams::button.new',
             'icon' => 'fa fa-plus',
             'type' => 'success',
+            'primary' => true,
             'attributes' => [
                 'data-keymap' => 'n',
             ],
@@ -112,6 +114,7 @@ class ButtonRegistry
             'text' => 'streams::button.add_field',
             'icon' => 'fa fa-plus',
             'type' => 'success',
+            'primary' => true,
         ],
         'add_selected'       => [
             'text' => 'streams::button.add_selected',
@@ -122,6 +125,7 @@ class ButtonRegistry
             'text' => 'streams::button.assign_fields',
             'icon' => 'fa fa-plus',
             'type' => 'success',
+            'primary' => true,
         ],
         'send'          => [
             'text' => 'streams::button.send',

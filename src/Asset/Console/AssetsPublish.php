@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Asset\Console;
 
 use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\StreamsServiceProvider;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Filesystem\Filesystem;
@@ -41,6 +42,8 @@ class AssetsPublish extends Command
      */
     public function handle(Kernel $console)
     {
+        $console->call('vendor:publish', ['--tag' => 'assets', '--provider' => StreamsServiceProvider::class, '--force' => true]);
+
         foreach (app('addon.collection')->keys() as $namespace) {
 
             $parts = addon_map($namespace);
