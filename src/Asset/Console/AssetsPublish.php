@@ -54,21 +54,9 @@ class AssetsPublish extends Command
 
             $provider = implode("\\", $parts);
 
-            $console->call('vendor:publish', ['--tag' => 'assets', '--provider' => $provider]);
+            $console->call('vendor:publish', ['--tag' => 'assets', '--provider' => $provider, '--force' => true]);
         }
 
         $this->info('Addon assets have been published!');
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [
-            ['force', null, InputOption::VALUE_NONE, 'Force published asset overrides.'],
-        ];
     }
 }

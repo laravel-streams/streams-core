@@ -56,6 +56,13 @@ class AddonServiceProvider extends ServiceProvider
     public $routes = [];
 
     /**
+     * Addon assets.
+     *
+     * @var array
+     */
+    public $assets = [];
+
+    /**
      * Addon API routes.
      *
      * @var array

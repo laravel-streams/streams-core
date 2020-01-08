@@ -30,6 +30,34 @@ class ButtonCollection extends Collection
     }
 
     /**
+     * Return only primary buttons.
+     *
+     * @return ButtonCollection
+     */
+    public function primary()
+    {
+        return $this->filter(
+            function (ButtonInterface $button) {
+                return $button->isPrimary();
+            }
+        );
+    }
+
+    /**
+     * Return only secondary buttons.
+     *
+     * @return ButtonCollection
+     */
+    public function secondary()
+    {
+        return $this->filter(
+            function (ButtonInterface $button) {
+                return !$button->isPrimary();
+            }
+        );
+    }
+
+    /**
      * Render the actions.
      *
      * @return string

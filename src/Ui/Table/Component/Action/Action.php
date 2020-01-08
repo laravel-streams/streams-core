@@ -3,13 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Button\Button;
-use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
-use Anomaly\Streams\Platform\Ui\Contract\HtmlAttributesInterface;
-use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
-use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
-use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
-use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 
 /**
  * Class Action
