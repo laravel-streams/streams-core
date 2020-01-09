@@ -91,8 +91,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public $bindings = [
         'Illuminate\Contracts\Debug\ExceptionHandler'                                    => 'Anomaly\Streams\Platform\Exception\ExceptionHandler',
-        'Illuminate\Routing\UrlGenerator'                                                => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
-        'Illuminate\Contracts\Routing\UrlGenerator'                                      => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
         'Illuminate\Database\Migrations\MigrationRepositoryInterface'                    => 'Anomaly\Streams\Platform\Database\Migration\MigrationRepository',
         'Anomaly\Streams\Platform\Entry\EntryModel'                                      => 'Anomaly\Streams\Platform\Entry\EntryModel',
         'Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface'               => 'Anomaly\Streams\Platform\Entry\EntryRepository',
@@ -124,8 +122,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public $singletons = [
         'Illuminate\Database\Migrations\Migrator'                                            => 'Anomaly\Streams\Platform\Database\Migration\Migrator',
-        'Illuminate\Contracts\Routing\UrlGenerator'                                          => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
-        'Anomaly\Streams\Platform\Routing\UrlGenerator'                                      => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
+        'Anomaly\Streams\Platform\Routing\UrlGenerator'                                      => 'url',
         'Intervention\Image\ImageManager'                                                    => 'image',
         'League\Flysystem\MountManager'                                                      => 'League\Flysystem\MountManager',
         'Illuminate\Database\Seeder'                                                         => 'Anomaly\Streams\Platform\Database\Seeder\Seeder',
@@ -209,6 +206,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatchNow(new ConfigureFileCacheStore());
         $this->dispatchNow(new ConfigureTranslator());
         $this->dispatchNow(new AutoloadEntryModels());
+        $this->overrideUrlSingleton();
         $this->dispatchNow(new AddAssetNamespaces());
         $this->dispatchNow(new AddImageNamespaces());
         $this->dispatchNow(new ConfigureRequest());
@@ -471,4 +469,40 @@ class StreamsServiceProvider extends ServiceProvider
             ]
         );
     }
+
+    protected function overrideUrlSingleton()
+    {
+        $this->app->singleton('url', function ($app) {
+            $routes = $app['router']->getRoutes();
+
+            $url = new \Anomaly\Streams\Platform\Routing\UrlGenerator(
+                $routes, $app->rebinding(
+                    'request', function ($app, $request) {
+                        $app['url']->setRequest($request);
+                    }
+                )
+            );
+
+            // Next we will set a few service resolvers on the URL generator so it can
+            // get the information it needs to function. This just provides some of
+            // the convenience features to this URL generator like "signed" URLs.
+            $url->setSessionResolver(function () {
+                return $this->app['session'];
+            });
+
+            $url->setKeyResolver(function () {
+                return $this->app->make('config')->get('app.key');
+            });
+
+            // If the route collection is "rebound", for example, when the routes stay
+            // cached for the application, we will need to rebind the routes on the
+            // URL generator instance so it has the latest version of the routes.
+            $app->rebinding('routes', function ($app, $routes) {
+                $app['url']->setRoutes($routes);
+            });
+
+            return $url;
+        });
+    }
+
 }

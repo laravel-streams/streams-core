@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Installer\Console\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Installer\Console\Command;
 
 use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Console\Command;
@@ -45,7 +47,7 @@ class SetOtherData
     public function handle()
     {
         $this->data->put(
-            'LOCALE',
+            'APP_LOCALE',
             $this->command->askWithCompletion(
                 'Enter the default locale',
                 array_keys(config('streams::locales.supported')),
