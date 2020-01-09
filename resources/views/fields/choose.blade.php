@@ -5,7 +5,7 @@
     <ul>
         @foreach ($fieldTypes->instances() as $fieldType)
             <li>
-                <a href="{{ url()->route($module->getNamespace('fields.create'), ['field_type' => $fieldType->getNamespace()]) }}">
+                <a href="/admin/users/fields/create?field_type={{ $fieldType->getNamespace() }}">
                     <strong>{{ trans($fieldType->getTitle()) }}</strong>
                     <br>
                     <small>{{ trans($fieldType->getDescription()) }}</small>
