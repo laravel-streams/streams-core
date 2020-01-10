@@ -112,12 +112,10 @@ trait HasHtmlAttributes
      * @param array $defaults
      * @param array $attributes
      */
-    final static function mergeAttributeDefaults(array $defaults, array $attributes)
+    final static function mergeAttributeDefaults(array $defaults, array &$attributes)
     {
-        foreach ($defaults as $key => $value) {
-            $attributes[$key] = array_get($attributes, $key, $value);
+        foreach ($defaults as $key => $default) {
+            $attributes[$key] = array_get($attributes, $key, $default);
         }
-
-        return $attributes;
     }
 }
