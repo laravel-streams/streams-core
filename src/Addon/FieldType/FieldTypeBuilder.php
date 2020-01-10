@@ -2,10 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Anomaly\EmailFieldType\EmailFieldType;
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class FieldTypeBuilder
@@ -16,8 +14,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class FieldTypeBuilder
 {
-
-    use DispatchesJobs;
 
     /**
      * The hydrator utility.
@@ -62,7 +58,7 @@ class FieldTypeBuilder
      */
     public function build(array $parameters)
     {
-        $type = array_get($parameters, 'type');
+        $type = array_pull($parameters, 'type');
 
         /*
          * Make sure the type

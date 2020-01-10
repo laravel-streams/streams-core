@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Traits\Hookable;
+use Exception;
 use Illuminate\Contracts\Support\Arrayable;
 use Robbo\Presenter\PresentableInterface;
 use Robbo\Presenter\Presenter;
@@ -452,7 +453,9 @@ class Addon implements PresentableInterface, Arrayable
     public function setType($type)
     {
         $this->type = $type;
-
+        if (str_contains($type, '.')) {
+            throw new Exception('Wtf');
+        }
         return $this;
     }
 
