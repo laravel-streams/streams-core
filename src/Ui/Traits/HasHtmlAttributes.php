@@ -105,4 +105,19 @@ trait HasHtmlAttributes
     {
         return array_merge($this->attributes, $attributes);
     }
+
+    /**
+     * Merge HTML attribute defaults on.
+     *
+     * @param array $defaults
+     * @param array $attributes
+     */
+    final static function mergeAttributeDefaults(array $defaults, array $attributes)
+    {
+        foreach ($defaults as $key => $value) {
+            $attributes[$key] = array_get($attributes, $key, $value);
+        }
+
+        return $attributes;
+    }
 }
