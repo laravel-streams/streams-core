@@ -240,6 +240,29 @@ class Asset
     }
 
     /**
+     * Add an asset or glob pattern to an asset collection.
+     *
+     * This should support the asset being the collection
+     * and the asset (for single files) internally
+     * so asset.links / asset.scripts will work.
+     *
+     * @param             $collection
+     * @param             $file
+     * @param  array $filters
+     * @param bool $internal A flag telling the system
+     *                              this is an internal request
+     *                              and should be processed differently.
+     * @return $this
+     * @throws \Exception
+     */
+    public function load($collection, $file, array $filters = [])
+    {
+        foreach (AssetRegistry::resolve($file) as $resolved) {
+            $this->add($collection, $resolved, $filters);
+        }
+    }
+
+    /**
      * Download a file and return it's path.
      *
      * @param $url

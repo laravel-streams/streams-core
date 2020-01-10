@@ -123,8 +123,9 @@ class StreamsServiceProvider extends ServiceProvider
 
         'Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection' => 'Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection',
 
-        'Anomaly\Streams\Platform\Asset\Asset'      => 'Anomaly\Streams\Platform\Asset\Asset',
-        'Anomaly\Streams\Platform\Asset\AssetPaths' => 'Anomaly\Streams\Platform\Asset\AssetPaths',
+        'Anomaly\Streams\Platform\Asset\Asset'         => 'Anomaly\Streams\Platform\Asset\Asset',
+        'Anomaly\Streams\Platform\Asset\AssetPaths'    => 'Anomaly\Streams\Platform\Asset\AssetPaths',
+        'Anomaly\Streams\Platform\Asset\AssetRegistry' => 'Anomaly\Streams\Platform\Asset\AssetRegistry',
 
         'Anomaly\Streams\Platform\Support\Authorizer' => 'Anomaly\Streams\Platform\Support\Authorizer',
         'Anomaly\Streams\Platform\Support\Autoloader' => 'Anomaly\Streams\Platform\Support\Autoloader',

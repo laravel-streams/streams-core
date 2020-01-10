@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Asset\AssetRegistry;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Console\Application as Artisan;
 
@@ -195,6 +196,7 @@ class AddonServiceProvider extends ServiceProvider
 
         $path = dirname((new \ReflectionClass(get_called_class()))->getFileName(), 2);
 
+        $this->registerAssets();
         $this->registerCommands();
         $this->registerPublishables($path, $namespace);
         // $this->registerSchedules($namespace);
@@ -378,6 +380,18 @@ class AddonServiceProvider extends ServiceProvider
             }
         }
     }
+
+    /**
+     * Register the addon assets.
+     */
+    protected function registerAssets()
+    {
+        if ($this->assets) {
+            AssetRegistry::register($this->assets);
+        }
+    }
+
+
 
     /**
      * Register the addon commands.
