@@ -453,9 +453,7 @@ class Addon implements PresentableInterface, Arrayable
     public function setType($type)
     {
         $this->type = $type;
-        if (str_contains($type, '.')) {
-            throw new Exception('Wtf');
-        }
+        
         return $this;
     }
 
