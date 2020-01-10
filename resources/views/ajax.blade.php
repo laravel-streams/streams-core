@@ -3,5 +3,3 @@
 @section('content')
     {!! $content !!}
 @endsection
-
-@include('theme::partials/assets')
