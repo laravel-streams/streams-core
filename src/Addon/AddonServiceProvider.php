@@ -130,8 +130,7 @@ class AddonServiceProvider extends ServiceProvider
         [$vendor, $type, $slug] = explode('.', $namespace);
 
         $path = dirname((new \ReflectionClass(get_called_class()))->getFileName(), 2);
-        echo $path . '
-        ';
+
         // if ($type !== 'module' && !$addon->isEnabled() && $addon->getSlug() !== 'installer') {
         //     return;
         // }

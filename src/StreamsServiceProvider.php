@@ -20,7 +20,6 @@ use Anomaly\Streams\Platform\Support\Autoloader;
 use Anomaly\Streams\Platform\Entry\EntryObserver;
 use Anomaly\Streams\Platform\Field\FieldObserver;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\TestModule\TestModuleServiceProvider;
 use Illuminate\Foundation\Application as Laravel;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Support\Configurator;

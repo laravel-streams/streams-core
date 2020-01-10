@@ -24,8 +24,8 @@ class AddonCollection extends Collection
     public function namespaces($key = null)
     {
         return $this->map(
-            function ($item) use ($key) {
-                return $item . ($key ? "::{$key}" : null);
+            function ($item, $namespace) use ($key) {
+                return $namespace . ($key ? "::{$key}" : null);
             }
         )->all();
     }
@@ -38,10 +38,8 @@ class AddonCollection extends Collection
     public function core()
     {
         return $this->filter(
-            function ($addon) {
-
-                /* @var Addon $addon */
-                return $addon->isCore();
+            function (array $addon) {
+                return is_dir(base_path('vendor/' . $addon['name']));
             }
         );
     }
@@ -54,96 +52,10 @@ class AddonCollection extends Collection
     public function nonCore()
     {
         return $this->filter(
-            function ($addon) {
-
-                /* @var Addon $addon */
-                return !$addon->isCore();
+            function (array $addon) {
+                return !is_dir(base_path('vendor/' . $addon['name']));
             }
         );
-    }
-
-    /**
-     * Return only testing addons.
-     *
-     * @return AddonCollection
-     */
-    public function testing()
-    {
-        $testing = [];
-
-        /* @var Addon $item */
-        foreach ($this->items as $item) {
-            if ($item->isTesting()) {
-                $testing[] = $item;
-            }
-        }
-
-        return self::make($testing);
-    }
-
-    /**
-     * Get an addon.
-     *
-     * @param  mixed $key
-     * @param  null $default
-     * @return Addon|mixed|null
-     */
-    public function get($key, $default = null)
-    {
-        if (!$key) {
-            return $default;
-        }
-
-        if (!$addon = parent::get($key, $default)) {
-            return $this->findBySlug($key);
-        }
-
-        return $addon;
-    }
-
-    /**
-     * Find an addon by it's slug.
-     *
-     * @param  string $slug
-     * @param bool $instance
-     *
-     * @return null|Addon
-     */
-    public function findBySlug(string $slug, $instance = true)
-    {
-        return $this->first(function ($addon, $namespace) use ($slug, $instance) {
-
-            if (!str_is("*.*.{$slug}", $namespace)) {
-                return null;
-            }
-
-            return $instance ? app($namespace) : $addon;
-        });
-    }
-
-    /**
-     * Order addon's by their slug.
-     *
-     * @param string $direction
-     *
-     * @return AddonCollection
-     */
-    public function orderBySlug($direction = 'asc')
-    {
-        $ordered = [];
-
-        /* @var Addon $item */
-        foreach ($this->items as $item) {
-            $ordered[$item->getNamespace()] = $item;
-        }
-
-        if ($direction == 'asc') {
-            ksort($ordered);
-        } else {
-            krsort($ordered);
-        }
-
-        return self::make($ordered);
     }
 
     /**
@@ -187,26 +99,11 @@ class AddonCollection extends Collection
      */
     public function instance($addon)
     {
-        if (!isset($this->items[$addon])) {
+        if (!$this->has($addon)) {
             return null;
         }
 
         return app($addon);
-    }
-
-    /**
-     * Fire the registered
-     * method on all addons.
-     */
-    public function registered()
-    {
-        $this->map(
-            function ($addon) {
-
-                /* @var Addon $addon */
-                $addon->fire('registered', compact('addon'));
-            }
-        );
     }
 
     /**
@@ -222,69 +119,6 @@ class AddonCollection extends Collection
     }
 
     /**
-     * Return addons only with the provided configuration.
-     *
-     * @param $key
-     * @return AddonCollection
-     */
-    public function withConfig($key)
-    {
-        $addons = [];
-
-        /* @var Addon $item */
-        foreach ($this->instances() as $item) {
-            if ($item->hasConfig($key)) {
-                $addons[] = $item;
-            }
-        }
-
-        return self::make($addons);
-    }
-
-    /**
-     * Return addons only with any of
-     * the provided configuration.
-     *
-     * @param  array $keys
-     * @return AddonCollection
-     */
-    public function withAnyConfig(array $keys)
-    {
-        $addons = [];
-
-        /* @var Addon $item */
-        foreach ($this->instances() as $item) {
-            if ($item->hasAnyConfig($keys)) {
-                $addons[] = $item;
-            }
-        }
-
-        return self::make($addons);
-    }
-
-    /**
-     * Sort through each item with a callback.
-     *
-     * @param  callable|null $callback
-     * @return static
-     */
-    public function sort(callable $callback = null)
-    {
-        return parent::sort(
-            $callback ?: function ($a, $b) {
-
-                /* @var Addon $a */
-                /* @var Addon $b */
-                if ($a->getSlug() == $b->getSlug()) {
-                    return 0;
-                }
-
-                return ($a->getSlug() < $b->getSlug()) ? -1 : 1;
-            }
-        );
-    }
-
-    /**
      * Return only installable addons.
      *
      * @return AddonCollection
@@ -292,10 +126,8 @@ class AddonCollection extends Collection
     public function installable()
     {
         return $this->filter(
-            function ($addon) {
-
-                /* @var Addon $addon */
-                return in_array($addon->getType(), ['module', 'extension']);
+            function (array $addon) {
+                return str_is(['*/*-module', '*/*-extension'], $addon['name']);
             }
         );
     }
@@ -308,10 +140,8 @@ class AddonCollection extends Collection
     public function enabled()
     {
         return $this->installable()->filter(
-            function ($addon) {
-
-                /* @var Module|Extension $addon */
-                return $addon->isEnabled();
+            function (array $addon) {
+                return $addon['enabled'];
             }
         );
     }
@@ -324,10 +154,8 @@ class AddonCollection extends Collection
     public function installed()
     {
         return $this->installable()->filter(
-            function ($addon) {
-
-                /* @var Module|Extension $addon */
-                return $addon->isInstalled();
+            function (array $addon) {
+                return $addon['installed'];
             }
         );
     }
@@ -340,30 +168,8 @@ class AddonCollection extends Collection
     public function uninstalled()
     {
         return $this->installable()->filter(
-            function ($addon) {
-
-                /* @var Module|Extension $addon */
-                return !$addon->isInstalled();
-            }
-        );
-    }
-
-    /**
-     * Return loaded addons.
-     *
-     * @return AddonCollection
-     */
-    public function loaded()
-    {
-        return $this->filter(
-            function ($addon) {
-
-                /* @var Addon|Module|Extension $addon */
-                if (!in_array($addon->getType(), ['module', 'extension'])) {
-                    return true;
-                }
-
-                return $addon->isInstalled();
+            function (array $addon) {
+                return !$addon['installed'];
             }
         );
     }

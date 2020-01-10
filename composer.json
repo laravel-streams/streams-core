@@ -30,8 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Anomaly\\Streams\\Platform\\": "src/",
-            "Anomaly\\": "addons/"
+            "Anomaly\\Streams\\Platform\\": "src/"
         },
         "files": [
             "src/Support/_helpers.php"
