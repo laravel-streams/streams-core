@@ -1,36 +1,18 @@
-<?php namespace Anomaly\TestModule;
+<?php
 
+namespace Anomaly\TestModule;
+
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
 
-class TestModuleServiceProvider extends AddonServiceProvider
+class TestModuleServiceProvider extends AddonServiceProvider implements DeferrableProvider
 {
 
-    protected $plugins = [];
-
-    protected $routes = [];
-
-    protected $middleware = [];
-
-    protected $listeners = [];
-
-    protected $aliases = [];
-
-    protected $bindings = [];
-
-    protected $providers = [];
-
-    protected $singletons = [];
-
-    protected $overrides = [];
-
-    protected $mobile = [];
-
-    public function register()
+    /**
+     * Return the provided services.
+     */
+    public function provides()
     {
+        return [TestModule::class, 'anomaly.module.test'];
     }
-
-    public function map()
-    {
-    }
-
 }

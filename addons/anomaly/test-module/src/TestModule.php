@@ -1,4 +1,6 @@
-<?php namespace Anomaly\TestModule;
+<?php
+
+namespace Anomaly\TestModule;
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
 
@@ -20,5 +22,4 @@ class TestModule extends Module
     protected $sections = [
         'example'
     ];
-
 }

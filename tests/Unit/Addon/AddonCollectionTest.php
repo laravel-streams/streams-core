@@ -1,21 +1,21 @@
 <?php
 
+use Anomaly\Streams\Platform\Addon\AddonCollection;
+
 class AddonCollectionTest extends TestCase
 {
 
-    public function testKeysByNamespace()
-    {
-        $collection = $this->app->make(\Anomaly\Streams\Platform\Addon\Module\ModuleCollection::class);
+    // public function testKeysByNamespace()
+    // {
+    //     $collection = app(AddonCollection::class);
 
-        $collection = new \Anomaly\Streams\Platform\Addon\Module\ModuleCollection($collection->all());
+    //     $this->assertNotNull($collection->all()['anomaly.module.test']);
+    // }
 
-        $this->assertNotNull($collection->all()['anomaly.module.test']);
-    }
+    // public function testCanGetBySlug()
+    // {
+    //     $collection = app(AddonCollection::class);
 
-    public function testCanGetBySlug()
-    {
-        $collection = $this->app->make(\Anomaly\Streams\Platform\Addon\Module\ModuleCollection::class);
-
-        $this->assertNotNull($collection->get('test'));
-    }
+    //     $this->assertNotNull($collection->get('anomaly.module.test'));
+    // }
 }

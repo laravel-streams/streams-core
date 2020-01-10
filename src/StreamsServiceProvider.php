@@ -2,8 +2,6 @@
 
 namespace Anomaly\Streams\Platform;
 
-use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\Redirector;
 use Illuminate\Pagination\Paginator;
@@ -15,24 +13,28 @@ use Illuminate\Routing\Matching\UriValidator;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Field\FieldModel;
 use Symfony\Component\Console\Input\ArgvInput;
+use Anomaly\Streams\Platform\Entry\EntryLoader;
 use Anomaly\Streams\Platform\View\ViewComposer;
 use Anomaly\Streams\Platform\Stream\StreamModel;
+use Anomaly\Streams\Platform\Support\Autoloader;
 use Anomaly\Streams\Platform\Entry\EntryObserver;
 use Anomaly\Streams\Platform\Field\FieldObserver;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\TestModule\TestModuleServiceProvider;
 use Illuminate\Foundation\Application as Laravel;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Support\Configurator;
+use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Stream\StreamObserver;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
 use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
-use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
 use Anomaly\Streams\Platform\Application\Command\SetApplicationDomain;
-use Anomaly\Streams\Platform\Entry\EntryLoader;
 use Anomaly\Streams\Platform\Http\Routing\Matching\CaseInsensitiveUriValidator;
 
 /**
@@ -126,6 +128,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Asset\AssetPaths' => 'Anomaly\Streams\Platform\Asset\AssetPaths',
 
         'Anomaly\Streams\Platform\Support\Authorizer' => 'Anomaly\Streams\Platform\Support\Authorizer',
+        'Anomaly\Streams\Platform\Support\Autoloader' => 'Anomaly\Streams\Platform\Support\Autoloader',
         'Anomaly\Streams\Platform\Support\Parser'     => 'Anomaly\Streams\Platform\Support\Parser',
 
         //'Anomaly\Streams\Platform\Support\Currency'                                          => 'Anomaly\Streams\Platform\Support\Currency',
