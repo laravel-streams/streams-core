@@ -59,8 +59,8 @@ class Configurator
             config()->set(
                 "{$hint}::{$key}",
                 array_replace(
-                    config("{$hint}::{$key}", []),
-                    include_once $file->getPathname()
+                    (array) config("{$hint}::{$key}", []),
+                    (array) include_once $file->getPathname()
                 )
             );
         }
