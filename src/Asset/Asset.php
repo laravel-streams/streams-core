@@ -590,11 +590,11 @@ class Asset
             $compressor->removeImportantComments();
             $compressor->keepSourceMapComment(false);
 
-            //$contents = $compressor->run($contents);
+            $contents = $compressor->run($contents);
         }
 
         if (in_array('min', $filters) && $hint == 'js') {
-            //$contents = JSMin::minify($contents);
+            $contents = JSMin::minify($contents);
         }
 
         $path = $this->directory . DIRECTORY_SEPARATOR . $path;

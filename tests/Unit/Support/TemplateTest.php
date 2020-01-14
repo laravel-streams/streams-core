@@ -15,7 +15,7 @@ class TemplateTest extends TestCase
     {
         $template = $this->app->make(\Anomaly\Streams\Platform\Support\Template::class);
 
-        $string = '{{ label }}: {{ 10*5 }}';
+        $string = '{{ $label }}: {{ 10*5 }}';
 
         $this->assertEquals('test: 50', $template->render($string, ['label' => 'test']));
     }

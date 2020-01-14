@@ -112,8 +112,8 @@ class ViewComposer
 
         $area = $request->segment(1) == 'admin' ? 'admin' : 'default';
 
-        $this->theme  = $this->addons->themes->active($area);
-        $this->module = $this->addons->modules->active();
+        $this->theme  = app('theme.collection')->active($area);
+        $this->module = app('theme.collection')->active();
 
         $this->mobile = $this->agent->isMobile();
     }
