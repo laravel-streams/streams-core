@@ -7,26 +7,20 @@
     }],
     "require": {
         "laravel/framework": "^6.0.0",
-        "fideloper/proxy": "^4.0",
         "laravel/helpers": "^1.1.0",
         "laravel/scout": "^7.1.0",
-        "doctrine/dbal": "^2.6",
         "intervention/image": "^2.5.0",
         "jenssegers/agent": "2.6.*",
         "laravelcollective/html": "^6.0.0",
-        "barryvdh/laravel-debugbar": "3.2.*",
         "erusev/parsedown-extra": "0.7.1",
         "mrclay/jsmin-php": "~2.4",
         "tubalmartin/cssmin": "4.0.*",
         "robclancy/presenter": "1.3.*",
         "nicmart/string-template": "0.1.*",
-        "symfony/yaml": "3.4.*",
         "misd/linkify": "1.1.*",
-        "laradic/support": "~2.0",
         "fzaninotto/faker": "^1.4",
         "composer/composer": "~1.9.0",
-        "ezyang/htmlpurifier": "~4.0",
-        "ocramius/generated-hydrator": "^2.0"
+        "ezyang/htmlpurifier": "~4.0"
     },
     "autoload": {
         "psr-4": {
