@@ -251,10 +251,6 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
      */
     public function getConfig($key = null, $default = null)
     {
-        if (!isset($this->cache['cache'])) {
-            $this->dispatchNow(new MergeStreamConfig($this));
-        }
-
         $this->cache['cache'] = $this->config;
 
         if ($key) {
