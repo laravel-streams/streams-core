@@ -6,7 +6,7 @@
         "email": "ryan@pyrocms.com"
     }],
     "require": {
-        "laravel/framework": "^6.0.0",
+        "laravel/framework": "^6.2.0",
         "laravel/helpers": "^1.1.0",
         "laravel/scout": "^7.1.0",
         "intervention/image": "^2.5.0",
