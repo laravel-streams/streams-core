@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Support;
 
+use ReflectionProperty;
+
 /**
  * Class Hydrator
  *
@@ -30,5 +32,43 @@ class Hydrator
         }
 
         return $object;
+    }
+
+    /**
+     * Dehydrate an object.
+     *
+     * @param array $object
+     */
+    public static function dehydrate($object)
+    {
+        $reflection = new \ReflectionClass($object);
+
+        $properties = $reflection->getProperties(\ReflectionProperty::IS_PROTECTED);
+
+        $accessors = array_filter(
+            array_combine(
+                array_map(function (ReflectionProperty $property) {
+                    return snake_case($property->getName());
+                }, $properties),
+                array_map(function (ReflectionProperty $property) use ($object) {
+
+                    if (method_exists($object, $method = 'get' . ucfirst($property->getName()))) {
+                        return $method;
+                    }
+
+                    if (method_exists($object, $method = 'is' . ucfirst($property->getName()))) {
+                        return $method;
+                    }
+
+                    return null;
+                }, $properties)
+            )
+        );
+
+        array_walk($accessors, function (&$method) use ($object) {
+            $method = $object->{$method}();
+        });
+
+        return $accessors;
     }
 }

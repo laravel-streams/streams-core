@@ -1,5 +1,7 @@
 <?php
 
+use Anomaly\Streams\Platform\Support\Hydrator;
+
 class HydratorTest extends TestCase
 {
 
@@ -8,6 +10,13 @@ class HydratorTest extends TestCase
         (new \Anomaly\Streams\Platform\Support\Hydrator())->hydrate($object = new HydratorStub(), ['test' => 'foo']);
 
         $this->assertEquals('foo', $object->getTest());
+    }
+
+    public function testCanDehydrateObject()
+    {
+        $object = (new HydratorStub())->setTest('foo');
+
+        $this->assertEquals(['test' => 'foo'], Hydrator::dehydrate($object));
     }
 }
 
