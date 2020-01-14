@@ -2,12 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
-use Anomaly\Streams\Platform\Asset\Asset;
-use Anomaly\Streams\Platform\Image\Image;
-use Anomaly\Streams\Platform\Ui\Icon\Icon;
 use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
-use Anomaly\Streams\Platform\Ui\Icon\IconRegistry;
-use Anomaly\Streams\Platform\Ui\Icon\Command\GetIcon;
 use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
@@ -247,6 +242,24 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAtt
     }
 
     /**
+     * Return class HTML.
+     *
+     * @param string $class
+     * @return null|string
+     */
+    public function class($class = null)
+    {
+        if ($this->isActive()) {
+            $class .= ' active';
+        }
+
+        return trim(implode(' ', array_filter([
+            $class,
+            $this->getClass()
+        ])));
+    }
+
+    /**
      * Return merged attributes.
      *
      * @param array $attributes
@@ -256,6 +269,7 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAtt
         return array_merge($this->attributes, [
             'active' => json_encode($this->isActive()),
             'title' => $this->getTitle(),
+            'class' => $this->class(),
         ], $attributes);
     }
 }
