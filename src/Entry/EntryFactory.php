@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Entry;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
@@ -18,13 +20,6 @@ class EntryFactory
     use FiresCallbacks;
 
     /**
-     * The hydrator utility.
-     *
-     * @var Hydrator
-     */
-    protected $hydrator;
-
-    /**
      * The service container.
      *
      * @var Container
@@ -37,9 +32,8 @@ class EntryFactory
      * @param Hydrator  $hydrator
      * @param Container $container
      */
-    public function __construct(Hydrator $hydrator, Container $container)
+    public function __construct(Container $container)
     {
-        $this->hydrator  = $hydrator;
         $this->container = $container;
     }
 
@@ -58,8 +52,7 @@ class EntryFactory
 
         if (!class_exists(
             $model = 'Anomaly\Streams\Platform\Model\\' . $namespace . '\\' . $namespace . $stream . 'EntryModel'
-        )
-        ) {
+        )) {
             return null;
         }
 

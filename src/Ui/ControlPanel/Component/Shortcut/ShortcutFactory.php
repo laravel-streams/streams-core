@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Illuminate\Contracts\Container\Container;
@@ -41,7 +43,6 @@ class ShortcutFactory
      */
     public function __construct(Hydrator $hydrator, Container $container)
     {
-        $this->hydrator  = $hydrator;
         $this->container = $container;
     }
 
@@ -55,7 +56,7 @@ class ShortcutFactory
     {
         $shortcut = $this->container->make(array_get($parameters, 'shortcut', $this->shortcut), $parameters);
 
-        $this->hydrator->hydrate($shortcut, $parameters);
+        Hydrator::hydrate($shortcut, $parameters);
 
         return $shortcut;
     }

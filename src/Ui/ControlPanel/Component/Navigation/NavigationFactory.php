@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
@@ -22,13 +24,6 @@ class NavigationFactory
     protected $link = NavigationLink::class;
 
     /**
-     * The hydrator utility.
-     *
-     * @var Hydrator
-     */
-    protected $hydrator;
-
-    /**
      * The service container.
      *
      * @var Container
@@ -38,12 +33,10 @@ class NavigationFactory
     /**
      * Create a new NavigationFactory instance.
      *
-     * @param Hydrator  $hydrator
      * @param Container $container
      */
-    public function __construct(Hydrator $hydrator, Container $container)
+    public function __construct(Container $container)
     {
-        $this->hydrator  = $hydrator;
         $this->container = $container;
     }
 
@@ -57,7 +50,7 @@ class NavigationFactory
     {
         $link = $this->container->make(array_get($parameters, 'link', $this->link), $parameters);
 
-        $this->hydrator->hydrate($link, $parameters);
+        Hydrator::hydrate($link, $parameters);
 
         return $link;
     }

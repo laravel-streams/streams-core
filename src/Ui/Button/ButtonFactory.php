@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Button;
 
 use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Support\Hydrator;
@@ -30,13 +32,6 @@ class ButtonFactory
     protected $buttons;
 
     /**
-     * The hydrator utility.
-     *
-     * @var Hydrator
-     */
-    protected $hydrator;
-
-    /**
      * The translator utility.
      *
      * @var Translator
@@ -56,16 +51,13 @@ class ButtonFactory
      * @param ButtonRegistry $buttons
      * @param Authorizer     $authorizer
      * @param Translator     $translator
-     * @param Hydrator       $hydrator
      */
     public function __construct(
         ButtonRegistry $buttons,
         Authorizer $authorizer,
-        Translator $translator,
-        Hydrator $hydrator
+        Translator $translator
     ) {
         $this->buttons    = $buttons;
-        $this->hydrator   = $hydrator;
         $this->authorizer = $authorizer;
         $this->translator = $translator;
     }
@@ -93,7 +85,7 @@ class ButtonFactory
         /* @var ButtonInterface $button */
         $button = app()->make(array_get($parameters, 'button'), $parameters);
 
-        $this->hydrator->hydrate($button, $parameters);
+        Hydrator::hydrate($button, $parameters);
 
         if (($permission = $button->getPermission()) && !$this->authorizer->authorize($permission)) {
             $button->setEnabled(false);

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Support\Translator;
@@ -29,21 +31,13 @@ class ActionFactory
     protected $translator;
 
     /**
-     * The hydrator utility.
-     *
-     * @var Hydrator
-     */
-    protected $hydrator;
-
-    /**
      * Create a new ActionFactory instance.
      *
      * @param Hydrator   $hydrator
      * @param Translator $translator
      */
-    public function __construct(Hydrator $hydrator, Translator $translator)
+    public function __construct(Translator $translator)
     {
-        $this->hydrator   = $hydrator;
         $this->translator = $translator;
     }
 
@@ -57,7 +51,7 @@ class ActionFactory
     {
         $parameters = $this->translator->translate($parameters);
 
-        $this->hydrator->hydrate(
+        Hydrator::hydrate(
             $action = app()->make(array_get($parameters, 'action', $this->action), $parameters),
             $parameters
         );

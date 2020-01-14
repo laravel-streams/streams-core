@@ -16,13 +16,6 @@ class FieldTypeBuilder
 {
 
     /**
-     * The hydrator utility.
-     *
-     * @var Hydrator
-     */
-    private $hydrator;
-
-    /**
      * The service container.
      *
      * @var Container
@@ -43,9 +36,8 @@ class FieldTypeBuilder
      * @param Container $container
      * @param FieldTypeCollection $fieldTypes
      */
-    public function __construct(Hydrator $hydrator, Container $container, FieldTypeCollection $fieldTypes)
+    public function __construct(Container $container, FieldTypeCollection $fieldTypes)
     {
-        $this->hydrator   = $hydrator;
         $this->container  = $container;
         $this->fieldTypes = $fieldTypes;
     }
@@ -108,7 +100,7 @@ class FieldTypeBuilder
         $fieldType->mergeRules((array) array_pull($parameters, 'rules', []));
         $fieldType->mergeConfig((array) array_pull($parameters, 'config', []));
 
-        $this->hydrator->hydrate($fieldType, $parameters);
+        Hydrator::hydrate($fieldType, $parameters);
 
         return $fieldType;
     }

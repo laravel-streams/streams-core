@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Model;
+<?php
+
+namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
@@ -18,13 +20,6 @@ class EloquentFactory
     use FiresCallbacks;
 
     /**
-     * The hydrator utility.
-     *
-     * @var Hydrator
-     */
-    protected $hydrator;
-
-    /**
      * The service container.
      *
      * @var Container
@@ -34,12 +29,10 @@ class EloquentFactory
     /**
      * Create a new EloquentFactory instance.
      *
-     * @param Hydrator  $hydrator
      * @param Container $container
      */
-    public function __construct(Hydrator $hydrator, Container $container)
+    public function __construct(Container $container)
     {
-        $this->hydrator  = $hydrator;
         $this->container = $container;
     }
 

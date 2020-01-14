@@ -34,24 +34,15 @@ class FieldFactory
     protected $request;
 
     /**
-     * The hydrator utility.
-     *
-     * @var Hydrator
-     */
-    protected $hydrator;
-
-    /**
      * Create a new FieldFactory instance.
      *
      * @param FieldTypeBuilder $builder
      * @param Request          $request
-     * @param Hydrator         $hydrator
      */
-    public function __construct(FieldTypeBuilder $builder, Request $request, Hydrator $hydrator)
+    public function __construct(FieldTypeBuilder $builder, Request $request)
     {
         $this->builder  = $builder;
         $this->request  = $request;
-        $this->hydrator = $hydrator;
     }
 
     /**
@@ -113,7 +104,7 @@ class FieldFactory
         $parameters['form'] = $this->builder;
 
         // Hydrate the field with parameters.
-        $this->hydrator->hydrate($field, $parameters);
+        Hydrator::hydrate($field, $parameters);
 
         return $field;
     }

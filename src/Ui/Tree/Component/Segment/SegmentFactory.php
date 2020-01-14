@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\Contract\SegmentInterface;
@@ -21,23 +23,6 @@ class SegmentFactory
     protected $segment = Segment::class;
 
     /**
-     * The hydrator utility.
-     *
-     * @var Hydrator
-     */
-    protected $hydrator;
-
-    /**
-     * Create a new SegmentFactory instance.
-     *
-     * @param Hydrator $hydrator
-     */
-    public function __construct(Hydrator $hydrator)
-    {
-        $this->hydrator = $hydrator;
-    }
-
-    /**
      * Make a segment.
      *
      * @param  array            $parameters
@@ -47,7 +32,7 @@ class SegmentFactory
     {
         $segment = app()->make(array_get($parameters, 'segment', $this->segment), $parameters);
 
-        $this->hydrator->hydrate($segment, $parameters);
+        Hydrator::hydrate($segment, $parameters);
 
         return $segment;
     }

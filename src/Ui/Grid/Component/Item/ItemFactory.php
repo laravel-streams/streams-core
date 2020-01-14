@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Component\Item;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Component\Item;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Grid\Component\Item\Contract\ItemInterface;
@@ -15,13 +17,6 @@ class ItemFactory
 {
 
     /**
-     * The hydrator utility.
-     *
-     * @var Hydrator
-     */
-    protected $hydrator;
-
-    /**
      * The service container.
      *
      * @var Container
@@ -31,12 +26,10 @@ class ItemFactory
     /**
      * Create a new ItemFactory instance.
      *
-     * @param Hydrator  $hydrator
      * @param Container $container
      */
-    public function __construct(Hydrator $hydrator, Container $container)
+    public function __construct(Container $container)
     {
-        $this->hydrator  = $hydrator;
         $this->container = $container;
     }
 
@@ -50,7 +43,7 @@ class ItemFactory
     {
         $item = $this->container->make(Item::class, $parameters);
 
-        $this->hydrator->hydrate($item, $parameters);
+        Hydrator::hydrate($item, $parameters);
 
         return $item;
     }

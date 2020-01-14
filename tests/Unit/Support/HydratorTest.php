@@ -7,7 +7,7 @@ class HydratorTest extends TestCase
 
     public function testCanHydrateObject()
     {
-        (new \Anomaly\Streams\Platform\Support\Hydrator())->hydrate($object = new HydratorStub(), ['test' => 'foo']);
+        Hydrator::hydrate($object = new HydratorStub(), ['test' => 'foo']);
 
         $this->assertEquals('foo', $object->getTest());
     }

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
@@ -15,13 +17,6 @@ class ActionFactory
 {
 
     /**
-     * The hydrator utility.
-     *
-     * @var Hydrator
-     */
-    protected $hydrator;
-
-    /**
      * The service container.
      *
      * @var Container
@@ -31,12 +26,10 @@ class ActionFactory
     /**
      * Create a new ActionFactory instance.
      *
-     * @param Hydrator  $hydrator
      * @param Container $container
      */
-    public function __construct(Hydrator $hydrator, Container $container)
+    public function __construct(Container $container)
     {
-        $this->hydrator  = $hydrator;
         $this->container = $container;
     }
 
@@ -50,7 +43,7 @@ class ActionFactory
     {
         $action = $this->container->make(array_get($parameters, 'action', Action::class), $parameters);
 
-        $this->hydrator->hydrate($action, $parameters);
+        Hydrator::hydrate($action, $parameters);
 
         return $action;
     }

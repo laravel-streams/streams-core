@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
@@ -15,13 +17,6 @@ class RowFactory
 {
 
     /**
-     * The hydrator utility.
-     *
-     * @var Hydrator
-     */
-    protected $hydrator;
-
-    /**
      * The service container.
      *
      * @var Container
@@ -34,9 +29,8 @@ class RowFactory
      * @param Hydrator  $hydrator
      * @param Container $container
      */
-    public function __construct(Hydrator $hydrator, Container $container)
+    public function __construct(Container $container)
     {
-        $this->hydrator  = $hydrator;
         $this->container = $container;
     }
 
@@ -50,7 +44,7 @@ class RowFactory
     {
         $row = $this->container->make(Row::class, $parameters);
 
-        $this->hydrator->hydrate($row, $parameters);
+        Hydrator::hydrate($row, $parameters);
 
         return $row;
     }

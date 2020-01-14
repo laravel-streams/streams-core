@@ -21,7 +21,7 @@ class Hydrator
      * @param array $parameters
      * @return mixed
      */
-    public function hydrate($object, array $parameters)
+    public static function hydrate($object, array $parameters)
     {
         foreach ($parameters as $parameter => $value) {
             $method = camel_case('set_' . $parameter);

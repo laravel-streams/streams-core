@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
@@ -22,13 +24,6 @@ class ViewFactory
     protected $view = View::class;
 
     /**
-     * The hydrator utility.
-     *
-     * @var Hydrator
-     */
-    protected $hydrator;
-
-    /**
      * The services container.
      *
      * @var Container
@@ -38,12 +33,10 @@ class ViewFactory
     /**
      * Create a new ViewFactory instance.
      *
-     * @param Hydrator  $hydrator
      * @param Container $container
      */
-    public function __construct(Hydrator $hydrator, Container $container)
+    public function __construct(Container $container)
     {
-        $this->hydrator  = $hydrator;
         $this->container = $container;
     }
 
@@ -59,7 +52,7 @@ class ViewFactory
             array_set($parameters, 'view', $this->view);
         }
 
-        $this->hydrator->hydrate(
+        Hydrator::hydrate(
             $view = $this->container->make(array_get($parameters, 'view'), $parameters),
             $parameters
         );

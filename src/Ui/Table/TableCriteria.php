@@ -43,13 +43,6 @@ class TableCriteria
     protected $request;
 
     /**
-     * The hydrator utility.
-     *
-     * @var Hydrator
-     */
-    protected $hydrator;
-
-    /**
      * The service container.
      *
      * @var Container
@@ -68,7 +61,6 @@ class TableCriteria
      *
      * @param Repository $cache
      * @param Request $request
-     * @param Hydrator $hydrator
      * @param Container $container
      * @param TableBuilder $builder
      * @param array $parameters
@@ -76,7 +68,6 @@ class TableCriteria
     public function __construct(
         Repository $cache,
         Request $request,
-        Hydrator $hydrator,
         Container $container,
         TableBuilder $builder,
         array $parameters = []
@@ -84,7 +75,6 @@ class TableCriteria
         $this->cache      = $cache;
         $this->builder    = $builder;
         $this->request    = $request;
-        $this->hydrator   = $hydrator;
         $this->container  = $container;
         $this->parameters = $parameters;
 
@@ -159,7 +149,7 @@ class TableCriteria
             }
         }
 
-        return $this->hydrator->hydrate($this->builder, $this->parameters);
+        return Hydrator::hydrate($this->builder, $this->parameters);
     }
 
     /**
