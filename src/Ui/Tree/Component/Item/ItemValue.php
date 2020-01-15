@@ -1,13 +1,15 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item;
+<?php
 
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item;
+
+use Illuminate\View\View;
+use StringTemplate\Engine;
+use Illuminate\Contracts\Support\Arrayable;
+use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\View\View;
-use Robbo\Presenter\Decorator;
-use StringTemplate\Engine;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
  * Class ItemValue
@@ -34,24 +36,16 @@ class ItemValue
     protected $evaluator;
 
     /**
-     * The decorator utility.
-     *
-     * @var Decorator
-     */
-    protected $decorator;
-
-    /**
      * Create a new ItemValue instance.
      *
      * @param Engine    $parser
      * @param Evaluator $evaluator
      * @param Decorator $decorator
      */
-    public function __construct(Engine $parser, Evaluator $evaluator, Decorator $decorator)
+    public function __construct(Engine $parser, Evaluator $evaluator)
     {
         $this->parser    = $parser;
         $this->evaluator = $evaluator;
-        $this->decorator = $decorator;
     }
 
     /**
@@ -85,7 +79,7 @@ class ItemValue
             $fieldSlug = camel_case($match[1]);
 
             if (method_exists($entry, $fieldSlug) && $entry->{$fieldSlug}() instanceof Relation) {
-                $entry = $this->decorator->decorate($entry);
+                $entry = Decorator::decorate($entry);
 
                 $value = data_get(
                     compact('entry'),
@@ -99,7 +93,7 @@ class ItemValue
          * sending to decorate so that data_get()
          * can get into the presenter methods.
          */
-        $entry = $this->decorator->decorate($entry);
+        $entry = Decorator::decorate($entry);
 
         /*
          * If the value matches a method in the presenter.

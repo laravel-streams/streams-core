@@ -2,20 +2,20 @@
 
 namespace Anomaly\Streams\Platform\Image;
 
-use Anomaly\FilesModule\File\Contract\FileInterface;
-use Anomaly\FilesModule\File\FilePresenter;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\Routing\UrlGenerator;
-use Collective\Html\HtmlBuilder;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Http\Request;
-use Intervention\Image\Constraint;
-use Intervention\Image\ImageManager;
-use League\Flysystem\File;
-use League\Flysystem\MountManager;
 use Mobile_Detect;
-use Robbo\Presenter\Presenter;
+use League\Flysystem\File;
+use Illuminate\Http\Request;
+use Collective\Html\HtmlBuilder;
+use Intervention\Image\Constraint;
+use League\Flysystem\MountManager;
+use Intervention\Image\ImageManager;
+use Illuminate\Filesystem\Filesystem;
+use Anomaly\FilesModule\File\FilePresenter;
+use Anomaly\Streams\Platform\Support\Presenter;
+use Anomaly\Streams\Platform\Routing\UrlGenerator;
+use Anomaly\FilesModule\File\Contract\FileInterface;
+use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 
 /**
  * Class Image

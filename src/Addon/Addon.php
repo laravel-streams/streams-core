@@ -2,12 +2,12 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Anomaly\Streams\Platform\Traits\Hookable;
 use Exception;
 use Illuminate\Contracts\Support\Arrayable;
+use Anomaly\Streams\Platform\Traits\Hookable;
+use Anomaly\Streams\Platform\Support\Presenter;
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
-use Robbo\Presenter\Presenter;
 
 /**
  * Class Addon

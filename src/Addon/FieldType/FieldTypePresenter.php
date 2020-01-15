@@ -2,8 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Addon\FieldType;
 
+use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Addon\AddonPresenter;
-use Robbo\Presenter\Decorator;
 
 /**
  * Class FieldTypePresenter
@@ -92,7 +92,7 @@ class FieldTypePresenter extends AddonPresenter
             return $this->object;
         }
 
-        return app()->make(Decorator::class)->decorate(parent::__get($key));
+        return Decorator::decorate(parent::__get($key));
     }
 
     /**
