@@ -19,9 +19,9 @@ class Template
      * @param array $payload
      * @return \Illuminate\Contracts\View\View
      */
-    public function render($template, array $payload = [])
+    public static function render($template, array $payload = [])
     {
-        $path = $this->path($template);
+        $path = self::path($template);
 
         return view(
             'storage::' . ltrim(
@@ -39,9 +39,9 @@ class Template
      * @param string $extension
      * @return string
      */
-    public function make($template, $extension = 'twig')
+    public static function make($template, $extension = 'twig')
     {
-        $path = $this->path($template, $extension);
+        $path = self::path($template, $extension);
 
         return 'storage::' . ltrim(
             str_replace(application()->getStoragePath(), '', $path),
@@ -56,9 +56,9 @@ class Template
      * @param $extension
      * @return string
      */
-    public function asset($template, $extension)
+    public static function asset($template, $extension)
     {
-        $path = $this->path($template, $extension);
+        $path = self::path($template, $extension);
 
         return 'storage::' . ltrim(
             str_replace(application()->getStoragePath(), '', $path),
@@ -73,7 +73,7 @@ class Template
      * @param string $extension
      * @return string
      */
-    public function path($template, $extension = 'blade.php')
+    public static function path($template, $extension = 'blade.php')
     {
         $path = application()->getStoragePath('support/parsed/' . md5($template));
 

@@ -14,9 +14,13 @@ class HydratorTest extends TestCase
 
     public function testCanDehydrateObject()
     {
-        $object = (new HydratorStub())->setTest('foo');
+        $object = (new HydratorStub())
+            ->setTest('foo');
 
-        $this->assertEquals(['test' => 'foo'], Hydrator::dehydrate($object));
+        $this->assertEquals([
+            'test' => 'foo',
+            'boolean' => true
+        ], Hydrator::dehydrate($object));
     }
 }
 
@@ -24,6 +28,10 @@ class HydratorStub
 {
 
     protected $test = null;
+
+    protected $boolean = true;
+
+    protected $notMapped = true;
 
     public function getTest()
     {
@@ -35,5 +43,10 @@ class HydratorStub
         $this->test = $test;
 
         return $this;
+    }
+
+    public function isBoolean()
+    {
+        return $this->boolean;
     }
 }

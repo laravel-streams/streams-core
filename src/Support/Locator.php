@@ -16,49 +16,36 @@ class Locator
 {
 
     /**
-     * The addon collection.
-     *
-     * @var AddonCollection
-     */
-    protected $addons;
-
-    /**
-     * Create a new Locator instance.
-     *
-     * @param AddonCollection $addons
-     */
-    public function __construct(AddonCollection $addons)
-    {
-        $this->addons = $addons;
-    }
-
-    /**
      * Locate the addon containing an object.
      * Returns the addon's dot namespace.
      *
      * @param $object
      * @return null|string
      */
-    public function locate($object)
+    public static function locate($object)
     {
-        $class = explode('\\', $this->class($object));
+        if (
+            is_object($object)
+            && in_array(Hookable::class, class_uses_recursive($object))
+            && ($object->hasHook('__locate') || method_exists($object, '__locate'))
+        ) {
+            return $object->__locate();
+        }
+
+        $class = explode('\\', is_string($object) ? $object : get_class($object));
 
         $vendor = snake_case(array_shift($class));
         $addon  = snake_case(array_shift($class));
 
-        foreach (config('streams::addons.types') as $type) {
-
-            if (ends_with($addon, $type)) {
-
-                $addon = str_replace('_' . $type, '', $addon);
-
-                $namespace = "{$vendor}.{$type}.{$addon}";
-
-                return $this->addons->has($namespace) ? $namespace : null;
-            }
+        if (!preg_match('/(?!_)module$|(?!_)extension$|(?!_)field_type$|(?!_)theme$/', $addon, $type)) {
+            return null;
         }
 
-        return null;
+        $addon = preg_replace('/_module$|_extension$|_field_type$|_theme$/', '', $addon);
+
+        $namespace = "{$vendor}.{$type[0]}.{$addon}";
+
+        return app('addon.collection')->offsetExists($namespace) ? $namespace : null;
     }
 
     /**
@@ -67,35 +54,12 @@ class Locator
      * @param $object
      * @return \Anomaly\Streams\Platform\Addon\Addon|mixed|null
      */
-    public function resolve($object)
+    public static function resolve($object)
     {
-        if (!$namespace = $this->locate($object)) {
+        if (!$namespace = self::locate($object)) {
             return null;
         }
 
-        return $this->addons->instance($namespace);
-    }
-
-    /**
-     * Get the locatatable string.
-     *
-     * @param [type] $target
-     */
-    protected function class($target)
-    {
-        if (!is_object($target)) {
-            return $target;
-        }
-
-        /* @var Hookable $object */
-        if (
-            is_object($target) &&
-            in_array(Hookable::class, class_uses_recursive($target)) &&
-            $target->hasHook('__locate')
-        ) {
-            return $target->call('__locate');
-        }
-
-        return null;
+        return app('addon.collection')->instance($namespace);
     }
 }

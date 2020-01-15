@@ -13,7 +13,7 @@ use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Decorator extends \Robbo\Presenter\Decorator
+class Decorator
 {
 
     /*
@@ -22,7 +22,7 @@ class Decorator extends \Robbo\Presenter\Decorator
      * @param  mixed $value
      * @return mixed $value
     */
-    public function decorate($value)
+    public static function decorate($value)
     {
         if ($value instanceof PresentableInterface) {
             return $value->getPresenter();
@@ -30,7 +30,7 @@ class Decorator extends \Robbo\Presenter\Decorator
 
         if (is_array($value) or ($value instanceof IteratorAggregate and $value instanceof ArrayAccess)) {
             foreach ($value as $k => $v) {
-                $value[$k] = $this->decorate($v);
+                $value[$k] = self::decorate($v);
             }
         }
 
@@ -51,7 +51,7 @@ class Decorator extends \Robbo\Presenter\Decorator
 
         if (is_array($value) || ($value instanceof IteratorAggregate && $value instanceof ArrayAccess)) {
             foreach ($value as $k => $v) {
-                $value[$k] = $this->undecorate($v);
+                $value[$k] = self::undecorate($v);
             }
         }
 

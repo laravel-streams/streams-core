@@ -7,7 +7,6 @@ use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Support\Value;
 use Anomaly\Streams\Platform\Support\Parser;
-use Anomaly\Streams\Platform\Support\Markdown;
 use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\View\ViewTemplate;
 use Anomaly\Streams\Platform\Message\MessageBag;
@@ -131,7 +130,7 @@ if (!function_exists('valuate')) {
      */
     function valuate($parameters, $entry, $term = 'entry', $payload = [])
     {
-        return app(Value::class)->make($parameters, $entry, $term, $payload);
+        return Value::make($parameters, $entry, $term, $payload);
     }
 }
 
@@ -537,7 +536,7 @@ if (!function_exists('markdown')) {
      */
     function markdown($content)
     {
-        return (new Markdown())->parse($content);
+        return (new ParsedownExtra())->parse($content);
     }
 }
 

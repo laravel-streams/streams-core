@@ -17,73 +17,16 @@ class Value
 {
 
     /**
-     * The string parser.
-     *
-     * @var Parser
-     */
-    protected $parser;
-
-    /**
-     * The string purifier.
-     *
-     * @var Purifier
-     */
-    protected $purifier;
-
-    /**
-     * The template parser.
-     *
-     * @var Template
-     */
-    protected $template;
-
-    /**
-     * The evaluator utility.
-     *
-     * @var Evaluator
-     */
-    protected $evaluator;
-
-    /**
-     * The decorator utility.
-     *
-     * @var Decorator
-     */
-    protected $decorator;
-
-    /**
-     * Create a new ColumnValue instance.
-     *
-     * @param Parser $parser
-     * @param Purifier $purifier
-     * @param Template $template
-     * @param Evaluator $evaluator
-     * @param Decorator $decorator
-     */
-    public function __construct(
-        Parser $parser,
-        Purifier $purifier,
-        Template $template,
-        Evaluator $evaluator,
-        Decorator $decorator
-    ) {
-        $this->parser    = $parser;
-        $this->purifier  = $purifier;
-        $this->template  = $template;
-        $this->evaluator = $evaluator;
-        $this->decorator = $decorator;
-    }
-
-    /**
      * Make a value from the parameters and entry.
      *
-     * @param               $parameters
-     * @param               $payload
-     * @param  array $payload
+     * @param $parameters
+     * @param $payload
+     * @param array $payload
      * @return mixed|string
      */
-    public function make($parameters, $entry, $term = 'entry', $payload = [])
+    public static function make($parameters, $entry, $term = 'entry', $payload = [])
     {
+
         /**
          * Load the termed entry.
          */
@@ -112,7 +55,7 @@ class Value
          * If the value uses a template then parse it.
          */
         if ($template = array_get($parameters, 'template')) {
-            return (string) $this->template->render($template, ['value' => $value, $term => $entry]);
+            return (string) Template::render($template, ['value' => $value, $term => $entry]);
         }
 
         /*
@@ -136,13 +79,13 @@ class Value
          * sending to decorate so that data_get()
          * can get into the presenter methods.
          */
-        $payload[$term] = $entry = $this->decorator->decorate($entry);
+        $payload[$term] = $entry = Decorator::decorate($entry);
 
         /*
          * By default we can just pass the value through
          * the evaluator utility and be done with it.
          */
-        $value = $this->evaluator->evaluate($value, $payload);
+        $value = Evaluator::evaluate($value, $payload);
 
         /*
          * Lastly, prepare the entry to be
@@ -156,7 +99,7 @@ class Value
          * Parse the value with the entry.
          */
         if ($wrapper = array_get($parameters, 'wrapper')) {
-            $value = $this->parser->parse(
+            $value = app(Parser::class)->parse(
                 $wrapper,
                 ['value' => $value, $term => $entry]
             );
@@ -166,7 +109,7 @@ class Value
          * Parse the value with the value too.
          */
         if (is_string($value)) {
-            $value = $this->parser->parse(
+            $value = app(Parser::class)->parse(
                 $value,
                 [
                     'value' => $value,
@@ -188,7 +131,7 @@ class Value
          * string then render it.
          */
         if (is_string($value) && str_contains($value, ['{{', '{%'])) {
-            $value = (string) $this->template->render($value, [$term => $entry]);
+            $value = (string) Template::render($value, [$term => $entry]);
         }
 
         /**
@@ -196,7 +139,7 @@ class Value
          * safe then escape it automatically.
          */
         if (is_string($value) && array_get($parameters, 'is_safe') !== true) {
-            $value = $this->purifier->purify($value);
+            $value = app(Purifier::class)->purify($value);
         }
 
         return $value;

@@ -1,23 +1,15 @@
 <?php
 
+use Anomaly\Streams\Platform\Support\Evaluator;
+
 class EvaluatorTest extends TestCase
 {
 
-    public function testCanBeResolved()
-    {
-        $this->assertInstanceOf(
-            \Anomaly\Streams\Platform\Support\Evaluator::class,
-            $this->app->make(\Anomaly\Streams\Platform\Support\Evaluator::class)
-        );
-    }
-
     public function testCanEvaluateClosures()
     {
-        $evaluator = $this->app->make(\Anomaly\Streams\Platform\Support\Evaluator::class);
-
         $this->assertEquals(
             50,
-            $evaluator->evaluate(
+            Evaluator::evaluate(
                 function ($multiplier) {
                     return 5 * $multiplier;
                 },
@@ -28,11 +20,9 @@ class EvaluatorTest extends TestCase
 
     public function testCanEvaluateArrays()
     {
-        $evaluator = $this->app->make(\Anomaly\Streams\Platform\Support\Evaluator::class);
-
         $this->assertEquals(
             ['Ryan', ['6\'3"'], 50],
-            $evaluator->evaluate(
+            Evaluator::evaluate(
                 [
                     'info.name',
                     [
@@ -55,11 +45,9 @@ class EvaluatorTest extends TestCase
 
     public function testCanEvaluateTraversableStrings()
     {
-        $evaluator = $this->app->make(\Anomaly\Streams\Platform\Support\Evaluator::class);
-
         $this->assertEquals(
             'Ryan',
-            $evaluator->evaluate(
+            Evaluator::evaluate(
                 'info.name',
                 [
                     'info' => [

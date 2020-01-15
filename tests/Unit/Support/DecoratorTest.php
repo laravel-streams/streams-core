@@ -7,7 +7,7 @@ use Anomaly\Streams\Platform\Support\Decorator;
 class DecoratorTest extends TestCase
 {
 
-    public function testCanDecorate()
+    public function testCanDecoratePresentables()
     {
         $this->assertInstanceOf(
             EntryPresenter::class,
@@ -15,11 +15,27 @@ class DecoratorTest extends TestCase
         );
     }
 
-    public function testCanUndecorate()
+    public function testCanUnecoratePresentables()
     {
         $this->assertInstanceOf(
             EntryModel::class,
             Decorator::undecorate(new EntryPresenter(new EntryModel()))
+        );
+    }
+
+    public function testCanDecorateArrays()
+    {
+        $this->assertInstanceOf(
+            EntryPresenter::class,
+            Decorator::decorate([new EntryModel()])[0]
+        );
+    }
+
+    public function testCanUnecorateArrays()
+    {
+        $this->assertInstanceOf(
+            EntryModel::class,
+            Decorator::undecorate([new EntryPresenter(new EntryModel())])[0]
         );
     }
 }
