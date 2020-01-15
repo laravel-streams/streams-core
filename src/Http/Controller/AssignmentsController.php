@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Http\Controller;
+<?php
+
+namespace Anomaly\Streams\Platform\Http\Controller;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
@@ -74,7 +76,7 @@ class AssignmentsController extends AdminController
             ->notAssignedTo($stream)
             ->unlocked();
 
-        return view('streams::assignments/choose', compact('fields', 'module'));
+        return view('theme::assignments/choose', compact('fields', 'module'));
     }
 
     /**

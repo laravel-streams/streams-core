@@ -49,19 +49,19 @@ class SetDefaultOptions
          * Default the form view based on the request.
          */
         if (!$this->builder->getFormOption('form_view') && $this->builder->isAjax()) {
-            $this->builder->setFormOption('form_view', 'streams::form/form');
+            $this->builder->setFormOption('form_view', 'theme::form/form');
         }
 
         if (!$this->builder->getFormOption('form_view') && $theme && $theme->isAdmin()) {
-            $this->builder->setFormOption('form_view', 'streams::form/form');
+            $this->builder->setFormOption('form_view', 'theme::form/form');
         }
 
         if (!$this->builder->getFormOption('form_view') && $theme && !$theme->isAdmin()) {
-            $this->builder->setFormOption('form_view', 'streams::form/form');
+            $this->builder->setFormOption('form_view', 'theme::form/form');
         }
 
         if (!$this->builder->getFormOption('form_view')) {
-            $this->builder->setFormOption('form_view', 'streams::form/form');
+            $this->builder->setFormOption('form_view', 'theme::form/form');
         }
 
         /*

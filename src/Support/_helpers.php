@@ -325,7 +325,7 @@ if (!function_exists('buttons')) {
      */
     function buttons(ButtonCollection $buttons)
     {
-        return view('streams::buttons/buttons', ['buttons' => $buttons]);
+        return view('theme::buttons/buttons', ['buttons' => $buttons]);
     }
 }
 
@@ -511,7 +511,7 @@ if (!function_exists('favicons')) {
      */
     function favicons($source)
     {
-        return view('streams::partials.favicons', compact('source'));
+        return view('theme::partials.favicons', compact('source'));
     }
 }
 
@@ -524,7 +524,7 @@ if (!function_exists('constants')) {
      */
     function constants()
     {
-        return view('streams::partials.constants');
+        return view('theme::partials.constants');
     }
 }
 

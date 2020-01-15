@@ -62,19 +62,19 @@ class SetDefaultOptions
          * Default the table view based on the request.
          */
         if (!$this->builder->getTableOption('table_view') && $this->builder->isAjax()) {
-            $this->builder->setTableOption('table_view', 'streams::table/table');
+            $this->builder->setTableOption('table_view', 'theme::table/table');
         }
 
         if (!$this->builder->getTableOption('table_view') && $theme && $theme->isAdmin()) {
-            $this->builder->setTableOption('table_view', 'streams::table/table');
+            $this->builder->setTableOption('table_view', 'theme::table/table');
         }
 
         if (!$this->builder->getTableOption('table_view') && $theme && !$theme->isAdmin()) {
-            $this->builder->setTableOption('table_view', 'streams::table/table');
+            $this->builder->setTableOption('table_view', 'theme::table/table');
         }
 
         if (!$this->builder->getTableOption('table_view')) {
-            $this->builder->setTableOption('table_view', 'streams::table/table');
+            $this->builder->setTableOption('table_view', 'theme::table/table');
         }
 
         /*

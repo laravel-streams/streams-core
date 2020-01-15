@@ -46,7 +46,7 @@ class SetTableResponse
 
         $table->setResponse(
             $response->view(
-                $options->get('wrapper_view', $this->builder->isAjax() ? 'streams::ajax' : 'streams::default'),
+                $options->get('wrapper_view', $this->builder->isAjax() ? 'theme::ajax' : 'theme::default'),
                 $data
             )
         );

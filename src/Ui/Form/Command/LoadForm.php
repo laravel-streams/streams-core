@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -60,7 +62,7 @@ class LoadForm
 
         $form->addData('form', $form);
 
-        if ($breadcrumb = $form->getOption('breadcrumb', 'streams::form.mode.' . $this->builder->getFormMode())) {
+        if ($breadcrumb = $form->getOption('breadcrumb', 'theme::form.mode.' . $this->builder->getFormMode())) {
             $breadcrumbs->put($breadcrumb, '#');
         }
     }

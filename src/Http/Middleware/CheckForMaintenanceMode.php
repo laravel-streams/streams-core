@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Http\Middleware;
+<?php
+
+namespace Anomaly\Streams\Platform\Http\Middleware;
 
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Support\Authorizer;
@@ -115,7 +117,7 @@ class CheckForMaintenanceMode
                 return $next($request);
             }
 
-            $response->setContent(view('streams::errors.401'));
+            $response->setContent(view('theme::errors.401'));
 
             return $response;
         }

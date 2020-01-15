@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
@@ -40,7 +42,7 @@ class MakeTable
         $data    = $table->getData();
 
         $content = view(
-            $options->get('table_view', $this->builder->isAjax() ? 'streams::table/ajax' : 'streams::table/table'),
+            $options->get('table_view', $this->builder->isAjax() ? 'theme::table/ajax' : 'theme::table/table'),
             $data
         )->render();
 

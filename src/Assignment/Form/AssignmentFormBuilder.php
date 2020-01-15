@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Assignment\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment\Form;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
@@ -53,7 +55,7 @@ class AssignmentFormBuilder extends FormBuilder
         'general' => [
             'tabs' => [
                 'assignment' => [
-                    'title'  => 'streams::form.tab.display',
+                    'title'  => 'theme::form.tab.display',
                     'fields' => [
                         'label',
                         'placeholder',
@@ -62,7 +64,7 @@ class AssignmentFormBuilder extends FormBuilder
                     ],
                 ],
                 'options'    => [
-                    'title'  => 'streams::form.tab.options',
+                    'title'  => 'theme::form.tab.options',
                     'fields' => [
                         'required',
                         'unique',
@@ -98,8 +100,8 @@ class AssignmentFormBuilder extends FormBuilder
             $this->setOption(
                 'title',
                 (is_string(trans($field->getName())) ? trans($field->getName()) : $field->getName())
-                . " {$icon} " .
-                (is_string(trans($stream->getName())) ? trans($stream->getName()) : $stream->getName())
+                    . " {$icon} " .
+                    (is_string(trans($stream->getName())) ? trans($stream->getName()) : $stream->getName())
             );
         }
 
