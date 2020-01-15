@@ -57,14 +57,4 @@ class ViewTemplate extends Collection
 
         return $this;
     }
-
-    /**
-     * Override the string output.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return '';
-    }
 }

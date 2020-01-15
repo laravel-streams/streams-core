@@ -49,10 +49,6 @@ return [
             'metric'   => 'Metrinė sistema',
         ],
     ],
-    'currency'        => [
-        'label'        => 'Valiuta',
-        'instructions' => 'Nurodykite numatytąją valiutą svetainės',
-    ],
     'date_format'     => [
         'label'        => 'Datos formatas',
         'instructions' => 'Nurodykite numatytąjį datos formatą',

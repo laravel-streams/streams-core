@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Laravel\Scout\ModelObserver;
 use Laravel\Scout\Searchable;
-use Robbo\Presenter\PresentableInterface;
+use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
 
 /**
  * Class EntryModel

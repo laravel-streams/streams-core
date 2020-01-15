@@ -1,27 +1,28 @@
 <?php
 
+use Anomaly\Streams\Platform\Support\Collection;
+
 class CollectionTest extends TestCase
 {
 
-    public function testCanPadItems()
+    public function testCanMapGetToCall()
     {
-        $collection = new \Anomaly\Streams\Platform\Support\Collection(
+        $collection = new CollectionStub(
             [
-                'test' => 'Test'
+                'foo' => 'bar'
             ]
         );
 
-        $this->assertEquals(3, $collection->pad(3)->count());
+        $this->assertEquals('bar', $collection->foo);
+        $this->assertEquals('baz', $collection->foo_bar);
     }
+}
 
-    public function testCanPadItemsWithValue()
+class CollectionStub extends Collection
+{
+
+    public function fooBar()
     {
-        $collection = new \Anomaly\Streams\Platform\Support\Collection(
-            [
-                'test' => 'Test'
-            ]
-        );
-
-        $this->assertEquals('Foo', $collection->pad(3, 'Foo')->last());
+        return 'baz';
     }
 }

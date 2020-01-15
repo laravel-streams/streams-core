@@ -37,10 +37,6 @@ return [
             'metric'   => 'Metriek Stelsel',
         ],
     ],
-    'currency'        => [
-        'label'        => 'Valuta',
-        'instructions' => 'Specificeer de standaard valuta voor je site.',
-    ],
     'date_format'     => [
         'label'        => 'Datumformaat',
         'instructions' => 'Specificeer de standaard datumformaat voor je site.',

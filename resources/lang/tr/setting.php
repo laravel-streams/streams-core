@@ -37,10 +37,6 @@ return [
             'metric'   => 'Metrik sistemi',
         ],
     ],
-    'currency'              => [
-        'label'        => 'Para birimi',
-        'instructions' => 'Siteniz için varsayılan para birimini belirtin.',
-    ],
     'date_format'           => [
         'label'        => 'Tarih formatı',
         'instructions' => 'Siteniz için varsayılan tarih biçimini belirtin.',

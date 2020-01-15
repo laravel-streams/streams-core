@@ -49,10 +49,6 @@ return [
             'metric'   => 'Metriska systemet',
         ],
     ],
-    'currency'          => [
-        'label'        => 'Valuta',
-        'instructions' => 'Ange standard valuta för din webbplats',
-    ],
     'default_timezone' => [
         'label'        => 'Standardtidszon',
         'instructions' => 'Specificera systemets standardtidszon. Detta kommer att användas för alla funktioner gällande datum och tid.'

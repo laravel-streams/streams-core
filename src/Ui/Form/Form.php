@@ -16,7 +16,7 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldCollection;
 use Anomaly\Streams\Platform\Ui\Form\Component\Section\SectionCollection;
 use Illuminate\Support\MessageBag;
 use Illuminate\View\View;
-use Robbo\Presenter\PresentableInterface;
+use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

@@ -23,10 +23,6 @@ return [
             'metric'   => 'Metrisches System',
         ],
     ],
-    'currency'        => [
-        'label'        => 'Währung',
-        'instructions' => 'Geben Sie die Standardwährung für Ihre Website an.',
-    ],
     'date_format'      => [
         'label'        => 'Datumsformat',
         'instructions' => 'Geben Sie das Standard-Datumsformat für Ihre Webseite an.',

@@ -37,10 +37,6 @@ return [
             'metric'   => 'Metric System',
         ],
     ],
-    'currency'              => [
-        'label'        => 'Currency',
-        'instructions' => 'Specify the default currency for your site.',
-    ],
     'date_format'           => [
         'label'        => 'Date Format',
         'instructions' => 'Specify the default date format for your site.',

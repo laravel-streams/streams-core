@@ -49,10 +49,6 @@ return [
             'metric'   => '公制',
         ],
     ],
-    'currency'          => [
-        'label'        => '货币',
-        'instructions' => '指定站点默认使用的货币.',
-    ],
     'date_format'       => [
         'label'        => '日期格式',
         'instructions' => '指定站点默认的日期格式.',

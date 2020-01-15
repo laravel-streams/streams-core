@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Robbo\Presenter\PresentableInterface;
+use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
 
 /**
  * Class VersionModel

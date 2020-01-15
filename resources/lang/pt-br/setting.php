@@ -41,10 +41,6 @@ return [
         'label'        => 'Fuso horáro',
         'instructions' => 'Especifique o fuso-horário do site.',
     ],
-    'currency'          => [
-        'label'        => 'Moeda',
-        'instructions' => 'Especifique a moeda do site.',
-    ],
     'date_format'       => [
         'label'        => 'Formato de data',
         'instructions' => 'Especifique o formato de data padrão do site.',

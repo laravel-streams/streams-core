@@ -6,7 +6,7 @@ use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Exception;
 use Illuminate\Contracts\Support\Arrayable;
-use Robbo\Presenter\PresentableInterface;
+use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
 use Robbo\Presenter\Presenter;
 
 /**

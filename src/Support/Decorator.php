@@ -1,7 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 use ArrayAccess;
 use IteratorAggregate;
+use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
 
 /**
  * Class Decorator
@@ -13,13 +16,34 @@ use IteratorAggregate;
 class Decorator extends \Robbo\Presenter\Decorator
 {
 
+    /*
+     * Decorate a value.
+     *
+     * @param  mixed $value
+     * @return mixed $value
+    */
+    public function decorate($value)
+    {
+        if ($value instanceof PresentableInterface) {
+            return $value->getPresenter();
+        }
+
+        if (is_array($value) or ($value instanceof IteratorAggregate and $value instanceof ArrayAccess)) {
+            foreach ($value as $k => $v) {
+                $value[$k] = $this->decorate($v);
+            }
+        }
+
+        return $value;
+    }
+
     /**
      * Undecorate a value.
      *
      * @param $value
      * @return mixed
      */
-    public function undecorate($value)
+    public static function undecorate($value)
     {
         if ($value instanceof Presenter) {
             return $value->getObject();

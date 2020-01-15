@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -47,47 +49,47 @@ class Presenter extends \Robbo\Presenter\Presenter
         }
 
         if ($method = $this->getPresenterMethodFromVariable($var)) {
-            return $this->$method();
+            return $this->__getDecorator()->decorate($this->$method());
         }
 
         // Check the presenter for a getter.
         if (method_exists($this, camel_case('get_' . $var))) {
-            return call_user_func_array([$this, camel_case('get_' . $var)], []);
+            return $this->__getDecorator()->decorate(call_user_func_array([$this, camel_case('get_' . $var)], []));
         }
 
         // Check the presenter for a getter.
         if (method_exists($this, camel_case('is_' . $var))) {
-            return call_user_func_array([$this, camel_case('is_' . $var)], []);
+            return $this->__getDecorator()->decorate(call_user_func_array([$this, camel_case('is_' . $var)], []));
         }
 
         // Check the presenter for a method.
         if (method_exists($this, camel_case($var))) {
-            return call_user_func_array([$this, camel_case($var)], []);
+            return $this->__getDecorator()->decorate(call_user_func_array([$this, camel_case($var)], []));
         }
 
         // Check the object for a getter.
         if (method_exists($this->object, camel_case('get_' . $var))) {
-            return call_user_func_array([$this->object, camel_case('get_' . $var)], []);
+            return $this->__getDecorator()->decorate(call_user_func_array([$this->object, camel_case('get_' . $var)], []));
         }
 
         // Check the object for a getter.
         if (method_exists($this->object, camel_case('is_' . $var))) {
-            return call_user_func_array([$this->object, camel_case('is_' . $var)], []);
+            return $this->__getDecorator()->decorate(call_user_func_array([$this->object, camel_case('is_' . $var)], []));
         }
 
         // Check the object for a method.
         if (method_exists($this->object, camel_case($var))) {
-            return call_user_func_array([$this->object, camel_case($var)], []);
+            return $this->__getDecorator()->decorate(call_user_func_array([$this->object, camel_case($var)], []));
         }
 
         // Check the for a getter style hook.
         if (method_exists($this->object, 'call') && $this->object->hasHook('get_' . $var)) {
-            return $this->object->call('get_' . $var);
+            return $this->__getDecorator()->decorate($this->object->call('get_' . $var));
         }
 
         // Check the for a normal style hook.
         if (method_exists($this->object, 'call') && $this->object->hasHook($var)) {
-            return $this->object->call($var);
+            return $this->__getDecorator()->decorate($this->object->call($var));
         }
 
         try {

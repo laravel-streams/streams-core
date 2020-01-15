@@ -18,7 +18,7 @@ use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Stream\Command\CompileStream;
 use Anomaly\Streams\Platform\Stream\Command\MergeStreamConfig;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Robbo\Presenter\PresentableInterface;
+use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
 
 /**
  * Class StreamModel
