@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 use Misd\Linkify\Linkify;
 
@@ -60,6 +62,8 @@ class Str extends \Illuminate\Support\Str
 
     /**
      * Linkify the provided text.
+     * 
+     * @todo is this appropriate here? We have helpers and stuff too.
      *
      * @param       $text
      * @param array $options
@@ -72,6 +76,8 @@ class Str extends \Illuminate\Support\Str
 
     /**
      * Return purified HTML.
+     * 
+     * @todo is this appropriate here? We have helpers and stuff too.
      *
      * @param $html
      * @return string

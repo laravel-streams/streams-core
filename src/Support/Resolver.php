@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Support;
 
+use Exception;
+
 /**
  * Class Resolver
  *
@@ -33,7 +35,11 @@ class Resolver
             (is_string($target) && str_contains($target, '@'))
             || is_callable($target)
         ) {
-            return app()->call($target, $arguments);
+            try {
+                return app()->call($target, $arguments);
+            } catch (\Exception $exception) {
+                //
+            }
         } elseif (
             is_string($target)
             && class_exists($target)

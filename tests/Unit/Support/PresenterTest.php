@@ -1,51 +1,152 @@
 <?php
 
+use Anomaly\Streams\Platform\Support\Presenter;
+use Anomaly\Streams\Platform\Traits\Hookable;
+
 class PresenterTest extends TestCase
 {
-
-    public function testCanBeInstantiated()
+    public function testCanAccessDecoratedObject()
     {
-        $this->assertInstanceOf(
-            \Anomaly\Streams\Platform\Support\Presenter::class,
-            new \Anomaly\Streams\Platform\Support\Presenter(new PresenterStub())
-        );
+        $presenter = new PresenterStub(new ObjectStub());
+
+        $this->assertInstanceOf(ObjectStub::class, $presenter->getObject());
     }
 
-    public function testProtectedMethods()
+    public function testCanMapGetToPublicPresenterGetterMethods()
     {
-        $presenter = new \Anomaly\Streams\Platform\Support\Presenter(new PresenterStub());
+        $presenter = new PresenterStub(new ObjectStub());
 
-        $this->assertNull($presenter->save());
-        $this->assertNull($presenter->update());
-        $this->assertNull($presenter->delete());
+        $this->assertEquals(true, $presenter->secret);
+        $this->assertEquals('baz', $presenter->foo_bar);
     }
 
-    public function testCanAccessPublicObjectMethods()
+    public function testCanMapGetToPublicPresenterMethods()
     {
-        $presenter = new \Anomaly\Streams\Platform\Support\Presenter(new PresenterStub());
+        $presenter = new PresenterStub(new ObjectStub());
+
+        $this->assertEquals('presenter.method', $presenter->presenter_method);
+    }
+
+    public function testCanMapGetToPublicGetterMethods()
+    {
+        $presenter = new Presenter(new ObjectStub());
+
+        $this->assertEquals(true, $presenter->protected);
+        $this->assertEquals('protected', $presenter->protected_value);
+    }
+
+    public function testCanMapGetToPublicMethods()
+    {
+        $presenter = new Presenter(new ObjectStub());
 
         $this->assertEquals('public', $presenter->public_method);
     }
 
-    public function testCanAccessPublicPresenterMethods()
+    public function testCanPassthroughPublicMethods()
     {
-        $presenter = new \Anomaly\Streams\Platform\Support\Presenter(new PresenterStub());
+        $presenter = new Presenter(new ObjectStub());
 
-        $this->assertInstanceOf(PresenterStub::class, $presenter->object);
+        $this->assertEquals('public', $presenter->publicMethod());
     }
 
-    public function testCanAccessProtectedObjectPropertiesThroughGetters()
+    public function testCanAccessGetterStyleHooks()
     {
-        $presenter = new \Anomaly\Streams\Platform\Support\Presenter(new PresenterStub());
+        $presenter = new Presenter(new ObjectStub());
 
-        $this->assertEquals('protected', $presenter->protected_value);
+        $presenter->hook('get_foo', function () {
+            return 'bar';
+        });
+
+        $this->assertEquals('bar', $presenter->foo);
+    }
+
+    public function testCanAccessRegularHooks()
+    {
+        $presenter = new Presenter(new ObjectStub());
+
+        $presenter->hook('bar', function () {
+            return 'baz';
+        });
+
+        $this->assertEquals('baz', $presenter->bar);
+    }
+
+    public function testCanAccessArrayValues()
+    {
+        $presenter = new Presenter(['foo' => 'bar']);
+
+        $this->assertEquals('bar', $presenter->foo);
+    }
+
+    public function testBlocksDeadEnds()
+    {
+        $presenter = new Presenter(new ObjectStub());
+
+        $this->expectException(\Exception::class);
+
+        $presenter->zzz();
+    }
+
+    public function testBlocksProtectedMethods()
+    {
+        $presenter = new Presenter(new ObjectStub());
+
+        $this->expectException(\Exception::class);
+
+        $presenter->delete();
+    }
+
+    public function testSupportsToString()
+    {
+        $presenter = new Presenter(new StringStub());
+
+        $this->assertEquals('test', (string) $presenter);
+    }
+
+    public function testSupportsToStringJsonFallback()
+    {
+        $presenter = new Presenter(['foo' => 'bar']);
+
+        $this->assertEquals(json_encode(['foo' => 'bar']), (string) $presenter);
+    }
+
+    public function testReturnsNullByDefault()
+    {
+        $presenter = new Presenter(new ObjectStub());
+
+        $this->assertNull($presenter->zzzzz);
     }
 }
 
-class PresenterStub
+class PresenterStub extends Presenter
 {
+    protected $secret = true;
+
+    protected $fooBar = 'baz';
+
+    public function isSecret()
+    {
+        return $this->secret;
+    }
+
+    public function getFooBar()
+    {
+        return $this->fooBar;
+    }
+
+    public function presenterMethod()
+    {
+        return 'presenter.method';
+    }
+}
+
+class ObjectStub
+{
+    use Hookable;
 
     protected $protected = true;
+
+    public $publicValue = 'public';
 
     protected $protectedValue = 'protected';
 
@@ -63,5 +164,13 @@ class PresenterStub
     {
         return 'public';
     }
+}
 
+class StringStub
+{
+
+    public function __toString()
+    {
+        return 'test';
+    }
 }

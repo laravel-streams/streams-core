@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Support;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Contracts\Support\Arrayable;
 
@@ -66,8 +67,13 @@ class Value
 
             /* @var EntryInterface $relation */
             if ($entry->assignmentIsRelationship($value) && $relation = $entry->{camel_case($value)}) {
+
                 if ($relation instanceof EloquentModel) {
                     $value = $relation->getTitle();
+                }
+
+                if ($relation instanceof EloquentCollection) {
+                    $value = $relation;
                 }
             } else {
                 $value = $entry->getFieldValue($value);
@@ -88,8 +94,7 @@ class Value
         $value = Evaluator::evaluate($value, $payload);
 
         /*
-         * Lastly, prepare the entry to be
-         * parsed into the string.
+         * Lastly, parse the entry intro the string
          */
         if ($entry instanceof Arrayable) {
             $entry = $entry->toArray();
@@ -109,6 +114,7 @@ class Value
          * Parse the value with the value too.
          */
         if (is_string($value)) {
+
             $value = app(Parser::class)->parse(
                 $value,
                 [
@@ -116,6 +122,8 @@ class Value
                     $term   => $entry,
                 ]
             );
+
+            $value = data_get([$term => $entry], $value, $value);
         }
 
         /*
@@ -126,20 +134,20 @@ class Value
             $value = trans($value);
         }
 
-        /*
-         * If the value looks like a render-able
-         * string then render it.
-         */
-        if (is_string($value) && str_contains($value, ['{{', '{%'])) {
-            $value = (string) Template::render($value, [$term => $entry]);
-        }
-
         /**
          * If the value is not explicitly marked 
          * safe then escape it automatically.
          */
         if (is_string($value) && array_get($parameters, 'is_safe') !== true) {
             $value = app(Purifier::class)->purify($value);
+        }
+
+        /*
+         * If the value looks like a render-able
+         * string then render it.
+         */
+        if (is_string($value) && str_contains($value, ['{{', '<?php'])) {
+            $value = (string) Template::render($value, [$term => $entry]);
         }
 
         return $value;

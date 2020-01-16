@@ -57,14 +57,6 @@ class Presenter
      */
     public function __get($var)
     {
-        if (in_array($var, $this->protected)) {
-            return null;
-        }
-
-        if ($method = $this->getPresenterMethodFromVariable($var)) {
-            return Decorator::decorate($this->$method());
-        }
-
         // Check the presenter for a getter.
         if (method_exists($this, camel_case('get_' . $var))) {
             return Decorator::decorate(call_user_func_array([$this, camel_case('get_' . $var)], []));
@@ -96,12 +88,12 @@ class Presenter
         }
 
         // Check the for a getter style hook.
-        if (method_exists($this->object, 'call') && $this->object->hasHook('get_' . $var)) {
+        if (method_exists($this->object, 'hasHook') && $this->object->hasHook('get_' . $var)) {
             return Decorator::decorate($this->object->call('get_' . $var));
         }
 
         // Check the for a normal style hook.
-        if (method_exists($this->object, 'call') && $this->object->hasHook($var)) {
+        if (method_exists($this->object, 'hasHook') && $this->object->hasHook($var)) {
             return Decorator::decorate($this->object->call($var));
         }
 
@@ -116,21 +108,6 @@ class Presenter
     }
 
     /**
-     * Fetch the presenter method name for the given variable.
-     *
-     * @param  string      $variable
-     * @return string|null
-     */
-    protected function getPresenterMethodFromVariable($variable)
-    {
-        $method = camel_case($variable);
-
-        if (method_exists($this, $method)) {
-            return $method;
-        }
-    }
-
-    /**
      * Call unknown methods if safe.
      *
      * @param  string $method
@@ -140,10 +117,10 @@ class Presenter
     public function __call($method, $arguments)
     {
         if (in_array(snake_case($method), $this->protected)) {
-            return null;
+            throw new \Exception("[$method] is protected.");
         }
 
-        if (is_object($this->object)) {
+        if (is_object($this->object) && method_exists($this->object, $method)) {
 
             $value = call_user_func_array([$this->object, $method], $arguments);
 

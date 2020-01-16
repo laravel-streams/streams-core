@@ -17,7 +17,7 @@ class Template
      *
      * @param       $template
      * @param array $payload
-     * @return \Illuminate\Contracts\View\View
+     * @return string
      */
     public static function render($template, array $payload = [])
     {
@@ -29,7 +29,7 @@ class Template
                 '\\/'
             ),
             $payload
-        );
+        )->render();
     }
 
     /**
@@ -39,7 +39,7 @@ class Template
      * @param string $extension
      * @return string
      */
-    public static function make($template, $extension = 'twig')
+    public static function make($template, $extension = 'blade.php')
     {
         $path = self::path($template, $extension);
 
@@ -47,23 +47,6 @@ class Template
             str_replace(application()->getStoragePath(), '', $path),
             '\\/'
         );
-    }
-
-    /**
-     * Make a string asset template.
-     *
-     * @param $template
-     * @param $extension
-     * @return string
-     */
-    public static function asset($template, $extension)
-    {
-        $path = self::path($template, $extension);
-
-        return 'storage::' . ltrim(
-            str_replace(application()->getStoragePath(), '', $path),
-            '\\/'
-        ) . '.' . $extension;
     }
 
     /**

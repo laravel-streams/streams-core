@@ -159,7 +159,6 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\View\ViewOverrides'       => 'Anomaly\Streams\Platform\View\ViewOverrides',
         'Anomaly\Streams\Platform\View\ViewMobileOverrides' => 'Anomaly\Streams\Platform\View\ViewMobileOverrides',
 
-        //'Anomaly\Streams\Platform\Support\Template'               => 'Anomaly\Streams\Platform\Support\Template',
         'Anomaly\Streams\Platform\Support\Purifier'         => 'Anomaly\Streams\Platform\Support\Purifier',
         'Anomaly\Streams\Platform\Field\FieldRouter'        => 'Anomaly\Streams\Platform\Field\FieldRouter',
     ];

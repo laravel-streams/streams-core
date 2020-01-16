@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Support\Resolver;
@@ -26,14 +28,11 @@ class SetFormOptions
 
     /**
      * Handle the command.
-     *
-     * @param Resolver  $resolver
-     * @param Evaluator $evaluator
      */
-    public function handle(Resolver $resolver, Evaluator $evaluator)
+    public function handle()
     {
-        $evaluator->evaluate(
-            $resolver->resolve($this->builder->getOptions(), ['builder' => $this->builder]),
+        evaluate(
+            resolver($this->builder->getOptions(), ['builder' => $this->builder]),
             ['builder' => $this->builder]
         );
 
