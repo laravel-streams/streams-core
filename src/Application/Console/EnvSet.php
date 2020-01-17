@@ -2,10 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Application\Console;
 
-use Anomaly\Streams\Platform\Application\Command\ReadEnvironmentFile;
-use Anomaly\Streams\Platform\Application\Command\WriteEnvironmentFile;
 use Illuminate\Console\Command;
-use Illuminate\Foundation\Bus\DispatchesJobs;
+use Anomaly\Streams\Platform\Support\Env;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
@@ -17,8 +15,6 @@ use Symfony\Component\Console\Input\InputArgument;
  */
 class EnvSet extends Command
 {
-    use DispatchesJobs;
-
     /**
      * The console command name.
      *
@@ -42,9 +38,7 @@ class EnvSet extends Command
 
         list($variable, $value) = explode('=', $line, 2);
 
-        $contents = preg_replace("/{$variable}=.+/", "{$variable}=\"{$value}\"", file_get_contents(base_path('.env')));
-
-        file_put_contents(base_path('.env'), $contents);
+        Env::write($variable, $value);
     }
 
     /**

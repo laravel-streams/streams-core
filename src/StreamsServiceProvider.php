@@ -16,7 +16,6 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Anomaly\Streams\Platform\Entry\EntryLoader;
 use Anomaly\Streams\Platform\View\ViewComposer;
 use Anomaly\Streams\Platform\Stream\StreamModel;
-use Anomaly\Streams\Platform\Support\Autoloader;
 use Anomaly\Streams\Platform\Entry\EntryObserver;
 use Anomaly\Streams\Platform\Field\FieldObserver;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -32,8 +31,6 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
-use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
-use Anomaly\Streams\Platform\Application\Command\SetApplicationDomain;
 use Anomaly\Streams\Platform\Http\Routing\Matching\CaseInsensitiveUriValidator;
 
 /**
@@ -239,8 +236,6 @@ class StreamsServiceProvider extends ServiceProvider
                 \Anomaly\Streams\Platform\Application\Console\Build::class,
                 \Anomaly\Streams\Platform\Application\Console\EnvSet::class,
                 \Anomaly\Streams\Platform\Application\Console\Refresh::class,
-                \Anomaly\Streams\Platform\Application\Console\AppPublish::class,
-                \Anomaly\Streams\Platform\Application\Console\StreamsPublish::class,
             ]);
         }
 
@@ -760,11 +755,10 @@ class StreamsServiceProvider extends ServiceProvider
         $views->composer('*', ViewComposer::class);
 
         $views->addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/views'));
-        //$views->addNamespace('published', $application->getResourcesPath('addons'));
-        //$views->addNamespace('app', $application->getResourcesPath('views'));
         $views->addNamespace('storage', application()->getStoragePath());
         $views->addNamespace('shared', base_path('resources/views'));
         $views->addNamespace('theme', base_path('resources/views'));
+        $views->addNamespace('app', app_resources_path('views'));
         $views->addNamespace('root', base_path());
 
         //$views->addExtension('html', 'php');

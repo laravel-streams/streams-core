@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Application;
+<?php
+
+namespace Anomaly\Streams\Platform\Application;
 
 /**
  * Class Application
@@ -37,25 +39,6 @@ class Application
      * @var string
      */
     protected $reference = 'default';
-
-    /**
-     * The application repository.
-     *
-     * @var ApplicationRepository
-     */
-    protected $applications;
-
-    /**
-     * Create a new Application instance.
-     *
-     * @param ApplicationRepository $model
-     */
-    public function __construct(ApplicationRepository $applications)
-    {
-        $this->applications = $applications;
-
-        $this->reference = env('DEFAULT_REFERENCE', $this->reference);
-    }
 
     /**
      * Setup the application.
@@ -157,15 +140,6 @@ class Application
      */
     public function locate()
     {
-        if ($app = $this->applications->findByDomain(app('request')->root())) {
-            $this->installed = true;
-            $this->locale    = $app->locale;
-            $this->enabled   = $app->enabled;
-            $this->reference = $app->reference;
-
-            return true;
-        }
-
         return false;
     }
 

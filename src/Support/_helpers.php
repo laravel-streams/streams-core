@@ -36,6 +36,23 @@ if (!function_exists('app_storage_path')) {
     }
 }
 
+if (!function_exists('app_resources_path')) {
+
+    /**
+     * Get the storage path for the application.
+     *
+     * @param  string $path
+     * @return string
+     */
+    function app_resources_path($path = '')
+    {
+        /* @var Application $application */
+        $application = app(Application::class);
+
+        return $application->getResourcesPath($path ? '/' . $path : $path);
+    }
+}
+
 if (!function_exists('array_value')) {
 
     /**

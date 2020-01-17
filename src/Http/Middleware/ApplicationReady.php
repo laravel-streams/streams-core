@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Http\Middleware;
+<?php
+
+namespace Anomaly\Streams\Platform\Http\Middleware;
 
 use Anomaly\Streams\Platform\Application\Event\ApplicationHasLoaded;
 use Closure;
