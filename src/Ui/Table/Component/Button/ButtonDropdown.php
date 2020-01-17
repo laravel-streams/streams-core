@@ -51,7 +51,7 @@ class ButtonDropdown
         $authorizer = resolve(Authorizer::class);
 
         foreach ($buttons as $key => &$button) {
-            if (!$authorizer->authorize($button['permission'])) {
+            if (isset($button['permission']) && !$authorizer->authorize($button['permission'])) {
                 // We don't have permission to use this button so hide it
                 continue;
             }
