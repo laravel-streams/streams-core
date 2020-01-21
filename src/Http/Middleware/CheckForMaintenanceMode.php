@@ -1,13 +1,17 @@
-<?php namespace Anomaly\Streams\Platform\Http\Middleware;
+<?php
 
-use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\Support\Authorizer;
-use Anomaly\UsersModule\User\Contract\UserInterface;
+namespace Anomaly\Streams\Platform\Http\Middleware;
+
 use Closure;
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Foundation\Application as Laravel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Contracts\Auth\Guard;
+use Symfony\Component\HttpFoundation\IpUtils;
+use Anomaly\Streams\Platform\Support\Authorizer;
+use Anomaly\UsersModule\User\Contract\UserInterface;
+use Anomaly\Streams\Platform\Application\Application;
+use Illuminate\Contracts\Foundation\Application as Laravel;
+use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 
 /**
  * Class CheckForMaintenanceMode
@@ -120,6 +124,12 @@ class CheckForMaintenanceMode
             return $response;
         }
 
-        abort(503);
+        $data = json_decode(file_get_contents($this->app->storagePath() . '/framework/down'), true);
+
+        if (isset($data['allowed']) && IpUtils::checkIp($request->ip(), (array) $data['allowed'])) {
+            return $next($request);
+        }
+
+        throw new MaintenanceModeException($data['time'], $data['retry'], $data['message']);
     }
 }

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Exception;
+<?php
+
+namespace Anomaly\Streams\Platform\Exception;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
@@ -99,7 +101,7 @@ class ExceptionHandler extends Handler
             return $this->convertExceptionToResponse($e);
         }
 
-        $summary = 'No Message';//$e->getMessage();
+        $summary = $e->getMessage();
         $headers = $e->getHeaders();
         $code    = $e->getStatusCode();
         $name    = trans("streams::error.{$code}.name");

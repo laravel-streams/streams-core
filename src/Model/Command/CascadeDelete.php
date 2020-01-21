@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Model\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Model\Command;
 
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
