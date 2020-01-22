@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Addon\Console;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionManager;
 use Anomaly\Streams\Platform\Addon\Module\Module;
@@ -36,29 +37,17 @@ class AddonUninstall extends Command
     protected $description = 'Uninstall an addon.';
 
     /**
-     * Execute the console command.
+     * Handle the command.
      *
-     * @param AddonCollection $addons
-     * @param ModuleManager $modules
-     * @param ExtensionManager $extensions
+     * @param AddonManager $manager
      */
-    public function handle(ModuleManager $modules, ExtensionManager $extensions)
+    public function handle(AddonManager $manager)
     {
         $addon = app($this->argument('addon'));
 
-        if ($addon instanceof Module) {
+        $manager->uninstall($addon);
 
-            $modules->uninstall($addon);
-
-            $this->info('The [' . $this->argument('addon') . '] module was uninstalled.');
-        }
-
-        if ($addon instanceof Extension) {
-
-            $extensions->uninstall($addon);
-
-            $this->info('The [' . $this->argument('addon') . '] extension was uninstalled.');
-        }
+        $this->info('Addon [' . $this->argument('addon') . '] was uninstalled.');
     }
 
     /**

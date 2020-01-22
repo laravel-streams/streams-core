@@ -2,11 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Addon\Console;
 
-use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Anomaly\Streams\Platform\Addon\Extension\Extension;
-use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\Addon\AddonManager;
 use Illuminate\Console\Command;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -19,7 +16,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class AddonReinstall extends Command
 {
-    use DispatchesJobs;
 
     /**
      * The console command name.
@@ -38,23 +34,16 @@ class AddonReinstall extends Command
     /**
      * Execute the console command.
      *
-     * @param AddonCollection $addons
+     * @param AddonManager $manager
      */
-    public function handle(AddonCollection $addons)
+    public function handle(AddonManager $manager)
     {
-        if (!$addon = $addons->get($this->argument('addon'))) {
-            $this->error('The [' . $this->argument('addon') . '] could not be found.');
-        }
+        $addon = app($this->argument('addon'));
 
-        if ($addon instanceof Module) {
-            $this->call('addon:uninstall', ['addon' => $this->argument('addon')]);
-            $this->call('addon:install', ['addon' => $this->argument('addon'), '--seed' => $this->option('seed')]);
-        }
+        $manager->uninstall($addon);
+        $manager->install($addon);
 
-        if ($addon instanceof Extension) {
-            $this->call('addon:uninstall', ['addon' => $this->argument('addon')]);
-            $this->call('addon:install', ['addon' => $this->argument('addon'), '--seed' => $this->option('seed')]);
-        }
+        $this->info('Addon [' . $this->argument('addon') . '] was reinstalled.');
     }
 
     /**

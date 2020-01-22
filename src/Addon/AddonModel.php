@@ -19,5 +19,5 @@ class AddonModel extends EloquentModel
      *
      * @var string
      */
-    protected $table = 'addons';
+    protected $table = 'streams_addons';
 }

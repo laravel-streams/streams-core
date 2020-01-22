@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Addon\Console;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionManager;
 use Anomaly\Streams\Platform\Addon\Module\Module;
@@ -35,28 +36,17 @@ class AddonInstall extends Command
     protected $description = 'Install an addon.';
 
     /**
-     * Execute the console command.
+     * Handle the command.
      *
-     * @param ModuleManager    $modules
-     * @param ExtensionManager $extensions
+     * @param AddonManager $manager
      */
-    public function handle(ModuleManager $modules, ExtensionManager $extensions)
+    public function handle(AddonManager $manager)
     {
         $addon = app($this->argument('addon'));
 
-        if ($addon instanceof Module) {
+        $manager->install($addon);
 
-            $modules->install($addon, $this->option('seed'));
-
-            $this->info('The [' . $this->argument('addon') . '] module was installed.');
-        }
-
-        if ($addon instanceof Extension) {
-
-            $extensions->install($addon, $this->option('seed'));
-
-            $this->info('The [' . $this->argument('addon') . '] extension was installed.');
-        }
+        $this->info('Addon [' . $this->argument('addon') . '] was installed.');
     }
 
     /**
