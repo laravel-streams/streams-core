@@ -1,9 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Extension;
 
 use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Model\EloquentObserver;
 
 /**
  * Class ExtensionModel
@@ -20,7 +21,7 @@ class ExtensionModel extends EloquentModel implements ExtensionInterface
      *
      * @var string
      */
-    protected $table = 'addons_extensions';
+    protected $table = 'streams_addons';
 
     /**
      * Disable timestamps for extensions.

@@ -81,10 +81,14 @@ class Env
         $variables = Env::variables();
         $variable = strtoupper($variable);
 
+        if (str_contains($value, ' ')) {
+            $value = "\"{$value}\"";
+        }
+
         if (isset($variables[$variable])) {
-            $contents = preg_replace("/{$variable}=.+/", "{$variable}=\"{$value}\"", file_get_contents($env = base_path('.env')));
+            $contents = preg_replace("/{$variable}=.+/", "{$variable}=" . $value, file_get_contents($env = base_path('.env')));
         } else {
-            $contents .= "\n{$variable}=\"{$value}\"";
+            $contents .= "\n{$variable}=" . $value;
         }
 
         file_put_contents($env, $contents);

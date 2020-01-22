@@ -5,13 +5,13 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
 /**
- * Class CreateModulesTable
+ * Class CreateAddonsTable
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class CreateModulesTable extends Migration
+class CreateAddonsTable extends Migration
 {
 
     /**
@@ -24,16 +24,16 @@ class CreateModulesTable extends Migration
         /* @var Builder $schema */
         $schema = app('db')->connection()->getSchemaBuilder();
 
-        if (!$schema->hasTable('addons_modules')) {
+        if (!$schema->hasTable('streams_addons')) {
             $schema->create(
-                'addons_modules',
+                'streams_addons',
                 function (Blueprint $table) {
                     $table->increments('id');
                     $table->string('namespace');
                     $table->boolean('installed')->default(0);
                     $table->boolean('enabled')->default(0);
 
-                    $table->unique('namespace', 'unique_modules');
+                    $table->unique('namespace');
                 }
             );
         }
@@ -49,6 +49,6 @@ class CreateModulesTable extends Migration
         /* @var Builder $schema */
         $schema = app('db')->connection()->getSchemaBuilder();
 
-        $schema->dropIfExists('addons_modules');
+        $schema->dropIfExists('streams_addons');
     }
 }

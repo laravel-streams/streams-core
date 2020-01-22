@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
@@ -20,7 +22,7 @@ class ModuleModel extends EloquentModel implements ModuleInterface
      *
      * @var string
      */
-    protected $table = 'addons_modules';
+    protected $table = 'streams_addons';
 
     /**
      * Disable timestamps for modules.

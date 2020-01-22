@@ -1,6 +1,7 @@
-<?php namespace Anomaly\Streams\Platform\Database\Seeder\Console\Command;
+<?php
 
-use Anomaly\Streams\Platform\Addon\Command\GetAddon;
+namespace Anomaly\Streams\Platform\Database\Seeder\Console\Command;
+
 use Anomaly\Streams\Platform\Support\Decorator;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -48,7 +49,7 @@ class SetAddonSeederClass
             return;
         }
 
-        if (!$addon = $this->dispatch(new GetAddon($identifier))) {
+        if (!$addon = addon($identifier)) {
             throw new \Exception("[$identifier] addon could not be found.");
         }
 

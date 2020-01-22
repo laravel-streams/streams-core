@@ -801,3 +801,21 @@ if (!function_exists('authorize')) {
         return app(\Anomaly\Streams\Platform\Support\Authorizer::class)->authorize($permission, $user);
     }
 }
+
+if (!function_exists('addon')) {
+
+    /**
+     * Return an addon instance.
+     *
+     * @param  string $identifier
+     * @return \Anomaly\Streams\Platform\Addon\Addon|null
+     */
+    function addon($identifier)
+    {
+        try {
+            app($identifier);
+        } catch (\Exception $exception) {
+            return null;
+        }
+    }
+}
