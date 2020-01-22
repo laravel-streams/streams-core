@@ -1,17 +1,19 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Console;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
- * Class Destroy
+ * Class StreamsDestroy
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Destroy extends Command
+class StreamsDestroy extends Command
 {
 
     /**

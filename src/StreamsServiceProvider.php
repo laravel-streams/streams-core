@@ -214,21 +214,18 @@ class StreamsServiceProvider extends ServiceProvider
                 \Anomaly\Streams\Platform\Installer\Console\Install::class,
 
                 // Streams Commands
-                \Anomaly\Streams\Platform\Stream\Console\Index::class,
-                \Anomaly\Streams\Platform\Stream\Console\Compile::class,
-                \Anomaly\Streams\Platform\Stream\Console\Cleanup::class,
-                \Anomaly\Streams\Platform\Stream\Console\Destroy::class,
+                \Anomaly\Streams\Platform\Stream\Console\StreamsIndex::class,
+                \Anomaly\Streams\Platform\Stream\Console\StreamsCompile::class,
+                \Anomaly\Streams\Platform\Stream\Console\StreamsCleanup::class,
+                \Anomaly\Streams\Platform\Stream\Console\StreamsDestroy::class,
 
                 // Addon Commands
                 \Anomaly\Streams\Platform\Addon\Console\AddonSeed::class,
                 \Anomaly\Streams\Platform\Addon\Console\AddonReset::class,
-                \Anomaly\Streams\Platform\Addon\Console\AddonsClear::class,
-                \Anomaly\Streams\Platform\Addon\Console\AddonPublish::class,
                 \Anomaly\Streams\Platform\Addon\Console\AddonInstall::class,
                 \Anomaly\Streams\Platform\Addon\Console\AddonMigrate::class,
                 \Anomaly\Streams\Platform\Addon\Console\AddonUninstall::class,
                 \Anomaly\Streams\Platform\Addon\Console\AddonReinstall::class,
-                \Anomaly\Streams\Platform\Addon\Console\AddonsOptimize::class,
 
                 // Application Commands
                 \Anomaly\Streams\Platform\Application\Console\Build::class,

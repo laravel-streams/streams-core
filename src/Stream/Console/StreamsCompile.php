@@ -1,18 +1,18 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Console;
+<?php
 
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+namespace Anomaly\Streams\Platform\Stream\Console;
+
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Illuminate\Console\Command;
 
 /**
- * Class Compile
+ * Class StreamsCompile
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Compile extends Command
+class StreamsCompile extends Command
 {
 
     /**
