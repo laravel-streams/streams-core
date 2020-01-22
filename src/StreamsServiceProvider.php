@@ -10,6 +10,7 @@ use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Routing\Matching\UriValidator;
+use Anomaly\Streams\Platform\Addon\AddonModel;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Field\FieldModel;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -25,11 +26,9 @@ use Anomaly\Streams\Platform\Support\Configurator;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Stream\StreamObserver;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
-use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
-use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Http\Routing\Matching\CaseInsensitiveUriValidator;
 
@@ -190,8 +189,8 @@ class StreamsServiceProvider extends ServiceProvider
         AssignmentModel::observe(AssignmentObserver::class);
 
         // Addon states
-        $modules = env('INSTALLED', false) ? ModuleModel::get() : new ModuleCollection([]);
-        $extensions = env('INSTALLED', false) ? ExtensionModel::get() : new ExtensionCollection([]);
+        $modules = env('INSTALLED', false) ? AddonModel::get() : new ModuleCollection([]);
+        $extensions = env('INSTALLED', false) ? AddonModel::get() : new ExtensionCollection([]);
 
         // @todo replace with single addons table
         $this->app->instance('addons', $modules->merge($extensions));
