@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Extension;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 
@@ -130,16 +132,6 @@ class Extension extends Addon
     public function isActive()
     {
         return $this->active;
-    }
-
-    /**
-     * Get the module's presenter.
-     *
-     * @return ExtensionPresenter
-     */
-    public function getPresenter()
-    {
-        return app()->make(ExtensionPresenter::class, ['object' => $this]);
     }
 
     /**

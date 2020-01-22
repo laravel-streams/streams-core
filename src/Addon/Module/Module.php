@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 
@@ -131,7 +133,7 @@ class Module extends Addon
      */
     public function addSectionButton($section, $slug, array $button, $position = null)
     {
-        $buttons = (array)array_get($this->sections, "{$section}.buttons");
+        $buttons = (array) array_get($this->sections, "{$section}.buttons");
 
         if ($position === null) {
             $position = count($buttons) + 1;
@@ -302,16 +304,6 @@ class Module extends Addon
     public function isActive()
     {
         return $this->active;
-    }
-
-    /**
-     * Get the module's presenter.
-     *
-     * @return ModulePresenter
-     */
-    public function getPresenter()
-    {
-        return app()->make(ModulePresenter::class, ['object' => $this]);
     }
 
     /**
