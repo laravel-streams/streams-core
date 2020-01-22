@@ -2,14 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Addon\Console;
 
-use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Anomaly\Streams\Platform\Addon\Extension\Extension;
-use Anomaly\Streams\Platform\Addon\Extension\ExtensionManager;
-use Anomaly\Streams\Platform\Addon\Module\Module;
-use Anomaly\Streams\Platform\Addon\Module\ModuleManager;
 use Illuminate\Console\Command;
+use Anomaly\Streams\Platform\Addon\AddonManager;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class AddonReset
@@ -32,30 +27,20 @@ class AddonReset extends Command
      *
      * @var string
      */
-    protected $description = 'Reset a addon migrations.';
+    protected $description = 'Reset an addon\'s migrations.';
 
     /**
-     * Execute the console command.
+     * Handle the command.
      *
-     * @param ModuleManager    $modules
-     * @param ExtensionManager $extensions
+     * @param AddonManager $manager
      */
-    public function handle(ModuleManager $modules, ExtensionManager $extensions)
+    public function handle(AddonManager $manager)
     {
-        if (!$addon = app($this->argument('addon'))) {
-            $this->error('The [' . $this->argument('addon') . '] could not be found.');
-        }
+        $addon = app($this->argument('addon'));
 
-        // $paths = array_filter(scandir($path = $addon->getPath('migrations')), function ($file) use ($path) {
-        //     return is_file($path . DIRECTORY_SEPARATOR . $file);
-        // });
+        $manager->reset($addon);
 
-        // $migrations = array_map(function ($file) use ($path) {
-        //     return $path . DIRECTORY_SEPARATOR . $file;
-        // }, $paths);
-
-        //console()->call('migrate', ['--path' => implode(' ', $migrations), '--realpath' => true]);
-        console()->call('migrate:reset', ['--path' => $addon->getPath('migrations'), '--realpath' => true]);
+        $this->info('Addon [' . $this->argument('addon') . '] was reset.');
     }
 
     /**

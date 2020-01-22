@@ -2,13 +2,18 @@
 
 namespace Anomaly\Streams\Platform\Database\Migration\Assignment;
 
-use Anomaly\Streams\Platform\Field\FieldInterface;
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Anomaly\Streams\Platform\Database\Migration\Assignment\AssignmentInput;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 
+/**
+ * AssignmentMigrator class
+ *
+ * @link   http://pyrocms.com/
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class AssignmentMigrator
 {
     /**

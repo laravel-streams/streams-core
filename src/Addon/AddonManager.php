@@ -3,6 +3,9 @@
 namespace Anomaly\Streams\Platform\Addon;
 
 use Illuminate\Support\Facades\Artisan;
+use Anomaly\Streams\Platform\Addon\Event\AddonWasReset;
+use Anomaly\Streams\Platform\Addon\Event\AddonWasSeeded;
+use Anomaly\Streams\Platform\Addon\Event\AddonWasMigrated;
 use Anomaly\Streams\Platform\Addon\Event\AddonWasInstalled;
 use Anomaly\Streams\Platform\Addon\Event\AddonWasUninstalled;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasMigrated;
@@ -94,10 +97,10 @@ class AddonManager
     }
 
     /**
-     * Migrate a module.
+     * Migrate an addon.
      *
      * @param Addon $addon
-     * @param bool   $seed
+     * @return bool
      */
     public function migrate(Addon $addon)
     {
@@ -112,7 +115,58 @@ class AddonManager
 
         $addon->fire('migrated', ['addon' => $addon]);
 
-        event(new ModuleWasMigrated($addon));
+        event(new AddonWasMigrated($addon));
+
+        return true;
+    }
+
+    /**
+     * Reset an addon.
+     *
+     * @param Addon $addon
+     * @return bool
+     */
+    public function reset(Addon $addon)
+    {
+        $addon->fire('resetting', ['addon' => $addon]);
+
+        $options = [
+            '--realpath' => true,
+            '--path' => $addon->getPath('migrations'),
+        ];
+
+        Artisan::call('migrate:reset', $options);
+
+        $addon->fire('reset', ['addon' => $addon]);
+
+        event(new AddonWasReset($addon));
+
+        return true;
+    }
+
+    /**
+     * Seed an addon.
+     *
+     * @param Addon $addon
+     * @return bool
+     */
+    public function seed(Addon $addon)
+    {
+        if (!class_exists($class = get_class($addon) . 'Seeder')) {
+            return false;
+        }
+
+        $addon->fire('seeding', ['addon' => $addon]);
+
+        $options = [
+            '--class' => $class,
+        ];
+
+        Artisan::call('db:seed', $options);
+
+        $addon->fire('seeded', ['addon' => $addon]);
+
+        event(new AddonWasSeeded($addon));
 
         return true;
     }
