@@ -174,11 +174,4 @@ interface AssignmentInterface extends EloquentInterface
      * @return mixed
      */
     public function getAttributes();
-
-    /**
-     * Compile the assignment's stream.
-     *
-     * @return AssignmentInterface
-     */
-    public function compileStream();
 }

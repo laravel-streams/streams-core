@@ -130,11 +130,4 @@ interface FieldInterface extends EloquentInterface
      * @return array
      */
     public function getRules();
-
-    /**
-     * Compile the fields's streams.
-     *
-     * @return FieldInterface
-     */
-    public function compileStreams();
 }
