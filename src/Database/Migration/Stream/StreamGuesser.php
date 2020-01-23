@@ -1,34 +1,55 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Stream;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Stream;
 
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 use Anomaly\Streams\Platform\Database\Migration\Stream\Guesser\TranslationGuesser;
 
 class StreamGuesser
 {
-    /**
-     * The translation guesser.
-     *
-     * @var TranslationGuesser
-     */
-    protected $translation;
-
-    /**
-     * Create a new StreamGuesser instance.
-     *
-     * @param TranslationGuesser $translation
-     */
-    public function __construct(TranslationGuesser $translation)
-    {
-        $this->translation = $translation;
-    }
 
     /**
      * Guess stream definition parameters for the migration.
      *
      * @param Migration $migration
      */
-    public function guess(Migration $migration)
+    public static function guess(Migration $migration)
     {
-        $this->translation->guess($migration);
+        self::translation($migration);
+    }
+
+    /**
+     * Guess translations.
+     *
+     * @param \Anomaly\Streams\Platform\Database\Migration\Migration $migration
+     */
+    protected static function translation(Migration $migration)
+    {
+
+        /**
+         * If we don't have any addon then
+         * we can't automate anything.
+         *
+         * @var Addon $addon
+         */
+        if (!$addon = $migration->getAddon()) {
+            return;
+        }
+
+        $locale = config('app.fallback_locale');
+
+        $stream = $migration->getStream();
+
+        foreach (['name', 'description'] as $key) {
+            if (is_null(array_get($stream, $key . '.' . $locale))) {
+                array_set(
+                    $stream,
+                    $key . '.' . $locale,
+                    $addon->getNamespace('stream.' . array_get($stream, 'slug') . '.' . $key)
+                );
+            }
+        }
+
+        $migration->setStream($stream);
     }
 }
