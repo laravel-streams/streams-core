@@ -69,13 +69,6 @@ class Asset
     protected $paths;
 
     /**
-     * The asset parser utility.
-     *
-     * @var AssetParser
-     */
-    protected $parser;
-
-    /**
      * The theme collection.
      *
      * @var ThemeCollection
@@ -109,7 +102,6 @@ class Asset
      * @param ThemeCollection $themes
      * @param MountManager $manager
      * @param AssetFilters $filters
-     * @param AssetParser $parser
      * @param Template $template
      * @param Filesystem $files
      * @param AssetPaths $paths
@@ -119,7 +111,6 @@ class Asset
         ThemeCollection $themes,
         MountManager $manager,
         AssetFilters $filters,
-        AssetParser $parser,
         Template $template,
         Filesystem $files,
         AssetPaths $paths,
@@ -129,7 +120,6 @@ class Asset
         $this->files       = $files;
         $this->paths       = $paths;
         $this->themes      = $themes;
-        $this->parser      = $parser;
         $this->filters     = $filters;
         $this->manager     = $manager;
         $this->template    = $template;
@@ -255,12 +245,12 @@ class Asset
      * @return $this
      * @throws \Exception
      */
-    public function load($collection, $file, array $filters = [])
-    {
-        foreach (AssetRegistry::resolve($file) as $resolved) {
-            $this->add($collection, $resolved, $filters);
-        }
-    }
+    // public function load($collection, $file, array $filters = [])
+    // {
+    //     foreach (AssetRegistry::resolve($file) as $resolved) {
+    //         $this->add($collection, $resolved, $filters);
+    //     }
+    // }
 
     /**
      * Download a file and return it's path.

@@ -6,7 +6,6 @@ use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
@@ -17,7 +16,6 @@ use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Stream\Command\MergeStreamConfig;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
 
@@ -155,7 +153,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
      */
     public function compile()
     {
-        $this->dispatchNow(new CompileStream($this));
+        dispatch_now(new CompileStream($this));
     }
 
     /**
@@ -614,7 +612,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
     public function assignments()
     {
         return $this->hasMany(
-            'Anomaly\Streams\Platform\Assignment\AssignmentModel',
+            AssignmentModel::class,
             'stream_id'
         )->orderBy('sort_order');
     }

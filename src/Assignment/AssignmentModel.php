@@ -2,11 +2,13 @@
 
 namespace Anomaly\Streams\Platform\Assignment;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Field\FieldModel;
+use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
 
 /**
@@ -400,27 +402,13 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
     }
 
     /**
-     * Compile the assignment's stream.
-     *
-     * @return AssignmentInterface
-     */
-    public function compileStream()
-    {
-        if ($stream = $this->getFreshStream()) {
-            $stream->compile();
-        }
-
-        return $this;
-    }
-
-    /**
      * Return the stream relation.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function stream()
     {
-        return $this->belongsTo('Anomaly\Streams\Platform\Stream\StreamModel');
+        return $this->belongsTo(StreamModel::class);
     }
 
     /**
@@ -430,6 +418,6 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
      */
     public function field()
     {
-        return $this->belongsTo('Anomaly\Streams\Platform\Field\FieldModel', 'field_id');
+        return $this->belongsTo(FieldModel::class, 'field_id');
     }
 }

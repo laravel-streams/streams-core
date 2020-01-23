@@ -181,11 +181,4 @@ interface AssignmentInterface extends EloquentInterface
      * @return AssignmentInterface
      */
     public function flushCache();
-
-    /**
-     * Compile the assignment's stream.
-     *
-     * @return AssignmentInterface
-     */
-    public function compileStream();
 }
