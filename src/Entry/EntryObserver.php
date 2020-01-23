@@ -57,7 +57,6 @@ class EntryObserver extends Observer
      */
     public function updated(EntryInterface $entry)
     {
-        $entry->flushCache();
 
         $entry->fireFieldTypeEvents('entry_updated');
 
@@ -71,7 +70,6 @@ class EntryObserver extends Observer
      */
     public function updatedMultiple(EntryInterface $entry)
     {
-        $entry->flushCache();
 
         $this->events->dispatch(new ModelsWereUpdated($entry));
     }
@@ -96,7 +94,6 @@ class EntryObserver extends Observer
      */
     public function saved(EntryInterface $entry)
     {
-        $entry->flushCache();
         $entry->fireFieldTypeEvents('entry_saved');
 
         if (
@@ -131,7 +128,6 @@ class EntryObserver extends Observer
      */
     public function deleted(EntryInterface $entry)
     {
-        $entry->flushCache();
         $entry->fireFieldTypeEvents('entry_deleted');
 
         $this->events->dispatch(new EntryWasDeleted($entry));
@@ -144,7 +140,6 @@ class EntryObserver extends Observer
      */
     public function deletedMultiple(EntryInterface $entry)
     {
-        $entry->flushCache();
 
         $this->events->dispatch(new ModelsWereDeleted($entry));
     }
@@ -166,7 +161,6 @@ class EntryObserver extends Observer
      */
     public function restored(EntryInterface $entry)
     {
-        $entry->flushCache();
         $entry->fireFieldTypeEvents('entry_restored');
 
         $this->dispatchNow(new CascadeRestore($entry));

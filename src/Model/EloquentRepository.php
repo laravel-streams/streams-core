@@ -319,8 +319,6 @@ class EloquentRepository implements EloquentRepositoryInterface
      */
     protected function truncateModel(EloquentModel $model)
     {
-        $model->flushCache();
-
         foreach ($model->all() as $entry) {
             $this->delete($entry);
         }
@@ -353,20 +351,6 @@ class EloquentRepository implements EloquentRepositoryInterface
     public function cacheForever($key, $value)
     {
         return $this->model->cacheForever($key, $value);
-    }
-
-    /**
-     * Flush the cache.
-     *
-     * @return $this
-     */
-    public function flushCache()
-    {
-        $this->model->flushCache();
-
-        $this->fire('flushed_cache');
-
-        return $this;
     }
 
     /**

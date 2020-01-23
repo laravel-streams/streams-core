@@ -2,7 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Model\Contract\EloquentInterface;
 use Anomaly\Streams\Platform\Model\Traits\Translatable;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
@@ -104,13 +103,6 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
     protected $cache = [];
 
     /**
-     * The cache collection.
-     *
-     * @var CacheCollection
-     */
-    protected $cacheCollection;
-
-    /**
      * Get the ID.
      *
      * @return integer
@@ -128,61 +120,6 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
     public function etag()
     {
         return md5(get_class($this) . json_encode($this->toArray()));
-    }
-
-    /**
-     * Cache a value in the
-     * model's cache collection.
-     *
-     * @param      $key
-     * @param      $ttl
-     * @param null $value
-     * @return mixed
-     */
-    public function cache($key, $ttl, $value = null)
-    {
-        if (!$value) {
-            $value = $ttl;
-            $ttl   = 60 * 60 * 24 * 365; // Forever-ish
-        }
-
-        (new CacheCollection())
-            ->make([$key])
-            ->setKey($this->getCacheCollectionKey())
-            ->index();
-
-        return cache()->remember(
-            $key,
-            $ttl / 60,
-            $value
-        );
-    }
-
-    /**
-     * Cache (forever) a value in
-     * the model's cache collection.
-     *
-     * @param $key
-     * @param $value
-     * @return mixed
-     */
-    public function cacheForever($key, $value)
-    {
-        (new CacheCollection())
-            ->make([$key])
-            ->setKey($this->getCacheCollectionKey())
-            ->index();
-
-        /**
-         * Due to issues with forever and
-         * closures we have to use remember
-         * function here with a very large ttl.
-         */
-        return cache()->remember(
-            $key,
-            60 * 24 * 365,
-            $value
-        );
     }
 
     /**
@@ -276,31 +213,6 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
     }
 
     /**
-     * Get cache collection key.
-     *
-     * @param null $key
-     * @return string
-     */
-    public function getCacheCollectionKey($key = null)
-    {
-        return get_class(app(static::class)) . ($key ? '::' . $key : null);
-    }
-
-    /**
-     * Get the cache collection.
-     *
-     * @return CacheCollection|mixed
-     */
-    public function getCacheCollection()
-    {
-        if ($this->cacheCollection) {
-            return $this->cacheCollection;
-        }
-
-        return $this->cacheCollection = new CacheCollection([], $this->getCacheCollectionKey());
-    }
-
-    /**
      * Get the model title.
      *
      * @return mixed
@@ -349,45 +261,6 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
     public function isForceDeleting()
     {
         return isset($this->forceDeleting) && $this->forceDeleting === true;
-    }
-
-    /**
-     * Flush the model's cache.
-     *
-     * @return $this
-     */
-    public function flushCache()
-    {
-        (new CacheCollection())->setKey($this->getCacheCollectionKey())->flush();
-
-        $this->flushRuntimeCache();
-
-        foreach ($this->getCascades() as $relation) {
-            if (!$this->relationLoaded($relation)) {
-                continue;
-            }
-
-            /* @var EloquentModel $relation */
-            if (($relation = $this->getRelation($relation)) instanceof EloquentModel) {
-                $relation->flushCache();
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Flush the runtime cache.
-     *
-     * @return $this
-     */
-    public function flushRuntimeCache()
-    {
-        EloquentQueryBuilder::dropRuntimeCache($this->getCacheCollectionKey());
-
-        $this->cache = [];
-
-        return $this;
     }
 
     /**

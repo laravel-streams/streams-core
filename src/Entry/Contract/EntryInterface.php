@@ -469,34 +469,6 @@ interface EntryInterface extends EloquentInterface
     public function getAttributes();
 
     /**
-     * Cache a value in the
-     * model's cache collection.
-     *
-     * @param $key
-     * @param $ttl
-     * @param null $value
-     * @return mixed
-     */
-    public function cache($key, $ttl, $value = null);
-
-    /**
-     * Cache (forever) a value in
-     * the model's cache collection.
-     *
-     * @param $key
-     * @param $value
-     * @return mixed
-     */
-    public function cacheForever($key, $value);
-
-    /**
-     * Flush the entry model's cache.
-     *
-     * @return EntryInterface
-     */
-    public function flushCache();
-
-    /**
      * Return the entry as an array.
      *
      * @return array

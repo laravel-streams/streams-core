@@ -44,7 +44,6 @@ class StreamObserver extends Observer
     public function created(StreamInterface $model)
     {
         $model->compile();
-        $model->flushCache();
 
         dispatch_now(new CreateStreamsEntryTable($model));
 
@@ -61,7 +60,6 @@ class StreamObserver extends Observer
     public function saved(StreamInterface $model)
     {
         $model->compile();
-        $model->flushCache();
 
         $model->fireFieldTypeEvents('stream_saved');
 
@@ -100,7 +98,6 @@ class StreamObserver extends Observer
     public function deleted(StreamInterface $model)
     {
         $model->compile();
-        $model->flushCache();
 
         $model->fireFieldTypeEvents('stream_deleted');
 

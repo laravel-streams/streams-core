@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\Contract\EloquentInterface;
-use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
  * Interface StreamInterface
@@ -28,13 +27,6 @@ interface StreamInterface extends EloquentInterface
      * @return mixed
      */
     public function compile();
-
-    /**
-     * Flush the entry stream's cache.
-     *
-     * @return StreamInterface
-     */
-    public function flushCache();
 
     /**
      * Fire field type events.

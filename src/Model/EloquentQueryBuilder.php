@@ -3,13 +3,10 @@
 namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Query\JoinClause;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -53,63 +50,9 @@ class EloquentQueryBuilder extends Builder
      */
     public function get($columns = ['*'])
     {
-        $key = $this->getCacheKey();
-
-        $ttl        = $this->model->ttl();
-        $collection = $this->model->getCacheCollectionKey();
-
-        $enabled = config('streams::database.cache', false);
-
-        /**
-         * Check the runtime cache first.
-         */
-        if (isset(self::$cache[$collection][$key])) {
-            return self::$cache[$collection][$key];
-        }
-
-        /**
-         * Do not cache...
-         * - If not installed
-         * - For the control panel
-         * - If DB cache is disabled.
-         * - If the system is not "installed"
-         * - If the console is making the request
-         */
-        if (
-            env('INSTALLED') &&
-            !IS_ADMIN &&
-            $enabled &&
-            PHP_SAPI != 'cli' &&
-            $ttl
-        ) {
-            $this->rememberIndex();
-            $this->orderByDefault();
-
-            try {
-                return self::$cache[$collection][$key] = app('cache')->remember(
-                    $key,
-                    $ttl,
-                    function () use ($columns) {
-                        return parent::get($columns);
-                    }
-                );
-            } catch (\Exception $e) {
-                return self::$cache[$collection][$key] = parent::get($columns);
-            }
-        }
-
         $this->orderByDefault();
 
-        /**
-         * Skip this all together if
-         * we are not installed or
-         * if we're running CLI.
-         */
-        if ($this->model->getTtl() === false || !env('INSTALLED') || PHP_SAPI == 'cli') {
-            return parent::get($columns);
-        }
-
-        return self::$cache[$collection][$key] = parent::get($columns);
+        return parent::get($columns);
     }
 
     /**
@@ -135,77 +78,6 @@ class EloquentQueryBuilder extends Builder
     }
 
     /**
-     * Remember and index.
-     *
-     * @return $this
-     */
-    protected function rememberIndex()
-    {
-        if ($this->model->ttl()) {
-            $this->indexCacheCollection();
-        }
-
-        return $this;
-    }
-
-    /**
-     * Index cache collection
-     *
-     * @return object
-     */
-    protected function indexCacheCollection()
-    {
-        (new CacheCollection())
-            ->make([$this->getCacheKey()])
-            ->setKey($this->model->getCacheCollectionKey())
-            ->index();
-
-        return $this;
-    }
-
-    /**
-     * Drop a cache collection
-     * from runtime cache.
-     *
-     * @param $collection
-     */
-    public static function dropRuntimeCache($collection)
-    {
-        unset(self::$cache[$collection]);
-    }
-
-    /**
-     * Get the unique cache key for the query.
-     *
-     * @return string
-     */
-    public function getCacheKey()
-    {
-        if ($this->cacheKey) {
-            return $this->cacheKey;
-        }
-
-        $name = $this->model->getConnectionName();
-
-        return $this->model->getCacheCollectionKey() . ':' . md5(
-            $name . $this->toSql() . json_encode($this->getBindings())
-        );
-    }
-
-    /**
-     * Set the cache key.
-     *
-     * @param $key
-     * @return string
-     */
-    public function setCacheKey($key)
-    {
-        $this->cacheKey = $key;
-
-        return $this;
-    }
-
-    /**
      * Set the model TTl.
      *
      * @param $ttl
@@ -223,7 +95,7 @@ class EloquentQueryBuilder extends Builder
             $ttl = config('streams::database.ttl', 3600);
         }
 
-        $this->model->setTtl($ttl / 60);
+        $this->model->setTtl($ttl);
 
         return $this;
     }
@@ -293,40 +165,12 @@ class EloquentQueryBuilder extends Builder
                 if ($model->getStream()->isSortable()) {
                     $query->orderBy($model->getTable() . '.sort_order', 'ASC');
                 } elseif ($model->titleColumnIsTranslatable()) {
-
-                    /**
-                     * Postgres makes it damn near impossible
-                     * to order by a foreign column and retain
-                     * distinct results so let's avoid it entirely.
-                     *
-                     * Sorry!
-                     *
-                     * @var EntryModel|EloquentModel $model
-                     */
-                    $connection = $this->model->getConnectionName() ?: config('database.default');
-
-                    if (preg_match('/sqlsrv|pgsql/', config('database.connections')[$connection]['driver'])) {
-                        return;
-                    }
-
-                    $this
-                        ->orderBy($model->getTitleName() . '->' . app()->getLocale(), 'ASC');
+                    $this->orderBy($model->getTitleName() . '->' . app()->getLocale(), 'ASC');
                 } elseif ($model->getTitleName() && $model->getTitleName() !== 'id') {
                     $query->orderBy($model->getTitleName(), 'ASC');
                 }
             }
         }
-    }
-
-    /**
-     * Join the translations table.
-     *
-     * @param null $locale
-     */
-    public function translate($locale = null)
-    {
-        // Nothing here anymore.
-        return $this;
     }
 
     /**

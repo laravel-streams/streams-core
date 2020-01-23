@@ -79,24 +79,6 @@ class EloquentCriteria
     }
 
     /**
-     * Store a cache collection key.
-     *
-     * @param null $key
-     * @return null|string
-     */
-    public function key($key = null)
-    {
-        $key = $key ?: $this->query->getCacheKey();
-
-        $this
-            ->getQueryModel()
-            ->getCacheCollection()
-            ->key($key);
-
-        return $key;
-    }
-
-    /**
      * Get the paginated entries.
      *
      * @param int $perPage

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentRepository;
@@ -32,7 +34,7 @@ class Reorder extends ActionHandler
         $repository->withoutEvents(
             function () use ($repository, $items) {
                 foreach ($items as $k => $id) {
-                    
+
                     $repository
                         ->newQuery()
                         ->where('id', $id)
@@ -46,8 +48,6 @@ class Reorder extends ActionHandler
         );
 
         $model->fireEvent('updatedMany');
-
-        $repository->flushCache();
 
         $count = count($items);
 

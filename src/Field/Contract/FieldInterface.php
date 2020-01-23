@@ -5,7 +5,6 @@ namespace Anomaly\Streams\Platform\Field\Contract;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Model\Contract\EloquentInterface;
-use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
  * Interface FieldInterface
@@ -131,13 +130,6 @@ interface FieldInterface extends EloquentInterface
      * @return array
      */
     public function getRules();
-
-    /**
-     * Flush the entry model's cache.
-     *
-     * @return FieldInterface
-     */
-    public function flushCache();
 
     /**
      * Compile the fields's streams.

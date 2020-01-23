@@ -176,13 +176,6 @@ interface AssignmentInterface extends EloquentInterface
     public function getAttributes();
 
     /**
-     * Flush the entry model's cache.
-     *
-     * @return AssignmentInterface
-     */
-    public function flushCache();
-
-    /**
      * Compile the assignment's stream.
      *
      * @return AssignmentInterface

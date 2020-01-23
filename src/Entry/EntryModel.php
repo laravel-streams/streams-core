@@ -1038,7 +1038,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
             $variables,
             [
                 'stream',
-                'cacheCollection',
             ]
         );
 

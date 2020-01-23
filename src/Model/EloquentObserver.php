@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Model;
+<?php
+
+namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Model\Command\CascadeDelete;
 use Anomaly\Streams\Platform\Model\Command\CascadeRestore;
@@ -40,9 +42,7 @@ class EloquentObserver extends Observer
      */
     public function created(EloquentModel $model)
     {
-        $model->flushCache();
-
-        $this->events->dispatch(new ModelWasCreated($model));
+        event(new ModelWasCreated($model));
     }
 
     /**
@@ -52,9 +52,7 @@ class EloquentObserver extends Observer
      */
     public function saved(EloquentModel $model)
     {
-        $model->flushCache();
-
-        $this->events->dispatch(new ModelWasSaved($model));
+        event(new ModelWasSaved($model));
     }
 
     /**
@@ -64,9 +62,7 @@ class EloquentObserver extends Observer
      */
     public function updated(EloquentModel $model)
     {
-        $model->flushCache();
-
-        $this->events->dispatch(new ModelWasUpdated($model));
+        event(new ModelWasUpdated($model));
     }
 
     /**
@@ -76,9 +72,7 @@ class EloquentObserver extends Observer
      */
     public function updatedMultiple(EloquentModel $model)
     {
-        $model->flushCache();
-
-        $this->events->dispatch(new ModelsWereUpdated($model));
+        event(new ModelsWereUpdated($model));
     }
 
     /**
@@ -89,11 +83,11 @@ class EloquentObserver extends Observer
      */
     public function deleting(EloquentModel $entry)
     {
-        if ($this->dispatchNow(new RestrictDelete($entry))) {
+        if (dispatch_now(new RestrictDelete($entry))) {
             return false;
         }
 
-        $this->dispatchNow(new CascadeDelete($entry));
+        dispatch_now(new CascadeDelete($entry));
 
         return true;
     }
@@ -105,7 +99,6 @@ class EloquentObserver extends Observer
      */
     public function deleted(EloquentModel $model)
     {
-        $model->flushCache();
 
         /* @var Model $translation */
         if ($model->isTranslatable()) {
@@ -114,7 +107,7 @@ class EloquentObserver extends Observer
             }
         }
 
-        $this->events->dispatch(new ModelWasDeleted($model));
+        event(new ModelWasDeleted($model));
     }
 
     /**
@@ -124,9 +117,7 @@ class EloquentObserver extends Observer
      */
     public function deletedMultiple(EloquentModel $model)
     {
-        $model->flushCache();
-
-        $this->events->dispatch(new ModelsWereDeleted($model));
+        event(new ModelsWereDeleted($model));
     }
 
     /**
@@ -146,10 +137,8 @@ class EloquentObserver extends Observer
      */
     public function restored(EloquentModel $model)
     {
-        $model->flushCache();
+        dispatch_now(new CascadeRestore($model));
 
-        $this->dispatchNow(new CascadeRestore($model));
-
-        $this->events->dispatch(new ModelWasRestored($model));
+        event(new ModelWasRestored($model));
     }
 }
