@@ -39,8 +39,10 @@ class AddonRepository extends EloquentRepository
      */
     public function install(Addon $addon)
     {
-        if (!$addon = $this->findBy('namespace', $addon->getNamespace())) {
-            $addon = $this->newInstance(['namespace' => $addon->getNamespace()]);
+        $namespace = $addon->getNamespace();
+
+        if (!$addon = $this->findBy('namespace', $namespace)) {
+            $addon = $this->newInstance(['namespace' => $namespace]);
         }
 
         $addon->installed = true;
