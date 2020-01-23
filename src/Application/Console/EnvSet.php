@@ -39,6 +39,8 @@ class EnvSet extends Command
         list($variable, $value) = explode('=', $line, 2);
 
         Env::write($variable, $value);
+
+        putenv($line);
     }
 
     /**
