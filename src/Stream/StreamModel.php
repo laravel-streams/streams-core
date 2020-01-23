@@ -152,7 +152,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
      */
     public function compile()
     {
-        $this->dispatchNow(new CompileStream($this));
+        dispatch_now(new CompileStream($this));
     }
 
     /**
@@ -597,7 +597,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
     public function assignments()
     {
         return $this->hasMany(
-            'Anomaly\Streams\Platform\Assignment\AssignmentModel',
+            AssignmentModel::class,
             'stream_id'
         )->orderBy('sort_order');
     }

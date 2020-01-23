@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Assignment;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
@@ -23,6 +25,7 @@ class AssignmentCollection extends EloquentCollection
     public function findByFieldSlug($slug)
     {
         foreach ($this->items as $item) {
+
             /* @var AssignmentInterface $item */
             if ($item->getFieldSlug() == $slug) {
                 return $item;
@@ -212,7 +215,7 @@ class AssignmentCollection extends EloquentCollection
 
         /* @var AssignmentInterface $item */
         foreach ($this->items as $item) {
-            $slugs[] = $prefix . $item->getFieldSlug();
+            $slugs[] = $prefix . $item->field->slug;
         }
 
         return $slugs;

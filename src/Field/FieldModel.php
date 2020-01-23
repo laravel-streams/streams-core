@@ -286,21 +286,6 @@ class FieldModel extends EloquentModel implements FieldInterface
     }
 
     /**
-     * Compile the fields's stream.
-     *
-     * @return FieldInterface
-     */
-    public function compileStreams()
-    {
-        /* @var AssignmentInterface $assignment */
-        foreach ($this->getAssignments() as $assignment) {
-            $assignment->compileStream();
-        }
-
-        return $this;
-    }
-
-    /**
      * Return the assignments relation.
      *
      * @return HasMany

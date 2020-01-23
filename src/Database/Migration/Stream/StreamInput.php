@@ -1,6 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Stream;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Stream;
 
 use Anomaly\Streams\Platform\Database\Migration\Migration;
+use Anomaly\Streams\Platform\Database\Migration\Stream\StreamGuesser;
 
 /**
  * Class StreamInput
@@ -13,13 +16,6 @@ class StreamInput
 {
 
     /**
-     * The stream guesser.
-     *
-     * @var StreamGuesser
-     */
-    protected $guesser;
-
-    /**
      * The stream normalizer.
      *
      * @var StreamNormalizer
@@ -29,12 +25,10 @@ class StreamInput
     /**
      * Create a new StreamInput instance.
      *
-     * @param StreamGuesser $guesser
      * @param StreamNormalizer $normalizer
      */
-    public function __construct(StreamGuesser $guesser, StreamNormalizer $normalizer)
+    public function __construct(StreamNormalizer $normalizer)
     {
-        $this->guesser    = $guesser;
         $this->normalizer = $normalizer;
     }
 
@@ -50,6 +44,7 @@ class StreamInput
         }
 
         $this->normalizer->normalize($migration);
-        $this->guesser->guess($migration);
+
+        StreamGuesser::guess($migration);
     }
 }
