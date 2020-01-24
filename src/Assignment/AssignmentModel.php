@@ -36,6 +36,15 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
     public $timestamps = false;
 
     /**
+     * Eager
+     *
+     * @var array
+     */
+    protected $with = [
+        'field',
+    ];
+
+    /**
      * Hide these from toArray.
      *
      * @var array

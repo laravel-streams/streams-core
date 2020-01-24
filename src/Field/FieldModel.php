@@ -185,20 +185,21 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     public function getType($fresh = false)
     {
-        if ($fresh === false && isset($this->cache['type'])) {
-            return $this->cache['type'];
-        }
+        return $this->getTypeAttribute();
+    }
 
-        $type   = $this->type;
+    /**
+     * We need to access this via the attribute.
+     */
+    public function getTypeAttribute()
+    {
+        $type   = $this->attributes['type'];
+
         $field  = $this->slug;
         $label  = $this->name;
         $config = $this->config;
 
-        if (!$type) {
-            return $this->cache['type'] = null;
-        }
-
-        return $this->cache['type'] = self::$builder->build(compact('type', 'field', 'label', 'config'));
+        return self::$builder->build(compact('type', 'field', 'label', 'config'));
     }
 
     /**

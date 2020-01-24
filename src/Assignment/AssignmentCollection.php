@@ -24,15 +24,9 @@ class AssignmentCollection extends EloquentCollection
      */
     public function findByFieldSlug($slug)
     {
-        foreach ($this->items as $item) {
-
-            /* @var AssignmentInterface $item */
-            if ($item->getFieldSlug() == $slug) {
-                return $item;
-            }
-        }
-
-        return null;
+        return $this->first(function ($assignment) use ($slug) {
+            return $assignment->field->slug == $slug;
+        });
     }
 
 
@@ -211,14 +205,9 @@ class AssignmentCollection extends EloquentCollection
      */
     public function fieldSlugs($prefix = null)
     {
-        $slugs = [];
-
-        /* @var AssignmentInterface $item */
-        foreach ($this->items as $item) {
-            $slugs[] = $prefix . $item->field->slug;
-        }
-
-        return $slugs;
+        return $this->map(function ($assignment) use ($prefix) {
+            return $prefix . $assignment->field->slug;
+        })->all();
     }
 
     /**

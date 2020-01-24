@@ -91,11 +91,11 @@ interface EntryInterface extends EloquentInterface
     public function getTitleName();
 
     /**
-     * Get the stream.
+     * Return the stream.
      *
      * @return StreamInterface
      */
-    public function getStream();
+    public function stream();
 
     /**
      * Get the stream ID.
