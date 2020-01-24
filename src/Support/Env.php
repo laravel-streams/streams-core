@@ -3,6 +3,9 @@
 namespace Anomaly\Streams\Platform\Support;
 
 use Dotenv\Dotenv;
+use Illuminate\Contracts\Encryption\Encrypter;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Crypt;
 
 /**
  * Class Env
@@ -15,10 +18,12 @@ class Env
 
     /**
      * Load env variables. 
+     * 
+     * @param string $suffix    Used like `.env{$suffix}`
      */
-    public static function load()
+    public static function load($suffix = null)
     {
-        if (!is_file($file = base_path('.env'))) {
+        if (!is_file($file = App::environmentFilePath() . $suffix)) {
             return;
         }
 
@@ -42,13 +47,14 @@ class Env
     /**
      * Return the .env variables.
      * 
+     * @param string $suffix    Used like `.env{$suffix}`
      * @return array
      */
-    public static function variables()
+    public static function variables($suffix = null)
     {
         $data = [];
 
-        $file = base_path('.env');
+        $file = App::environmentFilePath() . $suffix;
 
         if (!file_exists($file)) {
             return $data;
@@ -75,47 +81,67 @@ class Env
      *
      * @param mixed $variable
      * @param mixed $value
+     * @param string $suffix    Used like `.env{$suffix}`
      */
-    public static function write($variable, $value)
+    public static function write($variable, $value = null, $suffix = null)
     {
-        $variables = Env::variables();
+        $variables = self::variables($suffix);
         $variable = strtoupper($variable);
 
         if (str_contains($value, ' ')) {
             $value = "\"{$value}\"";
         }
 
-        if (isset($variables[$variable])) {
-            $contents = preg_replace("/{$variable}=.+/", "{$variable}=" . $value, file_get_contents($env = base_path('.env')));
-        } else {
-            $contents .= "\n{$variable}=" . $value;
-        }
+        $env = App::environmentFilePath() . $suffix;
 
-        file_put_contents($env, $contents);
+        if (array_key_exists($variable, $variables)) {
+            file_put_contents(
+                $env,
+                preg_replace("/{$variable}=(.+|$)/", "{$variable}=" . $value, file_get_contents($env))
+            );
+        } else {
+            file_put_contents(
+                $env,
+                file_get_contents($env) . "\n{$variable}=" . $value
+            );
+        }
     }
 
     /**
      * Write a variable value.
      *
-     * @param mixed $data
+     * @param array $data
+     * @param string $suffix    Used like `.env{$suffix}`
      */
-    public static function save(array $data)
+    public static function save(array $data, $suffix = null)
     {
-        $env = base_path('.env');
-
-        $variables = Env::variables();
-
         foreach ($data as $key => $value) {
+            self::write($key, $value, $suffix);
+        }
+    }
 
-            $variable = strtoupper($key);
+    /**
+     * Generate the .env file.
+     * 
+     * @param string $suffix    Used like `.env{$suffix}`
+     */
+    public static function generate($suffix = null)
+    {
+        $base = App::environmentPath() . DIRECTORY_SEPARATOR . '.env';
 
-            if (isset($variables[$variable])) {
-                $contents = preg_replace("/{$variable}=.+/", "{$variable}=\"{$value}\"", file_get_contents($env));
-            } else {
-                $contents .= "\n{$variable}=\"{$value}\"";
-            }
+        if (!file_exists($env = $base . $suffix)) {
+
+            file_put_contents($env, file_get_contents($base . '.example'));
+
+            config(['app.key' => $key = 'base64:' . base64_encode(
+                random_bytes(config('app.cipher') === 'AES-128-CBC' ? 16 : 32)
+            )]);
+
+            Env::write('APP_KEY', $key, $suffix);
+
+            return true;
         }
 
-        file_put_contents($env, $contents);
+        return false;
     }
 }

@@ -39,7 +39,7 @@ class AddonInstall extends Command
     {
         $addon = app($this->argument('addon'));
 
-        $manager->install($addon, $this->hasOption('seed'));
+        $manager->install($addon, $this->option('seed'));
 
         $this->info('Addon [' . $this->argument('addon') . '] was installed.');
     }

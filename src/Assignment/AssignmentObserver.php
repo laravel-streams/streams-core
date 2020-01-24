@@ -39,8 +39,6 @@ class AssignmentObserver extends Observer
      */
     public function created(AssignmentInterface $model)
     {
-        $model->compileStream();
-
         $this->dispatchNow(new AddAssignmentColumn($model));
 
         $this->events->dispatch(new AssignmentWasCreated($model));
@@ -53,8 +51,6 @@ class AssignmentObserver extends Observer
      */
     public function updated(AssignmentInterface $model)
     {
-        $model->compileStream();
-
         $this->dispatchNow(new UpdateAssignmentColumn($model));
 
         $this->events->dispatch(new AssignmentWasUpdated($model));
@@ -67,8 +63,6 @@ class AssignmentObserver extends Observer
      */
     public function saved(AssignmentInterface $model)
     {
-        $model->compileStream();
-
         $this->events->dispatch(new AssignmentWasSaved($model));
     }
 
@@ -79,8 +73,6 @@ class AssignmentObserver extends Observer
      */
     public function deleted(AssignmentInterface $model)
     {
-        $model->compileStream();
-
         $this->dispatchNow(new DropAssignmentColumn($model));
 
         $this->events->dispatch(new AssignmentWasDeleted($model));

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Installer\Console\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Installer\Console\Command;
 
 use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Console\Command;
@@ -62,6 +64,7 @@ class SetAdminData
 
         // Validate email.
         if (!filter_var($this->data->get('ADMIN_EMAIL'), FILTER_VALIDATE_EMAIL)) {
+
             $this->command->error('You must provide a valid email for the admin.');
 
             exit;

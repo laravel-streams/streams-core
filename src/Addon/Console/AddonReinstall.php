@@ -41,7 +41,7 @@ class AddonReinstall extends Command
         $addon = app($this->argument('addon'));
 
         $manager->uninstall($addon);
-        $manager->install($addon, $this->hasOption('seed'));
+        $manager->install($addon, $this->option('seed'));
 
         $this->info('Addon [' . $this->argument('addon') . '] was reinstalled.');
     }

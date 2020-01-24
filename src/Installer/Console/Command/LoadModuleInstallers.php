@@ -59,7 +59,6 @@ class LoadModuleInstallers
                             'addon:install',
                             [
                                 'addon' => $module->getNamespace(),
-                                //'--app'  => $application->getReference(),
                             ]
                         );
                     }

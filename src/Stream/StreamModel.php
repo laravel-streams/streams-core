@@ -134,11 +134,11 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
             }
         }
 
-        $assignmentsCollection = new AssignmentCollection($assignments);
+        //$assignmentsCollection = new AssignmentCollection($assignments);
 
-        $streamModel->setRelation('assignments', $assignmentsCollection);
+        //$streamModel->setRelation('assignments', $assignmentsCollection);
 
-        $streamModel->assignments = $assignmentsCollection;
+        //$streamModel->assignments = $assignmentsCollection;
 
         self::$store->put($payload, $streamModel);
 

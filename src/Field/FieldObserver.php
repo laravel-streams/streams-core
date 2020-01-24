@@ -65,8 +65,6 @@ class FieldObserver extends Observer
      */
     public function saved(FieldInterface $model)
     {
-        $model->compileStreams();
-
         $this->events->dispatch(new FieldWasSaved($model));
     }
 

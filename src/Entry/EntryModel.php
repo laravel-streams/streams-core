@@ -429,7 +429,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getStream()
     {
-        return $this->stream();
+        return $this->getStreamAttribute();
     }
 
     /**
@@ -767,10 +767,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      *
      * @return StreamInterface|array
      */
-    public function stream()
+    public function getStreamAttribute()
     {
         if (!$this->stream instanceof StreamInterface) {
-            $this->stream = app(StreamModel::class)->make($this->stream);
+            $this->stream = app(StreamModel::class)->find($this->stream);
         }
 
         return $this->stream;
