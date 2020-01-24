@@ -225,13 +225,6 @@ interface EntryInterface extends EloquentInterface
     public function getFieldTypePresenter($fieldSlug);
 
     /**
-     * Get all assignments.
-     *
-     * @return AssignmentCollection
-     */
-    public function getAssignments();
-
-    /**
      * Get the field slugs for assigned fields.
      *
      * @param  null $prefix

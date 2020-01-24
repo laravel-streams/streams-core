@@ -71,13 +71,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     protected $relationships = [];
 
     /**
-     * The compiled stream data.
-     *
-     * @var array|StreamInterface
-     */
-    protected $stream = [];
-
-    /**
      * Hide these from toArray.
      *
      * @var array
@@ -505,18 +498,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Get all assignments.
-     *
-     * @return AssignmentCollection
-     */
-    public function getAssignments()
-    {
-        $stream = $this->getStream();
-
-        return $stream->getAssignments();
-    }
-
-    /**
      * Get the field slugs for assigned fields.
      *
      * @param  null $prefix
@@ -524,7 +505,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getAssignmentFieldSlugs($prefix = null)
     {
-        $assignments = $this->getAssignments();
+        $assignments = $this->stream->assignments;
 
         return $assignments->fieldSlugs($prefix);
     }
@@ -538,7 +519,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getAssignmentsByFieldType($fieldType)
     {
-        $assignments = $this->getAssignments();
+        $assignments = $this->stream->assignments;
 
         return $assignments->findAllByFieldType($fieldType);
     }
@@ -551,7 +532,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getAssignment($fieldSlug)
     {
-        $assignments = $this->getAssignments();
+        $assignments = $this->stream->assignments;
 
         return $assignments->findByFieldSlug($fieldSlug);
     }
@@ -745,7 +726,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function fireFieldTypeEvents($trigger, $payload = [])
     {
-        $assignments = $this->getAssignments();
+        $assignments = $this->stream->assignments;
 
         /* @var AssignmentInterface $assignment */
         foreach ($assignments->notTranslatable() as $assignment) {
@@ -769,11 +750,11 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getStreamAttribute()
     {
-        if (!$this->stream instanceof StreamInterface) {
-            $this->stream = app(StreamModel::class)->find($this->stream);
+        if (!isset($this->attributes['stream']) || !$this->attributes['stream'] instanceof StreamInterface) {
+            $this->attributes['stream'] = app(StreamModel::class)->find($this->stream_id);
         }
 
-        return $this->stream;
+        return $this->attributes['stream'];
     }
 
     /**
@@ -1018,7 +999,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function __get($key)
     {
-        if ($key === 'decorated' || $key === 'decorate') {
+        if ($key === 'decorate') {
             return $this->getPresenter();
         }
 
