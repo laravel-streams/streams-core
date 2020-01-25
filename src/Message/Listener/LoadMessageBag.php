@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Message\Listener;
+<?php
+
+namespace Anomaly\Streams\Platform\Message\Listener;
 
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\View\ViewTemplate;
@@ -28,7 +30,7 @@ class LoadMessageBag
     protected $messages;
 
     /**
-     * Create a new LoadBreadcrumbs instance.
+     * Create a new LoadMessageBag instance.
      *
      * @param ViewTemplate $template
      * @param MessageBag   $messages

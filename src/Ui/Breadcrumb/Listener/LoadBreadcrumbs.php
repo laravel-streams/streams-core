@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Breadcrumb\Listener;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Breadcrumb\Listener;
 
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\View\ViewTemplate;

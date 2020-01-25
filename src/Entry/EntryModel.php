@@ -622,9 +622,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function isTranslatable()
     {
-        $stream = $this->getStream();
-
-        return $stream->isTranslatable();
+        return $this->stream()->isTranslatable();
     }
 
     /**
@@ -634,9 +632,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function isTrashable()
     {
-        $stream = $this->getStream();
-
-        return $stream->isTrashable();
+        return $this->stream()->isTrashable();
     }
 
     /**
@@ -650,17 +646,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Return the related creator.
-     *
-     * @return Authenticatable
-     */
-    public function getCreatedBy()
-    {
-        return $this->created_by;
-    }
-
-    /**
-     * Return the creator relation.
+     * Return the created by relation.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -670,17 +656,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Return the related updater.
-     *
-     * @return Authenticatable
-     */
-    public function getUpdatedBy()
-    {
-        return $this->updated_by;
-    }
-
-    /**
-     * Return the updater relation.
+     * Return the updated by relation.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

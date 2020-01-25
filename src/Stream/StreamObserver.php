@@ -15,6 +15,7 @@ use Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasSaved;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasUpdated;
 use Anomaly\Streams\Platform\Support\Observer;
+use Anomaly\Streams\Platform\Version\Contract\VersionRepositoryInterface;
 
 /**
  * Class StreamObserver
@@ -106,6 +107,8 @@ class StreamObserver extends Observer
         dispatch_now(new DeleteStreamEntryModels($model));
         dispatch_now(new DeleteStreamAssignments($model));
         dispatch_now(new GenerateEntryModelClassmap());
+
+        app(VersionRepositoryInterface::class)->deleteVersionHistory($model->getBoundEntryModelName());
 
         event(new StreamWasDeleted($model));
     }

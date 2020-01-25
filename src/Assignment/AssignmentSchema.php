@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Assignment;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
@@ -26,12 +28,13 @@ class AssignmentSchema
     /**
      * Add a column.
      *
-     * @param $table
-     * @param FieldType $type
      * @param AssignmentInterface $assignment
      */
-    public function addColumn($table, FieldType $type, AssignmentInterface $assignment)
+    public function addColumn(AssignmentInterface $assignment)
     {
+        $stream = $assignment->getStream();
+        $type   = $assignment->getFieldType();
+        $table  = $stream->getEntryTableName();
         $schema = $type->getSchema();
 
         $this->schema->table(
@@ -45,12 +48,13 @@ class AssignmentSchema
     /**
      * Add a column index.
      *
-     * @param $table
-     * @param FieldType $type
      * @param AssignmentInterface $assignment
      */
-    public function addIndex($table, FieldType $type, AssignmentInterface $assignment)
+    public function addIndex(AssignmentInterface $assignment)
     {
+        $stream = $assignment->getStream();
+        $type   = $assignment->getFieldType();
+        $table  = $stream->getEntryTableName();
         $schema = $type->getSchema();
 
         $this->schema->table(

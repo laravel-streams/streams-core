@@ -2,26 +2,16 @@
 
 namespace Anomaly\Streams\Platform\Http\Controller;
 
-use Anomaly\Streams\Platform\Asset\Asset;
-use Anomaly\Streams\Platform\Event\Response;
-use Anomaly\Streams\Platform\Http\Middleware\ApplicationReady;
 use Anomaly\Streams\Platform\Http\Middleware\CheckLocale;
 use Anomaly\Streams\Platform\Http\Middleware\ForceSsl;
 use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
-use Anomaly\Streams\Platform\Http\Middleware\PoweredBy;
 use Anomaly\Streams\Platform\Http\Middleware\PrefixDomain;
 use Anomaly\Streams\Platform\Http\Middleware\SetLocale;
 use Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken;
 use Anomaly\Streams\Platform\Message\MessageBag;
-use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\View\ViewTemplate;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Route;
 
 /**
@@ -67,8 +57,6 @@ class BaseController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(PoweredBy::class);
-
         $this->middleware(VerifyCsrfToken::class);
 
         $this->middleware(ForceSsl::class);
@@ -76,7 +64,6 @@ class BaseController extends Controller
 
         $this->middleware(SetLocale::class);
         $this->middleware(CheckLocale::class);
-        $this->middleware(ApplicationReady::class);
 
         foreach (app(MiddlewareCollection::class) as $middleware) {
             $this->middleware($middleware);

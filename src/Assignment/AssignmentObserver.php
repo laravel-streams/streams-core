@@ -39,7 +39,8 @@ class AssignmentObserver extends Observer
      */
     public function created(AssignmentInterface $model)
     {
-        $this->dispatchNow(new AddAssignmentColumn($model));
+        app(AssignmentSchema::class)->addColumn($model);
+        app(AssignmentSchema::class)->addIndex($model);
 
         $this->events->dispatch(new AssignmentWasCreated($model));
     }
