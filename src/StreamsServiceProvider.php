@@ -161,6 +161,8 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->detectActiveModule();
+
         // Take care of core utilities.
         $this->configureUriValidator();
         $this->initializeApplication();
@@ -441,7 +443,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function setCoreConnection()
     {
-        return;
         config(
             [
                 'database.connections.core' => config('database.connections.' . config('database.default')),
@@ -475,6 +476,65 @@ class StreamsServiceProvider extends ServiceProvider
         });
 
         app(AddonCollection::class)->disperse();
+    }
+
+    /**
+     * Configure the URI validator.
+     *
+     * @return void
+     */
+    protected function detectActiveModule()
+    {
+
+        /**
+         * In order to detect we MUST have a route
+         * and we MUST have a namespace in the
+         * streams::addon action parameter.
+         *
+         * @var Route $route
+         */
+        if (!$route = $this->request->route()) {
+            return;
+        }
+
+        /**
+         * Pull the addon namespace
+         * out of the route action.
+         */
+        $module = array_get($route->getAction(), 'streams::addon');
+
+        /* @var Module $module */
+        if ($module && $module = $this->modules->get($module)) {
+            $module->setActive(true);
+        }
+
+        if (
+            !$module && $this->request->segment(1) == 'admin' && $module = $this->modules->findBySlug(
+                $this->request->segment(2)
+            )
+        ) {
+            $module->setActive(true);
+        }
+
+        if (!$module) {
+            return;
+        }
+
+        $this->template->set('module', $module);
+
+        $this->container->make('view')->addNamespace(
+            'module',
+            [
+                $this->application->getResourcesPath(
+                    "addons/{$module->getVendor()}/{$module->getSlug()}-{$module->getType()}/views/"
+                ),
+                $module->getPath('resources/views'),
+            ]
+        );
+        $this->container->make('translator')->addNamespace('module', $module->getPath('resources/lang'));
+
+        $this->asset->addPath('module', $module->getPath('resources'));
+        $this->image->addPath('module', $module->getPath('resources'));
     }
 
     /**
