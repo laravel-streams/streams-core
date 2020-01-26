@@ -54,9 +54,11 @@ class BaseController extends Controller
      */
     public function __construct()
     {
+        /**
+         * @ttodo where can we append these elsewhere to the web group?
+         */
         $this->middleware(ForceSsl::class);
         $this->middleware(PrefixDomain::class);
-
         $this->middleware(SetLocale::class);
     }
 

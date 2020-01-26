@@ -180,4 +180,15 @@ class Application
 
         return $this->installed;
     }
+
+    /**
+     * Return if admin request or not.
+     *
+     * @return bool
+     */
+    public static function isAdmin()
+    {
+        // @todo push this segment into configuration.
+        return request()->segment(1) == 'admin';
+    }
 }

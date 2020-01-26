@@ -13,7 +13,6 @@ use Anomaly\Streams\Platform\Model\Event\ModelWasRestored;
 use Anomaly\Streams\Platform\Model\Event\ModelWasSaved;
 use Anomaly\Streams\Platform\Model\Event\ModelWasUpdated;
 use Anomaly\Streams\Platform\Support\Observer;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class EloquentObserver

@@ -4,7 +4,6 @@ namespace Anomaly\Streams\Platform\Http\Controller;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Anomaly\Streams\Platform\Support\Authorizer;
 

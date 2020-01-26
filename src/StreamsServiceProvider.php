@@ -30,7 +30,7 @@ use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
-use Anomaly\Streams\Platform\Http\Routing\Matching\CaseInsensitiveUriValidator;
+use Anomaly\Streams\Platform\Application\Application;
 
 /**
  * Class StreamsServiceProvider
@@ -276,9 +276,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if (!defined('IS_ADMIN')) {
-            define('IS_ADMIN', request()->segment(1) == 'admin');
-        }
 
         // Setup Utilities
         $this->setCoreConnection();
@@ -444,6 +441,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function setCoreConnection()
     {
+        return;
         config(
             [
                 'database.connections.core' => config('database.connections.' . config('database.default')),
@@ -487,10 +485,7 @@ class StreamsServiceProvider extends ServiceProvider
     protected function configureUriValidator()
     {
         Route::$validators = array_filter(
-            array_merge(
-                Route::getValidators(),
-                [new CaseInsensitiveUriValidator()]
-            ),
+            Route::getValidators(),
             function ($validator) {
                 return get_class($validator) != UriValidator::class;
             }
@@ -505,9 +500,6 @@ class StreamsServiceProvider extends ServiceProvider
         $app = env('APPLICATION_REFERENCE', 'default');
 
         if (PHP_SAPI == 'cli') {
-            if (!defined('IS_ADMIN')) {
-                define('IS_ADMIN', false);
-            }
 
             $app = (new ArgvInput())->getParameterOption('--app', $app);
 
@@ -730,7 +722,7 @@ class StreamsServiceProvider extends ServiceProvider
         }
 
         config([
-            'streams::themes.current' => IS_ADMIN ? $admin : $default,
+            'streams::themes.current' => Application::isAdmin() ? $admin : $default,
         ]);
     }
 

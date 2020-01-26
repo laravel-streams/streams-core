@@ -699,7 +699,7 @@ if (!function_exists('addon_map')) {
             throw new \Exception('Addon identifiers must be snake case and follow the following pattern: {vendor}.{type}.{slug}');
         }
 
-        if ($verify && !in_array($type, config('streams::addons.types'))) {
+        if ($verify && !in_array($type, config('streams::addons.types', []))) {
             throw new \Exception("The [{$type}] addon type is invalid.");
         }
 
