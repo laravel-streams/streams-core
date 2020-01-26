@@ -163,7 +163,6 @@ class StreamsServiceProvider extends ServiceProvider
     public function boot()
     {
         // Take care of core utilities.
-        $this->configureUriValidator();
         $this->initializeApplication();
 
         // Setup and preparing utilities.
@@ -480,21 +479,6 @@ class StreamsServiceProvider extends ServiceProvider
         });
 
         app(AddonCollection::class)->disperse();
-    }
-
-    /**
-     * Configure the URI validator.
-     *
-     * @return void
-     */
-    protected function configureUriValidator()
-    {
-        Route::$validators = array_filter(
-            Route::getValidators(),
-            function ($validator) {
-                return get_class($validator) != UriValidator::class;
-            }
-        );
     }
 
     /**

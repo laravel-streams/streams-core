@@ -2,15 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Http\Controller;
 
-use Anomaly\Streams\Platform\Http\Middleware\DetectActiveModule;
-use Anomaly\Streams\Platform\Http\Middleware\ForceSsl;
-use Anomaly\Streams\Platform\Http\Middleware\PrefixDomain;
-use Anomaly\Streams\Platform\Http\Middleware\SetLocale;
-use Anomaly\Streams\Platform\Message\MessageBag;
-use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
-use Anomaly\Streams\Platform\View\ViewTemplate;
 use Illuminate\Routing\Controller;
-use Illuminate\Routing\Route;
 
 /**
  * Class BaseController
@@ -21,65 +13,4 @@ use Illuminate\Routing\Route;
  */
 class BaseController extends Controller
 {
-
-    /**
-     * The route object.
-     *
-     * @var Route
-     */
-    protected $route;
-
-    /**
-     * The flash messages.
-     *
-     * @var MessageBag
-     */
-    protected $messages;
-
-    /**
-     * The view template.
-     *
-     * @var ViewTemplate
-     */
-    protected $template;
-
-    /**
-     * The breadcrumb collection.
-     *
-     * @var BreadcrumbCollection
-     */
-    protected $breadcrumbs;
-
-    /**
-     * Create a new BaseController instance.
-     */
-    public function __construct()
-    {
-        /**
-         * @ttodo where can we append these elsewhere to the web group?
-         */
-        $this->middleware(ForceSsl::class);
-        $this->middleware(PrefixDomain::class);
-        $this->middleware(SetLocale::class);
-        $this->middleware(DetectActiveModule::class);
-    }
-
-    /**
-     * Disable a middleware.
-     *
-     * @param $middleware
-     * @return $this
-     */
-    protected function disableMiddleware($middleware)
-    {
-        foreach ($this->middleware as $key => $item) {
-            if ($item['middleware'] == $middleware) {
-                unset($this->middleware[$key]);
-
-                return $this;
-            }
-        }
-
-        return $this;
-    }
 }
