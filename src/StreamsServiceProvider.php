@@ -58,16 +58,6 @@ class StreamsServiceProvider extends ServiceProvider
     protected $schedule = [];
 
     /**
-     * The providers to register.
-     *
-     * @var array
-     */
-    protected $providers = [
-        //ViewServiceProvider::class,
-        StreamsEventProvider::class,
-    ];
-
-    /**
      * The class bindings.
      *
      * @var array
@@ -240,33 +230,6 @@ class StreamsServiceProvider extends ServiceProvider
                 implode(DIRECTORY_SEPARATOR, ['vendor', 'anomaly', 'core'])
             )
         ], 'assets');
-
-        /**
-         * Boot event is used to help scheduler
-         * and artisan command registering.
-         */
-        $this->app->booted(
-            function () {
-
-                /* @var Schedule $schedule */
-                $schedule = app(Schedule::class);
-
-                /**
-                 * @todo move this kind of logic to the app service providers
-                 */
-                foreach (array_merge($this->schedule, config('streams.schedules', [])) as $frequency => $commands) {
-                    foreach (array_filter($commands) as $command) {
-                        if (str_contains($frequency, ' ')) {
-                            $schedule->command($command)->cron($frequency);
-                        }
-
-                        if (!str_contains($frequency, ' ')) {
-                            $schedule->command($command)->{camel_case($frequency)}();
-                        }
-                    }
-                }
-            }
-        );
     }
 
     /**
@@ -276,6 +239,11 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+
+        /**
+         * Register core events.
+         */
+        $this->app->register(StreamsEventProvider::class);
 
         /*
          * Change the default language path so

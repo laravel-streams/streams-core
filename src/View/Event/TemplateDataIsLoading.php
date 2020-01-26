@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\View\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\View\Event;
 
 use Anomaly\Streams\Platform\View\ViewTemplate;
 
