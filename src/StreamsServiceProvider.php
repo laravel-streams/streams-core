@@ -277,26 +277,6 @@ class StreamsServiceProvider extends ServiceProvider
     public function register()
     {
 
-        /*
-         * Register all third party packages first.
-         */
-        $this->app->register(\Laravel\Scout\ScoutServiceProvider::class);
-        $this->app->register(\Collective\Html\HtmlServiceProvider::class);
-        $this->app->register(\Intervention\Image\ImageServiceProvider::class);
-
-        foreach (config('streams.listeners', []) as $event => $listeners) {
-            foreach ($listeners as $key => $listener) {
-                if (is_integer($listener)) {
-                    $priority = $listener;
-                    $listener = $key;
-                } else {
-                    $priority = 0;
-                }
-
-                app('events')->listen($event, $listener, $priority);
-            }
-        }
-
         /**
          * Merge configured bindings with Streams.
          * Laravel will bind these after register().
