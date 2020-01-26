@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Http\Controller;
+<?php
+
+namespace Anomaly\Streams\Platform\Http\Controller;
 
 /**
  * Class PublicController
@@ -9,14 +11,4 @@
  */
 class PublicController extends BaseController
 {
-
-    /**
-     * Create a new BaseController instance.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\CheckForMaintenanceMode');
-    }
 }

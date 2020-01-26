@@ -116,8 +116,6 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection'       => 'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection',
         'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationCollection' => 'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationCollection',
 
-        'Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection' => 'Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection',
-
         'Anomaly\Streams\Platform\Asset\Asset'         => 'Anomaly\Streams\Platform\Asset\Asset',
         'Anomaly\Streams\Platform\Asset\AssetPaths'    => 'Anomaly\Streams\Platform\Asset\AssetPaths',
         'Anomaly\Streams\Platform\Asset\AssetRegistry' => 'Anomaly\Streams\Platform\Asset\AssetRegistry',

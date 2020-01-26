@@ -6,10 +6,7 @@ use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasSaved;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasUpdated;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted;
-use Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumn;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumn;
-use Anomaly\Streams\Platform\Assignment\Command\UpdateAssignmentColumn;
 use Anomaly\Streams\Platform\Support\Observer;
 
 /**
@@ -42,7 +39,7 @@ class AssignmentObserver extends Observer
         app(AssignmentSchema::class)->addColumn($model);
         app(AssignmentSchema::class)->addIndex($model);
 
-        $this->events->dispatch(new AssignmentWasCreated($model));
+        event(new AssignmentWasCreated($model));
     }
 
     /**
@@ -52,9 +49,10 @@ class AssignmentObserver extends Observer
      */
     public function updated(AssignmentInterface $model)
     {
-        $this->dispatchNow(new UpdateAssignmentColumn($model));
+        app(AssignmentSchema::class)->updateColumn($model);
+        app(AssignmentSchema::class)->updateIndex($model);
 
-        $this->events->dispatch(new AssignmentWasUpdated($model));
+        event(new AssignmentWasUpdated($model));
     }
 
     /**
@@ -64,7 +62,7 @@ class AssignmentObserver extends Observer
      */
     public function saved(AssignmentInterface $model)
     {
-        $this->events->dispatch(new AssignmentWasSaved($model));
+        event(new AssignmentWasSaved($model));
     }
 
     /**
@@ -74,8 +72,9 @@ class AssignmentObserver extends Observer
      */
     public function deleted(AssignmentInterface $model)
     {
-        $this->dispatchNow(new DropAssignmentColumn($model));
+        app(AssignmentSchema::class)->dropIndex($model);
+        app(AssignmentSchema::class)->dropColumn($model);
 
-        $this->events->dispatch(new AssignmentWasDeleted($model));
+        event(new AssignmentWasDeleted($model));
     }
 }

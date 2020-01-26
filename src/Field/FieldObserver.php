@@ -2,10 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Field;
 
-use Anomaly\Streams\Platform\Field\Command\ChangeFieldAssignments;
-use Anomaly\Streams\Platform\Field\Command\DeleteFieldAssignments;
-use Anomaly\Streams\Platform\Field\Command\RenameFieldAssignments;
-use Anomaly\Streams\Platform\Field\Command\UpdateFieldAssignments;
+use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\Event\FieldWasCreated;
 use Anomaly\Streams\Platform\Field\Event\FieldWasDeleted;
@@ -30,8 +27,7 @@ class FieldObserver extends Observer
      */
     public function created(FieldInterface $model)
     {
-
-        $this->events->dispatch(new FieldWasCreated($model));
+        event(new FieldWasCreated($model));
     }
 
     /**
@@ -41,7 +37,10 @@ class FieldObserver extends Observer
      */
     public function updating(FieldInterface $model)
     {
-        $this->dispatchNow(new RenameFieldAssignments($model));
+        foreach ($model->assignments as $assignment) {
+            app(AssignmentSchema::class)->renameColumn($assignment);
+            app(AssignmentSchema::class)->updateIndex($assignment);
+        }
     }
 
     /**
@@ -52,10 +51,15 @@ class FieldObserver extends Observer
     public function updated(FieldInterface $model)
     {
 
-        $this->dispatchNow(new ChangeFieldAssignments($model));
-        $this->dispatchNow(new UpdateFieldAssignments($model));
+        foreach ($this->field->getAssignments() as $assignment) {
 
-        $this->events->dispatch(new FieldWasUpdated($model));
+            $assignment->setRelation('field', $model);
+
+            app(AssignmentSchema::class)->changeColumn($assignment);
+            app(AssignmentSchema::class)->updateColumn($assignment);
+        }
+
+        event(new FieldWasUpdated($model));
     }
 
     /**
@@ -65,7 +69,7 @@ class FieldObserver extends Observer
      */
     public function saved(FieldInterface $model)
     {
-        $this->events->dispatch(new FieldWasSaved($model));
+        event(new FieldWasSaved($model));
     }
 
     /**
@@ -75,7 +79,9 @@ class FieldObserver extends Observer
      */
     public function deleting(FieldInterface $model)
     {
-        $this->dispatchNow(new DeleteFieldAssignments($model));
+        foreach ($this->field->getAssignments() as $assignment) {
+            $$assignment->delete($assignment);
+        }
     }
 
     /**
@@ -86,6 +92,6 @@ class FieldObserver extends Observer
     public function deleted(FieldInterface $model)
     {
 
-        $this->events->dispatch(new FieldWasDeleted($model));
+        event(new FieldWasDeleted($model));
     }
 }

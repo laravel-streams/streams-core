@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Assignment;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Model\EloquentPresenter;
@@ -24,17 +26,16 @@ class AssignmentPresenter extends EloquentPresenter
     /**
      * Return the flag labels.
      *
-     * @param  string $size
      * @return string
      */
-    public function labels($size = 'sm')
+    public function labels()
     {
         return implode(
             ' ',
             [
-                $this->requiredLabel($size),
-                $this->uniqueLabel($size),
-                $this->translatableLabel($size),
+                $this->requiredLabel(),
+                $this->uniqueLabel(),
+                $this->translatableLabel(),
             ]
         );
     }
@@ -42,13 +43,12 @@ class AssignmentPresenter extends EloquentPresenter
     /**
      * Return the required label.
      *
-     * @param  string      $size
      * @return null|string
      */
-    protected function requiredLabel($size = 'sm')
+    protected function requiredLabel()
     {
         if ($this->object->isRequired()) {
-            return '<span class="tag tag-danger tag-' . $size . '">' . trans(
+            return '<span class="tag tag-danger">' . trans(
                 'streams::assignment.required.name'
             ) . '</span>';
         }
@@ -59,13 +59,12 @@ class AssignmentPresenter extends EloquentPresenter
     /**
      * Return the unique label.
      *
-     * @param  string      $size
      * @return null|string
      */
-    protected function uniqueLabel($size = 'sm')
+    protected function uniqueLabel()
     {
         if ($this->object->isUnique()) {
-            return '<span class="tag tag-primary tag-' . $size . '">' . trans(
+            return '<span class="tag tag-primary">' . trans(
                 'streams::assignment.unique.name'
             ) . '</span>';
         }
@@ -76,13 +75,12 @@ class AssignmentPresenter extends EloquentPresenter
     /**
      * Return the translatable label.
      *
-     * @param  string      $size
      * @return null|string
      */
-    protected function translatableLabel($size = 'sm')
+    protected function translatableLabel()
     {
         if ($this->object->isTranslatable()) {
-            return '<span class="tag tag-info tag-' . $size . '">' . trans(
+            return '<span class="tag tag-info">' . trans(
                 'streams::assignment.translatable.name'
             ) . '</span>';
         }

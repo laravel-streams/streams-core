@@ -2,12 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Http\Controller;
 
-use Anomaly\Streams\Platform\Http\Middleware\CheckLocale;
 use Anomaly\Streams\Platform\Http\Middleware\ForceSsl;
-use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
 use Anomaly\Streams\Platform\Http\Middleware\PrefixDomain;
 use Anomaly\Streams\Platform\Http\Middleware\SetLocale;
-use Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\View\ViewTemplate;
@@ -57,17 +54,10 @@ class BaseController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(VerifyCsrfToken::class);
-
         $this->middleware(ForceSsl::class);
         $this->middleware(PrefixDomain::class);
 
         $this->middleware(SetLocale::class);
-        $this->middleware(CheckLocale::class);
-
-        foreach (app(MiddlewareCollection::class) as $middleware) {
-            $this->middleware($middleware);
-        }
     }
 
     /**

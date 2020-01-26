@@ -2,11 +2,18 @@
 
 namespace Anomaly\Streams\Platform\Assignment;
 
+use Illuminate\Database\Schema\Builder;
+use Illuminate\Database\Schema\Blueprint;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Schema\Builder;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 
+/**
+ * AssignmentSchema class
+ *
+ * @link   http://pyrocms.com/
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class AssignmentSchema
 {
 
@@ -32,10 +39,8 @@ class AssignmentSchema
      */
     public function addColumn(AssignmentInterface $assignment)
     {
-        $stream = $assignment->getStream();
-        $type   = $assignment->getFieldType();
-        $table  = $stream->getEntryTableName();
-        $schema = $type->getSchema();
+        $table  = $assignment->stream->getEntryTableName();
+        $schema = $assignment->field->type->getSchema();
 
         $this->schema->table(
             $table,
@@ -52,10 +57,8 @@ class AssignmentSchema
      */
     public function addIndex(AssignmentInterface $assignment)
     {
-        $stream = $assignment->getStream();
-        $type   = $assignment->getFieldType();
-        $table  = $stream->getEntryTableName();
-        $schema = $type->getSchema();
+        $table  = $assignment->stream->getEntryTableName();
+        $schema = $assignment->field->type->getSchema();
 
         $this->schema->table(
             $table,
@@ -68,13 +71,12 @@ class AssignmentSchema
     /**
      * Update a column.
      *
-     * @param $table
-     * @param FieldType $type
      * @param AssignmentInterface $assignment
      */
-    public function updateColumn($table, FieldType $type, AssignmentInterface $assignment)
+    public function updateColumn(AssignmentInterface $assignment)
     {
-        $schema = $type->getSchema();
+        $table  = $assignment->stream->getEntryTableName();
+        $schema = $assignment->field->type->getSchema();
 
         $this->schema->table(
             $table,
@@ -87,13 +89,17 @@ class AssignmentSchema
     /**
      * Update a column index.
      *
-     * @param $table
-     * @param FieldType $type
      * @param AssignmentInterface $assignment
      */
-    public function updateIndex($table, FieldType $type, AssignmentInterface $assignment)
+    public function updateIndex(AssignmentInterface $assignment)
     {
-        $schema = $type->getSchema();
+        $table  = $assignment->stream->getEntryTableName();
+        $schema = $assignment->field->type->getSchema();
+
+        /* @var AssignmentInterface $assignment */
+        $assignment = app(AssignmentRepositoryInterface::class)->find($assignment->getId());
+
+        $assignment = clone ($assignment);
 
         $this->schema->table(
             $table,
@@ -106,16 +112,24 @@ class AssignmentSchema
     /**
      * Rename a column.
      *
-     * @param $table
-     * @param FieldType $type
      * @param AssignmentInterface $assignment
      */
-    public function renameColumn($table, FieldType $type, AssignmentInterface $assignment)
+    public function renameColumn(AssignmentInterface $assignment)
     {
-        $schema = $type->getSchema();
+        $columnType = $assignment->field->type->getColumnType();
+        $table      = $assignment->stream->getEntryTableName();
+        $schema     = $assignment->field->type->getSchema();
+
+        /* @var AssignmentInterface $assignment */
+        $assignment = app(AssignmentRepositoryInterface::class)->find($assignment->getId());
+
+        $assignment = clone ($assignment);
+
+        $assignment->setRelation('field', $this->field);
+
         $from   = $assignment->getFieldType(true);
 
-        if ($from->getColumnName() === $type->getColumnName()) {
+        if ($from->getColumnName() === $columnType) {
             return;
         }
 
@@ -131,20 +145,21 @@ class AssignmentSchema
     /**
      * Change a column.
      *
-     * @param $table
-     * @param FieldType $type
      * @param AssignmentInterface $assignment
      */
-    public function changeColumn($table, FieldType $type, AssignmentInterface $assignment)
+    public function changeColumn(AssignmentInterface $assignment)
     {
-        $schema = $type->getSchema();
-        $from   = $assignment->getFieldType(true);
+        $columnType = $assignment->field->type->getColumnType();
+        $table      = $assignment->stream->getEntryTableName();
+        $schema     = $assignment->field->type->getSchema();
 
-        if ($from->getColumnType() === false || $type->getColumnType() === false) {
+        $from = $assignment->getFieldType(true);
+
+        if ($from->getColumnType() === false || $columnType === false) {
             return;
         }
 
-        if ($from->getColumnType() === $type->getColumnType()) {
+        if ($from->getColumnType() === $columnType) {
             return;
         }
 
@@ -159,12 +174,12 @@ class AssignmentSchema
     /**
      * Drop a column.
      *
-     * @param           $table
-     * @param FieldType $type
+     * @param AssignmentInterface $assignment
      */
-    public function dropColumn($table, FieldType $type)
+    public function dropColumn(AssignmentInterface $assignment)
     {
-        $schema = $type->getSchema();
+        $table  = $assignment->stream->getEntryTableName();
+        $schema = $assignment->field->type->getSchema();
 
         if (!$this->schema->hasTable($table)) {
             return;
@@ -181,13 +196,12 @@ class AssignmentSchema
     /**
      * Drop a column index.
      *
-     * @param           $table
-     * @param FieldType $type
      * @param AssignmentInterface $assignment
      */
-    public function dropIndex($table, FieldType $type, AssignmentInterface $assignment)
+    public function dropIndex(AssignmentInterface $assignment)
     {
-        $schema = $type->getSchema();
+        $table  = $assignment->stream->getEntryTableName();
+        $schema = $assignment->field->type->getSchema();
 
         if (!$this->schema->hasTable($table)) {
             return;
@@ -204,17 +218,16 @@ class AssignmentSchema
     /**
      * Backup a column's data.
      *
-     * @param $table
-     * @param FieldType $type
      * @param AssignmentInterface $assignment
      */
-    public function backupColumn($table, FieldType $type, AssignmentInterface $assignment)
+    public function backupColumn(AssignmentInterface $assignment)
     {
+        $table  = $assignment->stream->getEntryTableName();
+        $schema = $assignment->field->type->getSchema();
+
         if (!$this->schema->hasTable($table)) {
             return;
         }
-
-        $schema = $type->getSchema();
 
         $this->schema->table(
             $table,
@@ -227,17 +240,16 @@ class AssignmentSchema
     /**
      * Restore a column's data.
      *
-     * @param $table
-     * @param FieldType $type
      * @param AssignmentInterface $assignment
      */
-    public function restoreColumn($table, FieldType $type, AssignmentInterface $assignment)
+    public function restoreColumn(AssignmentInterface $assignment)
     {
+        $table  = $assignment->stream->getEntryTableName();
+        $schema = $assignment->field->type->getSchema();
+
         if (!$this->schema->hasTable($table)) {
             return;
         }
-
-        $schema = $type->getSchema();
 
         $this->schema->table(
             $table,

@@ -1,6 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Http\Controller;
+<?php
 
-use Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken;
+namespace Anomaly\Streams\Platform\Http\Controller;
 
 /**
  * Class ResourceController
@@ -11,20 +11,4 @@ use Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken;
  */
 class ResourceController extends PublicController
 {
-
-    /**
-     * Create a new ResourceController instance.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        // No CSRF protection.
-        $this->middleware = array_filter(
-            $this->middleware,
-            function ($item) {
-                return $item['middleware'] != VerifyCsrfToken::class;
-            }
-        );
-    }
 }
