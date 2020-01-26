@@ -159,7 +159,7 @@ class EloquentQueryBuilder extends Builder
         if ($query->orders === null) {
             if ($model instanceof AssignmentModel) {
                 $query->orderBy('streams_assignments.sort_order', 'ASC');
-            } elseif ($model instanceof StreamModel && env('INSTALLED')) { // Ensure migrations are complete.
+            } elseif ($model instanceof StreamModel && config('streams.installed')) { // Ensure migrations are complete.
                 $query->orderBy('streams_streams.sort_order', 'ASC');
             } elseif ($model instanceof EntryInterface) {
                 if ($model->getStream()->isSortable()) {

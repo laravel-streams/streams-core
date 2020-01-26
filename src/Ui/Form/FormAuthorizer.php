@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Support\Authorizer;
@@ -45,11 +47,11 @@ class FormAuthorizer
             return;
         }
 
-        if (!env('INSTALLED')) {
+        if (!config('streams.installed')) {
             return;
         }
 
-        if ($permission && !$this->authorizer->authorizeAny((array)$permission)) {
+        if ($permission && !$this->authorizer->authorizeAny((array) $permission)) {
             abort(403);
         }
     }

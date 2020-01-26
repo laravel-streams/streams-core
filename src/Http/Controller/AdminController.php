@@ -1,4 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Http\Controller;
+<?php
+
+namespace Anomaly\Streams\Platform\Http\Controller;
+
+use Anomaly\Streams\Platform\Http\Middleware\BuildControlPanel;
 
 /**
  * Class AdminController
@@ -23,7 +27,6 @@ class AdminController extends BaseController
          * the core Users module.
          */
         $this->middleware('auth');
-
-        parent::__construct();
+        $this->middleware(BuildControlPanel::class);
     }
 }

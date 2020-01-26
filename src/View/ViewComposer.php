@@ -140,7 +140,7 @@ class ViewComposer
             $view->with($data);
         }
 
-        if (!$this->theme || !env('INSTALLED')) {
+        if (!$this->theme || !config('streams.installed')) {
             if (!self::$loaded && self::$loaded = true) {
                 /* @deprecated since 1.6; this is no longer needed for every view. */
                 event(new ViewComposed($view));

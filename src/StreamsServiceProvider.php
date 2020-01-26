@@ -277,23 +277,6 @@ class StreamsServiceProvider extends ServiceProvider
     public function register()
     {
 
-        // Setup Utilities
-        $this->setCoreConnection();
-
-        /**
-         * When config is cached by Laravel we
-         * end up oddly not loading .env data.
-         */
-        if (is_file(base_path('bootstrap/cache/config.php')) && is_file($file = base_path('.env'))) {
-            foreach (file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
-
-                // Check for # comments.
-                if (!starts_with($line, '#')) {
-                    putenv($line);
-                }
-            }
-        }
-
         /*
          * Register all third party packages first.
          */
@@ -350,7 +333,7 @@ class StreamsServiceProvider extends ServiceProvider
          * If we don't have an .env file we need to head
          * to the installer (unless that's where we're at).
          */
-        if (!env('INSTALLED') && app('request')->segment(1) !== 'installer') {
+        if (!config('streams.installed') && app('request')->segment(1) !== 'installer') {
 
             app('router')->any(
                 '{url?}',
@@ -433,20 +416,6 @@ class StreamsServiceProvider extends ServiceProvider
                     ]
                 );
             });
-    }
-
-    /**
-     * Set the core database connection.
-     *
-     * @return void
-     */
-    protected function setCoreConnection()
-    {
-        config(
-            [
-                'database.connections.core' => config('database.connections.' . config('database.default')),
-            ]
-        );
     }
 
     /**
