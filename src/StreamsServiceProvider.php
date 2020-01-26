@@ -2,14 +2,11 @@
 
 namespace Anomaly\Streams\Platform;
 
-use Illuminate\Routing\Route;
 use Illuminate\Routing\Redirector;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
-use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Routing\Matching\UriValidator;
 use Anomaly\Streams\Platform\Addon\AddonModel;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Field\FieldModel;
@@ -31,7 +28,6 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\View\ViewTemplate;
 
 /**
  * Class StreamsServiceProvider
@@ -239,47 +235,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
-        /**
-         * Register core events.
-         */
-        $this->app->register(StreamsEventProvider::class);
-
-        /*
-         * Change the default language path so
-         * that there MUST be a prefix hint.w
-         */
-        $this->app->singleton(
-            'path.lang',
-            function () {
-                return realpath(__DIR__ . '/../resources/lang');
-            }
-        );
-
-        /*
-         * Register the path to the streams platform.
-         * This is handy for helping load other streams things.
-         */
-        $this->app->instance(
-            'streams.path',
-            app('path.base') . '/vendor/anomaly/streams-platform'
-        );
-
-        /*
-         * If we don't have an .env file we need to head
-         * to the installer (unless that's where we're at).
-         */
-        if (!config('streams.installed') && app('request')->segment(1) !== 'installer') {
-
-            app('router')->any(
-                '{url?}',
-                function (Redirector $redirector) {
-                    return $redirector->to('installer');
-                }
-            )->where(['url' => '(.*)']);
-
-            return;
-        }
 
         /**
          * Cache a couple files we may use heavily.

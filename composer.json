@@ -36,6 +36,12 @@
     "extra": {
         "branch-alias": {
             "2.0.0": "2.0.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Anomaly\\Streams\\Platform\\StreamsEventProvider",
+                "Anomaly\\Streams\\Platform\\StreamsServiceProvider"
+            ]
         }
     },
     "license": "MIT"
