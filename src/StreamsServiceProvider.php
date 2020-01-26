@@ -277,18 +277,6 @@ class StreamsServiceProvider extends ServiceProvider
     public function register()
     {
 
-        /**
-         * Merge configured bindings with Streams.
-         * Laravel will bind these after register().
-         */
-        $this->bindings = array_merge($this->bindings, config('streams.bindings', []));
-        $this->singletons = array_merge($this->singletons, config('streams.singletons', []));
-
-        // Register streams other providers.
-        foreach (array_merge($this->providers, config('streams.providers', [])) as $provider) {
-            $this->app->register($provider);
-        }
-
         /*
          * Change the default language path so
          * that there MUST be a prefix hint.w
