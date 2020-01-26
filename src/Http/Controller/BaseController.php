@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Http\Controller;
 
+use Anomaly\Streams\Platform\Http\Middleware\DetectActiveModule;
 use Anomaly\Streams\Platform\Http\Middleware\ForceSsl;
 use Anomaly\Streams\Platform\Http\Middleware\PrefixDomain;
 use Anomaly\Streams\Platform\Http\Middleware\SetLocale;
@@ -60,6 +61,7 @@ class BaseController extends Controller
         $this->middleware(ForceSsl::class);
         $this->middleware(PrefixDomain::class);
         $this->middleware(SetLocale::class);
+        $this->middleware(DetectActiveModule::class);
     }
 
     /**

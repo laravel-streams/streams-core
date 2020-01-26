@@ -192,7 +192,7 @@ class AddonServiceProvider extends ServiceProvider
         $namespace = $this->namespace();
         //$addon = $this->addon();
 
-        [$vendor, $type, $slug] = explode('.', $namespace);
+        //[$vendor, $type, $slug] = explode('.', $namespace);
 
         $path = dirname((new \ReflectionClass(get_called_class()))->getFileName(), 2);
 
