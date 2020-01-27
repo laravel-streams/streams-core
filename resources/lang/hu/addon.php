@@ -7,8 +7,6 @@ return [
     'themes' => 'Témák',
     'module' => 'Modul',
     'modules' => 'Modulok',
-    'plugin' => 'Beépülő',
-    'plugins' => 'Beépülők',
     'extension' => 'Kiegészítő',
     'extensions' => 'Kiegészítők',
     'field_type' => 'Mező Típus',

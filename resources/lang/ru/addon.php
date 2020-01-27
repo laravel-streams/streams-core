@@ -7,8 +7,6 @@ return [
     'themes'      => 'Темы',
     'module'      => 'Модуль',
     'modules'     => 'Модули',
-    'plugin'      => 'Плагин',
-    'plugins'     => 'Плагины',
     'extension'   => 'Расширение',
     'extensions'  => 'Расширения',
     'field_type'  => 'Тип поля',

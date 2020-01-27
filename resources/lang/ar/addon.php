@@ -7,8 +7,6 @@ return [
     'themes'      => 'السمات',
     'module'      => 'وحدة',
     'modules'     => 'الوحدات',
-    'plugin'      => 'وصلة',
-    'plugins'     => 'الوصلات',
     'extension'   => 'تركيبة',
     'extensions'  => 'المركبات',
     'field_type'  => 'تواع الحقل',

@@ -7,8 +7,6 @@ return [
     'themes'      => 'Temos',
     'module'      => 'Modulis',
     'modules'     => 'Moduliai',
-    'plugin'      => 'Įskiepis',
-    'plugins'     => 'Įskiepiai',
     'extension'   => 'Plėtinys',
     'extensions'  => 'Plėtiniai',
     'field_type'  => 'Lauko tipas',

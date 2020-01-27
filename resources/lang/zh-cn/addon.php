@@ -7,8 +7,6 @@ return [
     'themes'      => '风格模板',
     'module'      => '程序模块',
     'modules'     => '程序模块',
-    'plugin'      => '程序插件',
-    'plugins'     => '程序插件',
     'extension'   => '程序扩展',
     'extensions'  => '程序扩展',
     'field_type'  => '字段类型',

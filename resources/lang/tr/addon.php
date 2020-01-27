@@ -7,8 +7,6 @@ return [
     'themes'      => 'Temalar',
     'module'      => 'Modül',
     'modules'     => 'Modüller',
-    'plugin'      => 'Eklenti',
-    'plugins'     => 'Eklentiler',
     'extension'   => 'Uzantı',
     'extensions'  => 'Uzantıları',
     'field_type'  => 'Alan türü',

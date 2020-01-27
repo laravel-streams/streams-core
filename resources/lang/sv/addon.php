@@ -7,8 +7,6 @@ return [
     'themes'      => 'Teman',
     'module'      => 'Modul',
     'modules'     => 'Moduler',
-    'plugin'      => 'Plugin',
-    'plugins'     => 'Plugins',
     'extension'   => 'Tillägg',
     'extensions'  => 'Tillägg',
     'field_type'  => 'Fälttyp',

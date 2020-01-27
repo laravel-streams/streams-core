@@ -7,8 +7,6 @@ return [
     'themes'      => 'قالب ها',
     'module'      => 'ماژول',
     'modules'     => 'ماژول ها',
-    'plugin'      => 'پلاگین',
-    'plugins'     => 'پلاگین ها',
     'extension'   => 'توسعه دهنده',
     'extensions'  => 'توسعه دهنده ها',
     'field_type'  => 'نوع-فیلد',
