@@ -476,6 +476,7 @@ if (!function_exists('constants')) {
     /**
      * Return required JS constants.
      * 
+     * @todo this should probably be moved into core/streams-platform instead of theme::
      * @return \Illuminate\View\View
      */
     function constants()
