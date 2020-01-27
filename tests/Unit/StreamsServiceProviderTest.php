@@ -3,8 +3,13 @@
 class StreamsServiceProviderTest extends TestCase
 {
 
-    public function testCanREgister()
+    public function testRegistersSingletonOfComposerJson()
     {
-        $this->assertTrue(true);
+        $this->assertTrue(isset(app('composer.json')['require']['anomaly/streams-platform']));
+    }
+
+    public function testRegistersSingletonOfComposerLock()
+    {
+        $this->assertTrue(isset(app('composer.lock')['packages']));
     }
 }

@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform;
 
 use Illuminate\Routing\Redirector;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
@@ -23,11 +24,11 @@ use Anomaly\Streams\Platform\Support\Configurator;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Stream\StreamObserver;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
+use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
-use Anomaly\Streams\Platform\Application\Application;
 
 /**
  * Class StreamsServiceProvider
@@ -52,6 +53,28 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     protected $schedule = [];
+
+    /**
+     * The event listeners.
+     *
+     * @var array
+     */
+    protected $listeners = [
+        \Anomaly\Streams\Platform\View\Event\ViewComposed::class          => [
+            \Anomaly\Streams\Platform\View\Listener\DecorateData::class,
+            \Anomaly\Streams\Platform\View\Listener\LoadTemplateData::class,
+        ],
+        \Anomaly\Streams\Platform\View\Event\TemplateDataIsLoading::class => [
+            \Anomaly\Streams\Platform\View\Listener\LoadGlobalData::class,
+            \Anomaly\Streams\Platform\Message\Listener\LoadMessageBag::class,
+            \Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\LoadBreadcrumbs::class,
+            \Anomaly\Streams\Platform\Ui\ControlPanel\Listener\LoadControlPanel::class,
+        ],
+        \Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying::class       => [
+            \Anomaly\Streams\Platform\Ui\Table\Component\View\Listener\ApplyView::class,
+            \Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener\FilterResults::class,
+        ],
+    ];
 
     /**
      * The class bindings.
@@ -236,6 +259,8 @@ class StreamsServiceProvider extends ServiceProvider
     public function register()
     {
 
+        $this->registerEvents();
+
         /**
          * Cache a couple files we may use heavily.
          */
@@ -307,6 +332,18 @@ class StreamsServiceProvider extends ServiceProvider
                     ]
                 );
             });
+    }
+
+    /**
+     * Register core routes.
+     */
+    protected function registerEvents()
+    {
+        foreach (array_unique($this->listeners) as $listener => $events) {
+            foreach ($events as $event) {
+                Event::listen($event, $listener);
+            }
+        }
     }
 
     /**
