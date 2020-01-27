@@ -15,7 +15,6 @@ return [
         'field_type',
         'extension',
         'module',
-        'plugin',
         'theme',
     ],
 

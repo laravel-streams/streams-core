@@ -552,7 +552,6 @@ class AddonServiceProvider extends ServiceProvider
             'field_type',
             'extension',
             'module',
-            'plugin',
             'theme',
         ]) . '$/', $addon, $type);
 
