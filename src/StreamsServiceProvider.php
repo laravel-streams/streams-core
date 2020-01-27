@@ -3,12 +3,10 @@
 namespace Anomaly\Streams\Platform;
 
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
-use Anomaly\Streams\Platform\Addon\AddonModel;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Field\FieldModel;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -26,9 +24,7 @@ use Anomaly\Streams\Platform\Stream\StreamObserver;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
-use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 
 /**
  * Class StreamsServiceProvider
@@ -152,18 +148,6 @@ class StreamsServiceProvider extends ServiceProvider
         StreamModel::observe(StreamObserver::class);
         EloquentModel::observe(EloquentObserver::class);
         AssignmentModel::observe(AssignmentObserver::class);
-
-        // Addon states
-        $modules = env('INSTALLED', false) ? AddonModel::get() : new ModuleCollection([]);
-        $extensions = env('INSTALLED', false) ? AddonModel::get() : new ExtensionCollection([]);
-
-        // @todo replace with single addons table
-        $this->app->instance('addons', $modules->merge($extensions));
-
-        // Register the guessing policy for policies..
-        \Gate::guessPolicyNamesUsing(function ($model) {
-            dd(__FILE__ . ' - GATE FOR: ' . $model);
-        });
 
         /**
          * Register core commands.

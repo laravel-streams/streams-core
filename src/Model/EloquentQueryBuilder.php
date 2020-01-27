@@ -174,6 +174,18 @@ class EloquentQueryBuilder extends Builder
     }
 
     /**
+     * Find a record by it's column value.
+     *
+     * @param $column
+     * @param $value
+     * @return EloquentModel|null
+     */
+    public function findBy($column, $value)
+    {
+        return $this->model->where($column, $value)->first();
+    }
+
+    /**
      * Select the default columns.
      *
      * This is helpful when using addSelect

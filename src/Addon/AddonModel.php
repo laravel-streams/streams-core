@@ -20,4 +20,14 @@ class AddonModel extends EloquentModel
      * @var string
      */
     protected $table = 'streams_addons';
+
+    /**
+     * The casted attributes.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'enabled' => 'boolean',
+        'installed' => 'boolean',
+    ];
 }

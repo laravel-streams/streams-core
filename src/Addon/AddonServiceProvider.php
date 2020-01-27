@@ -2,9 +2,11 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Asset\AssetRegistry;
 use Illuminate\Support\ServiceProvider;
+use Anomaly\Streams\Platform\Addon\AddonModel;
 use Illuminate\Console\Application as Artisan;
+use Anomaly\Streams\Platform\Asset\AssetRegistry;
+use Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered;
 
 /**
  * Class AddonServiceProvider
@@ -128,29 +130,16 @@ class AddonServiceProvider extends ServiceProvider
         $addon     = $this->addon();
         $namespace = $this->namespace();
 
+        /**
+         * @todo replace with cached/single collection.
+         */
+        $state = AddonModel::findBy('namespace', $namespace);
+
         [$vendor, $type, $slug] = explode('.', $namespace);
 
         $path = dirname((new \ReflectionClass(get_called_class()))->getFileName(), 2);
 
-        // if ($type !== 'module' && !$addon->isEnabled() && $addon->getSlug() !== 'installer') {
-        //     return;
-        // }
-
-        // if ($addon instanceof Extension && !$addon->isEnabled()) {
-        //     return;
-        // }
-
-        // if ($addon instanceof Theme && !$addon->isActive()) {
-        //     return;
-        // }
-
-        // $provider = $addon->getServiceProvider();
-
-        // if (!class_exists($provider)) {
-        //     return;
-        // }
-
-        $this->app->singleton($namespace, function ($app) use ($addon, $type, $slug, $vendor, $path) {
+        $this->app->singleton($namespace, function ($app) use ($addon, $type, $slug, $vendor, $path, $state) {
 
             // @var Addon $addon
             $addon = $app->make($addon)
@@ -159,13 +148,21 @@ class AddonServiceProvider extends ServiceProvider
                 ->setVendor($vendor)
                 ->setPath($path);
 
-            if ($addon->getType() === 'module' || $addon->getType() === 'extension') {
-                $addon->setEnabled(true);
-                $addon->setInstalled(true);
+            if (!config('streams.installed')) {
+                return $addon;
+            }
+
+            if ($state) {
+                $addon->setEnabled($state->enabled);
+                $addon->setInstalled($state->installed);
             }
 
             return $addon;
         });
+
+        if ($state && (!$state->enabled || !$state->installed)) {
+            return;
+        }
 
         $this->registerApi($namespace);
         $this->registerRoutes($namespace);
@@ -180,7 +177,7 @@ class AddonServiceProvider extends ServiceProvider
         // Lastly
         $this->registerProviders();
 
-        //event(new AddonWasRegistered($namespace));
+        event(new AddonWasRegistered($namespace));
     }
 
     /**

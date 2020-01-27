@@ -15,26 +15,26 @@ class AddonWasUninstalled
 {
 
     /**
-     * The addon instance.
+     * The addon namespace.
      *
-     * @var Addon
+     * @var string
      */
     protected $addon;
 
     /**
      * Create a new AddonWasUninstalled instance.
      *
-     * @param Addon $addon
+     * @param string $addon
      */
-    public function __construct(Addon $addon)
+    public function __construct(string $addon)
     {
         $this->addon = $addon;
     }
 
     /**
-     * Get the addon instance.
+     * Get the addon namespace.
      *
-     * @return Addon
+     * @return string
      */
     public function getAddon()
     {

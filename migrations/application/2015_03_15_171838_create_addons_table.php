@@ -28,12 +28,11 @@ class CreateAddonsTable extends Migration
             $schema->create(
                 'streams_addons',
                 function (Blueprint $table) {
-                    $table->increments('id');
                     $table->string('namespace');
                     $table->boolean('installed')->default(0);
                     $table->boolean('enabled')->default(0);
 
-                    $table->unique('namespace');
+                    $table->primary('namespace');
                 }
             );
         }
