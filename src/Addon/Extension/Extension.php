@@ -22,20 +22,6 @@ class Extension extends Addon
     protected $provides = null;
 
     /**
-     * The installed flag.
-     *
-     * @var bool
-     */
-    protected $installed = false;
-
-    /**
-     * The enabled flag.
-     *
-     * @var bool
-     */
-    protected $enabled = false;
-
-    /**
      * The active flag.
      *
      * @var bool
@@ -63,52 +49,6 @@ class Extension extends Addon
     public function getProvides()
     {
         return $this->provides;
-    }
-
-    /**
-     * Set the installed flag.
-     *
-     * @param  $installed
-     * @return $this
-     */
-    public function setInstalled($installed)
-    {
-        $this->installed = $installed;
-
-        return $this;
-    }
-
-    /**
-     * Get the installed flag.
-     *
-     * @return bool
-     */
-    public function isInstalled()
-    {
-        return $this->installed;
-    }
-
-    /**
-     * Set the enabled flag.
-     *
-     * @param  $enabled
-     * @return $this
-     */
-    public function setEnabled($enabled)
-    {
-        $this->enabled = $enabled;
-
-        return $this;
-    }
-
-    /**
-     * Get the enabled flag.
-     *
-     * @return bool
-     */
-    public function isEnabled()
-    {
-        return $this->enabled && $this->installed;
     }
 
     /**

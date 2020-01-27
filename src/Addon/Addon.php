@@ -23,6 +23,20 @@ class Addon implements PresentableInterface, Arrayable
     use FiresCallbacks;
 
     /**
+     * The installed flag.
+     *
+     * @var bool
+     */
+    protected $installed = false;
+
+    /**
+     * The enabled flag.
+     *
+     * @var bool
+     */
+    protected $enabled = false;
+
+    /**
      * Static shared cache.
      *
      * @var array
@@ -98,6 +112,52 @@ class Addon implements PresentableInterface, Arrayable
      * @var null|string
      */
     protected $namespace = null;
+
+    /**
+     * Set the installed flag.
+     *
+     * @param  $installed
+     * @return $this
+     */
+    public function setInstalled($installed)
+    {
+        $this->installed = $installed;
+
+        return $this;
+    }
+
+    /**
+     * Get the installed flag.
+     *
+     * @return bool
+     */
+    public function isInstalled()
+    {
+        return $this->installed;
+    }
+
+    /**
+     * Set the enabled flag.
+     *
+     * @param  $enabled
+     * @return $this
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get the enabled flag.
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return $this->enabled && $this->installed;
+    }
 
     /**
      * Get the addon's presenter.
@@ -453,7 +513,7 @@ class Addon implements PresentableInterface, Arrayable
     public function setType($type)
     {
         $this->type = $type;
-        
+
         return $this;
     }
 

@@ -147,14 +147,17 @@ class AddonServiceProvider extends ServiceProvider
                 return $addon;
             }
 
-            /**
-             * @todo replace with cached/single collection.
-             */
-            $state = AddonModel::findBy('namespace', $addon->getNamespace());
+            if (!$addon->isEnabled()) {
 
-            if ($state) {
-                $addon->setEnabled($state->enabled);
-                $addon->setInstalled($state->installed);
+                /**
+                 * @todo replace with cached/single collection.
+                 */
+                $state = AddonModel::findBy('namespace', $addon->getNamespace());
+
+                if ($state) {
+                    $addon->setEnabled($state->enabled);
+                    $addon->setInstalled($state->installed);
+                }
             }
 
             return $addon;
