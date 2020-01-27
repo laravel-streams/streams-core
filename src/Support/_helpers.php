@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Support\Value;
 use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Support\Template;
-use Anomaly\Streams\Platform\View\ViewTemplate;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Stream\Command\GetStream;
@@ -216,42 +215,6 @@ if (!function_exists('filesize_for_humans')) {
     }
 }
 
-if (!function_exists('template')) {
-
-    /**
-     * Template data helper function.
-     *
-     * @return \Anomaly\Streams\Platform\View\ViewTemplate
-     */
-    function template()
-    {
-        $arguments = func_get_args();
-
-        /* @var ViewTemplate $template */
-        $template = app(ViewTemplate::class);
-
-        if (empty($arguments)) {
-            return $template;
-        }
-
-        if (is_string($arguments[0])) {
-            return $template->get(...$arguments);
-        }
-
-        if (!is_array($arguments[0])) {
-            throw new Exception(
-                'When setting a value in the template data, you must pass an array of key / value pairs.'
-            );
-        }
-
-        foreach ($arguments[0] as $key => $value) {
-            $template->set($key, $value);
-        }
-
-        return $template;
-    }
-}
-
 if (!function_exists('console')) {
 
     /**
@@ -450,29 +413,6 @@ if (!function_exists('undecorate')) {
     function undecorate($target)
     {
         return app(\Anomaly\Streams\Platform\Support\Decorator::class)->undecorate($target);
-    }
-}
-
-if (!function_exists('share')) {
-
-    /**
-     * Share data with the view system.
-     *
-     * @param $key
-     * @param $value
-     * @param bool $global
-     * @return ViewTemplate
-     */
-    function share($key, $value, $global = false)
-    {
-        if (!$global) {
-            return app(ViewTemplate::class)->set($key, $value);
-        }
-
-        \View::share($key, $value);
-
-        // @todo revisit and fix this - test.
-        return app(Anomaly\Streams\Platform\View\Twig\Engine::class)->global($key, $value);
     }
 }
 

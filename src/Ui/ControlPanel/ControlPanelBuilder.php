@@ -64,7 +64,7 @@ class ControlPanelBuilder
      *
      * @var ControlPanel
      */
-    protected $controlPanel;
+    public $controlPanel;
 
     /**
      * Create a new ControlPanelBuilder instance.

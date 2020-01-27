@@ -2,8 +2,9 @@
 
 namespace Anomaly\Streams\Platform;
 
-use Illuminate\Routing\Redirector;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
@@ -23,11 +24,11 @@ use Anomaly\Streams\Platform\Support\Configurator;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Stream\StreamObserver;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
+use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
-use Anomaly\Streams\Platform\Application\Application;
 
 /**
  * Class StreamsServiceProvider
@@ -59,23 +60,21 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $bindings = [
-        'Illuminate\Routing\UrlGenerator'                                                => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
-        'Illuminate\Contracts\Routing\UrlGenerator'                                      => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
-        'Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface'               => 'Anomaly\Streams\Platform\Entry\EntryRepository',
-        'Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface'               => 'Anomaly\Streams\Platform\Field\FieldRepository',
-        'Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface'             => 'Anomaly\Streams\Platform\Stream\StreamRepository',
-        'Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface'            => 'Anomaly\Streams\Platform\Model\EloquentRepository',
-        'Anomaly\Streams\Platform\Version\Contract\VersionRepositoryInterface'           => 'Anomaly\Streams\Platform\Version\VersionRepository',
-        'Anomaly\Streams\Platform\Lock\Contract\LockRepositoryInterface'                 => 'Anomaly\Streams\Platform\Lock\LockRepository',
-        'Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface'     => 'Anomaly\Streams\Platform\Assignment\AssignmentRepository',
-        'Anomaly\Streams\Platform\Addon\Contract\AddonRepositoryInterface'       => 'Anomaly\Streams\Platform\Addon\AddonRepository',
-        'addon.collection'                                                               => 'Anomaly\Streams\Platform\Addon\AddonCollection',
-        'module.collection'                                                              => 'Anomaly\Streams\Platform\Addon\Module\ModuleCollection',
-        'extension.collection'                                                           => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection',
-        'field_type.collection'                                                          => 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
-        'plugin.collection'                                                              => 'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection',
-        'theme.collection'                                                               => 'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection',
-        'cp.sections'                                                                    => 'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection',
+        'Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface'           => 'Anomaly\Streams\Platform\Entry\EntryRepository',
+        'Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface'           => 'Anomaly\Streams\Platform\Field\FieldRepository',
+        'Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface'         => 'Anomaly\Streams\Platform\Stream\StreamRepository',
+        'Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface'        => 'Anomaly\Streams\Platform\Model\EloquentRepository',
+        'Anomaly\Streams\Platform\Version\Contract\VersionRepositoryInterface'       => 'Anomaly\Streams\Platform\Version\VersionRepository',
+        'Anomaly\Streams\Platform\Lock\Contract\LockRepositoryInterface'             => 'Anomaly\Streams\Platform\Lock\LockRepository',
+        'Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface' => 'Anomaly\Streams\Platform\Assignment\AssignmentRepository',
+        'Anomaly\Streams\Platform\Addon\Contract\AddonRepositoryInterface'           => 'Anomaly\Streams\Platform\Addon\AddonRepository',
+        'addon.collection'                                                           => 'Anomaly\Streams\Platform\Addon\AddonCollection',
+        'module.collection'                                                          => 'Anomaly\Streams\Platform\Addon\Module\ModuleCollection',
+        'extension.collection'                                                       => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection',
+        'field_type.collection'                                                      => 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
+        'plugin.collection'                                                          => 'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection',
+        'theme.collection'                                                           => 'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection',
+        'cp.sections'                                                                => 'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection',
     ];
 
     /**
@@ -88,53 +87,34 @@ class StreamsServiceProvider extends ServiceProvider
         'messages' => \Anomaly\Streams\Platform\Message\MessageBag::class,
 
         \Anomaly\Streams\Platform\Asset\Asset::class             => \Anomaly\Streams\Platform\Asset\Asset::class,
+        \Anomaly\Streams\Platform\Image\Image::class             => \Anomaly\Streams\Platform\Image\Image::class,
+        \Anomaly\Streams\Platform\Stream\StreamStore::class      => \Anomaly\Streams\Platform\Stream\StreamStore::class,
         \Anomaly\Streams\Platform\Message\MessageBag::class      => \Anomaly\Streams\Platform\Message\MessageBag::class,
+        \Anomaly\Streams\Platform\Routing\UrlGenerator::class    => \Anomaly\Streams\Platform\Routing\UrlGenerator::class,
+        \Anomaly\Streams\Platform\Addon\AddonCollection::class   => \Anomaly\Streams\Platform\Addon\AddonCollection::class,
         \Anomaly\Streams\Platform\Application\Application::class => \Anomaly\Streams\Platform\Application\Application::class,
 
-        'Illuminate\Contracts\Routing\UrlGenerator' => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
+        \Anomaly\Streams\Platform\Support\Parser::class     => \Anomaly\Streams\Platform\Support\Parser::class,
+        \Anomaly\Streams\Platform\Support\Hydrator::class   => \Anomaly\Streams\Platform\Support\Hydrator::class,
+        \Anomaly\Streams\Platform\Support\Resolver::class   => \Anomaly\Streams\Platform\Support\Resolver::class,
+        \Anomaly\Streams\Platform\Support\Authorizer::class => \Anomaly\Streams\Platform\Support\Authorizer::class,
+        \Anomaly\Streams\Platform\Support\Autoloader::class => \Anomaly\Streams\Platform\Support\Autoloader::class,
+        \Anomaly\Streams\Platform\Support\Translator::class => \Anomaly\Streams\Platform\Support\Translator::class,
 
-        'Illuminate\Database\Seeder' => 'Anomaly\Streams\Platform\Database\Seeder\Seeder',
+        \Anomaly\Streams\Platform\Addon\Theme\ThemeCollection::class         => \Anomaly\Streams\Platform\Addon\Theme\ThemeCollection::class,
+        \Anomaly\Streams\Platform\Addon\Plugin\PluginCollection::class       => \Anomaly\Streams\Platform\Addon\Plugin\PluginCollection::class,
+        \Anomaly\Streams\Platform\Addon\Module\ModuleCollection::class       => \Anomaly\Streams\Platform\Addon\Module\ModuleCollection::class,
+        \Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection::class => \Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection::class,
+        \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection::class => \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection::class,
 
-        'Anomaly\Streams\Platform\Stream\StreamStore' => 'Anomaly\Streams\Platform\Stream\StreamStore',
-
-        'Anomaly\Streams\Platform\Addon\AddonCollection'                                     => 'Anomaly\Streams\Platform\Addon\AddonCollection',
-        'Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection'                        => 'Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection',
-        'Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder'       => 'Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder',
-        'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection'       => 'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection',
-        'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationCollection' => 'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationCollection',
-
-        'Anomaly\Streams\Platform\Asset\Asset'         => 'Anomaly\Streams\Platform\Asset\Asset',
-        'Anomaly\Streams\Platform\Asset\AssetPaths'    => 'Anomaly\Streams\Platform\Asset\AssetPaths',
-        'Anomaly\Streams\Platform\Asset\AssetRegistry' => 'Anomaly\Streams\Platform\Asset\AssetRegistry',
-
-        'Anomaly\Streams\Platform\Support\Authorizer' => 'Anomaly\Streams\Platform\Support\Authorizer',
-        'Anomaly\Streams\Platform\Support\Autoloader' => 'Anomaly\Streams\Platform\Support\Autoloader',
-        'Anomaly\Streams\Platform\Support\Parser'     => 'Anomaly\Streams\Platform\Support\Parser',
-
-        //'Anomaly\Streams\Platform\Support\Currency'                                          => 'Anomaly\Streams\Platform\Support\Currency',
-        //'Anomaly\Streams\Platform\Support\Hydrator'                                          => 'Anomaly\Streams\Platform\Support\Hydrator',
-        //'Anomaly\Streams\Platform\Support\Resolver'                                          => 'Anomaly\Streams\Platform\Support\Resolver',
-        //'Anomaly\Streams\Platform\Support\Translator'                                        => 'Anomaly\Streams\Platform\Support\Translator',
-        //'Anomaly\Streams\Platform\Asset\AssetParser'                                         => 'Anomaly\Streams\Platform\Asset\AssetParser',
-        //'Anomaly\Streams\Platform\Asset\AssetFilters'                                        => 'Anomaly\Streams\Platform\Asset\AssetFilters',
-
-        'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection'         => 'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection',
-        'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection'       => 'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection',
-        'Anomaly\Streams\Platform\Addon\Module\ModuleCollection'       => 'Anomaly\Streams\Platform\Addon\Module\ModuleCollection',
-        'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection' => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection',
-        'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection' => 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
-
-        'Anomaly\Streams\Platform\Image\Image'       => 'Anomaly\Streams\Platform\Image\Image',
-        'Anomaly\Streams\Platform\Image\ImagePaths'  => 'Anomaly\Streams\Platform\Image\ImagePaths',
-        'Anomaly\Streams\Platform\Image\ImageMacros' => 'Anomaly\Streams\Platform\Image\ImageMacros',
-
-        'Anomaly\Streams\Platform\Ui\Icon\IconRegistry'                     => 'Anomaly\Streams\Platform\Ui\Icon\IconRegistry',
-        'Anomaly\Streams\Platform\Ui\Button\ButtonRegistry'                 => 'Anomaly\Streams\Platform\Ui\Button\ButtonRegistry',
-        'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry'     => 'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry',
-        'Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry' => 'Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry',
+        \Anomaly\Streams\Platform\Ui\Icon\IconRegistry::class                     => \Anomaly\Streams\Platform\Ui\Icon\IconRegistry::class,
+        \Anomaly\Streams\Platform\Ui\Button\ButtonRegistry::class                 => \Anomaly\Streams\Platform\Ui\Button\ButtonRegistry::class,
+        \Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection::class => \Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection::class,
+        \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder::class => \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder::class,
+        \Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry::class     => \Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry::class,
+        \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry::class => \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry::class,
 
         'Anomaly\Streams\Platform\View\ViewComposer'        => 'Anomaly\Streams\Platform\View\ViewComposer',
-        'Anomaly\Streams\Platform\View\ViewTemplate'        => 'Anomaly\Streams\Platform\View\ViewTemplate',
         'Anomaly\Streams\Platform\View\ViewIncludes'        => 'Anomaly\Streams\Platform\View\ViewIncludes',
         'Anomaly\Streams\Platform\View\ViewOverrides'       => 'Anomaly\Streams\Platform\View\ViewOverrides',
         'Anomaly\Streams\Platform\View\ViewMobileOverrides' => 'Anomaly\Streams\Platform\View\ViewMobileOverrides',
@@ -148,6 +128,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
         // Take care of core utilities.
         $this->initializeApplication();
 
@@ -178,6 +159,9 @@ class StreamsServiceProvider extends ServiceProvider
 
         // @todo replace with single addons table
         $this->app->instance('addons', $modules->merge($extensions));
+
+        // Share template data.
+        View::share('key', 'value');
 
         // Register the guessing policy for policies..
         \Gate::guessPolicyNamesUsing(function ($model) {
@@ -262,51 +246,8 @@ class StreamsServiceProvider extends ServiceProvider
             }
         );
 
-        /*
-         * Register system routes.
-         */
-        \Route::middleware('web')
-            ->group(function () {
-                app('router')->post(
-                    'form/handle/{key}',
-                    [
-                        'ttl'  => 0,
-                        'uses' => 'Anomaly\Streams\Platform\Http\Controller\FormController@handle',
-                    ]
-                );
 
-                app('router')->get(
-                    'entry/handle/restore/{addon}/{namespace}/{stream}/{id}',
-                    [
-                        'ttl'  => 0,
-                        'uses' => 'Anomaly\Streams\Platform\Http\Controller\EntryController@restore',
-                    ]
-                );
-
-                app('router')->get(
-                    'entry/handle/export/{addon}/{namespace}/{stream}',
-                    [
-                        'ttl'  => 0,
-                        'uses' => 'Anomaly\Streams\Platform\Http\Controller\EntryController@export',
-                    ]
-                );
-
-                app('router')->get(
-                    'locks/touch',
-                    [
-                        'ttl'  => 0,
-                        'uses' => 'Anomaly\Streams\Platform\Http\Controller\LocksController@touch',
-                    ]
-                );
-
-                app('router')->get(
-                    'locks/release',
-                    [
-                        'ttl'  => 0,
-                        'uses' => 'Anomaly\Streams\Platform\Http\Controller\LocksController@release',
-                    ]
-                );
-            });
+        Route::middleware('web')->group(base_path('vendor/anomaly/streams-platform/resources/routes/web.php'));
     }
 
     /**

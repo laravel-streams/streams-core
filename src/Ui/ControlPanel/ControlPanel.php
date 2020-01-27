@@ -26,28 +26,28 @@ class ControlPanel
      *
      * @var ButtonCollection
      */
-    protected $buttons;
+    public $buttons;
 
     /**
      * The section collection.
      *
      * @var SectionCollection
      */
-    protected $sections;
+    public $sections;
 
     /**
      * The shortcut collection.
      *
      * @var ShortcutCollection
      */
-    protected $shortcuts;
+    public $shortcuts;
 
     /**
      * The navigation collection.
      *
      * @var NavigationCollection
      */
-    protected $navigation;
+    public $navigation;
 
     /**
      * Create a new ControlPanel instance.

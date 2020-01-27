@@ -2,10 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
 
-use Anomaly\Streams\Platform\Routing\UrlGenerator;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
-use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Illuminate\Http\Request;
+use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
+use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 
 /**
  * Class SegmentDefaults
@@ -20,18 +20,18 @@ class SegmentDefaults
     /**
      * The section collection.
      *
-     * @var SectionCollection
+     * @var ControlPanelBuilder
      */
-    protected $sections;
+    protected $builder;
 
     /**
      * Create a new SegmentDefaults instance.
      *
-     * @param SectionCollection $sections
+     * @param SectionCollection $builder
      */
-    public function __construct(SectionCollection $sections)
+    public function __construct(SectionCollection $builder)
     {
-        $this->sections = $sections;
+        $this->builder = $builder;
     }
 
     /**
@@ -45,7 +45,7 @@ class SegmentDefaults
             return;
         }
 
-        if (!$section = $this->sections->active()) {
+        if (!$section = $this->builder->controlPanel->sections->active()) {
             return;
         }
 

@@ -1,10 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Component\Button\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Component\Button\Guesser;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 use Illuminate\Http\Request;
-use Illuminate\Routing\UrlGenerator;
+use Anomaly\Streams\Platform\Routing\UrlGenerator;
+use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
  * Class HrefGuesser
@@ -31,24 +34,23 @@ class HrefGuesser
     protected $request;
 
     /**
-     * The section collection.
+     * The control panel builder.
      *
-     * @var SectionCollection
+     * @var ControlPanelBuilder
      */
-    protected $sections;
+    protected $builder;
 
     /**
      * Create a new HrefGuesser instance.
      *
      * @param UrlGenerator $url
      * @param Request $request
-     * @param SectionCollection $sections
      */
-    public function __construct(UrlGenerator $url, Request $request, SectionCollection $sections)
+    public function __construct(UrlGenerator $url, Request $request, ControlPanelBuilder $builder)
     {
-        $this->url      = $url;
-        $this->request  = $request;
-        $this->sections = $sections;
+        $this->url     = $url;
+        $this->builder = $builder;
+        $this->request = $request;
     }
 
     /**
@@ -61,7 +63,7 @@ class HrefGuesser
         $buttons = $builder->getButtons();
 
         // Nothing to do if empty.
-        if (!$section = $this->sections->active()) {
+        if (!$section = $this->builder->controlPanel->sections->active()) {
             return;
         }
 

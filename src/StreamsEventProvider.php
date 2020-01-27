@@ -2,17 +2,11 @@
 
 namespace Anomaly\Streams\Platform;
 
-use Anomaly\Streams\Platform\Message\Listener\LoadMessageBag;
-use Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\LoadBreadcrumbs;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Listener\LoadControlPanel;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener\FilterResults;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Listener\ApplyView;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
-use Anomaly\Streams\Platform\View\Event\TemplateDataIsLoading;
 use Anomaly\Streams\Platform\View\Event\ViewComposed;
 use Anomaly\Streams\Platform\View\Listener\DecorateData;
-use Anomaly\Streams\Platform\View\Listener\LoadGlobalData;
-use Anomaly\Streams\Platform\View\Listener\LoadTemplateData;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 
 /**
@@ -33,13 +27,6 @@ class StreamsEventProvider extends EventServiceProvider
     protected $listen = [
         ViewComposed::class          => [
             DecorateData::class,
-            LoadTemplateData::class,
-        ],
-        TemplateDataIsLoading::class => [
-            LoadGlobalData::class,
-            LoadMessageBag::class,
-            LoadBreadcrumbs::class,
-            LoadControlPanel::class,
         ],
         TableIsQuerying::class       => [
             ApplyView::class,

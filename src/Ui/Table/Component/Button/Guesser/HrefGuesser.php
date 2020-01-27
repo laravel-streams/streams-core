@@ -7,7 +7,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Http\Request;
-use Illuminate\Routing\UrlGenerator;
+use Anomaly\Streams\Platform\Routing\UrlGenerator;
 
 /**
  * Class HrefGuesser

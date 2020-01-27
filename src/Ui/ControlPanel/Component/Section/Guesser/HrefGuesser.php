@@ -4,7 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Illuminate\Routing\UrlGenerator;
+use Anomaly\Streams\Platform\Routing\UrlGenerator;
 
 /**
  * Class HrefGuesser
