@@ -23,6 +23,9 @@ class FieldType extends Addon
 {
     use HasHtmlAttributes;
 
+    protected $installed = true;
+    protected $enabled = true;
+
     /**
      * The disabled flag.
      *

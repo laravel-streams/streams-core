@@ -68,7 +68,6 @@ class StreamsServiceProvider extends ServiceProvider
         'module.collection'                                                          => 'Anomaly\Streams\Platform\Addon\Module\ModuleCollection',
         'extension.collection'                                                       => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection',
         'field_type.collection'                                                      => 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
-        'plugin.collection'                                                          => 'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection',
         'theme.collection'                                                           => 'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection',
         'cp.sections'                                                                => 'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection',
     ];
@@ -98,7 +97,6 @@ class StreamsServiceProvider extends ServiceProvider
         \Anomaly\Streams\Platform\Support\Translator::class => \Anomaly\Streams\Platform\Support\Translator::class,
 
         \Anomaly\Streams\Platform\Addon\Theme\ThemeCollection::class         => \Anomaly\Streams\Platform\Addon\Theme\ThemeCollection::class,
-        \Anomaly\Streams\Platform\Addon\Plugin\PluginCollection::class       => \Anomaly\Streams\Platform\Addon\Plugin\PluginCollection::class,
         \Anomaly\Streams\Platform\Addon\Module\ModuleCollection::class       => \Anomaly\Streams\Platform\Addon\Module\ModuleCollection::class,
         \Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection::class => \Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection::class,
         \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection::class => \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection::class,

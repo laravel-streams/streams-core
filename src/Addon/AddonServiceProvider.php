@@ -130,16 +130,11 @@ class AddonServiceProvider extends ServiceProvider
         $addon     = $this->addon();
         $namespace = $this->namespace();
 
-        /**
-         * @todo replace with cached/single collection.
-         */
-        $state = AddonModel::findBy('namespace', $namespace);
-
         [$vendor, $type, $slug] = explode('.', $namespace);
 
         $path = dirname((new \ReflectionClass(get_called_class()))->getFileName(), 2);
 
-        $this->app->singleton($namespace, function ($app) use ($addon, $type, $slug, $vendor, $path, $state) {
+        $this->app->singleton($namespace, function ($app) use ($addon, $type, $slug, $vendor, $path) {
 
             // @var Addon $addon
             $addon = $app->make($addon)
@@ -152,6 +147,11 @@ class AddonServiceProvider extends ServiceProvider
                 return $addon;
             }
 
+            /**
+             * @todo replace with cached/single collection.
+             */
+            $state = AddonModel::findBy('namespace', $addon->getNamespace());
+
             if ($state) {
                 $addon->setEnabled($state->enabled);
                 $addon->setInstalled($state->installed);
@@ -159,10 +159,6 @@ class AddonServiceProvider extends ServiceProvider
 
             return $addon;
         });
-
-        if ($state && (!$state->enabled || !$state->installed)) {
-            return;
-        }
 
         $this->registerApi($namespace);
         $this->registerRoutes($namespace);
