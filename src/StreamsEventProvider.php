@@ -25,9 +25,6 @@ class StreamsEventProvider extends EventServiceProvider
      * @var array
      */
     protected $listen = [
-        ViewComposed::class          => [
-            DecorateData::class,
-        ],
         TableIsQuerying::class       => [
             ApplyView::class,
             FilterResults::class,

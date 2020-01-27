@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\View;
+<?php
+
+namespace Anomaly\Streams\Platform\View;
 
 use Illuminate\Support\Collection;
 

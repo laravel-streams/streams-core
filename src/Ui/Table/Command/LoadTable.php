@@ -1,10 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Anomaly\Streams\Platform\View\ViewTemplate;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class LoadTable
@@ -15,7 +15,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class LoadTable
 {
-    use DispatchesJobs;
 
     /**
      * The table builder.
@@ -38,10 +37,9 @@ class LoadTable
      * Handle the command.
      *
      * @param Container            $container
-     * @param ViewTemplate         $template
      * @param BreadcrumbCollection $breadcrumbs
      */
-    public function handle(Container $container, ViewTemplate $template, BreadcrumbCollection $breadcrumbs)
+    public function handle(Container $container, BreadcrumbCollection $breadcrumbs)
     {
         $table = $this->builder->getTable();
 
@@ -51,15 +49,7 @@ class LoadTable
             $container->call($handler, compact('table'));
         }
 
-        if ($layout = $table->getOption('layout_view')) {
-            $template->put('layout', $layout);
-        }
-
-        if ($title = $table->getOption('title')) {
-            $template->put('title', $title);
-        }
-
-        $this->dispatchNow(new LoadTablePagination($table));
+        dispatch_now(new LoadTablePagination($table));
 
         if ($breadcrumb = $table->getOption('breadcrumb')) {
             $breadcrumbs->put($breadcrumb, '#');

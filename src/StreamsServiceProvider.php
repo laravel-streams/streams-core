@@ -115,7 +115,7 @@ class StreamsServiceProvider extends ServiceProvider
         \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry::class => \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry::class,
 
         'Anomaly\Streams\Platform\View\ViewComposer'        => 'Anomaly\Streams\Platform\View\ViewComposer',
-        'Anomaly\Streams\Platform\View\ViewIncludes'        => 'Anomaly\Streams\Platform\View\ViewIncludes',
+        //\Anomaly\Streams\Platform\View\ViewIncludes::class        => \Anomaly\Streams\Platform\View\ViewIncludes::class,
         'Anomaly\Streams\Platform\View\ViewOverrides'       => 'Anomaly\Streams\Platform\View\ViewOverrides',
         'Anomaly\Streams\Platform\View\ViewMobileOverrides' => 'Anomaly\Streams\Platform\View\ViewMobileOverrides',
 
@@ -159,9 +159,6 @@ class StreamsServiceProvider extends ServiceProvider
 
         // @todo replace with single addons table
         $this->app->instance('addons', $modules->merge($extensions));
-
-        // Share template data.
-        View::share('key', 'value');
 
         // Register the guessing policy for policies..
         \Gate::guessPolicyNamesUsing(function ($model) {

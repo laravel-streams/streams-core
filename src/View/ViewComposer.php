@@ -130,31 +130,14 @@ class ViewComposer
             array_walk(
                 $data,
                 function (&$value) {
-                    $value = (new Decorator())->decorate($value);
+                    $value = Decorator::decorate($value);
                 }
             );
-
-            /* @deprecated since 1.6; use template() helper/function instead. */
-            $data['template'] = (new Decorator())->decorate(app(ViewTemplate::class));
 
             $view->with($data);
         }
 
-        if (!$this->theme || !config('streams.installed')) {
-            if (!self::$loaded && self::$loaded = true) {
-                /* @deprecated since 1.6; this is no longer needed for every view. */
-                event(new ViewComposed($view));
-            }
-
-            return $view;
-        }
-
         $this->setPath($view);
-
-        if (!self::$loaded && self::$loaded = true) {
-            /* @deprecated since 1.6; this is no longer needed for every view. */
-            event(new ViewComposed($view));
-        }
 
         return $view;
     }

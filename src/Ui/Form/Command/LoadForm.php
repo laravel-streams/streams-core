@@ -4,7 +4,6 @@ namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\View\ViewTemplate;
 use Illuminate\Contracts\Container\Container;
 
 /**
@@ -38,23 +37,14 @@ class LoadForm
      * Handle the command.
      *
      * @param Container            $container
-     * @param ViewTemplate         $template
      * @param BreadcrumbCollection $breadcrumbs
      */
-    public function handle(Container $container, ViewTemplate $template, BreadcrumbCollection $breadcrumbs)
+    public function handle(Container $container, BreadcrumbCollection $breadcrumbs)
     {
         $form = $this->builder->getForm();
 
         if ($handler = $form->getOption('data')) {
             $container->call($handler, compact('form'));
-        }
-
-        if ($layout = $form->getOption('layout_view')) {
-            $template->put('layout', $layout);
-        }
-
-        if ($title = $form->getOption('title')) {
-            $template->put('title', $title);
         }
 
         // Move this to options so we can read it.
