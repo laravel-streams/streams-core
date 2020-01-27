@@ -159,6 +159,10 @@ class ViewComposer
             config('streams.overrides', [])
         );
 
+        if (!$this->theme) {
+            return;
+        }
+
         $name = str_replace('theme::', $this->theme->getNamespace() . '::', $view->getName());
 
         if ($this->mobile && $path = array_get($mobile, $name, null)) {
