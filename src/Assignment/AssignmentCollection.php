@@ -79,13 +79,14 @@ class AssignmentCollection extends EloquentCollection
     {
         $relations = [];
 
-        /* @var AssignmentInterface $item */
-        /* @var FieldType $type */
-        foreach ($this->items as $item) {
-            $type = $item->getFieldType();
+        /* @var AssignmentInterface $assignment */
+        foreach ($this->items as $assignment) {
+
+            /* @var FieldType $type */
+            $type = $assignment->field->type;
 
             if (method_exists($type, 'getRelation')) {
-                $relations[] = $item;
+                $relations[] = $assignment;
             }
         }
 
@@ -99,7 +100,7 @@ class AssignmentCollection extends EloquentCollection
      */
     public function searchable()
     {
-        return $this->filter(function (AssignmentInterface $assignment) {
+        return $this->filter(function ($assignment) {
             return $assignment->isSearchable();
         });
     }
@@ -112,10 +113,8 @@ class AssignmentCollection extends EloquentCollection
     public function dates()
     {
         return $this->filter(
-            function (AssignmentInterface $assignment) {
-                $type = $assignment->getFieldType();
-
-                return in_array($type->getColumnType(), ['date', 'datetime']);
+            function ($assignment) {
+                return in_array($assignment->field->type->getColumnType(), ['date', 'datetime']);
             }
         );
     }
@@ -128,7 +127,7 @@ class AssignmentCollection extends EloquentCollection
     public function indexed()
     {
         return $this->filter(
-            function (AssignmentInterface $assignment) {
+            function ($assignment) {
                 return $assignment->isUnique();
             }
         );
@@ -142,7 +141,7 @@ class AssignmentCollection extends EloquentCollection
     public function required()
     {
         return $this->filter(
-            function (AssignmentInterface $assignment) {
+            function ($assignment) {
                 return $assignment->isRequired();
             }
         );
@@ -156,7 +155,7 @@ class AssignmentCollection extends EloquentCollection
     public function translatable()
     {
         return $this->filter(
-            function (AssignmentInterface $assignment) {
+            function ($assignment) {
                 return $assignment->isTranslatable();
             }
         );
@@ -170,7 +169,7 @@ class AssignmentCollection extends EloquentCollection
     public function notTranslatable()
     {
         return $this->filter(
-            function (AssignmentInterface $assignment) {
+            function ($assignment) {
                 return !$assignment->isTranslatable();
             }
         );
@@ -196,17 +195,11 @@ class AssignmentCollection extends EloquentCollection
      */
     public function locked()
     {
-        $items = [];
-
-        foreach ($this->items as $item) {
-            if ($item instanceof AssignmentInterface && $field = $item->getField()) {
-                if ($field->isLocked()) {
-                    $items[] = $item;
-                }
+        return $this->filter(
+            function ($assignment) {
+                return $assignment->field->locked;
             }
-        }
-
-        return new static($items);
+        );
     }
 
     /**
@@ -217,17 +210,11 @@ class AssignmentCollection extends EloquentCollection
      */
     public function notLocked()
     {
-        $items = [];
-
-        foreach ($this->items as $item) {
-            if ($item instanceof AssignmentInterface && $field = $item->getField()) {
-                if (!$field->isLocked()) {
-                    $items[] = $item;
-                }
+        return $this->filter(
+            function ($assignment) {
+                return !$assignment->field->locked;
             }
-        }
-
-        return new static($items);
+        );
     }
 
     /**
@@ -238,25 +225,5 @@ class AssignmentCollection extends EloquentCollection
     public function unlocked()
     {
         return $this->notLocked();
-    }
-
-    /**
-     * Return the assignment
-     * with column type.
-     *
-     * @param $type
-     * @return AssignmentCollection
-     */
-    public function column($type)
-    {
-        return $this->filter(
-            function ($item) use ($type) {
-
-                /* @var AssignmentInterface $item */
-                $fieldType = $item->getFieldType();
-
-                return $fieldType->getColumnType() == $type;
-            }
-        );
     }
 }
