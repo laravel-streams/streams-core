@@ -42,7 +42,7 @@ class MakeTable
         $data    = $table->getData();
 
         $content = view(
-            $options->get('table_view', $this->builder->isAjax() ? 'theme::table/ajax' : 'theme::table/table'),
+            $options->get('table_view', $this->builder->isAjax() ? 'admin::table/ajax' : 'admin::table/table'),
             $data
         )->render();
 

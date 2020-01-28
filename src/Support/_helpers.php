@@ -298,13 +298,15 @@ if (!function_exists('buttons')) {
 
     /**
      * Return button HTML.
+     * 
+     * @todo REMOVE this crap and all things like it. It's a view in a function? Used in a view? Wtf Ryan.. 
      *
      * @param \Anomaly\Streams\Platform\Ui\Button\ButtonCollection $buttons
      * @return \Illuminate\View\View
      */
     function buttons(ButtonCollection $buttons)
     {
-        return view('theme::buttons/buttons', ['buttons' => $buttons]);
+        return view('admin::buttons/buttons', ['buttons' => $buttons]);
     }
 }
 
@@ -467,7 +469,7 @@ if (!function_exists('favicons')) {
      */
     function favicons($source)
     {
-        return view('theme::partials.favicons', compact('source'));
+        return view('admin::partials.favicons', compact('source'));
     }
 }
 
@@ -476,12 +478,12 @@ if (!function_exists('constants')) {
     /**
      * Return required JS constants.
      * 
-     * @todo this should probably be moved into core/streams-platform instead of theme::
+     * @todo this should probably be moved into core/streams-platform instead of admin::
      * @return \Illuminate\View\View
      */
     function constants()
     {
-        return view('theme::partials.constants');
+        return view('admin::partials.constants');
     }
 }
 

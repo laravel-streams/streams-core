@@ -76,7 +76,7 @@ class AssignmentsController extends AdminController
             ->notAssignedTo($stream)
             ->unlocked();
 
-        return view('theme::assignments/choose', compact('fields', 'module'));
+        return view('admin::assignments/choose', compact('fields', 'module'));
     }
 
     /**

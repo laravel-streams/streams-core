@@ -163,12 +163,12 @@ class ViewComposer
             return;
         }
 
-        $name = str_replace('theme::', $this->theme->getNamespace() . '::', $view->getName());
+        $name = str_replace('admin::', $this->theme->getNamespace() . '::', $view->getName());
 
         if ($this->mobile && $path = array_get($mobile, $name, null)) {
-            $view->setPath(str_replace('theme::', $this->theme->getNamespace() . '::', $path));
+            $view->setPath(str_replace('admin::', $this->theme->getNamespace() . '::', $path));
         } elseif ($path = array_get($overrides, $name, null)) {
-            $view->setPath(str_replace('theme::', $this->theme->getNamespace() . '::', $path));
+            $view->setPath(str_replace('admin::', $this->theme->getNamespace() . '::', $path));
         }
 
         /**

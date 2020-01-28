@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Breadcrumb;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Breadcrumb;
 
 use Anomaly\Streams\Platform\Support\Collection;
 
@@ -49,6 +51,6 @@ class BreadcrumbCollection extends Collection
      */
     public function __toString()
     {
-        return view('theme::partials/breadcrumb')->render();
+        return view('admin::partials/breadcrumb')->render();
     }
 }

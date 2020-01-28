@@ -194,21 +194,21 @@ class FieldType extends Addon
      *
      * @var string
      */
-    protected $inputView = 'theme::form/partials/input';
+    protected $inputView = 'admin::form/partials/input';
 
     /**
      * The field's filter input view.
      *
      * @var string
      */
-    protected $filterView = 'theme::form/partials/filter';
+    protected $filterView = 'admin::form/partials/filter';
 
     /**
      * The field wrapper view.
      *
      * @var string
      */
-    protected $wrapperView = 'theme::form/partials/wrapper';
+    protected $wrapperView = 'admin::form/partials/wrapper';
 
     /**
      * The presenter class.

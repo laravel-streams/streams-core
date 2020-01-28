@@ -55,7 +55,7 @@ class AssignmentFormBuilder extends FormBuilder
         'general' => [
             'tabs' => [
                 'assignment' => [
-                    'title'  => 'theme::form.tab.display',
+                    'title'  => 'admin::form.tab.display',
                     'fields' => [
                         'label',
                         'placeholder',
@@ -64,7 +64,7 @@ class AssignmentFormBuilder extends FormBuilder
                     ],
                 ],
                 'options'    => [
-                    'title'  => 'theme::form.tab.options',
+                    'title'  => 'admin::form.tab.options',
                     'fields' => [
                         'required',
                         'unique',

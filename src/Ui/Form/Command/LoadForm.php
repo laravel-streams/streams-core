@@ -52,7 +52,7 @@ class LoadForm
 
         $form->addData('form', $form);
 
-        if ($breadcrumb = $form->getOption('breadcrumb', 'theme::form.mode.' . $this->builder->getFormMode())) {
+        if ($breadcrumb = $form->getOption('breadcrumb', 'admin::form.mode.' . $this->builder->getFormMode())) {
             $breadcrumbs->put($breadcrumb, '#');
         }
     }
