@@ -138,8 +138,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->addThemeNamespaces();
         $this->addViewNamespaces();
         $this->loadTranslations();
-        $this->setConsoleDomain();
-        $this->configureRequest();
 
         // Observe our base models.
         EntryModel::observe(EntryObserver::class);
@@ -442,44 +440,6 @@ class StreamsServiceProvider extends ServiceProvider
     }
 
     /**
-     * Set the domain for the console.
-     */
-    public function setConsoleDomain()
-    {
-        if (PHP_SAPI == 'cli') {
-
-            // $force = config('streams::system.force_ssl', false);
-
-            // $protocol = 'http';
-
-            // if (request()->isSecure() || $force) {
-            //     $protocol = 'https';
-            // }
-
-            config(['app.url' => config('app.url')]);
-
-            //url()->forceRootUrl($root);
-        }
-    }
-
-    /**
-     * Configure the request to use HTTPS
-     * if it's been configured to do so.
-     *
-     * This is helpful when the system
-     * sits behind a load balancer that
-     * can mask a secure connection.
-     *
-     * @return void
-     */
-    protected function configureRequest()
-    {
-        if (config('streams::system.force_ssl')) {
-            request()->server->set('HTTPS', true);
-        }
-    }
-
-    /**
      * Attempt to route the request automatically.
      *
      * Huge thanks to @frednwt for this one.
@@ -522,12 +482,14 @@ class StreamsServiceProvider extends ServiceProvider
          * @var Addon $addon
          */
         try {
-            $addon = app('anomaly.module.' . $segments[0]);
+            $addon = app('addon.collection')->first(function ($addon) use ($segments) {
+                return str_is('*.*.' . $segments[0], $addon['namespace']);
+            });
         } catch (\Exception $exception) {
             return; // Doesn't exist.
         }
 
-        $namespace = (new \ReflectionClass($addon))->getNamespaceName();
+        $namespace = (new \ReflectionClass(app($addon['namespace'])))->getNamespaceName();
 
         $controller = null;
         $module     = null;

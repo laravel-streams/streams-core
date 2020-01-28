@@ -88,4 +88,9 @@ class StreamsServiceProviderTest extends TestCase
         $this->assertEquals(base_path('resources'), $images->getPath('theme'));
         $this->assertEquals(base_path('resources'), $assets->getPath('theme'));
     }
+
+    public function testCanLoadTranslations()
+    {
+        $this->assertEquals('field_type', trans('streams::addon.field_type', [], 'en'));
+    }
 }
