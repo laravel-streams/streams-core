@@ -52,7 +52,7 @@ class SegmentInput
             return;
         }
 
-        if (!$section = app('cp.sections')->active()) {
+        if (!$section = cp()->sections->active()) {
             return;
         }
 

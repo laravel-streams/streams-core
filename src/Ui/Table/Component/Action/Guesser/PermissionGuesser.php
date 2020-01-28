@@ -28,7 +28,7 @@ class PermissionGuesser
             return;
         }
 
-        $section = app('cp.sections')->active();
+        $section = cp()->sections->active();
 
         foreach ($actions as &$action) {
 

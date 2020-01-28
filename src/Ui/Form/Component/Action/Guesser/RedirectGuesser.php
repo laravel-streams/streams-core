@@ -25,7 +25,7 @@ class RedirectGuesser
     {
         $actions = $builder->getActions();
 
-        $section = app('cp.sections')->active();
+        $section = cp()->sections->active();
 
         reset($actions);
 

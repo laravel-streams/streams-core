@@ -26,7 +26,7 @@ class HrefGuesser
         $entry   = $builder->getFormEntry();
 
         // Nothing to do if empty.
-        if (!$section = app('cp.sections')->active()) {
+        if (!$section = cp()->sections->active()) {
             return;
         }
 
