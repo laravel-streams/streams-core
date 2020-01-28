@@ -51,7 +51,7 @@ class FieldObserver extends Observer
     public function updated(FieldInterface $model)
     {
 
-        foreach ($this->field->getAssignments() as $assignment) {
+        foreach ($this->field->assignments as $assignment) {
 
             $assignment->setRelation('field', $model);
 
@@ -79,8 +79,8 @@ class FieldObserver extends Observer
      */
     public function deleting(FieldInterface $model)
     {
-        foreach ($this->field->getAssignments() as $assignment) {
-            $$assignment->delete($assignment);
+        foreach ($model->assignments as $assignment) {
+            $assignment->delete();
         }
     }
 

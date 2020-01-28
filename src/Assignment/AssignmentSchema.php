@@ -178,6 +178,10 @@ class AssignmentSchema
      */
     public function dropColumn(AssignmentInterface $assignment)
     {
+        if (!$assignment->stream) {
+            return;
+        }
+
         $table  = $assignment->stream->getEntryTableName();
         $schema = $assignment->field->type->getSchema();
 
@@ -200,6 +204,10 @@ class AssignmentSchema
      */
     public function dropIndex(AssignmentInterface $assignment)
     {
+        if (!$assignment->stream) {
+            return;
+        }
+
         $table  = $assignment->stream->getEntryTableName();
         $schema = $assignment->field->type->getSchema();
 

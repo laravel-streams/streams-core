@@ -735,7 +735,14 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function getStreamAttribute()
     {
         if (!$this->stream instanceof StreamInterface) {
-            $this->stream = app(StreamModel::class)->find($this->stream);
+            if (is_numeric($this->stream)) {
+                $this->stream = app(StreamModel::class)->find($this->stream);
+            } elseif ([$namespace, $slug] = explode('.', $this->stream)) {
+                $this->stream = app(StreamModel::class)
+                    ->whereNamespace($namespace)
+                    ->whereSlug($slug)
+                    ->first();
+            }
         }
 
         return $this->stream;

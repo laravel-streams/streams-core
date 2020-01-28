@@ -35,18 +35,13 @@ class AssignmentCollection extends EloquentCollection
      * the provided field type.
      *
      * @param $namespace
-     * @return static
+     * @return AssignmentCollection
      */
     public function findAllByFieldType($namespace)
     {
-        return new static(
-            array_filter(
-                $this->items,
-                function (AssignmentInterface $assignment) use ($namespace) {
-                    return $assignment->getFieldTypeValue() == $namespace;
-                }
-            )
-        );
+        return $this->filter(function ($assignment) use ($namespace) {
+            return $assignment->field->type->getNamespace() == $namespace;
+        });
     }
 
     /**
@@ -57,16 +52,9 @@ class AssignmentCollection extends EloquentCollection
      */
     public function withFields(array $fields)
     {
-        return new static(
-            array_filter(
-                array_map(
-                    function (AssignmentInterface $assignment) use ($fields) {
-                        return in_array($assignment->getFieldSlug(), $fields) ? $assignment : null;
-                    },
-                    $this->items
-                )
-            )
-        );
+        return $this->filter(function ($assignment) use ($fields) {
+            return in_array($assignment->field->slug, $fields) ? $assignment : null;;
+        });
     }
 
     /**
@@ -77,16 +65,9 @@ class AssignmentCollection extends EloquentCollection
      */
     public function withoutFields(array $fields)
     {
-        return new static(
-            array_filter(
-                array_map(
-                    function (AssignmentInterface $assignment) use ($fields) {
-                        return !in_array($assignment->getFieldSlug(), $fields) ? $assignment : null;
-                    },
-                    $this->items
-                )
-            )
-        );
+        return $this->filter(function ($assignment) use ($fields) {
+            return !in_array($assignment->field->slug, $fields) ? $assignment : null;
+        });
     }
 
     /**
@@ -118,11 +99,9 @@ class AssignmentCollection extends EloquentCollection
      */
     public function searchable()
     {
-        return $this->filter(
-            function (AssignmentInterface $assignment) {
-                return $assignment->isSearchable();
-            }
-        );
+        return $this->filter(function (AssignmentInterface $assignment) {
+            return $assignment->isSearchable();
+        });
     }
 
     /**
