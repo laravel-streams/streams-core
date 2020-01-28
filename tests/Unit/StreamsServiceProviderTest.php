@@ -1,6 +1,7 @@
 <?php
 
 use Anomaly\Streams\Platform\Asset\AssetPaths;
+use Anomaly\Streams\Platform\Image\ImagePaths;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
@@ -62,6 +63,20 @@ class StreamsServiceProviderTest extends TestCase
     //     $this->assertEquals(application()->getStoragePath(), $paths->getPath('storage'));
     //     $this->assertEquals(application()->getResourcesPath(), $paths->getPath('resources'));
     //     $this->assertEquals(application()->getAssetsPath('assets/downloads'), $paths->getPath('download'));
+    //     $this->assertEquals(base_path('vendor/anomaly/streams-platform/resources'), $paths->getPath('streams'));
+    // }
+
+    // public function testCanAddImageNamespaces()
+    // {
+    //     $paths = app(ImagePaths::class);
+
+    //     $this->assertEquals(public_path(), $paths->getPath('public'));
+    //     $this->assertEquals(resource_path(), $paths->getPath('shared'));
+    //     $this->assertEquals(base_path('node_modules'), $paths->getPath('node'));
+    //     $this->assertEquals(base_path('bower_components'), $paths->getPath('bower'));
+    //     $this->assertEquals(application()->getAssetsPath(), $paths->getPath('asset'));
+    //     $this->assertEquals(application()->getStoragePath(), $paths->getPath('storage'));
+    //     $this->assertEquals(application()->getResourcesPath(), $paths->getPath('resources'));
     //     $this->assertEquals(base_path('vendor/anomaly/streams-platform/resources'), $paths->getPath('streams'));
     // }
 }
