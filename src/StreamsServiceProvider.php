@@ -372,20 +372,8 @@ class StreamsServiceProvider extends ServiceProvider
         $trans = trans();
         $assets = assets();
 
-        if ($admin = config('streams::themes.admin')) {
-
-            $admin = app($admin);
-
-            $path = $admin->getPath();
-
-            $view->addNamespace('theme', $path . '/resources/views');
-            $trans->addNamespace('theme', $path . '/resources/lang');
-
-            $assets->addPath('theme', $path . '/resources');
-            $image->addPath('theme', $path . '/resources');
-        }
-
         if ($default = config('streams::themes.default')) {
+
             [$vendor, $type, $slug] = explode('.', $default);
 
             $path = app($default)->getPath();

@@ -36,10 +36,10 @@ class StreamsServiceProviderTest extends TestCase
         $this->assertEquals(env('APP_REFERENCE', 'default'), application()->getReference());
     }
 
-    // public function testCanLoadStreamsConfiguration()
-    // {
-    //     $this->assertTrue(is_array(config('streams::addons.types')));
-    // }
+    public function testCanLoadStreamsConfiguration()
+    {
+        $this->assertTrue(is_array(config('streams::addons.types')));
+    }
 
     public function testCanConfigureFileCacheStore()
     {
@@ -51,32 +51,32 @@ class StreamsServiceProviderTest extends TestCase
         $this->assertTrue(class_exists(UsersUsersEntryModel::class));
     }
 
-    // public function testCanAddAssetNamespaces()
-    // {
-    //     $paths = app(AssetPaths::class);
+    public function testCanAddAssetNamespaces()
+    {
+        $paths = app(AssetPaths::class);
 
-    //     $this->assertEquals(public_path(), $paths->getPath('public'));
-    //     $this->assertEquals(resource_path(), $paths->getPath('shared'));
-    //     $this->assertEquals(base_path('node_modules'), $paths->getPath('node'));
-    //     $this->assertEquals(base_path('bower_components'), $paths->getPath('bower'));
-    //     $this->assertEquals(application()->getAssetsPath(), $paths->getPath('asset'));
-    //     $this->assertEquals(application()->getStoragePath(), $paths->getPath('storage'));
-    //     $this->assertEquals(application()->getResourcesPath(), $paths->getPath('resources'));
-    //     $this->assertEquals(application()->getAssetsPath('assets/downloads'), $paths->getPath('download'));
-    //     $this->assertEquals(base_path('vendor/anomaly/streams-platform/resources'), $paths->getPath('streams'));
-    // }
+        $this->assertEquals(public_path(), $paths->getPath('public'));
+        $this->assertEquals(resource_path(), $paths->getPath('shared'));
+        $this->assertEquals(base_path('node_modules'), $paths->getPath('node'));
+        $this->assertEquals(base_path('bower_components'), $paths->getPath('bower'));
+        $this->assertEquals(application()->getAssetsPath(), $paths->getPath('asset'));
+        $this->assertEquals(application()->getStoragePath(), $paths->getPath('storage'));
+        $this->assertEquals(application()->getResourcesPath(), $paths->getPath('resources'));
+        $this->assertEquals(application()->getAssetsPath('assets/downloads'), $paths->getPath('download'));
+        $this->assertEquals(base_path('vendor/anomaly/streams-platform/resources'), $paths->getPath('streams'));
+    }
 
-    // public function testCanAddImageNamespaces()
-    // {
-    //     $paths = app(ImagePaths::class);
+    public function testCanAddImageNamespaces()
+    {
+        $paths = app(ImagePaths::class);
 
-    //     $this->assertEquals(public_path(), $paths->getPath('public'));
-    //     $this->assertEquals(resource_path(), $paths->getPath('shared'));
-    //     $this->assertEquals(base_path('node_modules'), $paths->getPath('node'));
-    //     $this->assertEquals(base_path('bower_components'), $paths->getPath('bower'));
-    //     $this->assertEquals(application()->getAssetsPath(), $paths->getPath('asset'));
-    //     $this->assertEquals(application()->getStoragePath(), $paths->getPath('storage'));
-    //     $this->assertEquals(application()->getResourcesPath(), $paths->getPath('resources'));
-    //     $this->assertEquals(base_path('vendor/anomaly/streams-platform/resources'), $paths->getPath('streams'));
-    // }
+        $this->assertEquals(public_path(), $paths->getPath('public'));
+        $this->assertEquals(resource_path(), $paths->getPath('shared'));
+        $this->assertEquals(base_path('node_modules'), $paths->getPath('node'));
+        $this->assertEquals(base_path('bower_components'), $paths->getPath('bower'));
+        $this->assertEquals(application()->getAssetsPath(), $paths->getPath('asset'));
+        $this->assertEquals(application()->getStoragePath(), $paths->getPath('storage'));
+        $this->assertEquals(application()->getResourcesPath(), $paths->getPath('resources'));
+        $this->assertEquals(base_path('vendor/anomaly/streams-platform/resources'), $paths->getPath('streams'));
+    }
 }
