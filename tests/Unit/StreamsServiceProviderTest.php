@@ -79,4 +79,13 @@ class StreamsServiceProviderTest extends TestCase
         $this->assertEquals(application()->getResourcesPath(), $paths->getPath('resources'));
         $this->assertEquals(base_path('vendor/anomaly/streams-platform/resources'), $paths->getPath('streams'));
     }
+
+    public function testCanAddThemeNamespaces()
+    {
+        $images = app(ImagePaths::class);
+        $assets = app(AssetPaths::class);
+
+        $this->assertEquals(base_path('resources'), $images->getPath('theme'));
+        $this->assertEquals(base_path('resources'), $assets->getPath('theme'));
+    }
 }

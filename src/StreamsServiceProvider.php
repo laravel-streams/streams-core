@@ -363,35 +363,9 @@ class StreamsServiceProvider extends ServiceProvider
     }
 
     /**
-     * Add the active theme hints.
-     */
-    public function addThemeNamespaces()
-    {
-        $view = view();
-        $image = img();
-        $trans = trans();
-        $assets = assets();
-
-        if ($default = config('streams::themes.default')) {
-
-            [$vendor, $type, $slug] = explode('.', $default);
-
-            $path = app($default)->getPath();
-
-            $view->addNamespace('theme', $path . '/resources/views');
-            $trans->addNamespace('theme', $path . '/resources/lang');
-
-            $assets->addPath('theme', $path . '/resources');
-            $image->addPath('theme', $path . '/resources');
-        }
-
-        config([
-            'streams::themes.current' => Application::isAdmin() ? $admin : $default,
-        ]);
-    }
-
-    /**
      * Add view namespaces.
+     * 
+     * @deprecated  2.0 - Remove
      */
     public function addViewNamespaces()
     {
@@ -400,6 +374,8 @@ class StreamsServiceProvider extends ServiceProvider
         /**
          * We still need the composer
          * for $view->make() overloading.
+         * 
+         * @todo Remove this. Publishing should be used.
          */
         $views->composer('*', ViewComposer::class);
 
@@ -411,6 +387,50 @@ class StreamsServiceProvider extends ServiceProvider
         $views->addNamespace('root', base_path());
 
         //$views->addExtension('html', 'php');
+    }
+
+    /**
+     * Add the active theme hints.
+     */
+    public function addThemeNamespaces()
+    {
+        $view = view();
+        $image = img();
+        $trans = trans();
+        $assets = assets();
+
+        if ($default = config('streams::themes.default')) {
+
+            $path = app($default)->getPath();
+
+            $view->addNamespace('theme', $path . '/resources/views');
+            $trans->addNamespace('theme', $path . '/resources/lang');
+
+            $assets->addPath('theme', $path . '/resources');
+            $image->addPath('theme', $path . '/resources');
+        }
+
+        if (!$default) {
+
+            $path = base_path('resources');
+
+            $view->addNamespace('theme', $path . '/views');
+            $trans->addNamespace('theme', $path . '/lang');
+
+            $assets->addPath('theme', $path);
+            $image->addPath('theme', $path);
+        }
+
+        if ($admin = config('streams::themes.admin')) {
+
+            $path = app($admin)->getPath();
+
+            $view->addNamespace('admin', $path . '/resources/views');
+            $trans->addNamespace('admin', $path . '/resources/lang');
+
+            $assets->addPath('admin', $path . '/resources');
+            $image->addPath('admin', $path . '/resources');
+        }
     }
 
     /**
