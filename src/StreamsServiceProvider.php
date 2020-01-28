@@ -217,16 +217,10 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         /**
-         * Correct path for Paginator.
+         * Load core routes.
          */
-        Paginator::currentPathResolver(
-            function () {
-                return app(UrlGenerator::class)->current();
-            }
-        );
-
-
-        Route::middleware('web')->group(base_path('vendor/anomaly/streams-platform/resources/routes/web.php'));
+        Route::middleware('web')
+            ->group(base_path('vendor/anomaly/streams-platform/resources/routes/web.php'));
     }
 
     /**
@@ -266,34 +260,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function initializeApplication()
     {
-        $app = env('APPLICATION_REFERENCE', 'default');
-
-        if (PHP_SAPI == 'cli') {
-
-            $app = (new ArgvInput())->getParameterOption('--app', $app);
-
-            $this->app->bind(
-                'path.public',
-                function () {
-
-                    if ($path = env('PUBLIC_PATH')) {
-                        return base_path($path);
-                    }
-
-                    // Check default path.
-                    if (file_exists($path = base_path('public/index.php'))) {
-                        return dirname($path);
-                    }
-
-                    // Check common alternative.
-                    if (file_exists($path = base_path('public_html/index.php'))) {
-                        return dirname($path);
-                    }
-
-                    return base_path('public');
-                }
-            );
-        }
+        $reference = env('APP_REFERENCE', 'default');
 
         $application = application();
 
@@ -302,7 +269,7 @@ class StreamsServiceProvider extends ServiceProvider
          * When in a dev environment and working
          * with Artisan this the same as locating.
          */
-        $application->setReference($app);
+        $application->setReference($reference);
 
         /*
          * If the application is installed
@@ -312,13 +279,6 @@ class StreamsServiceProvider extends ServiceProvider
         if ($application->isInstalled()) {
             if (config('database.default')) {
                 try {
-
-                    if (PHP_SAPI != 'cli') {
-                        $application->locate();
-                    }
-
-                    $application->setup();
-
                     if (!$application->isEnabled()) {
                         abort(503);
                     }

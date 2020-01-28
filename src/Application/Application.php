@@ -17,21 +17,28 @@ class Application
      *
      * @var string
      */
-    protected $locale = null;
+    protected $locale;
 
     /**
      * The enabled state of the application.
      *
      * @var bool
      */
-    protected $enabled = null;
+    protected $enabled;
 
     /**
      * Keep installed status around.
      *
      * @var bool
      */
-    protected $installed = null;
+    protected $installed;
+
+    /**
+     * The application table prefix.
+     *
+     * @var string
+     */
+    protected $tablePrefix;
 
     /**
      * The application reference.
@@ -41,23 +48,17 @@ class Application
     protected $reference = 'default';
 
     /**
-     * Setup the application.
-     */
-    public function setup()
-    {
-        $this->setTablePrefix();
-    }
-
-    /**
      * Set the database table prefix going forward.
      * We really don't need a core table from here on out.
      */
-    public function setTablePrefix()
+    public function setTablePrefix($prefix = '')
     {
         $connection = app('db')->getSchemaBuilder()->getConnection();
 
-        $connection->setTablePrefix($this->tablePrefix());
-        $connection->getSchemaGrammar()->setTablePrefix($this->tablePrefix());
+        $connection->setTablePrefix($prefix);
+        $connection->getSchemaGrammar()->setTablePrefix($prefix);
+
+        $this->tablePrefix = $prefix;
     }
 
     /**
@@ -129,18 +130,7 @@ class Application
      */
     public function tablePrefix()
     {
-        return $this->reference . '_';
-    }
-
-    /**
-     * Locate the app by request or passed
-     * variable and set the application reference.
-     *
-     * @return bool
-     */
-    public function locate()
-    {
-        return false;
+        return $this->tablePrefix;
     }
 
     /**
@@ -164,7 +154,7 @@ class Application
             return true;
         }
 
-        return $this->enabled;
+        return (bool) $this->enabled;
     }
 
     /**
