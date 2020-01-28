@@ -6,7 +6,6 @@ use Anomaly\Streams\Platform\Image\ImagePaths;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Model\Users\UsersUsersEntryModel;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection;
 
