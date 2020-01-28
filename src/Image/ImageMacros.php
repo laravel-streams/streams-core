@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Image;
+<?php
+
+namespace Anomaly\Streams\Platform\Image;
 
 use Illuminate\Contracts\Container\Container;
 
@@ -50,8 +52,6 @@ class ImageMacros
             return $image;
         }
 
-        array_forget($process, 'description');
-
         if (is_array($process)) {
             foreach ($process as $method => $arguments) {
                 $image->addAlteration($method, $arguments);
@@ -59,11 +59,11 @@ class ImageMacros
         }
 
         if (is_string($process)) {
-            $this->container->call($process, compact('image', 'macro'), 'handle');
+            $this->container->call($process, compact('image'), 'handle');
         }
 
         if ($process instanceof \Closure) {
-            $this->container->call($process, compact('image', 'macro'));
+            $this->container->call($process, compact('image'));
         }
 
         return $image;
