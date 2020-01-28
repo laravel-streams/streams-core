@@ -41,7 +41,7 @@ class AddonRepository extends EloquentRepository
     {
         $namespace = $addon->getNamespace();
 
-        if (!$addon = $this->findNamespace('namespace', $namespace)) {
+        if (!$addon = $this->findBy('namespace', $namespace)) {
             $addon = $this->newInstance(['namespace' => $namespace]);
         }
 
