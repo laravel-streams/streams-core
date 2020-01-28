@@ -1,5 +1,7 @@
 <?php
 
+use Tests\TestCase;
+
 class EnvSetTest extends TestCase
 {
 

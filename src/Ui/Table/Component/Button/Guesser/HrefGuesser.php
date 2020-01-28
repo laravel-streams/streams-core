@@ -28,7 +28,7 @@ class HrefGuesser
     {
         $buttons = $builder->getButtons();
 
-        if (!$section = app('cp.sections')->active()) {
+        if (!$section = cp()->sections->active()) {
             return;
         }
 

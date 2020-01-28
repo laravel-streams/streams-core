@@ -2,29 +2,23 @@
 
 namespace Anomaly\Streams\Platform;
 
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Field\FieldModel;
-use Symfony\Component\Console\Input\ArgvInput;
-use Anomaly\Streams\Platform\Entry\EntryLoader;
 use Anomaly\Streams\Platform\View\ViewComposer;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Entry\EntryObserver;
 use Anomaly\Streams\Platform\Field\FieldObserver;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Foundation\Application as Laravel;
-use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Support\Configurator;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Stream\StreamObserver;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
-use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
 
 /**
@@ -38,39 +32,25 @@ class StreamsServiceProvider extends ServiceProvider
 {
 
     /**
-     * The app instance.
-     *
-     * @var Laravel
-     */
-    protected $app;
-
-    /**
-     * The scheduled commands.
-     *
-     * @var array
-     */
-    protected $schedule = [];
-
-    /**
      * The class bindings.
      *
      * @var array
      */
     public $bindings = [
-        'Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface'           => 'Anomaly\Streams\Platform\Entry\EntryRepository',
-        'Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface'           => 'Anomaly\Streams\Platform\Field\FieldRepository',
-        'Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface'         => 'Anomaly\Streams\Platform\Stream\StreamRepository',
-        'Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface'        => 'Anomaly\Streams\Platform\Model\EloquentRepository',
-        'Anomaly\Streams\Platform\Version\Contract\VersionRepositoryInterface'       => 'Anomaly\Streams\Platform\Version\VersionRepository',
-        'Anomaly\Streams\Platform\Lock\Contract\LockRepositoryInterface'             => 'Anomaly\Streams\Platform\Lock\LockRepository',
-        'Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface' => 'Anomaly\Streams\Platform\Assignment\AssignmentRepository',
-        'Anomaly\Streams\Platform\Addon\Contract\AddonRepositoryInterface'           => 'Anomaly\Streams\Platform\Addon\AddonRepository',
-        'addon.collection'                                                           => 'Anomaly\Streams\Platform\Addon\AddonCollection',
-        'module.collection'                                                          => 'Anomaly\Streams\Platform\Addon\Module\ModuleCollection',
-        'extension.collection'                                                       => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection',
-        'field_type.collection'                                                      => 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
-        'theme.collection'                                                           => 'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection',
-        'cp.sections'                                                                => 'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection',
+        'Anomaly\Streams\Platform\Lock\Contract\LockRepositoryInterface'             => \Anomaly\Streams\Platform\Lock\LockRepository::class,
+        'Anomaly\Streams\Platform\Addon\Contract\AddonRepositoryInterface'           => \Anomaly\Streams\Platform\Addon\AddonRepository::class,
+        'Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface'           => \Anomaly\Streams\Platform\Entry\EntryRepository::class,
+        'Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface'           => \Anomaly\Streams\Platform\Field\FieldRepository::class,
+        'Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface'         => \Anomaly\Streams\Platform\Stream\StreamRepository::class,
+        'Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface'        => \Anomaly\Streams\Platform\Model\EloquentRepository::class,
+        'Anomaly\Streams\Platform\Version\Contract\VersionRepositoryInterface'       => \Anomaly\Streams\Platform\Version\VersionRepository::class,
+        'Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface' => \Anomaly\Streams\Platform\Assignment\AssignmentRepository::class,
+
+        'addon.collection'      => \Anomaly\Streams\Platform\Addon\AddonCollection::class,
+        'theme.collection'      => \Anomaly\Streams\Platform\Addon\Theme\ThemeCollection::class,
+        'module.collection'     => \Anomaly\Streams\Platform\Addon\Module\ModuleCollection::class,
+        'extension.collection'  => \Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection::class,
+        'field_type.collection' => \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection::class,
     ];
 
     /**
@@ -94,7 +74,6 @@ class StreamsServiceProvider extends ServiceProvider
         \Anomaly\Streams\Platform\Support\Hydrator::class   => \Anomaly\Streams\Platform\Support\Hydrator::class,
         \Anomaly\Streams\Platform\Support\Resolver::class   => \Anomaly\Streams\Platform\Support\Resolver::class,
         \Anomaly\Streams\Platform\Support\Authorizer::class => \Anomaly\Streams\Platform\Support\Authorizer::class,
-        \Anomaly\Streams\Platform\Support\Autoloader::class => \Anomaly\Streams\Platform\Support\Autoloader::class,
         \Anomaly\Streams\Platform\Support\Translator::class => \Anomaly\Streams\Platform\Support\Translator::class,
 
         \Anomaly\Streams\Platform\Addon\Theme\ThemeCollection::class         => \Anomaly\Streams\Platform\Addon\Theme\ThemeCollection::class,
@@ -109,13 +88,12 @@ class StreamsServiceProvider extends ServiceProvider
         \Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry::class     => \Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry::class,
         \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry::class => \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry::class,
 
-        'Anomaly\Streams\Platform\View\ViewComposer'        => 'Anomaly\Streams\Platform\View\ViewComposer',
-        //\Anomaly\Streams\Platform\View\ViewIncludes::class        => \Anomaly\Streams\Platform\View\ViewIncludes::class,
-        'Anomaly\Streams\Platform\View\ViewOverrides'       => 'Anomaly\Streams\Platform\View\ViewOverrides',
-        'Anomaly\Streams\Platform\View\ViewMobileOverrides' => 'Anomaly\Streams\Platform\View\ViewMobileOverrides',
+        \Anomaly\Streams\Platform\View\ViewComposer::class        => \Anomaly\Streams\Platform\View\ViewComposer::class,
+        \Anomaly\Streams\Platform\View\ViewOverrides::class       => \Anomaly\Streams\Platform\View\ViewOverrides::class,
+        \Anomaly\Streams\Platform\View\ViewMobileOverrides::class => \Anomaly\Streams\Platform\View\ViewMobileOverrides::class,
 
-        'Anomaly\Streams\Platform\Support\Purifier'         => 'Anomaly\Streams\Platform\Support\Purifier',
-        'Anomaly\Streams\Platform\Field\FieldRouter'        => 'Anomaly\Streams\Platform\Field\FieldRouter',
+        \Anomaly\Streams\Platform\Support\Purifier::class         => \Anomaly\Streams\Platform\Support\Purifier::class,
+        \Anomaly\Streams\Platform\Field\FieldRouter::class        => \Anomaly\Streams\Platform\Field\FieldRouter::class,
     ];
 
     /**
@@ -131,7 +109,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->loadStreamsConfiguration();
         $this->registerAddonCollections();
         $this->configureFileCacheStore();
-        $this->autoloadEntryModels();
         $this->routeAutomatically();
         $this->addAssetNamespaces();
         $this->addImageNamespaces();
@@ -198,28 +175,40 @@ class StreamsServiceProvider extends ServiceProvider
     public function register()
     {
 
-        /**
-         * Cache a couple files we may use heavily.
-         */
-        $this->app->singleton(
-            'composer.json',
-            function () {
-                return json_decode(file_get_contents(base_path('composer.json')), true);
-            }
-        );
-
-        $this->app->singleton(
-            'composer.lock',
-            function () {
-                return json_decode(file_get_contents(base_path('composer.lock')), true);
-            }
-        );
+        $this->registerComposerJson();
+        $this->registerComposerLock();
 
         /**
          * Load core routes.
          */
         Route::middleware('web')
             ->group(base_path('vendor/anomaly/streams-platform/resources/routes/web.php'));
+    }
+
+    /**
+     * Register the composer file data.
+     */
+    protected function registerComposerJson()
+    {
+        $this->app->singleton(
+            'composer.json',
+            function () {
+                return json_decode(file_get_contents(base_path('composer.json')), true);
+            }
+        );
+    }
+
+    /**
+     * Register the composer lock file data.
+     */
+    protected function registerComposerLock()
+    {
+        $this->app->singleton(
+            'composer.lock',
+            function () {
+                return json_decode(file_get_contents(base_path('composer.lock')), true);
+            }
+        );
     }
 
     /**
@@ -300,17 +289,6 @@ class StreamsServiceProvider extends ServiceProvider
     protected function configureFileCacheStore()
     {
         config(['cache.stores.file.path' => config('cache.stores.file.path') . DIRECTORY_SEPARATOR . application()->getReference()]);
-    }
-
-    /**
-     * Autoload the entry models.
-     *
-     * @throws \Exception
-     * @return void
-     */
-    protected function autoloadEntryModels()
-    {
-        EntryLoader::load();
     }
 
     /**

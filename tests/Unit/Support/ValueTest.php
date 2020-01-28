@@ -1,8 +1,7 @@
 <?php
 
+use Tests\TestCase;
 use Anomaly\Streams\Platform\Support\Value;
-use Anomaly\Streams\Platform\Support\Resolver;
-use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\UsersModule\User\UserModel;
 use Illuminate\Contracts\Support\Arrayable;
 

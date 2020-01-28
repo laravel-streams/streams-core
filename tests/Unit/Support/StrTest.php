@@ -1,5 +1,6 @@
 <?php
 
+use Tests\TestCase;
 use Anomaly\Streams\Platform\Support\Str;
 
 class StrTest extends TestCase

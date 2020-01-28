@@ -1,5 +1,7 @@
 <?php
 
+use Tests\TestCase;
+
 class BuildTest extends TestCase
 {
 

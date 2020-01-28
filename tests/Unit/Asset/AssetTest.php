@@ -1,5 +1,7 @@
 <?php
 
+use Tests\TestCase;
+
 class AssetTest extends TestCase
 {
 

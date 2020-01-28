@@ -1,5 +1,6 @@
 <?php
 
+use Tests\TestCase;
 use Anomaly\Streams\Platform\Support\Hydrator;
 
 class HydratorTest extends TestCase

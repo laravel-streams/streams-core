@@ -1,5 +1,6 @@
 <?php
 
+use Tests\TestCase;
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 

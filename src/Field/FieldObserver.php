@@ -91,7 +91,6 @@ class FieldObserver extends Observer
      */
     public function deleted(FieldInterface $model)
     {
-
         event(new FieldWasDeleted($model));
     }
 }

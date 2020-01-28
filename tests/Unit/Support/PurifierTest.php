@@ -1,5 +1,6 @@
 <?php
 
+use Tests\TestCase;
 use Anomaly\Streams\Platform\Support\Purifier;
 
 class PurifierTest extends TestCase

@@ -1,5 +1,7 @@
 <?php
 
+use Tests\TestCase;
+
 class RefreshTest extends TestCase
 {
 

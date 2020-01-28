@@ -1,5 +1,6 @@
 <?php
 
+use Tests\TestCase;
 use Anomaly\Streams\Platform\Asset\AssetPaths;
 use Anomaly\Streams\Platform\Image\ImagePaths;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
@@ -46,11 +47,6 @@ class StreamsServiceProviderTest extends TestCase
         $this->assertTrue(ends_with(config('cache.stores.file.path'), DIRECTORY_SEPARATOR . application()->getReference()));
     }
 
-    public function testCanAutoloadEntryModels()
-    {
-        $this->assertTrue(class_exists(UsersUsersEntryModel::class));
-    }
-
     public function testCanAddAssetNamespaces()
     {
         $paths = app(AssetPaths::class);
@@ -91,6 +87,6 @@ class StreamsServiceProviderTest extends TestCase
 
     public function testCanLoadTranslations()
     {
-        $this->assertEquals('field_type', trans('streams::addon.field_type', [], 'en'));
+        $this->assertEquals('Field Type', trans('streams::addon.field_type', [], 'en'));
     }
 }

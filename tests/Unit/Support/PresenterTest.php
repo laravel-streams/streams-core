@@ -1,5 +1,6 @@
 <?php
 
+use Tests\TestCase;
 use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Traits\Hookable;
 

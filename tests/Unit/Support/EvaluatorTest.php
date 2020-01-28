@@ -1,5 +1,6 @@
 <?php
 
+use Tests\TestCase;
 use Anomaly\Streams\Platform\Support\Evaluator;
 
 class EvaluatorTest extends TestCase
