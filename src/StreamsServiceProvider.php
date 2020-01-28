@@ -24,6 +24,7 @@ use Anomaly\Streams\Platform\Stream\StreamObserver;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
 
 /**
@@ -228,9 +229,9 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerAddonCollections()
     {
-        $this->app->singleton(AddonCollection::class, function ($app) {
+        $this->app->singleton(AddonCollection::class, function () {
 
-            $lock = json_decode(file_get_contents($path = base_path('composer.lock')), true);
+            $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
 
             $addons = array_filter($lock['packages'], function (array $package) {
                 return array_get($package, 'type') == 'streams-addon';
@@ -270,53 +271,6 @@ class StreamsServiceProvider extends ServiceProvider
          * with Artisan this the same as locating.
          */
         $application->setReference($reference);
-
-        /*
-         * If the application is installed
-         * then locate the application and
-         * initialize.
-         */
-        if ($application->isInstalled()) {
-            if (config('database.default')) {
-                try {
-                    if (!$application->isEnabled()) {
-                        abort(503);
-                    }
-                } catch (\Exception $e) {
-                    // Do nothing.
-                }
-            }
-
-            return;
-        }
-    }
-
-    /**
-     * Load the environment overrides.
-     *
-     * @return void
-     */
-    protected function loadEnvironmentOverrides()
-    {
-        if (!is_file($file = application()->getResourcesPath('.env'))) {
-            return;
-        }
-
-        foreach (file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
-
-            // Check for # comments.
-            if (!starts_with($line, '#')) {
-                putenv($line);
-            }
-        }
-
-        /**
-         * Force the internal management to reload
-         * and overload from the changes that may
-         * have taken place.
-         */
-        $dotenv = \Dotenv\Dotenv::create(base_path());
-        $dotenv->overload();
     }
 
     /**
@@ -326,24 +280,17 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function loadStreamsConfiguration()
     {
-        if (file_exists(base_path('bootstrap/cache/config.php'))) {
-            return;
-        }
 
         // Load package configuration.
-        if (is_dir($directory = realpath(__DIR__ . '/../resources/config'))) {
-            Configurator::load($directory, 'streams');
-        }
+        Configurator::load(realpath(__DIR__ . '/../resources/config'), 'streams');
 
         // Load application overrides.
-        if (is_dir($directory = application()->getResourcesPath('streams/config'))) {
-            Configurator::merge($directory, 'streams');
-        }
+        // if (is_dir($directory = application()->getResourcesPath('streams/config'))) {
+        //     Configurator::merge($directory, 'streams');
+        // }
 
         // Load system overrides.
-        if (is_dir($directory = base_path('resources/streams/config'))) {
-            Configurator::merge($directory, 'streams');
-        }
+        Configurator::merge(base_path('resources/streams/config'), 'streams');
     }
 
     /**
@@ -354,7 +301,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function configureFileCacheStore()
     {
-        config(['cache.stores.file.path' => application()->getStoragePath('cache')]);
+        config(['cache.stores.file.path' => config('cache.stores.file.path') . DIRECTORY_SEPARATOR . application()->getReference()]);
     }
 
     /**
@@ -427,9 +374,9 @@ class StreamsServiceProvider extends ServiceProvider
 
         if ($admin = config('streams::themes.admin')) {
 
-            [$vendor, $type, $slug] = explode('.', $admin);
+            $admin = app($admin);
 
-            $path = app($admin)->getPath();
+            $path = $admin->getPath();
 
             $view->addNamespace('theme', $path . '/resources/views');
             $trans->addNamespace('theme', $path . '/resources/lang');

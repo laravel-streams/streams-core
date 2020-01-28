@@ -202,7 +202,7 @@ class AddonCollection extends Collection
     {
         $type = str_singular($name);
 
-        if (in_array($type, config('streams::addons.types', []))) {
+        if (in_array($type, config('streams.addons.types', []))) {
             return app("{$type}.collection");
         }
 
