@@ -14,7 +14,6 @@ use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Carbon\Carbon;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Laravel\Scout\ModelObserver;
@@ -41,19 +40,11 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public $timestamps = true;
 
     /**
-     * By default nothing is searchable.
+     * The searchable flag.
      *
      * @var boolean
      */
     protected $searchable = false;
-
-    /**
-     * The validation rules. These are
-     * overridden on the compiled models.
-     *
-     * @var array
-     */
-    protected $rules = [];
 
     /**
      * The field slugs. These are
@@ -220,7 +211,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $value = parent::getAttributeValue($fieldSlug);
 
-        if ($assignment->isTranslatable()) {
+        if ($assignment->translatable) {
             $value = $value[$this->locale($locale)];
         }
 
@@ -699,7 +690,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         $relationships = $this->getRelationshipAssignments();
 
-        return in_array($fieldSlug, $relationships->fieldSlugs());
+        return $relationships->fieldSlugs()->contains($fieldSlug);
     }
 
     /**
@@ -905,12 +896,14 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
             $this
                 ->getSearchableAssignments()
                 ->fieldSlugs()
+                ->all()
         );
 
         if (!$searchable) {
             $searchable = $this
                 ->getAssignments()
-                ->fieldSlugs();
+                ->fieldSlugs()
+                ->all();
         }
 
         foreach ($searchable as $field) {

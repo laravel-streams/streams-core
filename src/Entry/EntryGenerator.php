@@ -338,7 +338,7 @@ class EntryGenerator
             return null;
         }
 
-        return 'protected $translatedAttributes = [\'' . implode('\', \'', $assignments->fieldSlugs()) . '\'];';
+        return 'protected $translatedAttributes = [\'' . $assignments->fieldSlugs()->implode('\', \'') . '\'];';
     }
 
     /**

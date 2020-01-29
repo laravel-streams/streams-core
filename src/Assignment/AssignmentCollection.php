@@ -179,13 +179,13 @@ class AssignmentCollection extends EloquentCollection
      * Return an array of field slugs.
      *
      * @param  null $prefix
-     * @return array
+     * @return AssignmentCollection
      */
     public function fieldSlugs($prefix = null)
     {
         return $this->map(function ($assignment) use ($prefix) {
             return $prefix . $assignment->field->slug;
-        })->all();
+        });
     }
 
     /**

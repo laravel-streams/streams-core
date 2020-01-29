@@ -159,7 +159,7 @@ class FieldInput
         /*
          * Fill with everything by default.
          */
-        $fill = $stream->getAssignments()->fieldSlugs();
+        $fill = $stream->getAssignments()->fieldSlugs()->all();
 
         /*
          * Loop over field configurations and unset
