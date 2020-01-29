@@ -22,13 +22,6 @@ interface StreamInterface extends EloquentInterface
 {
 
     /**
-     * Compile the entry models.
-     *
-     * @return mixed
-     */
-    public function compile();
-
-    /**
      * Fire field type events.
      *
      * @param       $trigger

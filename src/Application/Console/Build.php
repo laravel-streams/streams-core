@@ -39,10 +39,6 @@ class Build extends Command
 
         event(new SystemIsBuilding($this));
 
-        $this->info('Compiling entry models.');
-
-        $console->call('streams:compile');
-
         $console->call('assets:publish', []);
 
         $this->info('Assets published.');

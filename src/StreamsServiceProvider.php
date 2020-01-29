@@ -138,7 +138,6 @@ class StreamsServiceProvider extends ServiceProvider
 
                 // Streams Commands
                 \Anomaly\Streams\Platform\Stream\Console\StreamsIndex::class,
-                \Anomaly\Streams\Platform\Stream\Console\StreamsCompile::class,
                 \Anomaly\Streams\Platform\Stream\Console\StreamsCleanup::class,
                 \Anomaly\Streams\Platform\Stream\Console\StreamsDestroy::class,
 

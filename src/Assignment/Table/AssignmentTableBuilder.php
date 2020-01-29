@@ -4,7 +4,6 @@ namespace Anomaly\Streams\Platform\Assignment\Table;
 
 use Anomaly\Streams\Platform\Assignment\Table\Command\SetDefaultProperties;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Stream\Command\CompileStream;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;

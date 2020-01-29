@@ -47,8 +47,14 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     protected $searchable = false;
 
     /**
-     * The field slugs. These are
-     * overridden on compiled models.
+     * The validation rules.
+     *
+     * @var array
+     */
+    protected $rules = [];
+
+    /**
+     * The field slugs.
      *
      * @var array
      */

@@ -24,6 +24,8 @@ class EntryGenerator
      */
     public static function generate(StreamInterface $stream)
     {
+        // @todo remove this - maker extension
+        dd(__CLASS__ . ' is not in use.');
         $data = new Collection(
             [
                 'with'                    => self::generateWith($stream),

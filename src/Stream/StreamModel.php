@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Stream\Command\CompileStream;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
@@ -85,74 +84,6 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
         self::$store = app('Anomaly\Streams\Platform\Stream\StreamStore');
 
         parent::boot();
-    }
-
-    /**
-     * Make a Stream instance from the provided compile data.
-     *
-     * @param  array $data
-     * @return StreamInterface
-     */
-    public function make(array $data)
-    {
-        $payload = $data;
-
-        if ($stream = self::$store->get($data)) {
-            return $stream;
-        }
-
-        $assignments = [];
-
-        $streamModel = new StreamModel();
-
-        if (!is_string(array_get($data, 'config'))) {
-            $data['config'] = [];
-        }
-
-        $streamModel->setRawAttributes($data);
-
-        if (array_key_exists('assignments', $data)) {
-            foreach ($data['assignments'] as $assignment) {
-                if (isset($assignment['field'])) {
-
-                    $fieldModel = new FieldModel();
-
-                    $fieldModel->setRawAttributes($assignment['field']);
-
-                    unset($assignment['field']);
-
-                    $assignmentModel = new AssignmentModel();
-
-                    $assignmentModel->setRawAttributes($assignment);
-                    $assignmentModel->setRawAttributes($assignment);
-
-                    $assignmentModel->setRelation('field', $fieldModel);
-                    $assignmentModel->setRelation('stream', $streamModel);
-
-                    $assignments[] = $assignmentModel;
-                }
-            }
-        }
-
-        //$assignmentsCollection = new AssignmentCollection($assignments);
-
-        //$streamModel->setRelation('assignments', $assignmentsCollection);
-
-        //$streamModel->assignments = $assignmentsCollection;
-
-        self::$store->put($payload, $streamModel);
-
-        return $streamModel;
-    }
-
-    /**
-     * Compile the entry models.
-     *
-     * @return mixed
-     */
-    public function compile()
-    {
-        dispatch_now(new CompileStream($this));
     }
 
     /**
