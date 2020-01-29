@@ -249,13 +249,6 @@ interface EntryInterface extends EloquentInterface
     public function getTranslatableAssignments();
 
     /**
-     * Return relation assignments.
-     *
-     * @return AssignmentCollection
-     */
-    public function getRelationshipAssignments();
-
-    /**
      * Return required assignments.
      *
      * @return AssignmentCollection

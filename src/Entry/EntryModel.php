@@ -521,16 +521,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Return relation assignments.
-     *
-     * @return AssignmentCollection
-     */
-    public function getRelationshipAssignments()
-    {
-        return $this->stream()->assignments->relations();
-    }
-
-    /**
      * Return pivot relation assignments.
      *
      * @return AssignmentCollection
@@ -654,9 +644,12 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function assignmentIsRelationship($fieldSlug)
     {
-        $relationships = $this->getRelationshipAssignments();
-
-        return $relationships->fieldSlugs()->contains($fieldSlug);
+        return $this
+            ->stream()
+            ->assignments
+            ->relations()
+            ->fieldSlugs()
+            ->contains($fieldSlug);
     }
 
     /**
@@ -918,7 +911,8 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         );
 
         /* @var AssignmentInterface $assignment */
-        foreach ($this->getRelationshipAssignments() as $assignment) {
+        foreach ($this->stream()->assignments->relations() as $assignment) {
+
             $related = $this->{$assignment->field->slug};
 
             $type = $assignment->getFieldType();

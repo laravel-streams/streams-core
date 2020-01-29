@@ -72,19 +72,6 @@ class EntryGenerator
     }
 
     /**
-     * Parse the relation methods.
-     *
-     * @param  StreamInterface $stream
-     * @return string
-     */
-    protected static function generateWith(StreamInterface $stream)
-    {
-        $relationships = [];
-
-        return '[' . implode(', ', $relationships) . ']';
-    }
-
-    /**
      * Return the entry model class.
      *
      * @param  StreamInterface $stream
