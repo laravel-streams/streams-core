@@ -3,8 +3,6 @@
 namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Support\Collection;
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Entry\Event\GatherParserData;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
@@ -32,11 +30,9 @@ class EntryGenerator
                 'class'                   => self::generateClass($stream),
                 'title'                   => self::generateTitle($stream),
                 'table'                   => self::generateTable($stream),
-                'rules'                   => self::generateRules($stream),
                 'dates'                   => self::generateDates($stream),
                 'casts'                   => self::generateCasts($stream),
-                //'stream'                  => self::generateStream($stream),
-                'stream' => $stream->id,
+                'stream'                  => self::generateStream($stream),
                 'trashable'               => self::generateTrashable($stream),
                 'relations'               => self::generateRelations($stream),
                 'namespace'               => self::generateNamespace($stream),
@@ -47,13 +43,6 @@ class EntryGenerator
                 'translated_attributes'   => self::generateTranslatedAttributes($stream),
             ]
         );
-
-        /**
-         * Give others an opportunity
-         * to extend the template and
-         * the data parsed within it!
-         */
-        event(new GatherParserData($data, $stream));
 
         $template = $data->pull(
             'template',
@@ -129,25 +118,6 @@ class EntryGenerator
     }
 
     /**
-     * Return the entry validation rules.
-     *
-     * @param  StreamModel $stream
-     * @return string
-     */
-    protected static function generateRules(StreamInterface $stream)
-    {
-        $string = '[';
-
-        foreach ($stream->getAssignments() as $assignment) {
-            self::appendAssignmentRules($stream, $assignment, $string);
-        }
-
-        $string .= "\n]";
-
-        return $string;
-    }
-
-    /**
      * Return the dates attribute.
      *
      * @param  StreamInterface $stream
@@ -198,6 +168,7 @@ class EntryGenerator
      */
     protected static function generateStream(StreamInterface $stream)
     {
+        return "{$stream->namespace}.{$stream->slug}";
         $string = '[';
 
         self::parseStream($stream, $string);
@@ -354,99 +325,6 @@ class EntryGenerator
         $parser = $fieldType->getParser();
 
         $string .= $parser->relation($assignment);
-    }
-
-    /**
-     * Parse the stream.
-     *
-     * @param StreamInterface $stream
-     * @param                 $string
-     */
-    protected static function parseStream(StreamInterface $stream, &$string)
-    {
-        foreach ($stream->getAttributes() as $key => $value) {
-            $string .= "\n'{$key}' => '{$value}',";
-        }
-    }
-
-    /**
-     * Parse the assignments.
-     *
-     * @param StreamInterface $stream
-     * @param                 $string
-     */
-    protected static function parseAssignments(StreamInterface $stream, &$string)
-    {
-        $string .= "\n'assignments' => [";
-
-        foreach ($stream->getAssignments() as $assignment) {
-            self::parseAssignment($assignment, $string);
-        }
-
-        $string .= "\n],";
-    }
-
-    /**
-     * Parse an assignment.
-     *
-     * @param AssignmentInterface $assignment
-     * @param                     $string
-     */
-    protected static function parseAssignment(AssignmentInterface $assignment, &$string)
-    {
-        $string .= "\n[";
-
-        foreach ($assignment->getAttributes() as $key => $value) {
-
-            $value = $assignment->getAttributeValue($key);
-
-            // JSON encode arrays.
-            if (is_array($value)) {
-                $value = json_encode($value);
-            }
-
-            // Cast objects to strings.
-            if (is_object($value)) {
-                $value = (string) $value;
-            }
-
-            $value = "'" . addcslashes($value, "'") . "'";
-
-            $value = self::prepareStringValue($value);
-
-            $string .= "\n'{$key}' => {$value},";
-        }
-
-        // Parse this assignment field.
-        self::parseField($assignment->getField(), $string);
-
-        $string .= "\n],";
-    }
-
-    /**
-     * Parse an assignment field.
-     *
-     * @param FieldInterface $field
-     * @param                $string
-     */
-    protected static function parseField(FieldInterface $field, &$string)
-    {
-        $string .= "\n'field' => [";
-
-        foreach ($field->getAttributes() as $key => $value) {
-
-            $value = $field->getAttributeValue($key);
-
-            if (is_array($value)) {
-                $value = json_encode($value);
-            }
-
-            $value = self::prepareStringValue($value);
-
-            $string .= "\n'{$key}' => '{$value}',";
-        }
-
-        $string .= "\n],";
     }
 
     /**

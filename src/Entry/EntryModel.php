@@ -443,9 +443,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getStreamNamespace()
     {
-        $stream = $this->getStream();
-
-        return $stream->getNamespace();
+        return $this->stream()->getNamespace();
     }
 
     /**
@@ -455,9 +453,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getStreamSlug()
     {
-        $stream = $this->getStream();
-
-        return $stream->getSlug();
+        return $this->stream()->getSlug();
     }
 
     /**
@@ -467,9 +463,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getStreamName()
     {
-        $stream = $this->getStream();
-
-        return $stream->getName();
+        return $this->stream()->getName();
     }
 
     /**
@@ -479,21 +473,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getStreamPrefix()
     {
-        $stream = $this->getStream();
-
-        return $stream->getPrefix();
-    }
-
-    /**
-     * Get the table name.
-     *
-     * @return string
-     */
-    public function getTableName()
-    {
-        $stream = $this->getStream();
-
-        return $stream->getEntryTableName();
+        return $this->stream()->getPrefix();
     }
 
     /**
@@ -504,9 +484,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getAssignmentFieldSlugs($prefix = null)
     {
-        $assignments = $this->stream()->assignments;
-
-        return $assignments->fieldSlugs($prefix);
+        return $this->stream()->assignments->fieldSlugs($prefix);
     }
 
     /**
@@ -518,9 +496,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getAssignmentsByFieldType($fieldType)
     {
-        $assignments = $this->stream()->assignments;
-
-        return $assignments->findAllByFieldType($fieldType);
+        return $this->stream()->assignments->findAllByFieldType($fieldType);
     }
 
     /**
@@ -531,9 +507,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getAssignment($fieldSlug)
     {
-        $assignments = $this->stream()->assignments;
-
-        return $assignments->findByFieldSlug($fieldSlug);
+        return $this->stream()->assignments->findByFieldSlug($fieldSlug);
     }
 
     /**
@@ -543,10 +517,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getTranslatableAssignments()
     {
-        $stream      = $this->getStream();
-        $assignments = $stream->getAssignments();
-
-        return $assignments->translatable();
+        return $this->stream()->assignments->translatable();
     }
 
     /**
@@ -566,13 +537,11 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getPivotRelationshipAssignments()
     {
-        $stream      = $this->getStream();
-        $assignments = $stream->getAssignments();
-        $relations   = $assignments->relations();
+        $relations = $this->stream()->assignments->relations();
 
         return $relations->filter(
             function (AssignmentInterface $assignment) {
-                return $assignment->getFieldType()->getColumnType() === false;
+                return $assignment->field->type->getColumnType() === false;
             }
         );
     }
@@ -584,8 +553,8 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getRequiredAssignments()
     {
-        $stream      = $this->getStream();
-        $assignments = $stream->getAssignments();
+        $stream      = $this->stream();
+        $assignments = $stream->assignments;
 
         return $assignments->required();
     }
@@ -597,8 +566,8 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getSearchableAssignments()
     {
-        $stream      = $this->getStream();
-        $assignments = $stream->getAssignments();
+        $stream      = $this->stream();
+        $assignments = $stream->assignments;
 
         return $assignments->searchable();
     }
@@ -878,6 +847,22 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Hook into the casts data.
+     */
+    public function getCasts()
+    {
+        $casts = parent::getCasts();
+
+        $translated = $this->stream()->assignments->translatable()->fieldSlugs();
+
+        if ($translated->isNotEmpty()) {
+            $casts = array_merge(array_combine($translated->all(), array_fill(0, $translated->count(), 'array')), $casts);
+        }
+
+        return array_merge($casts, (array) $this->stream->assignments->translatable());
+    }
+
+    /**
      * Return a searchable array.
      *
      * @return array
@@ -891,14 +876,17 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $searchable = array_merge(
             $this->searchableAttributes,
             $this
-                ->getSearchableAssignments()
+                ->stream()
+                ->assignments
+                ->searchable()
                 ->fieldSlugs()
                 ->all()
         );
 
         if (!$searchable) {
             $searchable = $this
-                ->getAssignments()
+                ->stream()
+                ->assignments
                 ->fieldSlugs()
                 ->all();
         }
