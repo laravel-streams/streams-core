@@ -91,7 +91,6 @@ class Install extends Command
                     $this->call('env:set', ['line' => 'INSTALLED=true']);
 
                     Env::load();
-                    EntryLoader::load();
                 }
             )
         );
