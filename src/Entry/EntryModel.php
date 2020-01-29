@@ -369,7 +369,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
             return parent::getAttribute(camel_case($key));
         }
 
-        if (!$this->hasGetMutator($key) && in_array($key, $this->fields)) {
+        if (!$this->hasGetMutator($key) && $this->stream()->assignments->findByFieldSlug($key)) {
             return $this->getFieldValue($key);
         }
 
@@ -556,10 +556,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getRelationshipAssignments()
     {
-        $stream      = $this->getStream();
-        $assignments = $stream->getAssignments();
-
-        return $assignments->relations();
+        return $this->stream()->assignments->relations();
     }
 
     /**
@@ -707,7 +704,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         foreach ($assignments->notTranslatable() as $assignment) {
             $fieldType = $assignment->getFieldType();
 
-            $fieldType->setValue($this->getRawAttribute($assignment->getFieldSlug()));
+            $fieldType->setValue($this->getRawAttribute($assignment->field->slug));
 
             $fieldType->setEntry($this);
 
@@ -934,7 +931,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         /* @var AssignmentInterface $assignment */
         foreach ($this->getRelationshipAssignments() as $assignment) {
-            $related = $this->{$assignment->getFieldSlug()};
+            $related = $this->{$assignment->field->slug};
 
             $type = $assignment->getFieldType();
 
@@ -945,14 +942,14 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
             if ($related instanceof Collection) {
 
                 /* @var EloquentModel $entry */
-                $array[$assignment->getFieldSlug()] = app()->call(
+                $array[$assignment->field->slug] = app()->call(
                     [$type, 'toArrayForComparison'],
                     ['related' => $related]
                 );
             }
 
             if ($related instanceof EntryModel) {
-                $array[$assignment->getFieldSlug()] = app()->call(
+                $array[$assignment->field->slug] = app()->call(
                     [$type, 'toArrayForComparison'],
                     ['related' => $related]
                 );
