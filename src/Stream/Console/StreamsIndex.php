@@ -74,7 +74,7 @@ class StreamsIndex extends Command
              * so that any overriding configuration
              * can have it's say when indexing.
              */
-            $model = $stream->getBoundEntryModelName();
+            $model = $stream->getEntryModel();
 
             /**
              * Optionally flush before indexing.

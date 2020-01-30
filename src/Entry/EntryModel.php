@@ -135,47 +135,17 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Get the entry ID.
-     *
-     * @return mixed
+     * Get the table.
      */
-    public function getEntryId()
+    public function getTable()
     {
-        return $this->getId();
-    }
+        if ($this->table) {
+            return $this->table;
+        }
 
-    /**
-     * Get the entry title.
-     *
-     * @return mixed
-     */
-    public function getEntryTitle()
-    {
-        return $this->getTitle();
-    }
+        $stream = $this->stream();
 
-    /**
-     * Get the model's bound name.
-     *
-     * @return string
-     */
-    public function getBoundModelName()
-    {
-        return get_class(app(get_class($this)));
-    }
-
-    /**
-     * Get the model's bound namespace.
-     *
-     * @return string
-     */
-    public function getBoundModelNamespace()
-    {
-        $namespace = explode('\\', $this->getBoundModelName());
-
-        array_pop($namespace);
-
-        return implode('\\', $namespace);
+        return $stream->namespace . '_' . $stream->slug;
     }
 
     /**
@@ -294,7 +264,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         $locale = config('app.locale');
 
-        $assignment = $this->getAssignment($fieldSlug);
+        $assignment = $this->stream()->assignments->findByFieldSlug($fieldSlug);
 
         if (!$assignment) {
             return null;
@@ -371,7 +341,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
 
         // Check if it's a relationship first.
-        if (in_array($key, array_merge($this->relationships, ['created_by', 'updated_by']))) {
+        if (in_array($key, array_merge($this->stream()->assignments->relations()->fieldSlugs()->all(), ['created_by', 'updated_by']))) {
             return parent::getAttribute(camel_case($key));
         }
 
@@ -691,14 +661,13 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function getStreamAttribute()
     {
         if (!$this->stream instanceof StreamInterface) {
-            if (is_numeric($this->stream)) {
-                $this->stream = app(StreamModel::class)->find($this->stream);
-            } elseif ([$namespace, $slug] = explode('.', $this->stream)) {
-                $this->stream = app(StreamModel::class)
-                    ->whereNamespace($namespace)
-                    ->whereSlug($slug)
-                    ->first();
-            }
+
+            [$namespace, $slug] = explode('.', $this->stream);
+
+            $this->stream = app(StreamModel::class)
+                ->whereNamespace($namespace)
+                ->whereSlug($slug)
+                ->first();
         }
 
         return $this->stream;
@@ -852,13 +821,33 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         $casts = parent::getCasts();
 
+        /**
+         * Translated fields are always array.
+         */
         $translated = $this->stream()->assignments->translatable()->fieldSlugs();
 
         if ($translated->isNotEmpty()) {
             $casts = array_merge(array_combine($translated->all(), array_fill(0, $translated->count(), 'array')), $casts);
         }
 
-        return array_merge($casts, (array) $this->stream->assignments->translatable());
+        /**
+         * Add dates.
+         * 
+         * @todo this needs to be wrapped up into the field types.
+         */
+        $dates = $this->stream()->assignments->dates();
+
+        if ($dates->isNotEmpty()) {
+            $casts = array_merge(array_combine($dates->fieldSlugs()->all(), $dates->map(function ($assignment) {
+                return $assignment->field->type->getColumnType();
+            })->all()), $casts);
+        }
+
+        return array_merge($casts, [
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+            'deleted_at' => 'datetime',
+        ], (array) $this->stream->assignments->translatable());
     }
 
     /**

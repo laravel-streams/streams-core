@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -199,7 +200,7 @@ class FieldModel extends EloquentModel implements FieldInterface
         $label  = $this->name;
         $config = $this->config;
 
-        return self::$builder->build(compact('type', 'field', 'label', 'config'));
+        return self::$builder::build(compact('type', 'field', 'label', 'config'));
     }
 
     /**

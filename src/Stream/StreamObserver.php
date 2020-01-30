@@ -102,7 +102,7 @@ class StreamObserver extends Observer
         dispatch_now(new DeleteStreamAssignments($model));
         dispatch_now(new GenerateEntryModelClassmap());
 
-        app(VersionRepositoryInterface::class)->deleteVersionHistory($model->getBoundEntryModelName());
+        app(VersionRepositoryInterface::class)->deleteVersionHistory(get_class($model->getEntryModel()));
 
         event(new StreamWasDeleted($model));
     }

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Stream;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
@@ -17,7 +19,7 @@ class StreamStore
      *
      * @var array
      */
-    protected $cache = [];
+    protected static $cache = [];
 
     /**
      * Put a stream into cache.

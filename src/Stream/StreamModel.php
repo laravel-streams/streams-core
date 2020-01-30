@@ -474,7 +474,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
      */
     public function getEntryModel()
     {
-        return app($this->getBoundEntryModelName());
+        return app($this->getEntryModelName());
     }
 
     /**
@@ -488,16 +488,6 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
         $namespace = ucfirst(camel_case($this->getNamespace()));
 
         return "Anomaly\\Streams\\Platform\\Model\\{$namespace}\\{$namespace}{$slug}EntryModel";
-    }
-
-    /**
-     * Get the bound entry model name.
-     *
-     * @return string
-     */
-    public function getBoundEntryModelName()
-    {
-        return get_class(app($this->getEntryModelName()));
     }
 
     /**

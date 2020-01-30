@@ -16,39 +16,12 @@ class FieldTypeBuilder
 {
 
     /**
-     * The service container.
-     *
-     * @var Container
-     */
-    private $container;
-
-    /**
-     * The field type collection.
-     *
-     * @var FieldTypeCollection
-     */
-    private $fieldTypes;
-
-    /**
-     * Handle the command.
-     *
-     * @param Hydrator $hydrator
-     * @param Container $container
-     * @param FieldTypeCollection $fieldTypes
-     */
-    public function __construct(Container $container, FieldTypeCollection $fieldTypes)
-    {
-        $this->container  = $container;
-        $this->fieldTypes = $fieldTypes;
-    }
-
-    /**
      * Build a field type.
      *
      * @param  array $parameters
      * @return FieldType
      */
-    public function build(array $parameters)
+    public static function build(array $parameters)
     {
         $type = array_pull($parameters, 'type');
 
@@ -87,7 +60,7 @@ class FieldTypeBuilder
          * returning the first match for the slug.
          */
         if (!isset($fieldType)) {
-            $fieldType = $this->fieldTypes->findBySlug($type);
+            $fieldType = app('field_type.collection')->findBySlug($type);
         }
 
         /*
@@ -101,6 +74,11 @@ class FieldTypeBuilder
         $fieldType->mergeConfig((array) array_pull($parameters, 'config', []));
 
         Hydrator::hydrate($fieldType, $parameters);
+
+        if ($entry = array_pull($parameters, 'entry')) {
+
+            //
+        }
 
         return $fieldType;
     }

@@ -34,34 +34,6 @@ interface EntryInterface extends EloquentInterface
     public function getId();
 
     /**
-     * Get the entry ID.
-     *
-     * @return mixed
-     */
-    public function getEntryId();
-
-    /**
-     * Get the entry title.
-     *
-     * @return mixed
-     */
-    public function getEntryTitle();
-
-    /**
-     * Get the model's bound name.
-     *
-     * @return string
-     */
-    public function getBoundModelName();
-
-    /**
-     * Get the model's bound namespace.
-     *
-     * @return string
-     */
-    public function getBoundModelNamespace();
-
-    /**
      * Get the sort order.
      *
      * @return int
