@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class FieldModel extends EloquentModel implements FieldInterface
 {
 
+    protected static $cache;
+
     /**
      * Don't cache this model.
      *
@@ -35,16 +37,6 @@ class FieldModel extends EloquentModel implements FieldInterface
      * @var bool
      */
     public $timestamps = false;
-
-    /**
-     * Hide these from toArray.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'assignments',
-        'stream',
-    ];
 
     /**
      * Attribute casts.
@@ -85,6 +77,22 @@ class FieldModel extends EloquentModel implements FieldInterface
      * @var FieldTypeBuilder
      */
     protected static $builder;
+
+    public function getAttribute($key)
+    {
+        if (isset(self::$cache[$this->attributes['id']][$key])) {
+            return self::$cache[$this->attributes['id']][$key];
+        }
+
+        // $trace = debug_backtrace(
+        //     DEBUG_BACKTRACE_PROVIDE_OBJECT,
+        //     2
+        // )[1];
+
+        //echo '>' . get_class($this) . ' - ' . $this->attributes['id'] . ":" . $trace['class'] . "->{$key}" . "\n";
+
+        return self::$cache[$this->attributes['id']][$key] = parent::getAttribute($key);
+    }
 
     /**
      * Boot the model.

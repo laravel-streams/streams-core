@@ -46,6 +46,10 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
         'description',
     ];
 
+    protected $with = [
+        'assignments'
+    ];
+
     /**
      * Attribute casts.
      *

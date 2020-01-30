@@ -36,21 +36,21 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
     public $timestamps = false;
 
     /**
-     * Eager
-     *
-     * @var array
-     */
-    protected $with = [
-        'field',
-    ];
-
-    /**
      * Hide these from toArray.
      *
      * @var array
      */
     protected $hidden = [
         'stream',
+        'field',
+    ];
+
+    /**
+     * Eager loaded relations.
+     * 
+     * @var array
+     */
+    protected $with = [
         'field',
     ];
 
@@ -86,6 +86,22 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
      */
     protected $table = 'streams_assignments';
 
+    public function getAttribute($key)
+    {
+        if (isset(self::$cache[$this->attributes['id']][$key])) {
+            return self::$cache[$this->attributes['id']][$key];
+        }
+
+        // $trace = debug_backtrace(
+        //     DEBUG_BACKTRACE_PROVIDE_OBJECT,
+        //     2
+        // )[1];
+
+        //echo '>' . get_class($this) . ' - ' . $this->attributes['id'] . ":" . $trace['class'] . "->{$key}" . "\n";
+
+        return self::$cache[$this->attributes['id']][$key] = parent::getAttribute($key);
+    }
+
     /**
      * Set the field attribute.
      *
@@ -113,13 +129,13 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
      */
     public function getFieldSlug()
     {
-        if (isset($this->cache['field_slug']) && $this->cache['field_slug']) {
-            return $this->cache['field_slug'];
+        if (isset(self::$cache['field_slug']) && self::$cache['field_slug']) {
+            return self::$cache['field_slug'];
         }
 
         $field = $this->getField();
 
-        return $this->cache['field_slug'] = $field->getSlug();
+        return self::$cache['field_slug'] = $field->getSlug();
     }
 
     /**
@@ -206,11 +222,11 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
      */
     public function getConfig()
     {
-        if (isset($this->cache['config']) && $this->cache['config']) {
-            return $this->cache['config'];
+        if (isset(self::$cache['config']) && self::$cache['config']) {
+            return self::$cache['config'];
         }
 
-        return $this->cache['config'] = $this->getAttribute('config');
+        return self::$cache['config'] = $this->getAttribute('config');
     }
 
     /**
@@ -310,11 +326,11 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
      */
     public function getField()
     {
-        if (isset($this->cache['field']) && $this->cache['field']) {
-            return $this->cache['field'];
+        if (isset(self::$cache['field_' . $this->field_id]) && self::$cache['field_' . $this->field_id]) {
+            return self::$cache['field_' . $this->field_id];
         }
 
-        return $this->cache['field'] = $this->field;
+        return self::$cache['field_' . $this->field_id] = $this->field;
     }
 
     /**

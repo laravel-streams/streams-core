@@ -175,8 +175,6 @@ class AddonServiceProvider extends ServiceProvider
 
         // Lastly
         $this->registerProviders();
-
-        event(new AddonWasRegistered($namespace));
     }
 
     /**

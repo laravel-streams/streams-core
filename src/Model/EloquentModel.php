@@ -100,7 +100,7 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
      *
      * @var array
      */
-    protected $cache = [];
+    protected static $cache = [];
 
     /**
      * Get the ID.
@@ -401,11 +401,11 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
      */
     protected function getDefaultLocale()
     {
-        if (isset($this->cache['default_locale'])) {
-            return $this->cache['default_locale'];
+        if (isset(self::$cache['default_locale'])) {
+            return self::$cache['default_locale'];
         }
 
-        return $this->cache['default_locale'] = config('streams::locales.default');
+        return self::$cache['default_locale'] = config('streams::locales.default');
     }
 
     /**
@@ -415,11 +415,11 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
      */
     protected function getFallbackLocale()
     {
-        if (isset($this->cache['fallback_locale'])) {
-            return $this->cache['fallback_locale'];
+        if (isset(self::$cache['fallback_locale'])) {
+            return self::$cache['fallback_locale'];
         }
 
-        return $this->cache['fallback_locale'] = config('app.fallback_locale');
+        return self::$cache['fallback_locale'] = config('app.fallback_locale');
     }
 
     /**

@@ -340,6 +340,9 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getAttribute($key)
     {
+        if (isset($this->attributes['id']) && isset(self::$cache[$this->getTable() . '.' . $this->attributes['id']][$key])) {
+            return self::$cache[$this->getTable() . '.' . $this->attributes['id']][$key];
+        }
 
         // Check if it's a relationship first.
         if (in_array($key, array_merge($this->stream()->assignments->relations()->fieldSlugs()->all(), ['created_by', 'updated_by']))) {
@@ -350,7 +353,11 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
             return $this->getFieldValue($key);
         }
 
-        return parent::getAttribute($key);
+        if (isset($this->attributes['id'])) {
+            return self::$cache[$this->getTable() . '.' . $this->attributes['id']][$key] = parent::getAttribute($key);
+        } else {
+            return parent::getAttribute($key);
+        }
     }
 
     /**
@@ -665,15 +672,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
             [$namespace, $slug] = explode('.', $this->stream);
 
-            if (!$this->stream = StreamStore::get($namespace, $slug)) {
-
-                $this->stream = app(StreamModel::class)
-                    ->whereNamespace($namespace)
-                    ->whereSlug($slug)
-                    ->first();
-
-                StreamStore::put($this->stream);
-            }
+            $this->stream = app(StreamModel::class)
+                ->whereNamespace($namespace)
+                ->whereSlug($slug)
+                ->first();
         }
 
         return $this->stream;

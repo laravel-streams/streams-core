@@ -36,13 +36,6 @@ class EloquentQueryBuilder extends Builder
     protected $model;
 
     /**
-     * The cache key.
-     *
-     * @var null|string
-     */
-    protected $cacheKey = null;
-
-    /**
      * Execute the query as a "select" statement.
      *
      * @param  array $columns
@@ -50,9 +43,16 @@ class EloquentQueryBuilder extends Builder
      */
     public function get($columns = ['*'])
     {
+        $table = $this->model->getTable();
+        $key = md5($this->toSql() . serialize($this->getBindings()));
+
+        if (isset(self::$cache[$table][$key])) {
+            return self::$cache[$table][$key];
+        }
+
         $this->orderByDefault();
 
-        return parent::get($columns);
+        return self::$cache[$table][$key] = parent::get($columns);
     }
 
     /**

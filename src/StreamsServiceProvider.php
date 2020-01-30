@@ -352,7 +352,7 @@ class StreamsServiceProvider extends ServiceProvider
          * 
          * @todo Remove this. Publishing should be used.
          */
-        $views->composer('*', ViewComposer::class);
+        //$views->composer('*', ViewComposer::class);
 
         $views->addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/views'));
         $views->addNamespace('storage', application()->getStoragePath());
