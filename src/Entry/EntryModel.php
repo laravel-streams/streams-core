@@ -2,22 +2,23 @@
 
 namespace Anomaly\Streams\Platform\Entry;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
-use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Model\Traits\Versionable;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Stream\StreamModel;
 use Carbon\Carbon;
+use Laravel\Scout\Searchable;
+use Laravel\Scout\ModelObserver;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Laravel\Scout\ModelObserver;
-use Laravel\Scout\Searchable;
+use Anomaly\Streams\Platform\Stream\StreamModel;
+use Anomaly\Streams\Platform\Stream\StreamStore;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Model\Traits\Versionable;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
+use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
 
 /**
@@ -664,10 +665,15 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
             [$namespace, $slug] = explode('.', $this->stream);
 
-            $this->stream = app(StreamModel::class)
-                ->whereNamespace($namespace)
-                ->whereSlug($slug)
-                ->first();
+            if (!$this->stream = StreamStore::get($namespace, $slug)) {
+
+                $this->stream = app(StreamModel::class)
+                    ->whereNamespace($namespace)
+                    ->whereSlug($slug)
+                    ->first();
+
+                StreamStore::put($this->stream);
+            }
         }
 
         return $this->stream;

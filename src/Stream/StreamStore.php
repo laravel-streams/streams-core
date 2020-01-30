@@ -27,23 +27,9 @@ class StreamStore
      * @param                 $data
      * @param StreamInterface $stream
      */
-    public function put($data, StreamInterface $stream)
+    public static function put(StreamInterface $stream)
     {
-        $this->cache[$this->getCacheKey($data)] = $stream;
-    }
-
-    /**
-     * Get the cache key.
-     *
-     * @param  array  $data
-     * @return string
-     */
-    protected function getCacheKey(array $data)
-    {
-        $stream    = array_get($data, 'slug');
-        $namespace = array_get($data, 'namespace');
-
-        return "stream.make::{$namespace}.{$stream}";
+        self::$cache[self::cacheKey($stream)] = $stream;
     }
 
     /**
@@ -52,12 +38,23 @@ class StreamStore
      * @param $data
      * @return null|StreamInterface
      */
-    public function get($data)
+    public static function get($namespace, $slug)
     {
-        if (isset($this->cache[$this->getCacheKey($data)])) {
-            return $this->cache[$this->getCacheKey($data)];
+        if (isset(self::$cache["{$namespace}.{$slug}"])) {
+            return self::$cache["{$namespace}.{$slug}"];
         }
 
         return null;
+    }
+
+    /**
+     * Get the cache key.
+     *
+     * @param  array  $data
+     * @return string
+     */
+    protected static function cacheKey(StreamInterface $stream)
+    {
+        return "{$stream->namespace}.{$stream->slug}";
     }
 }
