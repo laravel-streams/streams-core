@@ -50,7 +50,7 @@ class LoadForm
         // Move this to options so we can read it.
         $this->builder->setFormOption('read_only', $this->builder->isReadOnly());
 
-        $form->addData('form', $form);
+        $form->addData('form', decorate($form));
 
         if ($breadcrumb = $form->getOption('breadcrumb', 'admin::form.mode.' . $this->builder->getFormMode())) {
             $breadcrumbs->put($breadcrumb, '#');
