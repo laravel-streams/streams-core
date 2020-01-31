@@ -20,6 +20,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class EntryModel
@@ -32,6 +33,14 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 {
     use Searchable;
     use Versionable;
+    use SoftDeletes;
+
+    /**
+     * The stream definition.
+     *
+     * @var array
+     */
+    protected static $stream = [];
 
     /**
      * Enable timestamps.
@@ -46,13 +55,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      * @var boolean
      */
     protected $searchable = false;
-
-    /**
-     * The validation rules.
-     *
-     * @var array
-     */
-    protected $rules = [];
 
     /**
      * The field slugs.
@@ -345,7 +347,8 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         }
 
         // Check if it's a relationship first.
-        if (in_array($key, array_merge($this->stream()->assignments->relations()->fieldSlugs()->all(), ['created_by', 'updated_by']))) {
+        dd(array_keys(self::$stream['fields']));
+        if (in_array($key, array_merge(array_keys(self::$stream['fields']), ['created_by', 'updated_by']))) {
             return parent::getAttribute(camel_case($key));
         }
 

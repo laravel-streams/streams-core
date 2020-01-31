@@ -18,8 +18,6 @@ use Anomaly\Streams\Platform\Support\Configurator;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Stream\StreamObserver;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
-use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
 
 /**
  * Class StreamsServiceProvider
@@ -44,7 +42,6 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface'         => \Anomaly\Streams\Platform\Stream\StreamRepository::class,
         'Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface'        => \Anomaly\Streams\Platform\Model\EloquentRepository::class,
         'Anomaly\Streams\Platform\Version\Contract\VersionRepositoryInterface'       => \Anomaly\Streams\Platform\Version\VersionRepository::class,
-        'Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface' => \Anomaly\Streams\Platform\Assignment\AssignmentRepository::class,
 
         'addon.collection'      => \Anomaly\Streams\Platform\Addon\AddonCollection::class,
         'theme.collection'      => \Anomaly\Streams\Platform\Addon\Theme\ThemeCollection::class,
@@ -121,7 +118,6 @@ class StreamsServiceProvider extends ServiceProvider
         FieldModel::observe(FieldObserver::class);
         StreamModel::observe(StreamObserver::class);
         EloquentModel::observe(EloquentObserver::class);
-        AssignmentModel::observe(AssignmentObserver::class);
 
         /**
          * Register core commands.
