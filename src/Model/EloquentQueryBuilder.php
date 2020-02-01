@@ -157,12 +157,8 @@ class EloquentQueryBuilder extends Builder
         $query = $this->getQuery();
 
         if ($query->orders === null) {
-            if ($model instanceof AssignmentModel) {
-                $query->orderBy('streams_assignments.sort_order', 'ASC');
-            } elseif ($model instanceof StreamModel && config('streams.installed')) { // Ensure migrations are complete.
-                $query->orderBy('streams_streams.sort_order', 'ASC');
-            } elseif ($model instanceof EntryInterface) {
-                if ($model->getStream()->isSortable()) {
+            if ($model instanceof EntryInterface) {
+                if ($model->stream->isSortable()) {
                     $query->orderBy($model->getTable() . '.sort_order', 'ASC');
                 } elseif ($model->titleColumnIsTranslatable()) {
                     $this->orderBy($model->getTitleName() . '->' . app()->getLocale(), 'ASC');

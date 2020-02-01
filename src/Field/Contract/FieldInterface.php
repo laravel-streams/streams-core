@@ -17,13 +17,6 @@ interface FieldInterface extends EloquentInterface
 {
 
     /**
-     * Get the ID.
-     *
-     * @return int
-     */
-    public function getId();
-
-    /**
      * Get the name.
      *
      * @return string
@@ -59,13 +52,6 @@ interface FieldInterface extends EloquentInterface
     public function getStream();
 
     /**
-     * Get the namespace.
-     *
-     * @return string
-     */
-    public function getNamespace();
-
-    /**
      * Get the slug.
      *
      * @return string
@@ -75,17 +61,9 @@ interface FieldInterface extends EloquentInterface
     /**
      * Get the field type.
      *
-     * @param  bool      $fresh
      * @return FieldType
      */
-    public function getType($fresh = false);
-
-    /**
-     * Get the field type value.
-     *
-     * @return string
-     */
-    public function getTypeValue();
+    public function getType();
 
     /**
      * Get the configuration.
@@ -93,21 +71,6 @@ interface FieldInterface extends EloquentInterface
      * @return mixed
      */
     public function getConfig();
-
-    /**
-     * Get the related assignments.
-     *
-     * @return AssignmentCollection
-     */
-    public function getAssignments();
-
-    /**
-     * Return whether the field
-     * has assignments or not.
-     *
-     * @return bool
-     */
-    public function hasAssignments();
 
     /**
      * Return whether the field is

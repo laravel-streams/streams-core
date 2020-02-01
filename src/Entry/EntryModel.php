@@ -7,9 +7,11 @@ use Laravel\Scout\Searchable;
 use Laravel\Scout\ModelObserver;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Stream\StreamStore;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Stream\StreamBuilder;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
@@ -20,7 +22,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class EntryModel
@@ -40,7 +41,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      *
      * @var array
      */
-    protected static $stream = [];
+    protected $stream = [];
 
     /**
      * Enable timestamps.
@@ -135,20 +136,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function getId()
     {
         return $this->getKey();
-    }
-
-    /**
-     * Get the table.
-     */
-    public function getTable()
-    {
-        if ($this->table) {
-            return $this->table;
-        }
-
-        $stream = $this->stream();
-
-        return $stream->namespace . '_' . $stream->slug;
     }
 
     /**
@@ -342,13 +329,14 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getAttribute($key)
     {
-        if (isset($this->attributes['id']) && isset(self::$cache[$this->getTable() . '.' . $this->attributes['id']][$key])) {
+        $id = parent::getAttribute('id');
+
+        if ($id && isset(self::$cache[$this->getTable() . '.' . $id][$key])) {
             return self::$cache[$this->getTable() . '.' . $this->attributes['id']][$key];
         }
 
         // Check if it's a relationship first.
-        dd(array_keys(self::$stream['fields']));
-        if (in_array($key, array_merge(array_keys(self::$stream['fields']), ['created_by', 'updated_by']))) {
+        if (in_array($key, array_merge(array_keys($this->stream['fields']), ['created_by', 'updated_by']))) {
             return parent::getAttribute(camel_case($key));
         }
 
@@ -410,7 +398,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function stream()
     {
-        return $this->getStreamAttribute();
+        return StreamBuilder::build($this->stream);
     }
 
     /**
@@ -671,17 +659,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getStreamAttribute()
     {
-        if (!$this->stream instanceof StreamInterface) {
-
-            [$namespace, $slug] = explode('.', $this->stream);
-
-            $this->stream = app(StreamModel::class)
-                ->whereNamespace($namespace)
-                ->whereSlug($slug)
-                ->first();
-        }
-
-        return $this->stream;
+        return $this->stream();
     }
 
     /**

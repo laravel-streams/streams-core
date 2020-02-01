@@ -7,16 +7,10 @@ use Illuminate\Support\ServiceProvider;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Entry\EntryModel;
-use Anomaly\Streams\Platform\Field\FieldModel;
-use Anomaly\Streams\Platform\View\ViewComposer;
-use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Entry\EntryObserver;
-use Anomaly\Streams\Platform\Field\FieldObserver;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Illuminate\Foundation\Application as Laravel;
 use Anomaly\Streams\Platform\Support\Configurator;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Anomaly\Streams\Platform\Stream\StreamObserver;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
 
 /**
@@ -115,8 +109,6 @@ class StreamsServiceProvider extends ServiceProvider
 
         // Observe our base models.
         EntryModel::observe(EntryObserver::class);
-        FieldModel::observe(FieldObserver::class);
-        StreamModel::observe(StreamObserver::class);
         EloquentModel::observe(EloquentObserver::class);
 
         /**
