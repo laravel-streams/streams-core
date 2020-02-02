@@ -24,6 +24,7 @@ class Stream implements StreamInterface
 
     protected $slug;
     protected $title_column;
+    protected $sortable = false;
     protected $trashable = true;
     protected $searchable = true;
     protected $versionable = true;
@@ -181,7 +182,7 @@ class Stream implements StreamInterface
      * @param $slug
      * @return bool
      */
-    public function hasField($slug);
+    public function hasField($slug)
     {
         return $this->fields->has($slug);
     }

@@ -16,19 +16,4 @@ use Illuminate\Database\Eloquent\Builder;
  */
 interface EloquentInterface
 {
-
-    /**
-     * Get all of the current attributes on the model.
-     *
-     * @return array
-     */
-    public function getAttributes();
-
-    /**
-     * Get an attribute value.
-     *
-     * @param  $key
-     * @return mixed
-     */
-    public function getAttributeValue($key);
 }

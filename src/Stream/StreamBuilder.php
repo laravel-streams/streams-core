@@ -28,7 +28,7 @@ class StreamBuilder
 
         $stream = StreamInput::read($stream);
         $stream = StreamFactory::make($stream);
-        dd($stream);
+
         $fields = FieldBuilder::build($fields);
 
         $stream->fields = $fields;

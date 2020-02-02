@@ -20,6 +20,19 @@ class FieldInput
      */
     public static function read(array $fields)
     {
+        foreach ($fields as $slug => &$field) {
+
+            if (is_string($field)) {
+                $field = [
+                    'type' => $field,
+                ];
+            }
+
+            if (!isset($field['slug'])) {
+                $field['slug'] = $slug;
+            }
+        }
+
         return $fields;
     }
 }

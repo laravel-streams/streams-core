@@ -336,7 +336,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         }
 
         // Check if it's a relationship first.
-        if (in_array($key, array_merge(array_keys($this->stream['fields']), ['created_by', 'updated_by']))) {
+        if (in_array($key, array_merge(array_keys($this->stream()->fields->fieldSlugs()), ['created_by', 'updated_by']))) {
             return parent::getAttribute(camel_case($key));
         }
 
@@ -398,7 +398,14 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function stream()
     {
-        return StreamBuilder::build($this->stream);
+        if (!$stream = StreamStore::get($this->stream)) {
+            StreamStore::put(
+                StreamStore::key($this->stream),
+                $stream = StreamBuilder::build($this->stream)
+            );
+        }
+
+        return $this->stream = $stream;
     }
 
     /**

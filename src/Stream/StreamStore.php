@@ -24,12 +24,12 @@ class StreamStore
     /**
      * Put a stream into cache.
      *
-     * @param                 $data
+     * @param                 $key
      * @param StreamInterface $stream
      */
-    public static function put(StreamInterface $stream)
+    public static function put($key, StreamInterface $stream)
     {
-        self::$cache[self::cacheKey($stream)] = $stream;
+        self::$cache[$key] = $stream;
     }
 
     /**
@@ -38,10 +38,10 @@ class StreamStore
      * @param $data
      * @return null|StreamInterface
      */
-    public static function get($namespace, $slug)
+    public static function get($stream)
     {
-        if (isset(self::$cache["{$namespace}.{$slug}"])) {
-            return self::$cache["{$namespace}.{$slug}"];
+        if (isset(self::$cache[$key = self::key($stream)])) {
+            return self::$cache[$key];
         }
 
         return null;
@@ -53,8 +53,8 @@ class StreamStore
      * @param  array  $data
      * @return string
      */
-    protected static function cacheKey(StreamInterface $stream)
+    public static function key($stream)
     {
-        return "{$stream->namespace}.{$stream->slug}";
+        return md5(json_encode($stream));
     }
 }

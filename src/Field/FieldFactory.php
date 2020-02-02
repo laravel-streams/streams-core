@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Field;
 
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+
 /**
  * Class FieldFactory
  *
