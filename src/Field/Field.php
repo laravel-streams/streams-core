@@ -2,7 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Field;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 
 /**
  * Class Field
@@ -14,15 +16,17 @@ use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 class Field implements FieldInterface
 {
 
-    protected $name;
-    protected $slug;
-    protected $type;
-    protected $stream;
-    protected $warning;
-    protected $instructions;
-    protected $placeholder;
-    protected $config = [];
-    protected $rules = [];
+    public $name;
+    public $slug;
+    public $type;
+    public $stream;
+    public $warning;
+    public $placeholder;
+    public $instructions;
+    public $searchable = true;
+    public $translatable = false;
+    public $config = [];
+    public $rules = [];
 
     /**
      * Create a new Field instance.
@@ -34,6 +38,18 @@ class Field implements FieldInterface
         foreach ($field as $attribute => $value) {
             $this->{$attribute} = $value;
         }
+    }
+
+    /**
+     * Return the field type.
+     * 
+     * @return FieldType
+     */
+    public function type()
+    {
+        return $this->type ? FieldTypeBuilder::build([
+            'type' => $this->type,
+        ]) : null;
     }
 
     /**
@@ -145,5 +161,25 @@ class Field implements FieldInterface
     public function getRules()
     {
         return $this->rules;
+    }
+
+    /**
+     * Get the searchable flag.
+     *
+     * @return bool
+     */
+    public function isSearchable()
+    {
+        return $this->searchable;
+    }
+
+    /**
+     * Get the translatable flag.
+     *
+     * @return bool
+     */
+    public function isTranslatable()
+    {
+        return $this->translatable;
     }
 }

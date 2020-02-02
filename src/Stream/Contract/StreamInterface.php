@@ -2,10 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Stream\Contract;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
  * Interface StreamInterface

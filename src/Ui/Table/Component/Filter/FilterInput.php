@@ -122,7 +122,7 @@ class FilterInput
             /*
              * Fallback the field.
              */
-            if (!isset($filter['field']) && $stream && $stream->hasAssignment($filter['slug'])) {
+            if (!isset($filter['field']) && $stream && $stream->fields->has($filter['slug'])) {
                 $filter['field'] = $filter['slug'];
             }
 

@@ -90,13 +90,6 @@ interface EntryInterface extends EloquentInterface
     public function getStreamName();
 
     /**
-     * Get the entry's stream prefix.
-     *
-     * @return string
-     */
-    public function getStreamPrefix();
-
-    /**
      * Get the table name.
      *
      * @return string
@@ -187,52 +180,6 @@ interface EntryInterface extends EloquentInterface
      * @return FieldTypePresenter
      */
     public function getFieldTypePresenter($fieldSlug);
-
-    /**
-     * Get the field slugs for assigned fields.
-     *
-     * @param  null $prefix
-     * @return array
-     */
-    public function getAssignmentFieldSlugs($prefix = null);
-
-    /**
-     * Get all assignments of the
-     * provided field type namespace.
-     *
-     * @param $fieldType
-     * @return AssignmentCollection
-     */
-    public function getAssignmentsByFieldType($fieldType);
-
-    /**
-     * Get an assignment by field slug.
-     *
-     * @param  $fieldSlug
-     * @return AssignmentInterface
-     */
-    public function getAssignment($fieldSlug);
-
-    /**
-     * Return translated assignments.
-     *
-     * @return AssignmentCollection
-     */
-    public function getTranslatableAssignments();
-
-    /**
-     * Return required assignments.
-     *
-     * @return AssignmentCollection
-     */
-    public function getRequiredAssignments();
-
-    /**
-     * Return searchable assignments.
-     *
-     * @return AssignmentCollection
-     */
-    public function getSearchableAssignments();
 
     /**
      * Get a specified relationship.
@@ -348,32 +295,6 @@ interface EntryInterface extends EloquentInterface
      * @return string
      */
     public function getQueryBuilderName();
-
-    /**
-     * Return whether the title column is
-     * translatable or not.
-     *
-     * @return bool
-     */
-    public function titleColumnIsTranslatable();
-
-    /**
-     * Return whether or not the assignment for
-     * the given field slug is translatable.
-     *
-     * @param $fieldSlug
-     * @return bool
-     */
-    public function assignmentIsTranslatable($fieldSlug);
-
-    /**
-     * Return whether or not the assignment for
-     * the given field slug is a relationship.
-     *
-     * @param $fieldSlug
-     * @return bool
-     */
-    public function assignmentIsRelationship($fieldSlug);
 
     /**
      * Set an attribute value.

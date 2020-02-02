@@ -3,8 +3,6 @@
 namespace Anomaly\Streams\Platform\Field\Contract;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
-use Anomaly\Streams\Platform\Model\Contract\EloquentInterface;
 
 /**
  * Interface FieldInterface
@@ -13,8 +11,15 @@ use Anomaly\Streams\Platform\Model\Contract\EloquentInterface;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-interface FieldInterface extends EloquentInterface
+interface FieldInterface
 {
+
+    /**
+     * Return the field's type.
+     *
+     * @return FieldType
+     */
+    public function type();
 
     /**
      * Get the name.

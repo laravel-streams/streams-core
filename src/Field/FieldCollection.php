@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Field;
+<?php
+
+namespace Anomaly\Streams\Platform\Field;
 
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
@@ -15,99 +17,39 @@ class FieldCollection extends EloquentCollection
 {
 
     /**
-     * Create a new FieldCollection instance.
-     *
-     * @param array $items
+     * Return field slugs.
+     * 
+     * @param null $prefix
+     * @return FieldCollection
      */
-    public function __construct($items = [])
+    public function slugs($prefix = null)
     {
-        /* @var FieldInterface $item */
-        foreach ($items as $item) {
-            if (is_object($item)) {
-                $this->items[$item->getSlug()] = $item;
-            } else {
-                $this->items[] = $item;
-            }
-        }
+        return $this->map(function ($field) use ($prefix) {
+            return ($prefix ?: null) . $field->slug;
+        });
     }
 
     /**
-     * Return only unassigned fields.
-     *
+     * Return translatable fields.
+     * 
      * @return FieldCollection
      */
-    public function unassigned()
+    public function translatable($translatable = true)
     {
-        $unassigned = [];
-
-        /* @var FieldInterface $item */
-        foreach ($this->items as $item) {
-            if (!$item->hasAssignments()) {
-                $unassigned[] = $item;
-            }
-        }
-
-        return new static($unassigned);
+        return $this->filter(function ($field) use ($translatable) {
+            return $field->isTranslatable() === $translatable ? $field : null;
+        });
     }
 
     /**
-     * Return fields only assigned
-     * to the provided stream.
-     *
-     * @param  StreamInterface $stream
+     * Return translatable fields.
+     * 
      * @return FieldCollection
      */
-    public function assignedTo(StreamInterface $stream)
+    public function dates($translatable = true)
     {
-        $fieldSlugs = $stream->getAssignmentFieldSlugs();
-
-        return new static(
-            array_filter(
-                $this->items,
-                function (FieldInterface $field) use ($fieldSlugs) {
-                    return in_array($field->getSlug(), $fieldSlugs);
-                }
-            )
-        );
-    }
-
-    /**
-     * Return fields only NOT assigned
-     * to the provided stream.
-     *
-     * @param  StreamInterface $stream
-     * @return FieldCollection
-     */
-    public function notAssignedTo(StreamInterface $stream)
-    {
-        $fieldSlugs = $stream->getAssignmentFieldSlugs();
-
-        return new static(
-            array_filter(
-                $this->items,
-                function (FieldInterface $field) use ($fieldSlugs) {
-                    return !in_array($field->getSlug(), $fieldSlugs);
-                }
-            )
-        );
-    }
-
-    /**
-     * Return only unlocked fields.
-     *
-     * @return FieldCollection
-     */
-    public function unlocked()
-    {
-        $unlocked = [];
-
-        /* @var FieldInterface $item */
-        foreach ($this->items as $item) {
-            if (!$item->isLocked()) {
-                $unlocked[] = $item;
-            }
-        }
-
-        return new static($unlocked);
+        return $this->filter(function ($field) use ($translatable) {
+            return $field->isTranslatable() === $translatable ? $field : null;
+        });
     }
 }

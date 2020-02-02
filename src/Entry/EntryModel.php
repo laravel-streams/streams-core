@@ -8,8 +8,6 @@ use Laravel\Scout\ModelObserver;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Anomaly\Streams\Platform\Stream\StreamModel;
-use Anomaly\Streams\Platform\Stream\StreamStore;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\StreamBuilder;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
@@ -17,7 +15,6 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
-use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
@@ -167,9 +164,9 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getFieldValue($fieldSlug, $locale = null)
     {
-        $assignment = $this->getAssignment($fieldSlug);
+        $field = $this->stream()->fields->{$fieldSlug};
 
-        $type = $assignment->getFieldType();
+        $type = $field->type();
 
         $modifier = $type->getModifier();
 
@@ -177,7 +174,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $value = parent::getAttributeValue($fieldSlug);
 
-        if ($assignment->translatable) {
+        if ($field->translatable) {
             $value = $value[$this->locale($locale)];
         }
 
@@ -223,13 +220,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getField($slug)
     {
-        $assignment = $this->getAssignment($slug);
-
-        if (!$assignment instanceof AssignmentInterface) {
-            return null;
-        }
-
-        return $assignment->getField();
+        return $this->stream()->fields->get($slug);
     }
 
     /**
@@ -241,7 +232,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function hasField($slug)
     {
-        return ($this->getField($slug) !== null);
+        return $this->stream()->fields->has($slug);
     }
 
     /**
@@ -254,13 +245,13 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         $locale = config('app.locale');
 
-        $assignment = $this->stream()->assignments->findByFieldSlug($fieldSlug);
+        $field = $this->stream()->fields->{$fieldSlug};
 
-        if (!$assignment) {
+        if (!$field) {
             return null;
         }
 
-        $type = $assignment->getFieldType();
+        $type = $field->type();
 
         $type->setEntry($this);
 
@@ -331,24 +322,21 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         $id = parent::getAttribute('id');
 
-        if ($id && isset(self::$cache[$this->getTable() . '.' . $id][$key])) {
-            return self::$cache[$this->getTable() . '.' . $this->attributes['id']][$key];
-        }
+        // Runtime cache
+        // if ($id && isset(self::$cache[$this->getTable() . '.' . $id][$key])) {
+        //     return self::$cache[$this->getTable() . '.' . $this->attributes['id']][$key];
+        // }
 
         // Check if it's a relationship first.
-        if (in_array($key, array_merge(array_keys($this->stream()->fields->fieldSlugs()), ['created_by', 'updated_by']))) {
+        if (in_array($key, ['created_by', 'updated_by']) || $key == 'roles') {
             return parent::getAttribute(camel_case($key));
         }
 
-        if (!$this->hasGetMutator($key) && $this->stream()->assignments->findByFieldSlug($key)) {
+        if (!$this->hasGetMutator($key) && $this->stream()->fields->has($key)) {
             return $this->getFieldValue($key);
         }
 
-        if (isset($this->attributes['id'])) {
-            return self::$cache[$this->getTable() . '.' . $this->attributes['id']][$key] = parent::getAttribute($key);
-        } else {
-            return parent::getAttribute($key);
-        }
+        return parent::getAttribute($key);
     }
 
     /**
@@ -398,14 +386,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function stream()
     {
-        if (!$stream = StreamStore::get($this->stream)) {
-            StreamStore::put(
-                StreamStore::key($this->stream),
-                $stream = StreamBuilder::build($this->stream)
-            );
-        }
-
-        return $this->stream = $stream;
+        return $this->stream ? StreamBuilder::build($this->stream) : null;
     }
 
     /**
@@ -446,102 +427,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function getStreamName()
     {
         return $this->stream()->getName();
-    }
-
-    /**
-     * Get the stream prefix.
-     *
-     * @return string
-     */
-    public function getStreamPrefix()
-    {
-        return $this->stream()->getPrefix();
-    }
-
-    /**
-     * Get the field slugs for assigned fields.
-     *
-     * @param  null $prefix
-     * @return array
-     */
-    public function getAssignmentFieldSlugs($prefix = null)
-    {
-        return $this->stream()->assignments->fieldSlugs($prefix);
-    }
-
-    /**
-     * Get all assignments of the
-     * provided field type namespace.
-     *
-     * @param $fieldType
-     * @return AssignmentCollection
-     */
-    public function getAssignmentsByFieldType($fieldType)
-    {
-        return $this->stream()->assignments->findAllByFieldType($fieldType);
-    }
-
-    /**
-     * Get an assignment by field slug.
-     *
-     * @param  $fieldSlug
-     * @return AssignmentInterface
-     */
-    public function getAssignment($fieldSlug)
-    {
-        return $this->stream()->assignments->findByFieldSlug($fieldSlug);
-    }
-
-    /**
-     * Return translated assignments.
-     *
-     * @return AssignmentCollection
-     */
-    public function getTranslatableAssignments()
-    {
-        return $this->stream()->assignments->translatable();
-    }
-
-    /**
-     * Return pivot relation assignments.
-     *
-     * @return AssignmentCollection
-     */
-    public function getPivotRelationshipAssignments()
-    {
-        $relations = $this->stream()->assignments->relations();
-
-        return $relations->filter(
-            function (AssignmentInterface $assignment) {
-                return $assignment->field->type->getColumnType() === false;
-            }
-        );
-    }
-
-    /**
-     * Return required assignments.
-     *
-     * @return AssignmentCollection
-     */
-    public function getRequiredAssignments()
-    {
-        $stream      = $this->stream();
-        $assignments = $stream->assignments;
-
-        return $assignments->required();
-    }
-
-    /**
-     * Return searchable assignments.
-     *
-     * @return AssignmentCollection
-     */
-    public function getSearchableAssignments()
-    {
-        $stream      = $this->stream();
-        $assignments = $stream->assignments;
-
-        return $assignments->searchable();
     }
 
     /**
@@ -595,46 +480,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Return whether the title column is
-     * translatable or not.
-     *
-     * @return bool
-     */
-    public function titleColumnIsTranslatable()
-    {
-        return $this->assignmentIsTranslatable($this->getTitleName());
-    }
-
-    /**
-     * Return whether or not the assignment for
-     * the given field slug is translatable.
-     *
-     * @param $fieldSlug
-     * @return bool
-     */
-    public function assignmentIsTranslatable($fieldSlug)
-    {
-        return $this->isTranslatedAttribute($fieldSlug);
-    }
-
-    /**
-     * Return whether or not the assignment for
-     * the given field slug is a relationship.
-     *
-     * @param $fieldSlug
-     * @return bool
-     */
-    public function assignmentIsRelationship($fieldSlug)
-    {
-        return $this
-            ->stream()
-            ->assignments
-            ->relations()
-            ->fieldSlugs()
-            ->contains($fieldSlug);
-    }
-
-    /**
      * Fire field type events.
      *
      * @param       $trigger
@@ -642,21 +487,19 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function fireFieldTypeEvents($trigger, $payload = [])
     {
-        $assignments = $this->stream()->assignments;
+        // foreach ($this->stream()->fields as $field) {
 
-        /* @var AssignmentInterface $assignment */
-        foreach ($assignments->notTranslatable() as $assignment) {
-            $fieldType = $assignment->getFieldType();
+        //     $fieldType = $field->type();
+        //     dd($fieldType);
+        //     $fieldType->setValue($this->getRawAttribute($field->slug));
 
-            $fieldType->setValue($this->getRawAttribute($assignment->field->slug));
+        //     $fieldType->setEntry($this);
 
-            $fieldType->setEntry($this);
+        //     $payload['entry']     = $this;
+        //     $payload['fieldType'] = $fieldType;
 
-            $payload['entry']     = $this;
-            $payload['fieldType'] = $fieldType;
-
-            $fieldType->fire($trigger, $payload);
-        }
+        //     $fieldType->fire($trigger, $payload);
+        // }
     }
 
     /**
@@ -811,42 +654,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Hook into the casts data.
-     */
-    public function getCasts()
-    {
-        $casts = parent::getCasts();
-
-        /**
-         * Translated fields are always array.
-         */
-        $translated = $this->stream()->assignments->translatable()->fieldSlugs();
-
-        if ($translated->isNotEmpty()) {
-            $casts = array_merge(array_combine($translated->all(), array_fill(0, $translated->count(), 'array')), $casts);
-        }
-
-        /**
-         * Add dates.
-         * 
-         * @todo this needs to be wrapped up into the field types.
-         */
-        $dates = $this->stream()->assignments->dates();
-
-        if ($dates->isNotEmpty()) {
-            $casts = array_merge(array_combine($dates->fieldSlugs()->all(), $dates->map(function ($assignment) {
-                return $assignment->field->type->getColumnType();
-            })->all()), $casts);
-        }
-
-        return array_merge($casts, [
-            'created_at' => 'datetime',
-            'updated_at' => 'datetime',
-            'deleted_at' => 'datetime',
-        ], (array) $this->stream->assignments->translatable());
-    }
-
-    /**
      * Return a searchable array.
      *
      * @return array
@@ -896,6 +703,9 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function toArrayForComparison()
     {
+        // @todo party
+        return [];
+
         $array = array_diff_key(
             $this->toArrayWithRelations(),
             array_flip($this->getNonVersionedAttributes())
@@ -955,6 +765,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         if ($key === 'decorate') {
             return $this->getPresenter();
+        }
+
+        if ($key === 'stream') {
+            return $this->stream();
         }
 
         return parent::__get($key); // TODO: Change the autogenerated stub

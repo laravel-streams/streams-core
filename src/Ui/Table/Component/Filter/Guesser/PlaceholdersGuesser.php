@@ -33,8 +33,8 @@ class PlaceholdersGuesser
                 continue;
             }
 
-            // Get the placeholder off the assignment.
-            if ($stream && $assignment = $stream->getAssignment(array_get($filter, 'field'))) {
+            // Get the placeholder off the field.
+            if ($stream && $field = $stream->getField(array_get($filter, 'field'))) {
 
                 /*
                  * Always use the field name
@@ -45,7 +45,7 @@ class PlaceholdersGuesser
                  * "Choose an option..." in the filter
                  * would just be weird.
                  */
-                $placeholder = $assignment->getFieldName();
+                $placeholder = $field->name;
 
                 if (trans()->has($placeholder)) {
                     $filter['placeholder'] = $placeholder;

@@ -22,12 +22,13 @@ class Stream implements StreamInterface
      */
     public $fields;
 
-    protected $slug;
-    protected $title_column;
-    protected $sortable = false;
-    protected $trashable = true;
-    protected $searchable = true;
-    protected $versionable = true;
+    public $slug;
+    public $title_column;
+    public $sortable = false;
+    public $trashable = true;
+    public $searchable = true;
+    public $versionable = true;
+    public $translatable = false;
 
     /**
      * Create a new Stream instance.
@@ -151,7 +152,7 @@ class Stream implements StreamInterface
      */
     public function getTitleColumn()
     {
-        return $this->titlecolumn;
+        return $this->title_column;
     }
 
     /**
@@ -161,7 +162,7 @@ class Stream implements StreamInterface
      */
     public function getTitleField()
     {
-        return $this->titlefield;
+        return $this->fields->get($this->title_column);
     }
 
     /**
@@ -172,7 +173,7 @@ class Stream implements StreamInterface
      */
     public function getField($slug)
     {
-        return $this->field;
+        return $this->fields->get($slug);
     }
 
     /**

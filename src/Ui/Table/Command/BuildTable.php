@@ -87,7 +87,7 @@ class BuildTable
          * Build table headers.
          */
         HeaderBuilder::build($this->builder);
-        dispatch_now(new EagerLoadRelations($this->builder)); // @todo Axe this?
+        //dispatch_now(new EagerLoadRelations($this->builder)); // @todo Axe this?
 
         /*
          * Get table entries.
