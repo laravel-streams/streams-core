@@ -2,14 +2,15 @@
 
 namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Model\Contract\EloquentInterface;
-use Anomaly\Streams\Platform\Model\Traits\Translatable;
-use Anomaly\Streams\Platform\Model\Traits\Versionable;
-use Anomaly\Streams\Platform\Traits\Hookable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
+use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Anomaly\Streams\Platform\Traits\HasMemory;
+use Anomaly\Streams\Platform\Model\Traits\Versionable;
+use Anomaly\Streams\Platform\Model\Traits\Translatable;
+use Anomaly\Streams\Platform\Model\Contract\EloquentInterface;
 use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
 
 /**
@@ -22,6 +23,7 @@ use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
 class EloquentModel extends Model implements EloquentInterface, Arrayable, PresentableInterface
 {
     use Hookable;
+    use HasMemory;
     use Translatable;
     use DispatchesJobs;
 

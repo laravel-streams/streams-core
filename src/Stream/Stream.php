@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Stream;
 
+use Anomaly\Streams\Platform\Traits\HasMemory;
 use Anomaly\Streams\Platform\Field\FieldCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
@@ -14,6 +15,8 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class Stream implements StreamInterface
 {
+
+    use HasMemory;
 
     /**
      * The field collection.

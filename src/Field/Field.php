@@ -5,6 +5,7 @@ namespace Anomaly\Streams\Platform\Field;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
+use Anomaly\Streams\Platform\Traits\HasMemory;
 
 /**
  * Class Field
@@ -15,6 +16,7 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
  */
 class Field implements FieldInterface
 {
+    use HasMemory;
 
     public $name;
     public $slug;
@@ -47,9 +49,11 @@ class Field implements FieldInterface
      */
     public function type()
     {
-        return $this->type ? FieldTypeBuilder::build([
-            'type' => $this->type,
-        ]) : null;
+        return $this->remember($this->type, function () {
+            return FieldTypeBuilder::build([
+                'type' => $this->type,
+            ]);
+        });
     }
 
     /**
