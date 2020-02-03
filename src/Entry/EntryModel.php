@@ -236,32 +236,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Get the field type from a field slug.
-     *
-     * @param  $fieldSlug
-     * @return null|FieldType
-     */
-    public function getFieldType($fieldSlug)
-    {
-        $locale = config('app.locale');
-
-        $field = $this->stream()->fields->{$fieldSlug};
-
-        if (!$field) {
-            return null;
-        }
-
-        $type = $field->type();
-
-        $type->setEntry($this);
-
-        $type->setValue($this->getFieldValue($fieldSlug));
-        $type->setEntry($this);
-
-        return $type;
-    }
-
-    /**
      * Get the field type query.
      *
      * @param $fieldSlug
@@ -320,23 +294,26 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getAttribute($key)
     {
-        $id = parent::getAttribute('id');
+        return $this->remember($key, function () use ($key) {
 
-        // Runtime cache
-        // if ($id && isset(self::$cache[$this->getTable() . '.' . $id][$key])) {
-        //     return self::$cache[$this->getTable() . '.' . $this->attributes['id']][$key];
-        // }
+            $id = parent::getAttribute('id');
 
-        // Check if it's a relationship first.
-        if (in_array($key, ['created_by', 'updated_by']) || $key == 'roles') {
-            return parent::getAttribute(camel_case($key));
-        }
+            // Runtime cache
+            // if ($id && isset(self::$cache[$this->getTable() . '.' . $id][$key])) {
+            //     return self::$cache[$this->getTable() . '.' . $this->attributes['id']][$key];
+            // }
 
-        if (!$this->hasGetMutator($key) && $this->stream()->fields->has($key)) {
-            return $this->getFieldValue($key);
-        }
+            // Check if it's a relationship first.
+            if (in_array($key, ['created_by', 'updated_by']) || $key == 'roles') {
+                return parent::getAttribute(camel_case($key));
+            }
 
-        return parent::getAttribute($key);
+            if (!$this->hasGetMutator($key) && $this->stream()->fields->has($key)) {
+                return $this->getFieldValue($key);
+            }
+
+            return parent::getAttribute($key);
+        });
     }
 
     /**

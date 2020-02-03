@@ -2,12 +2,13 @@
 
 namespace Anomaly\Streams\Platform\Model;
 
+use Illuminate\Database\Eloquent\Builder;
+use Anomaly\Streams\Platform\Traits\Hookable;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Anomaly\Streams\Platform\Traits\HasMemory;
+use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Stream\StreamModel;
-use Anomaly\Streams\Platform\Traits\Hookable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class EloquentQueryBuilder
@@ -19,6 +20,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 class EloquentQueryBuilder extends Builder
 {
     use Hookable;
+    use HasMemory;
     use DispatchesJobs;
 
     /**
@@ -46,13 +48,12 @@ class EloquentQueryBuilder extends Builder
         $table = $this->model->getTable();
         $key = md5($this->toSql() . serialize($this->getBindings()));
 
-        if (isset(self::$cache[$table][$key])) {
-            return self::$cache[$table][$key];
-        }
+        return $this->remember($table . $key, function () use ($columns) {
 
-        $this->orderByDefault();
+            $this->orderByDefault();
 
-        return self::$cache[$table][$key] = parent::get($columns);
+            return parent::get($columns);
+        });
     }
 
     /**

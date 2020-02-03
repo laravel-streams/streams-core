@@ -17,6 +17,13 @@ class Parser
 {
 
     /**
+     * The parser data.
+     *
+     * @var array
+     */
+    protected $data;
+
+    /**
      * The string parser.
      *
      * @var Engine
@@ -32,6 +39,8 @@ class Parser
     public function __construct(Engine $parser)
     {
         $this->parser = $parser;
+
+        $this->prepareData();
     }
 
     /**
@@ -43,7 +52,7 @@ class Parser
      */
     public function parse($target, array $data = [])
     {
-        $data = $this->prepareData($data);
+        $data = array_merge($this->data, $data);
 
         /*
          * If the target is an array
@@ -72,23 +81,22 @@ class Parser
      * @param  array $data
      * @return array
      */
-    protected function prepareData(array $data)
+    protected function prepareData()
     {
-        return $this->toArray($this->mergeDefaultData($data));
+        return $this->data = $this->detectData();
     }
 
     /**
-     * Merge default data.
+     * Detect default data.
      *
-     * @param  array $data
      * @return array
      */
-    protected function mergeDefaultData(array $data)
+    protected function detectData()
     {
         $url     = $this->urlData();
         $request = $this->requestData();
 
-        return array_merge(compact('url', 'request'), $data);
+        return compact('url', 'request');
     }
 
     /**

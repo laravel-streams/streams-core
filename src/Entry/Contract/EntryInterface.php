@@ -158,14 +158,6 @@ interface EntryInterface extends EloquentInterface
     public function getDirty();
 
     /**
-     * Get a field's type by the field's slug.
-     *
-     * @param  $fieldSlug
-     * @return FieldType
-     */
-    public function getFieldType($fieldSlug);
-
-    /**
      * Get the field type query.
      *
      * @param $fieldSlug
