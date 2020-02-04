@@ -22,6 +22,10 @@ class FieldTypeBuilder
      */
     public static function build($type)
     {
+        if (is_array($type)) {
+            $type = $type['type'];
+        }
+
         $instance = app($type);
 
         return $instance;
