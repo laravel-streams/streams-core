@@ -2,13 +2,15 @@
 
 namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Illuminate\Support\Fluent;
+use Illuminate\Database\Connection;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Builder;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Database\Connection;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Schema\Builder;
-use Illuminate\Support\Fluent;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 
 /**
  * Class FieldTypeSchema
@@ -21,102 +23,27 @@ class FieldTypeSchema
 {
 
     /**
-     * The cache repository.
-     *
-     * @var Repository
-     */
-    protected $cache;
-
-    /**
-     * The schema builder object.
-     *
-     * @var Builder
-     */
-    protected $schema;
-
-    /**
-     * The service container.
-     *
-     * @var Container
-     */
-    protected $container;
-
-    /**
-     * The database connection.
-     *
-     * @var Connection
-     */
-    protected $connection;
-
-    /**
-     * The field type object.
-     *
-     * @var FieldType
-     */
-    protected $fieldType;
-
-    /**
-     * Create a new FieldTypeSchema instance.
-     *
-     * @param FieldType $fieldType
-     * @param Repository $cache
-     */
-    public function __construct(FieldType $fieldType, Container $container, Repository $cache)
-    {
-        $this->cache     = $cache;
-        $this->container = $container;
-        $this->fieldType = $fieldType;
-
-        $this->connection = $container->make('db')->connection();
-
-        $this->schema = $this->connection->getSchemaBuilder();
-    }
-
-    /**
      * Add the field type column to the table.
      *
      * @param Blueprint $table
-     * @param AssignmentInterface $assignment
+     * @param FieldInterface $field
      */
-    public function addColumn(Blueprint $table, AssignmentInterface $assignment)
+    public function addColumn(Blueprint $table, FieldInterface $field)
     {
-        // Skip if no column type.
-        if (!$type = $this->fieldType->getColumnType()) {
-            return;
-        }
 
-        // Skip if the column already exists.
-        if ($this->schema->hasColumn($table->getTable(), $this->fieldType->getColumnName())) {
-            return;
-        }
-
-        /**
-         * If the field is translatable
-         * then the type becomes JSON.
-         */
-        if ($assignment->isTranslatable()) {
-            $type = 'json';
-        }
+        $type = $field->type();
 
         /**
          * Add the column to the table.
          *
          * @var Blueprint|Fluent $column
          */
-        $column = call_user_func_array(
-            [$table, $type],
-            array_filter(
-                [
-                    $this->fieldType->getColumnName(),
-                    $this->fieldType->getColumnLength(),
-                ]
-            )
-        );
+        $column = $table->{$type->getColumnType()}($type->getColumnName(), $type->getColumnLength());
 
-        $column->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true);
+        $column->nullable(!$field->translatable ? !$field->required : true);
 
-        if (!str_contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
-            $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
+        if (!str_contains($type->getColumnType(), ['text', 'blob'])) {
+            $column->default(array_get($type->getConfig(), 'default_value'));
         }
     }
 
@@ -124,18 +51,22 @@ class FieldTypeSchema
      * Add an index for unique fields if applicable.
      *
      * @param Blueprint $table
-     * @param AssignmentInterface $assignment
+     * @param FieldInterface $field
      */
-    public function addIndex(Blueprint $table, AssignmentInterface $assignment)
+    public function addIndex(Blueprint $table, FieldInterface $field)
     {
-        $connection = $this->schema->getConnection();
-        $manager    = $connection->getDoctrineSchemaManager();
-        $doctrine   = $manager->listTableDetails($connection->getTablePrefix() . $table->getTable());
+
+        /**
+         * @var $schema Builder
+         */
+        $schema = Schema::connection(config('database.default'));
+        $manager    = $schema->getDoctrineSchemaManager();
+        $doctrine   = $manager->listTableDetails($schema->getTablePrefix() . $table->getTable());
 
         $unique = md5($assignment->getId());
 
         if ($assignment->isUnique() && !$doctrine->hasIndex($unique)) {
-            $table->unique($this->fieldType->getColumnName(), $unique);
+            $table->unique($type->getColumnName(), $unique);
         }
     }
 

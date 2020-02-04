@@ -364,6 +364,9 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function stream()
     {
         return $this->remember($this->getTable(), function () {
+
+            $this->stream['model'] = clone ($this);
+
             return StreamBuilder::build($this->stream);
         });
     }

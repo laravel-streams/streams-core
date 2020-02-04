@@ -236,7 +236,7 @@ class FieldType extends Addon
      *
      * @var null|string
      */
-    protected $schema = null;
+    protected $schema = FieldTypeSchema::class;
 
     /**
      * The parser class.
@@ -1249,19 +1249,11 @@ class FieldType extends Addon
     /**
      * Get the schema.
      *
-     * @return FieldTypeSchema
+     * @return string
      */
     public function getSchema()
     {
-        if (!$this->schema) {
-            $this->schema = get_class($this) . 'Schema';
-        }
-
-        if (!class_exists($this->schema)) {
-            $this->schema = FieldTypeSchema::class;
-        }
-
-        return app()->make($this->schema, ['fieldType' => $this]);
+        return $this->schema;
     }
 
     /**

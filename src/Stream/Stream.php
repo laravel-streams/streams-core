@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Stream;
 
+use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Traits\HasMemory;
 use Anomaly\Streams\Platform\Field\FieldCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -24,6 +25,13 @@ class Stream implements StreamInterface
      * @var FieldCollection
      */
     public $fields;
+
+    /**
+     * The stream model.
+     *
+     * @var EntryModel
+     */
+    public $model;
 
     public $slug;
     public $title_column;

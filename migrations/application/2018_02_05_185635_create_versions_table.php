@@ -1,6 +1,6 @@
 <?php
 
-use Anomaly\Streams\Platform\Database\Migration\Migration;
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 /**

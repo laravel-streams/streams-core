@@ -2,9 +2,14 @@
 
 namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Builder;
+use Illuminate\Database\Schema\Blueprint;
+use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Field\FieldSchema;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
  * Class StreamSchema
@@ -17,6 +22,13 @@ class StreamSchema
 {
 
     /**
+     * The stream instance.
+     *
+     * @var StreamInterface
+     */
+    protected $stream;
+
+    /**
      * The schema builder.
      *
      * @var Builder
@@ -25,64 +37,58 @@ class StreamSchema
 
     /**
      * Create a new StreamSchema instance.
+     *
+     * @param string $model
      */
-    public function __construct()
+    public function __construct(string $model)
     {
-        $this->schema = app('db')->connection()->getSchemaBuilder();
+        $this->stream = app($model)->stream();
+        $this->schema = Schema::connection(config('database.default'));
     }
 
     /**
-     * Create a table.
+     * Create the table.
      *
      * @param StreamInterface
      */
-    public function createTable(StreamInterface $stream)
+    public function create(\Closure $callback)
     {
-        $table = $stream->getEntryTableName();
-
-        $this->schema->dropIfExists($table);
-
         $this->schema->create(
-            $table,
-            function (Blueprint $table) use ($stream) {
-                $table->engine = $stream->getConfig('database.engine');
+            $this->stream->model->getTable(),
+            function (Blueprint $table) use ($callback) {
 
+                /**
+                 * Add the mandatory stream fields.
+                 */
                 $table->increments('id');
                 $table->integer('sort_order')->nullable();
+
                 $table->datetime('created_at');
                 $table->integer('created_by_id')->nullable();
                 $table->datetime('updated_at')->nullable();
                 $table->integer('updated_by_id')->nullable();
 
-                if ($stream->isTrashable()) {
+                if ($this->stream->isTrashable()) {
                     $table->datetime('deleted_at')->nullable();
                 }
+
+                /**
+                 * Run field schema callback.
+                 */
+                $schema = new FieldSchema($this->stream, $table);
+
+                App::call($callback, compact('schema', 'table'));
             }
         );
     }
 
     /**
-     * Rename a table.
-     *
-     * @param StreamInterface $from
-     * @param StreamInterface $to
-     */
-    public function renameTable(StreamInterface $from, StreamInterface $to)
-    {
-        if ($from->getEntryTableName() === $to->getEntryTableName()) {
-            return;
-        }
-
-        $this->schema->rename($from->getEntryTableName(), $to->getEntryTableName());
-    }
-
-    /**
      * Drop a table.
      *
-     * @param $table
+     * @param StreamInterface
      */
-    public function dropTable($table)
+    public function drop()
     {
-        $this->schema->dropIfExists($table);
+        $this->schema->dropIfExists($this->stream->model->getTable());
     }
 }

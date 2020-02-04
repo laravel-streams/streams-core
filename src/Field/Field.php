@@ -2,10 +2,11 @@
 
 namespace Anomaly\Streams\Platform\Field;
 
+use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Traits\HasMemory;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
-use Anomaly\Streams\Platform\Traits\HasMemory;
 
 /**
  * Class Field
@@ -24,7 +25,8 @@ class Field implements FieldInterface
     public $stream;
     public $warning;
     public $placeholder;
-    public $instructions;
+    public $unique = false;
+    public $required = false;
     public $searchable = true;
     public $translatable = false;
     public $config = [];
@@ -43,16 +45,25 @@ class Field implements FieldInterface
     }
 
     /**
-     * Return the field type.
+     * Return the type instance.
      * 
      * @return FieldType
      */
     public function type()
     {
-        return $this->remember($this->type, function () {
-            return FieldTypeBuilder::build([
-                'type' => $this->type,
-            ]);
+        return $this->remember($this->getSlug() . '.' . $this->getType(), function () {
+
+            $type = FieldTypeBuilder::build($this->getType());
+
+            $type->setField($this->getSlug());
+            $type->mergeRules($this->getRules());
+            $type->mergeConfig($this->getConfig());
+
+            if (isset($this->stream->model->id)) {
+                $type->setEntry($this->stream->model);
+            }
+
+            return $type;
         });
     }
 
@@ -64,6 +75,26 @@ class Field implements FieldInterface
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Get the unique flag.
+     *
+     * @return bool
+     */
+    public function isUnique()
+    {
+        return $this->unique;
+    }
+
+    /**
+     * Get the required flag.
+     *
+     * @return bool
+     */
+    public function isRequired()
+    {
+        return $this->required;
     }
 
     /**

@@ -2,8 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Field\FieldBuilder;
 use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Field\FieldBuilder;
+use Anomaly\Streams\Platform\Field\FieldFactory;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
@@ -30,6 +31,7 @@ class StreamBuilder
         $stream = StreamFactory::make($stream);
 
         $fields = FieldBuilder::build($fields);
+        $fields = FieldFactory::make($fields);
 
         $stream->fields = $fields;
 

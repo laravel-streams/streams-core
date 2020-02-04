@@ -16,12 +16,11 @@ class FieldBuilder
      * Build the fields.
      *
      * @param array $fields
-     * @return FieldCollection
+     * @return array
      */
     public static function build(array $fields)
     {
         $fields = FieldInput::read($fields);
-        $fields = FieldFactory::make($fields);
 
         return $fields;
     }
