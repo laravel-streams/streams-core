@@ -62,8 +62,7 @@ class FieldSchema
         $type = $field->type();
 
         // Skip if no column type.
-
-        if (!$type->getColumnType()) {
+        if (is_null($type->getColumnType())) {
             return $this;
         }
 
