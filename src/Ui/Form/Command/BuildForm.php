@@ -68,11 +68,6 @@ class BuildForm
         dispatch_now(new AuthorizeForm($this->builder));
 
         /*
-         * Lock form model.
-         */
-        dispatch_now(new LockFormModel($this->builder));
-
-        /*
          * Build form fields.
          */
         FieldBuilder::build($this->builder);

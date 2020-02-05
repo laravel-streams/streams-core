@@ -11,18 +11,4 @@ use Illuminate\Support\Collection;
  */
 class FormCollection extends Collection
 {
-
-    /**
-     * Return only locked forms.
-     *
-     * @return $this
-     */
-    public function locked()
-    {
-        return $this->filter(
-            function (FormBuilder $form) {
-                return $form->isLocked();
-            }
-        );
-    }
 }

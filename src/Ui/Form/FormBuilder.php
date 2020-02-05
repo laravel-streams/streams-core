@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-use Anomaly\Streams\Platform\Lock\Contract\LockInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Support\Collection;
@@ -169,20 +168,6 @@ class FormBuilder
      * @var bool
      */
     protected $readOnly = false;
-
-    /**
-     * The lock instance.
-     *
-     * @var LockInterface
-     */
-    protected $lock = null;
-
-    /**
-     * The lock flag.
-     *
-     * @var bool
-     */
-    protected $locked = false;
 
     /**
      * The parent form builder.
@@ -1672,52 +1657,6 @@ class FormBuilder
     public function isReadOnly()
     {
         return $this->readOnly;
-    }
-
-    /**
-     * Set the lock instance.
-     *
-     * @param LockInterface $lock
-     * @return $this
-     */
-    public function setLock(LockInterface $lock)
-    {
-        $this->lock = $lock;
-
-        return $this;
-    }
-
-    /**
-     * Get the lock instance.
-     *
-     * @return LockInterface
-     */
-    public function getLock()
-    {
-        return $this->lock;
-    }
-
-    /**
-     * Set the locked flag.
-     *
-     * @param $locked
-     * @return $this
-     */
-    public function setLocked($locked)
-    {
-        $this->locked = $locked;
-
-        return $this;
-    }
-
-    /**
-     * Return if the form is locked.
-     *
-     * @return bool
-     */
-    public function isLocked()
-    {
-        return $this->locked;
     }
 
     /**
