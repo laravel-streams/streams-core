@@ -24,34 +24,37 @@ class SectionBuilder
      * @param ControlPanelBuilder $builder
      * @param NavigationLinkInterface $link
      */
-    public static function build(ControlPanelBuilder $builder, NavigationLinkInterface $link)
+    public static function build(ControlPanelBuilder $builder)
     {
-        $controlPanel = $builder->getControlPanel();
+        foreach ($builder->getControlPanelNavigation() as $link) {
 
-        $factory = app(SectionFactory::class);
+            $controlPanel = $builder->getControlPanel();
 
-        SectionInput::read($builder, $link);
+            $factory = app(SectionFactory::class);
 
-        $sections = array_values($builder->getSections());
+            SectionInput::read($builder, $link);
 
-        foreach ($sections as $i => &$section) {
+            $sections = array_values($builder->getSections());
 
-            if (!authorize(array_get($section, 'permission'))) {
-                continue;
+            foreach ($sections as $i => &$section) {
+
+                if (!authorize(array_get($section, 'permission'))) {
+                    continue;
+                }
+
+                $controlPanel->addSection(
+                    $section = $factory->make($section)
+                );
+
+                /**
+                 * Merge defaul attributes.
+                 */
+                $section->mergeAttributes([
+                    'data-keymap' => $i + 1
+                ]);
             }
 
-            $controlPanel->addSection(
-                $section = $factory->make($section)
-            );
-
-            /**
-             * Merge defaul attributes.
-             */
-            $section->mergeAttributes([
-                'data-keymap' => $i + 1
-            ]);
+            $link->setSections(new SectionCollection($sections));
         }
-
-        $link->setSections(new SectionCollection($sections));
     }
 }

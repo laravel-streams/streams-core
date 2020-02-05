@@ -92,7 +92,7 @@ class ControlPanelBuilder
         dispatch_now(new SetActiveNavigationLink($this));
         dispatch_now(new SetMainNavigationLinks($this));
 
-        //SectionBuilder::build($this);
+        SectionBuilder::build($this);
 
         dispatch_now(new SetActiveSection($this));
 
