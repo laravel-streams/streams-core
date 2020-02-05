@@ -62,7 +62,7 @@ class WriteAddonLang
         $type  = ucwords(str_replace('_', ' ', $this->type));
 
         $template = $filesystem->get(
-            base_path('vendor/anomaly/streams-platform/resources/stubs/addons/resources/lang/en/addon.stub')
+            base_path('vendor/visiosoft/streams-platform/resources/stubs/addons/resources/lang/en/addon.stub')
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

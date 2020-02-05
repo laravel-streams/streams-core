@@ -43,7 +43,7 @@ class WriteAddonPermissions
         $path = "{$this->path}/resources/config/permissions.php";
 
         $template = $filesystem->get(
-            base_path('vendor/anomaly/streams-platform/resources/stubs/addons/resources/config/permissions.stub')
+            base_path('vendor/visiosoft/streams-platform/resources/stubs/addons/resources/config/permissions.stub')
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);
