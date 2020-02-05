@@ -68,7 +68,7 @@ class SearchFilterQuery
 
                     $filter->setField($field);
 
-                    $fieldType      = $stream->getFieldType($field);
+                    $fieldType      = $stream->fields->get($field)->type();
                     $fieldTypeQuery = $fieldType->getQuery();
 
                     $fieldTypeQuery->setConstraint('or');

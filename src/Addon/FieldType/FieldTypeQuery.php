@@ -50,12 +50,12 @@ class FieldTypeQuery
     public function filter(Builder $query, FilterInterface $filter)
     {
         $stream       = $filter->getStream();
-        $entry        = $stream->getEntryTableName();
+        $entry        = $stream->model->getTable();
         $column       = $this->fieldType->getColumnName();
-        $assignment   = $stream->getAssignment($filter->getField());
+        $field   = $stream->fields->get($filter->getField());
 
         $query->{$this->where()}(
-            function (Builder $query) use ($assignment, $filter, $column, $entry) {
+            function (Builder $query) use ($field, $filter, $column, $entry) {
                 if (method_exists($this->fieldType, 'getRelation')) {
                     $query->where(
                         "{$entry}.{$column}",
@@ -63,7 +63,7 @@ class FieldTypeQuery
                     );
                 } else {
 
-                    if ($assignment->isTranslatable()) {
+                    if ($field->translatable) {
                         $column = $column  . '->' . app()->getLocale();
                     }
 
