@@ -161,7 +161,7 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function isTesting()
     {
-        return str_contains($this->getPath(), 'vendor/anomaly/streams-platform/addons/' . $this->getVendor());
+        return str_contains($this->getPath(), 'vendor/visiosoft/streams-platform/addons/' . $this->getVendor());
     }
 
     /**

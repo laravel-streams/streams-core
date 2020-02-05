@@ -44,7 +44,7 @@ class WriteAddonWebpack
         $path = "{$this->path}/webpack.mix.js";
 
         $template = $filesystem->get(
-            base_path('vendor/anomaly/streams-platform/resources/stubs/addons/webpack.addon.stub')
+            base_path('vendor/visiosoft/streams-platform/resources/stubs/addons/webpack.addon.stub')
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

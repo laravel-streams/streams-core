@@ -52,7 +52,7 @@ class Loader extends FileLoader
      */
     public function __construct(Filesystem $files, $path)
     {
-        $this->streams = base_path('vendor/anomaly/streams-platform/resources/lang');
+        $this->streams = base_path('vendor/visiosoft/streams-platform/resources/lang');
 
         $this->application = app(Application::class);
         $this->addons      = app(AddonCollection::class);
