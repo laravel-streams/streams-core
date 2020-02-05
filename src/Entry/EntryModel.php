@@ -159,6 +159,36 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Get a raw unmodified attribute.
+     *
+     * @param             $key
+     * @param  bool $process
+     * @return mixed|null
+     */
+    public function getRawAttribute($key, $process = true)
+    {
+        if (!$process) {
+            return $this->getAttributeFromArray($key);
+        }
+
+        return parent::getAttribute($key);
+    }
+
+    /**
+     * Set a raw unmodified attribute.
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function setRawAttribute($key, $value)
+    {
+        parent::setAttribute($key, $value);
+
+        return $this;
+    }
+
+    /**
      * Set a given attribute on the model.
      * Override the behavior here to give
      * the field types a chance to modify things.

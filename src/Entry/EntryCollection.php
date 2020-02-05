@@ -37,30 +37,4 @@ class EntryCollection extends EloquentCollection
 
         return self::make($items);
     }
-
-    /**
-     * Return labels for each entry.
-     *
-     * @param  null   $text
-     * @param  string $context
-     * @param  string $size
-     * @return array
-     */
-    public function labels($text = null, $context = null, $size = null)
-    {
-        $decorator = new Decorator();
-
-        return array_map(
-            function ($entry) use ($decorator, $text, $context, $size) {
-
-                /* @var EntryPresenter $entry */
-                if (!$entry instanceof EntryPresenter) {
-                    $entry = $decorator->decorate($entry);
-                }
-
-                return $entry->label($text, $context, $size);
-            },
-            $this->all()
-        );
-    }
 }

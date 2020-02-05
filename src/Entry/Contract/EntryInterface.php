@@ -105,13 +105,6 @@ interface EntryInterface extends EloquentInterface
     public function lastModified();
 
     /**
-     * Return if the entry is trashed or not.
-     *
-     * @return bool
-     */
-    //public function trashed();
-
-    /**
      * Return the object's ETag fingerprint.
      *
      * @return string
@@ -167,13 +160,6 @@ interface EntryInterface extends EloquentInterface
      * @return array
      */
     public function toArrayWithRelations();
-
-    /**
-     * Return the searchable array.
-     *
-     * @return array
-     */
-    public function toSearchableArray();
 
     /**
      * Return the routable array.
