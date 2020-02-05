@@ -22,9 +22,11 @@ class Field implements FieldInterface
     public $name;
     public $slug;
     public $type;
+    public $label;
     public $stream;
     public $warning;
     public $placeholder;
+    public $instructions;
     public $unique = false;
     public $required = false;
     public $searchable = true;

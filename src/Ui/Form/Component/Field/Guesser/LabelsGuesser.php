@@ -57,22 +57,21 @@ class LabelsGuesser
                 continue;
             }
 
-            $assignment = $stream->getAssignment($field['field']);
-            $object     = $stream->getField($field['field']);
+            $object = $stream->fields->get($field['field']);
 
             /*
-             * No assignment means we still do
+             * No object means we still do
              * not have anything to do here.
              */
-            if (!$assignment instanceof AssignmentInterface) {
+            if (!$object) {
                 continue;
             }
-
+            
             /*
              * Next try using the fallback assignment
              * label system as generated verbatim.
              */
-            $label = $assignment->getLabel() . '.default';
+            $label = $object->label . '.default';
 
             if (
                 !isset($field['label']) && str_is('*::*', $label) && trans()->has(
@@ -87,7 +86,7 @@ class LabelsGuesser
              * Next try using the default assignment
              * label system as generated verbatim.
              */
-            $label = $assignment->getLabel();
+            $label = $object->label;
 
             if (
                 !isset($field['label'])
@@ -109,7 +108,7 @@ class LabelsGuesser
              * Next try using the generic assignment
              * label system without the stream identifier.
              */
-            $label = explode('.', $assignment->getLabel());
+            $label = explode('.', $object->label);
 
             array_pop($label);
 

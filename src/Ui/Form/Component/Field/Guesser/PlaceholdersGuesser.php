@@ -56,14 +56,13 @@ class PlaceholdersGuesser
                 continue;
             }
 
-            $assignment = $stream->getAssignment($field['field']);
-            $object     = $stream->getField($field['field']);
+            $object = $stream->getField($field['field']);
 
             /*
-             * No assignment means we still do
+             * No field means we still do
              * not have anything to do here.
              */
-            if (!$assignment instanceof AssignmentInterface) {
+            if (!$object) {
                 continue;
             }
 
@@ -71,7 +70,7 @@ class PlaceholdersGuesser
              * Next try using the fallback assignment
              * placeholder system as generated verbatim.
              */
-            $placeholder = $assignment->getPlaceholder() . '.default';
+            $placeholder = $object->placeholder . '.default';
 
             if (
                 !isset($field['placeholder']) && str_is('*::*', $placeholder) && trans()->has(
@@ -86,7 +85,7 @@ class PlaceholdersGuesser
              * Next try using the default assignment
              * placeholder system as generated verbatim.
              */
-            $placeholder = $assignment->getPlaceholder();
+            $placeholder = $object->placeholder;
 
             if (
                 !isset($field['placeholder'])

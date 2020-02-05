@@ -159,7 +159,7 @@ class FieldInput
         /*
          * Fill with everything by default.
          */
-        $fill = $stream->getAssignments()->fieldSlugs()->all();
+        $fill = $stream->fields->slugs()->all();
 
         /*
          * Loop over field configurations and unset
@@ -219,7 +219,7 @@ class FieldInput
         $enabledLocales = config('streams::locales.enabled');
 
         /*
-         * For each field if the assignment is translatable
+         * For each field if the stream is translatable
          * then duplicate it and set a couple simple
          * parameters to assist in rendering.
          */
@@ -334,13 +334,11 @@ class FieldInput
             }
 
             /*
-             * If the field is an assignment then
+             * If the field is a stream field then
              * use it's config for the default value.
              */
             if (
-                !isset($field['value']) && $entry instanceof EntryInterface && $type = $entry->getFieldType(
-                    $field['field']
-                )
+                !isset($field['value']) && $entry instanceof EntryInterface && $type = $entry->stream()->fields->get($field['field'])->type()
             ) {
                 $field['value'] = array_get($type->getConfig(), 'default_value');
             }

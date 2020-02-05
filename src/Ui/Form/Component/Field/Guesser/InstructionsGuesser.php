@@ -56,14 +56,13 @@ class InstructionsGuesser
                 continue;
             }
 
-            $assignment = $stream->getAssignment($field['field']);
-            $object     = $stream->getField($field['field']);
+            $object = $stream->fields->get($field['field']);
 
             /*
-             * No assignment means we still do
+             * No foield means we still do
              * not have anything to do here.
              */
-            if (!$assignment instanceof AssignmentInterface) {
+            if (!$object) {
                 continue;
             }
 
@@ -71,7 +70,7 @@ class InstructionsGuesser
              * Next try using the fallback assignment
              * instructions system as generated verbatim.
              */
-            $instructions = $assignment->getInstructions() . '.default';
+            $instructions = $object->instructions . '.default';
 
             if (
                 !isset($field['instructions']) && str_is('*::*', $instructions) && trans()->has(
@@ -86,7 +85,7 @@ class InstructionsGuesser
              * Next try using the default assignment
              * instructions system as generated verbatim.
              */
-            $instructions = $assignment->getInstructions();
+            $instructions = $object->instructions;
 
             if (
                 !isset($field['instructions'])

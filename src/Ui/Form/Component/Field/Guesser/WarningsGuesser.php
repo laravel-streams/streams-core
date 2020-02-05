@@ -55,14 +55,13 @@ class WarningsGuesser
                 continue;
             }
 
-            $assignment = $stream->getAssignment($field['field']);
-            $object     = $stream->getField($field['field']);
+            $object = $stream->getField($field['field']);
 
             /*
-             * No assignment means we still do
+             * No object means we still do
              * not have anything to do here.
              */
-            if (!$assignment) {
+            if (!$object) {
                 continue;
             }
 
@@ -70,7 +69,7 @@ class WarningsGuesser
              * Next try using the fallback assignment
              * warning system as generated verbatim.
              */
-            $warning = $assignment->getWarning() . '.default';
+            $warning = $object->getWarning() . '.default';
 
             if (!isset($field['warning']) && str_is('*::*', $warning) && trans()->has($warning, $locale)) {
                 $field['warning'] = trans($warning, [], null, $locale);
@@ -80,7 +79,7 @@ class WarningsGuesser
              * Next try using the default assignment
              * warning system as generated verbatim.
              */
-            $warning = $assignment->getWarning();
+            $warning = $object->getWarning();
 
             if (
                 !isset($field['warning'])

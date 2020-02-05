@@ -32,9 +32,9 @@ class RequiredGuesser
             if (
                 !isset($field['required'])
                 && $entry instanceof EntryInterface
-                && $assignment = $entry->getAssignment($field['field'])
+                && $object = $entry->stream()->fields->get($field['field'])
             ) {
-                $field['required'] = array_get($field, 'required', $assignment->isRequired());
+                $field['required'] = array_get($field, 'required', $object->required);
             }
 
             // Guess based on the form mode if applicable.
