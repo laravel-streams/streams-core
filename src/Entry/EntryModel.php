@@ -5,17 +5,13 @@ namespace Anomaly\Streams\Platform\Entry;
 use Carbon\Carbon;
 use Laravel\Scout\Searchable;
 use Laravel\Scout\ModelObserver;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\StreamBuilder;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
 use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
 
 /**
@@ -103,16 +99,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         if ($events && !$observing) {
             self::observe(EntryObserver::class);
         }
-    }
-
-    /**
-     * Get the entries title.
-     *
-     * @return mixed
-     */
-    public function getTitle()
-    {
-        return $this->{$this->getTitleName()};
     }
 
     /**
@@ -214,36 +200,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Get a raw unmodified attribute.
-     *
-     * @param $key
-     * @param bool $process
-     * @return mixed|null
-     */
-    public function getRawAttribute($key, $process = true)
-    {
-        if (!$process) {
-            return $this->getAttributeFromArray($key);
-        }
-
-        return parent::getAttribute($key);
-    }
-
-    /**
-     * Set a raw unmodified attribute.
-     *
-     * @param $key
-     * @param $value
-     * @return $this
-     */
-    public function setRawAttribute($key, $value)
-    {
-        parent::setAttribute($key, $value);
-
-        return $this;
-    }
-
-    /**
      * Return the stream.
      *
      * @return StreamInterface
@@ -312,16 +268,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Return the related stream.
-     *
-     * @return StreamInterface|array
-     */
-    public function getStreamAttribute()
-    {
-        return $this->stream();
-    }
-
-    /**
      * @param  array $items
      * @return EntryCollection
      */
@@ -344,7 +290,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      *
      * @return EntryPresenter
      */
-    public function getPresenter()
+    public function newPresenter()
     {
         $presenter = substr(get_class($this), 0, -5) . 'Presenter';
 
@@ -353,16 +299,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         }
 
         return new EntryPresenter($this);
-    }
-
-    /**
-     * Return a new presenter instance.
-     *
-     * @return EntryPresenter
-     */
-    public function newPresenter()
-    {
-        return $this->getPresenter();
     }
 
     /**
@@ -453,118 +389,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Return whether the model is searchable or not.
-     *
-     * @return boolean
-     */
-    public function isSearchable()
-    {
-        return $this->searchable;
-    }
-
-    /**
-     * Return a searchable array.
-     *
-     * @return array
-     */
-    public function toSearchableArray()
-    {
-        $array = [
-            'id' => $this->getId(),
-        ];
-
-        $searchable = array_merge(
-            $this->searchableAttributes,
-            $this
-                ->stream()
-                ->assignments
-                ->searchable()
-                ->fieldSlugs()
-                ->all()
-        );
-
-        if (!$searchable) {
-            $searchable = $this
-                ->stream()
-                ->assignments
-                ->fieldSlugs()
-                ->all();
-        }
-
-        foreach ($searchable as $field) {
-            if (!in_array($field, $searchable)) {
-                continue;
-            }
-
-            $array[$field] = (string) $this
-                ->getFieldType($field)
-                ->getSearchableValue();
-        }
-
-        return $array;
-    }
-
-    /**
-     * Return the object as an
-     * array for comparison.
-     *
-     * @return array
-     */
-    public function toArrayForComparison()
-    {
-        // @todo party
-        return [];
-
-        $array = array_diff_key(
-            $this->toArrayWithRelations(),
-            array_flip($this->getNonVersionedAttributes())
-        );
-
-        /* @var AssignmentInterface $assignment */
-        foreach ($this->stream()->assignments->relations() as $assignment) {
-
-            $related = $this->{$assignment->field->slug};
-
-            $type = $assignment->getFieldType();
-
-            if (!method_exists($type, 'toArrayForComparison') && !$type->hasHook('to_array_for_comparison')) {
-                continue;
-            }
-
-            if ($related instanceof Collection) {
-
-                /* @var EloquentModel $entry */
-                $array[$assignment->field->slug] = app()->call(
-                    [$type, 'toArrayForComparison'],
-                    ['related' => $related]
-                );
-            }
-
-            if ($related instanceof EntryModel) {
-                $array[$assignment->field->slug] = app()->call(
-                    [$type, 'toArrayForComparison'],
-                    ['related' => $related]
-                );
-            }
-        }
-
-        array_walk(
-            $array,
-            function ($value, $key) use (&$array) {
-
-                /**
-                 * Make sure any nested arrays are serialized.
-                 */
-                if (is_array($value)) {
-                    $array[$key] = json_encode($value);
-                }
-            }
-        );
-
-        return $array;
-    }
-
-    /**
      * Override the __get method.
      *
      * @param  string $key
@@ -573,7 +397,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function __get($key)
     {
         if ($key === 'decorate') {
-            return $this->getPresenter();
+            return $this->newPresenter();
         }
 
         if ($key === 'stream') {
@@ -581,24 +405,5 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         }
 
         return parent::__get($key); // TODO: Change the autogenerated stub
-    }
-
-    /**
-     * Clean up the object before serializing.
-     *
-     * @return array
-     */
-    public function __sleep()
-    {
-        $variables = parent::__sleep();
-
-        $variables = array_diff(
-            $variables,
-            [
-                'stream',
-            ]
-        );
-
-        return $variables;
     }
 }

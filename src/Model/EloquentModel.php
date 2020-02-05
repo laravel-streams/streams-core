@@ -143,8 +143,8 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
      *
      * @return EloquentPresenter
      */
-    public function getPresenter()
-    {
+    public function newPresenter()
+    {dd('Test');
         $presenter = substr(get_class($this), 0, -5) . 'Presenter';
 
         if (class_exists($presenter)) {

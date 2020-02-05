@@ -1149,11 +1149,11 @@ class FieldType extends Addon
     }
 
     /**
-     * Get the presenter.
+     * Return a new presenter instance.
      *
      * @return FieldTypePresenter
      */
-    public function getPresenter()
+    public function newPresenter()
     {
         if (!$this->presenter) {
             $this->presenter = get_class($this) . 'Presenter';

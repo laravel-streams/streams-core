@@ -25,7 +25,7 @@ class Decorator
     public static function decorate($value)
     {
         if ($value instanceof PresentableInterface) {
-            return $value->getPresenter();
+            return $value->newPresenter();
         }
 
         if (is_array($value) or ($value instanceof IteratorAggregate and $value instanceof ArrayAccess)) {

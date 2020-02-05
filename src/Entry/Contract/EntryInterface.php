@@ -161,56 +161,6 @@ interface EntryInterface extends EloquentInterface
     public function getQueryBuilderName();
 
     /**
-     * Set an attribute value.
-     *
-     * @param  string $key
-     * @param  mixed $value
-     * @param  string|null $locale
-     * @return EntryModel|EloquentModel
-     */
-    public function setAttribute($key, $value, $locale = null);
-
-    /**
-     * Get an attribute value.
-     *
-     * @param  $key
-     * @return mixed
-     */
-    public function getAttribute($key);
-
-    /**
-     * Get a raw unmodified attribute.
-     *
-     * @param             $key
-     * @param  bool $process
-     * @return mixed|null
-     */
-    public function getRawAttribute($key, $process = true);
-
-    /**
-     * Set a raw unmodified attribute.
-     *
-     * @param $key
-     * @param $value
-     * @return $this
-     */
-    public function setRawAttribute($key, $value);
-
-    /**
-     * Get the entry attributes.
-     *
-     * @return array
-     */
-    public function getAttributes();
-
-    /**
-     * Return the entry as an array.
-     *
-     * @return array
-     */
-    public function toArray();
-
-    /**
      * Return the entry with
      * relations as an array.
      *

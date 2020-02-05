@@ -11,5 +11,5 @@ interface PresentableInterface
      *
      * @return Presenter
      */
-    public function getPresenter();
+    public function newPresenter();
 }

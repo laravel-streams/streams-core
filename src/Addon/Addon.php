@@ -164,7 +164,7 @@ class Addon implements PresentableInterface, Arrayable
      *
      * @return Presenter
      */
-    public function getPresenter()
+    public function newPresenter()
     {
         return app()->make(AddonPresenter::class, ['object' => $this]);
     }
