@@ -105,13 +105,6 @@ interface EntryInterface extends EloquentInterface
     public function lastModified();
 
     /**
-     * Return the object's ETag fingerprint.
-     *
-     * @return string
-     */
-    public function etag();
-
-    /**
      * Return a new presenter instance.
      *
      * @return EntryPresenter

@@ -28,13 +28,6 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
     use DispatchesJobs;
 
     /**
-     * The number of minutes to cache query results.
-     *
-     * @var null|false|int
-     */
-    protected $ttl = null;
-
-    /**
      * Disable timestamps for this model.
      *
      * @var bool
@@ -115,27 +108,6 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
     }
 
     /**
-     * Return the object's ETag fingerprint.
-     *
-     * @return string
-     */
-    public function etag()
-    {
-        return md5(get_class($this) . json_encode($this->toArray()));
-    }
-
-    /**
-     * Fire a model event.
-     *
-     * @param $event
-     * @return mixed
-     */
-    public function fireEvent($event)
-    {
-        return $this->fireModelEvent($event);
-    }
-
-    /**
      * Return the entry presenter.
      *
      * This is against standards but required
@@ -144,7 +116,7 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
      * @return EloquentPresenter
      */
     public function newPresenter()
-    {dd('Test');
+    {
         $presenter = substr(get_class($this), 0, -5) . 'Presenter';
 
         if (class_exists($presenter)) {
@@ -172,49 +144,6 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
     }
 
     /**
-     * Set the ttl.
-     *
-     * @param  $ttl
-     * @return $this
-     */
-    public function setTtl($ttl)
-    {
-        $this->ttl = $ttl;
-
-        return $this;
-    }
-
-    /**
-     * Get the ttl.
-     *
-     * @return int|mixed
-     */
-    public function getTtl()
-    {
-        return $this->ttl;
-    }
-
-    /**
-     * Get the ttl.
-     *
-     * @return int|mixed
-     */
-    public function ttl()
-    {
-        $ttl = $this->getTtl();
-
-        if ($ttl === null) {
-            $ttl = config('streams::database.ttl', 3600);
-        }
-
-        if ($ttl === false) {
-            return 0;
-        }
-
-        return $ttl / 60;
-    }
-
-    /**
      * Get the model title.
      *
      * @return mixed
@@ -235,26 +164,6 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
     }
 
     /**
-     * Return if a row is deletable or not.
-     *
-     * @return bool
-     */
-    public function isDeletable()
-    {
-        return true;
-    }
-
-    /**
-     * Return if the model is restorable or not.
-     *
-     * @return bool
-     */
-    public function isRestorable()
-    {
-        return true;
-    }
-
-    /**
      * Return whether the model is being
      * force deleted or not.
      *
@@ -263,6 +172,16 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
     public function isForceDeleting()
     {
         return isset($this->forceDeleting) && $this->forceDeleting === true;
+    }
+
+    /**
+     * Fire a model event.
+     *
+     * @param string $event
+     */
+    public function fireEvent($event)
+    {
+        $this->fireModelEvent($event);
     }
 
     /**
@@ -280,16 +199,6 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
         }
 
         return new EloquentQueryBuilder($query);
-    }
-
-    /**
-     * Return searchable attributes.
-     *
-     * @return array
-     */
-    public function getSearchableAttributes()
-    {
-        return $this->searchableAttributes;
     }
 
     /**
@@ -533,19 +442,6 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
     }
 
     /**
-     * Determine if the given attribute exists.
-     * Make sure to skip where there could be an
-     * issue with relational "looking" properties.
-     *
-     * @param  mixed $offset
-     * @return bool
-     */
-    public function offsetExists($offset)
-    {
-        return !method_exists($this, $offset) && !is_null($this->$offset);
-    }
-
-    /**
      * Get the criteria class.
      *
      * @return string
@@ -557,7 +453,7 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
         return class_exists($criteria) ? $criteria : EloquentCriteria::class;
     }
 
-    /**
+    /**Fast?
      * Get the cascading actions.
      *
      * @return array
@@ -609,17 +505,6 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
     }
 
     /**
-     * Check if an attribute exists.
-     *
-     * @param  string $key
-     * @return bool
-     */
-    public function __isset($key)
-    {
-        return (in_array($key, $this->translatedAttributes) || parent::__isset($key));
-    }
-
-    /**
      * Return the string form of the model.
      *
      * @return string
@@ -627,18 +512,5 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
     public function __toString()
     {
         return json_encode($this->toArray());
-    }
-
-    /**
-     * Remove volatile cache from
-     * objects before serialization.
-     *
-     * @todo Should 'stream' be removed too?
-     *
-     * @return array
-     */
-    public function __sleep()
-    {
-        return array_diff(array_keys(get_object_vars($this)), ['cache']);
     }
 }

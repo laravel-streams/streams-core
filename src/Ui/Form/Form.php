@@ -730,7 +730,7 @@ class Form implements PresentableInterface
      *
      * @return FormPresenter
      */
-    public function getPresenter()
+    public function newPresenter()
     {
         $presenter = get_class($this) . 'Presenter';
 
