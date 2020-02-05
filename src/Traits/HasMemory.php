@@ -21,7 +21,8 @@ trait HasMemory
     /**
      * Remember something.
      *
-     * @param array $icon
+     * @param string $key
+     * @param CLosure $callable
      * @return null|string
      */
     public function remember($key, $callable)
@@ -33,5 +34,21 @@ trait HasMemory
         }
 
         return self::$memory[$prefix . $key] = app()->call($callable, ['self' => $this]);
+    }
+
+    /**
+     * Remember something across all instances.
+     *
+     * @param string $key
+     * @param CLosure $callable
+     * @return null|string
+     */
+    public function once($key, $callable)
+    {
+        if (array_key_exists($key, self::$memory)) {
+            return self::$memory[$key];
+        }
+
+        return self::$memory[$key] = app()->call($callable, ['self' => $this]);
     }
 }

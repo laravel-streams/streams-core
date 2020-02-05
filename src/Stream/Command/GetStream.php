@@ -86,6 +86,6 @@ class GetStream
             "Anomaly\\Streams\\Platform\\Model\\{$this->namespace}\\{$this->namespace}{$this->slug}EntryModel"
         );
 
-        return $model->getStream();
+        return $model->stream();
     }
 }

@@ -63,7 +63,7 @@ class EntryFactory
             $model->getCriteriaName(),
             [
                 'query'  => $model->newQuery(),
-                'stream' => $model->getStream(),
+                'stream' => $model->stream(),
                 'method' => $method,
             ]
         );

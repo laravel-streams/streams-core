@@ -44,7 +44,7 @@ class SetFormStream
         }
 
         if ($model instanceof EntryInterface) {
-            $form->setStream($model->getStream());
+            $form->setStream($model->stream());
         }
     }
 }

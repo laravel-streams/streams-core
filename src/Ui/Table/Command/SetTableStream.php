@@ -47,7 +47,7 @@ class SetTableStream
         }
 
         if ($model instanceof EntryInterface) {
-            $table->setStream($model->getStream());
+            $table->setStream($model->stream());
         }
     }
 }

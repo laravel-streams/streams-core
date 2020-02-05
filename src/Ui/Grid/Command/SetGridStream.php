@@ -47,7 +47,7 @@ class SetGridStream
         }
 
         if ($model instanceof EntryInterface) {
-            $grid->setStream($model->getStream());
+            $grid->setStream($model->stream());
         }
     }
 }

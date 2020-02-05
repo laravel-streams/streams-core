@@ -62,41 +62,6 @@ interface EntryInterface extends EloquentInterface
     public function stream();
 
     /**
-     * Get the stream ID.
-     *
-     * @return int
-     */
-    public function getStreamId();
-
-    /**
-     * Get the stream namespace.
-     *
-     * @return string
-     */
-    public function getStreamNamespace();
-
-    /**
-     * Get the entry's stream slug.
-     *
-     * @return string
-     */
-    public function getStreamSlug();
-
-    /**
-     * Get the entry's stream name.
-     *
-     * @return string
-     */
-    public function getStreamName();
-
-    /**
-     * Get the table name.
-     *
-     * @return string
-     */
-    public function getTableName();
-
-    /**
      * Get a field by it's slug.
      *
      * @param  $slug
@@ -133,31 +98,6 @@ interface EntryInterface extends EloquentInterface
     public function setFieldValue($fieldSlug, $value, $locale = null);
 
     /**
-     * Fill the model attributes.
-     *
-     * @param  array $attributes
-     * @return $this
-     */
-    public function fill(array $attributes);
-
-    /**
-     * Determine if the model or given
-     * attribute(s) have been modified.
-     *
-     * @param  array|string|null $attributes
-     * @return bool
-     */
-    public function isDirty($attributes = null);
-
-    /**
-     * Get the attributes that have
-     * been changed since last sync.
-     *
-     * @return array
-     */
-    public function getDirty();
-
-    /**
      * Get the field type query.
      *
      * @param $fieldSlug
@@ -188,34 +128,6 @@ interface EntryInterface extends EloquentInterface
      * @return $this
      */
     public function load($relations);
-
-    /**
-     * Get the translatable flag.
-     *
-     * @return bool
-     */
-    public function isTranslatable();
-
-    /**
-     * Return whether an entry is deletable or not.
-     *
-     * @return bool
-     */
-    public function isDeletable();
-
-    /**
-     * Return if the model is restorable or not.
-     *
-     * @return bool
-     */
-    public function isRestorable();
-
-    /**
-     * Return whether the entry is trashable or not.
-     *
-     * @return bool
-     */
-    public function isTrashable();
 
     /**
      * Return whether the model is being

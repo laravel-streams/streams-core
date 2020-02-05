@@ -47,7 +47,7 @@ class SetTreeStream
         }
 
         if ($model instanceof EntryInterface) {
-            $tree->setStream($model->getStream());
+            $tree->setStream($model->stream());
         }
     }
 }

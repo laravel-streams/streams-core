@@ -11,13 +11,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\StreamBuilder;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
 
 /**
@@ -53,13 +51,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      * @var boolean
      */
     protected $searchable = false;
-
-    /**
-     * The field slugs.
-     *
-     * @var array
-     */
-    protected $fields = [];
 
     /**
      * The entry relationships by field slug.
@@ -296,13 +287,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         return $this->remember($key, function () use ($key) {
 
-            $id = parent::getAttribute('id');
-
-            // Runtime cache
-            // if ($id && isset(self::$cache[$this->getTable() . '.' . $id][$key])) {
-            //     return self::$cache[$this->getTable() . '.' . $this->attributes['id']][$key];
-            // }
-
             // Check if it's a relationship first.
             if (in_array($key, ['created_by', 'updated_by']) || $key == 'roles') {
                 return parent::getAttribute(camel_case($key));
@@ -319,8 +303,8 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     /**
      * Get a raw unmodified attribute.
      *
-     * @param             $key
-     * @param  bool $process
+     * @param $key
+     * @param bool $process
      * @return mixed|null
      */
     public function getRawAttribute($key, $process = true)
@@ -351,16 +335,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      *
      * @return StreamInterface
      */
-    public function getStream()
-    {
-        return $this->stream();
-    }
-
-    /**
-     * Return the stream.
-     *
-     * @return StreamInterface
-     */
     public function stream()
     {
         return $this->remember($this->getTable(), function () {
@@ -369,66 +343,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
             return StreamBuilder::build($this->stream);
         });
-    }
-
-    /**
-     * Get the stream ID.
-     *
-     * @return int
-     */
-    public function getStreamId()
-    {
-        return $this->stream()->getId();
-    }
-
-    /**
-     * Get the stream namespace.
-     *
-     * @return string
-     */
-    public function getStreamNamespace()
-    {
-        return $this->stream()->getNamespace();
-    }
-
-    /**
-     * Get the stream slug.
-     *
-     * @return string
-     */
-    public function getStreamSlug()
-    {
-        return $this->stream()->getSlug();
-    }
-
-    /**
-     * Get the entry's stream name.
-     *
-     * @return string
-     */
-    public function getStreamName()
-    {
-        return $this->stream()->getName();
-    }
-
-    /**
-     * Get the translatable flag.
-     *
-     * @return bool
-     */
-    public function isTranslatable()
-    {
-        return $this->stream()->isTranslatable();
-    }
-
-    /**
-     * Return whether the entry is trashable or not.
-     *
-     * @return bool
-     */
-    public function isTrashable()
-    {
-        return $this->stream()->isTrashable();
     }
 
     /**
