@@ -96,44 +96,13 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
             self::observe(app($observer));
         }
 
-        if (!$instance->isSearchable()) {
+        if (!$instance->stream()->searchable) {
             ModelObserver::disableSyncingFor(get_class(new static));
         }
 
         if ($events && !$observing) {
             self::observe(EntryObserver::class);
         }
-    }
-
-    /**
-     * Sort the query.
-     *
-     * @param Builder $builder
-     * @param string $direction
-     */
-    public function scopeSorted(Builder $builder, $direction = 'asc')
-    {
-        $builder->orderBy('sort_order', $direction);
-    }
-
-    /**
-     * Get the ID.
-     *
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->getKey();
-    }
-
-    /**
-     * Get the sort order.
-     *
-     * @return int
-     */
-    public function getSortOrder()
-    {
-        return $this->sort_order;
     }
 
     /**
@@ -204,59 +173,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Get an entry field.
-     *
-     * @param  $slug
-     * @return FieldInterface|null
-     */
-    public function getField($slug)
-    {
-        return $this->stream()->fields->get($slug);
-    }
-
-    /**
-     * Return whether an entry has
-     * a field with a given slug.
-     *
-     * @param  $slug
-     * @return bool
-     */
-    public function hasField($slug)
-    {
-        return $this->stream()->fields->has($slug);
-    }
-
-    /**
-     * Get the field type query.
-     *
-     * @param $fieldSlug
-     * @return FieldTypeQuery
-     */
-    public function getFieldTypeQuery($fieldSlug)
-    {
-        if (!$type = $this->getFieldType($fieldSlug)) {
-            return null;
-        }
-
-        return $type->getQuery();
-    }
-
-    /**
-     * Get the field type presenter.
-     *
-     * @param $fieldSlug
-     * @return FieldTypePresenter
-     */
-    public function getFieldTypePresenter($fieldSlug)
-    {
-        if (!$type = $this->getFieldType($fieldSlug)) {
-            return null;
-        }
-
-        return $type->getPresenter();
-    }
-
-    /**
      * Set a given attribute on the model.
      * Override the behavior here to give
      * the field types a chance to modify things.
@@ -285,19 +201,16 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getAttribute($key)
     {
-        return $this->remember($key, function () use ($key) {
+        // Check if it's a relationship first.
+        if (in_array($key, ['created_by', 'updated_by']) || $key == 'roles') {
+            return parent::getAttribute(camel_case($key));
+        }
 
-            // Check if it's a relationship first.
-            if (in_array($key, ['created_by', 'updated_by']) || $key == 'roles') {
-                return parent::getAttribute(camel_case($key));
-            }
+        if (!$this->hasGetMutator($key) && $this->stream()->fields->has($key)) {
+            return $this->getFieldValue($key);
+        }
 
-            if (!$this->hasGetMutator($key) && $this->stream()->fields->has($key)) {
-                return $this->getFieldValue($key);
-            }
-
-            return parent::getAttribute($key);
-        });
+        return parent::getAttribute($key);
     }
 
     /**

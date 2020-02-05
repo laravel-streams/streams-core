@@ -63,7 +63,7 @@ class Value
          * If the entry is an instance of EntryInterface
          * then try getting the field value from the entry.
          */
-        if ($entry instanceof EntryInterface && $entry->hasField($value)) {
+        if ($entry instanceof EntryInterface && $entry->stream->fields->has($value)) {
 
             /* @var EntryInterface $relation */
             // if ($entry->assignmentIsRelationship($value) && $relation = $entry->{camel_case($value)}) {

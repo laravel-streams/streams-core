@@ -26,7 +26,7 @@ class EntryCollection extends EloquentCollection
 
         /* @var EntryInterface $item */
         foreach ($this->items as $item) {
-            $items[$item->getSortOrder()] = $item;
+            $items[$item->sort_order] = $item;
         }
 
         ksort($items);

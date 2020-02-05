@@ -34,13 +34,6 @@ interface EntryInterface extends EloquentInterface
     public function getId();
 
     /**
-     * Get the sort order.
-     *
-     * @return int
-     */
-    public function getSortOrder();
-
-    /**
      * Get the title.
      *
      * @return mixed
@@ -62,23 +55,6 @@ interface EntryInterface extends EloquentInterface
     public function stream();
 
     /**
-     * Get a field by it's slug.
-     *
-     * @param  $slug
-     * @return FieldInterface
-     */
-    public function getField($slug);
-
-    /**
-     * Return whether an entry has
-     * a field with a given slug.
-     *
-     * @param  $slug
-     * @return bool
-     */
-    public function hasField($slug);
-
-    /**
      * Get a field value.
      *
      * @param        $fieldSlug
@@ -96,22 +72,6 @@ interface EntryInterface extends EloquentInterface
      * @return $this
      */
     public function setFieldValue($fieldSlug, $value, $locale = null);
-
-    /**
-     * Get the field type query.
-     *
-     * @param $fieldSlug
-     * @return FieldTypeQuery
-     */
-    public function getFieldTypeQuery($fieldSlug);
-
-    /**
-     * Get the field type presenter.
-     *
-     * @param $fieldSlug
-     * @return FieldTypePresenter
-     */
-    public function getFieldTypePresenter($fieldSlug);
 
     /**
      * Get a specified relationship.
