@@ -54,17 +54,17 @@ class FormRules
                 continue;
             }
 
-            if ($assignment = $stream->getAssignment($field->getField())) {
+            if ($instance = $stream->getField($field->getField())) {
 
-                $type = $assignment->getFieldType();
+                $type = $instance->type();
 
                 if ($type->isRequired()) {
                     $fieldRules[] = 'required';
                 }
 
-                if (!isset($fieldRules['unique']) && $assignment->isUnique() && !$assignment->isTranslatable()) {
+                if (!isset($fieldRules['unique']) && $instance->unique && !$instance->translatable) {
 
-                    $unique = 'unique:' . $stream->getEntryTableName() . ',' . $field->getUniqueColumnName();
+                    $unique = 'unique:' . $stream->model->getTable() . ',' . $field->getUniqueColumnName();
 
                     if ($entry && $id = $entry->getKey()) {
                         $unique .= ',' . $id;
@@ -73,7 +73,7 @@ class FormRules
                     $fieldRules[] = $unique;
                 }
 
-                if ($assignment->isTranslatable() && $field->getLocale() !== $locale) {
+                if ($instance->translatable && $field->getLocale() !== $locale) {
                     $fieldRules = array_diff($fieldRules, ['required']);
                 }
             }

@@ -357,7 +357,7 @@ class FormBuilder
      */
     public function getFormPresenter()
     {
-        return $this->form->getPresenter();
+        return $this->form->newPresenter();
     }
 
     /**

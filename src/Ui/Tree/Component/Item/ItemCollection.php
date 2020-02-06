@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item;
 
+use Illuminate\Database\Eloquent\Model;
 use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
 
@@ -37,10 +38,10 @@ class ItemCollection extends Collection
     /**
      * Return only children of the provided item.
      *
-     * @param  ItemInterface  $parent
+     * @param  ItemInterface|Model  $parent
      * @return ItemCollection
      */
-    public function children(ItemInterface $parent)
+    public function children($parent)
     {
         $children = [];
 
