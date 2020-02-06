@@ -48,6 +48,16 @@ trait Streams
     }
 
     /**
+     * Get the model title.
+     *
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->{$this->stream->getTitleColumn()};
+    }
+
+    /**
      * Pass attributes through streams.
      *
      * @param string $key

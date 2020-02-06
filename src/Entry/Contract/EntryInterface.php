@@ -31,7 +31,7 @@ interface EntryInterface extends EloquentInterface
      *
      * @return mixed
      */
-    public function getTitle();
+    //public function getTitle();
 
     /**
      * Return the stream.

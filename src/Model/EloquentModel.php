@@ -129,16 +129,6 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
     }
 
     /**
-     * Get the model title.
-     *
-     * @return mixed
-     */
-    public function getTitle()
-    {
-        return $this->{$this->stream->getTitleColumn()};
-    }
-
-    /**
      * Return whether the model is being
      * force deleted or not.
      *
