@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Model;
+<?php
+
+namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
@@ -77,7 +79,7 @@ class EloquentTableRepository implements TableRepositoryInterface
          * We unset the orders on the query
          * because of pgsql grouping issues.
          */
-        $count                     = clone($query);
+        $count                     = clone ($query);
         $count->getQuery()->orders = null;
 
         $total = $count->count();
@@ -89,11 +91,11 @@ class EloquentTableRepository implements TableRepositoryInterface
          * not exist then start walking backwards until
          * we find a page that is has something to show us.
          */
-        $limit  = (int)app('request')->get(
+        $limit  = (int) app('request')->get(
             $builder->getTableOption('prefix') . 'limit',
             $builder->getTableOption('limit', config('streams::system.per_page', 15))
         );
-        $page   = (int)app('request')->get($builder->getTableOption('prefix') . 'page', 1);
+        $page   = (int) app('request')->get($builder->getTableOption('prefix') . 'page', 1);
         $offset = $limit * (($page ?: 1) - 1);
 
         if ($total < $offset && $page > 1) {
@@ -113,7 +115,7 @@ class EloquentTableRepository implements TableRepositoryInterface
          */
         if ($order = $builder->getTableOption('order_by')) {
             foreach ($order as $column => $direction) {
-                if ($stream && $utility = $stream->getFieldTypeQuery($column)) {
+                if ($stream && $utility = null/*$stream->getFieldTypeQuery($column)*/) {
                     $utility->orderBy($query, $direction);
                 } else {
                     $query = $query->orderBy($column, $direction);
