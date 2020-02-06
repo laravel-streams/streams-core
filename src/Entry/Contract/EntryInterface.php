@@ -45,7 +45,7 @@ interface EntryInterface extends EloquentInterface
      *
      * @return StreamInterface
      */
-    public function stream();
+    //public function stream();
 
     /**
      * Get a field value.

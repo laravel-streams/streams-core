@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Entry;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
 use Anomaly\Streams\Platform\Model\EloquentCriteria;
@@ -70,7 +72,7 @@ class EntryCriteria extends EloquentCriteria
      */
     public function __get($name)
     {
-        if ($assignment = $this->stream->getAssignment(snake_case($name))) {
+        if ($assignment = $this->stream()->getAssignment(snake_case($name))) {
             $this->query->where($assignment->getColumnName(), null);
 
             return $this;
@@ -88,7 +90,7 @@ class EntryCriteria extends EloquentCriteria
      */
     public function __call($name, $arguments)
     {
-        if ($assignment = $this->stream->getAssignment(snake_case($name))) {
+        if ($assignment = $this->stream()->getAssignment(snake_case($name))) {
             $this->query->where($assignment->getColumnName(), $arguments ? array_shift($arguments) : null);
 
             return $this;

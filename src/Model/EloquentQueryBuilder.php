@@ -159,7 +159,7 @@ class EloquentQueryBuilder extends Builder
 
         if ($query->orders === null) {
             if ($model instanceof EntryInterface) {
-                if ($model->stream->isSortable()) {
+                if ($model->stream()->isSortable()) {
                     $query->orderBy($model->getTable() . '.sort_order', 'ASC');
                     // } elseif ($model->titleColumnIsTranslatable()) {
                     //     $this->orderBy($model->getTitleName() . '->' . app()->getLocale(), 'ASC');

@@ -5,7 +5,9 @@ namespace Anomaly\Streams\Platform\Stream;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Traits\HasMemory;
 use Anomaly\Streams\Platform\Field\FieldCollection;
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Traits\Hookable;
 
 /**
  * Class Stream
@@ -17,7 +19,9 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 class Stream implements StreamInterface
 {
 
+    use Hookable;
     use HasMemory;
+    use FiresCallbacks;
 
     /**
      * The field collection.

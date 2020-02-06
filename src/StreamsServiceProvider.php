@@ -51,6 +51,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public $singletons = [
         'asset'    => \Anomaly\Streams\Platform\Asset\Asset::class,
+        'streams'  => \Anomaly\Streams\Platform\Stream\StreamStore::class,
         'messages' => \Anomaly\Streams\Platform\Message\MessageBag::class,
 
         \Anomaly\Streams\Platform\Asset\Asset::class             => \Anomaly\Streams\Platform\Asset\Asset::class,

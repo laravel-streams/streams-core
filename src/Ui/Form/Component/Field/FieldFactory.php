@@ -56,7 +56,7 @@ class FieldFactory
     public function make(array $parameters, StreamInterface $stream = null, $entry = null)
     {
         /* @var EntryInterface $entry */
-        if ($stream && $entry instanceof EntryInterface && $entry->stream->fields->has(array_get($parameters, 'field'))) {
+        if ($stream && $entry instanceof EntryInterface && $entry->stream()->fields->has(array_get($parameters, 'field'))) {
 
             /*
              * Allow overriding the type here

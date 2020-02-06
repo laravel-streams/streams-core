@@ -25,15 +25,15 @@ trait HasMemory
      * @param CLosure $callable
      * @return null|string
      */
-    public function remember($key, $callable)
+    public static function remember($key, $callable)
     {
-        $prefix = get_class($this);
+        $prefix = self::class;
 
         if (array_key_exists($prefix . $key, self::$memory)) {
             return self::$memory[$prefix . $key];
         }
 
-        return self::$memory[$prefix . $key] = app()->call($callable, ['self' => $this]);
+        return self::$memory[$prefix . $key] = call_user_func($callable);
     }
 
     /**
@@ -43,12 +43,12 @@ trait HasMemory
      * @param CLosure $callable
      * @return null|string
      */
-    public function once($key, $callable)
+    public static function once($key, $callable)
     {
         if (array_key_exists($key, self::$memory)) {
             return self::$memory[$key];
         }
 
-        return self::$memory[$key] = app()->call($callable, ['self' => $this]);
+        return self::$memory[$key] = call_user_func($callable);
     }
 }

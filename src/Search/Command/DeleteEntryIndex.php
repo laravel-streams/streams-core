@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Search\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Search\Command;
 
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -42,7 +44,7 @@ class DeleteEntryIndex
             return;
         }
 
-        $model = $this->stream->getEntryModel();
+        $model = $this->stream()->getEntryModel();
 
         $index = $application->getStoragePath('search/' . $model->searchableAs() . '.index');
 

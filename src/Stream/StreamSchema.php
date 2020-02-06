@@ -54,7 +54,7 @@ class StreamSchema
     public function create(\Closure $callback)
     {
         $this->schema->create(
-            $this->stream->model->getTable(),
+            $this->stream()->model->getTable(),
             function (Blueprint $table) use ($callback) {
 
                 /**
@@ -68,7 +68,7 @@ class StreamSchema
                 $table->datetime('updated_at')->nullable();
                 $table->integer('updated_by_id')->nullable();
 
-                if ($this->stream->isTrashable()) {
+                if ($this->stream()->isTrashable()) {
                     $table->datetime('deleted_at')->nullable();
                 }
 
@@ -89,6 +89,6 @@ class StreamSchema
      */
     public function drop()
     {
-        $this->schema->dropIfExists($this->stream->model->getTable());
+        $this->schema->dropIfExists($this->stream()->model->getTable());
     }
 }

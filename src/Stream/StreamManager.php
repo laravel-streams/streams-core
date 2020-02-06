@@ -5,13 +5,13 @@ namespace Anomaly\Streams\Platform\Stream;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class StreamStore
+ * Class StreamManager
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class StreamStore
+class StreamManager
 {
 
     /**
@@ -33,28 +33,23 @@ class StreamStore
     }
 
     /**
-     * Get a stream from cache.
+     * Check if the stream exists.
      *
-     * @param $data
-     * @return null|StreamInterface
+     * @param $key
      */
-    public static function get($stream)
+    public static function has($key)
     {
-        if (isset(self::$cache[$key = self::key($stream)])) {
-            return self::$cache[$key];
-        }
-
-        return null;
+        return array_key_exists($key, self::$cache);
     }
 
     /**
-     * Get the cache key.
+     * Get a stream from cache.
      *
-     * @param  array  $data
-     * @return string
+     * @param $key
+     * @return StreamInterface
      */
-    public static function key($stream)
+    public static function get($key)
     {
-        return md5(json_encode($stream));
+        return self::$cache[$key];
     }
 }

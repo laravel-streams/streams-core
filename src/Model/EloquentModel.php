@@ -23,7 +23,6 @@ use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
 class EloquentModel extends Model implements EloquentInterface, Arrayable, PresentableInterface
 {
     use Hookable;
-    use HasMemory;
     use Translatable;
     use DispatchesJobs;
 
