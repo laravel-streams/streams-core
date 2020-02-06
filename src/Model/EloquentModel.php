@@ -181,28 +181,6 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
     //     return array_diff_key($attributes, array_flip($this->getGuarded()));
     // }
 
-    /**
-     * Return the routable array information.
-     *
-     * @return array
-     */
-    public function toRoutableArray()
-    {
-        return $this->toArray();
-    }
-
-    /**
-     * Get the criteria class.
-     *
-     * @return string
-     */
-    public function getCriteriaName()
-    {
-        $criteria = substr(get_class($this), 0, -5) . 'Criteria';
-
-        return class_exists($criteria) ? $criteria : EloquentCriteria::class;
-    }
-
     /**Fast?
      * Get the cascading actions.
      *

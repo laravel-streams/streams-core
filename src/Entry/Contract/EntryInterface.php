@@ -115,7 +115,7 @@ interface EntryInterface extends EloquentInterface
      *
      * @return string
      */
-    public function getRouterName();
+    //public function getRouterName();
 
     /**
      * Get the query builder name.
@@ -129,7 +129,7 @@ interface EntryInterface extends EloquentInterface
      *
      * @return array
      */
-    public function toRoutableArray();
+    //public function toRoutableArray();
 
     /**
      * Fire field type events.
