@@ -51,13 +51,13 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public $singletons = [
         'asset'    => \Anomaly\Streams\Platform\Asset\Asset::class,
-        'streams'  => \Anomaly\Streams\Platform\Stream\StreamStore::class,
+        'streams'  => \Anomaly\Streams\Platform\Stream\StreamManager::class,
         'messages' => \Anomaly\Streams\Platform\Message\MessageBag::class,
 
         \Anomaly\Streams\Platform\Asset\Asset::class             => \Anomaly\Streams\Platform\Asset\Asset::class,
         \Anomaly\Streams\Platform\Image\Image::class             => \Anomaly\Streams\Platform\Image\Image::class,
-        \Anomaly\Streams\Platform\Stream\StreamStore::class      => \Anomaly\Streams\Platform\Stream\StreamStore::class,
         \Anomaly\Streams\Platform\Message\MessageBag::class      => \Anomaly\Streams\Platform\Message\MessageBag::class,
+        \Anomaly\Streams\Platform\Stream\StreamManager::class    => \Anomaly\Streams\Platform\Stream\StreamManager::class,
         \Anomaly\Streams\Platform\Routing\UrlGenerator::class    => \Anomaly\Streams\Platform\Routing\UrlGenerator::class,
         \Anomaly\Streams\Platform\Addon\AddonCollection::class   => \Anomaly\Streams\Platform\Addon\AddonCollection::class,
         \Anomaly\Streams\Platform\Application\Application::class => \Anomaly\Streams\Platform\Application\Application::class,

@@ -30,10 +30,15 @@ trait Streams
         self::$stream['model'] = self::class;
 
         StreamManager::put(self::class, self::$stream = StreamBuilder::build(self::$stream));
+
+        // This works but we don't wnat it. It's a test. Hook works too.
+        // ($instance = new static)->bind('get_title_column', function () {
+        //     return $this->stream()->getTitleColumn();
+        // });
     }
 
     /**
-     * Return the stream.
+     * Return the magic.
      *
      * @return StreamInterface
      */
@@ -49,6 +54,10 @@ trait Streams
      */
     public function __get($key)
     {
+        if ($key === 'stream') {
+            return $this->stream();
+        }
+
         // Check if it's a relationship first.
         // @todo remove this hardcoded relationship check.
         if (in_array($key, ['created_by', 'updated_by', 'roles'])) {

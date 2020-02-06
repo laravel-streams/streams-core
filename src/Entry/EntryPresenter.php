@@ -102,7 +102,7 @@ class EntryPresenter extends EloquentPresenter
     public function label($text = null, $context = null, $size = null)
     {
         if (!$text) {
-            $text = $this->object->getTitleName();
+            $text = $this->object->stream->getTitleColumn();
         }
 
         if (!$context) {

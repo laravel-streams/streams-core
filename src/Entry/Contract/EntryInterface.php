@@ -34,13 +34,6 @@ interface EntryInterface extends EloquentInterface
     public function getTitle();
 
     /**
-     * Get the title key.
-     *
-     * @return string
-     */
-    public function getTitleName();
-
-    /**
      * Return the stream.
      *
      * @return StreamInterface

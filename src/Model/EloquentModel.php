@@ -34,13 +34,6 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
     public $timestamps = false;
 
     /**
-     * Searchable attributes.
-     *
-     * @var array
-     */
-    protected $searchableAttributes = [];
-
-    /**
      * The attributes that are
      * not mass assignable. Let upper
      * models handle this themselves.
@@ -48,13 +41,6 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
      * @var array
      */
     protected $guarded = [];
-
-    /**
-     * The title key.
-     *
-     * @var string
-     */
-    protected $titleKey = 'id';
 
     /**
      * The translation model name.
@@ -149,17 +135,7 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
      */
     public function getTitle()
     {
-        return $this->{$this->getTitleName()};
-    }
-
-    /**
-     * Get the title key.
-     *
-     * @return string
-     */
-    public function getTitleName()
-    {
-        return $this->titleName ?: 'id';
+        return $this->{$this->stream->getTitleColumn()};
     }
 
     /**
@@ -276,18 +252,6 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
         }
 
         return parent::fill($attributes);
-    }
-
-    /**
-     * Return if the attribute
-     * is searchable or not.
-     *
-     * @param $key
-     * @return bool
-     */
-    public function isSearchableAttribute($key)
-    {
-        return in_array($key, $this->searchableAttributes);
     }
 
     /**
