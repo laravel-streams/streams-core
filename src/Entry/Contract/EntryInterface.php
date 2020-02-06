@@ -80,7 +80,7 @@ interface EntryInterface extends EloquentInterface
      *
      * @return Carbon
      */
-    public function lastModified();
+    //public function lastModified();
 
     /**
      * Return a new presenter instance.
@@ -146,17 +146,17 @@ interface EntryInterface extends EloquentInterface
      */
     public function getCascades();
 
-    /**
-     * Return the creator relation.
-     *
-     * @return BelongsTo
-     */
-    public function createdBy();
+    // /**
+    //  * Return the creator relation.
+    //  *
+    //  * @return BelongsTo
+    //  */
+    // public function createdBy();
 
-    /**
-     * Return the updater relation.
-     *
-     * @return BelongsTo
-     */
-    public function updatedBy();
+    // /**
+    //  * Return the updater relation.
+    //  *
+    //  * @return BelongsTo
+    //  */
+    // public function updatedBy();
 }

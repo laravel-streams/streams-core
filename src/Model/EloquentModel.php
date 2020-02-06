@@ -192,17 +192,6 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
     }
 
     /**
-     * We protect things a little
-     * differently so open er up.
-     *
-     * @return bool
-     */
-    private function alwaysFillable()
-    {
-        return false;
-    }
-
-    /**
      * Get the criteria class.
      *
      * @return string

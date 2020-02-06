@@ -19,7 +19,6 @@ use Illuminate\Support\Traits\Macroable;
  */
 trait Streams
 {
-
     //use Hookable; // @todo remove commenting when models removed (full trait)
 
     /**
@@ -35,6 +34,18 @@ trait Streams
         // ($instance = new static)->bind('get_title_column', function () {
         //     return $this->stream()->getTitleColumn();
         // });
+
+        ($instance = new static)->bind('created_by', function () {
+            return $this->belongsTo(config('auth.providers.users.model'));
+        });
+
+        $instance->bind('updated_by', function () {
+            return $this->belongsTo(config('auth.providers.users.model'));
+        });
+
+        $instance->bind('last_modified', function () {
+            return $this->updated_at ?: $this->created_at;
+        });
     }
 
     /**
@@ -68,6 +79,10 @@ trait Streams
             return $this->stream();
         }
 
+        if ($this->hasHook($hook = 'get_' . $key)) {
+            return $this->call($hook, []);
+        }
+
         // Check if it's a relationship first.
         // @todo remove this hardcoded relationship check.
         if (in_array($key, ['created_by', 'updated_by', 'roles'])) {
@@ -90,7 +105,7 @@ trait Streams
      */
     public function __call($method, $parameters)
     {
-        if ($this->hasHook($hook = snake_case($method))) {
+        if ($this->hasHook($hook = camel_case($method))) {
             return $this->call($hook, $parameters);
         }
 

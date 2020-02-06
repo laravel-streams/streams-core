@@ -198,36 +198,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Return the last modified datetime.
-     *
-     * @return Carbon
-     */
-    public function lastModified()
-    {
-        return $this->updated_at ?: $this->created_at;
-    }
-
-    /**
-     * Return the created by relation.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function createdBy()
-    {
-        return $this->belongsTo(config('auth.providers.users.model'));
-    }
-
-    /**
-     * Return the updated by relation.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function updatedBy()
-    {
-        return $this->belongsTo(config('auth.providers.users.model'));
-    }
-
-    /**
      * Fire field type events.
      *
      * @param       $trigger
