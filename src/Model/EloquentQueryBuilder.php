@@ -161,8 +161,9 @@ class EloquentQueryBuilder extends Builder
             if ($model instanceof EntryInterface) {
                 if ($model->stream->isSortable()) {
                     $query->orderBy($model->getTable() . '.sort_order', 'ASC');
-                    // } elseif ($model->titleColumnIsTranslatable()) {
-                    //     $this->orderBy($model->getTitleName() . '->' . app()->getLocale(), 'ASC');
+                } elseif (($field = $model->stream->fields->get($model->stream->getTitleColumn())) && $field->isTranslatable()) {
+                    // Need to check for JSON support. SQLite not included.
+                    //$this->orderBy($model->stream->getTitleColumn() . '->' . app()->getLocale(), 'ASC');
                 } elseif ($model->stream->getTitleColumn() && $model->stream->getTitleColumn() !== 'id') {
                     $query->orderBy($model->stream->getTitleColumn(), 'ASC');
                 } else {
@@ -182,24 +183,6 @@ class EloquentQueryBuilder extends Builder
     public function findBy($column, $value)
     {
         return $this->model->where($column, $value)->first();
-    }
-
-    /**
-     * Select the default columns.
-     *
-     * This is helpful when using addSelect
-     * elsewhere like in a hook/criteria and
-     * that select ends up being all you select.
-     *
-     * @return $this
-     */
-    public function selectDefault()
-    {
-        if (!$this->query->columns && $this->query->from) {
-            $this->query->select($this->query->from . '.*');
-        }
-
-        return $this;
     }
 
     /**

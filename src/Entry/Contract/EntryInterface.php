@@ -125,14 +125,6 @@ interface EntryInterface extends EloquentInterface
     public function getQueryBuilderName();
 
     /**
-     * Return the entry with
-     * relations as an array.
-     *
-     * @return array
-     */
-    public function toArrayWithRelations();
-
-    /**
      * Return the routable array.
      *
      * @return array
