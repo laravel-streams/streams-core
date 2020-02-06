@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Component\Item;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Component\Item;
 
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Grid\Component\Button\ButtonBuilder;
@@ -71,7 +73,7 @@ class ItemBuilder
 
             $value = $this->value->make($builder, $entry);
 
-            $id = $entry->getId();
+            $id = $entry->getKey();
 
             $item = compact('builder', 'buttons', 'entry', 'value', 'id');
 

@@ -53,7 +53,7 @@ class UniqueGuesser
                 $unique = 'unique:' . $entry->getTable() . ',' . $field['field'];
 
                 if ($entry instanceof EntryInterface) {
-                    $unique .= ',' . $entry->getId();
+                    $unique .= ',' . $entry->getKey();
                 }
 
                 $field['rules']['unique'] = $unique;
@@ -69,7 +69,7 @@ class UniqueGuesser
                 $unique = 'unique:' . $entry->getTable() . ',' . $field['field'];
 
                 if ($entry instanceof EntryInterface) {
-                    $unique .= ',' . $entry->getId();
+                    $unique .= ',' . $entry->getKey();
                 }
 
                 $keys   = array_keys($unique);

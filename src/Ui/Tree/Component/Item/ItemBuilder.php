@@ -35,7 +35,7 @@ class ItemBuilder
 
             $buttons = $buttons->enabled();
 
-            $id     = $entry->getId();
+            $id     = $entry->getKey();
             $parent = $entry->{$builder->getTreeOption('parent_segment', 'parent_id')};
 
             $item = compact('builder', 'segments', 'buttons', 'entry', 'parent', 'id');

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Version\Table;
+<?php
+
+namespace Anomaly\Streams\Platform\Version\Table;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
@@ -65,7 +67,7 @@ class VersionTableBuilder extends TableBuilder
     public function onQuerying(Builder $query)
     {
         $query->where('versionable_type', $this->getType());
-        $query->where('versionable_id', $this->getId());
+        $query->where('versionable_id', $this->getKey());
 
         $model = config('auth.providers.users.model');
 
@@ -88,7 +90,7 @@ class VersionTableBuilder extends TableBuilder
     public function getVersionableInstance()
     {
         $type = $this->getType();
-        $id   = $this->getId();
+        $id   = $this->getKey();
 
         return (new $type)->find($id);
     }

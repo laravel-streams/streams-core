@@ -88,7 +88,7 @@ class EloquentFormRepository implements FormRepositoryInterface
          * have issues with post relations
          * in following observer logic.
          */
-        if ($entry->getId()) {
+        if ($entry->getKey()) {
             $entry->update($data);
         } else {
             $entry = $entry->create($data);

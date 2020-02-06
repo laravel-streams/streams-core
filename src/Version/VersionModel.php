@@ -64,7 +64,7 @@ class VersionModel extends EloquentModel implements VersionInterface, Presentabl
      */
     public function setVersionableAttribute(EloquentModel $value)
     {
-        $this->attributes['versionable_id']   = $value->getId();
+        $this->attributes['versionable_id']   = $value->getKey();
         $this->attributes['versionable_type'] = get_class($value);
     }
 

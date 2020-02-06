@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Traits;
+<?php
+
+namespace Anomaly\Streams\Platform\Traits;
 
 /**
  * Class Hookable

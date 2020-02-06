@@ -63,7 +63,7 @@ class FieldTypeSchema
         $manager    = $schema->getDoctrineSchemaManager();
         $doctrine   = $manager->listTableDetails($schema->getTablePrefix() . $table->getTable());
 
-        $unique = md5($assignment->getId());
+        $unique = md5($assignment->getKey());
 
         if ($assignment->isUnique() && !$doctrine->hasIndex($unique)) {
             $table->unique($type->getColumnName(), $unique);
@@ -130,7 +130,7 @@ class FieldTypeSchema
         $manager    = $connection->getDoctrineSchemaManager();
         $doctrine   = $manager->listTableDetails($connection->getTablePrefix() . $table->getTable());
 
-        $unique = md5($assignment->getId());
+        $unique = md5($assignment->getKey());
 
         if ($assignment->isUnique() && !$assignment->isTranslatable() && !$doctrine->hasIndex($unique)) {
             $table->unique($this->fieldType->getColumnName(), $unique);
@@ -230,7 +230,7 @@ class FieldTypeSchema
         $manager    = $connection->getDoctrineSchemaManager();
         $doctrine   = $manager->listTableDetails($connection->getTablePrefix() . $table->getTable());
 
-        $unique = md5($assignment->getId());
+        $unique = md5($assignment->getKey());
 
         if ($doctrine->hasIndex($unique)) {
             $table->dropIndex($unique);

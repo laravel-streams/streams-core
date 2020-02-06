@@ -302,9 +302,9 @@ class FieldInput
              *
              * @var todo
              * This needs to be tweaked slightly for duplication in the near future.
-             * The " && $entry->getId()" get's removed but needs replaced with something duplication specific.
+             * The " && $entry->getKey()" get's removed but needs replaced with something duplication specific.
              */
-            if (!isset($field['value']) && $entry instanceof EloquentModel && $entry->getId()) {
+            if (!isset($field['value']) && $entry instanceof EloquentModel && $entry->getKey()) {
 
                 $locale = array_get($field, 'locale');
 
@@ -320,7 +320,7 @@ class FieldInput
              * and the entry does not exist yet
              * then use the default value.
              */
-            if (isset($field['config']['default_value']) && $entry instanceof EloquentModel && !$entry->getId()) {
+            if (isset($field['config']['default_value']) && $entry instanceof EloquentModel && !$entry->getKey()) {
                 $field['value'] = $field['config']['default_value'];
             }
 

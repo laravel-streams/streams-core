@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Support\Presenter;
@@ -52,7 +54,7 @@ class GetFormCriteria
 
         if ($this->parameters instanceof EntryInterface) {
             $this->parameters = [
-                'entry'     => $this->parameters->getId(),
+                'entry'     => $this->parameters->getKey(),
                 'stream'    => $this->parameters->getStreamSlug(),
                 'namespace' => $this->parameters->getStreamNamespace(),
             ];

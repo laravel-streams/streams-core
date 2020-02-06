@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -64,7 +66,7 @@ class FormRules
 
                     $unique = 'unique:' . $stream->getEntryTableName() . ',' . $field->getUniqueColumnName();
 
-                    if ($entry && $id = $entry->getId()) {
+                    if ($entry && $id = $entry->getKey()) {
                         $unique .= ',' . $id;
                     }
 
@@ -89,7 +91,7 @@ class FormRules
         array_walk(
             $rules,
             function (&$rules) {
-                $rules = implode('|', array_unique((array)$rules));
+                $rules = implode('|', array_unique((array) $rules));
             }
         );
 

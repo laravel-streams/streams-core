@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item;
 
 use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
@@ -44,7 +46,7 @@ class ItemCollection extends Collection
 
         /* @var ItemInterface $item */
         foreach ($this->items as $item) {
-            if ($item->getParent() == $parent->getId()) {
+            if ($item->getParent() == $parent->getKey()) {
                 $children[] = $item;
             }
         }

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Field\Form\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Field\Form\Command;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Field\Form\FieldFormBuilder;
@@ -43,8 +45,8 @@ class AutoAssignField
 
             $assignments->create(
                 [
-                    'stream_id' => $stream->getId(),
-                    'field_id'  => $field->getId(),
+                    'stream_id' => $stream->getKey(),
+                    'field_id'  => $field->getKey(),
                 ]
             );
         }

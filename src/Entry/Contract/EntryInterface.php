@@ -27,13 +27,6 @@ interface EntryInterface extends EloquentInterface
 {
 
     /**
-     * Get the ID.
-     *
-     * @return mixed
-     */
-    public function getId();
-
-    /**
      * Get the title.
      *
      * @return mixed
@@ -74,14 +67,6 @@ interface EntryInterface extends EloquentInterface
     public function setFieldValue($fieldSlug, $value, $locale = null);
 
     /**
-     * Get a specified relationship.
-     *
-     * @param  string $relation
-     * @return mixed
-     */
-    public function getRelation($relation);
-
-    /**
      * Eager load relations on the model.
      *
      * @param  $relations
@@ -111,26 +96,26 @@ interface EntryInterface extends EloquentInterface
      */
     public function newPresenter();
 
-    /**
-     * Return a model route.
-     *
-     * @return string
-     */
-    public function route($route, array $parameters = []);
+    // /**
+    //  * Return a model route.
+    //  *
+    //  * @return string
+    //  */
+    // public function route($route, array $parameters = []);
 
-    /**
-     * Return a new router instance.
-     *
-     * @return EntryRouter
-     */
-    public function newRouter();
+    // /**
+    //  * Return a new router instance.
+    //  *
+    //  * @return EntryRouter
+    //  */
+    // public function newRouter();
 
-    /**
-     * Get the router.
-     *
-     * @return EntryRouter
-     */
-    public function getRouter();
+    // /**
+    //  * Get the router.
+    //  *
+    //  * @return EntryRouter
+    //  */
+    // public function getRouter();
 
     /**
      * Get the router name.

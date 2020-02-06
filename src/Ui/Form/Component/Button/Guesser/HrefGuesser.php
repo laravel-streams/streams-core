@@ -55,7 +55,7 @@ class HrefGuesser
                     break;
 
                 case 'delete':
-                    $button['attributes']['href'] = $section->getHref('delete/' . $entry->getId());
+                    $button['attributes']['href'] = $section->getHref('delete/' . $entry->getKey());
                     break;
 
                 default:

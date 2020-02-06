@@ -122,7 +122,7 @@ class EntryRouter
     //            array_pop($namespace),
     //            $this->entry->getStreamSlug(),
     //            'edit',
-    //            $this->entry->getId(),
+    //            $this->entry->getKey(),
     //        ];
     //
     //        return implode('/', array_unique($segments));

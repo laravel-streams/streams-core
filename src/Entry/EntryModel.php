@@ -331,43 +331,43 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         return new EntryPresenter($this);
     }
 
-    /**
-     * Return a model route.
-     *
-     * @param       $route The route name you would like to return a URL for (i.e. "view" or "delete")
-     * @param array $parameters
-     * @return string
-     */
-    public function route($route, array $parameters = [])
-    {
-        $router = $this->getRouter();
+    // /**
+    //  * Return a model route.
+    //  *
+    //  * @param       $route The route name you would like to return a URL for (i.e. "view" or "delete")
+    //  * @param array $parameters
+    //  * @return string
+    //  */
+    // public function route($route, array $parameters = [])
+    // {
+    //     $router = $this->getRouter();
 
-        return $router->make($route, $parameters);
-    }
+    //     return $router->make($route, $parameters);
+    // }
 
-    /**
-     * Return a new router instance.
-     *
-     * @return EntryRouter
-     */
-    public function newRouter()
-    {
-        return app()->make($this->getRouterName(), ['entry' => $this]);
-    }
+    // /**
+    //  * Return a new router instance.
+    //  *
+    //  * @return EntryRouter
+    //  */
+    // public function newRouter()
+    // {
+    //     return app()->make($this->getRouterName(), ['entry' => $this]);
+    // }
 
-    /**
-     * Get the router.
-     *
-     * @return EntryRouter
-     */
-    public function getRouter()
-    {
-        if (isset($this->cache['router'])) {
-            return $this->cache['router'];
-        }
+    // /**
+    //  * Get the router.
+    //  *
+    //  * @return EntryRouter
+    //  */
+    // public function getRouter()
+    // {
+    //     if (isset($this->cache['router'])) {
+    //         return $this->cache['router'];
+    //     }
 
-        return $this->cache['router'] = $this->newRouter();
-    }
+    //     return $this->cache['router'] = $this->newRouter();
+    // }
 
     /**
      * Get the router name.
