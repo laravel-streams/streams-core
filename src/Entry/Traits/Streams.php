@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Stream\StreamBuilder;
 use Anomaly\Streams\Platform\Stream\StreamManager;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Traits\Hookable;
+use Exception;
 use Illuminate\Support\Traits\Macroable;
 
 /**
@@ -22,7 +23,7 @@ trait Streams
     //use Hookable; // @todo remove commenting when models removed (full trait)
 
     /**
-     * Das boot.
+     * Boot the Streams trait. 
      */
     public static function bootStreams()
     {
@@ -46,6 +47,10 @@ trait Streams
         $instance->bind('last_modified', function () {
             return $this->updated_at ?: $this->created_at;
         });
+
+        $instance->bind('get_title', function () {
+            return $this->{$this->stream->getTitleColumn()};
+        });
     }
 
     /**
@@ -59,13 +64,62 @@ trait Streams
     }
 
     /**
-     * Get the model title.
+     * Get a field value.
      *
+     * @param        $fieldSlug
+     * @param  null $locale
      * @return mixed
      */
-    public function getTitle()
+    public function getFieldValue($fieldSlug, $locale = null)
     {
-        return $this->{$this->stream->getTitleColumn()};
+        if (!$field = $this->stream()->fields->get($fieldSlug)) {
+            throw new Exception("Field [{$fieldSlug}] not found.");
+        }
+
+        $type = $field->type();
+
+        $modifier = $type->getModifier();
+
+        $type->setEntry($this);
+
+        $value = parent::getAttributeValue($fieldSlug);
+
+        if ($field->translatable) {
+            $value = $value[$this->locale($locale)];
+        }
+
+        $value = $modifier->restore($value);
+
+        $type->setValue($value);
+
+        return $value;
+    }
+
+    /**
+     * Set a field value.
+     *
+     * @param        $fieldSlug
+     * @param        $value
+     * @param  null $locale
+     * @return $this
+     */
+    public function setFieldValue($fieldSlug, $value, $locale = null)
+    {
+        $assignment = $this->getAssignment($fieldSlug);
+
+        $type = $assignment->getFieldType($this);
+
+        $type->setEntry($this);
+
+        $modifier = $type->getModifier();
+
+        $key = $type->getColumnName();
+
+        if ($assignment->isTranslatable()) {
+            $key = $key . '->' . ($locale ?: app()->getLocale());
+        }
+
+        return parent::setAttribute($key, $modifier->modify($value));
     }
 
     /**

@@ -38,11 +38,7 @@ class FieldTypeAccessor
     {
         $entry = $this->fieldType->getEntry();
 
-        $attributes = $entry->getAttributes();
-
-        $attributes[$this->fieldType->getColumnName()] = $value;
-
-        $entry->setRawAttributes($attributes);
+        $entry->setAttribute($this->fieldType->getColumnName(), $value);
     }
 
     /**

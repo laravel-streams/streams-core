@@ -47,7 +47,7 @@ interface EntryInterface extends EloquentInterface
      * @param  null $locale
      * @return mixed
      */
-    public function getFieldValue($fieldSlug, $locale = null);
+    //public function getFieldValue($fieldSlug, $locale = null);
 
     /**
      * Set a field value.
@@ -57,15 +57,7 @@ interface EntryInterface extends EloquentInterface
      * @param  null $locale
      * @return $this
      */
-    public function setFieldValue($fieldSlug, $value, $locale = null);
-
-    /**
-     * Eager load relations on the model.
-     *
-     * @param  $relations
-     * @return $this
-     */
-    public function load($relations);
+    //public function setFieldValue($fieldSlug, $value, $locale = null);
 
     /**
      * Return whether the model is being
@@ -81,13 +73,6 @@ interface EntryInterface extends EloquentInterface
      * @return Carbon
      */
     //public function lastModified();
-
-    /**
-     * Return a new presenter instance.
-     *
-     * @return EntryPresenter
-     */
-    public function newPresenter();
 
     // /**
     //  * Return a model route.
