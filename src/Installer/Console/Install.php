@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Installer\Console;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
 use Anomaly\Streams\Platform\Support\Env;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -70,6 +71,8 @@ class Install extends Command
             }
 
             Env::save($data->all());
+
+            DB::reconnect();
         }
 
         Env::load();
