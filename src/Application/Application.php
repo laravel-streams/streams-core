@@ -48,20 +48,6 @@ class Application
     protected $reference = 'default';
 
     /**
-     * Set the database table prefix going forward.
-     * We really don't need a core table from here on out.
-     */
-    public function setTablePrefix($prefix = '')
-    {
-        $connection = app('db')->getSchemaBuilder()->getConnection();
-
-        $connection->setTablePrefix($prefix);
-        $connection->getSchemaGrammar()->setTablePrefix($prefix);
-
-        $this->tablePrefix = $prefix;
-    }
-
-    /**
      * Get the reference.
      *
      * @return null
