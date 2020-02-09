@@ -69,7 +69,7 @@ class Install extends Command
             if (Env::generate()) {
                 Env::load();
             }
-
+            dd($data->all());
             Env::save($data->all());
         }
 

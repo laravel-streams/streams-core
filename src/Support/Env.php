@@ -97,7 +97,7 @@ class Env
         if (array_key_exists($variable, $variables)) {
             file_put_contents(
                 $env,
-                preg_replace("/{$variable}=(.+|$)/", "{$variable}=" . $value, file_get_contents($env))
+                preg_replace("/{$variable}=(.+||$)/", "{$variable}=" . $value, file_get_contents($env))
             );
         } else {
             file_put_contents(
