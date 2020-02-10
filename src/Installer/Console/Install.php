@@ -83,7 +83,7 @@ class Install extends Command
             )
         );
 
-        dispatch_now(new RunInstallers($installers, $this));
+        $this->runInstallers($installers);
     }
 
     /**
@@ -173,6 +173,27 @@ class Install extends Command
                     }
                 )
             );
+        }
+    }
+
+    /**
+     * Run the installers.
+     *
+     * @param \Anomaly\Streams\Platform\Installer\InstallerCollection $installers
+     */
+    protected function runInstallers(InstallerCollection $installers)
+    {
+        $step  = 1;
+        $total = $installers->count();
+
+        /* @var Installer $installer */
+        while ($installer = $installers->shift()) {
+
+            $this->info("{$step}/{$total} " . trans($installer->getMessage()));
+
+            app()->call($installer->getTask());
+
+            $step++;
         }
     }
 
