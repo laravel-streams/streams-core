@@ -104,11 +104,15 @@ class AddonManager
      */
     public function migrate(Addon $addon)
     {
+        if (!is_dir($path = $addon->getPath('migrations'))) {
+            return false;
+        }
+
         $addon->fire('migrating', ['addon' => $addon]);
 
         $options = [
             '--realpath' => true,
-            '--path' => $addon->getPath('migrations'),
+            '--path' => $path,
         ];
 
         Artisan::call('migrate', $options);

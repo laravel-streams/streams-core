@@ -8,6 +8,5 @@ return [
     'running_migrations'             => 'Running other migrations.',
     'running_seeds'                  => 'Running project seeds.',
     'installing'                     => 'Installing :installing',
-    'publishing'                     => 'Publishing addons.',
     'seeding'                        => 'Seeding :seeding',
 ];

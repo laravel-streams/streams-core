@@ -75,7 +75,7 @@ class Install extends Command
 
         $installers->push(
             new Installer(
-                'streams::installer.reloading_application',
+                'anomaly.module.installer::install.reloading_application',
                 function () {
                     $this->call('env:set', ['line' => 'INSTALLED=true']);
 
@@ -88,17 +88,6 @@ class Install extends Command
         dispatch_now(new LoadExtensionSeeders($installers));
         dispatch_now(new LoadBaseSeeders($installers));
 
-        $installers->push(
-            new Installer(
-                'streams::installer.publishing_addons',
-                function () {
-                    $this->call('assets:publish');
-
-                    Env::load();
-                }
-            )
-        );
-
         dispatch_now(new RunInstallers($installers, $this));
     }
 
@@ -106,13 +95,13 @@ class Install extends Command
     {
         $installers->push(
             new Installer(
-                'streams::installer.running_core_migrations',
+                'anomaly.module.installer::install.running_core_migrations',
                 function (Kernel $console) {
                     $console->call(
                         'migrate',
                         [
                             '--force' => true,
-                            '--path'  => 'vendor/anomaly/streams-platform/migrations/application',
+                            '--path'  => 'vendor/anomaly/streams-platform/migrations',
                         ]
                     );
                 }
@@ -125,7 +114,7 @@ class Install extends Command
         foreach (app('addon.collection')->installable() as $namespace => $addon) {
             $installers->push(
                 new Installer(
-                    trans('streams::installer.installing', ['installing' => $addon['name']]),
+                    trans('anomaly.module.installer::install.installing', ['installing' => $addon['name']]),
                     function (Kernel $console) use ($namespace) {
                         $console->call(
                             'addon:install',
@@ -144,7 +133,7 @@ class Install extends Command
         foreach (app('addon.collection')->installable() as $namespace => $addon) {
             $installers->push(
                 new Installer(
-                    trans('streams::installer.seeding', ['seeding' => $addon['name']]),
+                    trans('anomaly.module.installer::install.seeding', ['seeding' => $addon['name']]),
                     function (Kernel $console) use ($namespace) {
                         $console->call(
                             'addon:seed',
