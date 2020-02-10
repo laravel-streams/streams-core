@@ -91,8 +91,8 @@ class Install extends Command
         $installers->push(
             new Installer(
                 'anomaly.module.installer::install.publishing_assets',
-                function () {
-                    $this->call('assets:publish');
+                function (Kernel $console) {
+                    $console->call('assets:publish');
                 }
             )
         );
