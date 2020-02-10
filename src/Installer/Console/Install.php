@@ -47,7 +47,6 @@ class Install extends Command
 |__:___/   |   ||   |___\|_.: __/|___|   ||___| |   ||__:___/ 
    :       |___||___|       :/       |___|      |___|   :     
                                                               
-                  Welcome to the Jungle.                                         
                                                               
             ');
 
