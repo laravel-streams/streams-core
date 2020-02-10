@@ -3,9 +3,9 @@
 namespace Anomaly\Streams\Platform\Support;
 
 use Dotenv\Dotenv;
-use Illuminate\Contracts\Encryption\Encrypter;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Crypt;
+use Illuminate\Foundation\Bootstrap\LoadConfiguration;
 
 /**
  * Class Env
@@ -40,8 +40,13 @@ class Env
          * and overload from the changes that may
          * have taken place.
          */
-        $dotenv = Dotenv::create(base_path());
-        $dotenv->overload();
+        Dotenv::create(base_path())->overload();
+
+        (new LoadConfiguration)->bootstrap(app());
+
+        DB::purge(config('database.default'));
+
+        DB::reconnect();
     }
 
     /**
@@ -97,7 +102,7 @@ class Env
         if (array_key_exists($variable, $variables)) {
             file_put_contents(
                 $env,
-                preg_replace("/{$variable}=(.+|$)/", "{$variable}=" . $value, file_get_contents($env))
+                preg_replace("/{$variable}=(.+||$)/", "{$variable}=" . $value, file_get_contents($env))
             );
         } else {
             file_put_contents(

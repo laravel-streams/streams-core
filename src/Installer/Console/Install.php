@@ -16,7 +16,6 @@ use Anomaly\Streams\Platform\Installer\Console\Command\LoadBaseSeeders;
 use Anomaly\Streams\Platform\Installer\Console\Command\SetDatabaseData;
 use Anomaly\Streams\Platform\Installer\Console\Command\ConfigureDatabase;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadModuleSeeders;
-use Anomaly\Streams\Platform\Installer\Console\Command\SetDatabasePrefix;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadBaseMigrations;
 use Anomaly\Streams\Platform\Installer\Console\Command\SetApplicationData;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadExtensionSeeders;
@@ -87,8 +86,6 @@ class Install extends Command
 
         dispatch_now(new LoadModuleSeeders($installers));
         dispatch_now(new LoadExtensionSeeders($installers));
-
-        dispatch_now(new LoadBaseMigrations($installers));
         dispatch_now(new LoadBaseSeeders($installers));
 
         $installers->push(

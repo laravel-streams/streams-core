@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Installer\Console\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Installer\Console\Command;
 
 use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Console\Command;
