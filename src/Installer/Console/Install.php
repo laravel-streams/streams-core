@@ -3,10 +3,8 @@
 namespace Anomaly\Streams\Platform\Installer\Console;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Console\Kernel;
 use Anomaly\Streams\Platform\Support\Env;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Anomaly\Streams\Platform\Entry\EntryLoader;
 use Anomaly\Streams\Platform\Support\Collection;
 use Symfony\Component\Console\Input\InputOption;
 use Anomaly\Streams\Platform\Installer\Installer;
@@ -14,7 +12,6 @@ use Anomaly\Streams\Platform\Installer\InstallerCollection;
 use Anomaly\Streams\Platform\Installer\Console\Command\SetAdminData;
 use Anomaly\Streams\Platform\Installer\Console\Command\SetOtherData;
 use Anomaly\Streams\Platform\Installer\Console\Command\RunInstallers;
-use Anomaly\Streams\Platform\Installer\Console\Command\ConfirmLicense;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadBaseSeeders;
 use Anomaly\Streams\Platform\Installer\Console\Command\SetDatabaseData;
 use Anomaly\Streams\Platform\Installer\Console\Command\ConfigureDatabase;
@@ -25,7 +22,7 @@ use Anomaly\Streams\Platform\Installer\Console\Command\SetApplicationData;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadExtensionSeeders;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadModuleInstallers;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadExtensionInstallers;
-use Anomaly\Streams\Platform\Installer\Console\Command\LoadApplicationInstallers;
+use Anomaly\Streams\Platform\Installer\Console\Command\loadCoreInstallers;
 
 /**
  * Class Install
@@ -56,33 +53,26 @@ class Install extends Command
      */
     public function handle()
     {
-        $data = new Collection();
+        $this->info('
+._____________._.______  ._______.______  ._____.___ .________
+|    ___/\__ _:|: __   \ : .____/:      \ :         ||    ___/
+|___    \  |  :||  \____|| : _/\ |   .   ||   \  /  ||___    \
+|       /  |   ||   :  \ |   /  \|   :   ||   |\/   ||       /
+|__:___/   |   ||   |___\|_.: __/|___|   ||___| |   ||__:___/ 
+   :       |___||___|       :/       |___|      |___|   :     
+                                                              
+                  Welcome to the Jungle.                                         
+                                                              
+            ');
 
         if (!$this->option('ready')) {
-
-            dispatch_now(new ConfirmLicense($this));
-            dispatch_now(new SetDatabaseData($data, $this));
-            dispatch_now(new SetApplicationData($data, $this));
-            dispatch_now(new SetAdminData($data, $this));
-            dispatch_now(new SetOtherData($data, $this));
-
-            if (Env::generate()) {
-                Env::load();
-            }
-
-            Env::save($data->all());
+            $this->confirmConfig();
         }
-
-        Env::load();
-
-        dispatch_now(new ConfigureDatabase());
-        dispatch_now(new SetDatabasePrefix());
 
         $installers = new InstallerCollection();
 
-        dispatch_now(new LoadApplicationInstallers($installers));
-        dispatch_now(new LoadModuleInstallers($installers));
-        dispatch_now(new LoadExtensionInstallers($installers));
+        $this->loadCoreInstallers($installers);
+        $this->loadAddonInstallers($installers);
 
         $installers->push(
             new Installer(
@@ -101,7 +91,100 @@ class Install extends Command
         dispatch_now(new LoadBaseMigrations($installers));
         dispatch_now(new LoadBaseSeeders($installers));
 
+        $installers->push(
+            new Installer(
+                'streams::installer.publishing_addons',
+                function () {
+                    $this->call('assets:publish');
+
+                    Env::load();
+                }
+            )
+        );
+
         dispatch_now(new RunInstallers($installers, $this));
+    }
+
+    protected function loadCoreInstallers(InstallerCollection $installers)
+    {
+        $installers->push(
+            new Installer(
+                'streams::installer.running_core_migrations',
+                function (Kernel $console) {
+                    $console->call(
+                        'migrate',
+                        [
+                            '--force' => true,
+                            '--path'  => 'vendor/anomaly/streams-platform/migrations/application',
+                        ]
+                    );
+                }
+            )
+        );
+    }
+
+    protected function loadAddonInstallers(InstallerCollection $installers)
+    {
+        foreach (app('addon.collection')->installable() as $namespace => $addon) {
+            $installers->push(
+                new Installer(
+                    trans('streams::installer.installing', ['installing' => $addon['name']]),
+                    function (Kernel $console) use ($namespace) {
+                        $console->call(
+                            'addon:install',
+                            [
+                                'addon' => $namespace,
+                            ]
+                        );
+                    }
+                )
+            );
+        }
+    }
+
+    protected function loadAddonSeeders(InstallerCollection $installers)
+    {
+        foreach (app('addon.collection')->installable() as $namespace => $addon) {
+            $installers->push(
+                new Installer(
+                    trans('streams::installer.seeding', ['seeding' => $addon['name']]),
+                    function (Kernel $console) use ($namespace) {
+                        $console->call(
+                            'addon:seed',
+                            [
+                                'addon' => $namespace,
+                            ]
+                        );
+                    }
+                )
+            );
+        }
+    }
+
+    /**
+     * Check if ready to install.
+     */
+    protected function confirmConfig()
+    {
+        $data = Env::variables();
+
+        foreach (['APP_', 'ADMIN_', 'DB_'] as $prefix) {
+
+            echo "\n";
+
+            array_walk($data, function ($value, $key) use ($prefix) {
+                if (starts_with($key, $prefix)) {
+                    echo "{$key}={$value}\n";
+                }
+            });
+        }
+
+        if (!$this->confirm('Does this look right to you?')) {
+
+            $this->error('Good call. Better get that checked out.');
+
+            exit;
+        }
     }
 
     /**
@@ -112,7 +195,7 @@ class Install extends Command
     protected function getOptions()
     {
         return [
-            ['ready', null, InputOption::VALUE_NONE, 'Indicates that the installer should use an existing .env file.'],
+            ['ready', null, InputOption::VALUE_NONE, 'Skip confirmation of important .env variables.'],
         ];
     }
 }
