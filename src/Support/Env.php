@@ -5,8 +5,6 @@ namespace Anomaly\Streams\Platform\Support;
 use Dotenv\Dotenv;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Foundation\Bootstrap\LoadConfiguration;
 
 /**
@@ -45,6 +43,8 @@ class Env
         Dotenv::create(base_path())->overload();
 
         (new LoadConfiguration)->bootstrap(app());
+
+        DB::purge(config('database.default'));
 
         DB::reconnect();
     }
