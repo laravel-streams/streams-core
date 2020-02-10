@@ -84,9 +84,8 @@ class Install extends Command
             )
         );
 
-        dispatch_now(new LoadModuleSeeders($installers));
-        dispatch_now(new LoadExtensionSeeders($installers));
-        dispatch_now(new LoadBaseSeeders($installers));
+        $this->loadAddonSeeders($installers);
+        $this->loadBaseSeeders($installers);
 
         $installers->push(
             new Installer(
@@ -100,6 +99,11 @@ class Install extends Command
         dispatch_now(new RunInstallers($installers, $this));
     }
 
+    /**
+     * Load the Streams core installers.
+     *
+     * @param \Anomaly\Streams\Platform\Installer\InstallerCollection $installers
+     */
     protected function loadCoreInstallers(InstallerCollection $installers)
     {
         $installers->push(
@@ -118,6 +122,11 @@ class Install extends Command
         );
     }
 
+    /**
+     * Load the addon installers.
+     *
+     * @param \Anomaly\Streams\Platform\Installer\InstallerCollection $installers
+     */
     protected function loadAddonInstallers(InstallerCollection $installers)
     {
         foreach (app('addon.collection')->installable() as $namespace => $addon) {
@@ -137,6 +146,11 @@ class Install extends Command
         }
     }
 
+    /**
+     * Load the addon seeders.
+     *
+     * @param \Anomaly\Streams\Platform\Installer\InstallerCollection $installers
+     */
     protected function loadAddonSeeders(InstallerCollection $installers)
     {
         foreach (app('addon.collection')->installable() as $namespace => $addon) {
@@ -150,6 +164,25 @@ class Install extends Command
                                 'addon' => $namespace,
                             ]
                         );
+                    }
+                )
+            );
+        }
+    }
+
+    /**
+     * Load the base seeders.
+     *
+     * @param \Anomaly\Streams\Platform\Installer\InstallerCollection $installers
+     */
+    protected function loadBaseSeeders(InstallerCollection $installers)
+    {
+        foreach (app('addon.collection')->installable() as $namespace => $addon) {
+            $installers->push(
+                new Installer(
+                    'streams::installer.running_seeds',
+                    function (Kernel $console) {
+                        $console->call('db:seed', ['--force' => true]);
                     }
                 )
             );
