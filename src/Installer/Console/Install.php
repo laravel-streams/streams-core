@@ -5,23 +5,10 @@ namespace Anomaly\Streams\Platform\Installer\Console;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\Kernel;
 use Anomaly\Streams\Platform\Support\Env;
-use Anomaly\Streams\Platform\Support\Collection;
 use Symfony\Component\Console\Input\InputOption;
 use Anomaly\Streams\Platform\Installer\Installer;
 use Anomaly\Streams\Platform\Installer\InstallerCollection;
-use Anomaly\Streams\Platform\Installer\Console\Command\SetAdminData;
-use Anomaly\Streams\Platform\Installer\Console\Command\SetOtherData;
 use Anomaly\Streams\Platform\Installer\Console\Command\RunInstallers;
-use Anomaly\Streams\Platform\Installer\Console\Command\LoadBaseSeeders;
-use Anomaly\Streams\Platform\Installer\Console\Command\SetDatabaseData;
-use Anomaly\Streams\Platform\Installer\Console\Command\ConfigureDatabase;
-use Anomaly\Streams\Platform\Installer\Console\Command\LoadModuleSeeders;
-use Anomaly\Streams\Platform\Installer\Console\Command\LoadBaseMigrations;
-use Anomaly\Streams\Platform\Installer\Console\Command\SetApplicationData;
-use Anomaly\Streams\Platform\Installer\Console\Command\LoadExtensionSeeders;
-use Anomaly\Streams\Platform\Installer\Console\Command\LoadModuleInstallers;
-use Anomaly\Streams\Platform\Installer\Console\Command\LoadExtensionInstallers;
-use Anomaly\Streams\Platform\Installer\Console\Command\loadCoreInstallers;
 
 /**
  * Class Install
