@@ -88,6 +88,15 @@ class Install extends Command
         dispatch_now(new LoadExtensionSeeders($installers));
         dispatch_now(new LoadBaseSeeders($installers));
 
+        $installers->push(
+            new Installer(
+                'anomaly.module.installer::install.publishing_assets',
+                function () {
+                    $this->call('assets:publish');
+                }
+            )
+        );
+
         dispatch_now(new RunInstallers($installers, $this));
     }
 
