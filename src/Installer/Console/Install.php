@@ -60,6 +60,9 @@ class Install extends Command
 
         if (!$this->option('ready')) {
 
+            // @todo move generate to top and 
+            // use Env::write for all input to 
+            // write it as we collect it.
             dispatch_now(new ConfirmLicense($this));
             dispatch_now(new SetDatabaseData($data, $this));
             dispatch_now(new SetApplicationData($data, $this));
@@ -71,8 +74,6 @@ class Install extends Command
             }
 
             Env::save($data->all());
-
-            DB::reconnect();
         }
 
         Env::load();
@@ -84,6 +85,7 @@ class Install extends Command
         dispatch_now(new LoadApplicationInstallers($installers));
         dispatch_now(new LoadModuleInstallers($installers));
         dispatch_now(new LoadExtensionInstallers($installers));
+        dispatch_now(new LoadBaseMigrations($installers));
 
         $installers->push(
             new Installer(
@@ -98,8 +100,6 @@ class Install extends Command
 
         dispatch_now(new LoadModuleSeeders($installers));
         dispatch_now(new LoadExtensionSeeders($installers));
-
-        dispatch_now(new LoadBaseMigrations($installers));
         dispatch_now(new LoadBaseSeeders($installers));
 
         dispatch_now(new RunInstallers($installers, $this));

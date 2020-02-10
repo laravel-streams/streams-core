@@ -3,9 +3,11 @@
 namespace Anomaly\Streams\Platform\Support;
 
 use Dotenv\Dotenv;
-use Illuminate\Contracts\Encryption\Encrypter;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\Encrypter;
+use Illuminate\Foundation\Bootstrap\LoadConfiguration;
 
 /**
  * Class Env
@@ -40,8 +42,11 @@ class Env
          * and overload from the changes that may
          * have taken place.
          */
-        $dotenv = Dotenv::create(base_path());
-        $dotenv->overload();
+        Dotenv::create(base_path())->overload();
+
+        (new LoadConfiguration)->bootstrap(app());
+
+        DB::reconnect();
     }
 
     /**

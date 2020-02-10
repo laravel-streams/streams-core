@@ -42,7 +42,10 @@ class LoadBaseMigrations
             new Installer(
                 'streams::installer.running_migrations',
                 function (Kernel $console) {
-                    $console->call('migrate', ['--force' => true]);
+                    $console->call('migrate', [
+                        '--force' => true,
+                        '--path' => base_path('database/migrations')
+                    ]);
                 }
             )
         );
