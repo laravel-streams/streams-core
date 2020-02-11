@@ -3,7 +3,6 @@
 namespace Anomaly\Streams\Platform\Asset;
 
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
-use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Support\Template;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Filesystem\Filesystem;
