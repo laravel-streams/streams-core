@@ -47,9 +47,5 @@ class GuessBreadcrumbs
         if ($this->request->path() == 'admin/login') {
             $this->breadcrumbs->add('streams::breadcrumb.login', '#');
         }
-
-        if ($this->request->path() == 'installer/install') {
-            $this->breadcrumbs->add('streams::breadcrumb.install', '#');
-        }
     }
 }

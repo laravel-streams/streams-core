@@ -122,9 +122,6 @@ class StreamsServiceProvider extends ServiceProvider
                 \Anomaly\Streams\Platform\Asset\Console\AssetsClear::class,
                 \Anomaly\Streams\Platform\Asset\Console\AssetsPublish::class,
 
-                // Installer Commands
-                \Anomaly\Streams\Platform\Installer\Console\Install::class,
-
                 // Streams Commands
                 \Anomaly\Streams\Platform\Stream\Console\StreamsIndex::class,
                 \Anomaly\Streams\Platform\Stream\Console\StreamsCleanup::class,

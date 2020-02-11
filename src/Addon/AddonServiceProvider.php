@@ -6,7 +6,6 @@ use Illuminate\Support\ServiceProvider;
 use Anomaly\Streams\Platform\Addon\AddonModel;
 use Illuminate\Console\Application as Artisan;
 use Anomaly\Streams\Platform\Asset\AssetRegistry;
-use Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered;
 
 /**
  * Class AddonServiceProvider

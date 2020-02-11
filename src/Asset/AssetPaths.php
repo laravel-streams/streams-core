@@ -212,10 +212,6 @@ class AssetPaths
             $directory = substr($directory, 7);
         }
 
-        if (starts_with($directory, './')) {
-            $directory = in_array($this->request->segment(1), ['admin', 'installer']) ? 'admin/' : 'public/';
-        }
-
         return "/app/{$application}/assets/{$directory}{$filename}";
     }
 }
