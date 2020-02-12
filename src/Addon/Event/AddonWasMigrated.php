@@ -17,16 +17,16 @@ class AddonWasMigrated
     /**
      * The addon namespace.
      *
-     * @var string
+     * @var Addon
      */
     protected $addon;
 
     /**
      * Create a new AddonWasMigrated instance.
      *
-     * @param string $addon
+     * @param Addon $addon
      */
-    public function __construct(string $addon)
+    public function __construct(Addon $addon)
     {
         $this->addon = $addon;
     }
@@ -34,7 +34,7 @@ class AddonWasMigrated
     /**
      * Get the addon namespace.
      *
-     * @return string
+     * @return Addon
      */
     public function getAddon()
     {

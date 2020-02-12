@@ -51,4 +51,32 @@ trait HasMemory
 
         return self::$memory[$key] = call_user_func($callable);
     }
+
+    /**
+     * Forget a key.
+     *
+     * @param string $key
+     */
+    public static function forget($key)
+    {
+        $prefix = self::class;
+
+        if (array_key_exists($prefix . $key, self::$memory)) {
+            unset(self::$memory[$prefix . $key]);
+        }
+
+        if (array_key_exists($key, self::$memory)) {
+            unset(self::$memory[$key]);
+        }
+    }
+
+    /**
+     * Forget a key.
+     *
+     * @param string $key
+     */
+    public static function resetMemory()
+    {
+        self::$memory = [];
+    }
 }

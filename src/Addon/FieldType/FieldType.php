@@ -5,8 +5,6 @@ namespace Anomaly\Streams\Platform\Addon\FieldType;
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Support\Decorator;
-use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -215,7 +213,7 @@ class FieldType extends Addon
      *
      * @var null|string
      */
-    protected $presenter = null;
+    protected $presenter = FieldTypePresenter::class;
 
     /**
      * The modifier class.
@@ -1379,7 +1377,7 @@ class FieldType extends Addon
     {
         return view(
             $this->getInputView(),
-            array_merge($payload, ['fieldType' => $this])
+            array_merge($payload, ['fieldType' => decorate($this)])
         )->render();
     }
 
@@ -1393,19 +1391,8 @@ class FieldType extends Addon
     {
         return view(
             $this->getFilterView(),
-            array_merge($payload, ['fieldType' => $this])
+            array_merge($payload, ['fieldType' => decorate($this)])
         )->render();
-    }
-
-    /**
-     * Decorate the value.
-     *
-     * @param            $value
-     * @return Presenter
-     */
-    public function decorate($value)
-    {
-        return (new Decorator())->decorate($value);
     }
 
     /**

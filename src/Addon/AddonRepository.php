@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Addon\Contract\AddonRepositoryInterface;
 use Anomaly\Streams\Platform\Model\EloquentRepository;
 
 /**
@@ -11,7 +12,7 @@ use Anomaly\Streams\Platform\Model\EloquentRepository;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class AddonRepository extends EloquentRepository
+class AddonRepository extends EloquentRepository implements AddonRepositoryInterface
 {
 
     /**
@@ -77,7 +78,9 @@ class AddonRepository extends EloquentRepository
      */
     public function disable(Addon $addon)
     {
-        $addon = $this->findBy('namespace', $addon->getNamespace());
+        if (!$addon = $this->findBy('namespace', $addon->getNamespace())) {
+            return true;
+        }
 
         $addon->enabled = false;
 
@@ -90,9 +93,11 @@ class AddonRepository extends EloquentRepository
      * @param  Addon $addon
      * @return bool
      */
-    public function enabled(Addon $addon)
+    public function enable(Addon $addon)
     {
-        $addon = $this->findBy('namespace', $addon->getNamespace());
+        if (!$addon = $this->findBy('namespace', $addon->getNamespace())) {
+            return true;
+        }
 
         $addon->enabled = true;
 

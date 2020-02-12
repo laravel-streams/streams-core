@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
 
 /**
  * Class FormMessages
@@ -30,7 +32,7 @@ class FormMessages
                     $message = trans($message);
                 }
 
-                $messages[$field->prefix.$field->field.'.'.$rule] = $message;
+                $messages[$field->getPrefix() . $field->getField() . '.' . $rule] = $message;
             }
 
             foreach ($field->getMessages() as $rule => $message) {
@@ -38,7 +40,7 @@ class FormMessages
                     $message = trans($message);
                 }
 
-                $messages[$field->prefix.$field->field.'.'.$rule] = $message;
+                $messages[$field->getPrefix() . $field->getField() . '.' . $rule] = $message;
             }
         }
 

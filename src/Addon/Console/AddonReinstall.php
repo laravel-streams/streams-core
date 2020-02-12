@@ -2,10 +2,12 @@
 
 namespace Anomaly\Streams\Platform\Addon\Console;
 
-use Anomaly\Streams\Platform\Addon\AddonManager;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputArgument;
+use Illuminate\Support\Facades\Artisan;
+use Anomaly\Streams\Platform\Addon\AddonManager;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
+use Anomaly\Streams\Platform\Model\EloquentQueryBuilder;
 
 /**
  * Class AddonReinstall
@@ -40,8 +42,15 @@ class AddonReinstall extends Command
     {
         $addon = app($this->argument('addon'));
 
-        $manager->uninstall($addon);
-        $manager->install($addon, $this->option('seed'));
+        $options = [
+            'addon' => $this->argument('addon'),
+        ];
+
+        Artisan::call('addon:uninstall', $options);
+
+        $options['--seed'] = $addon->getPath('migrations');
+
+        Artisan::call('addon:install', $options);
 
         $this->info('Addon [' . $this->argument('addon') . '] was reinstalled.');
     }

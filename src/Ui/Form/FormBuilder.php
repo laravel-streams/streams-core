@@ -1361,7 +1361,9 @@ class FormBuilder
             function ($slug) use ($prefix) {
                 return $prefix . $slug;
             },
-            array_unique($fields->pluck('field')->all())
+            array_unique($fields->map(function ($field) {
+                return $field->getField();
+            })->all())
         );
     }
 

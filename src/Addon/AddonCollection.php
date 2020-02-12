@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Addon;
 
 use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Addon\Addon;
+use Exception;
 
 /**
  * Class AddonCollection
@@ -86,9 +87,9 @@ class AddonCollection extends Collection
      */
     public function instances()
     {
-        return $this->map(function ($addon, $namespace) {
+        return new Collection($this->map(function ($addon, $namespace) {
             return $this->instance($namespace);
-        });
+        })->all());
     }
 
     /**
@@ -135,13 +136,14 @@ class AddonCollection extends Collection
     /**
      * Return enabled addons.
      *
+     * @todo replace this with using a config / runtime cache of namespaces from database
      * @return AddonCollection
      */
     public function enabled()
     {
         return $this->installable()->filter(
             function (array $addon) {
-                return $addon['enabled'];
+                return array_get($addon, 'enabled');
             }
         );
     }
@@ -149,13 +151,14 @@ class AddonCollection extends Collection
     /**
      * Return installed addons.
      *
+     * @todo replace this with using a config / runtime cache of namespaces from database
      * @return AddonCollection
      */
     public function installed()
     {
         return $this->installable()->filter(
             function (array $addon) {
-                return $addon['installed'];
+                return array_get($addon, 'installed');
             }
         );
     }
@@ -163,13 +166,14 @@ class AddonCollection extends Collection
     /**
      * Return uninstalled addons.
      *
+     * @todo replace this with using a config / runtime cache of namespaces from database
      * @return AddonCollection
      */
     public function uninstalled()
     {
         return $this->installable()->filter(
             function (array $addon) {
-                return !$addon['installed'];
+                return !array_get($addon, 'installed');
             }
         );
     }
@@ -183,13 +187,18 @@ class AddonCollection extends Collection
      */
     public function __call($method, $arguments)
     {
-        $type = str_singular($method);
+        $type = str_singular(snake_case($method));
 
-        if (in_array($type, config('streams::addons.types'))) {
+        if (in_array($type, [
+            'field_type',
+            'extension',
+            'module',
+            'theme',
+        ])) {
             return app("{$type}.collection");
         }
 
-        return call_user_func_array([$this, $method], $arguments);
+        throw new Exception("Method [{$method}] does not exist.");
     }
 
     /**
@@ -202,10 +211,15 @@ class AddonCollection extends Collection
     {
         $type = str_singular($name);
 
-        if (in_array($type, config('streams.addons.types', []))) {
+        if (in_array($type, [
+            'field_type',
+            'extension',
+            'module',
+            'theme',
+        ])) {
             return app("{$type}.collection");
         }
 
-        return $this->{$name};
+        return parent::get($name);
     }
 }

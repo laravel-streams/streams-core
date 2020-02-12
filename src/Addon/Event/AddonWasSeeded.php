@@ -17,16 +17,16 @@ class AddonWasSeeded
     /**
      * The addon namespace.
      *
-     * @var string
+     * @var Addon
      */
     protected $addon;
 
     /**
      * Create a new AddonWasSeeded instance.
      *
-     * @param string $addon
+     * @param Addon $addon
      */
-    public function __construct(string $addon)
+    public function __construct(Addon $addon)
     {
         $this->addon = $addon;
     }
@@ -34,7 +34,7 @@ class AddonWasSeeded
     /**
      * Get the addon namespace.
      *
-     * @return string
+     * @return Addon
      */
     public function getAddon()
     {

@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Addon\Event\AddonWasSeeded;
 use Anomaly\Streams\Platform\Addon\Event\AddonWasMigrated;
 use Anomaly\Streams\Platform\Addon\Event\AddonWasInstalled;
 use Anomaly\Streams\Platform\Addon\Event\AddonWasUninstalled;
-use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasMigrated;
 use Anomaly\Streams\Platform\Addon\Contract\AddonRepositoryInterface;
 
 /**
@@ -21,6 +20,18 @@ use Anomaly\Streams\Platform\Addon\Contract\AddonRepositoryInterface;
 class AddonManager
 {
 
+    protected $repository;
+
+    /**
+     * Creatae a new AddonManager class.
+     *
+     * @param AddonRepositoryInterface $repository
+     */
+    public function __construct(AddonRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * Install an addon.
      *
@@ -32,17 +43,11 @@ class AddonManager
     {
         $addon->fire('installing', ['addon' => $addon]);
 
-        $options = [
-            'addon' => $addon->getNamespace(),
-        ];
+        $this->migrate($addon);
 
-        Artisan::call('addon:migrate', $options);
+        $this->repository->install($addon);
 
-        app(AddonRepositoryInterface::class)->install($addon);
-
-        if ($seed) {
-            Artisan::call('addon:seed', $options);
-        }
+        $this->seed($addon);
 
         $addon->fire('installed', ['addon' => $addon]);
 
@@ -60,13 +65,9 @@ class AddonManager
     {
         $addon->fire('uninstalling', ['addon' => $addon]);
 
-        $options = [
-            'addon' => $addon->getNamespace(),
-        ];
+        $this->reset($addon);
 
-        Artisan::call('addon:reset', $options);
-
-        app(AddonRepositoryInterface::class)->uninstall($addon);
+        $this->repository->uninstall($addon);
 
         $addon->fire('uninstalled', ['addon' => $addon]);
 
@@ -83,7 +84,7 @@ class AddonManager
      */
     public function enable(Addon $addon)
     {
-        return app(AddonRepositoryInterface::class)->enable($addon);
+        return $this->repository->enable($addon);
     }
 
     /**
@@ -93,7 +94,7 @@ class AddonManager
      */
     public function disable(Addon $addon)
     {
-        return app(AddonRepositoryInterface::class)->disable($addon);
+        return $this->repository->disable($addon);
     }
 
     /**

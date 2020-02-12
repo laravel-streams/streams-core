@@ -4,7 +4,6 @@ namespace Anomaly\Streams\Platform\Addon\Contract;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
-use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
  * Interface AddonRepositoryInterface

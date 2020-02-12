@@ -15,13 +15,6 @@ trait Presentable
 {
 
     /**
-     * The presenter class.
-     *
-     * @var string
-     */
-    protected $presenter;
-
-    /**
      * Get the presenter.
      * 
      * return string

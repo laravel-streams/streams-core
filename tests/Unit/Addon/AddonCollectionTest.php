@@ -1,6 +1,7 @@
 <?php
 
 use Tests\TestCase;
+use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 
@@ -32,7 +33,8 @@ class AddonCollectionTest extends TestCase
     {
         $collection = app(AddonCollection::class);
 
-        $this->assertTrue($collection->instances()->first() instanceof Addon);
+        $this->assertTrue(($instance = $collection->instances()) instanceof Collection);
+        $this->assertTrue($instance->first() instanceof Addon);
     }
 
     public function testInstance()
@@ -48,6 +50,56 @@ class AddonCollectionTest extends TestCase
         $collection = app(AddonCollection::class);
 
         $this->assertTrue(str_is('*/*-field_type', $collection->type('field_type')->first()['name']));
+    }
+
+    public function testEnabled()
+    {
+        $collection = app(AddonCollection::class);
+
+        $this->assertTrue($collection->enabled() instanceof AddonCollection);
+    }
+
+    public function testInstalled()
+    {
+        $collection = app(AddonCollection::class);
+
+        $this->assertTrue($collection->installed() instanceof AddonCollection);
+    }
+
+    public function testUninstalled()
+    {
+        $collection = app(AddonCollection::class);
+
+        $this->assertTrue($collection->uninstalled() instanceof AddonCollection);
+    }
+
+    public function testInstallable()
+    {
+        $collection = app(AddonCollection::class);
+
+        $this->assertNull($collection->type('field_type')->installable()->first());
+        $this->assertNotNull($collection->type('module')->installable()->first());
+    }
+
+    public function testCanMapCallToAddonTypeCollection()
+    {
+        $collection = app(AddonCollection::class);
+
+        $this->assertTrue($collection->fieldTypes() instanceof AddonCollection);
+        $this->assertTrue($collection->fieldType() instanceof AddonCollection);
+
+        $this->expectException(\Exception::class);
+
+        $this->assertNull($collection->anything());
+    }
+
+    public function testCanMapGetToAddonTypeCollection()
+    {
+        $collection = app(AddonCollection::class);
+
+        $this->assertNull($collection->something);
+        $this->assertTrue($collection->field_types instanceof AddonCollection);
+        $this->assertTrue($collection->field_type instanceof AddonCollection);
     }
 
     /**

@@ -29,13 +29,12 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $bindings = [
-        'Anomaly\Streams\Platform\Lock\Contract\LockRepositoryInterface'             => \Anomaly\Streams\Platform\Lock\LockRepository::class,
+
         'Anomaly\Streams\Platform\Addon\Contract\AddonRepositoryInterface'           => \Anomaly\Streams\Platform\Addon\AddonRepository::class,
         'Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface'           => \Anomaly\Streams\Platform\Entry\EntryRepository::class,
         'Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface'           => \Anomaly\Streams\Platform\Field\FieldRepository::class,
         'Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface'         => \Anomaly\Streams\Platform\Stream\StreamRepository::class,
         'Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface'        => \Anomaly\Streams\Platform\Model\EloquentRepository::class,
-        'Anomaly\Streams\Platform\Version\Contract\VersionRepositoryInterface'       => \Anomaly\Streams\Platform\Version\VersionRepository::class,
 
         'addon.collection'      => \Anomaly\Streams\Platform\Addon\AddonCollection::class,
         'theme.collection'      => \Anomaly\Streams\Platform\Addon\Theme\ThemeCollection::class,
@@ -68,6 +67,8 @@ class StreamsServiceProvider extends ServiceProvider
         \Anomaly\Streams\Platform\Support\Authorizer::class => \Anomaly\Streams\Platform\Support\Authorizer::class,
         \Anomaly\Streams\Platform\Support\Translator::class => \Anomaly\Streams\Platform\Support\Translator::class,
 
+        \Anomaly\Streams\Platform\Addon\AddonManager::class => \Anomaly\Streams\Platform\Addon\AddonManager::class,
+
         \Anomaly\Streams\Platform\Addon\Theme\ThemeCollection::class         => \Anomaly\Streams\Platform\Addon\Theme\ThemeCollection::class,
         \Anomaly\Streams\Platform\Addon\Module\ModuleCollection::class       => \Anomaly\Streams\Platform\Addon\Module\ModuleCollection::class,
         \Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection::class => \Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection::class,
@@ -79,10 +80,6 @@ class StreamsServiceProvider extends ServiceProvider
         \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder::class => \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder::class,
         \Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry::class     => \Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry::class,
         \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry::class => \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry::class,
-
-        \Anomaly\Streams\Platform\View\ViewComposer::class        => \Anomaly\Streams\Platform\View\ViewComposer::class,
-        \Anomaly\Streams\Platform\View\ViewOverrides::class       => \Anomaly\Streams\Platform\View\ViewOverrides::class,
-        \Anomaly\Streams\Platform\View\ViewMobileOverrides::class => \Anomaly\Streams\Platform\View\ViewMobileOverrides::class,
 
         \Anomaly\Streams\Platform\Support\Purifier::class         => \Anomaly\Streams\Platform\Support\Purifier::class,
         \Anomaly\Streams\Platform\Field\FieldRouter::class        => \Anomaly\Streams\Platform\Field\FieldRouter::class,
@@ -543,7 +540,7 @@ class StreamsServiceProvider extends ServiceProvider
          * defined then let it handle itself.
          */
         try {
-            \Route::getRoutes()->match($request);
+            Route::getRoutes()->match($request);
 
             return;
         } catch (\Exception $exception) {
@@ -554,8 +551,8 @@ class StreamsServiceProvider extends ServiceProvider
             return;
         }
 
-        \Route::middleware('web')->group(function () use ($path, $method, $controller) {
-            \Route::any(
+        Route::middleware('web')->group(function () use ($path, $method, $controller) {
+            Route::any(
                 $path,
                 [
                     'uses' => $controller . '@' . $method,

@@ -27,6 +27,10 @@ trait Streams
      */
     public static function bootStreams()
     {
+        if (is_object(self::$stream)) {
+            return self::$stream;
+        }
+
         self::$stream['model'] = new static;
 
         StreamManager::put(self::class, self::$stream = StreamBuilder::build(self::$stream));

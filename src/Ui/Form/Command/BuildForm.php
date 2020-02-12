@@ -52,7 +52,7 @@ class BuildForm
         dispatch_now(new SetFormStream($this->builder));
         dispatch_now(new SetRepository($this->builder));
         dispatch_now(new SetFormEntry($this->builder));
-        dispatch_now(new SetFormVersion($this->builder));
+        //dispatch_now(new SetFormVersion($this->builder));
         dispatch_now(new SetDefaultParameters($this->builder));
         dispatch_now(new SetFormOptions($this->builder));
         dispatch_now(new SetDefaultOptions($this->builder));

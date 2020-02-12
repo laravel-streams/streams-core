@@ -28,18 +28,6 @@ class Extension extends Addon
      */
     protected $active = false;
 
-    /**
-     * Set the provides string.
-     *
-     * @param $provides
-     * @return $this
-     */
-    public function setProvides($provides)
-    {
-        $this->provides = $provides;
-
-        return $this;
-    }
 
     /**
      * Get the provides string.
@@ -49,29 +37,6 @@ class Extension extends Addon
     public function getProvides()
     {
         return $this->provides;
-    }
-
-    /**
-     * Set the active flag.
-     *
-     * @param  $active
-     * @return $this
-     */
-    public function setActive($active)
-    {
-        $this->active = $active;
-
-        return $this;
-    }
-
-    /**
-     * Get the active flag.
-     *
-     * @return bool
-     */
-    public function isActive()
-    {
-        return $this->active;
     }
 
     /**

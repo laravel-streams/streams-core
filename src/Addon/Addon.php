@@ -8,6 +8,8 @@ use Anomaly\Streams\Platform\Traits\Hookable;
 use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
+use Anomaly\Streams\Platform\Traits\HasMemory;
+use Anomaly\Streams\Platform\Traits\Presentable;
 
 /**
  * Class Addon
@@ -20,77 +22,65 @@ class Addon implements PresentableInterface, Arrayable
 {
 
     use Hookable;
+    use HasMemory;
+    use Presentable;
     use FiresCallbacks;
-
-    /**
-     * The installed flag.
-     *
-     * @var bool
-     */
-    protected $installed = false;
-
-    /**
-     * The enabled flag.
-     *
-     * @var bool
-     */
-    protected $enabled = false;
-
-    /**
-     * Static shared cache.
-     *
-     * @var array
-     */
-    protected static $_cache = [];
-
-    /**
-     * Runtime cache.
-     *
-     * @var array
-     */
-    protected $cache = [];
 
     /**
      * The addon path.
      *
      * @var string
      */
-    protected $path = null;
+    protected $path;
 
     /**
      * The addon type.
      *
      * @var string
      */
-    protected $type = null;
+    protected $type;
 
     /**
      * The addon slug.
      *
      * @var string
      */
-    protected $slug = null;
+    protected $slug;
 
     /**
      * Get the name.
      *
      * @var null|string
      */
-    protected $name = null;
+    protected $name;
 
     /**
      * Get the title.
      *
      * @var null|string
      */
-    protected $title = null;
+    protected $title;
 
     /**
      * Get the title.
      *
      * @var null|string
      */
-    protected $description = null;
+    protected $description;
+
+    /**
+     * The addon vendor.
+     *
+     * @var string
+     */
+    protected $vendor;
+
+    /**
+     * The addon namespace.
+     *
+     * @var null|string
+     */
+    protected $namespace;
 
     /**
      * The sub-addons to load.
@@ -100,18 +90,25 @@ class Addon implements PresentableInterface, Arrayable
     protected $addons = [];
 
     /**
-     * The addon vendor.
+     * The enabled flag.
      *
-     * @var string
+     * @var bool
      */
-    protected $vendor = null;
+    protected $enabled = false;
 
     /**
-     * The addon namespace.
+     * The installed flag.
      *
-     * @var null|string
+     * @var bool
      */
-    protected $namespace = null;
+    protected $installed = false;
+
+    /**
+     * The addon presenter.
+     *
+     * @var string|Presenter
+     */
+    protected $presenter = AddonPresenter::class;
 
     /**
      * Set the installed flag.
@@ -160,42 +157,6 @@ class Addon implements PresentableInterface, Arrayable
     }
 
     /**
-     * Get the addon's presenter.
-     *
-     * @return Presenter
-     */
-    public function newPresenter()
-    {
-        return app()->make(AddonPresenter::class, ['object' => $this]);
-    }
-
-    /**
-     * Return a new service provider.
-     *
-     * @return AddonServiceProvider
-     */
-    public function newServiceProvider()
-    {
-        return app()->make(
-            $this->getServiceProvider(),
-            [
-                'container' => app(),
-                'addon'     => $this,
-            ]
-        );
-    }
-
-    /**
-     * Get the service provider class.
-     *
-     * @return string
-     */
-    public function getServiceProvider()
-    {
-        return get_class($this) . 'ServiceProvider';
-    }
-
-    /**
      * Return whether the addon is core or not.
      *
      * @return bool
@@ -226,19 +187,6 @@ class Addon implements PresentableInterface, Arrayable
     }
 
     /**
-     * Set the name.
-     *
-     * @param $name
-     * @return $this
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
      * Get the addon name string.
      *
      * @return string
@@ -246,44 +194,6 @@ class Addon implements PresentableInterface, Arrayable
     public function getName()
     {
         return $this->name ?: $this->getNamespace('addon.name');
-    }
-
-    /**
-     * Set the title.
-     *
-     * @param $title
-     * @return $this
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get the addon title string.
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title ?: (trans()->has($this->getNamespace('addon.title')) ? $this->getNamespace(
-            'addon.title'
-        ) : $this->getName());
-    }
-
-    /**
-     * Set the description.
-     *
-     * @param $description
-     * @return $this
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
     }
 
     /**
@@ -309,30 +219,6 @@ class Addon implements PresentableInterface, Arrayable
         }
 
         return $this->namespace . ($key ? '::' . $key : $key);
-    }
-
-    /**
-     * Get the transformed
-     * class to another suffix.
-     *
-     * @param  null $suffix
-     * @return string
-     */
-    public function getTransformedClass($suffix = null)
-    {
-        $namespace = implode('\\', array_slice(explode('\\', get_class($this)), 0, -1));
-
-        return $namespace . ($suffix ? '\\' . $suffix : $suffix);
-    }
-
-    /**
-     * Return the ID representation (namespace).
-     *
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->getNamespace();
     }
 
     /**
@@ -372,23 +258,14 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function getComposerJson()
     {
-        $key = $this->getNamespace() . '::' . __FUNCTION__;
+        $self = $this;
 
-        if (isset(self::$_cache[$key])) {
-            return self::$_cache[$key];
-        }
+        return $this->once('composer.json', function () use ($self) {
 
-        $composer = $this->getPath('composer.json');
+            $composer = $self->getPath('composer.json');
 
-        if (!file_exists($composer)) {
-            return self::$_cache[$key] = null;
-        }
-
-        if (!$json = array_get(self::$_cache, $key)) {
-            return self::$_cache[$key] = json_decode(file_get_contents($composer), true);
-        }
-
-        return $json;
+            return json_decode(file_get_contents($composer), true);
+        });
     }
 
     /**
@@ -398,28 +275,23 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function getComposerLock()
     {
-        $key = $this->getNamespace() . '::' . __FUNCTION__;
+        $self = $this;
 
-        if (isset(self::$_cache[$key])) {
-            return self::$_cache[$key];
-        }
+        $target = $self->getPackageName();
 
-        $lock = base_path('composer.lock');
+        return $this->once('composer.lock', function () use ($self, $target) {
 
-        if (!file_exists($lock)) {
-            return self::$_cache[$key] = null;
-        }
+            $lock = base_path('composer.lock');
 
-        if (!$json = array_get(self::$_cache, 'composer.lock')) {
-            $json = self::$_cache['composer.lock'] = json_decode(file_get_contents($lock), true);
-        }
+            $json = json_decode(file_get_contents($lock), true);
 
-        return self::$_cache[$key] = array_first(
-            $json['packages'],
-            function (array $package) {
-                return $package['name'] == $this->getPackageName();
-            }
-        );
+            return array_first(
+                $json['packages'],
+                function (array $package) use ($target) {
+                    return $package['name'] == $target;
+                }
+            );
+        });
     }
 
     /**
@@ -429,13 +301,14 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function getReadme()
     {
-        $readme = $this->getPath('README.md');
+        $self = $this;
 
-        if (file_exists($readme)) {
+        return $this->once('README', function () use ($self) {
+
+            $readme = $self->getPath('README.md');
+
             return file_get_contents($readme);
-        }
-
-        return null;
+        });
     }
 
     /**
@@ -561,85 +434,11 @@ class Addon implements PresentableInterface, Arrayable
     }
 
     /**
-     * Set the loads
-     *
-     * @param $addons
-     * @return $this
-     */
-    public function setAddons(array $addons)
-    {
-        $this->addons = $addons;
-
-        return $this;
-    }
-
-    /**
      * Make the addon namespace.
      */
     protected function makeNamespace()
     {
         $this->namespace = "{$this->getVendor()}.{$this->getType()}.{$this->getSlug()}";
-    }
-
-    /**
-     * Get a property value from the object.
-     *
-     * @param $name
-     * @return mixed
-     */
-    public function __get($name)
-    {
-        $method = camel_case('get_' . $name);
-
-        if (method_exists($this, $method)) {
-            return $this->{$method}();
-        }
-
-        $method = camel_case('is_' . $name);
-
-        if (method_exists($this, $method)) {
-            return $this->{$method}();
-        }
-
-        return $this->{$name};
-    }
-
-    /**
-     * Return whether a property is set or not.
-     *
-     * @param $name
-     * @return bool
-     */
-    public function __isset($name)
-    {
-        $method = camel_case('get_' . $name);
-
-        if (method_exists($this, $method)) {
-            return true;
-        }
-
-        $method = camel_case('is_' . $name);
-
-        if (method_exists($this, $method)) {
-            return true;
-        }
-
-        return isset($this->{$name});
-    }
-
-    /**
-     * Return the addon as a string.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getNamespace();
-    }
-
-    function __sleep()
-    {
-        return array_diff(array_keys(get_object_vars($this)), ['cache']);
     }
 
     /**
@@ -650,14 +449,15 @@ class Addon implements PresentableInterface, Arrayable
     public function toArray()
     {
         return [
-            'name'       => $this->getName(),
-            'type'       => $this->getType(),
-            'path'       => $this->getPath(),
-            'slug'       => $this->getSlug(),
-            'vendor'     => $this->getVendor(),
-            'namespace'  => $this->getNamespace(),
-            'id'         => $this->getNamespace(),
-            'definition' => get_class($this),
+            'name'      => $this->getName(),
+            'type'      => $this->getType(),
+            'path'      => $this->getPath(),
+            'slug'      => $this->getSlug(),
+            'vendor'    => $this->getVendor(),
+            'namespace' => $this->getNamespace(),
+
+            'enabled'   => $this->isEnabled(),
+            'installed' => $this->isInstalled(),
         ];
     }
 }

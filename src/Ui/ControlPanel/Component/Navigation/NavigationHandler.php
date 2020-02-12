@@ -39,8 +39,8 @@ class NavigationHandler
                 function (Module $module) {
                     return [
                         'breadcrumb' => $module->getName(),
+                        'title'      => $module->getName(),
                         'icon'       => $module->getIcon(),
-                        'title'      => $module->getTitle(),
                         'slug'       => $module->getNamespace(),
                         'href'       => 'admin/' . $module->getSlug(),
                     ];

@@ -17,16 +17,16 @@ class AddonWasUninstalled
     /**
      * The addon namespace.
      *
-     * @var string
+     * @var Addon
      */
     protected $addon;
 
     /**
      * Create a new AddonWasUninstalled instance.
      *
-     * @param string $addon
+     * @param Addon $addon
      */
-    public function __construct(string $addon)
+    public function __construct(Addon $addon)
     {
         $this->addon = $addon;
     }

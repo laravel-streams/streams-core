@@ -14,6 +14,9 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 class AddonModel extends EloquentModel
 {
 
+    // protected $primaryKey = 'namespace';
+    // protected $keyType = 'string';
+
     /**
      * The table name.
      *
