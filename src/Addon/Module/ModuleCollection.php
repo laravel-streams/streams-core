@@ -66,19 +66,11 @@ class ModuleCollection extends AddonCollection
      */
     public function accessible()
     {
-        return $this;
-        $accessible = [];
-
         /* @var Authorizer $authorizer */
-        $authorizer = app('Anomaly\Streams\Platform\Support\Authorizer');
+        $authorizer = app(Authorizer::class);
 
-        /* @var Module $item */
-        foreach ($this->items as $item) {
-            if ($authorizer->authorize($item->getNamespace('*'))) {
-                $accessible[] = $item;
-            }
-        }
-
-        return self::make($accessible);
+        return $this->filter(function ($item) use ($authorizer) {
+            return $authorizer->authorize($item['namespace'] . '::*') ? $item : null;
+        });
     }
 }
