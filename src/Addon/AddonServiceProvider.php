@@ -133,7 +133,7 @@ class AddonServiceProvider extends ServiceProvider
 
         $path = dirname((new \ReflectionClass(get_called_class()))->getFileName(), 2);
 
-        $this->app->singleton($namespace, function ($app) use ($addon, $type, $slug, $vendor, $path) {
+        $this->app->singleton($namespace, function ($app) use ($addon, $namespace, $type, $slug, $vendor, $path) {
 
             // @var Addon $addon
             $addon = $app->make($addon)
@@ -146,17 +146,9 @@ class AddonServiceProvider extends ServiceProvider
                 return $addon;
             }
 
-            if (!$addon->isEnabled()) {
-
-                /**
-                 * @todo replace with cached/single collection.
-                 */
-                $state = AddonModel::findBy('namespace', $addon->getNamespace());
-
-                if ($state) {
-                    $addon->setEnabled($state->enabled);
-                    $addon->setInstalled($state->installed);
-                }
+            if ($data = app('addon.collection')->get($namespace)) {
+                $addon->setEnabled(array_get($data, 'enabled'));
+                $addon->setInstalled(array_get($data, 'installed'));
             }
 
             return $addon;
