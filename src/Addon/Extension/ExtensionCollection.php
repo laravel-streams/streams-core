@@ -23,8 +23,8 @@ class ExtensionCollection extends AddonCollection
      */
     public function search($pattern, $instance = true)
     {
-        return $this->instances()->map(function (Extension $addon, $namespace) use ($pattern) {
-            return str_is($pattern, $addon->getProvides()) ? $addon : null;
-        })->filter();
+        return $this->filter(function (array $addon) use ($pattern) {
+            return str_is($pattern, array_get($addon, 'extra.streams.provides')) ? $addon : null;
+        });
     }
 }

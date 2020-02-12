@@ -15,13 +15,6 @@ class Extension extends Addon
 {
 
     /**
-     * The provides string.
-     *
-     * @var null|string
-     */
-    protected $provides = null;
-
-    /**
      * The active flag.
      *
      * @var bool
@@ -34,9 +27,9 @@ class Extension extends Addon
      *
      * @return null|string
      */
-    public function getProvides()
+    public function provides()
     {
-        return $this->provides;
+        return array_get($this->getComposerJson(), 'extra.streams.provides');
     }
 
     /**
