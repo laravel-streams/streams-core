@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
@@ -33,4 +34,9 @@ class AddonModel extends EloquentModel
         'enabled' => 'boolean',
         'installed' => 'boolean',
     ];
+
+    public function newCollection(array $items = [])
+    {
+        return new EloquentCollection($items);
+    }
 }

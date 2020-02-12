@@ -3,7 +3,7 @@
 use Tests\TestCase;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 
-class ExtensionCollectionTest extends TestCase
+class ModuleCollectionTest extends TestCase
 {
 
     public function testSearch()

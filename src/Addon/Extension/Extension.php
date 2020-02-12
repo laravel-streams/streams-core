@@ -42,6 +42,7 @@ class Extension extends Addon
         return array_merge(
             parent::toArray(),
             [
+                'provides'  => $this->provides(),
                 'enabled'   => $this->isEnabled(),
                 'installed' => $this->isInstalled(),
             ]

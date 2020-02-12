@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
+use Anomaly\Streams\Platform\Addon\AddonModel;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Entry\EntryObserver;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -29,18 +30,17 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $bindings = [
-
-        'Anomaly\Streams\Platform\Addon\Contract\AddonRepositoryInterface'           => \Anomaly\Streams\Platform\Addon\AddonRepository::class,
-        'Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface'           => \Anomaly\Streams\Platform\Entry\EntryRepository::class,
-        'Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface'           => \Anomaly\Streams\Platform\Field\FieldRepository::class,
-        'Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface'         => \Anomaly\Streams\Platform\Stream\StreamRepository::class,
-        'Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface'        => \Anomaly\Streams\Platform\Model\EloquentRepository::class,
-
         'addon.collection'      => \Anomaly\Streams\Platform\Addon\AddonCollection::class,
         'theme.collection'      => \Anomaly\Streams\Platform\Addon\Theme\ThemeCollection::class,
         'module.collection'     => \Anomaly\Streams\Platform\Addon\Module\ModuleCollection::class,
         'extension.collection'  => \Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection::class,
         'field_type.collection' => \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection::class,
+
+        \Anomaly\Streams\Platform\Addon\Contract\AddonRepositoryInterface::class    => \Anomaly\Streams\Platform\Addon\AddonRepository::class,
+        \Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface::class    => \Anomaly\Streams\Platform\Entry\EntryRepository::class,
+        \Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface::class    => \Anomaly\Streams\Platform\Field\FieldRepository::class,
+        \Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface::class  => \Anomaly\Streams\Platform\Stream\StreamRepository::class,
+        \Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface::class => \Anomaly\Streams\Platform\Model\EloquentRepository::class,
     ];
 
     /**
@@ -200,6 +200,8 @@ class StreamsServiceProvider extends ServiceProvider
     {
         $this->app->singleton(AddonCollection::class, function () {
 
+            $states = AddonModel::get();
+
             $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
 
             $addons = array_filter($lock['packages'], function (array $package) {
@@ -213,8 +215,14 @@ class StreamsServiceProvider extends ServiceProvider
                 return "{$vendor}.{$type}.{$addon}";
             }, $addons), $addons);
 
-            array_walk($addons, function (&$addon, $namespace) {
+            array_walk($addons, function (&$addon, $namespace) use ($states) {
+
                 $addon['namespace'] = $namespace;
+
+                if ($state = $states->findBy('namespace', $namespace)) {
+                    $addon['enabled'] = $state->enabled;
+                    $addon['installed'] = $state->installed;
+                }
             });
 
             ksort($addons);
