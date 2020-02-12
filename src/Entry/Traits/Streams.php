@@ -36,6 +36,7 @@ trait Streams
         StreamManager::put(self::class, self::$stream = StreamBuilder::build(self::$stream));
 
         // This works but we don't wnat it. It's a test. Hook works too.
+        // @todo finish this
         // ($instance = new static)->bind('get_title_column', function () {
         //     return $this->stream()->getTitleColumn();
         // });
