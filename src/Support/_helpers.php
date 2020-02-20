@@ -2,12 +2,12 @@
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Support\Value;
 use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Support\Template;
+use Anomaly\Streams\Platform\Asset\AssetManager;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Stream\Command\GetStream;
@@ -364,10 +364,10 @@ if (!function_exists('assets')) {
     function assets($collection = null, $asset = null, array $filters = [])
     {
         if ($collection && $asset) {
-            return app(Asset::class)->add($collection, $asset, $filters);
+            return app(AssetManager::class)->add($collection, $asset, $filters);
         }
 
-        return app(Asset::class);
+        return app(AssetManager::class);
     }
 }
 

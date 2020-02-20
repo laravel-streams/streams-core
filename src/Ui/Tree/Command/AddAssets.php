@@ -1,6 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Command;
+<?php
 
-use Anomaly\Streams\Platform\Asset\Asset;
+namespace Anomaly\Streams\Platform\Ui\Tree\Command;
+
+use Anomaly\Streams\Platform\Asset\AssetManager;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 
 /**
@@ -33,10 +35,10 @@ class AddAssets
     /**
      * Handle the command.
      *
-     * @param  Asset      $asset
+     * @param  AssetManager      $asset
      * @throws \Exception
      */
-    public function handle(Asset $asset)
+    public function handle(AssetManager $asset)
     {
         foreach ($this->builder->getAssets() as $collection => $assets) {
             if (!is_array($assets)) {

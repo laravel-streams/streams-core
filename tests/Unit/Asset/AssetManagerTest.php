@@ -2,13 +2,13 @@
 
 use Tests\TestCase;
 
-class AssetTest extends TestCase
+class AssetManagerTest extends TestCase
 {
 
     public function testCanDownload()
     {
-        /* @var \Anomaly\Streams\Platform\Asset\Asset $asset */
-        $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
+        /* @var \Anomaly\Streams\Platform\Asset\AssetManager $asset */
+        $asset = app(\Anomaly\Streams\Platform\Asset\AssetManager::class);
 
         $target = 'https://gist.githubusercontent.com/RyanThompson/f75b540ecbd3bc9b5ee8614ccd4dc080/raw/89d093c39194a5875b39da930f97f5b18cf07efd/test.css';
 
@@ -26,8 +26,8 @@ class AssetTest extends TestCase
 
     public function testInline()
     {
-        /* @var \Anomaly\Streams\Platform\Asset\Asset $asset */
-        $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
+        /* @var \Anomaly\Streams\Platform\Asset\AssetManager $asset */
+        $asset = app(\Anomaly\Streams\Platform\Asset\AssetManager::class);
 
         $this->assertEquals(
             file_get_contents(base_path('vendor/anomaly/streams-platform/resources/testing/example.js')),
@@ -42,8 +42,8 @@ class AssetTest extends TestCase
 
     public function testUrl()
     {
-        /* @var \Anomaly\Streams\Platform\Asset\Asset $asset */
-        $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
+        /* @var \Anomaly\Streams\Platform\Asset\AssetManager $asset */
+        $asset = app(\Anomaly\Streams\Platform\Asset\AssetManager::class);
 
         $this->assertEquals(
             url('app/default/assets/anomaly/streams-platform/resources/testing/example.js'),
@@ -53,8 +53,8 @@ class AssetTest extends TestCase
 
     public function testPath()
     {
-        /* @var \Anomaly\Streams\Platform\Asset\Asset $asset */
-        $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
+        /* @var \Anomaly\Streams\Platform\Asset\AssetManager $asset */
+        $asset = app(\Anomaly\Streams\Platform\Asset\AssetManager::class);
 
         $this->assertEquals(
             '/app/default/assets/anomaly/streams-platform/resources/testing/example.js',
@@ -64,8 +64,8 @@ class AssetTest extends TestCase
 
     public function testAsset()
     {
-        /* @var \Anomaly\Streams\Platform\Asset\Asset $asset */
-        $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
+        /* @var \Anomaly\Streams\Platform\Asset\AssetManager $asset */
+        $asset = app(\Anomaly\Streams\Platform\Asset\AssetManager::class);
 
         $this->assertEquals(
             '/app/default/assets/anomaly/streams-platform/resources/testing/example.js',
@@ -75,8 +75,8 @@ class AssetTest extends TestCase
 
     public function testScript()
     {
-        /* @var \Anomaly\Streams\Platform\Asset\Asset $asset */
-        $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
+        /* @var \Anomaly\Streams\Platform\Asset\AssetManager $asset */
+        $asset = app(\Anomaly\Streams\Platform\Asset\AssetManager::class);
 
         $this->assertEquals(
             '<script foo="bar" src="/app/default/assets/anomaly/streams-platform/resources/testing/example.js"></script>',
@@ -86,8 +86,8 @@ class AssetTest extends TestCase
 
     public function testStyle()
     {
-        /* @var \Anomaly\Streams\Platform\Asset\Asset $asset */
-        $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
+        /* @var \Anomaly\Streams\Platform\Asset\AssetManager $asset */
+        $asset = app(\Anomaly\Streams\Platform\Asset\AssetManager::class);
 
         $this->assertEquals(
             '<link foo="bar" media="all" type="text/css" rel="stylesheet" href="/app/default/assets/anomaly/streams-platform/resources/testing/example.css">',
@@ -97,8 +97,8 @@ class AssetTest extends TestCase
 
     public function testScripts()
     {
-        /* @var \Anomaly\Streams\Platform\Asset\Asset $asset */
-        $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
+        /* @var \Anomaly\Streams\Platform\Asset\AssetManager $asset */
+        $asset = app(\Anomaly\Streams\Platform\Asset\AssetManager::class);
 
         $asset->add('test.js', 'streams::testing/example.js');
         $asset->add('test.js', 'streams::testing/example2.js');
@@ -114,8 +114,8 @@ class AssetTest extends TestCase
 
     public function testStyles()
     {
-        /* @var \Anomaly\Streams\Platform\Asset\Asset $asset */
-        $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
+        /* @var \Anomaly\Streams\Platform\Asset\AssetManager $asset */
+        $asset = app(\Anomaly\Streams\Platform\Asset\AssetManager::class);
 
         $asset->add('test.css', 'streams::testing/example.css');
         $asset->add('test.css', 'streams::testing/example2.css');
@@ -131,8 +131,8 @@ class AssetTest extends TestCase
 
     public function testPaths()
     {
-        /* @var \Anomaly\Streams\Platform\Asset\Asset $asset */
-        $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
+        /* @var \Anomaly\Streams\Platform\Asset\AssetManager $asset */
+        $asset = app(\Anomaly\Streams\Platform\Asset\AssetManager::class);
 
         $asset->add('test.css', 'streams::testing/example.css');
         $asset->add('test.css', 'streams::testing/example2.css');
@@ -148,8 +148,8 @@ class AssetTest extends TestCase
 
     public function testUrls()
     {
-        /* @var \Anomaly\Streams\Platform\Asset\Asset $asset */
-        $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
+        /* @var \Anomaly\Streams\Platform\Asset\AssetManager $asset */
+        $asset = app(\Anomaly\Streams\Platform\Asset\AssetManager::class);
 
         $asset->add('test.css', 'streams::testing/example.css');
         $asset->add('test.css', 'streams::testing/example2.css');
@@ -169,8 +169,8 @@ class AssetTest extends TestCase
 
     public function testInlines()
     {
-        /* @var \Anomaly\Streams\Platform\Asset\Asset $asset */
-        $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
+        /* @var \Anomaly\Streams\Platform\Asset\AssetManager $asset */
+        $asset = app(\Anomaly\Streams\Platform\Asset\AssetManager::class);
 
         $asset->add('test.css', 'streams::testing/example.css');
         $asset->add('test.css', 'streams::testing/example2.css');
@@ -186,8 +186,8 @@ class AssetTest extends TestCase
 
     public function testLastModifiedAt()
     {
-        /* @var \Anomaly\Streams\Platform\Asset\Asset $asset */
-        $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
+        /* @var \Anomaly\Streams\Platform\Asset\AssetManager $asset */
+        $asset = app(\Anomaly\Streams\Platform\Asset\AssetManager::class);
 
         $time = time();
 
@@ -201,8 +201,8 @@ class AssetTest extends TestCase
 
     public function testAddPath()
     {
-        /* @var \Anomaly\Streams\Platform\Asset\Asset $asset */
-        $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
+        /* @var \Anomaly\Streams\Platform\Asset\AssetManager $asset */
+        $asset = app(\Anomaly\Streams\Platform\Asset\AssetManager::class);
 
         $asset->addPath(
             'testing',

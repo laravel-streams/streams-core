@@ -4,7 +4,7 @@ namespace Anomaly\Streams\Platform;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Anomaly\Streams\Platform\Asset\Asset;
+use Anomaly\Streams\Platform\Asset\AssetManager;
 use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Addon\AddonModel;
 use Anomaly\Streams\Platform\Entry\EntryModel;
@@ -49,12 +49,12 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $singletons = [
-        'asset'    => \Anomaly\Streams\Platform\Asset\Asset::class,
+        'asset'    => \Anomaly\Streams\Platform\Asset\AssetManager::class,
         'streams'  => \Anomaly\Streams\Platform\Stream\StreamManager::class,
         'messages' => \Anomaly\Streams\Platform\Message\MessageBag::class,
 
-        \Anomaly\Streams\Platform\Asset\Asset::class             => \Anomaly\Streams\Platform\Asset\Asset::class,
-        \Anomaly\Streams\Platform\Image\Image::class             => \Anomaly\Streams\Platform\Image\Image::class,
+        \Anomaly\Streams\Platform\Asset\AssetManager::class      => \Anomaly\Streams\Platform\Asset\AssetManager::class,
+        \Anomaly\Streams\Platform\Image\ImageManager::class      => \Anomaly\Streams\Platform\Image\ImageManager::class,
         \Anomaly\Streams\Platform\Message\MessageBag::class      => \Anomaly\Streams\Platform\Message\MessageBag::class,
         \Anomaly\Streams\Platform\Stream\StreamManager::class    => \Anomaly\Streams\Platform\Stream\StreamManager::class,
         \Anomaly\Streams\Platform\Routing\UrlGenerator::class    => \Anomaly\Streams\Platform\Routing\UrlGenerator::class,
@@ -286,7 +286,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function addAssetNamespaces()
     {
-        $asset = app(Asset::class);
+        $asset = app(AssetManager::class);
 
         $asset->setDirectory(public_path());
 

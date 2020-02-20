@@ -11,13 +11,13 @@ use League\Flysystem\MountManager;
 use tubalmartin\CssMin\Minifier;
 
 /**
- * Class Asset
+ * Class AssetManager
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Asset
+class AssetManager
 {
 
     /**
