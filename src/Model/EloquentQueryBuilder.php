@@ -361,7 +361,7 @@ class EloquentQueryBuilder extends Builder
                 )
         );
 
-        $this->query->groupBy([$model->getTableName() . '.id', $model->getTranslationsTableName() . '.id']);
+        $this->query->groupBy([$model->getTableName() . '.id']);
 
         /**
          * Grab either what matches or null because
