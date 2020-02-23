@@ -46,7 +46,7 @@ return [
 
             // The base template class to use for generated templates.
             // default: TwigBridge\Twig\Template
-            'base_template_class' => '\Anomaly\Streams\Platform\View\Twig\Template',
+            'base_template_class' => '\Anomaly\Streams\Platform\Support\Twig\Template',
 
             // An absolute path where to store the compiled templates, or false to disable caching. If null
             // then the cache file path is used.

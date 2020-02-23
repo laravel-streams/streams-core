@@ -1,17 +1,17 @@
 <?php
 
-namespace Anomaly\Streams\Platform\View;
+namespace Anomaly\Streams\Platform\Support;
 
 use Illuminate\Support\Collection;
 
 /**
- * Class ViewIncludes
+ * Class Includes
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class ViewIncludes extends Collection
+class Includes extends Collection
 {
 
     /**
