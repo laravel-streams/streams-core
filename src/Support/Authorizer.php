@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
 use Anomaly\Streams\Platform\Model\EloquentCollection;
-use Anomaly\Streams\Platform\User\Contract\RoleInterface;
-use Anomaly\Streams\Platform\User\Contract\UserInterface;
 
 /**
  * Class Authorizer
@@ -25,10 +23,10 @@ class Authorizer
      * Authorize a user against a permission.
      *
      * @param $permission
-     * @param UserInterface|null $user
+     * @param null $user
      * @return bool
      */
-    public function authorize($permission, UserInterface $user = null)
+    public function authorize($permission, $user = null)
     {
         if (!$user) {
             $user = user();
@@ -53,11 +51,11 @@ class Authorizer
      * Authorize a user against any permission.
      *
      * @param  array $permissions
-     * @param  UserInterface $user
+     * @param  $user
      * @param  bool $strict
      * @return bool
      */
-    public function authorizeAny(array $permissions, UserInterface $user = null, $strict = false)
+    public function authorizeAny(array $permissions, $user = null, $strict = false)
     {
         if (!$user) {
             $user = user();
@@ -80,11 +78,11 @@ class Authorizer
      * Authorize a user against all permission.
      *
      * @param  array $permissions
-     * @param  UserInterface $user
+     * @param  $user
      * @param  bool $strict
      * @return bool
      */
-    public function authorizeAll(array $permissions, UserInterface $user = null, $strict = false)
+    public function authorizeAll(array $permissions, $user = null, $strict = false)
     {
         if (!$user) {
             $user = user();
@@ -107,10 +105,10 @@ class Authorizer
      * Return a user's permission.
      *
      * @param                $permission
-     * @param  UserInterface $user
+     * @param  $user
      * @return bool
      */
-    protected function checkPermission($permission, UserInterface $user)
+    protected function checkPermission($permission, $user)
     {
         /*
          * No permission, let it proceed.
@@ -201,10 +199,10 @@ class Authorizer
      * Authorize a user against a role.
      *
      * @param RoleInterface $role
-     * @param  UserInterface $user
+     * @param  $user
      * @return bool
      */
-    public function authorizeRole(RoleInterface $role, UserInterface $user = null)
+    public function authorizeRole(RoleInterface $role, $user = null)
     {
         if (!$user) {
             $user = user();
@@ -229,10 +227,10 @@ class Authorizer
      * Authorize a user against any role.
      *
      * @param EloquentCollection $roles
-     * @param  UserInterface $user
+     * @param  $user
      * @return bool
      */
-    public function authorizeAnyRole(EloquentCollection $roles, UserInterface $user = null)
+    public function authorizeAnyRole(EloquentCollection $roles, $user = null)
     {
         if ($roles->isEmpty()) {
             return true;

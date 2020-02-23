@@ -423,7 +423,7 @@ if (!function_exists('user')) {
     /**
      * Return the active user or null.
      *
-     * @return \Anomaly\Streams\Platform\User\Contract\UserInterface
+     * @return HasPermission
      */
     function user()
     {
