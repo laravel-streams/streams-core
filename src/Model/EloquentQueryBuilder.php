@@ -9,6 +9,7 @@ use Anomaly\Streams\Platform\Traits\HasMemory;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
  * Class EloquentQueryBuilder
@@ -158,7 +159,7 @@ class EloquentQueryBuilder extends Builder
         $query = $this->getQuery();
 
         if ($query->orders === null) {
-            if ($model instanceof EntryInterface) {
+            if ($model->stream instanceof StreamInterface) {
                 if ($model->stream->isSortable()) {
                     $query->orderBy($model->getTable() . '.sort_order', 'ASC');
                 } elseif (($field = $model->stream->fields->get($model->stream->getTitleColumn())) && $field->isTranslatable()) {
@@ -166,8 +167,6 @@ class EloquentQueryBuilder extends Builder
                     //$this->orderBy($model->stream->getTitleColumn() . '->' . app()->getLocale(), 'ASC');
                 } elseif ($model->stream->getTitleColumn() && $model->stream->getTitleColumn() !== 'id') {
                     $query->orderBy($model->stream->getTitleColumn(), 'ASC');
-                } else {
-                    dd('Tet');
                 }
             }
         }

@@ -2,9 +2,11 @@
 
 namespace Anomaly\Streams\Platform\Stream;
 
+use Illuminate\Support\Facades\Gate;
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Field\FieldBuilder;
 use Anomaly\Streams\Platform\Field\FieldFactory;
+use Anomaly\Streams\Platform\Stream\Event\StreamWasBuilt;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
@@ -34,6 +36,11 @@ class StreamBuilder
         $fields = FieldFactory::make($fields);
 
         $stream->fields = $fields;
+
+        $stream->fire('built', compact($stream));
+
+        // @todo replace with boot if not booted?
+        event(new StreamWasBuilt($stream));
 
         return $stream;
     }
