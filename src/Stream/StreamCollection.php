@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Model\EloquentCollection;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class StreamCollection
@@ -9,6 +9,6 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class StreamCollection extends EloquentCollection
+class StreamCollection extends Collection
 {
 }

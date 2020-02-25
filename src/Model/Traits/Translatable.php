@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Anomaly\Streams\Platform\Model\EloquentCollection;
+
 
 /**
  * Class Translatable

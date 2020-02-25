@@ -1,7 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Model\Command;
 
-use Anomaly\Streams\Platform\Model\EloquentCollection;
+
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class CascadeRestore
@@ -45,7 +46,7 @@ class CascadeRestore
                 $relation->restore();
             }
 
-            if ($relation instanceof EloquentCollection) {
+            if ($relation instanceof Collection) {
                 $relation->each(
                     function (EloquentModel $item) {
                         $item->restore();

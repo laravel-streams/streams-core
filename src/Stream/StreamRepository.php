@@ -2,12 +2,13 @@
 
 namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
-use Anomaly\Streams\Platform\Model\EloquentCollection;
+use Illuminate\Database\Schema\Builder;
+
+use Illuminate\Database\Eloquent\Collection;
 use Anomaly\Streams\Platform\Model\EloquentRepository;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
-use Illuminate\Database\Schema\Builder;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 
 /**
  * Class StreamRepository
@@ -86,7 +87,7 @@ class StreamRepository extends EloquentRepository implements StreamRepositoryInt
      * Find all streams in a namespace.
      *
      * @param  $namespace
-     * @return null|EloquentCollection
+     * @return null|Collection
      */
     public function findAllByNamespace($namespace)
     {

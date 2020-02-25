@@ -1,7 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Model\Command;
 
-use Anomaly\Streams\Platform\Model\EloquentCollection;
+
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
@@ -62,7 +63,7 @@ class CascadeDelete
                 $relation->{$action}();
             }
 
-            if ($relation instanceof EloquentCollection) {
+            if ($relation instanceof Collection) {
                 $relation->each(
                     function (EloquentModel $item) use ($action) {
                         $item->{$action}();

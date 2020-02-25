@@ -50,18 +50,6 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
     protected $translationModel = null;
 
     /**
-     * Observable model events.
-     *
-     * @var array
-     */
-    protected $observables = [
-        'updatingMultiple',
-        'updatedMultiple',
-        'deletingMultiple',
-        'deletedMultiple',
-    ];
-
-    /**
      * The cascading delete-able relations.
      *
      * @var array
@@ -109,23 +97,6 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
         }
 
         return new EloquentPresenter($this);
-    }
-
-    /**
-     * Return a new collection class with our models.
-     *
-     * @param  array $items
-     * @return Collection
-     */
-    public function newCollection(array $items = [])
-    {
-        $collection = substr(get_class($this), 0, -5) . 'Collection';
-
-        if (class_exists($collection)) {
-            return new $collection($items);
-        }
-
-        return new EloquentCollection($items);
     }
 
     /**

@@ -2,12 +2,13 @@
 
 namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Entry\EntryModel;
-use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
-use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Anomaly\Streams\Platform\Traits\Hookable;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Anomaly\Streams\Platform\Traits\Hookable;
+use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
 
 /**
  * Class EloquentRepository
@@ -26,7 +27,7 @@ class EloquentRepository implements EloquentRepositoryInterface
     /**
      * Return all records.
      *
-     * @return EloquentCollection
+     * @return Collection
      */
     public function all()
     {
@@ -36,7 +37,7 @@ class EloquentRepository implements EloquentRepositoryInterface
     /**
      * Return all records with trashed.
      *
-     * @return EloquentCollection
+     * @return Collection
      */
     public function allWithTrashed()
     {
@@ -46,7 +47,7 @@ class EloquentRepository implements EloquentRepositoryInterface
     /**
      * Return all records without relations.
      *
-     * @return EloquentCollection
+     * @return Collection
      */
     public function allWithoutRelations()
     {
@@ -95,7 +96,7 @@ class EloquentRepository implements EloquentRepositoryInterface
      * Find all records by IDs.
      *
      * @param  array $ids
-     * @return EloquentCollection
+     * @return Collection
      */
     public function findAll(array $ids)
     {
@@ -107,7 +108,7 @@ class EloquentRepository implements EloquentRepositoryInterface
      *
      * @param $column
      * @param $value
-     * @return EloquentCollection
+     * @return Collection
      */
     public function findAllBy($column, $value)
     {

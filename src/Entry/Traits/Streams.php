@@ -19,7 +19,7 @@ use Anomaly\Streams\Platform\Stream\StreamManager;
  */
 trait Streams
 {
-    use Hookable;
+    //use Hookable;
     use SoftDeletes;
 
     /**

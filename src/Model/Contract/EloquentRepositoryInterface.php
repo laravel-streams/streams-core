@@ -1,9 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Model\Contract;
 
-use Anomaly\Streams\Platform\Model\EloquentCollection;
+
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Interface EloquentRepositoryInterface
@@ -18,21 +19,21 @@ interface EloquentRepositoryInterface
     /**
      * Return all records.
      *
-     * @return EloquentCollection
+     * @return Collection
      */
     public function all();
 
     /**
      * Return all records with trashed.
      *
-     * @return EloquentCollection
+     * @return Collection
      */
     public function allWithTrashed();
 
     /**
      * Return all records without relations.
      *
-     * @return EloquentCollection
+     * @return Collection
      */
     public function allWithoutRelations();
 
@@ -65,7 +66,7 @@ interface EloquentRepositoryInterface
      * Find all records by IDs.
      *
      * @param  array $ids
-     * @return EloquentCollection
+     * @return Collection
      */
     public function findAll(array $ids);
 
@@ -74,7 +75,7 @@ interface EloquentRepositoryInterface
      *
      * @param $column
      * @param $value
-     * @return EloquentCollection
+     * @return Collection
      */
     public function findAllBy($column, $value);
 

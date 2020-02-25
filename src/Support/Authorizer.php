@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Anomaly\Streams\Platform\Model\EloquentCollection;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class Authorizer
@@ -226,11 +226,11 @@ class Authorizer
     /**
      * Authorize a user against any role.
      *
-     * @param EloquentCollection $roles
+     * @param Collection $roles
      * @param  $user
      * @return bool
      */
-    public function authorizeAnyRole(EloquentCollection $roles, $user = null)
+    public function authorizeAnyRole(Collection $roles, $user = null)
     {
         if ($roles->isEmpty()) {
             return true;

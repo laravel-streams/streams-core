@@ -11,6 +11,7 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\StreamBuilder;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+
 use Anomaly\Streams\Platform\Model\Traits\Streams;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
@@ -47,25 +48,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      * @var array
      */
     protected $relationships = [];
-
-    /**
-     * Hide these from toArray.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'stream',
-    ];
-
-    /**
-     * Date casted attributes.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'created_at',
-        'updated_at',
-    ];
 
     /**
      * Boot the model
@@ -111,21 +93,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         //     $fieldType->fire($trigger, $payload);
         // }
-    }
-
-    /**
-     * @param  array $items
-     * @return EntryCollection
-     */
-    public function newCollection(array $items = [])
-    {
-        $collection = substr(get_class($this), 0, -5) . 'Collection';
-
-        if (class_exists($collection)) {
-            return new $collection($items);
-        }
-
-        return new EntryCollection($items);
     }
 
     /**

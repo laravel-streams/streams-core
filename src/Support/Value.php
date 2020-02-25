@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Support;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Model\EloquentCollection;
+
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Contracts\Support\Arrayable;
 
@@ -72,7 +72,7 @@ class Value
             //         $value = $relation->getTitle();
             //     }
 
-            //     if ($relation instanceof EloquentCollection) {
+            //     if ($relation instanceof Collection) {
             //         $value = $relation;
             //     }
             // } else {

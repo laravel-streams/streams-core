@@ -3,8 +3,8 @@
 namespace Anomaly\Streams\Platform\Field;
 
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-use Anomaly\Streams\Platform\Model\EloquentCollection;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class FieldCollection
@@ -13,7 +13,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class FieldCollection extends EloquentCollection
+class FieldCollection extends Collection
 {
 
     /**

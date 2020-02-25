@@ -1,8 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Contract;
 
-use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
-use Anomaly\Streams\Platform\Model\EloquentCollection;
+use Illuminate\Database\Eloquent\Collection;
+
 use Anomaly\Streams\Platform\Stream\StreamCollection;
+use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
 
 /**
  * Interface StreamRepositoryInterface
@@ -35,7 +36,7 @@ interface StreamRepositoryInterface extends EloquentRepositoryInterface
      * Find all streams in a namespace.
      *
      * @param  $namespace
-     * @return null|EloquentCollection
+     * @return null|Collection
      */
     public function findAllByNamespace($namespace);
 

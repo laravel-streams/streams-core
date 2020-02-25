@@ -5,6 +5,7 @@ namespace Anomaly\Streams\Platform;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Anomaly\Streams\Platform\Image\Image;
+use Illuminate\Database\Eloquent\Collection;
 use Anomaly\Streams\Platform\Addon\AddonModel;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Asset\AssetManager;
@@ -13,7 +14,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Support\Configurator;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
-use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
  * Class StreamsServiceProvider
@@ -161,6 +161,10 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerComposerJson();
         $this->registerComposerLock();
 
+        Collection::macro('ids', function() {
+            return $this->pluck('id')->all();
+        });
+
         /**
          * Load core routes.
          */
@@ -204,7 +208,7 @@ class StreamsServiceProvider extends ServiceProvider
             if (config('streams.installed')) {
                 $states = AddonModel::get();
             } else {
-                $states = new EloquentCollection;
+                $states = new Collection;
             }
 
             $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
