@@ -10,13 +10,9 @@ use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Asset\AssetManager;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\Stream\Command\GetStream;
-use Anomaly\Streams\Platform\Stream\Command\GetStreams;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
-use Anomaly\Streams\Platform\Entry\Command\GetEntryCriteria;
 use Anomaly\Streams\Platform\Ui\Form\Command\GetFormCriteria;
 use Anomaly\Streams\Platform\Ui\Form\Command\GetTableCriteria;
-use Anomaly\Streams\Platform\Model\Command\GetEloquentCriteria;
 
 if (!function_exists('app_storage_path')) {
 
@@ -500,33 +496,16 @@ if (!function_exists('markdown')) {
     }
 }
 
-if (!function_exists('entry')) {
-
-    /**
-     * Return a single entry.
-     * 
-     * @return string
-     * 
-     * @return \Anomaly\Streams\Platform\Entry\EntryCriteria
-     */
-    function entry(string $namespace, string $stream = null)
-    {
-        return decorate(dispatch_now(new GetEntryCriteria($namespace, $stream ?: $namespace, 'first')));
-    }
-}
-
 if (!function_exists('entries')) {
 
     /**
      * Return a collection of entries.
      * 
-     * @return string
-     * 
-     * @return \Anomaly\Streams\Platform\Entry\EntryCriteria
+     * @return \Anomaly\Streams\Platform\Entry\EntryQueryBuilder
      */
     function entries(string $namespace, string $stream = null)
     {
-        return decorate(dispatch_now(new GetEntryCriteria($namespace, $stream ?: $namespace, 'get')));
+        return stream($namespace, $stream)->model->newQuery();
     }
 }
 
@@ -535,11 +514,11 @@ if (!function_exists('stream')) {
     /**
      * Return a single stream.
      * 
-     * @return string
+     * @return StreamInterface
      */
-    function stream(string $namespace, string $stream)
+    function stream(string $namespace, string $stream = null)
     {
-        return decorate(dispatch_now(new GetStream($namespace, $stream ?: $namespace, 'first')));
+        return decorate(app($namespace . '.' . $stream));
     }
 }
 
@@ -552,22 +531,7 @@ if (!function_exists('streams')) {
      */
     function streams(string $namespace)
     {
-        return decorate(dispatch_now(new GetStreams($namespace, 'get')));
-    }
-}
-
-if (!function_exists('queries')) {
-
-    /**
-     * Return a new query criteria.
-     *
-     * @param string $model
-     * 
-     * @param \Anomaly\Streams\Platform\Model\EloquentCriteria
-     */
-    function queries(string $model)
-    {
-        return decorate(dispatch_now(new GetEloquentCriteria($model, 'get')));
+        return app(\Anomaly\Streams\Platform\Stream\StreamManager::class);
     }
 }
 
