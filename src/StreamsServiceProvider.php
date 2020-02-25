@@ -4,15 +4,16 @@ namespace Anomaly\Streams\Platform;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Anomaly\Streams\Platform\Asset\AssetManager;
 use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Addon\AddonModel;
 use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Asset\AssetManager;
 use Anomaly\Streams\Platform\Entry\EntryObserver;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Support\Configurator;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
  * Class StreamsServiceProvider
@@ -200,7 +201,11 @@ class StreamsServiceProvider extends ServiceProvider
     {
         $this->app->singleton(AddonCollection::class, function () {
 
-            $states = AddonModel::get();
+            if (config('streams.installed')) {
+                $states = AddonModel::get();
+            } else {
+                $states = new EloquentCollection;
+            }
 
             $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
 
