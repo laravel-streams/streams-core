@@ -233,7 +233,7 @@ class Image
      * @param HtmlBuilder $html
      * @param Filesystem $files
      * @param Mobile_Detect $agent
-     * @param ImageManager $manager
+     * @param Image $manager
      * @param Request $request
      * @param Application $application
      * @param ImagePaths $paths
