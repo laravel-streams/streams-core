@@ -103,13 +103,6 @@ interface EntryInterface extends EloquentInterface
     //public function getRouterName();
 
     /**
-     * Get the query builder name.
-     *
-     * @return string
-     */
-    public function getQueryBuilderName();
-
-    /**
      * Return the routable array.
      *
      * @return array

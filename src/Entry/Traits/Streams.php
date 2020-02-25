@@ -21,6 +21,7 @@ trait Streams
 {
     //use Hookable;
     use SoftDeletes;
+    //use ProvidesQueryBuilders;
 
     /**
      * Boot the Streams trait. 
