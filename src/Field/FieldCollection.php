@@ -2,9 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Field;
 
-use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-
-use Illuminate\Database\Eloquent\Collection;
+use Anomaly\Streams\Platform\Support\Collection;
 
 /**
  * Class FieldCollection

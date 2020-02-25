@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Support;
 
+use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Support\HigherOrderCollectionProxy;
 
 /**
@@ -14,6 +15,8 @@ use Illuminate\Support\HigherOrderCollectionProxy;
 class Collection extends \Illuminate\Support\Collection
 {
 
+    use Hookable;
+
     /**
      * Map to get.
      *
@@ -22,10 +25,37 @@ class Collection extends \Illuminate\Support\Collection
      */
     public function __get($name)
     {
-        if (method_exists($this, $method = camel_case($name))) {
-            return call_user_func([$this, $method]);
+        if (in_array($name, static::$proxies)) {
+            return new HigherOrderCollectionProxy($this, $name);
         }
 
-        return $this->get($name);
+        if ($this->hasHook($name)) {
+            return $this->call($name, []);
+        }
+
+        if ($this->has($name)) {
+            return $this->get($name);
+        }
+
+        return call_user_func([$this, camel_case($name)]);
+    }
+
+    /**
+     * Map to get.
+     *
+     * @param string $method
+     * @param array $parameters
+     */
+    public function __call($method, $parameters)
+    {
+        if (self::hasMacro($method)) {
+            return parent::__call($method, $parameters);
+        }
+
+        if ($this->hasHook($hook = snake_case($method))) {
+            return $this->call($hook, $parameters);
+        }
+
+        return $this->get($method);
     }
 }

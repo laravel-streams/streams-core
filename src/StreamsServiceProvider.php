@@ -228,7 +228,7 @@ class StreamsServiceProvider extends ServiceProvider
 
                 $addon['namespace'] = $namespace;
 
-                if ($state = $states->findBy('namespace', $namespace)) {
+                if ($state = $states->where('namespace', $namespace)->first()) {
                     $addon['enabled'] = $state->enabled;
                     $addon['installed'] = $state->installed;
                 }
