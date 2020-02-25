@@ -41,6 +41,10 @@ class Refresh extends Command
 
         event(new SystemIsRefreshing($this));
 
+        $console->call('package:discover', []);
+
+        $this->info('Refreshing package list.');
+
         /**
          * Clear the various caches.
          */
