@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Ui\Form\Command\RepopulateFields;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetErrorMessages;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasValidated;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Support\MessageManger;
+use Illuminate\Support\MessageBag;
 use Illuminate\Validation\Validator;
 
 /**
@@ -86,7 +86,7 @@ class FormValidator
     {
         $factory = app('validator');
 
-        $builder->setFormErrors(new MessageManger());
+        $builder->setFormErrors(new MessageBag());
 
         $this->extender->extend($factory, $builder);
 
