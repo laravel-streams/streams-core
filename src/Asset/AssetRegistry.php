@@ -2,10 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Asset;
 
-use Anomaly\Streams\Platform\Application\Application;
-use Illuminate\Contracts\Config\Repository;
-use Illuminate\Http\Request;
-
 /**
  * Class AssetRegistry
  *

@@ -89,18 +89,10 @@ class AssetManager
     protected $template;
 
     /**
-     * The asset filters.
-     *
-     * @var AssetFilters
-     */
-    protected $filters;
-
-    /**
      * Create a new Asset instance.
      *
      * @param ThemeCollection $themes
      * @param MountManager $manager
-     * @param AssetFilters $filters
      * @param Template $template
      * @param Filesystem $files
      * @param AssetPaths $paths
@@ -109,7 +101,6 @@ class AssetManager
     public function __construct(
         ThemeCollection $themes,
         MountManager $manager,
-        AssetFilters $filters,
         Template $template,
         Filesystem $files,
         AssetPaths $paths,
@@ -119,7 +110,6 @@ class AssetManager
         $this->files       = $files;
         $this->paths       = $paths;
         $this->themes      = $themes;
-        $this->filters     = $filters;
         $this->manager     = $manager;
         $this->template    = $template;
     }

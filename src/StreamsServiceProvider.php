@@ -4,7 +4,7 @@ namespace Anomaly\Streams\Platform;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Anomaly\Streams\Platform\Image\Image;
+use Anomaly\Streams\Platform\Image\ImageManager;
 use Illuminate\Database\Eloquent\Collection;
 use Anomaly\Streams\Platform\Addon\AddonModel;
 use Anomaly\Streams\Platform\Entry\EntryModel;
@@ -55,6 +55,7 @@ class StreamsServiceProvider extends ServiceProvider
         'messages' => \Anomaly\Streams\Platform\Message\MessageBag::class,
 
         \Anomaly\Streams\Platform\Asset\AssetManager::class      => \Anomaly\Streams\Platform\Asset\AssetManager::class,
+        \Anomaly\Streams\Platform\Asset\AssetRegistry::class      => \Anomaly\Streams\Platform\Asset\AssetRegistry::class,
         \Anomaly\Streams\Platform\Image\ImageManager::class      => \Anomaly\Streams\Platform\Image\ImageManager::class,
         \Anomaly\Streams\Platform\Message\MessageBag::class      => \Anomaly\Streams\Platform\Message\MessageBag::class,
         \Anomaly\Streams\Platform\Stream\StreamManager::class    => \Anomaly\Streams\Platform\Stream\StreamManager::class,
