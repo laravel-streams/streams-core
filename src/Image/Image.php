@@ -12,7 +12,6 @@ use Intervention\Image\ImageManager;
 use Illuminate\Filesystem\Filesystem;
 use Anomaly\FilesModule\File\FilePresenter;
 use Anomaly\Streams\Platform\Support\Presenter;
-use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\FilesModule\File\Contract\FileInterface;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;

@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Anomaly\Streams\Platform\Message\MessageBag;
+use Anomaly\Streams\Platform\Message\MessageManger;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Http\Request;
 
@@ -36,9 +36,9 @@ class SetErrorMessages
      * Handle the command.
      *
      * @param Request $request
-     * @param MessageBag $messages
+     * @param MessageManger $messages
      */
-    public function handle(Request $request, MessageBag $messages)
+    public function handle(Request $request, MessageManger $messages)
     {
         if ($this->builder->isAjax()) {
             return;

@@ -5,13 +5,13 @@ namespace Anomaly\Streams\Platform\Message;
 use Illuminate\Session\Store;
 
 /**
- * Class MessageBag
+ * Class MessageManger
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class MessageBag
+class MessageManger
 {
 
     /**
@@ -22,7 +22,7 @@ class MessageBag
     protected $session;
 
     /**
-     * Create a new MessageBag instance.
+     * Create a new MessageManger instance.
      *
      * @param Store $session
      */
@@ -36,15 +36,18 @@ class MessageBag
      *
      * @param $type
      * @param $message
-     * @return MessageBag
+     * @return MessageManger
      */
     public function add($type, $message)
     {
         if (is_string($message)) {
-            //$message = ['text' => $message];
+            $message = [
+                'type' => $type,
+                'content' => $message,
+            ];
         }
-
-        return $this->merge($type, $message);
+        
+        return $this->merge(md5(json_encode($message)), $message);
     }
 
     /**
@@ -54,56 +57,37 @@ class MessageBag
      * @param $message
      * @return $this
      */
-    protected function merge($type, $message)
+    protected function merge(string $key, $message)
     {
-        $messages = $this->session->get($type, []);
+        $messages = $this->session->get('messages', []);
 
-        if (is_array($message)) {
-            $messages = array_merge($messages, $message);
-        }
+        $messages = array_merge($messages, [$key => $message]);
 
-        if (is_string($message)) {
-            array_push($messages, $message);
-        }
-
-        $messages = array_unique($messages);
-
-        $this->session->put($type, $messages);
+        $this->session->put('messages', $messages);
 
         return $this;
     }
 
     /**
-     * Return whether messages exist.
-     *
-     * @param $type
-     * @return bool
-     */
-    public function has($type)
-    {
-        return $this->session->has($type);
-    }
-
-    /**
      * Get messages.
      *
-     * @param $type
+     * @param array $default
      * @return array
      */
-    public function get($type)
+    public function get(array $default = [])
     {
-        return $this->session->get($type);
+        return $this->session->get('messages', $default);
     }
 
     /**
      * Pull the messages.
      *
-     * @param $type
+     * @param array $default
      * @return array
      */
-    public function pull($type)
+    public function pull(array $default = [])
     {
-        return $this->session->pull($type);
+        return $this->session->pull('messages', $default);
     }
 
     /**
@@ -114,7 +98,7 @@ class MessageBag
      */
     public function error($message)
     {
-        $this->merge(__FUNCTION__, $message);
+        $this->add(__FUNCTION__, $message);
 
         return $this;
     }
@@ -127,7 +111,7 @@ class MessageBag
      */
     public function info($message)
     {
-        $this->merge(__FUNCTION__, $message);
+        $this->add(__FUNCTION__, $message);
 
         return $this;
     }
@@ -140,7 +124,7 @@ class MessageBag
      */
     public function success($message)
     {
-        $this->merge(__FUNCTION__, $message);
+        $this->add(__FUNCTION__, $message);
 
         return $this;
     }
@@ -153,7 +137,7 @@ class MessageBag
      */
     public function warning($message)
     {
-        $this->merge(__FUNCTION__, $message);
+        $this->add(__FUNCTION__, $message);
 
         return $this;
     }
@@ -166,7 +150,7 @@ class MessageBag
      */
     public function important($message)
     {
-        $this->merge(__FUNCTION__, $message);
+        $this->add(__FUNCTION__, $message);
 
         return $this;
     }
@@ -174,23 +158,11 @@ class MessageBag
     /**
      * Flush the messages.
      *
-     * @param null $type
      * @return $this
      */
-    public function flush($type = null)
+    public function flush()
     {
-        if ($type) {
-
-            $this->session->forget($type);
-
-            return $this;
-        }
-
-        $this->session->forget('info');
-        $this->session->forget('error');
-        $this->session->forget('success');
-        $this->session->forget('warning');
-        $this->session->forget('important');
+        $this->session->forget('messages');
 
         return $this;
     }

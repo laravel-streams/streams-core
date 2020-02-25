@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Message\MessageBag;
+use Anomaly\Streams\Platform\Message\MessageManger;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -33,15 +33,15 @@ class AddErrorMessages
     /**
      * Handle the command.
      *
-     * @param MessageBag $messages
+     * @param MessageManger $messages
      */
-    public function handle(MessageBag $messages)
+    public function handle(MessageManger $messages)
     {
         $form = $this->builder->getForm();
 
         $errors = $form->getErrors();
 
-        if ($errors instanceof \Illuminate\Support\MessageBag) {
+        if ($errors instanceof \Illuminate\Support\MessageManger) {
             $messages->error($errors->all());
         }
     }

@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Support\MessageBag;
 use Illuminate\Session\Store;
 
 /**
@@ -37,7 +35,7 @@ class LoadFormErrors
      */
     public function handle(Store $session)
     {
-        /* @var MessageBag $errors */
+        /* @var \Illuminate\Support\MessageBag $errors */
         if ($errors = $session->get($this->builder->getOption('prefix') . 'errors')) {
             $this->builder->setFormErrors($errors);
         }

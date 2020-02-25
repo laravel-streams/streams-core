@@ -2,22 +2,22 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Entry\EntryModel;
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Support\Collection;
-use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
-use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
-use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldCollection;
-use Anomaly\Streams\Platform\Ui\Form\Component\Section\SectionCollection;
-use Illuminate\Support\MessageBag;
 use Illuminate\View\View;
-use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
+use Illuminate\Support\MessageBag;
+use Anomaly\Streams\Platform\Entry\EntryModel;
 use Symfony\Component\HttpFoundation\Response;
+use Anomaly\Streams\Platform\Support\Collection;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
+use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldCollection;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
+use Anomaly\Streams\Platform\Ui\Form\Component\Section\SectionCollection;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 
 /**
  * Class Form

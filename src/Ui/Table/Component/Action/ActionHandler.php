@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
-use Anomaly\Streams\Platform\Message\MessageBag;
+use Anomaly\Streams\Platform\Message\MessageManger;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -17,16 +17,16 @@ abstract class ActionHandler
     /**
      * The message bag.
      *
-     * @var MessageBag
+     * @var MessageManger
      */
     protected $messages;
 
     /**
      * Create a new ActionHandler instance.
      *
-     * @param MessageBag $messages
+     * @param MessageManger $messages
      */
-    public function __construct(MessageBag $messages)
+    public function __construct(MessageManger $messages)
     {
         $this->messages = $messages;
     }

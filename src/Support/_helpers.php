@@ -8,7 +8,7 @@ use Anomaly\Streams\Platform\Support\Value;
 use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Asset\AssetManager;
-use Anomaly\Streams\Platform\Message\MessageBag;
+use Anomaly\Streams\Platform\Message\MessageManger;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Form\Command\GetFormCriteria;
@@ -332,18 +332,18 @@ if (!function_exists('messages')) {
     function messages($type = null, $message = null)
     {
         if (!$type && !$message) {
-            return app(MessageBag::class);
+            return app(MessageManger::class);
         }
 
         if ($type && !$message) {
-            return app(MessageBag::class)->get($type);
+            return app(MessageManger::class)->get($type);
         }
 
         if ($type && $message) {
-            return app(MessageBag::class)->add($type, $message);
+            return app(MessageManger::class)->add($type, $message);
         }
 
-        return app(MessageBag::class);
+        return app(MessageManger::class);
     }
 }
 

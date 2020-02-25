@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Entry\EntryModel;
-use Anomaly\Streams\Platform\Message\MessageBag;
+use Anomaly\Streams\Platform\Message\MessageManger;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -40,9 +40,9 @@ class HandleVersioning
     /**
      * Handle the command.
      *
-     * @param MessageBag $messages
+     * @param MessageManger $messages
      */
-    public function handle(MessageBag $messages)
+    public function handle(MessageManger $messages)
     {
         /**
          * If we can't save, there are

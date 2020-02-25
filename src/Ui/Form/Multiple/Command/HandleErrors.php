@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
-use Illuminate\Support\MessageBag;
+use Illuminate\Support\MessageManger;
 
 /**
  * Class HandleErrors
@@ -56,9 +56,9 @@ class HandleErrors
     /**
      * Merge the errors into the multiple form builder.
      *
-     * @param MessageBag $errors
+     * @param MessageManger $errors
      */
-    protected function mergeErrors(MessageBag $errors)
+    protected function mergeErrors(MessageManger $errors)
     {
         foreach ($errors->getMessages() as $field => $message) {
             $this->builder->addFormError($field, implode('<br>', $message));

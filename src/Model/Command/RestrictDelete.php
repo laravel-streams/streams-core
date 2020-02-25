@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Model\Command;
 
-use Anomaly\Streams\Platform\Message\MessageBag;
+use Anomaly\Streams\Platform\Message\MessageManger;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
@@ -34,11 +34,11 @@ class RestrictDelete
     /**
      * Handle the command.
      *
-     * @param MessageBag $messages
+     * @param MessageManger $messages
      *
      * @return bool
      */
-    public function handle(MessageBag $messages)
+    public function handle(MessageManger $messages)
     {
         foreach ($this->model->getRestricts() as $relation) {
             $humanize = humanize($relation);
