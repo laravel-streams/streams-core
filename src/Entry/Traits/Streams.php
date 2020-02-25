@@ -2,12 +2,11 @@
 
 namespace Anomaly\Streams\Platform\Model\Traits;
 
+use Exception;
+use Anomaly\Streams\Platform\Traits\Hookable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Anomaly\Streams\Platform\Stream\StreamBuilder;
 use Anomaly\Streams\Platform\Stream\StreamManager;
-use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Anomaly\Streams\Platform\Traits\Hookable;
-use Exception;
-use Illuminate\Support\Traits\Macroable;
 
 /**
  * Class Streams
@@ -20,7 +19,8 @@ use Illuminate\Support\Traits\Macroable;
  */
 trait Streams
 {
-    //use Hookable; // @todo remove commenting when models removed (full trait)
+    use Hookable;
+    use SoftDeletes;
 
     /**
      * Boot the Streams trait. 

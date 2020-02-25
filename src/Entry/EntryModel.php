@@ -26,7 +26,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 {
     use Searchable;
     use Versionable;
-    use SoftDeletes;
 
     /**
      * Enable timestamps.
