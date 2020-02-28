@@ -600,7 +600,7 @@ class Image
         if (starts_with($this->getImage(), ['http://', 'https://', '//'])) {
             return $this->getImage();
         }
-
+        
         $path = $this->paths->outputPath($this);
 
         try {
@@ -933,11 +933,11 @@ class Image
     protected function makeImage()
     {
         if ($this->image instanceof FileInterface) {
-            return $this->manager->make(app(MountManager::class)->read($this->image->location()));
+            return $this->manager->make(app(MountManager::class)->url($this->image->location()));
         }
 
         if (is_string($this->image) && str_is('*://*', $this->image)) {
-            return $this->manager->make(app(MountManager::class)->read($this->image));
+            return $this->manager->make(app(MountManager::class)->url($this->image));
         }
 
         if ($this->image instanceof File) {
