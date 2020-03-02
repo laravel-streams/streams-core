@@ -15,7 +15,6 @@ use Anomaly\Streams\Platform\Model\Command\RestrictDelete;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereDeleted;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereUpdated;
-use Anomaly\Streams\Platform\Support\Observer;
 
 /**
  * Class EntryObserver
@@ -25,7 +24,7 @@ use Anomaly\Streams\Platform\Support\Observer;
  * @author  Ryan Thompson <ryan@pyrocms.com>
  *
  */
-class EntryObserver extends Observer
+class EntryObserver
 {
 
     /**
@@ -47,7 +46,7 @@ class EntryObserver extends Observer
     {
         $entry->fireFieldTypeEvents('entry_created');
 
-        $this->events->dispatch(new EntryWasCreated($entry));
+        event(new EntryWasCreated($entry));
     }
 
     /**
@@ -60,7 +59,7 @@ class EntryObserver extends Observer
 
         $entry->fireFieldTypeEvents('entry_updated');
 
-        $this->events->dispatch(new EntryWasUpdated($entry));
+        event(new EntryWasUpdated($entry));
     }
 
     /**
@@ -71,7 +70,7 @@ class EntryObserver extends Observer
     public function updatedMultiple(EntryInterface $entry)
     {
 
-        $this->events->dispatch(new ModelsWereUpdated($entry));
+        event(new ModelsWereUpdated($entry));
     }
 
     /**
@@ -84,7 +83,7 @@ class EntryObserver extends Observer
     {
         //$entry->fireFieldTypeEvents('entry_saving');
 
-        $this->commands->dispatch(new SetMetaInformation($entry));
+        dispatch_now(new SetMetaInformation($entry));
     }
 
     /**
@@ -96,15 +95,15 @@ class EntryObserver extends Observer
     {
         $entry->fireFieldTypeEvents('entry_saved');
 
-        if (
-            !$entry->versioningDisabled() &&
-            $entry->isVersionable() &&
-            $entry->shouldVersion()
-        ) {
-            $entry->version();
-        }
+        // if (
+        //     !$entry->versioningDisabled() &&
+        //     $entry->isVersionable() &&
+        //     $entry->shouldVersion()
+        // ) {
+        //     $entry->version();
+        // }
 
-        $this->events->dispatch(new EntryWasSaved($entry));
+        event(new EntryWasSaved($entry));
     }
 
     /**
@@ -130,7 +129,7 @@ class EntryObserver extends Observer
     {
         $entry->fireFieldTypeEvents('entry_deleted');
 
-        $this->events->dispatch(new EntryWasDeleted($entry));
+        event(new EntryWasDeleted($entry));
     }
 
     /**
@@ -141,7 +140,7 @@ class EntryObserver extends Observer
     public function deletedMultiple(EntryInterface $entry)
     {
 
-        $this->events->dispatch(new ModelsWereDeleted($entry));
+        event(new ModelsWereDeleted($entry));
     }
 
     /**
@@ -165,6 +164,6 @@ class EntryObserver extends Observer
 
         $this->dispatchNow(new CascadeRestore($entry));
 
-        $this->events->dispatch(new EntryWasRestored($entry));
+        event(new EntryWasRestored($entry));
     }
 }

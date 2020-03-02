@@ -3,10 +3,14 @@
 namespace Anomaly\Streams\Platform\Model\Traits;
 
 use Exception;
+use Laravel\Scout\Searchable;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Anomaly\Streams\Platform\Traits\Versionable;
+use Anomaly\Streams\Platform\Entry\EntryObserver;
 use Anomaly\Streams\Platform\Stream\StreamBuilder;
 use Anomaly\Streams\Platform\Stream\StreamManager;
+use Anomaly\Streams\Platform\Entry\Traits\Translatable;
 
 /**
  * Class Streams
@@ -20,7 +24,10 @@ use Anomaly\Streams\Platform\Stream\StreamManager;
 trait Streams
 {
     //use Hookable;
+    use Searchable;
     use SoftDeletes;
+    use Versionable;
+    use Translatable;
     //use ProvidesQueryBuilders;
 
     /**
@@ -46,11 +53,11 @@ trait Streams
             return $this->belongsTo(config('auth.providers.users.model'));
         });
         
-        ($instance = new static)->bind('fire_event', function ($event) {
+        $instance->bind('fire_event', function ($event) {
             return $this->fireModelEvent($event);
         });
         
-        ($instance = new static)->bind('fire_field_type_events', function ($event) {
+        $instance->bind('fire_field_type_events', function ($event) {
             //return $this->fireModelEvent($event);
         });
 
@@ -65,6 +72,21 @@ trait Streams
         $instance->bind('get_title', function () {
             return $this->{$this->stream->getTitleColumn()};
         });
+
+
+        // From EntryModel
+        $class     = get_class($instance);
+        $events    = $instance->getObservableEvents();
+        $observer  = substr($class, 0, -5) . 'Observer';
+        $observing = class_exists($observer);
+
+        if ($events && $observing) {
+            self::observe(app($observer));
+        }
+
+        if ($events && !$observing) {
+            self::observe(EntryObserver::class);
+        }
     }
 
     /**

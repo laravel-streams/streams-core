@@ -21,11 +21,6 @@ use Illuminate\Database\Eloquent\Model;
 class EntryModel extends Model implements EntryInterface, PresentableInterface
 {
     use Hookable;
-    use Translatable;
-    use DispatchesJobs;
-    
-    use Searchable;
-    use Versionable;
 
     /**
      * Enable timestamps.
@@ -40,36 +35,6 @@ class EntryModel extends Model implements EntryInterface, PresentableInterface
      * @var boolean
      */
     protected $searchable = false;
-
-    /**
-     * The entry relationships by field slug.
-     *
-     * @var array
-     */
-    protected $relationships = [];
-
-    /**
-     * Boot the model
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        $instance = new static;
-
-        $class     = get_class($instance);
-        $events    = $instance->getObservableEvents();
-        $observer  = substr($class, 0, -5) . 'Observer';
-        $observing = class_exists($observer);
-
-        if ($events && $observing) {
-            self::observe(app($observer));
-        }
-
-        if ($events && !$observing) {
-            self::observe(EntryObserver::class);
-        }
-    }
 
     /**
      * Return the entry presenter.
