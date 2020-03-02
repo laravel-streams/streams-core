@@ -28,14 +28,6 @@ class HrefGuesser
     {
         $buttons = $builder->getButtons();
 
-        if (!$section = cp()->sections->active()) {
-            return;
-        }
-
-        if (!$module = app('module.collection')->active()) {
-            return;
-        }
-
         $stream = $builder->getTableStream();
 
         foreach ($buttons as &$button) {
@@ -76,7 +68,7 @@ class HrefGuesser
                     $type = array_get($button, 'segment', array_get($button, 'button'));
 
                     if ($type && !str_contains($type, '\\') && !class_exists($type)) {
-                        $button['attributes']['href'] = $section->getHref($type . '/{entry.id}');
+                        $button['attributes']['href'] = request()->fullUrl().'/'.$type . '/{entry.id}';
                     }
 
                     break;
