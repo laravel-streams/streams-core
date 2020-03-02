@@ -2,13 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Entry;
 
-use Laravel\Scout\Searchable;
 use Anomaly\Streams\Platform\Traits\Hookable;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Anomaly\Streams\Platform\Entry\Traits\Versionable;
-use Anomaly\Streams\Platform\Entry\Traits\Translatable;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -18,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class EntryModel extends Model implements EntryInterface, PresentableInterface
+class EntryModel extends Model implements EntryInterface
 {
     use Hookable;
 
@@ -35,25 +30,6 @@ class EntryModel extends Model implements EntryInterface, PresentableInterface
      * @var boolean
      */
     protected $searchable = false;
-
-    /**
-     * Return the entry presenter.
-     *
-     * This is against standards but required
-     * by the presentable interface.
-     *
-     * @return EntryPresenter
-     */
-    public function newPresenter()
-    {
-        $presenter = substr(get_class($this), 0, -5) . 'Presenter';
-
-        if (class_exists($presenter)) {
-            return app()->make($presenter, ['object' => $this]);
-        }
-
-        return new EntryPresenter($this);
-    }
 
     /**
      * Create a new Eloquent query builder for the model.

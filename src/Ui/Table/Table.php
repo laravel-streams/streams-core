@@ -3,7 +3,6 @@
 namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormPresenter;
@@ -27,7 +26,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Table implements PresentableInterface
+class Table
 {
 
     /**

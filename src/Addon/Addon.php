@@ -18,7 +18,7 @@ use Anomaly\Streams\Platform\Traits\Presentable;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Addon implements PresentableInterface, Arrayable
+class Addon implements Arrayable
 {
 
     use Hookable;

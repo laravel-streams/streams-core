@@ -8,6 +8,7 @@ use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Anomaly\Streams\Platform\Traits\Versionable;
 use Anomaly\Streams\Platform\Entry\EntryObserver;
+use Anomaly\Streams\Platform\Entry\Traits\Presentable;
 use Anomaly\Streams\Platform\Stream\StreamBuilder;
 use Anomaly\Streams\Platform\Stream\StreamManager;
 use Anomaly\Streams\Platform\Entry\Traits\Translatable;
@@ -25,6 +26,7 @@ trait Streams
 {
     //use Hookable;
     use Searchable;
+    use Presentable;
     use SoftDeletes;
     use Versionable;
     use Translatable;
@@ -197,6 +199,11 @@ trait Streams
     {
         if ($this->hasHook($hook = camel_case($method))) {
             return $this->call($hook, $parameters);
+        }
+
+        if (method_exists($this, $method)) {
+            dd('Test');
+            return call_user_func_array([$this, $method], $parameters);
         }
 
         return parent::__call($method, $parameters);

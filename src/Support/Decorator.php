@@ -24,7 +24,7 @@ class Decorator
     */
     public static function decorate($value)
     {
-        if ($value instanceof PresentableInterface) {
+        if (is_object($value) && method_exists($value, 'newPresenter')) {
             return $value->newPresenter();
         }
 
