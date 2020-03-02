@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Artisan;
 use Anomaly\Streams\Platform\Addon\AddonManager;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-use Anomaly\Streams\Platform\Model\EloquentQueryBuilder;
 
 /**
  * Class AddonReinstall

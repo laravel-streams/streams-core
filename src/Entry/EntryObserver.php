@@ -56,7 +56,6 @@ class EntryObserver
      */
     public function updated(EntryInterface $entry)
     {
-
         $entry->fireFieldTypeEvents('entry_updated');
 
         event(new EntryWasUpdated($entry));

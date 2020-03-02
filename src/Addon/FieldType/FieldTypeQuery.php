@@ -2,7 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Anomaly\Streams\Platform\Model\EloquentQueryBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Illuminate\Database\Eloquent\Builder;
 

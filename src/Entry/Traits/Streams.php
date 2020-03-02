@@ -30,7 +30,7 @@ trait Streams
     use SoftDeletes;
     use Versionable;
     use Translatable;
-    //use ProvidesQueryBuilders;
+    use ProvidesQueryBuilders;
 
     /**
      * Boot the Streams trait. 
