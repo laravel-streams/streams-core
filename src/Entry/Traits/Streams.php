@@ -59,7 +59,7 @@ trait Streams
             return $this->fireModelEvent($event);
         });
         
-        $instance->bind('fire_field_type_events', function ($event) {
+        $instance->bind('fireFieldTypeEvents', function ($event) {
             //return $this->fireModelEvent($event);
         });
 
@@ -199,10 +199,6 @@ trait Streams
     {
         if ($this->hasHook($hook = camel_case($method))) {
             return $this->call($hook, $parameters);
-        }
-
-        if (method_exists($this, $method)) {
-            return call_user_func_array([$this, $method], $parameters);
         }
 
         return parent::__call($method, $parameters);
