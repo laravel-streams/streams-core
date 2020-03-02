@@ -1,19 +1,17 @@
-<?php namespace Anomaly\Streams\Platform\Entry;
+<?php namespace Anomaly\Streams\Platform\Ui\Grid;
 
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
-use Anomaly\Streams\Platform\Model\EloquentGridRepository;
 use Anomaly\Streams\Platform\Ui\Grid\Event\GridIsQuerying;
-use Anomaly\Streams\Platform\Ui\Grid\Contract\GridRepositoryInterface;
 
 /**
- * Class EntryGridRepository
+ * Class GridRepository
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class EntryGridRepository  implements GridRepositoryInterface
+class GridRepository
 {
     
     /**

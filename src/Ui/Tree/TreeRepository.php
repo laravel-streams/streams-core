@@ -1,19 +1,17 @@
-<?php namespace Anomaly\Streams\Platform\Entry;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree;
 
 use Illuminate\Database\Eloquent\Model;
-use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
-use Anomaly\Streams\Platform\Model\EloquentTreeRepository;
 use Anomaly\Streams\Platform\Ui\Tree\Event\TreeIsQuerying;
-use Anomaly\Streams\Platform\Ui\Tree\Contract\TreeRepositoryInterface;
 
 /**
- * Class EntryTreeRepository
+ * The TreeRepository class.
  *
  * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class EntryTreeRepository implements TreeRepositoryInterface
+class TreeRepository
 {
     
     /**

@@ -18,19 +18,17 @@ use Illuminate\Support\Collection;
 class TableRepository implements TableRepositoryInterface
 {
 
-    use DispatchesJobs;
-
     /**
      * The repository model.
      *
-     * @var EloquentModel
+     * @var Model
      */
     protected $model;
 
     /**
-     * Create a new EloquentModel instance.
+     * Create a new Model instance.
      *
-     * @param EloquentModel $model
+     * @param Model $model
      */
     public function __construct(Model $model)
     {
@@ -79,7 +77,7 @@ class TableRepository implements TableRepositoryInterface
          * We unset the orders on the query
          * because of pgsql grouping issues.
          */
-        $count                     = clone($query);
+        $count                     = clone ($query);
         $count->getQuery()->orders = null;
 
         $total = $count->count();
@@ -91,11 +89,11 @@ class TableRepository implements TableRepositoryInterface
          * not exist then start walking backwards until
          * we find a page that is has something to show us.
          */
-        $limit  = (int)app('request')->get(
+        $limit  = (int) app('request')->get(
             $builder->getTableOption('prefix') . 'limit',
             $builder->getTableOption('limit', config('streams::system.per_page', 15))
         );
-        $page   = (int)app('request')->get($builder->getTableOption('prefix') . 'page', 1);
+        $page   = (int) app('request')->get($builder->getTableOption('prefix') . 'page', 1);
         $offset = $limit * (($page ?: 1) - 1);
 
         if ($total < $offset && $page > 1) {
@@ -115,7 +113,7 @@ class TableRepository implements TableRepositoryInterface
          */
         if ($order = $builder->getTableOption('order_by')) {
             foreach ($order as $column => $direction) {
-                if ($stream && $utility = $stream->getFieldTypeQuery($column)) {
+                if ($stream && $utility = null/*$stream->getFieldTypeQuery($column)*/) {
                     $utility->orderBy($query, $direction);
                 } else {
                     $query = $query->orderBy($column, $direction);
@@ -124,7 +122,7 @@ class TableRepository implements TableRepositoryInterface
         }
 
         if ($builder->getTableOption('sortable')) {
-            $query = $query->orderBy('sort_order', 'ASC');
+            $query = $query->orderBy($this->model->getTable() . '.sort_order', 'ASC');
         }
 
         $builder->fire('queried', compact('builder', 'query'));

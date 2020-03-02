@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\EloquentFormRepository;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Form\FormRepository;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Model;
 
@@ -48,29 +49,13 @@ class SetRepository
          * no handler.
          */
         if (!$this->builder->getRepository()) {
-            $model = $this->builder->getFormModel();
+
             $entry = $this->builder->getEntry();
             $form  = $this->builder->getForm();
 
-            $repository = str_replace('FormBuilder', 'FormRepository', get_class($this->builder));
-
-            if (!$this->builder->getRepository() && class_exists($repository)) {
-                $this->builder->setRepository($container->make($repository, compact('form', 'model')));
-            } elseif (!$this->builder->getRepository() && $model instanceof EntryModel) {
+            if (!$this->builder->getRepository() && $entry instanceof Model) {
                 $this->builder->setRepository(
-                    $container->make(EntryFormRepository::class, compact('form', 'model'))
-                );
-            } elseif (!$this->builder->getRepository() && $model instanceof Model) {
-                $this->builder->setRepository(
-                    $container->make(EntryFormRepository::class, compact('form', 'model'))
-                );
-            } elseif (!$this->builder->getRepository() && $entry instanceof EntryModel) {
-                $this->builder->setRepository(
-                    $container->make(EntryFormRepository::class, ['form' => $form, 'model' => $entry])
-                );
-            } elseif (!$this->builder->getRepository() && $entry instanceof Model) {
-                $this->builder->setRepository(
-                    $container->make(EntryFormRepository::class, ['form' => $form, 'model' => $entry])
+                    $container->make(FormRepository::class, ['form' => $form, 'model' => $entry])
                 );
             }
         }

@@ -1,8 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Model\Command;
 
+use Illuminate\Database\Eloquent\Model;
 use Anomaly\Streams\Platform\Message\MessageManager;
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * Class RestrictDelete
@@ -17,16 +16,16 @@ class RestrictDelete
     /**
      * The eloquent model.
      *
-     * @var EloquentModel
+     * @var Model
      */
     protected $model;
 
     /**
      * Create a new RestrictDelete instance.
      *
-     * @param EloquentModel $model
+     * @param Model $model
      */
-    public function __construct(EloquentModel $model)
+    public function __construct(Model $model)
     {
         $this->model = $model;
     }

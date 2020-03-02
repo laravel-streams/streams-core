@@ -1,20 +1,17 @@
-<?php namespace Anomaly\Streams\Platform\Entry;
+<?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Illuminate\Database\Eloquent\Model;
-use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\Entry\Traits\Versionable;
-use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
+use Anomaly\Streams\Platform\Traits\Versionable;
 
 /**
- * Class EntryFormRepositoryInterface
+ * Class FormRepository
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class EntryFormRepository implements FormRepositoryInterface
+class FormRepository
 {
-
     /**
      * The form model.
      *
