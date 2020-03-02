@@ -4,7 +4,6 @@ namespace Anomaly\Streams\Platform\Support;
 
 use ArrayAccess;
 use IteratorAggregate;
-use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
 
 /**
  * Class Decorator

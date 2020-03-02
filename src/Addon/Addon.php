@@ -7,7 +7,6 @@ use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
 use Anomaly\Streams\Platform\Traits\HasMemory;
 use Anomaly\Streams\Platform\Traits\Presentable;
 
