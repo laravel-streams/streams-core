@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Model\Traits;
+<?php namespace Anomaly\Streams\Platform\Entry\Traits;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Version\Command\SaveVersion;

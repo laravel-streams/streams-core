@@ -2,9 +2,11 @@
 
 namespace Anomaly\Streams\Platform\Entry;
 
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Model\EloquentPresenter;
 use Anomaly\Streams\Platform\Support\Value;
+use Illuminate\Contracts\Support\Arrayable;
+use Anomaly\Streams\Platform\Support\Presenter;
+use Anomaly\Streams\Platform\Model\EloquentPresenter;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
  * Class EntryPresenter
@@ -13,16 +15,46 @@ use Anomaly\Streams\Platform\Support\Value;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class EntryPresenter extends EloquentPresenter
+class EntryPresenter extends Presenter implements Arrayable
 {
 
     /**
      * The resource object.
      * This is for IDE hinting.
      *
-     * @var EntryInterface
+     * @var Model
      */
     protected $object;
+
+    /**
+     * Create a new EloquentPresenter instance.
+     *
+     * @param $object
+     */
+    public function __construct($object)
+    {
+        $this->object = $object;
+    }
+
+    /**
+     * Return the ID.
+     *
+     * @return mixed
+     */
+    public function id()
+    {
+        return $this->object->getKey();
+    }
+
+    /**
+     * Return the object as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->object->toArray();
+    }
 
     /**
      * Return the date string for created at.

@@ -5,8 +5,8 @@ namespace Anomaly\Streams\Platform\Entry;
 use Laravel\Scout\Searchable;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Anomaly\Streams\Platform\Model\Traits\Versionable;
-use Anomaly\Streams\Platform\Model\Traits\Translatable;
+use Anomaly\Streams\Platform\Entry\Traits\Versionable;
+use Anomaly\Streams\Platform\Entry\Traits\Translatable;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
 use Illuminate\Database\Eloquent\Model;
@@ -69,29 +69,6 @@ class EntryModel extends Model implements EntryInterface, PresentableInterface
         if ($events && !$observing) {
             self::observe(EntryObserver::class);
         }
-    }
-
-    /**
-     * Fire field type events.
-     *
-     * @param       $trigger
-     * @param array $payload
-     */
-    public function fireFieldTypeEvents($trigger, $payload = [])
-    {
-        // foreach ($this->stream()->fields as $field) {
-
-        //     $fieldType = $field->type();
-        //     dd($fieldType);
-        //     $fieldType->setValue($this->getRawAttribute($field->slug));
-
-        //     $fieldType->setEntry($this);
-
-        //     $payload['entry']     = $this;
-        //     $payload['fieldType'] = $fieldType;
-
-        //     $fieldType->fire($trigger, $payload);
-        // }
     }
 
     /**

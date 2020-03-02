@@ -45,6 +45,14 @@ trait Streams
         ($instance = new static)->bind('created_by', function () {
             return $this->belongsTo(config('auth.providers.users.model'));
         });
+        
+        ($instance = new static)->bind('fire_event', function ($event) {
+            return $this->fireModelEvent($event);
+        });
+        
+        ($instance = new static)->bind('fire_field_type_events', function ($event) {
+            //return $this->fireModelEvent($event);
+        });
 
         $instance->bind('updated_by', function () {
             return $this->belongsTo(config('auth.providers.users.model'));

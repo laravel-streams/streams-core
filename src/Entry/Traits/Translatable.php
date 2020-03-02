@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Model\Traits;
+namespace Anomaly\Streams\Platform\Entry\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;

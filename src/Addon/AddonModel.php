@@ -13,10 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AddonModel extends Model
 {
-
-    // protected $primaryKey = 'namespace';
-    // protected $keyType = 'string';
-
+    
     /**
      * The table name.
      *

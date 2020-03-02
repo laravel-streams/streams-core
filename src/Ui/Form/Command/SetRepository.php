@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Model\EloquentFormRepository;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class SetRepository
@@ -59,17 +60,17 @@ class SetRepository
                 $this->builder->setRepository(
                     $container->make(EntryFormRepository::class, compact('form', 'model'))
                 );
-            } elseif (!$this->builder->getRepository() && $model instanceof EloquentModel) {
+            } elseif (!$this->builder->getRepository() && $model instanceof Model) {
                 $this->builder->setRepository(
-                    $container->make(EloquentFormRepository::class, compact('form', 'model'))
+                    $container->make(EntryFormRepository::class, compact('form', 'model'))
                 );
             } elseif (!$this->builder->getRepository() && $entry instanceof EntryModel) {
                 $this->builder->setRepository(
                     $container->make(EntryFormRepository::class, ['form' => $form, 'model' => $entry])
                 );
-            } elseif (!$this->builder->getRepository() && $entry instanceof EloquentModel) {
+            } elseif (!$this->builder->getRepository() && $entry instanceof Model) {
                 $this->builder->setRepository(
-                    $container->make(EloquentFormRepository::class, ['form' => $form, 'model' => $entry])
+                    $container->make(EntryFormRepository::class, ['form' => $form, 'model' => $entry])
                 );
             }
         }
