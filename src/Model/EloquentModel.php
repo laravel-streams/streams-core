@@ -20,7 +20,7 @@ use Anomaly\Streams\Platform\Presenter\Contract\PresentableInterface;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class EloquentModel extends Model implements EloquentInterface, Arrayable, PresentableInterface
+class EloquentModel extends Model implements EloquentInterface, Arrayable
 {
     use Hookable;
     use Translatable;
@@ -78,25 +78,6 @@ class EloquentModel extends Model implements EloquentInterface, Arrayable, Prese
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Return the entry presenter.
-     *
-     * This is against standards but required
-     * by the presentable interface.
-     *
-     * @return EloquentPresenter
-     */
-    public function newPresenter()
-    {
-        $presenter = substr(get_class($this), 0, -5) . 'Presenter';
-
-        if (class_exists($presenter)) {
-            return app()->make($presenter, ['object' => $this]);
-        }
-
-        return new EloquentPresenter($this);
     }
 
     /**

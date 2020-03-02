@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Message\MessageManger;
+use Anomaly\Streams\Platform\Message\MessageManager;
 use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
@@ -38,7 +38,7 @@ class ActionExecutor
     /**
      * The message bag.
      *
-     * @var MessageManger
+     * @var MessageManager
      */
     protected $messages;
 
@@ -60,14 +60,14 @@ class ActionExecutor
      * Create a new ActionExecutor instance.
      *
      * @param Request          $request
-     * @param MessageManger       $messages
+     * @param MessageManager       $messages
      * @param Authorizer       $authorizer
      * @param Application      $application
      * @param ModuleCollection $modules
      */
     public function __construct(
         Request $request,
-        MessageManger $messages,
+        MessageManager $messages,
         Authorizer $authorizer,
         Application $application,
         ModuleCollection $modules

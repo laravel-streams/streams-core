@@ -52,12 +52,12 @@ class StreamsServiceProvider extends ServiceProvider
     public $singletons = [
         'asset'    => \Anomaly\Streams\Platform\Asset\AssetManager::class,
         'streams'  => \Anomaly\Streams\Platform\Stream\StreamManager::class,
-        'messages' => \Anomaly\Streams\Platform\Message\MessageManger::class,
+        'messages' => \Anomaly\Streams\Platform\Message\MessageManager::class,
 
         \Anomaly\Streams\Platform\Image\Image::class             => \Anomaly\Streams\Platform\Image\Image::class,
         \Anomaly\Streams\Platform\Asset\AssetManager::class      => \Anomaly\Streams\Platform\Asset\AssetManager::class,
         \Anomaly\Streams\Platform\Asset\AssetRegistry::class     => \Anomaly\Streams\Platform\Asset\AssetRegistry::class,
-        \Anomaly\Streams\Platform\Message\MessageManger::class      => \Anomaly\Streams\Platform\Message\MessageManger::class,
+        \Anomaly\Streams\Platform\Message\MessageManager::class  => \Anomaly\Streams\Platform\Message\MessageManager::class,
         \Anomaly\Streams\Platform\Stream\StreamManager::class    => \Anomaly\Streams\Platform\Stream\StreamManager::class,
         \Anomaly\Streams\Platform\Routing\UrlGenerator::class    => \Anomaly\Streams\Platform\Routing\UrlGenerator::class,
         \Anomaly\Streams\Platform\Addon\AddonCollection::class   => \Anomaly\Streams\Platform\Addon\AddonCollection::class,

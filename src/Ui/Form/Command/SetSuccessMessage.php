@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Message\MessageManger;
+use Anomaly\Streams\Platform\Message\MessageManager;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Http\Request;
 
@@ -35,9 +35,9 @@ class SetSuccessMessage
      * Handle the command.
      *
      * @param Request    $request
-     * @param MessageManger $messages
+     * @param MessageManager $messages
      */
-    public function handle(Request $request, MessageManger $messages)
+    public function handle(Request $request, MessageManager $messages)
     {
 
         // If we can't save or there are errors then skip it.

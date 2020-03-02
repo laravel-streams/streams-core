@@ -5,13 +5,13 @@ namespace Anomaly\Streams\Platform\Message;
 use Illuminate\Session\Store;
 
 /**
- * Class MessageManger
+ * Class MessageManager
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class MessageManger
+class MessageManager
 {
 
     /**
@@ -22,7 +22,7 @@ class MessageManger
     protected $session;
 
     /**
-     * Create a new MessageManger instance.
+     * Create a new MessageManager instance.
      *
      * @param Store $session
      */
@@ -36,7 +36,7 @@ class MessageManger
      *
      * @param $type
      * @param $message
-     * @return MessageManger
+     * @return MessageManager
      */
     public function add($type, $message)
     {
