@@ -24,7 +24,7 @@ use Anomaly\Streams\Platform\Entry\Traits\Translatable;
  */
 trait Streams
 {
-    //use Hookable;
+    use Hookable;
     use Searchable;
     use Presentable;
     use SoftDeletes;
@@ -202,7 +202,6 @@ trait Streams
         }
 
         if (method_exists($this, $method)) {
-            dd('Test');
             return call_user_func_array([$this, $method], $parameters);
         }
 
