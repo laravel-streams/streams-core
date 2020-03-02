@@ -122,11 +122,11 @@ class EntryQueryBuilder extends Builder
      */
     public function update(array $values)
     {
-        $this->model->fireEvent('updatingMultiple');
+        //$this->model->fireEvent('updatingMultiple');
 
         $return = parent::update($values);
 
-        $this->model->fireEvent('updatedMultiple');
+        //$this->model->fireEvent('updatedMultiple');
 
         return $return;
     }

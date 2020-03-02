@@ -197,7 +197,7 @@ trait Streams
      */
     public function __call($method, $parameters)
     {
-        if ($this->hasHook($hook = camel_case($method))) {
+        if ($this->hasHook($hook = snake_case($method))) {
             return $this->call($hook, $parameters);
         }
 

@@ -34,7 +34,7 @@ class EntryObserver
      */
     public function creating(EntryInterface $entry)
     {
-        $entry->fireFieldTypeEvents('entry_creating');
+        //$entry->fireFieldTypeEvents('entry_creating');
     }
 
     /**
@@ -44,7 +44,7 @@ class EntryObserver
      */
     public function created(EntryInterface $entry)
     {
-        $entry->fireFieldTypeEvents('entry_created');
+        //$entry->fireFieldTypeEvents('entry_created');
 
         event(new EntryWasCreated($entry));
     }
@@ -56,7 +56,7 @@ class EntryObserver
      */
     public function updated(EntryInterface $entry)
     {
-        $entry->fireFieldTypeEvents('entry_updated');
+        //$entry->fireFieldTypeEvents('entry_updated');
 
         event(new EntryWasUpdated($entry));
     }
@@ -92,7 +92,7 @@ class EntryObserver
      */
     public function saved(EntryInterface $entry)
     {
-        $entry->fireFieldTypeEvents('entry_saved');
+        //$entry->fireFieldTypeEvents('entry_saved');
 
         // if (
         //     !$entry->versioningDisabled() &&
@@ -126,7 +126,7 @@ class EntryObserver
      */
     public function deleted(EntryInterface $entry)
     {
-        $entry->fireFieldTypeEvents('entry_deleted');
+        //$entry->fireFieldTypeEvents('entry_deleted');
 
         event(new EntryWasDeleted($entry));
     }
@@ -159,7 +159,7 @@ class EntryObserver
      */
     public function restored(EntryInterface $entry)
     {
-        $entry->fireFieldTypeEvents('entry_restored');
+        //$entry->fireFieldTypeEvents('entry_restored');
 
         $this->dispatchNow(new CascadeRestore($entry));
 
