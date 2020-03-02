@@ -1,8 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Command;
 
-use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class SetMetaInformation
@@ -17,16 +16,16 @@ class SetMetaInformation
     /**
      * The entry object.
      *
-     * @var EloquentModel
+     * @var Model
      */
     protected $entry;
 
     /**
      * Create a new SetMetaInformation instance.
      *
-     * @param EloquentModel $entry
+     * @param Model $entry
      */
-    public function __construct(EloquentModel $entry)
+    public function __construct(Model $entry)
     {
         $this->entry = $entry;
     }

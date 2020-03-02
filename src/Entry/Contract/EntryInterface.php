@@ -27,89 +27,6 @@ interface EntryInterface extends EloquentInterface
 {
 
     /**
-     * Get the title.
-     *
-     * @return mixed
-     */
-    //public function getTitle();
-
-    /**
-     * Return the stream.
-     *
-     * @return StreamInterface
-     */
-    //public function stream();
-
-    /**
-     * Get a field value.
-     *
-     * @param        $fieldSlug
-     * @param  null $locale
-     * @return mixed
-     */
-    //public function getFieldValue($fieldSlug, $locale = null);
-
-    /**
-     * Set a field value.
-     *
-     * @param        $fieldSlug
-     * @param        $value
-     * @param  null $locale
-     * @return $this
-     */
-    //public function setFieldValue($fieldSlug, $value, $locale = null);
-
-    /**
-     * Return whether the model is being
-     * force deleted or not.
-     *
-     * @return bool
-     */
-    public function isForceDeleting();
-
-    /**
-     * Return the last modified datetime.
-     *
-     * @return Carbon
-     */
-    //public function lastModified();
-
-    // /**
-    //  * Return a model route.
-    //  *
-    //  * @return string
-    //  */
-    // public function route($route, array $parameters = []);
-
-    // /**
-    //  * Return a new router instance.
-    //  *
-    //  * @return EntryRouter
-    //  */
-    // public function newRouter();
-
-    // /**
-    //  * Get the router.
-    //  *
-    //  * @return EntryRouter
-    //  */
-    // public function getRouter();
-
-    /**
-     * Get the router name.
-     *
-     * @return string
-     */
-    //public function getRouterName();
-
-    /**
-     * Return the routable array.
-     *
-     * @return array
-     */
-    //public function toRoutableArray();
-
-    /**
      * Fire field type events.
      *
      * @param       $trigger
@@ -117,24 +34,4 @@ interface EntryInterface extends EloquentInterface
      */
     public function fireFieldTypeEvents($trigger, $payload = []);
 
-    /**
-     * Get the cascading actions.
-     *
-     * @return array
-     */
-    public function getCascades();
-
-    // /**
-    //  * Return the creator relation.
-    //  *
-    //  * @return BelongsTo
-    //  */
-    // public function createdBy();
-
-    // /**
-    //  * Return the updater relation.
-    //  *
-    //  * @return BelongsTo
-    //  */
-    // public function updatedBy();
 }

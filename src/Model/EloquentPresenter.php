@@ -21,9 +21,7 @@ class EloquentPresenter extends Presenter implements Arrayable
      */
     public function __construct($object)
     {
-        if ($object instanceof EloquentModel) {
-            $this->object = $object;
-        }
+        $this->object = $object;
     }
 
     /**

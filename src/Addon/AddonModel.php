@@ -2,8 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
-
-use Anomaly\Streams\Platform\Model\EloquentModel;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class AddonModel
@@ -12,7 +11,7 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class AddonModel extends EloquentModel
+class AddonModel extends Model
 {
 
     // protected $primaryKey = 'namespace';

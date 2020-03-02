@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform;
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use Anomaly\Streams\Platform\Image\Image;
 use Illuminate\Database\Eloquent\Collection;
@@ -106,10 +107,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->addThemeNamespaces();
         $this->addViewNamespaces();
         $this->loadTranslations();
-
-        // Observe our base models.
-        EntryModel::observe(EntryObserver::class);
-        EloquentModel::observe(EloquentObserver::class);
 
         /**
          * Register core commands.

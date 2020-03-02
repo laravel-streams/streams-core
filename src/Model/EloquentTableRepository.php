@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableWasQueried;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
 
@@ -23,16 +24,16 @@ class EloquentTableRepository implements TableRepositoryInterface
     /**
      * The repository model.
      *
-     * @var EloquentModel
+     * @var Model
      */
     protected $model;
 
     /**
-     * Create a new EloquentModel instance.
+     * Create a new Model instance.
      *
-     * @param EloquentModel $model
+     * @param Model $model
      */
-    public function __construct(EloquentModel $model)
+    public function __construct(Model $model)
     {
         $this->model = $model;
     }

@@ -3,7 +3,6 @@
 namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentPresenter;
 use Anomaly\Streams\Platform\Support\Value;
 
@@ -21,7 +20,7 @@ class EntryPresenter extends EloquentPresenter
      * The resource object.
      * This is for IDE hinting.
      *
-     * @var EntryInterface|EloquentModel
+     * @var EntryInterface
      */
     protected $object;
 
