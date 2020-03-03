@@ -68,7 +68,7 @@ class HrefGuesser
                     $type = array_get($button, 'segment', array_get($button, 'button'));
 
                     if ($type && !str_contains($type, '\\') && !class_exists($type)) {
-                        $button['attributes']['href'] = request()->fullUrl().'/'.$type . '/{entry.id}';
+                        $button['attributes']['href'] = request()->url() . '/' . $type . '/{entry.id}';
                     }
 
                     break;
