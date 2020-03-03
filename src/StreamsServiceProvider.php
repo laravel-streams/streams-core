@@ -3,18 +3,13 @@
 namespace Anomaly\Streams\Platform;
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use Anomaly\Streams\Platform\Image\Image;
 use Illuminate\Database\Eloquent\Collection;
 use Anomaly\Streams\Platform\Addon\AddonModel;
-use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Asset\AssetManager;
-use Anomaly\Streams\Platform\Entry\EntryObserver;
-use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Support\Configurator;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Anomaly\Streams\Platform\Model\EloquentObserver;
 
 /**
  * Class StreamsServiceProvider
@@ -42,7 +37,6 @@ class StreamsServiceProvider extends ServiceProvider
         \Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface::class    => \Anomaly\Streams\Platform\Entry\EntryRepository::class,
         \Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface::class    => \Anomaly\Streams\Platform\Field\FieldRepository::class,
         \Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface::class  => \Anomaly\Streams\Platform\Stream\StreamRepository::class,
-        \Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface::class => \Anomaly\Streams\Platform\Model\EloquentRepository::class,
     ];
 
     /**
@@ -155,7 +149,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
         $this->registerComposerJson();
         $this->registerComposerLock();
 

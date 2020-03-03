@@ -68,7 +68,6 @@ class EntryObserver
      */
     public function updatedMultiple(EntryInterface $entry)
     {
-
         event(new ModelsWereUpdated($entry));
     }
 
@@ -112,11 +111,11 @@ class EntryObserver
      */
     public function deleting(EntryInterface $entry)
     {
-        if ($this->dispatchNow(new RestrictDelete($entry))) {
+        if (dispatch_now(new RestrictDelete($entry))) {
             return false;
         }
 
-        $this->dispatchNow(new CascadeDelete($entry));
+        dispatch_now(new CascadeDelete($entry));
     }
 
     /**
@@ -161,7 +160,7 @@ class EntryObserver
     {
         //$entry->fireFieldTypeEvents('entry_restored');
 
-        $this->dispatchNow(new CascadeRestore($entry));
+        dispatch_now(new CascadeRestore($entry));
 
         event(new EntryWasRestored($entry));
     }

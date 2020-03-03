@@ -2,11 +2,12 @@
 
 namespace Anomaly\Streams\Platform\Entry;
 
+use Illuminate\Database\Eloquent\Builder;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Anomaly\Streams\Platform\Traits\HasMemory;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
-use Illuminate\Database\Eloquent\Builder;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
  * Class EntryQueryBuilder
@@ -19,7 +20,6 @@ class EntryQueryBuilder extends Builder
 {
     use Hookable;
     use HasMemory;
-    use DispatchesJobs;
 
     /**
      * Runtime cache.
@@ -52,28 +52,6 @@ class EntryQueryBuilder extends Builder
 
             return parent::get($columns);
         });
-    }
-
-    /**
-     * Return if a table has been joined or not.
-     *
-     * @param $table
-     * @return bool
-     */
-    public function hasJoin($table)
-    {
-        if (!$this->query->joins) {
-            return false;
-        }
-
-        /* @var JoinClause $join */
-        foreach ($this->query->joins as $join) {
-            if ($join->table === $table) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -112,39 +90,6 @@ class EntryQueryBuilder extends Builder
         }
 
         return $this;
-    }
-
-    /**
-     * Update a record in the database.
-     *
-     * @param  array $values
-     * @return int
-     */
-    public function update(array $values)
-    {
-        //$this->model->fireEvent('updatingMultiple');
-
-        $return = parent::update($values);
-
-        //$this->model->fireEvent('updatedMultiple');
-
-        return $return;
-    }
-
-    /**
-     * Delete a record from the database.
-     *
-     * @return mixed
-     */
-    public function delete()
-    {
-        $this->model->fireEvent('deletingMultiple');
-
-        $return = parent::delete();
-
-        $this->model->fireEvent('deletedMultiple');
-
-        return $return;
     }
 
     /**
@@ -195,18 +140,5 @@ class EntryQueryBuilder extends Builder
         }
 
         return parent::__call($method, $parameters);
-    }
-
-    /**
-     * Get a field type criteria.
-     *
-     * @param $field
-     * @return FieldTypeQuery
-     */
-    public function getFieldTypeCriteria($field)
-    {
-        return $this->model
-            ->getFieldType($field)
-            ->getCriteria($this);
     }
 }
