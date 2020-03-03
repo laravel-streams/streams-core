@@ -46,4 +46,14 @@ class StreamRegistry
 
         return $this;
     }
+
+    /**
+     * Get the streams.
+     * 
+     * @return array
+     */
+    public function getStreams()
+    {
+        return $this->streams;
+    }
 }

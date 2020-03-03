@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Console\Application as Artisan;
 use Anomaly\Streams\Platform\Asset\AssetRegistry;
 use Anomaly\Streams\Platform\Stream\StreamRegistry;
+use Anomaly\Streams\Platform\Traits\Hookable;
 
 /**
  * Class AddonServiceProvider
@@ -16,6 +17,9 @@ use Anomaly\Streams\Platform\Stream\StreamRegistry;
  */
 class AddonServiceProvider extends ServiceProvider
 {
+
+    use Hookable;
+
     /**
      * Class bindings.
      *
