@@ -2,8 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
-use Anomaly\Streams\Platform\Addon\AddonModel;
 use Illuminate\Console\Application as Artisan;
 use Anomaly\Streams\Platform\Asset\AssetRegistry;
 
@@ -44,11 +44,11 @@ class AddonServiceProvider extends ServiceProvider
     public $overrides = [];
 
     /**
-     * The addon plugins.
+     * The addon policies.
      *
      * @var array
      */
-    public $plugins = [];
+    public $policies = [];
 
     /**
      * Addon routes.
@@ -183,8 +183,9 @@ class AddonServiceProvider extends ServiceProvider
 
         $this->registerAssets();
         $this->registerCommands();
+        $this->registerPolicies();
         $this->registerPublishables($path, $namespace);
-        // $this->registerSchedules($namespace);
+        //$this->registerSchedules($namespace);
 
         $this->registerHints($namespace, $path);
         $this->registerFactories($namespace, $path);
@@ -255,6 +256,27 @@ class AddonServiceProvider extends ServiceProvider
                     }
                 });
             }
+        }
+    }
+
+    /**
+     * Register policies
+     **/
+    protected function registerPolicies()
+    {
+
+        /**
+         * Skip if there is nothing to do.
+         */
+        if (!$this->policies) {
+            return;
+        }
+
+        /**
+         * Loop over the routes and normalize
+         */
+        foreach ($this->policies as $model => $policy) {
+            Gate::policy($model, $policy);
         }
     }
 
@@ -414,12 +436,12 @@ class AddonServiceProvider extends ServiceProvider
                 $assets => public_path(
                     implode(DIRECTORY_SEPARATOR, array_merge(['vendor'], explode('.', $namespace)))
                 )
-            ], 'assets');
+            ], ['assets','public']);
         }
 
         /**
          * Automatically publish
-         * {type}.php configuration.
+         * addon.php configuration.
          */
         if (file_exists($config = implode(DIRECTORY_SEPARATOR, [$path, 'resources', 'config', 'addon.php']))) {
             $this->publishes([
