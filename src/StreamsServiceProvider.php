@@ -66,6 +66,8 @@ class StreamsServiceProvider extends ServiceProvider
 
         \Anomaly\Streams\Platform\Addon\AddonManager::class => \Anomaly\Streams\Platform\Addon\AddonManager::class,
 
+        \Anomaly\Streams\Platform\Stream\StreamRegistry::class => \Anomaly\Streams\Platform\Stream\StreamRegistry::class,
+
         \Anomaly\Streams\Platform\Addon\Theme\ThemeCollection::class         => \Anomaly\Streams\Platform\Addon\Theme\ThemeCollection::class,
         \Anomaly\Streams\Platform\Addon\Module\ModuleCollection::class       => \Anomaly\Streams\Platform\Addon\Module\ModuleCollection::class,
         \Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection::class => \Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection::class,

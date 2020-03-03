@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Console\Application as Artisan;
 use Anomaly\Streams\Platform\Asset\AssetRegistry;
+use Anomaly\Streams\Platform\Stream\StreamRegistry;
 
 /**
  * Class AddonServiceProvider
@@ -49,6 +50,13 @@ class AddonServiceProvider extends ServiceProvider
      * @var array
      */
     public $policies = [];
+
+    /**
+     * The addon streams.
+     *
+     * @var array
+     */
+    public $streams = [];
 
     /**
      * Addon routes.
@@ -155,7 +163,8 @@ class AddonServiceProvider extends ServiceProvider
         });
 
         $this->registerApi($namespace);
-        $this->registerRoutes($namespace);
+        $this->registerRoutes();
+        $this->registerStreams();
 
         $this->mergeConfig($path, $namespace);
 
@@ -197,10 +206,8 @@ class AddonServiceProvider extends ServiceProvider
 
     /**
      * Undocumented function
-     *
-     * @param string $namespace
      **/
-    protected function registerRoutes(string $namespace)
+    protected function registerRoutes()
     {
 
         /**
@@ -260,6 +267,16 @@ class AddonServiceProvider extends ServiceProvider
     }
 
     /**
+     * Undocumented function
+     **/
+    protected function registerStreams()
+    {
+        foreach ($this->streams as $stream => $model) {
+            app(StreamRegistry::class)->register($stream, $model);
+        }
+    }
+
+    /**
      * Register policies
      **/
     protected function registerPolicies()
@@ -282,10 +299,8 @@ class AddonServiceProvider extends ServiceProvider
 
     /**
      * Register the addon routes.
-     *
-     * @param string $namespace
      */
-    protected function registerApi(string $namespace)
+    protected function registerApi()
     {
         /**
          * Skip if there is nothing to do.
@@ -301,7 +316,7 @@ class AddonServiceProvider extends ServiceProvider
             [
                 'middleware' => 'auth:api',
             ],
-            function () use ($namespace) {
+            function () {
                 foreach ($this->api as $uri => $route) {
 
                     /*
@@ -320,8 +335,6 @@ class AddonServiceProvider extends ServiceProvider
                     $verb        = array_pull($route, 'verb', 'any');
                     $middleware  = array_pull($route, 'middleware', []);
                     $constraints = array_pull($route, 'constraints', []);
-
-                    array_set($route, 'streams::addon', $namespace);
 
                     if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
                         \Route::resource($uri, $route['uses']);
