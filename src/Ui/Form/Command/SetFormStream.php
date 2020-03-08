@@ -30,6 +30,9 @@ class SetFormStream
         $this->builder = $builder;
     }
 
+    /**
+     * Handle the command.
+     */
     public function handle()
     {
         $form  = $this->builder->getForm();
@@ -43,7 +46,7 @@ class SetFormStream
             $model = app($model);
         }
 
-        if ($model instanceof EntryInterface) {
+        if (is_object($model)) {
             $form->setStream($model->stream());
         }
     }

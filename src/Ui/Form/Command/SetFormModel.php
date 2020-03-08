@@ -54,11 +54,11 @@ class SetFormModel
          * If no model is set, fist try
          * guessing the model based on the entry.
          */
-        if ($model === null && $entry instanceof EntryInterface) {
+        if ($model === null && is_object($entry)) {
 
-            $stream = $entry->getStream();
+            $stream = $entry->stream();
 
-            $this->builder->setModel($model = get_class($stream->getEntryModel()));
+            $this->builder->setModel($model = get_class($stream->model));
         }
 
         /*

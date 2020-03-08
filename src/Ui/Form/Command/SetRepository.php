@@ -1,13 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Entry\EntryFormRepository;
-use Anomaly\Streams\Platform\Entry\EntryModel;
-use Anomaly\Streams\Platform\Model\EloquentFormRepository;
-use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormRepository;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class SetRepository
@@ -50,12 +45,12 @@ class SetRepository
          */
         if (!$this->builder->getRepository()) {
 
-            $entry = $this->builder->getEntry();
+            $model = $this->builder->getFormModel();
             $form  = $this->builder->getForm();
 
-            if (!$this->builder->getRepository() && $entry instanceof Model) {
+            if (!$this->builder->getRepository() && is_object($model)) {
                 $this->builder->setRepository(
-                    $container->make(FormRepository::class, ['form' => $form, 'model' => $entry])
+                    $container->make(FormRepository::class, ['form' => $form, 'model' => $model])
                 );
             }
         }

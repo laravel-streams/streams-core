@@ -103,6 +103,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->addThemeNamespaces();
         $this->addViewNamespaces();
         $this->loadTranslations();
+        $this->setActiveTheme();
 
         /**
          * Register core commands.
@@ -407,6 +408,20 @@ class StreamsServiceProvider extends ServiceProvider
     public function loadTranslations()
     {
         trans()->addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/lang'));
+    }
+
+    /**
+     * Load translations.
+     */
+    protected function setActiveTheme()
+    {
+        $theme = config('streams::themes.default');
+
+        if (request()->segment(1) == 'admin') {
+            $theme = config('streams::themes.admin');
+        }
+
+        app('theme.collection')->setActive($theme);
     }
 
     /**

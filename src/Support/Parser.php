@@ -52,7 +52,7 @@ class Parser
      */
     public function parse($target, array $data = [])
     {
-        $data = array_merge($this->data, $data);
+        $data = array_merge($this->data, $this->toArray($data));
 
         /*
          * If the target is an array

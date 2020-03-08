@@ -38,28 +38,12 @@ class SetDefaultOptions
      * Handle the command.
      *
      * @param ModuleCollection $modules
-     * @param ThemeCollection  $themes
-     * @param Request          $request
      */
-    public function handle(ModuleCollection $modules, ThemeCollection $themes, Request $request)
+    public function handle(ModuleCollection $modules)
     {
-        $theme = $themes->current();
-
         /*
          * Default the form view based on the request.
          */
-        if (!$this->builder->getFormOption('form_view') && $this->builder->isAjax()) {
-            $this->builder->setFormOption('form_view', 'admin::form/form');
-        }
-
-        if (!$this->builder->getFormOption('form_view') && $theme && $theme->isAdmin()) {
-            $this->builder->setFormOption('form_view', 'admin::form/form');
-        }
-
-        if (!$this->builder->getFormOption('form_view') && $theme && !$theme->isAdmin()) {
-            $this->builder->setFormOption('form_view', 'admin::form/form');
-        }
-
         if (!$this->builder->getFormOption('form_view')) {
             $this->builder->setFormOption('form_view', 'admin::form/form');
         }
@@ -81,7 +65,8 @@ class SetDefaultOptions
          */
         if (
             $this->builder->getFormOption('permission') === null &&
-            $request->segment(1) == 'admin' && ($module = $modules->active()) && ($stream = $this->builder->getFormStream())
+            request()->segment(1) == 'admin' &&
+            ($module = $modules->active()) && ($stream = $this->builder->getFormStream())
         ) {
             $this->builder->setFormOption(
                 'permission',

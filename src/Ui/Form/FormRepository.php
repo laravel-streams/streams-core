@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Anomaly\Streams\Platform\Traits\Versionable;
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 
 /**
  * Class FormRepository
@@ -10,7 +11,7 @@ use Anomaly\Streams\Platform\Traits\Versionable;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class FormRepository
+class FormRepository implements FormRepositoryInterface
 {
     /**
      * The form model.
