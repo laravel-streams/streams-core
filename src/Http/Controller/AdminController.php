@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Http\Controller;
 
 use Anomaly\Streams\Platform\Http\Middleware\BuildControlPanel;
+use Anomaly\Streams\Platform\Http\Middleware\DetectActiveModule;
 
 /**
  * Class AdminController
@@ -20,6 +21,7 @@ class AdminController extends BaseController
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware(DetectActiveModule::class);
         $this->middleware(BuildControlPanel::class);
     }
 }

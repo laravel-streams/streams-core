@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Anomaly\Streams\Platform\Image\Image;
 use Illuminate\Database\Eloquent\Collection;
-use Anomaly\Streams\Platform\Support\Locator;
 use Anomaly\Streams\Platform\Addon\AddonModel;
 use Anomaly\Streams\Platform\Asset\AssetManager;
 use Anomaly\Streams\Platform\Support\Configurator;
@@ -99,7 +98,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerAddonCollections();
         $this->configureFileCacheStore();
         $this->routeAutomatically();
-        $this->detectActiveModule();
         $this->addAssetNamespaces();
         $this->addImageNamespaces();
         $this->addThemeNamespaces();
@@ -409,36 +407,6 @@ class StreamsServiceProvider extends ServiceProvider
     public function loadTranslations()
     {
         trans()->addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/lang'));
-    }
-
-    /**
-     * Detect active module.
-     */
-    protected function detectActiveModule()
-    {
-        /**
-         * We need to know who's
-         * responsible for the
-         * current route.
-         *
-         * @var Route $route
-         */
-        if (!$route = request()->route()) {
-            return;
-        }
-
-        /**
-         * Locate the controller.
-         */
-        if (!$detected = Locator::locate($route->getAction()['uses'])) {
-            return;
-        }
-
-        if (!app('module.collection')->has($detected)) {
-            return;
-        }
-
-        app('module.collection')->setActive($detected);
     }
 
     /**

@@ -97,11 +97,11 @@ class SortableGuesser
              * then we don't have anything to base
              * our guess off of.
              */
-            if (!$assignment = $stream->getAssignment($field)) {
+            if (!$field = $stream->getField($field)) {
                 continue;
             }
 
-            $type = $assignment->getFieldType();
+            $type = $field->type();
 
             /*
              * If the field type has a database
@@ -110,7 +110,7 @@ class SortableGuesser
              *
              * @todo: Allow sorting of translatable fields.
              */
-            if ($type->getColumnType() && !$assignment->isTranslatable()) {
+            if ($type->getColumnType() && !$field->isTranslatable()) {
                 $column['sortable']    = true;
                 $column['sort_column'] = $type->getColumnName();
             } else {
