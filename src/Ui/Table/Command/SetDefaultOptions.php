@@ -43,7 +43,8 @@ class SetDefaultOptions
      */
     public function handle(ModuleCollection $modules, ThemeCollection $themes, Request $request)
     {
-        $theme = $themes->current();
+        //$theme = $themes->current();
+        $theme = null;
 
         $table = $this->builder->getTable();
 
