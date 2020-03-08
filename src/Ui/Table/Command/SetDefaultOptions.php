@@ -3,7 +3,6 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Http\Request;
 
@@ -38,14 +37,9 @@ class SetDefaultOptions
      * Handle the command.
      *
      * @param ModuleCollection $modules
-     * @param ThemeCollection $themes
-     * @param Request $request
      */
-    public function handle(ModuleCollection $modules, ThemeCollection $themes, Request $request)
+    public function handle(ModuleCollection $modules)
     {
-        //$theme = $themes->current();
-        $theme = null;
-
         $table = $this->builder->getTable();
 
         /*
@@ -62,18 +56,6 @@ class SetDefaultOptions
         /*
          * Default the table view based on the request.
          */
-        if (!$this->builder->getTableOption('table_view') && $this->builder->isAjax()) {
-            $this->builder->setTableOption('table_view', 'admin::table/table');
-        }
-
-        if (!$this->builder->getTableOption('table_view') && $theme && $theme->isAdmin()) {
-            $this->builder->setTableOption('table_view', 'admin::table/table');
-        }
-
-        if (!$this->builder->getTableOption('table_view') && $theme && !$theme->isAdmin()) {
-            $this->builder->setTableOption('table_view', 'admin::table/table');
-        }
-
         if (!$this->builder->getTableOption('table_view')) {
             $this->builder->setTableOption('table_view', 'admin::table/table');
         }
@@ -119,7 +101,8 @@ class SetDefaultOptions
          */
         if (
             $table->getOption('permission') === null &&
-            $request->segment(1) == 'admin' && ($module = $modules->active()) && ($stream = $this->builder->getTableStream())
+            request()->segment(1) == 'admin' &&
+            ($module = $modules->active()) && ($stream = $this->builder->getTableStream())
         ) {
             $table->setOption('permission', $module->getNamespace($stream->getSlug() . '.read'));
         }
