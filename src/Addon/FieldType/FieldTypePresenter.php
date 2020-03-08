@@ -34,45 +34,6 @@ class FieldTypePresenter extends AddonPresenter
     }
 
     /**
-     * Alias for label. Bootstrap
-     * changed label to tag.
-     *
-     * @param         $text
-     * @param  string $context
-     * @param  string $size
-     * @return string
-     */
-    public function tag($text = null, $context = null, $size = null)
-    {
-        return $this->label($text, $context, $size);
-    }
-
-    /**
-     * Return a label.
-     *
-     * @param         $text
-     * @param  string $context
-     * @param  string $size
-     * @return string
-     */
-    public function label($text = null, $context = null, $size = null)
-    {
-        if (!$text) {
-            $text = trans((string) $this->object->getValue());
-        }
-
-        if (!$context) {
-            $context = 'default';
-        }
-
-        if (!$size) {
-            $size = 'sm';
-        }
-
-        return "<span class=\"tag tag-{$context} tag-{$size}\">{$text}</span>";
-    }
-
-    /**
      * If attempting to access a property first
      * check if the method exists and return it's
      * result before handling natively. This makes
