@@ -4,7 +4,6 @@ namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Illuminate\Http\Request;
@@ -56,7 +55,7 @@ class FieldFactory
     public function make(array $parameters, StreamInterface $stream = null, $entry = null)
     {
         /* @var EntryInterface $entry */
-        if ($stream && $entry instanceof EntryInterface && $entry->stream()->fields->has(array_get($parameters, 'field'))) {
+        if ($stream && $entry->stream()->fields->has(array_get($parameters, 'field'))) {
 
             /*
              * Allow overriding the type here
