@@ -299,16 +299,13 @@ class FieldCollection extends Collection
      * Return an array of field names
      * for all the fields in the collection.
      *
-     * @return array
+     * @return static
      */
     public function fieldNames()
     {
-        return array_map(
-            function (FieldType $field) {
-                return $field->getFieldName();
-            },
-            $this->all()
-        );
+        return $this->map(function ($field) {
+            return $field->getFieldName();
+        });
     }
 
     /**

@@ -24,10 +24,10 @@ class ThemeCollection extends AddonCollection
     /**
      * Set the active theme.
      *
-     * @param string $active
+     * @param string|null $active
      * @return $this
      */
-    public function setActive(string $active)
+    public function setActive($active)
     {
         $this->active = $active;
 

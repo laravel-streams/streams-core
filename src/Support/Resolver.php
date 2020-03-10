@@ -35,11 +35,7 @@ class Resolver
             (is_string($target) && str_contains($target, '@'))
             || is_callable($target)
         ) {
-            try {
-                return app()->call($target, $arguments);
-            } catch (\Exception $exception) {
-                //
-            }
+            return app()->call($target, $arguments);
         } elseif (
             is_string($target)
             && class_exists($target)

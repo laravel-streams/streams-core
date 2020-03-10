@@ -50,14 +50,14 @@ class SetErrorMessages
 
         if ($request->segment(1) == 'admin' && ($stream = $this->builder->getFormStream()) && $stream->isTrashable()) {
 
-            /* @var AssignmentInterface $assignment */
-            foreach ($stream->getUniqueAssignments() as $assignment) {
-                if ($this->builder->hasFormError($assignment->getFieldSlug())) {
+            /* @var AssignmentInterface $field */
+            foreach ($stream->fields as $field) {
+                if ($this->builder->hasFormError($field->getSlug())) {
                     $messages->warning(
                         trans(
                             'streams::validation.unique_trash',
                             [
-                                'attribute' => '"' . trans($assignment->getFieldName()) . '"',
+                                'attribute' => '"' . trans($field->getName()) . '"',
                             ]
                         )
                     );

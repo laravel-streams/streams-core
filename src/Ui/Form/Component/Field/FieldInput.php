@@ -23,6 +23,7 @@ class FieldInput
     public static function read(FormBuilder $builder)
     {
         self::resolve($builder);
+        dd($builder->getFields());
         self::defaults($builder);
         self::normalize($builder);
         self::fill($builder);
@@ -45,7 +46,7 @@ class FieldInput
     protected static function resolve(FormBuilder $builder)
     {
         $fields = resolver($builder->getFields(), compact('builder'));
-
+dd($builder->getFields());
         $builder->setFields(evaluate($fields ?: $builder->getFields(), compact('builder')));
     }
 
