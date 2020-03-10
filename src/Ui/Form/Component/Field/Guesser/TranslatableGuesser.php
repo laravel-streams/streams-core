@@ -2,8 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
 
-use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class TranslatableGuesser
@@ -29,7 +29,7 @@ class TranslatableGuesser
             return;
         }
 
-        if (!$entry instanceof EloquentModel) {
+        if (!$entry instanceof Model) {
             return;
         }
 

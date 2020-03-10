@@ -23,8 +23,8 @@ class FieldBuilder
     public static function build(FormBuilder $builder)
     {
         $skips  = $builder->getSkips();
-        $stream = $builder->getFormStream();
         $entry  = $builder->getFormEntry();
+        $stream = $builder->getFormStream();
 
         $factory = app(FieldFactory::class);
 
@@ -48,7 +48,7 @@ class FieldBuilder
 
             $builder->addFormField($factory->make($field, $stream, $entry));
         }
-
+        
         if ($first = $builder->getFormFields()->first()) {
             $first->addAttribute('data-keymap', 'f');
         }

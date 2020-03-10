@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
+use Illuminate\Database\Eloquent\Model;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
@@ -26,14 +27,13 @@ class FieldInput
         self::defaults($builder);
         self::normalize($builder);
         self::fill($builder);
-
         self::normalize($builder); //Yes, again.
 
         FieldGuesser::guess($builder);
-
+        
         self::translate($builder);
         self::parse($builder);
-
+        
         self::populate($builder); // Do this last.
     }
 
@@ -268,7 +268,7 @@ class FieldInput
             }
         }
 
-        $builder->setFields($translations);
+        $builder->setFields(translate($translations));
     }
 
     /**
@@ -304,7 +304,7 @@ class FieldInput
              * This needs to be tweaked slightly for duplication in the near future.
              * The " && $entry->getKey()" get's removed but needs replaced with something duplication specific.
              */
-            if (!isset($field['value']) && $entry instanceof EloquentModel && $entry->getKey()) {
+            if (!isset($field['value']) && $entry instanceof Model && $entry->getKey()) {
 
                 $locale = array_get($field, 'locale');
 
@@ -320,7 +320,7 @@ class FieldInput
              * and the entry does not exist yet
              * then use the default value.
              */
-            if (isset($field['config']['default_value']) && $entry instanceof EloquentModel && !$entry->getKey()) {
+            if (isset($field['config']['default_value']) && $entry instanceof Model && !$entry->getKey()) {
                 $field['value'] = $field['config']['default_value'];
             }
 
@@ -338,7 +338,7 @@ class FieldInput
              * use it's config for the default value.
              */
             if (
-                !isset($field['value']) && $entry instanceof EntryInterface && $type = $entry->stream()->fields->get($field['field'])->type()
+                !isset($field['value']) && $entry instanceof Model && $type = $entry->stream()->fields->get($field['field'])->type()
             ) {
                 $field['value'] = array_get($type->getConfig(), 'default_value');
             }

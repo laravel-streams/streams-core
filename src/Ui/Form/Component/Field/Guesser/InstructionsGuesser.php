@@ -27,16 +27,11 @@ class InstructionsGuesser
         $stream = $builder->getFormStream();
 
         foreach ($fields as &$field) {
-            $locale = array_get($field, 'locale');
-
+            
             /*
              * If the instructions are already set then use it.
              */
             if (isset($field['instructions'])) {
-                if (str_is('*::*', $field['instructions'])) {
-                    $field['instructions'] = trans($field['instructions'], [], null, $locale);
-                }
-
                 continue;
             }
 
@@ -55,73 +50,22 @@ class InstructionsGuesser
             if (!$stream instanceof StreamInterface) {
                 continue;
             }
-
-            $object = $stream->fields->get($field['field']);
-
-            /*
-             * No foield means we still do
-             * not have anything to do here.
+            
+            /**
+             * Try stream specific instructions.
              */
-            if (!$object) {
-                continue;
-            }
+            $instructions = $stream->getLocation() . '::field.' . $field['field'] . '.instructions.' . $stream->getSlug();
 
-            /*
-             * Next try using the fallback assignment
-             * instructions system as generated verbatim.
-             */
-            $instructions = $object->instructions . '.default';
-
-            if (
-                !isset($field['instructions']) && str_is('*::*', $instructions) && trans()->has(
-                    $instructions,
-                    $locale
-                )
-            ) {
-                $field['instructions'] = trans($instructions, [], null, $locale);
-            }
-
-            /*
-             * Next try using the default assignment
-             * instructions system as generated verbatim.
-             */
-            $instructions = $object->instructions;
-
-            if (
-                !isset($field['instructions'])
-                && str_is('*::*', $instructions)
-                && trans()->has($instructions, $locale)
-                && is_string($translated = trans($instructions, [], null, $locale))
-            ) {
-                $field['instructions'] = $translated;
-            }
-
-            /*
-             * Check if it's just a standard string.
-             */
-            if (!isset($field['instructions']) && $instructions && !str_is('*::*', $instructions)) {
+            if (!isset($field['instructions']) && trans()->has($instructions)) {
                 $field['instructions'] = $instructions;
             }
 
-            /*
-             * Next try using the default field
-             * instructions system as generated verbatim.
+            /**
+             * Start with the instructions.
              */
-            $instructions = $object->getInstructions();
+            $instructions = $stream->getLocation() . '::field.' . $field['field'] . '.instructions';
 
-            if (
-                !isset($field['instructions'])
-                && str_is('*::*', $instructions)
-                && trans()->has($instructions, $locale)
-                && is_string($translated = trans($instructions, [], null, $locale))
-            ) {
-                $field['instructions'] = $translated;
-            }
-
-            /*
-             * Check if it's just a standard string.
-             */
-            if (!isset($field['instructions']) && $instructions && !str_is('*::*', $instructions)) {
+            if (!isset($field['instructions']) && trans()->has($instructions)) {
                 $field['instructions'] = $instructions;
             }
         }

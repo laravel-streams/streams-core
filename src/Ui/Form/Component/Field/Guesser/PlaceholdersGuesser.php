@@ -27,16 +27,11 @@ class PlaceholdersGuesser
         $stream = $builder->getFormStream();
 
         foreach ($fields as &$field) {
-            $locale = array_get($field, 'locale');
-
+            
             /*
              * If the placeholder are already set then use it.
              */
             if (isset($field['placeholder'])) {
-                if (str_is('*::*', $field['placeholder'])) {
-                    $field['placeholder'] = trans($field['placeholder'], [], null, $locale);
-                }
-
                 continue;
             }
 
@@ -55,73 +50,22 @@ class PlaceholdersGuesser
             if (!$stream instanceof StreamInterface) {
                 continue;
             }
-
-            $object = $stream->getField($field['field']);
-
-            /*
-             * No field means we still do
-             * not have anything to do here.
+            
+            /**
+             * Try stream specific placeholder.
              */
-            if (!$object) {
-                continue;
-            }
+            $placeholder = $stream->getLocation() . '::field.' . $field['field'] . '.placeholder.' . $stream->getSlug();
 
-            /*
-             * Next try using the fallback assignment
-             * placeholder system as generated verbatim.
-             */
-            $placeholder = $object->placeholder . '.default';
-
-            if (
-                !isset($field['placeholder']) && str_is('*::*', $placeholder) && trans()->has(
-                    $placeholder,
-                    $locale
-                )
-            ) {
-                $field['placeholder'] = trans($placeholder, [], null, $locale);
-            }
-
-            /*
-             * Next try using the default assignment
-             * placeholder system as generated verbatim.
-             */
-            $placeholder = $object->placeholder;
-
-            if (
-                !isset($field['placeholder'])
-                && str_is('*::*', $placeholder)
-                && trans()->has($placeholder, $locale)
-                && is_string($translated = trans($placeholder, [], null, $locale))
-            ) {
-                $field['placeholder'] = $translated;
-            }
-
-            /*
-             * Check if it's just a standard string.
-             */
-            if (!isset($field['placeholder']) && $placeholder && !str_is('*::*', $placeholder)) {
+            if (!isset($field['placeholder']) && trans()->has($placeholder)) {
                 $field['placeholder'] = $placeholder;
             }
 
-            /*
-             * Next try using the default field
-             * placeholder system as generated verbatim.
+            /**
+             * Try the placeholder.
              */
-            $placeholder = $object->getPlaceholder();
+            $placeholder = $stream->getLocation() . '::field.' . $field['field'] . '.placeholder';
 
-            if (
-                !isset($field['placeholder'])
-                && str_is('*::*', $placeholder)
-                && trans()->has($placeholder, $locale)
-                && is_string($translated = trans($placeholder, [], null, $locale))
-            ) {
-                $field['placeholder'] = $translated;
-            }
-
-            /*
-             * Check if it's just a standard string.
-             */
-            if (!isset($field['placeholder']) && $placeholder && !str_is('*::*', $placeholder)) {
+            if (!isset($field['placeholder']) && trans()->has($placeholder)) {
                 $field['placeholder'] = $placeholder;
             }
         }

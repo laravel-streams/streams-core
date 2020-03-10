@@ -28,18 +28,24 @@ class RequiredGuesser
 
         foreach ($fields as &$field) {
 
-            // Guess based on the assignment if possible.
-            if (
-                !isset($field['required'])
-                && $entry instanceof EntryInterface
-                && $object = $entry->stream()->fields->get($field['field'])
-            ) {
-                $field['required'] = array_get($field, 'required', $object->required);
+            /**
+             * If the already set, skip.
+             */
+            if (isset($field['required'])) {
+                continue;
             }
 
-            // Guess based on the form mode if applicable.
-            if (in_array(($required = array_get($field, 'required')), ['create', 'edit'])) {
-                $field['required'] = $required === $mode;
+            /**
+             * If the entry doesn't provide a
+             * stream then we can't do much.
+             */
+            if (!$stream = $entry->stream()) {
+                continue;
+            }
+
+            // Guess based on the assignment if possible.
+            if ($instance = $stream->fields->get($field['field'])) {
+                $field['required'] = array_get($field, 'required', $instance->isRequired());
             }
 
             // Guess based on the rules.
@@ -50,6 +56,11 @@ class RequiredGuesser
             // Check builder rules for required flag too.
             if (in_array('required', array_get($rules, $field['field'], []))) {
                 $field['required'] = true;
+            }
+
+            // Guess based on the form mode if applicable.
+            if (!is_bool($field['required']) && in_array($field['required'], ['create', 'edit'])) {
+                $field['required'] = $field['required'] === $mode;
             }
         }
 

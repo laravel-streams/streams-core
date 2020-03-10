@@ -50,16 +50,9 @@ class FieldCollection extends Collection
      */
     public function translations($field)
     {
-        $fields = [];
-
-        /* @var FieldType $item */
-        foreach ($this->items as $item) {
-            if ($item->getFieldName() == $field) {
-                $fields[] = $item;
-            }
-        }
-
-        return new static($fields);
+        return $this->filter(function($item) use ($field) {
+            return $item->getFieldName() == $field;
+        });
     }
 
     /**
@@ -283,16 +276,11 @@ class FieldCollection extends Collection
      *
      * @return array
      */
-    public function fieldSlugs()
+    public function slugs()
     {
-        return array_unique(
-            array_map(
-                function (FieldType $field) {
-                    return $field->getField();
-                },
-                $this->all()
-            )
-        );
+        return $this->map(function($field) {
+            return $field->getField();
+        });
     }
 
     /**
@@ -301,7 +289,7 @@ class FieldCollection extends Collection
      *
      * @return static
      */
-    public function fieldNames()
+    public function names()
     {
         return $this->map(function ($field) {
             return $field->getFieldName();

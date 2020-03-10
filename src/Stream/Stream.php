@@ -38,6 +38,7 @@ class Stream implements StreamInterface
     public $model;
 
     public $slug;
+    public $location;
     public $title_column;
     public $sortable = false;
     public $trashable = true;
@@ -85,6 +86,16 @@ class Stream implements StreamInterface
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Get the location.
+     *
+     * @return string
+     */
+    public function getLocation()
+    {
+        return $this->location;
     }
 
     /**

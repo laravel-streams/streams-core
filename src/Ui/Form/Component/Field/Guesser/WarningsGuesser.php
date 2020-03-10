@@ -26,16 +26,11 @@ class WarningsGuesser
         $stream = $builder->getFormStream();
 
         foreach ($fields as &$field) {
-            $locale = array_get($field, 'locale');
-
+            
             /*
-             * If the warning is already set then use it.
+             * If the warning are already set then use it.
              */
             if (isset($field['warning'])) {
-                if (str_is('*::*', $field['warning'])) {
-                    $field['warning'] = trans($field['warning'], [], null, $locale);
-                }
-
                 continue;
             }
 
@@ -54,68 +49,22 @@ class WarningsGuesser
             if (!$stream instanceof StreamInterface) {
                 continue;
             }
-
-            $object = $stream->getField($field['field']);
-
-            /*
-             * No object means we still do
-             * not have anything to do here.
+            
+            /**
+             * Try stream specific warning.
              */
-            if (!$object) {
-                continue;
-            }
+            $warning = $stream->getLocation() . '::field.' . $field['field'] . '.warning.' . $stream->getSlug();
 
-            /*
-             * Next try using the fallback assignment
-             * warning system as generated verbatim.
-             */
-            $warning = $object->getWarning() . '.default';
-
-            if (!isset($field['warning']) && str_is('*::*', $warning) && trans()->has($warning, $locale)) {
-                $field['warning'] = trans($warning, [], null, $locale);
-            }
-
-            /*
-             * Next try using the default assignment
-             * warning system as generated verbatim.
-             */
-            $warning = $object->getWarning();
-
-            if (
-                !isset($field['warning'])
-                && str_is('*::*', $warning)
-                && trans()->has($warning, $locale)
-                && is_string($translated = trans($warning, [], null, $locale))
-            ) {
-                $field['warning'] = $translated;
-            }
-
-            /*
-             * Check if it's just a standard string.
-             */
-            if (!isset($field['warning']) && $warning && !str_is('*::*', $warning)) {
+            if (!isset($field['warning']) && trans()->has($warning)) {
                 $field['warning'] = $warning;
             }
 
-            /*
-             * Next try using the default field
-             * warning system as generated verbatim.
+            /**
+             * Try the warning.
              */
-            $warning = $object->getWarning();
+            $warning = $stream->getLocation() . '::field.' . $field['field'] . '.warning';
 
-            if (
-                !isset($field['warning'])
-                && str_is('*::*', $warning)
-                && trans()->has($warning, $locale)
-                && is_string($translated = trans($warning, [], null, $locale))
-            ) {
-                $field['warning'] = $translated;
-            }
-
-            /*
-             * Check if it's just a standard string.
-             */
-            if (!isset($field['warning']) && $warning && !str_is('*::*', $warning)) {
+            if (!isset($field['warning']) && trans()->has($warning)) {
                 $field['warning'] = $warning;
             }
         }

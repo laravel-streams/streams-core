@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Support\Locator;
 
 /**
  * Class StreamInput
@@ -22,6 +23,10 @@ class StreamInput
      */
     public static function read(array $stream)
     {
+        if ($model = array_get($stream, 'model')) {
+            $stream['location'] = Locator::locate($model);
+        }
+
         return $stream;
     }
 }
