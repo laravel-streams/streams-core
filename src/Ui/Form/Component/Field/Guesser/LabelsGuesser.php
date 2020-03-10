@@ -2,7 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
 
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
