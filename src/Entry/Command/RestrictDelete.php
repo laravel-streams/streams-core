@@ -39,30 +39,30 @@ class RestrictDelete
      */
     public function handle(MessageManager $messages)
     {
-        foreach ($this->model->getRestricts() as $relation) {
-            $humanize = humanize($relation);
+        // foreach ($this->model->getRestricts() as $relation) {
+        //     $humanize = humanize($relation);
 
-            /* @var Relation $relation */
-            $relation = $this->model->{$relation}();
+        //     /* @var Relation $relation */
+        //     $relation = $this->model->{$relation}();
 
-            if (method_exists($relation, 'withTrashed')) {
-                $relation = $relation->withTrashed();
-            }
+        //     if (method_exists($relation, 'withTrashed')) {
+        //         $relation = $relation->withTrashed();
+        //     }
 
-            if ($relation->count()) {
-                $messages->warning(
-                    trans(
-                        'streams::message.delete_restrict',
-                        [
-                            'relation' => $humanize,
-                            'name'     => $this->model->getTitle(),
-                        ]
-                    )
-                );
+        //     if ($relation->count()) {
+        //         $messages->warning(
+        //             trans(
+        //                 'streams::message.delete_restrict',
+        //                 [
+        //                     'relation' => $humanize,
+        //                     'name'     => $this->model->getTitle(),
+        //                 ]
+        //             )
+        //         );
 
-                return true;
-            };
-        }
+        //         return true;
+        //     };
+        // }
 
         return false;
     }

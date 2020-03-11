@@ -1,9 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Model\Command;
+<?php
 
+namespace Anomaly\Streams\Platform\Model\Command;
 
-use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class CascadeDelete
@@ -18,16 +18,16 @@ class CascadeDelete
     /**
      * The eloquent model.
      *
-     * @var EloquentModel
+     * @var Model
      */
     protected $model;
 
     /**
      * Create a new CascadeDelete instance.
      *
-     * @param EloquentModel $model
+     * @param Model $model
      */
-    public function __construct(EloquentModel $model)
+    public function __construct(Model $model)
     {
         $this->model = $model;
     }
@@ -37,39 +37,39 @@ class CascadeDelete
      */
     public function handle()
     {
-        $action = $this->model->isForceDeleting() ? 'forceDelete' : 'delete';
+        // $action = $this->model->isForceDeleting() ? 'forceDelete' : 'delete';
 
-        /**
-         * If the model itself can not be trashed
-         * then we have no reason to keep any
-         * relations that cascade.
-         */
-        if (!method_exists($this->model, 'restore')) {
-            $action = 'forceDelete';
-        }
+        // /**
+        //  * If the model itself can not be trashed
+        //  * then we have no reason to keep any
+        //  * relations that cascade.
+        //  */
+        // if (!method_exists($this->model, 'restore')) {
+        //     $action = 'forceDelete';
+        // }
 
-        foreach ($this->model->getCascades() as $relation) {
+        // foreach ($this->model->getCascades() as $relation) {
 
-            /* @var Relation $relation */
-            $relation = $this->model->{$relation}();
+        //     /* @var Relation $relation */
+        //     $relation = $this->model->{$relation}();
 
-            if ($action == 'forceDelete' && method_exists($relation, 'withTrashed')) {
-                $relation = $relation->withTrashed();
-            }
+        //     if ($action == 'forceDelete' && method_exists($relation, 'withTrashed')) {
+        //         $relation = $relation->withTrashed();
+        //     }
 
-            $relation = $relation->getResults();
+        //     $relation = $relation->getResults();
 
-            if ($relation instanceof EloquentModel) {
-                $relation->{$action}();
-            }
+        //     if ($relation instanceof Model) {
+        //         $relation->{$action}();
+        //     }
 
-            if ($relation instanceof Collection) {
-                $relation->each(
-                    function (EloquentModel $item) use ($action) {
-                        $item->{$action}();
-                    }
-                );
-            }
-        }
+        //     if ($relation instanceof Collection) {
+        //         $relation->each(
+        //             function (Model $item) use ($action) {
+        //                 $item->{$action}();
+        //             }
+        //         );
+        //     }
+        // }
     }
 }
