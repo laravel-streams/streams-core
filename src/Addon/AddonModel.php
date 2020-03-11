@@ -15,6 +15,13 @@ class AddonModel extends Model
 {
     
     /**
+     * No timestamps here.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+    
+    /**
      * The table name.
      *
      * @var string
@@ -30,4 +37,11 @@ class AddonModel extends Model
         'enabled' => 'boolean',
         'installed' => 'boolean',
     ];
+
+    /**
+     * The fillable attributes.
+     *
+     * @var array
+     */
+    protected $guarded = [];
 }

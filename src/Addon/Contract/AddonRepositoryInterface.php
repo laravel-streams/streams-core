@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Addon\Contract;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
+use Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface;
 
 /**
  * Interface AddonRepositoryInterface
@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-interface AddonRepositoryInterface extends EloquentRepositoryInterface
+interface AddonRepositoryInterface extends EntryRepositoryInterface
 {
 
     /**
