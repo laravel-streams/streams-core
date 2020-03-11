@@ -457,6 +457,19 @@ class AddonServiceProvider extends ServiceProvider
         }
 
         /**
+         * If a dist directory exists
+         * within the addon resources
+         * then push automatically.
+         */
+        if (is_dir($dist = implode(DIRECTORY_SEPARATOR, [$path, 'resources', 'dist']))) {
+            $this->publishes([
+                $dist => public_path(
+                    implode(DIRECTORY_SEPARATOR, array_merge(['vendor'], explode('.', $namespace)))
+                )
+            ], ['assets','public']);
+        }
+
+        /**
          * Automatically publish
          * addon.php configuration.
          */

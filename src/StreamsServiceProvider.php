@@ -139,10 +139,10 @@ class StreamsServiceProvider extends ServiceProvider
          * Register publishables.
          */
         $this->publishes([
-            __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'assets' => public_path(
+            base_path('vendor/anomaly/streams-platform/resources/dist') => public_path(
                 implode(DIRECTORY_SEPARATOR, ['vendor', 'anomaly', 'core'])
             )
-        ], 'assets');
+        ], ['assets', 'public']);
     }
 
     /**
