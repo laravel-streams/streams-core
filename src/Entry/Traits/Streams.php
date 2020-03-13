@@ -123,7 +123,7 @@ trait Streams
         $value = parent::getAttributeValue($fieldSlug);
 
         if ($field->translatable) {
-            $value = [$this->locale($locale) => $value];
+            $value = array_get($value, $this->locale($locale));
         }
 
         $value = $modifier->restore($value);
