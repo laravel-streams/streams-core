@@ -122,7 +122,7 @@ class FormValidator
 
             $builder->setSave(false);
 
-            $bag = $validator->getMessageManager();
+            $bag = $validator->getMessageBag();
 
             foreach ($bag->getMessages() as $field => $messages) {
                 foreach ($messages as $message) {

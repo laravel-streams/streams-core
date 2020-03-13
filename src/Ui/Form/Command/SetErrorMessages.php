@@ -57,7 +57,7 @@ class SetErrorMessages
                         trans(
                             'streams::validation.unique_trash',
                             [
-                                'attribute' => '"' . trans($field->getName()) . '"',
+                                'attribute' => '"' . $field->getName() . '"',
                             ]
                         )
                     );

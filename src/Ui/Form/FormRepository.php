@@ -61,13 +61,14 @@ class FormRepository implements FormRepositoryInterface
          * See: \Anomaly\Streams\Platform\Ui\Form\Command\HandleVersioning
          * in `post` stage.
          *
+         * @todo clean up
          * @var Versionable|EntryModel|Model $entry
          */
-        if ($builder->versioningEnabled() && in_array(Versionable::class, $classes)) {
-            $enabled = !$entry->versioningDisabled();
+        // if ($builder->versioningEnabled() && in_array(Versionable::class, $classes)) {
+        //     $enabled = !$entry->versioningDisabled();
 
-            $entry->disableVersioning();
-        }
+        //     $entry->disableVersioning();
+        // }
 
         $data = $this->prepareValueData($builder);
 
@@ -123,9 +124,11 @@ class FormRepository implements FormRepositoryInterface
         /*
          * Set initial data from the
          * entry, minus undesired data.
+         * 
+         * @todo clean this up
          */
         $data = array_diff_key(
-            $entry->getUnguardedAttributes(),
+            [],//$entry->getUnguardedAttributes(),
             ['id', 'created_at', 'created_by_id', 'updated_at', 'updated_by_id']
         );
 
