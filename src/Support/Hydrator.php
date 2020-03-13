@@ -65,6 +65,9 @@ class Hydrator
             )
         );
 
+        /**
+         * Execute the methods.
+         */
         array_walk($accessors, function (&$method) use ($object) {
             $method = $object->{$method}();
         });

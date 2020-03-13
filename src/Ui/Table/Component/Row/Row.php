@@ -3,7 +3,10 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
 
 use Illuminate\Support\Collection;
+use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
@@ -20,7 +23,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Row implements RowInterface, IconInterface, ClassAttributeInterface, HtmlAttributesInterface
+class Row implements RowInterface, IconInterface, ClassAttributeInterface, HtmlAttributesInterface, Arrayable, Jsonable
 {
 
     use HasIcon;
@@ -175,5 +178,26 @@ class Row implements RowInterface, IconInterface, ClassAttributeInterface, HtmlA
     public function getEntry()
     {
         return $this->entry;
+    }
+
+    /**
+     * Get the instance as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return Hydrator::dehydrate($this);
+    }
+
+    /**
+     * Convert the object to its JSON representation.
+     *
+     * @param  int  $options
+     * @return string
+     */
+    public function toJson($options = 0)
+    {
+        return json_encode($this->toArray());
     }
 }

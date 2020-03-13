@@ -17,8 +17,10 @@ require('./click');
  */
 
 import Buttons from './components/Buttons.vue';
+import Button from './components/Button.vue';
 
 Vue.component('buttons', Buttons);
+Vue.component('button', Button);
 
 const app = new Vue({
     el: '#app'

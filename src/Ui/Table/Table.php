@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Illuminate\Support\Collection;
+use Anomaly\Streams\Platform\Support\Hydrator;
 use Symfony\Component\HttpFoundation\Response;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormPresenter;
@@ -673,5 +674,26 @@ class Table
     public function prefix($target = null)
     {
         return $this->getOption('prefix') . $target;
+    }
+
+    /**
+     * Get the instance as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return Hydrator::dehydrate($this);
+    }
+
+    /**
+     * Convert the object to its JSON representation.
+     *
+     * @param  int  $options
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this->toArray());
     }
 }

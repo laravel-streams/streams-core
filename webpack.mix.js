@@ -13,30 +13,6 @@ let mix = require('laravel-mix');
 
 mix
     .js('resources/assets/js/app.js', 'resources/dist/js/app.js')
-    // .js([
-    //     'resources/js/cp/click.js',
-    //     'resources/js/cp/modal.js',
-    //     'resources/js/cp/filter.js',
-    //     'resources/js/cp/prompt.js',
-    //     'resources/js/cp/confirm.js',
-    //     'resources/js/cp/keyboard.js',
-    // ], 'assets/js/cp.js')
-    // .js([
-    //     'resources/js/form/lock.js',
-    //     'resources/js/form/tabs.js',
-    //     'resources/js/form/async.js',
-    //     'resources/js/form/keyboard.js',
-    //     'resources/js/form/translations.js',
-    // ], 'assets/js/form.js')
-    // .js([
-    //     'resources/js/table/table.js',
-    //     'resources/js/table/actions.js',
-    //     'resources/js/table/keyboard.js',
-    //     'resources/js/table/sortable.js',
-    // ], 'assets/js/table.js')
-    // .copyDirectory('resources/js/grid', 'assets/js/grid')
-    // .copyDirectory('resources/js/tree', 'assets/js/tree')
-    //.copy('node_modules/noty/lib/noty.js', 'assets/js')
     // .browserSync({
     //     //proxy: 'streams.local',
     //     files: [

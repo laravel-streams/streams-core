@@ -11,12 +11,15 @@ namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Header
  */
 
-use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
-use Anomaly\Streams\Platform\Ui\Contract\HtmlAttributesInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
+use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Contracts\Support\Arrayable;
+use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
+use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
+use Anomaly\Streams\Platform\Ui\Contract\HtmlAttributesInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
 
 /**
  * Class Header
@@ -25,7 +28,7 @@ use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Header implements HeaderInterface, ClassAttributeInterface, HtmlAttributesInterface
+class Header implements HeaderInterface, ClassAttributeInterface, HtmlAttributesInterface, Arrayable, Jsonable
 {
 
     use HasClassAttribute;
@@ -219,5 +222,26 @@ class Header implements HeaderInterface, ClassAttributeInterface, HtmlAttributes
             $class,
             $this->getClass()
         ]));
+    }
+
+    /**
+     * Get the instance as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return Hydrator::dehydrate($this);
+    }
+
+    /**
+     * Convert the object to its JSON representation.
+     *
+     * @param  int  $options
+     * @return string
+     */
+    public function toJson($options = 0)
+    {
+        return json_encode($this->toArray());
     }
 }

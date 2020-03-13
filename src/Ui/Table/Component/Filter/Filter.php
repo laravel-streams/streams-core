@@ -2,16 +2,19 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
+use Closure;
+use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Contracts\Support\Arrayable;
+use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
+use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
+use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
 use Anomaly\Streams\Platform\Ui\Contract\HtmlAttributesInterface;
-use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\GenericFilterQuery;
-use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
-use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
-use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
-use Closure;
 
 /**
  * Class Filter
@@ -20,7 +23,7 @@ use Closure;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Filter implements FilterInterface, IconInterface, ClassAttributeInterface, HtmlAttributesInterface
+class Filter implements FilterInterface, IconInterface, ClassAttributeInterface, HtmlAttributesInterface, Arrayable, Jsonable
 {
 
     use HasIcon;
@@ -353,5 +356,26 @@ class Filter implements FilterInterface, IconInterface, ClassAttributeInterface,
             'input',
             $this->getClass()
         ])));
+    }
+
+    /**
+     * Get the instance as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return Hydrator::dehydrate($this);
+    }
+
+    /**
+     * Convert the object to its JSON representation.
+     *
+     * @param  int  $options
+     * @return string
+     */
+    public function toJson($options = 0)
+    {
+        return json_encode($this->toArray());
     }
 }

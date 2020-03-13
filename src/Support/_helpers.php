@@ -10,9 +10,11 @@ use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Asset\AssetManager;
 use Anomaly\Streams\Platform\Message\MessageManager;
 use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Form\Command\GetFormCriteria;
 use Anomaly\Streams\Platform\Ui\Form\Command\GetTableCriteria;
+use Illuminate\Contracts\Support\Arrayable;
 
 if (!function_exists('app_storage_path')) {
 
@@ -720,5 +722,34 @@ if (!function_exists('addon')) {
         } catch (\Exception $exception) {
             return null;
         }
+    }
+}
+
+if (!function_exists('to_array')) {
+
+    /**
+     * Return the $target as
+     * an array, recursively.
+     *
+     * @param  string $path
+     * @return string
+     */
+    function to_array($target)
+    {
+        if (Arr::accessible($target)) {
+            foreach ($target as &$item) {
+                $item = to_array($item);
+            }
+        }
+
+        if (is_object($target) && $target instanceof Arrayable) {
+            $target = $target->toArray();
+        }
+
+        if (is_object($target)) {
+            $target = Hydrator::dehydrate($target);
+        }
+
+        return $target;
     }
 }

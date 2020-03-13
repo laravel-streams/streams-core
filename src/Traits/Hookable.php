@@ -72,7 +72,7 @@ trait Hookable
          * Get the registered hook otherwise.
          */
         if (!$hook = $this->getHook($hook)) {
-            throw new \Exception('The hook [' . $hook . '] does not exist for [' . get_class($this) . '].');
+            return null;
         }
 
         /**
