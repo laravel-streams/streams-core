@@ -198,6 +198,6 @@ class Row implements RowInterface, IconInterface, ClassAttributeInterface, HtmlA
      */
     public function toJson($options = 0)
     {
-        return json_encode($this->toArray());
+        return json_encode($this->toArray(), $options);
     }
 }

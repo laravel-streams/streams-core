@@ -242,6 +242,6 @@ class Header implements HeaderInterface, ClassAttributeInterface, HtmlAttributes
      */
     public function toJson($options = 0)
     {
-        return json_encode($this->toArray());
+        return json_encode($this->toArray(), $options);
     }
 }

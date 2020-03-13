@@ -4,7 +4,10 @@ namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Illuminate\View\View;
 use Illuminate\Support\MessageBag;
+use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Support\Hydrator;
 use Symfony\Component\HttpFoundation\Response;
 use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -25,7 +28,7 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Form 
+class Form implements Arrayable, Jsonable
 {
 
     /**
@@ -749,5 +752,26 @@ class Form
     public function prefix($target = null)
     {
         return $this->getOption('prefix') . $target;
+    }
+
+    /**
+     * Get the instance as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return Hydrator::dehydrate($this);
+    }
+
+    /**
+     * Convert the object to its JSON representation.
+     *
+     * @param  int  $options
+     * @return string
+     */
+    public function toJson($options = 0)
+    {
+        return json_encode($this->toArray(), $options);
     }
 }

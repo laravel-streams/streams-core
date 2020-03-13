@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Support\Hydrator;
 use Exception;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Traits\Hookable;
@@ -9,6 +10,7 @@ use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Traits\HasMemory;
 use Anomaly\Streams\Platform\Traits\Presentable;
+use Illuminate\Contracts\Support\Jsonable;
 
 /**
  * Class Addon
@@ -17,7 +19,7 @@ use Anomaly\Streams\Platform\Traits\Presentable;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Addon implements Arrayable
+class Addon implements Arrayable, Jsonable
 {
 
     use Hookable;
@@ -447,16 +449,17 @@ class Addon implements Arrayable
      */
     public function toArray()
     {
-        return [
-            'name'      => $this->getName(),
-            'type'      => $this->getType(),
-            'path'      => $this->getPath(),
-            'slug'      => $this->getSlug(),
-            'vendor'    => $this->getVendor(),
-            'namespace' => $this->getNamespace(),
+        return Hydrator::dehydrate($this);
+    }
 
-            'enabled'   => $this->isEnabled(),
-            'installed' => $this->isInstalled(),
-        ];
+    /**
+     * Convert the object to its JSON representation.
+     *
+     * @param  int  $options
+     * @return string
+     */
+    public function toJson($options = 0)
+    {
+        return json_encode($this->toArray(), $options);
     }
 }

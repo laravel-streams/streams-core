@@ -2,13 +2,14 @@
 
 namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
+use Anomaly\Streams\Platform\Addon\Addon;
+use Illuminate\Database\Eloquent\Builder;
+use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
  * Class FieldType
@@ -1335,7 +1336,7 @@ class FieldType extends Addon
      * @param Builder $query
      * @return FieldTypeQuery
      */
-    public function getCriteria(Builder $query)
+    public function criteria(Builder $query)
     {
         if (!$this->criteria) {
             $this->criteria = get_class($this) . 'Criteria';
@@ -1393,6 +1394,18 @@ class FieldType extends Addon
             $this->getFilterView(),
             array_merge($payload, ['fieldType' => decorate($this)])
         )->render();
+    }
+
+    /**
+     * Get the instance as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return array_merge(Hydrator::dehydrate($this), [
+            'attributes' => $this->attributes(),
+        ]);
     }
 
     /**

@@ -359,6 +359,6 @@ class Button implements ButtonInterface, Arrayable, Jsonable
      */
     public function toJson($options = 0)
     {
-        return json_encode($this->toArray());
+        return json_encode($this->toArray(), $options);
     }
 }
