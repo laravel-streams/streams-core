@@ -1,4 +1,10 @@
+import {Application} from './src/Application';
 import Vue from 'vue';
+
+const streams = new Application();
+
+console.log('Application Instantiated:');
+console.log(streams);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -21,6 +27,7 @@ import Sections from './components/Sections.vue';
 import Buttons from './components/Buttons.vue';
 import Button from './components/Button.vue';
 import Table from './components/Table.vue';
+
 import Form from './components/Form.vue';
 import FormField from './components/FormField.vue';
 
