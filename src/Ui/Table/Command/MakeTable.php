@@ -38,6 +38,10 @@ class MakeTable
     {
         $table = $this->builder->getTable();
 
+        if (request()->has('_async')) {
+            return;
+        }
+
         $options = $table->getOptions();
         $data    = $table->getData();
 

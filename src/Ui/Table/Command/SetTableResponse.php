@@ -41,6 +41,13 @@ class SetTableResponse
     {
         $table = $this->builder->getTable();
 
+        if (request()->has('_async')) {
+            
+            $table->setResponse($response->make($table->toJson()));
+            
+            return;
+        }
+
         $options = $table->getOptions();
         $data    = $table->getData();
 
