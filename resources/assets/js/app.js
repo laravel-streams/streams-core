@@ -16,9 +16,13 @@ require('./click');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import Navigation from './components/Navigation.vue';
+import Sections from './components/Sections.vue';
 import Buttons from './components/Buttons.vue';
 import Button from './components/Button.vue';
 
+Vue.component('navigation', Navigation);
+Vue.component('sections', Sections);
 Vue.component('buttons', Buttons);
 Vue.component('button', Button);
 

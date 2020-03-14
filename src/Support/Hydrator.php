@@ -43,7 +43,10 @@ class Hydrator
     {
         $reflection = new \ReflectionClass($object);
 
-        $properties = $reflection->getProperties(\ReflectionProperty::IS_PROTECTED);
+        $properties = array_merge(
+            $reflection->getProperties(\ReflectionProperty::IS_PROTECTED),
+            $reflection->getProperties(\ReflectionProperty::IS_PUBLIC)
+        );
 
         $accessors = array_filter(
             array_combine(

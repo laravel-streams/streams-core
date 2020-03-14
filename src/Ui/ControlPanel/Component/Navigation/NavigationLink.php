@@ -2,6 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
+use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Contracts\Support\Arrayable;
+use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
@@ -18,7 +21,7 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\Navig
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAttributeInterface, HtmlAttributesInterface
+class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAttributeInterface, HtmlAttributesInterface, Arrayable, Jsonable
 {
 
     use HasIcon;
@@ -271,5 +274,26 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAtt
             'title' => $this->getTitle(),
             'class' => $this->class(),
         ], $attributes);
+    }
+
+    /**
+     * Get the instance as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return Hydrator::dehydrate($this);
+    }
+
+    /**
+     * Convert the object to its JSON representation.
+     *
+     * @param  int  $options
+     * @return string
+     */
+    public function toJson($options = 0)
+    {
+        return json_encode($this->toArray(), $options);
     }
 }

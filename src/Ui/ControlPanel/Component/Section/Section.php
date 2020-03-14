@@ -2,10 +2,13 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
+use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Contracts\Support\Arrayable;
+use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
-use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
 
 /**
  * Class Section
@@ -14,7 +17,7 @@ use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Section implements SectionInterface
+class Section implements SectionInterface, Arrayable, Jsonable
 {
     use HasIcon;
     use HasClassAttribute;
@@ -503,5 +506,26 @@ class Section implements SectionInterface
             $this->isActive() ? 'active' : null,
             $this->isHighlighted() ? 'highlighted' : null,
         ]));
+    }
+
+    /**
+     * Get the instance as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return Hydrator::dehydrate($this);
+    }
+
+    /**
+     * Convert the object to its JSON representation.
+     *
+     * @param  int  $options
+     * @return string
+     */
+    public function toJson($options = 0)
+    {
+        return json_encode($this->toArray(), $options);
     }
 }
