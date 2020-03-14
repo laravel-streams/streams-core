@@ -21,12 +21,18 @@ import Sections from './components/Sections.vue';
 import Buttons from './components/Buttons.vue';
 import Button from './components/Button.vue';
 import Table from './components/Table.vue';
+import Form from './components/Form.vue';
+import FormField from './components/FormField.vue';
 
 Vue.component('navigation', Navigation);
 Vue.component('sections', Sections);
 Vue.component('buttons', Buttons);
 Vue.component('button', Button);
+
 Vue.component('cp-table', Table);
+
+Vue.component('cp-form', Form);
+Vue.component('form-field', FormField);
 
 const app = new Vue({
     el: '#app'
