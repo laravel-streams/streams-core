@@ -13,7 +13,7 @@
         "laravel/scout": "^7.1.0",
         "intervention/image": "^2.5.0",
         "jenssegers/agent": "2.6.*",
-        "laravelcollective/html": "^7.0.0",
+        "laravelcollective/html": "^6.1.0",
         "erusev/parsedown-extra": "0.7.1",
         "mrclay/jsmin-php": "~2.4",
         "tubalmartin/cssmin": "4.0.*",
