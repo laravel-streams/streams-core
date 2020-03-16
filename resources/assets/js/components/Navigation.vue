@@ -1,5 +1,5 @@
 <template>
-    <ul class="c-list c-list--x">
+    <ul class="c-list c-list--x flex-grow">
         <li v-for="link in links" :key="link.slug">
             <a v-bind="link.attributes">{{ link.title }}</a>
 
