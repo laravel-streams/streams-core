@@ -215,7 +215,9 @@ class AssetManager
      */
     public function load($collection, $name, array $default = [])
     {
-        foreach ($this->registry->resolve(str_replace('@', '', $name), $default) as $key => $resolved) {
+        $name = str_replace('@', '', $name);
+
+        foreach ($this->registry->resolve($name, $default) as $key => $resolved) {
 
             if (!is_numeric($key)) {
                 
