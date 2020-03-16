@@ -82,6 +82,13 @@ class AssetManager
     protected $manager;
 
     /**
+     * The asset registry.
+     *
+     * @var AssetRegistry
+     */
+    protected $registry;
+
+    /**
      * The template utility.
      *
      * @var Template
@@ -92,6 +99,7 @@ class AssetManager
      * Create a new Asset instance.
      *
      * @param ThemeCollection $themes
+     * @param AssetRegistry $registry
      * @param MountManager $manager
      * @param Template $template
      * @param Filesystem $files
@@ -100,18 +108,20 @@ class AssetManager
      */
     public function __construct(
         ThemeCollection $themes,
+        AssetRegistry $registry,
         MountManager $manager,
         Template $template,
         Filesystem $files,
         AssetPaths $paths,
         HtmlBuilder $html
     ) {
-        $this->html        = $html;
-        $this->files       = $files;
-        $this->paths       = $paths;
-        $this->themes      = $themes;
-        $this->manager     = $manager;
-        $this->template    = $template;
+        $this->html     = $html;
+        $this->files    = $files;
+        $this->paths    = $paths;
+        $this->themes   = $themes;
+        $this->manager  = $manager;
+        $this->registry = $registry;
+        $this->template = $template;
     }
 
     /**
@@ -219,27 +229,40 @@ class AssetManager
     }
 
     /**
+     * Register assets by name.
+     *
+     * @param string $name
+     * @param string|array $assets
+     * @return $this
+     */
+    public function register($name, $assets)
+    {
+        $this->registry->register($name, $assets);
+
+        return $this;
+    }
+
+    /**
      * Add an asset or glob pattern to an asset collection.
      *
      * This should support the asset being the collection
      * and the asset (for single files) internally
      * so asset.links / asset.scripts will work.
      *
-     * @param             $collection
-     * @param             $file
-     * @param  array $filters
-     * @param bool $internal A flag telling the system
-     *                              this is an internal request
-     *                              and should be processed differently.
+     * @param $collection
+     * @param $file
+     * @param array $default
      * @return $this
-     * @throws \Exception
      */
-    // public function load($collection, $file, array $filters = [])
-    // {
-    //     foreach (AssetRegistry::resolve($file) as $resolved) {
-    //         $this->add($collection, $resolved, $filters);
-    //     }
-    // }
+    public function load($collection, $name, array $default = [])
+    {
+        foreach ($this->registry->resolve($name, $default) as $key => $resolved) {
+            // @todo add by $key and look for @ which indicates named
+            $this->add($collection, $resolved);
+        }
+
+        return $this;
+    }
 
     /**
      * Download a file and return it's path.

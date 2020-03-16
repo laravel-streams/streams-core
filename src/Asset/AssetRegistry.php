@@ -17,25 +17,28 @@ class AssetRegistry
      *
      * @var array
      */
-    protected static $assets = [];
+    protected $assets = [];
 
     /**
      * Register assets.
      *
+     * @param string $name
      * @param array $assets
      */
-    public static function register($assets)
+    public function register($name, $assets)
     {
-        self::$assets = array_merge_recursive(self::$assets, $assets);
+        $this->assets[$name] = (array)$assets;
     }
 
     /**
      * Resolve assets.
      *
-     * @param array $asset
+     * @param string $name
+     * @param string|array $default
+     * @return array
      */
-    public static function resolve($asset)
+    public function resolve($name, $default = [])
     {
-        return (array) array_get(self::$assets, $asset, $asset);
+        return (array) array_get($this->assets, $name, (array)$default);
     }
 }

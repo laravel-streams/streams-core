@@ -51,7 +51,6 @@ class StreamsServiceProvider extends ServiceProvider
 
         \Anomaly\Streams\Platform\Image\Image::class             => \Anomaly\Streams\Platform\Image\Image::class,
         \Anomaly\Streams\Platform\Asset\AssetManager::class      => \Anomaly\Streams\Platform\Asset\AssetManager::class,
-        \Anomaly\Streams\Platform\Asset\AssetRegistry::class     => \Anomaly\Streams\Platform\Asset\AssetRegistry::class,
         \Anomaly\Streams\Platform\Message\MessageManager::class  => \Anomaly\Streams\Platform\Message\MessageManager::class,
         \Anomaly\Streams\Platform\Stream\StreamManager::class    => \Anomaly\Streams\Platform\Stream\StreamManager::class,
         \Anomaly\Streams\Platform\Routing\UrlGenerator::class    => \Anomaly\Streams\Platform\Routing\UrlGenerator::class,
