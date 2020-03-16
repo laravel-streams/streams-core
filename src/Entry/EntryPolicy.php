@@ -14,7 +14,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class EntryRouter
+class EntryPolicy
 {
 
     /**
