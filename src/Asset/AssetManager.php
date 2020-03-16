@@ -147,47 +147,6 @@ class AssetManager
         }
 
         /**
-         * Check for named asset tags
-         * and mark as loaded if found.
-         */
-        $names = array_map(
-            function ($filter) {
-                return strtolower(preg_replace('/^as:/', '', $filter));
-            },
-            array_filter(
-                $filters,
-                function ($filter) {
-                    return starts_with($filter, 'as:');
-                }
-            )
-        );
-
-        /**
-         * Required assets should clear
-         * any that may already be loaded.
-         */
-        if ($internal == false && in_array('required', $filters)) {
-            $this->removeLoaded($names);
-        }
-
-        /**
-         * Check that we don't have any
-         * named assets that are loaded
-         * already unless it's a glob file.
-         */
-        if (
-            $internal == false
-            && !in_array('required', $filters)
-            && array_intersect_key(array_flip($names), $this->getLoaded())
-        ) {
-            return $this;
-        }
-
-        foreach ($names as $name) {
-            $this->addLoaded($name, $collection . '@' . $file);
-        }
-
-        /**
          * Guess some common
          * sense filters.
          */
@@ -256,11 +215,18 @@ class AssetManager
      */
     public function load($collection, $name, array $default = [])
     {
-        foreach ($this->registry->resolve($name, $default) as $key => $resolved) {
-            // @todo add by $key and look for @ which indicates named
-            $this->add($collection, $resolved);
-        }
+        foreach ($this->registry->resolve(str_replace('@', '', $name), $default) as $key => $resolved) {
 
+            if (!is_numeric($key)) {
+                
+                $this->load($collection, $name . '.' . $key);
+
+                continue;
+            }
+
+            $this->add($collection, is_numeric($key) === false ? $key : $resolved);
+        }
+        
         return $this;
     }
 
