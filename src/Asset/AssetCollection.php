@@ -154,6 +154,6 @@ class AssetCollection extends Collection
      */
     public function __toString()
     {
-        return '';
+        return $this->implode('');
     }
 }
