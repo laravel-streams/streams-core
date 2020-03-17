@@ -66,7 +66,7 @@ class AssetCollection extends Collection
     public function urls(array $attributes = [], $secure = null)
     {
         return $this->map(function ($asset) use ($attributes, $secure) {
-            app(AssetManager::class)->url($asset, $attributes, $secure);
+            return app(AssetManager::class)->url($asset, $attributes, $secure);
         });
     }
 
@@ -79,7 +79,7 @@ class AssetCollection extends Collection
     public function tags(array $attributes = [])
     {
         return $this->map(function ($asset) use ($attributes) {
-            app(AssetManager::class)->tag($asset, $attributes);
+            return app(AssetManager::class)->tag($asset, $attributes);
         });
     }
 
@@ -92,7 +92,7 @@ class AssetCollection extends Collection
     public function scripts(array $attributes = [])
     {
         return $this->map(function ($asset) use ($attributes) {
-            app(AssetManager::class)->script($asset, $attributes);
+            return app(AssetManager::class)->script($asset, $attributes);
         });
     }
 
@@ -105,7 +105,7 @@ class AssetCollection extends Collection
     public function styles(array $attributes = [])
     {
         return $this->map(function ($asset) use ($attributes) {
-            app(AssetManager::class)->style($asset, $attributes);
+            return app(AssetManager::class)->style($asset, $attributes);
         });
     }
 
@@ -117,7 +117,7 @@ class AssetCollection extends Collection
     public function inlines()
     {
         return $this->map(function ($asset) {
-            app(AssetManager::class)->inline($asset);
+            return app(AssetManager::class)->inline($asset);
         });
     }
 
