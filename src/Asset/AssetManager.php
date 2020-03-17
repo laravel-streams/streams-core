@@ -2,13 +2,14 @@
 
 namespace Anomaly\Streams\Platform\Asset;
 
-use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
-use Anomaly\Streams\Platform\Support\Template;
-use Collective\Html\HtmlBuilder;
-use Illuminate\Filesystem\Filesystem;
 use JSMin\JSMin;
-use League\Flysystem\MountManager;
+use Collective\Html\HtmlBuilder;
 use tubalmartin\CssMin\Minifier;
+use League\Flysystem\MountManager;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Filesystem\Filesystem;
+use Anomaly\Streams\Platform\Support\Template;
+use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 
 /**
  * Class AssetManager
@@ -125,6 +126,20 @@ class AssetManager
     }
 
     /**
+     * Return the collection.
+     *
+     * @param [type] $name
+     */
+    public function collection($name)
+    {
+        if (!$collection = array_get($this->collections, $name)) {
+            $this->collections[$name] = $collection = new AssetCollection();
+        }
+
+        return $collection;
+    }
+ 
+    /**
      * Add an asset or glob pattern to an asset collection.
      *
      * This should support the asset being the collection
@@ -140,17 +155,11 @@ class AssetManager
      * @return $this
      * @throws \Exception
      */
-    public function add($collection, $file, array $filters = [], $internal = false)
+    public function add($collection, $file)
     {
         if (!isset($this->collections[$collection])) {
-            $this->collections[$collection] = [];
+            $this->collections[$collection] = new AssetCollection();
         }
-
-        /**
-         * Guess some common
-         * sense filters.
-         */
-        $filters = array_unique(array_merge($filters, AssetGuesser::guess($file)));
 
         /**
          * Determine the actual
@@ -162,29 +171,28 @@ class AssetManager
          * If this is a remote or single existing
          * file then add it normally.
          */
-        if (starts_with($file, ['http', '//']) || file_exists($file)) {
-            $this->collections[$collection][$file] = $filters;
+        if (starts_with($file, ['http', '//'])) {
+            
+            $this->collections[$collection]->add($file);
 
+            return $this;
+        }
+
+        /**
+         * If we don't have any assets
+         * to load then just skip it.
+         */
+        if (!count(glob($file))) {
             return $this;
         }
 
         /*
-         * If this is a valid glob pattern then add
-         * it to the collection and add the glob filter.
+         * Add it to the collection
+         * and add the glob filter.
          */
-        if (count(glob($file)) > 0) {
-            $this->collections[$collection][$file] = array_merge($filters, ['glob']);
+        $this->collections[$collection]->add($file);
 
-            return $this;
-        }
-
-        if (
-            config('app.debug') &&
-            !$this->collectionHasFilter($collection, 'ignore') &&
-            !in_array('ignore', $filters)
-        ) {
-            \Log::error("Asset [{$file}] requested by [{$collection}] does not exist!");
-        }
+        return $this;
     }
 
     /**
@@ -408,10 +416,9 @@ class AssetManager
      * paths instead.
      *
      * @param        $collection
-     * @param  array $additionalFilters
      * @return array
      */
-    public function paths($collection, array $additionalFilters = [])
+    public function paths($collection)
     {
         if (!isset($this->collections[$collection])) {
             return [];
@@ -419,13 +426,11 @@ class AssetManager
 
         return array_filter(
             array_map(
-                function ($file, $filters) use ($additionalFilters) {
-                    $filters = array_filter(array_unique(array_merge($filters, $additionalFilters)));
-
-                    return $this->asset($file, $filters);
+                function ($file) {
+                    return $this->asset($file);
                 },
-                array_keys($this->collections[$collection]),
-                array_values($this->collections[$collection])
+                $this->collections[$collection]->keys()->all(),
+                $this->collections[$collection]->values()->all()
             )
         );
     }
@@ -474,7 +479,7 @@ class AssetManager
                         $this->paths->realPath('public::' . ltrim($this->path($file, $filters, false), '/\\'))
                     );
                 },
-                array_keys($this->collections[$collection]),
+                $this->collections[$collection]->keys()->all(),
                 array_values($this->collections[$collection])
             )
         );
@@ -549,7 +554,7 @@ class AssetManager
                 //dd($collection);
                 //$contents = (string) render($contents);
             } catch (\Exception $e) {
-                \Log::error($e->getMessage());
+                Log::error($e->getMessage());
             }
         }
 
@@ -599,7 +604,7 @@ class AssetManager
                             glob($asset)
                         );
                     },
-                    array_keys($this->collections[$collection])
+                    $this->collections[$collection]->keys()->all()
                 )
             )
         );
@@ -721,7 +726,7 @@ class AssetManager
      */
     protected function collectionAssets($collection)
     {
-        return array_keys($this->collections[$collection]);
+        return $this->collections[$collection]->keys()->all();
     }
 
     /**

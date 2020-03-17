@@ -19,6 +19,7 @@ class Collection extends \Illuminate\Support\Collection
 
     /**
      * Map to get.
+     * @todo remove this class as Macroable is preferred/1st party
      *
      * @param $name
      * @return mixed

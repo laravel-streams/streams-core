@@ -462,17 +462,13 @@ class StreamsServiceProvider extends ServiceProvider
         /**
          * The first segment MUST
          * be a unique addon slug.
-         *
-         * @var Addon $addon
          */
-        try {
-            $addon = app('addon.collection')->first(function ($addon) use ($segments) {
-                return str_is('*.*.' . $segments[0], $addon['namespace']);
-            });
-        } catch (\Exception $exception) {
-            return; // Doesn't exist.
+        if (!$addon = app('addon.collection')->first(function ($addon) use ($segments) {
+            return str_is('*.*.' . $segments[0], $addon['namespace']);
+        })) {
+            return;
         }
-
+        
         $namespace = (new \ReflectionClass(app($addon['namespace'])))->getNamespaceName();
 
         $controller = null;
@@ -481,7 +477,6 @@ class StreamsServiceProvider extends ServiceProvider
         $method     = null;
         $path       = null;
         $id         = null;
-
 
         if (count($segments) == 1) {
             $module = $segments[0];
@@ -565,16 +560,20 @@ class StreamsServiceProvider extends ServiceProvider
          */
         try {
             Route::getRoutes()->match($request);
-
-            return;
         } catch (\Exception $exception) {
-            // Not found. Onward!
+            // 404 == Onward!
         }
 
+        /**
+         * Make sure the assumed controller exists.
+         */
         if (!class_exists($controller)) {
             return;
         }
 
+        /**
+         * Route the request automatically.
+         */
         Route::middleware('web')->group(function () use ($path, $method, $controller) {
             Route::any(
                 $path,

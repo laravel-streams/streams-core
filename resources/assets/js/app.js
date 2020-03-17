@@ -37,3 +37,7 @@ Vue.component('cp-table', Table);
 
 Vue.component('cp-form', Form);
 Vue.component('form-field', FormField);
+
+const app = new Vue({
+    el: '#app'
+});
