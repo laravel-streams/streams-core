@@ -40,7 +40,7 @@ class Env
          * and overload from the changes that may
          * have taken place.
          */
-        Dotenv::create(base_path())->overload();
+        //Dotenv::create(base_path())->overload();
 
         (new LoadConfiguration)->bootstrap(app());
 
