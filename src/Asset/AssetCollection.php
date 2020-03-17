@@ -144,7 +144,7 @@ class AssetCollection extends Collection
      */
     public function content()
     {
-        return join("\n\n", $this->inlines());
+        return $this->inlines()->implode("\n\n");
     }
 
     /**

@@ -45,6 +45,8 @@ class MakeTable
         $options = $table->getOptions();
         $data    = $table->getData();
 
+        assets('scripts.js', 'public::vendor/anomaly/core/js/table/table.js');
+
         $content = view(
             $options->get('table_view', $this->builder->isAjax() ? 'admin::table/ajax' : 'admin::table/table'),
             $data

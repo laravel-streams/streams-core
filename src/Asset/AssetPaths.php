@@ -171,7 +171,7 @@ class AssetPaths
          */
         $directory   = ltrim(dirname($path), '/\\') . '/';
         $application = $this->application->getReference();
-        $filename    = basename($path, $this->extension($path)) . $this->hint($path);
+        $filename    = basename($path);
 
         if (starts_with($directory, 'vendor/')) {
             $directory = substr($directory, 7);
