@@ -3,12 +3,14 @@
 namespace Anomaly\Streams\Platform\Asset;
 
 use JSMin\JSMin;
+use Illuminate\Http\Request;
 use Collective\Html\HtmlBuilder;
 use tubalmartin\CssMin\Minifier;
 use League\Flysystem\MountManager;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Filesystem\Filesystem;
 use Anomaly\Streams\Platform\Support\Template;
+use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 
 /**
@@ -46,6 +48,13 @@ class AssetManager
     protected $loaded = [];
 
     /**
+     * The URL generator.
+     *
+     * @var UrlGenerator
+     */
+    protected $url;
+
+    /**
      * The HTML utility.
      *
      * @var HtmlBuilder
@@ -67,6 +76,13 @@ class AssetManager
      * @var AssetPaths
      */
     protected $paths;
+
+    /**
+     * The request object.
+     *
+     * @var Request
+     */
+    protected $request;
 
     /**
      * The theme collection.
@@ -106,6 +122,8 @@ class AssetManager
      * @param Filesystem $files
      * @param AssetPaths $paths
      * @param HtmlBuilder $html
+     * @param Request $request
+     * @param UrlGenerator $url
      */
     public function __construct(
         ThemeCollection $themes,
@@ -114,12 +132,16 @@ class AssetManager
         Template $template,
         Filesystem $files,
         AssetPaths $paths,
-        HtmlBuilder $html
+        HtmlBuilder $html,
+        Request $request,
+        UrlGenerator $url
     ) {
+        $this->url      = $url;
         $this->html     = $html;
         $this->files    = $files;
         $this->paths    = $paths;
         $this->themes   = $themes;
+        $this->request  = $request;
         $this->manager  = $manager;
         $this->registry = $registry;
         $this->template = $template;
@@ -146,7 +168,7 @@ class AssetManager
      * and the asset (for single files) internally
      * so asset.links / asset.scripts will work.
      *
-     * @param             $collection
+     * @param     $collection
      * @param             $file
      * @param  array $filters
      * @param bool $internal A flag telling the system
@@ -241,106 +263,46 @@ class AssetManager
     }
 
     /**
-     * Download a file and return it's path.
-     *
-     * @param $url
-     * @param  int $ttl
-     * @param  null $path
-     * @return null|string
-     */
-    public function download($url, $ttl = 3600, $path = null)
-    {
-        $path = $this->paths->downloadPath($url, $path);
-
-        if (!$this->files->isDirectory($directory = dirname($path = public_path(ltrim($path, '/\\'))))) {
-            $this->files->makeDirectory($directory, 0777, true);
-        }
-
-        if (!$this->files->exists($path) || filemtime($path) < (time() - $ttl)) {
-            $this->files->put($path, file_get_contents($url));
-        }
-
-        return 'public::' . ltrim(str_replace(public_path(), '', $path), '/\\');
-    }
-
-    /**
      * Return the contents of a collection.
      *
-     * @param         $collection
+     * @param $asset
      * @param  array $filters
      * @return string
      */
-    public function inline($collection, array $filters = [])
+    public function inline($asset)
     {
         return file_get_contents(
-            $this->paths->realPath('public::' . ltrim($this->path($collection, $filters, false), '/\\'))
+            $this->paths->realPath('public::' . ltrim($this->path($asset), '/\\'))
         );
     }
 
     /**
      * Return the URL to a compiled asset collection.
      *
-     * @param         $collection
-     * @param  array $filters
-     * @return string
+     * @param string $asset
+     * @param array $parameters
+     * @param boolean $secure
      */
-    public function url($collection, array $filters = [], array $parameters = [], $secure = null)
+    public function url($asset, array $parameters = [], $secure = null)
     {
-        if (!isset($this->collections[$collection])) {
-            $this->add($collection, $collection, $filters, true);
-        }
-
-        if (!$path = $this->getPath($collection, $filters)) {
+        if (!$path = $this->path($asset)) {
             return null;
         }
 
-        return url()->asset($path, $parameters, $secure);
-    }
-
-    /**
-     * Return the path to a compiled asset collection.
-     *
-     * @param         $collection
-     * @param  array $filters
-     * @param bool $basePath
-     * @return string
-     */
-    public function path($collection, array $filters = [], $basePath = true)
-    {
-        if (!isset($this->collections[$collection])) {
-            $this->add($collection, $collection, $filters, true);
-        }
-
-        return ($basePath ? request()->getBasePath() : '') . $this->getPath($collection, $filters);
-    }
-
-    /**
-     * Return the asset path to a compiled asset collection.
-     *
-     * @param         $collection
-     * @param  array $filters
-     * @return string
-     */
-    public function asset($collection, array $filters = [])
-    {
-        if (!isset($this->collections[$collection])) {
-            $this->add($collection, $collection, $filters, true);
-        }
-
-        return $this->path($collection, $filters);
+        return $this->url->asset($path, $parameters, $secure);
     }
 
     /**
      * Return the script tag for a collection.
      *
-     * @param         $collection
+     * @param $collection
      * @param  array $filters
      * @param  array $attributes
      * @return string
      */
-    public function script($collection, array $filters = [], array $attributes = [])
+    public function script($asset, array $attributes = [])
     {
-        $attributes['src'] = $this->path($collection, $filters);
+        $attributes['src'] = $this->path($asset);
 
         return '<script' . $this->html->attributes($attributes) . '></script>';
     }
@@ -348,175 +310,53 @@ class AssetManager
     /**
      * Return the style tag for a collection.
      *
-     * @param         $collection
+     * @param $collection
      * @param  array $filters
      * @param  array $attributes
      * @return string
      */
-    public function style($collection, array $filters = [], array $attributes = [])
+    public function style($collection, array $attributes = [])
     {
         $defaults = ['media' => 'all', 'type' => 'text/css', 'rel' => 'stylesheet'];
 
         $attributes = $attributes + $defaults;
 
-        $attributes['href'] = $this->asset($collection, $filters);
+        $attributes['href'] = $this->path($collection);
 
         return '<link' . $this->html->attributes($attributes) . '>';
     }
 
     /**
-     * Return an array of script tags.
-     *
-     * @param        $collection
-     * @param  array $filters
-     * @param  array $attributes
-     * @return array
-     */
-    public function scripts($collection, array $filters = [], array $attributes = [])
-    {
-        return array_map(
-            function ($path) use ($attributes) {
-                $attributes['src'] = $path;
-
-                return '<script' . $this->html->attributes($attributes) . '></script>';
-            },
-            $this->paths($collection, $filters)
-        );
-    }
-
-    /**
-     * Return an array of style tags.
-     *
-     * @param        $collection
-     * @param  array $filters
-     * @param  array $attributes
-     * @return array
-     */
-    public function styles($collection, array $filters = [], array $attributes = [])
-    {
-        return array_map(
-            function ($path) use ($attributes) {
-                $defaults = ['media' => 'all', 'type' => 'text/css', 'rel' => 'stylesheet'];
-
-                $attributes = $attributes + $defaults;
-
-                $attributes['href'] = $path;
-
-                return '<link' . $this->html->attributes($attributes) . '>';
-            },
-            $this->paths($collection, $filters)
-        );
-    }
-
-    /**
-     * Return an array of paths to an asset collection.
-     *
-     * This instead of combining the collection contents
-     * just returns an array of individual processed
-     * paths instead.
-     *
-     * @param        $collection
-     * @return array
-     */
-    public function paths($collection)
-    {
-        if (!isset($this->collections[$collection])) {
-            return [];
-        }
-
-        return array_filter(
-            array_map(
-                function ($file) {
-                    return $this->asset($file);
-                },
-                $this->collections[$collection]->keys()->all(),
-                $this->collections[$collection]->values()->all()
-            )
-        );
-    }
-
-    /**
-     * Return an array of style URLs.
-     *
-     * @param        $collection
-     * @param  array $filters
-     * @param  array $attributes
-     * @param null $secure
-     * @return array
-     */
-    public function urls($collection, array $filters = [], array $attributes = [], $secure = null)
-    {
-        return array_map(
-            function ($path) use ($attributes, $secure) {
-                return url()->to($path, $attributes, $secure);
-            },
-            $this->paths($collection, $filters)
-        );
-    }
-
-    /**
-     * Return an array of inline assets from a collection.
-     *
-     * Instead of combining the collection contents into a single
-     * dump, returns an array of individual processed dumps instead.
-     *
-     * @param        $collection
-     * @param  array $additionalFilters
-     * @return array
-     */
-    public function inlines($collection, array $additionalFilters = [])
-    {
-        if (!isset($this->collections[$collection])) {
-            return [];
-        }
-
-        return array_filter(
-            array_map(
-                function ($file, $filters) use ($additionalFilters) {
-                    $filters = array_filter(array_unique(array_merge($filters, $additionalFilters, ['noversion'])));
-
-                    return file_get_contents(
-                        $this->paths->realPath('public::' . ltrim($this->path($file, $filters, false), '/\\'))
-                    );
-                },
-                $this->collections[$collection]->keys()->all(),
-                array_values($this->collections[$collection])
-            )
-        );
-    }
-
-    /**
-     * @param $collection
-     * @param $filters
+     * @param $path
      * @return string
      */
-    protected function getPath($collection, $filters)
+    public function path($asset)
     {
         /*
          * If the asset is remote just return it.
          */
-        if (starts_with($collection, ['http', '//'])) {
-            return $collection;
+        if (starts_with($asset, ['http', '//'])) {
+            return $asset;
+        }
+
+        if (!file_exists($file = $this->paths->realPath($asset))) {
+            return null;
         }
 
         /*
          * If the asset is public just use it.
          */
-        if (starts_with($collection, 'public::')) {
-            return $this->paths->outputPath($this->paths->realPath($collection));
+        if (starts_with($asset, 'public::')) {
+            return $this->paths->outputPath($file);
         }
 
-        $path = $this->paths->outputPath($collection);
+        $path = $this->paths->outputPath($asset);
 
-        if ($this->shouldPublish($path, $collection, $filters)) {
-            $this->publish($path, $collection, $filters);
+        if ($this->shouldPublish($path, $asset)) {
+            $this->publish($path, $asset);
         }
 
-        if (
-            !in_array('noversion', $filters) && (config('streams::assets.version') || in_array('version', $filters))
-        ) {
-            $path .= '?v=' . filemtime(public_path(trim($path, '/\\')));
-        }
+        $path .= '?v=' . filemtime(public_path(trim($path, '/\\')));
 
         return $path;
     }
@@ -526,9 +366,8 @@ class AssetManager
      *
      * @param $path
      * @param $collection
-     * @param $additionalFilters
      */
-    protected function publish($path, $collection, $additionalFilters)
+    protected function publish($path, $collection)
     {
         $path = ltrim($path, '/\\');
 
@@ -536,90 +375,45 @@ class AssetManager
             return;
         }
 
-        $hint = $this->paths->hint($collection);
-
-        $filters = $this->collectionFilters($collection, $additionalFilters); // Returns combined filter flags
-
         /**
          * Get the concatenated content
          * of the asset collection.
          */
-        $contents = $this->content($collection);
+        $contents = $this->collection($collection)->content();
 
-        /**
-         * Parse the content. Always parse CSS.
-         */
-        if (in_array('parse', $filters) || $hint == 'css') {
-            try {
-                //dd($collection);
-                //$contents = (string) render($contents);
-            } catch (\Exception $e) {
-                Log::error($e->getMessage());
-            }
-        }
+        // if (in_array('min', $filters) && $hint == 'css') {
+        //     $compressor = new Minifier;
 
-        if (in_array('min', $filters) && $hint == 'css') {
-            $compressor = new Minifier;
+        //     $compressor->setLineBreakPosition(0);
+        //     $compressor->removeImportantComments();
+        //     $compressor->keepSourceMapComment(false);
 
-            $compressor->setLineBreakPosition(0);
-            $compressor->removeImportantComments();
-            $compressor->keepSourceMapComment(false);
+        //     $contents = $compressor->run($contents);
+        // }
 
-            $contents = $compressor->run($contents);
-        }
-
-        if (in_array('min', $filters) && $hint == 'js') {
-            $contents = JSMin::minify($contents);
-        }
+        // if (in_array('min', $filters) && $hint == 'js') {
+        //     $contents = JSMin::minify($contents);
+        // }
 
         $path = $this->directory . DIRECTORY_SEPARATOR . $path;
 
-        $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
+        $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0755, true, true);
 
         /**
          * Save the processed content.
          */
-        $this->files->put(
-            $path,
-            $contents
-        );
-    }
-
-    /**
-     * Return the content of a collection.
-     *
-     * @param $collection
-     */
-    public function content($collection)
-    {
-        return join(
-            "\n\n",
-            array_flatten(
-                array_map(
-                    function ($asset) {
-                        return array_map(
-                            function ($file) {
-                                return file_get_contents($file);
-                            },
-                            glob($asset)
-                        );
-                    },
-                    $this->collections[$collection]->keys()->all()
-                )
-            )
-        );
+        $this->files->put($path, $contents);
     }
 
     /**
      * Decide whether we need to publish the file
      * to the path or not.
      *
-     * @param        $path
-     * @param        $collection
-     * @param  array $filters
+     * @param $path
+     * @param $collection
      * @return bool
      */
-    protected function shouldPublish($path, $collection, array $filters = [])
+    protected function shouldPublish($path, $collection)
     {
         $path = ltrim($path, '/\\');
 
@@ -635,60 +429,7 @@ class AssetManager
             return true;
         }
 
-        if (in_array('force', $this->collectionFilters($collection, $filters))) {
-            return true;
-        }
-
-        /**
-         * If we're busting cache and have watched
-         * files that have been modified then publish.
-         */
-        if (
-            request()->isNoCache() && array_filter(
-                $this->collectionAssets($collection),
-                function ($asset) use ($path) {
-                    return filemtime($asset) > filemtime($path);
-                }
-            )
-        ) {
-            return true;
-        }
-
-        // Merge filters from collection files.
-        foreach ($this->collections[$collection] as $fileFilters) {
-            $filters = array_filter(array_unique(array_merge($filters, $fileFilters)));
-        }
-
-        /**
-         * If any of the files are more recent
-         * than the cache file then publish.
-         *
-         * @todo See about fixing this so that it still tracks.. Maybe force @watch?
-         */
-        //        if ($this->lastModifiedAt($collection) > filemtime($path)) {
-        //            return true;
-        //        }
-
         return false;
-    }
-
-    /**
-     * Get the last modified time.
-     *
-     * @return integer
-     */
-    public function lastModifiedAt($path)
-    {
-        $files = array_map(
-            function (\SplFileInfo $file) {
-                return $file->getMTime();
-            },
-            $this->files->allFiles(rtrim($this->paths->realPath($path), DIRECTORY_SEPARATOR))
-        );
-
-        arsort($files);
-
-        return array_shift($files);
     }
 
     /**
@@ -719,110 +460,15 @@ class AssetManager
     }
 
     /**
-     * Return the assets in a collection.
-     *
-     * @param        $collection
-     * @return array
-     */
-    protected function collectionAssets($collection)
-    {
-        return $this->collections[$collection]->keys()->all();
-    }
-
-    /**
-     * Return the filters used in a collection.
-     *
-     * @param        $collection
-     * @param  array $filters
-     * @return array
-     */
-    protected function collectionFilters($collection, array $filters = [])
-    {
-        return array_merge($filters, array_flatten($this->collections[$collection]));
-    }
-
-    /**
-     * Return the if a collection has a filters.
-     *
-     * @param        $collection
-     * @param        $filter
-     * @return boolean
-     */
-    protected function collectionHasFilter($collection, $filter)
-    {
-        foreach ($this->collections[$collection] as $file => $filters) {
-            if (in_array($filter, $filters)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Mark an named asset as loaded.
-     *
-     * @param $name
-     * @param $asset
-     * @return $this
-     */
-    public function addLoaded($name, $asset)
-    {
-        $this->loaded[strtolower($name)] = $asset;
-
-        return $this;
-    }
-
-    /**
-     * Remove loaded names from collections.
-     *
-     * @param array $names
-     * @return $this
-     */
-    public function removeLoaded(array $names)
-    {
-        foreach ($names as $name) {
-            if ($this->isLoaded($name)) {
-                list($collection, $path) = explode('@', $this->loaded[$name]);
-
-                unset($this->collections[$collection][$this->paths->realPath($path)]);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Return if a named asset is loaded or not.
-     *
-     * @param $name
-     * @return bool
-     */
-    public function isLoaded($name)
-    {
-        return isset($this->loaded[strtolower($name)]);
-    }
-
-    /**
-     * Get the named and loaded assets.
-     *
-     * @return array
-     */
-    public function getLoaded()
-    {
-        return $this->loaded;
-    }
-
-    /**
      * Return the real path
      * for a prefixed one.
      *
      * @param $path
      * @return string
      */
-    public function realPath($path)
+    public function realPath($asset)
     {
-        return $this->paths->realPath($path);
+        return $this->paths->realPath($asset);
     }
 
     /**

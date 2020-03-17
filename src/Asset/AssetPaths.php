@@ -165,22 +165,6 @@ class AssetPaths
     }
 
     /**
-     * Return the download path for a remote asset.
-     *
-     * @param         $url
-     * @param  null $path
-     * @return string
-     */
-    public function downloadPath($url, $path = null)
-    {
-        if (!$path && $parsed = parse_url($url)) {
-            $path = array_get($parsed, 'host') . '/' . basename(array_get($parsed, 'path'));
-        }
-
-        return $path = str_replace(public_path(), '', $this->application->getAssetsPath('downloads/' . $path));
-    }
-
-    /**
      * Return the output path.
      *
      * @param $collection

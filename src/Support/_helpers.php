@@ -356,13 +356,16 @@ if (!function_exists('assets')) {
      *
      * @param null $collection
      * @param null $asset
-     * @param array $filters
      * @return \Anomaly\Streams\Platform\Asset\Asset
      */
-    function assets($collection = null, $asset = null, array $filters = [])
+    function assets($collection = null, $asset = null)
     {
         if ($collection && $asset) {
-            return app(AssetManager::class)->add($collection, $asset, $filters);
+            return app(AssetManager::class)->add($collection, $asset);
+        }
+
+        if ($collection) {
+            return app(AssetManager::class)->collection($collection);
         }
 
         return app(AssetManager::class);
