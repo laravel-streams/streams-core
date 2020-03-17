@@ -108,25 +108,6 @@ class AssetPaths
     }
 
     /**
-     * Return the hinted extension.
-     *
-     * @param $path
-     * @return string
-     */
-    public function hint($path)
-    {
-        $hint = $this->extension($path);
-
-        foreach ($this->config->get('streams::assets.hints', []) as $extension => $hints) {
-            if (in_array($hint, $hints)) {
-                return $extension;
-            }
-        }
-
-        return $hint;
-    }
-
-    /**
      * Return the extension of the path.
      *
      * @param $path
@@ -144,7 +125,7 @@ class AssetPaths
      * @return string
      * @throws \Exception
      */
-    public function realPath($path)
+    public function real($path)
     {
         if (str_contains($path, '::')) {
 
@@ -183,7 +164,7 @@ class AssetPaths
         /*
          * Get the real path relative to our installation.
          */
-        $path = str_replace(base_path(), '', $this->realPath($collection));
+        $path = str_replace(base_path(), '', $this->real($collection));
 
         /*
          * Build out path parts.

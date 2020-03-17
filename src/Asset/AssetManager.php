@@ -26,9 +26,9 @@ class AssetManager
     /**
      * The public base directory.
      *
-     * @var null
+     * @var null|string
      */
-    protected $directory = null;
+    protected $directory;
 
     /**
      * Groups of assets. Groups can
@@ -160,62 +160,6 @@ class AssetManager
 
         return $collection;
     }
- 
-    /**
-     * Add an asset or glob pattern to an asset collection.
-     *
-     * This should support the asset being the collection
-     * and the asset (for single files) internally
-     * so asset.links / asset.scripts will work.
-     *
-     * @param     $collection
-     * @param             $file
-     * @param  array $filters
-     * @param bool $internal A flag telling the system
-     *                              this is an internal request
-     *                              and should be processed differently.
-     * @return $this
-     * @throws \Exception
-     */
-    public function add($collection, $file)
-    {
-        if (!isset($this->collections[$collection])) {
-            $this->collections[$collection] = new AssetCollection();
-        }
-
-        /**
-         * Determine the actual
-         * path of the file.
-         */
-        $file = $this->paths->realPath($file);
-
-        /*
-         * If this is a remote or single existing
-         * file then add it normally.
-         */
-        if (starts_with($file, ['http', '//'])) {
-            
-            $this->collections[$collection]->add($file);
-
-            return $this;
-        }
-
-        /**
-         * If we don't have any assets
-         * to load then just skip it.
-         */
-        if (!count(glob($file))) {
-            return $this;
-        }
-
-        /*
-         * Add it to the collection
-         * and add the glob filter.
-         */
-        $this->collections[$collection]->add($file);
-
-        return $this;
-    }
 
     /**
      * Register assets by name.
@@ -232,34 +176,15 @@ class AssetManager
     }
 
     /**
-     * Add an asset or glob pattern to an asset collection.
+     * Resolve named assets.
      *
-     * This should support the asset being the collection
-     * and the asset (for single files) internally
-     * so asset.links / asset.scripts will work.
-     *
-     * @param $collection
-     * @param $file
-     * @param array $default
+     * @param string $name
+     * @param string|array $assets
      * @return $this
      */
-    public function load($collection, $name, array $default = [])
+    public function resolve($name, $default)
     {
-        $name = str_replace('@', '', $name);
-
-        foreach ($this->registry->resolve($name, $default) as $key => $resolved) {
-
-            if (!is_numeric($key)) {
-                
-                $this->load($collection, $name . '.' . $key);
-
-                continue;
-            }
-
-            $this->add($collection, is_numeric($key) === false ? $key : $resolved);
-        }
-        
-        return $this;
+        return $this->registry->resolve($name, $default);
     }
 
     /**
@@ -272,7 +197,7 @@ class AssetManager
     public function inline($asset)
     {
         return file_get_contents(
-            $this->paths->realPath('public::' . ltrim($this->path($asset), '/\\'))
+            $this->paths->real('public::' . ltrim($this->path($asset), '/\\'))
         );
     }
 
@@ -290,6 +215,21 @@ class AssetManager
         }
 
         return $this->url->asset($path, $parameters, $secure);
+    }
+
+    /**
+     * Return the tag for an asset.
+     *
+     * @param string $asset
+     * @param array $attributes
+     */
+    public function tag($asset, array $attributes = [])
+    {
+        if ($this->paths->extension($asset) == 'js') {
+            return $this->script($asset);
+        } else {
+            return $this->style($asset);
+        }
     }
 
     /**
@@ -339,7 +279,7 @@ class AssetManager
             return $asset;
         }
 
-        if (!file_exists($file = $this->paths->realPath($asset))) {
+        if (!file_exists($file = $this->paths->real($asset))) {
             return null;
         }
 
@@ -466,13 +406,13 @@ class AssetManager
      * @param $path
      * @return string
      */
-    public function realPath($asset)
+    public function real($asset)
     {
-        return $this->paths->realPath($asset);
+        return $this->paths->real($asset);
     }
 
     /**
-     * Necessary for plugin methods.
+     * Return object as a string.
      *
      * @return string
      */

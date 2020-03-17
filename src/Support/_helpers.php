@@ -361,7 +361,7 @@ if (!function_exists('assets')) {
     function assets($collection = null, $asset = null)
     {
         if ($collection && $asset) {
-            return app(AssetManager::class)->add($collection, $asset);
+            return app(AssetManager::class)->collection($collection)->add($asset);
         }
 
         if ($collection) {

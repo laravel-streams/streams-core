@@ -18,10 +18,48 @@ class AssetCollection extends Collection
 {
 
     /**
-     * Return an array of style URLs.
+     * The loaded assets.
      *
-     * @param  array $filters
-     * @param  array $attributes
+     * @var array
+     */
+    private $loaded = [];
+
+    /**
+     * Load a named asset.
+     *
+     * @param $name
+     * @param array $default
+     * @return $this
+     */
+    public function load($name, array $default = [])
+    {
+        $name = str_replace('@', '', $name);
+
+        if (in_array($name, $this->loaded)) {
+            return $this;
+        }
+
+        foreach (app(AssetManager::class)->resolve($name, $default) as $key => $resolved) {
+
+            if (!is_numeric($key)) {
+                
+                $this->load($name . '.' . $key);
+
+                continue;
+            }
+
+            $this->loaded[] = $name;
+
+            $this->add($resolved);
+        }
+        
+        return $this;
+    }
+
+    /**
+     * Return published URLs.
+     *
+     * @param array $attributes
      * @param null $secure
      * @return array
      */
@@ -33,7 +71,20 @@ class AssetCollection extends Collection
     }
 
     /**
-     * Return an array of script tags.
+     * Return output tags.
+     *
+     * @param array $attributes
+     * @return array
+     */
+    public function tags(array $attributes = [])
+    {
+        return $this->map(function ($asset) use ($attributes) {
+            app(AssetManager::class)->tag($asset, $attributes);
+        });
+    }
+
+    /**
+     * Return script tags.
      *
      * @param  array $attributes
      * @return $this
@@ -46,7 +97,7 @@ class AssetCollection extends Collection
     }
 
     /**
-     * Return an array of style tags.
+     * Return style tags.
      *
      * @param  array $attributes
      * @return $this
@@ -59,10 +110,7 @@ class AssetCollection extends Collection
     }
 
     /**
-     * Return an array of inline assets from a collection.
-     *
-     * Instead of combining the collection contents into a single
-     * dump, returns an array of individual processed dumps instead.
+     * Return inline assets.
      *
      * @return array
      */
@@ -74,7 +122,7 @@ class AssetCollection extends Collection
     }
 
     /**
-     * Return an array of paths to an asset collection.
+     * Return published paths.
      *
      * This instead of combining the collection contents
      * just returns an array of individual processed
@@ -100,12 +148,12 @@ class AssetCollection extends Collection
     }
 
     /**
-     * Return the collection as a string.
+     * Return collection as a string.
      *
      * @return string
      */
     public function __toString()
     {
-        return $this->implode('');
+        return '';
     }
 }
