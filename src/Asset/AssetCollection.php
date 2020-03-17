@@ -98,4 +98,14 @@ class AssetCollection extends Collection
     {
         return join("\n\n", $this->inlines());
     }
+
+    /**
+     * Return the collection as a string.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->implode('');
+    }
 }
