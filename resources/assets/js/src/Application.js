@@ -1,13 +1,12 @@
 import Vue from 'vue';
 import {Container} from 'inversify';
 // import {Config, IConfig, IServiceProviderClass, loadConfigDefaults, ServiceProvider} from '@pyro/platform';
-import merge from 'lodash';
+import {merge} from 'lodash';
 //import {Dispatcher} from './Dispatcher';
 //import {ServiceProvider} from './ServiceProvider';
 //import {Config} from './Config';
 
 const getConfigDefaults = () => ({
-    prefix    : 'py',
     debug     : false,
     csrf      : null,
     delimiters: [ '\{\{', '}}' ]
@@ -17,10 +16,12 @@ export class Application extends Container {
 
     constructor() {
         super({
+            // What are these?
             autoBindInjectable : false,
             defaultScope       : 'Transient',
             skipBaseClassChecks: false
         });
+
         this.Root = Vue.extend({});
         this.loadedProviders = {};
         this.providers = [];
@@ -39,24 +40,24 @@ export class Application extends Container {
     // }
 
     /** @return {Storage} */
-    get storage() {
-        return this.get('storage');
-    }
+    // get storage() {
+    //     return this.get('storage');
+    // }
 
     /** @return {Cookies} */
-    get cookies() {
-        return this.get('cookies');
-    }
+    // get cookies() {
+    //     return this.get('cookies');
+    // }
 
     /** @return {Dispatcher} */
-    get events() {
-        return this.get('events');
-    }
+    // get events() {
+    //     return this.get('events');
+    // }
 
     /** @return {Config} */
-    get data() {
-        return this.get('data');
-    }
+    // get data() {
+    //     return this.get('data');
+    // }
 
     // async bootstrap(_options, ...mergeOptions) {
     //     let options = merge({
@@ -141,24 +142,41 @@ export class Application extends Container {
     //     return this;
     // };
 
-    // boot = async () => {
-    //     if ( this.booted ) {
-    //         return this;
-    //     }
-    //     log('boot');
-    //     this.booted = true;
-    //     this.events.emit('app:boot');
-    //     for (const provider of this.providers) {
-    //         if ( 'boot' in provider && Reflect.getMetadata('boot', provider) !== true ) {
-    //             this.events.emit('app:provider:booting', provider);
-    //             Reflect.defineMetadata('boot', true, provider);
-    //             await provider.boot();
-    //             this.events.emit('app:provider:booted', provider);
-    //         }
-    //     }
-    //     this.events.emit('app:booted');
-    //     return this;
-    // };
+    async boot() {
+        
+        /**
+         * Only boot once.
+         */
+        if (this.booted) {
+            return this;
+        }
+
+        this.booted = true;
+
+        //this.events.emit('streams.boot');
+
+        // for (const provider of this.providers) {
+        //     if ( 'boot' in provider && Reflect.getMetadata('boot', provider) !== true ) {
+        //         this.events.emit('app:provider:booting', provider);
+        //         Reflect.defineMetadata('boot', true, provider);
+        //         await provider.boot();
+        //         this.events.emit('app:provider:booted', provider);
+        //     }
+        // }
+
+        //this.events.emit('streams.booted');
+
+        return this;
+    };
+
+    async start(selector){
+        
+        this.root = new Vue({});
+
+        this.root.$mount(selector);
+
+        return this;
+    }
 
 
     // start = async (elementOrSelector='#app') => {

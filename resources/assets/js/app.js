@@ -1,10 +1,9 @@
 import {Application} from './src/Application';
 import Vue from 'vue';
 
-const streams = new Application();
+window.streams = new Application();
 
-console.log('Application Instantiated:');
-console.log(streams);
+console.log('Application Instantiated');
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -38,7 +37,3 @@ Vue.component('cp-table', Table);
 
 Vue.component('cp-form', Form);
 Vue.component('form-field', FormField);
-
-const app = new Vue({
-    el: '#app'
-});
