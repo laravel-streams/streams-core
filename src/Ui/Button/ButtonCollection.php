@@ -64,6 +64,6 @@ class ButtonCollection extends Collection
      */
     public function __toString()
     {
-        return view('streams::ui/buttons/buttons', ['buttons' => $this->items])->render();
+        return view('streams::ui/buttons/buttons', ['buttons' => $this->items->values()])->render();
     }
 }
