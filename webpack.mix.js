@@ -1,4 +1,5 @@
 let mix = require('laravel-mix');
+const tailwindcss = require('tailwindcss');
 
 /*
  |--------------------------------------------------------------------------
@@ -14,17 +15,17 @@ let mix = require('laravel-mix');
 mix
     .js('resources/assets/js/index.js', 'resources/dist/js/index.js')
     .copyDirectory('resources/dist', '../../../public/vendor/anomaly/core')
-    // .browserSync({
-    //     //proxy: 'streams.local',
-    //     files: [
-    //         //'./public/js/**/*.js',
-    //         //'./public/js/**/*.css',
-    //         './resources/assets/**/*.js',
-    //         './resources/assets/**/*.js',
-    //     ]
-    // })
+    .browserSync({
+        proxy: 'streams.local',
+        files: [
+            'resources/dist/**/*',
+        ]
+    })
     .options({
         processCssUrls: false,
+        postCss: [
+            tailwindcss('./tailwind.config.js'),
+        ],
     })
     .sourceMaps();
 
