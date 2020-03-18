@@ -304,7 +304,7 @@ if (!function_exists('buttons')) {
      */
     function buttons(ButtonCollection $buttons)
     {
-        return view('admin::buttons/buttons', ['buttons' => $buttons]);
+        return view('streams::ui/buttons/buttons', ['buttons' => $buttons]);
     }
 }
 
