@@ -6,6 +6,8 @@ import {autoProvide, buildProviderModule, fluentProvide, provide} from 'inversif
 import createDecorators from 'inversify-inject-decorators';
 import {decorate, injectable, named, optional, postConstruct, tagged, unmanaged} from 'inversify';
 
+Vue.config.silent = true;
+
 const streams = {};
 
 streams.app = new Application();
