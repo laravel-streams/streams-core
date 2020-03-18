@@ -6,6 +6,15 @@ import {Dispatcher} from './Dispatcher';
 import {ServiceProvider} from './ServiceProvider';
 //import {Config} from './Config';
 
+// @todo remove this to it's own provider
+import Navigation from '../components/Navigation.vue';
+import Sections from '../components/Sections.vue';
+import Buttons from '../components/Buttons.vue';
+import Table from '../components/Table.vue';
+
+import Form from '../components/Form.vue';
+import FormField from '../components/FormField.vue';
+
 const getConfigDefaults = () => ({
     debug     : false,
     csrf      : null,
@@ -22,7 +31,7 @@ export class Application extends Container {
             skipBaseClassChecks: false
         });
 
-        this.Root = Vue.extend({});
+        this.root = Vue.extend({});
 
         this.loadedProviders = {};
         this.providers = [];
@@ -39,7 +48,7 @@ export class Application extends Container {
     }
 
     // extendRoot(options) {
-    //     this.Root = this.Root.extend(options);
+    //     this.root = this.root.extend(options);
     //     return this;
     // }
 
@@ -83,36 +92,38 @@ export class Application extends Container {
     //     return this;
     // }
 
-    // async loadProviders(Providers) {
-    //     log('loadProviders', {Providers});
-    //     this.events.emit('loadProviders', Providers);
-    //     await Promise.all(Providers.map(async Provider => this.loadProvider(Provider)));
-    //     this.events.emit('loadedProviders', this.providers);
-    //     return this;
-    // }
+    async loadProviders(Providers) {
+        
+        await Promise.all(Providers.map(async Provider => this.loadProvider(Provider)));
 
+        return this;
+    }
 
-    // async loadProvider(Provider) {
-    //     if ( Provider.name in this.loadedProviders ) {
-    //         return this.loadedProviders[Provider.name];
-    //     }
-    //     log('loadProvider', {Provider});
-    //     this.events.emit('app:provider:load', Provider);
-    //     let provider = new Provider(this);
-    //     if ( 'configure' in provider && Reflect.getMetadata('configure', provider) !== true ) {
-    //         const defaults = getConfigDefaults();
-    //         Reflect.defineMetadata('configure', true, provider);
-    //         await provider.configure(defaults);
-    //     }
-    //     if ( 'providers' in provider && Reflect.getMetadata('providers', provider) !== true ) {
-    //         Reflect.defineMetadata('providers', true, provider);
-    //         await this.loadProviders(provider.providers);
-    //     }
-    //     this.loadedProviders[Provider.name] = provider;
-    //     this.providers.push(provider);
-    //     this.events.emit('app:provider:loaded', provider);
-    //     return provider;
-    // }
+    async loadProvider(Provider) {
+        
+        if (Provider.name in this.loadedProviders) {
+            return this.loadedProviders[Provider.name];
+        }
+        
+        let provider = new Provider(this);
+
+        if ( 'configure' in provider && Reflect.getMetadata('configure', provider) !== true ) {
+            const defaults = getConfigDefaults();
+            Reflect.defineMetadata('configure', true, provider);
+            await provider.configure(defaults);
+        }
+        
+        if ( 'providers' in provider && Reflect.getMetadata('providers', provider) !== true ) {
+            Reflect.defineMetadata('providers', true, provider);
+            await this.loadProviders(provider.providers);
+        }
+        
+        this.loadedProviders[Provider.name] = provider;
+        
+        this.providers.push(provider);
+                
+        return provider;
+    }
 
     // configure(config) {
     //     config = merge({}, getConfigDefaults, config);
@@ -123,29 +134,30 @@ export class Application extends Container {
     //     return this;
     // }
 
-    // async registerProviders(providers = this.providers) {
-    //     this.events.emit('app:registerProviders', providers);
-    //     await Promise.all(this.providers.map(async Provider => this.register(Provider)));
-    //     this.events.emit('app:registeredProviders', providers);
-    //     return this;
-    // }
+    async registerProviders(providers = this.providers) {
+        
+        await Promise.all(providers.map(async Provider => this.register(Provider)));
+        
+        return this;
+    }
 
     async register(Provider) {
       
-        log('register', {Provider});
-
-        this.events.emit('app:provider:register', Provider);
-
         let provider = Provider;
-        if ( Provider instanceof ServiceProvider === false ) {
+
+        if (Provider instanceof ServiceProvider === false) {
             provider = await this.loadProvider(Provider);
         }
-        if ( 'register' in provider && Reflect.getMetadata('register', provider) !== true ) {
+
+        if ('register' in provider && Reflect.getMetadata('register', provider) !== true) {
+            
             Reflect.defineMetadata('register', true, provider);
+            
             await this.loadAsync(new AsyncContainerModule(() => provider.register()));
         }
+
         this.providers.push(provider);
-        this.events.emit('app:provider:registered', provider);
+  
         return this;
     }
 
@@ -159,15 +171,16 @@ export class Application extends Container {
         }
 
         this.booted = true;
-        console.log(this.events);
+        
         this.events.emit('app:boot');
 
         for (const provider of this.providers) {
+            
             if ('boot' in provider && Reflect.getMetadata('boot', provider) !== true ) {
-                this.events.emit('app:provider:booting', provider);
+                
                 Reflect.defineMetadata('boot', true, provider);
+                
                 await provider.boot();
-                this.events.emit('app:provider:booted', provider);
             }
         }
 
@@ -178,6 +191,16 @@ export class Application extends Container {
 
     async start(selector){
         
+        // @todo remove this to it's own provider
+        Vue.component('navigation', Navigation);
+        Vue.component('sections', Sections);
+        Vue.component('buttons', Buttons);
+
+        Vue.component('cp-table', Table);
+
+        Vue.component('cp-form', Form);
+        Vue.component('form-field', FormField);
+
         this.root = new Vue({});
 
         this.root.$mount(selector);
@@ -187,9 +210,9 @@ export class Application extends Container {
 
 
     // start = async (elementOrSelector='#app') => {
-    //     log('start',{elementOrSelector,data:this.data,Root:this.Root})
+    //     log('start',{elementOrSelector,data:this.data,Root:this.root})
     //     this.events.emit('app:start', elementOrSelector, {})
-    //     this.root = new this.Root({
+    //     this.root = new this.root({
     //         data: () => {
     //             return this.data
     //         }
