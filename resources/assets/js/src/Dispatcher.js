@@ -1,10 +1,12 @@
 import Vue from 'vue';
+import "reflect-metadata";
 import {injectable} from 'inversify';
 
 let v = new Vue;
 
 @injectable()
 export class Dispatcher {
+    
     emit(event, ...args) {
         v.$emit(event, ...args);
         return this;

@@ -1,9 +1,21 @@
-import {Application} from './src/Application';
-import Vue from 'vue';
+import {autoProvide, buildProviderModule, fluentProvide, provide} from 'inversify-binding-decorators';
+import createDecorators from 'inversify-inject-decorators';
+import {decorate, injectable, named, optional, postConstruct, tagged, unmanaged} from 'inversify';
 
-window.streams = new Application();
+window.streams = {};
 
-console.log('Application Instantiated');
+window.streams.app = new Application();
+
+window.streams.ServiceProvider = ServiceProvider;
+
+const {lazyInject: inject} = createDecorators(window.streams.app);
+
+export {inject};
+export {provide, buildProviderModule, fluentProvide, autoProvide};
+export {injectable, unmanaged, optional, decorate, named, tagged, postConstruct};
+
+
+// @todo: THIS NEEDS TO MOVE
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -37,7 +49,3 @@ Vue.component('cp-table', Table);
 
 Vue.component('cp-form', Form);
 Vue.component('form-field', FormField);
-
-const app = new Vue({
-    el: '#app'
-});

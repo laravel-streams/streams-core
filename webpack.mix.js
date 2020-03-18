@@ -12,7 +12,8 @@ let mix = require('laravel-mix');
  */
 
 mix
-    .js('resources/assets/js/app.js', 'resources/dist/js/app.js')
+    .js('resources/assets/js/index.js', 'resources/dist/js/index.js')
+    .copyDirectory('resources/dist', '../../../public/vendor/anomaly/core')
     // .browserSync({
     //     //proxy: 'streams.local',
     //     files: [

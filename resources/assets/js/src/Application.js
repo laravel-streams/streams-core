@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import {Container} from 'inversify';
-// import {Config, IConfig, IServiceProviderClass, loadConfigDefaults, ServiceProvider} from '@pyro/platform';
-import {merge} from 'lodash';
-//import {Dispatcher} from './Dispatcher';
-//import {ServiceProvider} from './ServiceProvider';
+//import {merge} from 'lodash';
+//import Axios from 'axios';
+import {Dispatcher} from './Dispatcher';
+import {ServiceProvider} from './ServiceProvider';
 //import {Config} from './Config';
 
 const getConfigDefaults = () => ({
@@ -23,15 +23,19 @@ export class Application extends Container {
         });
 
         this.Root = Vue.extend({});
+
         this.loadedProviders = {};
         this.providers = [];
+
         this.booted = false;
         this.started = false;
+
         this.shuttingDown = false;
         this.startEnabled = true;
 
         //this.instance('app', this);
         //this.singleton('events', Dispatcher);
+        this.events = new Dispatcher;
     }
 
     // extendRoot(options) {
@@ -126,21 +130,24 @@ export class Application extends Container {
     //     return this;
     // }
 
-    // register = async (Provider) => {
-    //     log('register', {Provider});
-    //     this.events.emit('app:provider:register', Provider);
-    //     let provider = Provider;
-    //     if ( Provider instanceof ServiceProvider === false ) {
-    //         provider = await this.loadProvider(Provider);
-    //     }
-    //     if ( 'register' in provider && Reflect.getMetadata('register', provider) !== true ) {
-    //         Reflect.defineMetadata('register', true, provider);
-    //         await this.loadAsync(new AsyncContainerModule(() => provider.register()));
-    //     }
-    //     this.providers.push(provider);
-    //     this.events.emit('app:provider:registered', provider);
-    //     return this;
-    // };
+    async register(Provider) {
+      
+        log('register', {Provider});
+
+        this.events.emit('app:provider:register', Provider);
+
+        let provider = Provider;
+        if ( Provider instanceof ServiceProvider === false ) {
+            provider = await this.loadProvider(Provider);
+        }
+        if ( 'register' in provider && Reflect.getMetadata('register', provider) !== true ) {
+            Reflect.defineMetadata('register', true, provider);
+            await this.loadAsync(new AsyncContainerModule(() => provider.register()));
+        }
+        this.providers.push(provider);
+        this.events.emit('app:provider:registered', provider);
+        return this;
+    }
 
     async boot() {
         
@@ -152,22 +159,22 @@ export class Application extends Container {
         }
 
         this.booted = true;
+        console.log(this.events);
+        this.events.emit('app:boot');
 
-        //this.events.emit('streams.boot');
+        for (const provider of this.providers) {
+            if ('boot' in provider && Reflect.getMetadata('boot', provider) !== true ) {
+                this.events.emit('app:provider:booting', provider);
+                Reflect.defineMetadata('boot', true, provider);
+                await provider.boot();
+                this.events.emit('app:provider:booted', provider);
+            }
+        }
 
-        // for (const provider of this.providers) {
-        //     if ( 'boot' in provider && Reflect.getMetadata('boot', provider) !== true ) {
-        //         this.events.emit('app:provider:booting', provider);
-        //         Reflect.defineMetadata('boot', true, provider);
-        //         await provider.boot();
-        //         this.events.emit('app:provider:booted', provider);
-        //     }
-        // }
-
-        //this.events.emit('streams.booted');
+        this.events.emit('app:booted');
 
         return this;
-    };
+    }
 
     async start(selector){
         

@@ -11,20 +11,24 @@
     },
     "dependencies": {
         "inversify": "^5.0.1",
+        "inversify-binding-decorators": "^4.0.0",
+        "inversify-inject-decorators": "^3.1.0",
         "mousetrap": "^1.6",
+        "reflect-metadata": "^0.1.13",
         "sweetalert": "^2.1",
         "tingle.js": "^0.15",
         "vue": "^2.6"
     },
     "devDependencies": {
+        "@babel/plugin-proposal-decorators": "^7.8.3",
         "axios": "^0.19",
         "cross-env": "^7.0",
         "laravel-mix": "^5.0.1",
         "lodash": "^4.17.13",
         "resolve-url-loader": "^3.1.0",
         "sass": "^1.15.2",
-        "vue-loader": "^15.9.0",
         "sass-loader": "^8.0.0",
+        "vue-loader": "^15.9.0",
         "vue-template-compiler": "^2.6.11"
     }
 }

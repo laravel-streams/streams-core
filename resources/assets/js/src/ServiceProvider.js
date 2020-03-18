@@ -7,7 +7,9 @@ export class ServiceProvider {
      * @param {Application} app
      */
     constructor(app) {
+        
         this.app = app;
+        
         console.log('ServiceProvider', new.target.name);
     }
 }
