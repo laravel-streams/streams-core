@@ -7,8 +7,6 @@ import {ServiceProvider} from './ServiceProvider';
 //import {Config} from './Config';
 
 // @todo remove this to it's own provider
-import Navigation from '../components/Navigation.vue';
-import Sections from '../components/Sections.vue';
 import Buttons from '../components/Buttons.vue';
 import Table from '../components/Table.vue';
 
@@ -192,8 +190,6 @@ export class Application extends Container {
     async start(selector){
         
         // @todo remove this to it's own provider
-        Vue.component('navigation', Navigation);
-        Vue.component('sections', Sections);
         Vue.component('buttons', Buttons);
 
         Vue.component('cp-table', Table);
