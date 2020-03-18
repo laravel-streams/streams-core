@@ -6,14 +6,6 @@ import {Dispatcher} from './Dispatcher';
 import {ServiceProvider} from './ServiceProvider';
 //import {Config} from './Config';
 
-// @todo remove this to it's own provider
-import Buttons from '../components/Buttons.vue';
-import Button from '../components/Button.vue';
-import Table from '../components/Table.vue';
-
-import Form from '../components/Form.vue';
-import FormField from '../components/FormField.vue';
-
 const getConfigDefaults = () => ({
     debug     : false,
     csrf      : null,
@@ -91,6 +83,11 @@ export class Application extends Container {
     //     return this;
     // }
 
+    /**
+     * Load an array of service providers.
+     * 
+     * @param {*} Providers 
+     */
     async loadProviders(Providers) {
         
         await Promise.all(Providers.map(async Provider => this.loadProvider(Provider)));
@@ -98,6 +95,11 @@ export class Application extends Container {
         return this;
     }
 
+    /**
+     * Load a service provider.
+     * 
+     * @param {*} Provider 
+     */
     async loadProvider(Provider) {
         
         if (Provider.name in this.loadedProviders) {
@@ -106,13 +108,13 @@ export class Application extends Container {
         
         let provider = new Provider(this);
 
-        if ( 'configure' in provider && Reflect.getMetadata('configure', provider) !== true ) {
+        if ('configure' in provider && Reflect.getMetadata('configure', provider) !== true) {
             const defaults = getConfigDefaults();
             Reflect.defineMetadata('configure', true, provider);
             await provider.configure(defaults);
         }
         
-        if ( 'providers' in provider && Reflect.getMetadata('providers', provider) !== true ) {
+        if ('providers' in provider && Reflect.getMetadata('providers', provider) !== true) {
             Reflect.defineMetadata('providers', true, provider);
             await this.loadProviders(provider.providers);
         }
@@ -133,7 +135,12 @@ export class Application extends Container {
     //     return this;
     // }
 
-    async registerProviders(providers = this.providers) {
+    /**
+     * Register an array of providers.
+     * 
+     * @param {*} providers 
+     */
+    async registerProviders(providers) {
         
         await Promise.all(providers.map(async Provider => this.register(Provider)));
         
@@ -190,15 +197,6 @@ export class Application extends Container {
 
     async start(selector){
         
-        // @todo remove this to it's own provider
-        Vue.component('cp-buttons', Buttons);
-        Vue.component('cp-button', Button);
-
-        Vue.component('cp-table', Table);
-
-        Vue.component('cp-form', Form);
-        Vue.component('cp-form-field', FormField);
-
         this.root = new Vue({});
 
         this.root.$mount(selector);

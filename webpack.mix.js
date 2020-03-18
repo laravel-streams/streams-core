@@ -15,12 +15,6 @@ const tailwindcss = require('tailwindcss');
 mix
     .js('resources/assets/js/index.js', 'resources/dist/js/index.js')
     .copyDirectory('resources/dist', '../../../public/vendor/anomaly/core')
-    .browserSync({
-        proxy: 'streams.local',
-        files: [
-            'resources/dist/**/*',
-        ]
-    })
     .options({
         processCssUrls: false,
         postCss: [
