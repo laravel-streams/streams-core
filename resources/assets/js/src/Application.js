@@ -204,7 +204,6 @@ export class Application extends Container {
         return this;
     }
 
-
     // start = async (elementOrSelector='#app') => {
     //     log('start',{elementOrSelector,data:this.data,Root:this.root})
     //     this.events.emit('app:start', elementOrSelector, {})
