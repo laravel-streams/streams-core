@@ -8,6 +8,7 @@ import {ServiceProvider} from './ServiceProvider';
 
 // @todo remove this to it's own provider
 import Buttons from '../components/Buttons.vue';
+import Button from '../components/Button.vue';
 import Table from '../components/Table.vue';
 
 import Form from '../components/Form.vue';
@@ -190,12 +191,13 @@ export class Application extends Container {
     async start(selector){
         
         // @todo remove this to it's own provider
-        Vue.component('buttons', Buttons);
+        Vue.component('cp-buttons', Buttons);
+        Vue.component('cp-button', Button);
 
         Vue.component('cp-table', Table);
 
         Vue.component('cp-form', Form);
-        Vue.component('form-field', FormField);
+        Vue.component('cp-form-field', FormField);
 
         this.root = new Vue({});
 
