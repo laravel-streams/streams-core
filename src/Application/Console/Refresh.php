@@ -62,6 +62,10 @@ class Refresh extends Command
 
         $this->info('View caches cleared.');
 
+        $console->call('assets:publish', []);
+
+        $this->info('Assets published.');
+
         /**
          * Restart utility services.
          */
