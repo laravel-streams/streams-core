@@ -117,7 +117,7 @@ class ImagePaths
      * @param $path
      * @return string
      */
-    public function outputPath(Image $image)
+    public function outputPath(ImageManager $image)
     {
         $path = $image->getImage();
 

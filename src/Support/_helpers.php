@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Image\Image;
+use Anomaly\Streams\Platform\Image\ImageManager;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Support\Value;
 use Anomaly\Streams\Platform\Support\Parser;
@@ -378,15 +378,15 @@ if (!function_exists('img')) {
      * Return an image instance.
      *
      * @param mixed $source
-     * @return \Anomaly\Streams\Platform\Image\Image
+     * @return \Anomaly\Streams\Platform\Image\ImageManager
      */
     function img($source = null)
     {
         if (!$source) {
-            return app(Image::class);
+            return app(ImageManager::class);
         }
 
-        return app(Image::class)->make($source);
+        return app(ImageManager::class)->make($source);
     }
 }
 

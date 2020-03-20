@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Collective\Html\HtmlBuilder;
 use Intervention\Image\Constraint;
 use League\Flysystem\MountManager;
-use Intervention\Image\ImageManager;
+use Intervention\Image\ImageManager as Intervention;
 use Illuminate\Filesystem\Filesystem;
 use Anomaly\FilesModule\File\FilePresenter;
 use Anomaly\Streams\Platform\Support\Presenter;
@@ -17,13 +17,13 @@ use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 
 /**
- * Class Image
+ * Class ImageManager
  *
  * @link    http://pyrocms.com/
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Image
+class ImageManager
 {
 
     /**
@@ -80,7 +80,7 @@ class Image
      *
      * @var string
      */
-    protected $output = 'url';
+    protected $output = 'img';
 
     /**
      * The image attributes.
@@ -215,7 +215,7 @@ class Image
     /**
      * The image manager.
      *
-     * @var ImageManager
+     * @var Intervention
      */
     protected $manager;
 
@@ -232,7 +232,7 @@ class Image
      * @param HtmlBuilder $html
      * @param Filesystem $files
      * @param Mobile_Detect $agent
-     * @param Image $manager
+     * @param Intervention $manager
      * @param Request $request
      * @param Application $application
      * @param ImagePaths $paths
@@ -242,7 +242,7 @@ class Image
         HtmlBuilder $html,
         Filesystem $files,
         Mobile_Detect $agent,
-        ImageManager $manager,
+        Intervention $manager,
         Request $request,
         Application $application,
         ImagePaths $paths,
@@ -267,7 +267,7 @@ class Image
      */
     public function make($image, $output = null)
     {
-        if ($image instanceof Image) {
+        if ($image instanceof ImageManager) {
             return $image;
         }
 
@@ -914,7 +914,7 @@ class Image
     /**
      * Make an image instance.
      *
-     * @return \Intervention\Image\Image
+     * @return Intervention
      */
     protected function makeImage()
     {
@@ -934,7 +934,7 @@ class Image
             return $this->manager->make($this->image);
         }
 
-        if ($this->image instanceof Image) {
+        if ($this->image instanceof Intervention) {
             return $this->image;
         }
 
@@ -968,7 +968,7 @@ class Image
             return $this->image->read();
         }
 
-        if ($this->image instanceof Image) {
+        if ($this->image instanceof ImageManager) {
             return $this->image->encode();
         }
 

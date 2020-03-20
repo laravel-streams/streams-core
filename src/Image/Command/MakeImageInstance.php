@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Image\Command;
 
-use Anomaly\Streams\Platform\Image\Image;
+use Anomaly\Streams\Platform\Image\ImageManager;
 
 /**
  * Class MakeImageInstance
@@ -40,10 +40,10 @@ class MakeImageInstance
     /**
      * Handle the command.
      *
-     * @param  Image $image
-     * @return Image
+     * @param  ImageManager $image
+     * @return ImageManager
      */
-    public function handle(Image $image)
+    public function handle(ImageManager $image)
     {
         return $image->make($this->image)->setOutput($this->output);
     }
