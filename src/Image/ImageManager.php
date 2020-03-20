@@ -76,13 +76,6 @@ class ImageManager
     protected $version = null;
 
     /**
-     * The default output method.
-     *
-     * @var string
-     */
-    protected $output = 'img';
-
-    /**
      * The image attributes.
      *
      * @var array
@@ -262,18 +255,12 @@ class ImageManager
      * Make a new image instance.
      *
      * @param  mixed $image
-     * @param  null $output
      * @return $this
      */
-    public function make($image, $output = null)
+    public function make($image)
     {
-        if ($image instanceof ImageManager) {
-            return $image;
-        }
-
-        if ($output) {
-            $this->setOutput($output);
-        }
+        // @todo resolve FileInterface
+        // here via callback/hook.
 
         $clone = clone ($this);
 
@@ -285,7 +272,7 @@ class ImageManager
         try {
             return $clone->setImage($image);
         } catch (\Exception $e) {
-            return $this;
+            return new Image;
         }
     }
 
@@ -509,7 +496,7 @@ class ImageManager
      */
     public function output()
     {
-        return $this->{$this->output}();
+        return $this->img();
     }
 
     /**
@@ -1197,19 +1184,6 @@ class ImageManager
     public function getQuality()
     {
         return $this->quality;
-    }
-
-    /**
-     * Set the output mode.
-     *
-     * @param $output
-     * @return $this
-     */
-    public function setOutput($output)
-    {
-        $this->output = $output;
-
-        return $this;
     }
 
     /**
