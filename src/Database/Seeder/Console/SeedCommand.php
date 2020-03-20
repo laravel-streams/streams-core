@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Database\Seeder\Console;
 
+use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
 use Anomaly\Streams\Platform\Database\Seeder\Console\Command\SetAddonSeederClass;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
@@ -21,6 +22,8 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
      */
     public function handle()
     {
+        $this->dispatchNow(new LoadEnvironmentOverrides());
+
         $this->dispatchNow(
             new SetAddonSeederClass(
                 $this,
