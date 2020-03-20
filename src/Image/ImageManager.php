@@ -252,12 +252,13 @@ class ImageManager
     }
 
     /**
-     * Make a new image instance.
+     * Proxy Image for development purposes.
+     * @todo remove this
      *
      * @param  mixed $image
      * @return $this
      */
-    public function make($image)
+    public function proxy($image)
     {
         // @todo resolve FileInterface
         // here via callback/hook.
@@ -272,8 +273,19 @@ class ImageManager
         try {
             return $clone->setImage($image);
         } catch (\Exception $e) {
-            return new Image;
+            return $this;
         }
+    }
+
+    /**
+     * Make a new image instance.
+     *
+     * @param  mixed $source
+     * @return $this
+     */
+    public function make($source)
+    {
+        return new Image($source);
     }
 
     /**
@@ -480,13 +492,11 @@ class ImageManager
      */
     public function data()
     {
-        return $this->make(
-            public_path(
-                $this
-                    ->setVersion(false)
-                    ->getCachePath()
-            )
-        )->dumpImage();
+        return file_get_contents(public_path(
+            $this
+                ->setVersion(false)
+                ->getCachePath()
+        ));
     }
 
     /**
