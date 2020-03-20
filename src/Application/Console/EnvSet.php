@@ -2,10 +2,12 @@
 
 namespace Anomaly\Streams\Platform\Application\Console;
 
+use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Application\Command\ReadEnvironmentFile;
 use Anomaly\Streams\Platform\Application\Command\WriteEnvironmentFile;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
@@ -36,15 +38,19 @@ class EnvSet extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(Application $application)
     {
         $line = $this->argument('line');
 
         list($variable, $value) = explode('=', $line, 2);
 
-        $contents = preg_replace("/{$variable}=.+/", "{$variable}=\"{$value}\"", file_get_contents(base_path('.env')));
 
-        file_put_contents(base_path('.env'), $contents);
+        $path = $application->getResourcesPath('.env');
+
+        Log::info("env.path = " . $path);
+        $contents = preg_replace("/{$variable}=.+/", "{$variable}=\"{$value}\"", file_get_contents($path));
+
+        file_put_contents($path, $contents);
     }
 
     /**
