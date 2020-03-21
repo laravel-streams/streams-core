@@ -41,7 +41,6 @@ trait CanPublish
         if (config('streams::images.version') && $this->getVersion() !== false) {
             $output .= '?v=' . filemtime(public_path(trim($output, '/\\')));
         }
-        
         return $output;
     }
 
@@ -174,7 +173,7 @@ trait CanPublish
             'png',
             'webp',
         ])) {
-            return File::put($path, app(ImageManager::class)->read($this->source));
+            return File::put(public_path($path), app(ImageManager::class)->read($this->source));
         }
 
         /**
