@@ -2,6 +2,15 @@
 
 namespace Anomaly\Streams\Platform\Image;
 
+use Anomaly\Streams\Platform\Image\Concerns\CanOutput;
+use Anomaly\Streams\Platform\Image\Concerns\HasSource;
+use Anomaly\Streams\Platform\Image\Concerns\CanPublish;
+use Anomaly\Streams\Platform\Image\Concerns\HasVersion;
+use Anomaly\Streams\Platform\Image\Concerns\HasFilename;
+use Anomaly\Streams\Platform\Image\Concerns\HasExtension;
+use Anomaly\Streams\Platform\Image\Concerns\HasAlterations;
+use Anomaly\Streams\Platform\Image\Concerns\HasQuality;
+
 /**
  * Class Image
  *
@@ -11,6 +20,16 @@ namespace Anomaly\Streams\Platform\Image;
  */
 class Image
 {
+
+    use HasSource;
+    use HasQuality;
+    use HasVersion;
+    use HasFilename;
+    use HasExtension;
+    use HasAlterations;
+    
+    use CanOutput;
+    use CanPublish;
 
     /**
      * The image source.
@@ -69,26 +88,6 @@ class Image
     public function __construct($source)
     {
         $this->source = $source;
-    }
-
-    /**
-     * Return the raw image data.
-     *
-     * @return string
-     */
-    public function data()
-    {
-        return app(ImageManager::class)->proxy($this->source)->data();
-    }
-
-    /**
-     * Return if the Image is remote or not.
-     *
-     * @return bool
-     */
-    public function isRemote()
-    {
-        return is_string($this->source) && starts_with($this->source, ['http://', 'https://', '//']);
     }
 
     /**

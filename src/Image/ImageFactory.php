@@ -2,8 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Image;
 
-use Anomaly\Streams\Platform\Support\Presenter;
-
 /**
  * Class ImageResolver
  *
@@ -39,43 +37,43 @@ class ImageFactory
             $this->setExtension(pathinfo($source, PATHINFO_EXTENSION));
         }
 
-        if ($source instanceof FileInterface) {
+        // if ($source instanceof FileInterface) {
 
-            /* @var FileInterface $source */
-            $this->setOriginal($source->getName());
-            $this->setExtension($source->getExtension());
+        //     /* @var FileInterface $source */
+        //     $this->setOriginal($source->getName());
+        //     $this->setExtension($source->getExtension());
 
-            $this->setWidth($source->getWidth());
-            $this->setHeight($source->getHeight());
+        //     $this->setWidth($source->getWidth());
+        //     $this->setHeight($source->getHeight());
 
-            if ($alt = array_get($source->getAttributes(), 'alt_text')) {
-                $this->addAttribute('alt', $alt);
-            }
+        //     if ($alt = array_get($source->getAttributes(), 'alt_text')) {
+        //         $this->addAttribute('alt', $alt);
+        //     }
 
-            if ($title = array_get($source->getAttributes(), 'title')) {
-                $this->addAttribute('title', $title);
-            }
-        }
+        //     if ($title = array_get($source->getAttributes(), 'title')) {
+        //         $this->addAttribute('title', $title);
+        //     }
+        // }
 
-        if ($source instanceof FilePresenter) {
+        // if ($source instanceof FilePresenter) {
 
-            /* @var FilePresenter|FileInterface $source */
-            $source = $source->getObject();
+        //     /* @var FilePresenter|FileInterface $source */
+        //     $source = $source->getObject();
 
-            $this->setOriginal($source->getName());
-            $this->setExtension($source->getExtension());
+        //     $this->setOriginal($source->getName());
+        //     $this->setExtension($source->getExtension());
 
-            $this->setWidth($source->getWidth());
-            $this->setHeight($source->getHeight());
+        //     $this->setWidth($source->getWidth());
+        //     $this->setHeight($source->getHeight());
 
-            if ($alt = array_get($source->getAttributes(), 'alt_text')) {
-                $this->addAttribute('alt', $alt);
-            }
+        //     if ($alt = array_get($source->getAttributes(), 'alt_text')) {
+        //         $this->addAttribute('alt', $alt);
+        //     }
 
-            if ($title = array_get($source->getAttributes(), 'title')) {
-                $this->addAttribute('title', $title);
-            }
-        }
+        //     if ($title = array_get($source->getAttributes(), 'title')) {
+        //         $this->addAttribute('title', $title);
+        //     }
+        // }
 
         $this->image = $source;
 

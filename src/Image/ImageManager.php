@@ -3,7 +3,6 @@
 namespace Anomaly\Streams\Platform\Image;
 
 use Mobile_Detect;
-use League\Flysystem\File;
 use Illuminate\Http\Request;
 use Collective\Html\HtmlBuilder;
 use Intervention\Image\Constraint;
@@ -12,7 +11,6 @@ use Intervention\Image\ImageManager as Intervention;
 use Illuminate\Filesystem\Filesystem;
 use Anomaly\FilesModule\File\FilePresenter;
 use Anomaly\Streams\Platform\Support\Presenter;
-use Anomaly\FilesModule\File\Contract\FileInterface;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 
@@ -32,13 +30,6 @@ class ImageManager
      * @var bool
      */
     protected $publish = false;
-
-    /**
-     * The publishable base directory.
-     *
-     * @var null
-     */
-    protected $directory = null;
 
     /**
      * The image object.
@@ -67,13 +58,6 @@ class ImageManager
      * @var null|string
      */
     protected $original = null;
-
-    /**
-     * The version flag.
-     *
-     * @var null|boolean
-     */
-    protected $version = null;
 
     /**
      * The image attributes.
@@ -252,32 +236,6 @@ class ImageManager
     }
 
     /**
-     * Proxy Image for development purposes.
-     * @todo remove this
-     *
-     * @param  mixed $image
-     * @return $this
-     */
-    public function proxy($image)
-    {
-        // @todo resolve FileInterface
-        // here via callback/hook.
-
-        $clone = clone ($this);
-
-        $clone->setAlterations([]);
-        $clone->setSources([]);
-        $clone->setSrcsets([]);
-        $clone->setImage(null);
-
-        try {
-            return $clone->setImage($image);
-        } catch (\Exception $e) {
-            return $this;
-        }
-    }
-
-    /**
      * Make a new image instance.
      *
      * @param  mixed $source
@@ -289,16 +247,17 @@ class ImageManager
     }
 
     /**
-     * Return the path to an image.
+     * Resolve a hinted path.
      *
-     * @return string
+     * @param string $path
      */
-    public function path()
+    public function resolve($path)
     {
-        $path = $this->getCachePath();
-
-        return $this->request->getBasePath() . $path;
+        return $this->paths->resolve($path);
     }
+
+
+
 
     /**
      * Return the asset path to an image.
@@ -486,20 +445,6 @@ class ImageManager
     }
 
     /**
-     * Return the image contents.
-     *
-     * @return string
-     */
-    public function data()
-    {
-        return file_get_contents(public_path(
-            $this
-                ->setVersion(false)
-                ->getCachePath()
-        ));
-    }
-
-    /**
      * Return the output.
      *
      * @return string
@@ -507,28 +452,6 @@ class ImageManager
     public function output()
     {
         return $this->img();
-    }
-
-    /**
-     * Set the filename.
-     *
-     * @param $filename
-     * @return $this
-     */
-    public function rename($filename = null)
-    {
-        return $this->setFilename($filename);
-    }
-
-    /**
-     * Set the version flag.
-     *
-     * @param bool $version
-     * @return $this
-     */
-    public function version($version = true)
-    {
-        return $this->setVersion($version);
     }
 
     /**
@@ -575,127 +498,6 @@ class ImageManager
         $this->quality = (int) $quality;
 
         return $this;
-    }
-
-    /**
-     * Get the cache path of the image.
-     *
-     * @return string
-     */
-    protected function getCachePath()
-    {
-        if (starts_with($this->getImage(), ['http://', 'https://', '//'])) {
-            return $this->getImage();
-        }
-
-        $path = $this->paths->outputPath($this);
-
-        try {
-            if ($this->shouldPublish($path)) {
-                $this->publish($path);
-            }
-        } catch (\Exception $e) {
-            return config('app.debug', false) ? $e->getMessage() : null;
-        }
-
-        if (config('streams::images.version') && $this->getVersion() !== false) {
-            $path .= '?v=' . filemtime(public_path(trim($path, '/\\')));
-        }
-
-        return $path;
-    }
-
-    /**
-     * Determine if the image needs to be published
-     *
-     * @param $path
-     * @return bool
-     */
-    private function shouldPublish($path)
-    {
-        $path = ltrim($path, '/');
-
-        if (!$this->files->exists($path)) {
-            return true;
-        }
-
-        if (is_string($this->image) && !str_is('*://*', $this->image) && filemtime($path) < filemtime($this->image)) {
-            return true;
-        }
-
-        if (
-            is_string($this->image) && str_is('*://*', $this->image) && filemtime($path) < app(
-                'League\Flysystem\MountManager'
-            )->getTimestamp($this->image)
-        ) {
-            return true;
-        }
-
-        if ($this->image instanceof File && filemtime($path) < $this->image->getTimestamp()) {
-            return true;
-        }
-
-        if ($this->image instanceof FileInterface && filemtime($path) < $this->image->lastModified()->format('U')) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Publish an image to the publish directory.
-     *
-     * @param $path
-     */
-    protected function publish($path)
-    {
-        $path = $this->directory . DIRECTORY_SEPARATOR . ltrim($path, '/');
-
-        $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
-
-        if ($this->hasAlteration('copy') || !$this->supportsType($this->getExtension())) {
-            $this->files->put($path, $this->dumpImage());
-
-            return;
-        }
-
-        if (!$image = $this->makeImage()) {
-            return;
-        }
-
-        if (function_exists('exif_read_data') && $image->exif('Orientation') && $image->exif('Orientation') > 1) {
-            $this->addAlteration('orientate');
-        }
-
-        if (in_array($this->getExtension(), ['jpeg', 'jpg']) && config('streams::images.interlace')) {
-            $this->addAlteration('interlace');
-        }
-
-        if (!$this->getAlterations() && !$this->getQuality() && $content = $this->dumpImage()) {
-            $this->files->put($path, $content);
-
-            return;
-        }
-
-        if (is_callable('exif_read_data') && in_array('orientate', $this->getAlterations())) {
-            $this->setAlterations(array_unique(array_merge(['orientate'], $this->getAlterations())));
-        }
-
-        foreach ($this->getAlterations() as $method => $arguments) {
-            if ($method == 'resize') {
-                $this->guessResizeArguments($arguments);
-            }
-
-            if (in_array($method, $this->getAllowedMethods())) {
-                if (is_array($arguments)) {
-                    call_user_func_array([$image, $method], $arguments);
-                } else {
-                    call_user_func([$image, $method], $arguments);
-                }
-            }
-        }
-
-        $image->save($path, $this->getQuality() ?: config('streams::images.quality', 80));
     }
 
     /**
@@ -865,23 +667,23 @@ class ImageManager
             $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
         }
 
-        if ($image instanceof FileInterface) {
+        // if ($image instanceof FileInterface) {
 
-            /* @var FileInterface $image */
-            $this->setOriginal($image->getName());
-            $this->setExtension($image->getExtension());
+        //     /* @var FileInterface $image */
+        //     $this->setOriginal($image->getName());
+        //     $this->setExtension($image->getExtension());
 
-            $this->setWidth($image->getWidth());
-            $this->setHeight($image->getHeight());
+        //     $this->setWidth($image->getWidth());
+        //     $this->setHeight($image->getHeight());
 
-            if ($alt = array_get($image->getAttributes(), 'alt_text')) {
-                $this->addAttribute('alt', $alt);
-            }
+        //     if ($alt = array_get($image->getAttributes(), 'alt_text')) {
+        //         $this->addAttribute('alt', $alt);
+        //     }
 
-            if ($title = array_get($image->getAttributes(), 'title')) {
-                $this->addAttribute('title', $title);
-            }
-        }
+        //     if ($title = array_get($image->getAttributes(), 'title')) {
+        //         $this->addAttribute('title', $title);
+        //     }
+        // }
 
         if ($image instanceof FilePresenter) {
 
@@ -909,68 +711,42 @@ class ImageManager
     }
 
     /**
-     * Make an image instance.
-     *
-     * @return Intervention
-     */
-    protected function makeImage()
-    {
-        if ($this->image instanceof FileInterface) {
-            return $this->manager->make(app(MountManager::class)->read($this->image->location()));
-        }
-
-        if (is_string($this->image) && str_is('*://*', $this->image)) {
-            return $this->manager->make(app(MountManager::class)->read($this->image));
-        }
-
-        if ($this->image instanceof File) {
-            return $this->manager->make($this->image->read());
-        }
-
-        if (is_string($this->image) && file_exists($this->image)) {
-            return $this->manager->make($this->image);
-        }
-
-        if ($this->image instanceof Intervention) {
-            return $this->image;
-        }
-
-        return null;
-    }
-
-    /**
-     * Dump an image instance's data.
+     * Read an image instance's data.
      *
      * @return string
      */
-    protected function dumpImage()
+    protected function read($source)
     {
-        if ($this->image instanceof FileInterface) {
-            return app('League\Flysystem\MountManager')->read($this->image->location());
+        // if ($source instanceof FileInterface) {
+        //     return app('League\Flysystem\MountManager')->read($source->location());
+        // }
+
+        if (is_string($source) && str_is('*::*', $source)) {
+            return file_get_contents($this->resolve($source));
         }
 
-        if (is_string($this->image) && str_is('*://*', $this->image) && !starts_with($this->image, ['http', '//'])) {
-            return app('League\Flysystem\MountManager')->read($this->image);
+        if (is_string($source) && str_is('*://*', $source) && !starts_with($source, ['http', '//'])) {
+            return app('League\Flysystem\MountManager')->read($source);
+        }
+        
+        if (is_string($source) && (file_exists($source) || starts_with($source, ['http', '//']))) {
+            return file_get_contents($source);
         }
 
-        if (is_string($this->image) && (file_exists($this->image) || starts_with($this->image, ['http', '//']))) {
-            return file_get_contents($this->image);
+        if (is_string($source) && file_exists($source)) {
+            return file_get_contents($source);
         }
 
-        if (is_string($this->image) && file_exists($this->image)) {
-            return file_get_contents($this->image);
+        if ($source instanceof File) {
+            return $source->read();
         }
 
-        if ($this->image instanceof File) {
-            return $this->image->read();
+        if ($source instanceof ImageManager) {
+            return $source->encode();
         }
 
-        if ($this->image instanceof ImageManager) {
-            return $this->image->encode();
-        }
-
-        if (is_string($this->image) && file_exists($this->image)) {
-            return file_get_contents($this->image);
+        if (is_string($source) && file_exists($source)) {
+            return file_get_contents($source);
         }
 
         return null;
@@ -984,123 +760,6 @@ class ImageManager
     public function getImage()
     {
         return $this->image;
-    }
-
-    /**
-     * Get the file name.
-     *
-     * @return null|string
-     */
-    public function getFilename()
-    {
-        return $this->filename;
-    }
-
-    /**
-     * Set the file name.
-     *
-     * @param $filename
-     * @return $this
-     */
-    public function setFilename($filename = null)
-    {
-        $this->filename = $filename;
-
-        return $this;
-    }
-
-    /**
-     * Get the original name.
-     *
-     * @return null|string
-     */
-    public function getOriginal()
-    {
-        return $this->original;
-    }
-
-    /**
-     * Set the original name.
-     *
-     * @param $original
-     * @return $this
-     */
-    public function setOriginal($original = null)
-    {
-        $this->original = $original;
-
-        return $this;
-    }
-
-    /**
-     * Get the file name.
-     *
-     * @return null|string
-     */
-    public function getVersion()
-    {
-        return $this->version;
-    }
-
-    /**
-     * Set the file name.
-     *
-     * @param $version
-     * @return $this
-     */
-    public function setVersion($version = true)
-    {
-        $this->version = $version;
-
-        return $this;
-    }
-
-    /**
-     * Get the alterations.
-     *
-     * @return array
-     */
-    public function getAlterations()
-    {
-        return $this->alterations;
-    }
-
-    /**
-     * Set the alterations.
-     *
-     * @param  array $alterations
-     * @return $this
-     */
-    public function setAlterations(array $alterations)
-    {
-        $this->alterations = $alterations;
-
-        return $this;
-    }
-
-    /**
-     * Add an alteration.
-     *
-     * @param  $method
-     * @param  $arguments
-     * @return $this
-     */
-    public function addAlteration($method, $arguments = [])
-    {
-        $this->alterations[$method] = $arguments;
-
-        return $this;
-    }
-
-    /**
-     * Return if alteration is applied.
-     *
-     * @param $method
-     * @return bool
-     */
-    public function hasAlteration($method)
-    {
-        return array_key_exists($method, $this->getAlterations());
     }
 
     /**
@@ -1197,29 +856,6 @@ class ImageManager
     }
 
     /**
-     * Get the extension.
-     *
-     * @return null|string
-     */
-    public function getExtension()
-    {
-        return $this->extension;
-    }
-
-    /**
-     * Set the extension.
-     *
-     * @param $extension
-     * @return $this
-     */
-    public function setExtension($extension)
-    {
-        $this->extension = $extension;
-
-        return $this;
-    }
-
-    /**
      * Get the allowed methods.
      *
      * @return array
@@ -1310,19 +946,6 @@ class ImageManager
                 $constraint->upsize();
             };
         }
-    }
-
-    /**
-     * Set the public base directory.
-     *
-     * @param  $directory
-     * @return $this
-     */
-    public function setDirectory($directory)
-    {
-        $this->directory = $directory;
-
-        return $this;
     }
 
     /**
