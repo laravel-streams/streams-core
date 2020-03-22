@@ -67,7 +67,7 @@ trait CanOutput
         $sources = implode("\n", array_map(function($alterations) {
             
             $source = app(ImageManager::class)->make($this->source);
-            
+
             $quality = array_pull($alterations, 'quality');
 
             $source->setAlterations($alterations);
