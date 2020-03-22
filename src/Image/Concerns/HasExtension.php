@@ -13,6 +13,13 @@ trait HasExtension
 {
 
     /**
+     * The file extension.
+     *
+     * @var null|string
+     */
+    protected $extension;
+
+    /**
      * Get the extension.
      *
      * @return null|string

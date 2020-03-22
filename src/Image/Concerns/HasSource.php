@@ -13,6 +13,13 @@ trait HasSource
 {
 
     /**
+     * The image source.
+     *
+     * @var mixed
+     */
+    protected $source;
+
+    /**
      * Return if the Image is remote or not.
      *
      * @return bool

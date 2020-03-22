@@ -18,39 +18,11 @@ class ImageManager
 {
 
     /**
-     * The original filename.
-     *
-     * @var null|string
-     */
-    protected $original = null;
-
-    /**
-     * Image srcsets.
-     *
-     * @var array
-     */
-    protected $srcsets = [];
-
-    /**
-     * Image sources.
-     *
-     * @var array
-     */
-    protected $sources = [];
-
-    /**
      * Image path hints by namespace.
      *
      * @var ImagePaths
      */
     protected $paths;
-
-    /**
-     * The image macros.
-     *
-     * @var ImageMacros
-     */
-    protected $macros;
 
     /**
      * The user agent utility.
@@ -62,21 +34,15 @@ class ImageManager
     /**
      * Create a new Image instance.
      *
-     * @param Filesystem $files
      * @param Mobile_Detect $agent
-     * @param Intervention $manager
-     * @param Request $request
      * @param ImagePaths $paths
-     * @param ImageMacros $macros
      */
     public function __construct(
         Mobile_Detect $agent,
-        ImagePaths $paths,
-        ImageMacros $macros
+        ImagePaths $paths
     ) {
-        $this->agent       = $agent;
-        $this->paths       = $paths;
-        $this->macros      = $macros;
+        $this->agent = $agent;
+        $this->paths = $paths;
     }
 
     /**
@@ -98,66 +64,6 @@ class ImageManager
     public function resolve($path)
     {
         return $this->paths->resolve($path);
-    }
-
-
-
-
-    /**
-     * Run a macro on the image.
-     *
-     * @param $macro
-     * @return Image
-     * @throws \Exception
-     */
-    public function macro($macro)
-    {
-        return $this->macros->run($macro, $this);
-    }
-
-    /**
-     * Return a picture tag.
-     *
-     * @return string
-     */
-    public function picture(array $attributes = [])
-    {
-        $sources = [];
-
-        $attributes = array_merge($this->getAttributes(), $attributes);
-
-        /* @var Image $image */
-        foreach ($this->getSources() as $media => $image) {
-            if ($media != 'fallback') {
-                $sources[] = $image->source();
-            } else {
-                $sources[] = $image->image();
-            }
-        }
-
-        $sources = implode("\n", $sources);
-
-        $attributes = $this->html->attributes($attributes);
-
-        return "<picture {$attributes}>\n{$sources}\n</picture>";
-    }
-
-    /**
-     * Return a source tag.
-     *
-     * @return string
-     */
-    public function source()
-    {
-        $this->addAttribute('srcset', $this->srcset() ?: $this->path() . ' 2x, ' . $this->path() . ' 1x');
-
-        $attributes = $this->html->attributes($this->getAttributes());
-
-        if ($srcset = $this->srcset()) {
-            $attributes['srcset'] = $srcset;
-        }
-
-        return "<source {$attributes}>";
     }
 
     /**

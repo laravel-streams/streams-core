@@ -2,16 +2,18 @@
 
 namespace Anomaly\Streams\Platform\Image;
 
+use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Image\Concerns\CanOutput;
 use Anomaly\Streams\Platform\Image\Concerns\HasSource;
 use Anomaly\Streams\Platform\Image\Concerns\CanPublish;
+use Anomaly\Streams\Platform\Image\Concerns\HasQuality;
+use Anomaly\Streams\Platform\Image\Concerns\HasSources;
+use Anomaly\Streams\Platform\Image\Concerns\HasSrcsets;
 use Anomaly\Streams\Platform\Image\Concerns\HasVersion;
 use Anomaly\Streams\Platform\Image\Concerns\HasFilename;
 use Anomaly\Streams\Platform\Image\Concerns\HasExtension;
-use Anomaly\Streams\Platform\Image\Concerns\HasAlterations;
-use Anomaly\Streams\Platform\Image\Concerns\HasQuality;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
-use Illuminate\Support\Traits\Macroable;
+use Anomaly\Streams\Platform\Image\Concerns\HasAlterations;
 
 /**
  * Class Image
@@ -25,7 +27,9 @@ class Image
     use Macroable;
 
     use HasSource;
+    use HasSources;
     use HasQuality;
+    use HasSrcsets;
     use HasVersion;
     use HasFilename;
     use HasExtension;
@@ -34,55 +38,6 @@ class Image
     
     use CanOutput;
     use CanPublish;
-
-    /**
-     * The image source.
-     *
-     * @var mixed
-     */
-    protected $source;
-    
-    /**
-     * The version flag.
-     *
-     * @var null|boolean
-     */
-    protected $version;
-
-    /**
-     * The output quality.
-     *
-     * @var null|int
-     */
-    protected $quality;
-
-    /**
-     * The file extension.
-     *
-     * @var null|string
-     */
-    protected $extension;
-
-    /**
-     * The desired filename.
-     *
-     * @var null|string
-     */
-    protected $filename;
-
-    /**
-     * The original filename.
-     *
-     * @var null|string
-     */
-    protected $original;
-
-    /**
-     * Applied alterations.
-     *
-     * @var array
-     */
-    protected $alterations = [];
 
     /**
      * Create a new Image instance.

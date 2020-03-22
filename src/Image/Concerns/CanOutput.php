@@ -5,6 +5,8 @@ namespace Anomaly\Streams\Platform\Image\Concerns;
 use Illuminate\Support\Facades\Request;
 use Anomaly\Streams\Platform\Image\Concerns\CanPublish;
 use Anomaly\Streams\Platform\Image\Concerns\HasVersion;
+use Anomaly\Streams\Platform\Image\Image;
+use Anomaly\Streams\Platform\Image\ImageManager;
 use Collective\Html\HtmlFacade;
 use Illuminate\Contracts\Routing\UrlGenerator;
 
@@ -53,6 +55,33 @@ trait CanOutput
         return '<img ' . HtmlFacade::attributes($attributes) . '>';
     }
 
+    /**
+     * Return a picture tag.
+     *
+     * @return string
+     */
+    public function picture(array $attributes = [])
+    {
+        $attributes = HtmlFacade::attributes($this->attributes($attributes));
+
+        $sources = implode("\n", array_map(function($alterations) {
+            
+            $source = app(ImageManager::class)->make($this->source);
+            
+            $quality = array_pull($alterations, 'quality');
+
+            $source->setAlterations($alterations);
+
+            if ($quality) {
+                $source->quality($quality);
+            }
+
+            return $source->source();
+        }, $this->getSources()));
+
+        return "<picture {$attributes}>\n{$sources}\n</picture>";
+    }
+    
     /**
      * Encode the image.
      *

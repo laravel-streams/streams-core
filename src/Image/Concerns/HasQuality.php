@@ -11,6 +11,13 @@ namespace Anomaly\Streams\Platform\Image\Concerns;
  */
 trait HasQuality
 {
+
+    /**
+     * The output quality.
+     *
+     * @var null|int
+     */
+    protected $quality;
     
     /**
      * Get the quality.

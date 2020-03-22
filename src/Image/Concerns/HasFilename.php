@@ -5,13 +5,27 @@ namespace Anomaly\Streams\Platform\Image\Concerns;
 /**
  * Trait HasFilename
  *
+ * @todo    Is this dirtiness?
  * @link    http://pyrocms.com/
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
 trait HasFilename
 {
+    /**
+     * The desired filename.
+     *
+     * @var null|string
+     */
+    protected $filename;
     
+    /**
+     * The original filename.
+     *
+     * @var null|string
+     */
+    protected $original;
+
     /**
      * Set the filename.
      *

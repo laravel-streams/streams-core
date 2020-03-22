@@ -11,6 +11,13 @@ namespace Anomaly\Streams\Platform\Image\Concerns;
  */
 trait HasVersion
 {
+
+    /**
+     * The version flag.
+     *
+     * @var null|boolean
+     */
+    protected $version;
     
     /**
      * Set the version flag.
