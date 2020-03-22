@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Request;
 use Anomaly\Streams\Platform\Image\Concerns\CanPublish;
 use Anomaly\Streams\Platform\Image\Concerns\HasVersion;
 use Collective\Html\HtmlFacade;
+use Illuminate\Contracts\Routing\UrlGenerator;
 
 /**
  * Trait CanOutput
@@ -50,6 +51,87 @@ trait CanOutput
         }
 
         return '<img ' . HtmlFacade::attributes($attributes) . '>';
+    }
+
+    /**
+     * Encode the image.
+     *
+     * @param  null $format
+     * @param  int $quality
+     * @return $this
+     */
+    public function encode($format = null, $quality = null)
+    {
+        $this->setQuality($quality);
+        $this->setExtension($format);
+        $this->addAlteration('encode');
+
+        return $this;
+    }
+
+    /**
+     * Return the base64_encoded image source.
+     *
+     * @return string
+     */
+    public function base64()
+    {
+        $extension = $this->getExtension();
+
+        if ($extension == 'svg') {
+            $extension = 'svg+xml';
+        }
+
+        return 'data:image/' . $extension . ';base64,' . base64_encode($this->data());
+    }
+
+    /**
+     * Return the URL to an image.
+     *
+     * @param  array $parameters
+     * @param  null $secure
+     * @return string
+     */
+    public function url(array $parameters = [], $secure = null)
+    {
+        return $this->asset($parameters, $secure);
+    }
+
+    /**
+     * Return the image tag to a
+     * data encoded inline image.
+     *
+     * @param  null $alt
+     * @param  array $attributes
+     * @return string
+     */
+    public function inline($alt = null, array $attributes = [])
+    {
+        $attributes['src'] = $this->base64();
+
+        return $this->img($alt, $attributes);
+    }
+
+    /**
+     * Return the asset path to an image.
+     *
+     * @param  array $parameters
+     * @param  null $secure
+     * @return string
+     */
+    public function asset(array $parameters = [], $secure = null)
+    {
+        return app(UrlGenerator::class)->asset($this->getCachePath(), $parameters, $secure);
+    }
+
+    /**
+     * Return the CSS URL for background images.
+     *
+     * @return string
+     */
+    public function css()
+    {
+        return 'url(' . $this->path() . ')';
     }
 
     /**

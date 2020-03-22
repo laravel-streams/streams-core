@@ -290,8 +290,6 @@ class StreamsServiceProvider extends ServiceProvider
     {
         $asset = app(AssetManager::class);
 
-        $asset->setDirectory(public_path());
-
         $asset->addPath('public', public_path());
         $asset->addPath('shared', resource_path());
 
@@ -314,8 +312,6 @@ class StreamsServiceProvider extends ServiceProvider
     private function addImageNamespaces()
     {
         $image = app(ImageManager::class);
-
-        $image->setDirectory(public_path());
 
         $image->addPath('public', public_path());
         $image->addPath('shared', resource_path());

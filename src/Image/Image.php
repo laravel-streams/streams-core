@@ -11,7 +11,7 @@ use Anomaly\Streams\Platform\Image\Concerns\HasExtension;
 use Anomaly\Streams\Platform\Image\Concerns\HasAlterations;
 use Anomaly\Streams\Platform\Image\Concerns\HasQuality;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
-use Intervention\Image\Image as Intervention;
+use Illuminate\Support\Traits\Macroable;
 
 /**
  * Class Image
@@ -22,6 +22,7 @@ use Intervention\Image\Image as Intervention;
  */
 class Image
 {
+    use Macroable;
 
     use HasSource;
     use HasQuality;
@@ -103,10 +104,25 @@ class Image
     public function __call($method, array $parameters = [])
     {
         if ($this->isAlteration($method)) {
-            $this->addAlteration($method, $parameters);
+            return $this->addAlteration($method, $parameters);
         }
 
-        return $this;
+        if ($this->hasMacro(snake_case($method))) {
+            
+            $macro = static::$macros[$method];
+
+            if ($macro instanceof \Closure) {
+                return call_user_func_array($macro->bindTo($this, static::class), $parameters);
+            }
+
+            return $macro(...$parameters);
+        }
+
+        // if ($this->macros->isMacro($macro = snake_case($method))) {
+        //     return $this->macro($macro);
+        // }
+
+        return $this->addAttribute($method, array_shift($parameters));
     }
 
     /**

@@ -114,7 +114,7 @@ trait CanPublish
         if ($this->getAlterations() || $this->getQuality()) {
             $filename = md5(
                 var_export([$source, $this->getAlterations()], true) . $this->getQuality()
-            ) . '.' . $this->getExtension();
+            ) . '.' . $this->extension();
         }
 
         return "/{$directory}{$filename}";
