@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Image\Concerns;
 
+use Intervention\Image\Constraint;
+
 /**
  * Trait HasAlterations
  *
@@ -11,7 +13,45 @@ namespace Anomaly\Streams\Platform\Image\Concerns;
  */
 trait HasAlterations
 {
-    
+
+    /**
+     * Return if a method is an alteration
+     * method for Intervention.
+     *
+     * @param string $method
+     *
+     * @return bool
+     */
+    public function isAlteration(string $method)
+    {
+        return in_array($method, [
+            'blur',
+            'brightness',
+            'colorize',
+            'resizeCanvas',
+            'contrast',
+            'copy',
+            'crop',
+            'fit',
+            'flip',
+            'gamma',
+            'greyscale',
+            'heighten',
+            'insert',
+            'interlace',
+            'invert',
+            'limitColors',
+            'pixelate',
+            'opacity',
+            'resize',
+            'rotate',
+            'amount',
+            'widen',
+            'orientate',
+            'text',
+        ]);
+    }
+
     /**
      * Get the alterations.
      *
@@ -44,6 +84,10 @@ trait HasAlterations
      */
     public function addAlteration($method, $arguments = [])
     {
+        if ($method == 'resize') {
+            $this->guessResizeArguments($arguments);
+        }
+
         $this->alterations[$method] = $arguments;
 
         return $this;
@@ -59,7 +103,7 @@ trait HasAlterations
     {
         return array_key_exists($method, $this->getAlterations());
     }
-    
+
     /**
      * Return if any alterations are applied.
      *
@@ -71,4 +115,25 @@ trait HasAlterations
         return ($this->alterations);
     }
 
+    /**
+     * Guess the resize callback value
+     * from a boolean.
+     *
+     * @param array $arguments
+     */
+    private function guessResizeArguments(array &$arguments)
+    {
+        $arguments = array_pad($arguments, 3, null);
+
+        if (end($arguments) instanceof \Closure) {
+            return;
+        }
+
+        if (array_pop($arguments) !== false) {
+            $arguments[] = function (Constraint $constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            };
+        }
+    }
 }

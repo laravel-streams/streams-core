@@ -5,6 +5,7 @@ namespace Anomaly\Streams\Platform\Image\Concerns;
 use Illuminate\Support\Facades\Request;
 use Anomaly\Streams\Platform\Image\Concerns\CanPublish;
 use Anomaly\Streams\Platform\Image\Concerns\HasVersion;
+use Collective\Html\HtmlFacade;
 
 /**
  * Trait CanOutput
@@ -15,6 +16,41 @@ use Anomaly\Streams\Platform\Image\Concerns\HasVersion;
  */
 trait CanOutput
 {
+
+    /**
+     * Return the image tag to an image.
+     *
+     * @param  null $alt
+     * @param  array $attributes
+     * @return string
+     */
+    public function img($alt = null, array $attributes = [])
+    {
+        $attributes = array_merge($this->attributes(), $attributes);
+
+        if (!isset($attributes['src'])) {
+            $attributes['src'] = $this->path();
+        }
+        
+        // if ($srcset = $this->srcset()) {
+        //     $attributes['srcset'] = $srcset;
+        // }
+
+        if (!$alt && config('streams::images.auto_alt', true)) {
+            $attributes['alt'] = array_get(
+                $this->attributes(),
+                'alt',
+                ucwords(
+                    humanize(
+                        trim(basename($this->getOriginal(), $this->extension()), '.'),
+                        '^a-zA-Z0-9'
+                    )
+                )
+            );
+        }
+
+        return '<img ' . HtmlFacade::attributes($attributes) . '>';
+    }
 
     /**
      * Return the path to an image.

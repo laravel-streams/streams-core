@@ -10,6 +10,8 @@ use Anomaly\Streams\Platform\Image\Concerns\HasFilename;
 use Anomaly\Streams\Platform\Image\Concerns\HasExtension;
 use Anomaly\Streams\Platform\Image\Concerns\HasAlterations;
 use Anomaly\Streams\Platform\Image\Concerns\HasQuality;
+use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
+use Intervention\Image\Image as Intervention;
 
 /**
  * Class Image
@@ -27,6 +29,7 @@ class Image
     use HasFilename;
     use HasExtension;
     use HasAlterations;
+    use HasHtmlAttributes;
     
     use CanOutput;
     use CanPublish;
@@ -91,11 +94,27 @@ class Image
     }
 
     /**
-     * Undocumented function
+     * Map Intervention methods through alterations.
+     *
+     * @param string $method
+     * @param array $parameters
+     * @return $this
+     */
+    public function __call($method, array $parameters = [])
+    {
+        if ($this->isAlteration($method)) {
+            $this->addAlteration($method, $parameters);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Return string output.
      *
      * @return string
      */
     public function __toString() {
-        return $this->data();
+        return $this->img();
     }
 }

@@ -5,14 +5,9 @@ namespace Anomaly\Streams\Platform\Image;
 use Mobile_Detect;
 use Illuminate\Http\Request;
 use Collective\Html\HtmlBuilder;
-use Intervention\Image\Constraint;
-use League\Flysystem\MountManager;
 use Intervention\Image\ImageManager as Intervention;
 use Illuminate\Filesystem\Filesystem;
-use Anomaly\FilesModule\File\FilePresenter;
-use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 
 /**
  * Class ImageManager
@@ -306,41 +301,6 @@ class ImageManager
     }
 
     /**
-     * Return the image tag to an image.
-     *
-     * @param  null $alt
-     * @param  array $attributes
-     * @return string
-     */
-    public function image($alt = null, array $attributes = [])
-    {
-        $attributes = array_merge($this->getAttributes(), $attributes);
-
-        if (!isset($attributes['src'])) {
-            $attributes['src'] = $this->path();
-        }
-
-        if ($srcset = $this->srcset()) {
-            $attributes['srcset'] = $srcset;
-        }
-
-        if (!$alt && config('streams::images.auto_alt', true)) {
-            $attributes['alt'] = array_get(
-                $this->getAttributes(),
-                'alt',
-                ucwords(
-                    humanize(
-                        trim(basename($this->getOriginal(), $this->getExtension()), '.'),
-                        '^a-zA-Z0-9'
-                    )
-                )
-            );
-        }
-
-        return '<img ' . $this->html->attributes($attributes) . '>';
-    }
-
-    /**
      * Return the image tag to a
      * data encoded inline image.
      *
@@ -352,18 +312,6 @@ class ImageManager
     {
         $attributes['src'] = $this->base64();
 
-        return $this->image($alt, $attributes);
-    }
-
-    /**
-     * Return the image tag to an image.
-     *
-     * @param  null $alt
-     * @param  array $attributes
-     * @return string
-     */
-    public function img($alt = null, array $attributes = [])
-    {
         return $this->image($alt, $attributes);
     }
 

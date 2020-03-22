@@ -175,14 +175,14 @@ trait CanPublish
         ])) {
             return File::put(public_path($path), app(ImageManager::class)->read($this->source));
         }
-
+        
         /**
          * @var Intervention $image
          */
         if (!$image = $this->intervention()) {
             return false;
         }
-
+        
         if (function_exists('exif_read_data') && $image->exif('Orientation') && $image->exif('Orientation') > 1) {
             $this->addAlteration('orientate');
         }
@@ -200,21 +200,14 @@ trait CanPublish
         }
 
         foreach ($this->getAlterations() as $method => $arguments) {
-            
-            if ($method == 'resize') {
-                $this->guessResizeArguments($arguments);
-            }
-
-            if (in_array($method, $this->getAllowedMethods())) {
-                if (is_array($arguments)) {
-                    call_user_func_array([$image, $method], $arguments);
-                } else {
-                    call_user_func([$image, $method], $arguments);
-                }
+            if (is_array($arguments)) {
+                call_user_func_array([$image, $method], $arguments);
+            } else {
+                call_user_func([$image, $method], $arguments);
             }
         }
 
-        $image->save($path, $this->getQuality() ?: config('streams::images.quality', 80));
+        $image->save(public_path($path), $this->getQuality() ?: config('streams::images.quality', 80));
     }
 
     /**
