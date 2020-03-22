@@ -23,9 +23,9 @@ trait HasQuality
     /**
      * Set the quality.
      *
-     * @param integer $quality
+     * @param integer|null $quality
      */
-    public function setQuality(int $quality)
+    public function setQuality($quality)
     {
         $this->quality = $quality;
 
