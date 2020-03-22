@@ -628,89 +628,6 @@ class ImageManager
     }
 
     /**
-     * Return if an extension is supported.
-     *
-     * @param $extension
-     * @return bool
-     */
-    protected function supportsType($extension)
-    {
-        return !in_array($extension, ['svg', 'webp']);
-    }
-
-    /**
-     * Set the image.
-     *
-     * @param  $image
-     * @return $this
-     */
-    public function setImage($image)
-    {
-        if ($image instanceof Presenter) {
-            $image = $image->getObject();
-        }
-
-        if ($image instanceof FieldType) {
-            $image = $image->getValue();
-        }
-
-        // Replace path prefixes.
-        if (is_string($image) && str_contains($image, '::')) {
-            $image = $this->paths->realPath($image);
-
-            $this->setOriginal(basename($image));
-            $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
-        }
-
-        if (is_string($image) && str_is('*://*', $image) && !starts_with($image, ['http', 'https'])) {
-            $this->setOriginal(basename($image));
-            $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
-        }
-
-        // if ($image instanceof FileInterface) {
-
-        //     /* @var FileInterface $image */
-        //     $this->setOriginal($image->getName());
-        //     $this->setExtension($image->getExtension());
-
-        //     $this->setWidth($image->getWidth());
-        //     $this->setHeight($image->getHeight());
-
-        //     if ($alt = array_get($image->getAttributes(), 'alt_text')) {
-        //         $this->addAttribute('alt', $alt);
-        //     }
-
-        //     if ($title = array_get($image->getAttributes(), 'title')) {
-        //         $this->addAttribute('title', $title);
-        //     }
-        // }
-
-        if ($image instanceof FilePresenter) {
-
-            /* @var FilePresenter|FileInterface $image */
-            $image = $image->getObject();
-
-            $this->setOriginal($image->getName());
-            $this->setExtension($image->getExtension());
-
-            $this->setWidth($image->getWidth());
-            $this->setHeight($image->getHeight());
-
-            if ($alt = array_get($image->getAttributes(), 'alt_text')) {
-                $this->addAttribute('alt', $alt);
-            }
-
-            if ($title = array_get($image->getAttributes(), 'title')) {
-                $this->addAttribute('title', $title);
-            }
-        }
-
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
      * Read an image instance's data.
      *
      * @return string
@@ -750,16 +667,6 @@ class ImageManager
         }
 
         return null;
-    }
-
-    /**
-     * Get the image instance.
-     *
-     * @return \Intervention\Image\Image
-     */
-    public function getImage()
-    {
-        return $this->image;
     }
 
     /**
@@ -924,28 +831,6 @@ class ImageManager
         $this->height = $height;
 
         return $this;
-    }
-
-    /**
-     * Guess the resize callback value
-     * from a boolean.
-     *
-     * @param array $arguments
-     */
-    protected function guessResizeArguments(array &$arguments)
-    {
-        $arguments = array_pad($arguments, 3, null);
-
-        if (end($arguments) instanceof \Closure) {
-            return;
-        }
-
-        if (array_pop($arguments) !== false) {
-            $arguments[] = function (Constraint $constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            };
-        }
     }
 
     /**
