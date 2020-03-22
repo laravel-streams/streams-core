@@ -31,30 +31,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Macros
-    |--------------------------------------------------------------------------
-    |
-    | Add additional macros for the image manager here.
-    |
-    | Later you can run macros on images like:
-    |
-    | $image->make('example::path/to/image.jpg')->macro('2x');
-    |
-    */
-
-    'macros' => [
-        'mobile_optimized' => [
-            'resize'  => [640],
-            'quality' => 60,
-        ],
-        'tablet_optimized' => [
-            'resize'  => [900],
-            'quality' => 75,
-        ],
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
     | Automatic Alt Tags
     |--------------------------------------------------------------------------
     |
