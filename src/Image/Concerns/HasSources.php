@@ -57,4 +57,5 @@ trait HasSources
     {
         return $this->sources;
     }
+    
 }
