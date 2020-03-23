@@ -24,13 +24,6 @@ class AssetManager
 {
 
     /**
-     * The public base directory.
-     *
-     * @var null|string
-     */
-    protected $directory;
-
-    /**
      * Groups of assets. Groups can
      * be single files as well.
      *
@@ -335,7 +328,7 @@ class AssetManager
         //     $contents = JSMin::minify($contents);
         // }
 
-        $path = $this->directory . DIRECTORY_SEPARATOR . $path;
+        $path = public_path($path);
 
         $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0755, true, true);
 
@@ -382,19 +375,6 @@ class AssetManager
     public function addPath($namespace, $path)
     {
         $this->paths->addPath($namespace, $path);
-
-        return $this;
-    }
-
-    /**
-     * Set the public base directory.
-     *
-     * @param  $directory
-     * @return $this
-     */
-    public function setDirectory($directory)
-    {
-        $this->directory = $directory;
 
         return $this;
     }
