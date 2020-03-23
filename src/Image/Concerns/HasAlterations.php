@@ -15,6 +15,13 @@ trait HasAlterations
 {
 
     /**
+     * The image alterations.
+     *
+     * @var array
+     */
+    public $alterations = [];
+
+    /**
      * Return if a method is an alteration
      * method for Intervention.
      *
