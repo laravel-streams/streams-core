@@ -2,11 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Image;
 
-use Mobile_Detect;
-use Illuminate\Http\Request;
-use Illuminate\Filesystem\Filesystem;
-use Intervention\Image\ImageManager as Intervention;
-
 /**
  * Class ImageManager
  *
@@ -67,15 +62,5 @@ class ImageManager
         $this->paths->addPath($namespace, $path);
 
         return $this;
-    }
-
-    /**
-     * Return the output.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->output();
     }
 }
