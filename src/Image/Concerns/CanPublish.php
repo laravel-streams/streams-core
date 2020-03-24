@@ -41,6 +41,7 @@ trait CanPublish
         if (config('streams::images.version') && $this->getVersion() !== false) {
             $output .= '?v=' . filemtime(public_path(trim($output, '/\\')));
         }
+        
         return $output;
     }
 
@@ -128,7 +129,6 @@ trait CanPublish
      */
     private function shouldPublish($path)
     {
-        $path = ltrim($path, '/');
         $resolved = app(ImageManager::class)->resolve($path);
 
         if (!File::exists($path)) {
