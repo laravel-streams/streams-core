@@ -173,7 +173,10 @@ trait CanPublish
             'png',
             'webp',
         ])) {
-            return File::put(public_path($path), File::get(app(ImageManager::class)->resolve($this->source)));
+            return File::put(
+                public_path($path),
+                File::get(app(ImageManager::class)->resolve($this->source))
+            );
         }
         
         /**
