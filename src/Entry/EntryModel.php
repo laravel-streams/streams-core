@@ -1057,19 +1057,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
             }
         }
 
-        array_walk(
-            $array,
-            function ($value, $key) use (&$array) {
-
-                /**
-                 * Make sure any nested arrays are serialized.
-                 */
-                if (is_array($value)) {
-                    $array[$key] = serialize($value);
-                }
-            }
-        );
-
         return $array;
     }
 
