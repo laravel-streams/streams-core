@@ -14,29 +14,14 @@ class SetActiveFilters
 {
 
     /**
-     * The table builder.
-     *
-     * @var TableBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new BuildTableFiltersCommand instance.
-     *
+     * Handle the command.
+     * 
      * @param TableBuilder $builder
      */
-    public function __construct(TableBuilder $builder)
-    {
-        $this->builder = $builder;
-    }
-
-    /**
-     * Handle the command.
-     */
-    public function handle()
+    public function handle(TableBuilder $builder)
     {
         /* @var FilterInterface $filter */
-        foreach ($this->builder->getTableFilters() as $filter) {
+        foreach ($builder->getTableFilters() as $filter) {
             if (app('request')->get($filter->getInputName())) {
                 $filter->setActive(true);
             }

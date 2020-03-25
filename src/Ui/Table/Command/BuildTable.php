@@ -2,16 +2,16 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Workflow\Workflow;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\Header\HeaderBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Command\SetActiveView;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\SetActiveAction;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\SetActiveFilters;
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterBuilder;
-use Anomaly\Streams\Platform\Ui\Table\Component\Header\Command\BuildHeaders;
-use Anomaly\Streams\Platform\Ui\Table\Component\Header\HeaderBuilder;
-use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowBuilder;
-use Anomaly\Streams\Platform\Ui\Table\Component\View\Command\SetActiveView;
-use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewBuilder;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
  * Class BuildTable
@@ -45,58 +45,76 @@ class BuildTable
      */
     public function handle()
     {
-        /*
-         * Resolve and set the table model and stream.
-         */
-        dispatch_now(new SetTableModel($this->builder));
-        dispatch_now(new SetTableStream($this->builder));
-        dispatch_now(new SetDefaultParameters($this->builder));
-        dispatch_now(new SetRepository($this->builder));
+        $workflow = new Workflow([
 
-        /*
-         * Build table views and mark active.
-         */
-        ViewBuilder::build($this->builder);
-        dispatch_now(new SetActiveView($this->builder));
+            /*
+            * Resolve and set the table model and stream.
+            */
+            SetTableModel::class,
+            SetTableStream::class,
+            SetDefaultParameters::class,
+            SetRepository::class,
+
+            /*
+            * Build table views and mark active.
+            */
+            ViewBuilder::class,
+            'set_active_view' => function() {
+                dispatch_now(new SetActiveView($this->builder));
+            },
+
+            /**
+             * Set the table options going forward.
+             */
+            SetTableOptions::class,
+            SetDefaultOptions::class,
+            SaveTableState::class,
+
+            /*
+            * Before we go any further, authorize the request.
+            */
+            AuthorizeTable::class,
+
+            /*
+            * Build table filters and flag active.
+            */
+            'filter_builder' => function() {
+                FilterBuilder::build($this->builder);
+            },
+            SetActiveFilters::class,
+
+            /*
+            * Build table actions and flag active.
+            */
+            'action_builder' => function() {
+                ActionBuilder::build($this->builder);
+            },
+            SetActiveAction::class,
+
+            /*
+            * Build table headers.
+            */
+            'header_builder' => function() {
+                HeaderBuilder::build($this->builder);
+            },
+            //EagerLoadRelations::class,
+
+            /*
+            * Get table entries.
+            */
+            GetTableEntries::class,
+
+            /*
+            * Lastly table rows.
+            */
+            'row_builder' => function() {
+                RowBuilder::build($this->builder);
+            },
+        ]);
 
         /**
-         * Set the table options going forward.
+         * Process the workflow.
          */
-        dispatch_now(new SetTableOptions($this->builder));
-        dispatch_now(new SetDefaultOptions($this->builder));
-        dispatch_now(new SaveTableState($this->builder));
-
-        /*
-         * Before we go any further, authorize the request.
-         */
-        dispatch_now(new AuthorizeTable($this->builder));
-
-        /*
-         * Build table filters and flag active.
-         */
-        FilterBuilder::build($this->builder);
-        dispatch_now(new SetActiveFilters($this->builder));
-
-        /*
-         * Build table actions and flag active.
-         */
-        ActionBuilder::build($this->builder);
-        dispatch_now(new SetActiveAction($this->builder));
-
-        /*
-         * Build table headers.
-         */
-        HeaderBuilder::build($this->builder);
-        //dispatch_now(new EagerLoadRelations($this->builder)); // @todo Axe this?
-
-        /*
-         * Get table entries.
-         */
-        dispatch_now(new GetTableEntries($this->builder));
-
-        /*
-         * Lastly table rows.
-         */
-        RowBuilder::build($this->builder);
+        $workflow->process(['builder' => $this->builder]);
     }
 }

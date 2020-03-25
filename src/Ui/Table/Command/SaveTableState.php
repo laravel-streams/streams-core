@@ -15,23 +15,6 @@ class SaveTableState
 {
 
     /**
-     * The table builder.
-     *
-     * @var TableBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new SetDefaultOptions instance.
-     *
-     * @param TableBuilder $builder
-     */
-    public function __construct(TableBuilder $builder)
-    {
-        $this->builder = $builder;
-    }
-
-    /**
      * @param Store   $session
      * @param Request $request
      */

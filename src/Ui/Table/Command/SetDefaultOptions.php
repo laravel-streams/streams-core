@@ -4,7 +4,6 @@ namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Http\Request;
 
 /**
  * Class SetDefaultOptions
@@ -17,30 +16,14 @@ class SetDefaultOptions
 {
 
     /**
-     * The table builder.
-     *
-     * @var TableBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new SetDefaultOptions instance.
-     *
-     * @param TableBuilder $builder
-     */
-    public function __construct(TableBuilder $builder)
-    {
-        $this->builder = $builder;
-    }
-
-    /**
      * Handle the command.
      *
      * @param ModuleCollection $modules
+     * @param TableBuilder $builder
      */
-    public function handle(ModuleCollection $modules)
+    public function handle(ModuleCollection $modules, TableBuilder $builder)
     {
-        $table = $this->builder->getTable();
+        $table = $builder->getTable();
 
         /*
          * Set the default sortable option.
@@ -56,8 +39,8 @@ class SetDefaultOptions
         /*
          * Default the table view based on the request.
          */
-        if (!$this->builder->getTableOption('table_view')) {
-            $this->builder->setTableOption('table_view', 'admin::table/table');
+        if (!$builder->getTableOption('table_view')) {
+            $builder->setTableOption('table_view', 'admin::table/table');
         }
 
         /*
@@ -79,8 +62,8 @@ class SetDefaultOptions
          * then set the values from the request on the builder
          * last so it actually has an effect.
          */
-        if ($orderBy = $this->builder->getRequestValue('order_by')) {
-            $table->setOption('order_by', [$orderBy => $this->builder->getRequestValue('sort', 'asc')]);
+        if ($orderBy = $builder->getRequestValue('order_by')) {
+            $table->setOption('order_by', [$orderBy => $builder->getRequestValue('sort', 'asc')]);
         }
 
         /*
@@ -91,7 +74,7 @@ class SetDefaultOptions
         if ($table->getOption('limit') === null) {
             $table->setOption(
                 'limit',
-                $this->builder->getRequestValue('limit', config('streams::system.per_page', 15))
+                $builder->getRequestValue('limit', config('streams::system.per_page', 15))
             );
         }
 
@@ -102,7 +85,7 @@ class SetDefaultOptions
         if (
             $table->getOption('permission') === null &&
             request()->segment(1) == 'admin' &&
-            ($module = $modules->active()) && ($stream = $this->builder->getTableStream())
+            ($module = $modules->active()) && ($stream = $builder->getTableStream())
         ) {
             $table->setOption('permission', $module->getNamespace($stream->getSlug() . '.read'));
         }

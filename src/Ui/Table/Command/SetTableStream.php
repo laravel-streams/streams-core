@@ -14,29 +14,14 @@ class SetTableStream
 {
 
     /**
-     * The table builder.
-     *
-     * @var TableBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new SetTableStream instance.
-     *
+     * Handle the command.
+     * 
      * @param TableBuilder $builder
      */
-    public function __construct(TableBuilder $builder)
+    public function handle(TableBuilder $builder)
     {
-        $this->builder = $builder;
-    }
-
-    /**
-     * Handle the command.
-     */
-    public function handle()
-    {
-        $table = $this->builder->getTable();
-        $model = $this->builder->getModel();
+        $table = $builder->getTable();
+        $model = $builder->getModel();
 
         if (is_string($model) && !class_exists($model)) {
             return;

@@ -13,31 +13,14 @@ class SetActiveAction
 {
 
     /**
-     * The table builder.
-     *
-     * @var TableBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new BuildTableFiltersCommand instance.
+     * Set the active action.
      *
      * @param TableBuilder $builder
      */
-    public function __construct(TableBuilder $builder)
+    public function handle(TableBuilder $builder)
     {
-        $this->builder = $builder;
-    }
-
-    /**
-     * Set the active action.
-     *
-     * @param SetActiveAction $command
-     */
-    public function handle()
-    {
-        $prefix  = $this->builder->getTableOption('prefix');
-        $actions = $this->builder->getTableActions();
+        $prefix  = $builder->getTableOption('prefix');
+        $actions = $builder->getTableActions();
 
         if ($action = $actions->findBySlug(app('request')->get($prefix . 'action'))) {
             $action->setActive(true);

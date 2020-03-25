@@ -14,29 +14,13 @@ class AuthorizeTable
 {
 
     /**
-     * The table builder.
-     *
-     * @var TableBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new BuildTableColumnsCommand instance.
-     *
-     * @param TableBuilder $builder
-     */
-    public function __construct(TableBuilder $builder)
-    {
-        $this->builder = $builder;
-    }
-
-    /**
      * Handle the command.
      *
      * @param TableAuthorizer $authorizer
+     * @param TableBuilder $builder
      */
-    public function handle(TableAuthorizer $authorizer)
+    public function handle(TableAuthorizer $authorizer, TableBuilder $builder)
     {
-        $authorizer->authorize($this->builder);
+        $authorizer->authorize($builder);
     }
 }

@@ -19,7 +19,7 @@ class ViewBuilder
      *
      * @param TableBuilder $builder
      */
-    public static function build(TableBuilder $builder)
+    public static function handle(TableBuilder $builder)
     {
         $table = $builder->getTable();
 

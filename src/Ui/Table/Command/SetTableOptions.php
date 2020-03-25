@@ -15,37 +15,21 @@ class SetTableOptions
 {
 
     /**
-     * The table builder.
-     *
-     * @var TableBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new SetTableOptions instance.
-     *
-     * @param TableBuilder $builder
-     */
-    public function __construct(TableBuilder $builder)
-    {
-        $this->builder = $builder;
-    }
-
-    /**
      * Handle the command.
      *
      * @param Resolver  $resolver
      * @param Evaluator $evaluator
+     * @param TableBuilder $builder
      */
-    public function handle(Resolver $resolver, Evaluator $evaluator)
+    public function handle(Resolver $resolver, Evaluator $evaluator, TableBuilder $builder)
     {
         $evaluator->evaluate(
-            $resolver->resolve($this->builder->getOptions(), ['builder' => $this->builder]),
-            ['builder' => $this->builder]
+            $resolver->resolve($builder->getOptions(), ['builder' => $builder]),
+            ['builder' => $builder]
         );
 
-        foreach ($this->builder->getOptions() as $key => $value) {
-            $this->builder->setTableOption($key, $value);
+        foreach ($builder->getOptions() as $key => $value) {
+            $builder->setTableOption($key, $value);
         }
     }
 }

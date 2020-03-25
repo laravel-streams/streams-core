@@ -30,33 +30,16 @@ class SetDefaultParameters
     protected $defaults = [];
 
     /**
-     * The table builder.
-     *
-     * @var TableBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new BuildTableColumnsCommand instance.
+     * Set the table model object from the builder's model.
      *
      * @param TableBuilder $builder
      */
-    public function __construct(TableBuilder $builder)
-    {
-        $this->builder = $builder;
-    }
-
-    /**
-     * Set the table model object from the builder's model.
-     *
-     * @param SetDefaultParameters $command
-     */
-    public function handle()
+    public function handle(TableBuilder $builder)
     {
         /*
          * Next we'll loop each property and look for a handler.
          */
-        $reflection = new \ReflectionClass($this->builder);
+        $reflection = new \ReflectionClass($builder);
 
         /* @var \ReflectionProperty $property */
         foreach ($reflection->getProperties(\ReflectionProperty::IS_PROTECTED) as $property) {
@@ -67,7 +50,7 @@ class SetDefaultParameters
             /*
              * If there is no getter then skip it.
              */
-            if (!method_exists($this->builder, $method = 'get' . ucfirst($property->getName()))) {
+            if (!method_exists($builder, $method = 'get' . ucfirst($property->getName()))) {
                 continue;
             }
 
@@ -75,7 +58,7 @@ class SetDefaultParameters
              * If the parameter already
              * has a value then skip it.
              */
-            if ($this->builder->{$method}()) {
+            if ($builder->{$method}()) {
                 continue;
             }
 
@@ -84,7 +67,7 @@ class SetDefaultParameters
              * builder property into a handler.
              * If it exists, then go ahead and use it.
              */
-            $handler = str_replace('TableBuilder', 'Table' . ucfirst($property->getName()), get_class($this->builder));
+            $handler = str_replace('TableBuilder', 'Table' . ucfirst($property->getName()), get_class($builder));
 
             if (class_exists($handler)) {
 
@@ -96,7 +79,7 @@ class SetDefaultParameters
                     $handler .= '@handle';
                 }
 
-                $this->builder->{'set' . ucfirst($property->getName())}($handler);
+                $builder->{'set' . ucfirst($property->getName())}($handler);
 
                 continue;
             }
@@ -106,7 +89,7 @@ class SetDefaultParameters
              * we have a default handler, use it.
              */
             if ($default = array_get($this->defaults, $property->getName())) {
-                $this->builder->{'set' . ucfirst($property->getName())}($default);
+                $builder->{'set' . ucfirst($property->getName())}($default);
             }
         }
     }

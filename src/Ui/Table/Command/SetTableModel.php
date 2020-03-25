@@ -13,29 +13,14 @@ class SetTableModel
 {
 
     /**
-     * The table builder.
-     *
-     * @var \Anomaly\Streams\Platform\Ui\Table\TableBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new BuildTableColumnsCommand instance.
-     *
+     * Handle the command.
+     * 
      * @param TableBuilder $builder
      */
-    public function __construct(TableBuilder $builder)
+    public function handle(TableBuilder $builder)
     {
-        $this->builder = $builder;
-    }
-
-    /**
-     * Handle the command.
-     */
-    public function handle()
-    {
-        $table = $this->builder->getTable();
-        $model = $this->builder->getModel();
+        $table = $builder->getTable();
+        $model = $builder->getModel();
 
         /*
          * If the model is already instantiated
@@ -52,13 +37,13 @@ class SetTableModel
          * model based on best practices.
          */
         if ($model === null) {
-            $parts = explode('\\', str_replace('TableBuilder', 'Model', get_class($this->builder)));
+            $parts = explode('\\', str_replace('TableBuilder', 'Model', get_class($builder)));
 
             unset($parts[count($parts) - 2]);
 
             $model = implode('\\', $parts);
 
-            $this->builder->setModel($model);
+            $builder->setModel($model);
         }
 
         /*

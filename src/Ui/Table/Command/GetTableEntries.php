@@ -16,29 +16,15 @@ class GetTableEntries
 {
 
     /**
-     * The table builder.
-     *
-     * @var TableBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new BuildTableColumnsCommand instance.
-     *
+     * Handle the command.
+     * 
+     * @param Container $container
      * @param TableBuilder $builder
      */
-    public function __construct(TableBuilder $builder)
+    public function handle(Container $container, TableBuilder $builder)
     {
-        $this->builder = $builder;
-    }
-
-    /**
-     * Handle the command.
-     */
-    public function handle(Container $container)
-    {
-        $model   = $this->builder->getModel();
-        $entries = $this->builder->getEntries();
+        $model   = $builder->getModel();
+        $entries = $builder->getEntries();
 
         /*
          * If the builder has an entries handler
@@ -46,7 +32,7 @@ class GetTableEntries
          * let it load the entries itself.
          */
         if (is_string($entries) || $entries instanceof \Closure) {
-            $container->call($entries, ['builder' => $this->builder], 'handle');
+            $container->call($entries, ['builder' => $builder], 'handle');
         }
 
         /**
@@ -55,12 +41,12 @@ class GetTableEntries
          */
         if ($entries instanceof Collection) {
 
-            $this->builder->setTableEntries($entries);
+            $builder->setTableEntries($entries);
 
             return;
         }
 
-        $entries = $this->builder->getTableEntries();
+        $entries = $builder->getTableEntries();
 
         /*
          * If the entries have already been set on the
@@ -76,7 +62,7 @@ class GetTableEntries
         /*
          * Resolve the model out of the container.
          */
-        $repository = $this->builder->getRepository();
+        $repository = $builder->getRepository();
 
         if (is_string($repository) && class_exists($repository)) {
             $repository = $container->make($repository);
@@ -87,7 +73,7 @@ class GetTableEntries
          * TableRepositoryInterface use it.
          */
         if ($repository instanceof TableRepositoryInterface) {
-            $this->builder->setTableEntries($repository->get($this->builder));
+            $builder->setTableEntries($repository->get($builder));
         }
     }
 }
