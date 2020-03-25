@@ -239,6 +239,8 @@ trait Versionable
             return $this->versionDifferences = $this->toArrayForComparison();
         }
 
+        $data = $this->toArrayForComparison();
+
         array_walk(
             $data,
             function (&$value) {
@@ -261,7 +263,7 @@ trait Versionable
 
         $this->versionDifferences = array_diff_assoc(
             $comparison,
-            $this->toArrayForComparison()
+            $data
         );
 
         return $this->versionDifferences;
