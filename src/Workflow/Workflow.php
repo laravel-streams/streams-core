@@ -28,7 +28,7 @@ class Workflow
      */
     public function __construct(array $steps = [])
     {
-        $this->steps = $this->named($steps);
+        $this->steps = $this->named($steps ?: $this->steps);
     }
 
     /**
@@ -56,29 +56,80 @@ class Workflow
     /**
      * Add a step to the workflow.
      *
-     * @param stirng $name
+     * @param string $name
      * @param string|\Closure $step
-     * @param string $position
+     * @param integer $position
+     * @return $this
      */
-    public function add($name, $step = null, string $before = null)
+    public function add($name, $step = null, $position = null)
     {
         if (!$step && is_string($step)) {
-            
+
             $step = $name;
 
             $name = $this->name($step);
         }
 
-        $position = count($this->steps) + 1;
-
-        if (is_string($before)) {
-            $position = array_search($before, $this->steps) - 1;
+        if ($position === null) {
+            $position = count($this->steps);
         }
 
-        $front = array_slice($this->steps, 0, $position, true);
-        $back  = array_slice($this->steps, $position, count($this->steps) - $position, true);
+        $this->steps = array_slice($this->steps, 0, $position, true) +
+            [$name => $step] +
+            array_slice($this->steps, $position, count($this->steps) - 1, true);
 
-        $this->steps = $front + [$name => $step] + $back;
+        return $this;
+    }
+
+    /**
+     * Push a step to first.
+     *
+     * @param string $name
+     * @param string|\Closure $step
+     * @return $this
+     */
+    public function first($name, $step = null)
+    {
+        return $this->add($name, $step, 0);
+    }
+
+    /**
+     * Add a step before another.
+     *
+     * @param string $target
+     * @param string $name
+     * @param string|\Closure $step
+     * @return $this
+     */
+    public function before($target, $name, $step = null)
+    {
+        return $this->add($name, $step, array_search($target, array_keys($this->steps)));
+    }
+
+    /**
+     * Add a step after another.
+     *
+     * @param string $target
+     * @param string $name
+     * @param string|\Closure $step
+     * @return $this
+     */
+    public function after($target, $name, $step = null)
+    {
+        return $this->add($name, $step, array_search($target, array_keys($this->steps)) + 1);
+    }
+
+    /**
+     * Add a step after another.
+     *
+     * @param string $name
+     * @param string $name
+     * @param string|\Closure $step
+     * @return $this
+     */
+    public function set($name, $step)
+    {
+        $this->steps[$name] = $step;
 
         return $this;
     }
@@ -87,13 +138,14 @@ class Workflow
      * Name the steps.
      *
      * @param array $steps
+     * @return array
      */
     private function named($steps)
     {
         $named = [];
 
-        array_walk($steps, function($step, $name) use (&$named) {
-            
+        array_walk($steps, function ($step, $name) use (&$named) {
+
             if (is_string($name)) {
 
                 $named[$name] = $step;
@@ -102,14 +154,14 @@ class Workflow
             }
 
             if (is_string($step)) {
-                
+
                 $named[$this->name($step)] = $step;
 
                 return true;
             }
 
             if (is_object($step)) {
-                
+
                 $named[$this->name($step)] = $step;
 
                 return true;
@@ -125,8 +177,9 @@ class Workflow
      * Return the step name.
      *
      * @param mixed $step
+     * @return string
      */
-    public function name($step)
+    private function name($step)
     {
         if (is_object($step)) {
             $step = get_class($step);
@@ -154,5 +207,26 @@ class Workflow
         if (is_callable($step)) {
             return App::call($step, $payload);
         }
+    }
+
+    /**
+     * Get the steps.
+     */
+    public function getSteps()
+    {
+        return $this->steps;
+    }
+
+    /**
+     * Set the steps.
+     *
+     * @param array $steps
+     * @return $this
+     */
+    public function setSteps(array $steps)
+    {
+        $this->steps = $steps;
+
+        return $this;
     }
 }
