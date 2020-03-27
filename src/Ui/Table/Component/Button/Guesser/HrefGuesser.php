@@ -2,12 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser;
 
-use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Http\Request;
-use Anomaly\Streams\Platform\Routing\UrlGenerator;
 
 /**
  * Class HrefGuesser
@@ -57,7 +52,7 @@ class HrefGuesser
                 case 'restore':
 
                     $button['attributes']['href'] = url(
-                        'entry/handle/restore/' . $module->getNamespace() . '/' . $stream->getNamespace() . '/' . $stream->getSlug() . '/{entry.id}'
+                        'entry/handle/restore/' . $stream->location . '/' . $stream->getSlug() . '/{entry.id}'
                     );
 
                     break;

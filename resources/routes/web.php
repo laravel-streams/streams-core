@@ -8,12 +8,12 @@ Route::post(
 );
 
 Route::get(
-    'entry/handle/restore/{addon}/{namespace}/{stream}/{id}',
+    'entry/handle/restore/{addon}/{stream}/{id}',
     'Anomaly\Streams\Platform\Http\Controller\EntryController@restore'
 );
 
 Route::get(
-    'entry/handle/export/{addon}/{namespace}/{stream}',
+    'entry/handle/export/{addon}/{stream}',
     'Anomaly\Streams\Platform\Http\Controller\EntryController@export'
 );
 

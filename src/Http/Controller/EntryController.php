@@ -2,10 +2,11 @@
 
 namespace Anomaly\Streams\Platform\Http\Controller;
 
-use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface;
-use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
+use Illuminate\Support\Facades\Redirect;
 use Anomaly\Streams\Platform\Support\Authorizer;
+use Anomaly\Streams\Platform\Stream\StreamManager;
+use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Anomaly\Streams\Platform\Entry\EntryRepository;
 
 /**
  * Class EntryController
@@ -25,13 +26,6 @@ class EntryController extends AdminController
     protected $addons;
 
     /**
-     * The stream repository.
-     *
-     * @var StreamRepositoryInterface
-     */
-    protected $streams;
-
-    /**
      * The authorizer service.
      *
      * @var Authorizer
@@ -39,32 +33,17 @@ class EntryController extends AdminController
     protected $authorizer;
 
     /**
-     * The entry repository.
-     *
-     * @var EntryRepositoryInterface
-     */
-    protected $repository;
-
-    /**
      * Create a new EntryController instance.
      *
      * @param AddonCollection $addons
      * @param Authorizer $authorizer
-     * @param StreamRepositoryInterface $streams
-     * @param EntryRepositoryInterface $repository
      */
-    public function __construct(
-        AddonCollection $addons,
-        Authorizer $authorizer,
-        StreamRepositoryInterface $streams,
-        EntryRepositoryInterface $repository
-    ) {
+    public function __construct(AddonCollection $addons, Authorizer $authorizer)
+    {
         parent::__construct();
 
         $this->addons     = $addons;
-        $this->streams    = $streams;
         $this->authorizer = $authorizer;
-        $this->repository = $repository;
     }
 
     /**
@@ -76,58 +55,54 @@ class EntryController extends AdminController
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function restore($addon, $namespace, $stream, $id)
+    public function restore($addon, $stream, $id)
     {
-        $addon = $this->addons->instance($addon);
-
         /* @var StreamInterface $stream */
-        $stream = $this->streams->findBySlugAndNamespace($stream, $namespace);
+        $stream = StreamManager::get($stream);
 
         /*
          * Resolve the model and set
          * it on the repository.
          */
-        $this->repository->setModel(app($stream->getEntryModelName()));
+        $repository = (new EntryRepository)->setModel($stream->model);
 
-        $entry = $this->repository->findTrashed($id);
+        $entry = $repository->findTrashed($id);
 
-        if (!$this->authorizer->authorize($addon->getNamespace($stream->getSlug() . '.write'))) {
+        if (!$this->authorizer->authorize("{$addon}::{$stream->getSlug()}.write")) {
             abort(403);
         }
 
         if (!$entry->isRestorable()) {
+
             messages('error', 'streams::message.restore_failed');
 
             return back();
         }
 
-        $this->repository->restore($entry);
+        $repository->restore($entry);
 
         messages('success', 'streams::message.restore_success');
 
-        return back();
+        return Redirect::back();
     }
 
     /**
      * Export all entries.
      *
      * @param $addon
-     * @param $namespace
      * @param $stream
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function export($addon, $namespace, $stream)
+    public function export($addon, $stream)
     {
-        $addon = $this->addons->get($addon);
-
         /* @var StreamInterface $stream */
-        $stream = $this->streams->findBySlugAndNamespace($stream, $namespace);
+        $stream = StreamManager::get($stream);
 
         /*
          * Resolve the model and set
          * it on the repository.
          */
-        $this->repository->setModel(app($stream->getEntryModelName()));
+        $repository = (new EntryRepository)->setModel($stream->model);
 
         if (!$this->authorizer->authorize($addon->getNamespace($stream->getSlug() . '.read'))) {
             abort(403);
@@ -141,10 +116,12 @@ class EntryController extends AdminController
             'Expires'             => '0',
         ];
 
-        $callback = function () {
+        $callback = function () use ($repository) {
+            
             $output = fopen('php://output', 'w');
 
-            foreach ($this->repository->allWithoutRelations() as $k => $entry) {
+            foreach ($repository->allWithoutRelations() as $k => $entry) {
+                
                 if ($k == 0) {
                     fputcsv($output, array_keys($entry->toArray()));
                 }
