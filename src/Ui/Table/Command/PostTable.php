@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\ExecuteAction;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
 use Illuminate\Routing\ResponseFactory;
 
@@ -16,7 +15,6 @@ use Illuminate\Routing\ResponseFactory;
  */
 class PostTable
 {
-    use DispatchesJobs;
 
     /**
      * The table builder.
@@ -48,7 +46,7 @@ class PostTable
             return;
         }
         
-        $this->dispatchNow(new ExecuteAction($this->builder));
+        dispatch_now(new ExecuteAction($this->builder));
 
         if (!$this->builder->getTableResponse()) {
             $this->builder->setTableResponse($response->redirectTo($request->fullUrl()));

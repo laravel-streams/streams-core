@@ -14,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -27,7 +26,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class TableBuilder
 {
-    use DispatchesJobs;
     use FiresCallbacks;
 
     /**
@@ -133,7 +131,7 @@ class TableBuilder
     {
         $this->fire('ready', ['builder' => $this]);
 
-        $this->dispatchNow(new BuildTable($this));
+        dispatch_now(new BuildTable($this));
 
         $this->fire('built', ['builder' => $this]);
 
@@ -164,9 +162,9 @@ class TableBuilder
      */
     public function load()
     {
-        $this->dispatchNow(new LoadTable($this));
-        $this->dispatchNow(new AddAssets($this));
-        $this->dispatchNow(new MakeTable($this));
+        dispatch_now(new LoadTable($this));
+        dispatch_now(new AddAssets($this));
+        dispatch_now(new MakeTable($this));
 
         return $this;
     }
@@ -180,7 +178,7 @@ class TableBuilder
     public function post()
     {
         if (app('request')->isMethod('post')) {
-            $this->dispatchNow(new PostTable($this));
+            dispatch_now(new PostTable($this));
         }
 
         return $this;
@@ -196,7 +194,7 @@ class TableBuilder
         $this->make();
 
         if ($this->table->getResponse() === null) {
-            $this->dispatchNow(new SetTableResponse($this));
+            dispatch_now(new SetTableResponse($this));
         }
 
         return $this->table->getResponse();
