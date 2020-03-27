@@ -180,22 +180,7 @@ class AddonServiceProvider extends ServiceProvider
         // Lastly
         $this->registerProviders();
 
-        $this->load();
-    }
-
-    /**
-     * Boot the addon.
-     */
-    public function load()
-    {
-        // Determine the namespace.
-        $namespace = $this->namespace();
-        //$addon = $this->addon();
-
-        //[$vendor, $type, $slug] = explode('.', $namespace);
-
-        $path = dirname((new \ReflectionClass(get_called_class()))->getFileName(), 2);
-
+        
         $this->registerAssets();
         $this->registerCommands();
         $this->registerPolicies();
@@ -277,8 +262,13 @@ class AddonServiceProvider extends ServiceProvider
      **/
     protected function registerStreams()
     {
-        foreach ($this->streams as $stream => $model) {
-            app(StreamRegistry::class)->register($stream, $model);
+        foreach ($this->streams as $stream => $abstract) {
+            
+            app(StreamRegistry::class)->register($stream, $abstract);
+
+            app()->singleton($this->namespace() . '::' . $stream, function() use ($abstract) {
+                return app($abstract)->stream();
+            });
         }
     }
 
@@ -416,8 +406,6 @@ class AddonServiceProvider extends ServiceProvider
             AssetRegistry::register($this->assets);
         }
     }
-
-
 
     /**
      * Register the addon commands.

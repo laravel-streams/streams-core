@@ -40,10 +40,6 @@ class StreamRegistry
     {
         $this->streams[$stream] = $model;
 
-        app()->singleton($stream, function() use ($model) {
-            return (new $model)->stream();
-        });
-
         return $this;
     }
 
