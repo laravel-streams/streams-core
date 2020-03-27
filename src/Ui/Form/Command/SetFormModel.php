@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -14,30 +13,15 @@ class SetFormModel
 {
 
     /**
-     * The form builder.
-     *
-     * @var FormBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new BuildFormColumnsCommand instance.
-     *
+     * Handle the form.
+     * 
      * @param FormBuilder $builder
      */
-    public function __construct(FormBuilder $builder)
+    public function handle(FormBuilder $builder)
     {
-        $this->builder = $builder;
-    }
-
-    /**
-     * Handle the form.
-     */
-    public function handle()
-    {
-        $form  = $this->builder->getForm();
-        $model = $this->builder->getModel();
-        $entry = $this->builder->getEntry();
+        $form  = $builder->getForm();
+        $model = $builder->getModel();
+        $entry = $builder->getEntry();
 
         /*
          * If the model is already instantiated
@@ -58,7 +42,7 @@ class SetFormModel
 
             $stream = $entry->stream();
 
-            $this->builder->setModel($model = get_class($stream->model));
+            $builder->setModel($model = get_class($stream->model));
         }
 
         /*
@@ -67,13 +51,13 @@ class SetFormModel
          */
         if ($model === null) {
 
-            $parts = explode('\\', str_replace('FormBuilder', 'Model', get_class($this->builder)));
+            $parts = explode('\\', str_replace('FormBuilder', 'Model', get_class($builder)));
 
             unset($parts[count($parts) - 2]);
 
             $model = implode('\\', $parts);
 
-            $this->builder->setModel($model);
+            $builder->setModel($model);
         }
 
         /*
@@ -82,7 +66,7 @@ class SetFormModel
          */
         if (!$model || !class_exists($model)) {
 
-            $this->builder->setModel(null);
+            $builder->setModel(null);
 
             return;
         }

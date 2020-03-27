@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -14,29 +13,14 @@ class SetFormStream
 {
 
     /**
-     * The form builder.
-     *
-     * @var FormBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new BuildFormColumnsCommand instance.
-     *
+     * Handle the command.
+     * 
      * @param FormBuilder $builder
      */
-    public function __construct(FormBuilder $builder)
+    public function handle(FormBuilder $builder)
     {
-        $this->builder = $builder;
-    }
-
-    /**
-     * Handle the command.
-     */
-    public function handle()
-    {
-        $form  = $this->builder->getForm();
-        $model = $this->builder->getModel();
+        $form  = $builder->getForm();
+        $model = $builder->getModel();
 
         if (is_string($model) && !class_exists($model)) {
             return;

@@ -36,46 +36,26 @@ class SetDefaultParameters
     ];
 
     /**
-     * The form builder.
-     *
-     * @var FormBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new BuildFormColumnsCommand instance.
+     * Set the form model object from the builder's model.
      *
      * @param FormBuilder $builder
      */
-    public function __construct(FormBuilder $builder)
-    {
-        $this->builder = $builder;
-    }
-
-    /**
-     * Set the form model object from the builder's model.
-     *
-     * @param SetDefaultParameters $command
-     */
-    public function handle()
+    public function handle(FormBuilder $builder)
     {
         /*
          * Set the form mode according
          * to the builder's entry.
          */
-        if (!$this->builder->getFormMode()) {
-            $this->builder->setFormMode(
-                ($this->builder->getFormEntryId() || $this->builder->getEntry()) ? 'edit' : 'create'
+        if (!$builder->getFormMode()) {
+            $builder->setFormMode(
+                ($builder->getFormEntryId() || $builder->getEntry()) ? 'edit' : 'create'
             );
         }
 
         /*
          * Next we'll loop each property and look for a handler.
          */
-        $reflection = new \ReflectionClass($this->builder);
-
-        // Stash this for later.
-        $builder = get_class($this->builder);
+        $reflection = new \ReflectionClass($builder);
 
         /* @var \ReflectionProperty $property */
         foreach ($reflection->getProperties(\ReflectionProperty::IS_PROTECTED) as $property) {
@@ -87,7 +67,7 @@ class SetDefaultParameters
             /*
              * If there is no getter then skip it.
              */
-            if (!method_exists($this->builder, $method = 'get' . ucfirst($property->getName()))) {
+            if (!method_exists($builder, $method = 'get' . ucfirst($property->getName()))) {
                 continue;
             }
 
@@ -95,7 +75,7 @@ class SetDefaultParameters
              * If the parameter already
              * has a value then skip it.
              */
-            if ($this->builder->{$method}()) {
+            if ($builder->{$method}()) {
                 continue;
             }
 
@@ -104,7 +84,7 @@ class SetDefaultParameters
              * builder property into a handler.
              * If it exists, then go ahead and use it.
              */
-            $handler = str_replace('FormBuilder', 'Form' . ucfirst($property->getName()), $builder);
+            $handler = str_replace('FormBuilder', 'Form' . ucfirst($property->getName()), get_class($builder));
 
             if ($handler !== $builder && class_exists($handler)) {
 
@@ -125,7 +105,7 @@ class SetDefaultParameters
                     continue;
                 }
 
-                $this->builder->{'set' . ucfirst($property->getName())}($handler);
+                $builder->{'set' . ucfirst($property->getName())}($handler);
 
                 continue;
             }
@@ -135,7 +115,7 @@ class SetDefaultParameters
              * we have a default handler, use it.
              */
             if ($default = array_get($this->defaults, $property->getName())) {
-                $this->builder->{'set' . ucfirst($property->getName())}($default);
+                $builder->{'set' . ucfirst($property->getName())}($default);
             }
         }
     }

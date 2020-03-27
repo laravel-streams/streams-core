@@ -15,37 +15,21 @@ class SetFormEntry
 {
 
     /**
-     * The form builder.
-     *
-     * @var \Anomaly\Streams\Platform\Ui\Form\FormBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new BuildFormColumnsCommand instance.
-     *
-     * @param FormBuilder $builder
-     */
-    public function __construct(FormBuilder $builder)
-    {
-        $this->builder = $builder;
-    }
-
-    /**
      * Set the form model object from the builder's model.
      *
      * @param Decorator $decorator
+     * @param FormBuilder $builder
      */
-    public function handle(Decorator $decorator)
+    public function handle(Decorator $decorator, FormBuilder $builder)
     {
-        $this->builder->fire('setting_entry', ['builder' => $this->builder]);
+        $builder->fire('setting_entry', ['builder' => $builder]);
 
-        if ($this->builder->getFormEntry()) {
+        if ($builder->getFormEntry()) {
             return;
         }
 
-        $entry      = $this->builder->getEntry();
-        $repository = $this->builder->getRepository();
+        $entry      = $builder->getEntry();
+        $repository = $builder->getRepository();
 
         /**
          * Undecorate the entry in case it's coming
@@ -63,9 +47,9 @@ class SetFormEntry
         if (is_numeric($entry) || $entry === null) {
             if ($repository instanceof FormRepositoryInterface) {
 
-                $this->builder->setFormEntry($entry = $repository->findOrNew($entry));
+                $builder->setFormEntry($entry = $repository->findOrNew($entry));
 
-                $this->builder->fire('entry_set', ['builder' => $this->builder, 'entry' => $entry]);
+                $builder->fire('entry_set', ['builder' => $builder, 'entry' => $entry]);
 
                 return;
             }
@@ -77,9 +61,9 @@ class SetFormEntry
          */
         if (is_object($entry)) {
 
-            $this->builder->setFormEntry($entry);
+            $builder->setFormEntry($entry);
 
-            $this->builder->fire('entry_set', ['builder' => $this->builder, 'entry' => $entry]);
+            $builder->fire('entry_set', ['builder' => $builder, 'entry' => $entry]);
 
             return;
         }
@@ -87,8 +71,8 @@ class SetFormEntry
         /*
          * Whatever it is - just use it.
          */
-        $this->builder->setFormEntry($entry);
+        $builder->setFormEntry($entry);
 
-        $this->builder->fire('entry_set', ['builder' => $this->builder, 'entry' => $entry]);
+        $builder->fire('entry_set', ['builder' => $builder, 'entry' => $entry]);
     }
 }

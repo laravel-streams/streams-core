@@ -15,41 +15,25 @@ class SetRepository
 {
 
     /**
-     * The form builder.
-     *
-     * @var FormBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new SetRepository instance.
-     *
-     * @param FormBuilder $builder
-     */
-    public function __construct(FormBuilder $builder)
-    {
-        $this->builder = $builder;
-    }
-
-    /**
      * Handle the command.
      *
      * @param Container $container
+     * @param FormBuilder $builder
      */
-    public function handle(Container $container)
+    public function handle(Container $container, FormBuilder $builder)
     {
         /*
          * Set the default options handler based
          * on the builder class. Defaulting to
          * no handler.
          */
-        if (!$this->builder->getRepository()) {
+        if (!$builder->getRepository()) {
 
-            $model = $this->builder->getFormModel();
-            $form  = $this->builder->getForm();
+            $model = $builder->getFormModel();
+            $form  = $builder->getForm();
 
-            if (!$this->builder->getRepository() && is_object($model)) {
-                $this->builder->setRepository(
+            if (!$builder->getRepository() && is_object($model)) {
+                $builder->setRepository(
                     $container->make(FormRepository::class, ['form' => $form, 'model' => $model])
                 );
             }

@@ -6,29 +6,14 @@ class SetActiveAction
 {
 
     /**
-     * The form builder.
-     *
-     * @var FormBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new BuildFormFiltersCommand instance.
-     *
+     * Set the active action.
+     * 
      * @param FormBuilder $builder
      */
-    public function __construct(FormBuilder $builder)
+    public function handle(FormBuilder $builder)
     {
-        $this->builder = $builder;
-    }
-
-    /**
-     * Set the active action.
-     */
-    public function handle()
-    {
-        $options = $this->builder->getFormOptions();
-        $actions = $this->builder->getFormActions();
+        $options = $builder->getFormOptions();
+        $actions = $builder->getFormActions();
 
         if ($action = $actions->findBySlug(app('request')->get($options->get('prefix') . 'action'))) {
             $action->setActive(true);

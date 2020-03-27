@@ -14,29 +14,13 @@ class AuthorizeForm
 {
 
     /**
-     * The table builder.
-     *
-     * @var FormBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new BuildFormColumnsCommand instance.
-     *
-     * @param FormBuilder $builder
-     */
-    public function __construct(FormBuilder $builder)
-    {
-        $this->builder = $builder;
-    }
-
-    /**
      * Handle the command.
      *
      * @param FormAuthorizer $authorizer
+     * @param FormBuilder $builder
      */
-    public function handle(FormAuthorizer $authorizer)
+    public function handle(FormAuthorizer $authorizer, FormBuilder $builder)
     {
-        $authorizer->authorize($this->builder);
+        $authorizer->authorize($builder);
     }
 }

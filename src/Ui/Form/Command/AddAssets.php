@@ -16,31 +16,15 @@ class AddAssets
 {
 
     /**
-     * The form builder.
-     *
-     * @var FormBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new AddAssets instance.
-     *
-     * @param FormBuilder $builder
-     */
-    public function __construct(FormBuilder $builder)
-    {
-        $this->builder = $builder;
-    }
-
-    /**
      * Handle the command.
      *
-     * @param  AssetManager      $asset
+     * @param  AssetManager $asset
+     * @param  FormBuilder $builder
      * @throws \Exception
      */
-    public function handle(AssetManager $asset)
+    public function handle(AssetManager $asset, FormBuilder $builder)
     {
-        foreach ($this->builder->getAssets() as $collection => $assets) {
+        foreach ($builder->getAssets() as $collection => $assets) {
 
             if (!is_array($assets)) {
                 $assets = [$assets];

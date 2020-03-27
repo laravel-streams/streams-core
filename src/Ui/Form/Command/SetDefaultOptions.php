@@ -18,45 +18,29 @@ class SetDefaultOptions
 {
 
     /**
-     * The table builder.
-     *
-     * @var FormBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new SetDefaultOptions instance.
-     *
-     * @param FormBuilder $builder
-     */
-    public function __construct(FormBuilder $builder)
-    {
-        $this->builder = $builder;
-    }
-
-    /**
      * Handle the command.
      *
      * @param ModuleCollection $modules
+     * @param FormBuilder $builder
      */
-    public function handle(ModuleCollection $modules)
+    public function handle(ModuleCollection $modules, FormBuilder $builder)
     {
         /*
          * Default the form view based on the request.
          */
-        if (!$this->builder->getFormOption('form_view')) {
-            $this->builder->setFormOption('form_view', 'admin::form/form');
+        if (!$builder->getFormOption('form_view')) {
+            $builder->setFormOption('form_view', 'admin::form/form');
         }
 
         /*
          * Default the form wrapper view as well.
          */
-        if (!$this->builder->getFormOption('wrapper_view') && $this->builder->isAjax()) {
-            $this->builder->setFormOption('wrapper_view', 'admin::ajax');
+        if (!$builder->getFormOption('wrapper_view') && $builder->isAjax()) {
+            $builder->setFormOption('wrapper_view', 'admin::ajax');
         }
 
-        if (!$this->builder->getFormOption('wrapper_view')) {
-            $this->builder->setFormOption('wrapper_view', 'admin::default');
+        if (!$builder->getFormOption('wrapper_view')) {
+            $builder->setFormOption('wrapper_view', 'admin::default');
         }
 
         /*
@@ -64,16 +48,16 @@ class SetDefaultOptions
          * try and automate it.
          */
         if (
-            $this->builder->getFormOption('permission') === null &&
+            $builder->getFormOption('permission') === null &&
             request()->segment(1) == 'admin' &&
-            ($module = $modules->active()) && ($stream = $this->builder->getFormStream())
+            ($module = $modules->active()) && ($stream = $builder->getFormStream())
         ) {
-            $this->builder->setFormOption(
+            $builder->setFormOption(
                 'permission',
                 $module->getNamespace($stream->getSlug() . '.write')
             );
         }
 
-        $this->builder->setFormOption('ajax', $this->builder->isAjax());
+        $builder->setFormOption('ajax', $builder->isAjax());
     }
 }

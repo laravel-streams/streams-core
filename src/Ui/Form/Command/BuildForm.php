@@ -2,13 +2,14 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionBuilder;
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveAction;
-use Anomaly\Streams\Platform\Ui\Form\Component\Button\ButtonBuilder;
-use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldBuilder;
-use Anomaly\Streams\Platform\Ui\Form\Component\Section\SectionBuilder;
-use Anomaly\Streams\Platform\Ui\Form\Event\FormWasBuilt;
+use Anomaly\Streams\Platform\Workflow\Workflow;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Event\FormWasBuilt;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Component\Button\ButtonBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Component\Section\SectionBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveAction;
 
 /**
  * Class BuildForm
@@ -42,52 +43,66 @@ class BuildForm
      */
     public function handle()
     {
+        $workflow = new Workflow([
 
-        /*
-         * Setup some objects and options using
-         * provided input or sensible defaults.
+            /*
+            * Setup some objects and options using
+            * provided input or sensible defaults.
+            */
+            AddAssets::class,
+            SetFormModel::class,
+            SetFormStream::class,
+            SetRepository::class,
+            SetFormEntry::class,
+            SetDefaultParameters::class,
+            SetFormOptions::class,
+            SetDefaultOptions::class,
+
+            /*
+            * Load anything we need that might be flashed.
+            */
+            LoadFormErrors::class,
+
+            /*
+            * Before we go any further, authorize the request.
+            */
+            AuthorizeForm::class,
+
+            /*
+            * Build form fields.
+            */
+            'field_builder' => function() {
+                FieldBuilder::build($this->builder);
+            },
+
+            /*
+            * Build form sections.
+            */
+            'section_builder' => function() {
+                SectionBuilder::build($this->builder);
+            },
+
+            /*
+            * Build form actions and flag active.
+            */
+            'action_builder' => function() {
+                ActionBuilder::build($this->builder);
+            },
+
+            SetActiveAction::class,
+
+            /*
+            * Build form buttons.
+            */
+            'button_builder' => function() {
+                ButtonBuilder::build($this->builder);
+            }
+        ]);
+
+        /**
+         * Process the workflow.
          */
-        dispatch_now(new AddAssets($this->builder));
-        dispatch_now(new SetFormModel($this->builder));
-        dispatch_now(new SetFormStream($this->builder));
-        dispatch_now(new SetRepository($this->builder));
-        dispatch_now(new SetFormEntry($this->builder));
-        //dispatch_now(new SetFormVersion($this->builder));
-        dispatch_now(new SetDefaultParameters($this->builder));
-        dispatch_now(new SetFormOptions($this->builder));
-        dispatch_now(new SetDefaultOptions($this->builder));
-
-        /*
-         * Load anything we need that might be flashed.
-         */
-        dispatch_now(new LoadFormErrors($this->builder));
-
-        /*
-         * Before we go any further, authorize the request.
-         */
-        dispatch_now(new AuthorizeForm($this->builder));
-
-        /*
-         * Build form fields.
-         */
-        FieldBuilder::build($this->builder);
-
-        /*
-         * Build form sections.
-         */
-        SectionBuilder::build($this->builder);
-
-        /*
-         * Build form actions and flag active.
-         */
-        ActionBuilder::build($this->builder);
-
-        dispatch_now(new SetActiveAction($this->builder));
-
-        /*
-         * Build form buttons.
-         */
-        ButtonBuilder::build($this->builder);
+        $workflow->process(['builder' => $this->builder]);
 
         event(new FormWasBuilt($this->builder));
     }

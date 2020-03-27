@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Illuminate\Support\Facades\Session;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Session\Store;
 
 /**
  * Class LoadFormErrors
@@ -14,30 +14,15 @@ class LoadFormErrors
 {
 
     /**
-     * The form builder.
-     *
-     * @var FormBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new LoadFormErrors instance.
-     *
+     * Handle the event.
+     * 
      * @param FormBuilder $builder
      */
-    public function __construct(FormBuilder $builder)
-    {
-        $this->builder = $builder;
-    }
-
-    /**
-     * Handle the event.
-     */
-    public function handle(Store $session)
+    public function handle(FormBuilder $builder)
     {
         /* @var \Illuminate\Support\MessageBag $errors */
-        if ($errors = $session->get($this->builder->getOption('prefix') . 'errors')) {
-            $this->builder->setFormErrors($errors);
+        if ($errors = Session::get($builder->getOption('prefix') . 'errors')) {
+            $builder->setFormErrors($errors);
         }
     }
 }
