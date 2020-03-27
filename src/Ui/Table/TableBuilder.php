@@ -2,20 +2,21 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table;
 
+use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\HttpFoundation\Response;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Table\Command\AddAssets;
-use Anomaly\Streams\Platform\Ui\Table\Command\BuildTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\LoadTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\MakeTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\PostTable;
+use Anomaly\Streams\Platform\Ui\Table\Command\BuildTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\SetTableResponse;
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
-use Illuminate\Support\Collection;
-use Symfony\Component\HttpFoundation\Response;
+use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 
 /**
  * Class TableBuilder
@@ -586,7 +587,7 @@ class TableBuilder
     /**
      * Get the table model.
      *
-     * @return \Anomaly\Streams\Platform\Model\EloquentModel|null
+     * @return Model|null
      */
     public function getTableModel()
     {

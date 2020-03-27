@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
 
 use Anomaly\Streams\Platform\Entry\EntryRepository;
-use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
