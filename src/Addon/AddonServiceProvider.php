@@ -136,7 +136,7 @@ class AddonServiceProvider extends ServiceProvider
     /**
      * Register the addon.
      */
-    public function register()
+    public function initialize()
     {
         $addon     = $this->addon();
         $namespace = $this->namespace();
@@ -179,12 +179,14 @@ class AddonServiceProvider extends ServiceProvider
 
         // Lastly
         $this->registerProviders();
+
+        $this->load();
     }
 
     /**
      * Boot the addon.
      */
-    public function boot()
+    public function load()
     {
         // Determine the namespace.
         $namespace = $this->namespace();
@@ -453,7 +455,7 @@ class AddonServiceProvider extends ServiceProvider
                 $assets => public_path(
                     implode(DIRECTORY_SEPARATOR, array_merge(['vendor'], explode('.', $namespace)))
                 )
-            ], ['assets','public']);
+            ], ['assets', 'public']);
         }
 
         /**
@@ -466,7 +468,7 @@ class AddonServiceProvider extends ServiceProvider
                 $dist => public_path(
                     implode(DIRECTORY_SEPARATOR, array_merge(['vendor'], explode('.', $namespace)))
                 )
-            ], ['assets','public']);
+            ], ['assets', 'public']);
         }
 
         /**

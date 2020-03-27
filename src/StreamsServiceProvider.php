@@ -154,6 +154,9 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerComposerJson();
         $this->registerComposerLock();
 
+        /**
+         * @todo ?
+         */
         Collection::macro('ids', function() {
             return $this->pluck('id')->all();
         });
@@ -225,6 +228,21 @@ class StreamsServiceProvider extends ServiceProvider
                     $addon['enabled'] = $state->enabled;
                     $addon['installed'] = $state->installed;
                 }
+
+                [$vendor, $slug, $type] = preg_split("/(\/|-)/", $addon['name']);
+
+                $addon['class'] = implode('\\',[
+                    studly_case($vendor),
+                    studly_case($slug . '_' . $type),
+                ]);
+                
+                $addon['provider'] = implode('\\',[
+                    studly_case($vendor),
+                    studly_case($slug . '_' . $type),
+                    studly_case($slug . '_' . $type) . 'ServiceProvider',
+                ]);
+
+                (new $addon['provider']($this->app))->initialize();
             });
 
             ksort($addons);
