@@ -58,6 +58,7 @@ class EntryController extends AdminController
     public function restore($addon, $stream, $id)
     {
         /* @var StreamInterface $stream */
+        // @todo this needs to be resolved.. 
         $stream = StreamManager::get($stream);
 
         /*

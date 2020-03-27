@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
 
+use Anomaly\Streams\Platform\Entry\EntryRepository;
 use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -20,11 +21,11 @@ class ForceDelete extends ActionHandler
      * @param TableBuilder $builder
      * @param array        $selected
      */
-    public function handle(TableBuilder $builder, EloquentRepositoryInterface $repository, array $selected)
+    public function handle(TableBuilder $builder, array $selected)
     {
         $count = 0;
 
-        $repository->setModel($builder->getTableModel());
+        $repository = (new EntryRepository)->setModel($builder->getTableModel());
 
         /* @var EloquentModel $entry */
         foreach ($selected as $id) {
