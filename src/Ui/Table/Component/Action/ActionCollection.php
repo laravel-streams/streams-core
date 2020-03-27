@@ -22,29 +22,8 @@ class ActionCollection extends ButtonCollection
      */
     public function active()
     {
-        foreach ($this->items as $item) {
-            if ($item instanceof ActionInterface && $item->isActive()) {
-                return $item;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Find a action by it's slug.
-     *
-     * @param $slug
-     * @return null|ActionInterface
-     */
-    public function findBySlug($slug)
-    {
-        foreach ($this->items as $item) {
-            if ($item instanceof ActionInterface && $item->getSlug() == $slug) {
-                return $item;
-            }
-        }
-
-        return null;
+        return $this->first(function($item) {
+            return $item->isActive();
+        });
     }
 }

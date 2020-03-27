@@ -22,7 +22,7 @@ class SetActiveAction
         $prefix  = $builder->getTableOption('prefix');
         $actions = $builder->getTableActions();
 
-        if ($action = $actions->findBySlug(app('request')->get($prefix . 'action'))) {
+        if ($action = $actions->get(app('request')->get($prefix . 'action'))) {
             $action->setActive(true);
         }
     }
