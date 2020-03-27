@@ -75,7 +75,6 @@ trait Streams
             return $this->{$this->stream->getTitleColumn()};
         });
 
-
         // From EntryModel
         $class     = get_class($instance);
         $events    = $instance->getObservableEvents();
@@ -134,6 +133,22 @@ trait Streams
     }
 
     /**
+     * Set a given attribute on the model.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @return mixed
+     */
+    public function setAttribute($key, $value)
+    {
+        if ($this->stream()->hasField($key)) {
+            return $this->setFieldValue($key, $value);
+        }
+
+        return parent::setAttribute($key, $value);
+    }
+
+    /**
      * Set a field value.
      *
      * @param        $fieldSlug
@@ -143,9 +158,9 @@ trait Streams
      */
     public function setFieldValue($fieldSlug, $value, $locale = null)
     {
-        $assignment = $this->getAssignment($fieldSlug);
+        $field = $this->stream()->getField($fieldSlug);
 
-        $type = $assignment->getFieldType($this);
+        $type = $field->type();
 
         $type->setEntry($this);
 
@@ -153,7 +168,7 @@ trait Streams
 
         $key = $type->getColumnName();
 
-        if ($assignment->isTranslatable()) {
+        if ($field->isTranslatable()) {
             $key = $key . '->' . ($locale ?: app()->getLocale());
         }
 

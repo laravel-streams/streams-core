@@ -419,19 +419,6 @@ if (!function_exists('undecorate')) {
     }
 }
 
-if (!function_exists('user')) {
-
-    /**
-     * Return the active user or null.
-     *
-     * @return HasPermission
-     */
-    function user()
-    {
-        return auth()->user();
-    }
-}
-
 if (!function_exists('application')) {
 
     /**

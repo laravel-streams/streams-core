@@ -37,7 +37,10 @@ class Stream implements StreamInterface
      */
     public $model;
 
+    public $name;
     public $slug;
+    public $description;
+    
     public $location;
     public $title_column;
     public $sortable = false;

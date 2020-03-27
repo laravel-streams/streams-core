@@ -29,7 +29,7 @@ class Authorizer
     public function authorize($permission, $user = null)
     {
         if (!$user) {
-            $user = user();
+            $user = auth()->user();
         }
 
         if (!$user) {
@@ -58,7 +58,7 @@ class Authorizer
     public function authorizeAny(array $permissions, $user = null, $strict = false)
     {
         if (!$user) {
-            $user = user();
+            $user = auth()->user();
         }
 
         if (!$user) {
@@ -85,7 +85,7 @@ class Authorizer
     public function authorizeAll(array $permissions, $user = null, $strict = false)
     {
         if (!$user) {
-            $user = user();
+            $user = auth()->user();
         }
 
         if (!$user) {
@@ -205,7 +205,7 @@ class Authorizer
     public function authorizeRole(RoleInterface $role, $user = null)
     {
         if (!$user) {
-            $user = user();
+            $user = auth()->user();
         }
 
         if (!$user) {
@@ -237,7 +237,7 @@ class Authorizer
         }
 
         if (!$user) {
-            $user = user();
+            $user = auth()->user();
         }
 
         if (!$user) {

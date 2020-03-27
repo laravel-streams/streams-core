@@ -4,9 +4,8 @@ namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Support\Value;
 use Illuminate\Contracts\Support\Arrayable;
+use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Presenter;
-use Anomaly\Streams\Platform\Model\EloquentPresenter;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
  * Class EntryPresenter
@@ -167,9 +166,9 @@ class EntryPresenter extends Presenter implements Arrayable
      */
     public function __get($key)
     {
-        if ($assignment = $this->object->getAssignment($key)) {
+        if ($field = $this->object->stream()->getField($key)) {
 
-            $type = $assignment->getFieldType();
+            $type = $field->type();
 
             $type->setEntry($this->object);
 
@@ -179,9 +178,9 @@ class EntryPresenter extends Presenter implements Arrayable
 
             $type->setValue($this->object->getFieldValue($key));
 
-            return $type->getPresenter();
+            return $type->newPresenter();
         }
 
-        return $this->__getDecorator()->decorate(parent::__get($key));
+        return Decorator::decorate(parent::__get($key));
     }
 }
