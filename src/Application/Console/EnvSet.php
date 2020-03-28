@@ -45,7 +45,10 @@ class EnvSet extends Command
         list($variable, $value) = explode('=', $line, 2);
 
 
-        $path = $application->getResourcesPath('.env');
+        $path = base_path('.env');
+
+        if($this->option('app'))
+            $path = $application->getResourcesPath('.env');
 
         Log::info("env.path = " . $path);
         $contents = preg_replace("/{$variable}=.+/", "{$variable}=\"{$value}\"", file_get_contents($path));
