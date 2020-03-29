@@ -2,19 +2,20 @@
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Image\ImageManager;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Support\Value;
+use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Parser;
+use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Asset\AssetManager;
+use Anomaly\Streams\Platform\Image\ImageManager;
 use Anomaly\Streams\Platform\Message\MessageManager;
 use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Support\Facades\Decorator;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Form\Command\GetFormCriteria;
 use Anomaly\Streams\Platform\Ui\Form\Command\GetTableCriteria;
-use Illuminate\Contracts\Support\Arrayable;
 
 if (!function_exists('app_storage_path')) {
 
@@ -235,7 +236,7 @@ if (!function_exists('cp')) {
      */
     function cp()
     {
-        return decorate(app(\Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder::class)->getControlPanel());
+        return Decorator::decorate(app(\Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder::class)->getControlPanel());
     }
 }
 

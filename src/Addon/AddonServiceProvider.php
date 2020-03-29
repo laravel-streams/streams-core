@@ -2,12 +2,14 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Addon\Workflow\BindAddon;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Console\Application as Artisan;
 use Anomaly\Streams\Platform\Asset\AssetRegistry;
 use Anomaly\Streams\Platform\Stream\StreamRegistry;
 use Anomaly\Streams\Platform\Traits\Hookable;
+use Anomaly\Streams\Platform\Workflow\Workflow;
 
 /**
  * Class AddonServiceProvider
@@ -136,7 +138,7 @@ class AddonServiceProvider extends ServiceProvider
     /**
      * Register the addon.
      */
-    public function initialize()
+    public function registerAddon()
     {
         $addon     = $this->addon();
         $namespace = $this->namespace();
@@ -145,27 +147,20 @@ class AddonServiceProvider extends ServiceProvider
 
         $path = dirname((new \ReflectionClass(get_called_class()))->getFileName(), 2);
 
-        $this->app->singleton($namespace, function ($app) use ($addon, $namespace, $type, $slug, $vendor, $path) {
+        $payload = compact(
+            'addon',
+            'namespace',
+            'vendor',
+            'type',
+            'slug',
+            'path'
+        ) + ['app' => $this->app];
 
-            // @var Addon $addon
-            $addon = $app->make($addon)
-                ->setType($type)
-                ->setSlug($slug)
-                ->setVendor($vendor)
-                ->setPath($path);
-
-            if (!config('streams.installed')) {
-                return $addon;
-            }
-
-            if ($data = app('addon.collection')->get($namespace)) {
-                $addon->setEnabled(array_get($data, 'enabled'));
-                $addon->setInstalled(array_get($data, 'installed'));
-            }
-
-            return $addon;
-        });
-
+        (new Workflow([
+            BindAddon::class,
+            // @todo this works - move the rest in?
+        ]))->process($payload);
+        
         $this->registerApi($namespace);
         $this->registerRoutes();
         $this->registerStreams();
@@ -180,7 +175,7 @@ class AddonServiceProvider extends ServiceProvider
         // Lastly
         $this->registerProviders();
 
-        
+
         $this->registerAssets();
         $this->registerCommands();
         $this->registerPolicies();
@@ -263,10 +258,10 @@ class AddonServiceProvider extends ServiceProvider
     protected function registerStreams()
     {
         foreach ($this->streams as $stream => $abstract) {
-            
+
             app(StreamRegistry::class)->register($stream, $abstract);
 
-            app()->singleton($this->namespace() . '::' . $stream, function() use ($abstract) {
+            app()->singleton($this->namespace() . '::' . $stream, function () use ($abstract) {
                 return app($abstract)->stream();
             });
         }

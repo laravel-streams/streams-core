@@ -45,9 +45,11 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $singletons = [
-        'asset'    => \Anomaly\Streams\Platform\Asset\AssetManager::class,
-        'streams'  => \Anomaly\Streams\Platform\Stream\StreamManager::class,
-        'messages' => \Anomaly\Streams\Platform\Message\MessageManager::class,
+        'asset'     => \Anomaly\Streams\Platform\Asset\AssetManager::class,
+        'streams'   => \Anomaly\Streams\Platform\Stream\StreamManager::class,
+        'messages'  => \Anomaly\Streams\Platform\Message\MessageManager::class,
+ 
+        'decorator' => \Anomaly\Streams\Platform\Support\Decorator::class,
 
         \Anomaly\Streams\Platform\Image\ImageManager::class      => \Anomaly\Streams\Platform\Image\ImageManager::class,
         \Anomaly\Streams\Platform\Asset\AssetManager::class      => \Anomaly\Streams\Platform\Asset\AssetManager::class,
@@ -242,7 +244,7 @@ class StreamsServiceProvider extends ServiceProvider
                     studly_case($slug . '_' . $type) . 'ServiceProvider',
                 ]);
 
-                (new $addon['provider']($this->app))->initialize();
+                (new $addon['provider']($this->app))->registerAddon();
             });
 
             ksort($addons);
