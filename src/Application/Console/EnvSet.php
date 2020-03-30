@@ -47,7 +47,7 @@ class EnvSet extends Command
 
         $path = base_path('.env');
 
-        if($this->option('app'))
+        if($application->getReference()!='default'){
             $path = $application->getResourcesPath('.env');
 
         Log::info("env.path = " . $path);

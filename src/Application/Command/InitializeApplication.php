@@ -74,7 +74,8 @@ class InitializeApplication
                     if (PHP_SAPI != 'cli') {
                         $application->locate();
                     }
-
+                    // 修复Builder,创建索引,外键使用的是配置中prefix 表前缀。
+                    config(['database.connections.mysql.prefix'=> $application->tablePrefix()]);
                     $application->setup();
 
                     if (!$application->isEnabled()) {
