@@ -47,10 +47,10 @@ class EnvSet extends Command
 
         $path = base_path('.env');
 
-        if($application->getReference()!='default'){
+        if($application->getReference()!='default') {
             $path = $application->getResourcesPath('.env');
-
-        Log::info("env.path = " . $path);
+        }
+        //Log::info("env.path = " . $path);
         $contents = preg_replace("/{$variable}=.+/", "{$variable}=\"{$value}\"", file_get_contents($path));
 
         file_put_contents($path, $contents);
