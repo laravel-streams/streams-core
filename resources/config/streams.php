@@ -168,4 +168,115 @@ return [
         'description' => 'Streams is an abstracted modular platform for developing web applications.',
         'version'     => 'v2.0',
     ],
+
+    'images' => [
+
+        /*
+        |--------------------------------------------------------------------------
+        | Quality
+        |--------------------------------------------------------------------------
+        |
+        | Specify the default image quality.
+        |
+        */
+    
+        'quality' => env('IMAGE_QUALITY', 80),
+    
+        /*
+        |--------------------------------------------------------------------------
+        | Paths
+        |--------------------------------------------------------------------------
+        |
+        | Add additional path prefixes for the image manager here. You may also
+        | add prefixes for domains like a CDN.
+        |
+        | Later you can access images in the path like:
+        |
+        | $image->make('example::path/to/image.jpg');
+        |
+        */
+    
+        'paths' => [],
+    
+        /*
+        |--------------------------------------------------------------------------
+        | Automatic Alt Tags
+        |--------------------------------------------------------------------------
+        |
+        | This will default alt tags to the humanized filename.
+        |
+        | <img src="my_awesome_photo.jpg" alt="My Awesome Photo"/>
+        |
+        */
+    
+        'auto_alt' => env('IMAGE_ALTS', true),
+    
+        /*
+        |--------------------------------------------------------------------------
+        | Version Images
+        |--------------------------------------------------------------------------
+        |
+        | This will cause image changes to version by default.
+        |
+        | <img src="my_awesome_photo.jpg?v=1484943345" alt="My Awesome Photo"/>
+        |
+        */
+    
+        'version' => env('VERSION_IMAGES', true),
+    
+        /*
+        |--------------------------------------------------------------------------
+        | Interlace JPEGs
+        |--------------------------------------------------------------------------
+        |
+        | This will cause image to automatically interlace JPEGs.
+        |
+        */
+    
+        'interlace' => env('IMAGE_INTERLACE', true),
+    ],
+
+    'locales' => [
+
+        /*
+        |--------------------------------------------------------------------------
+        | Locale Hint
+        |--------------------------------------------------------------------------
+        |
+        | Define where to look for an i18n locale.
+        |
+        | true, false, 'domain' or 'uri'
+        |
+        | If false, you must handle setting the locale yourself.
+        | If true, both 'domain' and 'uri' are enabled and will be detected.
+        | If 'domain', streams will check your sub-domain for an i18n locale key
+        | If 'uri', streams will check your first URI segment for an i18n locale key
+        |
+        */
+    
+        'hint' => env('LOCALE_HINTS', true),
+    
+        /*
+        |--------------------------------------------------------------------------
+        | Enabled Locales
+        |--------------------------------------------------------------------------
+        |
+        | Define an array of locales enabled for translatable input.
+        |
+        */
+    
+        'enabled' => explode(',', env('ENABLED_LOCALES', 'en')),
+    
+        /*
+        |--------------------------------------------------------------------------
+        | Default
+        |--------------------------------------------------------------------------
+        |
+        | The default locale for CONTENT.
+        |
+        */
+    
+        'default' => env('DEFAULT_LOCALE', env('LOCALE', 'en')),
+    
+    ],
 ];

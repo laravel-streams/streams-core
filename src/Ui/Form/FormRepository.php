@@ -150,7 +150,7 @@ class FormRepository implements FormRepositoryInterface
          * @var FieldType $field
          */
         if ($entry->isTranslatable()) {
-            foreach (config('streams::locales.enabled') as $locale) {
+            foreach (config('streams.locales.enabled') as $locale) {
                 foreach ($allowed->translatable() as $field) {
                     if ($field->getLocale() == $locale) {
 

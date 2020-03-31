@@ -17,6 +17,6 @@ class SlugValidator
      */
     public function handle($value)
     {
-        return !in_array($value, array_keys(config('streams::locales.supported')));
+        return !in_array($value, array_keys(config('streams.locales.supported')));
     }
 }

@@ -100,7 +100,7 @@ class SetLocale
         }
 
         if (!$locale) {
-            $locale = $this->app->getLocale() ?: config('streams::locales.default');
+            $locale = $this->app->getLocale() ?: config('streams.locales.default');
 
             $this->application->setLocale($locale);
 

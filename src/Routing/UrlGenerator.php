@@ -57,7 +57,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
      */
     public function locale($path, $locale = null, $extra = [], $secure = null)
     {
-        if ($locale == config('streams::locales.default')) {
+        if ($locale == config('streams.locales.default')) {
             $locale = null;
         }
 

@@ -215,8 +215,8 @@ class FieldInput
     {
         $translations = [];
 
-        $defaultLocale  = config('streams::locales.default');
-        $enabledLocales = config('streams::locales.enabled');
+        $defaultLocale  = config('streams.locales.default');
+        $enabledLocales = config('streams.locales.enabled');
 
         /*
          * For each field if the stream is translatable
