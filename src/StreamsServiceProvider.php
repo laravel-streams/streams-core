@@ -132,7 +132,6 @@ class StreamsServiceProvider extends ServiceProvider
 
                 // Application Commands
                 \Anomaly\Streams\Platform\Application\Console\Build::class,
-                \Anomaly\Streams\Platform\Application\Console\EnvSet::class,
                 \Anomaly\Streams\Platform\Application\Console\Refresh::class,
             ]);
         }
