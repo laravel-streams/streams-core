@@ -9,9 +9,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Collection;
 use Anomaly\Streams\Platform\Addon\AddonModel;
 use Anomaly\Streams\Platform\Support\Purifier;
-use Anomaly\Streams\Platform\Asset\AssetManager;
-use Anomaly\Streams\Platform\Image\ImageManager;
-use Anomaly\Streams\Platform\Support\Configurator;
+use Anomaly\Streams\Platform\Asset\Facades\Assets;
+use Anomaly\Streams\Platform\Image\Facades\Images;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 
 /**
@@ -48,9 +47,10 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $singletons = [
-        'asset'     => \Anomaly\Streams\Platform\Asset\AssetManager::class,
-        'streams'   => \Anomaly\Streams\Platform\Stream\StreamManager::class,
-        'messages'  => \Anomaly\Streams\Platform\Message\MessageManager::class,
+        'assets'   => \Anomaly\Streams\Platform\Asset\AssetManager::class,
+        'images'   => \Anomaly\Streams\Platform\Image\ImageManager::class,
+        'streams'  => \Anomaly\Streams\Platform\Stream\StreamManager::class,
+        'messages' => \Anomaly\Streams\Platform\Message\MessageManager::class,
 
         'locator' => \Anomaly\Streams\Platform\Support\Locator::class,
         'resolver' => \Anomaly\Streams\Platform\Support\Resolver::class,
@@ -58,12 +58,13 @@ class StreamsServiceProvider extends ServiceProvider
         'decorator' => \Anomaly\Streams\Platform\Support\Decorator::class,
         'evaluator' => \Anomaly\Streams\Platform\Support\Evaluator::class,
 
-        \Anomaly\Streams\Platform\Image\ImageManager::class      => \Anomaly\Streams\Platform\Image\ImageManager::class,
-        \Anomaly\Streams\Platform\Asset\AssetManager::class      => \Anomaly\Streams\Platform\Asset\AssetManager::class,
-        \Anomaly\Streams\Platform\Message\MessageManager::class  => \Anomaly\Streams\Platform\Message\MessageManager::class,
+        \Anomaly\Streams\Platform\Asset\AssetManager::class => \Anomaly\Streams\Platform\Asset\AssetManager::class,
+        \Anomaly\Streams\Platform\Image\ImageManager::class => \Anomaly\Streams\Platform\Image\ImageManager::class,
+
         \Anomaly\Streams\Platform\Stream\StreamManager::class    => \Anomaly\Streams\Platform\Stream\StreamManager::class,
         \Anomaly\Streams\Platform\Routing\UrlGenerator::class    => \Anomaly\Streams\Platform\Routing\UrlGenerator::class,
         \Anomaly\Streams\Platform\Addon\AddonCollection::class   => \Anomaly\Streams\Platform\Addon\AddonCollection::class,
+        \Anomaly\Streams\Platform\Message\MessageManager::class  => \Anomaly\Streams\Platform\Message\MessageManager::class,
         \Anomaly\Streams\Platform\Application\Application::class => \Anomaly\Streams\Platform\Application\Application::class,
 
         \Anomaly\Streams\Platform\Addon\AddonManager::class => \Anomaly\Streams\Platform\Addon\AddonManager::class,
@@ -77,13 +78,12 @@ class StreamsServiceProvider extends ServiceProvider
 
         \Anomaly\Streams\Platform\Ui\Icon\IconRegistry::class                     => \Anomaly\Streams\Platform\Ui\Icon\IconRegistry::class,
         \Anomaly\Streams\Platform\Ui\Button\ButtonRegistry::class                 => \Anomaly\Streams\Platform\Ui\Button\ButtonRegistry::class,
-        \Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection::class => \Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection::class,
-        \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder::class => \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder::class,
+        \Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection::class       => \Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection::class,
+        \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder::class      => \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder::class,
         \Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry::class     => \Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry::class,
         \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry::class => \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry::class,
 
-        \Anomaly\Streams\Platform\Support\Purifier::class         => \Anomaly\Streams\Platform\Support\Purifier::class,
-        \Anomaly\Streams\Platform\Field\FieldRouter::class        => \Anomaly\Streams\Platform\Field\FieldRouter::class,
+        \Anomaly\Streams\Platform\Field\FieldRouter::class => \Anomaly\Streams\Platform\Field\FieldRouter::class,
     ];
 
     /**
@@ -106,7 +106,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->addViewNamespaces();
         $this->loadTranslations();
         $this->setActiveTheme();
-        $this->extendStr();
 
         /**
          * Register core commands.
@@ -136,6 +135,9 @@ class StreamsServiceProvider extends ServiceProvider
                 \Anomaly\Streams\Platform\Application\Console\Refresh::class,
             ]);
         }
+
+        $this->app->booted(function () {
+        });
 
         /**
          * Register publishables.
@@ -299,20 +301,18 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function addAssetNamespaces()
     {
-        $asset = app(AssetManager::class);
+        Assets::addPath('public', public_path());
+        Assets::addPath('shared', resource_path());
 
-        $asset->addPath('public', public_path());
-        $asset->addPath('shared', resource_path());
+        Assets::addPath('node', base_path('node_modules'));
+        Assets::addPath('bower', base_path('bower_components'));
 
-        $asset->addPath('node', base_path('node_modules'));
-        $asset->addPath('bower', base_path('bower_components'));
+        Assets::addPath('asset', application()->getAssetsPath());
+        Assets::addPath('storage', application()->getStoragePath());
+        Assets::addPath('resources', application()->getResourcesPath());
+        Assets::addPath('download', application()->getAssetsPath('assets/downloads'));
 
-        $asset->addPath('asset', application()->getAssetsPath());
-        $asset->addPath('storage', application()->getStoragePath());
-        $asset->addPath('resources', application()->getResourcesPath());
-        $asset->addPath('download', application()->getAssetsPath('assets/downloads'));
-
-        $asset->addPath('streams', base_path('vendor/anomaly/streams-platform/resources'));
+        Assets::addPath('streams', base_path('vendor/anomaly/streams-platform/resources'));
     }
 
     /**
@@ -322,19 +322,17 @@ class StreamsServiceProvider extends ServiceProvider
      */
     private function addImageNamespaces()
     {
-        $image = app(ImageManager::class);
+        Images::addPath('public', public_path());
+        Images::addPath('shared', resource_path());
 
-        $image->addPath('public', public_path());
-        $image->addPath('shared', resource_path());
+        Images::addPath('node', base_path('node_modules'));
+        Images::addPath('bower', base_path('bower_components'));
 
-        $image->addPath('node', base_path('node_modules'));
-        $image->addPath('bower', base_path('bower_components'));
+        Images::addPath('asset', application()->getAssetsPath());
+        Images::addPath('storage', application()->getStoragePath());
+        Images::addPath('resources', application()->getResourcesPath());
 
-        $image->addPath('asset', application()->getAssetsPath());
-        $image->addPath('storage', application()->getStoragePath());
-        $image->addPath('resources', application()->getResourcesPath());
-
-        $image->addPath('streams', base_path('vendor/anomaly/streams-platform/resources'));
+        Images::addPath('streams', base_path('vendor/anomaly/streams-platform/resources'));
     }
 
     /**

@@ -2,8 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Asset\AssetManager;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Asset\Facades\Assets;
 
 /**
  * Class AddAssets
@@ -18,11 +18,10 @@ class AddAssets
     /**
      * Handle the command.
      *
-     * @param  AssetManager $asset
      * @param  FormBuilder $builder
      * @throws \Exception
      */
-    public function handle(AssetManager $asset, FormBuilder $builder)
+    public function handle(FormBuilder $builder)
     {
         foreach ($builder->getAssets() as $collection => $assets) {
 
@@ -36,7 +35,7 @@ class AddAssets
 
                 $file = array_shift($filters);
 
-                $asset->add($collection, $file, $filters);
+                Assets::add($collection, $file, $filters);
             }
         }
     }

@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Asset\AssetManager;
+use Anomaly\Streams\Platform\Asset\Facades\Assets;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -35,10 +35,9 @@ class AddAssets
     /**
      * Handle the command.
      *
-     * @param  AssetManager      $asset
      * @throws \Exception
      */
-    public function handle(AssetManager $asset)
+    public function handle()
     {
         foreach ($this->builder->getAssets() as $collection => $assets) {
             if (!is_array($assets)) {
@@ -50,7 +49,7 @@ class AddAssets
 
                 $file = array_shift($filters);
 
-                $asset->add($collection, $file, $filters);
+                Assets::add($collection, $file, $filters);
             }
         }
     }

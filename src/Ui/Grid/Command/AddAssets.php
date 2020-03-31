@@ -2,8 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Ui\Grid\Command;
 
-use Anomaly\Streams\Platform\Asset\AssetManager;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
+use Anomaly\Streams\Platform\Asset\Facades\Assets;
 
 /**
  * Class AddAssets
@@ -35,10 +35,9 @@ class AddAssets
     /**
      * Handle the command.
      *
-     * @param  AssetManager      $asset
      * @throws \Exception
      */
-    public function handle(AssetManager $asset)
+    public function handle()
     {
         foreach ($this->builder->getAssets() as $collection => $assets) {
 
@@ -51,7 +50,7 @@ class AddAssets
 
                 $file = array_shift($filters);
 
-                $asset->add($collection, $file, $filters);
+                Assets::add($collection, $file, $filters);
             }
         }
     }

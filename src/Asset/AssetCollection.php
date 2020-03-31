@@ -2,10 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Asset;
 
-use Illuminate\Support\Str;
-use Collective\Html\HtmlFacade;
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Asset\AssetManager;
+use Anomaly\Streams\Platform\Asset\Facades\Assets;
 
 /**
  * Class AssetCollection
@@ -39,10 +37,10 @@ class AssetCollection extends Collection
             return $this;
         }
 
-        foreach (app(AssetManager::class)->resolve($name, $default) as $key => $resolved) {
+        foreach (Assets::resolve($name, $default) as $key => $resolved) {
 
             if (!is_numeric($key)) {
-                
+
                 $this->load($name . '.' . $key);
 
                 continue;
@@ -52,7 +50,7 @@ class AssetCollection extends Collection
 
             $this->add($resolved);
         }
-        
+
         return $this;
     }
 
@@ -66,7 +64,7 @@ class AssetCollection extends Collection
     public function urls(array $attributes = [], $secure = null)
     {
         return $this->map(function ($asset) use ($attributes, $secure) {
-            return app(AssetManager::class)->url($asset, $attributes, $secure);
+            return Assets::url($asset, $attributes, $secure);
         });
     }
 
@@ -79,7 +77,7 @@ class AssetCollection extends Collection
     public function tags(array $attributes = [])
     {
         return $this->map(function ($asset) use ($attributes) {
-            return app(AssetManager::class)->tag($asset, $attributes);
+            return Assets::tag($asset, $attributes);
         });
     }
 
@@ -92,7 +90,7 @@ class AssetCollection extends Collection
     public function scripts(array $attributes = [])
     {
         return $this->map(function ($asset) use ($attributes) {
-            return app(AssetManager::class)->script($asset, $attributes);
+            return Assets::script($asset, $attributes);
         });
     }
 
@@ -105,7 +103,7 @@ class AssetCollection extends Collection
     public function styles(array $attributes = [])
     {
         return $this->map(function ($asset) use ($attributes) {
-            return app(AssetManager::class)->style($asset, $attributes);
+            return Assets::style($asset, $attributes);
         });
     }
 
@@ -117,7 +115,7 @@ class AssetCollection extends Collection
     public function inlines()
     {
         return $this->map(function ($asset) {
-            return app(AssetManager::class)->inline($asset);
+            return Assets::inline($asset);
         });
     }
 
@@ -133,7 +131,7 @@ class AssetCollection extends Collection
     public function paths()
     {
         return $this->map(function ($asset) {
-            return app(AssetManager::class)->path($asset);
+            return Assets::path($asset);
         });
     }
 

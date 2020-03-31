@@ -6,12 +6,12 @@ use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Support\Value;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Parser;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Support\Template;
-use Anomaly\Streams\Platform\Asset\AssetManager;
 use Anomaly\Streams\Platform\Image\ImageManager;
+use Anomaly\Streams\Platform\Asset\Facades\Assets;
 use Anomaly\Streams\Platform\Message\MessageManager;
 use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Support\Facades\Decorator;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Form\Command\GetFormCriteria;
@@ -362,14 +362,14 @@ if (!function_exists('assets')) {
     function assets($collection = null, $asset = null)
     {
         if ($collection && $asset) {
-            return app(AssetManager::class)->collection($collection)->add($asset);
+            return Assets::collection($collection)->add($asset);
         }
 
         if ($collection) {
-            return app(AssetManager::class)->collection($collection);
+            return Assets::collection($collection);
         }
 
-        return app(AssetManager::class);
+        return app('assets');
     }
 }
 
