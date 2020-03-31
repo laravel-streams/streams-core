@@ -2,7 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Support;
 
-use Dotenv\Dotenv;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use Illuminate\Foundation\Bootstrap\LoadConfiguration;

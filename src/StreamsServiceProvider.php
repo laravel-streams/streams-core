@@ -50,6 +50,7 @@ class StreamsServiceProvider extends ServiceProvider
         'messages'  => \Anomaly\Streams\Platform\Message\MessageManager::class,
  
         'decorator' => \Anomaly\Streams\Platform\Support\Decorator::class,
+        'evaluator' => \Anomaly\Streams\Platform\Support\Evaluator::class,
 
         \Anomaly\Streams\Platform\Image\ImageManager::class      => \Anomaly\Streams\Platform\Image\ImageManager::class,
         \Anomaly\Streams\Platform\Asset\AssetManager::class      => \Anomaly\Streams\Platform\Asset\AssetManager::class,

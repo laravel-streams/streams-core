@@ -665,7 +665,7 @@ if (!function_exists('evaluate')) {
      */
     function evaluate($target, array $arguments = [])
     {
-        return \Anomaly\Streams\Platform\Support\Evaluator::evaluate($target, $arguments);
+        return \Anomaly\Streams\Platform\Support\Facades\Evaluator::evaluate($target, $arguments);
     }
 }
 
