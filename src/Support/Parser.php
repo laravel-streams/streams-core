@@ -8,6 +8,8 @@ use StringTemplate\Engine;
 
 /**
  * Class Parser
+ * 
+ * @todo merge this into Str via MACRO boiii
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
