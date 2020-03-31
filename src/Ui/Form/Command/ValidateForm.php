@@ -37,14 +37,13 @@ class ValidateForm
      * Handle the event.
      *
      * @param Container $container
-     * @param Resolver  $resolver
      */
-    public function handle(Container $container, Resolver $resolver)
+    public function handle(Container $container)
     {
         $rules     = $this->builder->getRules();
         $validator = $this->builder->getValidator();
 
-        $resolver->resolve($rules, ['builder' => $this->builder]);
+        Resolver::resolve($rules, ['builder' => $this->builder]);
 
         /*
          * If it's self handling just add @handle

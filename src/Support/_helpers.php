@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Support\Value;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Parser;
@@ -83,7 +83,7 @@ if (!function_exists('str_humanize')) {
      */
     function str_humanize($target, $separator = '_')
     {
-        return app(Str::class)->humanize($target, $separator);
+        return Str::humanize($target, $separator);
     }
 }
 
@@ -98,7 +98,7 @@ if (!function_exists('humanize')) {
      */
     function humanize($target, $separator = '_')
     {
-        return app(Str::class)->humanize($target, $separator);
+        return Str::humanize($target, $separator);
     }
 }
 
