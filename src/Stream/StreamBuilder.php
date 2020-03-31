@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Stream;
 
 use Illuminate\Support\Facades\Gate;
-use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Field\FieldBuilder;
 use Anomaly\Streams\Platform\Field\FieldFactory;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasBuilt;

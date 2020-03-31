@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Grid\Component\Item;
 
-use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Grid\Component\Item\Contract\ItemInterface;
 use Illuminate\Contracts\Container\Container;
 

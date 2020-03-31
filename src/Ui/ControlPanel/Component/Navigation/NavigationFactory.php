@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
-use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
 use Illuminate\Contracts\Container\Container;
 

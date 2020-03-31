@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
-use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Support\Translator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
 

@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
-use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Illuminate\Contracts\Container\Container;
 
 /**

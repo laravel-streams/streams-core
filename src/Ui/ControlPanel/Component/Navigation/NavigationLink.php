@@ -4,7 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;

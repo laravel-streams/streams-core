@@ -6,7 +6,7 @@ use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Support\Value;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Parser;
-use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Asset\AssetManager;
 use Anomaly\Streams\Platform\Image\ImageManager;

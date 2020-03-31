@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
 
-use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\Contract\SegmentInterface;
 
 /**

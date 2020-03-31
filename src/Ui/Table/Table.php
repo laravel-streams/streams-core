@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Symfony\Component\HttpFoundation\Response;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormPresenter;

@@ -49,6 +49,7 @@ class StreamsServiceProvider extends ServiceProvider
         'streams'   => \Anomaly\Streams\Platform\Stream\StreamManager::class,
         'messages'  => \Anomaly\Streams\Platform\Message\MessageManager::class,
 
+        'hydrator' => \Anomaly\Streams\Platform\Support\Hydrator::class,
         'decorator' => \Anomaly\Streams\Platform\Support\Decorator::class,
         'evaluator' => \Anomaly\Streams\Platform\Support\Evaluator::class,
 

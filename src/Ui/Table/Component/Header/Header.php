@@ -13,7 +13,7 @@ namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;

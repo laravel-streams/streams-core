@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
-use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
 use Illuminate\Contracts\Container\Container;
 

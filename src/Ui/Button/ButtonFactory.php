@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Button;
 
 use Anomaly\Streams\Platform\Support\Authorizer;
-use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Support\Translator;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 

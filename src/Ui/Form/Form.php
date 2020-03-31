@@ -7,7 +7,7 @@ use Illuminate\Support\MessageBag;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Entry\EntryModel;
-use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Model\EloquentModel;

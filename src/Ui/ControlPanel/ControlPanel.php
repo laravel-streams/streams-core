@@ -4,7 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel;
 
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;

@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Exception;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Traits\Hookable;

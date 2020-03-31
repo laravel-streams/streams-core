@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Support\Facades\Decorator;
-use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Contracts\Container\Container;
