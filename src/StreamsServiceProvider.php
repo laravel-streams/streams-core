@@ -48,7 +48,7 @@ class StreamsServiceProvider extends ServiceProvider
         'asset'     => \Anomaly\Streams\Platform\Asset\AssetManager::class,
         'streams'   => \Anomaly\Streams\Platform\Stream\StreamManager::class,
         'messages'  => \Anomaly\Streams\Platform\Message\MessageManager::class,
- 
+
         'decorator' => \Anomaly\Streams\Platform\Support\Decorator::class,
         'evaluator' => \Anomaly\Streams\Platform\Support\Evaluator::class,
 
@@ -159,7 +159,7 @@ class StreamsServiceProvider extends ServiceProvider
         /**
          * @todo ?
          */
-        Collection::macro('ids', function() {
+        Collection::macro('ids', function () {
             return $this->pluck('id')->all();
         });
 
@@ -233,12 +233,12 @@ class StreamsServiceProvider extends ServiceProvider
 
                 [$vendor, $slug, $type] = preg_split("/(\/|-)/", $addon['name']);
 
-                $addon['class'] = implode('\\',[
+                $addon['class'] = implode('\\', [
                     studly_case($vendor),
                     studly_case($slug . '_' . $type),
                 ]);
-                
-                $addon['provider'] = implode('\\',[
+
+                $addon['provider'] = implode('\\', [
                     studly_case($vendor),
                     studly_case($slug . '_' . $type),
                     studly_case($slug . '_' . $type) . 'ServiceProvider',
@@ -279,18 +279,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function loadStreamsConfiguration()
     {
-
-        // Load package configuration.
-        Configurator::load(realpath(__DIR__ . '/../resources/config'), 'streams');
-
-        // Load application overrides.
-        // if (is_dir($directory = application()->getResourcesPath('streams/config'))) {
-        //     Configurator::merge($directory, 'streams');
-        // }
-
-        // Load system overrides.
-        Configurator::merge(base_path('resources/streams/config'), 'streams');
-
         $this->mergeConfigFrom(realpath(__DIR__ . '/../resources/config/streams.php'), 'streams');
     }
 
@@ -486,7 +474,7 @@ class StreamsServiceProvider extends ServiceProvider
         })) {
             return;
         }
-        
+
         $namespace = (new \ReflectionClass(app($addon['namespace'])))->getNamespaceName();
 
         $controller = null;
