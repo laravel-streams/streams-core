@@ -291,6 +291,8 @@ class StreamsServiceProvider extends ServiceProvider
 
         // Load system overrides.
         Configurator::merge(base_path('resources/streams/config'), 'streams');
+
+        $this->mergeConfigFrom(realpath(__DIR__ . '/../resources/config/streams.php'), 'streams');
     }
 
     /**
