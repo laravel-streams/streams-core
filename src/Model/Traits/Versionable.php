@@ -239,9 +239,31 @@ trait Versionable
             return $this->versionDifferences = $this->toArrayForComparison();
         }
 
+        $data = $this->toArrayForComparison();
+
+        array_walk(
+            $data,
+            function (&$value) {
+
+                if (is_array($value)) {
+                    $value = serialize($value);
+                }
+            }
+        );
+
+        array_walk(
+            $comparison,
+            function (&$value) {
+
+                if (is_array($value)) {
+                    $value = serialize($value);
+                }
+            }
+        );
+
         $this->versionDifferences = array_diff_assoc(
             $comparison,
-            $this->toArrayForComparison()
+            $data
         );
 
         return $this->versionDifferences;
