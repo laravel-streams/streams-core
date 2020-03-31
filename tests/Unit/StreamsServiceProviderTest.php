@@ -38,7 +38,7 @@ class StreamsServiceProviderTest extends TestCase
 
     public function testCanLoadStreamsConfiguration()
     {
-        $this->assertTrue(is_array(config('streams::addons.types')));
+        $this->assertTrue(is_array(config('streams.addons.types')));
     }
 
     public function testCanConfigureFileCacheStore()

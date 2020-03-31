@@ -67,7 +67,7 @@ class AddonCollection extends Collection
      */
     public function disperse()
     {
-        foreach (config('streams::addons.types', []) as $type) {
+        foreach (config('streams.addons.types', []) as $type) {
 
             /* @var AddonCollection $collection */
             $collection = app("{$type}.collection");
