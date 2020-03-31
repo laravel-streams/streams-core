@@ -56,7 +56,7 @@ class AssetPaths
         $this->request     = $request;
         $this->application = $application;
 
-        $this->paths = $config->get('streams::assets.paths', []);
+        $this->paths = $config->get('streams.assets.paths', []);
     }
 
     /**
