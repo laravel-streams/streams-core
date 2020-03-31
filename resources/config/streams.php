@@ -22,7 +22,7 @@ return [
 
         /*
         |--------------------------------------------------------------------------
-        | Configured Addon Paths
+        | Configured Addon Paths @todo unused
         |--------------------------------------------------------------------------
         |
         | These manually defined addon paths can be helpful
@@ -37,7 +37,7 @@ return [
 
         /*
         |--------------------------------------------------------------------------
-        | Configured Addon Directories
+        | Configured Addon Directories @todo unused
         |--------------------------------------------------------------------------
         |
         | These manually defined addon paths can be helpful
