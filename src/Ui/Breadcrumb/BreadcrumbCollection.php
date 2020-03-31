@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Breadcrumb;
 
-use Anomaly\Streams\Platform\Support\Collection;
+use Illuminate\Support\Collection;
 
 /**
  * Class BreadcrumbCollection

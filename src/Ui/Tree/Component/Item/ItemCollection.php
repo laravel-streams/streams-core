@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item;
 
 use Illuminate\Database\Eloquent\Model;
-use Anomaly\Streams\Platform\Support\Collection;
+use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
 
 /**

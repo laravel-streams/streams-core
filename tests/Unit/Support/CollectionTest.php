@@ -1,7 +1,7 @@
 <?php
 
 use Tests\TestCase;
-use Anomaly\Streams\Platform\Support\Collection;
+use Illuminate\Support\Collection;
 
 class CollectionTest extends TestCase
 {

@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Field;
 
-use Anomaly\Streams\Platform\Support\Collection;
+use Illuminate\Support\Collection;
 
 /**
  * Class FieldCollection
@@ -49,5 +49,15 @@ class FieldCollection extends Collection
         return $this->filter(function ($field) use ($translatable) {
             return $field->isTranslatable() === $translatable ? $field : null;
         });
+    }
+
+    /**
+     * Map attributes to get.
+     *
+     * @param string $key
+     */
+    public function __get($key)
+    {
+        return $this->get($key);
     }
 }

@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Grid\Component\Item;
 
-use Anomaly\Streams\Platform\Support\Collection;
+use Illuminate\Support\Collection;
 
 /**
  * Class ItemCollection

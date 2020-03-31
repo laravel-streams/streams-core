@@ -9,7 +9,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Symfony\Component\HttpFoundation\Response;
-use Anomaly\Streams\Platform\Support\Collection;
+use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;

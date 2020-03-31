@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Support\Collection;
+use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionResponder;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Http\JsonResponse;

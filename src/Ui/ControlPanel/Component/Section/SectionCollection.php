@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
-use Anomaly\Streams\Platform\Support\Collection;
+use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
 
 /**

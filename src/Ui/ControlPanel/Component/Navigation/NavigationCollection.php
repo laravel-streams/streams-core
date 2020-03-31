@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
-use Anomaly\Streams\Platform\Support\Collection;
+use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
 
 /**
