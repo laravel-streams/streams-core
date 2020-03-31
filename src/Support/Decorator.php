@@ -21,7 +21,7 @@ class Decorator
      * @param  mixed $value
      * @return mixed $value
     */
-    public static function decorate($value)
+    public function decorate($value)
     {
         if (is_object($value) && method_exists($value, 'newPresenter')) {
             return $value->newPresenter();
@@ -29,7 +29,7 @@ class Decorator
 
         if (is_array($value) or ($value instanceof IteratorAggregate and $value instanceof ArrayAccess)) {
             foreach ($value as $k => $v) {
-                $value[$k] = self::decorate($v);
+                $value[$k] = $this->decorate($v);
             }
         }
 
@@ -42,7 +42,7 @@ class Decorator
      * @param $value
      * @return mixed
      */
-    public static function undecorate($value)
+    public function undecorate($value)
     {
         if ($value instanceof Presenter) {
             return $value->getObject();
@@ -50,7 +50,7 @@ class Decorator
 
         if (is_array($value) || ($value instanceof IteratorAggregate && $value instanceof ArrayAccess)) {
             foreach ($value as $k => $v) {
-                $value[$k] = self::undecorate($v);
+                $value[$k] = $this->undecorate($v);
             }
         }
 

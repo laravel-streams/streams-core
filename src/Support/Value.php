@@ -72,7 +72,7 @@ class Value
          * sending to decorate so that data_get()
          * can get into the presenter methods.
          */
-        $payload[$term] = $entry = Decorator::decorate($entry);
+        $payload[$term] = $entry = Facades\Decorator::decorate($entry);
 
         /*
          * By default we can just pass the value through

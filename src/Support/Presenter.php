@@ -2,8 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Support;
 
-use Illuminate\Foundation\Bus\DispatchesJobs;
-
 /**
  * Class Presenter
  *
@@ -59,47 +57,47 @@ class Presenter
     {
         // Check the presenter for a getter.
         if (method_exists($this, camel_case('get_' . $var))) {
-            return Decorator::decorate(call_user_func_array([$this, camel_case('get_' . $var)], []));
+            return Facades\Decorator::decorate(call_user_func_array([$this, camel_case('get_' . $var)], []));
         }
 
         // Check the presenter for a getter.
         if (method_exists($this, camel_case('is_' . $var))) {
-            return Decorator::decorate(call_user_func_array([$this, camel_case('is_' . $var)], []));
+            return Facades\Decorator::decorate(call_user_func_array([$this, camel_case('is_' . $var)], []));
         }
 
         // Check the presenter for a method.
         if (method_exists($this, camel_case($var))) {
-            return Decorator::decorate(call_user_func_array([$this, camel_case($var)], []));
+            return Facades\Decorator::decorate(call_user_func_array([$this, camel_case($var)], []));
         }
 
         // Check the object for a getter.
         if (method_exists($this->object, camel_case('get_' . $var))) {
-            return Decorator::decorate(call_user_func_array([$this->object, camel_case('get_' . $var)], []));
+            return Facades\Decorator::decorate(call_user_func_array([$this->object, camel_case('get_' . $var)], []));
         }
 
         // Check the object for a getter.
         if (method_exists($this->object, camel_case('is_' . $var))) {
-            return Decorator::decorate(call_user_func_array([$this->object, camel_case('is_' . $var)], []));
+            return Facades\Decorator::decorate(call_user_func_array([$this->object, camel_case('is_' . $var)], []));
         }
 
         // Check the object for a method.
         if (method_exists($this->object, camel_case($var))) {
-            return Decorator::decorate(call_user_func_array([$this->object, camel_case($var)], []));
+            return Facades\Decorator::decorate(call_user_func_array([$this->object, camel_case($var)], []));
         }
 
         // Check the for a getter style hook.
         if (method_exists($this->object, 'hasHook') && $this->object->hasHook('get_' . $var)) {
-            return Decorator::decorate($this->object->call('get_' . $var));
+            return Facades\Decorator::decorate($this->object->call('get_' . $var));
         }
 
         // Check the for a normal style hook.
         if (method_exists($this->object, 'hasHook') && $this->object->hasHook($var)) {
-            return Decorator::decorate($this->object->call($var));
+            return Facades\Decorator::decorate($this->object->call($var));
         }
 
         try {
             // Lastly try generic property access.
-            return Decorator::decorate(
+            return Facades\Decorator::decorate(
                 is_array($this->object) ? $this->object[$var] : $this->object->$var
             );
         } catch (\Exception $e) {
@@ -124,7 +122,7 @@ class Presenter
 
             $value = call_user_func_array([$this->object, $method], $arguments);
 
-            return Decorator::decorate($value);
+            return Facades\Decorator::decorate($value);
         }
 
         throw new \BadMethodCallException("Method {$method} does not exist.");

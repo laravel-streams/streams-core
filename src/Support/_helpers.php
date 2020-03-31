@@ -416,7 +416,7 @@ if (!function_exists('undecorate')) {
      */
     function undecorate($target)
     {
-        return app(\Anomaly\Streams\Platform\Support\Decorator::class)->undecorate($target);
+        return app(\Anomaly\Streams\Platform\Support\Facades\Decorator::class)->undecorate($target);
     }
 }
 

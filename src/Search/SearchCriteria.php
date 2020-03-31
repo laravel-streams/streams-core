@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Search;
 
 use Anomaly\Streams\Platform\Traits\Hookable;
-use Anomaly\Streams\Platform\Support\Decorator;
+use Anomaly\Streams\Platform\Support\Facades\Decorator;
 use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Model\EloquentModel;

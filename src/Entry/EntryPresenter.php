@@ -4,7 +4,7 @@ namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Support\Value;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Support\Decorator;
+use Anomaly\Streams\Platform\Support\Facades\Decorator;
 use Anomaly\Streams\Platform\Support\Presenter;
 
 /**

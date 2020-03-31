@@ -3,7 +3,7 @@
 use Tests\TestCase;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Entry\EntryPresenter;
-use Anomaly\Streams\Platform\Support\Decorator;
+use Anomaly\Streams\Platform\Support\Facades\Decorator;
 
 class DecoratorTest extends TestCase
 {
