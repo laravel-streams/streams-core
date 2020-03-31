@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Support\Locator;
+use Anomaly\Streams\Platform\Support\Facades\Locator;
 
 /**
  * Class StreamInput

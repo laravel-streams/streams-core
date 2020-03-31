@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Http\Middleware;
 
-use Anomaly\Streams\Platform\Support\Locator;
+use Anomaly\Streams\Platform\Support\Facades\Locator;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;

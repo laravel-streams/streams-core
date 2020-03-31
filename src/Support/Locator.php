@@ -22,7 +22,7 @@ class Locator
      * @param $object
      * @return null|string
      */
-    public static function locate($object)
+    public function locate($object)
     {
         if (
             is_object($object)
