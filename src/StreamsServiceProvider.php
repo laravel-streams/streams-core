@@ -106,6 +106,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->addViewNamespaces();
         $this->loadTranslations();
         $this->setActiveTheme();
+        $this->extendStr();
 
         /**
          * Register core commands.
@@ -135,9 +136,6 @@ class StreamsServiceProvider extends ServiceProvider
                 \Anomaly\Streams\Platform\Application\Console\Refresh::class,
             ]);
         }
-
-        $this->app->booted(function () {
-        });
 
         /**
          * Register publishables.

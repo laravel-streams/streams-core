@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Support;
 
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Support\Arrayable;
 
 /**
@@ -123,7 +124,7 @@ class Value
          * safe then escape it automatically.
          */
         if (is_string($value) && array_get($parameters, 'is_safe') !== true) {
-            $value = app(Purifier::class)->purify($value);
+            $value = Str::purify($value);
         }
 
         /*
