@@ -74,7 +74,7 @@ class PlaceholdersGuesser
 
             if (
                 !trans()->has($filter['placeholder'])
-                && config('streams::system.lazy_translations')
+                && config('streams.system.lazy_translations')
             ) {
                 $filter['placeholder'] = ucwords(humanize($filter['placeholder']));
             }

@@ -47,7 +47,7 @@ class TitleGuesser
                 $shortcut['title'] = $title;
             }
 
-            if (!isset($shortcut['title']) && config('streams::system.lazy_translations')) {
+            if (!isset($shortcut['title']) && config('streams.system.lazy_translations')) {
                 $shortcut['title'] = ucwords(humanize($shortcut['slug']));
             }
 

@@ -74,7 +74,7 @@ class SetDefaultOptions
         if ($table->getOption('limit') === null) {
             $table->setOption(
                 'limit',
-                $builder->getRequestValue('limit', config('streams::system.per_page', 15))
+                $builder->getRequestValue('limit', config('streams.system.per_page', 15))
             );
         }
 

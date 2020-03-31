@@ -40,7 +40,7 @@ class ForceSsl
      */
     public function handle(Request $request, Closure $next)
     {
-        $force = config('streams::system.force_ssl', false);
+        $force = config('streams.system.force_ssl', false);
 
         if ($force && !$request->isSecure()) {
             return $this->redirect->secure($request->getRequestUri(), 301);

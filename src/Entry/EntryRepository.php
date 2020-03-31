@@ -177,7 +177,7 @@ class EntryRepository implements EntryRepositoryInterface
     public function paginate(array $parameters = [])
     {
         $paginator = array_pull($parameters, 'paginator');
-        $perPage   = array_pull($parameters, 'per_page', config('streams::system.per_page', 15));
+        $perPage   = array_pull($parameters, 'per_page', config('streams.system.per_page', 15));
 
         /* @var Builder $query */
         $query = $this->model->newQuery();

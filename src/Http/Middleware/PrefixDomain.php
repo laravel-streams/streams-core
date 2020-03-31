@@ -40,7 +40,7 @@ class PrefixDomain
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!$prefix = config('streams::system.domain_prefix')) {
+        if (!$prefix = config('streams.system.domain_prefix')) {
             return $next($request);
         }
 

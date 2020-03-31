@@ -91,7 +91,7 @@ class TableRepository implements TableRepositoryInterface
          */
         $limit  = (int) app('request')->get(
             $builder->getTableOption('prefix') . 'limit',
-            $builder->getTableOption('limit', config('streams::system.per_page', 15))
+            $builder->getTableOption('limit', config('streams.system.per_page', 15))
         );
         $page   = (int) app('request')->get($builder->getTableOption('prefix') . 'page', 1);
         $offset = $limit * (($page ?: 1) - 1);

@@ -126,7 +126,7 @@ class HeadingsGuesser
              * the heading matches the value (default)
              * then humanize the heading value.
              */
-            if (!isset($column['heading']) && config('streams::system.lazy_translations')) {
+            if (!isset($column['heading']) && config('streams.system.lazy_translations')) {
                 $column['heading'] = ucwords(humanize($column['field']));
             }
 
@@ -139,7 +139,7 @@ class HeadingsGuesser
                 isset($column['heading']) &&
                 str_is('*.*.*::*', $column['heading']) &&
                 !trans()->has($column['heading']) &&
-                config('streams::system.lazy_translations')
+                config('streams.system.lazy_translations')
             ) {
                 $column['heading'] = ucwords(humanize($column['field']));
             }

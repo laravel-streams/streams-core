@@ -386,7 +386,7 @@ class StreamsServiceProvider extends ServiceProvider
         $trans = trans();
         $assets = assets();
 
-        if ($default = config('streams::themes.default')) {
+        if ($default = config('streams.themes.default')) {
 
             $path = app($default)->getPath();
 
@@ -408,7 +408,7 @@ class StreamsServiceProvider extends ServiceProvider
             $image->addPath('theme', $path);
         }
 
-        if ($admin = config('streams::themes.admin')) {
+        if ($admin = config('streams.themes.admin')) {
 
             $path = app($admin)->getPath();
 
@@ -433,10 +433,10 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function setActiveTheme()
     {
-        $theme = config('streams::themes.default');
+        $theme = config('streams.themes.default');
 
         if (request()->segment(1) == 'admin') {
-            $theme = config('streams::themes.admin');
+            $theme = config('streams.themes.admin');
         }
 
         app('theme.collection')->setActive($theme);
