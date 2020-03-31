@@ -63,7 +63,7 @@ class EntryPresenter extends Presenter implements Arrayable
     public function createdAtDate()
     {
         return $this->object->created_at
-            ->format(config('streams::datetime.date_format'));
+            ->format(config('streams.datetime.date_format'));
     }
 
     /**
@@ -74,7 +74,7 @@ class EntryPresenter extends Presenter implements Arrayable
     public function createdAtDatetime()
     {
         return $this->object->created_at
-            ->format(config('streams::datetime.date_format') . ' ' . config('streams::datetime.time_format'));
+            ->format(config('streams.datetime.date_format') . ' ' . config('streams.datetime.time_format'));
     }
 
     /**
@@ -85,7 +85,7 @@ class EntryPresenter extends Presenter implements Arrayable
     public function updatedAtDate()
     {
         return $this->object->updated_at
-            ->format(config('streams::datetime.date_format'));
+            ->format(config('streams.datetime.date_format'));
     }
 
     /**
@@ -96,7 +96,7 @@ class EntryPresenter extends Presenter implements Arrayable
     public function updatedAtDatetime()
     {
         return $this->object->updated_at
-            ->format(config('streams::datetime.date_format') . ' ' . config('streams::datetime.time_format'));
+            ->format(config('streams.datetime.date_format') . ' ' . config('streams.datetime.time_format'));
     }
 
     /**
@@ -107,7 +107,7 @@ class EntryPresenter extends Presenter implements Arrayable
     public function lastModifiedDate()
     {
         return $this->object->lastModified()
-            ->format(config('streams::datetime.date_format'));
+            ->format(config('streams.datetime.date_format'));
     }
 
     /**
@@ -118,7 +118,7 @@ class EntryPresenter extends Presenter implements Arrayable
     public function lastModifiedDatetime()
     {
         return $this->object->lastModified()
-            ->format(config('streams::datetime.date_format') . ' ' . config('streams::datetime.time_format'));
+            ->format(config('streams.datetime.date_format') . ' ' . config('streams.datetime.time_format'));
     }
 
     /**
