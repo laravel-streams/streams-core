@@ -2,9 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Support;
 
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-
-use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Contracts\Support\Arrayable;
 
 /**
@@ -78,7 +75,7 @@ class Value
          * By default we can just pass the value through
          * the evaluator utility and be done with it.
          */
-        $value = Evaluator::evaluate($value, $payload);
+        $value = Facades\Evaluator::evaluate($value, $payload);
 
         /*
          * Lastly, parse the entry intro the string
