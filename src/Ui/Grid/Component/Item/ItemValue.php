@@ -6,7 +6,7 @@ use Illuminate\View\View;
 use StringTemplate\Engine;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Facades\Decorator;
-use Anomaly\Streams\Platform\Support\Evaluator;
+use Anomaly\Streams\Platform\Support\Facades\Evaluator;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;

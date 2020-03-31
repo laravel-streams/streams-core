@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Command;
+<?php
 
-use Anomaly\Streams\Platform\Support\Evaluator;
-use Anomaly\Streams\Platform\Support\Resolver;
+namespace Anomaly\Streams\Platform\Ui\Tree\Command;
+
+use Anomaly\Streams\Platform\Support\Facades\Evaluator;
+use Anomaly\Streams\Platform\Support\Facades\Resolver;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 
 /**
@@ -33,11 +35,8 @@ class SetTreeOptions
 
     /**
      * Handle the command.
-     *
-     * @param Resolver  $resolver
-     * @param Evaluator $evaluator
      */
-    public function handle(Resolver $resolver, Evaluator $evaluator)
+    public function handle()
     {
         $arguments = ['builder' => $this->builder];
 
@@ -45,8 +44,8 @@ class SetTreeOptions
 
         $options = $this->builder->getOptions();
 
-        $options = $resolver->resolve($options, $arguments);
-        $options = $evaluator->evaluate($options, $arguments);
+        $options = Resolver::resolve($options, $arguments);
+        $options = Evaluator::evaluate($options, $arguments);
 
         foreach ($options as $key => $value) {
             $tree->setOption($key, $value);

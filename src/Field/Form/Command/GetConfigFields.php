@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Field\Form\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Field\Form\Command;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Support\Evaluator;
+use Anomaly\Streams\Platform\Support\Facades\Evaluator;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -41,16 +43,14 @@ class GetConfigFields
 
     /**
      * Handle the command.
-     *
-     * @param Evaluator $evaluator
      */
-    public function handle(Evaluator $evaluator)
+    public function handle()
     {
         if (!$fields = config($this->fieldType->getNamespace('config/config'))) {
             $fields = config($this->fieldType->getNamespace('config'), []);
         }
 
-        $fields = $evaluator->evaluate($fields);
+        $fields = Evaluator::evaluate($fields);
 
         foreach ($fields as $slug => $field) {
 

@@ -2,10 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item;
 
-use Anomaly\Streams\Platform\Support\Evaluator;
-use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Button\ButtonBuilder;
-use Anomaly\Streams\Platform\Ui\Tree\Component\Item;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\SegmentBuilder;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 

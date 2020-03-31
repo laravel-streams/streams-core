@@ -2,8 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
 
-use Anomaly\Streams\Platform\Support\Evaluator;
-use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowFactory;
 use Anomaly\Streams\Platform\Ui\Table\Component\Button\ButtonBuilder;
@@ -47,7 +45,7 @@ class RowBuilder
             $row['table'] = $builder->getTable();
 
             $row = evaluate($row, compact('builder', 'entry'));
-            
+
             $builder->addTableRow($row = $factory->make($row));
         }
     }

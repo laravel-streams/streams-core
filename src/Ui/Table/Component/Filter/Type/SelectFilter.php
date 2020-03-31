@@ -2,10 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
 
-use Anomaly\SelectFieldType\SelectFieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
-use Anomaly\Streams\Platform\Support\Evaluator;
-use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\SelectFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 

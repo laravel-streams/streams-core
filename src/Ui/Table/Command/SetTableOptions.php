@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php
 
-use Anomaly\Streams\Platform\Support\Evaluator;
-use Anomaly\Streams\Platform\Support\Resolver;
+namespace Anomaly\Streams\Platform\Ui\Table\Command;
+
+use Anomaly\Streams\Platform\Support\Facades\Evaluator;
+use Anomaly\Streams\Platform\Support\Facades\Resolver;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -17,14 +19,12 @@ class SetTableOptions
     /**
      * Handle the command.
      *
-     * @param Resolver  $resolver
-     * @param Evaluator $evaluator
      * @param TableBuilder $builder
      */
-    public function handle(Resolver $resolver, Evaluator $evaluator, TableBuilder $builder)
+    public function handle(TableBuilder $builder)
     {
-        $evaluator->evaluate(
-            $resolver->resolve($builder->getOptions(), ['builder' => $builder]),
+        Evaluator::evaluate(
+            Resolver::resolve($builder->getOptions(), ['builder' => $builder]),
             ['builder' => $builder]
         );
 

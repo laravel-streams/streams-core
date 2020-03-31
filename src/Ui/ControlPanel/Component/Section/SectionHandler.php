@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Support\Resolver;
+use Anomaly\Streams\Platform\Support\Facades\Resolver;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Event\GatherSections;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
@@ -23,22 +25,13 @@ class SectionHandler
     protected $modules;
 
     /**
-     * The resolver utility.
-     *
-     * @var Resolver
-     */
-    protected $resolver;
-
-    /**
      * Create a new SectionHandler instance.
      *
      * @param ModuleCollection $modules
-     * @param Resolver $resolver
      */
-    public function __construct(ModuleCollection $modules, Resolver $resolver)
+    public function __construct(ModuleCollection $modules)
     {
         $this->modules  = $modules;
-        $this->resolver = $resolver;
     }
 
     /**
@@ -79,7 +72,7 @@ class SectionHandler
          * let that HANDLE the sections.
          */
         if (!$sections && class_exists($sections = get_class($module) . 'Sections')) {
-            $this->resolver->resolve($sections . '@handle', compact('builder'));
+            Resolver::resolve($sections . '@handle', compact('builder'));
         }
 
         event(new GatherSections($builder));

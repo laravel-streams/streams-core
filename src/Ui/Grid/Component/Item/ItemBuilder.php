@@ -2,9 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Grid\Component\Item;
 
-use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Grid\Component\Button\ButtonBuilder;
-use Anomaly\Streams\Platform\Ui\Grid\Component\Item;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 
 /**

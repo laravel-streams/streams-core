@@ -1,6 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button;
+<?php
 
-use Anomaly\Streams\Platform\Support\Resolver;
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button;
+
+use Anomaly\Streams\Platform\Support\Facades\Resolver;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
@@ -14,29 +16,12 @@ class ButtonResolver
 {
 
     /**
-     * The resolver utility.
-     *
-     * @var Resolver
-     */
-    protected $resolver;
-
-    /**
-     * Create a new ButtonResolver instance.
-     *
-     * @param Resolver $resolver
-     */
-    public function __construct(Resolver $resolver)
-    {
-        $this->resolver = $resolver;
-    }
-
-    /**
      * Resolve table views.
      *
      * @param ControlPanelBuilder $builder
      */
     public function resolve(ControlPanelBuilder $builder)
     {
-        
+        // @todo Resolving something here?
     }
 }

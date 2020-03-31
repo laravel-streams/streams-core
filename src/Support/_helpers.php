@@ -650,7 +650,7 @@ if (!function_exists('resolver')) {
      */
     function resolver($target, array $arguments = [], array $options = [])
     {
-        return \Anomaly\Streams\Platform\Support\Resolver::resolve($target, $arguments, $options);
+        return \Anomaly\Streams\Platform\Support\Facades\Resolver::resolve($target, $arguments, $options);
     }
 }
 

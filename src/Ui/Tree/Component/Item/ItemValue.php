@@ -6,7 +6,7 @@ use Illuminate\View\View;
 use StringTemplate\Engine;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Facades\Decorator;
-use Anomaly\Streams\Platform\Support\Evaluator;
+use Anomaly\Streams\Platform\Support\Facades\Evaluator;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
@@ -29,23 +29,15 @@ class ItemValue
     protected $parser;
 
     /**
-     * The evaluator utility.
-     *
-     * @var Evaluator
-     */
-    protected $evaluator;
-
-    /**
      * Create a new ItemValue instance.
      *
      * @param Engine    $parser
      * @param Evaluator $evaluator
      * @param Decorator $decorator
      */
-    public function __construct(Engine $parser, Evaluator $evaluator)
+    public function __construct(Engine $parser)
     {
         $this->parser    = $parser;
-        $this->evaluator = $evaluator;
     }
 
     /**

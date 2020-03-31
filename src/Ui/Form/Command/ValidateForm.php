@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\Support\Resolver;
+use Anomaly\Streams\Platform\Support\Facades\Resolver;
 use Illuminate\Contracts\Container\Container;
 
 /**

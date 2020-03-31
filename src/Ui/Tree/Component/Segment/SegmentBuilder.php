@@ -2,8 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
 
-use Anomaly\Streams\Platform\Support\Evaluator;
-use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 
 /**

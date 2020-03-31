@@ -27,7 +27,7 @@ class Resolver
      * @param array $options
      * @return mixed
      */
-    public static function resolve($target, array $arguments = [], array $options = [])
+    public function resolve($target, array $arguments = [], array $options = [])
     {
         $method = array_get($options, 'method', 'handle');
 

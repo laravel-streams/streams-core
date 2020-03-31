@@ -2,10 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Ui\Tree\Component\Button;
 
-use Anomaly\Streams\Platform\Support\Evaluator;
-use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
-use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
+use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
+use Anomaly\Streams\Platform\Support\Facades\Evaluator;
+use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 
 /**
  * Class ButtonBuilder
@@ -39,7 +39,7 @@ class ButtonBuilder
                 continue;
             }
 
-            $button = $this->evaluator->evaluate($button, compact('entry', 'tree'));
+            $button = Evaluator::evaluate($button, compact('entry', 'tree'));
             $button = $this->parser->parse($button, $entry);
 
             $button = $this->factory->make($button);

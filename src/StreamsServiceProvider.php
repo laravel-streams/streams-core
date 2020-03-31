@@ -53,6 +53,7 @@ class StreamsServiceProvider extends ServiceProvider
         'messages'  => \Anomaly\Streams\Platform\Message\MessageManager::class,
 
         'locator' => \Anomaly\Streams\Platform\Support\Locator::class,
+        'resolver' => \Anomaly\Streams\Platform\Support\Resolver::class,
         'hydrator' => \Anomaly\Streams\Platform\Support\Hydrator::class,
         'decorator' => \Anomaly\Streams\Platform\Support\Decorator::class,
         'evaluator' => \Anomaly\Streams\Platform\Support\Evaluator::class,
@@ -64,12 +65,6 @@ class StreamsServiceProvider extends ServiceProvider
         \Anomaly\Streams\Platform\Routing\UrlGenerator::class    => \Anomaly\Streams\Platform\Routing\UrlGenerator::class,
         \Anomaly\Streams\Platform\Addon\AddonCollection::class   => \Anomaly\Streams\Platform\Addon\AddonCollection::class,
         \Anomaly\Streams\Platform\Application\Application::class => \Anomaly\Streams\Platform\Application\Application::class,
-
-        \Anomaly\Streams\Platform\Support\Parser::class     => \Anomaly\Streams\Platform\Support\Parser::class,
-        \Anomaly\Streams\Platform\Support\Hydrator::class   => \Anomaly\Streams\Platform\Support\Hydrator::class,
-        \Anomaly\Streams\Platform\Support\Resolver::class   => \Anomaly\Streams\Platform\Support\Resolver::class,
-        \Anomaly\Streams\Platform\Support\Authorizer::class => \Anomaly\Streams\Platform\Support\Authorizer::class,
-        \Anomaly\Streams\Platform\Support\Translator::class => \Anomaly\Streams\Platform\Support\Translator::class,
 
         \Anomaly\Streams\Platform\Addon\AddonManager::class => \Anomaly\Streams\Platform\Addon\AddonManager::class,
 

@@ -2,9 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
-use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Support\Resolver;
+use Anomaly\Streams\Platform\Support\Facades\Resolver;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Event\GatherShortcuts;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
@@ -26,22 +25,13 @@ class ShortcutHandler
     protected $modules;
 
     /**
-     * The resolver utility.
-     *
-     * @var Resolver
-     */
-    protected $resolver;
-
-    /**
      * Create a new ShortcutHandler instance.
      *
      * @param ModuleCollection $modules
-     * @param Resolver $resolver
      */
-    public function __construct(ModuleCollection $modules, Resolver $resolver)
+    public function __construct(ModuleCollection $modules)
     {
         $this->modules  = $modules;
-        $this->resolver = $resolver;
     }
 
     /**
@@ -60,6 +50,7 @@ class ShortcutHandler
 
         /* @var Module $module */
         foreach ($this->modules->instances() as $module) {
+
             $shortcuts = $module->getShortcuts();
 
             if ($shortcuts && is_array($shortcuts)) {
@@ -67,7 +58,7 @@ class ShortcutHandler
             }
 
             if ($shortcuts && is_string($shortcuts)) {
-                $this->resolver->resolve($shortcuts . '@handle', compact('builder'));
+                Resolver::resolve($shortcuts . '@handle', compact('builder'));
             }
 
             /*
@@ -75,7 +66,7 @@ class ShortcutHandler
              * let that HANDLE the shortcuts.
              */
             if (!$shortcuts && class_exists($shortcuts = get_class($module) . 'Shortcuts')) {
-                $this->resolver->resolve($shortcuts . '@handle', compact('builder'));
+                Resolver::resolve($shortcuts . '@handle', compact('builder'));
             }
         }
 

@@ -1,6 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Component\Button;
+<?php
 
-use Anomaly\Streams\Platform\Support\Evaluator;
+namespace Anomaly\Streams\Platform\Ui\Grid\Component\Button;
+
+use Anomaly\Streams\Platform\Support\Facades\Evaluator;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
@@ -37,13 +39,6 @@ class ButtonBuilder
     protected $factory;
 
     /**
-     * The evaluator utility.
-     *
-     * @var Evaluator
-     */
-    protected $evaluator;
-
-    /**
      * Create a new ButtonBuilder instance.
      *
      * @param ButtonInput   $input
@@ -51,12 +46,11 @@ class ButtonBuilder
      * @param ButtonFactory $factory
      * @param Evaluator     $evaluator
      */
-    public function __construct(ButtonInput $input, ButtonParser $parser, ButtonFactory $factory, Evaluator $evaluator)
+    public function __construct(ButtonInput $input, ButtonParser $parser, ButtonFactory $factory)
     {
         $this->input     = $input;
         $this->parser    = $parser;
         $this->factory   = $factory;
-        $this->evaluator = $evaluator;
     }
 
     /**
@@ -79,7 +73,7 @@ class ButtonBuilder
                 continue;
             }
 
-            $button = $this->evaluator->evaluate($button, compact('entry', 'grid'));
+            $button = Evaluator::evaluate($button, compact('entry', 'grid'));
             $button = $this->parser->parser($button, $entry);
 
             $button = $this->factory->make($button);
