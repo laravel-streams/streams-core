@@ -5,8 +5,6 @@ namespace Anomaly\Streams\Platform;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener\FilterResults;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Listener\ApplyView;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
-use Anomaly\Streams\Platform\Support\Event\ViewComposed;
-use Anomaly\Streams\Platform\Support\Listener\DecorateData;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 
 /**
