@@ -297,6 +297,16 @@ class FieldCollection extends Collection
     }
 
     /**
+     * Map attributes to get.
+     *
+     * @param string $key
+     */
+    public function __get($key)
+    {
+        return $this->get($key);
+    }
+
+    /**
      * Return the field partial.
      *
      * @return string

@@ -62,14 +62,14 @@ class EntryQueryBuilder extends Builder
      */
     public function cache($ttl = null)
     {
-        if (!config('streams::database.cache', false)) {
+        if (!config('streams.database.cache', false)) {
             $this->model->setTtl(0);
 
             return $this;
         }
 
         if ($ttl === null) {
-            $ttl = config('streams::database.ttl', 3600);
+            $ttl = config('streams.database.ttl', 3600);
         }
 
         $this->model->setTtl($ttl);

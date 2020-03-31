@@ -92,7 +92,7 @@ class FormCriteria
     {
         $this->build();
 
-        return (new Decorator())->decorate($this->builder->make()->getForm());
+        return Decorator::decorate($this->builder->make()->getForm());
     }
 
     /**
@@ -151,7 +151,7 @@ class FormCriteria
 
         foreach ($this->parameters as $method => $arguments) {
             if (method_exists($this->builder, $method)) {
-                call_user_func([$this->builder, $method], (new Decorator())->undecorate($arguments));
+                call_user_func([$this->builder, $method], Decorator::undecorate($arguments));
             }
         }
 
@@ -202,7 +202,7 @@ class FormCriteria
 
         foreach ($this->parameters as $method => $arguments) {
             if (method_exists($this->builder, $method)) {
-                call_user_func([$this->builder, $method], (new Decorator())->undecorate($arguments));
+                call_user_func([$this->builder, $method], Decorator::undecorate($arguments));
             }
         }
 
@@ -229,35 +229,35 @@ class FormCriteria
     {
         if (method_exists($this, $method = camel_case('set_' . $name))) {
 
-            call_user_func([$this, $method], (new Decorator())->undecorate(array_shift($arguments)));
+            call_user_func([$this, $method], Decorator::undecorate(array_shift($arguments)));
 
             return $this;
         }
 
         if (method_exists($this, $method = camel_case('add_' . $name))) {
 
-            call_user_func([$this, $method], (new Decorator())->undecorate(array_shift($arguments)));
+            call_user_func([$this, $method], Decorator::undecorate(array_shift($arguments)));
 
             return $this;
         }
 
         if (method_exists($this->builder, $method = camel_case($name))) {
 
-            array_set($this->parameters, $method, (new Decorator())->undecorate($arguments));
+            array_set($this->parameters, $method, Decorator::undecorate($arguments));
 
             return $this;
         }
 
         if (method_exists($this->builder, camel_case('set_' . $name))) {
 
-            array_set($this->parameters, $name, (new Decorator())->undecorate(array_shift($arguments)));
+            array_set($this->parameters, $name, Decorator::undecorate(array_shift($arguments)));
 
             return $this;
         }
 
         if (method_exists($this->builder, camel_case('add_' . $name))) {
 
-            array_set($this->parameters, $name, (new Decorator())->undecorate(array_shift($arguments)));
+            array_set($this->parameters, $name, Decorator::undecorate(array_shift($arguments)));
 
             return $this;
         }
@@ -266,7 +266,7 @@ class FormCriteria
 
             $key = snake_case($name);
 
-            array_set($this->parameters, "options.{$key}", (new Decorator())->undecorate(array_shift($arguments)));
+            array_set($this->parameters, "options.{$key}", Decorator::undecorate(array_shift($arguments)));
 
             return $this;
         }

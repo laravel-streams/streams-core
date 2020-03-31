@@ -5,16 +5,16 @@ return [
         'env'         => 'APP_NAME',
         'bind'        => 'app.name',
         'type'        => 'anomaly.field_type.text',
-        'placeholder' => config('streams::distribution.name'),
+        'placeholder' => config('streams.distribution.name'),
         'config'      => [
-            'default_value' => config('streams::distribution.name'),
+            'default_value' => config('streams.distribution.name'),
         ],
     ],
     'description'           => [
         'type'   => 'anomaly.field_type.text',
         'bind'   => 'app.description',
         'config' => [
-            'default_value' => config('streams::distribution.description'),
+            'default_value' => config('streams.distribution.description'),
         ],
     ],
     'domain'                => [
@@ -222,7 +222,7 @@ return [
         'type'     => 'anomaly.field_type.text',
         'required' => true,
         'config'   => [
-            'default_value' => config('streams::distribution.name'),
+            'default_value' => config('streams.distribution.name'),
         ],
     ],
     'mail_driver'           => [

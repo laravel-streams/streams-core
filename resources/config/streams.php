@@ -86,6 +86,43 @@ return [
         'version' => env('VERSION_ASSETS', true),
     ],    
 
+    'database' => [
+
+        /*
+        |--------------------------------------------------------------------------
+        | DB Cache
+        |--------------------------------------------------------------------------
+        |
+        | Enable database query caching?
+        |
+        */
+    
+        'cache' => env('DB_CACHE', false),
+    
+        /*
+        |--------------------------------------------------------------------------
+        | Default TTL
+        |--------------------------------------------------------------------------
+        |
+        | What is the default TTL value (seconds)?
+        |
+        */
+    
+        'ttl' => env('DB_CACHE_TTL', 3600),
+    
+        /*
+        |--------------------------------------------------------------------------
+        | Storage Localization
+        |--------------------------------------------------------------------------
+        |
+        | Define the storage localization options for your database.
+        |
+        */
+    
+        'separator' => ',',
+        'point'     => '.',
+    ],
+
     'datetime' => [
 
         /*
@@ -114,5 +151,21 @@ return [
 
         'default_timezone'  => env('DEFAULT_TIMEZONE', date_default_timezone_get()),
         'database_timezone' => env('DATABASE_TIMEZONE', date_default_timezone_get()),
-    ]
+    ],
+
+    'distribution' => [
+
+        /*
+        |--------------------------------------------------------------------------
+        | Distribution
+        |--------------------------------------------------------------------------
+        |
+        | These values provide very basic identification for the distribution.
+        |
+        */
+    
+        'name'        => 'Streams Platform',
+        'description' => 'Streams is an abstracted modular platform for developing web applications.',
+        'version'     => 'v2.0',
+    ],
 ];
