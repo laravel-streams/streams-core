@@ -2,13 +2,18 @@
 
 namespace Anomaly\Streams\Platform;
 
+use Exception;
 use Misd\Linkify\Linkify;
 use Illuminate\Support\Str;
+use Illuminate\View\Factory;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Collection;
 use Anomaly\Streams\Platform\Addon\AddonModel;
 use Anomaly\Streams\Platform\Support\Purifier;
+use Anomaly\Streams\Platform\View\ViewIncludes;
 use Anomaly\Streams\Platform\Asset\Facades\Assets;
 use Anomaly\Streams\Platform\Image\Facades\Images;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
@@ -47,6 +52,7 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $singletons = [
+        'includes' => \Anomaly\Streams\Platform\View\ViewIncludes::class,
         'assets'   => \Anomaly\Streams\Platform\Asset\AssetManager::class,
         'images'   => \Anomaly\Streams\Platform\Image\ImageManager::class,
         'streams'  => \Anomaly\Streams\Platform\Stream\StreamManager::class,
@@ -58,6 +64,7 @@ class StreamsServiceProvider extends ServiceProvider
         'decorator' => \Anomaly\Streams\Platform\Support\Decorator::class,
         'evaluator' => \Anomaly\Streams\Platform\Support\Evaluator::class,
 
+        \Anomaly\Streams\Platform\View\ViewIncludes::class  => \Anomaly\Streams\Platform\View\ViewIncludes::class,
         \Anomaly\Streams\Platform\Asset\AssetManager::class => \Anomaly\Streams\Platform\Asset\AssetManager::class,
         \Anomaly\Streams\Platform\Image\ImageManager::class => \Anomaly\Streams\Platform\Image\ImageManager::class,
 
@@ -106,6 +113,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->addViewNamespaces();
         $this->loadTranslations();
         $this->setActiveTheme();
+        $this->extendView();
         $this->extendStr();
 
         /**
@@ -424,6 +432,53 @@ class StreamsServiceProvider extends ServiceProvider
         }
 
         app('theme.collection')->setActive($theme);
+    }
+
+    /**
+     * Extend the view system.
+     */
+    protected function extendView()
+    {
+        Factory::macro('parse', function ($template, array $payload = []) {
+
+            $view = 'support/parsed/' . md5($template);
+
+            $path = application()->getStoragePath($view);
+
+            if (!is_dir($directory = dirname($path))) {
+                File::makeDirectory($directory, 0766, true);
+            }
+
+            if (!file_exists($path . '.blade.php')) {
+                file_put_contents($path . '.blade.php', $template);
+            }
+
+            return View::make($path, $payload);
+        });
+
+        Factory::macro('include', function ($slot, $include = null) {
+
+            if (is_array($slot)) {
+
+                foreach ($slot as $name => $includes) {
+                    foreach ($includes as $include) {
+                        View::include($name, $include);
+                    }
+                }
+
+                return;
+            }
+
+            app(ViewIncludes::class)->include($slot, $include);
+        });
+
+        Factory::macro('includes', function ($slot, array $payload = []) {
+            return app('includes')->get($slot, function () {
+                return new Collection;
+            })->map(function ($item) use ($payload) {
+                return View::make($item, $payload)->render();
+            })->implode("\n");
+        });
     }
 
     /**

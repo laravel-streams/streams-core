@@ -2,16 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Asset;
 
-use JSMin\JSMin;
-use Illuminate\Http\Request;
 use Collective\Html\HtmlBuilder;
-use tubalmartin\CssMin\Minifier;
-use League\Flysystem\MountManager;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Filesystem\Filesystem;
-use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
-use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 
 /**
  * Class AssetManager
@@ -71,27 +64,6 @@ class AssetManager
     protected $paths;
 
     /**
-     * The request object.
-     *
-     * @var Request
-     */
-    protected $request;
-
-    /**
-     * The theme collection.
-     *
-     * @var ThemeCollection
-     */
-    protected $themes;
-
-    /**
-     * The mount manager.
-     *
-     * @var MountManager
-     */
-    protected $manager;
-
-    /**
      * The asset registry.
      *
      * @var AssetRegistry
@@ -99,45 +71,26 @@ class AssetManager
     protected $registry;
 
     /**
-     * The template utility.
-     *
-     * @var Template
-     */
-    protected $template;
-
-    /**
      * Create a new Asset instance.
      *
-     * @param ThemeCollection $themes
      * @param AssetRegistry $registry
-     * @param MountManager $manager
-     * @param Template $template
      * @param Filesystem $files
      * @param AssetPaths $paths
      * @param HtmlBuilder $html
-     * @param Request $request
      * @param UrlGenerator $url
      */
     public function __construct(
-        ThemeCollection $themes,
         AssetRegistry $registry,
-        MountManager $manager,
-        Template $template,
         Filesystem $files,
         AssetPaths $paths,
         HtmlBuilder $html,
-        Request $request,
         UrlGenerator $url
     ) {
         $this->url      = $url;
         $this->html     = $html;
         $this->files    = $files;
         $this->paths    = $paths;
-        $this->themes   = $themes;
-        $this->request  = $request;
-        $this->manager  = $manager;
         $this->registry = $registry;
-        $this->template = $template;
     }
 
     /**
