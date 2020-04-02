@@ -21,6 +21,8 @@ use Anomaly\Streams\Platform\Asset\Facades\Assets;
 use Anomaly\Streams\Platform\Image\Facades\Images;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Translation\Translator;
 
 /**
  * Class StreamsServiceProvider
@@ -117,6 +119,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->addViewNamespaces();
         $this->loadTranslations();
         $this->setActiveTheme();
+        $this->extendLang();
         $this->extendView();
         $this->extendArr();
         $this->extendStr();
@@ -437,6 +440,27 @@ class StreamsServiceProvider extends ServiceProvider
         }
 
         app('theme.collection')->setActive($theme);
+    }
+
+    /**
+     * Extend the lang system.
+     */
+    protected function extendLang()
+    {
+        Translator::macro('translate', function ($target) {
+
+            if (is_array($target)) {
+                foreach ($target as &$value) {
+                    $value = Lang::translate($value);
+                }
+            }
+
+            if (is_string($target) && Lang::has($target)) {
+                return Lang::trans($target);
+            }
+
+            return $target;
+        });
     }
 
     /**

@@ -2,9 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Button;
 
+use Illuminate\Support\Facades\Lang;
 use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Support\Translator;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 
 /**
@@ -50,22 +50,19 @@ class ButtonFactory
      *
      * @param ButtonRegistry $buttons
      * @param Authorizer     $authorizer
-     * @param Translator     $translator
      */
     public function __construct(
         ButtonRegistry $buttons,
-        Authorizer $authorizer,
-        Translator $translator
+        Authorizer $authorizer
     ) {
         $this->buttons    = $buttons;
         $this->authorizer = $authorizer;
-        $this->translator = $translator;
     }
 
     /**
      * Make a button.
      *
-     * @param  array           $parameters
+     * @param  array $parameters
      * @return ButtonInterface
      */
     public function make(array $parameters)
@@ -76,7 +73,7 @@ class ButtonFactory
             $parameters = array_replace_recursive($registered, array_except($parameters, 'button'));
         }
 
-        $parameters = $this->translator->translate($parameters);
+        $parameters = Lang::translate($parameters);
 
         if (!array_get($parameters, 'button') || !class_exists(array_get($parameters, 'button'))) {
             array_set($parameters, 'button', $this->button);

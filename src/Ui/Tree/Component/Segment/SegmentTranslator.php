@@ -1,6 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
+<?php
 
-use Anomaly\Streams\Platform\Support\Translator;
+namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
+
+use Illuminate\Support\Facades\Lang;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 
 /**
@@ -14,29 +16,12 @@ class SegmentTranslator
 {
 
     /**
-     * The translator instance.
-     *
-     * @var Translator
-     */
-    protected $translator;
-
-    /**
-     * Create a new SegmentTranslator instance.
-     *
-     * @param Translator $translator
-     */
-    public function __construct(Translator $translator)
-    {
-        $this->translator = $translator;
-    }
-
-    /**
      * Translate the tree segments.
      *
      * @param TreeBuilder $builder
      */
     public function translate(TreeBuilder $builder)
     {
-        $builder->setSegments($this->translator->translate($builder->getSegments()));
+        $builder->setSegments(Lang::translate($builder->getSegments()));
     }
 }
