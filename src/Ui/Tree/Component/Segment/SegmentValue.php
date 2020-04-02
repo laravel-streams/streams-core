@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
 
-use Anomaly\Streams\Platform\Support\Value;
+use Anomaly\Streams\Platform\Ui\Support\Value;
 use Anomaly\Streams\Platform\Ui\Tree\Tree;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\View\View;

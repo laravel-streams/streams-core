@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Entry;
 
-use Anomaly\Streams\Platform\Support\Value;
+use Anomaly\Streams\Platform\Ui\Support\Value;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Facades\Decorator;
 use Anomaly\Streams\Platform\Support\Presenter;

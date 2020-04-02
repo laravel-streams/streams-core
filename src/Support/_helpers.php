@@ -3,7 +3,7 @@
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Support\Value;
+use Anomaly\Streams\Platform\Ui\Support\Value;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Image\ImageManager;

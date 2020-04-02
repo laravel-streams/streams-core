@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Guesser;
 
-use Anomaly\Streams\Platform\Support\Value;
+use Anomaly\Streams\Platform\Ui\Support\Value;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Support;
+namespace Anomaly\Streams\Platform\Ui\Support;
 
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Support\Arrayable;
