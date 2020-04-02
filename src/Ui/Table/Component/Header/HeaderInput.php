@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
+use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -140,7 +141,7 @@ class HeaderInput
      */
     protected static function parse(TableBuilder $builder)
     {
-        $builder->setColumns(parse($builder->getColumns()));
+        $builder->setColumns(Str::parse($builder->getColumns()));
     }
 
     /**

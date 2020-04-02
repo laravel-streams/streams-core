@@ -2,9 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
 
-use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
-use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
+use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
+use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 
 /**
  * Class ButtonBuilder
@@ -39,7 +40,7 @@ class ButtonBuilder
 
             $button = evaluate($button, compact('entry', 'table'));
 
-            $button = parse($button, compact('entry'));
+            $button = Str::parse($button, compact('entry'));
 
             $button = self::replace($button, $entry);
 

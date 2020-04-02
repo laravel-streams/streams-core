@@ -3,7 +3,10 @@
 namespace Anomaly\Streams\Platform\Ui\Support;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\View;
 use Illuminate\Contracts\Support\Arrayable;
+use Anomaly\Streams\Platform\Support\Facades\Decorator;
+use Anomaly\Streams\Platform\Support\Facades\Evaluator;
 
 /**
  * Class Value
@@ -70,13 +73,13 @@ class Value
          * sending to decorate so that data_get()
          * can get into the presenter methods.
          */
-        $payload[$term] = $entry = Facades\Decorator::decorate($entry);
+        $payload[$term] = $entry = Decorator::decorate($entry);
 
         /*
          * By default we can just pass the value through
          * the evaluator utility and be done with it.
          */
-        $value = Facades\Evaluator::evaluate($value, $payload);
+        $value = Evaluator::evaluate($value, $payload);
 
         /*
          * Lastly, parse the entry intro the string
@@ -132,7 +135,7 @@ class Value
          * string then render it.
          */
         if (is_string($value) && str_contains($value, ['{{', '<?php'])) {
-            $value = (string) Template::render($value, [$term => $entry]);
+            $value = (string) View::parse($value, [$term => $entry]);
         }
 
         return $value;

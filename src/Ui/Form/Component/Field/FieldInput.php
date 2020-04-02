@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -30,10 +31,10 @@ class FieldInput
         self::normalize($builder); //Yes, again.
 
         FieldGuesser::guess($builder);
-        
+
         self::translate($builder);
         self::parse($builder);
-        
+
         self::populate($builder); // Do this last.
     }
 
@@ -203,7 +204,7 @@ class FieldInput
      */
     protected static function parse(FormBuilder $builder)
     {
-        $builder->setFields(parse($builder->getFields()));
+        $builder->setFields(Str::parse($builder->getFields()));
     }
 
     /**
