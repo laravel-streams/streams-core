@@ -455,8 +455,8 @@ class StreamsServiceProvider extends ServiceProvider
                 }
             }
 
-            if (is_string($target) && Lang::has($target)) {
-                return Lang::trans($target);
+            if (is_string($target) && str_contains($target, ['::', '.'])) {
+                return trans($target);
             }
 
             return $target;
