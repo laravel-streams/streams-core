@@ -1,12 +1,14 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
+<?php
 
-use Anomaly\Streams\Platform\Support\Parser;
-use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Http\RedirectResponse;
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
+
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 use Illuminate\Session\Store;
+use Illuminate\Routing\Redirector;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Contracts\Support\Arrayable;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
  * Class ActionHandler
@@ -17,13 +19,6 @@ use Illuminate\Session\Store;
  */
 class ActionHandler
 {
-
-    /**
-     * The parser utility.
-     *
-     * @var Parser
-     */
-    protected $parser;
 
     /**
      * The session store.
@@ -49,14 +44,12 @@ class ActionHandler
     /**
      * Create a new ActionHandler instance.
      *
-     * @param Parser $parser
      * @param Store $session
      * @param Request $request
      * @param Redirector $redirector
      */
-    public function __construct(Parser $parser, Store $session, Request $request, Redirector $redirector)
+    public function __construct(Store $session, Request $request, Redirector $redirector)
     {
-        $this->parser     = $parser;
         $this->session    = $session;
         $this->request    = $request;
         $this->redirector = $redirector;
@@ -106,7 +99,7 @@ class ActionHandler
             return;
         }
 
-        $redirect = $this->parser->parse($redirect, compact('entry'));
+        $redirect = Str::parse($redirect, compact('entry'));
 
         /*
          * If the redirect is null then use the current one.

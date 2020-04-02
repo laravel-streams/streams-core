@@ -4,19 +4,23 @@ namespace Anomaly\Streams\Platform;
 
 use Exception;
 use Misd\Linkify\Linkify;
+use StringTemplate\Engine;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\View\Factory;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Collection;
 use Anomaly\Streams\Platform\Addon\AddonModel;
 use Anomaly\Streams\Platform\Support\Purifier;
 use Anomaly\Streams\Platform\View\ViewIncludes;
+use Anomaly\Streams\Platform\View\ViewTemplate;
 use Anomaly\Streams\Platform\Asset\Facades\Assets;
 use Anomaly\Streams\Platform\Image\Facades\Images;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 
 /**
  * Class StreamsServiceProvider
@@ -114,6 +118,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->loadTranslations();
         $this->setActiveTheme();
         $this->extendView();
+        $this->extendArr();
         $this->extendStr();
 
         /**
@@ -440,20 +445,7 @@ class StreamsServiceProvider extends ServiceProvider
     protected function extendView()
     {
         Factory::macro('parse', function ($template, array $payload = []) {
-
-            $view = 'support/parsed/' . md5($template);
-
-            $path = application()->getStoragePath($view);
-
-            if (!is_dir($directory = dirname($path))) {
-                File::makeDirectory($directory, 0766, true);
-            }
-
-            if (!file_exists($path . '.blade.php')) {
-                file_put_contents($path . '.blade.php', $template);
-            }
-
-            return View::make($path, $payload);
+            return app(ViewTemplate::class)->parse($template, $payload);
         });
 
         Factory::macro('include', function ($slot, $include = null) {
@@ -478,6 +470,31 @@ class StreamsServiceProvider extends ServiceProvider
             })->map(function ($item) use ($payload) {
                 return View::make($item, $payload)->render();
             })->implode("\n");
+        });
+    }
+
+    /**
+     * Extend the array utility.
+     */
+    protected function extendArr()
+    {
+        Arr::macro('make', function ($target) {
+
+            if (Arr::accessible($target)) {
+                foreach ($target as &$item) {
+                    $item = Arr::make($item);
+                }
+            }
+
+            if (is_object($target) && $target instanceof Arrayable) {
+                $target = $target->toArray();
+            }
+
+            if (is_object($target)) {
+                $target = Hydrator::dehydrate($target);
+            }
+
+            return $target;
         });
     }
 
@@ -518,6 +535,12 @@ class StreamsServiceProvider extends ServiceProvider
             }
 
             return trim(implode(array_slice($parts, 0, $last))) . $end;
+        });
+
+        Str::macro('parse', function ($target, array $data = []) {
+            return app(Engine::class)->render($target, array_merge([
+                // Default data
+            ], Arr::make($data)));
         });
     }
 

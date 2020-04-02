@@ -5,7 +5,6 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Support\Value;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Image\ImageManager;
 use Anomaly\Streams\Platform\Asset\Facades\Assets;
@@ -113,7 +112,7 @@ if (!function_exists('parse')) {
      */
     function parse($target, array $data = [])
     {
-        return app(Parser::class)->parse($target, $data);
+        return Str::parse($target, $data);
     }
 }
 
@@ -713,34 +712,5 @@ if (!function_exists('addon')) {
         } catch (\Exception $exception) {
             return null;
         }
-    }
-}
-
-if (!function_exists('to_array')) {
-
-    /**
-     * Return the $target as
-     * an array, recursively.
-     *
-     * @param  string $path
-     * @return string
-     */
-    function to_array($target)
-    {
-        if (Arr::accessible($target)) {
-            foreach ($target as &$item) {
-                $item = to_array($item);
-            }
-        }
-
-        if (is_object($target) && $target instanceof Arrayable) {
-            $target = $target->toArray();
-        }
-
-        if (is_object($target)) {
-            $target = Hydrator::dehydrate($target);
-        }
-
-        return $target;
     }
 }

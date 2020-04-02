@@ -89,7 +89,7 @@ class Value
          * Parse the value with the entry.
          */
         if ($wrapper = array_get($parameters, 'wrapper')) {
-            $value = app(Parser::class)->parse(
+            $value = Str::parse(
                 $wrapper,
                 ['value' => $value, $term => $entry]
             );
@@ -100,7 +100,7 @@ class Value
          */
         if (is_string($value)) {
 
-            $value = app(Parser::class)->parse(
+            $value = Str::parse(
                 $value,
                 [
                     'value' => $value,
