@@ -160,15 +160,13 @@ trait Streams
 
         $type->setEntry($this);
 
-        $modifier = $type->getModifier();
-
         $key = $type->getColumnName();
 
         if ($field->isTranslatable()) {
             $key = $key . '->' . ($locale ?: app()->getLocale());
         }
 
-        return parent::setAttribute($key, $modifier->modify($value));
+        return parent::setAttribute($key, $value);
     }
 
     /**

@@ -78,16 +78,13 @@ class FieldFactory
             );
         } elseif (is_object($entry)) {
             $field    = $this->builder->build($parameters);
-            $modifier = $field->getModifier();
 
             $value = array_pull($parameters, 'value');
 
-            $field->setValue((!is_null($value)) ? $modifier->restore($value) : $entry->{$field->getField()});
+            $field->setValue((!is_null($value)) ? $value : $entry->{$field->getField()});
         } else {
             $field    = $this->builder->build($parameters);
-            $modifier = $field->getModifier();
-
-            $field->setValue($modifier->restore(array_pull($parameters, 'value')));
+            $field->setValue(array_pull($parameters, 'value'));
         }
 
         // Set the entry.
