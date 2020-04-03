@@ -22,7 +22,6 @@ use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 class FieldType extends Addon
 {
     use HasHtmlAttributes;
-    use HasClassAttribute;
 
     protected $installed = true;
     protected $enabled = true;
