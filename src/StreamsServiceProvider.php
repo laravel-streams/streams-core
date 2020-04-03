@@ -228,7 +228,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
 
-            $addons = array_filter($lock['packages'], function (array $package) {
+            $addons = array_filter(array_merge($lock['packages'], $lock['packages-dev']), function (array $package) {
                 return array_get($package, 'type') == 'streams-addon';
             });
 

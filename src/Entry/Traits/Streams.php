@@ -54,11 +54,11 @@ trait Streams
         ($instance = new static)->bind('created_by', function () {
             return $this->belongsTo(config('auth.providers.users.model'));
         });
-        
+
         $instance->bind('fire_event', function ($event) {
             return $this->fireModelEvent($event);
         });
-        
+
         $instance->bind('fireFieldTypeEvents', function ($event) {
             //return $this->fireModelEvent($event);
         });
@@ -115,8 +115,6 @@ trait Streams
 
         $type = $field->type();
 
-        $modifier = $type->getModifier();
-
         $type->setEntry($this);
 
         $value = parent::getAttributeValue($fieldSlug);
@@ -124,8 +122,6 @@ trait Streams
         if ($field->translatable) {
             $value = array_get($value, $this->locale($locale));
         }
-
-        $value = $modifier->restore($value);
 
         $type->setValue($value);
 

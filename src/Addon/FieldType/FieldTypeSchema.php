@@ -22,6 +22,8 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 class FieldTypeSchema
 {
 
+    protected $columnType = ''
+
     /**
      * Add the field type column to the table.
      *

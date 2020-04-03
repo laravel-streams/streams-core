@@ -10,6 +10,7 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 
 /**
  * Class FieldType
@@ -21,9 +22,17 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 class FieldType extends Addon
 {
     use HasHtmlAttributes;
+    use HasClassAttribute;
 
     protected $installed = true;
     protected $enabled = true;
+
+    /**
+     * The cast type.
+     *
+     * @var string
+     */
+    protected $castType = null;
 
     /**
      * The disabled flag.
@@ -165,7 +174,7 @@ class FieldType extends Addon
      *
      * @var null|string
      */
-    protected $class = 'input';
+    //protected $class = 'input';
 
     /**
      * The input type.
@@ -215,20 +224,6 @@ class FieldType extends Addon
      * @var null|string
      */
     protected $presenter = FieldTypePresenter::class;
-
-    /**
-     * The modifier class.
-     *
-     * @var null|string
-     */
-    protected $modifier = null;
-
-    /**
-     * The accessor class.
-     *
-     * @var null|string
-     */
-    protected $accessor = null;
 
     /**
      * The schema class.
@@ -1179,73 +1174,6 @@ class FieldType extends Addon
     }
 
     /**
-     * Get the modifier.
-     *
-     * @return FieldTypeModifier
-     */
-    public function getModifier()
-    {
-        /* @var FieldTypeModifier $modifier */
-        if (is_object($modifier = $this->modifier)) {
-            return $modifier->setFieldType($this);
-        }
-
-        if (!$this->modifier) {
-            $this->modifier = get_class($this) . 'Modifier';
-        }
-
-        if (!class_exists($this->modifier)) {
-            $this->modifier = FieldTypeModifier::class;
-        }
-
-        $modifier = app()->make($this->modifier);
-
-        $modifier->setFieldType($this);
-
-        return $this->modifier = $modifier;
-    }
-
-    /**
-     * Get the accessor.
-     *
-     * @return FieldTypeAccessor
-     */
-    public function getAccessor()
-    {
-        /* @var FieldTypeAccessor $accessor */
-        if (is_object($accessor = $this->accessor)) {
-            return $accessor->setFieldType($this);
-        }
-
-        if (!$this->accessor) {
-            $this->accessor = get_class($this) . 'Accessor';
-        }
-
-        if (!class_exists($this->accessor)) {
-            $this->accessor = FieldTypeAccessor::class;
-        }
-
-        $accessor = app()->make($this->accessor);
-
-        $accessor->setFieldType($this);
-
-        return $this->accessor = $accessor;
-    }
-
-    /**
-     * Set the accessor.
-     *
-     * @param $accessor
-     * @return $this
-     */
-    public function setAccessor($accessor)
-    {
-        $this->accessor = $accessor;
-
-        return $this;
-    }
-
-    /**
      * Get the schema.
      *
      * @return string
@@ -1264,37 +1192,6 @@ class FieldType extends Addon
     public function setSchema($schema)
     {
         $this->schema = $schema;
-
-        return $this;
-    }
-
-    /**
-     * Get the parser.
-     *
-     * @return FieldTypeParser
-     */
-    public function getParser()
-    {
-        if (!$this->parser) {
-            $this->parser = get_class($this) . 'Parser';
-        }
-
-        if (!class_exists($this->parser)) {
-            $this->parser = FieldTypeParser::class;
-        }
-
-        return app()->make($this->parser, ['fieldType' => $this]);
-    }
-
-    /**
-     * Set the parser.
-     *
-     * @param $parser
-     * @return $this
-     */
-    public function setParser($parser)
-    {
-        $this->parser = $parser;
 
         return $this;
     }
@@ -1406,6 +1303,17 @@ class FieldType extends Addon
         return array_merge(Hydrator::dehydrate($this), [
             'attributes' => $this->attributes(),
         ]);
+    }
+
+    /**
+     * Convert the object to its JSON representation.
+     *
+     * @param  int  $options
+     * @return string
+     */
+    public function toJson($options = 0)
+    {
+        return json_encode($this->toArray(), $options);
     }
 
     /**

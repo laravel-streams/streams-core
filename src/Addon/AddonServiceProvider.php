@@ -142,7 +142,7 @@ class AddonServiceProvider extends ServiceProvider
     {
         $addon     = $this->addon();
         $namespace = $this->namespace();
-
+        echo $addon . "\n";
         [$vendor, $type, $slug] = explode('.', $namespace);
 
         $path = dirname((new \ReflectionClass(get_called_class()))->getFileName(), 2);
@@ -160,7 +160,7 @@ class AddonServiceProvider extends ServiceProvider
             BindAddon::class,
             // @todo this works - move the rest in?
         ]))->process($payload);
-        
+
         $this->registerApi($namespace);
         $this->registerRoutes();
         $this->registerStreams();
