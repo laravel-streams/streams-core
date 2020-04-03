@@ -46,12 +46,16 @@ class FieldType extends Addon
     protected $installed = true;
     protected $enabled = true;
 
+
+
     /**
      * The input type.
      *
      * @var string
      */
     protected $inputType = null;
+
+
 
     /**
      * The database column type.
@@ -66,6 +70,8 @@ class FieldType extends Addon
      * @var null|integer
      */
     protected $columnLength = null;
+
+
 
     /**
      * The field input view.
@@ -88,6 +94,8 @@ class FieldType extends Addon
      */
     protected $wrapperView = 'admin::form/partials/wrapper';
 
+
+
     /**
      * The presenter class.
      *
@@ -102,12 +110,7 @@ class FieldType extends Addon
      */
     protected $schema = FieldTypeSchema::class;
 
-    /**
-     * The parser class.
-     *
-     * @var null|string
-     */
-    protected $parser = null;
+
 
     /**
      * The query class.
@@ -122,6 +125,8 @@ class FieldType extends Addon
      * @var null|string
      */
     protected $criteria;
+
+
 
     /**
      * Get the post value.
