@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
-use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
@@ -149,7 +149,7 @@ class ViewInput
      */
     protected static function parse(TableBuilder $builder)
     {
-        $builder->setViews(Str::parse($builder->getViews()));
+        $builder->setViews(Arr::parse($builder->getViews()));
     }
 
     /**

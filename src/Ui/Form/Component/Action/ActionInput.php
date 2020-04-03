@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
-use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
@@ -193,7 +193,7 @@ class ActionInput
      */
     protected static function parse(FormBuilder $builder)
     {
-        $builder->setActions(Str::parse($builder->getActions()));
+        $builder->setActions(Arr::parse($builder->getActions()));
     }
 
     /**

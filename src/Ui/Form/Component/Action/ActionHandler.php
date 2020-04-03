@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
-use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Session\Store;
 use Illuminate\Routing\Redirector;
@@ -99,7 +99,7 @@ class ActionHandler
             return;
         }
 
-        $redirect = Str::parse($redirect, compact('entry'));
+        $redirect = Arr::parse($redirect, compact('entry'));
 
         /*
          * If the redirect is null then use the current one.

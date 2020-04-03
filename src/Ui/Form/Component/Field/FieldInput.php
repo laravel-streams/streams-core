@@ -2,11 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
-use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
-use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
  * Class FieldInput
@@ -204,7 +202,7 @@ class FieldInput
      */
     protected static function parse(FormBuilder $builder)
     {
-        $builder->setFields(Str::parse($builder->getFields()));
+        $builder->setFields(Arr::parse($builder->getFields()));
     }
 
     /**

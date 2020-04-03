@@ -520,6 +520,22 @@ class StreamsServiceProvider extends ServiceProvider
 
             return $target;
         });
+
+        Arr::macro('parse', function ($target) {
+
+            foreach (Arr::make($target) as $key => &$value) {
+
+                if (is_array($value)) {
+                    $value = Arr::parse($value);
+                }
+
+                if (is_string($value)) {
+                    $value = Str::parse($target);
+                }
+            }
+
+            return $target;
+        });
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
-use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
@@ -153,7 +153,7 @@ class ShortcutInput
      */
     protected static function parse(ControlPanelBuilder $builder)
     {
-        $builder->setShortcuts(Str::parse($builder->getShortcuts()));
+        $builder->setShortcuts(Arr::parse($builder->getShortcuts()));
     }
 
     /**

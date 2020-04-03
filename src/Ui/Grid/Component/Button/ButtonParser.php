@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Grid\Component\Button;
 
-use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Illuminate\Contracts\Support\Arrayable;
 
 /**
@@ -28,6 +28,6 @@ class ButtonParser
             $entry = $entry->toArray();
         }
 
-        return Str::parse($button, compact('entry'));
+        return Arr::parse($button, compact('entry'));
     }
 }

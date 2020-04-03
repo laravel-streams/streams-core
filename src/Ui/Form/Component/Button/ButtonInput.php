@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
 
-use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
@@ -130,7 +130,7 @@ class ButtonInput
      */
     protected static function parse(FormBuilder $builder)
     {
-        $builder->setButtons(Str::parse($builder->getButtons()));
+        $builder->setButtons(Arr::parse($builder->getButtons()));
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
-use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
@@ -132,7 +132,7 @@ class SectionInput
      */
     protected static function parse(ControlPanelBuilder $builder)
     {
-        $builder->setSections(Str::parse($builder->getSections()));
+        $builder->setSections(Arr::parse($builder->getSections()));
     }
 
     /**

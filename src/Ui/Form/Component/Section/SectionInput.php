@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Section;
 
-use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -112,6 +112,6 @@ class SectionInput
      */
     protected static function parse(FormBuilder $builder)
     {
-        $builder->setSections(Str::parse($builder->getSections()));
+        $builder->setSections(Arr::parse($builder->getSections()));
     }
 }

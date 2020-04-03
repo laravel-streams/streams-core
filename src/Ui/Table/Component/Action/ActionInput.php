@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
-use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
@@ -187,7 +187,7 @@ class ActionInput
      */
     protected static function parse(TableBuilder $builder)
     {
-        $builder->setActions(Str::parse($builder->getActions()));
+        $builder->setActions(Arr::parse($builder->getActions()));
     }
 
     /**
