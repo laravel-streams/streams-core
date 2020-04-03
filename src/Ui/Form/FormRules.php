@@ -42,7 +42,8 @@ class FormRules
 
             $fieldRules = array_filter(array_unique($field->getRules()));
 
-            $rules = $field->extendRules($rules);
+            // @todo use callback
+            //$rules = $field->extendRules($rules);
 
             if (!$stream instanceof StreamInterface) {
 
