@@ -5,12 +5,11 @@ namespace Anomaly\Streams\Platform\Addon\FieldType;
 use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Addon\Addon;
 use Illuminate\Database\Eloquent\Builder;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 
 /**
  * Class FieldType
