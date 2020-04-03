@@ -19,7 +19,7 @@ class Workflow
     /**
      * The workflow steps.
      */
-    protected array $steps;
+    protected $steps;
 
     /**
      * Create a new Workflow instance.
