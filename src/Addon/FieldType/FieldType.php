@@ -174,7 +174,7 @@ class FieldType extends Addon
      *
      * @var null|string
      */
-    //protected $class = 'input';
+    protected $class = 'input';
 
     /**
      * The input type.
