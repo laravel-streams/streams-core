@@ -1,6 +1,7 @@
 <template>
     <v-btn
         :color="button.type"
+        :type="button.tag == 'button' ? 'submit' : null"
         :href="button.attributes.href"
         :name="button.attributes.name"
         :value="button.attributes.value"
