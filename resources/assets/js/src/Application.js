@@ -6,6 +6,10 @@ import {Dispatcher} from './Dispatcher';
 import {ServiceProvider} from './ServiceProvider';
 //import {Config} from './Config';
 
+import vuetify from '../plugins/vuetify'
+
+Vue.use(vuetify);
+
 const getConfigDefaults = () => ({
     debug     : false,
     csrf      : null,
@@ -197,7 +201,9 @@ export class Application extends Container {
 
     async start(selector){
         
-        this.root = new Vue({});
+        this.root = new Vue({
+            vuetify
+        });
 
         this.root.$mount(selector);
 
