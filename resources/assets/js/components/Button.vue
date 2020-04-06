@@ -1,13 +1,13 @@
 <template>
-    <component
-        :is="button.tag"
+    <v-btn
+        :color="button.type"
         :href="button.attributes.href"
         :name="button.attributes.name"
         :value="button.attributes.value"
         class="uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1">
         <i v-show="button.icon" :class="button.icon"></i>
         {{ button.text }}
-    </component>
+    </v-btn>
 </template>
 
 <script>
