@@ -2,13 +2,14 @@
 
 namespace Anomaly\Streams\Platform\Image\Concerns;
 
+use Illuminate\Support\Str;
+use Collective\Html\HtmlFacade;
 use Illuminate\Support\Facades\Request;
+use Anomaly\Streams\Platform\Image\Image;
+use Illuminate\Contracts\Routing\UrlGenerator;
+use Anomaly\Streams\Platform\Image\ImageManager;
 use Anomaly\Streams\Platform\Image\Concerns\CanPublish;
 use Anomaly\Streams\Platform\Image\Concerns\HasVersion;
-use Anomaly\Streams\Platform\Image\Image;
-use Anomaly\Streams\Platform\Image\ImageManager;
-use Collective\Html\HtmlFacade;
-use Illuminate\Contracts\Routing\UrlGenerator;
 
 /**
  * Trait CanOutput
@@ -34,7 +35,7 @@ trait CanOutput
         if (!isset($attributes['src'])) {
             $attributes['src'] = $this->path();
         }
-        
+
         // if ($srcset = $this->srcset()) {
         //     $attributes['srcset'] = $srcset;
         // }
@@ -44,7 +45,7 @@ trait CanOutput
                 $this->attributes(),
                 'alt',
                 ucwords(
-                    humanize(
+                    Str::humanize(
                         trim(basename($this->getOriginal(), $this->extension()), '.'),
                         '^a-zA-Z0-9'
                     )
@@ -64,8 +65,8 @@ trait CanOutput
     {
         $attributes = HtmlFacade::attributes($this->attributes($attributes));
 
-        $sources = implode("\n", array_map(function($alterations) {
-            
+        $sources = implode("\n", array_map(function ($alterations) {
+
             $source = app(ImageManager::class)->make($this->source);
 
             $quality = array_pull($alterations, 'quality');
@@ -81,7 +82,7 @@ trait CanOutput
 
         return "<picture {$attributes}>\n{$sources}\n</picture>";
     }
-    
+
     /**
      * Encode the image.
      *
@@ -172,7 +173,7 @@ trait CanOutput
     {
         return Request::getBasePath() . $this->getCachePath();
     }
-    
+
     /**
      * Return the image contents.
      *
@@ -190,5 +191,4 @@ trait CanOutput
                 ->getCachePath()
         ));
     }
-
 }
