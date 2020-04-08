@@ -2,7 +2,7 @@
 
     <div class="c-form-row c-form__row--input">
         
-        <label :for="field.input_name">
+        <!-- <label :for="field.input_name">
             
             {{ field.label }}
 
@@ -10,15 +10,15 @@
 
             <!-- @if ($fieldType->locale)
                 @include('admin::form/partials/translations')
-            @endif -->
-        </label>
+            @endif
+        </label> -->
 
-        <div v-show="field.instructions" class="field__instructions">{{ field.instructions }}</div>
+        <!-- <div v-show="field.instructions" class="field__instructions">{{ field.instructions }}</div>
             
         <div v-show="field.warning" class="field__warning">
-                <!-- {!! icon('warning') !!} -->
-                {{ field.warning }}
-            </div>
+            <!-- {!! icon('warning') !!}
+            {{ field.warning }}
+        </div> -->
 
         <slot></slot>
 
