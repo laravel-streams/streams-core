@@ -41,7 +41,7 @@ class ButtonBuilder
             $button = evaluate($button, compact('entry', 'table'));
 
             $button = Arr::parse($button, compact('entry'));
-            dd($button['attributes']['href']);
+
             $button = self::replace($button, $entry);
 
             $button = $factory->make(translate($button));
