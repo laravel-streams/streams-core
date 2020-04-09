@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Contract;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
 use Anomaly\Streams\Platform\Stream\StreamCollection;
-use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
 
 /**
  * Interface StreamRepositoryInterface
@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-interface StreamRepositoryInterface extends EloquentRepositoryInterface
+interface StreamRepositoryInterface extends EntryRepositoryInterface
 {
 
     /**

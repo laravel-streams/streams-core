@@ -4,7 +4,7 @@ use Tests\TestCase;
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Contract\AddonRepositoryInterface;
-use Anomaly\Streams\Platform\Model\EloquentQueryBuilder;
+use Anomaly\Streams\Platform\Entry\EntryQueryBuilder;
 
 // @todo revisit after creating test-module
 class AddonServiceProviderTest extends TestCase
@@ -17,7 +17,7 @@ class AddonServiceProviderTest extends TestCase
 
         $repository->uninstall($addons->instance('anomaly.module.users'));
 
-        EloquentQueryBuilder::resetMemory();
+        EntryQueryBuilder::resetMemory();
 
         $this->assertTrue($addons->instance('anomaly.module.users') instanceof Addon);
         $this->assertTrue($addons->instance('anomaly.field_type.text') instanceof Addon);

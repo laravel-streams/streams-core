@@ -2,6 +2,7 @@
 
 use Tests\TestCase;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Illuminate\Testing\Assert;
 
 class ExtensionTest extends TestCase
 {
@@ -9,8 +10,7 @@ class ExtensionTest extends TestCase
     public function testProvides()
     {
         $addons = app(AddonCollection::class);
-
-        $this->assertTrue($addons->instance('anomaly.extension.default_authenticator')->provides() === 'anomaly.module.users::authenticator.default');
+        $this->assertEquals('anomaly.module.users::authenticator.default', $addons->instance('anomaly.extension.default_authenticator')->provides());
     }
 
     public function testToArray()
@@ -19,7 +19,7 @@ class ExtensionTest extends TestCase
 
         $addon = $addons->instance('anomaly.extension.default_authenticator');
 
-        $this->assertTrue($addon->toArray() == [
+        Assert::assertArraySubset([
             'name'      => $addon->getName(),
             'type'      => $addon->getType(),
             'path'      => $addon->getPath(),
@@ -30,6 +30,6 @@ class ExtensionTest extends TestCase
             'provides'  => $addon->provides(),
             'enabled'   => $addon->isEnabled(),
             'installed' => $addon->isInstalled(),
-        ]);
+        ], $addon->toArray());
     }
 }

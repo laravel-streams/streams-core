@@ -1,25 +1,32 @@
 <?php
 
 use Tests\TestCase;
+use Illuminate\Testing\Assert;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 
 class ModuleTest extends TestCase
 {
 
+    /**
+     * We're better off using direct assertions, as we get more robust failure messages in the test runner, rather than the bare "failed asserting false equals true".
+     */
     public function testProvides()
     {
         $addons = app(AddonCollection::class);
 
-        $this->assertTrue($addons->instance('anomaly.extension.default_authenticator')->provides() === 'anomaly.module.users::authenticator.default');
+        $this->assertEquals('anomaly.module.users::authenticator.default', $addons->instance('anomaly.extension.default_authenticator')->provides());
     }
 
+    /**
+     * Note that PHPUnit (stupidly) deprecated assertArraySubset in PHPUnit 8. Alternatives include an assertEquals loop or using Laravel's extrapolation (currently done).
+     */
     public function testToArray()
     {
         $addons = app(AddonCollection::class);
 
         $addon = $addons->instance('anomaly.extension.default_authenticator');
 
-        $this->assertTrue($addon->toArray() == [
+        Assert::assertArraySubset([
             'name'      => $addon->getName(),
             'type'      => $addon->getType(),
             'path'      => $addon->getPath(),
@@ -30,6 +37,6 @@ class ModuleTest extends TestCase
             'provides'  => $addon->provides(),
             'enabled'   => $addon->isEnabled(),
             'installed' => $addon->isInstalled(),
-        ]);
+        ], $addon->toArray());
     }
 }

@@ -4,7 +4,7 @@ use Tests\TestCase;
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Contract\AddonRepositoryInterface;
-use Anomaly\Streams\Platform\Model\EloquentQueryBuilder;
+use Anomaly\Streams\Platform\Entry\EntryQueryBuilder;
 
 class AddonRepositoryTest extends TestCase
 {
@@ -18,7 +18,7 @@ class AddonRepositoryTest extends TestCase
 
             $repository->delete($addon);
 
-            EloquentQueryBuilder::resetMemory();
+            EntryQueryBuilder::resetMemory();
         }
 
         $this->assertTrue($repository->uninstall($addons->instance('anomaly.field_type.text')));
@@ -34,7 +34,7 @@ class AddonRepositoryTest extends TestCase
 
             $repository->delete($addon);
 
-            EloquentQueryBuilder::resetMemory();
+            EntryQueryBuilder::resetMemory();
         }
 
         $this->assertTrue($repository->install($addons->instance('anomaly.module.users'), true));
@@ -45,7 +45,7 @@ class AddonRepositoryTest extends TestCase
         $addons     = app(AddonCollection::class);
         $repository = app(AddonRepositoryInterface::class);
 
-        EloquentQueryBuilder::resetMemory();
+        EntryQueryBuilder::resetMemory();
 
         $this->assertTrue($repository->disable($addons->instance('anomaly.module.users')));
         $this->assertTrue($repository->disable($addons->instance('anomaly.field_type.text')));
@@ -56,7 +56,7 @@ class AddonRepositoryTest extends TestCase
         $addons     = app(AddonCollection::class);
         $repository = app(AddonRepositoryInterface::class);
 
-        EloquentQueryBuilder::resetMemory();
+        EntryQueryBuilder::resetMemory();
 
         $this->assertTrue($repository->enable($addons->instance('anomaly.module.users')));
         $this->assertTrue($repository->enable($addons->instance('anomaly.field_type.text')));

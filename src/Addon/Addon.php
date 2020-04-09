@@ -261,7 +261,7 @@ class Addon implements Arrayable, Jsonable
     {
         $self = $this;
 
-        return $this->once('composer.json', function () use ($self) {
+        return $this->once($this->getNamespace('composer.json'), function () use ($self) {
 
             $composer = $self->getPath('composer.json');
 
@@ -280,7 +280,7 @@ class Addon implements Arrayable, Jsonable
 
         $target = $self->getPackageName();
 
-        return $this->once('composer.lock', function () use ($self, $target) {
+        return $this->once($this->getNamespace('composer.lock'), function () use ($self, $target) {
 
             $lock = base_path('composer.lock');
 
@@ -304,7 +304,7 @@ class Addon implements Arrayable, Jsonable
     {
         $self = $this;
 
-        return $this->once('README', function () use ($self) {
+        return $this->once($this->getNamespace('README'), function () use ($self) {
 
             $readme = $self->getPath('README.md');
 

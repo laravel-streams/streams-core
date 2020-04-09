@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Field\Contract;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface;
 use Anomaly\Streams\Platform\Field\FieldCollection;
-use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
@@ -11,7 +11,7 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-interface FieldRepositoryInterface extends EloquentRepositoryInterface
+interface FieldRepositoryInterface extends EntryRepositoryInterface
 {
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Stream;
 
+use Anomaly\Streams\Platform\Entry\EntryRepository;
 use Illuminate\Database\Schema\Builder;
 
 use Illuminate\Database\Eloquent\Collection;
@@ -17,7 +18,7 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class StreamRepository extends EloquentRepository implements StreamRepositoryInterface
+class StreamRepository extends EntryRepository implements StreamRepositoryInterface
 {
 
     /**

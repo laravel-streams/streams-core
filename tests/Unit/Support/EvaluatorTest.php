@@ -8,9 +8,11 @@ class EvaluatorTest extends TestCase
 
     public function testCanEvaluateClosures()
     {
+        $evaluator = app(Evaluator::class);
+
         $this->assertEquals(
             50,
-            Evaluator::evaluate(
+            $evaluator->evaluate(
                 function ($multiplier) {
                     return 5 * $multiplier;
                 },
@@ -21,9 +23,12 @@ class EvaluatorTest extends TestCase
 
     public function testCanEvaluateArrays()
     {
+        $evaluator = app(Evaluator::class);
+
+
         $this->assertEquals(
             ['Ryan', ['6\'3"'], 50],
-            Evaluator::evaluate(
+            $evaluator->evaluate(
                 [
                     'info.name',
                     [
@@ -46,9 +51,12 @@ class EvaluatorTest extends TestCase
 
     public function testCanEvaluateTraversableStrings()
     {
+        $evaluator = app(Evaluator::class);
+
+
         $this->assertEquals(
             'Ryan',
-            Evaluator::evaluate(
+            $evaluator->evaluate(
                 'info.name',
                 [
                     'info' => [

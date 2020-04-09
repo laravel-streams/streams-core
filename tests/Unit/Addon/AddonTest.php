@@ -1,6 +1,7 @@
 <?php
 
 use Tests\TestCase;
+use Illuminate\Testing\Assert;
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
@@ -127,13 +128,16 @@ class AddonTest extends TestCase
         $this->assertIsArray($addons->instance('anomaly.module.users')->getAddons());
     }
 
+    /**
+     * @todo what is the purpose of this test? Is it asserting the attributes returned in the built addon?
+     */
     public function testToArray()
     {
         $addons = app(AddonCollection::class);
 
         $addon = $addons->instance('anomaly.module.users');
 
-        $this->assertTrue($addon->toArray() == [
+        Assert::assertArraySubset([
             'name'      => $addon->getName(),
             'type'      => $addon->getType(),
             'path'      => $addon->getPath(),
@@ -143,6 +147,6 @@ class AddonTest extends TestCase
 
             'enabled'   => $addon->isEnabled(),
             'installed' => $addon->isInstalled(),
-        ]);
+        ], $addon->toArray());
     }
 }
