@@ -523,7 +523,6 @@ class StreamsServiceProvider extends ServiceProvider
 
         Arr::macro('parse', function ($target, array $payload = []) {
 
-            $target  = Arr::make($target);
             $payload = Arr::make($payload);
 
             foreach ($target as &$value) {
