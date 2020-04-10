@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FieldFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -43,7 +45,7 @@ class FieldFilterQuery
     {
         $stream = $filter->getStream();
 
-        $fieldType = $stream->getFieldType($filter->getField());
+        $fieldType = $stream->fields->{$filter->getField()}->type();
 
         $fieldTypeQuery = $fieldType->getQuery();
 
