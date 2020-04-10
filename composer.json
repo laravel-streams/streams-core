@@ -28,7 +28,8 @@
             "Anomaly\\Streams\\Platform\\": "src/"
         },
         "files": [
-            "src/Support/_helpers.php"
+            "src/Support/_helpers.php",
+            "tests/factories/_load.php"
         ]
     },
     "config": {
