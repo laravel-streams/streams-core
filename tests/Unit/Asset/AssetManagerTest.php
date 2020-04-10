@@ -121,12 +121,11 @@ class AssetManagerTest extends TestCase
         $asset->addPath('test.js', 'streams::testing/example.js');
         $asset->addPath('test.js', 'streams::testing/example2.js');
 
-        $this->assertStringContainsString(
-            [
+        $this->assertTrue(
+            in_array($asset->scripts('test.js', ['foo' => 'bar']), [
                 '<script foo="bar" src="/app/default/assets/anomaly/streams-platform/resources/testing/example.js',
                 '<script foo="bar" src="/app/default/assets/anomaly/streams-platform/resources/testing/example2.js',
-            ],
-            $asset->scripts('test.js', ['foo' => 'bar'])
+            ])
         );
     }
 
