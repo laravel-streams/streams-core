@@ -10,7 +10,7 @@
          stopOnFailure="true">
     <testsuites>
         <testsuite name="streams-platform">
-            <directory suffix=".php">tests/</directory>
+            <directory suffix="Test.php">tests/</directory>
         </testsuite>
     </testsuites>
 
