@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Support\Presenter;
 use Illuminate\View\Factory;
@@ -55,6 +57,6 @@ class TablePresenter extends Presenter
             return $content->render();
         }
 
-        return (string)$content;
+        return (string) $content;
     }
 }

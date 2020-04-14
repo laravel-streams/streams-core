@@ -4,7 +4,8 @@ namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
 
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
+use Anomaly\Streams\Platform\Traits\ProvidesArrayable;
+use Anomaly\Streams\Platform\Traits\ProvidesJsonable;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
@@ -21,6 +22,8 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
 class Column implements ColumnInterface, ClassAttributeInterface, HtmlAttributesInterface, Arrayable, Jsonable
 {
 
+    use ProvidesJsonable;
+    use ProvidesArrayable;
     use HasClassAttribute;
     use HasHtmlAttributes;
 
@@ -172,26 +175,5 @@ class Column implements ColumnInterface, ClassAttributeInterface, HtmlAttributes
         $this->entry = $entry;
 
         return $this;
-    }
-
-    /**
-     * Get the instance as an array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        return Hydrator::dehydrate($this);
-    }
-
-    /**
-     * Convert the object to its JSON representation.
-     *
-     * @param  int  $options
-     * @return string
-     */
-    public function toJson($options = 0)
-    {
-        return json_encode($this->toArray(), $options);
     }
 }

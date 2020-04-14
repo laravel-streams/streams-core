@@ -2,17 +2,20 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Symfony\Component\HttpFoundation\Response;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormPresenter;
+use Anomaly\Streams\Platform\Traits\ProvidesJsonable;
+use Anomaly\Streams\Platform\Traits\ProvidesArrayable;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\View;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterCollection;
+use Anomaly\Streams\Platform\Ui\Table\Component\Header\HeaderCollection;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
@@ -29,6 +32,9 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
  */
 class Table
 {
+
+    use ProvidesJsonable;
+    use ProvidesArrayable;
 
     /**
      * The table model.
@@ -117,9 +123,9 @@ class Table
     /**
      * The table headers.
      *
-     * @var \Illuminate\Support\Collection
+     * @var HeaderCollection
      */
-    protected $headers;
+    public $headers;
 
     /**
      * Create a new Table instance.
@@ -127,9 +133,9 @@ class Table
      * @param Collection $data
      * @param Collection $options
      * @param Collection $entries
-     * @param Collection $headers
      * @param RowCollection $rows
      * @param ViewCollection $views
+     * @param HeaderCollection $headers
      * @param ActionCollection $actions
      * @param FilterCollection $filters
      */
@@ -137,9 +143,9 @@ class Table
         Collection $data,
         Collection $options,
         Collection $entries,
-        Collection $headers,
         RowCollection $rows,
         ViewCollection $views,
+        HeaderCollection $headers,
         ActionCollection $actions,
         FilterCollection $filters
     ) {
@@ -445,42 +451,6 @@ class Table
     }
 
     /**
-     * Add a header to the header collection.
-     *
-     * @param  HeaderInterface $header
-     * @return $this
-     */
-    public function addHeader(HeaderInterface $header)
-    {
-        $this->headers->push($header);
-
-        return $this;
-    }
-
-    /**
-     * Set the table headers.
-     *
-     * @param  Collection $headers
-     * @return $this
-     */
-    public function setHeaders(Collection $headers)
-    {
-        $this->headers = $headers;
-
-        return $this;
-    }
-
-    /**
-     * Get the table headers.
-     *
-     * @return Collection
-     */
-    public function getHeaders()
-    {
-        return $this->headers;
-    }
-
-    /**
      * Add a view to the view collection.
      *
      * @param  ViewInterface $view
@@ -677,23 +647,101 @@ class Table
     }
 
     /**
-     * Get the instance as an array.
+     * Return the Vuetify data export. 
      *
+     * @param array $data
      * @return array
      */
-    public function toArray()
+    public function toVuetify($data = [])
     {
-        return Hydrator::dehydrate($this);
-    }
+        $data = [
+            //singleSelect: false,
+            //'selected' => [],
+            'headers' => $this->headers->toVuetify(),
+            // desserts: [
+            //   [
+            //     name: 'Frozen Yogurt',
+            //     calories: 159,
+            //     fat: 6.0,
+            //     carbs: 24,
+            //     protein: 4.0,
+            //     iron: '1%',
+            //   ],
+            //   [
+            //     name: 'Ice cream sandwich',
+            //     calories: 237,
+            //     fat: 9.0,
+            //     carbs: 37,
+            //     protein: 4.3,
+            //     iron: '1%',
+            //   ],
+            //   [
+            //     name: 'Eclair',
+            //     calories: 262,
+            //     fat: 16.0,
+            //     carbs: 23,
+            //     protein: 6.0,
+            //     iron: '7%',
+            //   ],
+            //   [
+            //     name: 'Cupcake',
+            //     calories: 305,
+            //     fat: 3.7,
+            //     carbs: 67,
+            //     protein: 4.3,
+            //     iron: '8%',
+            //   ],
+            //   [
+            //     name: 'Gingerbread',
+            //     calories: 356,
+            //     fat: 16.0,
+            //     carbs: 49,
+            //     protein: 3.9,
+            //     iron: '16%',
+            //   ],
+            //   [
+            //     name: 'Jelly bean',
+            //     calories: 375,
+            //     fat: 0.0,
+            //     carbs: 94,
+            //     protein: 0.0,
+            //     iron: '0%',
+            //   ],
+            //   [
+            //     name: 'Lollipop',
+            //     calories: 392,
+            //     fat: 0.2,
+            //     carbs: 98,
+            //     protein: 0,
+            //     iron: '2%',
+            //   ],
+            //   [
+            //     name: 'Honeycomb',
+            //     calories: 408,
+            //     fat: 3.2,
+            //     carbs: 87,
+            //     protein: 6.5,
+            //     iron: '45%',
+            //   ],
+            //   [
+            //     name: 'Donut',
+            //     calories: 452,
+            //     fat: 25.0,
+            //     carbs: 51,
+            //     protein: 4.9,
+            //     iron: '22%',
+            //   ],
+            //   [
+            //     name: 'KitKat',
+            //     calories: 518,
+            //     fat: 26.0,
+            //     carbs: 65,
+            //     protein: 7,
+            //     iron: '6%',
+            //   ],
+            // ],
+        ];
 
-    /**
-     * Convert the object to its JSON representation.
-     *
-     * @param  int  $options
-     * @return string
-     */
-    public function toJson($options = 0)
-    {
-        return json_encode($this->toArray(), $options);
+        return $data;
     }
 }

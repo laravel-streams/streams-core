@@ -31,11 +31,13 @@ class HeaderBuilder
             return;
         }
 
-        foreach ($builder->getColumns() as $column) {
+        foreach ($builder->getColumns() as $header) {
 
-            $column['builder'] = $builder;
+            $header['builder'] = $builder;
 
-            $table->addHeader($factory->make($column));
+            $header = $factory->make($header);
+
+            $table->headers->put($header->getField(), $header);
         }
     }
 }

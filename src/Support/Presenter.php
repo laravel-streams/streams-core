@@ -2,8 +2,12 @@
 
 namespace Anomaly\Streams\Platform\Support;
 
+use Illuminate\Support\Traits\Macroable;
+
 /**
  * Class Presenter
+ * 
+ * @todo The object macro (if matching a presenter macro) should take precedense.
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
@@ -11,6 +15,8 @@ namespace Anomaly\Streams\Platform\Support;
  */
 class Presenter
 {
+    use Macroable;
+
     /**
      * The decorated object.
      */
@@ -18,6 +24,7 @@ class Presenter
 
     /**
      * Protected names.
+     * @todo Necessary?
      *
      * @var array
      */

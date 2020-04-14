@@ -35,6 +35,13 @@ class Header implements HeaderInterface, ClassAttributeInterface, HtmlAttributes
     use HasHtmlAttributes;
 
     /**
+     * The header field.
+     *
+     * @var string
+     */
+    protected $field;
+
+    /**
      * The table builder.
      *
      * @var TableBuilder
@@ -79,6 +86,29 @@ class Header implements HeaderInterface, ClassAttributeInterface, HtmlAttributes
         array_set($query, $builder->getTableOption('prefix') . 'sort', $direction == 'asc' ? 'desc' : 'asc');
 
         return http_build_query($query);
+    }
+
+    /**
+     * Get the field.
+     *
+     * @return string
+     */
+    public function getField()
+    {
+        return $this->field;
+    }
+
+    /**
+     * Set the field.
+     *
+     * @param  $field
+     * @return $this
+     */
+    public function setField($field)
+    {
+        $this->field = $field;
+
+        return $this;
     }
 
     /**
