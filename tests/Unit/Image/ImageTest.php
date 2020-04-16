@@ -35,35 +35,19 @@ class ImageTest extends TestCase
     //     );
     // }
 
-    // public function testUrl()
-    // {
-    //     $this->assertStringContainsString(
-    //         url('app/default/assets/anomaly/streams-platform/resources/testing/cat.jpg'),
-    //         Images::url('streams::testing/cat.jpg')
-    //     );
-    // }
+    public function testUrl()
+    {
+        $this->assertEquals(
+            url('vendor/anomaly/streams-platform/resources/testing/cat.jpg'),
+            Images::make('streams::testing/cat.jpg')->url()
+        );
+    }
 
-    // public function testPath()
-    // {
-    //     $this->assertStringContainsString(
-    //         '/app/default/assets/anomaly/streams-platform/resources/testing/cat.jpg',
-    //         Images::path('streams::testing/cat.jpg')
-    //     );
-    // }
-
-    // public function testScript()
-    // {
-    //     $this->assertStringContainsString(
-    //         '<script foo="bar" src="/app/default/assets/anomaly/streams-platform/resources/testing/cat.jpg',
-    //         Images::script('streams::testing/cat.jpg', ['foo' => 'bar'])
-    //     );
-    // }
-
-    // public function testStyle()
-    // {
-    //     $this->assertStringContainsString(
-    //         '<link foo="bar" media="all" type="text/css" rel="stylesheet" href="/app/default/assets/anomaly/streams-platform/resources/testing/example.css',
-    //         Images::style('streams::testing/example.css', ['foo' => 'bar'])
-    //     );
-    // }
+    public function testPath()
+    {
+        $this->assertEquals(
+            '/vendor/anomaly/streams-platform/resources/testing/cat.jpg',
+            Images::make('streams::testing/cat.jpg')->path()
+        );
+    }
 }
