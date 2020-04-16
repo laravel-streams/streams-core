@@ -22,20 +22,18 @@ class ImageTest extends TestCase
         );
     }
 
-    public function testInline()
-    {
-        $this->markTestIncomplete();
+    // public function testInline()
+    // {
+    //     $this->assertEquals(
+    //         file_get_contents(base_path('vendor/anomaly/streams-platform/resources/testing/cat.jpg')),
+    //         Images::make('streams::testing/cat.jpg')->data()
+    //     );
 
-        // $this->assertStringContainsString(
-        //     file_get_contents(base_path('vendor/anomaly/streams-platform/resources/testing/cat.jpg')),
-        //     Images::inline('streams::testing/cat.jpg')
-        // );
-
-        // $this->assertStringContainsString(
-        //     file_get_contents(base_path('vendor/anomaly/streams-platform/resources/testing/example.css')),
-        //     Images::inline('streams::testing/example.css')
-        // );
-    }
+    //     $this->assertStringContainsString(
+    //         file_get_contents(base_path('vendor/anomaly/streams-platform/resources/testing/example.css')),
+    //         Images::inline('streams::testing/example.css')
+    //     );
+    // }
 
     // public function testUrl()
     // {
