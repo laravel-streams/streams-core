@@ -5,9 +5,9 @@ namespace Anomaly\Streams\Platform\Image\Concerns;
 use Illuminate\Support\Str;
 use Collective\Html\HtmlFacade;
 use Illuminate\Support\Facades\Request;
-use Anomaly\Streams\Platform\Image\Image;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Image\ImageManager;
+use Anomaly\Streams\Platform\Image\Facades\Images;
 use Anomaly\Streams\Platform\Image\Concerns\CanPublish;
 use Anomaly\Streams\Platform\Image\Concerns\HasVersion;
 
@@ -39,8 +39,7 @@ trait CanOutput
         // if ($srcset = $this->srcset()) {
         //     $attributes['srcset'] = $srcset;
         // }
-
-        if (!$alt && config('streams::images.auto_alt', true)) {
+        if (!$alt && config('streams.images.auto_alt', true)) {
             $attributes['alt'] = array_get(
                 $this->attributes(),
                 'alt',
@@ -67,7 +66,7 @@ trait CanOutput
 
         $sources = implode("\n", array_map(function ($alterations) {
 
-            $source = app(ImageManager::class)->make($this->source);
+            $source = Images::make($this->source);
 
             $quality = array_pull($alterations, 'quality');
 

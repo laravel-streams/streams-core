@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Image;
 
+use Anomaly\Streams\Platform\Image\ImageRegistry;
+
 /**
  * Class ImageManager
  *
@@ -20,34 +22,73 @@ class ImageManager
     protected $paths;
 
     /**
+     * The image registry.
+     *
+     * @var ImageRegistry
+     */
+    protected $registry;
+
+    /**
      * Create a new Image instance.
      *
      * @param ImagePaths $paths
+     * @param ImageRegistry $registry
      */
-    public function __construct(ImagePaths $paths)
+    public function __construct(ImagePaths $paths, ImageRegistry $registry)
     {
-        $this->paths = $paths;
+        $this->paths    = $paths;
+        $this->registry = $registry;
     }
 
     /**
      * Make a new image instance.
      *
      * @param  mixed $source
-     * @return $this
+     * @return Image
      */
     public function make($source)
     {
-        return new Image($source);
+        return (new Image($source))
+            ->setOriginal(basename($source));
+    }
+
+    /**
+     * Register an image by name.
+     *
+     * @param string $name
+     * @param string $image
+     * @return $this
+     */
+    public function register($name, $image)
+    {
+        $this->registry->register($name, $image);
+
+        return $this;
     }
 
     /**
      * Resolve a hinted path.
      *
      * @param string $path
+     * @param default|null $default
+     * @return string|null
      */
-    public function resolve($path)
+    public function resolve($name, $default = null)
     {
-        return $this->paths->resolve($path);
+        return $this->registry->resolve($name, $default);
+    }
+
+    /**
+     * Guess an image's
+     * registered path.
+     *
+     * @param string $image
+     */
+    public function path($image)
+    {
+        return $this->paths->resolve(
+            $this->registry->resolve($image) ?: $image
+        );
     }
 
     /**

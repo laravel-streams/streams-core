@@ -5,6 +5,7 @@ namespace Anomaly\Streams\Platform\Image\Concerns;
 use League\Flysystem\MountManager;
 use Illuminate\Support\Facades\File;
 use Anomaly\Streams\Platform\Image\ImageManager;
+use Anomaly\Streams\Platform\Image\Facades\Images;
 use Intervention\Image\ImageManager as Intervention;
 
 /**
@@ -16,7 +17,7 @@ use Intervention\Image\ImageManager as Intervention;
  */
 trait CanPublish
 {
-    
+
     /**
      * Get the cache path of the image.
      *
@@ -41,7 +42,7 @@ trait CanPublish
         if (config('streams::images.version') && $this->getVersion() !== false) {
             $output .= '?v=' . filemtime(public_path(trim($output, '/\\')));
         }
-        
+
         return $output;
     }
 
@@ -53,7 +54,7 @@ trait CanPublish
      */
     public function outputPath()
     {
-        
+
         /*
          * If the path is already public
          * and we don't have alterations
@@ -63,7 +64,7 @@ trait CanPublish
             str_contains($this->source, public_path())
             && !$this->hasAlterations()
             && !$this->getQuality()
-            ) {
+        ) {
             return str_replace(public_path(), '', $this->source);
         }
 
@@ -80,7 +81,7 @@ trait CanPublish
          * put it in /app/files/disk/folder/filename.ext
          */
         if (is_string($this->source) && str_is('*://*', $this->source)) {
-            
+
             list($disk, $folder, $filename) = explode('/', str_replace('://', '/', $this->source));
 
             if ($this->hasAlterations() || $this->getQuality()) {
@@ -90,7 +91,7 @@ trait CanPublish
             }
 
             if ($rename = $this->getFilename()) {
-                
+
                 $filename = $rename;
 
                 if (strpos($filename, DIRECTORY_SEPARATOR)) {
@@ -104,7 +105,7 @@ trait CanPublish
         /*
          * Get the real path relative to our installation.
          */
-        $source = str_replace(base_path(), '', app(ImageManager::class)->resolve($this->source));
+        $source = str_replace(base_path(), '', Images::path($this->source));
 
         /*
          * Build out path parts.
@@ -129,7 +130,7 @@ trait CanPublish
      */
     private function shouldPublish($path)
     {
-        $resolved = app(ImageManager::class)->resolve($path);
+        $resolved = Images::path($path);
 
         if (!File::exists($path)) {
             return true;
@@ -175,17 +176,17 @@ trait CanPublish
         ])) {
             return File::put(
                 public_path($path),
-                File::get(app(ImageManager::class)->resolve($this->source))
+                File::get(Images::path($this->source))
             );
         }
-        
+
         /**
          * @var Intervention $image
          */
         if (!$image = $this->intervention()) {
             return false;
         }
-        
+
         if (function_exists('exif_read_data') && $image->exif('Orientation') && $image->exif('Orientation') > 1) {
             $this->addAlteration('orientate');
         }
@@ -220,6 +221,7 @@ trait CanPublish
      */
     protected function intervention()
     {
+        // @todo allow a workflow with registry to cycle over here?
         // if ($this->source instanceof FileInterface) {
         //     return app(intervention::class)->make(app(MountManager::class)->read($this->source->location()));
         // }
@@ -228,12 +230,13 @@ trait CanPublish
             return app(intervention::class)->make(app(MountManager::class)->read($this->source));
         }
 
+        // @todo allow a workflow with registry to cycle over here?
         // if ($this->source instanceof File) {
         //     return app(intervention::class)->make($this->source->read());
         // }
 
-        if (is_string($this->source) && file_exists($resolved = app(ImageManager::class)->resolve($this->source))) {
-            return app(intervention::class)->make($resolved);
+        if (is_string($this->source) && file_exists($path = Images::path($this->source))) {
+            return app(intervention::class)->make($path);
         }
 
         if ($this->source instanceof Intervention) {

@@ -96,7 +96,7 @@ class AssetManager
     /**
      * Return the collection.
      *
-     * @param [type] $name
+     * @param string $name
      */
     public function collection($name)
     {
@@ -128,9 +128,9 @@ class AssetManager
      * @param string|array $assets
      * @return $this
      */
-    public function resolve($name, $default)
+    public function resolve($name)
     {
-        return $this->registry->resolve($name, $default);
+        return $this->registry->resolve($name);
     }
 
     /**
@@ -172,9 +172,9 @@ class AssetManager
     public function tag($asset, array $attributes = [])
     {
         if ($this->paths->extension($asset) == 'js') {
-            return $this->script($asset);
+            return $this->script($asset, $attributes);
         } else {
-            return $this->style($asset);
+            return $this->style($asset, $attributes);
         }
     }
 

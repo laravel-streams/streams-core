@@ -27,18 +27,28 @@ class AssetRegistry
      */
     public function register($name, $assets)
     {
-        $this->assets[$name] = (array)$assets;
+
+        /**
+         * We can assume the keyname 
+         * if it's just one asset.
+         */
+        if (is_string($assets)) {
+            $assets = [
+                $assets => $assets,
+            ];
+        }
+
+        $this->assets[$name] = (array) $assets;
     }
 
     /**
      * Resolve assets.
      *
      * @param string $name
-     * @param string|array $default
      * @return array
      */
-    public function resolve($name, $default = [])
+    public function resolve($name)
     {
-        return (array) array_get($this->assets, $name, (array)$default);
+        return (array) array_get($this->assets, $name);
     }
 }

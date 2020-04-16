@@ -31,24 +31,25 @@ class AssetCollection extends Collection
      */
     public function load($name, array $default = [])
     {
+
+        // Strip the @load indicator.
         $name = str_replace('@', '', $name);
 
+        /**
+         * Only load named assets once.
+         */
         if (in_array($name, $this->loaded)) {
             return $this;
         }
 
-        foreach (Assets::resolve($name, $default) as $key => $resolved) {
-
-            if (!is_numeric($key)) {
-
-                $this->load($name . '.' . $key);
-
-                continue;
-            }
+        /**
+         * Loop over the resolved assets and 
+         */
+        foreach (Assets::resolve($name, $default) as $resolved) {
 
             $this->loaded[] = $name;
 
-            $this->add($resolved);
+            $this->put($resolved, $resolved);
         }
 
         return $this;
@@ -59,7 +60,7 @@ class AssetCollection extends Collection
      *
      * @param array $attributes
      * @param null $secure
-     * @return array
+     * @return $this
      */
     public function urls(array $attributes = [], $secure = null)
     {
@@ -72,7 +73,7 @@ class AssetCollection extends Collection
      * Return output tags.
      *
      * @param array $attributes
-     * @return array
+     * @return $this
      */
     public function tags(array $attributes = [])
     {
@@ -110,7 +111,7 @@ class AssetCollection extends Collection
     /**
      * Return inline assets.
      *
-     * @return array
+     * @return $this
      */
     public function inlines()
     {
@@ -126,7 +127,7 @@ class AssetCollection extends Collection
      * just returns an array of individual processed
      * paths instead.
      *
-     * @return array
+     * @return $this
      */
     public function paths()
     {

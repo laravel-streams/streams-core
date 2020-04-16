@@ -35,7 +35,7 @@ class Image
     use HasExtension;
     use HasAlterations;
     use HasHtmlAttributes;
-    
+
     use CanOutput;
     use CanPublish;
 
@@ -63,7 +63,7 @@ class Image
         }
 
         if ($this->hasMacro(snake_case($method))) {
-            
+
             $macro = static::$macros[$method];
 
             if ($macro instanceof \Closure) {
@@ -85,7 +85,8 @@ class Image
      *
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return $this->img();
     }
 }

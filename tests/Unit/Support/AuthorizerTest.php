@@ -31,7 +31,7 @@ class AuthorizerTest extends TestCase
     {
         $user = $this->user();
         $role = $this->role(['permissions' => "anomaly.module.users::users.write"]);
-        
+
         $user = $this->forRole($user, $role);
 
         $this->assertTrue($this->authorizer()->authorize('anomaly.module.users::users.write', $user));

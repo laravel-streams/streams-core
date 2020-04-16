@@ -41,7 +41,7 @@ trait HasExtension
 
         return $this;
     }
-    
+
     /**
      * Return the image extension.
      *
@@ -55,5 +55,4 @@ trait HasExtension
 
         return $this->extension = pathinfo($this->source, PATHINFO_EXTENSION);
     }
-
 }
