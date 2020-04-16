@@ -45,7 +45,10 @@ trait CanOutput
                 'alt',
                 ucwords(
                     Str::humanize(
-                        trim(basename($this->getOriginal(), $this->extension()), '.'),
+                        trim(basename(
+                            $this->getOriginal(),
+                            pathinfo($this->getOriginal(), PATHINFO_EXTENSION)
+                        ), '.'),
                         '^a-zA-Z0-9'
                     )
                 )
@@ -105,7 +108,7 @@ trait CanOutput
      */
     public function base64()
     {
-        $extension = $this->getExtension();
+        $extension = $this->extension();
 
         if ($extension == 'svg') {
             $extension = 'svg+xml';
@@ -123,7 +126,17 @@ trait CanOutput
      */
     public function url(array $parameters = [], $secure = null)
     {
-        return $this->asset($parameters, $secure);
+        return asset($this->getCachePath(), $parameters, $secure);
+    }
+
+    /**
+     * Return the path to an image.
+     *
+     * @return string
+     */
+    public function path()
+    {
+        return Request::getBasePath() . $this->getCachePath();
     }
 
     /**
@@ -142,18 +155,6 @@ trait CanOutput
     }
 
     /**
-     * Return the asset path to an image.
-     *
-     * @param  array $parameters
-     * @param  null $secure
-     * @return string
-     */
-    public function asset(array $parameters = [], $secure = null)
-    {
-        return app(UrlGenerator::class)->asset($this->getCachePath(), $parameters, $secure);
-    }
-
-    /**
      * Return the CSS URL for background images.
      *
      * @return string
@@ -161,16 +162,6 @@ trait CanOutput
     public function css()
     {
         return 'url(' . $this->path() . ')';
-    }
-
-    /**
-     * Return the path to an image.
-     *
-     * @return string
-     */
-    public function path()
-    {
-        return Request::getBasePath() . $this->getCachePath();
     }
 
     /**

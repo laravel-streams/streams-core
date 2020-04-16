@@ -188,15 +188,15 @@ trait CanPublish
         }
 
         if (function_exists('exif_read_data') && $image->exif('Orientation') && $image->exif('Orientation') > 1) {
-            $this->addAlteration('orientate');
+            //$this->addAlteration('orientate');
         }
 
-        if (in_array($this->getExtension(), ['jpeg', 'jpg']) && config('streams::images.interlace')) {
-            $this->addAlteration('interlace');
+        if (in_array($this->getExtension(), ['jpeg', 'jpg']) && config('streams.images.interlace')) {
+            //$this->addAlteration('interlace');
         }
 
         if (!$this->getAlterations() && !$this->getQuality()) {
-            return $image->save(public_path($path), $this->getQuality() ?: config('streams::images.quality', 80));
+            return $image->save(public_path($path), $this->getQuality() ?: config('streams.images.quality', null));
         }
 
         if (is_callable('exif_read_data') && in_array('orientate', $this->getAlterations())) {
