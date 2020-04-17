@@ -73,10 +73,6 @@ class Image
             return $macro(...$parameters);
         }
 
-        // if ($this->macros->isMacro($macro = snake_case($method))) {
-        //     return $this->macro($macro);
-        // }
-
         return $this->addAttribute($method, array_shift($parameters));
     }
 

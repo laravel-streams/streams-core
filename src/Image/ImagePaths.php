@@ -23,31 +23,11 @@ class ImagePaths
     protected $paths = [];
 
     /**
-     * The request object.
-     *
-     * @var Request
-     */
-    protected $request;
-
-    /**
-     * The application object.
-     *
-     * @var Application
-     */
-    protected $application;
-
-    /**
      * Create a new ImagePaths instance.
-     *
-     * @param Request $request
-     * @param Application $application
      */
-    public function __construct(Request $request, Application $application)
+    public function __construct()
     {
-        $this->request     = $request;
-        $this->application = $application;
-
-        $this->paths = config('streams::images.paths', []);
+        $this->paths = config('streams.images.paths', []);
     }
 
     /**

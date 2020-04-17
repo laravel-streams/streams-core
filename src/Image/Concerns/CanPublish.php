@@ -25,11 +25,13 @@ trait CanPublish
      */
     protected function getCachePath()
     {
-        if (starts_with($this->source, ['http://', 'https://', '//'])) {
-            return $this->source;
+        $source = Images::path($this->source);
+
+        if (starts_with($source, ['http://', 'https://', '//'])) {
+            return $source;
         }
 
-        $output = $this->outputPath();
+        $output = $this->outputPath($source);
 
         try {
             if ($this->shouldPublish($output)) {
@@ -52,7 +54,7 @@ trait CanPublish
      * @param $path
      * @return string
      */
-    public function outputPath()
+    protected function outputPath($path)
     {
 
         /*
@@ -105,7 +107,7 @@ trait CanPublish
         /*
          * Get the real path relative to our installation.
          */
-        $source = str_replace(base_path(), '', Images::path($this->source));
+        $source = str_replace(base_path(), '', $path);
 
         /*
          * Build out path parts.

@@ -9,8 +9,7 @@ use Anomaly\Streams\Platform\Image\Facades\Images;
  */
 class ImageManagerTest extends TestCase
 {
-
-    public function testMake()
+    public function testCanMakeImageInstances()
     {
         $this->assertInstanceOf(Image::class, Images::make('test'));
     }
@@ -30,7 +29,7 @@ class ImageManagerTest extends TestCase
         );
     }
 
-    public function testAddPath()
+    public function testRegisteredPaths()
     {
         Images::addPath(
             'testing',
