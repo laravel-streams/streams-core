@@ -1,9 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
 
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Anomaly\Streams\Platform\Message\MessageManager;
-use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
+
 use Illuminate\Http\Request;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Message\Facades\Messages;
 
 /**
  * Class SetErrorMessages
@@ -36,9 +37,8 @@ class SetErrorMessages
      * Handle the command.
      *
      * @param Request $request
-     * @param MessageManager $messages
      */
-    public function handle(Request $request, MessageManager $messages)
+    public function handle(Request $request)
     {
         if ($this->builder->isAjax()) {
             return;
@@ -46,14 +46,14 @@ class SetErrorMessages
 
         $errors = $this->builder->getFormErrors();
 
-        $messages->error($errors->all());
+        Messages::error($errors->all());
 
         if ($request->segment(1) == 'admin' && ($stream = $this->builder->getFormStream()) && $stream->isTrashable()) {
 
             /* @var AssignmentInterface $field */
             foreach ($stream->fields as $field) {
                 if ($this->builder->hasFormError($field->getSlug())) {
-                    $messages->warning(
+                    Messages::warning(
                         trans(
                             'streams::validation.unique_trash',
                             [

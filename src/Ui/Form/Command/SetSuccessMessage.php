@@ -1,8 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
 
-use Anomaly\Streams\Platform\Message\MessageManager;
-use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
+
 use Illuminate\Http\Request;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Message\Facades\Messages;
 
 /**
  * Class SetSuccessMessage
@@ -34,10 +36,9 @@ class SetSuccessMessage
     /**
      * Handle the command.
      *
-     * @param Request    $request
-     * @param MessageManager $messages
+     * @param Request $request
      */
-    public function handle(Request $request, MessageManager $messages)
+    public function handle(Request $request)
     {
 
         // If we can't save or there are errors then skip it.
@@ -88,7 +89,7 @@ class SetSuccessMessage
             );
         }
 
-        $messages->{$this->builder->getFormOption('success_message_type', 'success')}(
+        Messages::{$this->builder->getFormOption('success_message_type', 'success')}(
             $this->builder->getFormOption('success_message')
         );
     }

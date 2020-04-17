@@ -1,7 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -11,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Delete extends ActionHandler
+class Delete
 {
 
     /**
@@ -26,16 +27,15 @@ class Delete extends ActionHandler
 
         $model = $builder->getTableModel();
 
-        /* @var EloquentModel $entry */
         foreach ($selected as $id) {
 
             $entry = $model->find($id);
 
             $deletable = true;
 
-            if ($entry instanceof EloquentModel) {
-                $deletable = $entry->isDeletable();
-            }
+            // if ($entry instanceof EloquentModel) {
+            //     $deletable = $entry->isDeletable();
+            // }
 
             if ($entry && $deletable && $entry->delete()) {
                 $builder->fire('row_deleted', compact('builder', 'model', 'entry'));

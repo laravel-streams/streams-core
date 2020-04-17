@@ -4,13 +4,13 @@ namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Illuminate\View\View;
 use Illuminate\Support\MessageBag;
+use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Entry\EntryModel;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Collection;
+use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;

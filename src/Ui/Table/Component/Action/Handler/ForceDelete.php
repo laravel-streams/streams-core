@@ -1,8 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
 
 use Anomaly\Streams\Platform\Entry\EntryRepository;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Message\Facades\Messages;
 
 /**
  * Class ForceDeleteActionHandler
@@ -11,7 +13,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class ForceDelete extends ActionHandler
+class ForceDelete
 {
 
     /**
@@ -42,7 +44,7 @@ class ForceDelete extends ActionHandler
         }
 
         if ($selected) {
-            $this->messages->success(trans('streams::message.delete_success', compact('count')));
+            Messages::success(trans('streams::message.delete_success', compact('count')));
         }
     }
 }

@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
 
-use Anomaly\Streams\Platform\Message\MessageManager;
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
+
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Message\Facades\Messages;
 
 /**
  * Class AddErrorMessages
@@ -32,17 +34,11 @@ class AddErrorMessages
 
     /**
      * Handle the command.
-     *
-     * @param MessageManager $messages
      */
-    public function handle(MessageManager $messages)
+    public function handle()
     {
         $form = $this->builder->getForm();
 
-        $errors = $form->getErrors();
-
-        if ($errors instanceof \Illuminate\Support\MessageManager) {
-            $messages->error($errors->all());
-        }
+        Messages::error($form->getErrors());
     }
 }

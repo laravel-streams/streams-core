@@ -4,13 +4,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Support\Value;
-use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Image\ImageManager;
 use Anomaly\Streams\Platform\Asset\Facades\Assets;
-use Anomaly\Streams\Platform\Message\MessageManager;
 use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
+use Anomaly\Streams\Platform\Message\Facades\Messages;
 use Anomaly\Streams\Platform\Support\Facades\Decorator;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Form\Command\GetFormCriteria;
@@ -288,19 +285,15 @@ if (!function_exists('messages')) {
      */
     function messages($type = null, $message = null)
     {
-        if (!$type && !$message) {
-            return app(MessageManager::class);
-        }
-
         if ($type && !$message) {
-            return app(MessageManager::class)->get($type);
+            return Messages::get($type);
         }
 
         if ($type && $message) {
-            return app(MessageManager::class)->add($type, $message);
+            return Messages::add($type, $message);
         }
 
-        return app(MessageManager::class);
+        return app('messages');
     }
 }
 

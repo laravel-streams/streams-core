@@ -2,10 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
 
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Routing\Redirector;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 
 /**
  * Class EditActionHandler
@@ -14,7 +13,7 @@ use Illuminate\Routing\Redirector;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Edit extends ActionHandler
+class Edit
 {
 
     /**

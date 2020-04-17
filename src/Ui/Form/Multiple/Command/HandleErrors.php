@@ -1,6 +1,7 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Multiple\Command;
+<?php
 
-use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+namespace Anomaly\Streams\Platform\Ui\Form\Multiple\Command;
+
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
 use Illuminate\Support\MessageManager;
 

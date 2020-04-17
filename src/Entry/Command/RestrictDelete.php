@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Model\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Model\Command;
 
 use Illuminate\Database\Eloquent\Model;
-use Anomaly\Streams\Platform\Message\MessageManager;
+use Anomaly\Streams\Platform\Message\Facades\Messages;
 
 /**
  * Class RestrictDelete
@@ -33,11 +35,10 @@ class RestrictDelete
     /**
      * Handle the command.
      *
-     * @param MessageManager $messages
      *
      * @return bool
      */
-    public function handle(MessageManager $messages)
+    public function handle()
     {
         // foreach ($this->model->getRestricts() as $relation) {
         //     $humanize = humanize($relation);
@@ -50,7 +51,7 @@ class RestrictDelete
         //     }
 
         //     if ($relation->count()) {
-        //         $messages->warning(
+        //         Messages::warning(
         //             trans(
         //                 'streams::message.delete_restrict',
         //                 [

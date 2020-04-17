@@ -1,9 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
+<?php
 
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
+
 use Illuminate\Routing\ResponseFactory;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
  * Class ExportAll
@@ -12,7 +12,7 @@ use Illuminate\Routing\ResponseFactory;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class ExportAll extends ActionHandler
+class ExportAll
 {
 
     /**

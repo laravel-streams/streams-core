@@ -2,11 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
 
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Model\EloquentRepository;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Http\Request;
+use Anomaly\Streams\Platform\Entry\EntryRepository;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
  * Class ReorderActionHandler
@@ -15,7 +13,7 @@ use Illuminate\Http\Request;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Reorder extends ActionHandler
+class Reorder
 {
 
     /**
@@ -28,7 +26,7 @@ class Reorder extends ActionHandler
     {
         $items = $request->get($builder->getTableOption('prefix') . 'order', []);
 
-        $repository = (new EloquentRepository())->setModel($model = $builder->getTableModel());
+        $repository = (new EntryRepository())->setModel($model = $builder->getTableModel());
 
         /* @var EloquentModel $entry */
         $repository->withoutEvents(
@@ -38,11 +36,9 @@ class Reorder extends ActionHandler
                     $repository
                         ->newQuery()
                         ->where('id', $id)
-                        ->update(
-                            [
-                                'sort_order' => $k + 1,
-                            ]
-                        );
+                        ->update([
+                            'sort_order' => $k + 1,
+                        ]);
                 }
             }
         );

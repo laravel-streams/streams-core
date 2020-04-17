@@ -2,14 +2,14 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
-use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Message\MessageManager;
-use Anomaly\Streams\Platform\Support\Authorizer;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionHandlerInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Application;
+use Anomaly\Streams\Platform\Support\Authorizer;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Message\Facades\Messages;
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionHandlerInterface;
 
 /**
  * Class ActionExecutor
@@ -36,13 +36,6 @@ class ActionExecutor
     protected $modules;
 
     /**
-     * The message bag.
-     *
-     * @var MessageManager
-     */
-    protected $messages;
-
-    /**
      * The authorizer utility.
      *
      * @var Authorizer
@@ -60,21 +53,18 @@ class ActionExecutor
      * Create a new ActionExecutor instance.
      *
      * @param Request          $request
-     * @param MessageManager       $messages
      * @param Authorizer       $authorizer
      * @param Application      $application
      * @param ModuleCollection $modules
      */
     public function __construct(
         Request $request,
-        MessageManager $messages,
         Authorizer $authorizer,
         Application $application,
         ModuleCollection $modules
     ) {
         $this->request     = $request;
         $this->modules     = $modules;
-        $this->messages    = $messages;
         $this->authorizer  = $authorizer;
         $this->application = $application;
     }
@@ -100,7 +90,7 @@ class ActionExecutor
          * Authorize the action.
          */
         if (!$this->authorizer->authorize($action->getPermission())) {
-            $this->messages->error('streams::message.403');
+            Messages::error('streams::message.403');
 
             return;
         }

@@ -1,12 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
 
-use Anomaly\Streams\Platform\Entry\EntryModel;
-use Anomaly\Streams\Platform\Message\MessageManager;
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Model\Traits\Versionable;
-use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
+
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Message\Facades\Messages;
+use Anomaly\Streams\Platform\Model\Traits\Versionable;
+use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
 
 /**
  * Class HandleVersioning
@@ -39,10 +39,8 @@ class HandleVersioning
 
     /**
      * Handle the command.
-     *
-     * @param MessageManager $messages
      */
-    public function handle(MessageManager $messages)
+    public function handle()
     {
         /**
          * If we can't save, there are
@@ -77,7 +75,7 @@ class HandleVersioning
             try {
                 $entry->version();
             } catch (\Exception $exception) {
-                $messages->error('Versioning failed: ' . $exception->getMessage());
+                Messages::error('Versioning failed: ' . $exception->getMessage());
             }
 
             $entry->reguard();
