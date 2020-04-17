@@ -160,4 +160,12 @@ class ImageTest extends TestCase
             md5(Images::make('streams::testing/cat.jpg')->setQuality(100)->data())
         );
     }
+
+    public function testCanVersionOutput()
+    {
+        $this->assertNotSame(
+            md5(Images::make('streams::testing/cat.jpg')->setQuality(80)->data()),
+            md5(Images::make('streams::testing/cat.jpg')->setQuality(100)->data())
+        );
+    }
 }

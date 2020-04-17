@@ -41,7 +41,7 @@ trait CanPublish
             return config('app.debug', false) ? $e->getMessage() : null;
         }
 
-        if (config('streams::images.version') && $this->getVersion() !== false) {
+        if (config('streams.images.version') && $this->getVersion() !== false) {
             $output .= '?v=' . filemtime(public_path(trim($output, '/\\')));
         }
 
