@@ -64,13 +64,13 @@ class ImageTest extends TestCase
         $this->assertSame(
             '<picture>
 <source media="(min-width: 1000px)" srcset="/vendor/anomaly/streams-platform/resources/testing/cat.jpg">
-<source media="(min-width: 800px)" srcset="/vendor/anomaly/streams-platform/resources/testing/f6cfbe04002085dcfa50307d4477c999.jpg">
+<source media="(min-width: 800px)" srcset="/vendor/anomaly/streams-platform/resources/testing/a6a12235c5b0ddea5d2caf6b306dd5df.jpg">
 <source media="(max-width: 799px)" srcset="/vendor/anomaly/streams-platform/resources/testing/d77fa15955caa3616dac5d789f8ee888.jpg">
 <img src="/vendor/anomaly/streams-platform/resources/testing/cat.jpg" alt="Cat">
 </picture>',
             Images::make('streams::testing/cat.jpg')->sources([
                 Images::make('streams::testing/cat.jpg')->media('(min-width: 1000px)'),
-                Images::make('streams::testing/cat.jpg')->resize(1000)->media('(min-width: 800px)'),
+                Images::make('streams::testing/cat.jpg')->resize(800)->media('(min-width: 800px)'),
                 Images::make('streams::testing/cat.jpg')->resize(400)->media('(max-width: 799px)'),
             ])->picture()
         );
@@ -128,6 +128,18 @@ class ImageTest extends TestCase
         $this->assertStringContainsString(
             file_get_contents(base_path('vendor/anomaly/streams-platform/resources/testing/cat.jpg')),
             Images::make('streams::testing/cat.jpg')->data()
+        );
+    }
+
+    public function testSrcsets()
+    {
+        $this->assertSame(
+            '<img src="/vendor/anomaly/streams-platform/resources/testing/cat.jpg" srcset="/vendor/anomaly/streams-platform/resources/testing/cat.jpg 1000w, /vendor/anomaly/streams-platform/resources/testing/a6a12235c5b0ddea5d2caf6b306dd5df.jpg 800w, /vendor/anomaly/streams-platform/resources/testing/d77fa15955caa3616dac5d789f8ee888.jpg 400w" alt="Cat">',
+            Images::make('streams::testing/cat.jpg')->srcsets([
+                '1000w' => Images::make('streams::testing/cat.jpg'),
+                '800w' => Images::make('streams::testing/cat.jpg')->resize(800),
+                '400w' => Images::make('streams::testing/cat.jpg')->resize(400),
+            ])->img()
         );
     }
 
