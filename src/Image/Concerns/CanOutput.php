@@ -5,9 +5,6 @@ namespace Anomaly\Streams\Platform\Image\Concerns;
 use Illuminate\Support\Str;
 use Collective\Html\HtmlFacade;
 use Illuminate\Support\Facades\Request;
-use Illuminate\Contracts\Routing\UrlGenerator;
-use Anomaly\Streams\Platform\Image\ImageManager;
-use Anomaly\Streams\Platform\Image\Facades\Images;
 use Anomaly\Streams\Platform\Image\Concerns\CanPublish;
 use Anomaly\Streams\Platform\Image\Concerns\HasVersion;
 
@@ -36,9 +33,10 @@ trait CanOutput
             $attributes['src'] = $this->path();
         }
 
-        // if ($srcset = $this->srcset()) {
-        //     $attributes['srcset'] = $srcset;
-        // }
+        if ($srcset = $this->srcset()) {
+            $attributes['srcset'] = $srcset;
+        }
+
         if (!$alt && config('streams.images.auto_alt', true)) {
             $attributes['alt'] = array_get(
                 $this->attributes(),
@@ -55,7 +53,7 @@ trait CanOutput
             );
         }
 
-        return '<img ' . HtmlFacade::attributes($attributes) . '>';
+        return '<img' . HtmlFacade::attributes($attributes) . '>';
     }
 
     /**
@@ -65,24 +63,13 @@ trait CanOutput
      */
     public function picture(array $attributes = [])
     {
-        $attributes = HtmlFacade::attributes($this->attributes($attributes));
-
-        $sources = implode("\n", array_map(function ($alterations) {
-
-            $source = Images::make($this->source);
-
-            $quality = array_pull($alterations, 'quality');
-
-            $source->setAlterations($alterations);
-
-            if ($quality) {
-                $source->quality($quality);
-            }
-
+        $sources = implode("\n", array_map(function ($source) {
             return $source->source();
-        }, $this->getSources()));
+        }, $this->sources));
 
-        return "<picture {$attributes}>\n{$sources}\n</picture>";
+        $sources .= "\n" . $this->img($attributes);
+
+        return "<picture>\n{$sources}\n</picture>";
     }
 
     /**

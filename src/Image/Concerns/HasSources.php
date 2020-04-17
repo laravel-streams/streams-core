@@ -24,15 +24,14 @@ trait HasSources
     /**
      * Return a source tag.
      *
+     * @param array $attributes
      * @return string
      */
-    public function source()
+    public function source(array $attributes = [])
     {
-        $attributes = HtmlFacade::attributes([
-            'srcset' => /*$this->srcset() ?: */$this->path() . ' 2x, ' . $this->path() . ' 1x'
-        ]);
+        $attributes = array_merge($this->attributes(['srcset' => $this->srcset() ?: $this->path()]), $attributes);
 
-        return "<source {$attributes}>";
+        return '<source' . HtmlFacade::attributes($attributes) . '>';
     }
 
     /**
@@ -47,15 +46,4 @@ trait HasSources
 
         return $this;
     }
-
-    /**
-     * Get the sources.
-     * 
-     * @return array
-     */
-    public function getSources()
-    {
-        return $this->sources;
-    }
-    
 }
