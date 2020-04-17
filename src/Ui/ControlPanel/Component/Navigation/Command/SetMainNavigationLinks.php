@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
@@ -37,7 +39,7 @@ class SetMainNavigationLinks
     {
         $links = $this->builder->getControlPanelNavigation();
 
-        $favorites = config('streams::navigation.favorites', []);
+        $favorites = config('streams.navigation.favorites', []);
 
         /* @var NavigationLinkInterface $link */
         foreach ($links as $link) {

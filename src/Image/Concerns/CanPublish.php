@@ -213,7 +213,7 @@ trait CanPublish
             }
         }
 
-        $image->save(public_path($path), $this->getQuality() ?: config('streams::images.quality', 80));
+        $image->save(public_path($path), $this->getQuality() ?: config('streams.images.quality', null));
     }
 
     /**
