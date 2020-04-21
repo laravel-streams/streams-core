@@ -6,9 +6,9 @@
     <div class="form__wrapper">
 
         {!! $form->open() !!}
-        @include('admin::form/partials/heading')
-        @include('admin::form/partials/layout')
-        @include('admin::form/partials/controls')
+        @include('streams::form/partials/heading')
+        @include('streams::form/partials/layout')
+        @include('streams::form/partials/controls')
         {!! $form->close() !!}
 
     </div>

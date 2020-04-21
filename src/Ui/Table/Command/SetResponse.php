@@ -2,17 +2,17 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Routing\ResponseFactory;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class SetTableResponse
+ * Class SetResponse
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class SetTableResponse
+class SetResponse
 {
 
     /**
@@ -42,9 +42,9 @@ class SetTableResponse
         $table = $this->builder->getTable();
 
         if (request()->has('_async')) {
-            
+
             $table->setResponse($response->make($table->toJson()));
-            
+
             return;
         }
 
@@ -53,7 +53,7 @@ class SetTableResponse
 
         $table->setResponse(
             $response->view(
-                $options->get('wrapper_view', $this->builder->isAjax() ? 'streams::ajax' : 'streams::default'),
+                $options->get('wrapper_view', 'streams::default'),
                 $data
             )
         );

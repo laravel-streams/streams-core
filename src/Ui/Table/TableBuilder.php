@@ -11,7 +11,7 @@ use Anomaly\Streams\Platform\Ui\Table\Command\LoadTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\MakeTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\PostTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\BuildTable;
-use Anomaly\Streams\Platform\Ui\Table\Command\SetTableResponse;
+use Anomaly\Streams\Platform\Ui\Table\Command\SetResponse;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
@@ -166,6 +166,7 @@ class TableBuilder
         dispatch_now(new LoadTable($this));
         dispatch_now(new AddAssets($this));
         dispatch_now(new MakeTable($this));
+        dispatch_now(new SetResponse($this));
 
         return $this;
     }
@@ -193,10 +194,6 @@ class TableBuilder
     public function render()
     {
         $this->make();
-
-        if ($this->table->getResponse() === null) {
-            dispatch_now(new SetTableResponse($this));
-        }
 
         return $this->table->getResponse();
     }
