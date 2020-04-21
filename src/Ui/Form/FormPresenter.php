@@ -99,7 +99,7 @@ class FormPresenter extends Presenter
     {
         return $this->view
             ->make(
-                $view ?: 'admin::form/partials/fields',
+                $view ?: 'streams::form/partials/fields',
                 [
                     'form'   => $this,
                     'fields' => array_unique($this->object->getFields()->fieldNames()),

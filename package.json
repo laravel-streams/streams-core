@@ -16,12 +16,11 @@
         "mousetrap": "^1.6",
         "reflect-metadata": "^0.1.13",
         "sweetalert": "^2.1",
-        "tailwind-css-variables": "^2.0.3",
         "tailwindcss": "^1.2.0",
+        "tailwind-css-variables": "^2.0.3",
         "tailwindcss-transitions": "^2.1.0",
         "tingle.js": "^0.15",
-        "vue": "^2.6",
-        "vuetify": "^2.2.20"
+        "vue": "^2.6"
     },
     "devDependencies": {
         "@babel/plugin-proposal-decorators": "^7.8.3",

@@ -29,18 +29,18 @@ class SetDefaultOptions
          * Default the form view based on the request.
          */
         if (!$builder->getFormOption('form_view')) {
-            $builder->setFormOption('form_view', 'admin::form/form');
+            $builder->setFormOption('form_view', 'streams::form/form');
         }
 
         /*
          * Default the form wrapper view as well.
          */
         if (!$builder->getFormOption('wrapper_view') && $builder->isAjax()) {
-            $builder->setFormOption('wrapper_view', 'admin::ajax');
+            $builder->setFormOption('wrapper_view', 'streams::ajax');
         }
 
         if (!$builder->getFormOption('wrapper_view')) {
-            $builder->setFormOption('wrapper_view', 'admin::default');
+            $builder->setFormOption('wrapper_view', 'streams::default');
         }
 
         /*

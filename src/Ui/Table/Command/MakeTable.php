@@ -48,7 +48,7 @@ class MakeTable
         assets('scripts.js', 'public::vendor/anomaly/core/js/table/table.js');
 
         $content = view(
-            $options->get('table_view', $this->builder->isAjax() ? 'admin::table/ajax' : 'admin::table/table'),
+            $options->get('table_view', $this->builder->isAjax() ? 'streams::table/ajax' : 'streams::table/table'),
             $data
         )->render();
 

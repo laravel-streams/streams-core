@@ -9,7 +9,7 @@
             <span v-show="field.required" class="field__required">*</span>
 
             <!-- @if ($fieldType->locale)
-                @include('admin::form/partials/translations')
+                @include('streams::form/partials/translations')
             @endif
         </label> -->
 

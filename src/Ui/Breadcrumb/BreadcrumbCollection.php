@@ -51,6 +51,6 @@ class BreadcrumbCollection extends Collection
      */
     public function __toString()
     {
-        return view('admin::partials/breadcrumb')->render();
+        return view('streams::partials/breadcrumb')->render();
     }
 }

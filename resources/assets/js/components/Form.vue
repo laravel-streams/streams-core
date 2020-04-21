@@ -5,10 +5,10 @@
 
         <div v-for="(field, index) in form.fields" :key="index">{{ field.field }}</div>
         <!-- {!! $form->open() !!}
-        @include('admin::form/partials/controls')
-        @include('admin::form/partials/heading')
-        @include('admin::form/partials/layout')
-        @include('admin::form/partials/controls')
+        @include('streams::form/partials/controls')
+        @include('streams::form/partials/heading')
+        @include('streams::form/partials/layout')
+        @include('streams::form/partials/controls')
         {!! $form->close() !!} -->
 
     </div>

@@ -78,21 +78,21 @@ class FieldType extends Addon
      *
      * @var string
      */
-    protected $inputView = 'admin::form/partials/input';
+    protected $inputView = 'streams::form/partials/input';
 
     /**
      * The field's filter input view.
      *
      * @var string
      */
-    protected $filterView = 'admin::form/partials/filter';
+    protected $filterView = 'streams::form/partials/filter';
 
     /**
      * The field wrapper view.
      *
      * @var string
      */
-    protected $wrapperView = 'admin::form/partials/wrapper';
+    protected $wrapperView = 'streams::form/partials/wrapper';
 
 
 

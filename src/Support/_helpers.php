@@ -405,7 +405,7 @@ if (!function_exists('favicons')) {
      */
     function favicons($source)
     {
-        return view('admin::partials.favicons', compact('source'));
+        return view('streams::partials.favicons', compact('source'));
     }
 }
 
@@ -414,12 +414,12 @@ if (!function_exists('constants')) {
     /**
      * Return required JS constants.
      * 
-     * @todo this should probably be moved into core/streams-platform instead of admin::
+     * @todo this should probably be moved into core/streams-platform instead of streams::
      * @return \Illuminate\View\View
      */
     function constants()
     {
-        return view('admin::partials.constants');
+        return view('streams::partials.constants');
     }
 }
 

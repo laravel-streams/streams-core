@@ -40,7 +40,7 @@ class SetDefaultOptions
          * Default the table view based on the request.
          */
         if (!$builder->getTableOption('table_view')) {
-            $builder->setTableOption('table_view', 'admin::table/table');
+            $builder->setTableOption('table_view', 'streams::table/table');
         }
 
         /*
