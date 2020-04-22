@@ -1,5 +1,4 @@
-<x-ui-table :table="$table"></x-ui-table>
-{{-- <cp-table :table="{{ $table->toJson() }}">
+<cp-table :table="{{ $table->toJson() }}">
 
     <template v-slot:filters>
         @include('streams::table/partials/filters')
@@ -25,4 +24,4 @@
         </div>
     </template>
     
-</cp-table> --}}
+</cp-table>

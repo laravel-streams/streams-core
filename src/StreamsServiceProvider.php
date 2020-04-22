@@ -8,8 +8,11 @@ use StringTemplate\Engine;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\View\Factory;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Translation\Translator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Collection;
@@ -21,8 +24,7 @@ use Anomaly\Streams\Platform\Asset\Facades\Assets;
 use Anomaly\Streams\Platform\Image\Facades\Images;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Translation\Translator;
+use Anomaly\Streams\Platform\Ui\Table\TableComponent;
 
 /**
  * Class StreamsServiceProvider
@@ -123,6 +125,11 @@ class StreamsServiceProvider extends ServiceProvider
         $this->extendView();
         $this->extendArr();
         $this->extendStr();
+
+        /**
+         * Register Blade components.
+         */
+        Blade::component('ui-table', TableComponent::class);
 
         /**
          * Register core commands.
