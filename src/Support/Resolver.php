@@ -33,21 +33,19 @@ class Resolver
     {
         $method = array_get($options, 'method', 'handle');
 
-        try {
-            if (
-                (is_string($target) && str_contains($target, '@'))
-                || is_callable($target)
-            ) {
-                return app()->call($target, $arguments);
-            } elseif (
-                is_string($target)
-                && class_exists($target)
-                && method_exists($target, $method)
-            ) {
-                return app()->call($target . '@' . $method, $arguments);
-            }
-        } catch (\Exception $e) {
-            return null;
+        if (
+            (is_string($target) && str_contains($target, '@'))
+            || is_callable($target)
+        ) {
+            return app()->call($target, $arguments);
+        }
+
+        if (
+            is_string($target)
+            && class_exists($target)
+            && method_exists($target, $method)
+        ) {
+            return app()->call($target . '@' . $method, $arguments);
         }
 
         return null;
