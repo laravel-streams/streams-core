@@ -2,8 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Illuminate\Support\Facades\Gate;
 use Anomaly\Streams\Platform\Support\Authorizer;
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 
 /**
  * Class FormAuthorizer
@@ -52,6 +53,13 @@ class FormAuthorizer
         }
 
         if ($permission && !$this->authorizer->authorizeAny((array) $permission)) {
+            abort(403);
+        }
+
+        // And the second option second.
+        $model = $builder->getFormModel();
+
+        if ($model && !Gate::allows($builder->getFormMode(), $model)) {
             abort(403);
         }
     }

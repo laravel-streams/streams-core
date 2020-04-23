@@ -39,10 +39,11 @@ class PermissionGuesser
 
             /*
              * Try and guess the permission value.
+             * @todo mention of permissions can pry go - use policies and gates.
              */
             switch (array_get($button, 'button')) {
 
-                case 'edit':
+                case 'update':
                     $button['permission'] = $module->getNamespace($stream->getSlug() . '.write');
                     break;
 

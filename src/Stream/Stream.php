@@ -40,9 +40,12 @@ class Stream implements StreamInterface
     public $name;
     public $slug;
     public $description;
-    
+
     public $location;
     public $title_column;
+
+    public $config = [];
+
     public $sortable = false;
     public $trashable = true;
     public $searchable = true;
@@ -99,6 +102,17 @@ class Stream implements StreamInterface
     public function getLocation()
     {
         return $this->location;
+    }
+
+    /**
+     * Return a config value.
+     *
+     * @param string $key
+     * @param mixed $default
+     */
+    public function config($key, $default = null)
+    {
+        return array_get($this->config, $key, $default);
     }
 
     /**

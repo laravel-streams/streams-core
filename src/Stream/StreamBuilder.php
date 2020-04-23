@@ -6,8 +6,10 @@ use Illuminate\Support\Facades\Gate;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Field\FieldBuilder;
 use Anomaly\Streams\Platform\Field\FieldFactory;
+use Anomaly\Streams\Platform\Security\Policy;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasBuilt;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Workflow\Workflow;
 
 /**
  * Class StreamBuilder
@@ -27,7 +29,16 @@ class StreamBuilder
      */
     public static function build(array $stream)
     {
+
+        /**
+         * Build our components and
+         * configure the application.
+         */
         $fields = array_pull($stream, 'fields', []);
+
+        // (new Workflow([
+        //     'step_name' => $closure
+        // ]))->process();
 
         $stream = StreamInput::read($stream);
         $stream = StreamFactory::make($stream);
@@ -36,6 +47,8 @@ class StreamBuilder
         $fields = FieldFactory::make($fields);
 
         $stream->fields = $fields;
+
+        Gate::policy(get_class($stream->model), $stream->config('policy', Policy::class));
 
         $stream->fire('built', compact($stream));
 

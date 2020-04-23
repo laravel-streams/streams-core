@@ -59,7 +59,7 @@ class RequiredGuesser
             }
 
             // Guess based on the form mode if applicable.
-            if (!is_bool($field['required']) && in_array($field['required'], ['create', 'edit'])) {
+            if (!is_bool($field['required']) && in_array($field['required'], ['create', 'update'])) {
                 $field['required'] = $field['required'] === $mode;
             }
         }

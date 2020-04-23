@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormHandler;
@@ -48,7 +50,7 @@ class SetDefaultParameters
          */
         if (!$builder->getFormMode()) {
             $builder->setFormMode(
-                ($builder->getFormEntryId() || $builder->getEntry()) ? 'edit' : 'create'
+                ($builder->getFormEntryId() || $builder->getEntry()) ? 'update' : 'create'
             );
         }
 

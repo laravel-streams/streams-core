@@ -1,5 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table;
+<?php
 
+namespace Anomaly\Streams\Platform\Ui\Table;
+
+use Illuminate\Support\Facades\Gate;
 use Anomaly\Streams\Platform\Support\Authorizer;
 
 /**
@@ -40,6 +43,13 @@ class TableAuthorizer
         $permission = $builder->getTableOption('permission');
 
         if ($permission && !$this->authorizer->authorize($permission)) {
+            abort(403);
+        }
+
+        // And the second option second.
+        $model = $builder->getTableModel();
+
+        if ($model && !Gate::any(['view_any', 'view'], $model)) {
             abort(403);
         }
     }
