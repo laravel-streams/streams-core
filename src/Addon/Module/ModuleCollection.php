@@ -69,7 +69,7 @@ class ModuleCollection extends AddonCollection
         return $this->filter(function ($item) {
             return Gate::any([
                 'view',
-                'view_any',
+                'viewAny',
                 'create',
                 'udpate',
                 'delete',

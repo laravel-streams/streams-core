@@ -32,7 +32,7 @@ class TableAuthorizer
         // And the second option second.
         $model = $builder->getTableModel();
 
-        if ($model && !Gate::any(['view_any', 'view'], $model)) {
+        if ($model && !Gate::any(['viewAny', 'view'], $model)) {
             abort(403);
         }
     }

@@ -24,8 +24,8 @@ class Policy
      */
     public function viewAny($user)
     {
-        if ($this->hasMacro('view_any')) {
-            return $this->call('view_any', [
+        if ($this->hasMacro('viewAny')) {
+            return $this->__call('viewAny', [
                 'user' => $user,
             ]);
         }
@@ -41,7 +41,7 @@ class Policy
     public function view($user, $model)
     {
         if ($this->hasMacro('view')) {
-            return $this->call('view', [
+            return $this->__call('view', [
                 'user' => $user,
                 'model' => $model,
             ]);
@@ -58,7 +58,7 @@ class Policy
     public function create($user)
     {
         if ($this->hasMacro('create')) {
-            return $this->call('create', [
+            return $this->__call('create', [
                 'user' => $user,
             ]);
         }
@@ -74,7 +74,7 @@ class Policy
     public function update($user, $model)
     {
         if ($this->hasMacro('update')) {
-            return $this->call('update', [
+            return $this->__call('update', [
                 'user' => $user,
                 'model' => $model,
             ]);
@@ -91,7 +91,7 @@ class Policy
     public function delete($user, $model)
     {
         if ($this->hasMacro('delete')) {
-            return $this->call('delete', [
+            return $this->__call('delete', [
                 'user' => $user,
                 'model' => $model,
             ]);
@@ -108,7 +108,7 @@ class Policy
     public function restore($user, $model)
     {
         if ($this->hasMacro('restore')) {
-            return $this->call('restore', [
+            return $this->__call('restore', [
                 'user' => $user,
                 'model' => $model,
             ]);
@@ -125,7 +125,7 @@ class Policy
     public function forceDelete($user, $model)
     {
         if ($this->hasMacro('force_delete')) {
-            return $this->call('force_delete', [
+            return $this->__call('force_delete', [
                 'user' => $user,
                 'model' => $model,
             ]);

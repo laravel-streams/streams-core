@@ -72,9 +72,10 @@ class ButtonFactory
 
         Hydrator::hydrate($button, $parameters);
 
-        if (($permission = $button->getPermission()) && !$this->authorizer->authorize($permission)) {
-            $button->setEnabled(false);
-        }
+        // @todo 
+        // if (($permission = $button->getPermission()) && !$this->authorizer->authorize($permission)) {
+        //     $button->setEnabled(false);
+        // }
 
         return $button;
     }
