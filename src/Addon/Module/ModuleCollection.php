@@ -67,15 +67,9 @@ class ModuleCollection extends AddonCollection
     public function accessible()
     {
         return $this->filter(function ($item) {
-            return Gate::any([
-                'view',
-                'viewAny',
-                'create',
-                'udpate',
-                'delete',
-                'force_delete',
-                'restore',
-            ]) ? $item : null;
+
+            // @todo we need to revisit and implement something here...
+            return true;
         });
     }
 }

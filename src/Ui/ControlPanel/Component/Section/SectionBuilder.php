@@ -38,9 +38,10 @@ class SectionBuilder
 
             foreach ($sections as $i => &$section) {
 
-                if (!authorize(array_get($section, 'permission'))) {
-                    continue;
-                }
+                // @todo revisit
+                // if (!authorize(array_get($section, 'permission'))) {
+                //     continue;
+                // }
 
                 $controlPanel->addSection(
                     $section = $factory->make($section)
