@@ -3,7 +3,6 @@
 namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Illuminate\Support\Facades\Gate;
-use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 
 /**
@@ -15,24 +14,6 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
  */
 class FormAuthorizer
 {
-
-    /**
-     * The authorizer utility.
-     *
-     * @var Authorizer
-     */
-    protected $authorizer;
-
-    /**
-     * Create a new FormAuthorizer instance.
-     *
-     * @param ModuleCollection $modules
-     * @param Authorizer       $authorizer
-     */
-    public function __construct(Authorizer $authorizer)
-    {
-        $this->authorizer = $authorizer;
-    }
 
     /**
      * Authorize the table.
@@ -52,9 +33,10 @@ class FormAuthorizer
             return;
         }
 
-        if ($permission && !$this->authorizer->authorizeAny((array) $permission)) {
-            abort(403);
-        }
+        // @todo revisit
+        // if ($permission && !$this->authorizer->authorizeAny((array) $permission)) {
+        //     abort(403);
+        // }
 
         // And the second option second.
         $model = $builder->getFormModel();

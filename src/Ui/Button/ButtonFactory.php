@@ -3,7 +3,6 @@
 namespace Anomaly\Streams\Platform\Ui\Button;
 
 use Illuminate\Support\Facades\Lang;
-use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 
@@ -39,24 +38,13 @@ class ButtonFactory
     protected $translator;
 
     /**
-     * The authorizer utility.
-     *
-     * @var Authorizer
-     */
-    protected $authorizer;
-
-    /**
      * Create a new ButtonFactory instance.
      *
      * @param ButtonRegistry $buttons
-     * @param Authorizer     $authorizer
      */
-    public function __construct(
-        ButtonRegistry $buttons,
-        Authorizer $authorizer
-    ) {
-        $this->buttons    = $buttons;
-        $this->authorizer = $authorizer;
+    public function __construct(ButtonRegistry $buttons)
+    {
+        $this->buttons = $buttons;
     }
 
     /**

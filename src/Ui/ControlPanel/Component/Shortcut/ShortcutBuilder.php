@@ -2,7 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
-use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
@@ -30,9 +29,10 @@ class ShortcutBuilder
 
         foreach ($builder->getShortcuts() as $shortcut) {
 
-            if (!authorize(array_get($shortcut, 'permission'))) {
-                continue;
-            }
+            // @todo revisit 
+            // if (!authorize(array_get($shortcut, 'permission'))) {
+            //     continue;
+            // }
 
             $controlPanel->addShortcut($factory->make($shortcut));
         }

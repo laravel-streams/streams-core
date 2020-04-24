@@ -2,7 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser;
 
-use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -25,9 +24,10 @@ class EnabledGuesser
         $buttons = $builder->getButtons();
 
         foreach ($buttons as &$button) {
-            if (isset($button['permission']) && !authorize($button['permission'])) {
-                $button['enabled'] = false;
-            }
+            // @todo revisit
+            // if (isset($button['permission']) && !authorize($button['permission'])) {
+            //     $button['enabled'] = false;
+            // }
         }
 
         $builder->setButtons($buttons);

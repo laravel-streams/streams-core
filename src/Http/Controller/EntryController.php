@@ -2,8 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Http\Controller;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
-use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Stream\StreamManager;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Entry\EntryRepository;
@@ -26,24 +26,15 @@ class EntryController extends AdminController
     protected $addons;
 
     /**
-     * The authorizer service.
-     *
-     * @var Authorizer
-     */
-    protected $authorizer;
-
-    /**
      * Create a new EntryController instance.
      *
      * @param AddonCollection $addons
-     * @param Authorizer $authorizer
      */
-    public function __construct(AddonCollection $addons, Authorizer $authorizer)
+    public function __construct(AddonCollection $addons)
     {
         parent::__construct();
 
-        $this->addons     = $addons;
-        $this->authorizer = $authorizer;
+        $this->addons = $addons;
     }
 
     /**
@@ -69,7 +60,7 @@ class EntryController extends AdminController
 
         $entry = $repository->findTrashed($id);
 
-        if (!$this->authorizer->authorize("{$addon}::{$stream->getSlug()}.write")) {
+        if (!Gate::allows("{$stream->getSlug()}.update")) {
             abort(403);
         }
 
@@ -105,7 +96,7 @@ class EntryController extends AdminController
          */
         $repository = (new EntryRepository)->setModel($stream->model);
 
-        if (!$this->authorizer->authorize($addon->getNamespace($stream->getSlug() . '.read'))) {
+        if (!Gate::allows("{$stream->getSlug()}.view")) {
             abort(403);
         }
 
@@ -118,11 +109,11 @@ class EntryController extends AdminController
         ];
 
         $callback = function () use ($repository) {
-            
+
             $output = fopen('php://output', 'w');
 
             foreach ($repository->allWithoutRelations() as $k => $entry) {
-                
+
                 if ($k == 0) {
                     fputcsv($output, array_keys($entry->toArray()));
                 }

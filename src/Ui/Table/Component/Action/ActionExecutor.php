@@ -4,7 +4,6 @@ namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Application;
-use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Message\Facades\Messages;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
@@ -36,13 +35,6 @@ class ActionExecutor
     protected $modules;
 
     /**
-     * The authorizer utility.
-     *
-     * @var Authorizer
-     */
-    protected $authorizer;
-
-    /**
      * The application.
      *
      * @var Application
@@ -53,19 +45,16 @@ class ActionExecutor
      * Create a new ActionExecutor instance.
      *
      * @param Request          $request
-     * @param Authorizer       $authorizer
      * @param Application      $application
      * @param ModuleCollection $modules
      */
     public function __construct(
         Request $request,
-        Authorizer $authorizer,
         Application $application,
         ModuleCollection $modules
     ) {
         $this->request     = $request;
         $this->modules     = $modules;
-        $this->authorizer  = $authorizer;
         $this->application = $application;
     }
 
@@ -88,12 +77,14 @@ class ActionExecutor
 
         /*
          * Authorize the action.
+         * 
+         * @todo revisit
          */
-        if (!$this->authorizer->authorize($action->getPermission())) {
-            Messages::error('streams::message.403');
+        // if (!$this->authorizer->authorize($action->getPermission())) {
+        //     Messages::error('streams::message.403');
 
-            return;
-        }
+        //     return;
+        // }
 
         /*
          * If no rows are selected then 

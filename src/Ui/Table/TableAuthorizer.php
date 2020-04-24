@@ -3,7 +3,6 @@
 namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Illuminate\Support\Facades\Gate;
-use Anomaly\Streams\Platform\Support\Authorizer;
 
 /**
  * Class TableAuthorizer
@@ -16,23 +15,6 @@ class TableAuthorizer
 {
 
     /**
-     * The authorizer utility.
-     *
-     * @var Authorizer
-     */
-    protected $authorizer;
-
-    /**
-     * Create a new TableAuthorizer instance.
-     *
-     * @param Authorizer $authorizer
-     */
-    public function __construct(Authorizer $authorizer)
-    {
-        $this->authorizer = $authorizer;
-    }
-
-    /**
      * Authorize the table.
      *
      * @param TableBuilder $builder
@@ -42,9 +24,10 @@ class TableAuthorizer
         // Try the option first.
         $permission = $builder->getTableOption('permission');
 
-        if ($permission && !$this->authorizer->authorize($permission)) {
-            abort(403);
-        }
+        // @todo revisit
+        // if ($permission && !$this->authorizer->authorize($permission)) {
+        //     abort(403);
+        // }
 
         // And the second option second.
         $model = $builder->getTableModel();

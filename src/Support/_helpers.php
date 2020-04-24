@@ -630,21 +630,6 @@ if (!function_exists('icon')) {
     }
 }
 
-if (!function_exists('authorize')) {
-
-    /**
-     * Authorize a user against a permission.
-     *
-     * @param $permission
-     * @param UserInterface|null $user
-     * @return bool
-     */
-    function authorize($permission, \Anomaly\Streams\Platform\User\Contract\UserInterface $user = null)
-    {
-        return app(\Anomaly\Streams\Platform\Support\Authorizer::class)->authorize($permission, $user);
-    }
-}
-
 if (!function_exists('addon')) {
 
     /**

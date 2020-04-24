@@ -1,10 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command;
+<?php
 
-use Anomaly\Streams\Platform\Support\Authorizer;
-use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
-use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command;
+
 use Illuminate\Http\Request;
+use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
+use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
 
 /**
  * Class SetActiveNavigationLink
@@ -37,10 +38,9 @@ class SetActiveNavigationLink
      * Handle the command.
      *
      * @param Request              $request
-     * @param Authorizer           $authorizer
      * @param BreadcrumbCollection $breadcrumbs
      */
-    public function handle(Request $request, Authorizer $authorizer, BreadcrumbCollection $breadcrumbs)
+    public function handle(Request $request, BreadcrumbCollection $breadcrumbs)
     {
         $links = $this->builder->getControlPanelNavigation();
 
@@ -93,14 +93,15 @@ class SetActiveNavigationLink
         if (!$active) {
             return;
         }
-        
+
         // Active navigation link!
         $active->setActive(true);
 
         // Authorize the active link.
-        if (!$authorizer->authorize($active->getPermission())) {
-            abort(403);
-        }
+        // @todo Revisit - is this necessary.
+        // if (!$authorizer->authorize($active->getPermission())) {
+        //     abort(403);
+        // }
 
         // Add the bread crumb.
         if (($breadcrumb = $active->getBreadcrumb()) !== false) {

@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Security;
 
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Traits\Macroable;
 
 /**
  * Class Policy
@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Gate;
  */
 class Policy
 {
+
+    use Macroable;
+
     /**
      * Determine whether the user can view any anomaly users module user user models.
      *
@@ -21,7 +24,11 @@ class Policy
      */
     public function viewAny($user)
     {
-        return true; // @todo remove
+        if ($this->hasMacro('view_any')) {
+            return $this->call('view_any', [
+                'user' => $user,
+            ]);
+        }
     }
 
     /**
@@ -33,18 +40,28 @@ class Policy
      */
     public function view($user, $model)
     {
-        return true; // @todo remove
+        if ($this->hasMacro('view')) {
+            return $this->call('view', [
+                'user' => $user,
+                'model' => $model,
+            ]);
+        }
     }
 
     /**
-     * Determine whether the user can create anomaly users module user user models.
+     * Determine if the user
+     * can create an entry.
      *
      * @param $user
      * @return mixed
      */
     public function create($user)
     {
-        return true; // @todo remove
+        if ($this->hasMacro('create')) {
+            return $this->call('create', [
+                'user' => $user,
+            ]);
+        }
     }
 
     /**
@@ -56,12 +73,12 @@ class Policy
      */
     public function update($user, $model)
     {
-        // Check security providers.
-        if (Gate::has($model->stream()->slug . '.update', $model)) {
-            return Gate::check($model->stream()->slug . '.update', $model);
+        if ($this->hasMacro('update')) {
+            return $this->call('update', [
+                'user' => $user,
+                'model' => $model,
+            ]);
         }
-
-        return true; // @todo remove
     }
 
     /**
@@ -73,7 +90,12 @@ class Policy
      */
     public function delete($user, $model)
     {
-        return true; // @todo remove
+        if ($this->hasMacro('delete')) {
+            return $this->call('delete', [
+                'user' => $user,
+                'model' => $model,
+            ]);
+        }
     }
 
     /**
@@ -85,7 +107,12 @@ class Policy
      */
     public function restore($user, $model)
     {
-        return true; // @todo remove
+        if ($this->hasMacro('restore')) {
+            return $this->call('restore', [
+                'user' => $user,
+                'model' => $model,
+            ]);
+        }
     }
 
     /**
@@ -97,6 +124,11 @@ class Policy
      */
     public function forceDelete($user, $model)
     {
-        return true; // @todo remove
+        if ($this->hasMacro('force_delete')) {
+            return $this->call('force_delete', [
+                'user' => $user,
+                'model' => $model,
+            ]);
+        }
     }
 }

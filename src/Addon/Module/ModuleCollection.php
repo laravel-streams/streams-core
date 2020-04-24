@@ -2,8 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Addon\Module;
 
+use Illuminate\Support\Facades\Gate;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Anomaly\Streams\Platform\Support\Authorizer;
 
 /**
  * Class ModuleCollection
@@ -66,11 +66,16 @@ class ModuleCollection extends AddonCollection
      */
     public function accessible()
     {
-        /* @var Authorizer $authorizer */
-        $authorizer = app(Authorizer::class);
-
-        return $this->filter(function ($item) use ($authorizer) {
-            return $authorizer->authorize($item['namespace'] . '::*') ? $item : null;
+        return $this->filter(function ($item) {
+            return Gate::any([
+                'view',
+                'view_any',
+                'create',
+                'udpate',
+                'delete',
+                'force_delete',
+                'restore',
+            ]) ? $item : null;
         });
     }
 }

@@ -1,7 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Support\Authorizer;
 
 /**
  * Class TreeAuthorizer
@@ -31,12 +32,10 @@ class TreeAuthorizer
      * Create a new TreeAuthorizer instance.
      *
      * @param ModuleCollection $modules
-     * @param Authorizer       $authorizer
      */
-    public function __construct(ModuleCollection $modules, Authorizer $authorizer)
+    public function __construct(ModuleCollection $modules)
     {
         $this->modules    = $modules;
-        $this->authorizer = $authorizer;
     }
 
     /**
@@ -57,8 +56,9 @@ class TreeAuthorizer
             $permission = $module->getNamespace($stream->getSlug() . '.read');
         }
 
-        if (!$this->authorizer->authorize($permission)) {
-            abort(403);
-        }
+        // @todo revisit
+        // if (!$this->authorizer->authorize($permission)) {
+        //     abort(403);
+        // }
     }
 }
