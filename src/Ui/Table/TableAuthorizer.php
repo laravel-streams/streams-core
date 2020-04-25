@@ -21,18 +21,24 @@ class TableAuthorizer
      */
     public function authorize(TableBuilder $builder)
     {
-        // Try the option first.
-        $permission = $builder->getTableOption('permission');
+        /**
+         * Configured policy options
+         * take precedense over the 
+         * model policy.
+         */
+        $policy = $builder->getTableOption('policy');
 
-        // @todo revisit
-        // if ($permission && !$this->authorizer->authorize($permission)) {
-        //     abort(403);
-        // }
+        if ($policy && !Gate::any((array) $policy)) {
+            abort(403);
+        }
 
-        // And the second option second.
+        /**
+         * Default behavior is to
+         * rely on the model policy.
+         */
         $model = $builder->getTableModel();
 
-        if ($model && !Gate::any(['viewAny', 'view'], $model)) {
+        if ($model && !Gate::allows('viewAny', $model)) {
             abort(403);
         }
     }

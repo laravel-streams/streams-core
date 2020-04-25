@@ -316,7 +316,7 @@ return [
         |--------------------------------------------------------------------------
         |
         | If maintenance mode is enabled, prompt for basic authentication?
-        | The user must have the "streams::maintenance.access" permission
+        | The user must have the "streams::maintenance.access" ability
         | in order to view public facing content.
         |
         */

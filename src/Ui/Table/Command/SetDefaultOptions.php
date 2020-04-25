@@ -77,17 +77,5 @@ class SetDefaultOptions
                 $builder->getRequestValue('limit', config('streams.system.per_page', 15))
             );
         }
-
-        /*
-         * If the permission is not set then
-         * try and automate it.
-         */
-        if (
-            $table->getOption('permission') === null &&
-            request()->segment(1) == 'admin' &&
-            ($module = $modules->active()) && ($stream = $builder->getTableStream())
-        ) {
-            $table->setOption('permission', $module->getNamespace($stream->getSlug() . '.read'));
-        }
     }
 }

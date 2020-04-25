@@ -9,6 +9,7 @@ use Anomaly\Streams\Platform\Message\Facades\Messages;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionHandlerInterface;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class ActionExecutor
@@ -77,14 +78,13 @@ class ActionExecutor
 
         /*
          * Authorize the action.
-         * 
-         * @todo revisit
          */
-        // if (!$this->authorizer->authorize($action->getPermission())) {
-        //     Messages::error('streams::message.403');
+        if ($action->policy && !Gate::any((array) $action->policy)) {
 
-        //     return;
-        // }
+            Messages::error('streams::message.403');
+
+            return;
+        }
 
         /*
          * If no rows are selected then 

@@ -5,6 +5,7 @@ namespace Anomaly\Streams\Platform\Ui\Button;
 use Illuminate\Support\Facades\Lang;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class ButtonFactory
@@ -72,10 +73,9 @@ class ButtonFactory
 
         Hydrator::hydrate($button, $parameters);
 
-        // @todo 
-        // if (($permission = $button->getPermission()) && !$this->authorizer->authorize($permission)) {
-        //     $button->setEnabled(false);
-        // }
+        if ($button->policy) {
+            $button->setEnabled(Gate::any((array) $button->policy));
+        }
 
         return $button;
     }

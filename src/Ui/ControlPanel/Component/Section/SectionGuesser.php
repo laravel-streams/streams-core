@@ -4,7 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser\DescriptionGuesser;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser\HrefGuesser;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser\PermissionGuesser;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser\PolicyGuesser;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser\TitleGuesser;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
@@ -27,7 +27,7 @@ class SectionGuesser
     {
         HrefGuesser::guess($builder);
         TitleGuesser::guess($builder);
-        PermissionGuesser::guess($builder);
+        PolicyGuesser::guess($builder);
         DescriptionGuesser::guess($builder);
     }
 }

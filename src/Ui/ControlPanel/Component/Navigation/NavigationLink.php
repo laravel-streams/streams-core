@@ -57,11 +57,11 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAtt
     protected $favorite = false;
 
     /**
-     * The links permission.
+     * The links policy.
      *
-     * @var null|string
+     * @var null|string|array
      */
-    protected $permission = null;
+    public $policy = null;
 
     /**
      * The links breadcrumb.
@@ -160,29 +160,6 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAtt
     public function setFavorite($favorite)
     {
         $this->favorite = $favorite;
-
-        return $this;
-    }
-
-    /**
-     * Get the permission.
-     *
-     * @return null|string
-     */
-    public function getPermission()
-    {
-        return $this->permission;
-    }
-
-    /**
-     * Set the permission.
-     *
-     * @param $permission
-     * @return $this
-     */
-    public function setPermission($permission)
-    {
-        $this->permission = $permission;
 
         return $this;
     }

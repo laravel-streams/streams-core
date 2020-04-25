@@ -2,11 +2,11 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser\EnabledGuesser;
-use Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser\HrefGuesser;
-use Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser\PermissionGuesser;
-use Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser\TextGuesser;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser\HrefGuesser;
+use Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser\TextGuesser;
+use Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser\PolicyGuesser;
+use Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser\EnabledGuesser;
 
 /**
  * Class ButtonGuesser
@@ -27,7 +27,7 @@ class ButtonGuesser
     {
         HrefGuesser::guess($builder);
         TextGuesser::guess($builder);
-        PermissionGuesser::guess($builder);
+        PolicyGuesser::guess($builder);
         EnabledGuesser::guess($builder);
     }
 }

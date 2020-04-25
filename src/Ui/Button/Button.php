@@ -53,11 +53,11 @@ class Button implements ButtonInterface, Arrayable, Jsonable
     protected $type = 'default';
 
     /**
-     * The required permission.
+     * The required policy.
      *
-     * @var null|string
+     * @var null|string|array
      */
-    protected $permission = null;
+    public $policy = null;
 
     /**
      * The disabled flag.
@@ -196,29 +196,6 @@ class Button implements ButtonInterface, Arrayable, Jsonable
     public function setEntry($entry)
     {
         $this->entry = $entry;
-
-        return $this;
-    }
-
-    /**
-     * Get the permission.
-     *
-     * @return null|string
-     */
-    public function getPermission()
-    {
-        return $this->permission;
-    }
-
-    /**
-     * Set the permission.
-     *
-     * @param $permission
-     * @return $this
-     */
-    public function setPermission($permission)
-    {
-        $this->permission = $permission;
 
         return $this;
     }

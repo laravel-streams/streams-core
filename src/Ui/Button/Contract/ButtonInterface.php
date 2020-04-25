@@ -58,21 +58,6 @@ interface ButtonInterface
     public function getText();
 
     /**
-     * Get the permission.
-     *
-     * @return null|string
-     */
-    public function getPermission();
-
-    /**
-     * Set the permission.
-     *
-     * @param $permission
-     * @return $this
-     */
-    public function setPermission($permission);
-
-    /**
      * Set the primary flag.
      *
      * @param bool $primary

@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Guesser\HrefGuesser;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Guesser\PermissionGuesser;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Guesser\PolicyGuesser;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Guesser\TitleGuesser;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
@@ -26,6 +26,6 @@ class ShortcutGuesser
     {
         HrefGuesser::guess($builder);
         TitleGuesser::guess($builder);
-        PermissionGuesser::guess($builder);
+        PolicyGuesser::guess($builder);
     }
 }

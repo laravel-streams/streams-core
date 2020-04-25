@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Tree;
 
+use Illuminate\Support\Facades\Gate;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 
 /**
@@ -45,20 +46,25 @@ class TreeAuthorizer
      */
     public function authorize(TreeBuilder $builder)
     {
-        // Try the option first.
-        $permission = $builder->getTreeOption('permission');
-
-        /*
-         * If the option is not set then
-         * try and automate the permission.
+        /**
+         * Configured policy options
+         * take precedense over the 
+         * model policy.
          */
-        if (!$permission && ($module = $this->modules->active()) && ($stream = $builder->getTreeStream())) {
-            $permission = $module->getNamespace($stream->getSlug() . '.read');
+        $policy = $builder->getTreeOption('policy');
+
+        if ($policy && !Gate::any((array) $policy)) {
+            abort(403);
         }
 
-        // @todo revisit
-        // if (!$this->authorizer->authorize($permission)) {
-        //     abort(403);
-        // }
+        /**
+         * Default behavior is to
+         * rely on the model policy.
+         */
+        $model = $builder->getTreeModel();
+
+        if ($model && !Gate::allows('viewAny', $model)) {
+            abort(403);
+        }
     }
 }

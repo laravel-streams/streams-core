@@ -43,21 +43,6 @@ class SetDefaultOptions
             $builder->setFormOption('wrapper_view', 'streams::default');
         }
 
-        /*
-         * If the permission is not set then
-         * try and automate it.
-         */
-        if (
-            $builder->getFormOption('permission') === null &&
-            request()->segment(1) == 'admin' &&
-            ($module = $modules->active()) && ($stream = $builder->getFormStream())
-        ) {
-            $builder->setFormOption(
-                'permission',
-                $module->getNamespace($stream->getSlug() . '.write')
-            );
-        }
-
         $builder->setFormOption('ajax', $builder->isAjax());
     }
 }

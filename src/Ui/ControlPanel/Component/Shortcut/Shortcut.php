@@ -63,11 +63,11 @@ class Shortcut implements ShortcutInterface, IconInterface, ClassAttributeInterf
     protected $context = 'danger';
 
     /**
-     * The shortcut permission.
+     * The shortcut policy.
      *
-     * @var null|string
+     * @var null|string|array
      */
-    protected $permission = null;
+    public $policy;
 
     /**
      * Get the slug.
@@ -177,29 +177,6 @@ class Shortcut implements ShortcutInterface, IconInterface, ClassAttributeInterf
     public function setContext($context)
     {
         $this->context = $context;
-
-        return $this;
-    }
-
-    /**
-     * Get the permission.
-     *
-     * @return null|string
-     */
-    public function getPermission()
-    {
-        return $this->permission;
-    }
-
-    /**
-     * Set the permission.
-     *
-     * @param $permission
-     * @return $this
-     */
-    public function setPermission($permission)
-    {
-        $this->permission = $permission;
 
         return $this;
     }

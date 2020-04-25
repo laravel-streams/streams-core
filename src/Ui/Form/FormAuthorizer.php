@@ -22,23 +22,22 @@ class FormAuthorizer
      */
     public function authorize(FormBuilder $builder)
     {
-        // Try the option first.
-        $permission = $builder->getFormOption('permission');
 
-        if ($permission === false) {
-            return;
+        /**
+         * Configured policy options
+         * take precedense over the 
+         * model policy.
+         */
+        $policy = $builder->getFormOption('policy');
+
+        if ($policy && !Gate::any((array) $policy)) {
+            abort(403);
         }
 
-        if (!config('streams.installed')) {
-            return;
-        }
-
-        // @todo revisit
-        // if ($permission && !$this->authorizer->authorizeAny((array) $permission)) {
-        //     abort(403);
-        // }
-
-        // And the second option second.
+        /**
+         * Default behavior is to
+         * rely on the model policy.
+         */
         $model = $builder->getFormModel();
 
         if ($model && !Gate::allows($builder->getFormMode(), $model)) {

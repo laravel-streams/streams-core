@@ -125,21 +125,6 @@ interface NavigationLinkInterface
     public function setAttributes(array $attributes);
 
     /**
-     * Get the permission.
-     *
-     * @return null|string
-     */
-    public function getPermission();
-
-    /**
-     * Set the permission.
-     *
-     * @param $permission
-     * @return $this
-     */
-    public function setPermission($permission);
-
-    /**
      * Get the breadcrumb.
      *
      * @return null|string

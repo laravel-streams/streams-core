@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Contract;
 
 /**
  * Interface ShortcutInterface
@@ -84,7 +86,7 @@ interface ShortcutInterface
      * @return $this
      */
     public function setClass($class);
-    
+
     /**
      * Get the highlighted flag.
      *
@@ -128,21 +130,6 @@ interface ShortcutInterface
      * @param array $attributes
      */
     public function setAttributes(array $attributes);
-
-    /**
-     * Get the permission.
-     *
-     * @return null|string
-     */
-    public function getPermission();
-
-    /**
-     * Set the permission.
-     *
-     * @param $permission
-     * @return $this
-     */
-    public function setPermission($permission);
 
     /**
      * Get the HREF attribute.

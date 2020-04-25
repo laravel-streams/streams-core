@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 
@@ -227,21 +229,6 @@ interface SectionInterface
      * @param array $attributes
      */
     public function setAttributes(array $attributes);
-
-    /**
-     * Get the permission.
-     *
-     * @return null|string
-     */
-    public function getPermission();
-
-    /**
-     * Set the permission.
-     *
-     * @param $permission
-     * @return $this
-     */
-    public function setPermission($permission);
 
     /**
      * Get the breadcrumb.

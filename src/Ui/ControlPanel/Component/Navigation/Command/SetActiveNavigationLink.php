@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
@@ -98,10 +99,9 @@ class SetActiveNavigationLink
         $active->setActive(true);
 
         // Authorize the active link.
-        // @todo Revisit - is this necessary.
-        // if (!$authorizer->authorize($active->getPermission())) {
-        //     abort(403);
-        // }
+        if ($active->policy && !Gate::any((array) $active->policy)) {
+            abort(403);
+        }
 
         // Add the bread crumb.
         if (($breadcrumb = $active->getBreadcrumb()) !== false) {

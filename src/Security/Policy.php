@@ -20,13 +20,15 @@ class Policy
      * Determine whether the user can view any anomaly users module user user models.
      *
      * @param $user
+     * @param $model
      * @return mixed
      */
-    public function viewAny($user)
+    public function viewAny($user, $model)
     {
         if ($this->hasMacro('viewAny')) {
             return $this->__call('viewAny', [
                 'user' => $user,
+                'model' => $model,
             ]);
         }
     }
@@ -53,13 +55,15 @@ class Policy
      * can create an entry.
      *
      * @param $user
+     * @param $model
      * @return mixed
      */
-    public function create($user)
+    public function create($user, $model)
     {
         if ($this->hasMacro('create')) {
             return $this->__call('create', [
                 'user' => $user,
+                'model' => $model,
             ]);
         }
     }

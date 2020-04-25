@@ -5,13 +5,13 @@ namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class PermissionGuesser
+ * Class PolicyGuesser
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class PermissionGuesser
+class PolicyGuesser
 {
 
     /**
@@ -35,17 +35,17 @@ class PermissionGuesser
             /*
              * Nothing to do if set already.
              */
-            if (isset($action['permission'])) {
+            if (isset($action['ability'])) {
                 continue;
             }
 
             /*
-             * Try and guess the permission.
+             * Try and guess the ability.
              */
             if ($stream) {
-                $action['permission'] = $module->getNamespace($stream->getSlug() . '.' . $action['slug']);
+                $action['ability'] = $module->getNamespace($stream->getSlug() . '.' . $action['slug']);
             } elseif ($section) {
-                $action['permission'] = $module->getNamespace($section->getSlug() . '.' . $action['slug']);
+                $action['ability'] = $module->getNamespace($section->getSlug() . '.' . $action['slug']);
             }
         }
 

@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser;
 
+use Illuminate\Support\Facades\Gate;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -24,10 +25,10 @@ class EnabledGuesser
         $buttons = $builder->getButtons();
 
         foreach ($buttons as &$button) {
-            // @todo revisit
-            // if (isset($button['permission']) && !authorize($button['permission'])) {
-            //     $button['enabled'] = false;
-            // }
+
+            if (($policy = array_get($button, 'policy')) && !Gate::any((array) $policy)) {
+                $button['enabled'] = false;
+            }
         }
 
         $builder->setButtons($buttons);

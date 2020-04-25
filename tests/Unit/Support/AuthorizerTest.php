@@ -10,7 +10,7 @@ class AuthorizerTest extends TestCase
     use \Illuminate\Foundation\Testing\DatabaseTransactions;
 
 
-    public function testSuccessfullyAuthorizeAnAuthorizedUserWithAPermission()
+    public function testSuccessfullyAuthorizeAnAuthorizedUserWithAAbility()
     {
         $user = $this->user();
 
@@ -20,17 +20,17 @@ class AuthorizerTest extends TestCase
     /**
      * @todo authorizer always returning true?
      */
-    public function testSuccessfullyNotAuthorizeAnUnauthorizedUserWithAPermission()
+    public function testSuccessfullyNotAuthorizeAnUnauthorizedUserWithAAbility()
     {
         $this->markTestIncomplete();
         $user = $this->user();
         $this->assertFalse($this->authorizer()->authorize('anomaly.module.users::users.delete', $user));
     }
 
-    public function testSuccessfullyAuthorizeAnAuthorizedUserWithARoleContainingAPermission()
+    public function testSuccessfullyAuthorizeAnAuthorizedUserWithARoleContainingAAbility()
     {
         $user = $this->user();
-        $role = $this->role(['permissions' => "anomaly.module.users::users.write"]);
+        $role = $this->role(['abilities' => "anomaly.module.users::users.write"]);
 
         $user = $this->forRole($user, $role);
 

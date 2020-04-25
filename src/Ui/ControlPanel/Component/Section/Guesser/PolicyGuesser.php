@@ -2,17 +2,16 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser;
 
-use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
- * Class PermissionGuesser
+ * Class PolicyGuesser
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class PermissionGuesser
+class PolicyGuesser
 {
 
     /**
@@ -30,12 +29,14 @@ class PermissionGuesser
 
         foreach ($sections as &$section) {
 
-            // If permission is set then skip it.
-            if (isset($section['permission'])) {
+            // If policy is set then skip it.
+            if (isset($section['policy'])) {
                 continue;
             }
 
-            $section['permission'] = $module->getNamespace($section['slug'] . '.*');
+            // @todo revisit will what's a standard non-stream policy path for a custom section?
+            // Here? Controller? Validate by config for permissions?
+            //$section['policy'] = $module->getNamespace($section['slug'] . '.*');
         }
 
         $builder->setSections($sections);

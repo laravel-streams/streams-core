@@ -102,11 +102,11 @@ class Section implements SectionInterface, Arrayable, Jsonable
     protected $buttons = [];
 
     /**
-     * The section permission.
+     * The section policy.
      *
-     * @var null|string
+     * @var null|string|array
      */
-    protected $permission = null;
+    public $policy;
 
     /**
      * The section breadcrumb.
@@ -377,29 +377,6 @@ class Section implements SectionInterface, Arrayable, Jsonable
     public function setButtons($buttons)
     {
         $this->buttons = $buttons;
-    }
-
-    /**
-     * Get the permission.
-     *
-     * @return null|string
-     */
-    public function getPermission()
-    {
-        return $this->permission;
-    }
-
-    /**
-     * Set the permission.
-     *
-     * @param $permission
-     * @return $this
-     */
-    public function setPermission($permission)
-    {
-        $this->permission = $permission;
-
-        return $this;
     }
 
     /**

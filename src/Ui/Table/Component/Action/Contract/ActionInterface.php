@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract;
 
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 
@@ -26,21 +28,6 @@ interface ActionInterface extends ButtonInterface
      * @return mixed
      */
     public function getHandler();
-
-    /**
-     * Set the required permission.
-     *
-     * @param $permission
-     * @return $this
-     */
-    public function setPermission($permission);
-
-    /**
-     * Get the required permission.
-     *
-     * @return null|string
-     */
-    public function getPermission();
 
     /**
      * Set the active flag.

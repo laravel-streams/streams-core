@@ -5,13 +5,13 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Guesser;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
- * Class PermissionGuesser
+ * Class PolicyGuesser
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class PermissionGuesser
+class PolicyGuesser
 {
 
     /**
@@ -29,12 +29,14 @@ class PermissionGuesser
 
         foreach ($shortcuts as &$shortcut) {
 
-            // If permission is set then skip it.
-            if (isset($shortcut['permission'])) {
+            // If policy is set then skip it.
+            if (isset($shortcut['policy'])) {
                 continue;
             }
 
-            $shortcut['permission'] = $module->getNamespace($shortcut['slug'] . '.*');
+            // @todo revisit best method to lazily register policies like this
+            // And what's the naming standard? Override path?
+            //$shortcut['policy'] = $module->getNamespace($shortcut['slug'] . '.*');
         }
 
         $builder->setShortcuts($shortcuts);

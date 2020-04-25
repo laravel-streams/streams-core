@@ -2,17 +2,16 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser;
 
-use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class PermissionGuesser
+ * Class PolicyGuesser
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class PermissionGuesser
+class PolicyGuesser
 {
 
     /**
@@ -33,22 +32,22 @@ class PermissionGuesser
         }
 
         foreach ($buttons as &$button) {
-            if (isset($button['permission'])) {
+            if (isset($button['ability'])) {
                 continue;
             }
 
             /*
-             * Try and guess the permission value.
-             * @todo mention of permissions can pry go - use policies and gates.
+             * Try and guess the ability value.
+             * @todo mention of abilitys can pry go - use policies and gates.
              */
             switch (array_get($button, 'button')) {
 
                 case 'update':
-                    $button['permission'] = $module->getNamespace($stream->getSlug() . '.write');
+                    $button['ability'] = $module->getNamespace($stream->getSlug() . '.write');
                     break;
 
                 default:
-                    $button['permission'] = $module->getNamespace(
+                    $button['ability'] = $module->getNamespace(
                         $stream->getSlug() . '.' . array_get($button, 'slug')
                     );
                     break;

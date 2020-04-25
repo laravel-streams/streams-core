@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class SetActiveSection
@@ -124,10 +125,9 @@ class SetActiveSection
         }
 
         // Authorize the active section.
-        // @todo Revisit
-        // if (!$authorizer->authorize($active->getPermission())) {
-        //     abort(403);
-        // }
+        if ($active->policy && !Gate::any((array) $active->policy)) {
+            abort(403);
+        }
 
         // Add the bread crumb.
         if (($breadcrumb = $active->getBreadcrumb()) !== false) {
