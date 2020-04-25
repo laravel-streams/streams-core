@@ -2,14 +2,12 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Workflow\BindAddon;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Console\Application as Artisan;
+use Anomaly\Streams\Platform\Workflow\Workflow;
 use Anomaly\Streams\Platform\Asset\AssetRegistry;
 use Anomaly\Streams\Platform\Stream\StreamRegistry;
-use Anomaly\Streams\Platform\Traits\Hookable;
-use Anomaly\Streams\Platform\Workflow\Workflow;
+use Anomaly\Streams\Platform\Addon\Workflow\BindAddon;
+use Anomaly\Streams\Platform\Provider\ServiceProvider;
 
 /**
  * Class AddonServiceProvider
@@ -19,121 +17,6 @@ use Anomaly\Streams\Platform\Workflow\Workflow;
  */
 class AddonServiceProvider extends ServiceProvider
 {
-
-    use Hookable;
-
-    /**
-     * Class bindings.
-     *
-     * @var array
-     */
-    public $bindings = [];
-
-    /**
-     * The addon commands.
-     *
-     * @var array
-     */
-    public $commands = [];
-
-    /**
-     * The addon command schedules.
-     *
-     * @var array
-     */
-    public $schedules = [];
-
-    /**
-     * The addon view overrides.
-     *
-     * @var array
-     */
-    public $overrides = [];
-
-    /**
-     * The addon policies.
-     *
-     * @var array
-     */
-    public $policies = [];
-
-    /**
-     * The addon streams.
-     *
-     * @var array
-     */
-    public $streams = [];
-
-    /**
-     * Addon routes.
-     *
-     * @var array
-     */
-    public $routes = [];
-
-    /**
-     * Addon assets.
-     *
-     * @var array
-     */
-    public $assets = [];
-
-    /**
-     * Addon API routes.
-     *
-     * @var array
-     */
-    public $api = [];
-
-    /**
-     * Addon middleware.
-     *
-     * @var array
-     */
-    public $middleware = [];
-
-    /**
-     * Addon group middleware.
-     *
-     * @var array
-     */
-    public $groupMiddleware = [];
-
-    /**
-     * Addon route middleware.
-     *
-     * @var array
-     */
-    public $routeMiddleware = [];
-
-    /**
-     * Addon event listeners.
-     *
-     * @var array
-     */
-    public $listeners = [];
-
-    /**
-     * Addon providers.
-     *
-     * @var array
-     */
-    public $providers = [];
-
-    /**
-     * Singleton bindings.
-     *
-     * @var array
-     */
-    public $singletons = [];
-
-    /**
-     * The addon view overrides
-     * for mobile agents only.
-     *
-     * @var array
-     */
-    public $mobile = [];
 
     /**
      * Register the addon.
@@ -161,24 +44,8 @@ class AddonServiceProvider extends ServiceProvider
             // @todo this works - move the rest in?
         ]))->process($payload);
 
-        $this->registerApi($namespace);
-        $this->registerRoutes();
-        $this->registerStreams();
-
         $this->mergeConfig($path, $namespace);
 
-        $this->registerEvents();
-        $this->registerMiddleware();
-        $this->registerGroupMiddleware();
-        $this->registerRouteMiddleware();
-
-        // Lastly
-        $this->registerProviders();
-
-
-        $this->registerAssets();
-        $this->registerCommands();
-        $this->registerPolicies();
         $this->registerPublishables($path, $namespace);
         //$this->registerSchedules($namespace);
 
@@ -188,167 +55,8 @@ class AddonServiceProvider extends ServiceProvider
         if (is_dir($translations = ($path . '/resources/lang'))) {
             $this->loadTranslationsFrom($translations, $namespace);
         }
-    }
 
-    /**
-     * Undocumented function
-     **/
-    protected function registerRoutes()
-    {
-
-        /**
-         * Skip if there is nothing to do.
-         */
-        if (!$this->routes || $this->app->routesAreCached()) {
-            return;
-        }
-
-        /**
-         * Loop over the routes and normalize
-         */
-        foreach ($this->routes as $uri => $route) {
-
-            /*
-             * If the route definition is an
-             * not an array then let's make it one.
-             * Array type routes give us more control
-             * and allow us to pass information in the
-             * request's route action array.
-             */
-            if (!is_array($route) && str_contains($route, ['::', '.'])) {
-                $this->router->view($uri, $route);
-            }
-
-            if (!is_array($route)) {
-                $route = [
-                    'uses' => $route,
-                ];
-            }
-
-            $verb = array_pull($route, 'verb', 'any');
-
-            $group       = array_pull($route, 'group', []);
-            $middleware  = array_pull($route, 'middleware', ['web']);
-            $constraints = array_pull($route, 'constraints', []);
-
-            if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
-                \Route::middleware('web')->group(function () use ($uri, $route) {
-                    \Route::resource($uri, $route['uses']);
-                });
-            } else {
-                \Route::middleware('web')->group(function () use ($uri, $verb, $route, $group, $middleware, $constraints) {
-
-                    $route = \Route::{$verb}($uri, $route)->where($constraints);
-
-                    if ($middleware) {
-                        call_user_func_array([$route, 'middleware'], (array) $middleware);
-                    }
-
-                    if ($group) {
-                        call_user_func_array([$route, 'group'], (array) $group);
-                    }
-                });
-            }
-        }
-    }
-
-    /**
-     * Undocumented function
-     **/
-    protected function registerStreams()
-    {
-        foreach ($this->streams as $stream => $abstract) {
-
-            app(StreamRegistry::class)->register($stream, $abstract);
-
-            app()->singleton($this->namespace() . '::' . $stream, function () use ($abstract) {
-                return app($abstract)->stream();
-            });
-        }
-    }
-
-    /**
-     * Register policies
-     **/
-    protected function registerPolicies()
-    {
-
-        /**
-         * Skip if there is nothing to do.
-         */
-        if (!$this->policies) {
-            return;
-        }
-
-        /**
-         * Loop over the routes and normalize
-         */
-        foreach ($this->policies as $model => $policy) {
-            Gate::policy($model, $policy);
-        }
-    }
-
-    /**
-     * Register the addon routes.
-     */
-    protected function registerApi()
-    {
-        /**
-         * Skip if there is nothing to do.
-         */
-        if (!$this->api || $this->app->routesAreCached()) {
-            return;
-        }
-
-        /**
-         * Loop over the routes and normalize
-         */
-        $this->router->group(
-            [
-                'middleware' => 'auth:api',
-            ],
-            function () {
-                foreach ($this->api as $uri => $route) {
-
-                    /*
-                     * If the route definition is an
-                     * not an array then let's make it one.
-                     * Array type routes give us more control
-                     * and allow us to pass information in the
-                     * request's route action array.
-                     */
-                    if (!is_array($route)) {
-                        $route = [
-                            'uses' => $route,
-                        ];
-                    }
-
-                    $verb        = array_pull($route, 'verb', 'any');
-                    $middleware  = array_pull($route, 'middleware', []);
-                    $constraints = array_pull($route, 'constraints', []);
-
-                    if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
-                        \Route::resource($uri, $route['uses']);
-                    } else {
-                        $route = \Route::{$verb}($uri, $route)->where($constraints);
-
-                        if ($middleware) {
-                            call_user_func_array([$route, 'middleware'], (array) $middleware);
-                        }
-                    }
-                }
-            }
-        );
-    }
-
-    /**
-     * Bind class aliases.
-     */
-    protected function bindAliases()
-    {
-        if ($this->aliases) {
-            AliasLoader::getInstance($this->aliases)->register();
-        }
+        $this->registerCommon();
     }
 
     /**
@@ -370,52 +78,6 @@ class AddonServiceProvider extends ServiceProvider
         // if (file_exists($override = config_path($override))) {
         //     $this->mergeConfigFrom($override, $slug);
         // }
-    }
-
-    /**
-     * Register the addon events.
-     */
-    protected function registerEvents()
-    {
-        foreach ($this->listeners as $event => $classes) {
-            foreach ($classes as $key => $listener) {
-
-                $priority = 0;
-
-                if (is_integer($listener)) {
-                    $priority = $listener;
-                    $listener = $key;
-                }
-
-                \Event::listen($event, $listener, $priority);
-            }
-        }
-    }
-
-    /**
-     * Register the addon assets.
-     */
-    protected function registerAssets()
-    {
-        if ($this->assets) {
-            AssetRegistry::register($this->assets);
-        }
-    }
-
-    /**
-     * Register the addon commands.
-     */
-    protected function registerCommands()
-    {
-        if ($this->commands) {
-
-            // To register the commands with Artisan, we will grab each of the arguments
-            // passed into the method and listen for Artisan "start" event which will
-            // give us the Artisan console instance which we will give commands to.
-            Artisan::starting(function ($artisan) {
-                $artisan->resolveCommands($this->commands);
-            });
-        }
     }
 
     /**
@@ -486,36 +148,6 @@ class AddonServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register middleware.
-     */
-    protected function registerMiddleware()
-    {
-        foreach ($this->middleware as $middleware) {
-            \Route::pushMiddlewareToGroup('web', $middleware);
-        }
-    }
-
-    /**
-     * Register group middleware.
-     */
-    protected function registerGroupMiddleware()
-    {
-        foreach ($this->groupMiddleware as $group => $classes) {
-            \Route::pushMiddlewareToGroup($group, $classes);
-        }
-    }
-
-    /**
-     * Register route middleware.
-     */
-    protected function registerRouteMiddleware()
-    {
-        foreach ($this->routeMiddleware as $name => $class) {
-            \Route::aliasMiddleware($name, $class);
-        }
-    }
-
-    /**
      * Register the addon hints.
      * 
      * @param string $namespace
@@ -554,16 +186,6 @@ class AddonServiceProvider extends ServiceProvider
         // ) {
         //     app(Factory::class)->load($path);
         // }
-    }
-
-    /**
-     * Register the addon providers.
-     */
-    public function registerProviders()
-    {
-        foreach ($this->providers as $provider) {
-            $this->app->register($provider);
-        }
     }
 
     /**
