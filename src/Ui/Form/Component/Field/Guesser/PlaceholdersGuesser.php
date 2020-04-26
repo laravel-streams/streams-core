@@ -27,7 +27,7 @@ class PlaceholdersGuesser
         $stream = $builder->getFormStream();
 
         foreach ($fields as &$field) {
-            
+
             /*
              * If the placeholder are already set then use it.
              */
@@ -50,11 +50,11 @@ class PlaceholdersGuesser
             if (!$stream instanceof StreamInterface) {
                 continue;
             }
-            
+
             /**
              * Try stream specific placeholder.
              */
-            $placeholder = $stream->getLocation() . '::field.' . $field['field'] . '.placeholder.' . $stream->slug;
+            $placeholder = $stream->location('field.' . $field['field'] . '.placeholder.' . $stream->slug);
 
             if (!isset($field['placeholder']) && trans()->has($placeholder)) {
                 $field['placeholder'] = $placeholder;
@@ -63,7 +63,7 @@ class PlaceholdersGuesser
             /**
              * Try the placeholder.
              */
-            $placeholder = $stream->getLocation() . '::field.' . $field['field'] . '.placeholder';
+            $placeholder = $stream->location('field.' . $field['field'] . '.placeholder');
 
             if (!isset($field['placeholder']) && trans()->has($placeholder)) {
                 $field['placeholder'] = $placeholder;

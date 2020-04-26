@@ -24,7 +24,7 @@ class LabelsGuesser
     {
         $fields = $builder->getFields();
         $stream = $builder->getFormStream();
-        
+
         foreach ($fields as &$field) {
 
             /*
@@ -53,16 +53,16 @@ class LabelsGuesser
             /**
              * Try stream specific label.
              */
-            $label = $stream->getLocation() . '::field.' . $field['field'] . '.label.' . $stream->slug;
+            $label = $stream->location('field.' . $field['field'] . '.label.' . $stream->slug);
 
             if (!isset($field['label']) && trans()->has($label)) {
                 $field['label'] = $label;
             }
-            
+
             /**
              * Start with the label.
              */
-            $label = $stream->getLocation() . '::field.' . $field['field'] . '.label';
+            $label = $stream->location('field.' . $field['field'] . '.label');
 
             if (!isset($field['label']) && trans()->has($label)) {
                 $field['label'] = $label;
@@ -71,7 +71,7 @@ class LabelsGuesser
             /**
              * The name is used as a fallback.
              */
-            $label = $stream->getLocation() . '::field.' . $field['field'] . '.name';
+            $label = $stream->location('field.' . $field['field'] . '.name');
 
             if (!isset($field['label']) && trans()->has($label)) {
                 $field['label'] = $label;

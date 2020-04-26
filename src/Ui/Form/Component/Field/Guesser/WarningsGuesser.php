@@ -26,7 +26,7 @@ class WarningsGuesser
         $stream = $builder->getFormStream();
 
         foreach ($fields as &$field) {
-            
+
             /*
              * If the warning are already set then use it.
              */
@@ -49,11 +49,11 @@ class WarningsGuesser
             if (!$stream instanceof StreamInterface) {
                 continue;
             }
-            
+
             /**
              * Try stream specific warning.
              */
-            $warning = $stream->getLocation() . '::field.' . $field['field'] . '.warning.' . $stream->slug;
+            $warning = $stream->location('field.' . $field['field'] . '.warning.' . $stream->slug);
 
             if (!isset($field['warning']) && trans()->has($warning)) {
                 $field['warning'] = $warning;
@@ -62,7 +62,7 @@ class WarningsGuesser
             /**
              * Try the warning.
              */
-            $warning = $stream->getLocation() . '::field.' . $field['field'] . '.warning';
+            $warning = $stream->location('field.' . $field['field'] . '.warning');
 
             if (!isset($field['warning']) && trans()->has($warning)) {
                 $field['warning'] = $warning;

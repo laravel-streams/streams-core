@@ -27,7 +27,7 @@ class InstructionsGuesser
         $stream = $builder->getFormStream();
 
         foreach ($fields as &$field) {
-            
+
             /*
              * If the instructions are already set then use it.
              */
@@ -50,20 +50,20 @@ class InstructionsGuesser
             if (!$stream instanceof StreamInterface) {
                 continue;
             }
-            
+
             /**
              * Try stream specific instructions.
              */
-            $instructions = $stream->getLocation() . '::field.' . $field['field'] . '.instructions.' . $stream->slug;
+            $instructions = $stream->location('field.' . $field['field'] . '.instructions.' . $stream->slug);
 
             if (!isset($field['instructions']) && trans()->has($instructions)) {
                 $field['instructions'] = $instructions;
             }
 
             /**
-             * Start with the instructions.
+             * Fallback to a general field instruction.
              */
-            $instructions = $stream->getLocation() . '::field.' . $field['field'] . '.instructions';
+            $instructions = $stream->location('field.' . $field['field'] . '.instructions');
 
             if (!isset($field['instructions']) && trans()->has($instructions)) {
                 $field['instructions'] = $instructions;
