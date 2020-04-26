@@ -1,4 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Traits;
+<?php
+
+namespace Anomaly\Streams\Platform\Traits;
+
+use Illuminate\Support\Facades\App;
 
 /**
  * Class FiresCallbacks
@@ -43,23 +47,21 @@ trait FiresCallbacks
     }
 
     /**
-     * Register a new listener.
+     * Register a new global listener.
      *
      * @param $trigger
      * @param $callback
      * @return $this
      */
-    public function listen($trigger, $callback)
+    public static function when($trigger, $callback)
     {
-        $trigger = get_class($this) . '::' . $trigger;
+        $trigger = static::class . '::' . $trigger;
 
         if (!isset(self::$listeners[$trigger])) {
             self::$listeners[$trigger] = [];
         }
 
         self::$listeners[$trigger][] = $callback;
-
-        return $this;
     }
 
     /**
@@ -72,45 +74,47 @@ trait FiresCallbacks
     public function fire($trigger, array $parameters = [])
     {
 
-        /*
+        /**
          * First, fire global listeners.
          */
-        $classes = array_merge(class_parents($this), [get_class($this) => get_class($this)]);
+        $classes = array_merge(
+            class_parents($this),
+            [static::class => static::class]
+        );
 
         foreach (array_keys($classes) as $caller) {
-            foreach (array_get(self::$listeners, $caller . '::' . $trigger, []) as $callback) {
-                if (is_string($callback) || $callback instanceof \Closure) {
-                    app()->call($callback, $parameters);
-                }
 
-                if (method_exists($callback, 'handle')) {
-                    app()->call([$callback, 'handle'], $parameters);
-                }
+            $listeners = (array) array_get(
+                self::$listeners,
+                $caller . '::' . $trigger,
+            );
+
+            foreach ($listeners as $callback) {
+                App::call($callback, $parameters, 'handle');
             }
         }
 
         /*
          * Next, check if the method
-         * exists and run it if it does.
+         * exists and call it if it does.
          */
         $method = camel_case('on_' . $trigger);
 
         if (method_exists($this, $method)) {
-            app()->call([$this, $method], $parameters);
+            App::call([$this, $method], $parameters);
         }
 
         /*
          * Finally, run through all of
          * the registered callbacks.
          */
-        foreach (array_get($this->callbacks, $trigger, []) as $callback) {
-            if (is_string($callback) || $callback instanceof \Closure) {
-                app()->call($callback, $parameters);
-            }
+        $callbacks = (array) array_get(
+            $this->callbacks,
+            $trigger
+        );
 
-            if (method_exists($callback, 'handle')) {
-                app()->call([$callback, 'handle'], $parameters);
-            }
+        foreach ($callbacks as $callback) {
+            App::call($callback, $parameters, 'handle');
         }
 
         return $this;
@@ -133,8 +137,8 @@ trait FiresCallbacks
      * @param $trigger
      * @return bool
      */
-    public function hasListener($trigger)
+    public static function hasListener($trigger)
     {
-        return isset(self::$listeners[get_class($this) . '::' . $trigger]);
+        return isset(self::$listeners[static::class . '::' . $trigger]);
     }
 }
