@@ -97,7 +97,7 @@ class SortableGuesser
              * then we don't have anything to base
              * our guess off of.
              */
-            if (!$field = $stream->getField($field)) {
+            if (!$field = $stream->fields->get($field)) {
                 continue;
             }
 

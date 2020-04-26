@@ -31,7 +31,7 @@ class SetDefaultOptions
         if ($table->getOption('sortable') === null) {
             $stream = $table->getStream();
 
-            if ($stream && $stream->isSortable()) {
+            if ($stream && $stream->sortable) {
                 $table->setOption('sortable', true);
             }
         }

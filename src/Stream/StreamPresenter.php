@@ -47,7 +47,7 @@ class StreamPresenter extends Presenter
      */
     protected function translatableLabel($size = 'sm')
     {
-        if ($this->object->isTranslatable()) {
+        if ($this->object->translatable) {
             return '<span class="tag tag-info tag-' . $size . '">' . trans(
                 'streams::field.translatable.name'
             ) . '</span>';
@@ -81,7 +81,7 @@ class StreamPresenter extends Presenter
      */
     protected function trashableLabel($size = 'sm')
     {
-        if ($this->object->isTrashable()) {
+        if ($this->object->trashable) {
             return '<span class="tag tag-danger tag-' . $size . '">' . trans(
                 'streams::field.trashable.name'
             ) . '</span>';
@@ -98,7 +98,7 @@ class StreamPresenter extends Presenter
      */
     protected function sortableLabel($size = 'sm')
     {
-        if ($this->object->isSortable()) {
+        if ($this->object->sortable) {
             return '<span class="tag tag-primary tag-' . $size . '">' . trans(
                 'streams::field.sortable.name'
             ) . '</span>';

@@ -48,7 +48,7 @@ class SetErrorMessages
 
         Messages::error($errors->all());
 
-        if ($request->segment(1) == 'admin' && ($stream = $this->builder->getFormStream()) && $stream->isTrashable()) {
+        if ($request->segment(1) == 'admin' && ($stream = $this->builder->getFormStream()) && $stream->trashable) {
 
             /* @var AssignmentInterface $field */
             foreach ($stream->fields as $field) {

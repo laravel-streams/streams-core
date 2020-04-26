@@ -93,7 +93,7 @@ class StreamMigrator
                 $table->datetime('updated_at')->nullable();
                 $table->integer('updated_by_id')->nullable();
 
-                if (self::$stream->isTrashable()) {
+                if (self::$stream->trashable) {
                     $table->datetime('deleted_at')->nullable();
                 }
             }

@@ -55,7 +55,7 @@ class FormRules
                 continue;
             }
 
-            if ($instance = $stream->getField($field->getField())) {
+            if ($instance = $stream->fields->get($field->getField())) {
 
                 $type = $instance->type();
 

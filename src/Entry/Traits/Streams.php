@@ -73,7 +73,7 @@ trait Streams
         });
 
         $instance->bind('get_title', function () {
-            return $this->{$this->stream->getTitleColumn()};
+            return $this->{$this->stream->title_column};
         });
 
         // From EntryModel
@@ -140,7 +140,7 @@ trait Streams
      */
     public function setAttribute($key, $value)
     {
-        if ($this->stream()->hasField($key)) {
+        if ($this->stream()->fields->has($key)) {
             return $this->setFieldValue($key, $value);
         }
 

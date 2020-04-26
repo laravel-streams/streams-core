@@ -48,10 +48,10 @@ class FieldTypeQuery
      */
     public function filter(Builder $query, FilterInterface $filter)
     {
-        $stream       = $filter->getStream();
-        $entry        = $stream->model->getTable();
-        $column       = $this->fieldType->getColumnName();
-        $field   = $stream->fields->get($filter->getField());
+        $stream = $filter->getStream();
+        $entry  = $stream->model->getTable();
+        $column = $this->fieldType->getColumnName();
+        $field  = $stream->fields->get($filter->getField());
 
         $query->{$this->where()}(
             function (Builder $query) use ($field, $filter, $column, $entry) {

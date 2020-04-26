@@ -80,18 +80,18 @@ class HeadingsGuesser
             /*
              * Detect entry title.
              */
-            if (in_array($column['field'], ['view_link', 'edit_link']) && $field = $stream->getTitleField()) {
+            if (in_array($column['field'], ['view_link', 'edit_link']) && $field = $stream->titleField()) {
                 $column['heading'] = $field->getName();
 
                 continue;
             }
 
-            $field = $stream->getField(array_get($column, 'field'));
+            $field = $stream->fields->get(array_get($column, 'field'));
 
             /*
              * Detect the title column.
              */
-            $title = $stream->getTitleField();
+            $title = $stream->titleField();
 
             if (
                 $title &&

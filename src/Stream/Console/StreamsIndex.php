@@ -63,7 +63,7 @@ class StreamsIndex extends Command
              * If the stream is not searchable
              * then skip over it.
              */
-            if (!$stream->isSearchable()) {
+            if (!$stream->searchable) {
                 $this->warn($stream->getNamespace() . '.' . $stream->slug . ' is not searchable.');
 
                 continue;

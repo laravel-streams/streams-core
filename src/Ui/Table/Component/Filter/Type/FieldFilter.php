@@ -30,7 +30,7 @@ class FieldFilter extends Filter implements FieldFilterInterface
      */
     public function getInput()
     {
-        if (!$field = $this->stream->getField($this->getField())) {
+        if (!$field = $this->stream->fields->get($this->getField())) {
             return;
         }
 

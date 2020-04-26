@@ -26,6 +26,6 @@ class FieldTypeBuilder
             $type = $type['type'];
         }
 
-        return clone(app($type));
+        return clone (app($type));
     }
 }

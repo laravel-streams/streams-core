@@ -91,71 +91,11 @@ class Stream implements StreamInterface
     }
 
     /**
-     * Get the sortable flag.
-     *
-     * @return bool
-     */
-    public function isSortable()
-    {
-        return $this->sortable;
-    }
-
-    /**
-     * Get the searchable flag.
-     *
-     * @return bool
-     */
-    public function isSearchable()
-    {
-        return $this->searchable;
-    }
-
-    /**
-     * Get the trashable flag.
-     *
-     * @return bool
-     */
-    public function isTrashable()
-    {
-        return $this->trashable;
-    }
-
-    /**
-     * Get the versionable flag.
-     *
-     * @return bool
-     */
-    public function isVersionable()
-    {
-        return $this->versionable;
-    }
-
-    /**
-     * Get the translatable flag.
-     *
-     * @return bool
-     */
-    public function isTranslatable()
-    {
-        return $this->translatable;
-    }
-
-    /**
-     * Get the title column.
-     *
-     * @return string
-     */
-    public function getTitleColumn()
-    {
-        return $this->title_column;
-    }
-
-    /**
-     * Get the title field.
+     * Return the title field.
      *
      * @return null|FieldInterface
      */
-    public function getTitleField()
+    public function titleField()
     {
         return $this->fields->get($this->title_column);
     }

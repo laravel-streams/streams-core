@@ -24,7 +24,7 @@ class HeaderDefaults
         }
 
         if ($builder->getColumns() == []) {
-            $builder->setColumns([$stream->getTitleColumn()]);
+            $builder->setColumns([$stream->title_column]);
         }
     }
 }

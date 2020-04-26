@@ -34,7 +34,7 @@ class PlaceholdersGuesser
             }
 
             // Get the placeholder off the field.
-            if ($stream && $field = $stream->getField(array_get($filter, 'field'))) {
+            if ($stream && $field = $stream->fields->get(array_get($filter, 'field'))) {
 
                 /*
                  * Always use the field name

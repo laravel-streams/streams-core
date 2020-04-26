@@ -132,7 +132,7 @@ class EntryPresenter extends Presenter implements Arrayable
     public function label($text = null, $context = null, $size = null)
     {
         if (!$text) {
-            $text = $this->object->stream->getTitleColumn();
+            $text = $this->object->stream->title_column;
         }
 
         if (!$context) {
