@@ -99,27 +99,4 @@ class Stream implements StreamInterface
     {
         return $this->fields->get($this->title_column);
     }
-
-    /**
-     * Get an by it's field's slug.
-     *
-     * @param  $slug
-     * @return FieldInterface
-     */
-    public function getField($slug)
-    {
-        return $this->fields->get($slug);
-    }
-
-    /**
-     * Return whether a stream
-     * has a field assigned.
-     *
-     * @param $slug
-     * @return bool
-     */
-    public function hasField($slug)
-    {
-        return $this->fields->has($slug);
-    }
 }
