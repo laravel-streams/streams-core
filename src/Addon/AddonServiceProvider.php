@@ -2,11 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
-use Illuminate\Console\Application as Artisan;
-use Anomaly\Streams\Platform\Workflow\Workflow;
-use Anomaly\Streams\Platform\Asset\AssetRegistry;
-use Anomaly\Streams\Platform\Stream\StreamRegistry;
-use Anomaly\Streams\Platform\Addon\Workflow\BindAddon;
 use Anomaly\Streams\Platform\Provider\ServiceProvider;
 
 /**
@@ -17,6 +12,20 @@ use Anomaly\Streams\Platform\Provider\ServiceProvider;
  */
 class AddonServiceProvider extends ServiceProvider
 {
+
+    /**
+     * The addon class.
+     *
+     * @var string
+     */
+    protected $addon;
+
+    /**
+     * The addon namespace.
+     *
+     * @var string
+     */
+    protected $namespace;
 
     /**
      * Register the addon.
@@ -30,33 +39,56 @@ class AddonServiceProvider extends ServiceProvider
 
         $path = dirname((new \ReflectionClass(get_called_class()))->getFileName(), 2);
 
-        $payload = compact(
-            'addon',
-            'namespace',
-            'vendor',
-            'type',
-            'slug',
-            'path'
-        ) + ['app' => $this->app];
-
-        (new Workflow([
-            BindAddon::class,
-            // @todo this works - move the rest in?
-        ]))->process($payload);
+        $this->bindAddon($addon, $namespace, $vendor, $type, $slug, $path);
 
         $this->mergeConfig($path, $namespace);
-
-        $this->registerPublishables($path, $namespace);
-        //$this->registerSchedules($namespace);
+        $this->loadTranslations($namespace, $path);
 
         $this->registerHints($namespace, $path);
-        $this->registerFactories($namespace, $path);
-
-        if (is_dir($translations = ($path . '/resources/lang'))) {
-            $this->loadTranslationsFrom($translations, $namespace);
-        }
+        $this->registerPublishables($path, $namespace);
 
         $this->registerCommon();
+    }
+
+    /**
+     * Bind the addon instance.
+     *
+     * @param string $addon
+     * @param string $namespace
+     * @param string $vendor
+     * @param string $type
+     * @param string $slug
+     * @param string $path
+     */
+    protected function bindAddon($addon, $namespace, $vendor, $type, $slug, $path)
+    {
+        $this->app->singleton($namespace, function () use (
+            $addon,
+            $namespace,
+            $vendor,
+            $type,
+            $slug,
+            $path
+        ) {
+
+            // @var Addon $addon
+            $addon = $this->app->make($addon)
+                ->setType($type)
+                ->setSlug($slug)
+                ->setVendor($vendor)
+                ->setPath($path);
+
+            if (!config('streams.installed')) {
+                return $addon;
+            }
+
+            if ($data = $this->app->make('addon.collection')->get($namespace)) {
+                $addon->setEnabled(array_get($data, 'enabled'));
+                $addon->setInstalled(array_get($data, 'installed'));
+            }
+
+            return $addon;
+        });
     }
 
     /**
@@ -72,12 +104,19 @@ class AddonServiceProvider extends ServiceProvider
         if (file_exists($config = $path . '/resources/config/addon.php')) {
             $this->mergeConfigFrom($config, $slug);
         }
+    }
 
-        // $override = implode(DIRECTORY_SEPARATOR, array_merge(['vendor', $vendor, $type, $slug], ['addon.php']));
-
-        // if (file_exists($override = config_path($override))) {
-        //     $this->mergeConfigFrom($override, $slug);
-        // }
+    /**
+     * Load the addon's lang files.
+     *
+     * @param string $namespace
+     * @param string $path
+     */
+    protected function loadTranslations($namespace, $path)
+    {
+        if (is_dir($translations = ($path . '/resources/lang'))) {
+            $this->loadTranslationsFrom($translations, $namespace);
+        }
     }
 
     /**
@@ -172,30 +211,17 @@ class AddonServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the addon commands.
-     * 
-     * @param string $namespace
-     * @param string $path
-     */
-    protected function registerFactories(string $namespace, string $path)
-    {
-        // @todo not sure about this - beaks CLI
-        // if (
-        //     ($this->app->runningUnitTests() || $this->app->runningInConsole())
-        //     && is_dir($path)
-        // ) {
-        //     app(Factory::class)->load($path);
-        // }
-    }
-
-    /**
      * Return the detected addon namespace.
      * 
      * @return string
      */
     protected function namespace()
     {
-        $class  = explode('\\', get_class($this));
+        if ($this->namespace) {
+            return $this->namespace;
+        }
+
+        $class  = explode('\\', $this->addon());
         $vendor = snake_case(array_shift($class));
         $addon  = snake_case(array_shift($class));
 
@@ -209,7 +235,7 @@ class AddonServiceProvider extends ServiceProvider
         $addon = str_replace('_' . $type[0], '', $addon);
         $type = ltrim(array_shift($type), '_');
 
-        return "{$vendor}.{$type}.{$addon}";
+        return $this->namespace = "{$vendor}.{$type}.{$addon}";
     }
 
     /**
@@ -219,6 +245,10 @@ class AddonServiceProvider extends ServiceProvider
      */
     protected function addon()
     {
-        return str_replace('ServiceProvider', '', get_class($this));
+        if ($this->addon) {
+            return $this->addon;
+        }
+
+        return $this->addon = str_replace('ServiceProvider', '', get_class($this));
     }
 }

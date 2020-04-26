@@ -95,13 +95,18 @@ class Stream implements StreamInterface
     }
 
     /**
-     * Get the location.
+     * Get a location::key string.
      *
+     * @param  null $key
      * @return string
      */
-    public function getLocation()
+    public function location($key = null)
     {
-        return $this->location;
+        if (!$this->location) {
+            return $key;
+        }
+
+        return $this->location . ($key ? '::' . $key : $key);
     }
 
     /**
