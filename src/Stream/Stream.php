@@ -65,16 +65,6 @@ class Stream implements StreamInterface
     }
 
     /**
-     * Get the name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
      * Get a location::key string.
      *
      * @param  null $key
@@ -98,29 +88,6 @@ class Stream implements StreamInterface
     public function config($key, $default = null)
     {
         return array_get($this->config, $key, $default);
-    }
-
-    /**
-     * Get the config.
-     *
-     * @return array
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
-     * Merge configuration.
-     *
-     * @param  array $config
-     * @return $this
-     */
-    public function mergeConfig(array $config)
-    {
-        $this->config = array_merge($this->config, $config);
-
-        return $this;
     }
 
     /**

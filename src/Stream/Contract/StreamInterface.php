@@ -15,21 +15,6 @@ interface StreamInterface
 {
 
     /**
-     * Get the config.
-     *
-     * @return array
-     */
-    public function getConfig();
-
-    /**
-     * Merge configuration.
-     *
-     * @param  array $config
-     * @return $this
-     */
-    public function mergeConfig(array $config);
-
-    /**
      * Get the sortable flag.
      *
      * @return bool
