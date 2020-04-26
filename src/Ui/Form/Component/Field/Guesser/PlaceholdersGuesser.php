@@ -61,7 +61,7 @@ class PlaceholdersGuesser
             }
 
             /**
-             * Try the placeholder.
+             * Try the general field placeholder.
              */
             $placeholder = $stream->location('field.' . $field['field'] . '.placeholder');
 
