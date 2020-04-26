@@ -2,12 +2,12 @@
 
 namespace Anomaly\Streams\Platform\Stream;
 
+use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Traits\HasMemory;
 use Anomaly\Streams\Platform\Field\FieldCollection;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Traits\Hookable;
 
 /**
  * Class Stream
@@ -19,7 +19,7 @@ use Anomaly\Streams\Platform\Traits\Hookable;
 class Stream implements StreamInterface
 {
 
-    use Hookable;
+    use Macroable;
     use HasMemory;
     use FiresCallbacks;
 
@@ -72,26 +72,6 @@ class Stream implements StreamInterface
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Get the slug.
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    /**
-     * Get the description.
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
     }
 
     /**

@@ -43,7 +43,7 @@ class PolicyGuesser
              * Try and guess the ability.
              */
             if ($stream) {
-                $action['ability'] = $module->getNamespace($stream->getSlug() . '.' . $action['slug']);
+                $action['ability'] = $module->getNamespace($stream->slug . '.' . $action['slug']);
             } elseif ($section) {
                 $action['ability'] = $module->getNamespace($section->getSlug() . '.' . $action['slug']);
             }

@@ -52,7 +52,7 @@ class HrefGuesser
                 case 'restore':
 
                     $button['attributes']['href'] = url(
-                        'entry/handle/restore/' . $stream->location . '/' . $stream->getSlug() . '/{entry.id}'
+                        'entry/handle/restore/' . $stream->location . '/' . $stream->slug . '/{entry.id}'
                     );
 
                     break;

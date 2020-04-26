@@ -43,12 +43,12 @@ class PolicyGuesser
             switch (array_get($button, 'button')) {
 
                 case 'update':
-                    $button['ability'] = $module->getNamespace($stream->getSlug() . '.write');
+                    $button['ability'] = $module->getNamespace($stream->slug . '.write');
                     break;
 
                 default:
                     $button['ability'] = $module->getNamespace(
-                        $stream->getSlug() . '.' . array_get($button, 'slug')
+                        $stream->slug . '.' . array_get($button, 'slug')
                     );
                     break;
             }

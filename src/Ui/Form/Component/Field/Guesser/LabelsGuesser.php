@@ -53,7 +53,7 @@ class LabelsGuesser
             /**
              * Try stream specific label.
              */
-            $label = $stream->getLocation() . '::field.' . $field['field'] . '.label.' . $stream->getSlug();
+            $label = $stream->getLocation() . '::field.' . $field['field'] . '.label.' . $stream->slug;
 
             if (!isset($field['label']) && trans()->has($label)) {
                 $field['label'] = $label;

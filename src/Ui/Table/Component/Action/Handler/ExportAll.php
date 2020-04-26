@@ -28,7 +28,7 @@ class ExportAll
         $stream = $builder->getTableStream();
 
         $headers = [
-            'Content-Disposition' => 'attachment; filename=' . $stream->getSlug() . '.csv',
+            'Content-Disposition' => 'attachment; filename=' . $stream->slug . '.csv',
             'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
             'Content-type'        => 'text/csv',
             'Pragma'              => 'public',

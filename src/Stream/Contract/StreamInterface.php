@@ -15,27 +15,6 @@ interface StreamInterface
 {
 
     /**
-     * Get the name.
-     *
-     * @return string
-     */
-    public function getName();
-
-    /**
-     * Get the slug.
-     *
-     * @return string
-     */
-    public function getSlug();
-
-    /**
-     * Get the description.
-     *
-     * @return string
-     */
-    public function getDescription();
-
-    /**
      * Get the config.
      *
      * @return array

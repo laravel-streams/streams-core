@@ -60,7 +60,7 @@ class EntryController extends AdminController
 
         $entry = $repository->findTrashed($id);
 
-        if (!Gate::allows("{$stream->getSlug()}.update")) {
+        if (!Gate::allows("{$stream->slug}.update")) {
             abort(403);
         }
 
@@ -96,12 +96,12 @@ class EntryController extends AdminController
          */
         $repository = (new EntryRepository)->setModel($stream->model);
 
-        if (!Gate::allows("{$stream->getSlug()}.view")) {
+        if (!Gate::allows("{$stream->slug}.view")) {
             abort(403);
         }
 
         $headers = [
-            'Content-Disposition' => 'attachment; filename=' . $stream->getSlug() . '.csv',
+            'Content-Disposition' => 'attachment; filename=' . $stream->slug . '.csv',
             'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
             'Content-type'        => 'text/csv',
             'Pragma'              => 'public',

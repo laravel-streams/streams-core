@@ -53,7 +53,7 @@ class WarningsGuesser
             /**
              * Try stream specific warning.
              */
-            $warning = $stream->getLocation() . '::field.' . $field['field'] . '.warning.' . $stream->getSlug();
+            $warning = $stream->getLocation() . '::field.' . $field['field'] . '.warning.' . $stream->slug;
 
             if (!isset($field['warning']) && trans()->has($warning)) {
                 $field['warning'] = $warning;
