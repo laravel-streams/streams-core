@@ -6,12 +6,12 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
 
 /**
- * Trait ProvidesRoutes
+ * Trait RegistersRoutes
  *
  * @link   http://pyrocms.com/
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-trait ProvidesRoutes
+trait RegistersRoutes
 {
 
     /**

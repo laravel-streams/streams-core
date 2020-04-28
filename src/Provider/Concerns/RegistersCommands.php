@@ -2,17 +2,18 @@
 
 namespace Anomaly\Streams\Platform\Provider\Concerns;
 
+use Illuminate\Console\Application;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Console\Events\ArtisanStarting;
 
 /**
- * Trait ProvidesCommands
+ * Trait RegistersCommands
  *
  * @link   http://pyrocms.com/
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-trait ProvidesCommands
+trait RegistersCommands
 {
 
     /**
@@ -31,7 +32,7 @@ trait ProvidesCommands
             return;
         }
 
-        Event::listen(ArtisanStarting::class, function ($artisan) {
+        Application::starting(function ($artisan) {
             $artisan->resolveCommands($this->commands);
         });
     }

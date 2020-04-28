@@ -5,12 +5,12 @@ namespace Anomaly\Streams\Platform\Provider\Concerns;
 use Illuminate\Console\Scheduling\Schedule;
 
 /**
- * Trait ProvidesSchedules
+ * Trait RegistersSchedules
  *
  * @link   http://pyrocms.com/
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-trait ProvidesSchedules
+trait RegistersSchedules
 {
 
     /**

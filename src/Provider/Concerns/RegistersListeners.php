@@ -5,12 +5,12 @@ namespace Anomaly\Streams\Platform\Provider\Concerns;
 use Illuminate\Support\Facades\Event;
 
 /**
- * Trait ProvidesListeners
+ * Trait RegistersListeners
  *
  * @link   http://pyrocms.com/
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-trait ProvidesListeners
+trait RegistersListeners
 {
 
     /**

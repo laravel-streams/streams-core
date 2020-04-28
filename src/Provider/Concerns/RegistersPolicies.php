@@ -5,12 +5,12 @@ namespace Anomaly\Streams\Platform\Provider\Concerns;
 use Illuminate\Support\Facades\Gate;
 
 /**
- * Trait ProvidesPolicies
+ * Trait RegistersPolicies
  *
  * @link   http://pyrocms.com/
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-trait ProvidesPolicies
+trait RegistersPolicies
 {
 
     /**

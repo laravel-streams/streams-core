@@ -5,12 +5,12 @@ namespace Anomaly\Streams\Platform\Provider\Concerns;
 use Anomaly\Streams\Platform\Asset\Facades\Assets;
 
 /**
- * Trait ProvidesAssets
+ * Trait RegistersAssets
  *
  * @link   http://pyrocms.com/
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-trait ProvidesAssets
+trait RegistersAssets
 {
 
     /**

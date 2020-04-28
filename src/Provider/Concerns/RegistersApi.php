@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 /**
- * Trait ProvidesApi
+ * Trait RegistersApi
  *
  * @link   http://pyrocms.com/
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-trait ProvidesApi
+trait RegistersApi
 {
 
     /**

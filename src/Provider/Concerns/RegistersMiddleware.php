@@ -5,12 +5,12 @@ namespace Anomaly\Streams\Platform\Provider\Concerns;
 use Illuminate\Support\Facades\Route;
 
 /**
- * Trait ProvidesMiddleware
+ * Trait RegistersMiddleware
  *
  * @link   http://pyrocms.com/
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-trait ProvidesMiddleware
+trait RegistersMiddleware
 {
 
     /**

@@ -3,18 +3,17 @@
 namespace Anomaly\Streams\Platform\Provider;
 
 use Anomaly\Streams\Platform\Traits\Hookable;
-use Anomaly\Streams\Platform\Stream\StreamRegistry;
-use Anomaly\Streams\Platform\Provider\Concerns\ProvidesApi;
-use Anomaly\Streams\Platform\Provider\Concerns\ProvidesAssets;
-use Anomaly\Streams\Platform\Provider\Concerns\ProvidesRoutes;
-use Anomaly\Streams\Platform\Provider\Concerns\ProvidesCommands;
-use Anomaly\Streams\Platform\Provider\Concerns\ProvidesListeners;
-use Anomaly\Streams\Platform\Provider\Concerns\ProvidesMiddleware;
-use Anomaly\Streams\Platform\Provider\Concerns\ProvidesPolicies;
-use Anomaly\Streams\Platform\Provider\Concerns\ProvidesProviders;
-use Anomaly\Streams\Platform\Provider\Concerns\ProvidesSchedules;
-use Anomaly\Streams\Platform\Provider\Concerns\ProvidesStreams;
 use Anomaly\Streams\Platform\Traits\HasMemory;
+use Anomaly\Streams\Platform\Provider\Concerns\RegistersApi;
+use Anomaly\Streams\Platform\Provider\Concerns\RegistersAssets;
+use Anomaly\Streams\Platform\Provider\Concerns\RegistersRoutes;
+use Anomaly\Streams\Platform\Provider\Concerns\RegistersStreams;
+use Anomaly\Streams\Platform\Provider\Concerns\RegistersCommands;
+use Anomaly\Streams\Platform\Provider\Concerns\RegistersPolicies;
+use Anomaly\Streams\Platform\Provider\Concerns\RegistersListeners;
+use Anomaly\Streams\Platform\Provider\Concerns\RegistersProviders;
+use Anomaly\Streams\Platform\Provider\Concerns\RegistersSchedules;
+use Anomaly\Streams\Platform\Provider\Concerns\RegistersMiddleware;
 
 /**
  * Class ServiceProvider
@@ -28,16 +27,16 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     use Hookable;
     use HasMemory;
 
-    use ProvidesApi;
-    use ProvidesAssets;
-    use ProvidesRoutes;
-    use ProvidesStreams;
-    use ProvidesCommands;
-    use ProvidesPolicies;
-    use ProvidesListeners;
-    use ProvidesProviders;
-    use ProvidesSchedules;
-    use ProvidesMiddleware;
+    use RegistersApi;
+    use RegistersAssets;
+    use RegistersRoutes;
+    use RegistersStreams;
+    use RegistersCommands;
+    use RegistersPolicies;
+    use RegistersListeners;
+    use RegistersProviders;
+    use RegistersSchedules;
+    use RegistersMiddleware;
 
     /**
      * Register common provisions.

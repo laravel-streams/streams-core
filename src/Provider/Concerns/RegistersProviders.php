@@ -5,12 +5,12 @@ namespace Anomaly\Streams\Platform\Provider\Concerns;
 use Illuminate\Support\Facades\App;
 
 /**
- * Trait ProvidesProviders
+ * Trait RegistersProviders
  *
  * @link   http://pyrocms.com/
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-trait ProvidesProviders
+trait RegistersProviders
 {
 
     /**

@@ -6,12 +6,12 @@ use Illuminate\Console\Scheduling\Schedule;
 use Anomaly\Streams\Platform\Stream\StreamRegistry;
 
 /**
- * Trait ProvidesStreams
+ * Trait RegistersStreams
  *
  * @link   http://pyrocms.com/
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-trait ProvidesStreams
+trait RegistersStreams
 {
 
     /**
