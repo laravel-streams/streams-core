@@ -157,7 +157,7 @@ trait Streams
      */
     public function setFieldValue($fieldSlug, $value, $locale = null)
     {
-        $field = $this->stream()->getField($fieldSlug);
+        $field = $this->stream()->fields->get($fieldSlug);
 
         $type = $field->type();
 
