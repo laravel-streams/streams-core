@@ -49,7 +49,7 @@ trait Streams
         // This works but we don't wnat it. It's a test. Hook works too.
         // @todo finish this
         // ($instance = new static)->bind('get_title_column', function () {
-        //     return $this->stream()->getTitleColumn();
+        //     return $this->stream()->title_column;
         // });
 
         ($instance = new static)->bind('created_by', function () {

@@ -25,8 +25,10 @@ trait RegistersMiddleware
      */
     protected function registerMiddleware()
     {
-        foreach ($this->middleware as $group => $middleware) {
-            Route::pushMiddlewareToGroup($group, $middleware);
+        foreach ($this->middleware as $group => $middlewares) {
+            foreach ($middlewares as $middleware) {
+                Route::pushMiddlewareToGroup($group, $middleware);
+            }
         }
     }
 }

@@ -3,9 +3,6 @@
 namespace Anomaly\Streams\Platform\Provider\Concerns;
 
 use Illuminate\Console\Application;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Console\Events\ArtisanStarting;
 
 /**
  * Trait RegistersCommands
