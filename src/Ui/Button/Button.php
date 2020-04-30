@@ -55,7 +55,7 @@ class Button implements ButtonInterface, Arrayable, Jsonable
     }
 
     /**
-     * Return the open tag.
+     * Return the close tag.
      *
      * @return string
      */
