@@ -27,6 +27,13 @@ class Column implements ColumnInterface, ClassAttributeInterface, Arrayable, Jso
     use HasClassAttribute;
 
     /**
+     * The object attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [];
+
+    /**
      * The column wrapper.
      *
      * @var null|string

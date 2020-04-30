@@ -34,6 +34,13 @@ class Header implements HeaderInterface, ClassAttributeInterface, Arrayable, Jso
     use HasClassAttribute;
 
     /**
+     * The object attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [];
+
+    /**
      * The header field.
      *
      * @var string

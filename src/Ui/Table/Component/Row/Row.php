@@ -30,6 +30,13 @@ class Row implements RowInterface, IconInterface, ClassAttributeInterface, Array
     use HasClassAttribute;
 
     /**
+     * The object attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [];
+
+    /**
      * The row key.
      *
      * @var null

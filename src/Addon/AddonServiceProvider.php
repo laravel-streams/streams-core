@@ -76,7 +76,7 @@ class AddonServiceProvider extends ServiceProvider
                 ->setType($type)
                 ->setSlug($slug)
                 ->setVendor($vendor)
-                ->setPath($path);
+                ->setAttribute('path', $path);
 
             if (!config('streams.installed')) {
                 return $addon;

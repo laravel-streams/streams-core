@@ -417,7 +417,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         if ($admin = config('streams.themes.admin')) {
 
-            $path = app($admin)->getPath();
+            $path = app($admin)->path;
 
             $view->addNamespace('admin', $path . '/resources/views');
             $trans->addNamespace('admin', $path . '/resources/lang');

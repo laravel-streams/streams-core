@@ -68,6 +68,17 @@ class Hydrator
             )
         );
 
+        $public = array_filter(
+            array_combine(
+                array_map(function (ReflectionProperty $property) {
+                    return snake_case($property->getName());
+                }, $properties),
+                array_map(function (ReflectionProperty $property) {
+                    return $property->isPublic() ? $property->getName() : null;
+                }, $properties)
+            )
+        );
+
         /**
          * Execute the methods.
          */
@@ -75,6 +86,13 @@ class Hydrator
             $method = $object->{$method}();
         });
 
-        return $accessors;
+        /**
+         * Access the public attributes.
+         */
+        array_walk($public, function (&$attribute) use ($object) {
+            $attribute = $object->{$attribute};
+        });
+
+        return $public + $accessors;
     }
 }

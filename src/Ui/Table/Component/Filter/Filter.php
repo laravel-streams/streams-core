@@ -30,6 +30,13 @@ class Filter implements FilterInterface, IconInterface, ClassAttributeInterface,
     use HasClassAttribute;
 
     /**
+     * Undocumented variable
+     *
+     * @var array
+     */
+    protected $attributes = [];
+
+    /**
      * The filter slug.
      *
      * @var string

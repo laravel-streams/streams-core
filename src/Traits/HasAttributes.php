@@ -18,7 +18,7 @@ trait HasAttributes
      *
      * @var array
      */
-    protected $attributes = [];
+    //protected $attributes = [];
 
     /**
      * Get an attribute value.

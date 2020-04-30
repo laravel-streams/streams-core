@@ -3,13 +3,11 @@
 namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Illuminate\Database\Eloquent\Model;
-use Anomaly\Streams\Platform\Addon\Addon;
 use Illuminate\Database\Eloquent\Builder;
+use Anomaly\Streams\Platform\Addon\Addon;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
-use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 
 /**
  * Class FieldType
@@ -21,8 +19,6 @@ use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 class FieldType extends Addon
 {
 
-    use HasAttributes;
-    //use HasHtmlAttributes;
     use HasClassAttribute;
 
     use Concerns\HasRules; // Done

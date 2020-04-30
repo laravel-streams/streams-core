@@ -21,30 +21,37 @@ class Field implements FieldInterface
     use HasAttributes;
 
     /**
+     * The field attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'name' => null,
+        'slug' => null,
+        'type' => null,
+        'label' => null,
+        'stream' => null,
+        'warning' => null,
+        'placeholder' => null,
+        'instructions' => null,
+
+        'unique' => false,
+        'required' => false,
+        'searchable' => true,
+        'translatable' => false,
+
+        'config' => [],
+        'rules' => [],
+    ];
+
+    /**
      * Create a new Field instance.
      *
      * @param array $attributes
      */
     public function __construct(array $attributes)
     {
-        $this->setAttributes(array_merge([
-            'name' => null,
-            'slug' => null,
-            'type' => null,
-            'label' => null,
-            'stream' => null,
-            'warning' => null,
-            'placeholder' => null,
-            'instructions' => null,
-
-            'unique' => false,
-            'required' => false,
-            'searchable' => true,
-            'translatable' => false,
-
-            'config' => [],
-            'rules' => [],
-        ], $attributes));
+        $this->setAttributes(array_merge($this->attributes, $attributes));
     }
 
     /**

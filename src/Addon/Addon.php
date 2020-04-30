@@ -2,15 +2,16 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Exception;
+use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Traits\Hookable;
-use Anomaly\Streams\Platform\Support\Presenter;
-use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Traits\HasMemory;
+use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Traits\Presentable;
-use Illuminate\Contracts\Support\Jsonable;
+use Anomaly\Streams\Platform\Traits\HasAttributes;
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 
 /**
  * Class Addon
@@ -25,14 +26,17 @@ class Addon implements Arrayable, Jsonable
     use Hookable;
     use HasMemory;
     use Presentable;
+    use HasAttributes;
     use FiresCallbacks;
 
     /**
-     * The addon path.
+     * The addon attributes.
      *
-     * @var string
+     * @var array
      */
-    protected $path;
+    protected $attributes = [
+        'path' => null,
+    ];
 
     /**
      * The addon type.
@@ -164,7 +168,7 @@ class Addon implements Arrayable, Jsonable
      */
     public function isCore()
     {
-        return str_contains($this->getPath(), 'core/' . $this->getVendor());
+        return str_contains($this->path, 'core/' . $this->getVendor());
     }
 
     /**
@@ -174,7 +178,7 @@ class Addon implements Arrayable, Jsonable
      */
     public function isShared()
     {
-        return str_contains($this->getPath(), 'addons/shared/' . $this->getVendor());
+        return str_contains($this->path, 'addons/shared/' . $this->getVendor());
     }
 
     /**
@@ -184,7 +188,7 @@ class Addon implements Arrayable, Jsonable
      */
     public function isTesting()
     {
-        return str_contains($this->getPath(), 'vendor/anomaly/streams-platform/addons/' . $this->getVendor());
+        return str_contains($this->path, 'vendor/anomaly/streams-platform/addons/' . $this->getVendor());
     }
 
     /**
@@ -263,7 +267,7 @@ class Addon implements Arrayable, Jsonable
 
         return $this->once($this->getNamespace('composer.json'), function () use ($self) {
 
-            $composer = $self->getPath('composer.json');
+            $composer = $self->path('composer.json');
 
             return json_decode(file_get_contents($composer), true);
         });
@@ -306,7 +310,7 @@ class Addon implements Arrayable, Jsonable
 
         return $this->once($this->getNamespace('README'), function () use ($self) {
 
-            $readme = $self->getPath('README.md');
+            $readme = $self->path('README.md');
 
             return file_get_contents($readme);
         });
@@ -323,26 +327,13 @@ class Addon implements Arrayable, Jsonable
     }
 
     /**
-     * Sets the path.
-     *
-     * @param $path
-     * @return $this
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-
-        return $this;
-    }
-
-    /**
-     * Get the addon path.
+     * Return an addon path.
      *
      * @return string
      */
-    public function getPath($path = null)
+    public function path($path = null)
     {
-        return $this->path . ($path ? '/' . $path : $path);
+        return $this->path . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 
     /**
@@ -352,7 +343,7 @@ class Addon implements Arrayable, Jsonable
      */
     public function getAppPath($path = null)
     {
-        return ltrim(str_replace(base_path(), '', $this->getPath($path)), DIRECTORY_SEPARATOR);
+        return ltrim(str_replace(base_path(), '', $this->path($path)), DIRECTORY_SEPARATOR);
     }
 
     /**
@@ -461,5 +452,27 @@ class Addon implements Arrayable, Jsonable
     public function toJson($options = 0)
     {
         return json_encode($this->toArray(), $options);
+    }
+
+    /**
+     * Dynamically retrieve attributes.
+     *
+     * @param  string $key
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        return $this->getAttribute($key);
+    }
+
+    /**
+     * Dynamically set attributes.
+     *
+     * @param  string  $key
+     * @param  mixed $value
+     */
+    public function __set($key, $value)
+    {
+        $this->setAttribute($key, $value);
     }
 }
