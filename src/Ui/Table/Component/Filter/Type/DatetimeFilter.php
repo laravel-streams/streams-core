@@ -41,11 +41,11 @@ class DatetimeFilter extends Filter
 
         return $datetime
             ->setLocale(null)
-            ->setField($this->getSlug())
-            ->setValue($this->getValue())
+            ->setField($this->slug)
+            ->setValue($this->value)
+            ->setPlaceholder($this->placeholder)
+            ->setPrefix($this->prefix . 'filter_')
             ->setAttributes($this->getAttributes())
-            ->setPlaceholder($this->getPlaceholder())
-            ->setPrefix($this->getPrefix() . 'filter_')
             ->getFilter();
     }
 }

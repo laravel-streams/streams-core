@@ -37,9 +37,9 @@ class FieldFilter extends Filter implements FieldFilterInterface
         $type = $field->type();
 
         $type->setLocale(null);
-        $type->setValue($this->value);
+        $type->setValue($this->getValue());
         $type->setPrefix($this->prefix . 'filter_');
-        $type->setPlaceholder($this->placeholder);
+        $type->setAttribute('placeholder', $this->placeholder);
 
         return $type->getFilter();
     }
