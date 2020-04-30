@@ -57,7 +57,7 @@ trait HasAttributes
      */
     public function fill(array $attributes)
     {
-        $this->attributes = $attributes;
+        $this->attributes = array_merge($this->attributes, $attributes);
 
         return $this;
     }

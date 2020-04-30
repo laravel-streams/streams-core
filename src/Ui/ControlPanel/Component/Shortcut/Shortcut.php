@@ -27,6 +27,15 @@ class Shortcut implements ShortcutInterface, IconInterface, ClassAttributeInterf
     use HasClassAttribute;
 
     /**
+     * The shortcut attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        //'type' => 'default',
+    ];
+
+    /**
      * The shortcut slug.
      *
      * @var null|string

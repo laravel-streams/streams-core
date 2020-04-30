@@ -35,21 +35,9 @@ class Button implements ButtonInterface, Arrayable, Jsonable
         'tag' => 'a',
         'url' => null,
         'text' => null,
+        'policy' => null,
+        'type' => 'default',
     ];
-
-    /**
-     * The button type.
-     *
-     * @var null|string
-     */
-    protected $type = 'default';
-
-    /**
-     * The required policy.
-     *
-     * @var null|string|array
-     */
-    public $policy = null;
 
     /**
      * The disabled flag.
@@ -188,29 +176,6 @@ class Button implements ButtonInterface, Arrayable, Jsonable
     public function setEntry($entry)
     {
         $this->entry = $entry;
-
-        return $this;
-    }
-
-    /**
-     * Get the button type.
-     *
-     * @return null|string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Set the button type.
-     *
-     * @param  string $type
-     * @return $this
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
 
         return $this;
     }
