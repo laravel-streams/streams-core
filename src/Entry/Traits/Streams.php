@@ -165,7 +165,7 @@ trait Streams
 
         $key = $type->getColumnName();
 
-        if ($field->translatable) {
+        if ($locale) {
             $key = $key . '->' . ($locale ?: app()->getLocale());
         }
 

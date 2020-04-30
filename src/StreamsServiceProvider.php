@@ -395,7 +395,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         if ($default = config('streams.themes.default')) {
 
-            $path = app($default)->getPath();
+            $path = app($default)->path;
 
             $view->addNamespace('theme', $path . '/resources/views');
             $trans->addNamespace('theme', $path . '/resources/lang');

@@ -107,11 +107,11 @@ class AddonTest extends TestCase
         $this->assertTrue($addons->instance('anomaly.module.users')->getPackageName() === 'anomaly/users-module');
     }
 
-    public function testGetPath()
+    public function testPath()
     {
         $addons = app(AddonCollection::class);
 
-        $this->assertTrue($addons->instance('anomaly.module.users')->getPath('resources') === base_path('vendor/anomaly/users-module/resources'));
+        $this->assertTrue($addons->instance('anomaly.module.users')->path('resources') === base_path('vendor/anomaly/users-module/resources'));
     }
 
     public function testGetAppPath()
@@ -138,15 +138,15 @@ class AddonTest extends TestCase
         $addon = $addons->instance('anomaly.module.users');
 
         Assert::assertArraySubset([
-            'name'      => $addon->getName(),
-            'type'      => $addon->getType(),
-            'path'      => $addon->getPath(),
-            'slug'      => $addon->getSlug(),
-            'vendor'    => $addon->getVendor(),
-            'namespace' => $addon->getNamespace(),
+            'name'      => $addon->name,
+            'type'      => $addon->type,
+            'path'      => $addon->path,
+            'slug'      => $addon->slug,
+            'vendor'    => $addon->vendor,
+            'namespace' => $addon->namespace,
 
-            'enabled'   => $addon->isEnabled(),
-            'installed' => $addon->isInstalled(),
+            'enabled'   => $addon->enabled,
+            'installed' => $addon->installed,
         ], $addon->toArray());
     }
 }

@@ -47,7 +47,7 @@ class AddonReinstall extends Command
 
         Artisan::call('addon:uninstall', $options);
 
-        $options['--seed'] = $addon->getPath('migrations');
+        $options['--seed'] = $addon->path('migrations');
 
         Artisan::call('addon:install', $options);
 

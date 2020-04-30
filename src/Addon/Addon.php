@@ -2,7 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
-use Exception;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Traits\Hookable;
