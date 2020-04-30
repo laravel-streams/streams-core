@@ -28,6 +28,15 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAtt
     use HasClassAttribute;
 
     /**
+     * The link attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'attributes' => [],
+    ];
+
+    /**
      * The links slug.
      *
      * @var null|string
@@ -245,7 +254,7 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAtt
      */
     public function htmlAttributes(array $attributes = [])
     {
-        return array_merge($this->attributes, [
+        return array_merge($this->htmlAttributes, [
             'active' => json_encode($this->isActive()),
             'title' => $this->getTitle(),
             'class' => $this->class(),

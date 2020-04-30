@@ -28,7 +28,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command\SetAct
 class ControlPanelBuilder
 {
 
-    use DispatchesJobs;
     use FiresCallbacks;
 
     /**

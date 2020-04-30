@@ -25,6 +25,13 @@ class Section implements SectionInterface, Arrayable, Jsonable
     use HasClassAttribute;
 
     /**
+     * The link attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [];
+
+    /**
      * The section slug.
      *
      * @var null|string

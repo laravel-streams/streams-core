@@ -29,7 +29,7 @@ class ButtonBuilder
         ButtonInput::read($builder);
 
         foreach ($builder->getButtons() as $button) {
-            if (($button = $factory->make($button)) && $button->isEnabled()) {
+            if (($button = $factory->make($button)) && $button->enabled) {
                 $controlPanel->addButton($button);
             }
         }
