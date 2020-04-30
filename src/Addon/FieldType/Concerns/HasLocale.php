@@ -19,7 +19,7 @@ trait HasLocale
      *
      * @var null|string
      */
-    protected $locale = null;
+    public $locale = null;
 
     /**
      * Set the locale.

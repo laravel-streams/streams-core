@@ -115,14 +115,14 @@ interface NavigationLinkInterface
      *
      * @return array
      */
-    public function getAttributes();
+    //public function getAttributes();
 
     /**
      * Set the attributes.
      *
      * @param array $attributes
      */
-    public function setAttributes(array $attributes);
+    //public function setAttributes(array $attributes);
 
     /**
      * Get the breadcrumb.

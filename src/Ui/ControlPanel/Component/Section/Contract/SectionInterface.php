@@ -217,20 +217,6 @@ interface SectionInterface
     public function setButtons($buttons);
 
     /**
-     * Get the attributes.
-     *
-     * @return array
-     */
-    public function getAttributes();
-
-    /**
-     * Set the attributes.
-     *
-     * @param array $attributes
-     */
-    public function setAttributes(array $attributes);
-
-    /**
      * Get the breadcrumb.
      *
      * @return null|string

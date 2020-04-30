@@ -4,13 +4,12 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
+use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
-use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
-use Anomaly\Streams\Platform\Ui\Contract\HtmlAttributesInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
 
@@ -21,12 +20,12 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\Navig
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAttributeInterface, HtmlAttributesInterface, Arrayable, Jsonable
+class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAttributeInterface, Arrayable, Jsonable
 {
 
     use HasIcon;
+    use HasAttributes;
     use HasClassAttribute;
-    use HasHtmlAttributes;
 
     /**
      * The links slug.
@@ -244,7 +243,7 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAtt
      *
      * @param array $attributes
      */
-    public function attributes(array $attributes = [])
+    public function htmlAttributes(array $attributes = [])
     {
         return array_merge($this->attributes, [
             'active' => json_encode($this->isActive()),

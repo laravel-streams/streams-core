@@ -50,9 +50,7 @@ class SectionBuilder
                 /**
                  * Merge defaul attributes.
                  */
-                $section->mergeAttributes([
-                    'data-keymap' => $i + 1
-                ]);
+                $section->setAttribute('data-keymap', $i + 1);
             }
 
             $link->setSections(new SectionCollection($sections));

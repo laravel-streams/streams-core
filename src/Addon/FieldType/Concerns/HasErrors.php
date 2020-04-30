@@ -17,7 +17,7 @@ trait HasErrors
      *
      * @var array
      */
-    protected $errors = [];
+    public $errors = [];
 
     /**
      * Get the errors.

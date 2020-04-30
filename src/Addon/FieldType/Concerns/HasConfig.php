@@ -17,7 +17,7 @@ trait HasConfig
      *
      * @var array
      */
-    protected $config = [];
+    public $config = [];
 
     /**
      * Return a config value.

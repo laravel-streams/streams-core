@@ -12,44 +12,44 @@ trait HasHtmlAttributes
 {
 
     /**
-     * The links attributes.
+     * The HTML attributes.
      *
      * @var array
      */
-    protected $attributes = [];
+    protected $htmlAttributes = [];
 
     /**
      * Get the attributes.
      *
      * @return array
      */
-    public function getAttributes()
+    public function getHtmlAttributes()
     {
-        return $this->attributes;
+        return $this->htmlAttributes;
     }
 
     /**
-     * Set the attributes.
+     * Set the HTML attributes.
      *
      * @param array $attributes
      * @return $this
      */
-    public function setAttributes(array $attributes)
+    public function setHtmlAttributes(array $attributes)
     {
-        $this->attributes = $attributes;
+        $this->htmlAttributes = $attributes;
 
         return $this;
     }
 
     /**
-     * Check if an attribute exists.
+     * Check if an HTML attribute exists.
      *
      * @param string $attribute
      * @return bool
      */
-    public function hasAttribute($attribute)
+    public function hasHtmlAttribute($attribute)
     {
-        return array_key_exists($attribute, $this->attributes);
+        return array_key_exists($attribute, $this->htmlAttributes);
     }
 
     /**
@@ -59,9 +59,9 @@ trait HasHtmlAttributes
      * @param mixed $default
      * @return mixed
      */
-    public function getAttribute($attribute, $default = null)
+    public function getHtmlAttribute($attribute, $default = null)
     {
-        return array_get($this->attributes, $attribute, $default);
+        return array_get($this->htmlAttributes, $attribute, $default);
     }
 
     /**
@@ -70,21 +70,21 @@ trait HasHtmlAttributes
      * @param array $attributes
      * @return $this
      */
-    public function mergeAttributes(array $attributes)
+    public function mergeHtmlAttributes(array $attributes)
     {
-        $this->attributes = $this->attributes($attributes);
+        $this->attributes = $this->htmlAttributes($attributes);
 
         return $this;
     }
 
     /**
-     * Add a new attribute.
+     * Add a new HTML attribute.
      *
      * @param string $attribute
      * @param mixed $value
      * @return $this
      */
-    public function addAttribute(string $attribute, $value)
+    public function addHtmlAttribute(string $attribute, $value)
     {
         if (is_array($value)) {
             $value = json_encode($value);
@@ -96,7 +96,7 @@ trait HasHtmlAttributes
     }
 
     /**
-     * Return merged attributes.
+     * Return merged HTML attributes.
      *
      * @param array $attributes
      * @return array

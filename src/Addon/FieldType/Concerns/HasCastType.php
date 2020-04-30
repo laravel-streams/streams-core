@@ -17,7 +17,7 @@ trait HasCastType
      *
      * @var string
      */
-    protected $castType = null;
+    public $castType = null;
 
     /**
      * Get the cast type.

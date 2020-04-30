@@ -19,7 +19,7 @@ trait HasEntry
      *
      * @var mixed
      */
-    protected $entry = null;
+    public $entry = null;
 
     /**
      * Get the entry.

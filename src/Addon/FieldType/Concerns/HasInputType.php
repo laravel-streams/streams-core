@@ -17,7 +17,7 @@ trait HasInputType
      *
      * @var string
      */
-    protected $inputType = null;
+    public $inputType = null;
 
     /**
      * Get the input type.

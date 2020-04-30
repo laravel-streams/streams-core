@@ -13,12 +13,11 @@ namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
+use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
-use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
-use Anomaly\Streams\Platform\Ui\Contract\HtmlAttributesInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
 
 /**
@@ -28,11 +27,11 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Header implements HeaderInterface, ClassAttributeInterface, HtmlAttributesInterface, Arrayable, Jsonable
+class Header implements HeaderInterface, ClassAttributeInterface, Arrayable, Jsonable
 {
 
+    use HasAttributes;
     use HasClassAttribute;
-    use HasHtmlAttributes;
 
     /**
      * The header field.

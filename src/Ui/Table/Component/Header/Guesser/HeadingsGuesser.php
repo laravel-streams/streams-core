@@ -97,7 +97,7 @@ class HeadingsGuesser
                 $title &&
                 !$field &&
                 $column['field'] == 'title' &&
-                trans()->has($heading = $title->getName())
+                trans()->has($heading = $title->name)
             ) {
                 $column['heading'] = $heading;
             }
@@ -105,7 +105,7 @@ class HeadingsGuesser
             /*
              * Use the name from the field.
              */
-            if ($field && $heading = $field->getName()) {
+            if ($field && $heading = $field->name) {
                 $column['heading'] = $heading;
             }
 

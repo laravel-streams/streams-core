@@ -1,6 +1,6 @@
 <tbody class="o-table__body">
     @foreach ($table->getRows() as $row)
-        <tr {!! html_attributes($row->attributes()) !!}>
+        <tr {!! html_attributes($row->getAttributes()) !!}>
 
             @if ($table->getOption('sortable'))
             <td class="o-table__column">
@@ -16,7 +16,7 @@
             @endif
 
             @foreach ($row->getColumns() as $column)
-                <td {{ html_attributes($column->attributes()) }}>
+                <td {{ html_attributes($column->getAttributes()) }}>
                     {!! $column->getValue() !!}
                 </td>
             @endforeach

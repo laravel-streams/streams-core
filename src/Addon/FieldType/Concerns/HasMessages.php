@@ -18,7 +18,7 @@ trait HasMessages
      *
      * @var array
      */
-    protected $messages = [];
+    public $messages = [];
 
     /**
      * Get the messages.

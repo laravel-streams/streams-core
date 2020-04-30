@@ -37,7 +37,7 @@ class FilterBuilder
         }
 
         if ($first = $builder->getTableFilters()->first()) {
-            $first->addAttribute('data-keymap', 'f');
+            $first->setAttribute('data-keymap', 'f');
         }
     }
 }

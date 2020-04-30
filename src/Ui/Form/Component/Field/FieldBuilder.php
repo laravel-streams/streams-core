@@ -50,7 +50,7 @@ class FieldBuilder
         }
 
         if ($first = $builder->getFormFields()->first()) {
-            $first->addAttribute('data-keymap', 'f');
+            $first->setAttribute('data-keymap', 'f');
         }
     }
 }

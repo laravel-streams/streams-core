@@ -19,7 +19,7 @@ trait HasValue
      *
      * @var null|mixed
      */
-    protected $value = null;
+    public $value = null;
 
     /**
      * Set the value.

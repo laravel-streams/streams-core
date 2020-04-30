@@ -40,7 +40,9 @@ trait HasAttributes
      */
     public function setAttribute($key, $value)
     {
-        return $this->attributes[$key] = $value;
+        $this->attributes[$key] = $value;
+
+        return $this;
     }
 
     /**
@@ -51,6 +53,18 @@ trait HasAttributes
      */
     public function setAttributes(array $attributes)
     {
-        return $this->attributes = $attributes;
+        $this->attributes = $attributes;
+
+        return $this;
+    }
+
+    /**
+     * Get the attributes.
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
     }
 }

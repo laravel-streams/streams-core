@@ -5,6 +5,7 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
+use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
@@ -20,8 +21,8 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionI
 class Section implements SectionInterface, Arrayable, Jsonable
 {
     use HasIcon;
+    use HasAttributes;
     use HasClassAttribute;
-    use HasHtmlAttributes;
 
     /**
      * The section slug.
