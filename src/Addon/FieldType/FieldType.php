@@ -294,14 +294,13 @@ class FieldType extends Addon
                     'readonly' => $this->readonly ? 'readonly' : '',
                     'disabled' => $this->disabled ? 'disabled' : '',
 
-                    'data-field'      => $this->getField(),
+                    'data-field'      => $this->field,
                     'data-field_name' => $this->getFieldName(),
                     'data-provides'   => $this->getNamespace(),
 
                     'class'           => $this->getClass() ?: 'input',
                     'id'              => $this->getInputName(),
                 ],
-                $this->getAttributes(),
                 $attributes
             )
         );

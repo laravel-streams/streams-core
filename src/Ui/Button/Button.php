@@ -51,7 +51,7 @@ class Button implements ButtonInterface, Arrayable, Jsonable
      */
     public function open(array $attributes = [])
     {
-        return '<' . $this->tag . ' ' . html_attributes(array_merge($this->attributes(), $attributes)) . '>';
+        return '<' . $this->tag . ' ' . html_attributes($this->attributes($attributes)) . '>';
     }
 
     /**
