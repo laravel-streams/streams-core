@@ -46,7 +46,7 @@ class ButtonBuilder
 
             $button = $factory->make(translate($button));
 
-            if (!$button->isEnabled()) {
+            if (!$button->enabled) {
                 continue;
             }
 

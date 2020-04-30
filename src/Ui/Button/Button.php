@@ -4,9 +4,9 @@ namespace Anomaly\Streams\Platform\Ui\Button;
 
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
+use Anomaly\Streams\Platform\Traits\HasAttributes;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
@@ -35,37 +35,13 @@ class Button implements ButtonInterface, Arrayable, Jsonable
         'tag' => 'a',
         'url' => null,
         'text' => null,
+        'entry' => null,
         'policy' => null,
+        'enabled' => true,
+        'primary' => false,
+        'disabled' => false,
         'type' => 'default',
     ];
-
-    /**
-     * The disabled flag.
-     *
-     * @var bool
-     */
-    protected $disabled = false;
-
-    /**
-     * The enabled flag.
-     *
-     * @var bool
-     */
-    protected $enabled = true;
-
-    /**
-     * The primary flag.
-     *
-     * @var string
-     */
-    protected $primary = false;
-
-    /**
-     * The entry object.
-     *
-     * @var null|mixed
-     */
-    protected $entry = null;
 
     /**
      * Return the open tag.
@@ -86,98 +62,6 @@ class Button implements ButtonInterface, Arrayable, Jsonable
     public function close()
     {
         return '</' . $this->tag . '>';
-    }
-
-    /**
-     * Get the disabled flag.
-     *
-     * @return bool
-     */
-    public function isDisabled()
-    {
-        return $this->disabled;
-    }
-
-    /**
-     * Set the disabled flag.
-     *
-     * @param $disabled
-     * @return $this
-     */
-    public function setDisabled($disabled)
-    {
-        $this->disabled = $disabled;
-
-        return $this;
-    }
-
-    /**
-     * Set the enabled flag.
-     *
-     * @param $enabled
-     * @return $this
-     */
-    public function setEnabled($enabled)
-    {
-        $this->enabled = $enabled;
-
-        return $this;
-    }
-
-    /**
-     * Get the enabled flag.
-     *
-     * @return bool
-     */
-    public function isEnabled()
-    {
-        return $this->enabled;
-    }
-
-    /**
-     * Set the primary flag.
-     *
-     * @param bool $primary
-     * @return $this;
-     */
-    public function setPrimary($primary)
-    {
-        $this->primary = $primary;
-
-        return $this;
-    }
-
-    /**
-     * Return the primary flag.
-     *
-     * @return bool
-     */
-    public function isPrimary()
-    {
-        return $this->primary;
-    }
-
-    /**
-     * Get the entry.
-     *
-     * @return mixed|null
-     */
-    public function getEntry()
-    {
-        return $this->entry;
-    }
-
-    /**
-     * Set the table.
-     *
-     * @param $entry
-     * @return $this
-     */
-    public function setEntry($entry)
-    {
-        $this->entry = $entry;
-
-        return $this;
     }
 
     /**

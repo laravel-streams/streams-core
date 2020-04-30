@@ -24,7 +24,7 @@ class ButtonCollection extends Collection
     {
         return $this->filter(
             function (ButtonInterface $button) {
-                return $button->isEnabled();
+                return $button->enabled;
             }
         );
     }
@@ -38,7 +38,7 @@ class ButtonCollection extends Collection
     {
         return $this->filter(
             function (ButtonInterface $button) {
-                return $button->isPrimary();
+                return $button->primary;
             }
         );
     }
@@ -52,7 +52,7 @@ class ButtonCollection extends Collection
     {
         return $this->filter(
             function (ButtonInterface $button) {
-                return !$button->isPrimary();
+                return !$button->primary;
             }
         );
     }

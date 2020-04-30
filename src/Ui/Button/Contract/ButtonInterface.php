@@ -11,48 +11,4 @@ namespace Anomaly\Streams\Platform\Ui\Button\Contract;
  */
 interface ButtonInterface
 {
-
-    /**
-     * Set the enabled flag.
-     *
-     * @param $enabled
-     * @return mixed
-     */
-    public function setEnabled($enabled);
-
-    /**
-     * Get the enabled flag.
-     *
-     * @return bool
-     */
-    public function isEnabled();
-
-    /**
-     * Get the entry.
-     *
-     * @return mixed|null
-     */
-    public function getEntry();
-
-    /**
-     * Set the table.
-     *
-     * @param $entry
-     * @return $this
-     */
-    public function setEntry($entry);
-
-    /**
-     * Set the primary flag.
-     *
-     * @param bool $primary
-     */
-    public function setPrimary($primary);
-
-    /**
-     * Return the primary flag.
-     *
-     * @return bool
-     */
-    public function isPrimary();
 }
