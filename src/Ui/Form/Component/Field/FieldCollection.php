@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Illuminate\Support\Collection;
@@ -50,7 +52,7 @@ class FieldCollection extends Collection
      */
     public function translations($field)
     {
-        return $this->filter(function($item) use ($field) {
+        return $this->filter(function ($item) use ($field) {
             return $item->getFieldName() == $field;
         });
     }
@@ -165,7 +167,7 @@ class FieldCollection extends Collection
             function ($item) {
 
                 /* @var FieldType $item */
-                return !$item->isReadonly();
+                return !$item->readonly;
             }
         );
     }
@@ -181,7 +183,7 @@ class FieldCollection extends Collection
             function ($item) {
 
                 /* @var FieldType $item */
-                return $item->isReadonly();
+                return $item->readonly;
             }
         );
     }
@@ -278,7 +280,7 @@ class FieldCollection extends Collection
      */
     public function slugs()
     {
-        return $this->map(function($field) {
+        return $this->map(function ($field) {
             return $field->getField();
         });
     }
@@ -321,5 +323,4 @@ class FieldCollection extends Collection
             }
         )->implode("\n");
     }
-
 }

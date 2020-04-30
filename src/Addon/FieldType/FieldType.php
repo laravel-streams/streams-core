@@ -37,11 +37,42 @@ class FieldType extends Addon
     use Concerns\HasPlaceholder;
     use Concerns\HasInstructions;
     use Concerns\HasValidators;
-    use Concerns\CanBeDisabled;
-    use Concerns\CanBeReadonly;
-    use Concerns\CanBeRequired;
-    use Concerns\CanBeHidden; // Done
-    use Concerns\CanBeSaved;
+
+
+    /**
+     * The save flag.
+     *
+     * @var bool
+     */
+    public $save = true;
+
+    /**
+     * The hidden flag.
+     *
+     * @var bool|null
+     */
+    public $hidden = false;
+
+    /**
+     * The required flag.
+     *
+     * @var bool
+     */
+    public $required = false;
+
+    /**
+     * The readonly flag.
+     *
+     * @var bool
+     */
+    public $readonly = false;
+
+    /**
+     * The disabled flag.
+     *
+     * @var bool
+     */
+    public $disabled = false;
 
     protected $installed = true;
     protected $enabled = true;
@@ -234,7 +265,7 @@ class FieldType extends Addon
                     'name'        => $this->getInputName(),
                     'placeholder' => $this->getPlaceholder(),
 
-                    'readonly' => $this->isReadonly() ? 'readonly' : '',
+                    'readonly' => $this->readonly ? 'readonly' : '',
                     'disabled' => $this->isDisabled() ? 'disabled' : '',
 
                     'data-field'      => $this->getField(),
