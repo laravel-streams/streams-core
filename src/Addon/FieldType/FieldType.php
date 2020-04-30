@@ -266,7 +266,7 @@ class FieldType extends Addon
                     'placeholder' => $this->getPlaceholder(),
 
                     'readonly' => $this->readonly ? 'readonly' : '',
-                    'disabled' => $this->isDisabled() ? 'disabled' : '',
+                    'disabled' => $this->disabled ? 'disabled' : '',
 
                     'data-field'      => $this->getField(),
                     'data-field_name' => $this->getFieldName(),

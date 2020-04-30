@@ -129,7 +129,7 @@ class FieldCollection extends Collection
 
         /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if (!$item->isDisabled()) {
+            if (!$item->disabled) {
                 $enabled[] = $item;
             }
         }
@@ -146,9 +146,8 @@ class FieldCollection extends Collection
     {
         $disabled = [];
 
-        /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if ($item->isDisabled()) {
+            if ($item->disabled) {
                 $disabled[] = $item;
             }
         }

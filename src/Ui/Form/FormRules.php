@@ -32,7 +32,7 @@ class FormRules
         /* @var FieldType $field */
         foreach ($builder->getEnabledFormFields() as $field) {
 
-            if ($field->isDisabled()) {
+            if ($field->disabled) {
                 continue;
             }
 
