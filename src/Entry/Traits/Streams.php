@@ -123,7 +123,7 @@ trait Streams
         if ($field->translatable) {
             // @todo roles for users.. this is obviously not right. 
             // Option handlers and translatable values. 
-            $value = array_get($value, $this->locale($locale) . '.' . $this->locale($locale));
+            $value = array_get($value, $this->locale($locale));
         }
 
         $type->setValue($value);

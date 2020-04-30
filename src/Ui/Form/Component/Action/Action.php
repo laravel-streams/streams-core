@@ -18,11 +18,21 @@ class Action extends Button implements ActionInterface, IconInterface, ClassAttr
 {
 
     /**
-     * The button tag.
+     * The button attributes.
      *
-     * @var string
+     * @var array
      */
-    protected $tag = 'button';
+    protected $attributes = [
+        'tag' => 'button',
+        'url' => null,
+        'text' => null,
+        'entry' => null,
+        'policy' => null,
+        'enabled' => true,
+        'primary' => false,
+        'disabled' => false,
+        'type' => 'default',
+    ];
 
     /**
      * The active flag.
