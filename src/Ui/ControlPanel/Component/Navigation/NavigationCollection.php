@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
 use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
@@ -22,7 +24,7 @@ class NavigationCollection extends Collection
     {
         /* @var NavigationLinkInterface $item */
         foreach ($this->items as $item) {
-            if ($item->isActive()) {
+            if ($item->active) {
                 return $item;
             }
         }
@@ -41,7 +43,7 @@ class NavigationCollection extends Collection
     {
         /* @var NavigationLinkInterface $item */
         foreach ($this->items as $item) {
-            if ($item->getSlug() == $key) {
+            if ($item->slug == $key) {
                 return $item;
             }
         }

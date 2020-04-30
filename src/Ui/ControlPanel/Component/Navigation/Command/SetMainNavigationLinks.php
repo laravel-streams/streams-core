@@ -43,7 +43,7 @@ class SetMainNavigationLinks
 
         /* @var NavigationLinkInterface $link */
         foreach ($links as $link) {
-            $link->setFavorite(in_array($link->getSlug(), $favorites));
+            $link->setFavorite(in_array($link->slug, $favorites));
         }
     }
 }

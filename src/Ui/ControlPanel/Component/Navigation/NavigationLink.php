@@ -5,8 +5,8 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
@@ -33,50 +33,16 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAtt
      * @var array
      */
     protected $attributes = [
+        'slug' => null,
+        'title' => null,
+        'policy' => null,
+        'breadcrumb' => null,
+
+        'active' => false,
+        'favorite' => false,
+
         'attributes' => [],
     ];
-
-    /**
-     * The links slug.
-     *
-     * @var null|string
-     */
-    protected $slug = null;
-
-    /**
-     * The links title.
-     *
-     * @var null|string
-     */
-    protected $title = null;
-
-    /**
-     * The active flag.
-     *
-     * @var bool
-     */
-    protected $active = false;
-
-    /**
-     * The favorite flag.
-     *
-     * @var bool
-     */
-    protected $favorite = false;
-
-    /**
-     * The links policy.
-     *
-     * @var null|string|array
-     */
-    public $policy = null;
-
-    /**
-     * The links breadcrumb.
-     *
-     * @var null|string
-     */
-    protected $breadcrumb = null;
 
     /**
      * The navigation sections.
@@ -84,71 +50,6 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAtt
      * @var null|SectionCollection
      */
     protected $sections = null;
-
-    /**
-     * Get the slug.
-     *
-     * @return null|string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    /**
-     * Set the slug.
-     *
-     * @param $slug
-     * @return $this
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get the title.
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set the title.
-     *
-     * @param string $title
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * Get the active flag.
-     *
-     * @return boolean
-     */
-    public function isActive()
-    {
-        return $this->active;
-    }
-
-    /**
-     * Set the active flag.
-     *
-     * @param boolean $active
-     */
-    public function setActive($active)
-    {
-        $this->active = $active;
-
-        return $this;
-    }
 
     /**
      * Get the favorite flag.
@@ -280,5 +181,27 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAtt
     public function toJson($options = 0)
     {
         return json_encode($this->toArray(), $options);
+    }
+
+    /**
+     * Dynamically retrieve attributes.
+     *
+     * @param  string $key
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        return $this->getAttribute($key);
+    }
+
+    /**
+     * Dynamically set attributes.
+     *
+     * @param  string  $key
+     * @param  mixed $value
+     */
+    public function __set($key, $value)
+    {
+        $this->setAttribute($key, $value);
     }
 }
