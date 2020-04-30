@@ -78,8 +78,6 @@ class AddonServiceProvider extends ServiceProvider
                 ->setAttribute('type', $type)
                 ->setAttribute('path', $path);
 
-            $addon->path = $path;
-
             if (!config('streams.installed')) {
                 return $addon;
             }

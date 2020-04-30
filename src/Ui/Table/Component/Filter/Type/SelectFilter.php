@@ -52,7 +52,7 @@ class SelectFilter extends Filter implements SelectFilterInterface
         return $this->builder->build(['type' => 'anomaly.field_type.select'])
             ->setAttribute('placeholder', $this->getPlaceholder())
             ->setField('filter_' . $this->getSlug())
-            ->setAttributes($this->attributes())
+            ->fill($this->attributes())
             ->setPrefix($this->getPrefix())
             ->setValue($this->getValue())
             ->mergeConfig(

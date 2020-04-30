@@ -51,7 +51,7 @@ class Field implements FieldInterface
      */
     public function __construct(array $attributes)
     {
-        $this->setAttributes(array_merge($this->attributes, $attributes));
+        $this->fill(array_merge($this->attributes, $attributes));
     }
 
     /**

@@ -118,20 +118,6 @@ interface ShortcutInterface
     public function setContext($context);
 
     /**
-     * Get the attributes.
-     *
-     * @return array
-     */
-    public function getAttributes();
-
-    /**
-     * Set the attributes.
-     *
-     * @param array $attributes
-     */
-    public function setAttributes(array $attributes);
-
-    /**
      * Get the HREF attribute.
      *
      * @param  null $path

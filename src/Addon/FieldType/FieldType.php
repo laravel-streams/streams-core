@@ -287,7 +287,7 @@ class FieldType extends Addon
         return array_filter(
             array_merge(
                 [
-                    'value'       => $this->getValue(),
+                    'value'       => $this->value,
                     'name'        => $this->getInputName(),
                     'placeholder' => $this->placeholder,
 

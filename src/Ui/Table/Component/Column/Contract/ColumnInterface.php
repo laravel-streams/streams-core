@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract;
 
 /**
  * Interface ColumnInterface
@@ -99,18 +101,4 @@ interface ColumnInterface
      * @return $this
      */
     public function setEntry($entry);
-
-    /**
-     * Get the attributes.
-     *
-     * @return array
-     */
-    public function getAttributes();
-
-    /**
-     * Get the attributes.
-     *
-     * @return array
-     */
-    public function setAttributes(array $attributes);
 }

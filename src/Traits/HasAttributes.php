@@ -50,12 +50,12 @@ trait HasAttributes
     }
 
     /**
-     * Set the attributes.
+     * Fill the attributes.
      *
      * @param array $attributes
      * @return $this
      */
-    public function setAttributes(array $attributes)
+    public function fill(array $attributes)
     {
         $this->attributes = $attributes;
 
