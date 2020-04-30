@@ -5,6 +5,7 @@ namespace Anomaly\Streams\Platform\Ui\Button;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
+use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
@@ -21,29 +22,20 @@ class Button implements ButtonInterface, Arrayable, Jsonable
 {
 
     use HasIcon;
+    use HasAttributes;
     use HasClassAttribute;
     use HasHtmlAttributes;
 
     /**
-     * The action tag.
+     * The button attributes.
      *
-     * @var string
+     * @var array
      */
-    protected $tag = 'a';
-
-    /**
-     * The button URL.
-     *
-     * @var null|string
-     */
-    protected $url = null;
-
-    /**
-     * The button text.
-     *
-     * @var null|string
-     */
-    protected $text = null;
+    protected $attributes = [
+        'tag' => 'a',
+        'url' => null,
+        'text' => null,
+    ];
 
     /**
      * The button type.
@@ -95,7 +87,7 @@ class Button implements ButtonInterface, Arrayable, Jsonable
      */
     public function open(array $attributes = [])
     {
-        return '<' . $this->getTag() . ' ' . html_attributes(array_merge($this->attributes(), $attributes)) . '>';
+        return '<' . $this->tag . ' ' . html_attributes(array_merge($this->attributes(), $attributes)) . '>';
     }
 
     /**
@@ -105,7 +97,7 @@ class Button implements ButtonInterface, Arrayable, Jsonable
      */
     public function close()
     {
-        return '</' . $this->getTag() . '>';
+        return '</' . $this->tag . '>';
     }
 
     /**
@@ -224,75 +216,6 @@ class Button implements ButtonInterface, Arrayable, Jsonable
     }
 
     /**
-     * Get the button text.
-     *
-     * @return string
-     */
-    public function getText()
-    {
-        return $this->text;
-    }
-
-    /**
-     * Set the button text.
-     *
-     * @param  string $text
-     * @return $this
-     */
-    public function setText($text)
-    {
-        $this->text = $text;
-
-        return $this;
-    }
-
-    /**
-     * Get the button URL.
-     *
-     * @return null|string
-     */
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    /**
-     * Set the URL.
-     *
-     * @param $url
-     * @return $this
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-
-        return $this;
-    }
-
-    /**
-     * Get the button tag.
-     *
-     * @return null|string
-     */
-    public function getTag()
-    {
-        return $this->tag;
-    }
-
-    /**
-     * Set the tag.
-     *
-     * @param $tag
-     * @return $this
-     */
-    public function setTag($tag)
-    {
-        $this->tag = $tag;
-
-        return $this;
-    }
-
-    /**
      * Return merged attributes.
      *
      * @param array $attributes
@@ -337,5 +260,27 @@ class Button implements ButtonInterface, Arrayable, Jsonable
     public function toJson($options = 0)
     {
         return json_encode($this->toArray(), $options);
+    }
+
+    /**
+     * Dynamically retrieve attributes.
+     *
+     * @param  string $key
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        return $this->getAttribute($key);
+    }
+
+    /**
+     * Dynamically set attributes.
+     *
+     * @param  string  $key
+     * @param  mixed $value
+     */
+    public function __set($key, $value)
+    {
+        $this->setAttribute($key, $value);
     }
 }

@@ -43,21 +43,6 @@ interface ButtonInterface
     public function setEntry($entry);
 
     /**
-     * Set the text.
-     *
-     * @param  $text
-     * @return mixed
-     */
-    public function setText($text);
-
-    /**
-     * Get the text.
-     *
-     * @return mixed
-     */
-    public function getText();
-
-    /**
      * Set the primary flag.
      *
      * @param bool $primary
@@ -70,19 +55,4 @@ interface ButtonInterface
      * @return bool
      */
     public function isPrimary();
-
-    /**
-     * Set the URL.
-     *
-     * @param $url
-     * @return $this
-     */
-    public function setUrl($url);
-
-    /**
-     * Get the URL.
-     *
-     * @return null|string
-     */
-    public function getUrl();
 }

@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Support;
 
+use Anomaly\Streams\Platform\Traits\HasAttributes;
+use Anomaly\Streams\Platform\Ui\Button\Button;
 use ReflectionProperty;
 
 /**
@@ -23,12 +25,21 @@ class Hydrator
      */
     public function hydrate($object, array $parameters)
     {
+        $classes = class_uses_recursive($object);
+
+        $hasAttributes = in_array(HasAttributes::class, $classes);
+
         foreach ($parameters as $parameter => $value) {
+
             $method = camel_case('set_' . $parameter);
 
             if (method_exists($object, $method)) {
-                $object->{$method}($value);
+                $object->{$method}(array_pull($parameters, $parameter));
             }
+        }
+
+        if ($hasAttributes) {
+            $object->fill($parameters);
         }
 
         return $object;
@@ -41,6 +52,10 @@ class Hydrator
      */
     public function dehydrate($object)
     {
+        $attributes = [];
+
+        $classes = class_uses_recursive($object);
+
         $reflection = new \ReflectionClass($object);
 
         $properties = array_merge(
@@ -93,6 +108,13 @@ class Hydrator
             $attribute = $object->{$attribute};
         });
 
-        return $public + $accessors;
+        /**
+         * Grab attributes last.
+         */
+        if (in_array(HasAttributes::class, $classes)) {
+            $attributes = $object->getAttributes();
+        }
+
+        return $attributes + $public + $accessors;
     }
 }
