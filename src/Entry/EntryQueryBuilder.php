@@ -104,7 +104,7 @@ class EntryQueryBuilder extends Builder
             if ($model->stream instanceof StreamInterface) {
                 if ($model->stream->sortable) {
                     $query->orderBy($model->getTable() . '.sort_order', 'ASC');
-                } elseif (($field = $model->stream->fields->get($model->stream->title_column)) && $field->isTranslatable()) {
+                } elseif (($field = $model->stream->fields->get($model->stream->title_column)) && $field->translatable) {
                     // Need to check for JSON support. SQLite not included.
                     //$this->orderBy($model->stream->title_column . '->' . app()->getLocale(), 'ASC');
                 } elseif ($model->stream->title_column && $model->stream->title_column !== 'id') {

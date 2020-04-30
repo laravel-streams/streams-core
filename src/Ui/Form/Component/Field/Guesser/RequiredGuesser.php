@@ -45,7 +45,7 @@ class RequiredGuesser
 
             // Guess based on the assignment if possible.
             if ($instance = $stream->fields->get($field['field'])) {
-                $field['required'] = array_get($field, 'required', $instance->isRequired());
+                $field['required'] = array_get($field, 'required', $instance->required);
             }
 
             // Guess based on the rules.

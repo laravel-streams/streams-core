@@ -110,7 +110,7 @@ class SortableGuesser
              *
              * @todo: Allow sorting of translatable fields.
              */
-            if ($type->getColumnType() && !$field->isTranslatable()) {
+            if ($type->getColumnType() && !$field->translatable) {
                 $column['sortable']    = true;
                 $column['sort_column'] = $type->getColumnName();
             } else {

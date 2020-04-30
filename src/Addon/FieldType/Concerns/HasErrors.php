@@ -50,7 +50,7 @@ trait HasErrors
      */
     public function hasErrors()
     {
-        return !empty(array_filter($this->errors));
+        return !empty($this->errors);
     }
 
     /**

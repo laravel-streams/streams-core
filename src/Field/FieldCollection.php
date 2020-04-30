@@ -35,7 +35,7 @@ class FieldCollection extends Collection
     public function translatable($translatable = true)
     {
         return $this->filter(function ($field) use ($translatable) {
-            return $field->isTranslatable() === $translatable ? $field : null;
+            return $field->translatable === $translatable ? $field : null;
         });
     }
 
@@ -47,7 +47,7 @@ class FieldCollection extends Collection
     public function dates($translatable = true)
     {
         return $this->filter(function ($field) use ($translatable) {
-            return $field->isTranslatable() === $translatable ? $field : null;
+            return $field->translatable === $translatable ? $field : null;
         });
     }
 

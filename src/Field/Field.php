@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Traits\HasMemory;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
+use Anomaly\Streams\Platform\Traits\HasAttributes;
 
 /**
  * Class Field
@@ -17,32 +18,33 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 class Field implements FieldInterface
 {
     use HasMemory;
-
-    public $name;
-    public $slug;
-    public $type;
-    public $label;
-    public $stream;
-    public $warning;
-    public $placeholder;
-    public $instructions;
-    public $unique = false;
-    public $required = false;
-    public $searchable = true;
-    public $translatable = false;
-    public $config = [];
-    public $rules = [];
+    use HasAttributes;
 
     /**
      * Create a new Field instance.
      *
-     * @param array $field
+     * @param array $attributes
      */
-    public function __construct(array $field)
+    public function __construct(array $attributes)
     {
-        foreach ($field as $attribute => $value) {
-            $this->{$attribute} = $value;
-        }
+        $this->setAttributes(array_merge([
+            'name' => null,
+            'slug' => null,
+            'type' => null,
+            'label' => null,
+            'stream' => null,
+            'warning' => null,
+            'placeholder' => null,
+            'instructions' => null,
+
+            'unique' => false,
+            'required' => false,
+            'searchable' => true,
+            'translatable' => false,
+
+            'config' => [],
+            'rules' => [],
+        ], $attributes));
     }
 
     /**
@@ -52,13 +54,13 @@ class Field implements FieldInterface
      */
     public function type()
     {
-        return $this->remember($this->getSlug() . '.' . $this->getType(), function () {
+        return $this->remember($this->slug . '.' . $this->type, function () {
 
-            $type = FieldTypeBuilder::build($this->getType());
+            $type = FieldTypeBuilder::build($this->type);
 
-            $type->setField($this->getSlug());
-            $type->mergeRules($this->getRules());
-            $type->mergeConfig($this->getConfig());
+            $type->setField($this->slug);
+            $type->mergeRules($this->rules);
+            $type->mergeConfig($this->config);
 
             if (isset($this->stream->model->id)) {
                 $type->setEntry($this->stream->model);
@@ -69,133 +71,24 @@ class Field implements FieldInterface
     }
 
     /**
-     * Get the name.
+     * Dynamically retrieve attributes.
      *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Get the unique flag.
-     *
-     * @return bool
-     */
-    public function isUnique()
-    {
-        return $this->unique;
-    }
-
-    /**
-     * Get the required flag.
-     *
-     * @return bool
-     */
-    public function isRequired()
-    {
-        return $this->required;
-    }
-
-    /**
-     * Get the warning.
-     *
-     * @return string
-     */
-    public function getWarning()
-    {
-        return $this->warning;
-    }
-
-    /**
-     * Get the stream.
-     *
-     * @return string
-     */
-    public function getStream()
-    {
-        return $this->stream;
-    }
-
-    /**
-     * Get the slug.
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    /**
-     * Get the field type.
-     *
-     * @return FieldType
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Get the configuration.
-     *
+     * @param  string $key
      * @return mixed
      */
-    public function getConfig()
+    public function __get($key)
     {
-        return $this->config;
+        return $this->getAttribute($key);
     }
 
     /**
-     * Return whether the field is
-     * a relationship or not.
+     * Dynamically set attributes.
      *
-     * @return bool
+     * @param  string  $key
+     * @param  mixed $value
      */
-    public function isRelationship()
+    public function __set($key, $value)
     {
-        $this->relationship;
-    }
-
-    /**
-     * Get the locked flag.
-     *
-     * @return bool
-     */
-    public function isLocked()
-    {
-        $this->locked;
-    }
-
-    /**
-     * Get the rules.
-     *
-     * @return array
-     */
-    public function getRules()
-    {
-        return $this->rules;
-    }
-
-    /**
-     * Get the searchable flag.
-     *
-     * @return bool
-     */
-    public function isSearchable()
-    {
-        return $this->searchable;
-    }
-
-    /**
-     * Get the translatable flag.
-     *
-     * @return bool
-     */
-    public function isTranslatable()
-    {
-        return $this->translatable;
+        $this->setAttribute($key, $value);
     }
 }
