@@ -17,7 +17,7 @@ trait HasField
      *
      * @var null|string
      */
-    protected $field = null;
+    public $field = null;
 
     /**
      * Set the field slug.

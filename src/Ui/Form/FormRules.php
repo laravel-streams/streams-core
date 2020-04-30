@@ -40,7 +40,7 @@ class FormRules
                 continue;
             }
 
-            $fieldRules = array_filter(array_unique($field->getRules()));
+            $fieldRules = array_filter(array_unique($field->rules()));
 
             // @todo use callback
             //$rules = $field->extendRules($rules);

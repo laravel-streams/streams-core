@@ -15,30 +15,7 @@ trait CanBeHidden
     /**
      * The hidden flag.
      *
-     * @var bool
+     * @var bool|null
      */
-    protected $hidden = false;
-
-    /**
-     * Set the hidden flag.
-     *
-     * @param  $hidden
-     * @return $this
-     */
-    public function setHidden($hidden)
-    {
-        $this->hidden = $hidden;
-
-        return $this;
-    }
-
-    /**
-     * Get the hidden flag.
-     *
-     * @return bool
-     */
-    public function isHidden()
-    {
-        return ($this->hidden);
-    }
+    public $hidden;
 }

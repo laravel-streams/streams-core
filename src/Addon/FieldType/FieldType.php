@@ -22,7 +22,7 @@ class FieldType extends Addon
     use HasHtmlAttributes;
     use HasClassAttribute;
 
-    use Concerns\HasRules;
+    use Concerns\HasRules; // Done
     use Concerns\HasField;
     use Concerns\HasEntry;
     use Concerns\HasLabel;
@@ -40,7 +40,7 @@ class FieldType extends Addon
     use Concerns\CanBeDisabled;
     use Concerns\CanBeReadonly;
     use Concerns\CanBeRequired;
-    use Concerns\CanBeHidden;
+    use Concerns\CanBeHidden; // Done
     use Concerns\CanBeSaved;
 
     protected $installed = true;
@@ -266,7 +266,7 @@ class FieldType extends Addon
         $class .= " {$this->getFieldName()}-field";
         $class .= " {$this->getSlug()}-field_tye";
 
-        if ($this->isHidden()) {
+        if ($this->hidden) {
             $class .= " hidden";
         }
 

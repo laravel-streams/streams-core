@@ -17,29 +17,17 @@ trait HasRules
      *
      * @var array
      */
-    protected $rules = [];
+    public $rules = [];
 
     /**
-     * Get the rules.
+     * Return the rules.
      *
+     * @param array $rules
      * @return array
      */
-    public function getRules()
+    public function rules(array $rules = [])
     {
-        return $this->rules;
-    }
-
-    /**
-     * Set rules.
-     *
-     * @param  array $rules
-     * @return $this
-     */
-    public function setRules(array $rules)
-    {
-        $this->rules = $rules;
-
-        return $this;
+        return array_unique(array_merge($this->rules, $rules));
     }
 
     /**
