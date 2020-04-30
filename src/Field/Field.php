@@ -109,26 +109,6 @@ class Field implements FieldInterface
     }
 
     /**
-     * Get the instructions.
-     *
-     * @return string
-     */
-    public function getInstructions()
-    {
-        return $this->instructions;
-    }
-
-    /**
-     * Get the instructions.
-     *
-     * @return string
-     */
-    public function getPlaceholder()
-    {
-        return $this->placeholder;
-    }
-
-    /**
      * Get the stream.
      *
      * @return string

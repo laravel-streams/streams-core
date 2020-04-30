@@ -36,20 +36,6 @@ interface FieldInterface
     public function getWarning();
 
     /**
-     * Get the instructions.
-     *
-     * @return string
-     */
-    public function getInstructions();
-
-    /**
-     * Get the instructions.
-     *
-     * @return string
-     */
-    public function getPlaceholder();
-
-    /**
      * Get the stream.
      *
      * @return string

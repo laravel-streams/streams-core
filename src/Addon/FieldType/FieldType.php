@@ -23,20 +23,47 @@ class FieldType extends Addon
     use HasClassAttribute;
 
     use Concerns\HasRules; // Done
+    use Concerns\HasValidators; // Done
+
     use Concerns\HasField;
     use Concerns\HasEntry;
-    use Concerns\HasLabel;
     use Concerns\HasValue;
     use Concerns\HasPrefix;
     use Concerns\HasErrors;
     use Concerns\HasConfig;
     use Concerns\HasLocale;
-    use Concerns\HasWarning;
     use Concerns\HasMessages;
     use Concerns\HasCastType;
-    use Concerns\HasPlaceholder;
-    use Concerns\HasInstructions;
-    use Concerns\HasValidators; // Done
+
+
+    /**
+     * The field label.
+     *
+     * @var null|string
+     */
+    public $label;
+
+    /**
+     * The field warning.
+     *
+     * @var null|string
+     */
+    public $warning;
+
+    /**
+     * The field placeholder.
+     *
+     * @var null|string
+     */
+    public $placeholder;
+
+    /**
+     * The field instructions.
+     *
+     * @var string
+     */
+    public $instructions;
+
 
 
     /**
@@ -263,7 +290,7 @@ class FieldType extends Addon
                 [
                     'value'       => $this->getValue(),
                     'name'        => $this->getInputName(),
-                    'placeholder' => $this->getPlaceholder(),
+                    'placeholder' => $this->placeholder,
 
                     'readonly' => $this->readonly ? 'readonly' : '',
                     'disabled' => $this->disabled ? 'disabled' : '',
