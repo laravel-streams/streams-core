@@ -256,8 +256,8 @@ class Module extends Addon
         return array_merge(
             parent::toArray(),
             [
-                'enabled'   => $this->isEnabled(),
-                'installed' => $this->isInstalled(),
+                'enabled'   => $this->enabled,
+                'installed' => $this->installed,
             ]
         );
     }

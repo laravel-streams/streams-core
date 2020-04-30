@@ -73,9 +73,9 @@ class AddonServiceProvider extends ServiceProvider
 
             // @var Addon $addon
             $addon = $this->app->make($addon)
-                ->setType($type)
                 ->setSlug($slug)
                 ->setVendor($vendor)
+                ->setAttribute('type', $type)
                 ->setAttribute('path', $path);
 
             $addon->path = $path;
@@ -85,8 +85,8 @@ class AddonServiceProvider extends ServiceProvider
             }
 
             if ($data = $this->app->make('addon.collection')->get($namespace)) {
-                $addon->setEnabled(array_get($data, 'enabled'));
-                $addon->setInstalled(array_get($data, 'installed'));
+                $addon->enabled = array_get($data, 'enabled');
+                $addon->installed = array_get($data, 'installed');
             }
 
             return $addon;
