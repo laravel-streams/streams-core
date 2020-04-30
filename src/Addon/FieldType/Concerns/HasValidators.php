@@ -18,16 +18,17 @@ trait HasValidators
      *
      * @var array
      */
-    protected $validators = [];
+    public $validators = [];
 
     /**
-     * Get the validators.
+     * Return the validators.
      *
+     * @param array $validators
      * @return array
      */
-    public function getValidators()
+    public function validators(array $validators = [])
     {
-        return $this->validators;
+        return array_unique(array_merge($this->validators, $validators));
     }
 
     /**

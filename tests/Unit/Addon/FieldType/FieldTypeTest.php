@@ -1,7 +1,7 @@
 <?php
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection;
 use Tests\TestCase;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection;
 
 class FieldTypeTest extends TestCase
 {
@@ -18,5 +18,18 @@ class FieldTypeTest extends TestCase
             'foo',
             'bar',
         ])->rules()) !== false);
+    }
+
+    public function testValidators()
+    {
+        $fieldType = app(FieldTypeCollection::class)->instance('anomaly.field_type.text');
+
+        $this->assertTrue(is_array($fieldType->validators()));
+        $this->assertTrue(array_search('bar', $fieldType->validators([
+            'bar',
+        ])) !== false);
+        $this->assertTrue(array_search('bar', $fieldType->mergeValidators([
+            'bar',
+        ])->validators()) !== false);
     }
 }

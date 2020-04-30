@@ -36,7 +36,7 @@ class FieldType extends Addon
     use Concerns\HasCastType;
     use Concerns\HasPlaceholder;
     use Concerns\HasInstructions;
-    use Concerns\HasValidators;
+    use Concerns\HasValidators; // Done
 
 
     /**
