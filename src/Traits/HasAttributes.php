@@ -28,6 +28,10 @@ trait HasAttributes
      */
     public function getAttribute($key)
     {
+        if (!array_key_exists($key, $this->attributes)) {
+            throw new \Exception("Attribute [{$key}] does not exist on " . static::class);
+        }
+
         return $this->attributes[$key];
     }
 

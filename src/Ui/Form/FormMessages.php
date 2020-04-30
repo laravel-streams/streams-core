@@ -23,7 +23,7 @@ class FormMessages
         $messages = [];
 
         foreach ($builder->getEnabledFormFields() as $field) {
-            foreach ($field->getValidators() as $rule => $validator) {
+            foreach ($field->validators as $rule => $validator) {
                 if ($message = array_get($validator, 'message')) {
                     $message = trans($message);
                 }

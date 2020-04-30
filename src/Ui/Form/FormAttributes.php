@@ -1,5 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
 
+namespace Anomaly\Streams\Platform\Ui\Form;
+
+use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 
 /**
@@ -25,7 +28,7 @@ class FormAttributes
         /* @var FieldType $field */
         foreach ($builder->getEnabledFormFields() as $field) {
 
-            $label = $field->getLabel() ?: ucfirst(humanize($field->getField()));
+            $label = $field->label ?: ucfirst(Str::humanize($field->field));
 
             if (str_contains($label, '::')) {
                 $label = trans($label);
