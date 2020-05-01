@@ -36,6 +36,7 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAtt
         'slug' => null,
         'title' => null,
         'policy' => null,
+        'sections' => null,
         'breadcrumb' => null,
 
         'active' => false,
@@ -43,81 +44,6 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAtt
 
         'attributes' => [],
     ];
-
-    /**
-     * The navigation sections.
-     *
-     * @var null|SectionCollection
-     */
-    protected $sections = null;
-
-    /**
-     * Get the favorite flag.
-     *
-     * @return boolean
-     */
-    public function isFavorite()
-    {
-        return $this->favorite;
-    }
-
-    /**
-     * Set the favorite flag.
-     *
-     * @param boolean $favorite
-     */
-    public function setFavorite($favorite)
-    {
-        $this->favorite = $favorite;
-
-        return $this;
-    }
-
-    /**
-     * Get the breadcrumb.
-     *
-     * @return null|string
-     */
-    public function getBreadcrumb()
-    {
-        return $this->breadcrumb;
-    }
-
-    /**
-     * Set the breadcrumb.
-     *
-     * @param $breadcrumb
-     * @return $this
-     */
-    public function setBreadcrumb($breadcrumb)
-    {
-        $this->breadcrumb = $breadcrumb;
-
-        return $this;
-    }
-
-    /**
-     * Get the module sections.
-     *
-     * @return SectionCollection
-     */
-    public function getSections()
-    {
-        return $this->sections;
-    }
-
-    /**
-     * Set the sections.
-     *
-     * @param SectionCollection $sections
-     * @return $this
-     */
-    public function setSections(SectionCollection $sections)
-    {
-        $this->sections = $sections;
-
-        return $this;
-    }
 
     /**
      * Get the HREF attribute.
@@ -138,7 +64,7 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAtt
      */
     public function class($class = null)
     {
-        if ($this->isActive()) {
+        if ($this->active) {
             $class .= ' active';
         }
 

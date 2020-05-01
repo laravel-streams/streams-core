@@ -53,7 +53,7 @@ class SectionBuilder
                 $section->setAttribute('data-keymap', $i + 1);
             }
 
-            $link->setSections(new SectionCollection($sections));
+            $link->sections = new SectionCollection($sections);
         }
     }
 }
