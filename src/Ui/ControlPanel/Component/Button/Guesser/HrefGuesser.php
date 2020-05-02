@@ -40,7 +40,7 @@ class HrefGuesser
                 case 'add':
                 case 'new':
                 case 'create':
-                    $button['attributes']['href'] = $active->getHref('create');
+                    $button['attributes']['href'] = $active->href('create');
                     break;
 
                 case 'export':
@@ -58,7 +58,7 @@ class HrefGuesser
             $type = array_get($button, 'segment', array_get($button, 'button'));
 
             if (!isset($button['attributes']['href']) && $type) {
-                $button['attributes']['href'] = $active->getHref($type);
+                $button['attributes']['href'] = $active->href($type);
             }
         }
 
