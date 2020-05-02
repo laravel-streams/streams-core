@@ -20,12 +20,4 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection
  */
 interface NavigationLinkInterface
 {
-
-    /**
-     * Get the HREF attribute.
-     *
-     * @param  null   $path
-     * @return string
-     */
-    public function getHref($path = null);
 }

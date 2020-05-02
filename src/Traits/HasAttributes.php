@@ -63,6 +63,21 @@ trait HasAttributes
     }
 
     /**
+     * Return the key expression value
+     * from the attribuets array.
+     * 
+     * Or default.
+     * 
+     * @param mixed $key
+     * @param null $default
+     * @return mixed
+     */
+    public function attr($key, $default = null)
+    {
+        return data($this->attributes, $key, $default);
+    }
+
+    /**
      * Get the attributes.
      *
      * @return array

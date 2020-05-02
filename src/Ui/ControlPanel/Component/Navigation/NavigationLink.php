@@ -46,17 +46,6 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAtt
     ];
 
     /**
-     * Get the HREF attribute.
-     *
-     * @param  null $path
-     * @return string
-     */
-    public function getHref($path = null)
-    {
-        return array_get($this->attributes, 'href') . ($path ? '/' . $path : $path);
-    }
-
-    /**
      * Return class HTML.
      *
      * @param string $class
@@ -82,8 +71,8 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAtt
     public function htmlAttributes(array $attributes = [])
     {
         return array_merge($this->htmlAttributes, [
-            'active' => json_encode($this->isActive()),
-            'title' => $this->getTitle(),
+            'active' => $this->active,
+            'title' => $this->title,
             'class' => $this->class(),
         ], $attributes);
     }
