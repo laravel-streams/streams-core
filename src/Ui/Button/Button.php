@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
-use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 
 /**
@@ -24,7 +23,6 @@ class Button implements ButtonInterface, Arrayable, Jsonable
     use HasIcon;
     use HasAttributes;
     use HasClassAttribute;
-    use HasHtmlAttributes;
 
     /**
      * The button attributes.
@@ -51,7 +49,8 @@ class Button implements ButtonInterface, Arrayable, Jsonable
      */
     public function open(array $attributes = [])
     {
-        return '<' . $this->tag . ' ' . html_attributes($this->attributes($attributes)) . '>';
+        // @todo extend into the parent when ready
+        return '<' . $this->tag . ' ' . html_attributes($attributes) . '>';
     }
 
     /**

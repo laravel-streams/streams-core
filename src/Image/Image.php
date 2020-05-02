@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Image\Concerns\HasSrcsets;
 use Anomaly\Streams\Platform\Image\Concerns\HasVersion;
 use Anomaly\Streams\Platform\Image\Concerns\HasFilename;
 use Anomaly\Streams\Platform\Image\Concerns\HasExtension;
-use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 use Anomaly\Streams\Platform\Image\Concerns\HasAlterations;
 
 /**
@@ -34,7 +33,6 @@ class Image
     use HasFilename;
     use HasExtension;
     use HasAlterations;
-    use HasHtmlAttributes;
 
     use CanOutput;
     use CanPublish;

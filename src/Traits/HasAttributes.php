@@ -14,13 +14,6 @@ trait HasAttributes
     use HasMemory;
 
     /**
-     * The object attributes.
-     *
-     * @var array
-     */
-    //protected $attributes = [];
-
-    /**
      * Get an attribute value.
      *
      * @param string $key

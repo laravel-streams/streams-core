@@ -61,20 +61,6 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, Arrayabl
     }
 
     /**
-     * Return merged attributes.
-     *
-     * @param array $attributes
-     */
-    public function htmlAttributes(array $attributes = [])
-    {
-        return array_merge($this->htmlAttributes, [
-            'active' => $this->active,
-            'title' => $this->title,
-            'class' => $this->class(),
-        ], $attributes);
-    }
-
-    /**
      * Get the instance as an array.
      *
      * @return array

@@ -3,7 +3,6 @@
 namespace Anomaly\Streams\Platform\Ui\Icon;
 
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
-use Anomaly\Streams\Platform\Ui\Traits\HasHtmlAttributes;
 
 /**
  * Class Icon
@@ -16,7 +15,6 @@ class Icon
 {
 
     use HasClassAttribute;
-    use HasHtmlAttributes;
 
     /**
      * The icon type.
@@ -55,7 +53,10 @@ class Icon
      */
     public function output()
     {
-        return '<i ' . html_attributes($this->attributes()) . '></i>';
+        // @todo extend into the parent when ready
+        return '<i ' . html_attributes([
+            'class' => $this->class()
+        ]) . '></i>';
     }
 
     /**
@@ -71,18 +72,6 @@ class Icon
             $this->getType(),
             $this->getClass()
         ]));
-    }
-
-    /**
-     * Return merged attributes.
-     *
-     * @param array $attributes
-     */
-    public function attributes(array $attributes = [])
-    {
-        return array_merge($this->attributes, [
-            'class' => $this->class()
-        ], $attributes);
     }
 
     /**

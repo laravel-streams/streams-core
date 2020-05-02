@@ -19,8 +19,6 @@ use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 class FieldType extends Addon
 {
 
-    use HasClassAttribute;
-
     use Concerns\HasRules; // Done
     use Concerns\HasValidators; // Done
 
@@ -651,9 +649,7 @@ class FieldType extends Addon
      */
     public function toArray()
     {
-        return array_merge(Hydrator::dehydrate($this), [
-            'attributes' => $this->attributes(),
-        ]);
+        return Hydrator::dehydrate($this);
     }
 
     /**
