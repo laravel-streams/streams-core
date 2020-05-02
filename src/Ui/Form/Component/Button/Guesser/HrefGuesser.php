@@ -51,11 +51,11 @@ class HrefGuesser
             switch (array_get($button, 'button')) {
 
                 case 'cancel':
-                    $button['attributes']['href'] = $section->getHref();
+                    $button['attributes']['href'] = $section->href();
                     break;
 
                 case 'delete':
-                    $button['attributes']['href'] = $section->getHref('delete/' . $entry->getKey());
+                    $button['attributes']['href'] = $section->href('delete/' . $entry->key);
                     break;
 
                 default:
@@ -65,9 +65,9 @@ class HrefGuesser
 
                     if ($type && !str_contains($type, '\\') && !class_exists($type)) {
                         if ($builder instanceof MultipleFormBuilder) {
-                            $button['attributes']['href'] = $section->getHref($type . '/{request.route.parameters.id}');
+                            $button['attributes']['href'] = $section->href($type . '/{request.route.parameters.id}');
                         } else {
-                            $button['attributes']['href'] = $section->getHref($type . '/{entry.id}');
+                            $button['attributes']['href'] = $section->href($type . '/{entry.id}');
                         }
                     }
                     break;
