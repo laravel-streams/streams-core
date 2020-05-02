@@ -296,7 +296,7 @@ class FieldType extends Addon
                     'data-field_name' => $this->getFieldName(),
                     'data-provides'   => $this->getNamespace(),
 
-                    'class'           => $this->getClass() ?: 'input',
+                    'class'           => $this->class ?: 'input',
                     'id'              => $this->getInputName(),
                 ],
                 $attributes

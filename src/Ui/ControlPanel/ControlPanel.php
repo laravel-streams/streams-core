@@ -103,7 +103,7 @@ class ControlPanel implements Arrayable, Jsonable
      */
     public function addSection(SectionInterface $section)
     {
-        $this->sections->put($section->getSlug(), $section);
+        $this->sections->put($section->slug, $section);
 
         return $this;
     }

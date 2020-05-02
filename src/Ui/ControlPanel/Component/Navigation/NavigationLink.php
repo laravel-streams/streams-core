@@ -43,24 +43,6 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, Arrayabl
     ];
 
     /**
-     * Return class HTML.
-     *
-     * @param string $class
-     * @return null|string
-     */
-    public function class($class = null)
-    {
-        if ($this->active) {
-            $class .= ' active';
-        }
-
-        return trim(implode(' ', array_filter([
-            $class,
-            $this->class
-        ])));
-    }
-
-    /**
      * Get the instance as an array.
      *
      * @return array

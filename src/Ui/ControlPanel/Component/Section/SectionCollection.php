@@ -24,7 +24,7 @@ class SectionCollection extends Collection
     {
         /* @var SectionInterface $item */
         foreach ($this->items as $item) {
-            if ($item->isActive()) {
+            if ($item->active) {
                 return $item;
             }
         }

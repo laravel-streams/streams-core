@@ -58,7 +58,7 @@ class SetActiveSection
         /* @var SectionInterface $section */
         foreach ($sections as $section) {
 
-            if (($matcher = $section->getMatcher()) && str_is($matcher, $request->path())) {
+            if (($matcher = $section->matcher) && str_is($matcher, $request->path())) {
                 $active = $section;
             }
 
@@ -66,11 +66,11 @@ class SetActiveSection
              * Get the HREF for both the active
              * and loop iteration section.
              */
-            $href       = Str::parse($section->getPermalink() ?: array_get($section->getAttributes(), 'href'));
+            $href       = Str::parse($section->permalink ?: array_get($section->htmlAttributes, 'href'));
             $activeHref = '';
 
             if ($active && $active instanceof SectionInterface) {
-                $activeHref = $active->getPermalink() ?: array_get($active->getAttributes(), 'href');
+                $activeHref = $active->permalink ?: array_get($active->htmlAttributes, 'href');
             }
 
             /*
@@ -111,12 +111,14 @@ class SetActiveSection
 
                 $section->setHighlighted(true);
 
-                $breadcrumbs->put($section->getBreadcrumb() ?: $section->getTitle(), $section->getHref());
+                $breadcrumbs->put($section->breadcrumb ?: $section->title, $section->href());
             } else {
-                $active->setActive(true)->setHighlighted(true);
+                $active->active = true;
+                $active->highlighted = true;
             }
         } elseif ($active = $sections->first()) {
-            $active->setActive(true)->setHighlighted(true);
+            $active->active = true;
+            $active->highlighted = true;
         }
 
         // No active section!
@@ -130,8 +132,8 @@ class SetActiveSection
         }
 
         // Add the bread crumb.
-        if (($breadcrumb = $active->getBreadcrumb()) !== false) {
-            $breadcrumbs->put($breadcrumb ?: $active->getTitle(), $active->getHref());
+        if (($breadcrumb = $active->breadcrumb) !== false) {
+            $breadcrumbs->put($breadcrumb ?: $active->title, $active->href());
         }
     }
 }
