@@ -8,9 +8,6 @@ use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
-use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
-use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
 
 /**
@@ -20,12 +17,11 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\Navig
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAttributeInterface, Arrayable, Jsonable
+class NavigationLink implements NavigationLinkInterface, IconInterface, Arrayable, Jsonable
 {
 
     use HasIcon;
     use HasAttributes;
-    use HasClassAttribute;
 
     /**
      * The link attributes.
@@ -42,6 +38,7 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAtt
         'active' => false,
         'favorite' => false,
 
+        'class' => [],
         'attributes' => [],
     ];
 
@@ -59,7 +56,7 @@ class NavigationLink implements NavigationLinkInterface, IconInterface, ClassAtt
 
         return trim(implode(' ', array_filter([
             $class,
-            $this->getClass()
+            $this->class
         ])));
     }
 

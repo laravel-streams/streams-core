@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
-use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
 
 /**
@@ -22,7 +21,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Row implements RowInterface, IconInterface, ClassAttributeInterface, Arrayable, Jsonable
+class Row implements RowInterface, IconInterface, Arrayable, Jsonable
 {
 
     use HasIcon;

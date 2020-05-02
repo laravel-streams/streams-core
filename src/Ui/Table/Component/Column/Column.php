@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Traits\ProvidesJsonable;
 use Anomaly\Streams\Platform\Traits\ProvidesArrayable;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
-use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
 
 /**
@@ -18,7 +17,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Column implements ColumnInterface, ClassAttributeInterface, Arrayable, Jsonable
+class Column implements ColumnInterface, Arrayable, Jsonable
 {
 
     use HasAttributes;

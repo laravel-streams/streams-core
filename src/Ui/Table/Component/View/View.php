@@ -11,7 +11,6 @@ use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
-use Anomaly\Streams\Platform\Ui\Contract\ClassAttributeInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 
 /**
@@ -21,7 +20,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class View implements ViewInterface, IconInterface, ClassAttributeInterface, Arrayable, Jsonable
+class View implements ViewInterface, IconInterface, Arrayable, Jsonable
 {
 
     use HasIcon;
