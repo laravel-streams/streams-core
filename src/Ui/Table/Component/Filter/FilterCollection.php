@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Illuminate\Support\Collection;
@@ -20,14 +22,8 @@ class FilterCollection extends Collection
      */
     public function active()
     {
-        $active = [];
-
-        foreach ($this->items as $item) {
-            if ($item instanceof FilterInterface && $item->isActive()) {
-                $active[] = $item;
-            }
-        }
-
-        return self::make($active);
+        return self::filter(function ($filter) {
+            return $filter->active;
+        });
     }
 }

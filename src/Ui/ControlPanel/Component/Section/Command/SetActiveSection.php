@@ -66,11 +66,11 @@ class SetActiveSection
              * Get the HREF for both the active
              * and loop iteration section.
              */
-            $href       = Str::parse($section->permalink ?: array_get($section->htmlAttributes, 'href'));
+            $href       = Str::parse($section->permalink ?: $section->attr('attributes.href'));
             $activeHref = '';
 
             if ($active && $active instanceof SectionInterface) {
-                $activeHref = $active->permalink ?: array_get($active->htmlAttributes, 'href');
+                $activeHref = $active->permalink ?: $active->attr('attributes.href');
             }
 
             /*
@@ -104,12 +104,13 @@ class SetActiveSection
          * @var SectionInterface $section
          */
         if ($active) {
-            if ($active->getParent()) {
-                $active->setActive(true);
+            if ($active->parent) {
 
-                $section = $sections->get($active->getParent(), $sections->first());
+                $active->active = true;
 
-                $section->setHighlighted(true);
+                $section = $sections->get($active->parent, $sections->first());
+
+                $section->highlighted = true;
 
                 $breadcrumbs->put($section->breadcrumb ?: $section->title, $section->href());
             } else {

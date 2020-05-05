@@ -50,9 +50,9 @@ class SearchFilter extends Filter implements SearchFilterInterface
             $this->getInputName(),
             $this->getValue(),
             array_filter(array_merge(
-                parent::attributes(),
+                parent::attr('attributes', []),
                 [
-                    'placeholder' => trans($this->getPlaceholder()),
+                    'placeholder' => trans($this->placeholder),
                 ]
             ))
         );

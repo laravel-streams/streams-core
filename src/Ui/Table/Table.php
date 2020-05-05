@@ -328,7 +328,7 @@ class Table
      */
     public function addFilter(FilterInterface $filter)
     {
-        $this->filters->put($filter->getSlug(), $filter);
+        $this->filters->put($filter->slug, $filter);
 
         return $this;
     }
