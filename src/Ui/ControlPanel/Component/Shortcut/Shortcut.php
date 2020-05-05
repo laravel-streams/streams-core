@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
-use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Contract\ShortcutInterface;
 
 /**
@@ -23,7 +22,6 @@ class Shortcut implements ShortcutInterface, IconInterface, Arrayable, Jsonable
 
     use HasIcon;
     use HasAttributes;
-    use HasClassAttribute;
 
     /**
      * The shortcut attributes.
@@ -31,172 +29,23 @@ class Shortcut implements ShortcutInterface, IconInterface, Arrayable, Jsonable
      * @var array
      */
     protected $attributes = [
-        //'type' => 'default',
+        'slug' => null,
+        'title' => null,
+        'label' => null,
+        'policy' => null,
+        'highlighted' => false,
+        'context' => 'danger',
     ];
 
     /**
-     * The shortcut slug.
-     *
-     * @var null|string
-     */
-    protected $slug = null;
-
-    /**
-     * The shortcut title.
-     *
-     * @var null|string
-     */
-    protected $title = null;
-
-    /**
-     * The shortcut label.
-     *
-     * @var null|string
-     */
-    protected $label = null;
-
-    /**
-     * The highlighted flag.
-     *
-     * @var bool
-     */
-    protected $highlighted = false;
-
-    /**
-     * The shortcut context.
-     *
-     * @var string
-     */
-    protected $context = 'danger';
-
-    /**
-     * The shortcut policy.
-     *
-     * @var null|string|array
-     */
-    public $policy;
-
-    /**
-     * Get the slug.
-     *
-     * @return null|string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    /**
-     * Set the slug.
-     *
-     * @param $slug
-     * @return $this
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get the title.
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set the title.
-     *
-     * @param string $title
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * Get the label.
-     *
-     * @return string
-     */
-    public function getLabel()
-    {
-        return $this->label;
-    }
-
-    /**
-     * Set the label.
-     *
-     * @param  string $label
-     * @return $this
-     */
-    public function setLabel($label)
-    {
-        $this->label = $label;
-
-        return $this;
-    }
-
-    /**
-     * Get the highlighted flag.
-     *
-     * @return boolean
-     */
-    public function isHighlighted()
-    {
-        return $this->highlighted;
-    }
-
-    /**
-     * Set the highlighted flag.
-     *
-     * @param  boolean $active
-     * @return $this
-     */
-    public function setHighlighted($highlighted)
-    {
-        $this->highlighted = $highlighted;
-
-        return $this;
-    }
-
-    /**
-     * Get the context.
-     *
-     * @return boolean
-     */
-    public function getContext()
-    {
-        return $this->context;
-    }
-
-    /**
-     * Set the context flag.
-     *
-     * @param  boolean $active
-     * @return $this
-     */
-    public function setContext($context)
-    {
-        $this->context = $context;
-
-        return $this;
-    }
-
-    /**
-     * Get the HREF attribute.
+     * Return the HREF.
      *
      * @param  null $path
      * @return string
      */
-    public function getHref($path = null)
+    public function href($path = null)
     {
-        return array_get($this->attributes, 'href') . ($path ? '/' . $path : $path);
+        return $this->attr('attributes.href') . ($path ? '/' . $path : $path);
     }
 
     /**
@@ -218,5 +67,27 @@ class Shortcut implements ShortcutInterface, IconInterface, Arrayable, Jsonable
     public function toJson($options = 0)
     {
         return json_encode($this->toArray(), $options);
+    }
+
+    /**
+     * Dynamically retrieve attributes.
+     *
+     * @param  string $key
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        return $this->getAttribute($key);
+    }
+
+    /**
+     * Dynamically set attributes.
+     *
+     * @param  string  $key
+     * @param  mixed $value
+     */
+    public function __set($key, $value)
+    {
+        $this->setAttribute($key, $value);
     }
 }

@@ -136,7 +136,7 @@ class ControlPanel implements Arrayable, Jsonable
      */
     public function addShortcut(ShortcutInterface $shortcut)
     {
-        $this->shortcuts->put($shortcut->getSlug(), $shortcut);
+        $this->shortcuts->put($shortcut->slug, $shortcut);
 
         return $this;
     }
