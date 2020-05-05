@@ -30,77 +30,29 @@ class Section implements SectionInterface, Arrayable, Jsonable
         'slug' => null,
         'title' => null,
         'label' => null,
-        'active' => false,
+        'parent' => null,
+        'policy' => null,
         'matcher' => null,
         'permalink' => null,
+        'breadcrumb' => null,
         'description' => null,
         'highlighted' => false,
         'context' => 'danger',
-        'parent' => null,
-        'policy' => null,
-        'buttons' => [],
-        'breadcrumb' => null,
+        'active' => false,
         'hidden' => false,
+        'buttons' => [],
+        'attributes' => [],
     ];
 
     /**
-     * Return if the section is
-     * a sub-section or not.
-     *
-     * @return bool
-     */
-    public function isSubSection()
-    {
-        return (bool) $this->getParent();
-    }
-
-    /**
-     * Get the HREF attribute.
+     * Return the href attribute.
      *
      * @param  null $path
      * @return string
      */
     public function href($path = null)
     {
-        return ($this->permalink ?: $this->attr('attibutes.href')) . ($path ? '/' . $path : $path);
-    }
-
-    /**
-     * Return the child sections.
-     *
-     * @return SectionCollection
-     */
-    public function children()
-    {
-        return app(SectionCollection::class)->children($this->slug);
-    }
-
-    /**
-     * Return merged attributes.
-     *
-     * @param array $attributes
-     */
-    public function attributes(array $attributes = [])
-    {
-        return array_merge($this->attr('attributes'), [
-            'class' => $this->class(),
-        ], $attributes);
-    }
-
-    /**
-     * Return class HTML.
-     *
-     * @param string $class
-     * @return null|string
-     */
-    public function class($class = null)
-    {
-        return trim(implode(' ', [
-            $class,
-            $this->class,
-            $this->active ? 'active' : null,
-            $this->highlighted ? 'highlighted' : null,
-        ]));
+        return $this->attr('attibutes.href') . ($path ? '/' . $path : $path);
     }
 
     /**

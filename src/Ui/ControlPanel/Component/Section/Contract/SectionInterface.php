@@ -15,14 +15,6 @@ interface SectionInterface
 {
 
     /**
-     * Return if the section is
-     * a sub-section or not.
-     *
-     * @return bool
-     */
-    public function isSubSection();
-
-    /**
      * Return the HREF attribute.
      *
      * @param  null $path

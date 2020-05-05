@@ -78,7 +78,7 @@ class RedirectGuesser
 
                 case 'submit':
                 case 'save_exit':
-                    $action['redirect'] = $section ? $section->getHref() : request()->url() . $query;
+                    $action['redirect'] = $section ? $section->href() : request()->url() . $query;
                     break;
 
                 case 'save_create':
@@ -91,7 +91,7 @@ class RedirectGuesser
                 case 'save_continue':
                     $action['redirect'] = function () use ($section, $builder, $query) {
                         if ($section && $builder->getFormMode() == 'create') {
-                            return $section->getHref('edit/' . $builder->getContextualId());
+                            return $section->href('edit/' . $builder->getContextualId());
                         }
 
                         return request()->url() . $query;
@@ -102,13 +102,13 @@ class RedirectGuesser
                     $ids = array_filter(explode(',', $builder->getRequestValue('edit_next')));
 
                     if (!$ids) {
-                        $action['redirect'] = $section ? $section->getHref() : request()->url() . $query;
+                        $action['redirect'] = $section ? $section->href() : request()->url() . $query;
                     } elseif (count($ids) == 1) {
-                        $action['redirect'] = $section ? $section->getHref(
+                        $action['redirect'] = $section ? $section->href(
                             'edit/' . array_shift($ids)
                         ) : request()->url() . $query;
                     } else {
-                        $action['redirect'] = $section ? $section->getHref(
+                        $action['redirect'] = $section ? $section->href(
                             'edit/' . array_shift($ids) . '?' . $builder->getOption('prefix') . 'edit_next=' . implode(
                                 ',',
                                 $ids
