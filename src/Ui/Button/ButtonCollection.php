@@ -23,7 +23,7 @@ class ButtonCollection extends Collection
     public function enabled()
     {
         return $this->filter(
-            function (ButtonInterface $button) {
+            function ($button) {
                 return $button->enabled;
             }
         );
@@ -37,7 +37,7 @@ class ButtonCollection extends Collection
     public function primary()
     {
         return $this->filter(
-            function (ButtonInterface $button) {
+            function ($button) {
                 return $button->primary;
             }
         );
@@ -51,7 +51,7 @@ class ButtonCollection extends Collection
     public function secondary()
     {
         return $this->filter(
-            function (ButtonInterface $button) {
+            function ($button) {
                 return !$button->primary;
             }
         );

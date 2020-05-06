@@ -2,14 +2,11 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
-use Closure;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 
@@ -20,10 +17,9 @@ use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class View implements ViewInterface, IconInterface, Arrayable, Jsonable
+class View implements ViewInterface, Arrayable, Jsonable
 {
 
-    use HasIcon;
     use HasAttributes;
     use FiresCallbacks;
     use HasClassAttribute;
@@ -129,7 +125,7 @@ class View implements ViewInterface, IconInterface, Arrayable, Jsonable
     /**
      * The view query.
      *
-     * @var null|string|Closure
+     * @var null|string|\Closure
      */
     protected $query = null;
 

@@ -13,7 +13,7 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Action extends Button implements ActionInterface, IconInterface
+class Action extends Button implements ActionInterface
 {
 
     /**

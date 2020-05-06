@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract;
 
 use Illuminate\Support\Collection;
 
@@ -11,21 +13,6 @@ use Illuminate\Support\Collection;
  */
 interface RowInterface
 {
-
-    /**
-     * Get the class.
-     *
-     * @return null
-     */
-    public function getClass();
-
-    /**
-     * Set the class.
-     *
-     * @param $class
-     * @return $this
-     */
-    public function setClass($class);
 
     /**
      * Set the row buttons.

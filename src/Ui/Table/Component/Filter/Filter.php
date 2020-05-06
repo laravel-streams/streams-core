@@ -4,10 +4,8 @@ namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\GenericFilterQuery;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 
@@ -18,10 +16,9 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Filter implements FilterInterface, IconInterface, Arrayable, Jsonable
+class Filter implements FilterInterface, Arrayable, Jsonable
 {
 
-    use HasIcon;
     use HasAttributes;
 
     /**

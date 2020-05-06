@@ -4,10 +4,8 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Ui\Traits\HasIcon;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Ui\Contract\IconInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Contract\ShortcutInterface;
 
 /**
@@ -17,10 +15,9 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Contract\Shortcu
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Shortcut implements ShortcutInterface, IconInterface, Arrayable, Jsonable
+class Shortcut implements ShortcutInterface, Arrayable, Jsonable
 {
 
-    use HasIcon;
     use HasAttributes;
 
     /**
