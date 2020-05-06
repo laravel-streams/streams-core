@@ -37,7 +37,7 @@ class HeaderBuilder
 
             $header = $factory->make($header);
 
-            $table->headers->put($header->getField(), $header);
+            $table->headers->put($header->field, $header);
         }
     }
 }

@@ -28,157 +28,13 @@ class Row implements RowInterface, Arrayable, Jsonable
      *
      * @var array
      */
-    protected $attributes = [];
-
-    /**
-     * The row key.
-     *
-     * @var null
-     */
-    protected $key = null;
-
-    /**
-     * The row entry.
-     *
-     * @var mixed
-     */
-    protected $entry = null;
-
-    /**
-     * The row table.
-     *
-     * @var null|Table
-     */
-    protected $table = null;
-
-    /**
-     * The row columns.
-     *
-     * @var Collection
-     */
-    protected $columns;
-
-    /**
-     * The row buttons.
-     *
-     * @var ButtonCollection
-     */
-    protected $buttons;
-
-    /**
-     * Get the key.
-     *
-     * @return null
-     */
-    public function getKey()
-    {
-        return $this->key;
-    }
-
-    /**
-     * Set the key.
-     *
-     * @param $key
-     * @return $this
-     */
-    public function setKey($key)
-    {
-        $this->key = $key;
-
-        return $this;
-    }
-
-    /**
-     * Set the row buttons.
-     *
-     * @param $buttons
-     * @return $this
-     */
-    public function setButtons($buttons)
-    {
-        $this->buttons = $buttons;
-
-        return $this;
-    }
-
-    /**
-     * Get the row buttons.
-     *
-     * @return mixed
-     */
-    public function getButtons()
-    {
-        return $this->buttons;
-    }
-
-    /**
-     * Set the row columns.
-     *
-     * @param  Collection $columns
-     * @return $this
-     */
-    public function setColumns(Collection $columns)
-    {
-        $this->columns = $columns;
-
-        return $this;
-    }
-
-    /**
-     * Get the row columns.
-     *
-     * @return mixed
-     */
-    public function getColumns()
-    {
-        return $this->columns;
-    }
-
-    /**
-     * Get the table.
-     *
-     * @return Table|null
-     */
-    public function getTable()
-    {
-        return $this->table;
-    }
-
-    /**
-     * Set the table.
-     *
-     * @param  Table $table
-     * @return $this
-     */
-    public function setTable(Table $table)
-    {
-        $this->table = $table;
-
-        return $this;
-    }
-
-    /**
-     * Set the row entry.
-     *
-     * @param $entry
-     * @return $this
-     */
-    public function setEntry($entry)
-    {
-        $this->entry = $entry;
-
-        return $this;
-    }
-
-    /**
-     * Get the row entry.
-     *
-     * @return mixed
-     */
-    public function getEntry()
-    {
-        return $this->entry;
-    }
+    protected $attributes = [
+        'key' => null,
+        'entry' => null,
+        'table' => null,
+        'columns' => null, //Collection
+        'buttons' => null, //Collection
+    ];
 
     /**
      * Get the instance as an array.
@@ -199,5 +55,27 @@ class Row implements RowInterface, Arrayable, Jsonable
     public function toJson($options = 0)
     {
         return json_encode($this->toArray(), $options);
+    }
+
+    /**
+     * Dynamically retrieve attributes.
+     *
+     * @param  string $key
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        return $this->getAttribute($key);
+    }
+
+    /**
+     * Dynamically set attributes.
+     *
+     * @param  string  $key
+     * @param  mixed $value
+     */
+    public function __set($key, $value)
+    {
+        $this->setAttribute($key, $value);
     }
 }

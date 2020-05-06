@@ -12,10 +12,10 @@
     @endif
 
     @foreach ($table->headers as $header)
-        <th {!! html_attributes($header->attributes()) !!}>
-            @if ($header->isSortable())
+        <th {!! html_attributes($header->attr('attributes', [])) !!}>
+            @if ($header->sortable)
             
-                {!! html_link(url()->current() . '?' . $header->getQueryString(), $header->getHeading()) !!}
+                {!! html_link(url()->current() . '?' . $header->getQueryString(), $header->heading) !!}
                 
                 @if ($header->getDirection() == 'asc')
                     {!! icon('sort-ascending') !!}
@@ -25,7 +25,7 @@
                     {!! icon('sortable') !!}
                 @endif
             @else
-                {{ $header->getHeading() }}
+                {{ $header->heading }}
             @endif
         </th>
     @endforeach
