@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 use Illuminate\Support\Collection;
@@ -20,14 +22,9 @@ class ViewCollection extends Collection
      */
     public function active()
     {
-        /* @var ViewInterface $item */
-        foreach ($this->items as $item) {
-            if ($item->isActive()) {
-                return $item;
-            }
-        }
-
-        return null;
+        return $this->first(function ($item) {
+            return $item->active;
+        });
     }
 
     /**
@@ -38,13 +35,8 @@ class ViewCollection extends Collection
      */
     public function findBySlug($slug)
     {
-        /* @var ViewInterface $item */
-        foreach ($this->items as $item) {
-            if ($item->getSlug() == $slug) {
-                return $item;
-            }
-        }
-
-        return null;
+        return $this->first(function ($item) use ($slug) {
+            return $item->slug === $slug;
+        });
     }
 }

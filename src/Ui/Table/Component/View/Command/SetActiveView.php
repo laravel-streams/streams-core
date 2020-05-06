@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewHandler;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -49,11 +51,11 @@ class SetActiveView
         }
 
         if ($view = $views->findBySlug($request->get($options->get('prefix') . 'view'))) {
-            $view->setActive(true);
+            $view->active = true;
         }
 
         if (!$view && $view = $views->first()) {
-            $view->setActive(true);
+            $view->active = true;
         }
 
         // Nothing to do.
@@ -61,34 +63,28 @@ class SetActiveView
             return;
         }
 
-        // Set filters from active view.
-        if (($filters = $view->getFilters()) !== null) {
-            $this->builder->setFilters($filters);
+        if ($view->filters) {
+            $this->builder->setFilters($view->filters);
         }
 
-        // Set columns from active view.
-        if (($columns = $view->getColumns()) !== null) {
-            $this->builder->setColumns($columns);
+        if ($view->columns) {
+            $this->builder->setColumns($view->columns);
         }
 
-        // Set buttons from active view.
-        if (($buttons = $view->getButtons()) !== null) {
-            $this->builder->setButtons($buttons);
+        if ($view->buttons) {
+            $this->builder->setButtons($view->buttons);
         }
 
-        // Set actions from active view.
-        if (($actions = $view->getActions()) !== null) {
-            $this->builder->setActions($actions);
+        if ($view->actions) {
+            $this->builder->setActions($view->actions);
         }
 
-        // Set options from active view.
-        if (($options = $view->getOptions()) !== null) {
-            $this->builder->setOptions($options);
+        if ($view->options) {
+            $this->builder->setOptions($view->options);
         }
 
-        // Set entries from active view.
-        if (($entries = $view->getEntries()) !== null) {
-            $this->builder->setEntries($entries);
+        if ($view->entries) {
+            $this->builder->setEntries($view->entries);
         }
 
         $handler->handle($this->builder, $view);

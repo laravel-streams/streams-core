@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
@@ -40,7 +42,7 @@ class ViewHandler
      */
     public function handle(TableBuilder $builder, ViewInterface $view)
     {
-        if (!$handler = $view->getHandler()) {
+        if (!$handler = $view->handler) {
             return;
         }
 

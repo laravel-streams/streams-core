@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Listener;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Listener;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewQuery;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;

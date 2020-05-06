@@ -51,7 +51,7 @@ class Section implements SectionInterface, Arrayable, Jsonable
      */
     public function href($path = null)
     {
-        return $this->attr('attibutes.href') . ($path ? '/' . $path : $path);
+        return $this->attr('attributes.href') . ($path ? '/' . $path : $path);
     }
 
     /**

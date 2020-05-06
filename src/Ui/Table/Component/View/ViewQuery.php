@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewQueryInterface;
@@ -46,7 +48,7 @@ class ViewQuery
     {
         $view->fire('querying', compact('builder', 'query'));
 
-        if (!$handler = $view->getQuery()) {
+        if (!$handler = $view->query) {
             return;
         }
 

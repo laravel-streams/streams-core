@@ -458,7 +458,7 @@ class Table
      */
     public function addView(ViewInterface $view)
     {
-        $this->views->put($view->getSlug(), $view);
+        $this->views->put($view->slug, $view);
 
         return $this;
     }
@@ -507,7 +507,7 @@ class Table
             return;
         }
 
-        return $view->getSlug();
+        return $view->slug;
     }
 
     /**
