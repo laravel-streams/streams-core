@@ -59,7 +59,7 @@ class FormRules
 
                 $type = $instance->type();
 
-                if ($type->isRequired()) {
+                if ($type->required) {
                     $fieldRules[] = 'required';
                 }
 

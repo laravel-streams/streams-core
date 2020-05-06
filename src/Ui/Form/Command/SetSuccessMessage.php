@@ -57,8 +57,8 @@ class SetSuccessMessage
         $stream = $this->builder->getFormStream();
 
         $parameters = [
-            'title' => is_object($entry) ? $entry->getTitle() : null,
-            'name'  => is_object($stream) ? $stream->getName() : null,
+            'title' => is_object($entry) ? $entry->title : null,
+            'name'  => is_object($stream) ? $stream->name : null,
         ];
 
         // If the name doesn't exist we need to be clever.

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
@@ -41,19 +43,14 @@ class ActionResponder
      */
     public function setFormResponse(FormBuilder $builder, ActionInterface $action)
     {
-        $handler = $action->getHandler();
-
-        // Self handling implies @handle
-        if (is_string($handler) && !str_contains($handler, '@')) {
-            $handler .= '@handle';
-        }
+        $handler = $action->handler;
 
         /*
          * If the handler is a closure or callable
          * string then call it using the service container.
          */
         if (is_string($handler) || $handler instanceof \Closure) {
-            $this->container->call($handler, compact('builder'));
+            $this->container->call($handler, compact('builder'), 'handle');
         }
 
         /*

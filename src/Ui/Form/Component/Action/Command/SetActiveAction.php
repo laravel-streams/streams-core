@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
@@ -16,11 +18,11 @@ class SetActiveAction
         $actions = $builder->getFormActions();
 
         if ($action = $actions->findBySlug(app('request')->get($options->get('prefix') . 'action'))) {
-            $action->setActive(true);
+            $action->active = true;
         }
 
         if (!$action && $action = $actions->first()) {
-            $action->setActive(true);
+            $action->active = true;
         }
     }
 }

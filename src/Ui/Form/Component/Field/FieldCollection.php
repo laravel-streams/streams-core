@@ -233,7 +233,7 @@ class FieldCollection extends Collection
             function ($field) {
 
                 /* @var FieldType $field */
-                return $field->canSave();
+                return $field->save;
             }
         );
     }
@@ -249,7 +249,7 @@ class FieldCollection extends Collection
             function ($field) {
 
                 /* @var FieldType $field */
-                return !$field->canSave();
+                return !$field->save;
             }
         );
     }

@@ -5,9 +5,7 @@ namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
-use Anomaly\Streams\Platform\Traits\ProvidesJsonable;
-use Anomaly\Streams\Platform\Traits\ProvidesArrayable;
-use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
 
 /**
@@ -21,164 +19,61 @@ class Column implements ColumnInterface, Arrayable, Jsonable
 {
 
     use HasAttributes;
-    use ProvidesJsonable;
-    use ProvidesArrayable;
-    use HasClassAttribute;
 
     /**
      * The object attributes.
      *
      * @var array
      */
-    protected $attributes = [];
+    protected $attributes = [
+        'view' => null,
+        'value' => null,
+        'entry' => null,
+        'heading' => null,
+        'wrapper' => null,
+    ];
 
     /**
-     * The column wrapper.
+     * Get the instance as an array.
      *
-     * @var null|string
+     * @return array
      */
-    protected $wrapper = null;
-
-    /**
-     * The column view.
-     *
-     * @var null
-     */
-    protected $view = null;
-
-    /**
-     * The column value.
-     *
-     * @var null|mixed
-     */
-    protected $value = null;
-
-    /**
-     * The column heading.
-     *
-     * @var null|string
-     */
-    protected $heading = null;
-
-    /**
-     * The column entry.
-     *
-     * @var null|mixed
-     */
-    protected $entry = null;
-
-    /**
-     * Get the wrapper.
-     *
-     * @return null|string
-     */
-    public function getWrapper()
+    public function toArray()
     {
-        return $this->wrapper;
+        return Hydrator::dehydrate($this);
     }
 
     /**
-     * Set the wrap.
+     * Convert the object to its JSON representation.
      *
-     * @param $wrapper
-     * @return $this
+     * @param  int  $options
+     * @return string
      */
-    public function setWrapper($wrapper)
+    public function toJson($options = 0)
     {
-        $this->wrapper = $wrapper;
+        return json_encode($this->toArray(), $options);
+    }
 
-        return $this;
+
+    /**
+     * Dynamically retrieve attributes.
+     *
+     * @param  string $key
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        return $this->getAttribute($key);
     }
 
     /**
-     * Get the view.
+     * Dynamically set attributes.
      *
-     * @return null|string
+     * @param  string  $key
+     * @param  mixed $value
      */
-    public function getView()
+    public function __set($key, $value)
     {
-        return $this->view;
-    }
-
-    /**
-     * Set the view.
-     *
-     * @param $view
-     * @return $this
-     */
-    public function setView($view)
-    {
-        $this->view = $view;
-
-        return $this;
-    }
-
-    /**
-     * Get the column heading.
-     *
-     * @return null|string
-     */
-    public function getHeading()
-    {
-        return $this->heading;
-    }
-
-    /**
-     * Set the column heading.
-     *
-     * @param $heading
-     * @return $this
-     */
-    public function setHeading($heading)
-    {
-        $this->heading = $heading;
-
-        return $this;
-    }
-
-    /**
-     * Get the column value.
-     *
-     * @return mixed|null
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    /**
-     * Set the column value.
-     *
-     * @param $value
-     * @return $this
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
-
-        return $this;
-    }
-
-    /**
-     * Get the entry.
-     *
-     * @return mixed|null
-     */
-    public function getEntry()
-    {
-        return $this->entry;
-    }
-
-    /**
-     * Set the entry.
-     *
-     * @param $entry
-     * @return $this
-     */
-    public function setEntry($entry)
-    {
-        $this->entry = $entry;
-
-        return $this;
+        $this->setAttribute($key, $value);
     }
 }

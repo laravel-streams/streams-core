@@ -48,7 +48,7 @@ class Button implements ButtonInterface, Arrayable, Jsonable
     public function open(array $attributes = [])
     {
         // @todo extend into the parent when ready
-        return '<' . $this->tag . ' ' . html_attributes($attributes) . '>';
+        return '<' . $this->tag . ' ' . html_attributes($this->attributes($attributes)) . '>';
     }
 
     /**
@@ -69,22 +69,8 @@ class Button implements ButtonInterface, Arrayable, Jsonable
     public function attributes(array $attributes = [])
     {
         return array_merge($this->attributes, [
-            'class' => $this->class(),
+            'class' => $this->class,
         ], $attributes);
-    }
-
-    /**
-     * Return class HTML.
-     *
-     * @param string $class
-     * @return null|string
-     */
-    public function class($class = null)
-    {
-        return trim(implode(' ', [
-            $class,
-            $this->getClass()
-        ]));
     }
 
     /**

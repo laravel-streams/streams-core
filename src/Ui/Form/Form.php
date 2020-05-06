@@ -328,7 +328,7 @@ class Form implements Arrayable, Jsonable
      */
     public function addAction(ActionInterface $action)
     {
-        $this->actions->put($action->getSlug(), $action);
+        $this->actions->put($action->slug, $action);
 
         return $this;
     }

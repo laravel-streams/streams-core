@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Illuminate\Database\Eloquent\Model;
 use Anomaly\Streams\Platform\Traits\Versionable;
@@ -128,7 +130,7 @@ class FormRepository implements FormRepositoryInterface
          * @todo clean this up
          */
         $data = array_diff_key(
-            [],//$entry->getUnguardedAttributes(),
+            [], //$entry->getUnguardedAttributes(),
             ['id', 'created_at', 'created_by_id', 'updated_at', 'updated_by_id']
         );
 

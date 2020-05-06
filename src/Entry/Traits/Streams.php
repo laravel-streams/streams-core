@@ -165,8 +165,11 @@ trait Streams
 
         $key = $type->getColumnName();
 
-        if ($locale) {
-            $key = $key . '->' . ($locale ?: app()->getLocale());
+        if ($field->translatable) {
+
+            $value = array_merge((array) $this->{$key}, [
+                ($locale ?: app()->getLocale()) => $value,
+            ]);
         }
 
         return parent::setAttribute($key, $value);

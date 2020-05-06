@@ -17,7 +17,7 @@
 
             @foreach ($row->columns as $column)
                 <td {{ html_attributes($column->attr('attributes', [])) }}>
-                    {!! $column->getValue() !!}
+                    {!! $column->value !!}
                 </td>
             @endforeach
 

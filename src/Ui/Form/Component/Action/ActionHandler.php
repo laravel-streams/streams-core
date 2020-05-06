@@ -87,7 +87,7 @@ class ActionHandler
             $entry = $entry->toArray();
         }
 
-        $redirect = $action->getRedirect();
+        $redirect = $action->redirect;
 
         if ($redirect instanceof RedirectResponse) {
             $builder->setFormResponse($redirect);
