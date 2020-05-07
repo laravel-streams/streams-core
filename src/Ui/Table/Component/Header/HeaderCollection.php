@@ -13,12 +13,4 @@ use Illuminate\Support\Collection;
  */
 class HeaderCollection extends Collection
 {
-
-    /**
-     * Return the Vuetify data.
-     */
-    public function toVuetify()
-    {
-        return $this->toArray();
-    }
 }

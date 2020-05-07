@@ -2,34 +2,32 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Anomaly\Streams\Platform\Ui\Button\Button;
-use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
-use Anomaly\Streams\Platform\Ui\Form\Command\FlashFieldValues;
-use Anomaly\Streams\Platform\Ui\Form\Command\FlashFormErrors;
-use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
-use Anomaly\Streams\Platform\Ui\Form\Command\LoadFormValues;
-use Anomaly\Streams\Platform\Ui\Form\Command\MakeForm;
-use Anomaly\Streams\Platform\Ui\Form\Command\PopulateFields;
-use Anomaly\Streams\Platform\Ui\Form\Command\PostForm;
-use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
-use Anomaly\Streams\Platform\Ui\Form\Command\SetFormResponse;
-use Anomaly\Streams\Platform\Ui\Form\Command\ValidateForm;
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\Action;
-use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
-use Anomaly\Streams\Platform\Version\Contract\VersionInterface;
 use Illuminate\Contracts\Support\MessageBag;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\HttpFoundation\Response;
-use Closure;
+use Anomaly\Streams\Platform\Ui\Button\Button;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\PostForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\MakeForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Ui\Form\Command\ValidateForm;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Ui\Form\Command\LoadFormValues;
+use Anomaly\Streams\Platform\Ui\Form\Command\PopulateFields;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Form\Command\SetFormResponse;
+use Anomaly\Streams\Platform\Ui\Form\Command\FlashFormErrors;
+use Anomaly\Streams\Platform\Ui\Form\Command\FlashFieldValues;
+use Anomaly\Streams\Platform\Version\Contract\VersionInterface;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
 
 /**
  * Class FormBuilder
@@ -265,6 +263,7 @@ class FormBuilder
     public function post()
     {
         if (app('request')->isMethod('post')) {
+
             $this->fire('post', ['builder' => $this]);
 
             if ($this->hasPostData() || $this->isAjax()) {
@@ -859,7 +858,7 @@ class FormBuilder
     /**
      * Set the sections.
      *
-     * @param  array|Closure $sections
+     * @param  array|\Closure $sections
      * @return $this
      */
     public function setSections($sections)
@@ -1297,16 +1296,6 @@ class FormBuilder
     }
 
     /**
-     * Get the enabled form fields.
-     *
-     * @return Component\Field\FieldCollection
-     */
-    public function getEnabledFormFields()
-    {
-        return $this->form->getEnabledFields();
-    }
-
-    /**
      * Get the form field.
      *
      * @param $fieldSlug
@@ -1488,7 +1477,7 @@ class FormBuilder
      * @param  Button$button
      * @return $this
      */
-    public function addFormButton(Button$button)
+    public function addFormButton(Button $button)
     {
         $this->form->addButton($button);
 

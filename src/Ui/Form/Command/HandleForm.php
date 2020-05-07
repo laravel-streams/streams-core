@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Container\Container;
@@ -33,10 +35,8 @@ class HandleForm
 
     /**
      * Handle the event.
-     *
-     * @param Container $container
      */
-    public function handle(Container $container)
+    public function handle()
     {
         if ($this->builder->hasFormErrors()) {
             return;
@@ -44,10 +44,6 @@ class HandleForm
 
         $handler = $this->builder->getHandler();
 
-        if ($handler && !str_contains($handler, '@')) {
-            $handler .= '@handle';
-        }
-
-        $container->call($handler, ['builder' => $this->builder]);
+        App::call($handler, ['builder' => $this->builder], 'handle');
     }
 }

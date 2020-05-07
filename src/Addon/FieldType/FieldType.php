@@ -31,7 +31,6 @@ class FieldType extends Addon
     use Concerns\HasMessages;
     use Concerns\HasCastType;
 
-
     /**
      * The field label.
      *

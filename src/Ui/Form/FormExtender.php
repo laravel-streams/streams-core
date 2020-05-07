@@ -2,11 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Factory;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Validator;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 
 /**
  * Class FormExtender
@@ -40,7 +39,7 @@ class FormExtender
      */
     protected function registerValidators(Factory $factory, FormBuilder $builder, FieldType $fieldType)
     {
-        foreach ($fieldType->validators() as $rule => $validator) {
+        foreach ($fieldType->validators as $rule => $validator) {
 
             $handler = array_get($validator, 'handler');
 
@@ -60,7 +59,15 @@ class FormExtender
 
                     return App::call(
                         $handler,
-                        compact('attribute', 'value', 'parameters', 'builder', 'validator', 'fieldType')
+                        [
+                            'value' => $value,
+                            'builder' => $builder,
+                            'attribute' => $attribute,
+                            'fieldType' => $fieldType,
+                            'validator' => $validator,
+                            'parameters' => $parameters,
+                        ],
+                        'handle'
                     );
                 },
                 array_get($validator, 'message')

@@ -30,7 +30,7 @@ class FormRules
         $locale = config('streams.locales.default');
 
         /* @var FieldType $field */
-        foreach ($builder->getEnabledFormFields() as $field) {
+        foreach ($builder->getFormFields() as $field) {
 
             if ($field->disabled) {
                 continue;

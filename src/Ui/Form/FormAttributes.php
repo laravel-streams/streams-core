@@ -26,7 +26,7 @@ class FormAttributes
         $attributes = [];
 
         /* @var FieldType $field */
-        foreach ($builder->getEnabledFormFields() as $field) {
+        foreach ($builder->getFormFields() as $field) {
 
             $label = $field->label ?: ucfirst(Str::humanize($field->field));
 
