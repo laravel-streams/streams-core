@@ -73,7 +73,7 @@ class FormRepository implements FormRepositoryInterface
         // }
 
         $data = $this->prepareValueData($builder);
-        dd($data);
+
         $entry->unguard();
 
         $builder->fire('querying', compact('builder'));
@@ -120,12 +120,8 @@ class FormRepository implements FormRepositoryInterface
 
         $allowed = $fields
             ->autoHandling()
-            ->enabled()
             ->savable();
-        dd($fields
-            ->autoHandling()
-            ->enabled()
-            ->savable());
+
         /*
          * Set initial data from the
          * entry, minus undesired data.
@@ -156,10 +152,8 @@ class FormRepository implements FormRepositoryInterface
          */
         if ($entry->stream->fields->translatable()->isNotEmpty()) {
             foreach (config('streams.locales.enabled') as $locale) {
-                dd($allowed);
-                foreach ($allowed->translatable() as $field) {
-                    dd($field);
-                    if ($field->getLocale() == $locale) {
+                foreach ($allowed->locale($locale) as $field) {
+                    if ($field->locale == $locale) {
 
                         array_pull($data, $field->getField());
 

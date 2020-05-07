@@ -93,6 +93,19 @@ class FieldCollection extends Collection
     }
 
     /**
+     * Return only fields of given locale.
+     *
+     * @param string $locale
+     * @return FieldCollection
+     */
+    public function locale($locale)
+    {
+        return $this->filter(function ($item) use ($locale) {
+            return $item->locale == $locale;
+        });
+    }
+
+    /**
      * Return only NON translatable fields.
      *
      * @return FieldCollection

@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Entry\Traits;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -51,7 +52,7 @@ trait Translatable
      */
     public function isTranslatedAttribute($key)
     {
-        return in_array($key, $this->getTranslatedAttributes());
+        return $this->stream->fields->get($key)->translatable;
     }
 
     /**
@@ -61,7 +62,7 @@ trait Translatable
      */
     public function isTranslatable()
     {
-        return !empty($this->getTranslatedAttributes());
+        return $this->stream->fields->translatable()->isNotEmpty();
     }
 
     /*
@@ -73,7 +74,7 @@ trait Translatable
      */
     public function translate($locale = null)
     {
-        $this->locale = $locale ?: app()->getLocale();
+        $this->locale = $locale ?: App::getLocale();
 
         return $this;
     }
@@ -85,6 +86,6 @@ trait Translatable
      */
     public function locale($default = null)
     {
-        return $this->locale ?: ($default ?: app()->getLocale());
+        return $this->locale ?: ($default ?: App::getLocale());
     }
 }

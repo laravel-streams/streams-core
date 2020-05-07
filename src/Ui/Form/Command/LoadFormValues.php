@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -40,7 +42,7 @@ class LoadFormValues
         }
 
         /* @var FieldType $field */
-        foreach ($this->builder->getEnabledFormFields() as $field) {
+        foreach ($this->builder->getFormFields() as $field) {
             $this->builder->setFormValue($field->getInputName(), $field->getInputValue());
         }
     }
