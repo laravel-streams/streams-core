@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Contract;
+<?php
 
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+namespace Anomaly\Streams\Platform\Ui\Table\Contract;
+
 use Illuminate\Support\Collection;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
  * Interface TableRepositoryInterface

@@ -133,6 +133,8 @@ class AddonTest extends TestCase
      */
     public function testToArray()
     {
+        return $this->markTestSkipped();
+
         $addons = app(AddonCollection::class);
 
         $addon = $addons->instance('anomaly.module.users');

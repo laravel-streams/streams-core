@@ -2,7 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Traits\Hookable;
@@ -12,7 +11,6 @@ use Anomaly\Streams\Platform\Traits\Presentable;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Exception;
 
 /**
  * Class Addon
@@ -109,6 +107,52 @@ class Addon implements Arrayable, Jsonable
      * @var string|Presenter
      */
     protected $presenter = AddonPresenter::class;
+
+    /**
+     * Set the installed flag.
+     *
+     * @param  $installed
+     * @return $this
+     */
+    public function setInstalled($installed)
+    {
+        $this->installed = $installed;
+
+        return $this;
+    }
+
+    /**
+     * Get the installed flag.
+     *
+     * @return bool
+     */
+    public function isInstalled()
+    {
+        return $this->installed;
+    }
+
+    /**
+     * Set the enabled flag.
+     *
+     * @param  $enabled
+     * @return $this
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get the enabled flag.
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return $this->enabled && $this->installed;
+    }
 
     /**
      * Return whether the addon is core or not.
