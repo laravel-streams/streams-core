@@ -2,11 +2,11 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Illuminate\Http\Request;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 
 /**
  * Class FieldFactory

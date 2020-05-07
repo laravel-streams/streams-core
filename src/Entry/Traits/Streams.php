@@ -170,12 +170,16 @@ trait Streams
          * !! This messes with translated
          * fields that store arrays !!
          * 
+         * Conflict with fill (like seeding)
+         * and setting translatable fields.
+         * 
+         * Test for $this->isLocaleKey(array_keys($value)[0])
+         * 
          * @todo The "!in_array" in particular needs revisited.
          */
         if ($field->translatable && !is_array($value)) {
-
             $value = array_merge((array) $this->{$key}, [
-                ($locale ?: App::getLocale()) => $value,
+                $this->locale($locale) => $value,
             ]);
         }
 

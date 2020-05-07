@@ -308,7 +308,7 @@ class FieldInput
                 $locale = array_get($field, 'locale');
 
                 if ($locale && $translation = $entry->translate($locale)) {
-                    $field['value'] = $translation->getAttribute($field['field']);
+                    $field['value'] = $translation->getFieldValue($field['field']);
                 } else {
                     $field['value'] = $entry->{$field['field']};
                 }
