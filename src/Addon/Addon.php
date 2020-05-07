@@ -92,14 +92,14 @@ class Addon implements Arrayable, Jsonable
      *
      * @var bool
      */
-    protected $enabled = false;
+    public $enabled = false;
 
     /**
      * The installed flag.
      *
      * @var bool
      */
-    protected $installed = false;
+    public $installed = false;
 
     /**
      * The addon presenter.

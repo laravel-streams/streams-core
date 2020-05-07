@@ -98,8 +98,8 @@ class FieldType extends Addon
      */
     public $disabled = false;
 
-    protected $installed = true;
-    protected $enabled = true;
+    public $installed = true;
+    public $enabled = true;
 
 
 

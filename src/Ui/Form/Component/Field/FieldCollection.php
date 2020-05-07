@@ -87,16 +87,9 @@ class FieldCollection extends Collection
      */
     public function translatable()
     {
-        $translatable = [];
-
-        /* @var FieldType $item */
-        foreach ($this->items as $item) {
-            if ($item->getLocale()) {
-                $translatable[] = $item;
-            }
-        }
-
-        return new static($translatable);
+        return $this->filter(function ($item) {
+            return $item->translatable;
+        });
     }
 
     /**
@@ -106,16 +99,9 @@ class FieldCollection extends Collection
      */
     public function notTranslatable()
     {
-        $fields = [];
-
-        /* @var FieldType $item */
-        foreach ($this->items as $item) {
-            if (!$item->getLocale()) {
-                $fields[] = $item;
-            }
-        }
-
-        return new static($fields);
+        return $this->filter(function ($item) {
+            return !$item->translatable;
+        });
     }
 
     /**
@@ -125,16 +111,9 @@ class FieldCollection extends Collection
      */
     public function enabled()
     {
-        $enabled = [];
-
-        /* @var FieldType $item */
-        foreach ($this->items as $item) {
-            if (!$item->disabled) {
-                $enabled[] = $item;
-            }
-        }
-
-        return new static($enabled);
+        return $this->filter(function ($item) {
+            return $item->enabled;
+        });
     }
 
     /**
@@ -144,15 +123,9 @@ class FieldCollection extends Collection
      */
     public function disabled()
     {
-        $disabled = [];
-
-        foreach ($this->items as $item) {
-            if ($item->disabled) {
-                $disabled[] = $item;
-            }
-        }
-
-        return new static($disabled);
+        return $this->filter(function ($item) {
+            return !$item->enabled;
+        });
     }
 
     /**
@@ -162,13 +135,9 @@ class FieldCollection extends Collection
      */
     public function writable()
     {
-        return $this->filter(
-            function ($item) {
-
-                /* @var FieldType $item */
-                return !$item->readonly;
-            }
-        );
+        return $this->filter(function ($item) {
+            return !$item->readonly;
+        });
     }
 
     /**
@@ -178,13 +147,9 @@ class FieldCollection extends Collection
      */
     public function readonly()
     {
-        return $this->filter(
-            function ($item) {
-
-                /* @var FieldType $item */
-                return $item->readonly;
-            }
-        );
+        return $this->filter(function ($item) {
+            return $item->readonly;
+        });
     }
 
     /**
@@ -194,13 +159,9 @@ class FieldCollection extends Collection
      */
     public function autoHandling()
     {
-        return $this->filter(
-            function ($field) {
-
-                /* @var FieldType $field */
-                return !method_exists($field, 'handle');
-            }
-        );
+        return $this->filter(function ($item) {
+            return !method_exists($item, 'handle');
+        });
     }
 
     /**
@@ -210,16 +171,9 @@ class FieldCollection extends Collection
      */
     public function selfHandling()
     {
-        $selfHandling = [];
-
-        /* @var FieldType $item */
-        foreach ($this->items as $item) {
-            if (method_exists($item, 'handle')) {
-                $selfHandling[] = $item;
-            }
-        }
-
-        return new static($selfHandling);
+        return $this->filter(function ($item) {
+            return method_exists($item, 'handle');
+        });
     }
 
     /**
@@ -229,13 +183,9 @@ class FieldCollection extends Collection
      */
     public function savable()
     {
-        return $this->filter(
-            function ($field) {
-
-                /* @var FieldType $field */
-                return $field->save;
-            }
-        );
+        return $this->filter(function ($item) {
+            return $item->save;
+        });
     }
 
     /**
@@ -245,25 +195,24 @@ class FieldCollection extends Collection
      */
     public function nonSavable()
     {
-        return $this->filter(
-            function ($field) {
-
-                /* @var FieldType $field */
-                return !$field->save;
-            }
-        );
+        return $this->filter(function ($item) {
+            return !$item->save;
+        });
     }
 
     /**
      * Forget a key.
+     * 
+     * @todo This should be renamed as it has different logical expectations here.
      *
      * @param mixed $key
      */
     public function forget($key)
     {
-        /* @var FieldType $item */
         foreach ($this->items as $index => $item) {
-            if ($item->getField() == $key) {
+
+            if ($item->field == $key) {
+
                 unset($this->items[$index]);
 
                 break;
@@ -280,7 +229,7 @@ class FieldCollection extends Collection
     public function slugs()
     {
         return $this->map(function ($field) {
-            return $field->getField();
+            return $field->field;
         });
     }
 
@@ -314,12 +263,8 @@ class FieldCollection extends Collection
      */
     public function __toString()
     {
-        return $this->map(
-            function ($fieldType) {
-
-                /* @var FieldType $fieldType */
-                return $fieldType->render();
-            }
-        )->implode("\n");
+        return $this->map(function ($item) {
+            return $item->render();
+        })->implode("\n");
     }
 }
