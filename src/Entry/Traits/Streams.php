@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Model\Traits;
 
 use Exception;
 use Laravel\Scout\Searchable;
+use Illuminate\Support\Facades\App;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Anomaly\Streams\Platform\Traits\Versionable;
@@ -165,10 +166,16 @@ trait Streams
 
         $key = $type->getColumnName();
 
-        if ($field->translatable) {
+        /**
+         * !! This messes with translated
+         * fields that store arrays !!
+         * 
+         * @todo The "!in_array" in particular needs revisited.
+         */
+        if ($field->translatable && !is_array($value)) {
 
             $value = array_merge((array) $this->{$key}, [
-                ($locale ?: app()->getLocale()) => $value,
+                ($locale ?: App::getLocale()) => $value,
             ]);
         }
 

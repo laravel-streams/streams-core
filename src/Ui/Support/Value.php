@@ -66,7 +66,7 @@ class Value
          */
         if ($entry->stream()->fields->has($value)) {
             $value = $entry->getFieldValue($value);
-            if (is_array($value)) dd($value);
+            //if (is_array($value)) dd($value);
         }
 
         /*
