@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationLink;
 
 /**
  * Class SetActiveNavigationLink
@@ -53,7 +53,7 @@ class SetActiveNavigationLink
             return;
         }
 
-        /* @var NavigationLinkInterface $link */
+        /* @var NavigationLink $link */
         foreach ($links as $link) {
 
             /*

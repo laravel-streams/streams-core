@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Factory;
 use Illuminate\Validation\Validator;
 
@@ -16,23 +17,6 @@ use Illuminate\Validation\Validator;
  */
 class FormExtender
 {
-
-    /**
-     * The service container.
-     *
-     * @var Container
-     */
-    protected $container;
-
-    /**
-     * Create a new FormExtender instance.
-     *
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
 
     /**
      * Extend the validation factory.
@@ -74,7 +58,7 @@ class FormExtender
 
                     $fieldType = $builder->getFormField($attribute) ?: $fieldType;
 
-                    return $this->container->call(
+                    return App::call(
                         $handler,
                         compact('attribute', 'value', 'parameters', 'builder', 'validator', 'fieldType')
                     );

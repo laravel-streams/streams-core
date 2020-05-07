@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Section;
 
 /**
  * Class SectionCollection
@@ -22,7 +22,7 @@ class SectionCollection extends Collection
      */
     public function active()
     {
-        /* @var SectionInterface $item */
+        /* @var Section $item */
         foreach ($this->items as $item) {
             if ($item->active) {
                 return $item;
@@ -39,7 +39,7 @@ class SectionCollection extends Collection
      */
     public function root()
     {
-        return $this->filter(function (SectionInterface $section) {
+        return $this->filter(function (Section $section) {
             return !$section->isSubSection();
         });
     }
@@ -51,7 +51,7 @@ class SectionCollection extends Collection
      */
     public function visible()
     {
-        return $this->filter(function (SectionInterface $section) {
+        return $this->filter(function (Section $section) {
             return !$section->isHidden();
         });
     }
@@ -64,7 +64,7 @@ class SectionCollection extends Collection
      */
     public function children($parent)
     {
-        return $this->filter(function (SectionInterface $section) use ($parent) {
+        return $this->filter(function (Section $section) use ($parent) {
             return $section->getParent() === $parent;
         });
     }

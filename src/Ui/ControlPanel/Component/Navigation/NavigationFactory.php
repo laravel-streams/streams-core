@@ -2,9 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
+use Illuminate\Support\Facades\App;
 use Illuminate\Contracts\Container\Container;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationLink;
 
 /**
  * Class NavigationFactory
@@ -24,23 +25,6 @@ class NavigationFactory
     protected $link = NavigationLink::class;
 
     /**
-     * The service container.
-     *
-     * @var Container
-     */
-    protected $container;
-
-    /**
-     * Create a new NavigationFactory instance.
-     *
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
      * Make the navigation link.
      *
      * @param  array                   $parameters
@@ -48,7 +32,7 @@ class NavigationFactory
      */
     public function make(array $parameters)
     {
-        $link = $this->container->make(array_get($parameters, 'link', $this->link), $parameters);
+        $link = App::make(array_get($parameters, 'link', $this->link), $parameters);
 
         Hydrator::hydrate($link, $parameters);
 

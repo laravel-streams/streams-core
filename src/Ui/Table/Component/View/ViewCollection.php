@@ -2,8 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 use Illuminate\Support\Collection;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\View;
 
 /**
  * Class ViewCollection
@@ -18,7 +18,7 @@ class ViewCollection extends Collection
     /**
      * Return the active view or null.
      *
-     * @return null|ViewInterface
+     * @return null|View
      */
     public function active()
     {
@@ -31,7 +31,7 @@ class ViewCollection extends Collection
      * Find a view by it's slug.
      *
      * @param $slug
-     * @return null|ViewInterface
+     * @return null|View
      */
     public function findBySlug($slug)
     {

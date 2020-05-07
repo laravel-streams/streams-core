@@ -2,7 +2,7 @@
 
 use Anomaly\DatetimeFieldType\DatetimeFieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection;
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -19,9 +19,9 @@ class DatetimeFilterQuery
      * Handle the query.
      *
      * @param Builder         $query
-     * @param FilterInterface $filter
+     * @param Filter $filter
      */
-    public function handle(Builder $query, FilterInterface $filter)
+    public function handle(Builder $query, Filter $filter)
     {
         /* @var FieldTypeCollection $fieldTypes */
         $fieldTypes = app(FieldTypeCollection::class);

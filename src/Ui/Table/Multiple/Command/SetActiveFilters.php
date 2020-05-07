@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
@@ -42,7 +42,7 @@ class SetActiveFilters
             return;
         }
 
-        /* @var FilterInterface $filter */
+        /* @var Filter $filter */
         foreach ($this->builder->getTables() as $builder) {
             foreach ($filters as $filter) {
                 $this->setActiveFilter($filter->getSlug(), $builder);
@@ -58,7 +58,7 @@ class SetActiveFilters
      */
     protected function setActiveFilter($slug, TableBuilder $builder)
     {
-        /* @var FilterInterface $filter */
+        /* @var Filter $filter */
         foreach ($builder->getTableFilters() as $filter) {
             if ($filter->getSlug() === $slug) {
                 $filter->setPrefix($builder->getTableOption('prefix'));

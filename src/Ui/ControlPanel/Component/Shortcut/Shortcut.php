@@ -6,7 +6,7 @@ use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Contract\ShortcutInterface;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Shortcut;
 
 /**
  * Class Shortcut
@@ -15,7 +15,7 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Contract\Shortcu
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Shortcut implements ShortcutInterface, Arrayable, Jsonable
+class Shortcut implements Arrayable, Jsonable
 {
 
     use HasAttributes;

@@ -10,13 +10,11 @@ use Anomaly\Streams\Platform\Ui\Table\Command\AddAssets;
 use Anomaly\Streams\Platform\Ui\Table\Command\LoadTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\MakeTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\PostTable;
+use Anomaly\Streams\Platform\Ui\Table\Component\Row\Row;
 use Anomaly\Streams\Platform\Ui\Table\Command\BuildTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\SetResponse;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 
 /**
  * Class TableBuilder
@@ -703,7 +701,7 @@ class TableBuilder
     public function getTableFilterValue($key, $default = null)
     {
         if ($filter = $this->table->getFilter($key)) {
-            return $filter->getValue();
+            return $filter->value;
         }
 
         return $default;
@@ -751,7 +749,7 @@ class TableBuilder
     public function isActiveView($slug)
     {
         if ($active = $this->table->getViews()->active()) {
-            return $active->getSlug() === $slug;
+            return $active->slug === $slug;
         }
 
         return false;
@@ -760,7 +758,7 @@ class TableBuilder
     /**
      * Get the active table view.
      *
-     * @return null|ViewInterface
+     * @return null|View
      */
     public function getActiveTableView()
     {
@@ -778,10 +776,10 @@ class TableBuilder
     /**
      * Add a row to the table.
      *
-     * @param  RowInterface $row
+     * @param  Row $row
      * @return $this
      */
-    public function addTableRow(RowInterface $row)
+    public function addTableRow(Row $row)
     {
         $this->table->addRow($row);
 

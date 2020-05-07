@@ -4,15 +4,15 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel;
 
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
+use Anomaly\Streams\Platform\Ui\Button\Button;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
-use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Section;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Shortcut;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationLink;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\ShortcutCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationCollection;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Contract\ShortcutInterface;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
 
 /**
  * Class ControlPanel
@@ -75,10 +75,10 @@ class ControlPanel implements Arrayable, Jsonable
     /**
      * Add a button to the button collection.
      *
-     * @param  ButtonInterface $button
+     * @param  Button$button
      * @return $this
      */
-    public function addButton(ButtonInterface $button)
+    public function addButton(Button $button)
     {
         $this->buttons->push($button);
 
@@ -98,10 +98,10 @@ class ControlPanel implements Arrayable, Jsonable
     /**
      * Add a section to the section collection.
      *
-     * @param  SectionInterface $section
+     * @param  Section $section
      * @return $this
      */
-    public function addSection(SectionInterface $section)
+    public function addSection(Section $section)
     {
         $this->sections->put($section->slug, $section);
 
@@ -131,10 +131,10 @@ class ControlPanel implements Arrayable, Jsonable
     /**
      * Add a shortcut to the shortcut collection.
      *
-     * @param  ShortcutInterface $shortcut
+     * @param  Shortcut $shortcut
      * @return $this
      */
-    public function addShortcut(ShortcutInterface $shortcut)
+    public function addShortcut(Shortcut $shortcut)
     {
         $this->shortcuts->put($shortcut->slug, $shortcut);
 
@@ -154,10 +154,10 @@ class ControlPanel implements Arrayable, Jsonable
     /**
      * Add a navigation link.
      *
-     * @param  NavigationLinkInterface $link
+     * @param  NavigationLink $link
      * @return $this
      */
-    public function addNavigationLink(NavigationLinkInterface $link)
+    public function addNavigationLink(NavigationLink $link)
     {
         $this->navigation->push($link);
 

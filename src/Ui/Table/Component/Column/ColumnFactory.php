@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
 
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Column\Column;
 
 /**
  * Class ColumnFactory

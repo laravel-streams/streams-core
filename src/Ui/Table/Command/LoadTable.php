@@ -5,6 +5,7 @@ namespace Anomaly\Streams\Platform\Ui\Table\Command;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Facades\App;
 
 /**
  * Class LoadTable

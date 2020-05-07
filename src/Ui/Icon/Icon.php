@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Icon;
 
-use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
+use Anomaly\Streams\Platform\Traits\HasAttributes;
 
 /**
  * Class Icon
@@ -14,37 +14,17 @@ use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 class Icon
 {
 
-    use HasClassAttribute;
+    use HasAttributes;
 
     /**
-     * The icon type.
+     * The button attributes.
      *
-     * @var string
+     * @var array
      */
-    protected $type;
-
-    /**
-     * Get the type.
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Set the type.
-     *
-     * @param $type
-     * @return $this
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
+    protected $attributes = [
+        'type' => null,
+        'attributes' => [],
+    ];
 
     /**
      * Return the icon output.
@@ -69,8 +49,8 @@ class Icon
     {
         return trim(implode(' ', [
             $class,
-            $this->getType(),
-            $this->getClass()
+            $this->type,
+            $this->attr('attributes.class'),
         ]));
     }
 

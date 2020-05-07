@@ -7,19 +7,19 @@ use Illuminate\Support\MessageBag;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
-use Symfony\Component\HttpFoundation\Response;
 use Anomaly\Streams\Platform\Entry\EntryModel;
+use Symfony\Component\HttpFoundation\Response;
+use Anomaly\Streams\Platform\Ui\Button\Button;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Action;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldCollection;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Form\Component\Section\SectionCollection;
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 
 /**
  * Class Form
@@ -323,10 +323,10 @@ class Form implements Arrayable, Jsonable
     /**
      * Add an action to the actions collection.
      *
-     * @param  ActionInterface $action
+     * @param  Action $action
      * @return $this
      */
-    public function addAction(ActionInterface $action)
+    public function addAction(Action $action)
     {
         $this->actions->put($action->slug, $action);
 
@@ -359,10 +359,10 @@ class Form implements Arrayable, Jsonable
     /**
      * Add a button to the buttons collection.
      *
-     * @param  ButtonInterface $button
+     * @param  Button$button
      * @return $this
      */
-    public function addButton(ButtonInterface $button)
+    public function addButton(Button $button)
     {
         $this->buttons->push($button);
 

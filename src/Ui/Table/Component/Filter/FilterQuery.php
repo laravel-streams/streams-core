@@ -1,8 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
+<?php
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
+
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -16,30 +19,13 @@ class FilterQuery
 {
 
     /**
-     * The service container.
-     *
-     * @var Container
-     */
-    protected $container;
-
-    /**
-     * Create a new FilterQuery instance.
-     *
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
      * Modify the table's query using the filters.
      *
      * @param TableBuilder    $builder
-     * @param FilterInterface $filter
+     * @param Filter $filter
      * @param Builder         $query
      */
-    public function filter(TableBuilder $builder, FilterInterface $filter, Builder $query)
+    public function filter(TableBuilder $builder, Filter $filter, Builder $query)
     {
 
         /**
@@ -53,7 +39,7 @@ class FilterQuery
          * it filter the query itself.
          */
         if (method_exists($filter, 'handle')) {
-            $this->container->call([$filter, 'handle'], compact('builder', 'query', 'filter'));
+            App::call([$filter, 'handle'], compact('builder', 'query', 'filter'));
 
             return;
         }
@@ -70,7 +56,7 @@ class FilterQuery
          * then call it using the IoC container.
          */
         if (is_string($handler) || $handler instanceof \Closure) {
-            $this->container->call($handler, compact('builder', 'query', 'filter'));
+            App::call($handler, compact('builder', 'query', 'filter'));
         }
     }
 }

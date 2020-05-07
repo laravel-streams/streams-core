@@ -3,13 +3,13 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Application;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Message\Facades\Messages;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionHandlerInterface;
-use Illuminate\Support\Facades\Gate;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Action;
 
 /**
  * Class ActionExecutor
@@ -62,19 +62,13 @@ class ActionExecutor
     /**
      * Execute an action.
      *
-     * @param  TableBuilder    $builder
-     * @param  ActionInterface $action
+     * @param  TableBuilder $builder
+     * @param  Action $action
      * @throws \Exception
      */
-    public function execute(TableBuilder $builder, ActionInterface $action)
+    public function execute(TableBuilder $builder, Action $action)
     {
         $options = $builder->getTableOptions();
-        $handler = $action->getHandler();
-
-        // Self handling implies @handle
-        if (is_string($handler) && !str_contains($handler, '@')) {
-            $handler .= '@handle';
-        }
 
         /*
          * Authorize the action.
@@ -97,30 +91,8 @@ class ActionExecutor
             return;
         }
 
-        /*
-         * If the handler is a callable string or Closure
-         * then call it using the IoC container.
-         */
-        if (is_string($handler) || $handler instanceof \Closure) {
-            if (is_string($handler) && class_exists($handler)) {
-                $handler .= '@handle';
-            }
+        App::call($action->handler, compact('builder', 'selected'), 'handle');
 
-            app()->call($handler, compact('builder', 'selected'));
-
-            return;
-        }
-
-        /*
-         * If the handle is an instance of ActionHandlerInterface
-         * simply call the handle method on it.
-         */
-        if ($handler instanceof ActionHandlerInterface) {
-            $handler->handle($builder, $selected);
-
-            return;
-        }
-
-        throw new \Exception('Action $handler must be a callable string, Closure or ActionHandlerInterface.');
+        return;
     }
 }

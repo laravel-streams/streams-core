@@ -2,10 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\SearchFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\SearchFilterQuery;
-use Closure;
 
 /**
  * Class SearchFilter
@@ -14,7 +12,7 @@ use Closure;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class SearchFilter extends Filter implements SearchFilterInterface
+class SearchFilter extends Filter
 {
 
     /**
@@ -34,7 +32,7 @@ class SearchFilter extends Filter implements SearchFilterInterface
     /**
      * The filter query.
      *
-     * @var string|Closure
+     * @var string|\Closure
      */
     protected $query = SearchFilterQuery::class;
 

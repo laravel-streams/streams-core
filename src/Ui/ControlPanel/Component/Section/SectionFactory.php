@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Facades\App;
 
 /**
  * Class SectionFactory
@@ -23,23 +24,6 @@ class SectionFactory
     protected $section = Section::class;
 
     /**
-     * The service container.
-     *
-     * @var Container
-     */
-    protected $container;
-
-    /**
-     * Create a new SectionFactory instance.
-     *
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
      * Make the section from it's parameters.
      *
      * @param  array $parameters
@@ -47,7 +31,7 @@ class SectionFactory
      */
     public function make(array $parameters)
     {
-        $section = $this->container->make(array_get($parameters, 'section', $this->section), $parameters);
+        $section = App::make(array_get($parameters, 'section', $this->section), $parameters);
 
         Hydrator::hydrate($section, $parameters);
 

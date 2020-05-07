@@ -6,7 +6,7 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionInput;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionFactory;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationLink;
 use Illuminate\Support\Facades\Gate;
 
 /**
@@ -23,7 +23,7 @@ class SectionBuilder
      * Build the sections and push them to the control_panel.
      *
      * @param ControlPanelBuilder $builder
-     * @param NavigationLinkInterface $link
+     * @param NavigationLink $link
      */
     public static function build(ControlPanelBuilder $builder)
     {

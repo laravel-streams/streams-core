@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Contract\ShortcutInterface;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut\Shortcut;
 
 /**
  * Class ShortcutCollection
@@ -22,7 +22,7 @@ class ShortcutCollection extends Collection
      */
     public function active()
     {
-        /* @var ShortcutInterface $item */
+        /* @var Shortcut $item */
         foreach ($this->items as $item) {
             if ($item->isActive()) {
                 return $item;
@@ -42,7 +42,7 @@ class ShortcutCollection extends Collection
         return self::make(
             array_filter(
                 $this->all(),
-                function (ShortcutInterface $shortcut) {
+                function (Shortcut $shortcut) {
                     return !$shortcut->isSubShortcut();
                 }
             )
@@ -59,7 +59,7 @@ class ShortcutCollection extends Collection
         return self::make(
             array_filter(
                 $this->all(),
-                function (ShortcutInterface $shortcut) {
+                function (Shortcut $shortcut) {
                     return !$shortcut->isHidden();
                 }
             )
@@ -77,7 +77,7 @@ class ShortcutCollection extends Collection
         return self::make(
             array_filter(
                 $this->all(),
-                function (ShortcutInterface $shortcut) use ($parent) {
+                function (Shortcut $shortcut) use ($parent) {
                     return $shortcut->getParent() === $parent;
                 }
             )

@@ -5,7 +5,7 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationLink;
 
 /**
  * Class SectionInput
@@ -22,9 +22,9 @@ class SectionInput
      * before building the objects.
      *
      * @param ControlPanelBuilder $builder
-     * @param NavigationLinkInterface $link
+     * @param NavigationLink $link
      */
-    public static function read(ControlPanelBuilder $builder, NavigationLinkInterface $link)
+    public static function read(ControlPanelBuilder $builder, NavigationLink $link)
     {
         self::resolve($builder, $link);
         self::normalize($builder);
@@ -40,9 +40,9 @@ class SectionInput
      * Resolve input.
      *
      * @param ControlPanelBuilder $builder
-     * @param NavigationLinkInterface $link
+     * @param NavigationLink $link
      */
-    protected static function resolve(ControlPanelBuilder $builder, NavigationLinkInterface $link)
+    protected static function resolve(ControlPanelBuilder $builder, NavigationLink $link)
     {
         $sections = resolver($builder->getSections(), compact('builder', 'link'));
 
@@ -53,9 +53,9 @@ class SectionInput
      * Evaluate input.
      *
      * @param ControlPanelBuilder $builder
-     * @param NavigationLinkInterface $link
+     * @param NavigationLink $link
      */
-    protected static function evaluate(ControlPanelBuilder $builder, NavigationLinkInterface $link)
+    protected static function evaluate(ControlPanelBuilder $builder, NavigationLink $link)
     {
         $builder->setSections(evaluate($builder->getSections(), compact('builder')));
     }
@@ -128,7 +128,7 @@ class SectionInput
      * Parse input.
      *
      * @param ControlPanelBuilder $builder
-     * @param NavigationLinkInterface $link
+     * @param NavigationLink $link
      */
     protected static function parse(ControlPanelBuilder $builder)
     {

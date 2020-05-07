@@ -7,7 +7,6 @@ use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 
 /**
  * Class View
@@ -16,7 +15,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class View implements ViewInterface, Arrayable, Jsonable
+class View implements Arrayable, Jsonable
 {
 
     use HasAttributes;

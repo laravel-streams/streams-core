@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command;
 
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationLink;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
@@ -41,7 +41,7 @@ class SetMainNavigationLinks
 
         $favorites = config('streams.navigation.favorites', []);
 
-        /* @var NavigationLinkInterface $link */
+        /* @var NavigationLink $link */
         foreach ($links as $link) {
             $link->favorite = in_array($link->slug, $favorites);
         }

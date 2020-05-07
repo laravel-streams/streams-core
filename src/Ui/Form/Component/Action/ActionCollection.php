@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Action;
 
 /**
  * Class ActionCollection

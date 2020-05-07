@@ -2,9 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
 
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
+use Illuminate\Support\Facades\App;
 use Illuminate\Contracts\Container\Container;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 
 /**
  * Class RowFactory
@@ -17,32 +17,14 @@ class RowFactory
 {
 
     /**
-     * The service container.
-     *
-     * @var Container
-     */
-    private $container;
-
-    /**
-     * Create a new RowFactory instance.
-     *
-     * @param Hydrator  $hydrator
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
      * Make a row.
      *
      * @param  array        $parameters
-     * @return RowInterface
+     * @return Row
      */
     public function make(array $parameters)
     {
-        $row = $this->container->make(Row::class, $parameters);
+        $row = App::make(Row::class, $parameters);
 
         Hydrator::hydrate($row, $parameters);
 

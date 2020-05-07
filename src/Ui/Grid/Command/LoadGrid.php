@@ -5,6 +5,7 @@ namespace Anomaly\Streams\Platform\Ui\Grid\Command;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Facades\App;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**

@@ -2,10 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\SearchFilterInterface;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Builder;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 
 /**
  * Class SearchFilterQuery
@@ -18,32 +18,14 @@ class SearchFilterQuery
 {
 
     /**
-     * The service container.
-     *
-     * @var Container
-     */
-    protected $container;
-
-    /**
-     * Create a new FieldFilterQuery instance.
-     *
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
      * Handle the filter.
      *
      * @param Builder $query
-     * @param SearchFilterInterface $filter
+     * @param Filter $filter
      */
-    public function handle(Builder $query, TableBuilder $builder, SearchFilterInterface $filter)
+    public function handle(Builder $query, TableBuilder $builder, Filter $filter)
     {
-        $stream = $filter->getStream();
-        $model  = $builder->getTableModel();
+        $stream = $filter->stream;
 
         $query->where(
             function (Builder $query) use ($filter, $stream, $builder) {
@@ -53,7 +35,7 @@ class SearchFilterQuery
                     ->getModel()
                     ->getCasts();
 
-                foreach ($filter->getColumns() as $column) {
+                foreach ($filter->columns as $column) {
 
                     $value = $filter->getValue();
 
@@ -64,16 +46,16 @@ class SearchFilterQuery
                     $query->orWhere($column, 'LIKE', "%{$value}%");
                 }
 
-                foreach ($filter->getFields() as $field) {
+                foreach ($filter->fields as $field) {
 
-                    $filter->setField($field);
+                    $filter->field = $field;
 
                     $fieldType      = $stream->fields->get($field)->type();
-                    $fieldTypeQuery = $fieldType->getQuery();
+                    $fieldTypeQuery = $fieldType->query;
 
                     $fieldTypeQuery->setConstraint('or');
 
-                    $this->container->call([$fieldTypeQuery, 'filter'], compact('query', 'filter', 'builder'));
+                    App::call($fieldTypeQuery, compact('query', 'filter', 'builder', 'stream'), 'filter');
                 }
             }
         );

@@ -1,8 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
+<?php
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
+
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -16,37 +19,20 @@ class GenericFilterQuery
 {
 
     /**
-     * The service container.
-     *
-     * @var Container
-     */
-    protected $container;
-
-    /**
-     * Create a new GenericFilterQuery instance.
-     *
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
      * Handle the filter.
      *
      * @param Builder $query
-     * @param FilterInterface $filter
+     * @param Filter $filter
      * @param TableBuilder $builder
      */
-    public function handle(Builder $query, FilterInterface $filter, TableBuilder $builder)
+    public function handle(Builder $query, Filter $filter, TableBuilder $builder)
     {
         $stream = $filter->getStream();
 
         if ($stream && $fieldType = $stream->getFieldType($filter->getField())) {
             $fieldTypeQuery = $fieldType->getQuery();
 
-            $this->container->call([$fieldTypeQuery, 'filter'], compact('query', 'filter', 'builder'));
+            App::call([$fieldTypeQuery, 'filter'], compact('query', 'filter', 'builder'));
 
             return;
         }
@@ -54,7 +40,7 @@ class GenericFilterQuery
         if ($stream && $fieldType = $stream->getFieldType($filter->getSlug())) {
             $fieldTypeQuery = $fieldType->getQuery();
 
-            $this->container->call([$fieldTypeQuery, 'filter'], compact('query', 'filter', 'builder'));
+            App::call([$fieldTypeQuery, 'filter'], compact('query', 'filter', 'builder'));
 
             return;
         }

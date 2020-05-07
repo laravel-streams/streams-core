@@ -4,6 +4,7 @@ use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Facades\App;
 
 /**
  * Class GetTableEntries

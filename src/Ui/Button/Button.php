@@ -7,7 +7,6 @@ use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
-use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 
 /**
  * Class Button
@@ -16,7 +15,7 @@ use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Button implements ButtonInterface, Arrayable, Jsonable
+class Button implements Arrayable, Jsonable
 {
 
     use HasAttributes;

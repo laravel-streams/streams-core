@@ -2,26 +2,23 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormPresenter;
 use Anomaly\Streams\Platform\Traits\ProvidesJsonable;
 use Anomaly\Streams\Platform\Traits\ProvidesArrayable;
+use Anomaly\Streams\Platform\Ui\Table\Component\Row\Row;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\View;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Action;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Header\HeaderCollection;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
 
 /**
  * Class Table
@@ -277,12 +274,12 @@ class Table
     /**
      * Add an action to the action collection.
      *
-     * @param  ActionInterface $action
+     * @param  Action $action
      * @return $this
      */
-    public function addAction(ActionInterface $action)
+    public function addAction(Action $action)
     {
-        $this->actions->put($action->getSlug(), $action);
+        $this->actions->put($action->slug, $action);
 
         return $this;
     }
@@ -323,10 +320,10 @@ class Table
     /**
      * Add a filter to the filter collection.
      *
-     * @param  FilterInterface $filter
+     * @param  Filter $filter
      * @return $this
      */
-    public function addFilter(FilterInterface $filter)
+    public function addFilter(Filter $filter)
     {
         $this->filters->put($filter->slug, $filter);
 
@@ -453,10 +450,10 @@ class Table
     /**
      * Add a view to the view collection.
      *
-     * @param  ViewInterface $view
+     * @param  View $view
      * @return $this
      */
-    public function addView(ViewInterface $view)
+    public function addView(View $view)
     {
         $this->views->put($view->slug, $view);
 
@@ -560,10 +557,10 @@ class Table
     /**
      * Add a row to the row collection.
      *
-     * @param  RowInterface $row
+     * @param  Row $row
      * @return $this
      */
-    public function addRow(RowInterface $row)
+    public function addRow(Row $row)
     {
         $this->rows->push($row);
 

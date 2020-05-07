@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Action;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
@@ -55,7 +55,7 @@ class SetActiveActions
      */
     protected function setActiveAction($slug, TableBuilder $builder)
     {
-        /* @var ActionInterface $action */
+        /* @var Action $action */
         foreach ($builder->getTableActions() as $action) {
             if ($action->getSlug() === $slug) {
                 $action->setPrefix($builder->getTableOption('prefix'));

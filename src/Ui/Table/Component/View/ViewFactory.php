@@ -2,9 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
+use Illuminate\Support\Facades\App;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
-use Illuminate\Contracts\Container\Container;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\View;
 
 /**
  * Class ViewFactory
@@ -24,27 +24,10 @@ class ViewFactory
     protected $view = View::class;
 
     /**
-     * The services container.
-     *
-     * @var Container
-     */
-    protected $container;
-
-    /**
-     * Create a new ViewFactory instance.
-     *
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
      * Make a view.
      *
      * @param  array         $parameters
-     * @return ViewInterface
+     * @return View
      */
     public function make(array $parameters)
     {
@@ -53,7 +36,7 @@ class ViewFactory
         }
 
         Hydrator::hydrate(
-            $view = $this->container->make(array_get($parameters, 'view'), $parameters),
+            $view = App::make(array_get($parameters, 'view'), $parameters),
             $parameters
         );
 

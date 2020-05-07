@@ -2,9 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FieldFilterInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -18,37 +19,20 @@ class FieldFilterQuery
 {
 
     /**
-     * The service container.
-     *
-     * @var Container
-     */
-    protected $container;
-
-    /**
-     * Create a new FieldFilterQuery instance.
-     *
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
      * Handle the filter.
      *
-     * @param Builder              $query
-     * @param FieldFilterInterface $filter
-     * @param TableBuilder         $builder
+     * @param Builder $query
+     * @param Filter $filter
+     * @param TableBuilder $builder
      */
-    public function handle(Builder $query, FieldFilterInterface $filter, TableBuilder $builder)
+    public function handle(Builder $query, Filter $filter, TableBuilder $builder)
     {
-        $stream = $filter->getStream();
+        $stream = $filter->stream;
 
-        $fieldType = $stream->fields->{$filter->getField()}->type();
+        $fieldType = $stream->fields->{$filter->field}->type();
 
-        $fieldTypeQuery = $fieldType->getQuery();
+        $fieldTypeQuery = $fieldType->query;
 
-        $this->container->call([$fieldTypeQuery, 'filter'], compact('query', 'filter', 'builder'));
+        App::call([$fieldTypeQuery, 'filter'], compact('query', 'filter', 'builder'));
     }
 }

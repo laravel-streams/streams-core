@@ -2,9 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\SelectFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 
 /**
  * Class SelectFilter
@@ -13,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class SelectFilter extends Filter implements SelectFilterInterface
+class SelectFilter extends Filter
 {
 
     /**

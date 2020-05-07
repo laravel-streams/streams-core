@@ -6,7 +6,6 @@ use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
 
 /**
  * Class Header
@@ -15,7 +14,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Header implements HeaderInterface, Arrayable, Jsonable
+class Header implements Arrayable, Jsonable
 {
 
     use HasAttributes;

@@ -1,6 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Facades\App;
 
 /**
  * Class FormFactory
@@ -13,23 +16,6 @@ class FormFactory
 {
 
     /**
-     * The service container.
-     *
-     * @var Container
-     */
-    protected $container;
-
-    /**
-     * Create a new FormFactory instance.
-     *
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
      * Make the form.
      *
      * @param  null         $builder
@@ -40,7 +26,7 @@ class FormFactory
     {
         $parameters = $this->resolve($parameters);
 
-        $builder = $this->container->make($parameters['builder']);
+        $builder = App::make($parameters['builder']);
 
         $criteria = substr(get_class($builder), 0, -7) . 'Criteria';
 
@@ -48,7 +34,7 @@ class FormFactory
             $criteria = 'Anomaly\Streams\Platform\Ui\Form\FormCriteria';
         }
 
-        return $this->container->make(
+        return App::make(
             $criteria,
             [
                 'builder'    => $builder,

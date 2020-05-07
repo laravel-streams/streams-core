@@ -2,14 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
 
-use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Ui\Table\Table;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
-use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
 
 /**
  * Class Row
@@ -18,7 +14,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Row implements RowInterface, Arrayable, Jsonable
+class Row implements Arrayable, Jsonable
 {
 
     use HasAttributes;

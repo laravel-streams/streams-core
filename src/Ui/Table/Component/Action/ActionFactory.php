@@ -4,7 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Illuminate\Support\Facades\Lang;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Action;
 
 /**
  * Class ActionFactory

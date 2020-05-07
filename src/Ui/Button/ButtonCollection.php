@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Button;
 
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
+use Anomaly\Streams\Platform\Ui\Button\Button;
 
 /**
  * Class ButtonCollection

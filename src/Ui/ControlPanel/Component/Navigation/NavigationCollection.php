@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationLink;
 
 /**
  * Class NavigationCollection
@@ -22,7 +22,7 @@ class NavigationCollection extends Collection
      */
     public function active()
     {
-        /* @var NavigationLinkInterface $item */
+        /* @var NavigationLink $item */
         foreach ($this->items as $item) {
             if ($item->active) {
                 return $item;
@@ -41,7 +41,7 @@ class NavigationCollection extends Collection
      */
     public function get($key, $default = null)
     {
-        /* @var NavigationLinkInterface $item */
+        /* @var NavigationLink $item */
         foreach ($this->items as $item) {
             if ($item->slug == $key) {
                 return $item;

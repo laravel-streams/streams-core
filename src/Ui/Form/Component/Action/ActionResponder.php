@@ -3,9 +3,10 @@
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionHandlerInterface;
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Action;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Facades\App;
 
 /**
  * Class ActionResponder
@@ -18,30 +19,13 @@ class ActionResponder
 {
 
     /**
-     * The service container.
-     *
-     * @var Container
-     */
-    private $container;
-
-    /**
-     * Create a new ActionResponder instance.
-     *
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
      * Set the form response using the active action
      * form response handler.
      *
      * @param FormBuilder $builder
      * @param             $action
      */
-    public function setFormResponse(FormBuilder $builder, ActionInterface $action)
+    public function setFormResponse(FormBuilder $builder, Action $action)
     {
         $handler = $action->handler;
 
@@ -50,7 +34,7 @@ class ActionResponder
          * string then call it using the service container.
          */
         if (is_string($handler) || $handler instanceof \Closure) {
-            $this->container->call($handler, compact('builder'), 'handle');
+            App::call($handler, compact('builder'), 'handle');
         }
 
         /*

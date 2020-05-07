@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Section;
 use Illuminate\Support\Facades\Gate;
 
 /**
@@ -55,7 +55,7 @@ class SetActiveSection
             return;
         }
 
-        /* @var SectionInterface $section */
+        /* @var Section $section */
         foreach ($sections as $section) {
 
             if (($matcher = $section->matcher) && str_is($matcher, $request->path())) {
@@ -100,8 +100,8 @@ class SetActiveSection
          * If we have an active section determined
          * then mark it as such.
          *
-         * @var SectionInterface $active
-         * @var SectionInterface $section
+         * @var Section $active
+         * @var Section $section
          */
         if ($active) {
             if ($active->parent) {

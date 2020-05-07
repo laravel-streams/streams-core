@@ -2,7 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FieldFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\FieldFilterQuery;
 
@@ -13,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\FieldFilterQuery;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class FieldFilter extends Filter implements FieldFilterInterface
+class FieldFilter extends Filter
 {
 
     /**
