@@ -14,8 +14,18 @@ use Illuminate\View\Component;
 class TableComponent extends Component
 {
 
+    /**
+     * The table instance.
+     *
+     * @var Table
+     */
     public $table;
 
+    /**
+     * Create a new TableComponent class.
+     *
+     * @param Table $table
+     */
     public function __construct(Table $table)
     {
         $this->table = $table;
@@ -28,6 +38,6 @@ class TableComponent extends Component
      */
     public function render()
     {
-        return view('streams::components.table');
+        return view('streams::table/component');
     }
 }
