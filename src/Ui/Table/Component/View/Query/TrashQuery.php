@@ -1,8 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Query;
+<?php
 
-use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewQueryInterface;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Query;
+
 use Illuminate\Database\Eloquent\Builder;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewQueryInterface;
 
 /**
  * Class TrashQuery
