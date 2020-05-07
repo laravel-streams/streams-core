@@ -27,7 +27,7 @@ trait CanOutput
      */
     public function img($alt = null, array $attributes = [])
     {
-        $attributes = array_merge($this->attributes(), $attributes);
+        $attributes = array_merge($this->attributes, $attributes);
 
         if (!isset($attributes['src'])) {
             $attributes['src'] = $this->path();

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Anomaly\Streams\Platform\Addon\Addon;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 
 /**
  * Class FieldType
