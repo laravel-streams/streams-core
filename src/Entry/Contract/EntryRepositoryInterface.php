@@ -1,7 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Contract;
+<?php
 
-use Anomaly\Streams\Platform\Entry\EntryCollection;
+namespace Anomaly\Streams\Platform\Entry\Contract;
+
 use Illuminate\Database\Eloquent\Model;
+use Anomaly\Streams\Platform\Entry\EntryCollection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
  * Interface EntryRepositoryInterface
@@ -21,41 +25,19 @@ interface EntryRepositoryInterface
     public function all();
 
     /**
-     * Return all records with trashed.
-     *
-     * @return Collection
-     */
-    public function allWithTrashed();
-
-    /**
-     * Return all records without relations.
-     *
-     * @return Collection
-     */
-    public function allWithoutRelations();
-
-    /**
      * Find a record by it's ID.
      *
      * @param $id
-     * @return null|Model
+     * @return null|EntryInterface
      */
     public function find($id);
-
-    /**
-     * Return all records without relations.
-     *
-     * @param $id
-     * @return Model
-     */
-    public function findWithoutRelations($id);
 
     /**
      * Find a record by it's column value.
      *
      * @param $column
      * @param $value
-     * @return Model|null
+     * @return EntryInterface|null
      */
     public function findBy($column, $value);
 
@@ -78,9 +60,11 @@ interface EntryRepositoryInterface
 
     /**
      * Find a trashed record by it's ID.
+     * 
+     * @todo Do we want findTrashedBy and findAllTrashedBy?
      *
      * @param $id
-     * @return null|Model
+     * @return null|EntryInterface
      */
     public function findTrashed($id);
 
@@ -88,7 +72,7 @@ interface EntryRepositoryInterface
      * Create a new record.
      *
      * @param  array $attributes
-     * @return Model
+     * @return EntryInterface
      */
     public function create(array $attributes);
 
@@ -103,7 +87,7 @@ interface EntryRepositoryInterface
      * Return a new instance.
      *
      * @param array $attributes
-     * @return Model
+     * @return EntryInterface
      */
     public function newInstance(array $attributes = []);
 
@@ -123,29 +107,12 @@ interface EntryRepositoryInterface
     public function paginate(array $parameters = []);
 
     /**
-     * Perform an action without events.
-     *
-     * @param  Model $entry
-     * @param \Closure $closure
-     * @return mixed
-     */
-    public function withoutEvents(\Closure $closure);
-
-    /**
      * Save a record.
      *
      * @param  Model $entry
      * @return bool
      */
     public function save(Model $entry);
-
-    /**
-     * Update multiple records.
-     *
-     * @param  array $attributes
-     * @return bool
-     */
-    public function update(array $attributes = []);
 
     /**
      * Delete a record.
@@ -187,7 +154,7 @@ interface EntryRepositoryInterface
      * @param null $value
      * @return mixed
      */
-    public function cache($key, $ttl, $value = null);
+    //public function cache($key, $ttl, $value = null);
 
     /**
      * Cache (forever) a value in
@@ -197,21 +164,7 @@ interface EntryRepositoryInterface
      * @param $value
      * @return mixed
      */
-    public function cacheForever($key, $value);
-
-    /**
-     * Guard the model.
-     *
-     * @return $this
-     */
-    public function guard();
-
-    /**
-     * Unguard the model.
-     *
-     * @return $this
-     */
-    public function unguard();
+    //public function cacheForever($key, $value);
 
     /**
      * Set the repository model.
@@ -224,26 +177,9 @@ interface EntryRepositoryInterface
     /**
      * Get the model.
      *
-     * @return Model
+     * @return EntryInterface
      */
     public function getModel();
-
-    /**
-     * Get the entries by sort order.
-     *
-     * @param  string                 $direction
-     * @return EntryCollection
-     */
-    public function sorted($direction = 'asc');
-
-    /**
-     * Get the first entry
-     * by it's sort order.
-     *
-     * @param  string              $direction
-     * @return EntryInterface|null
-     */
-    public function first($direction = 'asc');
 
     /**
      * Return the last modified entry.

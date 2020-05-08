@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Entry;
+<?php
 
+namespace Anomaly\Streams\Platform\Entry;
+
+use Illuminate\Database\Eloquent\Model;
+use Anomaly\Streams\Platform\Stream\Stream;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Anomaly\Streams\Platform\Model\EloquentRepository;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class EntryRepository
@@ -17,8 +19,8 @@ use Illuminate\Database\Eloquent\Model;
 class EntryRepository implements EntryRepositoryInterface
 {
 
-    use FiresCallbacks;
     use Hookable;
+    use FiresCallbacks;
 
     /**
      * Return all records.
@@ -41,18 +43,6 @@ class EntryRepository implements EntryRepositoryInterface
     }
 
     /**
-     * Return all records without relations.
-     *
-     * @return Collection
-     */
-    public function allWithoutRelations()
-    {
-        return $this->model
-            ->newQueryWithoutRelationships()
-            ->get();
-    }
-
-    /**
      * Find a record by it's ID.
      *
      * @param $id
@@ -61,19 +51,6 @@ class EntryRepository implements EntryRepositoryInterface
     public function find($id)
     {
         return $this->model->find($id);
-    }
-
-    /**
-     * Return all records without relations.
-     *
-     * @param $id
-     * @return Model
-     */
-    public function findWithoutRelations($id)
-    {
-        return $this->model
-            ->newQueryWithoutRelationships()
-            ->find($id);
     }
 
     /**
@@ -218,6 +195,19 @@ class EntryRepository implements EntryRepositoryInterface
     }
 
     /**
+     * Return the last modified entry.
+     *
+     * @return EntryInterface|null
+     */
+    public function lastModified()
+    {
+        return $this->model
+            ->orderBy('updated_at', 'DESC')
+            ->orderBy('created_at', 'DESC')
+            ->first();
+    }
+
+    /**
      * Save a record.
      *
      * @param  Model $entry
@@ -226,36 +216,6 @@ class EntryRepository implements EntryRepositoryInterface
     public function save(Model $entry)
     {
         return $entry->save();
-    }
-
-    /**
-     * Perform an action without events.
-     *
-     * @param \Closure $closure
-     * @return mixed
-     */
-    public function withoutEvents(\Closure $closure)
-    {
-        $dispatcher = $this->model->getEventDispatcher();
-
-        $this->model->unsetEventDispatcher();
-
-        $result = app()->call($closure);
-
-        $this->model->setEventDispatcher($dispatcher);
-
-        return $result;
-    }
-
-    /**
-     * Update multiple records.
-     *
-     * @param  array $attributes
-     * @return bool
-     */
-    public function update(array $attributes = [])
-    {
-        return $this->model->update($attributes);
     }
 
     /**
@@ -310,20 +270,6 @@ class EntryRepository implements EntryRepositoryInterface
     }
 
     /**
-     * Truncate a given model
-     *
-     * @param Model $model The model
-     */
-    protected function truncateModel(Model $model)
-    {
-        foreach ($model->all() as $entry) {
-            $this->delete($entry);
-        }
-
-        $model->truncate(); // Clear trash
-    }
-
-    /**
      * Cache a value in the
      * model's cache collection.
      *
@@ -332,10 +278,10 @@ class EntryRepository implements EntryRepositoryInterface
      * @param $value
      * @return mixed
      */
-    public function cache($key, $ttl, $value = null)
-    {
-        return $this->model->cache($key, $ttl, $value);
-    }
+    // public function cache($key, $ttl, $value = null)
+    // {
+    //     return $this->model->cache($key, $ttl, $value);
+    // }
 
     /**
      * Cache a value in the
@@ -345,39 +291,15 @@ class EntryRepository implements EntryRepositoryInterface
      * @param $value
      * @return mixed
      */
-    public function cacheForever($key, $value)
-    {
-        return $this->model->cacheForever($key, $value);
-    }
+    // public function cacheForever($key, $value)
+    // {
+    //     return $this->model->cacheForever($key, $value);
+    // }
 
     /**
-     * Guard the model.
+     * Set the stream.
      *
-     * @return $this
-     */
-    public function guard()
-    {
-        $this->model->reguard();
-
-        return $this;
-    }
-
-    /**
-     * Unguard the model.
-     *
-     * @return $this
-     */
-    public function unguard()
-    {
-        $this->model->unguard();
-
-        return $this;
-    }
-
-    /**
-     * Set the model.
-     *
-     * @param  Model $model
+     * @param  Stream $model
      * @return $this
      */
     public function setModel(Model $model)
@@ -411,41 +333,5 @@ class EntryRepository implements EntryRepositoryInterface
         }
 
         return null;
-    }
-
-    /**
-     * Get the entries by sort order.
-     *
-     * @param  string                 $direction
-     * @return EntryCollection|static
-     */
-    public function sorted($direction = 'asc')
-    {
-        return $this->model->sorted($direction)->get();
-    }
-
-    /**
-     * Get the first entry
-     * by it's sort order.
-     *
-     * @param  string              $direction
-     * @return EntryInterface|null
-     */
-    public function first($direction = 'asc')
-    {
-        return $this->model->sorted($direction)->first();
-    }
-
-    /**
-     * Return the last modified entry.
-     *
-     * @return EntryInterface|null
-     */
-    public function lastModified()
-    {
-        return $this->model
-            ->orderBy('updated_at', 'DESC')
-            ->orderBy('created_at', 'DESC')
-            ->first();
     }
 }

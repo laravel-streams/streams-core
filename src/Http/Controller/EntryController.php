@@ -112,7 +112,7 @@ class EntryController extends AdminController
 
             $output = fopen('php://output', 'w');
 
-            foreach ($repository->allWithoutRelations() as $k => $entry) {
+            foreach ($repository->all() as $k => $entry) {
 
                 if ($k == 0) {
                     fputcsv($output, array_keys($entry->toArray()));
