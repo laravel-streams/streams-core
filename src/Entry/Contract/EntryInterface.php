@@ -11,5 +11,4 @@ namespace Anomaly\Streams\Platform\Entry\Contract;
  */
 interface EntryInterface
 {
-
 }

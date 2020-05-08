@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Entry;
 
-use Illuminate\Database\Eloquent\Model;
+use Filebase\Database;
 use Anomaly\Streams\Platform\Stream\Stream;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
@@ -10,51 +10,72 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface;
 
 /**
- * Class EntryRepository
+ * Class FilebaseRepository
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class EntryRepository implements EntryRepositoryInterface
+class FilebaseRepository implements EntryRepositoryInterface
 {
 
     use Hookable;
     use FiresCallbacks;
 
     /**
-     * Return all records.
+     * The Stream instance.
+     *
+     * @var Stream
+     */
+    protected $stream;
+
+    /**
+     * Create a new FilebaseRepository instance.
+     *
+     * @param Stream $stream
+     */
+    public function __construct(Stream $stream)
+    {
+        $this->stream = $stream;
+
+        $this->database = new Database([
+            'dir' => base_path('addons/laravel-filebase/data/' . $stream->slug),
+        ]);
+    }
+
+    /**
+     * Return all entries.
      *
      * @return Collection
      */
     public function all()
     {
-        return $this->model->all();
+        return $this->database->results();
     }
 
     /**
-     * Return all records with trashed.
+     * Return all entries, including trashed.
      *
      * @return Collection
      */
     public function allWithTrashed()
     {
-        return $this->model->withTrashed()->get();
+        return $this->database->where('trashed', 'IN', [true, false])->get();
     }
 
     /**
-     * Find a record by it's ID.
+     * Find an entry by it's ID.
      *
      * @param $id
      * @return EntryInterface
      */
     public function find($id)
     {
-        return $this->model->find($id);
+        return $this->database->get($id);
     }
 
     /**
-     * Find a record by it's column value.
+     * Find an entry by it's column value.
      *
      * @param $column
      * @param $value
@@ -62,18 +83,18 @@ class EntryRepository implements EntryRepositoryInterface
      */
     public function findBy($column, $value)
     {
-        return $this->model->where($column, $value)->first();
+        return $this->database->where($column, $value)->first();
     }
 
     /**
-     * Find all records by IDs.
+     * Find all entries by IDs.
      *
      * @param  array $ids
      * @return Collection
      */
     public function findAll(array $ids)
     {
-        return $this->model->whereIn('id', $ids)->get();
+        return $this->database->where('id', 'IN', $ids)->get();
     }
 
     /**
@@ -85,7 +106,7 @@ class EntryRepository implements EntryRepositoryInterface
      */
     public function findAllBy($column, $value)
     {
-        return $this->model->where($column, $value)->get();
+        return $this->database->where($column, $value)->results();
     }
 
     /**
@@ -96,9 +117,8 @@ class EntryRepository implements EntryRepositoryInterface
      */
     public function findTrashed($id)
     {
-        return $this->model
-            ->withTrashed()
-            ->orderBy('id', 'ASC')
+        return $this->database
+            ->where('trashed', 'IN', [true, false])
             ->where('id', $id)
             ->first();
     }
@@ -111,7 +131,7 @@ class EntryRepository implements EntryRepositoryInterface
      */
     public function create(array $attributes)
     {
-        return $this->model->create($attributes);
+        return $this->database->create($attributes);
     }
 
     /**
@@ -121,7 +141,7 @@ class EntryRepository implements EntryRepositoryInterface
      */
     public function newQuery()
     {
-        return $this->model->newQuery();
+        return $this->database;
     }
 
     /**
@@ -132,17 +152,18 @@ class EntryRepository implements EntryRepositoryInterface
      */
     public function newInstance(array $attributes = [])
     {
+        throw new \Exception('newInstance is not implemented yet.');
         return $this->model->newInstance($attributes);
     }
 
     /**
-     * Count all records.
+     * Count all entries.
      *
      * @return int
      */
     public function count()
     {
-        return $this->model->count();
+        return $this->database->count();
     }
 
     /**
@@ -208,7 +229,7 @@ class EntryRepository implements EntryRepositoryInterface
     }
 
     /**
-     * Save a record.
+     * Save an entry.
      *
      * @param  EntryInterface $entry
      * @return bool
@@ -219,7 +240,7 @@ class EntryRepository implements EntryRepositoryInterface
     }
 
     /**
-     * Delete a record.
+     * Delete an entry.
      *
      * @param  EntryInterface $entry
      * @return bool
@@ -230,7 +251,7 @@ class EntryRepository implements EntryRepositoryInterface
     }
 
     /**
-     * Force delete a record.
+     * Force delete an entry.
      *
      * @param  EntryInterface $entry
      * @return bool
@@ -247,7 +268,7 @@ class EntryRepository implements EntryRepositoryInterface
     }
 
     /**
-     * Restore a trashed record.
+     * Restore a trashed entry.
      *
      * @param  EntryInterface $entry
      * @return bool
@@ -295,29 +316,6 @@ class EntryRepository implements EntryRepositoryInterface
     // {
     //     return $this->model->cacheForever($key, $value);
     // }
-
-    /**
-     * Set the stream.
-     *
-     * @param  Stream $model
-     * @return $this
-     */
-    public function setModel(EntryInterface $model)
-    {
-        $this->model = $model;
-
-        return $this;
-    }
-
-    /**
-     * Get the model.
-     *
-     * @return EntryInterface
-     */
-    public function getModel()
-    {
-        return $this->model;
-    }
 
     /**
      * Pipe non-existing calls through hooks.

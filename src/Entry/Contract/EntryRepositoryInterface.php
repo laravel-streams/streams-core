@@ -2,8 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Entry\Contract;
 
-use Illuminate\Database\Eloquent\Model;
-use Anomaly\Streams\Platform\Entry\EntryCollection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
@@ -107,36 +105,43 @@ interface EntryRepositoryInterface
     public function paginate(array $parameters = []);
 
     /**
+     * Return the last modified entry.
+     *
+     * @return EntryInterface|null
+     */
+    public function lastModified();
+
+    /**
      * Save a record.
      *
-     * @param  Model $entry
+     * @param  EntryInterface $entry
      * @return bool
      */
-    public function save(Model $entry);
+    public function save(EntryInterface $entry);
 
     /**
      * Delete a record.
      *
-     * @param  Model $entry
+     * @param  EntryInterface $entry
      * @return bool
      */
-    public function delete(Model $entry);
+    public function delete(EntryInterface $entry);
 
     /**
      * Force delete a record.
      *
-     * @param  Model $entry
+     * @param  EntryInterface $entry
      * @return bool
      */
-    public function forceDelete(Model $entry);
+    public function forceDelete(EntryInterface $entry);
 
     /**
      * Restore a trashed record.
      *
-     * @param  Model $entry
+     * @param  EntryInterface $entry
      * @return bool
      */
-    public function restore(Model $entry);
+    public function restore(EntryInterface $entry);
 
     /**
      * Truncate the entries.
@@ -165,26 +170,4 @@ interface EntryRepositoryInterface
      * @return mixed
      */
     //public function cacheForever($key, $value);
-
-    /**
-     * Set the repository model.
-     *
-     * @param  Model $model
-     * @return $this
-     */
-    public function setModel(Model $model);
-
-    /**
-     * Get the model.
-     *
-     * @return EntryInterface
-     */
-    public function getModel();
-
-    /**
-     * Return the last modified entry.
-     *
-     * @return EntryInterface|null
-     */
-    public function lastModified();
 }
