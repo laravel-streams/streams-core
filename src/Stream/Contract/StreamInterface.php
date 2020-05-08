@@ -13,11 +13,4 @@ use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
  */
 interface StreamInterface
 {
-
-    /**
-     * Return the title field.
-     *
-     * @return null|FieldInterface
-     */
-    public function titleField();
 }
