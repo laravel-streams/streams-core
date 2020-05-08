@@ -3,9 +3,8 @@
 namespace Anomaly\Streams\Platform\Stream;
 
 use Illuminate\Support\Traits\Macroable;
-use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Traits\HasMemory;
-use Anomaly\Streams\Platform\Field\FieldCollection;
+use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
@@ -21,47 +20,43 @@ class Stream implements StreamInterface
 
     use Macroable;
     use HasMemory;
+    use HasAttributes;
     use FiresCallbacks;
 
     /**
-     * The field collection.
+     * The Stream attributes.
      *
-     * @var FieldCollection
+     * @var array
      */
-    public $fields;
+    protected $attributes = [
+        'name' => null,
+        'slug' => null,
+        'description' => null,
+        'title_column' => null,
 
-    /**
-     * The stream model.
-     *
-     * @var EntryModel
-     */
-    public $model;
+        'model' => null,
+        'fields' => null,
+        'repository' => null,
 
-    public $name;
-    public $slug;
-    public $description;
+        'location' => null,
 
-    public $location;
-    public $title_column;
+        'config' => [],
 
-    public $config = [];
-
-    public $sortable = false;
-    public $trashable = true;
-    public $searchable = true;
-    public $versionable = true;
-    public $translatable = false;
+        'sortable' => false,
+        'trashable' => true,
+        'searchable' => true,
+        'versionable' => true,
+        'translatable' => false,
+    ];
 
     /**
      * Create a new Stream instance.
      *
-     * @param array $stream
+     * @param array $attributes
      */
-    public function __construct($stream)
+    public function __construct(array $attributes)
     {
-        foreach ($stream as $attribute => $value) {
-            $this->{$attribute} = $value;
-        }
+        $this->attributes = $attributes;
     }
 
     /**
@@ -98,5 +93,27 @@ class Stream implements StreamInterface
     public function titleField()
     {
         return $this->fields->get($this->title_column);
+    }
+
+    /**
+     * Dynamically retrieve attributes.
+     *
+     * @param  string $key
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        return $this->getAttribute($key);
+    }
+
+    /**
+     * Dynamically set attributes.
+     *
+     * @param  string  $key
+     * @param  mixed $value
+     */
+    public function __set($key, $value)
+    {
+        $this->setAttribute($key, $value);
     }
 }

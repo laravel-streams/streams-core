@@ -131,7 +131,9 @@ class FilebaseRepository implements EntryRepositoryInterface
      */
     public function create(array $attributes)
     {
-        return $this->database->create($attributes);
+        return $this->database->get(
+            $attributes[$this->stream->title_column],
+        )->save($attributes);
     }
 
     /**
