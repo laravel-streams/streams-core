@@ -229,10 +229,10 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerStreams()
     {
         foreach (File::files(base_path('streams/data')) as $file) {
-            $this->app->register(
+            $this->app->singleton(
                 'streams::' . $file->getBasename('.' . $file->getExtension()),
                 function () use ($file) {
-                    return StreamFactory::make(json_decode($file->getFilename()));
+                    return StreamFactory::make(json_decode(file_get_contents($file->getPathname()), true));
                 }
             );
         }

@@ -5,8 +5,10 @@ namespace Anomaly\Streams\Platform\Stream;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Traits\HasMemory;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
+use Anomaly\Streams\Platform\Repository\Repository;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 
 /**
  * Class Stream
@@ -60,39 +62,13 @@ class Stream implements StreamInterface
     }
 
     /**
-     * Get a location::key string.
-     *
-     * @param  null $key
-     * @return string
+     * Return the entry eepository.
+     * 
+     * @return RepositoryInterface
      */
-    public function location($key = null)
+    public function repository()
     {
-        if (!$this->location) {
-            return $key;
-        }
-
-        return $this->location . ($key ? '::' . $key : $key);
-    }
-
-    /**
-     * Return a config value.
-     *
-     * @param string $key
-     * @param mixed $default
-     */
-    public function config($key, $default = null)
-    {
-        return array_get($this->config, $key, $default);
-    }
-
-    /**
-     * Return the title field.
-     *
-     * @return null|FieldInterface
-     */
-    public function titleField()
-    {
-        return $this->fields->get($this->title_column);
+        return new Repository($this);
     }
 
     /**

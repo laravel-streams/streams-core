@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Stream\Contract;
 
-use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 
 /**
  * Interface StreamInterface
@@ -13,4 +13,11 @@ use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
  */
 interface StreamInterface
 {
+
+    /**
+     * Return the entry eepository.
+     * 
+     * @return RepositoryInterface
+     */
+    public function repository();
 }
