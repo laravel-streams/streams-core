@@ -2,12 +2,12 @@
 
 namespace Anomaly\Streams\Platform;
 
-use Exception;
 use Misd\Linkify\Linkify;
 use StringTemplate\Engine;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\View\Factory;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Blade;
@@ -23,8 +23,10 @@ use Anomaly\Streams\Platform\View\ViewTemplate;
 use Anomaly\Streams\Platform\Asset\Facades\Assets;
 use Anomaly\Streams\Platform\Image\Facades\Images;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
+use Anomaly\Streams\Platform\Stream\StreamFactory;
+use Anomaly\Streams\Platform\Stream\StreamRegistry;
 use Anomaly\Streams\Platform\Ui\Table\TableComponent;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 
 /**
  * Class StreamsServiceProvider
@@ -102,6 +104,31 @@ class StreamsServiceProvider extends ServiceProvider
     ];
 
     /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->registerComposerJson();
+        $this->registerComposerLock();
+        $this->registerStreams();
+
+        /**
+         * @todo ?
+         */
+        Collection::macro('ids', function () {
+            return $this->pluck('id')->all();
+        });
+
+        /**
+         * Load core routes.
+         */
+        Route::middleware('web')
+            ->group(base_path('vendor/anomaly/streams-platform/resources/routes/web.php'));
+    }
+
+    /**
      * Boot the service provider.
      */
     public function boot()
@@ -171,30 +198,6 @@ class StreamsServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        $this->registerComposerJson();
-        $this->registerComposerLock();
-
-        /**
-         * @todo ?
-         */
-        Collection::macro('ids', function () {
-            return $this->pluck('id')->all();
-        });
-
-        /**
-         * Load core routes.
-         */
-        Route::middleware('web')
-            ->group(base_path('vendor/anomaly/streams-platform/resources/routes/web.php'));
-    }
-
-    /**
      * Register the composer file data.
      */
     protected function registerComposerJson()
@@ -218,6 +221,21 @@ class StreamsServiceProvider extends ServiceProvider
                 return json_decode(file_get_contents(base_path('composer.lock')), true);
             }
         );
+    }
+
+    /**
+     * Register Streams.
+     */
+    protected function registerStreams()
+    {
+        foreach (File::files(base_path('streams/data')) as $file) {
+            $this->app->register(
+                'streams::' . $file->getBasename('.' . $file->getExtension()),
+                function () use ($file) {
+                    return StreamFactory::make(json_decode($file->getFilename()));
+                }
+            );
+        }
     }
 
     /**
