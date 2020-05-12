@@ -2,12 +2,16 @@
 
 namespace Anomaly\Streams\Platform\Repository;
 
+use Filebase\Database;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
+use Anomaly\Streams\Platform\Entry\Entry;
 use Anomaly\Streams\Platform\Stream\Stream;
 use Anomaly\Streams\Platform\Traits\HasMemory;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
-use Filebase\Database;
+use Filebase\Document;
 
 /**
  * Class Repository
@@ -42,7 +46,18 @@ class Repository implements RepositoryInterface
      */
     public function all()
     {
-        return $this->newQuery()->all();
+        return $this->collect($this->newQuery()->results());
+    }
+
+    /**
+     * Find an entry by ID.
+     *
+     * @param $id
+     * @return null|EntryInterface
+     */
+    public function find($id)
+    {
+        return $this->make($this->newQuery()->get($id));
     }
 
     /**
@@ -53,7 +68,35 @@ class Repository implements RepositoryInterface
     public function newQuery()
     {
         return new Database([
-            'dir' => 'streams/data/' . $this->stream->slug
+            'dir' => base_path('streams/data/' . $this->stream->slug)
         ]);
+    }
+
+    /**
+     * Return an entry collection.
+     *
+     * @param array $entries
+     * @return Collection
+     */
+    protected function collect(array $entries)
+    {
+        $collection = $this->stream->attr('collection', Collection::class);
+
+        return new $collection(array_map(function (array $attributes) {
+            return new Entry($attributes, $this->stream);
+        }, $entries));
+    }
+
+    /**
+     * Return an entry instance.
+     *
+     * @param Document $data
+     * @return EntryInterface
+     */
+    protected function make(Document $data)
+    {
+        $abstract = $this->stream->attr('abstract', Entry::class);
+
+        return new $abstract(array_merge(['id' => $data->id], $data->toArray()), $this->stream);
     }
 }

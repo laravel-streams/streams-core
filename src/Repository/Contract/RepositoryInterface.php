@@ -16,19 +16,19 @@ interface RepositoryInterface
 {
 
     /**
-     * Return all records.
+     * Return all entries.
      *
      * @return Collection
      */
     public function all();
 
     /**
-     * Find a record by it's ID.
+     * Find an entry by ID.
      *
      * @param $id
      * @return null|EntryInterface
      */
-    //public function find($id);
+    public function find($id);
 
     /**
      * Find a record by it's column value.
