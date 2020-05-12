@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Repository;
 
+use Filebase\Document;
 use Filebase\Database;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
@@ -11,7 +12,6 @@ use Anomaly\Streams\Platform\Traits\HasMemory;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
-use Filebase\Document;
 
 /**
  * Class Repository
@@ -97,6 +97,6 @@ class Repository implements RepositoryInterface
     {
         $abstract = $this->stream->attr('abstract', Entry::class);
 
-        return new $abstract(array_merge(['id' => $data->id], $data->toArray()), $this->stream);
+        return new $abstract(array_merge(['id' => $data->getId()], $data->toArray()), $this->stream);
     }
 }

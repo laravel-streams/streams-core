@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Translation\Translator;
 use Illuminate\Support\ServiceProvider;
+use Anomaly\Streams\Platform\Entry\Entry;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Collection;
 use Anomaly\Streams\Platform\Addon\AddonModel;
@@ -22,11 +23,13 @@ use Anomaly\Streams\Platform\View\ViewIncludes;
 use Anomaly\Streams\Platform\View\ViewTemplate;
 use Anomaly\Streams\Platform\Asset\Facades\Assets;
 use Anomaly\Streams\Platform\Image\Facades\Images;
-use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Stream\StreamFactory;
+use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Stream\StreamRegistry;
 use Anomaly\Streams\Platform\Ui\Table\TableComponent;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
+use Anomaly\Streams\Platform\Http\Controller\EntryController;
+use Exception;
 
 /**
  * Class StreamsServiceProvider
@@ -229,12 +232,29 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerStreams()
     {
         foreach (File::files(base_path('streams/data')) as $file) {
-            $this->app->singleton(
+
+            if (!$stream = json_decode(file_get_contents($file->getPathname()), true)) {
+                throw new Exception("Failed to parse JSON: {$file->getPathname()}");
+            }
+
+            $stream = StreamFactory::make($stream);
+
+            $this->app->instance(
                 'streams::' . $file->getBasename('.' . $file->getExtension()),
-                function () use ($file) {
-                    return StreamFactory::make(json_decode(file_get_contents($file->getPathname()), true));
-                }
+                $stream
             );
+
+            if ($stream->route) {
+
+                Route::model(str_singular($stream->slug), Entry::class);
+                // Route::bind(str_singular($stream->slug), function ($value) use ($stream) {
+                //     return $stream->repository()->find($value);
+                // });
+                Route::any($stream->route, [
+                    'stream' => $stream->slug,
+                    'uses' => $stream->attr('uses', EntryController::class . '@render'),
+                ]);
+            }
         }
     }
 
@@ -246,7 +266,8 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->singleton(AddonCollection::class, function () {
 
             if (config('streams.installed')) {
-                $states = AddonModel::get();
+                // $states = AddonModel::get();
+                $states = new Collection;
             } else {
                 $states = new Collection;
             }

@@ -2,8 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Http\Controller;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
+use Anomaly\Streams\Platform\Entry\Entry;
 use Anomaly\Streams\Platform\Stream\StreamManager;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Entry\EntryRepository;
@@ -15,7 +17,8 @@ use Anomaly\Streams\Platform\Entry\EntryRepository;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class EntryController extends AdminController
+//class EntryController extends AdminController
+class EntryController extends PublicController
 {
 
     /**
@@ -32,10 +35,50 @@ class EntryController extends AdminController
      */
     public function __construct(AddonCollection $addons)
     {
-        parent::__construct();
+        //parent::__construct();
 
         $this->addons = $addons;
     }
+
+    public function render($slug)
+    {
+        $stream = app('streams::' . request()->route()->getAction('stream'));
+
+        $entry = decorate($stream->repository()->find($slug));
+
+        if (!$entry || !$entry->id) {
+            abort(404);
+        }
+
+        /**
+         * @todo move this as well I am sure.. middleware?
+         */
+        if ($stream->redirect) {
+            return redirect(Str::parse($stream->redirect, compact('entry', 'stream', 'slug')));
+        }
+
+        /**
+         * @todo move this as well I am sure.. middleware?
+         */
+        if ($entry->redirect) {
+            return redirect(Str::parse($entry->redirect, compact('entry', 'stream', 'slug')));
+        }
+
+        /**
+         * @todo probably set this in middleware with cascade style access?
+         */
+        if ($stream->template) {
+            return view($stream->template, compact('stream', 'entry'));
+        }
+
+        return response()->json($entry->toArray());
+    }
+
+
+
+
+
+
 
     /**
      * Restore an entry.
