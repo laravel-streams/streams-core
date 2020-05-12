@@ -239,10 +239,12 @@ class StreamsServiceProvider extends ServiceProvider
 
             $stream = StreamFactory::make($stream);
 
+
             $this->app->instance(
                 'streams::' . $file->getBasename('.' . $file->getExtension()),
                 $stream
             );
+
 
             if ($stream->route) {
 

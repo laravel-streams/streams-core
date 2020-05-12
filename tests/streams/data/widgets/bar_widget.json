@@ -1,5 +1,7 @@
 {
     "data": {
-        "name": "Bar Widget"
+        "name": "Bar Widget",
+        "secret": "itsasecret",
+        "type": "testing"
     }
 }

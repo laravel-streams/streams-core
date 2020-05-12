@@ -62,7 +62,7 @@ class Stream implements StreamInterface
     }
 
     /**
-     * Return the entry eepository.
+     * Return the entry repository.
      * 
      * @return RepositoryInterface
      */

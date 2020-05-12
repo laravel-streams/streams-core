@@ -2,9 +2,12 @@
 
 namespace Anomaly\Streams\Platform\Entry;
 
+use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Stream\Stream;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
  * Class Entry
@@ -14,7 +17,7 @@ use Anomaly\Streams\Platform\Support\Facades\Hydrator;
  * @author  Ryan Thompson <ryan@pyrocms.com>
  *
  */
-class Entry
+class Entry implements EntryInterface, Arrayable, Jsonable
 {
 
     use HasAttributes;
@@ -36,9 +39,10 @@ class Entry
     /**
      * Create a new Entry instance.
      *
+     * @param StreamInterface $stream
      * @param array $attributes
      */
-    public function __construct(array $attributes = [], Stream $stream)
+    public function __construct(Stream $stream, array $attributes = [])
     {
         $this->stream = $stream;
         $this->attributes = $attributes;

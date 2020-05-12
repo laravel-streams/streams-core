@@ -1,4 +1,4 @@
 {
     "slug": "widgets",
-    "data": "vendor/anomaly/streams-platform/tests/streams/data/widgets"
+    "filebase": "vendor/anomaly/streams-platform/tests/streams/data/widgets"
 }

@@ -2,7 +2,6 @@
 
 namespace Anomaly\Streams\Platform\View;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 
@@ -13,7 +12,7 @@ use Illuminate\Support\Facades\View;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class ViewTemplate extends Collection
+class ViewTemplate
 {
     /**
      * Parse a string view.
