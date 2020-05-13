@@ -1,19 +1,20 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid;
+<?php
 
+namespace Anomaly\Streams\Platform\Ui\Grid;
+
+use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Anomaly\Streams\Platform\Ui\Grid\Command\AddAssets;
-use Anomaly\Streams\Platform\Ui\Grid\Command\BuildGrid;
 use Anomaly\Streams\Platform\Ui\Grid\Command\LoadGrid;
 use Anomaly\Streams\Platform\Ui\Grid\Command\MakeGrid;
 use Anomaly\Streams\Platform\Ui\Grid\Command\PostGrid;
+use Anomaly\Streams\Platform\Ui\Grid\Command\AddAssets;
+use Anomaly\Streams\Platform\Ui\Grid\Command\BuildGrid;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Grid\Command\SetGridResponse;
-use Anomaly\Streams\Platform\Ui\Grid\Component\Item\Contract\ItemInterface;
 use Anomaly\Streams\Platform\Ui\Grid\Contract\GridRepositoryInterface;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Http\Response;
-use Illuminate\Support\Collection;
+use Anomaly\Streams\Platform\Ui\Grid\Component\Item\Contract\ItemInterface;
 
 /**
  * Class GridBuilder
@@ -25,7 +26,6 @@ use Illuminate\Support\Collection;
 class GridBuilder
 {
     use FiresCallbacks;
-    use DispatchesJobs;
 
     /**
      * The grid model.
@@ -79,10 +79,10 @@ class GridBuilder
     {
         $this->fire('ready', ['builder' => $this]);
 
-        $this->dispatchNow(new BuildGrid($this));
+        dispatch_now(new BuildGrid($this));
 
         if (app('request')->isMethod('post')) {
-            $this->dispatchNow(new PostGrid($this));
+            dispatch_now(new PostGrid($this));
         }
     }
 
@@ -94,9 +94,9 @@ class GridBuilder
         $this->build();
 
         if (!app('request')->isMethod('post')) {
-            $this->dispatchNow(new LoadGrid($this));
-            $this->dispatchNow(new AddAssets($this));
-            $this->dispatchNow(new MakeGrid($this));
+            dispatch_now(new LoadGrid($this));
+            dispatch_now(new AddAssets($this));
+            dispatch_now(new MakeGrid($this));
         }
     }
 
@@ -109,7 +109,7 @@ class GridBuilder
     {
         $this->make();
 
-        $this->dispatchNow(new SetGridResponse($this));
+        dispatch_now(new SetGridResponse($this));
 
         return $this->grid->getResponse();
     }

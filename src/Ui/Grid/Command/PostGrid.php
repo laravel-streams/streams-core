@@ -1,7 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Command;
 
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class PostGrid
@@ -12,7 +13,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class PostGrid
 {
-    use DispatchesJobs;
 
     /**
      * The grid builder.
@@ -36,6 +36,6 @@ class PostGrid
      */
     public function handle()
     {
-        $this->dispatchNow(new SaveGrid($this->builder));
+        dispatch_now(new SaveGrid($this->builder));
     }
 }

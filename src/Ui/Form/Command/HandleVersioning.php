@@ -2,10 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\Message\Facades\Messages;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
+use Anomaly\Streams\Platform\Message\Facades\Messages;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
 
 /**
@@ -17,8 +16,6 @@ use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
  */
 class HandleVersioning
 {
-
-    use DispatchesJobs;
 
     /**
      * The form builder.

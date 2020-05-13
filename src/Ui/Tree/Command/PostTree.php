@@ -1,7 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Command;
 
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class PostTree
@@ -12,7 +13,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class PostTree
 {
-    use DispatchesJobs;
 
     /**
      * The tree builder.
@@ -36,6 +36,6 @@ class PostTree
      */
     public function handle()
     {
-        $this->dispatchNow(new SaveTree($this->builder));
+        dispatch_now(new SaveTree($this->builder));
     }
 }

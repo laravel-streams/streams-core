@@ -4,9 +4,7 @@ namespace Anomaly\Streams\Platform\Entry;
 
 use Illuminate\Database\Eloquent\Builder;
 use Anomaly\Streams\Platform\Traits\Hookable;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Anomaly\Streams\Platform\Traits\HasMemory;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**

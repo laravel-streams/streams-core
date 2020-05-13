@@ -1,12 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table;
+<?php
 
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
+namespace Anomaly\Streams\Platform\Ui\Table;
+
+use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableWasQueried;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Support\Collection;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 
 /**
  * Class TableRepository

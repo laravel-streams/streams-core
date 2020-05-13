@@ -4,7 +4,6 @@ namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\MessageBag;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\HttpFoundation\Response;
 use Anomaly\Streams\Platform\Ui\Button\Button;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -39,7 +38,6 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
 class FormBuilder
 {
 
-    use DispatchesJobs;
     use FiresCallbacks;
 
     /**
@@ -207,7 +205,7 @@ class FormBuilder
 
         $this->fire('ready', ['builder' => $this]);
 
-        $this->dispatchNow(new BuildForm($this));
+        dispatch_now(new BuildForm($this));
 
         $this->fire('built', ['builder' => $this]);
 
@@ -228,8 +226,8 @@ class FormBuilder
         $this->fire('make', ['builder' => $this]);
 
         if ($this->getFormResponse() === null) {
-            $this->dispatchNow(new LoadForm($this));
-            $this->dispatchNow(new MakeForm($this));
+            dispatch_now(new LoadForm($this));
+            dispatch_now(new MakeForm($this));
         }
 
         return $this;
@@ -267,10 +265,10 @@ class FormBuilder
             $this->fire('post', ['builder' => $this]);
 
             if ($this->hasPostData() || $this->isAjax()) {
-                $this->dispatchNow(new PostForm($this));
+                dispatch_now(new PostForm($this));
             }
         } else {
-            $this->dispatchNow(new PopulateFields($this));
+            dispatch_now(new PopulateFields($this));
         }
 
         return $this;
@@ -283,8 +281,8 @@ class FormBuilder
      */
     public function validate()
     {
-        $this->dispatchNow(new LoadFormValues($this));
-        $this->dispatchNow(new ValidateForm($this));
+        dispatch_now(new LoadFormValues($this));
+        dispatch_now(new ValidateForm($this));
 
         return $this;
     }
@@ -296,8 +294,8 @@ class FormBuilder
      */
     public function flash()
     {
-        $this->dispatchNow(new FlashFormErrors($this));
-        $this->dispatchNow(new FlashFieldValues($this));
+        dispatch_now(new FlashFormErrors($this));
+        dispatch_now(new FlashFieldValues($this));
     }
 
     /**
@@ -311,7 +309,7 @@ class FormBuilder
         $this->make($entry);
 
         if (!$this->form->getResponse()) {
-            $this->dispatchNow(new SetFormResponse($this));
+            dispatch_now(new SetFormResponse($this));
         }
 
         return $this->form->getResponse();
@@ -336,7 +334,7 @@ class FormBuilder
      */
     public function saveForm()
     {
-        $this->dispatchNow(new SaveForm($this));
+        dispatch_now(new SaveForm($this));
     }
 
     /**

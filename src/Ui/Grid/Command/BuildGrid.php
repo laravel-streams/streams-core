@@ -1,8 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Command;
+<?php
 
-use Anomaly\Streams\Platform\Ui\Grid\Component\Item\Command\BuildItems;
+namespace Anomaly\Streams\Platform\Ui\Grid\Command;
+
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
-use Illuminate\Foundation\Bus\DispatchesJobs;
+use Anomaly\Streams\Platform\Ui\Grid\Component\Item\Command\BuildItems;
 
 /**
  * Class BuildGrid
@@ -13,7 +14,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class BuildGrid
 {
-    use DispatchesJobs;
 
     /**
      * The grid builder.
@@ -40,26 +40,26 @@ class BuildGrid
         /*
          * Resolve and set the grid model and stream.
          */
-        $this->dispatchNow(new SetGridModel($this->builder));
-        $this->dispatchNow(new SetGridStream($this->builder));
-        $this->dispatchNow(new SetGridOptions($this->builder));
-        $this->dispatchNow(new SetDefaultOptions($this->builder));
-        $this->dispatchNow(new SetGridRepository($this->builder));
-        $this->dispatchNow(new SetDefaultParameters($this->builder));
+        dispatch_now(new SetGridModel($this->builder));
+        dispatch_now(new SetGridStream($this->builder));
+        dispatch_now(new SetGridOptions($this->builder));
+        dispatch_now(new SetDefaultOptions($this->builder));
+        dispatch_now(new SetGridRepository($this->builder));
+        dispatch_now(new SetDefaultParameters($this->builder));
 
         /*
          * Before we go any further, authorize the request.
          */
-        $this->dispatchNow(new AuthorizeGrid($this->builder));
+        dispatch_now(new AuthorizeGrid($this->builder));
 
         /*
          * Get grid entries.
          */
-        $this->dispatchNow(new GetGridEntries($this->builder));
+        dispatch_now(new GetGridEntries($this->builder));
 
         /*
          * Lastly grid items.
          */
-        $this->dispatchNow(new BuildItems($this->builder));
+        dispatch_now(new BuildItems($this->builder));
     }
 }

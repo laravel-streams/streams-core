@@ -2,10 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Ui\Form\Event\FormWasPosted;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Event\FormWasPosted;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class PostForm
@@ -16,8 +15,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class PostForm
 {
-
-    use DispatchesJobs;
 
     /**
      * The form builder.
@@ -51,18 +48,18 @@ class PostForm
          * @todo: Decouple validation into it's own method like multiple form builders
          */
         if (!$this->builder instanceof MultipleFormBuilder) {
-            $this->dispatchNow(new ValidateForm($this->builder));
+            dispatch_now(new ValidateForm($this->builder));
         }
 
-        $this->dispatchNow(new LoadFormValues($this->builder));
-        $this->dispatchNow(new RemoveSkippedFields($this->builder));
-        $this->dispatchNow(new HandleForm($this->builder));
-        $this->dispatchNow(new SetSuccessMessage($this->builder));
-        $this->dispatchNow(new HandleVersioning($this->builder));
-        $this->dispatchNow(new SetActionResponse($this->builder));
+        dispatch_now(new LoadFormValues($this->builder));
+        dispatch_now(new RemoveSkippedFields($this->builder));
+        dispatch_now(new HandleForm($this->builder));
+        dispatch_now(new SetSuccessMessage($this->builder));
+        dispatch_now(new HandleVersioning($this->builder));
+        dispatch_now(new SetActionResponse($this->builder));
 
         if ($this->builder->isAjax()) {
-            $this->dispatchNow(new SetJsonResponse($this->builder));
+            dispatch_now(new SetJsonResponse($this->builder));
         }
 
         $this->builder->fire('posted', ['builder' => $this->builder]);

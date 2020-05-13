@@ -1,10 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Multiple\Command;
+<?php
 
-use Anomaly\Streams\Platform\Ui\Form\Command\HandleVersioning;
-use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
-use Illuminate\Foundation\Bus\DispatchesJobs;
+namespace Anomaly\Streams\Platform\Ui\Form\Multiple\Command;
+
 use Illuminate\Http\Request;
+use Anomaly\Streams\Platform\Ui\Form\Command\HandleVersioning;
+use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
 
 /**
  * Class VersionForms
@@ -15,8 +15,6 @@ use Illuminate\Http\Request;
  */
 class VersionForms
 {
-
-    use DispatchesJobs;
 
     /**
      * The multiple form builder.
@@ -53,7 +51,7 @@ class VersionForms
 
             $this->builder->fire('versioning_' . $slug, compact('builder', 'forms'));
 
-            $this->dispatchNow(new HandleVersioning($builder));
+            dispatch_now(new HandleVersioning($builder));
         }
     }
 }

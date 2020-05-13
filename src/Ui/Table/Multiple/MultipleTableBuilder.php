@@ -47,13 +47,13 @@ class MultipleTableBuilder extends TableBuilder
     {
         parent::build();
 
-        $this->dispatchNow(new SetActiveFilters($this));
-        $this->dispatchNow(new BuildTables($this));
-        $this->dispatchNow(new MergeRows($this));
+        dispatch_now(new SetActiveFilters($this));
+        dispatch_now(new BuildTables($this));
+        dispatch_now(new MergeRows($this));
 
         if (app('request')->isMethod('post')) {
-            $this->dispatchNow(new SetActiveActions($this));
-            $this->dispatchNow(new PostTables($this));
+            dispatch_now(new SetActiveActions($this));
+            dispatch_now(new PostTables($this));
         }
     }
 
@@ -62,7 +62,7 @@ class MultipleTableBuilder extends TableBuilder
      */
     public function make()
     {
-        $this->dispatchNow(new LoadTables($this));
+        dispatch_now(new LoadTables($this));
 
         parent::make();
     }

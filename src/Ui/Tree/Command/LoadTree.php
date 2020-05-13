@@ -2,11 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Tree\Command;
 
-use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
-use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Support\Facades\App;
-use Illuminate\Foundation\Bus\DispatchesJobs;
+use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
+use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 
 /**
  * Class LoadTree

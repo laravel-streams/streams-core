@@ -2,11 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Ui\Grid\Command;
 
-use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
-use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Support\Facades\App;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Contracts\Container\Container;
+use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
+use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 
 /**
  * Class LoadGrid
@@ -17,7 +16,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class LoadGrid
 {
-    use DispatchesJobs;
 
     /**
      * The grid builder.

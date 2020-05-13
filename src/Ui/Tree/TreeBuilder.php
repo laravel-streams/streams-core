@@ -1,19 +1,20 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree;
+<?php
 
+namespace Anomaly\Streams\Platform\Ui\Tree;
+
+use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Anomaly\Streams\Platform\Ui\Tree\Command\AddAssets;
-use Anomaly\Streams\Platform\Ui\Tree\Command\BuildTree;
 use Anomaly\Streams\Platform\Ui\Tree\Command\LoadTree;
 use Anomaly\Streams\Platform\Ui\Tree\Command\MakeTree;
 use Anomaly\Streams\Platform\Ui\Tree\Command\PostTree;
+use Anomaly\Streams\Platform\Ui\Tree\Command\AddAssets;
+use Anomaly\Streams\Platform\Ui\Tree\Command\BuildTree;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Tree\Command\SetTreeResponse;
-use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
 use Anomaly\Streams\Platform\Ui\Tree\Contract\TreeRepositoryInterface;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Http\Response;
-use Illuminate\Support\Collection;
+use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
 
 /**
  * Class TreeBuilder
@@ -25,7 +26,6 @@ use Illuminate\Support\Collection;
 class TreeBuilder
 {
     use FiresCallbacks;
-    use DispatchesJobs;
 
     /**
      * The tree model.
@@ -88,10 +88,10 @@ class TreeBuilder
     {
         $this->fire('ready', ['builder' => $this]);
 
-        $this->dispatchNow(new BuildTree($this));
+        dispatch_now(new BuildTree($this));
 
         if (app('request')->isMethod('post')) {
-            $this->dispatchNow(new PostTree($this));
+            dispatch_now(new PostTree($this));
         }
 
         return $this;
@@ -118,9 +118,9 @@ class TreeBuilder
     public function post()
     {
         if (!app('request')->isMethod('post')) {
-            $this->dispatchNow(new LoadTree($this));
-            $this->dispatchNow(new AddAssets($this));
-            $this->dispatchNow(new MakeTree($this));
+            dispatch_now(new LoadTree($this));
+            dispatch_now(new AddAssets($this));
+            dispatch_now(new MakeTree($this));
         }
 
         return $this;
@@ -134,9 +134,9 @@ class TreeBuilder
     public function response()
     {
         if ($this->tree->getResponse() === null) {
-            $this->dispatchNow(new LoadTree($this));
-            $this->dispatchNow(new AddAssets($this));
-            $this->dispatchNow(new MakeTree($this));
+            dispatch_now(new LoadTree($this));
+            dispatch_now(new AddAssets($this));
+            dispatch_now(new MakeTree($this));
         }
 
         return $this;
@@ -152,7 +152,7 @@ class TreeBuilder
         $this->make();
 
         if ($this->tree->getResponse() === null) {
-            $this->dispatchNow(new SetTreeResponse($this));
+            dispatch_now(new SetTreeResponse($this));
         }
 
         return $this->tree->getResponse();

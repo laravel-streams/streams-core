@@ -1,7 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Addon\FieldType;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Entry\EntryQueryBuilder;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class FieldTypeCriteria
@@ -12,7 +13,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class FieldTypeCriteria
 {
-    use DispatchesJobs;
 
     /**
      * The field type instance.

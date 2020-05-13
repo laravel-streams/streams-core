@@ -248,10 +248,6 @@ class StreamsServiceProvider extends ServiceProvider
 
             if ($stream->route) {
 
-                Route::model(str_singular($stream->slug), Entry::class);
-                // Route::bind(str_singular($stream->slug), function ($value) use ($stream) {
-                //     return $stream->repository()->find($value);
-                // });
                 Route::any($stream->route, [
                     'stream' => $stream->slug,
                     'uses' => $stream->attr('uses', EntryController::class . '@render'),
