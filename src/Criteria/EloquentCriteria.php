@@ -62,7 +62,7 @@ class EloquentCriteria implements CriteriaInterface
      */
     public function all()
     {
-        return $this->query->all();
+        return $this->query->get();
     }
 
     /**
