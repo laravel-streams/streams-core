@@ -22,6 +22,13 @@ interface EntryInterface
     public function stream();
 
     /**
+     * Return the entry attributes.
+     *
+     * @var array
+     */
+    public function getAttributes();
+
+    /**
      * Get the instance as an array.
      *
      * @return array
