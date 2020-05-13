@@ -80,25 +80,52 @@ class FilebaseCriteria implements CriteriaInterface
     }
 
     /**
-     * Constrain the query by a typical 
-     * column, operator, value argument.
+     * Order the query by field/direction.
      *
-     * @param string $column
+     * @param string $field
+     * @param string|null $direction
+     * @param string|null $value
+     */
+    public function orderBy($field, $direction = 'asc')
+    {
+        $this->query = $this->query->orderBy($field, $direction);
+
+        return $this;
+    }
+
+    /**
+     * Limit the entries returned.
+     *
+     * @param int $limit
+     * @param int|null $offset
+     */
+    public function limit($limit, $offset = 0)
+    {
+        $this->query = $this->query->limit($limit, $offset);
+
+        return $this;
+    }
+
+    /**
+     * Constrain the query by a typical 
+     * field, operator, value argument.
+     *
+     * @param string $field
      * @param string|null $operator
      * @param string|null $value
      */
-    public function where($column, $operator = null, $value = null)
+    public function where($field, $operator = null, $value = null)
     {
         if (!$value) {
             $value = $operator;
             $operator = '=';
         }
 
-        if ($column == 'id') {
-            $column = '__id';
+        if ($field == 'id') {
+            $field = '__id';
         }
 
-        $this->query = $this->query->where($column, $operator, $value);
+        $this->query = $this->query->where($field, $operator, $value);
 
         return $this;
     }

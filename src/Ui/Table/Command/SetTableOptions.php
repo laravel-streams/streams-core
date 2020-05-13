@@ -28,8 +28,6 @@ class SetTableOptions
             ['builder' => $builder]
         );
 
-        foreach ($builder->getOptions() as $key => $value) {
-            $builder->setTableOption($key, $value);
-        }
+        $builder->table->setOptions(collect($builder->getOptions()));
     }
 }

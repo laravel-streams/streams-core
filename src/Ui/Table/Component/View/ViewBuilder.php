@@ -21,19 +21,17 @@ class ViewBuilder
      */
     public static function handle(TableBuilder $builder)
     {
-        $table = $builder->getTable();
+        if ($builder->attr('options.disable_views') === true) {
+            return;
+        }
 
         $factory = app(ViewFactory::class);
 
         ViewInput::read($builder);
 
-        if ($builder->getTableOption('enable_views') === false) {
-            return;
-        }
-
         foreach ($builder->getViews() as $view) {
             if (array_get($view, 'enabled', true)) {
-                $table->addView($factory->make($view));
+                $builder->table->addView($factory->make($view));
             }
         }
     }

@@ -26,7 +26,7 @@ class TableAuthorizer
          * take precedense over the 
          * model policy.
          */
-        $policy = $builder->getTableOption('policy');
+        $policy = $builder->table->getOption('policy');
 
         if ($policy && !Gate::any((array) $policy)) {
             abort(403);
@@ -36,7 +36,11 @@ class TableAuthorizer
          * Default behavior is to
          * rely on the model policy.
          */
-        $model = $builder->getTableModel();
+        if (!$builder->stream) {
+            return;
+        }
+
+        $model = $builder->stream->model;
 
         if ($model && !Gate::allows('viewAny', $model)) {
             abort(403);

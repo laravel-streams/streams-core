@@ -17,44 +17,41 @@ class SetDefaultOptions
 
     /**
      * Handle the command.
-     *
-     * @param ModuleCollection $modules
+     * 
      * @param TableBuilder $builder
      */
-    public function handle(ModuleCollection $modules, TableBuilder $builder)
+    public function handle(TableBuilder $builder)
     {
-        $table = $builder->getTable();
 
         /*
          * Set the default sortable option.
          */
-        if ($table->getOption('sortable') === null) {
-            $stream = $table->getStream();
+        if ($builder->table->getOption('sortable') === null) {
 
-            if ($stream && $stream->sortable) {
-                $table->setOption('sortable', true);
+            if ($builder->stream && $builder->stream->sortable) {
+                $builder->table->setOption('sortable', true);
             }
         }
 
         /*
          * Default the table view based on the request.
          */
-        if (!$builder->getTableOption('table_view')) {
-            $builder->setTableOption('table_view', 'streams::table/table');
+        if (!$builder->table->getOption('table_view')) {
+            $builder->table->setOption('table_view', 'streams::table/table');
         }
 
         /*
          * Sortable tables have no pages.
          */
-        if ($table->getOption('sortable') === true) {
-            $table->setOption('limit', $table->getOption('limit', 99999));
+        if ($builder->table->getOption('sortable') === true) {
+            $builder->table->setOption('limit', $builder->table->getOption('limit', 99999));
         }
 
         /*
          * Set the default breadcrumb.
          */
-        if ($table->getOption('breadcrumb') === null && $title = $table->getOption('title')) {
-            $table->setOption('breadcrumb', $title);
+        if ($builder->table->getOption('breadcrumb') === null && $title = $builder->table->getOption('title')) {
+            $builder->table->setOption('breadcrumb', $title);
         }
 
         /*
@@ -63,7 +60,7 @@ class SetDefaultOptions
          * last so it actually has an effect.
          */
         if ($orderBy = $builder->getRequestValue('order_by')) {
-            $table->setOption('order_by', [$orderBy => $builder->getRequestValue('sort', 'asc')]);
+            $builder->table->setOption('order_by', [$orderBy => $builder->getRequestValue('sort', 'asc')]);
         }
 
         /*
@@ -71,8 +68,8 @@ class SetDefaultOptions
          * then set the values from the request on the builder
          * last so it actually has an effect. Otherwise default.
          */
-        if ($table->getOption('limit') === null) {
-            $table->setOption(
+        if ($builder->table->getOption('limit') === null) {
+            $builder->table->setOption(
                 'limit',
                 $builder->getRequestValue('limit', config('streams.system.per_page', 15))
             );

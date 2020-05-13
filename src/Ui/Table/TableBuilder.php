@@ -4,7 +4,9 @@ namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Anomaly\Streams\Platform\Ui\Table\Table;
 use Symfony\Component\HttpFoundation\Response;
+use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Table\Command\AddAssets;
 use Anomaly\Streams\Platform\Ui\Table\Command\LoadTable;
@@ -25,100 +27,40 @@ use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
  */
 class TableBuilder
 {
+
+    use HasAttributes;
     use FiresCallbacks;
 
     /**
-     * The ajax flag.
-     *
-     * @var bool
-     */
-    protected $ajax = false;
-
-    /**
-     * The table model.
-     *
-     * @var null|string
-     */
-    protected $model = null;
-
-    /**
-     * The entries handler.
-     *
-     * @var null|string
-     */
-    protected $entries = null;
-
-    /**
-     * The table repository.
-     *
-     * @var null|TableRepositoryInterface
-     */
-    protected $repository = null;
-
-    /**
-     * The views configuration.
-     *
-     * @var array|string
-     */
-    protected $views = [];
-
-    /**
-     * The filters configuration.
-     *
-     * @var array|string
-     */
-    protected $filters = [];
-
-    /**
-     * The columns configuration.
-     *
-     * @var array|string
-     */
-    protected $columns = [];
-
-    /**
-     * The buttons configuration.
-     *
-     * @var array|string
-     */
-    protected $buttons = [];
-
-    /**
-     * The actions configuration.
-     *
-     * @var array|string
-     */
-    protected $actions = [];
-
-    /**
-     * The table options.
+     * The table attributes.
      *
      * @var array
      */
-    protected $options = [];
+    protected $attributes = [
 
-    /**
-     * The table assets.
-     *
-     * @var array
-     */
-    protected $assets = [];
+        'async' => false,
 
-    /**
-     * The table object.
-     *
-     * @var Table
-     */
-    protected $table;
+        'stream' => null,
+        'entries' => null,
+        'repository' => TableRepository::class,
+
+        'views' => [],
+        'assets' => [],
+        'filters' => [],
+        'columns' => [],
+        'buttons' => [],
+        'actions' => [],
+        'options' => [],
+
+        'table' => Table::class,
+    ];
 
     /**
      * Create a new TableBuilder instance.
-     *
-     * @param Table $table
      */
-    public function __construct(Table $table)
+    public function __construct(array $attributes = [])
     {
-        $this->table = $table;
+        $this->attributes = array_merge($this->attributes, $attributes);
     }
 
     /**
@@ -129,6 +71,10 @@ class TableBuilder
     public function build()
     {
         $this->fire('ready', ['builder' => $this]);
+
+        if (!$this->table instanceof Table) {
+            $this->table = app($this->table);
+        }
 
         dispatch_now(new BuildTable($this));
 
@@ -840,5 +786,27 @@ class TableBuilder
     public function getRequestValue($key, $default = null)
     {
         return array_get($_REQUEST, $this->getOption('prefix') . $key, $default);
+    }
+
+    /**
+     * Dynamically retrieve attributes.
+     *
+     * @param  string $key
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        return $this->getAttribute($key);
+    }
+
+    /**
+     * Dynamically set attributes.
+     *
+     * @param  string  $key
+     * @param  mixed $value
+     */
+    public function __set($key, $value)
+    {
+        $this->setAttribute($key, $value);
     }
 }

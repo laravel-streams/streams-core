@@ -29,6 +29,7 @@ use Anomaly\Streams\Platform\Stream\StreamRegistry;
 use Anomaly\Streams\Platform\Ui\Table\TableComponent;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Http\Controller\EntryController;
+use Anomaly\Streams\Platform\Stream\StreamBuilder;
 use Exception;
 
 /**
@@ -237,8 +238,7 @@ class StreamsServiceProvider extends ServiceProvider
                 throw new Exception("Failed to parse JSON: {$file->getPathname()}");
             }
 
-            $stream = StreamFactory::make($stream);
-
+            $stream = StreamBuilder::build($stream);
 
             $this->app->instance(
                 'streams::' . $file->getBasename('.' . $file->getExtension()),

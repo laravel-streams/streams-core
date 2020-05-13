@@ -50,18 +50,16 @@ class BuildTable
             /*
             * Resolve and set the table model and stream.
             */
-            SetTableModel::class,
-            SetTableStream::class,
-            SetDefaultParameters::class,
+            SetStream::class,
             SetRepository::class,
 
             /*
             * Build table views and mark active.
             */
-            ViewBuilder::class,
-            'set_active_view' => function() {
-                dispatch_now(new SetActiveView($this->builder));
-            },
+            // ViewBuilder::class,
+            // 'set_active_view' => function () {
+            //     dispatch_now(new SetActiveView($this->builder));
+            // },
 
             /**
              * Set the table options going forward.
@@ -73,31 +71,31 @@ class BuildTable
             /*
             * Before we go any further, authorize the request.
             */
-            AuthorizeTable::class,
+            //AuthorizeTable::class,
 
             /*
             * Build table filters and flag active.
             */
-            'filter_builder' => function() {
-                FilterBuilder::build($this->builder);
-            },
-            SetActiveFilters::class,
+            // 'filter_builder' => function () {
+            //     FilterBuilder::build($this->builder);
+            // },
+            // SetActiveFilters::class,
 
             /*
             * Build table actions and flag active.
             */
-            'action_builder' => function() {
-                ActionBuilder::build($this->builder);
-            },
-            SetActiveAction::class,
+            // 'action_builder' => function () {
+            //     ActionBuilder::build($this->builder);
+            // },
+            // SetActiveAction::class,
 
             /*
             * Build table headers.
             */
-            'header_builder' => function() {
-                HeaderBuilder::build($this->builder);
-            },
-            //EagerLoadRelations::class,
+            // 'header_builder' => function () {
+            //     HeaderBuilder::build($this->builder);
+            // },
+            // EagerLoadRelations::class,
 
             /*
             * Get table entries.
@@ -107,7 +105,7 @@ class BuildTable
             /*
             * Lastly table rows.
             */
-            'row_builder' => function() {
+            'row_builder' => function () {
                 RowBuilder::build($this->builder);
             },
         ]);

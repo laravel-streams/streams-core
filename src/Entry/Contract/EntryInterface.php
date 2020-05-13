@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Entry\Contract;
 
+use Anomaly\Streams\Platform\Stream\Stream;
+
 /**
  * Interface EntryInterface
  *
@@ -11,6 +13,13 @@ namespace Anomaly\Streams\Platform\Entry\Contract;
  */
 interface EntryInterface
 {
+
+    /**
+     * Return the entry stream.
+     *
+     * @var Stream
+     */
+    public function stream();
 
     /**
      * Get the instance as an array.

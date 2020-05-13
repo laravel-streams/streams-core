@@ -1,10 +1,15 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php
 
+namespace Anomaly\Streams\Platform\Ui\Table\Command;
+
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Facades\App;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableRepository;
+use Exception;
 
 /**
  * Create a new SetRepository instance.
@@ -18,23 +23,27 @@ class SetRepository
     /**
      * Handle the command.
      *
-     * @param Container $container
      * @param TableBuilder $builder
      */
-    public function handle(Container $container, TableBuilder $builder)
+    public function handle(TableBuilder $builder)
     {
-        /*
-         * Set the default options handler based
-         * on the builder class. Defaulting to
-         * no handler.
-         */
-        if (!$builder->getRepository()) {
-            
-            $model = $builder->getTableModel();
 
-            if (!$builder->getRepository() && $model instanceof Model) {
-                $builder->setRepository($container->make(TableRepository::class, compact('model')));
-            }
+        if ($builder->repository instanceof TableRepositoryInterface) {
+            return;
         }
+
+        if ($builder->repository) {
+            $builder->repository = App::make($builder->repository, compact('builder'));
+        }
+
+        if (!$builder->repository && $builder->stream instanceof StreamInterface) {
+            $builder->repository = $builder->stream->repository();
+        }
+
+        if ($builder->repository instanceof TableRepositoryInterface) {
+            return;
+        }
+
+        throw new Exception("Please define the [repository] and/or [stream] attribute.");
     }
 }

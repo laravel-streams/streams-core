@@ -3,13 +3,11 @@
 namespace Anomaly\Streams\Platform\Stream;
 
 use Illuminate\Support\Facades\Gate;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
+use Anomaly\Streams\Platform\Security\Policy;
 use Anomaly\Streams\Platform\Field\FieldBuilder;
 use Anomaly\Streams\Platform\Field\FieldFactory;
-use Anomaly\Streams\Platform\Security\Policy;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasBuilt;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Workflow\Workflow;
 
 /**
  * Class StreamBuilder
@@ -48,7 +46,10 @@ class StreamBuilder
 
         $stream->fields = $fields;
 
-        Gate::policy(get_class($stream->model), $stream->config('policy', Policy::class));
+        /**
+         * @todo Revisit
+         */
+        //Gate::policy(get_class($stream->model), $stream->config('policy', Policy::class));
 
         $stream->fire('built', compact($stream));
 

@@ -49,6 +49,14 @@ class Entry implements EntryInterface, Arrayable, Jsonable
     }
 
     /**
+     * Return the entry stream.
+     */
+    public function stream()
+    {
+        return $this->stream;
+    }
+
+    /**
      * Get the instance as an array.
      *
      * @return array

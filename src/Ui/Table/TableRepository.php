@@ -3,9 +3,9 @@
 namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableWasQueried;
+use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 
 /**
@@ -19,55 +19,42 @@ class TableRepository implements TableRepositoryInterface
 {
 
     /**
-     * The repository model.
+     * The repository instance.
      *
-     * @var Model
+     * @var RepositoryInterface
      */
-    protected $model;
+    protected $repository;
 
     /**
-     * Create a new Model instance.
+     * Create a new class instance.
      *
-     * @param Model $model
+     * @param TableBuilder $builder
+     * @param RepositoryInterface $repository
      */
-    public function __construct(Model $model)
+    public function __construct(TableBuilder $builder)
     {
-        $this->model = $model;
+        $this->builder = $builder;
     }
 
     /**
      * Get the table entries.
      *
-     * @param  TableBuilder $builder
      * @return Collection
      */
-    public function get(TableBuilder $builder)
+    public function get()
     {
-        // Grab any stream we have.
-        $stream = $builder->getTableStream();
-
-        // Start a new query.
-        $query = $this->model->newQuery();
-
-        /*
-         * Prevent joins from overriding intended columns
-         * by prefixing with the model's table name.
-         */
-        $query = $query->select($this->model->getTable() . '.*');
-
-        /*
-         * Eager load any relations to
-         * save resources and queries.
-         */
-        $query = $query->with($builder->getTableOption('eager', []));
+        // Start a new entry criteria.
+        $criteria = $this->builder->stream
+            ->repository()
+            ->newCriteria();
 
         /*
          * Raise and fire an event here to allow
          * other things (including filters / views)
          * to modify the query before proceeding.
          */
-        $builder->fire('querying', compact('builder', 'query'));
-        event(new TableIsQuerying($builder, $query));
+        //$builder->fire('querying', compact('builder', 'query'));
+        //event(new TableIsQuerying($builder, $query));
 
         /*
          * Before we actually adjust the baseline query
@@ -77,12 +64,10 @@ class TableRepository implements TableRepositoryInterface
          * We unset the orders on the query
          * because of pgsql grouping issues.
          */
-        $count                     = clone ($query);
-        $count->getQuery()->orders = null;
+        $total = $criteria->count();
 
-        $total = $count->count();
-
-        $builder->setTableOption('total_results', $total);
+        // @todo improve
+        $this->builder->table->setOption('total_results', $total);
 
         /*
          * Assure that our page exists. If the page does
@@ -90,44 +75,44 @@ class TableRepository implements TableRepositoryInterface
          * we find a page that is has something to show us.
          */
         $limit  = (int) app('request')->get(
-            $builder->getTableOption('prefix') . 'limit',
-            $builder->getTableOption('limit', config('streams.system.per_page', 15))
+            $this->builder->table->getOption('prefix') . 'limit',
+            $this->builder->table->getOption('limit', config('streams.system.per_page', 15))
         );
-        $page   = (int) app('request')->get($builder->getTableOption('prefix') . 'page', 1);
+        $page   = (int) app('request')->get($this->builder->table->getOption('prefix') . 'page', 1);
         $offset = $limit * (($page ?: 1) - 1);
 
         if ($total < $offset && $page > 1) {
             $url = str_replace(
-                $builder->getTableOption('prefix') . 'page=' . $page,
-                $builder->getTableOption('prefix') . 'page=' . ($page - 1),
+                $this->builder->table->getOption('prefix') . 'page=' . $page,
+                $this->builder->table->getOption('prefix') . 'page=' . ($page - 1),
                 app('request')->fullUrl()
             );
 
             header('Location: ' . $url);
         }
 
-        $query = $query->take($limit)->offset($offset);
+        $criteria->limit($limit, $offset);
 
         /*
          * Order the query results.
          */
-        if ($order = $builder->getTableOption('order_by')) {
-            foreach ($order as $column => $direction) {
-                if ($stream && $utility = null/*$stream->getFieldTypeQuery($column)*/) {
-                    $utility->orderBy($query, $direction);
-                } else {
-                    $query = $query->orderBy($column, $direction);
-                }
+        if ($order = $this->builder->table->getOption('order_by')) {
+            foreach ($order as $field => $direction) {
+
+                /**
+                 * @todo REVISIT: Let FTs override with their criteria class.
+                 */
+                $criteria->orderBy($field, $direction);
             }
         }
 
-        if ($builder->getTableOption('sortable')) {
-            $query = $query->orderBy($this->model->getTable() . '.sort_order', 'ASC');
+        if ($this->builder->table->getOption('sortable')) {
+            $criteria->orderBy('sort_order', 'ASC');
         }
 
-        $builder->fire('queried', compact('builder', 'query'));
-        event(new TableWasQueried($builder, $query));
+        // $builder->fire('queried', compact('builder', 'query'));
+        // event(new TableWasQueried($builder, $query));
 
-        return $query->get();
+        return $criteria->get();
     }
 }
