@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Repository;
 
+use Anomaly\Streams\Platform\Criteria\EloquentCriteria;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Stream\Stream;
@@ -194,6 +195,7 @@ class Repository implements RepositoryInterface
      */
     public function newCriteria()
     {
+        //return new EloquentCriteria($this->stream);
         return new FilebaseCriteria($this->stream);
     }
 }

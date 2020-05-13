@@ -2,14 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Facades\App;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Anomaly\Streams\Platform\Ui\Table\TableRepository;
-use Exception;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 
 /**
  * Create a new SetRepository instance.
@@ -44,6 +40,6 @@ class SetRepository
             return;
         }
 
-        throw new Exception("Please define the [repository] and/or [stream] attribute.");
+        throw new \Exception("Please define the [repository] and/or [stream] attribute.");
     }
 }

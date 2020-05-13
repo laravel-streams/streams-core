@@ -27,6 +27,6 @@ class GenericFilterQuery
      */
     public function handle(Filter $filter, CriteriaInterface $criteria)
     {
-        $criteria->where($filter->column ?: $filter->slug, 'LIKE', $filter->getValue());
+        $criteria->where($filter->column ?: $filter->slug, 'LIKE', '%' . $filter->getValue() . '%');
     }
 }

@@ -115,7 +115,6 @@ class TableRepository implements TableRepositoryInterface
 
         // $builder->fire('queried', compact('builder', 'query'));
         // event(new TableWasQueried($builder, $query));
-
         return $criteria->get();
     }
 }
