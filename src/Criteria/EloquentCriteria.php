@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Criteria;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Traits\Macroable;
@@ -119,17 +120,47 @@ class EloquentCriteria implements CriteriaInterface
      * @param string $field
      * @param string|null $operator
      * @param string|null $value
+     * @param string|null $nested
+     * @return $this
      */
-    public function where($field, $operator = null, $value = null)
+    public function where($field, $operator = null, $value = null, $nested = null)
     {
         if (!$value) {
             $value = $operator;
             $operator = '=';
         }
 
-        $this->query = $this->query->where($field, $operator, $value);
+        $method = Str::studly($nested ? $nested . '_where' : 'where');
+
+        $this->query = $this->query->{$method}($field, $operator, $value);
 
         return $this;
+    }
+
+    /**
+     * Add a where constraint.
+     *
+     * @param string $field
+     * @param string|null $operator
+     * @param string|null $value
+     * @return $this
+     */
+    public function andWhere($field, $operator = null, $value = null)
+    {
+        return $this->where($field, $operator, $value, 'and');
+    }
+
+    /**
+     * Add a where constraint.
+     *
+     * @param string $field
+     * @param string|null $operator
+     * @param string|null $value
+     * @return $this
+     */
+    public function orWhere($field, $operator = null, $value = null)
+    {
+        return $this->where($field, $operator, $value, 'or');
     }
 
     /**

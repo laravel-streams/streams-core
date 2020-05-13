@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Criteria;
 
 use Filebase\Database;
 use Filebase\Document;
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Facade\Ignition\QueryRecorder\Query;
 use Illuminate\Support\Traits\Macroable;
@@ -137,8 +138,9 @@ class FilebaseCriteria implements CriteriaInterface
      * @param string $field
      * @param string|null $operator
      * @param string|null $value
+     * @param string|null $nested
      */
-    public function where($field, $operator = null, $value = null)
+    public function where($field, $operator = null, $value = null, $nested = null)
     {
         if (!$value) {
             $value = $operator;
@@ -149,9 +151,37 @@ class FilebaseCriteria implements CriteriaInterface
             $field = '__id';
         }
 
-        $this->query = $this->query->where($field, $operator, str_replace('%', '', $value));
+        $method = Str::studly($nested ? $nested . '_where' : 'where');
+
+        $this->query = $this->query->{$method}($field, $operator, str_replace('%', '', $value));
 
         return $this;
+    }
+
+    /**
+     * Add a where constraint.
+     *
+     * @param string $field
+     * @param string|null $operator
+     * @param string|null $value
+     * @return $this
+     */
+    public function andWhere($field, $operator = null, $value = null)
+    {
+        return $this->where($field, $operator, $value, 'and');
+    }
+
+    /**
+     * Add a where constraint.
+     *
+     * @param string $field
+     * @param string|null $operator
+     * @param string|null $value
+     * @return $this
+     */
+    public function orWhere($field, $operator = null, $value = null)
+    {
+        return $this->where($field, $operator, $value, 'or');
     }
 
     /**
