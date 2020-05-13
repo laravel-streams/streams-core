@@ -36,7 +36,16 @@ class FilebaseCriteria implements CriteriaInterface
 
         $this->query = new Database([
             // @todo IDE not hinting
-            'dir' => base_path($stream->attr('filebase', 'streams/data/' . $stream->slug))
+            'dir' => base_path($stream->attr('filebase', 'streams/data/' . $stream->slug)),
+
+            //'backupLocation' => 'path/to/database/backup/dir',
+            //'format'         => \Filebase\Format\Json::class,
+            'cache'          => false,
+            //'cache_expires'  => 1800,
+            'pretty'         => true,
+            'safe_filename'  => true,
+            //'read_only'      => false,
+            //'rules' => []
         ]);
     }
 

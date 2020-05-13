@@ -2,8 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Guesser\PlaceholdersGuesser;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Guesser\PlaceholdersGuesser;
 
 /**
  * Class FilterGuesser
