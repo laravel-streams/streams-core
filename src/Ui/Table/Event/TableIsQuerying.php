@@ -1,5 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Event;
+<?php
 
+namespace Anomaly\Streams\Platform\Ui\Table\Event;
+
+use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -21,32 +24,32 @@ class TableIsQuerying
     protected $builder;
 
     /**
-     * The table query.
+     * The table criteria.
      *
-     * @var Builder
+     * @var CriteriaInterface
      */
-    protected $query;
+    protected $criteria;
 
     /**
      * Create a new TableIsQuerying instance.
      *
      * @param TableBuilder $builder
-     * @param Builder      $query
+     * @param CriteriaInterface $criteria
      */
-    public function __construct(TableBuilder $builder, Builder $query)
+    public function __construct(TableBuilder $builder, CriteriaInterface $criteria)
     {
         $this->builder = $builder;
-        $this->query   = $query;
+        $this->criteria = $criteria;
     }
 
     /**
-     * Get the query.
+     * Get the criteria.
      *
-     * @return Builder
+     * @return CriteriaInterface
      */
-    public function getQuery()
+    public function getCriteria()
     {
-        return $this->query;
+        return $this->criteria;
     }
 
     /**

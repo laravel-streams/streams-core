@@ -42,7 +42,7 @@ class DatetimeFilter extends Filter
         return $datetime
             ->setLocale(null)
             ->setField($this->slug)
-            ->setValue($this->value)
+            ->setValue($this->getValue())
             ->setPlaceholder($this->placeholder)
             ->setPrefix($this->prefix . 'filter_')
             ->setAttributes($this->getAttributes())

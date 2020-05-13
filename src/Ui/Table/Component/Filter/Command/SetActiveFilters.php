@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -23,7 +25,7 @@ class SetActiveFilters
         /* @var Filter $filter */
         foreach ($builder->getTableFilters() as $filter) {
             if (app('request')->get($filter->getInputName())) {
-                $filter->setActive(true);
+                $filter->active = true;
             }
         }
     }

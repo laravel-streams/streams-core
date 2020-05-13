@@ -53,8 +53,11 @@ class TableRepository implements TableRepositoryInterface
          * other things (including filters / views)
          * to modify the query before proceeding.
          */
-        //$builder->fire('querying', compact('builder', 'query'));
-        //event(new TableIsQuerying($builder, $query));
+        $this->builder->fire('querying', [
+            'builder' => $this->builder,
+            'criteria' => $criteria
+        ]);
+        event(new TableIsQuerying($this->builder, $criteria));
 
         /*
          * Before we actually adjust the baseline query

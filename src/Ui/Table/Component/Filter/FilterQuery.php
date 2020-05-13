@@ -2,11 +2,11 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Container\Container;
+use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
 use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Builder;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 
 /**
  * Class FilterQuery
@@ -21,30 +21,24 @@ class FilterQuery
     /**
      * Modify the table's query using the filters.
      *
-     * @param TableBuilder    $builder
+     * @param TableBuilder $builder
      * @param Filter $filter
-     * @param Builder         $query
+     * @param CriteriaInterface $criteria
      */
-    public function filter(TableBuilder $builder, Filter $filter, Builder $query)
+    public function filter(TableBuilder $builder, Filter $filter, CriteriaInterface $criteria)
     {
-
-        /**
-         * Make sure we're including
-         * only distinct results.
-         */
-        $query->distinct();
 
         /*
          * If the filter is self handling then let
          * it filter the query itself.
          */
         if (method_exists($filter, 'handle')) {
-            App::call([$filter, 'handle'], compact('builder', 'query', 'filter'));
+            App::call([$filter, 'handle'], compact('builder', 'criteria', 'filter'));
 
             return;
         }
 
-        $handler = $filter->getQuery();
+        $handler = $filter->query;
 
         // Self handling implies @handle
         if (is_string($handler) && !str_contains($handler, '@')) {
@@ -56,7 +50,7 @@ class FilterQuery
          * then call it using the IoC container.
          */
         if (is_string($handler) || $handler instanceof \Closure) {
-            App::call($handler, compact('builder', 'query', 'filter'));
+            App::call($handler, compact('builder', 'criteria', 'filter'));
         }
     }
 }

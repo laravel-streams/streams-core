@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterQuery;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
@@ -38,13 +40,13 @@ class FilterResults
      */
     public function handle(TableIsQuerying $event)
     {
-        $query   = $event->getQuery();
+        $criteria = $event->getCriteria();
         $builder = $event->getBuilder();
 
         $filters = $builder->getTableFilters();
 
         foreach ($filters->active() as $filter) {
-            $this->query->filter($builder, $filter, $query);
+            $this->query->filter($builder, $filter, $criteria);
         }
     }
 }

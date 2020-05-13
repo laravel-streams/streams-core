@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
 
+use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Container\Container;
@@ -21,34 +22,11 @@ class GenericFilterQuery
     /**
      * Handle the filter.
      *
-     * @param Builder $query
      * @param Filter $filter
-     * @param TableBuilder $builder
+     * @param CriteriaInterface $criteria
      */
-    public function handle(Builder $query, Filter $filter, TableBuilder $builder)
+    public function handle(Filter $filter, CriteriaInterface $criteria)
     {
-        $stream = $filter->getStream();
-
-        if ($stream && $fieldType = $stream->getFieldType($filter->getField())) {
-            $fieldTypeQuery = $fieldType->getQuery();
-
-            App::call([$fieldTypeQuery, 'filter'], compact('query', 'filter', 'builder'));
-
-            return;
-        }
-
-        if ($stream && $fieldType = $stream->getFieldType($filter->getSlug())) {
-            $fieldTypeQuery = $fieldType->getQuery();
-
-            App::call([$fieldTypeQuery, 'filter'], compact('query', 'filter', 'builder'));
-
-            return;
-        }
-
-        if ($filter->isExact()) {
-            $query->where($filter->getColumn() ?: $filter->getSlug(), $filter->getValue());
-        } else {
-            $query->where($filter->getColumn() ?: $filter->getSlug(), 'LIKE', "%{$filter->getValue()}%");
-        }
+        $criteria->where($filter->column ?: $filter->slug, 'LIKE', $filter->getValue());
     }
 }
