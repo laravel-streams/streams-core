@@ -38,11 +38,11 @@ class StreamSchema
     /**
      * Create a new StreamSchema instance.
      *
-     * @param string $model
+     * @param StreamInterface $stream
      */
-    public function __construct(string $model)
+    public function __construct(StreamInterface $stream)
     {
-        $this->stream = app($model)->stream();
+        $this->stream = $stream;
         $this->schema = Schema::connection(config('database.default'));
     }
 
@@ -54,7 +54,7 @@ class StreamSchema
     public function create(\Closure $callback)
     {
         $this->schema->create(
-            $this->stream->model->getTable(),
+            $this->stream->model ? $this->stream->model->getTable() : $this->stream->slug,
             function (Blueprint $table) use ($callback) {
 
                 /**
@@ -89,6 +89,6 @@ class StreamSchema
      */
     public function drop()
     {
-        $this->schema->dropIfExists($this->stream->model->getTable());
+        $this->schema->dropIfExists($this->stream->model ? $this->stream->model->getTable() : $this->stream->slug);
     }
 }

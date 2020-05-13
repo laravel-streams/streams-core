@@ -2,26 +2,25 @@
 
 namespace Anomaly\Streams\Platform\Criteria;
 
-use Filebase\Database;
-use Filebase\Document;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
-use Facade\Ignition\QueryRecorder\Query;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Entry\Entry;
+use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Traits\HasMemory;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
 
 /**
- * Class FilebaseCriteria
+ * Class EloquentCriteria
  *
  * @link    http://pyrocms.com/
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class FilebaseCriteria implements CriteriaInterface
+class EloquentCriteria implements CriteriaInterface
 {
 
     use Macroable;
@@ -30,7 +29,7 @@ class FilebaseCriteria implements CriteriaInterface
     /**
      * The database query.
      *
-     * @var Query
+     * @var Builder
      */
     protected $query;
 
@@ -50,19 +49,10 @@ class FilebaseCriteria implements CriteriaInterface
     {
         $this->stream = $stream;
 
-        $this->query = new Database([
-            // @todo IDE not hinting
-            'dir' => base_path($stream->attr('filebase', 'streams/data/' . $stream->slug)),
-
-            //'backupLocation' => 'path/to/database/backup/dir',
-            //'format'         => \Filebase\Format\Json::class,
-            'cache'          => false,
-            //'cache_expires'  => 1800,
-            'pretty'         => true,
-            'safe_filename'  => true,
-            //'read_only'      => false,
-            //'rules' => []
-        ]);
+        $this->query = (new EntryModel)
+            ->setTable($stream->slug)
+            ->setStream($stream)
+            ->newQuery();
     }
 
     /**
@@ -72,7 +62,7 @@ class FilebaseCriteria implements CriteriaInterface
      */
     public function all()
     {
-        return $this->collect($this->query->findAll());
+        return $this->query->all();
     }
 
     /**
@@ -83,11 +73,7 @@ class FilebaseCriteria implements CriteriaInterface
      */
     public function find($id)
     {
-        if (!$this->query->has($id)) {
-            return null;
-        }
-
-        return $this->make($this->query->get($id));
+        return $this->query->find($id);
     }
 
     /**
@@ -97,11 +83,7 @@ class FilebaseCriteria implements CriteriaInterface
      */
     public function first()
     {
-        if (!$result = $this->query->first()) {
-            return null;
-        }
-
-        return $this->make($result);
+        return $this->query->first();
     }
 
     /**
@@ -126,7 +108,7 @@ class FilebaseCriteria implements CriteriaInterface
      */
     public function limit($limit, $offset = 0)
     {
-        $this->query = $this->query->limit($limit, $offset);
+        $this->query = $this->query->take($limit)->skip($offset);
 
         return $this;
     }
@@ -139,6 +121,7 @@ class FilebaseCriteria implements CriteriaInterface
      * @param string|null $operator
      * @param string|null $value
      * @param string|null $nested
+     * @return $this
      */
     public function where($field, $operator = null, $value = null, $nested = null)
     {
@@ -147,13 +130,9 @@ class FilebaseCriteria implements CriteriaInterface
             $operator = '=';
         }
 
-        if ($field == 'id') {
-            $field = '__id';
-        }
-
         $method = Str::studly($nested ? $nested . '_where' : 'where');
 
-        $this->query = $this->query->{$method}($field, $operator, str_replace('%', '', $value));
+        $this->query = $this->query->{$method}($field, $operator, $value);
 
         return $this;
     }
@@ -191,7 +170,7 @@ class FilebaseCriteria implements CriteriaInterface
      */
     public function get()
     {
-        return $this->collect($this->query->results());
+        return $this->query->get();
     }
 
     /**
@@ -213,7 +192,7 @@ class FilebaseCriteria implements CriteriaInterface
     public function create(array $attributes = [])
     {
         // @todo automatically map to slug or something?
-        return $this->make($this->query->get(array_pull($attributes, 'id'))->save($attributes));
+        return $this->query->create($attributes);
     }
 
     /**
@@ -224,19 +203,7 @@ class FilebaseCriteria implements CriteriaInterface
      */
     public function save(EntryInterface $entry)
     {
-        $attributes = $entry->getAttributes();
-
-        /**
-         * Remove these protected
-         * and automated attributes.
-         */
-        array_pull($attributes, 'id');
-        array_pull($attributes, 'created_at');
-        array_pull($attributes, 'updated_at');
-
-        return (bool) $this->query
-            ->get($entry->id)
-            ->save($attributes);
+        return $this->query->save($entry);
     }
 
     /**
@@ -273,45 +240,5 @@ class FilebaseCriteria implements CriteriaInterface
         $abstract = $this->stream->attr('abstract', Entry::class);
 
         return new $abstract($this->stream, $attributes);
-    }
-
-    /**
-     * Return an entry collection.
-     *
-     * @param array $entries
-     * @return Collection
-     */
-    protected function collect(array $entries)
-    {
-        $collection = $this->stream->attr('collection', Collection::class);
-
-        return new $collection(array_map(function ($entry) {
-            return $this->make($entry);
-        }, $entries));
-    }
-
-    /**
-     * Return an entry interface from a file.
-     *
-     * @param $entry
-     * @return EntryInterface
-     */
-    protected function make($entry)
-    {
-        if ($entry instanceof Document) {
-
-            return $this->newInstance(array_merge(
-                [
-                    'id' => $entry->getId(),
-                    'created_at' => $entry->createdAt(),
-                    'updated_at' => $entry->updatedAt(),
-                ],
-                $entry->toArray()
-            ));
-        }
-
-        if (is_array($entry)) {
-            return $this->newInstance($entry);
-        }
     }
 }
