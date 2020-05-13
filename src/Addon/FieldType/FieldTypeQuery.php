@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -44,14 +45,14 @@ class FieldTypeQuery
      * field using this field type.
      *
      * @param Builder         $query
-     * @param FilterInterface $filter
+     * @param Filter $filter
      */
-    public function filter(Builder $query, FilterInterface $filter)
+    public function filter(Builder $query, Filter $filter)
     {
-        $stream = $filter->getStream();
+        $stream = $filter->stream;
         $entry  = $stream->model->getTable();
         $column = $this->fieldType->getColumnName();
-        $field  = $stream->fields->get($filter->getField());
+        $field  = $stream->fields->get($filter->field);
 
         $query->{$this->where()}(
             function (Builder $query) use ($field, $filter, $column, $entry) {

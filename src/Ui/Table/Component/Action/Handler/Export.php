@@ -25,7 +25,7 @@ class Export
     public function handle(TableBuilder $builder, ResponseFactory $response, array $selected)
     {
         $model  = $builder->getTableModel();
-        $stream = $builder->getTableStream();
+        $stream = $builder->stream;
 
         $headers = [
             'Content-Disposition' => 'attachment; filename=' . $stream->slug . '.csv',

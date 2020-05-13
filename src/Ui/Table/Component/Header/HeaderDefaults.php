@@ -19,7 +19,7 @@ class HeaderDefaults
      */
     public function defaults(TableBuilder $builder)
     {
-        if (!$stream = $builder->getTableStream()) {
+        if (!$stream = $builder->stream) {
             return;
         }
 

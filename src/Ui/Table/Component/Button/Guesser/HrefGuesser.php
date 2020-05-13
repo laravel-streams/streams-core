@@ -23,7 +23,7 @@ class HrefGuesser
     {
         $buttons = $builder->getButtons();
 
-        $stream = $builder->getTableStream();
+        $stream = $builder->stream;
 
         foreach ($buttons as &$button) {
 
@@ -36,7 +36,7 @@ class HrefGuesser
              * If a route has been defined then
              * move that to an HREF closure.
              */
-            if (isset($button['route']) && $builder->getTableStream()) {
+            if (isset($button['route']) && $builder->stream) {
 
                 $button['attributes']['href'] = function ($entry) use ($button) {
 

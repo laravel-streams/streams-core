@@ -37,7 +37,7 @@ class EagerLoadRelations
      */
     public function handle()
     {
-        $stream = $this->builder->getTableStream();
+        $stream = $this->builder->stream;
 
         if (!$stream instanceof StreamInterface) {
             return;

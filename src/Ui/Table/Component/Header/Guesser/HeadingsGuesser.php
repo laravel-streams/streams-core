@@ -24,7 +24,7 @@ class HeadingsGuesser
     public static function guess(TableBuilder $builder)
     {
         $columns = $builder->getColumns();
-        $stream  = $builder->getTableStream();
+        $stream  = $builder->stream;
 
         $module = app('module.collection')->active();
 

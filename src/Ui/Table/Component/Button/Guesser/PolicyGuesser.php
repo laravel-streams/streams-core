@@ -27,7 +27,7 @@ class PolicyGuesser
             return;
         }
 
-        if (!$stream = $builder->getTableStream()) {
+        if (!$stream = $builder->stream) {
             return;
         }
 

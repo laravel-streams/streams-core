@@ -23,7 +23,7 @@ class SortableGuesser
     public static function guess(TableBuilder $builder)
     {
         $columns = $builder->getColumns();
-        $stream  = $builder->getTableStream();
+        $stream  = $builder->stream;
 
         foreach ($columns as &$column) {
 

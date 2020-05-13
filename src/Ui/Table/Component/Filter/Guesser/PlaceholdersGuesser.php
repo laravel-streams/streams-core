@@ -22,7 +22,7 @@ class PlaceholdersGuesser
     public static function guess(TableBuilder $builder)
     {
         $filters = $builder->getFilters();
-        $stream  = $builder->getTableStream();
+        $stream  = $builder->stream;
 
         $module = app('module.collection')->active();
 

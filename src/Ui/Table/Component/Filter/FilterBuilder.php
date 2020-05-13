@@ -33,7 +33,9 @@ class FilterBuilder
                 continue;
             }
 
-            $table->addFilter($factory->make($filter));
+            $table->addFilter($factory->make($filter, [
+                'stream' => $builder->stream,
+            ]));
         }
 
         if ($first = $builder->getTableFilters()->first()) {

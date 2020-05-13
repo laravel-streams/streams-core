@@ -76,10 +76,10 @@ class BuildTable
             /*
             * Build table filters and flag active.
             */
-            // 'filter_builder' => function () {
-            //     FilterBuilder::build($this->builder);
-            // },
-            // SetActiveFilters::class,
+            'filter_builder' => function () {
+                FilterBuilder::build($this->builder);
+            },
+            SetActiveFilters::class,
 
             /*
             * Build table actions and flag active.

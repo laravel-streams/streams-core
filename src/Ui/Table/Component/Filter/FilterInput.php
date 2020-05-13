@@ -57,9 +57,9 @@ class FilterInput
             'deleted_at',
         ];
 
-        $filters = $builder->getFilters();
-        $stream  = $builder->getTableStream();
-        $prefix  = $builder->getTableOption('prefix');
+        $stream  = $builder->stream;
+        $filters = $builder->filters;
+        $prefix  = $builder->table->getOption('prefix');
 
         foreach ($filters as $slug => &$filter) {
 

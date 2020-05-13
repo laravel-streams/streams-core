@@ -22,7 +22,7 @@ class PolicyGuesser
     public static function guess(TableBuilder $builder)
     {
         $actions = $builder->getActions();
-        $stream  = $builder->getTableStream();
+        $stream  = $builder->stream;
 
         if (!$module = app('module.collection')->active()) {
             return;
