@@ -86,7 +86,7 @@ trait FiresCallbacks
 
             $listeners = (array) array_get(
                 self::$listeners,
-                $caller . '::' . $trigger,
+                $caller . '::' . $trigger
             );
 
             foreach ($listeners as $callback) {
