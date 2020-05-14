@@ -11,8 +11,6 @@ namespace Anomaly\Streams\Platform\Traits;
 trait HasAttributes
 {
 
-    use HasMemory;
-
     /**
      * Create a new class instance.
      *
