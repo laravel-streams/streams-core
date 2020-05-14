@@ -143,7 +143,7 @@ class AssetCollection extends Collection
      */
     public function content()
     {
-        return $this->inlines()->implode("\n\n");
+        return $this->tags()->implode("\n\n");
     }
 
     /**
@@ -153,6 +153,6 @@ class AssetCollection extends Collection
      */
     public function __toString()
     {
-        return $this->implode('');
+        return $this->tags()->implode("\n\n");
     }
 }
