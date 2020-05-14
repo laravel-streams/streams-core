@@ -45,8 +45,8 @@ class Header implements Arrayable, Jsonable
         $builder   = $this->builder;
         $direction = $this->getDirection('asc');
 
-        array_set($query, $builder->getTableOption('prefix') . 'order_by', $this->sort_column);
-        array_set($query, $builder->getTableOption('prefix') . 'sort', $direction == 'asc' ? 'desc' : 'asc');
+        array_set($query, $builder->table->getOption('prefix') . 'order_by', $this->sort_column);
+        array_set($query, $builder->table->getOption('prefix') . 'sort', $direction == 'asc' ? 'desc' : 'asc');
 
         return http_build_query($query);
     }
@@ -64,11 +64,11 @@ class Header implements Arrayable, Jsonable
 
         $builder = $this->builder;
 
-        if (array_get($query, $builder->getTableOption('prefix') . 'order_by') !== $this->sort_column) {
+        if (array_get($query, $builder->table->getOption('prefix') . 'order_by') !== $this->sort_column) {
             return null;
         }
 
-        return array_get($query, $builder->getTableOption('prefix') . 'sort', $default);
+        return array_get($query, $builder->table->getOption('prefix') . 'sort', $default);
     }
 
     /**

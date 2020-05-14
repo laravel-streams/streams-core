@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Streams\Facades\Streams;
 
 /**
  * Class SetTableStream
@@ -25,6 +26,6 @@ class SetStream
             return;
         }
 
-        $builder->stream = app('streams::' . $builder->stream);
+        $builder->stream = Streams::make($builder->stream);
     }
 }

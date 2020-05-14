@@ -16,14 +16,14 @@ class ActionCollection extends ButtonCollection
 {
 
     /**
-     * Return the active action or null.
+     * Return the active action.
      *
      * @return null|ActionInterface
      */
     public function active()
     {
-        return $this->first(function($item) {
-            return $item->isActive();
+        return $this->first(function ($item) {
+            return $item->active;
         });
     }
 }

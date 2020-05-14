@@ -14,6 +14,7 @@ use Anomaly\Streams\Platform\Stream\StreamManager;
 use Anomaly\Streams\Platform\Entry\Traits\Presentable;
 use Anomaly\Streams\Platform\Entry\Traits\Translatable;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Streams\Facades\Streams as StreamsFacade;
 
 /**
  * Class Streams
@@ -45,7 +46,7 @@ trait Streams
 
         self::$stream['model'] = new static;
 
-        StreamManager::put(self::class, self::$stream = StreamBuilder::build(self::$stream));
+        self::$stream = StreamsFacade::make(self::$stream);
 
         // This works but we don't wnat it. It's a test. Hook works too.
         // @todo finish this

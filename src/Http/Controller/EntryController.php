@@ -9,6 +9,7 @@ use Anomaly\Streams\Platform\Entry\Entry;
 use Anomaly\Streams\Platform\Stream\StreamManager;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Entry\EntryRepository;
+use Anomaly\Streams\Platform\Streams\Facades\Streams;
 
 /**
  * Class EntryController
@@ -42,7 +43,7 @@ class EntryController extends PublicController
 
     public function render($slug)
     {
-        $stream = app('streams::' . request()->route()->getAction('stream'));
+        $stream = Streams::make(request()->route()->getAction('stream'));
 
         $entry = decorate($stream->repository()->find($slug));
 

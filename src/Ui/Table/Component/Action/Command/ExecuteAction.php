@@ -35,7 +35,7 @@ class ExecuteAction
      */
     public function handle(ActionExecutor $executor)
     {
-        $actions = $this->builder->getTableActions();
+        $actions = $this->builder->table->getActions();
 
         if ($action = $actions->active()) {
             $executor->execute($this->builder, $action);

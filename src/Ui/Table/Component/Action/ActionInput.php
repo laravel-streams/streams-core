@@ -73,7 +73,7 @@ class ActionInput
      */
     protected static function predict(TableBuilder $builder)
     {
-        if ($builder->getTableOption('sortable')) {
+        if ($builder->table->getOption('sortable')) {
             $builder->setActions(array_merge(['reorder'], $builder->getActions()));
         }
     }
@@ -86,7 +86,7 @@ class ActionInput
     protected static function normalize(TableBuilder $builder)
     {
         $actions = $builder->getActions();
-        $prefix  = $builder->getTableOption('prefix');
+        $prefix  = $builder->table->getOption('prefix');
 
         foreach ($actions as $slug => &$action) {
 

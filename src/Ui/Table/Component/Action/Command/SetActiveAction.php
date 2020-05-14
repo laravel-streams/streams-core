@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
@@ -19,8 +21,8 @@ class SetActiveAction
      */
     public function handle(TableBuilder $builder)
     {
-        $prefix  = $builder->getTableOption('prefix');
-        $actions = $builder->getTableActions();
+        $prefix  = $builder->table->getOption('prefix');
+        $actions = $builder->table->getActions();
 
         if ($action = $actions->get(app('request')->get($prefix . 'action'))) {
             $action->setActive(true);

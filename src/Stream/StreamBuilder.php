@@ -56,8 +56,6 @@ class StreamBuilder
         // @todo replace with boot if not booted?
         event(new StreamWasBuilt($stream));
 
-        StreamManager::put($stream->slug, $stream);
-
         return $stream;
     }
 }

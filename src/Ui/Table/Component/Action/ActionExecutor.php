@@ -68,7 +68,7 @@ class ActionExecutor
      */
     public function execute(TableBuilder $builder, Action $action)
     {
-        $options = $builder->getTableOptions();
+        $options = $builder->table->getOptions();
 
         /*
          * Authorize the action.

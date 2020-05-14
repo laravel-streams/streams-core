@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Entry;
 
 use Illuminate\Database\Eloquent\Model;
+use Anomaly\Streams\Platform\Streams\Facades\Streams;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
@@ -31,7 +32,7 @@ class EntryModel extends Model implements EntryInterface
      */
     public function stream()
     {
-        return $this->stream ?: app('streams::' . $this->table);
+        return $this->stream ?: Streams::make($this->table);
     }
 
     /**

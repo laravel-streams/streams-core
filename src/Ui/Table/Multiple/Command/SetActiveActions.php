@@ -36,7 +36,7 @@ class SetActiveActions
      */
     public function handle()
     {
-        $actions = $this->builder->getTableActions();
+        $actions = $this->builder->table->getActions();
 
         if (!$action = $actions->active()) {
             return;
@@ -56,9 +56,9 @@ class SetActiveActions
     protected function setActiveAction($slug, TableBuilder $builder)
     {
         /* @var Action $action */
-        foreach ($builder->getTableActions() as $action) {
+        foreach ($builder->table->getActions() as $action) {
             if ($action->getSlug() === $slug) {
-                $action->setPrefix($builder->getTableOption('prefix'));
+                $action->setPrefix($builder->table->getOption('prefix'));
                 $action->setActive(true);
 
                 break;

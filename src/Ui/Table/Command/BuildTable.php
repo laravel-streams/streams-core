@@ -56,10 +56,15 @@ class BuildTable
             /*
             * Build table views and mark active.
             */
-            // ViewBuilder::class,
-            // 'set_active_view' => function () {
-            //     dispatch_now(new SetActiveView($this->builder));
-            // },
+            ViewBuilder::class,
+            'set_active_view' => function () {
+                dispatch_now(new SetActiveView($this->builder));
+            },
+
+            /*
+            * Before we go any further, authorize the request.
+            */
+            AuthorizeTable::class,
 
             /**
              * Set the table options going forward.
@@ -67,11 +72,6 @@ class BuildTable
             SetTableOptions::class,
             SetDefaultOptions::class,
             SaveTableState::class,
-
-            /*
-            * Before we go any further, authorize the request.
-            */
-            //AuthorizeTable::class,
 
             /*
             * Build table filters and flag active.
@@ -84,18 +84,17 @@ class BuildTable
             /*
             * Build table actions and flag active.
             */
-            // 'action_builder' => function () {
-            //     ActionBuilder::build($this->builder);
-            // },
-            // SetActiveAction::class,
+            'action_builder' => function () {
+                ActionBuilder::build($this->builder);
+            },
+            SetActiveAction::class,
 
             /*
             * Build table headers.
             */
-            // 'header_builder' => function () {
-            //     HeaderBuilder::build($this->builder);
-            // },
-            // EagerLoadRelations::class,
+            'header_builder' => function () {
+                HeaderBuilder::build($this->builder);
+            },
 
             /*
             * Get table entries.

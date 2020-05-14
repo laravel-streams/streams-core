@@ -91,7 +91,7 @@ class HeadingsGuesser
             /*
              * Detect the title column.
              */
-            $title = $stream->titleField();
+            $title = $stream->fields->first();
 
             if (
                 $title &&

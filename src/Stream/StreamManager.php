@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Stream;
 
+use Illuminate\Support\Facades\App;
+use Anomaly\Streams\Platform\Stream\StreamRegistry;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
@@ -15,41 +17,30 @@ class StreamManager
 {
 
     /**
-     * The cached streams.
+     * The Stream registry.
      *
      * @var array
      */
-    protected static $cache = [];
+    protected $registry;
 
     /**
-     * Put a stream into cache.
+     * Create a new class instance.
      *
-     * @param                 $key
-     * @param StreamInterface $stream
+     * @param StreamRegistry $registry
      */
-    public static function put($key, StreamInterface $stream)
+    public function __construct(StreamRegistry $registry)
     {
-        self::$cache[$key] = $stream;
+        $this->registry = $registry;
     }
 
     /**
-     * Check if the stream exists.
+     * Make a stream instance.
      *
-     * @param $key
-     */
-    public static function has($key)
-    {
-        return array_key_exists($key, self::$cache);
-    }
-
-    /**
-     * Get a stream from cache.
-     *
-     * @param $key
+     * @param string $stream
      * @return StreamInterface
      */
-    public static function get($key)
+    public function make($stream)
     {
-        return self::$cache[$key];
+        return App::make('streams::' . $stream);
     }
 }

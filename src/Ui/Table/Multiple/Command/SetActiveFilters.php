@@ -61,7 +61,7 @@ class SetActiveFilters
         /* @var Filter $filter */
         foreach ($builder->getTableFilters() as $filter) {
             if ($filter->getSlug() === $slug) {
-                $filter->setPrefix($builder->getTableOption('prefix'));
+                $filter->setPrefix($builder->table->getOption('prefix'));
                 $filter->setActive(true);
 
                 break;

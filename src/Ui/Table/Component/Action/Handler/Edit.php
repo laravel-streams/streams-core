@@ -25,7 +25,7 @@ class Edit
      */
     public function handle(SectionCollection $sections, Redirector $redirector, TableBuilder $builder, array $selected)
     {
-        $prefix = $builder->getTableOption('prefix');
+        $prefix = $builder->table->getOption('prefix');
 
         $edit = array_shift($selected);
         $ids  = implode(',', $selected);
