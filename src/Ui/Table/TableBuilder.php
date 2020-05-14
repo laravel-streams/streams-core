@@ -8,13 +8,8 @@ use Anomaly\Streams\Platform\Ui\Table\Table;
 use Symfony\Component\HttpFoundation\Response;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Anomaly\Streams\Platform\Ui\Table\Command\AddAssets;
-use Anomaly\Streams\Platform\Ui\Table\Command\LoadTable;
-use Anomaly\Streams\Platform\Ui\Table\Command\MakeTable;
-use Anomaly\Streams\Platform\Ui\Table\Command\PostTable;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Row;
-use Anomaly\Streams\Platform\Ui\Table\Command\BuildTable;
-use Anomaly\Streams\Platform\Ui\Table\Command\SetResponse;
+use Anomaly\Streams\Platform\Ui\Table\Workflows\BuildWorkflow;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 
@@ -56,14 +51,6 @@ class TableBuilder
     ];
 
     /**
-     * Create a new TableBuilder instance.
-     */
-    public function __construct(array $attributes = [])
-    {
-        $this->attributes = array_merge($this->attributes, $attributes);
-    }
-
-    /**
      * Build the table.
      *
      * @return $this
@@ -72,60 +59,9 @@ class TableBuilder
     {
         $this->fire('ready', ['builder' => $this]);
 
-        if (!$this->table instanceof Table) {
-            $this->table = app($this->table);
-        }
-
-        dispatch_now(new BuildTable($this));
+        (new BuildWorkflow)->process(['builder' => $this]);
 
         $this->fire('built', ['builder' => $this]);
-
-        return $this;
-    }
-
-    /**
-     * Make the table response.
-     *
-     * @return $this
-     */
-    public function make()
-    {
-        $this->build();
-        $this->post();
-
-        if (!app('request')->isMethod('post')) {
-            $this->load();
-        }
-
-        return $this;
-    }
-
-    /**
-     * Return the table response.
-     *
-     * @return $this
-     */
-    public function load()
-    {
-        dispatch_now(new LoadTable($this));
-        dispatch_now(new AddAssets($this));
-        dispatch_now(new MakeTable($this));
-        dispatch_now(new SetResponse($this));
-
-        return $this;
-    }
-
-    /**
-     * Trigger post operations
-     * for the table.
-     *
-     * @return $this
-     */
-    public function post()
-    {
-        if (app('request')->isMethod('post')) {
-            dispatch_now(new PostTable($this));
-        }
 
         return $this;
     }
@@ -137,7 +73,7 @@ class TableBuilder
      */
     public function render()
     {
-        $this->make();
+        $this->build();
 
         return $this->table->getResponse();
     }
@@ -786,27 +722,5 @@ class TableBuilder
     public function getRequestValue($key, $default = null)
     {
         return array_get($_REQUEST, $this->getOption('prefix') . $key, $default);
-    }
-
-    /**
-     * Dynamically retrieve attributes.
-     *
-     * @param  string $key
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        return $this->getAttribute($key);
-    }
-
-    /**
-     * Dynamically set attributes.
-     *
-     * @param  string  $key
-     * @param  mixed $value
-     */
-    public function __set($key, $value)
-    {
-        $this->setAttribute($key, $value);
     }
 }

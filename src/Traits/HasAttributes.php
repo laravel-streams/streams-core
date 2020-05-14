@@ -14,34 +14,13 @@ trait HasAttributes
     use HasMemory;
 
     /**
-     * Get an attribute value.
+     * Create a new class instance.
      *
-     * @param string $key
-     * @return mixed
+     * @param array $attributes
      */
-    public function getAttribute($key)
+    public function __construct(array $attributes = [])
     {
-        return $this->attr($key);
-
-        // if (!array_key_exists($key, $this->attributes)) {
-        //     throw new \Exception("Attribute [{$key}] does not exist on " . static::class);
-        // }
-
-        // return $this->attributes[$key];
-    }
-
-    /**
-     * Set an attribute value.
-     *
-     * @param string $key
-     * @param mixed $value
-     * @return $this
-     */
-    public function setAttribute($key, $value)
-    {
-        $this->attributes[$key] = $value;
-
-        return $this;
+        $this->attributes = array_merge($this->attributes, $attributes);
     }
 
     /**
@@ -73,6 +52,31 @@ trait HasAttributes
     }
 
     /**
+     * Get an attribute value.
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function getAttribute($key)
+    {
+        return $this->attr($key);
+    }
+
+    /**
+     * Set an attribute value.
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return $this
+     */
+    public function setAttribute($key, $value)
+    {
+        $this->attributes[$key] = $value;
+
+        return $this;
+    }
+
+    /**
      * Get the attributes.
      *
      * @return array
@@ -80,5 +84,53 @@ trait HasAttributes
     public function getAttributes()
     {
         return $this->attributes;
+    }
+
+    /**
+     * Dynamically retrieve attributes.
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        return $this->getAttribute($key);
+    }
+
+    /**
+     * Dynamically set attributes.
+     *
+     * @param string  $key
+     * @param mixed $value
+     */
+    public function __set($key, $value)
+    {
+        $this->setAttribute($key, $value);
+    }
+
+    // ------------------------  ARRAY ACCESS  ---------------------------
+
+    public function offsetExists($offset)
+    {
+        return array_key_exists($offset, $this->attributes);
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->attributes[$offset];
+    }
+
+    public function offsetSet($offset, $value): void
+    {
+        if (null === $offset) {
+            $this->attributes[] = $value;
+        } else {
+            $this->attributes[$offset] = $value;
+        }
+    }
+
+    public function offsetUnset($offset): void
+    {
+        unset($this->attributes[$offset]);
     }
 }

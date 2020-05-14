@@ -34,13 +34,6 @@ class Table
     use ProvidesArrayable;
 
     /**
-     * The table model.
-     *
-     * @var null|EloquentModel
-     */
-    protected $model = null;
-
-    /**
      * The table repository.
      *
      * @var TableRepositoryInterface
@@ -132,6 +125,7 @@ class Table
      * @param Collection $entries
      * @param RowCollection $rows
      * @param ViewCollection $views
+     * @param StreamInterface $stream
      * @param HeaderCollection $headers
      * @param ActionCollection $actions
      * @param FilterCollection $filters
@@ -142,13 +136,15 @@ class Table
         Collection $entries,
         RowCollection $rows,
         ViewCollection $views,
+        StreamInterface $stream,
         HeaderCollection $headers,
         ActionCollection $actions,
         FilterCollection $filters
     ) {
-        $this->data    = $data;
-        $this->rows    = $rows;
-        $this->views   = $views;
+        $this->data = $data;
+        $this->rows = $rows;
+        $this->views = $views;
+        $this->stream = $stream;
         $this->actions = $actions;
         $this->entries = $entries;
         $this->headers = $headers;

@@ -2,7 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**

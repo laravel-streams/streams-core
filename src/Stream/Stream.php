@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Stream;
 
+use Anomaly\Streams\Platform\Entry\EntryModel;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Traits\HasMemory;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
@@ -34,7 +36,6 @@ class Stream implements StreamInterface
         'name' => null,
         'slug' => null,
         'description' => null,
-        'title_column' => null,
 
         'model' => null,
         'fields' => null,
@@ -52,13 +53,16 @@ class Stream implements StreamInterface
     ];
 
     /**
-     * Create a new Stream instance.
-     *
+     * Return the entry model.
+     * 
      * @param array $attributes
+     * @return Model
      */
-    public function __construct(array $attributes)
+    public function model(array $attributes = [])
     {
-        $this->attributes = $attributes;
+        return (new EntryModel($attributes))
+            ->setTable($this->table ?: $this->slug)
+            ->setStream($this);
     }
 
     /**
@@ -69,27 +73,5 @@ class Stream implements StreamInterface
     public function repository()
     {
         return new Repository($this);
-    }
-
-    /**
-     * Dynamically retrieve attributes.
-     *
-     * @param  string $key
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        return $this->getAttribute($key);
-    }
-
-    /**
-     * Dynamically set attributes.
-     *
-     * @param  string  $key
-     * @param  mixed $value
-     */
-    public function __set($key, $value)
-    {
-        $this->setAttribute($key, $value);
     }
 }

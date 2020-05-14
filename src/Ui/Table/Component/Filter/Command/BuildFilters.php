@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -14,29 +16,13 @@ class BuildFilters
 {
 
     /**
-     * The table builder.
-     *
-     * @var TableBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new BuildFilters instance.
-     *
-     * @param TableBuilder $builder
-     */
-    public function __construct(TableBuilder $builder)
-    {
-        $this->builder = $builder;
-    }
-
-    /**
      * Handle the command.
      *
-     * @param FilterBuilder $builder
+     * @param TableBuilder $builder
+     * @param FilterBuilder $filters
      */
-    public function handle(FilterBuilder $builder)
+    public function handle(TableBuilder $builder, FilterBuilder $filters)
     {
-        $builder->build($this->builder);
+        $filters->build($builder);
     }
 }

@@ -57,12 +57,12 @@ class ViewInput
             return;
         }
 
-        if ($stream->trashable && !$builder->getViews() && !$builder->isAjax()) {
-            $builder->setViews([
-                'all',
-                'trash',
-            ]);
-        }
+        // if ($stream->trashable && !$builder->getViews() && !$builder->isAjax()) {
+        //     $builder->setViews([
+        //         'all',
+        //         'trash',
+        //     ]);
+        // }
     }
 
     /**

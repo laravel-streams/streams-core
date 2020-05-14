@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Button;
 
+use Illuminate\View\View;
 use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Button\Button;
 
@@ -16,45 +17,13 @@ class ButtonCollection extends Collection
 {
 
     /**
-     * Return only enabled buttons.
-     *
-     * @return ButtonCollection
+     * Render the buttons.
+     * 
+     * @return View
      */
-    public function enabled()
+    public function render()
     {
-        return $this->filter(
-            function ($button) {
-                return $button->enabled;
-            }
-        );
-    }
-
-    /**
-     * Return only primary buttons.
-     *
-     * @return ButtonCollection
-     */
-    public function primary()
-    {
-        return $this->filter(
-            function ($button) {
-                return $button->primary;
-            }
-        );
-    }
-
-    /**
-     * Return only secondary buttons.
-     *
-     * @return ButtonCollection
-     */
-    public function secondary()
-    {
-        return $this->filter(
-            function ($button) {
-                return !$button->primary;
-            }
-        );
+        return view('streams::ui/buttons/buttons', ['buttons' => $this]);
     }
 
     /**
@@ -64,6 +33,6 @@ class ButtonCollection extends Collection
      */
     public function __toString()
     {
-        return view('streams::ui/buttons/buttons', ['buttons' => $this->items->values()])->render();
+        return (string) $this->render();
     }
 }

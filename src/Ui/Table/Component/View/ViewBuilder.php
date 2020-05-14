@@ -21,10 +21,6 @@ class ViewBuilder
      */
     public static function handle(TableBuilder $builder)
     {
-        if ($builder->attr('options.disable_views') === true) {
-            return;
-        }
-
         $factory = app(ViewFactory::class);
 
         ViewInput::read($builder);

@@ -49,9 +49,8 @@ class EloquentCriteria implements CriteriaInterface
     {
         $this->stream = $stream;
 
-        $this->query = (new EntryModel)
-            ->setTable($stream->slug)
-            ->setStream($stream)
+        $this->query = $stream
+            ->model()
             ->newQuery();
     }
 

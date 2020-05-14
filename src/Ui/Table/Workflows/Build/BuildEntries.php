@@ -1,21 +1,19 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Table\Command;
+namespace Anomaly\Streams\Platform\Ui\Table\Workflows\Build;
 
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Support\Facades\App;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 
 /**
- * Class GetTableEntries
+ * Class BuildEntries
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class GetTableEntries
+class BuildEntries
 {
 
     /**
@@ -61,7 +59,7 @@ class GetTableEntries
          * TableRepositoryInterface use it.
          */
         if ($builder->repository instanceof TableRepositoryInterface) {
-            $builder->setTableEntries($builder->repository->get());
+            $builder->entries = $builder->repository->get();
         }
     }
 }

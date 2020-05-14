@@ -1,31 +1,33 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Table\Command;
+namespace Anomaly\Streams\Platform\Ui\Table\Workflows\Build;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Anomaly\Streams\Platform\Streams\Facades\Streams;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterBuilder;
 
 /**
- * Class SetTableStream
+ * Class BuildFilters
  *
  * @link    http://pyrocms.com/
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class SetStream
+class BuildFilters
 {
 
     /**
-     * Handle the command.
+     * Handle the step.
      * 
      * @param TableBuilder $builder
      */
     public function handle(TableBuilder $builder)
     {
-        if (!$builder->stream) {
+        if ($builder->filters === false) {
             return;
         }
 
-        $builder->stream = Streams::make($builder->stream);
+        FilterBuilder::build($builder);
+
+        dispatch_now(new SetActiveFilters($builder));
     }
 }

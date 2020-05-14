@@ -18,8 +18,10 @@ class Workflow
 
     /**
      * The workflow steps.
+     *
+     * @var array
      */
-    protected $steps;
+    protected $steps = [];
 
     /**
      * Create a new Workflow instance.
@@ -28,7 +30,7 @@ class Workflow
      */
     public function __construct(array $steps = [])
     {
-        $this->steps = $this->named($steps ?: $this->steps);
+        $this->steps = $this->named(array_merge($this->steps, $steps));
     }
 
     /**
@@ -40,6 +42,7 @@ class Workflow
     public function process(array $payload = [])
     {
         $this->fire('processing', $payload);
+        $this->fire('processing_' . static::class, $payload);
 
         foreach ($this->steps as $name => $step) {
 

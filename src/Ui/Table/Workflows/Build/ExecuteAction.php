@@ -1,25 +1,27 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Command;
+namespace Anomaly\Streams\Platform\Ui\Table\Workflows\Build;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionExecutor;
 
 /**
- * Class SetActiveAction
+ * Class ExecuteAction
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class SetActiveAction
+class ExecuteAction
 {
 
     /**
-     * Set the active action.
+     * Handle the step.
      *
      * @param TableBuilder $builder
+     * @param ActionExecutor $executor
      */
-    public function handle(TableBuilder $builder)
+    public function handle(TableBuilder $builder, ActionExecutor $executor)
     {
         if (!request()->isMethod('post')) {
             return;
@@ -27,11 +29,10 @@ class SetActiveAction
 
         dd('ExecuteAction not implemented yet.');
 
-        $prefix  = $builder->table->getOption('prefix');
         $actions = $builder->table->getActions();
 
-        if ($action = $actions->get(app('request')->get($prefix . 'action'))) {
-            $action->setActive(true);
+        if ($action = $actions->active()) {
+            $executor->execute($builder, $action);
         }
     }
 }

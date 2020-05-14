@@ -18,7 +18,7 @@ class ActionCollection extends ButtonCollection
     /**
      * Return the active action.
      *
-     * @return null|ActionInterface
+     * @return null|Action
      */
     public function active()
     {

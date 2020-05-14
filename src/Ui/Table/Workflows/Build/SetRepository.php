@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Table\Command;
+namespace Anomaly\Streams\Platform\Ui\Table\Workflows\Build;
 
 use Illuminate\Support\Facades\App;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -23,23 +23,22 @@ class SetRepository
      */
     public function handle(TableBuilder $builder)
     {
-
         if ($builder->repository instanceof TableRepositoryInterface) {
             return;
         }
 
+        /**
+         * Default to configured.
+         */
         if ($builder->repository) {
             $builder->repository = App::make($builder->repository, compact('builder'));
         }
 
+        /**
+         * Fallback for Streams.
+         */
         if (!$builder->repository && $builder->stream instanceof StreamInterface) {
             $builder->repository = $builder->stream->repository();
         }
-
-        if ($builder->repository instanceof TableRepositoryInterface) {
-            return;
-        }
-
-        throw new \Exception("Please define the [repository] and/or [stream] attribute.");
     }
 }

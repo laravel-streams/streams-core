@@ -2,10 +2,11 @@
 
 namespace Anomaly\Streams\Platform\Ui\Button;
 
-use Illuminate\Support\Facades\Lang;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Ui\Button\Button;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Lang;
+use Anomaly\Streams\Platform\Ui\Button\Button;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 
 /**
  * Class ButtonFactory
@@ -69,7 +70,9 @@ class ButtonFactory
         }
 
         /* @var Button$button */
-        $button = app()->make(array_get($parameters, 'button'), $parameters);
+        $class = array_get($parameters, 'button');
+
+        $button = new $class($parameters);
 
         Hydrator::hydrate($button, $parameters);
 

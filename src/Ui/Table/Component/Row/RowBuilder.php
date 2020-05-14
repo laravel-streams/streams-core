@@ -31,7 +31,7 @@ class RowBuilder
             $columns = ColumnBuilder::build($builder, $entry);
             $buttons = ButtonBuilder::build($builder, $entry);
 
-            $buttons = $buttons->enabled();
+            $buttons = $buttons->whereIn('enabled', [true, null]);
 
             $class = $builder->getOption('row_class');
 

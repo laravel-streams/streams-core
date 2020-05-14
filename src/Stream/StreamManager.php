@@ -43,4 +43,19 @@ class StreamManager
     {
         return App::make('streams::' . $stream);
     }
+
+    /**
+     * Try making a stream instance.
+     *
+     * @param string $stream
+     * @return null|StreamInterface
+     */
+    public function try($stream)
+    {
+        try {
+            return $this->make($stream);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
 }

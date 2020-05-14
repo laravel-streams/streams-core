@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -14,29 +16,14 @@ class BuildViews
 {
 
     /**
-     * The table builder.
-     *
-     * @var TableBuilder
-     */
-    protected $builder;
-
-    /**
-     * Create a new BuildViews instance.
+     * Handle the command.
      *
      * @param TableBuilder $builder
      */
-    public function __construct(TableBuilder $builder)
+    public function handle(TableBuilder $builder)
     {
-        $this->builder = $builder;
-    }
+        ViewBuilder::handle($builder);
 
-    /**
-     * Handle the command.
-     *
-     * @param ViewBuilder $builder
-     */
-    public function handle(ViewBuilder $builder)
-    {
-        $builder->build($this->builder);
+        dispatch_now(new SetActiveView($builder));
     }
 }

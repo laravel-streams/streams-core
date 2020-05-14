@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Stream\Contract;
 
+use Illuminate\Database\Eloquent\Model;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 
 /**
@@ -15,7 +16,15 @@ interface StreamInterface
 {
 
     /**
-     * Return the entry eepository.
+     * Return the entry model.
+     * 
+     * @param array $attributes
+     * @return Model
+     */
+    public function model(array $attributes = []);
+
+    /**
+     * Return the entry repository.
      * 
      * @return RepositoryInterface
      */

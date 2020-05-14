@@ -43,7 +43,7 @@ class ApplyView
         $views   = $builder->getTableViews();
 
         if ($view = $views->active()) {
-            $this->query->handle($event->getBuilder(), $event->getQuery(), $view);
+            $this->query->handle($event->getBuilder(), $event->getCriteria(), $view);
         }
     }
 }

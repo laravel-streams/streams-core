@@ -7,6 +7,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
+use Illuminate\Support\Traits\Macroable;
 
 /**
  * Class Button
@@ -18,6 +19,7 @@ use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 class Button implements Arrayable, Jsonable
 {
 
+    use Macroable;
     use HasAttributes;
     use HasClassAttribute;
 
@@ -47,7 +49,7 @@ class Button implements Arrayable, Jsonable
     public function open(array $attributes = [])
     {
         // @todo extend into the parent when ready
-        return '<' . $this->tag . ' ' . html_attributes($this->attributes($attributes)) . '>';
+        return '<' . $this->tag . ' ' . html_attributes($attributes) . '>';
     }
 
     /**
@@ -58,18 +60,6 @@ class Button implements Arrayable, Jsonable
     public function close()
     {
         return '</' . $this->tag . '>';
-    }
-
-    /**
-     * Return merged attributes.
-     *
-     * @param array $attributes
-     */
-    public function attributes(array $attributes = [])
-    {
-        return array_merge($this->attributes, [
-            'class' => $this->class,
-        ], $attributes);
     }
 
     /**
@@ -91,27 +81,5 @@ class Button implements Arrayable, Jsonable
     public function toJson($options = 0)
     {
         return json_encode($this->toArray(), $options);
-    }
-
-    /**
-     * Dynamically retrieve attributes.
-     *
-     * @param  string $key
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        return $this->getAttribute($key);
-    }
-
-    /**
-     * Dynamically set attributes.
-     *
-     * @param  string  $key
-     * @param  mixed $value
-     */
-    public function __set($key, $value)
-    {
-        $this->setAttribute($key, $value);
     }
 }
