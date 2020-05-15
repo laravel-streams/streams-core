@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Illuminate\Routing\ResponseFactory;
+use Illuminate\Support\Facades\Request;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -39,23 +40,18 @@ class SetResponse
      */
     public function handle(ResponseFactory $response)
     {
-        $table = $this->builder->getTable();
+        if (Request::has('_async')) {
 
-        if (request()->has('_async')) {
-
-            $table->setResponse($response->make($table->toJson()));
+            $this->builder->table->response = $response->make($this->builder->table->toJson());
 
             return;
         }
 
-        $options = $table->getOptions();
-        $data    = $table->getData();
-
-        $table->setResponse(
-            $response->view(
-                $options->get('wrapper_view', 'streams::default'),
-                $data
-            )
+        $this->builder->table->response = $response->view(
+            $this->builder->table->options->get('wrapper_view', 'streams::default'),
+            [
+                'content' => $this->builder->table->render(),
+            ]
         );
     }
 }

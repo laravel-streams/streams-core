@@ -1,15 +1,15 @@
-@if ($table->getOption('title') || $table->getOption('description'))
+@if ($table->options->get('title') || $table->options->get('description'))
 <div>
     
-    @if ($table->getOption('title'))
+    @if ($table->options->get('title'))
     <div class="title">
-        {{ $table->getOption('title') }}
+        {{ $table->options->get('title') }}
     </div>
     @endif
 
-    @if ($table->getOption('description'))
+    @if ($table->options->get('description'))
     <div class="subtitle-1">
-        {{ $table->getOption('description') }}
+        {{ $table->options->get('description') }}
     </div>
     @endif
 

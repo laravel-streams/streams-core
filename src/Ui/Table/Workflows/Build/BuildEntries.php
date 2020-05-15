@@ -2,9 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Workflows\Build;
 
+use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 
 /**
  * Class BuildEntries
@@ -34,6 +34,8 @@ class BuildEntries
             $entries = resolver($builder->entries, compact('builder'));
 
             $builder->entries = evaluate($entries ?: $builder->entries, compact('builder'));
+
+            return;
         }
 
         /**
@@ -41,25 +43,26 @@ class BuildEntries
          * of entries set on it then use those.
          */
         if ($builder->entries instanceof Collection) {
-            $builder->table->setEntries($builder->entries);
-        }
 
-        $entries = $builder->table->getEntries();
+            $builder->table->entries = $builder->entries;
 
-        /*
-         * If the entries have already been set on the
-         * table then return. Nothing to do here.
-         */
-        if (!$entries->isEmpty()) {
             return;
         }
 
         /*
-         * If the repository is an instance of
-         * TableRepositoryInterface use it.
+         * Fallback to using the repository 
+         * to fetch and paginate the results.
          */
-        if ($builder->repository instanceof TableRepositoryInterface) {
-            $builder->entries = $builder->repository->get();
+        if ($builder->repository instanceof RepositoryInterface) {
+
+            $builder->table->pagination = $builder->repository->newCriteria()->paginate([
+                'page_name' => $builder->table->options->get('prefix') . 'page',
+                'limit_name' => $builder->table->options->get('limit') . 'limit',
+            ]);
+
+            $builder->table->entries = $builder->table->pagination->getCollection();
+
+            return;
         }
     }
 }

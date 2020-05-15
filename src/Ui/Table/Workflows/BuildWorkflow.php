@@ -3,10 +3,11 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Workflows;
 
 use Anomaly\Streams\Platform\Workflow\Workflow;
-use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\LoadTable;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildRows;
+use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\LoadTable;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\MakeTable;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\SetStream;
+use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\SetOptions;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildActions;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildEntries;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\SetRepository;
@@ -32,15 +33,17 @@ class BuildWorkflow extends Workflow
     protected $steps = [
 
         /**
-         * Set critical attributes.
-         */
-        SetStream::class,
-        SetRepository::class,
-
-        /**
-         * Make the table instance.
+         * Make that table.
          */
         MakeTable::class,
+        LoadTable::class,
+
+        /**
+         * Set initial attributes.
+         */
+        SetStream::class,
+        SetOptions::class,
+        SetRepository::class,
 
         /**
          * Views can change nearly any aspect 
@@ -55,19 +58,18 @@ class BuildWorkflow extends Workflow
         AuthorizeTable::class,
 
         /**
-         * Build and execute actions
-         * at this point to allow short
-         * circuiting the following steps.
+         * Build the rest of the table.
          */
         BuildActions::class,
-        //ExecuteAction::class,
-
         BuildFilters::class,
         BuildEntries::class,
         BuildRows::class,
 
-
         // -------------
         LoadTable::class,
+
+        // if ($breadcrumb = $table->options->get('breadcrumb')) {
+        //     $breadcrumbs->put($breadcrumb, '#');
+        // }
     ];
 }

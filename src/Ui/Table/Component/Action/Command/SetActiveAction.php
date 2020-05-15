@@ -27,7 +27,7 @@ class SetActiveAction
 
         dd('ExecuteAction not implemented yet.');
 
-        $prefix  = $builder->table->getOption('prefix');
+        $prefix  = $builder->table->options->get('prefix');
         $actions = $builder->table->getActions();
 
         if ($action = $actions->get(app('request')->get($prefix . 'action'))) {

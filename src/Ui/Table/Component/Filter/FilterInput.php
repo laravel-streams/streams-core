@@ -59,7 +59,7 @@ class FilterInput
 
         $stream  = $builder->stream;
         $filters = $builder->filters;
-        $prefix  = $builder->table->getOption('prefix');
+        $prefix  = $builder->table->options->get('prefix');
 
         foreach ($filters as $slug => &$filter) {
 

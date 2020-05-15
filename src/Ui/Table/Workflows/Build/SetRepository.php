@@ -2,10 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Workflows\Build;
 
+use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 use Illuminate\Support\Facades\App;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 
 /**
  * Create a new SetRepository instance.
@@ -23,7 +23,7 @@ class SetRepository
      */
     public function handle(TableBuilder $builder)
     {
-        if ($builder->repository instanceof TableRepositoryInterface) {
+        if ($builder->repository instanceof RepositoryInterface) {
             return;
         }
 

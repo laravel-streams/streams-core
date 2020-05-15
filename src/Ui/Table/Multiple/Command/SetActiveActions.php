@@ -58,7 +58,7 @@ class SetActiveActions
         /* @var Action $action */
         foreach ($builder->table->getActions() as $action) {
             if ($action->getSlug() === $slug) {
-                $action->setPrefix($builder->table->getOption('prefix'));
+                $action->setPrefix($builder->table->options->get('prefix'));
                 $action->setActive(true);
 
                 break;

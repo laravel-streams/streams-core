@@ -1,11 +1,11 @@
 <thead class="o-table__head"> 
 <tr>
 
-    @if ($table->getOption('sortable'))
+    @if ($table->options->get('sortable'))
     <th class="table__handle"></th>
     @endif
     
-    @if ($table->hasActions())
+    @if ($table->actions->isNotEmpty())
     <th class="table__checkbox">
         <v-checkbox/>
     </th>

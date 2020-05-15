@@ -50,6 +50,6 @@ class ExportAll
             fclose($output);
         };
 
-        $builder->setTableResponse($response->stream($callback, 200, $headers));
+        $builder->table->response = $response->stream($callback, 200, $headers);
     }
 }

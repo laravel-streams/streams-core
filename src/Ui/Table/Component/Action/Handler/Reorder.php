@@ -24,7 +24,7 @@ class Reorder
      */
     public function handle(TableBuilder $builder, Request $request)
     {
-        $items = $request->get($builder->table->getOption('prefix') . 'order', []);
+        $items = $request->get($builder->table->options->get('prefix') . 'order', []);
 
         $repository = (new EntryRepository())->setModel($model = $builder->getTableModel());
 

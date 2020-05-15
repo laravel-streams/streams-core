@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -46,7 +48,7 @@ class PostTables
         }
 
         if (!$this->builder->getTableResponse()) {
-            $this->builder->setTableResponse($response->redirectTo($request->fullUrl()));
+            $this->builder->table->response = $response->redirectTo($request->fullUrl());
         }
     }
 }

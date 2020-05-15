@@ -1,12 +1,12 @@
-@if ($table->hasFilters())
+@if ($table->filters->isNotEmpty())
 <v-container>
     <v-card>
         {!! form_open(['method' => 'get', 'id' => 'filters', 'url' => url()->full()]) !!}
-            <input type="hidden" name="{{ $table->prefix('limit') }}" value="{{ $table->getOption('limit') }}">
-            <input type="hidden" name="{{ $table->prefix('view') }}" value="{{ $table->getActiveViewSlug() }}">
+            <input type="hidden" name="{{ $table->prefix('limit') }}" value="{{ $table->options->get('limit') }}">
+            <input type="hidden" name="{{ $table->prefix('view') }}" value="{{ $table->views->active() }}">
             <input type="hidden" name="{{ $table->prefix('page') }}" value="1">
     
-            @foreach ($table->getFilters() as $filter)
+            @foreach ($table->filters as $filter)
                 <div class="table__filter">
                     {!! $filter->getInput() !!}
                 </div>

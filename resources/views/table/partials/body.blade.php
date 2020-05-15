@@ -1,15 +1,15 @@
 <tbody class="o-table__body">
-    @foreach ($table->getRows() as $row)
+    @foreach ($table->rows as $row)
         <tr {!! html_attributes($row->attr('attributes', [])) !!}>
 
-            @if ($table->getOption('sortable'))
+            @if ($table->options->get('sortable'))
             <td class="o-table__column">
                 {{ icon('fas fa-arrows') }}
                 <input type="hidden" name="{{ $table->prefix('order[]') }}" value="{{ $row->key }}"/>
             </td>
             @endif
 
-            @if ($table->hasActions())
+            @if ($table->actions->isNotEmpty())
             <td class="o-table__column">
                 <v-checkbox name="{{ $table->prefix('id[]') }}" value="{{ $row->key }}"/>
             </td>

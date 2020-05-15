@@ -27,7 +27,7 @@ class HeaderBuilder
 
         HeaderInput::read($builder);
 
-        if ($builder->table->getOption('enable_headers') === false) {
+        if ($builder->table->options->get('enable_headers') === false) {
             return;
         }
 

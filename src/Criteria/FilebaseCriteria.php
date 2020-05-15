@@ -6,10 +6,12 @@ use Filebase\Database;
 use Filebase\Document;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Request;
 use Facade\Ignition\QueryRecorder\Query;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Entry\Entry;
 use Anomaly\Streams\Platform\Traits\HasMemory;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
@@ -202,6 +204,55 @@ class FilebaseCriteria implements CriteriaInterface
     public function count()
     {
         return $this->query->count();
+    }
+
+    /**
+     * Return paginated entries.
+     *
+     * @param  array|int $parameters
+     * @return Paginator
+     */
+    public function paginate($parameters = null)
+    {
+        if (is_numeric($parameters)) {
+            $parameters = [
+                'per_page' => $parameters,
+            ];
+        }
+
+        $path = Request::path();
+
+        $total = array_get($parameters, 'total');
+        $pageName = array_get($parameters, 'page_name', 'page');
+        $limitName = array_get($parameters, 'limit_name', 'limit');
+        //$perPage   = array_get($parameters, 'per_page', 15);
+        $perPage   = 2;
+
+        if (!$total) {
+            $total = $this->count();
+        }
+
+        $page = Request::get($pageName, 1);
+        $limit = Request::get($limitName, $perPage);
+
+        $offset = $page * $perPage - $perPage;
+
+        $entries = $this->limit($limit, $offset)->get();
+
+        $paginator = new LengthAwarePaginator(
+            $entries,
+            $total,
+            $perPage,
+            $page,
+            [
+                'path' => $path,
+                'pageName' => $pageName,
+            ]
+        );
+
+        $paginator->appends(Request::all());
+
+        return $paginator;
     }
 
     /**

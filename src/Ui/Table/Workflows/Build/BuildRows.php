@@ -22,7 +22,7 @@ class BuildRows
      */
     public function handle(TableBuilder $builder)
     {
-        if ($builder->entries->isEmpty()) {
+        if ($builder->table->entries->isEmpty()) {
             return;
         }
 

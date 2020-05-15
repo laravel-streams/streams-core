@@ -21,15 +21,13 @@ class ActionBuilder
      */
     public static function build(TableBuilder $builder)
     {
-        $table = $builder->getTable();
-
         $factory  = app(ActionFactory::class);
 
         ActionInput::read($builder);
 
         foreach ($builder->getActions() as $action) {
             if (array_get($action, 'enabled', true)) {
-                $table->addAction($factory->make($action));
+                $builder->table->actions->push($factory->make($action));
             }
         }
     }

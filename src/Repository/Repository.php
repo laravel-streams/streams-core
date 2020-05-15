@@ -2,12 +2,13 @@
 
 namespace Anomaly\Streams\Platform\Repository;
 
-use Anomaly\Streams\Platform\Criteria\EloquentCriteria;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Stream\Stream;
 use Anomaly\Streams\Platform\Traits\HasMemory;
+use Illuminate\Contracts\Pagination\Paginator;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Anomaly\Streams\Platform\Criteria\EloquentCriteria;
 use Anomaly\Streams\Platform\Criteria\FilebaseCriteria;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;

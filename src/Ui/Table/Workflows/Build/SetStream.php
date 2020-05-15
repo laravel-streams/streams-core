@@ -28,9 +28,14 @@ class SetStream
         }
 
         if ($builder->stream instanceof StreamInterface) {
+
+            $builder->table->stream = $builder->stream;
+
             return;
         }
 
         $builder->stream = Streams::try($builder->stream);
+
+        $builder->table->stream = $builder->stream;
     }
 }

@@ -68,8 +68,6 @@ class ActionExecutor
      */
     public function execute(TableBuilder $builder, Action $action)
     {
-        $options = $builder->table->getOptions();
-
         /*
          * Authorize the action.
          */
@@ -84,7 +82,7 @@ class ActionExecutor
          * If no rows are selected then 
          * we have nothing to do. Heads up!
          */
-        if (!$selected = $this->request->get($options->get('prefix') . 'id', [])) {
+        if (!$selected = $this->request->get($builder->table->options->get('prefix') . 'id', [])) {
 
             messages('warning', trans('streams::message.no_rows_selected'));
 

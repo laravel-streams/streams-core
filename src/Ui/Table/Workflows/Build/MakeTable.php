@@ -5,6 +5,12 @@ namespace Anomaly\Streams\Platform\Ui\Table\Workflows\Build;
 use Illuminate\Support\Facades\App;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowCollection;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionCollection;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterCollection;
+use Anomaly\Streams\Platform\Ui\Table\Component\Header\HeaderCollection;
+use Illuminate\Support\Collection;
 
 /**
  * Class MakeTable
@@ -28,21 +34,34 @@ class MakeTable
         }
 
         /**
+         * Default attributes.
+         */
+        $attributes = [
+
+            'stream' => $builder->stream,
+
+            'options' => new Collection(),
+            'entries' => new Collection(),
+
+            'rows' => new RowCollection(),
+            'views' => new ViewCollection(),
+            'actions' => new ActionCollection(),
+            'filters' => new FilterCollection(),
+            'headers' => new HeaderCollection(),
+        ];
+
+        /**
          * Default to configured.
          */
         if ($builder->table) {
-            $builder->table = App::make($builder->table, [
-                'stream' => $builder->stream,
-            ]);
+            $builder->table = App::make($builder->table, compact('attributes'));
         }
 
         /**
          * Fallback for Streams.
          */
         if (!$builder->table) {
-            $builder->table = App::make(Table::class, [
-                'stream' => $builder->stream,
-            ]);
+            $builder->table = App::make(Table::class, compact('attributes'));
         }
     }
 }

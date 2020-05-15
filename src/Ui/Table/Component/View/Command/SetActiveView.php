@@ -42,19 +42,15 @@ class SetActiveView
      */
     public function handle(Request $request, ViewHandler $handler)
     {
-        $table   = $this->builder->getTable();
-        $options = $table->getOptions();
-        $views   = $table->getViews();
-
-        if ($views->active()) {
+        if ($this->builder->table->views->active()) {
             return;
         }
 
-        if ($view = $views->findBySlug($request->get($options->get('prefix') . 'view'))) {
+        if ($view = $this->builder->table->views->findBySlug($request->get($this->builder->table->options->get('prefix') . 'view'))) {
             $view->active = true;
         }
 
-        if (!$view && $view = $views->first()) {
+        if (!$view && $view = $this->builder->table->views->first()) {
             $view->active = true;
         }
 

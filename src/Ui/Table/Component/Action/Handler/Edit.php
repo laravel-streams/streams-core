@@ -25,14 +25,14 @@ class Edit
      */
     public function handle(SectionCollection $sections, Redirector $redirector, TableBuilder $builder, array $selected)
     {
-        $prefix = $builder->table->getOption('prefix');
+        $prefix = $builder->table->options->get('prefix');
 
         $edit = array_shift($selected);
         $ids  = implode(',', $selected);
 
         if ($section = $sections->active()) {
-            $builder->setTableResponse(
-                $redirector->to($section->getHref('edit/' . $edit . '?' . $prefix . 'edit_next=' . $ids))
+            $builder->table->response = $redirector->to(
+                $section->getHref('edit/' . $edit . '?' . $prefix . 'edit_next=' . $ids)
             );
         }
     }

@@ -21,8 +21,6 @@ class FilterBuilder
      */
     public static function build(TableBuilder $builder)
     {
-        $table = $builder->getTable();
-
         $factory = app(FilterFactory::class);
 
         FilterInput::read($builder);
@@ -33,7 +31,7 @@ class FilterBuilder
                 continue;
             }
 
-            $table->addFilter($factory->make($filter, [
+            $builder->table->filters->push($factory->make($filter, [
                 'stream' => $builder->stream,
             ]));
         }

@@ -73,26 +73,4 @@ class Section implements Arrayable, Jsonable
     {
         return json_encode($this->toArray(), $options);
     }
-
-    /**
-     * Dynamically retrieve attributes.
-     *
-     * @param  string $key
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        return $this->getAttribute($key);
-    }
-
-    /**
-     * Dynamically set attributes.
-     *
-     * @param  string  $key
-     * @param  mixed $value
-     */
-    public function __set($key, $value)
-    {
-        $this->setAttribute($key, $value);
-    }
 }

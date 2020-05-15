@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table;
 
+use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Anomaly\Streams\Platform\Ui\Table\Table;
@@ -11,7 +12,6 @@ use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Row;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\BuildWorkflow;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
-use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 
 /**
  * Class TableBuilder
@@ -37,7 +37,7 @@ class TableBuilder
 
         'stream' => null,
         'entries' => null,
-        'repository' => TableRepository::class,
+        'repository' => null,
 
         'views' => [],
         'assets' => [],
@@ -75,7 +75,7 @@ class TableBuilder
     {
         $this->build();
 
-        return $this->table->getResponse();
+        return $this->table->render();
     }
 
     /**
@@ -160,7 +160,7 @@ class TableBuilder
     /**
      * Get the repository.
      *
-     * @return TableRepositoryInterface|null
+     * @return RepositoryInterface|null
      */
     public function getRepository()
     {
@@ -170,10 +170,10 @@ class TableBuilder
     /**
      * Set the repository.
      *
-     * @param  TableRepositoryInterface $repository
+     * @param  RepositoryInterface $repository
      * @return $this
      */
-    public function setRepository(TableRepositoryInterface $repository)
+    public function setRepository(RepositoryInterface $repository)
     {
         $this->repository = $repository;
 
@@ -480,7 +480,7 @@ class TableBuilder
      */
     public function getTableOption($key, $default = null)
     {
-        return $this->table->getOption($key, $default);
+        return $this->table->options->get($key, $default);
     }
 
     /**
@@ -504,7 +504,7 @@ class TableBuilder
      */
     public function getTableOptions()
     {
-        return $this->table->getOptions();
+        return $this->table->options;
     }
 
     /**
@@ -527,7 +527,7 @@ class TableBuilder
      */
     public function getTableEntries()
     {
-        return $this->table->getEntries();
+        return $this->table->entries;
     }
 
     /**
@@ -547,7 +547,7 @@ class TableBuilder
      */
     public function getTableFilters()
     {
-        return $this->table->getFilters();
+        return $this->table->filters;
     }
 
     /**
@@ -558,7 +558,7 @@ class TableBuilder
     public function getActiveTableFilters()
     {
         return $this->table
-            ->getFilters()
+            ->filters
             ->active();
     }
 
@@ -663,7 +663,7 @@ class TableBuilder
      */
     public function addTableRow(Row $row)
     {
-        $this->table->addRow($row);
+        $this->table->rows->push($row);
 
         return $this;
     }
@@ -680,16 +680,6 @@ class TableBuilder
         $this->table->addData($key, $value);
 
         return $this;
-    }
-
-    /**
-     * Set the table response.
-     *
-     * @param Response $response
-     */
-    public function setTableResponse(Response $response)
-    {
-        $this->table->setResponse($response);
     }
 
     /**
