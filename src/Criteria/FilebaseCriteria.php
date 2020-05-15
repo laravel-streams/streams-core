@@ -223,10 +223,9 @@ class FilebaseCriteria implements CriteriaInterface
         $path = Request::path();
 
         $total = array_get($parameters, 'total');
+        $perPage   = array_get($parameters, 'per_page', 15);
         $pageName = array_get($parameters, 'page_name', 'page');
         $limitName = array_get($parameters, 'limit_name', 'limit');
-        //$perPage   = array_get($parameters, 'per_page', 15);
-        $perPage   = 2;
 
         if (!$total) {
             $total = $this->count();

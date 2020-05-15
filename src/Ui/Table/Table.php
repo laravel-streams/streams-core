@@ -3,21 +3,12 @@
 namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\View;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Ui\Form\FormPresenter;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Ui\Table\Component\Row\Row;
-use Anomaly\Streams\Platform\Ui\Table\Component\View\View;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Action;
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
-use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowCollection;
-use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionCollection;
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterCollection;
-use Anomaly\Streams\Platform\Ui\Table\Component\Header\HeaderCollection;
 
 /**
  * Class Table
@@ -81,7 +72,7 @@ class Table
      */
     public function render()
     {
-        return view('streams::table/table', ['table' => $this]);
+        return View::make('streams::table/table', ['table' => $this]);
     }
 
     /**

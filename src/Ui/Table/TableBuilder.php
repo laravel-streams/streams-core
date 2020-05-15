@@ -2,16 +2,17 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table;
 
-use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 use Illuminate\Support\Collection;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Response;
 use Anomaly\Streams\Platform\Ui\Table\Table;
-use Symfony\Component\HttpFoundation\Response;
 use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Row;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\BuildWorkflow;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
+use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 
 /**
  * Class TableBuilder
@@ -57,11 +58,17 @@ class TableBuilder
      */
     public function build()
     {
+        if ($this->built === true) {
+            return $this;
+        }
+
         $this->fire('ready', ['builder' => $this]);
 
         (new BuildWorkflow)->process(['builder' => $this]);
 
         $this->fire('built', ['builder' => $this]);
+
+        $this->built = true;
 
         return $this;
     }
@@ -69,13 +76,23 @@ class TableBuilder
     /**
      * Render the table.
      *
-     * @return Response
+     * @return View
      */
     public function render()
     {
         $this->build();
 
         return $this->table->render();
+    }
+
+    /**
+     * Return the table response.
+     * 
+     * @return Response
+     */
+    public function response()
+    {
+        return Response::view('streams::default', ['content' => $this->render()]);
     }
 
     /**
