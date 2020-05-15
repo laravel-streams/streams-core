@@ -223,7 +223,7 @@ class FilebaseCriteria implements CriteriaInterface
         $path = Request::path();
 
         $total = array_get($parameters, 'total');
-        $perPage   = array_get($parameters, 'per_page', 15);
+        $perPage = array_get($parameters, 'per_page', 15);
         $pageName = array_get($parameters, 'page_name', 'page');
         $limitName = array_get($parameters, 'limit_name', 'limit');
 
@@ -231,12 +231,12 @@ class FilebaseCriteria implements CriteriaInterface
             $total = $this->count();
         }
 
-        $page = Request::get($pageName, 1);
-        $limit = Request::get($limitName, $perPage);
+        $page = (int) Request::get($pageName, 1);
+        $perPage = (int) Request::get($limitName, $perPage);
 
         $offset = $page * $perPage - $perPage;
 
-        $entries = $this->limit($limit, $offset)->get();
+        $entries = $this->limit($perPage, $offset)->get();
 
         $paginator = new LengthAwarePaginator(
             $entries,
