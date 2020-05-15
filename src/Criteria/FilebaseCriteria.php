@@ -193,7 +193,7 @@ class FilebaseCriteria implements CriteriaInterface
      */
     public function get()
     {
-        return $this->collect($this->query->results());
+        return $this->collect($this->query->resultDocuments());
     }
 
     /**
@@ -348,20 +348,13 @@ class FilebaseCriteria implements CriteriaInterface
      */
     protected function make($entry)
     {
-        if ($entry instanceof Document) {
-
-            return $this->newInstance(array_merge(
-                [
-                    'id' => $entry->getId(),
-                    'created_at' => $entry->createdAt(),
-                    'updated_at' => $entry->updatedAt(),
-                ],
-                $entry->toArray()
-            ));
-        }
-
-        if (is_array($entry)) {
-            return $this->newInstance($entry);
-        }
+        return $this->newInstance(array_merge(
+            [
+                'id' => $entry->getId(),
+                'created_at' => $entry->createdAt(),
+                'updated_at' => $entry->updatedAt(),
+            ],
+            $entry->toArray()
+        ));
     }
 }
