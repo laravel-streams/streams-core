@@ -99,11 +99,10 @@ class FilebaseCriteria implements CriteriaInterface
      */
     public function first()
     {
-        if (!$result = $this->query->first()) {
-            return null;
-        }
-
-        return $this->make($result);
+        return $this
+            ->limit(1, 0)
+            ->get()
+            ->first();
     }
 
     /**
