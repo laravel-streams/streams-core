@@ -52,6 +52,18 @@ class TableBuilder
     ];
 
     /**
+     * Create a new class instance.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        $this->buildAttributeTypes($original = $this->attributes);
+
+        $this->fill(array_merge($original, $attributes));
+    }
+
+    /**
      * Build the table.
      *
      * @return $this

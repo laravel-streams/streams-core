@@ -2,8 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Traits;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
+use Anomaly\Streams\Platform\Entry\Entry;
 
 /**
  * Trait HasAttributes
@@ -320,18 +321,18 @@ trait HasAttributes
 
                 return new Collection($this->json_decode($value, true));
 
-            case 'date':
+                // case 'date':
 
-                return $this->asDate($value);
+                //     return $this->asDate($value);
 
-            case 'datetime':
-            case 'custom_datetime':
+                // case 'datetime':
+                // case 'custom_datetime':
 
-                return $this->asDateTime($value);
+                //     return $this->asDateTime($value);
 
-            case 'timestamp':
+                // case 'timestamp':
 
-                return $this->asTimestamp($value);
+                //     return $this->asTimestamp($value);
         }
 
         return $value;
