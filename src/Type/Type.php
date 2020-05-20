@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Traits;
 
-use Anomaly\Streams\Platform\Traits\HasAttributes;
+use Anomaly\Streams\Platform\Support\Traits\Properties;
 
 /**
  * Class Type
@@ -14,5 +14,5 @@ use Anomaly\Streams\Platform\Traits\HasAttributes;
 class Type
 {
 
-    use HasAttributes;
+    use Properties;
 }

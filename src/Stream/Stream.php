@@ -2,13 +2,13 @@
 
 namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Entry\EntryModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Traits\Macroable;
+use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Traits\HasMemory;
-use Anomaly\Streams\Platform\Traits\HasAttributes;
 use Anomaly\Streams\Platform\Repository\Repository;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 
@@ -24,7 +24,7 @@ class Stream implements StreamInterface
 
     use Macroable;
     use HasMemory;
-    use HasAttributes;
+    use Properties;
     use FiresCallbacks;
 
     /**

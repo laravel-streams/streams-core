@@ -1,18 +1,18 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Traits;
+namespace Anomaly\Streams\Platform\Support\Traits;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Entry\Entry;
+use Anomaly\Streams\Platform\Traits\Hookable;
 
 /**
- * Trait HasAttributes
+ * Trait Properties
  *
  * @link   http://pyrocms.com/
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-trait HasAttributes
+trait Properties
 {
 
     use Hookable;

@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Support;
 
-use Anomaly\Streams\Platform\Traits\HasAttributes;
+use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Ui\Button\Button;
 use ReflectionProperty;
 
@@ -27,7 +27,7 @@ class Hydrator
     {
         $classes = class_uses_recursive($object);
 
-        $hasAttributes = in_array(HasAttributes::class, $classes);
+        $hasAttributes = in_array(Properties::class, $classes);
 
         foreach ($parameters as $parameter => $value) {
 
@@ -111,7 +111,7 @@ class Hydrator
         /**
          * Grab attributes last.
          */
-        if (in_array(HasAttributes::class, $classes)) {
+        if (in_array(Properties::class, $classes)) {
             $attributes = $object->getAttributes();
         }
 

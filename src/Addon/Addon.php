@@ -8,7 +8,7 @@ use Anomaly\Streams\Platform\Traits\Hookable;
 use Anomaly\Streams\Platform\Traits\HasMemory;
 use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Traits\Presentable;
-use Anomaly\Streams\Platform\Traits\HasAttributes;
+use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 
@@ -25,7 +25,7 @@ class Addon implements Arrayable, Jsonable
     use Hookable;
     use HasMemory;
     use Presentable;
-    use HasAttributes;
+    use Properties;
     use FiresCallbacks;
 
     /**

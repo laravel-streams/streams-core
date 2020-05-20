@@ -6,7 +6,7 @@ use Anomaly\Streams\Platform\Traits\HasMemory;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
-use Anomaly\Streams\Platform\Traits\HasAttributes;
+use Anomaly\Streams\Platform\Support\Traits\Properties;
 
 /**
  * Class Field
@@ -18,7 +18,7 @@ use Anomaly\Streams\Platform\Traits\HasAttributes;
 class Field implements FieldInterface
 {
     use HasMemory;
-    use HasAttributes;
+    use Properties;
 
     /**
      * The field attributes.

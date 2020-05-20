@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Icon;
 
-use Anomaly\Streams\Platform\Traits\HasAttributes;
+use Anomaly\Streams\Platform\Support\Traits\Properties;
 
 /**
  * Class Icon
@@ -14,7 +14,7 @@ use Anomaly\Streams\Platform\Traits\HasAttributes;
 class Icon
 {
 
-    use HasAttributes;
+    use Properties;
 
     /**
      * The button attributes.

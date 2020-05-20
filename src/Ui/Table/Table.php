@@ -6,7 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\View;
-use Anomaly\Streams\Platform\Traits\HasAttributes;
+use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Ui\Form\FormPresenter;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 
@@ -20,7 +20,7 @@ use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 class Table
 {
 
-    use HasAttributes;
+    use Properties;
 
     /**
      * The link attributes.

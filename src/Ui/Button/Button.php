@@ -4,7 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\Button;
 
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Traits\HasAttributes;
+use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 use Illuminate\Support\Traits\Macroable;
@@ -20,7 +20,7 @@ class Button implements Arrayable, Jsonable
 {
 
     use Macroable;
-    use HasAttributes;
+    use Properties;
     use HasClassAttribute;
 
     /**

@@ -33,7 +33,7 @@ class Image
     use HasVersion;
     use HasFilename;
     use HasExtension;
-    use HasAttributes;
+    use Properties;
     use HasAlterations;
 
     use CanOutput;

@@ -7,7 +7,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Response;
 use Anomaly\Streams\Platform\Ui\Table\Table;
-use Anomaly\Streams\Platform\Traits\HasAttributes;
+use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Row;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\BuildWorkflow;
@@ -24,7 +24,7 @@ use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 class TableBuilder
 {
 
-    use HasAttributes;
+    use Properties;
     use FiresCallbacks;
 
     /**

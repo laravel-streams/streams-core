@@ -4,7 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
 
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Traits\HasAttributes;
+use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 
 /**
@@ -17,7 +17,7 @@ use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 class Row implements Arrayable, Jsonable
 {
 
-    use HasAttributes;
+    use Properties;
 
     /**
      * The object attributes.
