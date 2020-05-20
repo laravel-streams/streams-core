@@ -2,9 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
 
-use Anomaly\Streams\Platform\Ui\Ui;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
+use Anomaly\Streams\Platform\Ui\Support\Component;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 
 /**
@@ -14,7 +14,7 @@ use Anomaly\Streams\Platform\Support\Facades\Hydrator;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Column extends Ui implements Arrayable, Jsonable
+class Column extends Component implements Arrayable, Jsonable
 {
 
     /**

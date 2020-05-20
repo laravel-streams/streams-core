@@ -2,9 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Button;
 
-use Anomaly\Streams\Platform\Ui\Ui;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
+use Anomaly\Streams\Platform\Ui\Support\Component;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 
@@ -15,7 +15,7 @@ use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Button extends Ui implements Arrayable, Jsonable
+class Button extends Component implements Arrayable, Jsonable
 {
 
     use HasClassAttribute;

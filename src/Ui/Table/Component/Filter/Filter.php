@@ -4,10 +4,9 @@ namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Support\Traits\Properties;
+use Anomaly\Streams\Platform\Ui\Support\Component;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\GenericFilterQuery;
-use Anomaly\Streams\Platform\Ui\Ui;
 
 /**
  * Class Filter
@@ -16,7 +15,7 @@ use Anomaly\Streams\Platform\Ui\Ui;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Filter extends Ui implements Arrayable, Jsonable
+class Filter extends Component implements Arrayable, Jsonable
 {
 
     /**

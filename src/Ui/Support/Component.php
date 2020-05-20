@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui;
+namespace Anomaly\Streams\Platform\Ui\Support;
 
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Support\Traits\Properties;
@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Support\Traits\Properties;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-abstract class Ui
+abstract class Component
 {
     use Macroable;
     use Properties;
