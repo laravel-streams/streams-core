@@ -18,11 +18,18 @@ trait Properties
     use Hookable;
 
     /**
-     * The types array.
+     * The attribute values.
      *
      * @var array
      */
-    protected $attributeTypes = [];
+    protected $attributes = [];
+
+    /**
+     * The object properties.
+     *
+     * @var array
+     */
+    protected $properties = [];
 
     /**
      * Create a new class instance.
@@ -31,7 +38,7 @@ trait Properties
      */
     public function __construct(array $attributes = [])
     {
-        $this->buildAttributeTypes($this->attributes);
+        $this->buildProperties();
 
         $this->fill($attributes);
     }
@@ -80,8 +87,7 @@ trait Properties
             return $this->getAttributeValue($key);
         }
 
-        //return $this->getRelationValue($key);
-        return $this->attr($key);
+        return $this->attr($key, $this->propertyDefault($key));
     }
 
     /**
@@ -91,7 +97,17 @@ trait Properties
      */
     public function getAttributeValue($key)
     {
-        return $this->transformAttributeValue($key, $this->getAttributes()[$key] ?? null);
+        return $this->transformAttributeValue($key, $this->getAttributes()[$key] ?? $this->propertyDefault($key));
+    }
+
+    /**
+     * Return a properties default value.
+     *
+     * @param string $key
+     */
+    protected function propertyDefault($key)
+    {
+        return array_get($this->properties, $key . '.default');
     }
 
     /**
@@ -147,6 +163,29 @@ trait Properties
     }
 
     /**
+     * Set the attributes.
+     *
+     * @param array $attributes
+     * @return $this
+     */
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
+
+        return $this;
+    }
+
+    /**
+     * Get the properties.
+     *
+     * @return array
+     */
+    public function getProperties()
+    {
+        return $this->properties;
+    }
+
+    /**
      * Dynamically retrieve attributes.
      *
      * @param string $key
@@ -197,25 +236,69 @@ trait Properties
     // ------------------------  LOCAL UTILITY  ---------------------------
 
     /**
-     * Build the attribute type definitions.
+     * Build property definitions.
      *
-     * @param array $attributes
+     * @return void
      */
-    protected function buildAttributeTypes(array $attributes = [])
+    protected function buildProperties()
     {
-        foreach ($attributes as $attribute) {
 
-            if (!is_array($attribute)) {
-
-                if ($attribute === null) {
-                    $attribute = [
-                        'type' => $attribute,
-                    ];
-                }
-            }
+        /**
+         * If we don't have any attributes
+         * then we have nothing to do at all.
+         * 
+         * Can't guess and don't need anything!
+         */
+        if (!isset($this->attributes)) {
+            return;
         }
 
-        $this->attributeTypes = $attributes;
+        /**
+         * If we have properties defined
+         * then we can skip this step.
+         */
+        if (!empty($this->properties)) {
+            return;
+        }
+
+        /**
+         * Build the properties from
+         * default attribute values.
+         */
+        $this->properties = array_map(function ($attribute) {
+
+            /**
+             * Type sniff the attribute value.
+             */
+            $type = gettype($attribute);
+
+            /**
+             * Default type is string.
+             */
+            if ($type === 'NULL') {
+                $type = 'string';
+            }
+
+            /**
+             * "double" is returned in lieue
+             * of float for historical reasons.
+             */
+            if ($type === 'double') {
+                $type = 'float';
+            }
+
+            /**
+             * Default property definition.
+             */
+            $attribute = [
+                'type' => $type,
+                'default' => $attribute,
+            ];
+
+            return $attribute;
+        }, $this->attributes);
+
+        $this->attributes['__initialized'] = true;
     }
 
     /**
@@ -271,7 +354,7 @@ trait Properties
      */
     protected function typeCastAttributeValue($key, $value)
     {
-        $type = $this->attributeTypes[$key];
+        $type = $this->properties[$key];
 
         switch ($type) {
 
@@ -347,6 +430,6 @@ trait Properties
      */
     public function hasAttributeType($key)
     {
-        return $this->attributeTypes ? array_key_exists($key, $this->attributeTypes) : false;
+        return isset($this->properties) ? array_key_exists($key, $this->properties) : false;
     }
 }

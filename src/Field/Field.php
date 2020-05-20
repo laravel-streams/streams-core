@@ -21,37 +21,34 @@ class Field implements FieldInterface
     use Properties;
 
     /**
-     * The field attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [
-        'name' => null,
-        'slug' => null,
-        'type' => null,
-        'label' => null,
-        'stream' => null,
-        'warning' => null,
-        'placeholder' => null,
-        'instructions' => null,
-
-        'unique' => false,
-        'required' => false,
-        'searchable' => true,
-        'translatable' => false,
-
-        'config' => [],
-        'rules' => [],
-    ];
-
-    /**
-     * Create a new Field instance.
+     * Create a new class instance.
      *
      * @param array $attributes
      */
-    public function __construct(array $attributes)
+    public function __construct(array $attributes = [])
     {
-        $this->fill(array_merge($this->attributes, $attributes));
+        $this->setAttributes([
+            'name' => null,
+            'slug' => null,
+            'type' => null,
+            'label' => null,
+            'stream' => null,
+            'warning' => null,
+            'placeholder' => null,
+            'instructions' => null,
+
+            'unique' => false,
+            'required' => false,
+            'searchable' => true,
+            'translatable' => false,
+
+            'config' => [],
+            'rules' => [],
+        ]);
+
+        $this->buildProperties();
+
+        $this->fill($attributes);
     }
 
     /**

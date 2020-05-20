@@ -4,8 +4,8 @@ namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
 
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
+use Anomaly\Streams\Platform\Ui\Ui;
 
 /**
  * Class Row
@@ -14,10 +14,8 @@ use Anomaly\Streams\Platform\Support\Facades\Hydrator;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Row implements Arrayable, Jsonable
+class Row extends Ui implements Arrayable, Jsonable
 {
-
-    use Properties;
 
     /**
      * The object attributes.

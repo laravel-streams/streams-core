@@ -29,14 +29,21 @@ class Addon implements Arrayable, Jsonable
     use FiresCallbacks;
 
     /**
-     * The addon attributes.
+     * Create a new class instance.
      *
-     * @var array
+     * @param array $attributes
      */
-    protected $attributes = [
-        'path' => null,
-        'type' => null,
-    ];
+    public function __construct(array $attributes = [])
+    {
+        $this->setAttributes([
+            'path' => null,
+            'type' => null,
+        ]);
+
+        $this->buildProperties();
+
+        $this->fill($attributes);
+    }
 
     /**
      * The addon slug.

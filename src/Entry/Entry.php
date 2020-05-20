@@ -46,7 +46,7 @@ class Entry implements EntryInterface, Arrayable, Jsonable
     {
         $this->stream = $stream;
 
-        $this->buildAttributeTypes($this->attributes);
+        $this->properties = $stream->fields->toArray();
 
         $this->fill($attributes);
     }

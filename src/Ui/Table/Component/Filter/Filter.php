@@ -7,6 +7,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\GenericFilterQuery;
+use Anomaly\Streams\Platform\Ui\Ui;
 
 /**
  * Class Filter
@@ -15,10 +16,8 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\GenericFilterQuery;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Filter implements Arrayable, Jsonable
+class Filter extends Ui implements Arrayable, Jsonable
 {
-
-    use Properties;
 
     /**
      * Undocumented variable

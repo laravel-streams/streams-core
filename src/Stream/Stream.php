@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Traits\HasMemory;
-use Anomaly\Streams\Platform\Repository\Repository;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Anomaly\Streams\Platform\Repository\Repository;
 use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
@@ -28,29 +28,36 @@ class Stream implements StreamInterface
     use FiresCallbacks;
 
     /**
-     * The Stream attributes.
+     * Create a new class instance.
      *
-     * @var array
+     * @param array $attributes
      */
-    protected $attributes = [
-        'name' => null,
-        'slug' => null,
-        'description' => null,
+    public function __construct(array $attributes = [])
+    {
+        $this->setAttributes([
+            'name' => null,
+            'slug' => null,
+            'description' => null,
 
-        'model' => null,
-        'fields' => null,
-        'repository' => null,
+            'model' => null,
+            'fields' => null,
+            'repository' => null,
 
-        'location' => null,
+            'location' => null,
 
-        'config' => [],
+            'config' => [],
 
-        'sortable' => false,
-        'trashable' => true,
-        'searchable' => true,
-        'versionable' => true,
-        'translatable' => false,
-    ];
+            'sortable' => false,
+            'trashable' => true,
+            'searchable' => true,
+            'versionable' => true,
+            'translatable' => false,
+        ]);
+
+        $this->buildProperties();
+
+        $this->fill($attributes);
+    }
 
     /**
      * Return the entry model.

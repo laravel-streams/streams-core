@@ -28,39 +28,33 @@ class TableBuilder
     use FiresCallbacks;
 
     /**
-     * The table attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [
-
-        'async' => false,
-
-        'stream' => null,
-        'entries' => null,
-        'repository' => null,
-
-        'views' => [],
-        'assets' => [],
-        'filters' => [],
-        'columns' => [],
-        'buttons' => [],
-        'actions' => [],
-        'options' => [],
-
-        'table' => Table::class,
-    ];
-
-    /**
      * Create a new class instance.
      *
      * @param array $attributes
      */
     public function __construct(array $attributes = [])
     {
-        $this->buildAttributeTypes($original = $this->attributes);
+        $this->setAttributes([
+            'async' => false,
 
-        $this->fill(array_merge($original, $attributes));
+            'stream' => null,
+            'entries' => null,
+            'repository' => null,
+
+            'views' => [],
+            'assets' => [],
+            'filters' => [],
+            'columns' => [],
+            'buttons' => [],
+            'actions' => [],
+            'options' => [],
+
+            'table' => Table::class,
+        ]);
+
+        $this->buildProperties();
+
+        $this->fill($attributes);
     }
 
     /**
