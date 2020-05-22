@@ -2,10 +2,11 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Anomaly\Streams\Platform\Support\Presenter;
-use Collective\Html\FormBuilder as Html;
-use Illuminate\View\Factory;
 use Illuminate\View\View;
+use Illuminate\View\Factory;
+use Illuminate\Support\Facades\Request;
+use Collective\Html\FormBuilder as Html;
+use Anomaly\Streams\Platform\Support\Presenter;
 
 /**
  * Class FormPresenter
@@ -62,17 +63,17 @@ class FormPresenter extends Presenter
      */
     public function open(array $options = [])
     {
-        if ($url = $this->object->getOption('url')) {
+        if ($url = $this->object->options->get('url')) {
             $options['url'] = $url;
         } else {
-            $options['url'] = request()->fullUrl();
+            $options['url'] = Request::fullUrl();
         }
 
-        if ($this->object->hasFileInput()) {
-            $options['enctype'] = 'multipart/form-data';
-        }
+        // For good measure?
+        // @todo is this a security risk?
+        $options['enctype'] = 'multipart/form-data';
 
-        if ($this->object->getOption('ajax') === true) {
+        if ($this->object->options->get('ajax') === true) {
             $options['data-async'] = 'true';
         }
 

@@ -7,7 +7,7 @@
                 type="button"
                 data-toggle="tab"
                 class="{{ $loop->first ? 'active' : '' }}"
-                data-target="#{{ $form->getOption('prefix') }}{{ array_get($tab, 'slug', $slug) }}-tab">
+                data-target="#{{ $form->options->get('prefix') }}{{ array_get($tab, 'slug', $slug) }}-tab">
                     {{ $tab['title'] }}
             </button>
             </li>
@@ -16,7 +16,7 @@
 
     <div class="tabs__content">
         @foreach ($section['tabs'] as $slug => $tab)
-            <div id="{{ $form->getOption('prefix') }}{{ array_get($tab, 'slug', $slug) }}-tab" class="tabs__pane {{ $loop->first ? 'active' : '' }}">
+            <div id="{{ $form->options->get('prefix') }}{{ array_get($tab, 'slug', $slug) }}-tab" class="tabs__pane {{ $loop->first ? 'active' : '' }}">
                 @if (isset($tab['view']))
                     @include($tab['view'])
                 @elseif (isset($tab['html']))

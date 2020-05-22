@@ -38,13 +38,16 @@ class MakeForm
          */
         $attributes = [
 
+            'mode' => null,
+            'entry' => null,
+
             'stream' => $builder->stream,
 
+            'values' => new Collection(),
             'options' => new Collection(),
 
-            'data' => new Collection(), // Remove
-            'values' => new Collection(), // Remove? post()? form->fields->foo->value?
             'errors' => new MessageBag(),
+
             'fields' => new FieldCollection(),
             'actions' => new ActionCollection(),
             'buttons' => new ButtonCollection(),

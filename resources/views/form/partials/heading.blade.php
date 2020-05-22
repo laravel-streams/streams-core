@@ -1,13 +1,13 @@
-@if ($form->getOption('title') || $form->getOption('description'))
+@if ($form->options->has('title') || $form->options->has('description'))
 <div class="form__heading">
 
-    @if ($form->getOption('title'))
+    @if ($form->options->get('title'))
         <h4>
-                {{ $form->getOption('title') }}
+                {{ $form->options->get('title') }}
 
-                @if ($form->getOption('description'))
+                @if ($form->options->get('description'))
                 <small>
-                    {{ $form->getOption('description') }}
+                    {{ $form->options->get('description') }}
                 </small>
                 @endif
             </h4>

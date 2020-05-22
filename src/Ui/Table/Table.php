@@ -3,12 +3,11 @@
 namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Illuminate\Support\Arr;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\View;
-use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Ui\Form\FormPresenter;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
+use Anomaly\Streams\Platform\Support\Traits\Properties;
 
 /**
  * Class Table
@@ -27,16 +26,7 @@ class Table
      *
      * @var array
      */
-    protected $attributes = [
-        // 'rows' => null,
-        // 'views' => null,
-        // 'stream' => null,
-        // 'actions' => null,
-        // 'entries' => null,
-        // 'filters' => null,
-        // 'headers' => null,
-        // 'options' => null,
-    ];
+    protected $attributes = [];
 
     /**
      * Return a created presenter.
@@ -72,7 +62,7 @@ class Table
      */
     public function render()
     {
-        return View::make('streams::table/table', ['table' => $this]);
+        return View::make('streams::table/table', ['table' => decorate($this)]);
     }
 
     /**

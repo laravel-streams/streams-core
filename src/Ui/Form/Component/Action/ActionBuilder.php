@@ -27,7 +27,7 @@ class ActionBuilder
 
         foreach ($builder->actions as $action) {
             if (array_get($action, 'enabled', true)) {
-                $builder->form->addAction($factory->make($action));
+                $builder->form->actions->add($factory->make($action));
             }
         }
     }

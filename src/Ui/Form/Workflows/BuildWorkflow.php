@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\Form\Workflows;
 
 use Anomaly\Streams\Platform\Workflow\Workflow;
 use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\MakeForm;
+use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\SetEntry;
 use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\SetStream;
 use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\LoadAssets;
 use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\SetOptions;
@@ -47,6 +48,11 @@ class BuildWorkflow extends Workflow
         SetStream::class,
         SetOptions::class,
         SetRepository::class,
+        
+        /**
+         * Load the entry.
+         */
+        SetEntry::class,
 
         /**
          * Authorize the form.

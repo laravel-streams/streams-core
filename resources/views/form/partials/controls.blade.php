@@ -1,13 +1,13 @@
 <div class="form__controls">
     
-    @if(!$form->getOption('read_only'))
+    @if(!$form->options->get('read_only'))
         <div class="form__actions">
-            {!! buttons($form->getActions()) !!}
+            {!! buttons($form->actions) !!}
         </div>
     @endif
 
     <div class="form__buttons">
-        {!! buttons($form->getButtons()) !!}
+        {!! buttons($form->buttons) !!}
     </div>
     
 </div>
