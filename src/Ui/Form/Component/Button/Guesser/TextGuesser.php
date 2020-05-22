@@ -24,7 +24,7 @@ class TextGuesser
      */
     public static function guess(FormBuilder $builder)
     {
-        $buttons = $builder->getButtons();
+        $buttons = $builder->buttons;
 
         $module = app('module.collection')->active();
 
@@ -63,6 +63,6 @@ class TextGuesser
             }
         }
 
-        $builder->setButtons($buttons);
+        $builder->buttons = $buttons;
     }
 }

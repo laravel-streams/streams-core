@@ -46,7 +46,7 @@ class SetSuccessMessage
             return;
         }
 
-        $mode = $this->builder->getFormMode();
+        $mode = $this->builder->mode;
 
         // False means no message is desired.
         if ($this->builder->getFormOption('success_message') === false) {

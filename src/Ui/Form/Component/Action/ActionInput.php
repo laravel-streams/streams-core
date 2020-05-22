@@ -40,23 +40,23 @@ class ActionInput
     /**
      * Resolve input.
      *
-     * @param \Anomaly\Streams\Platform\Ui\Form\FormBuilder $builder
+     * @param FormBuilder $builder
      */
     protected static function resolve(FormBuilder $builder)
     {
-        $actions = resolver($builder->getActions(), compact('builder'));
+        $actions = resolver($builder->actions, compact('builder'));
 
-        $builder->setActions(evaluate($actions ?: $builder->getActions(), compact('builder')));
+        $builder->actions = evaluate($actions ?: $builder->actions, compact('builder'));
     }
 
     /**
      * Evaluate input.
      *
-     * @param \Anomaly\Streams\Platform\Ui\Form\FormBuilder $builder
+     * @param FormBuilder $builder
      */
     protected static function evaluate(FormBuilder $builder)
     {
-        $builder->setActions(evaluate($builder->getActions(), compact('builder')));
+        $builder->actions = evaluate($builder->actions, compact('builder'));
     }
 
     /**
@@ -66,21 +66,17 @@ class ActionInput
      */
     protected static function defaults(FormBuilder $builder)
     {
-        if ($builder->getActions() === []) {
-            if ($builder->getFormMode() == 'create') {
-                $builder->setActions(
-                    [
+        if ($builder->actions === []) {
+            if ($builder->mode == 'create') {
+                $builder->actions = [
                         'save',
                         'save_create',
-                    ]
-                );
+                    ];
             } else {
-                $builder->setActions(
-                    [
+                $builder->actions = [
                         'update',
                         'save_exit',
-                    ]
-                );
+                    ];
             }
         }
     }
@@ -88,12 +84,12 @@ class ActionInput
     /**
      * Predict input.
      *
-     * @param \Anomaly\Streams\Platform\Ui\Form\FormBuilder $builder
+     * @param FormBuilder $builder
      */
     protected static function predict(FormBuilder $builder)
     {
-        if (array_filter(explode(',', $builder->getRequestValue('edit_next')))) {
-            $builder->setActions(array_merge(['save_edit_next'], $builder->getActions()));
+        if (array_filter(explode(',', $builder->request('edit_next')))) {
+            $builder->actions = array_merge(['save_edit_next'], $builder->actions);
         }
     }
 
@@ -104,12 +100,10 @@ class ActionInput
      */
     protected static function normalize(FormBuilder $builder)
     {
-        $form    = $builder->getForm();
-        $actions = $builder->getActions();
-
-        $prefix = $form->getOption('prefix');
+        $actions = $builder->actions;
 
         foreach ($actions as $slug => &$action) {
+            
             /*
             * If the slug is numeric and the action is
             * a string then treat the string as both the
@@ -155,9 +149,7 @@ class ActionInput
             }
         }
 
-        $actions = Normalizer::attributes($actions);
-
-        $builder->setActions($actions);
+        $builder->actions = Normalizer::attributes($actions);
     }
 
     /**
@@ -167,7 +159,7 @@ class ActionInput
      */
     protected static function merge(FormBuilder $builder)
     {
-        $actions = $builder->getActions();
+        $actions = $builder->actions;
 
         foreach ($actions as &$parameters) {
             $action = $original = array_pull($parameters, 'action');
@@ -183,26 +175,26 @@ class ActionInput
             }
         }
 
-        $builder->setActions($actions);
+        $builder->actions = $actions;
     }
 
     /**
      * Parse input.
      *
-     * @param \Anomaly\Streams\Platform\Ui\Form\FormBuilder $builder
+     * @param FormBuilder $builder
      */
     protected static function parse(FormBuilder $builder)
     {
-        $builder->setActions(Arr::parse($builder->getActions()));
+        $builder->actions = Arr::parse($builder->actions);
     }
 
     /**
      * Translate input.
      *
-     * @param \Anomaly\Streams\Platform\Ui\Form\FormBuilder $builder
+     * @param FormBuilder $builder
      */
     protected static function translate(FormBuilder $builder)
     {
-        $builder->setActions(translate($builder->getActions()));
+        $builder->actions = translate($builder->actions);
     }
 }

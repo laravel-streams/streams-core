@@ -23,7 +23,7 @@ class RequiredGuesser
     {
         $rules  = $builder->getRules();
         $fields = $builder->getFields();
-        $mode   = $builder->getFormMode();
+        $mode   = $builder->mode;
         $entry  = $builder->getFormEntry();
 
         foreach ($fields as &$field) {

@@ -28,7 +28,7 @@ class FormAuthorizer
          * take precedense over the 
          * model policy.
          */
-        $policy = $builder->getFormOption('policy');
+        $policy = $builder->form->options->get('policy');
 
         if ($policy && !Gate::any((array) $policy)) {
             abort(403);
@@ -37,10 +37,12 @@ class FormAuthorizer
         /**
          * Default behavior is to
          * rely on the model policy.
+         * 
+         * @todo Use stream here instead
          */
-        $model = $builder->getFormModel();
+        $model = null;//$builder->form->model;
 
-        if ($model && !Gate::allows($builder->getFormMode(), $model)) {
+        if ($model && !Gate::allows($builder->mode, $model)) {
             abort(403);
         }
     }

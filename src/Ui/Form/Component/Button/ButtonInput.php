@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Request;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
@@ -42,9 +43,9 @@ class ButtonInput
      */
     protected static function resolve(FormBuilder $builder)
     {
-        $buttons = resolver($builder->getButtons(), compact('builder'));
+        $buttons = resolver($builder->buttons, compact('builder'));
 
-        $builder->setButtons(evaluate($buttons ?: $builder->getButtons(), compact('builder')));
+        $builder->buttons = evaluate($buttons ?: $builder->buttons, compact('builder'));
     }
 
     /**
@@ -54,7 +55,7 @@ class ButtonInput
      */
     protected static function evaluate(FormBuilder $builder)
     {
-        $builder->setButtons(evaluate($builder->getButtons(), compact('builder')));
+        $builder->buttons = evaluate($builder->buttons, compact('builder'));
     }
 
     /**
@@ -64,8 +65,8 @@ class ButtonInput
      */
     protected static function defaults(FormBuilder $builder)
     {
-        if ($builder->getButtons() === [] && request()->segment(1) == 'admin') {
-            $builder->addButton('cancel');
+        if ($builder->buttons === [] && Request::segment(1) == 'admin') {
+            $builder->buttons[] = 'cancel';
         }
     }
 
@@ -76,7 +77,7 @@ class ButtonInput
      */
     protected static function normalize(FormBuilder $builder)
     {
-        $buttons = $builder->getButtons();
+        $buttons = $builder->buttons;
 
         foreach ($buttons as $key => &$button) {
 
@@ -102,7 +103,7 @@ class ButtonInput
 
         $buttons = Normalizer::attributes($buttons);
 
-        $builder->setButtons($buttons);
+        $builder->buttons = $buttons;
     }
 
     /**
@@ -112,7 +113,7 @@ class ButtonInput
      */
     protected static function merge(FormBuilder $builder)
     {
-        $buttons = $builder->getButtons();
+        $buttons = $builder->buttons;
 
         foreach ($buttons as &$parameters) {
             if ($button = app(ButtonRegistry::class)->get(array_get($parameters, 'button'))) {
@@ -120,7 +121,7 @@ class ButtonInput
             }
         }
 
-        $builder->setButtons($buttons);
+        $builder->buttons = $buttons;
     }
 
     /**
@@ -130,7 +131,7 @@ class ButtonInput
      */
     protected static function parse(FormBuilder $builder)
     {
-        $builder->setButtons(Arr::parse($builder->getButtons()));
+        $builder->buttons = Arr::parse($builder->buttons);
     }
 
     /**
@@ -140,6 +141,6 @@ class ButtonInput
      */
     protected static function translate(FormBuilder $builder)
     {
-        $builder->setButtons(translate($builder->getButtons()));
+        $builder->buttons = translate($builder->buttons);
     }
 }

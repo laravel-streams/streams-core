@@ -26,12 +26,10 @@ class ButtonBuilder
 
         $factory = app(ButtonFactory::class);
 
-        foreach ($builder->getButtons() as $button) {
+        foreach ($builder->buttons as $button) {
             if (array_get($button, 'enabled', true)) {
 
-                $button = $factory->make($button);
-
-                $builder->addFormButton($button);
+                $builder->form->buttons->add($factory->make($button));
             }
         }
     }

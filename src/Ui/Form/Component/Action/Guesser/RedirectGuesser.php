@@ -23,7 +23,7 @@ class RedirectGuesser
      */
     public static function guess(FormBuilder $builder)
     {
-        $actions = $builder->getActions();
+        $actions = $builder->actions;
 
         $section = cp()->sections->active();
 
@@ -58,7 +58,7 @@ class RedirectGuesser
              * form builder has a redirect option
              * then use it for the action redirect.
              */
-            if ($key == $first && $redirect = $builder->getOption('redirect')) {
+            if ($key == $first && $redirect = $builder->form->options->get('redirect')) {
                 $action['redirect'] = $redirect;
 
                 continue;
@@ -90,7 +90,7 @@ class RedirectGuesser
                 case 'save_edit':
                 case 'save_continue':
                     $action['redirect'] = function () use ($section, $builder, $query) {
-                        if ($section && $builder->getFormMode() == 'create') {
+                        if ($section && $builder->mode == 'create') {
                             return $section->href('edit/' . $builder->getContextualId());
                         }
 
@@ -119,6 +119,6 @@ class RedirectGuesser
             }
         }
 
-        $builder->setActions($actions);
+        $builder->actions = $actions;
     }
 }

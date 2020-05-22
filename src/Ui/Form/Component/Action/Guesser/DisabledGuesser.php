@@ -21,7 +21,7 @@ class DisabledGuesser
      */
     public static function guess(FormBuilder $builder)
     {
-        $actions = $builder->getActions();
+        $actions = $builder->actions;
 
         foreach ($actions as &$action) {
 
@@ -30,6 +30,6 @@ class DisabledGuesser
             // }
         }
 
-        $builder->setActions($actions);
+        $builder->actions = $actions;
     }
 }

@@ -22,7 +22,7 @@ class DisabledGuesser
     public static function guess(FormBuilder $builder)
     {
         $fields = $builder->getFields();
-        $mode   = $builder->getFormMode();
+        $mode   = $builder->mode;
 
         foreach ($fields as &$field) {
 

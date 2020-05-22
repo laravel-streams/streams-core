@@ -53,7 +53,7 @@ class LoadForm
 
         $form->addData('form', decorate($form));
 
-        if ($breadcrumb = $form->getOption('breadcrumb', 'streams::form.mode.' . $this->builder->getFormMode())) {
+        if ($breadcrumb = $form->getOption('breadcrumb', 'streams::form.mode.' . $this->builder->mode)) {
             $breadcrumbs->put($breadcrumb, '#');
         }
     }

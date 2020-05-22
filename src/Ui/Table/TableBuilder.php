@@ -99,7 +99,7 @@ class TableBuilder
             return $this->json();
         }
 
-        return $this->view();
+        return Response::view('streams::default', ['content' => $this->render()]);
     }
 
     /**
@@ -112,16 +112,6 @@ class TableBuilder
         $this->build();
 
         return Response::json($this->table->toJson());
-    }
-
-    /**
-     * Return a view response.
-     * 
-     * @return View
-     */
-    public function view()
-    {
-        return Response::view('streams::default', ['content' => $this->render()]);
     }
 
     /**

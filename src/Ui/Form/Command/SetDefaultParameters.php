@@ -48,10 +48,8 @@ class SetDefaultParameters
          * Set the form mode according
          * to the builder's entry.
          */
-        if (!$builder->getFormMode()) {
-            $builder->setFormMode(
-                ($builder->getFormEntryId() || $builder->getEntry()) ? 'update' : 'create'
-            );
+        if (!$builder->mode) {
+            $builder->mode = ($builder->getFormEntryId() || $builder->getEntry()) ? 'update' : 'create';
         }
 
         /*

@@ -22,9 +22,9 @@ class EnabledGuesser
      */
     public static function guess(FormBuilder $builder)
     {
-        $actions = $builder->getActions();
+        $actions = $builder->actions;
 
-        $mode = $builder->getFormMode();
+        $mode = $builder->mode;
 
         foreach ($actions as &$action) {
 
@@ -47,6 +47,6 @@ class EnabledGuesser
             $action['enabled'] = ($mode === $action['enabled']);
         }
 
-        $builder->setActions($actions);
+        $builder->actions = $actions;
     }
 }

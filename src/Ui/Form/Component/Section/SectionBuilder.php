@@ -23,8 +23,8 @@ class SectionBuilder
     {
         SectionInput::read($builder);
 
-        foreach ($builder->getSections() as $slug => $section) {
-            $builder->addFormSection($slug, $section);
+        foreach ($builder->sections as $slug => $section) {
+            $builder->form->sections->put($slug, $section);
         }
     }
 }

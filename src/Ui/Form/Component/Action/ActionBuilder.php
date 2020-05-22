@@ -21,15 +21,13 @@ class ActionBuilder
      */
     public static function build(FormBuilder $builder)
     {
-        $form = $builder->getForm();
-
         $factory = app(ActionFactory::class);
 
         ActionInput::read($builder);
 
-        foreach ($builder->getActions() as $action) {
+        foreach ($builder->actions as $action) {
             if (array_get($action, 'enabled', true)) {
-                $form->addAction($instance = $factory->make($action));
+                $builder->form->addAction($factory->make($action));
             }
         }
     }

@@ -22,8 +22,8 @@ class DisabledGuesser
      */
     public static function guess(FormBuilder $builder)
     {
-        $buttons = $builder->getButtons();
-        $mode    = $builder->getFormMode();
+        $buttons = $builder->buttons;
+        $mode    = $builder->mode;
 
         foreach ($buttons as &$button) {
 
@@ -38,6 +38,6 @@ class DisabledGuesser
             $button['disabled'] = ($mode === $button['disabled']);
         }
 
-        $builder->setButtons($buttons);
+        $builder->buttons = $buttons;
     }
 }

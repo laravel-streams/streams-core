@@ -22,8 +22,8 @@ class HrefGuesser
      */
     public static function guess(FormBuilder $builder)
     {
-        $buttons = $builder->getButtons();
-        $entry   = $builder->getFormEntry();
+        $buttons = $builder->buttons;
+        $entry   = $builder->form->entry;
 
         // Nothing to do if empty.
         if (!$section = cp()->sections->active()) {
@@ -74,6 +74,6 @@ class HrefGuesser
             }
         }
 
-        $builder->setButtons($buttons);
+        $builder->buttons = $buttons;
     }
 }

@@ -36,9 +36,9 @@ class SectionInput
      */
     protected static function resolve(FormBuilder $builder)
     {
-        $sections = resolver($builder->getSections(), compact('builder'));
+        $sections = resolver($builder->sections, compact('builder'));
 
-        $builder->setSections(evaluate($sections ?: $builder->getSections(), compact('builder')));
+        $builder->sections = evaluate($sections ?: $builder->sections, compact('builder'));
     }
 
     /**
@@ -48,7 +48,7 @@ class SectionInput
      */
     protected static function evaluate(FormBuilder $builder)
     {
-        $builder->setSections(evaluate($builder->getSections(), compact('builder')));
+        $builder->sections = evaluate($builder->sections, compact('builder'));
     }
 
     /**
@@ -58,7 +58,7 @@ class SectionInput
      */
     protected static function normalize(FormBuilder $builder)
     {
-        $sections = $builder->getSections();
+        $sections = $builder->sections;
 
         foreach ($sections as $slug => &$section) {
 
@@ -92,7 +92,7 @@ class SectionInput
             }
         }
 
-        $builder->setSections($sections);
+        $builder->sections = $sections;
     }
 
     /**
@@ -102,7 +102,7 @@ class SectionInput
      */
     protected static function translate(FormBuilder $builder)
     {
-        $builder->setSections(translate($builder->getSections()));
+        $builder->sections = translate($builder->sections);
     }
 
     /**
@@ -112,6 +112,6 @@ class SectionInput
      */
     protected static function parse(FormBuilder $builder)
     {
-        $builder->setSections(Arr::parse($builder->getSections()));
+        $builder->sections = Arr::parse($builder->sections);
     }
 }
