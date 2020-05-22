@@ -35,10 +35,7 @@ class RowBuilder
 
             $row = compact('columns', 'buttons', 'entry');
 
-            $row['key'] = data_get(
-                $entry,
-                'id'
-            );
+            $row['key'] = data_get($entry, 'id');
 
             $row['table'] = $builder->table;
 

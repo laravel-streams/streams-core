@@ -2,9 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Workflows\Build;
 
-use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Workflows\QueryWorkflow;
+use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 
 /**
  * Class BuildEntries
@@ -51,16 +52,11 @@ class BuildEntries
 
         /*
          * Fallback to using the repository 
-         * to fetch and paginate the results.
+         * to get and/or paginate the results.
          */
         if ($builder->repository instanceof RepositoryInterface) {
 
-            $builder->table->pagination = $builder->repository->newCriteria()->paginate([
-                'page_name' => $builder->table->options->get('prefix') . 'page',
-                'limit_name' => $builder->table->options->get('limit') . 'limit',
-            ]);
-
-            $builder->table->entries = $builder->table->pagination->getCollection();
+            (new QueryWorkflow)->process(compact('builder'));
 
             return;
         }

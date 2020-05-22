@@ -24,5 +24,9 @@ class BuildFilters
     public function handle(TableBuilder $builder, FilterBuilder $filters)
     {
         $filters->build($builder);
+
+        $builder->table->filters->each(function ($filter) {
+            $filter->active = (bool) request($filter->getInputName());
+        });
     }
 }

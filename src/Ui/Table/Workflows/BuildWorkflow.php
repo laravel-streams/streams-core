@@ -68,7 +68,7 @@ class BuildWorkflow extends Workflow
         // -------------
         LoadTable::class,
 
-        // if ($breadcrumb = $table->options->get('breadcrumb')) {
+        // if ($breadcrumb = $table->getOption('breadcrumb')) {
         //     $breadcrumbs->put($breadcrumb, '#');
         // }
     ];
