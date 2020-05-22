@@ -2,10 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser\HandlerGuesser;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser\PolicyGuesser;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser\TextGuesser;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser\TextGuesser;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser\PolicyGuesser;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser\HandlerGuesser;
 
 /**
  * Class ActionGuesser

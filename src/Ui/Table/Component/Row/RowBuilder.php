@@ -41,7 +41,7 @@ class RowBuilder
 
             $row = evaluate($row, compact('builder', 'entry'));
 
-            $builder->addTableRow($row = $factory->make($row));
+            $builder->table->rows->add($row = $factory->make($row));
         }
     }
 }

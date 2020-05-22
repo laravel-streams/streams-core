@@ -22,13 +22,6 @@ class ActionExecutor
 {
 
     /**
-     * The request object.
-     *
-     * @var Request
-     */
-    protected $request;
-
-    /**
      * The module collection.
      *
      * @var ModuleCollection
@@ -45,16 +38,13 @@ class ActionExecutor
     /**
      * Create a new ActionExecutor instance.
      *
-     * @param Request          $request
      * @param Application      $application
      * @param ModuleCollection $modules
      */
     public function __construct(
-        Request $request,
         Application $application,
         ModuleCollection $modules
     ) {
-        $this->request     = $request;
         $this->modules     = $modules;
         $this->application = $application;
     }
@@ -82,7 +72,7 @@ class ActionExecutor
          * If no rows are selected then 
          * we have nothing to do. Heads up!
          */
-        if (!$selected = $this->request->get($builder->table->options->get('prefix') . 'id', [])) {
+        if (!$selected = $builder->request('id', [])) {
 
             messages('warning', trans('streams::message.no_rows_selected'));
 

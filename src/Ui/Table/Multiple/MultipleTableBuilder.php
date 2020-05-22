@@ -2,15 +2,14 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Multiple;
 
-use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\BuildTables;
-use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\LoadTables;
-use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\MergeRows;
-use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\PostTables;
-use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\SetActiveActions;
-use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\SetActiveFilters;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableCollection;
+use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\MergeRows;
+use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\LoadTables;
+use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\PostTables;
+use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\BuildTables;
+use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\SetActiveFilters;
 
 /**
  * Class MultipleTableBuilder
@@ -54,7 +53,7 @@ class MultipleTableBuilder extends TableBuilder
         dispatch_now(new MergeRows($this));
 
         if (app('request')->isMethod('post')) {
-            dispatch_now(new SetActiveActions($this));
+            //dispatch_now(new SetActiveActions($this));
             dispatch_now(new PostTables($this));
         }
     }

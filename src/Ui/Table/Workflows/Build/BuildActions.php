@@ -2,10 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Workflows\Build;
 
+use Illuminate\Support\Facades\Request;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionBuilder;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\ExecuteAction;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\SetActiveAction;
 
 /**
  * Class BuildActions
@@ -29,7 +28,5 @@ class BuildActions
         }
 
         ActionBuilder::build($builder);
-
-        dispatch_now(new SetActiveAction($builder));
     }
 }

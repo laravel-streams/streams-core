@@ -20,11 +20,10 @@ class Reorder
      * Save the order of the entries.
      *
      * @param TableBuilder $builder
-     * @param Request $request
      */
-    public function handle(TableBuilder $builder, Request $request)
+    public function handle(TableBuilder $builder)
     {
-        $items = $request->get($builder->table->options->get('prefix') . 'order', []);
+        $items = $builder->request('order', []);
 
         $repository = (new EntryRepository())->setModel($model = $builder->actionsTableModel());
 

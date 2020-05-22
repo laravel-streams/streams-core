@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
+use Illuminate\Support\Facades\Request;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -31,9 +32,12 @@ class FilterBuilder
                 continue;
             }
 
-            $builder->table->filters->push($factory->make($filter, [
+            $builder->table->filters->push($filter = $factory->make($filter, [
                 'stream' => $builder->stream,
             ]));
+
+            // @todo should this be "guessed" prior?
+            $filter->active = (bool) $builder->request($filter->getInputName());
         }
 
         if ($first = $builder->table->filters->first()) {

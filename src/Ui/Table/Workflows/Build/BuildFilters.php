@@ -27,7 +27,5 @@ class BuildFilters
         }
 
         FilterBuilder::build($builder);
-
-        dispatch_now(new SetActiveFilters($builder));
     }
 }
