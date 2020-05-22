@@ -2,20 +2,17 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Workflows\Build;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\Contracts\Container\Container;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
-use Anomaly\Streams\Platform\Ui\Table\Command\SetResponse;
 
 /**
- * Class LoadTable
+ * Class LoadBreadcrumb
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class LoadTable
+class LoadBreadcrumb
 {
 
     /**
@@ -26,9 +23,8 @@ class LoadTable
      */
     public function handle(TableBuilder $builder, BreadcrumbCollection $breadcrumbs)
     {
-
-        assets('scripts.js', 'public::vendor/anomaly/core/js/table/table.js');
-
-        dispatch_now(new SetResponse($builder));
+        if ($breadcrumb = $builder->table->options->get('breadcrumb')) {
+            $breadcrumbs->put($breadcrumb, '#');
+        }
     }
 }

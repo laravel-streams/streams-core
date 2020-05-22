@@ -4,14 +4,15 @@ namespace Anomaly\Streams\Platform\Ui\Table\Workflows;
 
 use Anomaly\Streams\Platform\Workflow\Workflow;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildRows;
-use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\LoadTable;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\MakeTable;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\SetStream;
+use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\LoadAssets;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\SetOptions;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildActions;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildEntries;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\SetRepository;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\AuthorizeTable;
+use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\LoadBreadcrumb;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Command\BuildViews;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\BuildFilters;
 
@@ -36,7 +37,8 @@ class BuildWorkflow extends Workflow
          * Make that table.
          */
         MakeTable::class,
-        LoadTable::class,
+        LoadAssets::class,
+        LoadBreadcrumb::class,
 
         /**
          * Set initial attributes.
@@ -64,12 +66,5 @@ class BuildWorkflow extends Workflow
         BuildFilters::class,
         BuildEntries::class,
         BuildRows::class,
-
-        // -------------
-        LoadTable::class,
-
-        // if ($breadcrumb = $table->getOption('breadcrumb')) {
-        //     $breadcrumbs->put($breadcrumb, '#');
-        // }
     ];
 }
