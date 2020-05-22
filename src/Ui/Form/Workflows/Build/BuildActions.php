@@ -2,7 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Workflows\Build;
 
-use Illuminate\Support\Facades\Request;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionBuilder;
 

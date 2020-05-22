@@ -3,16 +3,16 @@
 namespace Anomaly\Streams\Platform\Ui\Form\Workflows\Build;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\Ui\Form\Component\Header\HeaderBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Component\Button\ButtonBuilder;
 
 /**
- * Class BuildHeaders
+ * Class BuildButtons
  *
  * @link    http://pyrocms.com/
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class BuildHeaders
+class BuildButtons
 {
 
     /**
@@ -22,10 +22,10 @@ class BuildHeaders
      */
     public function handle(FormBuilder $builder)
     {
-        if ($builder->columns === false) {
+        if ($builder->buttons === false) {
             return;
         }
 
-        HeaderBuilder::build($this->builder);
+        ButtonBuilder::build($builder);
     }
 }

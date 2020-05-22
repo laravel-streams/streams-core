@@ -26,6 +26,5 @@ class LoadBreadcrumb
         if ($breadcrumb = $builder->form->options->get('breadcrumb')) {
             $breadcrumbs->put($breadcrumb, '#');
         }
-        dd('Here: ' . __CLASS__);
     }
 }

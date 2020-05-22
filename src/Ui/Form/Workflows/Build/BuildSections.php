@@ -3,16 +3,16 @@
 namespace Anomaly\Streams\Platform\Ui\Form\Workflows\Build;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\Ui\Form\Component\View\ViewBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Component\Section\SectionBuilder;
 
 /**
- * Class BuildViews
+ * Class BuildSections
  *
  * @link    http://pyrocms.com/
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class BuildViews
+class BuildSections
 {
 
     /**
@@ -22,10 +22,10 @@ class BuildViews
      */
     public function handle(FormBuilder $builder)
     {
-        if ($builder->views === false) {
+        if ($builder->sections === false) {
             return;
         }
 
-        ViewBuilder::handle($builder);
+        SectionBuilder::build($builder);
     }
 }

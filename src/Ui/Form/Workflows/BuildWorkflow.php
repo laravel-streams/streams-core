@@ -3,18 +3,21 @@
 namespace Anomaly\Streams\Platform\Ui\Form\Workflows;
 
 use Anomaly\Streams\Platform\Workflow\Workflow;
-use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\BuildRows;
 use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\MakeForm;
 use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\SetStream;
 use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\LoadAssets;
 use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\SetOptions;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\BuildActions;
-use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\BuildEntries;
-use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\SetRepository;
 use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\AuthorizeForm;
+use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\SetRepository;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Component\Button\ButtonBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\LoadBreadcrumb;
-use Anomaly\Streams\Platform\Ui\Form\Component\View\Command\BuildViews;
-use Anomaly\Streams\Platform\Ui\Form\Component\Filter\Command\BuildFilters;
+use Anomaly\Streams\Platform\Ui\Form\Component\Section\SectionBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveAction;
+use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\BuildFields;
+use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\BuildSections;
 
 /**
  * Class BuildWorkflow
@@ -48,23 +51,16 @@ class BuildWorkflow extends Workflow
         SetRepository::class,
 
         /**
-         * Views can change nearly any aspect 
-         * after this point so build them early.
-         */
-        BuildViews::class,
-
-        /**
-         * After views have had their way
-         * we can authorize the Form access.
+         * Authorize the form.
          */
         AuthorizeForm::class,
 
         /**
-         * Build the rest of the Form.
+         * Build er up.
          */
+        BuildFields::class,
         BuildActions::class,
-        BuildFilters::class,
-        BuildEntries::class,
-        BuildRows::class,
+        BuildButtons::class,
+        BuildSections::class,
     ];
 }

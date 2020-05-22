@@ -3,16 +3,16 @@
 namespace Anomaly\Streams\Platform\Ui\Form\Workflows\Build;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\Ui\Form\Component\Row\RowBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldBuilder;
 
 /**
- * Class BuildRows
+ * Class BuildFields
  *
  * @link    http://pyrocms.com/
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class BuildRows
+class BuildFields
 {
 
     /**
@@ -22,10 +22,10 @@ class BuildRows
      */
     public function handle(FormBuilder $builder)
     {
-        if ($builder->form->entries->isEmpty()) {
+        if (!$builder->fields) {
             return;
         }
 
-        RowBuilder::build($builder);
+        FieldBuilder::build($builder);
     }
 }

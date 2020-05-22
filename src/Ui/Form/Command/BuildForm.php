@@ -49,14 +49,14 @@ class BuildForm
             * Setup some objects and options using
             * provided input or sensible defaults.
             */
-            AddAssets::class,
-            SetFormModel::class,
-            SetFormStream::class,
-            SetRepository::class,
-            SetFormEntry::class,
-            SetDefaultParameters::class,
-            SetFormOptions::class,
-            SetDefaultOptions::class,
+            // AddAssets::class,
+            // SetFormModel::class,
+            // SetFormStream::class,
+            // SetRepository::class,
+            // SetFormEntry::class,
+            // SetDefaultParameters::class,
+            // SetFormOptions::class,
+            // SetDefaultOptions::class,
 
             /*
             * Load anything we need that might be flashed.
