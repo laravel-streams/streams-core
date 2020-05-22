@@ -26,19 +26,17 @@ class ButtonBuilder
      */
     public static function build(TableBuilder $builder, $entry)
     {
-        $table = $builder->getTable();
-
         $factory = app(ButtonFactory::class);
 
         $buttons = new ButtonCollection();
 
         ButtonInput::read($builder);
 
-        foreach ($builder->getButtons() as $button) {
+        foreach ($builder->buttons as $button) {
 
             array_set($button, 'entry', $entry);
 
-            $button = evaluate($button, compact('entry', 'table'));
+            $button = evaluate($button, compact('entry', 'builder'));
 
             $button = Arr::parse($button, compact('entry'));
 

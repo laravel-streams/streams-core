@@ -26,7 +26,7 @@ class ForceDelete
     {
         $count = 0;
 
-        $repository = (new EntryRepository)->setModel($builder->getTableModel());
+        $repository = (new EntryRepository)->setModel($builder->actionsTableModel());
 
         /* @var EloquentModel $entry */
         foreach ($selected as $id) {

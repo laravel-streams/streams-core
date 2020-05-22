@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
@@ -23,8 +25,8 @@ class HeaderDefaults
             return;
         }
 
-        if ($builder->getColumns() == []) {
-            $builder->setColumns([$stream->title_column]);
+        if ($builder->columns == []) {
+            $builder->columns = [$stream->title_column];
         }
     }
 }

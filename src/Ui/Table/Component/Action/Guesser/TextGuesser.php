@@ -22,7 +22,7 @@ class TextGuesser
      */
     public static function guess(TableBuilder $builder)
     {
-        $actions = $builder->getActions();
+        $actions = $builder->actions;
 
         if (!$module = app('module.collection')->active()) {
             return;
@@ -36,6 +36,6 @@ class TextGuesser
             }
         }
 
-        $builder->setActions($actions);
+        $builder->actions = $actions;
     }
 }

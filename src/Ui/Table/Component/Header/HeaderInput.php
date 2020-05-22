@@ -40,9 +40,9 @@ class HeaderInput
      */
     protected static function resolve(TableBuilder $builder)
     {
-        $columns = resolver($builder->getViews(), compact('builder'));
+        $columns = resolver($builder->views, compact('builder'));
 
-        $builder->setViews(evaluate($columns ?: $builder->getViews(), compact('builder')));
+        $builder->views = evaluate($columns ?: $builder->views, compact('builder'));
     }
 
     /**
@@ -56,8 +56,8 @@ class HeaderInput
             return;
         }
 
-        if ($builder->getColumns() == []) {
-            $builder->setColumns([$stream->title_column]);
+        if ($builder->columns == []) {
+            $builder->columns = [$stream->title_column];
         }
     }
 
@@ -68,7 +68,7 @@ class HeaderInput
      */
     protected static function normalize(TableBuilder $builder)
     {
-        $columns = $builder->getColumns();
+        $columns = $builder->columns;
 
         foreach ($columns as $key => &$column) {
 
@@ -131,7 +131,7 @@ class HeaderInput
             array_set($column, 'value', array_get($column, 'value', null));
         }
 
-        $builder->setColumns($columns);
+        $builder->columns = $columns;
     }
 
     /**
@@ -141,7 +141,7 @@ class HeaderInput
      */
     protected static function parse(TableBuilder $builder)
     {
-        $builder->setColumns(Arr::parse($builder->getColumns()));
+        $builder->columns = Arr::parse($builder->columns);
     }
 
     /**
@@ -151,6 +151,6 @@ class HeaderInput
      */
     protected static function translate(TableBuilder $builder)
     {
-        $builder->setColumns(translate($builder->getColumns()));
+        $builder->columns = translate($builder->columns);
     }
 }

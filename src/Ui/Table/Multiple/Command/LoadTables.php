@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 
@@ -34,6 +36,6 @@ class LoadTables
      */
     public function handle()
     {
-        $this->builder->addTableData('tables', $this->builder->getTables());
+        $this->builder->addTableData('tables', $this->builder->tables);
     }
 }

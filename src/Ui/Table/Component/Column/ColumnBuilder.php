@@ -23,19 +23,17 @@ class ColumnBuilder
      */
     public static function build(TableBuilder $builder, $entry)
     {
-        $table = $builder->getTable();
-
         $factory = app(ColumnFactory::class);
 
         $columns = new ColumnCollection();
 
         ColumnInput::read($builder);
 
-        foreach ($builder->getColumns() as $column) {
+        foreach ($builder->columns as $column) {
 
             array_set($column, 'entry', $entry);
 
-            $column = evaluate($column, compact('entry', 'table'));
+            $column = evaluate($column, compact('entry', 'builder'));
 
             $column['value'] = valuate($column, $entry);
 

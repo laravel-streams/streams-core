@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Table;
@@ -37,8 +39,8 @@ class MergeRows
     public function handle()
     {
         /* @var TableBuilder $builder */
-        foreach ($this->builder->getTables() as $builder) {
-            $this->mergeFields($this->builder->getTable(), $builder->getTable());
+        foreach ($this->builder->tables as $builder) {
+            $this->mergeFields($this->builder->table, $builder->table);
         }
     }
 

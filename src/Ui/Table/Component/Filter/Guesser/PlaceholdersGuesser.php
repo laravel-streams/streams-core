@@ -21,7 +21,7 @@ class PlaceholdersGuesser
      */
     public static function guess(TableBuilder $builder)
     {
-        $filters = $builder->getFilters();
+        $filters = $builder->filters;
         $stream  = $builder->stream;
 
         $module = app('module.collection')->active();
@@ -80,6 +80,6 @@ class PlaceholdersGuesser
             }
         }
 
-        $builder->setFilters($filters);
+        $builder->filters = $filters;
     }
 }

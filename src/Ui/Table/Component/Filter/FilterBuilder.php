@@ -25,7 +25,7 @@ class FilterBuilder
 
         FilterInput::read($builder);
 
-        foreach ($builder->getFilters() as $filter) {
+        foreach ($builder->filters as $filter) {
 
             if (array_get($filter, 'enabled') === false) {
                 continue;
@@ -36,7 +36,7 @@ class FilterBuilder
             ]));
         }
 
-        if ($first = $builder->getTableFilters()->first()) {
+        if ($first = $builder->table->filters->first()) {
             $first->setAttribute('data-keymap', 'f');
         }
     }

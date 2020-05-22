@@ -21,7 +21,7 @@ class PolicyGuesser
      */
     public static function guess(TableBuilder $builder)
     {
-        $buttons = $builder->getButtons();
+        $buttons = $builder->buttons;
 
         if (!$module = app('module.collection')->active()) {
             return;
@@ -54,6 +54,6 @@ class PolicyGuesser
             }
         }
 
-        $builder->setButtons($buttons);
+        $builder->buttons = $buttons;
     }
 }

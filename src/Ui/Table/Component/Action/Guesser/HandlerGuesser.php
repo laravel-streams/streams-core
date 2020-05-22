@@ -21,7 +21,7 @@ class HandlerGuesser
      */
     public static function guess(TableBuilder $builder)
     {
-        $actions = $builder->getActions();
+        $actions = $builder->actions;
 
         foreach ($actions as &$action) {
 
@@ -40,7 +40,7 @@ class HandlerGuesser
             }
         }
 
-        $builder->setActions($actions);
+        $builder->actions = $actions;
     }
 
     /**
@@ -51,5 +51,6 @@ class HandlerGuesser
      * @return string
      */
     protected function guessClass(TableBuilder $builder, array $action)
-    { }
+    {
+    }
 }

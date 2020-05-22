@@ -43,9 +43,7 @@ class FilterResults
         $criteria = $event->getCriteria();
         $builder = $event->getBuilder();
 
-        $filters = $builder->getTableFilters();
-
-        foreach ($filters->active() as $filter) {
+        foreach ($builder->table->filters->active() as $filter) {
             $this->query->filter($builder, $filter, $criteria);
         }
     }

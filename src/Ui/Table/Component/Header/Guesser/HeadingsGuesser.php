@@ -23,7 +23,7 @@ class HeadingsGuesser
      */
     public static function guess(TableBuilder $builder)
     {
-        $columns = $builder->getColumns();
+        $columns = $builder->columns;
         $stream  = $builder->stream;
 
         $module = app('module.collection')->active();
@@ -152,6 +152,6 @@ class HeadingsGuesser
             }
         }
 
-        $builder->setColumns($columns);
+        $builder->columns = $columns;
     }
 }

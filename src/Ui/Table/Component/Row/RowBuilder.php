@@ -26,23 +26,21 @@ class RowBuilder
     {
         $factory = app(RowFactory::class);
 
-        foreach ($builder->getTableEntries() as $i => $entry) {
+        foreach ($builder->table->entries as $i => $entry) {
 
             $columns = ColumnBuilder::build($builder, $entry);
             $buttons = ButtonBuilder::build($builder, $entry);
 
             $buttons = $buttons->whereIn('enabled', [true, null]);
 
-            $class = $builder->getOption('row_class');
-
-            $row = compact('columns', 'buttons', 'entry', 'class');
+            $row = compact('columns', 'buttons', 'entry');
 
             $row['key'] = data_get(
                 $entry,
-                $builder->getOption('row_key', 'id')
+                'id'
             );
 
-            $row['table'] = $builder->getTable();
+            $row['table'] = $builder->table;
 
             $row = evaluate($row, compact('builder', 'entry'));
 

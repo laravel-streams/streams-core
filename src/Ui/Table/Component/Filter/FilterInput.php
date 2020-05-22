@@ -37,9 +37,9 @@ class FilterInput
      */
     protected static function resolve(TableBuilder $builder)
     {
-        $filters = resolver($builder->getFilters(), compact('builder'));
+        $filters = resolver($builder->filters, compact('builder'));
 
-        $builder->setFilters(evaluate($filters ?: $builder->getFilters(), compact('builder')));
+        $builder->filters = evaluate($filters ?: $builder->filters, compact('builder'));
     }
 
     /**
@@ -142,7 +142,7 @@ class FilterInput
             }
         }
 
-        $builder->setFilters($filters);
+        $builder->filters = $filters;
     }
 
     /**
@@ -152,7 +152,7 @@ class FilterInput
      */
     protected static function merge(TableBuilder $builder)
     {
-        $filters = $builder->getFilters();
+        $filters = $builder->filters;
 
         foreach ($filters as &$parameters) {
 
@@ -163,7 +163,7 @@ class FilterInput
             }
         }
 
-        $builder->setFilters($filters);
+        $builder->filters = $filters;
     }
 
     /**
@@ -173,6 +173,6 @@ class FilterInput
      */
     protected static function translate(TableBuilder $builder)
     {
-        $builder->setFilters(translate($builder->getFilters()));
+        $builder->filters = translate($builder->filters);
     }
 }

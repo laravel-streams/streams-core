@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
@@ -36,14 +38,12 @@ class SetActiveFilters
      */
     public function handle()
     {
-        $filters = $this->builder->getTableFilters();
-
-        if (!$filters = $filters->active()) {
+        if (!$filters = $this->builder->table->filters->active()) {
             return;
         }
 
         /* @var Filter $filter */
-        foreach ($this->builder->getTables() as $builder) {
+        foreach ($this->builder->tables as $builder) {
             foreach ($filters as $filter) {
                 $this->setActiveFilter($filter->getSlug(), $builder);
             }
@@ -59,7 +59,7 @@ class SetActiveFilters
     protected function setActiveFilter($slug, TableBuilder $builder)
     {
         /* @var Filter $filter */
-        foreach ($builder->getTableFilters() as $filter) {
+        foreach ($builder->table->filters as $filter) {
             if ($filter->getSlug() === $slug) {
                 $filter->setPrefix($builder->table->options->get('prefix'));
                 $filter->setActive(true);

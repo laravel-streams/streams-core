@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -36,12 +38,12 @@ class BuildTables
     public function handle()
     {
         /* @var TableBuilder $builder */
-        foreach ($this->builder->getTables() as $builder) {
+        foreach ($this->builder->tables as $builder) {
             $builder
-                ->setFilters($this->builder->getFilters())
-                ->setButtons($this->builder->getButtons())
-                ->setColumns($this->builder->getColumns())
-                ->setActions($this->builder->getActions())
+                ->setFilters($this->builder->filters)
+                ->setButtons($this->builder->buttons)
+                ->setColumns($this->builder->columns)
+                ->setActions($this->builder->actions)
                 ->build();
         }
     }

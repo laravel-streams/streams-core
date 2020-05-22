@@ -37,9 +37,9 @@ class ButtonInput
      */
     protected static function resolve(TableBuilder $builder)
     {
-        $buttons = resolver($builder->getButtons(), compact('builder'));
+        $buttons = resolver($builder->buttons, compact('builder'));
 
-        $builder->setButtons(evaluate($buttons ?: $builder->getButtons(), compact('builder')));
+        $builder->buttons = evaluate($buttons ?: $builder->buttons, compact('builder'));
     }
 
     /**
@@ -49,7 +49,7 @@ class ButtonInput
      */
     protected static function evaluate(TableBuilder $builder)
     {
-        $builder->setButtons(evaluate($builder->getButtons(), compact('builder')));
+        $builder->buttons = evaluate($builder->buttons, compact('builder'));
     }
 
     /**
@@ -59,7 +59,7 @@ class ButtonInput
      */
     protected static function normalize(TableBuilder $builder)
     {
-        $buttons = $builder->getButtons();
+        $buttons = $builder->buttons;
 
         foreach ($buttons as $key => &$button) {
 
@@ -107,7 +107,7 @@ class ButtonInput
 
         $buttons = Normalizer::attributes($buttons);
 
-        $builder->setButtons($buttons);
+        $builder->buttons = $buttons;
     }
 
     /**
@@ -117,7 +117,7 @@ class ButtonInput
      */
     protected static function merge(TableBuilder $builder)
     {
-        $buttons = $builder->getButtons();
+        $buttons = $builder->buttons;
 
         foreach ($buttons as &$parameters) {
             if ($button = app(ButtonRegistry::class)->get(array_get($parameters, 'button'))) {
@@ -125,6 +125,6 @@ class ButtonInput
             }
         }
 
-        $builder->setButtons($buttons);
+        $builder->buttons = $buttons;
     }
 }

@@ -39,7 +39,7 @@ class AddAssets
      */
     public function handle()
     {
-        foreach ($this->builder->getAssets() as $collection => $assets) {
+        foreach ($this->builder->assets as $collection => $assets) {
             if (!is_array($assets)) {
                 $assets = [$assets];
             }

@@ -26,7 +26,7 @@ class TextGuesser
             return;
         }
 
-        $views = $builder->getViews();
+        $views = $builder->views;
 
         foreach ($views as &$view) {
 
@@ -36,6 +36,6 @@ class TextGuesser
             }
         }
 
-        $builder->setViews($views);
+        $builder->views = $views;
     }
 }

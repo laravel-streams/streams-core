@@ -32,9 +32,9 @@ class ColumnInput
      */
     protected static function resolve(TableBuilder $builder)
     {
-        $columns = resolver($builder->getColumns(), compact('builder'));
+        $columns = resolver($builder->columns, compact('builder'));
 
-        $builder->setColumns(evaluate($columns ?: $builder->getColumns(), compact('builder')));
+        $builder->columns = evaluate($columns ?: $builder->columns, compact('builder'));
     }
 
     /**
@@ -44,7 +44,7 @@ class ColumnInput
      */
     protected static function normalize(TableBuilder $builder)
     {
-        $columns = $builder->getColumns();
+        $columns = $builder->columns;
 
         foreach ($columns as $key => &$column) {
 
@@ -112,6 +112,6 @@ class ColumnInput
             array_set($column, 'value', array_get($column, 'value', null));
         }
 
-        $builder->setColumns($columns);
+        $builder->columns = $columns;
     }
 }

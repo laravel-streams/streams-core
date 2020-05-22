@@ -21,7 +21,7 @@ class QueryGuesser
      */
     public static function guess(TableBuilder $builder)
     {
-        $views = $builder->getViews();
+        $views = $builder->views;
 
         foreach ($views as &$view) {
 
@@ -40,6 +40,6 @@ class QueryGuesser
             }
         }
 
-        $builder->setViews($views);
+        $builder->views = $views;
     }
 }

@@ -22,7 +22,7 @@ class EnabledGuesser
      */
     public static function guess(TableBuilder $builder)
     {
-        $buttons = $builder->getButtons();
+        $buttons = $builder->buttons;
 
         foreach ($buttons as &$button) {
 
@@ -31,6 +31,6 @@ class EnabledGuesser
             }
         }
 
-        $builder->setButtons($buttons);
+        $builder->buttons = $buttons;
     }
 }

@@ -21,7 +21,7 @@ class HrefGuesser
      */
     public static function guess(TableBuilder $builder)
     {
-        $buttons = $builder->getButtons();
+        $buttons = $builder->buttons;
 
         $stream = $builder->stream;
 
@@ -70,6 +70,6 @@ class HrefGuesser
             }
         }
 
-        $builder->setButtons($buttons);
+        $builder->buttons = $buttons;
     }
 }

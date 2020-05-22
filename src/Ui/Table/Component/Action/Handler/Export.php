@@ -24,7 +24,7 @@ class Export
      */
     public function handle(TableBuilder $builder, ResponseFactory $response, array $selected)
     {
-        $model  = $builder->getTableModel();
+        $model  = $builder->actionsTableModel();
         $stream = $builder->stream;
 
         $headers = [

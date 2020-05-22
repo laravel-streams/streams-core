@@ -40,9 +40,8 @@ class ApplyView
     public function handle(TableIsQuerying $event)
     {
         $builder = $event->getBuilder();
-        $views   = $builder->getTableViews();
 
-        if ($view = $views->active()) {
+        if ($view = $builder->table->views->active()) {
             $this->query->handle($event->getBuilder(), $event->getCriteria(), $view);
         }
     }

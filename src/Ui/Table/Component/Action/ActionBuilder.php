@@ -25,7 +25,7 @@ class ActionBuilder
 
         ActionInput::read($builder);
 
-        foreach ($builder->getActions() as $action) {
+        foreach ($builder->actions as $action) {
             if (array_get($action, 'enabled', true)) {
                 $builder->table->actions->push($factory->make($action));
             }

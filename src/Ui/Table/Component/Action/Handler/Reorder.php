@@ -26,7 +26,7 @@ class Reorder
     {
         $items = $request->get($builder->table->options->get('prefix') . 'order', []);
 
-        $repository = (new EntryRepository())->setModel($model = $builder->getTableModel());
+        $repository = (new EntryRepository())->setModel($model = $builder->actionsTableModel());
 
         /* @var EloquentModel $entry */
         $repository->withoutEvents(

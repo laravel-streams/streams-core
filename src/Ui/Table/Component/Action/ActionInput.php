@@ -45,9 +45,9 @@ class ActionInput
      */
     protected static function resolve(TableBuilder $builder)
     {
-        $actions = resolver($builder->getActions(), compact('builder'));
+        $actions = resolver($builder->actions, compact('builder'));
 
-        $builder->setActions(evaluate($actions ?: $builder->getActions(), compact('builder')));
+        $builder->actions = evaluate($actions ?: $builder->actions, compact('builder'));
     }
 
     /**
@@ -57,12 +57,12 @@ class ActionInput
      */
     protected static function defaults(TableBuilder $builder)
     {
-        if (!$builder->getActions()) {
-            $builder->setActions([
+        if (!$builder->actions) {
+            $builder->actions = [
                 'delete',
                 'edit',
                 'export',
-            ]);
+            ];
         }
     }
 
@@ -74,7 +74,7 @@ class ActionInput
     protected static function predict(TableBuilder $builder)
     {
         if ($builder->table->options->get('sortable')) {
-            $builder->setActions(array_merge(['reorder'], $builder->getActions()));
+            $builder->actions = array_merge(['reorder'], $builder->actions);
         }
     }
 
@@ -85,7 +85,7 @@ class ActionInput
      */
     protected static function normalize(TableBuilder $builder)
     {
-        $actions = $builder->getActions();
+        $actions = $builder->actions;
         $prefix  = $builder->table->options->get('prefix');
 
         foreach ($actions as $slug => &$action) {
@@ -150,7 +150,7 @@ class ActionInput
 
         $actions = Normalizer::attributes($actions);
 
-        $builder->setActions($actions);
+        $builder->actions = $actions;
     }
 
     /**
@@ -160,7 +160,7 @@ class ActionInput
      */
     protected static function merge(TableBuilder $builder)
     {
-        $actions = $builder->getActions();
+        $actions = $builder->actions;
 
         foreach ($actions as &$parameters) {
 
@@ -177,7 +177,7 @@ class ActionInput
             }
         }
 
-        $builder->setActions($actions);
+        $builder->actions = $actions;
     }
 
     /**
@@ -187,7 +187,7 @@ class ActionInput
      */
     protected static function parse(TableBuilder $builder)
     {
-        $builder->setActions(Arr::parse($builder->getActions()));
+        $builder->actions = Arr::parse($builder->actions);
     }
 
     /**
@@ -197,6 +197,6 @@ class ActionInput
      */
     protected static function translate(TableBuilder $builder)
     {
-        $builder->setActions(translate($builder->getActions()));
+        $builder->actions = translate($builder->actions);
     }
 }

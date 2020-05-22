@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Multiple;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Multiple;
 
 use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\BuildTables;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\LoadTables;
@@ -101,7 +103,7 @@ class MultipleTableBuilder extends TableBuilder
     {
         $this->tables->put(
             $key,
-            $builder->setOption('prefix', $key . '_')
+            $builder->option['prefix'] = $key . '_'
         );
 
         return $this;

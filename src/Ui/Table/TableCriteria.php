@@ -132,7 +132,7 @@ class TableCriteria
             array_get(
                 $this->parameters,
                 'options.url',
-                url($this->builder->getOption('url', 'table/handle/' . array_get($this->parameters, 'key')))
+                url($this->builder->table->options->get('url', 'table/handle/' . array_get($this->parameters, 'key')))
             )
         );
 
@@ -146,7 +146,7 @@ class TableCriteria
 
         if (is_array(array_get($this->parameters, 'options'))) {
             foreach (array_pull($this->parameters, 'options') as $key => $value) {
-                $this->builder->setOption($key, $value);
+                $this->builder->option[$key] = $value;
             }
         }
 

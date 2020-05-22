@@ -22,7 +22,7 @@ class SetActiveFilters
     public function handle(TableBuilder $builder)
     {
         /* @var Filter $filter */
-        foreach ($builder->getTableFilters() as $filter) {
+        foreach ($builder->table->filters as $filter) {
             if (app('request')->get($filter->getInputName())) {
                 $filter->active = true;
             }

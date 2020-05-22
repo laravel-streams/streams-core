@@ -60,27 +60,27 @@ class SetActiveView
         }
 
         if ($view->filters) {
-            $this->builder->setFilters($view->filters);
+            $this->builder->filters = $view->filters;
         }
 
         if ($view->columns) {
-            $this->builder->setColumns($view->columns);
+            $this->builder->columns = $view->columns;
         }
 
         if ($view->buttons) {
-            $this->builder->setButtons($view->buttons);
+            $this->builder->buttons = $view->buttons;
         }
 
         if ($view->actions) {
-            $this->builder->setActions($view->actions);
+            $this->builder->actions = $view->actions;
         }
 
         if ($view->options) {
-            $this->builder->setOptions($view->options);
+            $this->builder->options = $view->options;
         }
 
         if ($view->entries) {
-            $this->builder->setEntries($view->entries);
+            $this->builder->entries = $view->entries;
         }
 
         $handler->handle($this->builder, $view);

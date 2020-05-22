@@ -25,7 +25,7 @@ class Delete
     {
         $count = 0;
 
-        $model = $builder->getTableModel();
+        $model = $builder->actionsTableModel();
 
         foreach ($selected as $id) {
 

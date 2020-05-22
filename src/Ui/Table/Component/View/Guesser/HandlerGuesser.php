@@ -21,7 +21,7 @@ class HandlerGuesser
      */
     public static function guess(TableBuilder $builder)
     {
-        $views = $builder->getViews();
+        $views = $builder->views;
 
         foreach ($views as &$view) {
 
@@ -40,6 +40,6 @@ class HandlerGuesser
             }
         }
 
-        $builder->setViews($views);
+        $builder->views = $views;
     }
 }

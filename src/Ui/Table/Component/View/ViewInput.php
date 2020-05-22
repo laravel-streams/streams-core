@@ -41,9 +41,9 @@ class ViewInput
      */
     protected static function resolve(TableBuilder $builder)
     {
-        $views = resolver($builder->getViews(), compact('builder'));
+        $views = resolver($builder->views, compact('builder'));
 
-        $builder->setViews(evaluate($views ?: $builder->getViews(), compact('builder')));
+        $builder->views = evaluate($views ?: $builder->views, compact('builder'));
     }
 
     /**
@@ -57,11 +57,11 @@ class ViewInput
             return;
         }
 
-        // if ($stream->trashable && !$builder->getViews() && !$builder->isAjax()) {
-        //     $builder->setViews([
+        // if ($stream->trashable && !$builder->views && !$builder->isAjax()) {
+        //     $builder->views = [
         //         'all',
         //         'trash',
-        //     ]);
+        //     ];
         // }
     }
 
@@ -72,7 +72,7 @@ class ViewInput
      */
     protected static function normalize(TableBuilder $builder)
     {
-        $views = $builder->getViews();
+        $views = $builder->views;
 
         foreach ($views as $slug => &$view) {
 
@@ -121,7 +121,7 @@ class ViewInput
 
         $views = Normalizer::attributes($views);
 
-        $builder->setViews($views);
+        $builder->views = $views;
     }
 
     /**
@@ -131,7 +131,7 @@ class ViewInput
      */
     protected static function merge(TableBuilder $builder)
     {
-        $views = $builder->getViews();
+        $views = $builder->views;
 
         foreach ($views as &$parameters) {
             if ($view = app(ViewRegistry::class)->get(array_get($parameters, 'view'))) {
@@ -139,7 +139,7 @@ class ViewInput
             }
         }
 
-        $builder->setViews($views);
+        $builder->views = $views;
     }
 
     /**
@@ -149,7 +149,7 @@ class ViewInput
      */
     protected static function parse(TableBuilder $builder)
     {
-        $builder->setViews(Arr::parse($builder->getViews()));
+        $builder->views = Arr::parse($builder->views);
     }
 
     /**
@@ -159,6 +159,6 @@ class ViewInput
      */
     protected static function translate(TableBuilder $builder)
     {
-        $builder->setViews(translate($builder->getViews()));
+        $builder->views = translate($builder->views);
     }
 }

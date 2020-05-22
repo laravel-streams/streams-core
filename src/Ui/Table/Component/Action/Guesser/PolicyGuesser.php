@@ -21,7 +21,7 @@ class PolicyGuesser
      */
     public static function guess(TableBuilder $builder)
     {
-        $actions = $builder->getActions();
+        $actions = $builder->actions;
         $stream  = $builder->stream;
 
         if (!$module = app('module.collection')->active()) {
@@ -49,6 +49,6 @@ class PolicyGuesser
             }
         }
 
-        $builder->setActions($actions);
+        $builder->actions = $actions;
     }
 }

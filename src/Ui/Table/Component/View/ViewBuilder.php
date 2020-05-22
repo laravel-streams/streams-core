@@ -25,7 +25,7 @@ class ViewBuilder
 
         ViewInput::read($builder);
 
-        foreach ($builder->getViews() as $view) {
+        foreach ($builder->views as $view) {
             if (array_get($view, 'enabled', true)) {
                 $builder->table->addView($factory->make($view));
             }

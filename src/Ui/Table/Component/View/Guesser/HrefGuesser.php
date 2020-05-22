@@ -21,7 +21,7 @@ class HrefGuesser
      */
     public static function guess(TableBuilder $builder)
     {
-        $views = $builder->getViews();
+        $views = $builder->views;
 
         foreach ($views as &$view) {
 
@@ -33,6 +33,6 @@ class HrefGuesser
             }
         }
 
-        $builder->setViews($views);
+        $builder->views = $views;
     }
 }

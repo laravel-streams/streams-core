@@ -43,11 +43,11 @@ class PostTables
     public function handle(ResponseFactory $response, Request $request)
     {
         /* @var TableBuilder $builder */
-        foreach ($this->builder->getTables() as $builder) {
+        foreach ($this->builder->tables as $builder) {
             $builder->post();
         }
 
-        if (!$this->builder->getTableResponse()) {
+        if (!$this->builder->table->response) {
             $this->builder->table->response = $response->redirectTo($request->fullUrl());
         }
     }

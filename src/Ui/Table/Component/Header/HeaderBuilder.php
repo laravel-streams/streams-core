@@ -21,8 +21,6 @@ class HeaderBuilder
      */
     public static function build(TableBuilder $builder)
     {
-        $table = $builder->getTable();
-
         $factory = app(HeaderFactory::class);
 
         HeaderInput::read($builder);
@@ -31,13 +29,13 @@ class HeaderBuilder
             return;
         }
 
-        foreach ($builder->getColumns() as $header) {
+        foreach ($builder->columns as $header) {
 
             $header['builder'] = $builder;
 
             $header = $factory->make($header);
 
-            $table->headers->put($header->field, $header);
+            $builder->table->headers->put($header->field, $header);
         }
     }
 }

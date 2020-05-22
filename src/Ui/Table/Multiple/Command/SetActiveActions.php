@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Action;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
@@ -42,7 +44,7 @@ class SetActiveActions
             return;
         }
 
-        foreach ($this->builder->getTables() as $builder) {
+        foreach ($this->builder->tables as $builder) {
             $this->setActiveAction($action->getSlug(), $builder);
         }
     }
