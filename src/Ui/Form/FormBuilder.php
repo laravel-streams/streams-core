@@ -3,25 +3,28 @@
 namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Contracts\Support\MessageBag;
-use Symfony\Component\HttpFoundation\Response;
 use Anomaly\Streams\Platform\Ui\Button\Button;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\MakeForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\PostForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
-use Anomaly\Streams\Platform\Ui\Form\Command\MakeForm;
-use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Support\Traits\Properties;
+use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\ValidateForm;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Ui\Form\Command\LoadFormValues;
 use Anomaly\Streams\Platform\Ui\Form\Command\PopulateFields;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Form\Command\SetFormResponse;
 use Anomaly\Streams\Platform\Ui\Form\Command\FlashFormErrors;
+use Anomaly\Streams\Platform\Ui\Form\Command\SetFormResponse;
+use Anomaly\Streams\Platform\Ui\Form\Workflows\BuildWorkflow;
 use Anomaly\Streams\Platform\Ui\Form\Command\FlashFieldValues;
 use Anomaly\Streams\Platform\Version\Contract\VersionInterface;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
@@ -38,158 +41,161 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
 class FormBuilder
 {
 
+    use Properties;
     use FiresCallbacks;
 
     /**
-     * The ajax flag.
+     * Create a new class instance.
      *
-     * @var bool
+     * @param array $attributes
      */
-    protected $ajax = false;
-
-    /**
-     * Set to false to disable
-     * default versioning behavior.
-     *
-     * @var bool
-     */
-    protected $versioning = true;
-
-    /**
-     * The version instance.
-     *
-     * @var null|VersionInterface
-     */
-    protected $version = null;
-
-    /**
-     * The form handler.
-     *
-     * @var null|string
-     */
-    protected $handler = null;
-
-    /**
-     * The form validator.
-     *
-     * @var null|string
-     */
-    protected $validator = null;
-
-    /**
-     * The form repository.
-     *
-     * @var null|FormRepositoryInterface
-     */
-    protected $repository = null;
-
-    /**
-     * The form model.
-     *
-     * @var null
-     */
-    protected $model = null;
-
-    /**
-     * The entry object.
-     *
-     * @var null|int
-     */
-    protected $entry = null;
-
-    /**
-     * The fields config.
-     *
-     * @var array|string
-     */
-    protected $fields = [];
-
-    /**
-     * Fields to skip.
-     *
-     * @var array|string
-     */
-    protected $skips = [];
-
-    /**
-     * Fields to rules.
-     *
-     * @var array|string
-     */
-    protected $rules = [];
-
-    /**
-     * The actions config.
-     *
-     * @var array|string
-     */
-    protected $actions = [];
-
-    /**
-     * The buttons config.
-     *
-     * @var array|string
-     */
-    protected $buttons = [];
-
-    /**
-     * The form options.
-     *
-     * @var array
-     */
-    protected $options = [];
-
-    /**
-     * The form sections.
-     *
-     * @var array
-     */
-    protected $sections = [];
-
-    /**
-     * The form assets.
-     *
-     * @var array
-     */
-    protected $assets = [];
-
-    /**
-     * The save flag.
-     *
-     * @var bool
-     */
-    protected $save = true;
-
-    /**
-     * The read only flag.
-     *
-     * @var bool
-     */
-    protected $readOnly = false;
-
-    /**
-     * The parent form builder.
-     *
-     * @var null|FormBuilder
-     */
-    protected $parentBuilder = null;
-
-    /**
-     * The form object.
-     *
-     * @var Form
-     */
-    protected $form;
-
-    /**
-     * Crate a new FormBuilder instance.
-     *
-     * @param Form $form
-     */
-    public function __construct(Form $form)
+    public function __construct(array $attributes = [])
     {
-        $this->form = $form;
+        $this->setAttributes([
+            'async' => false,
+            'versioning' => true,
+            'version' => null,
+            'handler' => null,
+            'validator' => null,
+            'repository' => null,
+            'model' => null,
+            'entry' => null,
+            'fields' => [],
+            'skips' => [],
+            'rules' => [],
+            'actions' => [],
+            'buttons' => [],
+            'options' => [],
+            'sections' => [],
+            'assets' => [],
+            'save' => true,
+            'readOnly' => false,
+            'parentBuilder' => null,
+            'form' => Form::class,
+        ]);
+
+        $this->buildProperties();
+
+        $this->fill($attributes);
     }
+
+    /**
+     * Build and return the form instance.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        if ($this->built === true) {
+            return $this;
+        }
+
+        $this->fire('ready', ['builder' => $this]);
+
+        (new BuildWorkflow)->process(['builder' => $this]);
+
+        $this->fire('built', ['builder' => $this]);
+
+        $this->built = true;
+
+        return $this;
+    }
+
+    /**
+     * Render the form.
+     *
+     * @return View
+     */
+    public function render()
+    {
+        $this->build();
+
+        return $this->form->render();
+    }
+
+    /**
+     * Return the form response.
+     * 
+     * @return Response
+     */
+    public function response()
+    {
+        if (false/* is async request */) {
+            return $this->json();
+        }
+
+        return $this->view();
+    }
+
+    /**
+     * Return a JSON response.
+     *
+     * @return JsonResponse
+     */
+    public function json()
+    {
+        $this->build();
+
+        return Response::json($this->form->toJson());
+    }
+
+    /**
+     * Return a view response.
+     * 
+     * @return View
+     */
+    public function view()
+    {
+        return Response::view('streams::default', ['content' => $this->render()]);
+    }
+
+    /**
+     * Get a request value.
+     *
+     * @param        $key
+     * @param  null $default
+     * @return mixed
+     */
+    public function request($key, $default = null)
+    {
+        return Request::get($this->form->options->get('prefix') . $key, $default);
+    }
+
+    /**
+     * Get a post value.
+     *
+     * @param        $key
+     * @param  null $default
+     * @return mixed
+     */
+    public function post($key, $default = null)
+    {
+        return Request::post($this->form->options->get('prefix') . $key, $default);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //---------------------------------------------------------------------
+    //-------------------------    Old Shit    ----------------------------
+    //---------------------------------------------------------------------
 
     /**
      * Build the form.
@@ -197,20 +203,20 @@ class FormBuilder
      * @param  null $entry
      * @return $this
      */
-    public function build($entry = null)
-    {
-        if ($entry) {
-            $this->entry = $entry;
-        }
+    // public function build($entry = null)
+    // {
+    //     if ($entry) {
+    //         $this->entry = $entry;
+    //     }
 
-        $this->fire('ready', ['builder' => $this]);
+    //     $this->fire('ready', ['builder' => $this]);
 
-        dispatch_now(new BuildForm($this));
+    //     dispatch_now(new BuildForm($this));
 
-        $this->fire('built', ['builder' => $this]);
+    //     $this->fire('built', ['builder' => $this]);
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     /**
      * Make the form.
@@ -258,21 +264,21 @@ class FormBuilder
      *
      * @return $this
      */
-    public function post()
-    {
-        if (app('request')->isMethod('post')) {
+    // public function post()
+    // {
+    //     if (app('request')->isMethod('post')) {
 
-            $this->fire('post', ['builder' => $this]);
+    //         $this->fire('post', ['builder' => $this]);
 
-            if ($this->hasPostData() || $this->isAjax()) {
-                dispatch_now(new PostForm($this));
-            }
-        } else {
-            dispatch_now(new PopulateFields($this));
-        }
+    //         if ($this->hasPostData() || $this->isAjax()) {
+    //             dispatch_now(new PostForm($this));
+    //         }
+    //     } else {
+    //         dispatch_now(new PopulateFields($this));
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     /**
      * Validate the form.
@@ -304,16 +310,16 @@ class FormBuilder
      * @param  null $entry
      * @return Response
      */
-    public function render($entry = null)
-    {
-        $this->make($entry);
+    // public function render($entry = null)
+    // {
+    //     $this->make($entry);
 
-        if (!$this->form->getResponse()) {
-            dispatch_now(new SetFormResponse($this));
-        }
+    //     if (!$this->form->getResponse()) {
+    //         dispatch_now(new SetFormResponse($this));
+    //     }
 
-        return $this->form->getResponse();
-    }
+    //     return $this->form->getResponse();
+    // }
 
     /**
      * Fire field events.

@@ -36,35 +36,35 @@ class Form implements Arrayable, Jsonable
      *
      * @var null|mixed
      */
-    protected $model = null;
+    public $model = null;
 
     /**
      * The form stream.
      *
      * @var null|StreamInterface
      */
-    protected $stream = null;
+    public $stream = null;
 
     /**
      * The form entry.
      *
      * @var mixed
      */
-    protected $entry = null;
+    public $entry = null;
 
     /**
      * The form content.
      *
      * @var null|string
      */
-    protected $content = null;
+    public $content = null;
 
     /**
      * The form response.
      *
      * @var null|Response
      */
-    protected $response = null;
+    public $response = null;
 
     /**
      * The form model. This is set
@@ -72,63 +72,63 @@ class Form implements Arrayable, Jsonable
      *
      * @var null|string
      */
-    protected $mode = null;
+    public $mode = null;
 
     /**
      * The form data.
      *
      * @var Collection
      */
-    protected $data;
+    public $data;
 
     /**
      * The form errors.
      *
      * @var MessageBag
      */
-    protected $errors;
+    public $errors;
 
     /**
      * The form values.
      *
      * @var Collection
      */
-    protected $values;
+    public $values;
 
     /**
      * The form fields.
      *
      * @var FieldCollection
      */
-    protected $fields;
+    public $fields;
 
     /**
      * The form options.
      *
      * @var Collection
      */
-    protected $options;
+    public $options;
 
     /**
      * The form actions.
      *
      * @var ActionCollection
      */
-    protected $actions;
+    public $actions;
 
     /**
      * The form buttons.
      *
      * @var ButtonCollection
      */
-    protected $buttons;
+    public $buttons;
 
     /**
      * The form sections.
      *
      * @var SectionCollection
      */
-    protected $sections;
+    public $sections;
 
     /**
      * Create a new Form instance.
