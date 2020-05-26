@@ -4,7 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\Table\Workflows\Build;
 
 use Anomaly\Streams\Platform\Asset\Facades\Assets;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
+use Anomaly\Streams\Platform\Support\Breadcrumb;
 
 /**
  * Class LoadAssets
@@ -20,9 +20,9 @@ class LoadAssets
      * Handle the command.
      *
      * @param TableBuilder $builder
-     * @param BreadcrumbCollection $breadcrumbs
+     * @param Breadcrumb $breadcrumbs
      */
-    public function handle(TableBuilder $builder, BreadcrumbCollection $breadcrumbs)
+    public function handle(TableBuilder $builder, Breadcrumb $breadcrumbs)
     {
 
         Assets::collection('scripts.js', 'public::vendor/anomaly/core/js/table/table.js');

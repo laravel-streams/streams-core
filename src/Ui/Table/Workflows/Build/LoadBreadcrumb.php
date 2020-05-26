@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Workflows\Build;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
+use Anomaly\Streams\Platform\Support\Breadcrumb;
 
 /**
  * Class LoadBreadcrumb
@@ -19,9 +19,9 @@ class LoadBreadcrumb
      * Handle the command.
      *
      * @param TableBuilder $builder
-     * @param BreadcrumbCollection $breadcrumbs
+     * @param Breadcrumb $breadcrumbs
      */
-    public function handle(TableBuilder $builder, BreadcrumbCollection $breadcrumbs)
+    public function handle(TableBuilder $builder, Breadcrumb $breadcrumbs)
     {
         if ($breadcrumb = $builder->table->options->get('breadcrumb')) {
             $breadcrumbs->put($breadcrumb, '#');

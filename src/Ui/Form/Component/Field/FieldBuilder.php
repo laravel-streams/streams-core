@@ -22,10 +22,6 @@ class FieldBuilder
      */
     public static function build(FormBuilder $builder)
     {
-        $skips  = $builder->getSkips();
-        $entry  = $builder->getFormEntry();
-        $stream = $builder->getFormStream();
-
         $factory = app(FieldFactory::class);
 
         FieldInput::read($builder);
@@ -34,7 +30,7 @@ class FieldBuilder
          * Convert each field to a field object
          * and put to the forms field collection.
          */
-        foreach ($builder->getFields() as $field) {
+        foreach ($builder->fields as $field) {
 
             // Continue if skipping.
             if (in_array($field['field'], $skips)) {

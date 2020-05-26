@@ -4,7 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
+use Anomaly\Streams\Platform\Support\Breadcrumb;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Section;
 use Illuminate\Support\Facades\Gate;
@@ -40,9 +40,9 @@ class SetActiveSection
      * Handle the command.
      *
      * @param Request              $request
-     * @param BreadcrumbCollection $breadcrumbs
+     * @param Breadcrumb $breadcrumbs
      */
-    public function handle(Request $request, BreadcrumbCollection $breadcrumbs)
+    public function handle(Request $request, Breadcrumb $breadcrumbs)
     {
         $controlPanel = $this->builder->getControlPanel();
         $sections     = $controlPanel->getSections();

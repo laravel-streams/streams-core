@@ -1,9 +1,9 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Form\Workflows\Build;
+namespace Anomaly\Streams\Platform\Ui\Tree\Workflows\Build;
 
-use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Support\Breadcrumb;
+use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 
 /**
  * Class LoadBreadcrumb
@@ -18,12 +18,12 @@ class LoadBreadcrumb
     /**
      * Handle the command.
      *
-     * @param FormBuilder $builder
+     * @param TreeBuilder $builder
      * @param Breadcrumb $breadcrumbs
      */
-    public function handle(FormBuilder $builder, Breadcrumb $breadcrumbs)
+    public function handle(TreeBuilder $builder, Breadcrumb $breadcrumbs)
     {
-        if ($breadcrumb = $builder->form->options->get('breadcrumb')) {
+        if ($breadcrumb = $builder->tree->options->get('breadcrumb')) {
             $breadcrumbs->put($breadcrumb, '#');
         }
     }

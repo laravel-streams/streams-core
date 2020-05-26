@@ -16,42 +16,19 @@ class TreeAuthorizer
 {
 
     /**
-     * The module collection.
-     *
-     * @var ModuleCollection
-     */
-    protected $modules;
-
-    /**
-     * The authorizer utility.
-     *
-     * @var Authorizer
-     */
-    protected $authorizer;
-
-    /**
-     * Create a new TreeAuthorizer instance.
-     *
-     * @param ModuleCollection $modules
-     */
-    public function __construct(ModuleCollection $modules)
-    {
-        $this->modules    = $modules;
-    }
-
-    /**
-     * Authorize the tree.
+     * Authorize the table.
      *
      * @param TreeBuilder $builder
      */
     public function authorize(TreeBuilder $builder)
     {
+
         /**
          * Configured policy options
          * take precedense over the 
          * model policy.
          */
-        $policy = $builder->getTreeOption('policy');
+        $policy = $builder->tree->options->get('policy');
 
         if ($policy && !Gate::any((array) $policy)) {
             abort(403);
@@ -60,8 +37,10 @@ class TreeAuthorizer
         /**
          * Default behavior is to
          * rely on the model policy.
+         * 
+         * @todo Use stream here instead?
          */
-        $model = $builder->getTreeModel();
+        $model = $builder->tree->model;
 
         if ($model && !Gate::allows('viewAny', $model)) {
             abort(403);

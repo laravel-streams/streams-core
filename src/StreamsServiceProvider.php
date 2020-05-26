@@ -99,12 +99,11 @@ class StreamsServiceProvider extends ServiceProvider
 
         \Anomaly\Streams\Platform\Ui\Icon\IconRegistry::class                     => \Anomaly\Streams\Platform\Ui\Icon\IconRegistry::class,
         \Anomaly\Streams\Platform\Ui\Button\ButtonRegistry::class                 => \Anomaly\Streams\Platform\Ui\Button\ButtonRegistry::class,
-        \Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection::class       => \Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection::class,
+        \Anomaly\Streams\Platform\Support\Breadcrumb::class       => \Anomaly\Streams\Platform\Support\Breadcrumb::class,
         \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder::class      => \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder::class,
         \Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry::class     => \Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry::class,
         \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry::class => \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry::class,
 
-        \Anomaly\Streams\Platform\Field\FieldRouter::class => \Anomaly\Streams\Platform\Field\FieldRouter::class,
     ];
 
     /**

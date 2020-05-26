@@ -34,6 +34,8 @@ class Form implements Arrayable, Jsonable
      */
     public function render()
     {
+        // @todo dd(is a little rough.. )
+        dd(decorate($this->fields->first()));
         return View::make('streams::form/form', ['form' => decorate($this)]);
     }
 

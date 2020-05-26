@@ -2,8 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
 
-use Anomaly\Streams\Platform\Ui\Support\Normalizer;
+use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
+use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 
 /**
  * Class SegmentInput
@@ -36,9 +37,9 @@ class SegmentInput
      */
     protected static function resolve(TreeBuilder $builder)
     {
-        $segments = resolver($builder->getSegments(), compact('builder'));
+        $segments = resolver($builder->segments, compact('builder'));
 
-        $builder->setSegments(evaluate($segments ?: $builder->getSegments(), compact('builder')));
+        $builder->segments = evaluate($segments ?: $builder->segments, compact('builder'));
     }
 
     /**
@@ -48,7 +49,7 @@ class SegmentInput
      */
     protected static function defaults(TreeBuilder $builder)
     {
-        if ($builder->getSegments()) {
+        if ($builder->segments) {
             return;
         }
 
@@ -56,14 +57,12 @@ class SegmentInput
             return;
         }
 
-        $builder->setSegments(
-            [
+        $builder->segments = [
                 [
                     'wrapper' => '<a href="' . $section->getHref('edit') . '/{entry.id}">{value}</a>',
                     'value'   => 'entry.title',
                 ],
-            ]
-        );
+            ];
     }
 
     /**
@@ -73,7 +72,7 @@ class SegmentInput
      */
     protected static function normalize(TreeBuilder $builder)
     {
-        $segments = $builder->getSegments();
+        $segments = $builder->segments;
 
         foreach ($segments as $key => &$segment) {
 
@@ -134,7 +133,7 @@ class SegmentInput
 
         $segments = Normalizer::attributes($segments);
 
-        $builder->setSegments($segments);
+        $builder->segments = $segments;
     }
 
     /**
@@ -144,7 +143,7 @@ class SegmentInput
      */
     protected static function parse(TreeBuilder $builder)
     {
-        $builder->setSegments(parse($builder->getSegments()));
+        $builder->segments = Str::parse($builder->segments);
     }
 
     /**
@@ -154,6 +153,6 @@ class SegmentInput
      */
     protected static function translate(TreeBuilder $builder)
     {
-        $builder->setSegments(translate($builder->getSegments()));
+        $builder->segments = translate($builder->segments);
     }
 }

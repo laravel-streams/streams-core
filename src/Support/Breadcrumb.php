@@ -1,17 +1,18 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Breadcrumb;
+namespace Anomaly\Streams\Platform\Support;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\View;
 
 /**
- * Class BreadcrumbCollection
+ * Class Breadcrumb
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class BreadcrumbCollection extends Collection
+class Breadcrumb extends Collection
 {
 
     /**
@@ -51,6 +52,6 @@ class BreadcrumbCollection extends Collection
      */
     public function __toString()
     {
-        return view('streams::partials/breadcrumb')->render();
+        return View::make('streams::partials/breadcrumb')->render();
     }
 }

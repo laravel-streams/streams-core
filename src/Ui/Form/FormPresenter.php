@@ -2,8 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Illuminate\View\View;
-use Illuminate\View\Factory;
+use Collective\Html\FormFacade;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Request;
 use Collective\Html\FormBuilder as Html;
 use Anomaly\Streams\Platform\Support\Presenter;
@@ -19,41 +19,12 @@ class FormPresenter extends Presenter
 {
 
     /**
-     * The form HTML builder.
-     *
-     * @var Html
-     */
-    protected $html;
-
-    /**
-     * The view factory.
-     *
-     * @var Factory
-     */
-    protected $view;
-
-    /**
      * The decorated object.
      * This is for IDE support.
      *
      * @var Form
      */
     protected $object;
-
-    /**
-     * Create a new FormPresenter instance.
-     *
-     * @param Html    $form
-     * @param Factory $view
-     * @param         $object
-     */
-    public function __construct(Html $form, Factory $view, $object)
-    {
-        $this->html = $form;
-        $this->view = $view;
-
-        parent::__construct($object);
-    }
 
     /**
      * Return the opening form tag.
@@ -77,7 +48,7 @@ class FormPresenter extends Presenter
             $options['data-async'] = 'true';
         }
 
-        return $this->html->open($options);
+        return FormFacade::open($options);
     }
 
     /**
@@ -87,7 +58,7 @@ class FormPresenter extends Presenter
      */
     public function close()
     {
-        return $this->html->close();
+        return FormFacade::close();
     }
 
     /**
@@ -98,8 +69,7 @@ class FormPresenter extends Presenter
      */
     public function renderFields($view = null)
     {
-        return $this->view
-            ->make(
+        return View::make(
                 $view ?: 'streams::form/partials/fields',
                 [
                     'form'   => $this,
@@ -129,12 +99,8 @@ class FormPresenter extends Presenter
      */
     public function __toString()
     {
-        $content = $this->object->getContent();
-
-        if ($content instanceof View) {
-            return $content->render();
-        }
-
-        return '';
+        return $this->object
+            ->render()
+            ->render();
     }
 }

@@ -6,7 +6,6 @@ use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Ui\Support\Component;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
 
 /**
  * Class Button
@@ -17,8 +16,6 @@ use Anomaly\Streams\Platform\Ui\Traits\HasClassAttribute;
  */
 class Button extends Component implements Arrayable, Jsonable
 {
-
-    use HasClassAttribute;
 
     /**
      * The button attributes.

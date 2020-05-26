@@ -2,28 +2,16 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Contracts\Support\MessageBag;
-use Anomaly\Streams\Platform\Ui\Button\Button;
-use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Ui\Form\Command\ValidateForm;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Ui\Form\Command\LoadFormValues;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\Command\FlashFormErrors;
 use Anomaly\Streams\Platform\Ui\Form\Workflows\BuildWorkflow;
 use Anomaly\Streams\Platform\Ui\Form\Command\FlashFieldValues;
-use Anomaly\Streams\Platform\Version\Contract\VersionInterface;
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
 
 /**
  * Class FormBuilder
@@ -49,6 +37,8 @@ class FormBuilder
             'async' => false,
             'handler' => null,
             'validator' => null,
+
+            'stream' => null,
             'repository' => null,
             
             'entry' => null,

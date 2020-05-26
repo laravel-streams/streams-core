@@ -43,9 +43,9 @@ class FieldInput
      */
     protected static function resolve(FormBuilder $builder)
     {
-        $fields = resolver($builder->getFields(), compact('builder'));
+        $fields = resolver($builder->fields, compact('builder'));
 
-        $builder->setFields(evaluate($fields ?: $builder->getFields(), compact('builder')));
+        $builder->fields = evaluate($fields ?: $builder->fields, compact('builder'));
     }
 
     /**
@@ -55,7 +55,7 @@ class FieldInput
      */
     protected static function evaluate(FormBuilder $builder)
     {
-        $builder->setFields(evaluate($builder->getFields(), compact('builder')));
+        $builder->fields = evaluate($builder->fields, compact('builder'));
     }
 
     /**
@@ -65,8 +65,8 @@ class FieldInput
      */
     protected static function defaults(FormBuilder $builder)
     {
-        if ($builder->getFields() === []) {
-            $builder->setFields(['*']);
+        if ($builder->fields === []) {
+            $builder->fields = (['*']);
         }
     }
 
@@ -77,7 +77,7 @@ class FieldInput
      */
     protected static function normalize(FormBuilder $builder)
     {
-        $fields = $builder->getFields();
+        $fields = $builder->fields;
 
         foreach ($fields as $slug => &$field) {
 
@@ -139,7 +139,7 @@ class FieldInput
      */
     protected static function fill(FormBuilder $builder)
     {
-        $fields = $builder->getFields();
+        $fields = $builder->fields;
         $stream = $builder->getFormStream();
 
         /*
@@ -202,7 +202,7 @@ class FieldInput
      */
     protected static function parse(FormBuilder $builder)
     {
-        $builder->setFields(Arr::parse($builder->getFields()));
+        $builder->setFields(Arr::parse($builder->fields));
     }
 
     /**
@@ -222,7 +222,7 @@ class FieldInput
          * then duplicate it and set a couple simple
          * parameters to assist in rendering.
          */
-        foreach ($builder->getFields() as $field) {
+        foreach ($builder->fields as $field) {
 
             if (!array_get($field, 'translatable', false)) {
 
@@ -277,7 +277,7 @@ class FieldInput
      */
     protected static function populate(FormBuilder $builder)
     {
-        $fields = $builder->getFields();
+        $fields = $builder->fields;
         $entry  = $builder->getFormEntry();
 
         /**

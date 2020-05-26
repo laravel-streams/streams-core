@@ -51,12 +51,8 @@ class TablePresenter extends Presenter
      */
     public function __toString()
     {
-        $content = $this->object->getContent();
-
-        if ($content instanceof View) {
-            return $content->render();
-        }
-
-        return (string) $content;
+        return (string) $this->object
+            ->render()
+            ->render();
     }
 }

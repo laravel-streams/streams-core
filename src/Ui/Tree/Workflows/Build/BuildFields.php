@@ -1,10 +1,9 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Form\Workflows\Build;
+namespace Anomaly\Streams\Platform\Ui\Tree\Workflows\Build;
 
-use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldBuilder;
-use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldCollection;
+use Anomaly\Streams\Platform\Ui\Tree\Component\Field\FieldBuilder;
+use Anomaly\Streams\Platform\Ui\Tree\Component\Field\FieldCollection;
 
 /**
  * Class BuildFields
@@ -29,7 +28,7 @@ class BuildFields
 
         if (!$builder->fields) {
             
-            $builder->form->fields = new FieldCollection($builder->stream->fields->all());
+            $builder->tree->fields = new FieldCollection($builder->stream->fields->all());
 
             return;
         }

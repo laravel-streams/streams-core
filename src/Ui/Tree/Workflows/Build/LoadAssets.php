@@ -1,10 +1,10 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Form\Workflows\Build;
+namespace Anomaly\Streams\Platform\Ui\Tree\Workflows\Build;
 
-use Anomaly\Streams\Platform\Asset\Facades\Assets;
-use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Support\Breadcrumb;
+use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
+use Anomaly\Streams\Platform\Asset\Facades\Assets;
 
 /**
  * Class LoadAssets
@@ -19,13 +19,13 @@ class LoadAssets
     /**
      * Handle the command.
      *
-     * @param FormBuilder $builder
+     * @param TreeBuilder $builder
      * @param Breadcrumb $breadcrumbs
      */
-    public function handle(FormBuilder $builder, Breadcrumb $breadcrumbs)
+    public function handle(TreeBuilder $builder, Breadcrumb $breadcrumbs)
     {
 
-        //Assets::collection('scripts.js', 'public::vendor/anomaly/core/js/form/form.js');
+        //Assets::collection('scripts.js', 'public::vendor/anomaly/core/js/tree/tree.js');
 
         foreach ($builder->assets as $collection => $assets) {
             Assets::collection($collection)->merge($assets);

@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Tree\Component\Button;
 
+use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
 use Anomaly\Streams\Platform\Support\Facades\Evaluator;
@@ -26,7 +27,7 @@ class ButtonBuilder
      */
     public static function build(TreeBuilder $builder, $entry)
     {
-        $tree = $builder->getTree();
+        $tree = $builder->tree;
 
         $factory = app(ButtonFactory::class);
 
@@ -34,16 +35,17 @@ class ButtonBuilder
 
         ButtonInput::read($builder, $entry);
 
-        foreach ($builder->getButtons() as $button) {
+        foreach ($builder->buttons as $button) {
+            
             if (!array_get($button, 'enabled', true)) {
                 continue;
             }
 
             $button = Evaluator::evaluate($button, compact('entry', 'tree'));
-            $button = $this->parser->parse($button, $entry);
+            $button = Str::parse($button, $entry);
 
-            $button = $this->factory->make($button);
-
+            $button = $factory->make($button);
+dd($button);
             $buttons->push($button);
         }
 

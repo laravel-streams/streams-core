@@ -4,9 +4,8 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
+use Anomaly\Streams\Platform\Support\Breadcrumb;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationLink;
 
 /**
  * Class SetActiveNavigationLink
@@ -39,9 +38,9 @@ class SetActiveNavigationLink
      * Handle the command.
      *
      * @param Request              $request
-     * @param BreadcrumbCollection $breadcrumbs
+     * @param Breadcrumb $breadcrumbs
      */
-    public function handle(Request $request, BreadcrumbCollection $breadcrumbs)
+    public function handle(Request $request, Breadcrumb $breadcrumbs)
     {
         $links = $this->builder->getControlPanelNavigation();
 

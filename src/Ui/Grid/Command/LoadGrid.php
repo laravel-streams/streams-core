@@ -5,7 +5,7 @@ namespace Anomaly\Streams\Platform\Ui\Grid\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Contracts\Container\Container;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
-use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
+use Anomaly\Streams\Platform\Support\Breadcrumb;
 
 /**
  * Class LoadGrid
@@ -38,9 +38,9 @@ class LoadGrid
      * Handle the command.
      *
      * @param Container            $container
-     * @param BreadcrumbCollection $breadcrumbs
+     * @param Breadcrumb $breadcrumbs
      */
-    public function handle(Container $container, BreadcrumbCollection $breadcrumbs)
+    public function handle(Container $container, Breadcrumb $breadcrumbs)
     {
         $grid = $this->builder->getGrid();
 

@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
+use Anomaly\Streams\Platform\Support\Breadcrumb;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Facades\App;
@@ -38,9 +38,9 @@ class LoadForm
      * Handle the command.
      *
      * @param Container            $container
-     * @param BreadcrumbCollection $breadcrumbs
+     * @param Breadcrumb $breadcrumbs
      */
-    public function handle(Container $container, BreadcrumbCollection $breadcrumbs)
+    public function handle(Container $container, Breadcrumb $breadcrumbs)
     {
         $form = $this->builder->getForm();
 

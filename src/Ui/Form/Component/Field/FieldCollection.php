@@ -31,12 +31,12 @@ class FieldCollection extends Collection
         foreach ($this->items as $item) {
 
             // If it's the base local then add it.
-            if ($item->getLocale() == $locale) {
+            if ($item->locale == $locale) {
                 $fields[] = $item;
             }
 
             // If there is no locale then add it.
-            if ($item->getLocale() === null) {
+            if ($item->locale === null) {
                 $fields[] = $item;
             }
         }
@@ -53,7 +53,7 @@ class FieldCollection extends Collection
     public function translations($field)
     {
         return $this->filter(function ($item) use ($field) {
-            return $item->getFieldName() == $field;
+            return $item->field_name == $field;
         });
     }
 
@@ -255,7 +255,7 @@ class FieldCollection extends Collection
     public function names()
     {
         return $this->map(function ($field) {
-            return $field->getFieldName();
+            return $field->field_name;
         });
     }
 

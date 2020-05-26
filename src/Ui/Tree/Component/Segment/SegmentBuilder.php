@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
 
+use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 
 /**
@@ -23,7 +24,7 @@ class SegmentBuilder
      */
     public static function build(TreeBuilder $builder, $entry)
     {
-        $tree = $builder->getTree();
+        $tree = $builder->tree;
 
         $factory = app(SegmentFactory::class);
 
@@ -31,12 +32,12 @@ class SegmentBuilder
 
         SegmentInput::read($builder);
 
-        foreach ($builder->getSegments() as $segment) {
+        foreach ($builder->segments as $segment) {
 
             array_set($segment, 'entry', $entry);
 
             $segment = evaluate($segment, compact('entry', 'tree'));
-            $segment = parse($segment, compact('entry'));
+            $segment = Str::parse($segment, compact('entry'));
 
             if (array_get($segment, 'enabled', null) === false) {
                 continue;

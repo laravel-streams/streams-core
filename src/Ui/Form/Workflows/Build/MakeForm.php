@@ -58,7 +58,8 @@ class MakeForm
          * Default to configured.
          */
         if ($builder->form) {
-            $builder->form = App::make($builder->form, compact('attributes'));
+            // @todo leave form along - rename ->form to ->instance
+            $builder->form = $builder->instance = App::make($builder->form, compact('attributes'));
         }
 
         /**

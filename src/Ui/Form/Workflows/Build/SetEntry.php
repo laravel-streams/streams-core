@@ -5,7 +5,7 @@ namespace Anomaly\Streams\Platform\Ui\Form\Workflows\Build;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Asset\Facades\Assets;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
+use Anomaly\Streams\Platform\Support\Breadcrumb;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 
 /**

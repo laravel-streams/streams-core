@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
-use Anomaly\Streams\Platform\Model\EloquentPresenter;
+use Anomaly\Streams\Platform\Support\Presenter;
 
 /**
  * Class FieldPresenter
@@ -9,6 +9,6 @@ use Anomaly\Streams\Platform\Model\EloquentPresenter;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class FieldPresenter extends EloquentPresenter
+class FieldPresenter extends Presenter
 {
 }

@@ -3,10 +3,12 @@
 namespace Anomaly\Streams\Platform\Field;
 
 use Anomaly\Streams\Platform\Traits\HasMemory;
+use Anomaly\Streams\Platform\Traits\Presentable;
+use Anomaly\Streams\Platform\Field\FieldPresenter;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
-use Anomaly\Streams\Platform\Support\Traits\Properties;
 
 /**
  * Class Field
@@ -19,6 +21,9 @@ class Field implements FieldInterface
 {
     use HasMemory;
     use Properties;
+    use Presentable;
+
+    public $presenter = FieldPresenter::class;
 
     /**
      * Create a new class instance.
