@@ -12,8 +12,8 @@ use Anomaly\Streams\Platform\Image\Concerns\HasSrcsets;
 use Anomaly\Streams\Platform\Image\Concerns\HasVersion;
 use Anomaly\Streams\Platform\Image\Concerns\HasFilename;
 use Anomaly\Streams\Platform\Image\Concerns\HasExtension;
-use Anomaly\Streams\Platform\Image\Concerns\HasAttributes;
 use Anomaly\Streams\Platform\Image\Concerns\HasAlterations;
+use Anomaly\Streams\Platform\Image\Concerns\HasAttributes;
 
 /**
  * Class Image
@@ -33,7 +33,7 @@ class Image
     use HasVersion;
     use HasFilename;
     use HasExtension;
-    use Properties;
+    use HasAttributes;
     use HasAlterations;
 
     use CanOutput;
