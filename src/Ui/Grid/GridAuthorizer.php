@@ -39,12 +39,13 @@ class GridAuthorizer
      */
     public function authorize(GridBuilder $builder)
     {
+        
         /**
          * Configured policy options
          * take precedense over the 
          * model policy.
          */
-        $policy = $builder->getGridOption('policy');
+        $policy = $builder->grid->options->get('policy');
 
         if ($policy && !Gate::any((array) $policy)) {
             abort(403);
@@ -54,7 +55,11 @@ class GridAuthorizer
          * Default behavior is to
          * rely on the model policy.
          */
-        $model = $builder->getGridModel();
+        if (!$builder->stream) {
+            return;
+        }
+
+        $model = $builder->stream->model;
 
         if ($model && !Gate::allows('viewAny', $model)) {
             abort(403);

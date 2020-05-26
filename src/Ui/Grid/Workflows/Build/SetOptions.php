@@ -1,10 +1,10 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Tree\Workflows\Build;
+namespace Anomaly\Streams\Platform\Ui\Grid\Workflows\Build;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
-use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
+use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 
 /**
  * Class SetOptions
@@ -19,13 +19,13 @@ class SetOptions
     /**
      * Handle the step.
      * 
-     * @param TreeBuilder $builder
+     * @param GridBuilder $builder
      */
-    public function handle(TreeBuilder $builder)
+    public function handle(GridBuilder $builder)
     {
         if ($builder->options instanceof Collection) {
 
-            $builder->tree->options = $builder->options;
+            $builder->grid->options = $builder->options;
 
             return;
         }
@@ -41,7 +41,7 @@ class SetOptions
          * Fallback for Streams.
          */
         if (!$builder->options) {
-            $builder->tree->options = new Collection;
+            $builder->grid->options = new Collection;
         }
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Tree\Workflows\Query;
+namespace Anomaly\Streams\Platform\Ui\Grid\Workflows\Query;
 
-use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
+use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 
 /**
  * Class FinishQuery
@@ -17,22 +17,22 @@ class FinishQuery
     /**
      * Handle the step.
      * 
-     * @param TreeBuilder $builder
+     * @param GridBuilder $builder
      */
-    public function handle(TreeBuilder $builder)
+    public function handle(GridBuilder $builder)
     {
 
         /**
          * @todo This terminology and parameters need reviewed/revisited.
          */
-        if ($builder->tree->options->get('paginate', true)) {
+        if ($builder->grid->options->get('paginate', true)) {
 
-            $builder->tree->pagination = $builder->criteria->paginate([
-                'page_name' => $builder->tree->options->get('prefix') . 'page',
-                'limit_name' => $builder->tree->options->get('limit') . 'limit',
+            $builder->grid->pagination = $builder->criteria->paginate([
+                'page_name' => $builder->grid->options->get('prefix') . 'page',
+                'limit_name' => $builder->grid->options->get('limit') . 'limit',
             ]);
 
-            $builder->tree->entries = $builder->tree->pagination->getCollection();
+            $builder->grid->entries = $builder->grid->pagination->getCollection();
         }
     }
 }

@@ -1,4 +1,4 @@
-{{ asset_add("scripts.js", "streams::js/grid/grid.js") }}
+{{-- {{ asset_add("scripts.js", "streams::js/grid/grid.js") }}
 
 {% block content %}
 
@@ -29,4 +29,5 @@
 
     </div>
 
-{% endblock %}
+{% endblock %} --}}
+Yo dawg.. I'm a grid!

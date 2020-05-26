@@ -1,9 +1,9 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Tree\Workflows\Build;
+namespace Anomaly\Streams\Platform\Ui\Grid\Workflows\Build;
 
 use Anomaly\Streams\Platform\Support\Breadcrumb;
-use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
+use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 use Anomaly\Streams\Platform\Asset\Facades\Assets;
 
 /**
@@ -19,13 +19,13 @@ class LoadAssets
     /**
      * Handle the command.
      *
-     * @param TreeBuilder $builder
+     * @param GridBuilder $builder
      * @param Breadcrumb $breadcrumbs
      */
-    public function handle(TreeBuilder $builder, Breadcrumb $breadcrumbs)
+    public function handle(GridBuilder $builder, Breadcrumb $breadcrumbs)
     {
 
-        //Assets::collection('scripts.js', 'public::vendor/anomaly/core/js/tree/tree.js');
+        //Assets::collection('scripts.js', 'public::vendor/anomaly/core/js/grid/grid.js');
 
         foreach ($builder->assets as $collection => $assets) {
             Assets::collection($collection)->merge($assets);

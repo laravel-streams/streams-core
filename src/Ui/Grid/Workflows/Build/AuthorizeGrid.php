@@ -2,29 +2,27 @@
 
 namespace Anomaly\Streams\Platform\Ui\Grid\Workflows\Build;
 
-use Anomaly\Streams\Platform\Support\Breadcrumb;
+use Anomaly\Streams\Platform\Ui\Grid\GridAuthorizer;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 
 /**
- * Class LoadBreadcrumb
+ * Class AuthorizeForm
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class LoadBreadcrumb
+class AuthorizeGrid
 {
 
     /**
      * Handle the command.
      *
+     * @param GridAuthorizer $authorizer
      * @param GridBuilder $builder
-     * @param Breadcrumb $breadcrumbs
      */
-    public function handle(GridBuilder $builder, Breadcrumb $breadcrumbs)
+    public function handle(GridAuthorizer $authorizer, GridBuilder $builder)
     {
-        if ($breadcrumb = $builder->grid->options->get('breadcrumb')) {
-            $breadcrumbs->put($breadcrumb, '#');
-        }
+        $authorizer->authorize($builder);
     }
 }

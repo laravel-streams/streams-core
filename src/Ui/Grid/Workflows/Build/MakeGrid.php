@@ -1,33 +1,34 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Tree\Workflows\Build;
+namespace Anomaly\Streams\Platform\Ui\Grid\Workflows\Build;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\App;
-use Anomaly\Streams\Platform\Ui\Tree\Tree;
-use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
+use Anomaly\Streams\Platform\Ui\Grid\Grid;
+use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
-use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\SegmentCollection;
+use Anomaly\Streams\Platform\Ui\Grid\Component\Item\ItemCollection;
+use Anomaly\Streams\Platform\Ui\Grid\Component\Segment\SegmentCollection;
 
 /**
- * Class MakeTree
+ * Class MakeGrid
  *
  * @link    http://pyrocms.com/
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class MakeTree
+class MakeGrid
 {
 
     /**
      * Handle the step.
      * 
-     * @param TreeBuilder $builder
+     * @param GridBuilder $builder
      */
-    public function handle(TreeBuilder $builder)
+    public function handle(GridBuilder $builder)
     {
-        if ($builder->tree instanceof Tree) {
+        if ($builder->grid instanceof Grid) {
             return;
         }
 
@@ -47,22 +48,22 @@ class MakeTree
             'errors' => new MessageBag(),
 
             'buttons' => new ButtonCollection(),
-            'segments' => new SegmentCollection(),
+            'items' => new ItemCollection(),
         ];
 
         /**
          * Default to configured.
          */
-        if ($builder->tree) {
-            // @todo leave tree along - rename ->tree to ->instance
-            $builder->tree = $builder->instance = App::make($builder->tree, compact('attributes'));
+        if ($builder->grid) {
+            // @todo leave grid along - rename ->grid to ->instance
+            $builder->grid = $builder->instance = App::make($builder->grid, compact('attributes'));
         }
 
         /**
          * Fallback for Streams.
          */
-        if (!$builder->tree) {
-            $builder->tree = App::make(Tree::class, compact('attributes'));
+        if (!$builder->grid) {
+            $builder->grid = App::make(Grid::class, compact('attributes'));
         }
     }
 }

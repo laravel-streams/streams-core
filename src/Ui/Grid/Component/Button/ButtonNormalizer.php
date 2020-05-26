@@ -19,7 +19,7 @@ class ButtonNormalizer
      */
     public function normalize(GridBuilder $builder)
     {
-        $buttons = $builder->getButtons();
+        $buttons = $builder->buttons;
 
         foreach ($buttons as $key => &$button) {
 
@@ -78,6 +78,6 @@ class ButtonNormalizer
             $button['size'] = array_get($button, 'size', 'xs');
         }
 
-        $builder->setButtons($buttons);
+        $builder->buttons = $buttons;
     }
 }

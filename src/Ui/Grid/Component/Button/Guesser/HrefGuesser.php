@@ -60,7 +60,7 @@ class HrefGuesser
      */
     public function guess(GridBuilder $builder)
     {
-        $buttons = $builder->getButtons();
+        $buttons = $builder->buttons;
 
         // Nothing to do if empty.
         if (!$section = $this->builder->controlPanel->sections->active()) {

@@ -2,19 +2,11 @@
 
 namespace Anomaly\Streams\Platform\Ui\Grid;
 
-use Illuminate\Http\Response;
-use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Model\EloquentModel;
+use Illuminate\Support\Facades\Response;
+use Anomaly\Streams\Platform\Ui\Grid\Grid;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Anomaly\Streams\Platform\Ui\Grid\Command\LoadGrid;
-use Anomaly\Streams\Platform\Ui\Grid\Command\MakeGrid;
-use Anomaly\Streams\Platform\Ui\Grid\Command\PostGrid;
-use Anomaly\Streams\Platform\Ui\Grid\Command\AddAssets;
-use Anomaly\Streams\Platform\Ui\Grid\Command\BuildGrid;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Grid\Command\SetGridResponse;
-use Anomaly\Streams\Platform\Ui\Grid\Contract\GridRepositoryInterface;
-use Anomaly\Streams\Platform\Ui\Grid\Component\Item\Contract\ItemInterface;
+use Anomaly\Streams\Platform\Support\Traits\Properties;
+use Anomaly\Streams\Platform\Ui\Grid\Workflows\BuildWorkflow;
 
 /**
  * Class GridBuilder
@@ -25,372 +17,119 @@ use Anomaly\Streams\Platform\Ui\Grid\Component\Item\Contract\ItemInterface;
  */
 class GridBuilder
 {
+
+    use Properties;
     use FiresCallbacks;
 
     /**
-     * The grid model.
+     * Create a new class instance.
      *
-     * @var null|string
+     * @param array $attributes
      */
-    protected $model = null;
-
-    /**
-     * The buttons configuration.
-     *
-     * @var array|string
-     */
-    protected $buttons = [];
-
-    /**
-     * The grid options.
-     *
-     * @var array
-     */
-    protected $options = [];
-
-    /**
-     * The grid assets.
-     *
-     * @var array
-     */
-    protected $assets = [];
-
-    /**
-     * The grid instance.
-     *
-     * @var Grid
-     */
-    protected $grid;
-
-    /**
-     * Create a new GridBuilder instance.
-     *
-     * @param Grid $grid
-     */
-    public function __construct(Grid $grid)
+    public function __construct(array $attributes = [])
     {
-        $this->grid = $grid;
+        $this->setAttributes([
+            //'async' => false,
+            //'handler' => null,
+            'stream' => null,
+            'repository' => null,
+            
+            'entry' => null,
+            
+            'assets' => [],
+            'options' => [],
+            'buttons' => [],
+            'items' => [],
+            
+            'grid' => Grid::class,
+        ]);
+
+        $this->buildProperties();
+
+        $this->fill($attributes);
     }
 
     /**
-     * Build the grid.
+     * Build and return the grid instance.
+     *
+     * @return $this
      */
     public function build()
     {
+        if ($this->built === true) {
+            return $this;
+        }
+
         $this->fire('ready', ['builder' => $this]);
 
-        dispatch_now(new BuildGrid($this));
+        (new BuildWorkflow)->process(['builder' => $this]);
 
-        if (app('request')->isMethod('post')) {
-            dispatch_now(new PostGrid($this));
-        }
-    }
+        $this->fire('built', ['builder' => $this]);
 
-    /**
-     * Make the grid response.
-     */
-    public function make()
-    {
-        $this->build();
+        $this->built = true;
 
-        if (!app('request')->isMethod('post')) {
-            dispatch_now(new LoadGrid($this));
-            dispatch_now(new AddAssets($this));
-            dispatch_now(new MakeGrid($this));
-        }
+        return $this;
     }
 
     /**
      * Render the grid.
      *
-     * @return Response
+     * @return View
      */
     public function render()
     {
-        $this->make();
+        $this->build();
 
-        dispatch_now(new SetGridResponse($this));
-
-        return $this->grid->getResponse();
+        return $this->grid->render();
     }
 
     /**
-     * Get the grid.
-     *
-     * @return Grid
+     * Return the grid response.
+     * 
+     * @return Response
      */
-    public function getGrid()
+    public function response()
     {
-        return $this->grid;
-    }
-
-    /**
-     * Set the grid model.
-     *
-     * @param  string $model
-     * @return $this
-     */
-    public function setModel($model)
-    {
-        $this->model = $model;
-
-        return $this;
-    }
-
-    /**
-     * Get the grid model.
-     *
-     * @return null|string
-     */
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    /**
-     * Set the buttons configuration.
-     *
-     * @param $buttons
-     * @return $this
-     */
-    public function setButtons($buttons)
-    {
-        $this->buttons = $buttons;
-
-        return $this;
-    }
-
-    /**
-     * Get the buttons configuration.
-     *
-     * @return array
-     */
-    public function getButtons()
-    {
-        return $this->buttons;
-    }
-
-    /**
-     * The the options.
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
-     * Set the options.
-     *
-     * @param  array $options
-     * @return $this
-     */
-    public function setOptions(array $options)
-    {
-        $this->options = array_merge($this->options, $options);
-
-        return $this;
-    }
-
-    /**
-     * Get an option value.
-     *
-     * @param        $key
-     * @param  null  $default
-     * @return mixed
-     */
-    public function getOption($key, $default = null)
-    {
-        return array_get($this->options, $key, $default);
-    }
-
-    /**
-     * Set an option value.
-     *
-     * @param $key
-     * @param $value
-     * @return $this
-     */
-    public function setOption($key, $value)
-    {
-        array_set($this->options, $key, $value);
-
-        return $this;
-    }
-
-    /**
-     * Get the assets.
-     *
-     * @return array
-     */
-    public function getAssets()
-    {
-        return $this->assets;
-    }
-
-    /**
-     * Set the assets.
-     *
-     * @param $assets
-     * @return $this
-     */
-    public function setAssets($assets)
-    {
-        $this->assets = $assets;
-
-        return $this;
-    }
-
-    /**
-     * Add an asset.
-     *
-     * @param $collection
-     * @param $asset
-     * @return $this
-     */
-    public function addAsset($collection, $asset)
-    {
-        if (!isset($this->assets[$collection])) {
-            $this->assets[$collection] = [];
+        if (false/* is async request */) {
+            return $this->json();
         }
 
-        $this->assets[$collection][] = $asset;
-
-        return $this;
+        return Response::view('streams::default', ['content' => $this->render()]);
     }
 
     /**
-     * Get the grid's stream.
+     * Return a JSON response.
      *
-     * @return StreamInterface|null
+     * @return JsonResponse
      */
-    public function getGridStream()
+    public function json()
     {
-        return $this->grid->getStream();
-    }
+        $this->build();
 
-    /**
-     * Get the grid model.
-     *
-     * @return EloquentModel|null
-     */
-    public function getGridModel()
-    {
-        return $this->grid->getModel();
-    }
-
-    /**
-     * Get a grid option value.
-     *
-     * @param        $key
-     * @param  null  $default
-     * @return mixed
-     */
-    public function getGridOption($key, $default = null)
-    {
-        return $this->grid->getOption($key, $default);
-    }
-
-    /**
-     * Set a grid option value.
-     *
-     * @param $key
-     * @param $value
-     * @return $this
-     */
-    public function setGridOption($key, $value)
-    {
-        $this->grid->setOption($key, $value);
-
-        return $this;
-    }
-
-    /**
-     * Get the grid options.
-     *
-     * @return Collection
-     */
-    public function getGridOptions()
-    {
-        return $this->grid->getOptions();
-    }
-
-    /**
-     * Set the grid entries.
-     *
-     * @param  Collection $entries
-     * @return $this
-     */
-    public function setGridEntries(Collection $entries)
-    {
-        $this->grid->setEntries($entries);
-
-        return $this;
-    }
-
-    /**
-     * Get the grid entries.
-     *
-     * @return Collection
-     */
-    public function getGridEntries()
-    {
-        return $this->grid->getEntries();
-    }
-
-    /**
-     * Add a grid item to the collection.
-     *
-     * @param  ItemInterface $item
-     * @return $this
-     */
-    public function addGridItem(ItemInterface $item)
-    {
-        $this->grid->addItem($item);
-
-        return $this;
-    }
-
-    /**
-     * Set the grid response.
-     *
-     * @param Response $response
-     */
-    public function setGridResponse(Response $response)
-    {
-        $this->grid->setResponse($response);
-    }
-
-    /**
-     * Get the grid response.
-     *
-     * @return null|Response
-     */
-    public function getGridResponse()
-    {
-        return $this->grid->getResponse();
-    }
-
-    /**
-     * Get the grid repository.
-     *
-     * @return GridRepositoryInterface
-     */
-    public function getGridRepository()
-    {
-        return $this->grid->getRepository();
+        return Response::json($this->grid->toJson());
     }
 
     /**
      * Get a request value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
-    public function getRequestValue($key, $default = null)
+    public function request($key, $default = null)
     {
-        return array_get($_REQUEST, $this->getOption('prefix') . $key, $default);
+        return Request::get($this->grid->options->get('prefix') . $key, $default);
+    }
+
+    /**
+     * Get a post value.
+     *
+     * @param        $key
+     * @param  null $default
+     * @return mixed
+     */
+    public function post($key, $default = null)
+    {
+        return Request::post($this->grid->options->get('prefix') . $key, $default);
     }
 }

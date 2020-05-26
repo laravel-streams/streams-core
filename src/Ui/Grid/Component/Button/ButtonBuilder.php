@@ -62,13 +62,13 @@ class ButtonBuilder
      */
     public function build(GridBuilder $builder, $entry)
     {
-        $grid = $builder->getGrid();
+        $grid = $builder->grid;
 
         $buttons = new ButtonCollection();
 
         $this->input->read($builder, $entry);
 
-        foreach ($builder->getButtons() as $button) {
+        foreach ($builder->buttons as $button) {
             if (!array_get($button, 'enabled', true)) {
                 continue;
             }

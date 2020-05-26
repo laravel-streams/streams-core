@@ -1,9 +1,9 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Tree\Workflows\Build;
+namespace Anomaly\Streams\Platform\Ui\Grid\Workflows\Build;
 
 use Illuminate\Support\Facades\App;
-use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
+use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 
@@ -19,9 +19,9 @@ class SetRepository
     /**
      * Handle the command.
      *
-     * @param TreeBuilder $builder
+     * @param GridBuilder $builder
      */
-    public function handle(TreeBuilder $builder)
+    public function handle(GridBuilder $builder)
     {
         if ($builder->repository instanceof RepositoryInterface) {
             return;

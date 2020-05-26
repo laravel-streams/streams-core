@@ -1,9 +1,9 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Tree\Workflows\Query;
+namespace Anomaly\Streams\Platform\Ui\Grid\Workflows\Query;
 
 use Illuminate\Support\Facades\App;
-use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
+use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 
 /**
  * Class FilterQuery
@@ -18,11 +18,11 @@ class FilterQuery
     /**
      * Handle the step.
      * 
-     * @param TreeBuilder $builder
+     * @param GridBuilder $builder
      */
-    public function handle(TreeBuilder $builder)
+    public function handle(GridBuilder $builder)
     {
-        foreach ($builder->tree->filters->active() as $filter) {
+        foreach ($builder->grid->filters->active() as $filter) {
 
             /*
             * If the handler is a callable string or Closure

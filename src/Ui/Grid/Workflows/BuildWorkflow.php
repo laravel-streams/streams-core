@@ -1,17 +1,17 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Tree\Workflows;
+namespace Anomaly\Streams\Platform\Ui\Grid\Workflows;
 
 use Anomaly\Streams\Platform\Workflow\Workflow;
-use Anomaly\Streams\Platform\Ui\Tree\Workflows\Build\MakeTree;
-use Anomaly\Streams\Platform\Ui\Tree\Workflows\Build\SetStream;
-use Anomaly\Streams\Platform\Ui\Tree\Workflows\Build\LoadAssets;
-use Anomaly\Streams\Platform\Ui\Tree\Workflows\Build\SetOptions;
-use Anomaly\Streams\Platform\Ui\Tree\Workflows\Build\BuildEntries;
-use Anomaly\Streams\Platform\Ui\Tree\Workflows\Build\AuthorizeTree;
-use Anomaly\Streams\Platform\Ui\Tree\Workflows\Build\BuildSegments;
-use Anomaly\Streams\Platform\Ui\Tree\Workflows\Build\SetRepository;
-use Anomaly\Streams\Platform\Ui\Tree\Workflows\Build\LoadBreadcrumb;
+use Anomaly\Streams\Platform\Ui\Grid\Workflows\Build\MakeGrid;
+use Anomaly\Streams\Platform\Ui\Grid\Workflows\Build\SetStream;
+use Anomaly\Streams\Platform\Ui\Grid\Workflows\Build\BuildItems;
+use Anomaly\Streams\Platform\Ui\Grid\Workflows\Build\LoadAssets;
+use Anomaly\Streams\Platform\Ui\Grid\Workflows\Build\SetOptions;
+use Anomaly\Streams\Platform\Ui\Grid\Workflows\Build\BuildEntries;
+use Anomaly\Streams\Platform\Ui\Grid\Workflows\Build\AuthorizeGrid;
+use Anomaly\Streams\Platform\Ui\Grid\Workflows\Build\SetRepository;
+use Anomaly\Streams\Platform\Ui\Grid\Workflows\Build\LoadBreadcrumb;
 
 /**
  * Class BuildWorkflow
@@ -33,7 +33,7 @@ class BuildWorkflow extends Workflow
         /**
          * Make that Form.
          */
-        MakeTree::class,
+        MakeGrid::class,
         LoadAssets::class,
         LoadBreadcrumb::class,
 
@@ -52,11 +52,11 @@ class BuildWorkflow extends Workflow
         /**
          * Authorize the form.
          */
-        AuthorizeTree::class,
+        AuthorizeGrid::class,
 
         /**
          * Build-er up.
          */
-        BuildSegments::class,
+        BuildItems::class,
     ];
 }

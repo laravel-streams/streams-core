@@ -1,10 +1,10 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Tree\Workflows\Build;
+namespace Anomaly\Streams\Platform\Ui\Grid\Workflows\Build;
 
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
-use Anomaly\Streams\Platform\Ui\Tree\Workflows\QueryWorkflow;
+use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
+use Anomaly\Streams\Platform\Ui\Grid\Workflows\QueryWorkflow;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 
 /**
@@ -20,9 +20,9 @@ class BuildEntries
     /**
      * Handle the command.
      * 
-     * @param TreeBuilder $builder
+     * @param GridBuilder $builder
      */
-    public function handle(TreeBuilder $builder)
+    public function handle(GridBuilder $builder)
     {
 
         /*
@@ -45,7 +45,7 @@ class BuildEntries
          */
         if ($builder->entries instanceof Collection) {
 
-            $builder->tree->entries = $builder->entries;
+            $builder->grid->entries = $builder->entries;
 
             return;
         }

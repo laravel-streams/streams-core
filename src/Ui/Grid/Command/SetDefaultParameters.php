@@ -39,7 +39,7 @@ class SetDefaultParameters
          * on the builder class. Defaulting to
          * no handler.
          */
-        if (!$this->builder->getButtons()) {
+        if (!$this->builder->buttons) {
             $buttons = str_replace('GridBuilder', 'GridButtons', get_class($this->builder));
 
             if (class_exists($buttons)) {

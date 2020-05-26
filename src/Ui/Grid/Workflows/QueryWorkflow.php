@@ -1,11 +1,11 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Tree\Workflows;
+namespace Anomaly\Streams\Platform\Ui\Grid\Workflows;
 
 use Anomaly\Streams\Platform\Workflow\Workflow;
-use Anomaly\Streams\Platform\Ui\Tree\Workflows\Query\StartQuery;
-use Anomaly\Streams\Platform\Ui\Tree\Workflows\Query\FilterQuery;
-use Anomaly\Streams\Platform\Ui\Tree\Workflows\Query\FinishQuery;
+use Anomaly\Streams\Platform\Ui\Grid\Workflows\Query\StartQuery;
+use Anomaly\Streams\Platform\Ui\Grid\Workflows\Query\FilterQuery;
+use Anomaly\Streams\Platform\Ui\Grid\Workflows\Query\FinishQuery;
 
 /**
  * Class QueryWorkflow

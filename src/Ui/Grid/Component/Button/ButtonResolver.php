@@ -22,6 +22,6 @@ class ButtonResolver
      */
     public function resolve(GridBuilder $builder)
     {
-        Resolver::resolve($builder->getButtons(), compact('builder'));
+        Resolver::resolve($builder->buttons, compact('builder'));
     }
 }

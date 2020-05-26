@@ -46,21 +46,21 @@ class ItemBuilder
      */
     public function build(GridBuilder $builder)
     {
-        foreach ($builder->getGridEntries() as $entry) {
+        foreach ($builder->grid->entries as $entry) {
 
             $buttons = $this->buttons->build($builder, $entry);
 
-            $buttons = $buttons->enabled();
+            //$buttons = $buttons->whereIn('enabled', [true, null]);
 
-            $value = valuate($builder, $entry);
+            //$value = valuate($builder, $entry);
 
-            $id = $entry->getKey();
+            //$id = $entry->getKey();
 
-            $item = compact('builder', 'buttons', 'entry', 'value', 'id');
+        $item = compact('builder', 'buttons', 'entry', /*'value', 'id'*/);
 
             $item = evaluate($item, compact('builder', 'entry'));
 
-            $builder->addGridItem($this->factory->make($item));
+            $builder->grid->items->push($this->factory->make($item));
         }
     }
 }

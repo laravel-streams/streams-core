@@ -1,8 +1,8 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Tree\Workflows\Query;
+namespace Anomaly\Streams\Platform\Ui\Grid\Workflows\Query;
 
-use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
+use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 
 /**
  * Class StartQuery
@@ -17,9 +17,9 @@ class StartQuery
     /**
      * Handle the step.
      * 
-     * @param TreeBuilder $builder
+     * @param GridBuilder $builder
      */
-    public function handle(TreeBuilder $builder)
+    public function handle(GridBuilder $builder)
     {
         $builder->criteria = $builder->repository->newCriteria();
     }

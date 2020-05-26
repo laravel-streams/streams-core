@@ -1,8 +1,8 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Tree\Workflows\Build;
+namespace Anomaly\Streams\Platform\Ui\Grid\Workflows\Build;
 
-use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
+use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 use Anomaly\Streams\Platform\Streams\Facades\Streams;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
@@ -19,9 +19,9 @@ class SetStream
     /**
      * Handle the step.
      * 
-     * @param TreeBuilder $builder
+     * @param GridBuilder $builder
      */
-    public function handle(TreeBuilder $builder)
+    public function handle(GridBuilder $builder)
     {
         if (!$builder->stream) {
             return;
@@ -29,13 +29,13 @@ class SetStream
 
         if ($builder->stream instanceof StreamInterface) {
 
-            $builder->tree->stream = $builder->stream;
+            $builder->grid->stream = $builder->stream;
 
             return;
         }
 
         $builder->stream = Streams::try($builder->stream);
 
-        $builder->tree->stream = $builder->stream;
+        $builder->grid->stream = $builder->stream;
     }
 }
