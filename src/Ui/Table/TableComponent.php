@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Illuminate\View\Component;
+use Anomaly\Streams\Platform\Ui\Table\TablePresenter;
 
 /**
  * Class TableComponent
@@ -17,7 +18,7 @@ class TableComponent extends Component
     /**
      * The table instance.
      *
-     * @var Table
+     * @var TablePresenter
      */
     public $table;
 
