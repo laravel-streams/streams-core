@@ -26,7 +26,7 @@ class TableComponent extends Component
      *
      * @param Table $table
      */
-    public function __construct(Table $table)
+    public function __construct(TablePresenter $table)
     {
         $this->table = $table;
     }
