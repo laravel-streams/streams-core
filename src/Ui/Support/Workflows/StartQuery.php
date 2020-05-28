@@ -1,8 +1,8 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Grid\Workflows\Query;
+namespace Anomaly\Streams\Platform\Ui\Support\Workflows;
 
-use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
+use Anomaly\Streams\Platform\Ui\Support\Builder;
 
 /**
  * Class StartQuery
@@ -17,9 +17,9 @@ class StartQuery
     /**
      * Handle the step.
      * 
-     * @param GridBuilder $builder
+     * @param Builder $builder
      */
-    public function handle(GridBuilder $builder)
+    public function handle(Builder $builder)
     {
         $builder->criteria = $builder->repository->newCriteria();
     }

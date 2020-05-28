@@ -186,7 +186,6 @@ trait Properties
     }
 
     /**
-     * @todo eventually remove these get/set magics
      * Dynamically retrieve attributes.
      *
      * @param string $key

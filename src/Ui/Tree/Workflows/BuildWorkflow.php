@@ -3,15 +3,15 @@
 namespace Anomaly\Streams\Platform\Ui\Tree\Workflows;
 
 use Anomaly\Streams\Platform\Workflow\Workflow;
-use Anomaly\Streams\Platform\Ui\Tree\Workflows\Build\MakeTree;
-use Anomaly\Streams\Platform\Ui\Tree\Workflows\Build\SetStream;
-use Anomaly\Streams\Platform\Ui\Tree\Workflows\Build\LoadAssets;
-use Anomaly\Streams\Platform\Ui\Tree\Workflows\Build\SetOptions;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\SetStream;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\LoadAssets;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\SetOptions;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\MakeInstance;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\SetRepository;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\LoadBreadcrumb;
 use Anomaly\Streams\Platform\Ui\Tree\Workflows\Build\BuildEntries;
 use Anomaly\Streams\Platform\Ui\Tree\Workflows\Build\AuthorizeTree;
 use Anomaly\Streams\Platform\Ui\Tree\Workflows\Build\BuildSegments;
-use Anomaly\Streams\Platform\Ui\Tree\Workflows\Build\SetRepository;
-use Anomaly\Streams\Platform\Ui\Tree\Workflows\Build\LoadBreadcrumb;
 
 /**
  * Class BuildWorkflow
@@ -31,19 +31,23 @@ class BuildWorkflow extends Workflow
     protected $steps = [
 
         /**
-         * Make that Form.
+         * Make dat instance.
          */
-        MakeTree::class,
+        MakeInstance::class,
+
+        /**
+         * Integrate with others.
+         */
         LoadAssets::class,
         LoadBreadcrumb::class,
 
         /**
-         * Set initial attributes.
+         * Set important things.
          */
         SetStream::class,
         SetOptions::class,
         SetRepository::class,
-        
+
         /**
          * Load the entries.
          */

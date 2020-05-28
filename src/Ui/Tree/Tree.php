@@ -2,11 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Ui\Tree;
 
-use Illuminate\Support\Facades\View;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Support\Traits\Properties;
+use Illuminate\Support\Collection;
+use Anomaly\Streams\Platform\Ui\Support\Component;
+use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
+use Anomaly\Streams\Platform\Ui\Tree\Component\Item\ItemCollection;
 
 /**
  * Class Tree
@@ -15,73 +14,26 @@ use Anomaly\Streams\Platform\Support\Traits\Properties;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Tree implements Arrayable, Jsonable
+class Tree extends Component
 {
 
-    use Properties;
-
     /**
-     * The link attributes.
+     * Create a new class instance.
      *
-     * @var array
+     * @param array $attributes
      */
-    protected $attributes = [];
-
-    /**
-     * Render the table.
-     * 
-     * @return View
-     */
-    public function render()
+    public function __construct(array $attributes = [])
     {
-        return View::make('streams::tree/tree', ['tree' => decorate($this)]);
-    }
+        parent::__construct(array_merge([
+            'mode' => null,
+            'entry' => null,
+            'component' => 'tree',
 
-    /**
-     * Return a created presenter.
-     *
-     * @return FormPresenter
-     */
-    public function newPresenter()
-    {
-        $presenter = get_class($this) . 'Presenter';
+            'values' => new Collection(),
+            'options' => new Collection(),
 
-        if (class_exists($presenter)) {
-            return app()->make($presenter, ['object' => $this]);
-        }
-
-        return app()->make(TreePresenter::class, ['object' => $this]);
-    }
-
-    /**
-     * Return a prefixed target.
-     *
-     * @param string $target
-     * @return string
-     */
-    public function prefix($target = null)
-    {
-        return $this->options->get('prefix') . $target;
-    }
-
-    /**
-     * Get the instance as an array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        return Hydrator::dehydrate($this);
-    }
-
-    /**
-     * Convert the object to its JSON representation.
-     *
-     * @param  int  $options
-     * @return string
-     */
-    public function toJson($options = 0)
-    {
-        return json_encode($this->toArray(), $options);
+            'buttons' => new ButtonCollection(),
+            'items' => new ItemCollection(),
+        ], $attributes));
     }
 }

@@ -2,11 +2,15 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Illuminate\Support\Facades\View;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Support\Traits\Properties;
+use Collective\Html\FormFacade;
+use Illuminate\Support\Collection;
+use Illuminate\Support\MessageBag;
+use Illuminate\Support\Facades\Request;
+use Anomaly\Streams\Platform\Ui\Support\Component;
+use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldCollection;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
+use Anomaly\Streams\Platform\Ui\Form\Component\Section\SectionCollection;
 
 /**
  * Class Form
@@ -15,75 +19,65 @@ use Anomaly\Streams\Platform\Support\Traits\Properties;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Form implements Arrayable, Jsonable
+class Form extends Component
 {
 
-    use Properties;
-
     /**
-     * The link attributes.
+     * Create a new class instance.
      *
-     * @var array
+     * @param array $attributes
      */
-    protected $attributes = [];
-
-    /**
-     * Render the table.
-     * 
-     * @return View
-     */
-    public function render()
+    public function __construct(array $attributes = [])
     {
-        // @todo dd(is a little rough.. )
-        dd(decorate($this->fields->first()));
-        return View::make('streams::form/form', ['form' => decorate($this)]);
+        parent::__construct(array_merge([
+            'mode' => null,
+            'entry' => null,
+            'component' => 'form',
+
+            'values' => new Collection(),
+            'options' => new Collection(),
+
+            'errors' => new MessageBag(),
+
+            'fields' => new FieldCollection(),
+            'actions' => new ActionCollection(),
+            'buttons' => new ButtonCollection(),
+            'sections' => new SectionCollection(),
+        ], $attributes));
     }
 
     /**
-     * Return a created presenter.
+     * Return the opening form tag.
      *
-     * @return FormPresenter
+     * @param  array $options
+     * @return string
      */
-    public function newPresenter()
+    public function open(array $options = [])
     {
-        $presenter = get_class($this) . 'Presenter';
-
-        if (class_exists($presenter)) {
-            return app()->make($presenter, ['object' => $this]);
+        if ($url = $this->options->get('url')) {
+            $options['url'] = $url;
+        } else {
+            $options['url'] = Request::fullUrl();
         }
 
-        return app()->make(FormPresenter::class, ['object' => $this]);
+        // For good measure?
+        // @todo is this a security risk?
+        $options['enctype'] = 'multipart/form-data';
+
+        if ($this->options->get('ajax') === true) {
+            $options['data-async'] = 'true';
+        }
+
+        return FormFacade::open($options);
     }
 
     /**
-     * Return a prefixed target.
+     * Return the closing form tag.
      *
-     * @param string $target
      * @return string
      */
-    public function prefix($target = null)
+    public function close()
     {
-        return $this->options->get('prefix') . $target;
-    }
-
-    /**
-     * Get the instance as an array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        return Hydrator::dehydrate($this);
-    }
-
-    /**
-     * Convert the object to its JSON representation.
-     *
-     * @param  int  $options
-     * @return string
-     */
-    public function toJson($options = 0)
-    {
-        return json_encode($this->toArray(), $options);
+        return FormFacade::close();
     }
 }

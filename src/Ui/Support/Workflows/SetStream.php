@@ -1,8 +1,8 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Table\Workflows\Build;
+namespace Anomaly\Streams\Platform\Ui\Support\Workflows;
 
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Support\Builder;
 use Anomaly\Streams\Platform\Streams\Facades\Streams;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
@@ -19,9 +19,9 @@ class SetStream
     /**
      * Handle the step.
      * 
-     * @param TableBuilder $builder
+     * @param Builder $builder
      */
-    public function handle(TableBuilder $builder)
+    public function handle(Builder $builder)
     {
         if (!$builder->stream) {
             return;
@@ -29,13 +29,13 @@ class SetStream
 
         if ($builder->stream instanceof StreamInterface) {
 
-            $builder->table->stream = $builder->stream;
+            $builder->instance->stream = $builder->stream;
 
             return;
         }
 
         $builder->stream = Streams::try($builder->stream);
 
-        $builder->table->stream = $builder->stream;
+        $builder->instance->stream = $builder->stream;
     }
 }

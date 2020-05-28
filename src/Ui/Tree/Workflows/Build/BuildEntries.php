@@ -56,7 +56,7 @@ class BuildEntries
          */
         if ($builder->repository instanceof RepositoryInterface) {
 
-            (new QueryWorkflow)->process(compact('builder'));
+            (new $builder->query_workflow)->process(compact('builder'));
 
             return;
         }

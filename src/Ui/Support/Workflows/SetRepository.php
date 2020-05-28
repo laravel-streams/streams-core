@@ -1,11 +1,11 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Form\Workflows\Build;
+namespace Anomaly\Streams\Platform\Ui\Support\Workflows;
 
-use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 use Illuminate\Support\Facades\App;
-use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Support\Builder;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 
 /**
  * Create a new SetRepository instance.
@@ -19,9 +19,9 @@ class SetRepository
     /**
      * Handle the command.
      *
-     * @param FormBuilder $builder
+     * @param Builder $builder
      */
-    public function handle(FormBuilder $builder)
+    public function handle(Builder $builder)
     {
         if ($builder->repository instanceof RepositoryInterface) {
             return;

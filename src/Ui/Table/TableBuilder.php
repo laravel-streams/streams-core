@@ -2,13 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table;
 
-use Illuminate\Http\JsonResponse;
-use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Response;
 use Anomaly\Streams\Platform\Ui\Table\Table;
-use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Anomaly\Streams\Platform\Support\Traits\Properties;
+use Anomaly\Streams\Platform\Ui\Support\Builder;
+use Anomaly\Streams\Platform\Ui\Table\Workflows\QueryWorkflow;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\BuildWorkflow;
 
 /**
@@ -18,123 +14,34 @@ use Anomaly\Streams\Platform\Ui\Table\Workflows\BuildWorkflow;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class TableBuilder
+class TableBuilder extends Builder
 {
 
-    use Properties;
-    use FiresCallbacks;
-
     /**
-     * Create a new class instance.
+     * The builder attributes.
      *
-     * @param array $attributes
+     * @var array
      */
-    public function __construct(array $attributes = [])
-    {
-        $this->setAttributes([
-            'async' => false,
+    protected $attributes = [
+        'async' => false,
 
-            'stream' => null,
-            'entries' => null,
-            'repository' => null,
+        'stream' => null,
+        'entries' => null,
+        'repository' => null,
 
-            'views' => [],
-            'assets' => [],
-            'filters' => [],
-            'columns' => [],
-            'buttons' => [],
-            'actions' => [],
-            'options' => [],
+        'views' => [],
+        'assets' => [],
+        'filters' => [],
+        'columns' => [],
+        'buttons' => [],
+        'actions' => [],
+        'options' => [],
 
-            'table' => Table::class,
-        ]);
+        'component' => 'table',
 
-        $this->buildProperties();
+        'table' => Table::class,
 
-        $this->fill($attributes);
-    }
-
-    /**
-     * Build and return the table instance.
-     *
-     * @return $this
-     */
-    public function build()
-    {
-        if ($this->built === true) {
-            return $this;
-        }
-
-        $this->fire('ready', ['builder' => $this]);
-
-        (new BuildWorkflow)->process(['builder' => $this]);
-
-        $this->fire('built', ['builder' => $this]);
-
-        $this->built = true;
-
-        return $this;
-    }
-
-    /**
-     * Render the table.
-     *
-     * @return View
-     */
-    public function render()
-    {
-        $this->build();
-
-        return $this->table->render();
-    }
-
-    /**
-     * Return the table response.
-     * 
-     * @return Response
-     */
-    public function response()
-    {
-        if (false/* is async request */) {
-            return $this->json();
-        }
-
-        return Response::view('streams::default', ['content' => $this->render()]);
-    }
-
-    /**
-     * Return a JSON response.
-     *
-     * @return JsonResponse
-     */
-    public function json()
-    {
-        $this->build();
-
-        return Response::json($this->table->toJson());
-    }
-
-    /**
-     * Get a request value.
-     *
-     * @param        $key
-     * @param  null $default
-     * @return mixed
-     */
-    public function request($key, $default = null)
-    {
-        return Request::get($this->table->options->get('prefix') . $key, $default);
-    }
-
-    /**
-     * Get a post value.
-     *
-     * @param        $key
-     * @param  null $default
-     * @return mixed
-     */
-    public function post($key, $default = null)
-    {
-        return Request::post($this->table->options->get('prefix') . $key, $default);
-    }
+        'build_workflow' => BuildWorkflow::class,
+        'query_workflow' => QueryWorkflow::class,
+    ];
 }

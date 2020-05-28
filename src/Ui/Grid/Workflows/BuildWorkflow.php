@@ -3,15 +3,15 @@
 namespace Anomaly\Streams\Platform\Ui\Grid\Workflows;
 
 use Anomaly\Streams\Platform\Workflow\Workflow;
-use Anomaly\Streams\Platform\Ui\Grid\Workflows\Build\MakeGrid;
-use Anomaly\Streams\Platform\Ui\Grid\Workflows\Build\SetStream;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\SetStream;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\LoadAssets;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\SetOptions;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\MakeInstance;
 use Anomaly\Streams\Platform\Ui\Grid\Workflows\Build\BuildItems;
-use Anomaly\Streams\Platform\Ui\Grid\Workflows\Build\LoadAssets;
-use Anomaly\Streams\Platform\Ui\Grid\Workflows\Build\SetOptions;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\SetRepository;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\LoadBreadcrumb;
 use Anomaly\Streams\Platform\Ui\Grid\Workflows\Build\BuildEntries;
 use Anomaly\Streams\Platform\Ui\Grid\Workflows\Build\AuthorizeGrid;
-use Anomaly\Streams\Platform\Ui\Grid\Workflows\Build\SetRepository;
-use Anomaly\Streams\Platform\Ui\Grid\Workflows\Build\LoadBreadcrumb;
 
 /**
  * Class BuildWorkflow
@@ -31,19 +31,23 @@ class BuildWorkflow extends Workflow
     protected $steps = [
 
         /**
-         * Make that Form.
+         * Make dat instance.
          */
-        MakeGrid::class,
+        MakeInstance::class,
+
+        /**
+         * Integrate with others.
+         */
         LoadAssets::class,
         LoadBreadcrumb::class,
 
         /**
-         * Set initial attributes.
+         * Set important things.
          */
         SetStream::class,
         SetOptions::class,
         SetRepository::class,
-        
+
         /**
          * Load the entries.
          */

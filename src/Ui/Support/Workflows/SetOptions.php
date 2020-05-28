@@ -1,12 +1,10 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Table\Workflows\Build;
+namespace Anomaly\Streams\Platform\Ui\Support\Workflows;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Anomaly\Streams\Platform\Streams\Facades\Streams;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Support\Builder;
 
 /**
  * Class SetOptions
@@ -21,13 +19,13 @@ class SetOptions
     /**
      * Handle the step.
      * 
-     * @param TableBuilder $builder
+     * @param Builder $builder
      */
-    public function handle(TableBuilder $builder)
+    public function handle(Builder $builder)
     {
         if ($builder->options instanceof Collection) {
 
-            $builder->table->options = $builder->options;
+            $builder->instance->options = $builder->options;
 
             return;
         }
@@ -43,7 +41,7 @@ class SetOptions
          * Fallback for Streams.
          */
         if (!$builder->options) {
-            $builder->table->options = new Collection;
+            $builder->instance->options = new Collection;
         }
     }
 }

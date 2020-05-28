@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Illuminate\View\Component;
-use Anomaly\Streams\Platform\Ui\Table\TablePresenter;
+use Anomaly\Streams\Platform\Ui\Table\Table;
 
 /**
  * Class TableComponent
@@ -18,7 +18,7 @@ class TableComponent extends Component
     /**
      * The table instance.
      *
-     * @var TablePresenter
+     * @var Table
      */
     public $table;
 
@@ -27,7 +27,7 @@ class TableComponent extends Component
      *
      * @param Table $table
      */
-    public function __construct(TablePresenter $table)
+    public function __construct(Table $table)
     {
         $this->table = $table;
     }

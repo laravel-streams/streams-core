@@ -2,11 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Response;
-use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Anomaly\Streams\Platform\Ui\Support\Builder;
 use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
-use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Ui\Form\Command\ValidateForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\LoadFormValues;
 use Anomaly\Streams\Platform\Ui\Form\Command\FlashFormErrors;
@@ -20,132 +17,43 @@ use Anomaly\Streams\Platform\Ui\Form\Command\FlashFieldValues;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class FormBuilder
+class FormBuilder extends Builder
 {
 
-    use Properties;
-    use FiresCallbacks;
-
     /**
-     * Create a new class instance.
+     * The builder attributes.
      *
-     * @param array $attributes
+     * @var array
      */
-    public function __construct(array $attributes = [])
-    {
-        $this->setAttributes([
-            'async' => false,
-            'handler' => null,
-            'validator' => null,
+    protected $attributes = [
+        'async' => false,
+        'handler' => null,
+        'validator' => null,
 
-            'stream' => null,
-            'repository' => null,
-            
-            'entry' => null,
-            
-            'fields' => [],
-            'skips' => [],
-            'rules' => [],
-            'assets' => [],
-            'actions' => [],
-            'buttons' => [],
-            'options' => [],
-            'sections' => [],
-            
-            'save' => true,
-            'read_only' => false,
+        'stream' => null,
+        'repository' => null,
 
-            'form' => Form::class,
-        ]);
+        'entry' => null,
 
-        $this->buildProperties();
+        'fields' => [],
+        'skips' => [],
+        'rules' => [],
+        'assets' => [],
+        'actions' => [],
+        'buttons' => [],
+        'options' => [],
+        'sections' => [],
 
-        $this->fill($attributes);
-    }
+        'save' => true,
+        'read_only' => false,
 
-    /**
-     * Build and return the form instance.
-     *
-     * @return $this
-     */
-    public function build()
-    {
-        if ($this->built === true) {
-            return $this;
-        }
+        'component' => 'form',
 
-        $this->fire('ready', ['builder' => $this]);
+        'form' => Form::class,
 
-        (new BuildWorkflow)->process(['builder' => $this]);
-
-        $this->fire('built', ['builder' => $this]);
-
-        $this->built = true;
-
-        return $this;
-    }
-
-    /**
-     * Render the form.
-     *
-     * @return View
-     */
-    public function render()
-    {
-        $this->build();
-
-        return $this->form->render();
-    }
-
-    /**
-     * Return the form response.
-     * 
-     * @return Response
-     */
-    public function response()
-    {
-        if (false/* is async request */) {
-            return $this->json();
-        }
-
-        return Response::view('streams::default', ['content' => $this->render()]);
-    }
-
-    /**
-     * Return a JSON response.
-     *
-     * @return JsonResponse
-     */
-    public function json()
-    {
-        $this->build();
-
-        return Response::json($this->form->toJson());
-    }
-
-    /**
-     * Get a request value.
-     *
-     * @param        $key
-     * @param  null $default
-     * @return mixed
-     */
-    public function request($key, $default = null)
-    {
-        return Request::get($this->form->options->get('prefix') . $key, $default);
-    }
-
-    /**
-     * Get a post value.
-     *
-     * @param        $key
-     * @param  null $default
-     * @return mixed
-     */
-    public function post($key, $default = null)
-    {
-        return Request::post($this->form->options->get('prefix') . $key, $default);
-    }
+        'build_workflow' => BuildWorkflow::class,
+        'build_workflow' => BuildWorkflow::class,
+    ];
 
     //---------------------------------------------------------------------
     //-------------------------    Old Shit    ----------------------------

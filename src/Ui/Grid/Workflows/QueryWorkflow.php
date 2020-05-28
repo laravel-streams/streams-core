@@ -3,8 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Grid\Workflows;
 
 use Anomaly\Streams\Platform\Workflow\Workflow;
-use Anomaly\Streams\Platform\Ui\Grid\Workflows\Query\StartQuery;
-use Anomaly\Streams\Platform\Ui\Grid\Workflows\Query\FilterQuery;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\StartQuery;
 use Anomaly\Streams\Platform\Ui\Grid\Workflows\Query\FinishQuery;
 
 /**
@@ -28,7 +27,6 @@ class QueryWorkflow extends Workflow
          * Query dem results.
          */
         StartQuery::class,
-        //FilterQuery::class, // No filters..
         FinishQuery::class,
     ];
 }
