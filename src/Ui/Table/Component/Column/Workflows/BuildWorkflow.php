@@ -7,7 +7,8 @@ use Anomaly\Streams\Platform\Ui\Support\Workflows\SetStream;
 use Anomaly\Streams\Platform\Ui\Support\Workflows\LoadAssets;
 use Anomaly\Streams\Platform\Ui\Support\Workflows\SetOptions;
 use Anomaly\Streams\Platform\Ui\Support\Workflows\MakeInstance;
-use Anomaly\Streams\Platform\Ui\Table\Component\Column\Workflows\Build\ProcessInput;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\ResolveComponent;
+use Anomaly\Streams\Platform\Ui\Table\Component\Column\Workflows\Build\NormalizeComponent;
 
 /**
  * Class BuildWorkflow
@@ -43,11 +44,34 @@ class BuildWorkflow extends Workflow
         SetOptions::class,
 
         /**
-         * Build-er up.
+         * Process input.
          */
-        ProcessInput::class,
-        // BuildActions::class,
-        // BuildButtons::class,
-        // BuildSections::class,
+        ResolveComponent::class,
+        NormalizeComponent::class,
     ];
 }
+
+//$factory = app(ColumnFactory::class);
+
+//$columns = new ColumnCollection();
+
+// (new ColumnProcessor([
+//     'parent' => $builder
+// ]));
+
+// dd($builder);
+
+// ColumnInput::read($builder);
+
+// foreach ($builder->columns as $column) {
+
+//     array_set($column, 'entry', $entry);
+
+//     $column = evaluate($column, compact('entry', 'builder'));
+
+//     $column['value'] = valuate($column, $entry);
+
+//     $columns->push($factory->make(translate($column)));
+// }
+
+// return $columns;

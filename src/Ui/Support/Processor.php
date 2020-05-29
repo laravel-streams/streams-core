@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Traits\FiresCallbacks;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-abstract class Processor
+class Processor
 {
     use Macroable;
     use FiresCallbacks;
@@ -41,8 +41,14 @@ abstract class Processor
      */
     public function resolve($attribute)
     {
-        $resolved = resolver($this->builder->{$attribute}, compact('builder'));
+        $resolved = resolver(
+            $this->builder->{$attribute},
+            ['builder' => $this->builder]
+        );
 
-        $this->builder->{$attribute} = evaluate($resolved ?: $this->builder->this->{$attribute}, compact('builder'));
+        $this->builder->{$attribute} = evaluate(
+            $resolved ?: $this->builder->{$attribute},
+            ['builder' => $this->builder]
+        );
     }
 }

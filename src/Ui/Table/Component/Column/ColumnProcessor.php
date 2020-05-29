@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
 
+use Anomaly\Streams\Platform\Ui\Support\Processor;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -11,44 +12,22 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class ColumnProcessor
+class ColumnProcessor extends Processor
 {
 
     /**
      * Read the builder's column input.
-     *
-     * @param TableBuilder $builder
+     * 
+     * @return $this
      */
-    public static function read(TableBuilder $builder)
+    public function normalize()
     {
-        self::resolve($builder);
-        self::normalize($builder);
-    }
-
-    /**
-     * Resolve input.
-     *
-     * @param \Anomaly\Streams\Platform\Ui\Table\TableBuilder $builder
-     */
-    protected static function resolve(TableBuilder $builder)
-    {
-        $columns = resolver($builder->columns, compact('builder'));
-
-        $builder->columns = evaluate($columns ?: $builder->columns, compact('builder'));
-    }
-
-    /**
-     * Normalize input.
-     *
-     * @param TableBuilder $builder
-     */
-    protected static function normalize(TableBuilder $builder)
-    {
-        $columns = $builder->columns;
+        $columns = $this->builder->columns;
 
         foreach ($columns as $key => &$column) {
 
             /*
+             * @todo clean this up
              * If the key is non-numerical then
              * use it as the header and use the
              * column as the column if it's a class.
@@ -112,6 +91,8 @@ class ColumnProcessor
             array_set($column, 'value', array_get($column, 'value', null));
         }
 
-        $builder->columns = $columns;
+        $this->builder->columns = $columns;
+
+        return $this;
     }
 }
