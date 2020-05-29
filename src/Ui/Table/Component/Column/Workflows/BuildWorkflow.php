@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Workflows\Build;
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Workflows;
 
 use Anomaly\Streams\Platform\Workflow\Workflow;
 use Anomaly\Streams\Platform\Ui\Support\Workflows\SetStream;

@@ -28,7 +28,7 @@ class RowBuilder
 
         foreach ($builder->table->entries as $i => $entry) {
 
-            $columns = ColumnBuilder::build($builder, $entry);
+            $columns = (new ColumnBuilder(compact('builder', 'entry')))->build();
             $buttons = ButtonBuilder::build($builder, $entry);
 
             $buttons = $buttons->whereIn('enabled', [true, null]);
