@@ -3,7 +3,6 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Workflows\Build;
 
 use Anomaly\Streams\Platform\Ui\Support\Builder;
-use Anomaly\Streams\Platform\Ui\Support\Processor;
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\ColumnProcessor;
 
 /**

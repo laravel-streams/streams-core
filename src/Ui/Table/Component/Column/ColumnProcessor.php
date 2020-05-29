@@ -22,7 +22,7 @@ class ColumnProcessor extends Processor
      */
     public function normalize()
     {
-        $columns = $this->builder->columns;
+        $columns = $this->builder->parent->columns;
 
         foreach ($columns as $key => &$column) {
 
@@ -91,7 +91,7 @@ class ColumnProcessor extends Processor
             array_set($column, 'value', array_get($column, 'value', null));
         }
 
-        $this->builder->columns = $columns;
+        $this->builder->parent->columns = $columns;
 
         return $this;
     }
