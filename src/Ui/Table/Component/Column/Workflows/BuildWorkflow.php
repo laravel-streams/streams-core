@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Ui\Support\Workflows\SetStream;
 use Anomaly\Streams\Platform\Ui\Support\Workflows\LoadAssets;
 use Anomaly\Streams\Platform\Ui\Support\Workflows\SetOptions;
 use Anomaly\Streams\Platform\Ui\Support\Workflows\MakeInstance;
+use Anomaly\Streams\Platform\Ui\Table\Component\Column\Workflows\Build\ProcessInput;
 
 /**
  * Class BuildWorkflow
@@ -44,7 +45,7 @@ class BuildWorkflow extends Workflow
         /**
          * Build-er up.
          */
-        // BuildFields::class,
+        ProcessInput::class,
         // BuildActions::class,
         // BuildButtons::class,
         // BuildSections::class,

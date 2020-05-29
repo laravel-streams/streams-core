@@ -25,7 +25,7 @@ class ProcessInput
             'parent' => $builder
         ]));
 
-        dd($builder->columns);
+        dd($builder);
 
         ColumnInput::read($builder);
 
