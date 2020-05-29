@@ -21,6 +21,8 @@ class ColumnBuilder extends Builder
      * @var array
      */
     protected $attributes = [
+        'parent' => null,
+
         'assets' => [],
 
         'component' => 'column',
