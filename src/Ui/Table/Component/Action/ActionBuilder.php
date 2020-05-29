@@ -2,7 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
-use Illuminate\Support\Facades\Request;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -26,7 +25,7 @@ class ActionBuilder
 
         ActionInput::read($builder);
 
-        foreach ($builder->actions as $action) {   
+        foreach ($builder->actions as $action) {
             if (array_get($action, 'enabled', true)) {
                 $builder->table->actions->push($factory->make($action));
             }

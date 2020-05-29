@@ -2,7 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
 
+use Anomaly\Streams\Platform\Ui\Support\Builder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\Column\Workflows\Build\BuildWorkflow;
 
 /**
  * Class ColumnBuilder
@@ -11,8 +13,21 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class ColumnBuilder
+class ColumnBuilder extends Builder
 {
+
+    /**
+     * The builder attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'component' => 'column',
+
+        'column' => Column::class,
+
+        'build_workflow' => BuildWorkflow::class,
+    ];
 
     /**
      * Build the columns.

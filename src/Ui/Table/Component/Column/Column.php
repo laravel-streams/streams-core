@@ -2,10 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
 
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Ui\Support\Component;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 
 /**
  * Class Column
@@ -14,63 +11,24 @@ use Anomaly\Streams\Platform\Support\Facades\Hydrator;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class Column extends Component implements Arrayable, Jsonable
+class Column extends Component
 {
 
     /**
-     * The object attributes.
+     * Create a new class instance.
      *
-     * @var array
+     * @param array $attributes
      */
-    protected $attributes = [
-        'view' => null,
-        'value' => null,
-        'entry' => null,
-        'heading' => null,
-        'wrapper' => null,
-    ];
-
-    /**
-     * Get the instance as an array.
-     *
-     * @return array
-     */
-    public function toArray()
+    public function __construct(array $attributes = [])
     {
-        return Hydrator::dehydrate($this);
-    }
+        parent::__construct(array_merge([
+            'component' => 'column',
 
-    /**
-     * Convert the object to its JSON representation.
-     *
-     * @param  int  $options
-     * @return string
-     */
-    public function toJson($options = 0)
-    {
-        return json_encode($this->toArray(), $options);
-    }
-
-
-    /**
-     * Dynamically retrieve attributes.
-     *
-     * @param  string $key
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        return $this->getAttribute($key);
-    }
-
-    /**
-     * Dynamically set attributes.
-     *
-     * @param  string  $key
-     * @param  mixed $value
-     */
-    public function __set($key, $value)
-    {
-        $this->setAttribute($key, $value);
+            'view' => null,
+            'value' => null,
+            'entry' => null,
+            'heading' => null,
+            'wrapper' => null,
+        ], $attributes));
     }
 }
