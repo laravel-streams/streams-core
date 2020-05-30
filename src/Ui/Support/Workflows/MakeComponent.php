@@ -3,15 +3,16 @@
 namespace Anomaly\Streams\Platform\Ui\Support\Workflows;
 
 use Anomaly\Streams\Platform\Ui\Support\Builder;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 
 /**
- * Class ResolveComponent
+ * Class MakeComponent
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class ResolveComponent
+class MakeComponent
 {
 
     /**
@@ -21,14 +22,10 @@ class ResolveComponent
      */
     public function handle(Builder $builder)
     {
-        $resolved = resolver(
-            $this->builder->{$builder->component},
-            ['builder' => $this->builder]
-        );
+        $component = app($this->builder->{$builder->component});
 
-        $this->builder->{$builder->component} = evaluate(
-            $resolved ?: $this->builder->{$builder->component},
-            ['builder' => $this->builder]
-        );
+        Hydrator::hydrate($component);
+
+        $this->builder->{$builder->component} = $component;
     }
 }

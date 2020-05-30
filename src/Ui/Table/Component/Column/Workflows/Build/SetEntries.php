@@ -1,28 +1,27 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Row\Workflows\Build;
 
-use Anomaly\Streams\Platform\Ui\Support\Processor;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Support\Builder;
 
 /**
- * Class ColumnProcessor
+ * Class SetEntries
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class ColumnProcessor extends Processor
+class SetEntries
 {
 
     /**
-     * Read the builder's column input.
-     * 
-     * @return $this
+     * Hand the step.
+     *
+     * @param Builder $builder
      */
-    public function normalize()
+    public function handle(Builder $builder)
     {
-        $columns = $this->builder->parent->columns;
+        $columns = $builder->parent->columns;
 
         foreach ($columns as $key => &$column) {
 
@@ -91,8 +90,6 @@ class ColumnProcessor extends Processor
             array_set($column, 'value', array_get($column, 'value', null));
         }
 
-        $this->builder->parent->columns = $columns;
-
-        return $this;
+        $builder->parent->columns = $columns;
     }
 }

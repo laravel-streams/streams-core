@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Workflows\Build;
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Row\Workflows\Build;
 
 use Anomaly\Streams\Platform\Ui\Support\Builder;
 

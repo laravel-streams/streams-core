@@ -1,17 +1,17 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Workflows\Build;
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Row\Workflows\Build;
 
 use Anomaly\Streams\Platform\Ui\Support\Builder;
 
 /**
- * Class NormalizeComponent
+ * Class SetEntries
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class NormalizeComponent
+class SetEntries
 {
 
     /**

@@ -2,10 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
 
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowFactory;
-use Anomaly\Streams\Platform\Ui\Table\Component\Button\ButtonBuilder;
-use Anomaly\Streams\Platform\Ui\Table\Component\Column\ColumnBuilder;
+use Anomaly\Streams\Platform\Ui\Support\Builder;
 
 /**
  * Class RowBuilder
@@ -14,37 +11,48 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Column\ColumnBuilder;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class RowBuilder
+class RowBuilder extends Builder
 {
 
     /**
-     * Build the rows.
+     * The builder attributes.
      *
-     * @param TableBuilder $builder
+     * @var array
      */
-    public static function build(TableBuilder $builder)
-    {
-        $factory = app(RowFactory::class);
+    protected $attributes = [
+        'parent' => null,
 
-        foreach ($builder->table->entries as $i => $entry) {
+        'assets' => [],
 
-            $columns = (new ColumnBuilder([
-                'parent' => $builder,
-                'entry' => $entry,
-            ]))->build();
-            $buttons = ButtonBuilder::build($builder, $entry);
+        'component' => 'row',
 
-            $buttons = $buttons->whereIn('enabled', [true, null]);
+        'row' => Row::class,
 
-            $row = compact('columns', 'buttons', 'entry');
-
-            $row['key'] = data_get($entry, 'id');
-
-            $row['table'] = $builder->table;
-
-            $row = evaluate($row, compact('builder', 'entry'));
-
-            $builder->table->rows->add($row = $factory->make($row));
-        }
-    }
+        'build_workflow' => BuildWorkflow::class,
+    ];
 }
+
+// $columns = (new ColumnBuilder([
+//     'parent' => $builder,
+// ]))->build();
+
+// foreach ($builder->table->entries as $i => $entry) {
+
+//     $buttons = ButtonBuilder::build($builder, $entry);
+
+//     // $column = evaluate($column, compact('entry', 'builder'));
+
+//     // $column['value'] = valuate($column, $entry);
+
+//     $buttons = $buttons->whereIn('enabled', [true, null]);
+
+//     $row = compact('columns', 'buttons', 'entry');
+
+//     $row['key'] = data_get($entry, 'id');
+
+//     $row['table'] = $builder->table;
+
+//     $row = evaluate($row, compact('builder', 'entry'));
+
+//     $builder->table->rows->add($row = $factory->make($row));
+// }
