@@ -22,13 +22,13 @@ class ResolveComponent
     public function handle(Builder $builder)
     {
         $resolved = resolver(
-            $this->builder->{$builder->component},
-            ['builder' => $this->builder]
+            $builder->{$builder->component},
+            ['builder' => $builder]
         );
 
-        $this->builder->{$builder->component} = evaluate(
-            $resolved ?: $this->builder->{$builder->component},
-            ['builder' => $this->builder]
+        $builder->{$builder->component} = evaluate(
+            $resolved ?: $builder->{$builder->component},
+            ['builder' => $builder]
         );
     }
 }

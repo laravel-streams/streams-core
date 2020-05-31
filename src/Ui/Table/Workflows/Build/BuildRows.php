@@ -26,6 +26,8 @@ class BuildRows
             return;
         }
 
-        RowBuilder::build($builder);
+        (new RowBuilder([
+            'parent' => $builder,
+        ]))->build();
     }
 }

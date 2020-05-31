@@ -53,6 +53,6 @@ class BuildWorkflow extends Workflow
         /**
          * Build and configure.
          */
-        MakeComponent::class,
+        //MakeComponent::class,
     ];
 }

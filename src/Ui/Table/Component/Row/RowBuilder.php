@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
 
 use Anomaly\Streams\Platform\Ui\Support\Builder;
+use Anomaly\Streams\Platform\Ui\Table\Component\Column\Workflows\BuildWorkflow;
 
 /**
  * Class RowBuilder
@@ -31,28 +32,3 @@ class RowBuilder extends Builder
         'build_workflow' => BuildWorkflow::class,
     ];
 }
-
-// $columns = (new ColumnBuilder([
-//     'parent' => $builder,
-// ]))->build();
-
-// foreach ($builder->table->entries as $i => $entry) {
-
-//     $buttons = ButtonBuilder::build($builder, $entry);
-
-//     // $column = evaluate($column, compact('entry', 'builder'));
-
-//     // $column['value'] = valuate($column, $entry);
-
-//     $buttons = $buttons->whereIn('enabled', [true, null]);
-
-//     $row = compact('columns', 'buttons', 'entry');
-
-//     $row['key'] = data_get($entry, 'id');
-
-//     $row['table'] = $builder->table;
-
-//     $row = evaluate($row, compact('builder', 'entry'));
-
-//     $builder->table->rows->add($row = $factory->make($row));
-// }

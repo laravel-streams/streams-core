@@ -2,12 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\View;
 use Anomaly\Streams\Platform\Ui\Support\Component;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterCollection;
@@ -33,10 +29,10 @@ class Table extends Component
         parent::__construct(array_merge([
             'component' => 'table',
 
+            'rows' => new Collection(),
             'options' => new Collection(),
             'entries' => new Collection(),
 
-            'rows' => new RowCollection(),
             'views' => new ViewCollection(),
             'actions' => new ActionCollection(),
             'filters' => new FilterCollection(),

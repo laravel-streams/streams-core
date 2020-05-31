@@ -22,10 +22,10 @@ class MakeComponent
      */
     public function handle(Builder $builder)
     {
-        $component = app($this->builder->{$builder->component});
+        $component = app($builder->{$builder->component});
 
         Hydrator::hydrate($component);
 
-        $this->builder->{$builder->component} = $component;
+        $builder->{$builder->component} = $component;
     }
 }
