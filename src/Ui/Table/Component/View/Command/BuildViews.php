@@ -22,7 +22,9 @@ class BuildViews
      */
     public function handle(TableBuilder $builder)
     {
-        ViewBuilder::handle($builder);
+        (new ViewBuilder([
+            'parent' => $builder,
+        ]));
 
         dispatch_now(new SetActiveView($builder));
     }

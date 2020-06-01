@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Workflows;
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Workflows;
 
 use Anomaly\Streams\Platform\Workflow\Workflow;
 use Anomaly\Streams\Platform\Ui\Support\Workflows\SetStream;
@@ -48,6 +48,6 @@ class BuildWorkflow extends Workflow
         /**
          * Build and configure.
          */
-        MakeComponent::class,
+        //MakeComponent::class,
     ];
 }

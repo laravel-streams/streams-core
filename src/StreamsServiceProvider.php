@@ -498,7 +498,7 @@ class StreamsServiceProvider extends ServiceProvider
                 }
             }
 
-            if (is_string($target) && str_contains($target, ['::', '.'])) {
+            if (is_string($target) && Str::contains($target, ['::', '.'])) {
                 return trans($target);
             }
 

@@ -2,7 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Support\Builder;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Workflows\BuildWorkflow;
 
 /**
  * Class ViewBuilder
@@ -11,24 +12,23 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class ViewBuilder
+class ViewBuilder extends Builder
 {
 
     /**
-     * Build the views.
+     * The builder attributes.
      *
-     * @param TableBuilder $builder
+     * @var array
      */
-    public static function handle(TableBuilder $builder)
-    {
-        $factory = app(ViewFactory::class);
+    protected $attributes = [
+        'parent' => null,
 
-        ViewInput::read($builder);
+        'assets' => [],
 
-        foreach ($builder->views as $view) {
-            if (array_get($view, 'enabled', true)) {
-                $builder->table->addView($factory->make($view));
-            }
-        }
-    }
+        'component' => 'view',
+
+        'column' => View::class,
+
+        'build_workflow' => BuildWorkflow::class,
+    ];
 }
