@@ -10,10 +10,10 @@ use Anomaly\Streams\Platform\Ui\Support\Workflows\MakeInstance;
 use Anomaly\Streams\Platform\Ui\Support\Workflows\SetRepository;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildRows;
 use Anomaly\Streams\Platform\Ui\Support\Workflows\LoadBreadcrumb;
+use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildViews;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildActions;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildEntries;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\AuthorizeTable;
-use Anomaly\Streams\Platform\Ui\Table\Component\View\Command\BuildViews;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\BuildFilters;
 
 /**

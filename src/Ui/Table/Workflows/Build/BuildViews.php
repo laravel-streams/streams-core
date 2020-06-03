@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\Table\Workflows\Build;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Workflows\ViewsWorkflow;
 
 /**
  * Class BuildViews
@@ -26,6 +27,9 @@ class BuildViews
             return;
         }
 
-        ViewBuilder::handle($builder);
+        (new ViewsWorkflow)->process([
+            'builder' => $builder,
+            'component' => 'views',
+        ]);
     }
 }
