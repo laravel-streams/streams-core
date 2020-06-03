@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Anomaly\Streams\Platform\Ui\Support\Builder;
-use Anomaly\Streams\Platform\Ui\Form\Workflows\BuildWorkflow;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\BuildWorkflow;
 
 /**
  * Class FilterBuilder
@@ -28,7 +28,7 @@ class FilterBuilder extends Builder
         'component' => 'filter',
 
         'filter' => Filter::class,
-        
+
         'build_workflow' => BuildWorkflow::class,
     ];
 }

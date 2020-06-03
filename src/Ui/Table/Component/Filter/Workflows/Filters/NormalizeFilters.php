@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Workflows\Filters;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Support\Normalizer;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\FieldFilter;
 
 /**
  * Class NormalizeFilters
@@ -40,7 +41,7 @@ class NormalizeFilters
             if (is_numeric($slug) && is_string($filter)) {
                 $filter = [
                     'slug' => $filter,
-                    'filter' => $filter,
+                    'filter' => FieldFilter::class,
                 ];
             }
 

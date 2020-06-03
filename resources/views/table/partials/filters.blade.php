@@ -1,10 +1,11 @@
 @if ($table->filters->isNotEmpty())
+
 <v-container>
     <v-card>
         {!! form_open(['method' => 'get', 'id' => 'filters', 'url' => url()->full()]) !!}
         <!-- @todo replace with default options -->
             <input type="hidden" name="{{ $table->prefix('limit') }}" value="{{ request($table->prefix('limit'), 15) }}">
-            <input type="hidden" name="{{ $table->prefix('view') }}" value="{{ $table->views->active() }}">
+            <input type="hidden" name="{{ $table->prefix('view') }}" value="{{ $table->views->active()->slug }}">
             <input type="hidden" name="{{ $table->prefix('page') }}" value="1">
     
             @foreach ($table->filters as $filter)

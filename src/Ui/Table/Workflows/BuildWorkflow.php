@@ -41,17 +41,17 @@ class BuildWorkflow extends Workflow
         MakeInstance::class,
 
         /**
-         * Integrate with others.
-         */
-        LoadAssets::class,
-        LoadBreadcrumb::class,
-
-        /**
          * Set important things.
          */
         SetStream::class,
         SetOptions::class,
         SetRepository::class,
+
+        /**
+         * Integrate with others.
+         */
+        LoadAssets::class,
+        LoadBreadcrumb::class,
 
         /**
          * Views can change nearly any aspect 

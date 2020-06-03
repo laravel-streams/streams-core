@@ -7,7 +7,6 @@ use Anomaly\Streams\Platform\Ui\Support\Component;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterCollection;
-use Anomaly\Streams\Platform\Ui\Table\Component\Header\HeaderCollection;
 
 /**
  * Class Table
@@ -30,15 +29,14 @@ class Table extends Component
             'component' => 'table',
 
             'rows' => new Collection(),
-            'columns' => new Collection(),
             'buttons' => new Collection(),
-            'options' => new Collection(),
+            'columns' => new Collection(),
             'entries' => new Collection(),
+            'options' => new Collection(),
 
             'views' => new ViewCollection(),
             'actions' => new ActionCollection(),
             'filters' => new FilterCollection(),
-            'headers' => new HeaderCollection(),
         ], $attributes));
     }
 }

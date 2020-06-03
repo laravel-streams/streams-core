@@ -11,7 +11,7 @@
     </th>
     @endif
 
-    @foreach ($table->headers as $header)
+    @foreach ($table->columns as $header)
         <th {!! html_attributes($header->attr('attributes', [])) !!}>
             @if ($header->sortable)
             

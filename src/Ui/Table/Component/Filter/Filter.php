@@ -3,7 +3,6 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Anomaly\Streams\Platform\Ui\Support\Component;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\GenericFilterQuery;
 
 /**
@@ -27,12 +26,12 @@ class Filter extends Component
         'stream' => null,
         'prefix' => null,
         'column' => null,
-        
+
         'placeholder' => null,
-        
+
         'active' => false,
         'exact' => false,
-        
+
         'query' => GenericFilterQuery::class,
     ];
 
