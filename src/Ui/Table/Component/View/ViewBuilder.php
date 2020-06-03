@@ -28,8 +28,6 @@ class ViewBuilder extends Builder
         'component' => 'view',
 
         'view' => View::class,
-        'query' => ViewQuery::class,
-        'handler' => ViewHandler::class,
 
         'build_workflow' => BuildWorkflow::class,
     ];

@@ -36,5 +36,8 @@ class View extends Component
         'active' => false,
         'attributes' => [],
         'context' => 'danger',
+
+        'query' => ViewQuery::class,
+        'handler' => ViewHandler::class,
     ];
 }

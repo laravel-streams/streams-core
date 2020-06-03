@@ -28,6 +28,6 @@ class ViewHandler
             return;
         }
 
-        App::call($handler, compact('builder'), 'handle');
+        //App::call($handler, compact('builder'), 'handle');
     }
 }

@@ -13,8 +13,8 @@ use Anomaly\Streams\Platform\Ui\Support\Workflows\LoadBreadcrumb;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildViews;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildActions;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildEntries;
+use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildFilters;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\AuthorizeTable;
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\BuildFilters;
 
 /**
  * Class BuildWorkflow

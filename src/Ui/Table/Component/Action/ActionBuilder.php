@@ -2,7 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
+use Anomaly\Streams\Platform\Ui\Support\Builder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\BuildWorkflow;
 
 /**
  * Class ActionBuilder
@@ -11,28 +13,23 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class ActionBuilder
+class ActionBuilder extends Builder
 {
 
     /**
-     * Build the actions.
+     * The builder attributes.
      *
-     * @param TableBuilder $builder
+     * @var array
      */
-    public static function build(TableBuilder $builder)
-    {
-        $factory  = app(ActionFactory::class);
+    protected $attributes = [
+        'parent' => null,
 
-        ActionInput::read($builder);
+        'assets' => [],
 
-        foreach ($builder->actions as $action) {
-            if (array_get($action, 'enabled', true)) {
-                $builder->table->actions->push($factory->make($action));
-            }
-        }
+        'component' => 'action',
 
-        if ($action = $builder->table->actions->get($builder->request('action'))) {
-            $action->active = true;
-        }
-    }
+        'action' => Action::class,
+        
+        'build_workflow' => BuildWorkflow::class,
+    ];
 }

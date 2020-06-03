@@ -2,8 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
-use Illuminate\Support\Facades\Request;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Support\Builder;
+use Anomaly\Streams\Platform\Ui\Form\Workflows\BuildWorkflow;
 
 /**
  * Class FilterBuilder
@@ -12,36 +12,23 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class FilterBuilder
+class FilterBuilder extends Builder
 {
 
     /**
-     * Build the filters.
+     * The builder attributes.
      *
-     * @param TableBuilder $builder
+     * @var array
      */
-    public static function build(TableBuilder $builder)
-    {
-        $factory = app(FilterFactory::class);
+    protected $attributes = [
+        'parent' => null,
 
-        FilterInput::read($builder);
+        'assets' => [],
 
-        foreach ($builder->filters as $filter) {
+        'component' => 'filter',
 
-            if (array_get($filter, 'enabled') === false) {
-                continue;
-            }
-
-            $builder->table->filters->push($filter = $factory->make($filter, [
-                'stream' => $builder->stream,
-            ]));
-
-            // @todo should this be "guessed" prior?
-            $filter->active = (bool) $builder->request($filter->getInputName());
-        }
-
-        if ($first = $builder->table->filters->first()) {
-            $first->setAttribute('data-keymap', 'f');
-        }
-    }
+        'filter' => Filter::class,
+        
+        'build_workflow' => BuildWorkflow::class,
+    ];
 }

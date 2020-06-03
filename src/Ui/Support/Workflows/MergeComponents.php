@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Support\Workflows;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 use Anomaly\Streams\Platform\Ui\Support\Builder;
 
@@ -29,14 +30,16 @@ class MergeComponents
 
         $registry = App::make($registry, compact('builder'));
 
+        $singular = Str::singular($component);
+
         $components = $builder->{$component};
 
         foreach ($components as &$parameters) {
-            if ($view = $registry->get(array_get($parameters, 'view'))) {
-                $parameters = array_replace_recursive($view, array_except($parameters, ['view']));
+            if ($registered = $registry->get(array_get($parameters, $singular))) {
+                $parameters = array_replace_recursive($registered, array_except($parameters, [$singular]));
             }
         }
-
+        
         $builder->{$component} = $components;
     }
 }

@@ -1,10 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete;
+use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Edit;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Export;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\ForceDelete;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Reorder;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\ForceDelete;
 
 /**
  * Class ActionRegistry
@@ -66,7 +67,13 @@ class ActionRegistry
             return null;
         }
 
-        return array_get($this->actions, $action);
+        $registered = array_get($this->actions, $action);
+
+        if ($button = app(ButtonRegistry::class)->get(array_get($registered, 'button'))) {
+            $registered = array_replace_recursive($button, array_except($registered, ['button']));
+        }
+
+        return $registered;
     }
 
     /**
