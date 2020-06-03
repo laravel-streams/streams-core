@@ -2,30 +2,27 @@
 
 namespace Anomaly\Streams\Platform\Ui\Support\Workflows;
 
+use Illuminate\Support\Facades\App;
 use Anomaly\Streams\Platform\Ui\Support\Builder;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 
 /**
- * Class MakeComponent
+ * Class TranslateComponents
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class MakeComponent
+class TranslateComponents
 {
 
     /**
      * Hand the step.
      *
      * @param Builder $builder
+     * @param string $component
      */
-    public function handle(Builder $builder)
+    public function handle(Builder $builder, $component)
     {
-        $parameters = $builder->getAttributes();
-        
-        $abstract = array_pull($parameters, $builder->component);
-
-        $builder->{$builder->component} = new $abstract($parameters);
+        $builder->{$component} = translate($builder->{$component});
     }
 }

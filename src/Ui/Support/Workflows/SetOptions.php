@@ -5,6 +5,7 @@ namespace Anomaly\Streams\Platform\Ui\Support\Workflows;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Anomaly\Streams\Platform\Ui\Support\Builder;
+use Exception;
 
 /**
  * Class SetOptions
@@ -41,7 +42,11 @@ class SetOptions
          * Fallback for Streams.
          */
         if (!$builder->options) {
-            $builder->instance->options = new Collection;
+            try {
+                $builder->instance->options = new Collection();
+            } catch(Exception $e) {
+                dd($e->getMessage());
+            }
         }
     }
 }

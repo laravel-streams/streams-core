@@ -4,6 +4,8 @@ namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Anomaly\Streams\Platform\Ui\Support\Builder;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\QueryWorkflow;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\BuildWorkflow;
 
@@ -40,6 +42,9 @@ class TableBuilder extends Builder
         'component' => 'table',
 
         'table' => Table::class,
+        
+        'views_registry' => ViewRegistry::class,
+        'view_builder' => ViewBuilder::class,
 
         'build_workflow' => BuildWorkflow::class,
         'query_workflow' => QueryWorkflow::class,

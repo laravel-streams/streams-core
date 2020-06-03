@@ -1,15 +1,12 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Workflows;
+namespace Anomaly\Streams\Platform\Ui\Support\Workflows;
 
 use Anomaly\Streams\Platform\Workflow\Workflow;
 use Anomaly\Streams\Platform\Ui\Support\Workflows\SetStream;
-use Anomaly\Streams\Platform\Ui\Support\Workflows\LoadAssets;
 use Anomaly\Streams\Platform\Ui\Support\Workflows\SetOptions;
-use Anomaly\Streams\Platform\Ui\Support\Workflows\MakeInstance;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\LoadAssets;
 use Anomaly\Streams\Platform\Ui\Support\Workflows\MakeComponent;
-use Anomaly\Streams\Platform\Ui\Support\Workflows\ResolveComponent;
-use Anomaly\Streams\Platform\Ui\Table\Component\Column\Workflows\Build\NormalizeComponent;
 
 /**
  * Class BuildWorkflow
@@ -29,6 +26,11 @@ class BuildWorkflow extends Workflow
     protected $steps = [
 
         /**
+         * Make the instance.
+         */
+        MakeComponent::class,
+
+        /**
          * Integrate with others.
          */
         LoadAssets::class,
@@ -38,16 +40,5 @@ class BuildWorkflow extends Workflow
          */
         SetStream::class,
         SetOptions::class,
-
-        /**
-         * Process input.
-         */
-        ResolveComponent::class,
-        NormalizeComponent::class,
-        
-        /**
-         * Build and configure.
-         */
-        //MakeComponent::class,
     ];
 }

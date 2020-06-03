@@ -5,29 +5,30 @@ namespace Anomaly\Streams\Platform\Ui\Support\Workflows;
 use Anomaly\Streams\Platform\Ui\Support\Builder;
 
 /**
- * Class ResolveComponent
+ * Class ResolveComponents
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class ResolveComponent
+class ResolveComponents
 {
 
     /**
      * Hand the step.
      *
      * @param Builder $builder
+     * @param string $component
      */
-    public function handle(Builder $builder)
+    public function handle(Builder $builder, $component)
     {
         $resolved = resolver(
-            $builder->{$builder->component},
+            $builder->{$component},
             ['builder' => $builder]
         );
 
-        $builder->{$builder->component} = evaluate(
-            $resolved ?: $builder->{$builder->component},
+        $builder->{$component} = evaluate(
+            $resolved ?: $builder->{$component},
             ['builder' => $builder]
         );
     }
