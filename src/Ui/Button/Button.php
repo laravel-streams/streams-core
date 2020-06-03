@@ -2,10 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Button;
 
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Ui\Support\Component;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 
 /**
  * Class Button
@@ -14,7 +11,7 @@ use Anomaly\Streams\Platform\Support\Facades\Hydrator;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Button extends Component implements Arrayable, Jsonable
+class Button extends Component
 {
 
     /**
@@ -54,26 +51,5 @@ class Button extends Component implements Arrayable, Jsonable
     public function close()
     {
         return '</' . $this->tag . '>';
-    }
-
-    /**
-     * Get the instance as an array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        return Hydrator::dehydrate($this);
-    }
-
-    /**
-     * Convert the object to its JSON representation.
-     *
-     * @param  int  $options
-     * @return string
-     */
-    public function toJson($options = 0)
-    {
-        return json_encode($this->toArray(), $options);
     }
 }

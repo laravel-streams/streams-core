@@ -3,7 +3,6 @@
 namespace Anomaly\Streams\Platform\Ui\Support\Workflows;
 
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\App;
 use Anomaly\Streams\Platform\Ui\Support\Builder;
 use Exception;
 
@@ -30,10 +29,11 @@ class BuildComponents
         $parent = $builder;
 
         foreach ($builder->{$component} as $key => $parameters) {
-            
+
             $builder = array_pull($parameters, 'builder', $parent->{$singular . '_builder'});
-            
+
             $parameters['parent'] = $parent;
+            $parameters['stream'] = $parent->stream;
 
             if (!$builder) {
                 throw new Exception("Unknown [{$singular}] builder: [{$builder}] ");

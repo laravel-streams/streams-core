@@ -3,8 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Workflows\Build;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Anomaly\Streams\Platform\Ui\Table\Workflows\FiltersWorkflow;
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Workflows\FiltersWorkflow;
 
 /**
  * Class BuildFilters
@@ -31,7 +30,5 @@ class BuildFilters
             'builder' => $builder,
             'component' => 'filters',
         ]);
-
-        dd('Done');
     }
 }

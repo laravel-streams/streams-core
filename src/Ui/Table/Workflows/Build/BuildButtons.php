@@ -3,16 +3,16 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Workflows\Build;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Workflows\ActionsWorkflow;
+use Anomaly\Streams\Platform\Ui\Table\Component\Button\Workflows\ButtonsWorkflow;
 
 /**
- * Class BuildActions
+ * Class BuildButtons
  *
  * @link    http://pyrocms.com/
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class BuildActions
+class BuildButtons
 {
 
     /**
@@ -22,13 +22,13 @@ class BuildActions
      */
     public function handle(TableBuilder $builder)
     {
-        if ($builder->actions === false) {
+        if ($builder->buttons === false) {
             return;
         }
 
-        (new ActionsWorkflow)->process([
+        (new ButtonsWorkflow)->process([
             'builder' => $builder,
-            'component' => 'actions',
+            'component' => 'buttons',
         ]);
     }
 }

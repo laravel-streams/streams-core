@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
 
 use Anomaly\Streams\Platform\Ui\Support\Builder;
-use Anomaly\Streams\Platform\Ui\Table\Component\Column\Workflows\BuildWorkflow;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\BuildWorkflow;
 
 /**
  * Class RowBuilder

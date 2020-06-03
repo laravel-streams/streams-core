@@ -3,16 +3,16 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Workflows\Build;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Workflows\ActionsWorkflow;
+use Anomaly\Streams\Platform\Ui\Table\Component\Column\Workflows\ColumnsWorkflow;
 
 /**
- * Class BuildActions
+ * Class BuildColumns
  *
  * @link    http://pyrocms.com/
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class BuildActions
+class BuildColumns
 {
 
     /**
@@ -26,9 +26,9 @@ class BuildActions
             return;
         }
 
-        (new ActionsWorkflow)->process([
+        (new ColumnsWorkflow)->process([
             'builder' => $builder,
-            'component' => 'actions',
+            'component' => 'columns',
         ]);
     }
 }

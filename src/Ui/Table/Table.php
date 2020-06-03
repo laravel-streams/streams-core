@@ -30,6 +30,8 @@ class Table extends Component
             'component' => 'table',
 
             'rows' => new Collection(),
+            'columns' => new Collection(),
+            'buttons' => new Collection(),
             'options' => new Collection(),
             'entries' => new Collection(),
 

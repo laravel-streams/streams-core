@@ -9,10 +9,12 @@ use Anomaly\Streams\Platform\Ui\Support\Workflows\SetOptions;
 use Anomaly\Streams\Platform\Ui\Support\Workflows\MakeInstance;
 use Anomaly\Streams\Platform\Ui\Support\Workflows\SetRepository;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildRows;
-use Anomaly\Streams\Platform\Ui\Support\Workflows\LoadBreadcrumb;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildViews;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\LoadBreadcrumb;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildActions;
-use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildEntries;
+use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildButtons;
+use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildColumns;
+use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\QueryEntries;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\BuildFilters;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Build\AuthorizeTable;
 
@@ -59,16 +61,18 @@ class BuildWorkflow extends Workflow
 
         /**
          * After views have had their way
-         * we can authorize the table access.
+         * we can authorize and query.
          */
         AuthorizeTable::class,
+        QueryEntries::class,
 
         /**
          * Build the rest of the table.
          */
         BuildActions::class,
         BuildFilters::class,
-        BuildEntries::class,
+        BuildColumns::class,
+        BuildButtons::class,
         BuildRows::class,
     ];
 }

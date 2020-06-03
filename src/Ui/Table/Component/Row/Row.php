@@ -3,7 +3,6 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
 
 use Anomaly\Streams\Platform\Ui\Support\Component;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 
 /**
  * Class Row

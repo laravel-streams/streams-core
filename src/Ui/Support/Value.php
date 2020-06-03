@@ -57,7 +57,7 @@ class Value
          * If the value uses a template then parse it.
          */
         if ($template = array_get($parameters, 'template')) {
-            return (string) Template::render($template, ['value' => $value, $term => $entry]);
+            return (string) View::render($template, ['value' => $value, $term => $entry]);
         }
 
         /*
@@ -136,7 +136,7 @@ class Value
          * If the value looks like a render-able
          * string then render it.
          */
-        if (is_string($value) && str_contains($value, ['{{', '<?php'])) {
+        if (is_string($value) && Str::contains($value, ['{{', '<?php'])) {
             $value = (string) View::parse($value, [$term => $entry]);
         }
 

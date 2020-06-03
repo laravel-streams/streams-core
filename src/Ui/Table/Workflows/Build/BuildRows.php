@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Table\Workflows\Build;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\Row\Workflows\RowsWorkflow;
 
 /**
  * Class BuildRows
@@ -22,12 +22,17 @@ class BuildRows
      */
     public function handle(TableBuilder $builder)
     {
+        if (!$builder->table->entries) {
+            return;
+        }
+
         if ($builder->table->entries->isEmpty()) {
             return;
         }
 
-        (new RowBuilder([
-            'parent' => $builder,
-        ]))->build();
+        (new RowsWorkflow())->process([
+            'builder' => $builder,
+            'component' => 'rows',
+        ]);
     }
 }

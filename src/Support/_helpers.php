@@ -251,10 +251,10 @@ if (!function_exists('buttons')) {
      * 
      * @todo REMOVE this crap and all things like it. It's a view in a function? Used in a view? Wtf Ryan.. 
      *
-     * @param \Anomaly\Streams\Platform\Ui\Button\ButtonCollection $buttons
+     * @param \Illuminate\Support\Collection $buttons
      * @return \Illuminate\View\View
      */
-    function buttons(ButtonCollection $buttons)
+    function buttons(Collection $buttons)
     {
         return view('streams::ui/buttons/buttons', ['buttons' => $buttons->values()]);
     }

@@ -15,20 +15,15 @@ class Column extends Component
 {
 
     /**
-     * Create a new class instance.
+     * The button attributes.
      *
-     * @param array $attributes
+     * @var array
      */
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct(array_merge([
-            'component' => 'column',
-
-            'view' => null,
-            'value' => null,
-            'entry' => null,
-            'heading' => null,
-            'wrapper' => null,
-        ], $attributes));
-    }
+    protected $attributes = [
+        'view' => null,
+        'value' => null,
+        'entry' => null,
+        'heading' => null,
+        'wrapper' => null,
+    ];
 }

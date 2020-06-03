@@ -2,10 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
 
-use Illuminate\Support\Arr;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
-use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
+use Anomaly\Streams\Platform\Ui\Button\Button;
+use Anomaly\Streams\Platform\Ui\Support\Builder;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\BuildWorkflow;
 
 /**
  * Class ButtonBuilder
@@ -14,63 +13,23 @@ use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class ButtonBuilder
+class ButtonBuilder extends Builder
 {
 
     /**
-     * Build the buttons.
+     * The builder attributes.
      *
-     * @param  TableBuilder $builder
-     * @param                   $entry
-     * @return ButtonCollection
+     * @var array
      */
-    public static function build(TableBuilder $builder, $entry)
-    {
-        $factory = app(ButtonFactory::class);
+    protected $attributes = [
+        'parent' => null,
 
-        $buttons = new ButtonCollection();
+        'assets' => [],
 
-        ButtonInput::read($builder);
+        'component' => 'button',
 
-        foreach ($builder->buttons as $button) {
+        'button' => Button::class,
 
-            array_set($button, 'entry', $entry);
-
-            $button = evaluate($button, compact('entry', 'builder'));
-
-            $button = Arr::parse($button, compact('entry'));
-
-            $button = self::replace($button, $entry);
-
-            $button = $factory->make(translate($button));
-
-            if ($button->enabled === false) {
-                continue;
-            }
-
-            $buttons->push($button);
-        }
-
-        return $buttons;
-    }
-
-    /**
-     * Replace input.
-     *
-     * @param array $button
-     * @param mixed $entry
-     */
-    protected static function replace(array $button, $entry)
-    {
-        $enabled = array_get($button, 'enabled');
-
-        if (is_string($enabled)) {
-
-            $enabled = filter_var(valuate($enabled, $entry), FILTER_VALIDATE_BOOLEAN);
-
-            $button['enabled'] = $enabled;
-        }
-
-        return $button;
-    }
+        'build_workflow' => BuildWorkflow::class,
+    ];
 }
