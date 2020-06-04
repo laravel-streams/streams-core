@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Asset\Facades\Assets;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Support\Breadcrumb;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
+use Anomaly\Streams\Platform\Ui\Form\Workflows\QueryWorkflow;
 
 /**
  * Class SetEntry
@@ -31,8 +32,11 @@ class SetEntry
          * then call it through the container and
          * let it load the entry itself.
          */
-        if (is_string($builder->entry) || $builder->entry instanceof \Closure) {
-
+        if (
+            (is_string($builder->entry) && class_exists($builder->entry))
+            || $builder->entry instanceof \Closure
+            ) {
+            
             $entry = resolver($builder->entry, compact('builder'));
 
             $builder->entry = evaluate($entry ?: $builder->entry, compact('builder'));
@@ -57,7 +61,9 @@ class SetEntry
          */
         if ($builder->repository instanceof RepositoryInterface) {
 
-            $builder->entry = $builder->repository->find($builder->entry);
+            (new QueryWorkflow)->process([
+                'builder' => $builder
+            ]);
 
             return;
         }

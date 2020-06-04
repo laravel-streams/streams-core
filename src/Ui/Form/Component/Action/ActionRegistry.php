@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
+use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
+
 /**
  * Class ActionRegistry
  *
@@ -16,6 +18,10 @@ class ActionRegistry
      * @var array
      */
     protected $actions = [
+        'save'         => [
+            'button' => 'save',
+            'text'   => 'streams::button.save',
+        ],
         'update'         => [
             'button' => 'update',
             'text'   => 'streams::button.update',
@@ -54,7 +60,13 @@ class ActionRegistry
             return null;
         }
 
-        return array_get($this->actions, $action);
+        $registered = array_get($this->actions, $action);
+
+        if ($button = app(ButtonRegistry::class)->get(array_get($registered, 'button'))) {
+            $registered = array_replace_recursive($button, array_except($registered, ['button']));
+        }
+
+        return $registered;
     }
 
     /**

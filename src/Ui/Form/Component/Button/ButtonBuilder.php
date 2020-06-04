@@ -2,8 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
 
-use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
-use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Button\Button;
+use Anomaly\Streams\Platform\Ui\Support\Builder;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\BuildWorkflow;
 
 /**
  * Class ButtonBuilder
@@ -12,25 +13,23 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class ButtonBuilder
+class ButtonBuilder extends Builder
 {
 
     /**
-     * Build the buttons.
+     * The builder attributes.
      *
-     * @param FormBuilder $builder
+     * @var array
      */
-    public static function build(FormBuilder $builder)
-    {
-        ButtonInput::read($builder);
+    protected $attributes = [
+        'parent' => null,
 
-        $factory = app(ButtonFactory::class);
+        'assets' => [],
 
-        foreach ($builder->buttons as $button) {
-            if (array_get($button, 'enabled', true)) {
+        'component' => 'button',
 
-                $builder->form->buttons->add($factory->make($button));
-            }
-        }
-    }
+        'button' => Button::class,
+
+        'build_workflow' => BuildWorkflow::class,
+    ];
 }

@@ -16,14 +16,14 @@ class FilterCollection extends Collection
 {
 
     /**
-     * Return a collection of active filters.
+     * Return the active action.
      *
-     * @return static
+     * @return null|Action
      */
     public function active()
     {
-        return self::filter(function ($filter) {
-            return $filter->active;
+        return $this->filter(function ($item) {
+            return $item->active;
         });
     }
 }

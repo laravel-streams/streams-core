@@ -8,7 +8,9 @@ use Anomaly\Streams\Platform\Ui\Form\Command\ValidateForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\LoadFormValues;
 use Anomaly\Streams\Platform\Ui\Form\Command\FlashFormErrors;
 use Anomaly\Streams\Platform\Ui\Form\Workflows\BuildWorkflow;
+use Anomaly\Streams\Platform\Ui\Form\Workflows\QueryWorkflow;
 use Anomaly\Streams\Platform\Ui\Form\Command\FlashFieldValues;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldBuilder;
 
 /**
  * Class FormBuilder
@@ -50,9 +52,11 @@ class FormBuilder extends Builder
         'component' => 'form',
 
         'form' => Form::class,
+        
+        'field_builder' => FieldBuilder::class,
 
         'build_workflow' => BuildWorkflow::class,
-        'build_workflow' => BuildWorkflow::class,
+        'query_workflow' => QueryWorkflow::class,
     ];
 
     //---------------------------------------------------------------------

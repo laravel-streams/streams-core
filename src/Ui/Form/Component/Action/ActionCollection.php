@@ -3,7 +3,6 @@
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\Action;
 
 /**
  * Class ActionCollection
@@ -16,19 +15,15 @@ class ActionCollection extends ButtonCollection
 {
 
     /**
-     * Return the active action or null.
+     * Return the active action.
      *
-     * @return null|ActionInterface
+     * @return null|Action
      */
     public function active()
     {
-        foreach ($this->items as $item) {
-            if ($item instanceof ActionInterface && $item->active) {
-                return $item;
-            }
-        }
-
-        return null;
+        return $this->first(function ($item) {
+            return $item->active;
+        });
     }
 
     /**
@@ -39,12 +34,8 @@ class ActionCollection extends ButtonCollection
      */
     public function findBySlug($slug)
     {
-        foreach ($this->items as $item) {
-            if ($item instanceof ActionInterface && $item->slug == $slug) {
-                return $item;
-            }
-        }
-
-        return null;
+        return $this->first(function ($item) use ($slug) {
+            return $item->slug == $slug;
+        });
     }
 }

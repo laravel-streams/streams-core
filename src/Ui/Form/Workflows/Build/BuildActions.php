@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\Form\Workflows\Build;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Workflows\ActionsWorkflow;
 
 /**
  * Class BuildActions
@@ -26,6 +27,9 @@ class BuildActions
             return;
         }
 
-        ActionBuilder::build($builder);
+        (new ActionsWorkflow)->process([
+            'builder' => $builder,
+            'component' => 'actions',
+        ]);
     }
 }

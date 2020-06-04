@@ -3,8 +3,8 @@
 namespace Anomaly\Streams\Platform\Ui\Form\Workflows\Build;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldCollection;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\Workflows\FieldsWorkflow;
 
 /**
  * Class BuildFields
@@ -26,14 +26,10 @@ class BuildFields
         if ($builder->fields === false) {
             return;
         }
-
-        if (!$builder->fields) {
-            
-            $builder->form->fields = new FieldCollection($builder->stream->fields->all());
-
-            return;
-        }
         
-        FieldBuilder::build($builder);
+        (new FieldsWorkflow)->process([
+            'builder' => $builder,
+            'component' => 'fields',
+        ]);
     }
 }

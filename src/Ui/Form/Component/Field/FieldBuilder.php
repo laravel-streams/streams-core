@@ -2,7 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
+use Anomaly\Streams\Platform\Field\Field;
+use Anomaly\Streams\Platform\Ui\Support\Builder;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\BuildWorkflow;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldFactory;
 
 /**
@@ -12,15 +15,32 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldFactory;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class FieldBuilder
+class FieldBuilder extends Builder
 {
+
+    /**
+     * The builder attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'parent' => null,
+
+        'assets' => [],
+
+        'component' => 'field',
+
+        'field' => Field::class,
+        
+        'build_workflow' => BuildWorkflow::class,
+    ];
 
     /**
      * Build the fields.
      *
      * @param FormBuilder $builder
      */
-    public static function build(FormBuilder $builder)
+    public static function builds(FormBuilder $builder)
     {
         $factory = app(FieldFactory::class);
 

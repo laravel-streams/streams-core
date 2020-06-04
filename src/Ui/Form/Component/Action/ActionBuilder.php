@@ -2,7 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
+use Anomaly\Streams\Platform\Ui\Support\Builder;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Support\Workflows\BuildWorkflow;
 
 /**
  * Class ActionBuilder
@@ -11,24 +13,23 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class ActionBuilder
+class ActionBuilder extends Builder
 {
 
     /**
-     * Build the actions.
+     * The builder attributes.
      *
-     * @param FormBuilder $builder
+     * @var array
      */
-    public static function build(FormBuilder $builder)
-    {
-        $factory = app(ActionFactory::class);
+    protected $attributes = [
+        'parent' => null,
 
-        ActionInput::read($builder);
+        'assets' => [],
 
-        foreach ($builder->actions as $action) {
-            if (array_get($action, 'enabled', true)) {
-                $builder->form->actions->add($factory->make($action));
-            }
-        }
-    }
+        'component' => 'action',
+
+        'action' => Action::class,
+        
+        'build_workflow' => BuildWorkflow::class,
+    ];
 }
