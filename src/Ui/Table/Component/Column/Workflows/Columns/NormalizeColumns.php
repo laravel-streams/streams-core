@@ -2,8 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Workflows\Columns;
 
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Ui\Support\Normalizer;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
  * Class NormalizeColumns
@@ -47,6 +48,18 @@ class NormalizeColumns
             if (!is_numeric($key) && !is_array($column) && !class_exists($column)) {
                 $column = [
                     'heading' => $key,
+                    'value'   => $column,
+                ];
+            }
+
+            /*
+             * If the key is numerical then
+             * use it as the header and use the
+             * column as the value.
+             */
+            if (is_numeric($key) && !is_array($column) && !class_exists($column)) {
+                $column = [
+                    'heading' => ucwords(Str::humanize($column)),
                     'value'   => $column,
                 ];
             }
@@ -98,7 +111,7 @@ class NormalizeColumns
          * @todo recolumn this - from guesser
          */
         foreach ($columns as $key => &$column) {
-            //
+            //dd($column);
         }
 
         $builder->columns = $columns;

@@ -11,21 +11,21 @@
     </th>
     @endif
 
-    @foreach ($table->columns as $header)
-        <th {!! html_attributes($header->attr('attributes', [])) !!}>
-            @if ($header->sortable)
+    @foreach ($table->columns as $column)
+        <th {!! html_attributes($column->attr('attributes', [])) !!}>
+            @if ($column->sortable)
             
-                {!! html_link(url()->current() . '?' . $header->getQueryString(), $header->heading) !!}
+                {!! html_link(url()->current() . '?' . $column->getQueryString(), $column->heading) !!}
                 
-                @if ($header->getDirection() == 'asc')
+                @if ($column->getDirection() == 'asc')
                     {!! icon('sort-ascending') !!}
-                @elseif ($header->getDirection() == 'desc')
+                @elseif ($column->getDirection() == 'desc')
                     {!! icon('sort-descending') !!}
                 @else
                     {!! icon('sortable') !!}
                 @endif
             @else
-                {{ $header->heading }}
+                {{ $column->heading }}
             @endif
         </th>
     @endforeach
