@@ -28,14 +28,20 @@ class BuildComponents
 
         $parent = $builder;
 
+        $parentSegment = Str::studly($builder->component);
+        $componentSegment = Str::studly($singular);
+
         foreach ($builder->{$component} as $key => $parameters) {
 
-            $builder = array_pull($parameters, 'builder', $parent->{$singular . '_builder'});
+            $fallback = "Anomaly\Streams\Platform\Ui\\{$parentSegment}\Component\\{$componentSegment}\\{$componentSegment}Builder";
+
+            $builder = array_pull($parameters, 'builder', $parent->{$singular . '_builder'} ?: $fallback);
 
             $parameters['parent'] = $parent;
             $parameters['stream'] = $parent->stream;
 
             if (!$builder) {
+                dd($parent->component);
                 throw new Exception("Unknown [{$singular}] builder: [{$builder}] ");
             }
 

@@ -24,11 +24,14 @@ class MergeComponents
      */
     public function handle(Builder $builder, $component)
     {
-        if (!$registry = $builder->{$component . '_registry'}) {
-            return;
-        }
+        $singular = Str::singular($component);
+        
+        $parentSegment = Str::studly($builder->component);
+        $componentSegment = Str::studly($singular);
 
-        $registry = App::make($registry, compact('builder'));
+        $fallback = "Anomaly\Streams\Platform\Ui\\{$parentSegment}\Component\\{$componentSegment}\\{$componentSegment}Registry";
+
+        $registry = App::make($builder->{$singular . '_registry'} ?: $fallback, compact('builder'));
 
         $singular = Str::singular($component);
 
