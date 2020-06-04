@@ -25,17 +25,16 @@ class DefaultFields
             return;
         }
     
-        if ($builder->entry) {
+        /**
+         * If no fields are set and this
+         * is a streams field - we can just
+         * move the fields over and be done.
+         */
+        if ($builder->entry && $builder->stream) {
             
-            $builder->fields = [
-                //'update',
-            ];
+            $builder->instance->fields = $builder->stream->fields;
 
             return;
         }
-
-        $builder->fields = [
-            //'save',
-        ];
     }
 }
