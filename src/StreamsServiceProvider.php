@@ -31,6 +31,7 @@ use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Http\Controller\EntryController;
 use Anomaly\Streams\Platform\Stream\StreamBuilder;
 use Exception;
+use Parsedown;
 
 /**
  * Class StreamsServiceProvider
@@ -626,6 +627,12 @@ class StreamsServiceProvider extends ServiceProvider
             return app(Engine::class)->render($target, array_merge([
                 // Default data
             ], Arr::make($data)));
+        });
+
+        Str::macro('markdown', function ($target, array $data = []) {
+            return (new Parsedown)->parse($target/*, array_merge([
+                // Default data
+            ], Arr::make($data))*/);
         });
     }
 
