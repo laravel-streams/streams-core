@@ -34,8 +34,8 @@ class FieldTypeBuilder
                 return str_is('*.field_type.' . $type, $item['namespace']);
             });
 
-            if (!$addon) {
-                throw new Exception("Type [{$type}] not found.");
+            if (!$addon && class_exists($type)) {
+                return app($type);
             }
 
             $type = $addon['namespace'];

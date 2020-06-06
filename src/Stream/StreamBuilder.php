@@ -2,8 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Stream;
 
-use Illuminate\Support\Facades\Gate;
-use Anomaly\Streams\Platform\Security\Policy;
 use Anomaly\Streams\Platform\Field\FieldBuilder;
 use Anomaly\Streams\Platform\Field\FieldFactory;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasBuilt;
@@ -33,7 +31,7 @@ class StreamBuilder
          * configure the application.
          */
         $fields = array_pull($stream, 'fields', []);
-
+        
         // (new Workflow([
         //     'step_name' => $closure
         // ]))->process();

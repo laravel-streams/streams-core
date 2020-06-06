@@ -81,7 +81,7 @@ trait Properties
     {
         if (
             $this->offsetExists($key) ||
-            $this->hasAttributeMutator($key) ||
+            $this->hasAttributeGetter($key) ||
             $this->hasAttributeType($key)
         ) {
             return $this->getAttributeValue($key);
@@ -98,6 +98,18 @@ trait Properties
     public function getAttributeValue($key)
     {
         return $this->transformAttributeValue($key, $this->getAttributes()[$key] ?? $this->propertyDefault($key));
+    }
+
+    /**
+     * Set the attribute's value.
+     *
+     * @param string $key
+     */
+    public function setAttributeValue($key, $value)
+    {
+        $this->attributes[$key] = $this->transformAttributeValue($key, $value);
+
+        return $this;
     }
 
     /**
@@ -123,7 +135,7 @@ trait Properties
          * Mutators may step in
          * and handle transforming.
          */
-        if ($this->hasAttributeMutator($key)) {
+        if ($this->hasAttributeGetter($key)) {
             return $this->mutateAttributeValue($key, $value);
         }
 
@@ -147,6 +159,14 @@ trait Properties
      */
     public function setAttribute($key, $value)
     {
+        if (
+            $this->offsetExists($key) ||
+            $this->hasAttributeSetter($key) ||
+            $this->hasAttributeType($key)
+        ) {
+            return $this->setAttributeValue($key, $value);
+        }
+
         $this->attributes[$key] = $value;
 
         return $this;
@@ -270,28 +290,28 @@ trait Properties
             /**
              * Type sniff the attribute value.
              */
-            $type = gettype($attribute);
+            // $type = gettype($attribute);
 
-            /**
-             * Default type is string.
-             */
-            if ($type === 'NULL') {
-                $type = 'string';
-            }
+            // /**
+            //  * Default type is string.
+            //  */
+            // if ($type === 'NULL') {
+            //     $type = 'string';
+            // }
 
-            /**
-             * "double" is returned in lieue
-             * of float for historical reasons.
-             */
-            if ($type === 'double') {
-                $type = 'float';
-            }
+            // /**
+            //  * "double" is returned in lieue
+            //  * of float for historical reasons.
+            //  */
+            // if ($type === 'double') {
+            //     $type = 'float';
+            // }
 
             /**
              * Default property definition.
              */
             $attribute = [
-                'type' => $type,
+                //'type' => $type,
                 'default' => $attribute,
             ];
 
@@ -302,15 +322,35 @@ trait Properties
     }
 
     /**
-     * Return if the object has an attribute mutator.
+     * Return if the object has an attribute getter.
      *
      * @param string $key
      *
      * @return bool
      */
-    protected function hasAttributeMutator($key)
+    protected function hasAttributeGetter($key)
     {
         if ($this->hasHook('get_', $key . '_attribute')) {
+            return true;
+        }
+
+        if (method_exists($this, Str::studly('get_' . $key . '_attribute'))) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Return if the object has an attribute setter.
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
+    protected function hasAttributeSetter($key)
+    {
+        if ($this->hasHook('set_', $key . '_attribute')) {
             return true;
         }
 
@@ -354,7 +394,7 @@ trait Properties
      */
     protected function typeCastAttributeValue($key, $value)
     {
-        $type = $this->properties[$key];
+        $type = $this->properties[$key]['type'];
 
         switch ($type) {
 
@@ -379,7 +419,6 @@ trait Properties
                 }
 
             case 'decimal':
-
                 return number_format($value, explode(':', $this->getCasts()[$key], 2)[1]);
 
             case 'string':
@@ -388,16 +427,13 @@ trait Properties
 
             case 'bool':
             case 'boolean':
-
-                return (bool) $value;
+                return filter_var($value, FILTER_VALIDATE_BOOL);
 
             case 'object':
-
                 return json_decode($value);
 
             case 'array':
             case 'json':
-
                 return json_decode($value, true);
 
             case 'collection':
@@ -430,6 +466,6 @@ trait Properties
      */
     public function hasAttributeType($key)
     {
-        return isset($this->properties) ? array_key_exists($key, $this->properties) : false;
+        return isset($this->properties) ? array_get($this->properties, $key . '.type') : false;
     }
 }
