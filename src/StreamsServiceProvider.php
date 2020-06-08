@@ -132,6 +132,16 @@ class StreamsServiceProvider extends ServiceProvider
          */
         Route::middleware('web')
             ->group(base_path('vendor/anomaly/streams-platform/resources/routes/web.php'));
+
+        Route::middlewareGroup('cp', [
+            'auth',
+            DetectActiveModule::class,
+            BuildControlPanel::class,
+        ]);
+
+        Route::prefix(config('streams.cp.prefix', 'admin'))
+            ->middleware('cp')
+            ->group(base_path('routes/cp.php'));
     }
 
     /**
@@ -654,7 +664,7 @@ class StreamsServiceProvider extends ServiceProvider
          * This only applies to admin
          * controllers at this time.
          */
-        if ($request->segment(1) !== 'admin') {
+        if ($request->segment(1) !== config('streams.cp.prefix', 'admin')) {
             return;
         }
 
@@ -665,8 +675,7 @@ class StreamsServiceProvider extends ServiceProvider
         $segments = $request->segments();
 
         /**
-         * Remove "admin"
-         * from beginning.
+         * Remove CP prefix.
          */
         array_shift($segments);
 

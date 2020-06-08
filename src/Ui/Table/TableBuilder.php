@@ -6,8 +6,6 @@ use Anomaly\Streams\Platform\Ui\Table\Table;
 use Anomaly\Streams\Platform\Ui\Support\Builder;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\BuildWorkflow;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\QueryWorkflow;
-use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewBuilder;
-use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry;
 
 /**
  * Class TableBuilder

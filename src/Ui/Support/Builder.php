@@ -47,7 +47,7 @@ abstract class Builder
         }
 
         $this->fire('ready', ['builder' => $this]);
-
+        
         (new $this->build_workflow)->process(['builder' => $this]);
 
         $this->fire('built', ['builder' => $this]);
@@ -76,7 +76,7 @@ abstract class Builder
      */
     public function response()
     {
-        if (false/* is async request */) {
+        if ($this->async == true && Request::ajax()) {
             return $this->json();
         }
 

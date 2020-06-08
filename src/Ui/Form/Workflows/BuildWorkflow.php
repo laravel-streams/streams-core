@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\BuildFields;
 use Anomaly\Streams\Platform\Ui\Support\Workflows\LoadBreadcrumb;
 use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\BuildActions;
 use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\BuildButtons;
+use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\HandleRequest;
 use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\AuthorizeForm;
 use Anomaly\Streams\Platform\Ui\Form\Workflows\Build\BuildSections;
 
@@ -68,5 +69,10 @@ class BuildWorkflow extends Workflow
         BuildActions::class,
         BuildButtons::class,
         BuildSections::class,
+
+        /**
+         * Handle POST Requests
+         */
+        HandleRequest::class,
     ];
 }
