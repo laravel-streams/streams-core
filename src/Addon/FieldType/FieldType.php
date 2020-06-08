@@ -180,6 +180,29 @@ class FieldType extends Addon
     protected $criteria;
 
 
+    /**
+     * Modify a value for storage.
+     *
+     * @param mixed $value
+     * @return mixed $value
+     */
+    public function modify($value)
+    {
+        return $value;
+    }
+
+    /**
+     * Restore a value from storage.
+     *
+     * @param mixed $value
+     * @return mixed $value
+     */
+    public function restore($value)
+    {
+        return $value;
+    }
+
+
 
     /**
      * Get the post value.
@@ -349,26 +372,6 @@ class FieldType extends Addon
     public function getFieldName()
     {
         return "{$this->getPrefix()}{$this->getField()}";
-    }
-
-    /**
-     * Get the column name.
-     *
-     * @return string
-     */
-    public function getColumnName()
-    {
-        return $this->field;
-    }
-
-    /**
-     * Get the column name.
-     *
-     * @return string
-     */
-    public function getUniqueColumnName()
-    {
-        return $this->getColumnName();
     }
 
     /**

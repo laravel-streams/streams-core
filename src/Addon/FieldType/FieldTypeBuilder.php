@@ -2,10 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-use Anomaly\Streams\Platform\Stream\StreamRegistry;
-use Exception;
-
 /**
  * Class FieldTypeBuilder
  *
@@ -34,7 +30,7 @@ class FieldTypeBuilder
                 return str_is('*.field_type.' . $type, $item['namespace']);
             });
 
-            if (!$addon && class_exists($type)) {
+            if (!$addon) {
                 return app($type);
             }
 

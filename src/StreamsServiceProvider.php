@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform;
 
+use Anomaly\SelectFieldType\SelectFieldType;
 use Misd\Linkify\Linkify;
 use StringTemplate\Engine;
 use Illuminate\Support\Arr;
@@ -30,6 +31,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableComponent;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Http\Controller\EntryController;
 use Anomaly\Streams\Platform\Stream\StreamBuilder;
+use Anomaly\TextFieldType\TextFieldType;
 use Exception;
 use Parsedown;
 
@@ -199,6 +201,9 @@ class StreamsServiceProvider extends ServiceProvider
         //         implode(DIRECTORY_SEPARATOR, ['vendor', 'anomaly', 'core'])
         //     )
         // ], ['assets', 'public']);
+
+        $this->app->bind('string', TextFieldType::class);
+        $this->app->bind('select', SelectFieldType::class);
     }
 
     /**

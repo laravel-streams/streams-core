@@ -41,7 +41,6 @@ class BuildComponents
             $parameters['stream'] = $parent->stream;
 
             if (!$builder) {
-                dd($parent->component);
                 throw new Exception("Unknown [{$singular}] builder: [{$builder}] ");
             }
 
