@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform;
 
+use Exception;
 use Misd\Linkify\Linkify;
 use StringTemplate\Engine;
 use Illuminate\Support\Arr;
@@ -14,23 +15,18 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Translation\Translator;
 use Illuminate\Support\ServiceProvider;
-use Anomaly\Streams\Platform\Entry\Entry;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Collection;
-use Anomaly\Streams\Platform\Addon\AddonModel;
 use Anomaly\Streams\Platform\Support\Purifier;
 use Anomaly\Streams\Platform\View\ViewIncludes;
 use Anomaly\Streams\Platform\View\ViewTemplate;
+use Anomaly\Streams\Platform\Stream\StreamBuilder;
 use Anomaly\Streams\Platform\Asset\Facades\Assets;
 use Anomaly\Streams\Platform\Image\Facades\Images;
-use Anomaly\Streams\Platform\Stream\StreamFactory;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Anomaly\Streams\Platform\Stream\StreamRegistry;
 use Anomaly\Streams\Platform\Ui\Table\TableComponent;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Http\Controller\EntryController;
-use Anomaly\Streams\Platform\Stream\StreamBuilder;
-use Exception;
 
 /**
  * Class StreamsServiceProvider
