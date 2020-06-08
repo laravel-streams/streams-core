@@ -132,6 +132,62 @@ class FieldType extends Addon
     protected $wrapperView = 'streams::form/partials/wrapper';
 
 
+
+    /**
+     * The presenter class.
+     *
+     * @var null|string
+     */
+    protected $presenter = FieldTypePresenter::class;
+
+    /**
+     * The schema class.
+     *
+     * @var null|string
+     */
+    protected $schema = FieldTypeSchema::class;
+
+
+
+    /**
+     * The query class.
+     *
+     * @var null|string
+     */
+    protected $query = null;
+
+    /**
+     * The field type criteria.
+     *
+     * @var null|string
+     */
+    protected $criteria;
+
+
+    /**
+     * Modify a value for storage.
+     *
+     * @param mixed $value
+     * @return mixed $value
+     */
+    public function modify($value)
+    {
+        return $value;
+    }
+
+    /**
+     * Restore a value from storage.
+     *
+     * @param mixed $value
+     * @return mixed $value
+     */
+    public function restore($value)
+    {
+        return $value;
+    }
+
+
+
     /**
      * Get the post value.
      *
@@ -300,6 +356,26 @@ class FieldType extends Addon
     public function getFieldName()
     {
         return "{$this->getPrefix()}{$this->getField()}";
+    }
+
+    /**
+     * Get the column type.
+     *
+     * @return string
+     */
+    public function getColumnType()
+    {
+        return $this->columnType;
+    }
+
+    /**
+     * Get the column length.
+     *
+     * @return string
+     */
+    public function getColumnLength()
+    {
+        return $this->columnLength;
     }
 
     /**

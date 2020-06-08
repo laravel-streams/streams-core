@@ -40,11 +40,11 @@ class Stream implements StreamInterface
             'description' => null,
 
             'model' => null,
-            'fields' => null,
             'repository' => null,
-
+            
             'location' => null,
-
+            
+            'fields' => [],
             'config' => [],
 
             'sortable' => false,

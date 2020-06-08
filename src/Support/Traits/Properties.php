@@ -2,8 +2,12 @@
 
 namespace Anomaly\Streams\Platform\Support\Traits;
 
+use Carbon\Carbon;
+use DateTimeInterface;
+use Carbon\CarbonInterface;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 use Anomaly\Streams\Platform\Traits\Hookable;
 
 /**
@@ -81,7 +85,7 @@ trait Properties
     {
         if (
             $this->offsetExists($key) ||
-            $this->hasAttributeMutator($key) ||
+            $this->hasAttributeGetter($key) ||
             $this->hasAttributeType($key)
         ) {
             return $this->getAttributeValue($key);
@@ -98,6 +102,18 @@ trait Properties
     public function getAttributeValue($key)
     {
         return $this->transformAttributeValue($key, $this->getAttributes()[$key] ?? $this->propertyDefault($key));
+    }
+
+    /**
+     * Set the attribute's value.
+     *
+     * @param string $key
+     */
+    public function setAttributeValue($key, $value)
+    {
+        $this->attributes[$key] = $this->transformAttributeValue($key, $value);
+
+        return $this;
     }
 
     /**
@@ -123,7 +139,7 @@ trait Properties
          * Mutators may step in
          * and handle transforming.
          */
-        if ($this->hasAttributeMutator($key)) {
+        if ($this->hasAttributeGetter($key)) {
             return $this->mutateAttributeValue($key, $value);
         }
 
@@ -147,6 +163,14 @@ trait Properties
      */
     public function setAttribute($key, $value)
     {
+        if (
+            $this->offsetExists($key) ||
+            $this->hasAttributeSetter($key) ||
+            $this->hasAttributeType($key)
+        ) {
+            return $this->setAttributeValue($key, $value);
+        }
+
         $this->attributes[$key] = $value;
 
         return $this;
@@ -270,28 +294,28 @@ trait Properties
             /**
              * Type sniff the attribute value.
              */
-            $type = gettype($attribute);
+            // $type = gettype($attribute);
 
-            /**
-             * Default type is string.
-             */
-            if ($type === 'NULL') {
-                $type = 'string';
-            }
+            // /**
+            //  * Default type is string.
+            //  */
+            // if ($type === 'NULL') {
+            //     $type = 'string';
+            // }
 
-            /**
-             * "double" is returned in lieue
-             * of float for historical reasons.
-             */
-            if ($type === 'double') {
-                $type = 'float';
-            }
+            // /**
+            //  * "double" is returned in lieue
+            //  * of float for historical reasons.
+            //  */
+            // if ($type === 'double') {
+            //     $type = 'float';
+            // }
 
             /**
              * Default property definition.
              */
             $attribute = [
-                'type' => $type,
+                //'type' => $type,
                 'default' => $attribute,
             ];
 
@@ -302,15 +326,35 @@ trait Properties
     }
 
     /**
-     * Return if the object has an attribute mutator.
+     * Return if the object has an attribute getter.
      *
      * @param string $key
      *
      * @return bool
      */
-    protected function hasAttributeMutator($key)
+    protected function hasAttributeGetter($key)
     {
         if ($this->hasHook('get_', $key . '_attribute')) {
+            return true;
+        }
+
+        if (method_exists($this, Str::studly('get_' . $key . '_attribute'))) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Return if the object has an attribute setter.
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
+    protected function hasAttributeSetter($key)
+    {
+        if ($this->hasHook('set_', $key . '_attribute')) {
             return true;
         }
 
@@ -354,8 +398,8 @@ trait Properties
      */
     protected function typeCastAttributeValue($key, $value)
     {
-        $type = $this->properties[$key];
-
+        $type = $this->properties[$key]['type'];
+        
         switch ($type) {
 
             case 'int':
@@ -389,7 +433,7 @@ trait Properties
             case 'bool':
             case 'boolean':
 
-                return (bool) $value;
+                return filter_var($value, FILTER_VALIDATE_BOOL);
 
             case 'object':
 
@@ -404,21 +448,86 @@ trait Properties
 
                 return new Collection($this->json_decode($value, true));
 
-                // case 'date':
+            case 'datetime':
+            case 'custom_datetime':
 
-                //     return $this->asDate($value);
+                return $this->castDateTimeAttribute($value);
 
-                // case 'datetime':
-                // case 'custom_datetime':
+            case 'date':
 
-                //     return $this->asDateTime($value);
+                return $this->castDateTimeAttribute($value)->startOfDay();
 
-                // case 'timestamp':
+            case 'timestamp':
 
-                //     return $this->asTimestamp($value);
+                return $this->castDateTimeAttribute($value)->getTimestamp();
         }
 
-        return $value;
+        $type = app($type);
+
+        // @todo fill type here or use FieldTypeBuilder::build
+
+        return $type->modify($value);
+    }
+
+    /**
+     * Cast the value to a datetime instance.
+     *
+     * @param mixed $value
+     */
+    public function castDateTimeAttribute($value)
+    {
+        // If this value is already a Carbon instance, we shall just return it as is.
+        // This prevents us having to re-instantiate a Carbon instance when we know
+        // it already is one, which wouldn't be fulfilled by the DateTime check.
+        if ($value instanceof CarbonInterface) {
+            return Date::instance($value);
+        }
+
+        // If the value is already a DateTime instance, we will just skip the rest of
+        // these checks since they will be a waste of time, and hinder performance
+        // when checking the field. We will just return the DateTime right away.
+        if ($value instanceof DateTimeInterface) {
+            return Date::parse(
+                $value->format('Y-m-d H:i:s.u'),
+                $value->getTimezone()
+            );
+        }
+
+        // If this value is an integer, we will assume it is a UNIX timestamp's value
+        // and format a Carbon object from this timestamp. This allows flexibility
+        // when defining your date fields as they might be UNIX timestamps here.
+        if (is_numeric($value)) {
+            return Date::createFromTimestamp($value);
+        }
+
+        // If the value is in simply year, month, day format, we will instantiate the
+        // Carbon instances from that format. Again, this provides for simple date
+        // fields on the database, while still supporting Carbonized conversion.
+        if ($this->isStandardDateFormat($value)) {
+            return Date::instance(Carbon::createFromFormat('Y-m-d', $value)->startOfDay());
+        }
+
+        $format = $this->getDateFormat();
+
+        // Finally, we will just assume this date is in the format used by default on
+        // the database connection and use that format to create the Carbon object
+        // that is returned back out to the developers after we convert it here.
+        if (Date::hasFormat($value, $format)) {
+            return Date::createFromFormat($format, $value);
+        }
+
+        return Date::parse($value);
+    }
+
+    /**
+     * Determine if the given value is a standard date format.
+     *
+     * @param  string  $value
+     * @return bool
+     */
+    protected function isStandardDateFormat($value)
+    {
+        return preg_match('/^(\d{4})-(\d{1,2})-(\d{1,2})$/', $value);
     }
 
     /**
@@ -430,6 +539,6 @@ trait Properties
      */
     public function hasAttributeType($key)
     {
-        return isset($this->properties) ? array_key_exists($key, $this->properties) : false;
+        return isset($this->properties) ? array_get($this->properties, $key . '.type') : false;
     }
 }

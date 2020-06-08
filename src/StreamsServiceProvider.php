@@ -125,6 +125,14 @@ class StreamsServiceProvider extends ServiceProvider
          */
         Route::middleware('web')
             ->group(base_path('vendor/anomaly/streams-platform/resources/routes/web.php'));
+
+        Route::middlewareGroup('cp', config('streams.cp.middleware', ['auth']));
+
+        if (file_exists($routes = base_path('routes/cp.php'))) {
+            Route::prefix(config('streams.cp.prefix', 'admin'))
+                ->middleware('cp')
+                ->group($routes);
+        }
     }
 
     /**
@@ -194,6 +202,10 @@ class StreamsServiceProvider extends ServiceProvider
         //         implode(DIRECTORY_SEPARATOR, ['vendor', 'anomaly', 'core'])
         //     )
         // ], ['assets', 'public']);
+
+        $this->app->bind('text', \Anomaly\TextFieldType\TextFieldType::class);
+        $this->app->bind('string', \Anomaly\TextFieldType\TextFieldType::class);
+        $this->app->bind('select', \Anomaly\SelectFieldType\SelectFieldType::class);
     }
 
     /**
@@ -623,6 +635,12 @@ class StreamsServiceProvider extends ServiceProvider
                 // Default data
             ], Arr::make($data)));
         });
+
+        Str::macro('markdown', function ($target, array $data = []) {
+            return (new Parsedown)->parse($target/*, array_merge([
+                // Default data
+            ], Arr::make($data))*/);
+        });
     }
 
     /**
@@ -638,7 +656,7 @@ class StreamsServiceProvider extends ServiceProvider
          * This only applies to admin
          * controllers at this time.
          */
-        if ($request->segment(1) !== 'admin') {
+        if ($request->segment(1) !== config('streams.cp.prefix', 'admin')) {
             return;
         }
 
@@ -649,8 +667,7 @@ class StreamsServiceProvider extends ServiceProvider
         $segments = $request->segments();
 
         /**
-         * Remove "admin"
-         * from beginning.
+         * Remove CP prefix.
          */
         array_shift($segments);
 

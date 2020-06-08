@@ -8,6 +8,7 @@ use Anomaly\Streams\Platform\Ui\Support\Workflows\ParseComponents;
 use Anomaly\Streams\Platform\Ui\Support\Workflows\ResolveComponents;
 use Anomaly\Streams\Platform\Ui\Support\Workflows\TranslateComponents;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Workflows\Fields\DefaultFields;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\Workflows\Fields\PopulateFields;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Workflows\Fields\NormalizeFields;
 
 /**
@@ -37,5 +38,7 @@ class FieldsWorkflow extends Workflow
         'parse_fields' => ParseComponents::class,
 
         'build_fields' => BuildComponents::class,
+        
+        'populate_fields' => PopulateFields::class,
     ];
 }
