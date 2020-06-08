@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Anomaly\Streams\Platform\Addon\Addon;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
+use Anomaly\Streams\Platform\Ui\Support\Component;
 
 /**
  * Class FieldType
@@ -109,23 +110,6 @@ class FieldType extends Addon
     protected $inputType = null;
 
 
-
-    /**
-     * The database column type.
-     *
-     * @var string
-     */
-    protected $columnType = 'string';
-
-    /**
-     * The database column length.
-     *
-     * @var null|integer
-     */
-    protected $columnLength = null;
-
-
-
     /**
      * The field input view.
      *
@@ -146,39 +130,6 @@ class FieldType extends Addon
      * @var string
      */
     protected $wrapperView = 'streams::form/partials/wrapper';
-
-
-
-    /**
-     * The presenter class.
-     *
-     * @var null|string
-     */
-    protected $presenter = FieldTypePresenter::class;
-
-    /**
-     * The schema class.
-     *
-     * @var null|string
-     */
-    protected $schema = FieldTypeSchema::class;
-
-
-
-    /**
-     * The query class.
-     *
-     * @var null|string
-     */
-    protected $query = null;
-
-    /**
-     * The field type criteria.
-     *
-     * @var null|string
-     */
-    protected $criteria;
-
 
 
     /**
@@ -352,46 +303,6 @@ class FieldType extends Addon
     }
 
     /**
-     * Get the column name.
-     *
-     * @return string
-     */
-    public function getColumnName()
-    {
-        return $this->field;
-    }
-
-    /**
-     * Get the column name.
-     *
-     * @return string
-     */
-    public function getUniqueColumnName()
-    {
-        return $this->getColumnName();
-    }
-
-    /**
-     * Get the column type.
-     *
-     * @return string
-     */
-    public function getColumnType()
-    {
-        return $this->columnType;
-    }
-
-    /**
-     * Get the column length.
-     *
-     * @return string
-     */
-    public function getColumnLength()
-    {
-        return $this->columnLength;
-    }
-
-    /**
      * Get the input type.
      *
      * @return string
@@ -487,37 +398,6 @@ class FieldType extends Addon
     public function getWrapperView()
     {
         return $this->wrapperView;
-    }
-
-    /**
-     * Return a new presenter instance.
-     *
-     * @return FieldTypePresenter
-     */
-    public function newPresenter()
-    {
-        if (!$this->presenter) {
-            $this->presenter = get_class($this) . 'Presenter';
-        }
-
-        if (!class_exists($this->presenter)) {
-            $this->presenter = FieldTypePresenter::class;
-        }
-
-        return app()->make($this->presenter, ['object' => $this]);
-    }
-
-    /**
-     * Set the presenter class.
-     *
-     * @param $presenter
-     * @return $this
-     */
-    public function setPresenter($presenter)
-    {
-        $this->presenter = $presenter;
-
-        return $this;
     }
 
     /**
