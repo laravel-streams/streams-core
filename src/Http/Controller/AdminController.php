@@ -14,14 +14,4 @@ use Anomaly\Streams\Platform\Http\Middleware\DetectActiveModule;
  */
 class AdminController extends BaseController
 {
-
-    /**
-     * Create a new AdminController instance.
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware(DetectActiveModule::class);
-        $this->middleware(BuildControlPanel::class);
-    }
 }
