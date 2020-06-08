@@ -24,7 +24,6 @@ class Addon implements Arrayable, Jsonable
 
     use Hookable;
     use HasMemory;
-    use Presentable;
     use Properties;
     use FiresCallbacks;
 
@@ -107,13 +106,6 @@ class Addon implements Arrayable, Jsonable
      * @var bool
      */
     public $installed = false;
-
-    /**
-     * The addon presenter.
-     *
-     * @var string|Presenter
-     */
-    protected $presenter = AddonPresenter::class;
 
     /**
      * Set the installed flag.
