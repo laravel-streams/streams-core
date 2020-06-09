@@ -1,11 +1,14 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command;
+<?php
 
-use Anomaly\Streams\Platform\Support\Authorizer;
-use Anomaly\Streams\Platform\Support\Parser;
-use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
-use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command;
+
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Anomaly\Streams\Platform\Support\Parser;
+use Anomaly\Streams\Platform\Support\Authorizer;
+use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
+use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
 
 /**
  * Class SetActiveSection
@@ -76,7 +79,7 @@ class SetActiveSection
              * If the request URL does not even
              * contain the HREF then skip it.
              */
-            if (!str_contains($request->url(), $href)) {
+            if (!Str::contains($request->url(), $href)) {
                 continue;
             }
 

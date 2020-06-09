@@ -1,11 +1,15 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser;
+<?php
 
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser;
+
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Routing\UrlGenerator;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Http\Request;
-use Illuminate\Routing\UrlGenerator;
 
 /**
  * Class HrefGuesser
@@ -106,13 +110,12 @@ class HrefGuesser
                 continue;
             }
 
-            switch (array_get($button, 'button')) {
+            switch (Arr::get($button, 'button')) {
 
                 case 'restore':
 
                     $button['attributes']['href'] = $this->url->to(
-                        'entry/handle/restore/' . $module->getNamespace() . '/' . $stream->getNamespace(
-                        ) . '/' . $stream->getSlug() . '/{entry.id}'
+                        'entry/handle/restore/' . $module->getNamespace() . '/' . $stream->getNamespace() . '/' . $stream->getSlug() . '/{entry.id}'
                     );
 
                     break;
@@ -120,9 +123,9 @@ class HrefGuesser
                 default:
 
                     // Determine the HREF based on the button type.
-                    $type = array_get($button, 'segment', array_get($button, 'button'));
+                    $type = Arr::get($button, 'segment', Arr::get($button, 'button'));
 
-                    if ($type && !str_contains($type, '\\') && !class_exists($type)) {
+                    if ($type && !Str::contains($type, '\\') && !class_exists($type)) {
                         $button['attributes']['href'] = $section->getHref($type . '/{entry.id}');
                     }
 

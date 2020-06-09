@@ -1,8 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Model;
+<?php
 
-use Anomaly\Streams\Platform\Support\Decorator;
-use Anomaly\Streams\Platform\Traits\Hookable;
+namespace Anomaly\Streams\Platform\Model;
+
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Collection;
+use Anomaly\Streams\Platform\Traits\Hookable;
+use Anomaly\Streams\Platform\Support\Decorator;
 use Illuminate\Support\HigherOrderCollectionProxy;
 
 /**
@@ -117,7 +120,7 @@ class EloquentCollection extends Collection
     {
         return $this->filter(
             function ($item) use ($key, $values) {
-                return str_contains(data_get($item, $key), $values);
+                return Str::contains(data_get($item, $key), $values);
             }
         );
     }

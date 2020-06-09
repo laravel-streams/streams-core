@@ -1,5 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Application\Command;
+<?php
 
+namespace Anomaly\Streams\Platform\Application\Command;
+
+use Illuminate\Support\Str;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -39,8 +42,8 @@ class WriteEnvironmentFile
         $contents = '';
 
         foreach ($this->data as $key => $value) {
-            
-            if (str_contains($value, [' ', '$', '\n'])) {
+
+            if (Str::contains($value, [' ', '$', '\n'])) {
                 $value = '"' . trim($value, '"') . '"';
             }
 

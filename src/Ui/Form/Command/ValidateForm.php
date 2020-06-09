@@ -1,8 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
 
-use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\Support\Resolver;
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
+
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Container\Container;
+use Anomaly\Streams\Platform\Support\Resolver;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
  * Class ValidateForm
@@ -47,7 +50,7 @@ class ValidateForm
         /*
          * If it's self handling just add @handle
          */
-        if ($validator && !str_contains($validator, '@')) {
+        if ($validator && !Str::contains($validator, '@')) {
             $validator .= '@handle';
         }
 
