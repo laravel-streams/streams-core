@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Ui\Support\Value;
 use Anomaly\Streams\Platform\Image\ImageManager;
 use Anomaly\Streams\Platform\Asset\Facades\Assets;
 use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Streams\Facades\Streams;
 use Anomaly\Streams\Platform\Message\Facades\Messages;
 use Anomaly\Streams\Platform\Support\Facades\Decorator;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
@@ -459,6 +460,19 @@ if (!function_exists('stream')) {
     function stream(string $namespace, string $stream = null)
     {
         return decorate(app($namespace . '.' . $stream));
+    }
+}
+
+if (!function_exists('stream')) {
+
+    /**
+     * Return a collection of streams.
+     * 
+     * @return string
+     */
+    function stream(string $stream)
+    {
+        return Streams::make($stream);
     }
 }
 
