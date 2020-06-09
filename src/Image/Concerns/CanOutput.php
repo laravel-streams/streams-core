@@ -37,7 +37,7 @@ trait CanOutput
             $attributes['srcset'] = $srcset;
         }
 
-        if (!$alt && config('streams.images.auto_alt', true)) {
+        if (!$alt && !isset($attributes['alt']) && config('streams.images.auto_alt', true)) {
             $attributes['alt'] = array_get(
                 $this->attributes(),
                 'alt',

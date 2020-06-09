@@ -11,7 +11,7 @@ return [
         |
         | When loading addons the system will look for SLUG-TYPE addons to load.
         |
-        */
+     */
 
         'types' => [
             'field_type',
@@ -29,7 +29,7 @@ return [
         | when you need to push an addon path into load
         | that is shipped IN another addon.
         |
-        */
+     */
 
         'paths' => [
             //'addons/shared/example-module/addons/anomaly/fancy-field_type'
@@ -44,7 +44,7 @@ return [
         | when you need to push an addon path into load
         | that is shipped IN another addon.
         |
-        */
+     */
 
         'directories' => [
             //'my-bundle'
@@ -65,7 +65,7 @@ return [
         |
         | $asset->add('collection.css', 'example::path/to/asset.css');
         |
-        */
+     */
 
         'paths' => [
             //'example' => 'some/local/path',
@@ -81,7 +81,7 @@ return [
         |
         | <link href="example/theme.css?v=1484943345" type="text/css"/>
         |
-        */
+     */
 
         'version' => env('VERSION_ASSETS', true),
     ],
@@ -95,7 +95,7 @@ return [
         |
         | Enable database query caching?
         |
-        */
+     */
 
         'cache' => env('DB_CACHE', false),
 
@@ -106,7 +106,7 @@ return [
         |
         | What is the default TTL value (seconds)?
         |
-        */
+     */
 
         'ttl' => env('DB_CACHE_TTL', 3600),
 
@@ -117,7 +117,7 @@ return [
         |
         | Define the storage localization options for your database.
         |
-        */
+     */
 
         'separator' => ',',
         'point'     => '.',
@@ -132,7 +132,7 @@ return [
         |
         | This is the default format of dates and times displayed.
         |
-        */
+     */
 
         'date_format' => env('DATE_FORMAT', 'm/d/Y'),
         'time_format' => env('TIME_FORMAT', 'g:i A'),
@@ -147,7 +147,7 @@ return [
         | Default: The default timezone for the application when none is set.
         | Database: The timezone of the database.
         |
-        */
+     */
 
         'default_timezone'  => env('DEFAULT_TIMEZONE', date_default_timezone_get()),
         'database_timezone' => env('DATABASE_TIMEZONE', date_default_timezone_get()),
@@ -162,7 +162,7 @@ return [
         |
         | These values provide very basic identification for the distribution.
         |
-        */
+     */
 
         'name'        => 'Streams Platform',
         'description' => 'Streams is an abstracted modular platform for developing web applications.',
@@ -178,7 +178,7 @@ return [
         |
         | Specify the default image quality.
         |
-        */
+     */
 
         'quality' => env('IMAGE_QUALITY'),
 
@@ -194,7 +194,7 @@ return [
         |
         | $image->make('example::path/to/image.jpg');
         |
-        */
+     */
 
         'paths' => [
             'unsplash' => 'https://source.unsplash.com/',
@@ -209,7 +209,7 @@ return [
         |
         | <img src="my_awesome_photo.jpg" alt="My Awesome Photo"/>
         |
-        */
+     */
 
         'auto_alt' => env('IMAGE_ALTS', true),
 
@@ -222,7 +222,7 @@ return [
         |
         | <img src="my_awesome_photo.jpg?v=1484943345" alt="My Awesome Photo"/>
         |
-        */
+     */
 
         'version' => env('VERSION_IMAGES', true),
 
@@ -233,7 +233,7 @@ return [
         |
         | This will cause image to automatically interlace JPEGs.
         |
-        */
+     */
 
         'interlace' => env('IMAGE_INTERLACE', true),
     ],
@@ -254,7 +254,7 @@ return [
         | If 'domain', streams will check your sub-domain for an i18n locale key
         | If 'uri', streams will check your first URI segment for an i18n locale key
         |
-        */
+     */
 
         'hint' => env('LOCALE_HINTS', true),
 
@@ -265,7 +265,7 @@ return [
         |
         | Define an array of locales enabled for translatable input.
         |
-        */
+     */
 
         'enabled' => explode(',', env('ENABLED_LOCALES', 'en')),
 
@@ -276,7 +276,7 @@ return [
         |
         | The default locale for CONTENT.
         |
-        */
+     */
 
         'default' => env('DEFAULT_LOCALE', env('LOCALE', 'en')),
 
@@ -294,7 +294,7 @@ return [
         | the application ONLY. Any other sites on the system configured
         | otherwise will still behave as intended.
         |
-        */
+     */
 
         'enabled' => env('MAINTENANCE_MODE', false),
 
@@ -306,7 +306,7 @@ return [
         | If maintenance mode is enabled, only these IPs will be allowed to
         | view public facing content.
         |
-        */
+     */
 
         'ip_whitelist' => explode(',', env('IP_WHITELIST')),
 
@@ -319,7 +319,7 @@ return [
         | The user must have the "streams::maintenance.access" ability
         | in order to view public facing content.
         |
-        */
+     */
 
         'auth' => env('MAINTENANCE_AUTH', false)
 
@@ -336,7 +336,7 @@ return [
         |
         | Force requests to use SSL
         |
-        */
+     */
 
         'force_ssl' => env('FORCE_SSL', false),
 
@@ -347,7 +347,7 @@ return [
         |
         | Define the primary domain for the app.
         |
-        */
+     */
 
         'domain' => env('APPLICATION_DOMAIN', config('app.url', 'localhost')),
 
