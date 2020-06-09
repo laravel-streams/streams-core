@@ -24,7 +24,7 @@ class DefaultRows
         if (!$builder->rows) {
             $builder->rows = $builder->instance->entries->map(function ($entry) use ($builder) {
                 return [
-                    'key' => $entry->id,
+                    'key' => data($entry, 'id'),
 
                     'entry' => $entry,
                     'table' => $builder,

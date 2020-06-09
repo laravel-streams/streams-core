@@ -3,26 +3,29 @@
 namespace Anomaly\Streams\Platform;
 
 use Exception;
+use Parsedown;
 use Misd\Linkify\Linkify;
 use StringTemplate\Engine;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\View\Factory;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Translation\Translator;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Collection;
 use Anomaly\Streams\Platform\Support\Purifier;
 use Anomaly\Streams\Platform\View\ViewIncludes;
 use Anomaly\Streams\Platform\View\ViewTemplate;
-use Anomaly\Streams\Platform\Stream\StreamBuilder;
 use Anomaly\Streams\Platform\Asset\Facades\Assets;
 use Anomaly\Streams\Platform\Image\Facades\Images;
+use Anomaly\Streams\Platform\Stream\StreamBuilder;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableComponent;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
@@ -141,6 +144,49 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->app->singleton('parser_data', function() {
+
+            $data = [
+                'request' => [
+                    'url' => Request::url(),
+                    'path' => Request::path(),
+                    'root' => Request::root(),
+                    'input' => Request::input(),
+                    'full_url' => Request::fullUrl(),
+                    'segments' => Request::segments(),
+                    'uri' => Request::getRequestUri(),
+                    'query' => Request::getQueryString(),
+                ],
+                'url' => [
+                    'previous' => URL::previous(),
+                ]
+            ];
+
+            if ($route = Request::route()) {
+                
+                $data['route'] = [
+                    'uri' => $route->uri(),
+                    'parameters' => $route->parameters(),
+                    'parameters.to_urlencoded' => array_map(
+                        function ($parameter) {
+                            return urlencode($parameter);
+                        },
+                        array_filter($route->parameters())
+                    ),
+                    'parameter_names' => $route->parameterNames(),
+                    'compiled' => [
+                        'static_prefix' => $route->getCompiled()->getStaticPrefix(),
+                        'parameters_suffix' => str_replace(
+                            $route->getCompiled()->getStaticPrefix(),
+                            '',
+                            Request::getRequestUri()
+                        ),
+                    ],
+                ];
+            }
+
+            return $data;
+        });
 
         // Take care of core utilities.
         $this->initializeApplication();
@@ -239,6 +285,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->bind('text', \Anomaly\Streams\Platform\Field\Type\Text::class);
         $this->app->bind('bool', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
         $this->app->bind('boolean', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
+        $this->app->bind('textarea', \Anomaly\Streams\Platform\Field\Type\Textarea::class);
     }
 
     /**
@@ -638,15 +685,11 @@ class StreamsServiceProvider extends ServiceProvider
         });
 
         Str::macro('parse', function ($target, array $data = []) {
-            return app(Engine::class)->render($target, array_merge([
-                // Default data
-            ], Arr::make($data)));
+            return app(Engine::class)->render($target, array_merge(app('parser_data'), Arr::make($data)));
         });
 
         Str::macro('markdown', function ($target, array $data = []) {
-            return (new Parsedown)->parse($target/*, array_merge([
-                // Default data
-            ], Arr::make($data))*/);
+            return (new Parsedown)->parse($target, array_merge(app('parser_data'), Arr::make($data)));
         });
     }
 

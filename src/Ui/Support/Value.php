@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Facades\Decorator;
 use Anomaly\Streams\Platform\Support\Facades\Evaluator;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
  * Class Value
@@ -64,7 +65,7 @@ class Value
          * If the entry is an instance of EntryInterface
          * then try getting the field value from the entry.
          */
-        if ($entry->stream()->fields->has($value)) {
+        if ($entry instanceof EntryInterface && $entry->stream()->fields->has($value)) {
             //$value = $entry->getFieldValue($value);
             $value = $entry->{$value};
             //if (is_array($value)) dd($value);

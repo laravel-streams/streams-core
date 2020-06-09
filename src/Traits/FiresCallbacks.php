@@ -90,7 +90,7 @@ trait FiresCallbacks
             );
 
             foreach ($listeners as $callback) {
-                App::call($callback, $parameters, 'handle');
+                App::call($callback, $parameters);
             }
         }
 
@@ -114,7 +114,7 @@ trait FiresCallbacks
         );
 
         foreach ($callbacks as $callback) {
-            App::call($callback, $parameters, 'handle');
+            App::call($callback, $parameters);
         }
 
         return $this;

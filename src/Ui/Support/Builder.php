@@ -47,8 +47,15 @@ abstract class Builder
         }
 
         $this->fire('ready', ['builder' => $this]);
-        
-        (new $this->build_workflow)->process(['builder' => $this]);
+
+        $workflow = new $this->build_workflow;
+
+        $this->fire('build', [
+            'builder' => $this,
+            'workflow' => $workflow
+        ]);
+
+        $workflow->process(['builder' => $this]);
 
         $this->fire('built', ['builder' => $this]);
 

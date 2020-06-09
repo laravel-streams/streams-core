@@ -48,12 +48,20 @@ class StreamManager
      * Try making a stream instance.
      *
      * @param string $stream
+     * @param \Closure|null $callback
      * @return null|StreamInterface
      */
-    public function try($stream)
+    public function try($stream, $callback = null)
     {
         try {
-            return $this->make($stream);
+            
+            $stream = $this->make($stream);
+
+            if ($callback) {
+                $stream = App::call($callback, compact('stream'));
+            }
+
+            return $stream;
         } catch (\Exception $e) {
             return null;
         }

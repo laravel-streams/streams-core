@@ -27,6 +27,10 @@ class QueryEntries
             return;
         }
 
+        if (!$builder->repository) {
+            return;
+        }
+
         (new QueryWorkflow())->process([
             'builder' => $builder,
         ]);
