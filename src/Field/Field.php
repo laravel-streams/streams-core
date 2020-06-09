@@ -62,13 +62,12 @@ class Field implements FieldInterface
 
             $type = FieldTypeBuilder::build($this->type);
 
-            $type->setField($this->slug);
-            $type->mergeRules($this->rules);
-            $type->mergeConfig($this->config);
-
-            if (isset($this->stream->model->id)) {
-                $type->setEntry($this->stream->model);
-            }
+            $type->field = $this->slug;
+            $type->parent = $this;
+            
+            // if (isset($this->stream->model->id)) {
+            //     $type->setEntry($this->stream->model);
+            // }
 
             return $type;
         });

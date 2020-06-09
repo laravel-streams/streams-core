@@ -111,6 +111,7 @@ class StreamsServiceProvider extends ServiceProvider
     {
         $this->registerComposerJson();
         $this->registerComposerLock();
+        $this->registerFieldTypes();
         $this->registerStreams();
 
         /**
@@ -202,10 +203,6 @@ class StreamsServiceProvider extends ServiceProvider
         //         implode(DIRECTORY_SEPARATOR, ['vendor', 'anomaly', 'core'])
         //     )
         // ], ['assets', 'public']);
-
-        $this->app->bind('text', \Anomaly\TextFieldType\TextFieldType::class);
-        $this->app->bind('string', \Anomaly\TextFieldType\TextFieldType::class);
-        $this->app->bind('select', \Anomaly\SelectFieldType\SelectFieldType::class);
     }
 
     /**
@@ -232,6 +229,16 @@ class StreamsServiceProvider extends ServiceProvider
                 return json_decode(file_get_contents(base_path('composer.lock')), true);
             }
         );
+    }
+
+    /**
+     * Register the field types.
+     */
+    protected function registerFieldTypes()
+    {
+        $this->app->bind('text', \Anomaly\Streams\Platform\Field\Type\Text::class);
+        $this->app->bind('bool', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
+        $this->app->bind('boolean', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
     }
 
     /**

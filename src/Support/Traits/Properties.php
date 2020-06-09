@@ -399,7 +399,7 @@ trait Properties
     protected function typeCastAttributeValue($key, $value)
     {
         $type = $this->properties[$key]['type'];
-        
+
         switch ($type) {
 
             case 'int':
@@ -464,6 +464,7 @@ trait Properties
 
         $type = app($type);
 
+        $type->field = $key;
         // @todo fill type here or use FieldTypeBuilder::build
 
         return $type->modify($value);

@@ -24,19 +24,6 @@ class FieldTypeBuilder
             $type = $type['type'];
         }
 
-        if (!strpos($type, '.')) {
-
-            $addon = app(FieldTypeCollection::class)->first(function ($item) use ($type) {
-                return str_is('*.field_type.' . $type, $item['namespace']);
-            });
-
-            if (!$addon) {
-                return app($type);
-            }
-
-            $type = $addon['namespace'];
-        }
-
         return clone (app($type));
     }
 }
