@@ -2,8 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Workflows\Views;
 
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\Support\Normalizer;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
  * Class NormalizeViews
@@ -80,7 +81,7 @@ class NormalizeViews
             // Only automate it if not set.
             if (!isset($view['attributes']['href'])) {
                 $view['attributes']['href'] = url(
-                    request()->path() . '?' . array_get($view, 'prefix') . 'view=' . $view['slug']
+                    request()->path() . '?' . Arr::get($view, 'prefix') . 'view=' . $view['slug']
                 );
             }
         }
