@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Factory;
 use Illuminate\Support\Facades\App;
@@ -42,7 +43,7 @@ class FormExtender
     {
         foreach ($fieldType->validators as $rule => $validator) {
 
-            $handler = array_get($validator, 'handler');
+            $handler = Arr::get($validator, 'handler');
 
             if (is_string($handler) && !Str::contains($handler, '@')) {
                 $handler .= '@handle';
@@ -71,7 +72,7 @@ class FormExtender
                         'handle'
                     );
                 },
-                array_get($validator, 'message')
+                Arr::get($validator, 'message')
             );
         }
     }

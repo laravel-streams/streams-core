@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
@@ -40,7 +41,7 @@ class FormRules
                 continue;
             }
 
-            $fieldRules = array_filter(array_unique($field->rules()));
+            $fieldRules = array_filter(Arr::unique($field->rules()));
 
             // @todo use callback
             //$rules = $field->extendRules($rules);
@@ -48,8 +49,8 @@ class FormRules
             if (!$stream instanceof StreamInterface) {
 
                 $rules[$field->getInputName()] = array_merge(
-                    array_unique($fieldRules),
-                    array_get($rules, $field->getInputName(), [])
+                    Arr::unique($fieldRules),
+                    Arr::get($rules, $field->getInputName(), [])
                 );
 
                 continue;
@@ -80,8 +81,8 @@ class FormRules
             }
 
             $rules[$field->getInputName()] = array_merge(
-                array_unique($fieldRules),
-                array_get($rules, $field->getInputName(), [])
+                Arr::unique($fieldRules),
+                Arr::get($rules, $field->getInputName(), [])
             );
         }
 
@@ -92,7 +93,7 @@ class FormRules
         array_walk(
             $rules,
             function (&$rules) {
-                $rules = implode('|', array_unique((array) $rules));
+                $rules = implode('|', Arr::unique((array) $rules));
             }
         );
 

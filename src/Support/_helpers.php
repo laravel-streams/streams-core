@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Streams\Facades\Streams;
 use Anomaly\Streams\Platform\Message\Facades\Messages;
 use Anomaly\Streams\Platform\Support\Facades\Decorator;
-use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Form\Command\GetFormCriteria;
 use Anomaly\Streams\Platform\Ui\Form\Command\GetTableCriteria;
 
@@ -205,9 +204,9 @@ if (!function_exists('form')) {
 
         if (count($arguments) >= 2) {
             $arguments = [
-                'namespace' => array_get(func_get_args(), 0),
-                'stream'    => array_get(func_get_args(), 1),
-                'entry'     => array_get(func_get_args(), 2),
+                'namespace' => Arr::get(func_get_args(), 0),
+                'stream'    => Arr::get(func_get_args(), 1),
+                'entry'     => Arr::get(func_get_args(), 2),
             ];
         }
 
@@ -232,8 +231,8 @@ if (!function_exists('table')) {
 
         if (count($arguments) >= 2) {
             $arguments = [
-                'namespace' => array_get(func_get_args(), 0),
-                'stream'    => array_get(func_get_args(), 1),
+                'namespace' => Arr::get(func_get_args(), 0),
+                'stream'    => Arr::get(func_get_args(), 1),
             ];
         }
 

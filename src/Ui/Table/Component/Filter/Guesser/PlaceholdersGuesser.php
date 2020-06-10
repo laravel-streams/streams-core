@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Guesser;
 
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -34,7 +35,7 @@ class PlaceholdersGuesser
             }
 
             // Get the placeholder off the field.
-            if ($stream && $field = $stream->fields->get(array_get($filter, 'field'))) {
+            if ($stream && $field = $stream->fields->get(Arr::get($filter, 'field'))) {
 
                 /*
                  * Always use the field name
@@ -68,7 +69,7 @@ class PlaceholdersGuesser
                 $filter['placeholder'] = $placeholder;
             }
 
-            if (!array_get($filter, 'placeholder')) {
+            if (!Arr::get($filter, 'placeholder')) {
                 $filter['placeholder'] = $filter['slug'];
             }
 

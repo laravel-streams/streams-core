@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
 
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -25,7 +26,7 @@ class NullableGuesser
 
         foreach ($fields as &$field) {
 
-            $rules = array_get($field, 'rules', []);
+            $rules = Arr::get($field, 'rules', []);
 
             if (is_string($rules)) {
                 $rules = explode('|', $rules);
@@ -49,7 +50,7 @@ class NullableGuesser
              * If specifically not
              * required then nullable.
              */
-            if (array_get($field, 'required', false) == false) {
+            if (Arr::get($field, 'required', false) == false) {
                 $field['rules'][] = 'nullable';
             }
         }

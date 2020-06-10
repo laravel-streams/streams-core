@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Button;
 
-use Illuminate\Support\Facades\App;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Lang;
 use Anomaly\Streams\Platform\Ui\Button\Button;
@@ -57,7 +57,7 @@ class ButtonFactory
      */
     public function make(array $parameters)
     {
-        $button = array_get($parameters, 'button');
+        $button = Arr::get($parameters, 'button');
 
         if ($button && $registered = $this->buttons->get($button)) {
             $parameters = array_replace_recursive($registered, array_except($parameters, 'button'));
@@ -65,12 +65,12 @@ class ButtonFactory
 
         $parameters = Lang::translate($parameters);
 
-        if (!array_get($parameters, 'button') || !class_exists(array_get($parameters, 'button'))) {
+        if (!Arr::get($parameters, 'button') || !class_exists(Arr::get($parameters, 'button'))) {
             array_set($parameters, 'button', $this->button);
         }
 
         /* @var Button$button */
-        $class = array_get($parameters, 'button');
+        $class = Arr::get($parameters, 'button');
 
         $button = new $class($parameters);
 

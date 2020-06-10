@@ -86,8 +86,8 @@ class SectionInput
                         $child = ['slug' => $child];
                     }
 
-                    $child['parent'] = array_get($section, 'slug', $slug);
-                    $child['slug']   = array_get($child, 'slug', $key);
+                    $child['parent'] = Arr::get($section, 'slug', $slug);
+                    $child['slug']   = Arr::get($child, 'slug', $key);
 
                     $sections[$key] = $child;
                 }

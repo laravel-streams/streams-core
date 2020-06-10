@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
@@ -49,7 +50,7 @@ class HrefGuesser
                 continue;
             }
 
-            switch (array_get($button, 'button')) {
+            switch (Arr::get($button, 'button')) {
 
                 case 'cancel':
                     $button['attributes']['href'] = $section->href();
@@ -62,7 +63,7 @@ class HrefGuesser
                 default:
 
                     // Determine the HREF based on the button type.
-                    $type = array_get($button, 'segment', array_get($button, 'button'));
+                    $type = Arr::get($button, 'segment', Arr::get($button, 'button'));
 
                     if ($type && !Str::contains($type, '\\') && !class_exists($type)) {
                         if ($builder instanceof MultipleFormBuilder) {

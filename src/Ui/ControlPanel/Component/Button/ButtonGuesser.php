@@ -2,11 +2,12 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button;
 
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser\EnabledGuesser;
+use Illuminate\Support\Arr;
+use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser\HrefGuesser;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser\TextGuesser;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser\TypeGuesser;
-use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser\EnabledGuesser;
 
 /**
  * Class ButtonGuesser
@@ -71,7 +72,7 @@ class ButtonGuesser
                 $button['slug'] = $button['button'];
 
                 array_set($button, 'button', substr($button['button'], 0, 3));
-                array_set($button, 'primary', array_get($button, 'primary', true));
+                array_set($button, 'primary', Arr::get($button, 'primary', true));
             }
 
             /*
@@ -114,7 +115,7 @@ class ButtonGuesser
             }
 
             // Determine the HREF based on the button type.
-            switch (array_get($button, 'button')) {
+            switch (Arr::get($button, 'button')) {
 
                 case 'add':
                 case 'new':
@@ -125,16 +126,16 @@ class ButtonGuesser
                 case 'export':
                     if ($module) {
                         $button['attributes']['href'] = url(
-                            'entry/handle/export/' . $module->getNamespace() . '/' . array_get(
+                            'entry/handle/export/' . $module->getNamespace() . '/' . Arr::get(
                                 $button,
                                 'namespace'
-                            ) . '/' . array_get($button, 'stream')
+                            ) . '/' . Arr::get($button, 'stream')
                         );
                     }
                     break;
             }
 
-            $type = array_get($button, 'segment', array_get($button, 'button'));
+            $type = Arr::get($button, 'segment', Arr::get($button, 'button'));
 
             if (!isset($button['attributes']['href']) && $type) {
                 $button['attributes']['href'] = $active->href($type);
@@ -182,7 +183,7 @@ class ButtonGuesser
                 (!isset($button['text']) || !trans()->has($button['text']))
                 && config('streams.system.lazy_translations')
             ) {
-                $button['text'] = ucwords(humanize(array_get($button, 'slug', $button['button'])));
+                $button['text'] = ucwords(humanize(Arr::get($button, 'slug', $button['button'])));
             }
 
             if (!isset($button['text'])) {

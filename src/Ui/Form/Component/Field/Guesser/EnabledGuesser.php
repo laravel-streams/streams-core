@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
 
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -27,7 +28,7 @@ class EnabledGuesser
         foreach ($fields as &$field) {
 
             // Guess based on the form mode if applicable.
-            if (in_array((string) $enabled = array_get($field, 'enabled', null), ['create', 'update'])) {
+            if (in_array((string) $enabled = Arr::get($field, 'enabled', null), ['create', 'update'])) {
                 $field['enabled'] = $enabled === $mode;
             }
         }

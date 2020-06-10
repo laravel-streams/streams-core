@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
 
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -25,7 +26,7 @@ class PrefixesGuesser
         $prefix = $builder->getFormOption('prefix');
 
         foreach ($fields as &$field) {
-            array_set($field, 'prefix', array_get($field, 'prefix', $prefix));
+            array_set($field, 'prefix', Arr::get($field, 'prefix', $prefix));
         }
 
         $builder->setFields($fields);

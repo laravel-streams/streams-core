@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Ui\Icon;
 
+use Illuminate\Support\Arr;
+
 /**
  * Class IconRegistry
  *
@@ -168,7 +170,7 @@ class IconRegistry
      */
     public function get($icon)
     {
-        return array_get($this->icons, $icon, $icon);
+        return Arr::get($this->icons, $icon, $icon);
     }
 
     /**

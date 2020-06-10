@@ -2,10 +2,12 @@
 
 namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Entry\EntryRepository;
-use Illuminate\Database\Schema\Builder;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
+use Illuminate\Database\Schema\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Anomaly\Streams\Platform\Entry\EntryRepository;
 use Anomaly\Streams\Platform\Model\EloquentRepository;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
@@ -55,8 +57,8 @@ class StreamRepository extends EntryRepository implements StreamRepositoryInterf
      */
     public function create(array $attributes = [])
     {
-        $attributes['config'] = array_get($attributes, 'config', []);
-        $attributes['slug']   = str_slug(array_get($attributes, 'slug'), '_');
+        $attributes['config'] = Arr::get($attributes, 'config', []);
+        $attributes['slug']   = Str::slug(Arr::get($attributes, 'slug'), '_');
 
         return $this->model->create($attributes);
     }

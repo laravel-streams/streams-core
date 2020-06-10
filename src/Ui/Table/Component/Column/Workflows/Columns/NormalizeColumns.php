@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Workflows\Columns;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -96,12 +97,12 @@ class NormalizeColumns
              * If no value wrap is set
              * then use a default.
              */
-            array_set($column, 'wrapper', array_get($column, 'wrapper', '{value}'));
+            Arr::set($column, 'wrapper', Arr::get($column, 'wrapper', '{value}'));
 
             /*
              * If there is no value then use NULL
              */
-            array_set($column, 'value', array_get($column, 'value', null));
+            Arr::set($column, 'value', Arr::get($column, 'value', null));
         }
 
         $columns = Normalizer::attributes($columns);

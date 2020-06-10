@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Support;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\View;
 use Illuminate\Contracts\Support\Arrayable;
@@ -45,19 +46,19 @@ class Value
             ];
         }
 
-        $value = array_get($parameters, 'value');
+        $value = Arr::get($parameters, 'value');
 
         /*
          * If the value is a view path then return a view.
          */
-        if ($view = array_get($parameters, 'view')) {
+        if ($view = Arr::get($parameters, 'view')) {
             return view($view, ['value' => $value, $term => $entry])->render();
         }
 
         /*
          * If the value uses a template then parse it.
          */
-        if ($template = array_get($parameters, 'template')) {
+        if ($template = Arr::get($parameters, 'template')) {
             return (string) View::render($template, ['value' => $value, $term => $entry]);
         }
 
@@ -94,7 +95,7 @@ class Value
         /*
          * Parse the value with the entry.
          */
-        if ($wrapper = array_get($parameters, 'wrapper')) {
+        if ($wrapper = Arr::get($parameters, 'wrapper')) {
             $value = Str::parse(
                 $wrapper,
                 ['value' => $value, $term => $entry]
@@ -129,7 +130,7 @@ class Value
          * If the value is not explicitly marked 
          * safe then escape it automatically.
          */
-        if (is_string($value) && array_get($parameters, 'is_safe') !== true) {
+        if (is_string($value) && Arr::get($parameters, 'is_safe') !== true) {
             $value = Str::purify($value);
         }
 

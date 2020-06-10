@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -60,11 +61,11 @@ class SetActiveNavigationLink
              * Get the HREF for both the active
              * and loop iteration link.
              */
-            $href       = array_get($link->getAttributes(), 'href');
+            $href       = Arr::get($link->getAttributes(), 'href');
             $activeHref = '';
 
             if ($active && $active instanceof NavigationLinkInterface) {
-                $activeHref = array_get($active->getAttributes(), 'href');
+                $activeHref = Arr::get($active->getAttributes(), 'href');
             }
 
             /*

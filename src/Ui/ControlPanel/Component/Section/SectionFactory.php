@@ -2,9 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
+use Illuminate\Contracts\Container\Container;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 
 /**
  * Class SectionFactory
@@ -31,7 +32,7 @@ class SectionFactory
      */
     public function make(array $parameters)
     {
-        $section = App::make(array_get($parameters, 'section', $this->section), $parameters);
+        $section = App::make(Arr::get($parameters, 'section', $this->section), $parameters);
 
         Hydrator::hydrate($section, $parameters);
 

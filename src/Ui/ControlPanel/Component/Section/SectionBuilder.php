@@ -2,12 +2,13 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Gate;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionInput;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionFactory;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationLink;
-use Illuminate\Support\Facades\Gate;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 
 /**
  * Class SectionBuilder
@@ -39,7 +40,7 @@ class SectionBuilder
 
             foreach ($sections as $i => &$section) {
 
-                if (($policy = array_get($section, 'policy')) && !Gate::any((array) $policy)) {
+                if (($policy = Arr::get($section, 'policy')) && !Gate::any((array) $policy)) {
                     continue;
                 }
 

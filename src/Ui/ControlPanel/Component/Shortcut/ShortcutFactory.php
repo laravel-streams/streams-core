@@ -2,9 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
+use Illuminate\Contracts\Container\Container;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 
 /**
  * Class ShortcutFactory
@@ -38,7 +39,7 @@ class ShortcutFactory
      */
     public function make(array $parameters)
     {
-        $shortcut = App::make(array_get($parameters, 'shortcut', $this->shortcut), $parameters);
+        $shortcut = App::make(Arr::get($parameters, 'shortcut', $this->shortcut), $parameters);
 
         Hydrator::hydrate($shortcut, $parameters);
 

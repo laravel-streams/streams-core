@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Support\Workflows;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 use Anomaly\Streams\Platform\Ui\Support\Builder;
@@ -38,7 +39,7 @@ class MergeComponents
         $components = $builder->{$component};
 
         foreach ($components as &$parameters) {
-            if ($registered = $registry->get(array_get($parameters, $singular))) {
+            if ($registered = $registry->get(Arr::get($parameters, $singular))) {
                 $parameters = array_replace_recursive($registered, array_except($parameters, [$singular]));
             }
         }

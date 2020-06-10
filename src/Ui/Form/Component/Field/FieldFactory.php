@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
@@ -55,16 +56,16 @@ class FieldFactory
     public function make(array $parameters, StreamInterface $stream = null, $entry = null)
     {
         /* @var EntryInterface $entry */
-        if ($stream && $entry->stream()->fields->has(array_get($parameters, 'field'))) {
+        if ($stream && $entry->stream()->fields->has(Arr::get($parameters, 'field'))) {
 
             /*
              * Allow overriding the type here
              * should they want to do that.
              */
-            if (array_get($parameters, 'type')) {
+            if (Arr::get($parameters, 'type')) {
                 $field = $this->builder->build($parameters);
             } else {
-                $field = $entry->stream()->fields->get(array_get($parameters, 'field'))->type();
+                $field = $entry->stream()->fields->get(Arr::get($parameters, 'field'))->type();
             }
 
             //$modifier = $field->getModifier();

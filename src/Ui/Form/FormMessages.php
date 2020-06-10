@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
@@ -26,7 +27,7 @@ class FormMessages
 
         foreach ($builder->getFormFields() as $field) {
             foreach ($field->validators as $rule => $validator) {
-                if ($message = array_get($validator, 'message')) {
+                if ($message = Arr::get($validator, 'message')) {
                     $message = trans($message);
                 }
 

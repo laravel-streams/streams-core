@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Support;
 
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
 
 /**
@@ -26,7 +27,7 @@ class Lookup
 
         foreach ($buttons as &$parameters) {
 
-            if (!$button = array_get($parameters, 'button')) {
+            if (!$button = Arr::get($parameters, 'button')) {
                 continue;
             }
 
@@ -34,7 +35,7 @@ class Lookup
                 $parameters = array_replace_recursive($lookup, $parameters);
             }
 
-            $button = array_get($parameters, 'button', $button);
+            $button = Arr::get($parameters, 'button', $button);
 
             if ($button && $lookup = $registry->get($button)) {
                 $parameters = array_replace_recursive($lookup, $parameters);

@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Support;
 
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
@@ -32,7 +33,7 @@ class Resolver
      */
     public function resolve($target, array $arguments = [], array $options = [])
     {
-        $method = array_get($options, 'method', 'handle');
+        $method = Arr::get($options, 'method', 'handle');
 
         if (
             (is_string($target) && Str::contains($target, '@'))

@@ -2,8 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
-use Illuminate\Contracts\Container\Container;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationLink;
 
@@ -32,7 +32,7 @@ class NavigationFactory
      */
     public function make(array $parameters)
     {
-        $link = App::make(array_get($parameters, 'link', $this->link), $parameters);
+        $link = App::make(Arr::get($parameters, 'link', $this->link), $parameters);
 
         Hydrator::hydrate($link, $parameters);
 

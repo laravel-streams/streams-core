@@ -107,7 +107,7 @@ class ButtonInput
 
         foreach ($buttons as &$parameters) {
 
-            if (!$button = array_get($parameters, 'button')) {
+            if (!$button = Arr::get($parameters, 'button')) {
                 continue;
             }
 
@@ -115,7 +115,7 @@ class ButtonInput
                 $parameters = array_replace_recursive($button, $parameters);
             }
 
-            $button = array_get($parameters, 'button', $button);
+            $button = Arr::get($parameters, 'button', $button);
 
             if ($button && $button = app(ButtonRegistry::class)->get($button)) {
                 $parameters = array_replace_recursive($button, $parameters);

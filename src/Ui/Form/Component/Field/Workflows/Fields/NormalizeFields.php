@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Workflows\Fields;
 
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 
@@ -69,8 +70,8 @@ class NormalizeFields
              * If the field is required then it must have
              * the rule as well.
              */
-            if (array_get($field, 'required') === true) {
-                $field['rules'] = array_unique(array_merge(array_get($field, 'rules', []), ['required']));
+            if (Arr::get($field, 'required') === true) {
+                $field['rules'] = array_unique(array_merge(Arr::get($field, 'rules', []), ['required']));
             }
         }
 

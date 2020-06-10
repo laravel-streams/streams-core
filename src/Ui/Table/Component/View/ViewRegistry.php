@@ -2,10 +2,11 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\All;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\Trash;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\RecentlyCreated;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\RecentlyModified;
-use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\Trash;
 
 /**
  * Class ViewRegistry
@@ -65,7 +66,7 @@ class ViewRegistry
             return null;
         }
 
-        return array_get($this->views, $view);
+        return Arr::get($this->views, $view);
     }
 
     /**

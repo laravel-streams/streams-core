@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Event\SortNavigation;
 
@@ -65,7 +66,7 @@ class NavigationInput
             /*
              * Make sure we have attributes.
              */
-            $link['attributes'] = array_get($link, 'attributes', []);
+            $link['attributes'] = Arr::get($link, 'attributes', []);
 
             /*
              * Move the HREF into attributes.

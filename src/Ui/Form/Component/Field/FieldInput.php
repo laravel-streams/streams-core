@@ -124,8 +124,8 @@ class FieldInput
              * If the field is required then it must have
              * the rule as well.
              */
-            if (array_get($field, 'required') === true) {
-                $field['rules'] = array_unique(array_merge(array_get($field, 'rules', []), ['required']));
+            if (Arr::get($field, 'required') === true) {
+                $field['rules'] = array_unique(array_merge(Arr::get($field, 'rules', []), ['required']));
             }
         }
 
@@ -224,7 +224,7 @@ class FieldInput
          */
         foreach ($builder->fields as $field) {
 
-            if (!array_get($field, 'translatable', false)) {
+            if (!Arr::get($field, 'translatable', false)) {
 
                 $translations[] = $field;
 
@@ -238,7 +238,7 @@ class FieldInput
                 if ($field['locale'] !== $defaultLocale) {
                     array_set($field, 'hidden', true);
                     array_set($field, 'required', false);
-                    array_set($field, 'rules', array_diff(array_get($field, 'rules', []), ['required']));
+                    array_set($field, 'rules', array_diff(Arr::get($field, 'rules', []), ['required']));
                 }
 
                 $translations[] = $field;
@@ -251,16 +251,16 @@ class FieldInput
                 $translation = $field;
 
                 array_set($translation, 'locale', $locale);
-                array_set($translation, 'hidden', array_get($field, 'hidden', false) ?: ($locale !== $locale));
+                array_set($translation, 'hidden', Arr::get($field, 'hidden', false) ?: ($locale !== $locale));
 
-                if ($value = array_get($field, 'values.' . $locale)) {
+                if ($value = Arr::get($field, 'values.' . $locale)) {
                     array_set($translation, 'value', $value);
                 }
 
                 if ($defaultLocale !== $locale) {
                     array_set($translation, 'hidden', true);
                     array_set($translation, 'required', false);
-                    array_set($translation, 'rules', array_diff(array_get($translation, 'rules', []), ['required']));
+                    array_set($translation, 'rules', array_diff(Arr::get($translation, 'rules', []), ['required']));
                 }
 
                 $translations[] = $translation;
@@ -305,7 +305,7 @@ class FieldInput
              */
             if (!isset($field['value']) && $entry instanceof Model && $entry->getKey()) {
 
-                $locale = array_get($field, 'locale');
+                $locale = Arr::get($field, 'locale');
 
                 if ($locale && $translation = $entry->translate($locale)) {
                     $field['value'] = $translation->getFieldValue($field['field']);
@@ -339,7 +339,7 @@ class FieldInput
             if (
                 !isset($field['value']) && $entry instanceof Model && $type = $entry->stream()->fields->get($field['field'])->type()
             ) {
-                $field['value'] = array_get($type->getConfig(), 'default_value');
+                $field['value'] = Arr::get($type->getConfig(), 'default_value');
             }
 
             /*

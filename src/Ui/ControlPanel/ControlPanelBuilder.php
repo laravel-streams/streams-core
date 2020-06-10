@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel;
 
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Event\ControlPanelWasBuilt;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Event\ControlPanelIsBuilding;
@@ -190,7 +191,7 @@ class ControlPanelBuilder
      */
     public function addSectionButton($section, $slug, array $button, $position = null)
     {
-        $buttons = (array) array_get($this->sections, "{$section}.buttons");
+        $buttons = (array) Arr::get($this->sections, "{$section}.buttons");
 
         if ($position === null) {
             $position = count($buttons) + 1;

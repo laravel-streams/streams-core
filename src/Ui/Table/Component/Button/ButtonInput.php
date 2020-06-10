@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
 
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
@@ -120,7 +121,7 @@ class ButtonInput
         $buttons = $builder->buttons;
 
         foreach ($buttons as &$parameters) {
-            if ($button = app(ButtonRegistry::class)->get(array_get($parameters, 'button'))) {
+            if ($button = app(ButtonRegistry::class)->get(Arr::get($parameters, 'button'))) {
                 $parameters = array_replace_recursive($button, $parameters);
             }
         }

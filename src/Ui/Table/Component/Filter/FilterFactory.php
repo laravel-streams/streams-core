@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 
@@ -30,7 +31,7 @@ class FilterFactory
      */
     public function make(array $parameters)
     {
-        $filter = app()->make(array_get($parameters, 'filter', $this->filter), $parameters);
+        $filter = app()->make(Arr::get($parameters, 'filter', $this->filter), $parameters);
 
         Hydrator::hydrate($filter, $parameters);
 

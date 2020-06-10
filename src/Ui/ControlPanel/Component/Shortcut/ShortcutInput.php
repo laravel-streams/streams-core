@@ -108,8 +108,8 @@ class ShortcutInput
                         $child = ['slug' => $child];
                     }
 
-                    $child['parent'] = array_get($shortcut, 'slug', $slug);
-                    $child['slug']   = array_get($child, 'slug', $key);
+                    $child['parent'] = Arr::get($shortcut, 'slug', $slug);
+                    $child['slug']   = Arr::get($child, 'slug', $key);
 
                     $shortcuts[$key] = $child;
                 }

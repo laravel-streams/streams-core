@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Ui\Support;
 
+use Illuminate\Support\Arr;
+
 /**
  * Class Normalizer
  *
@@ -71,12 +73,12 @@ class Normalizer
             /**
              * Make sure attributes exists.
              */
-            $item['attributes'] = array_get($item, 'attributes', []);
+            $item['attributes'] = Arr::get($item, 'attributes', []);
 
             /**
              * Make sure default parameters exist.
              */
-            if ($attributes = array_merge($default, array_get($item, 'attributes', []))) {
+            if ($attributes = array_merge($default, Arr::get($item, 'attributes', []))) {
                 $item['attributes'] = $attributes;
             }
 

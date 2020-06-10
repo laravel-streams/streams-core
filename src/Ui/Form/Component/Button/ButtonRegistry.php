@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
 
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry as ButtonButtonRegistry;
 
 /**
@@ -24,9 +25,9 @@ class ButtonRegistry extends ButtonButtonRegistry
             return null;
         }
 
-        $registered = array_get($this->buttons, $button);
+        $registered = Arr::get($this->buttons, $button);
 
-        if ($button = parent::get(array_get($registered, 'button'))) {
+        if ($button = parent::get(Arr::get($registered, 'button'))) {
             $registered = array_replace_recursive($button, array_except($registered, ['button']));
         }
 

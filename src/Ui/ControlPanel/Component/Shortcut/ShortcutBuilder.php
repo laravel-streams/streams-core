@@ -2,8 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
-use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
+use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
  * Class ShortcutBuilder
@@ -30,7 +31,7 @@ class ShortcutBuilder
 
         foreach ($builder->getShortcuts() as $shortcut) {
 
-            if (($policy = array_get($shortcut, 'policy')) && !Gate::any((array) $policy)) {
+            if (($policy = Arr::get($shortcut, 'policy')) && !Gate::any((array) $policy)) {
                 continue;
             }
 

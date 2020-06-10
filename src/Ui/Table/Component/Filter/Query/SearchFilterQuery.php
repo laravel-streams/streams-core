@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Builder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -39,7 +40,7 @@ class SearchFilterQuery
 
                     $value = $filter->getValue();
 
-                    if (array_get($casts, $column) == 'json') {
+                    if (Arr::get($casts, $column) == 'json') {
                         $value = addslashes(substr(json_encode($value), 1, -1));
                     }
 

@@ -5,6 +5,7 @@ namespace Anomaly\Streams\Platform\Support\Traits;
 use Carbon\Carbon;
 use DateTimeInterface;
 use Carbon\CarbonInterface;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
@@ -123,7 +124,7 @@ trait Properties
      */
     protected function propertyDefault($key)
     {
-        return array_get($this->properties, $key . '.default');
+        return Arr::get($this->properties, $key . '.default');
     }
 
     /**
@@ -540,6 +541,6 @@ trait Properties
      */
     public function hasAttributeType($key)
     {
-        return isset($this->properties) ? array_get($this->properties, $key . '.type') : false;
+        return isset($this->properties) ? Arr::get($this->properties, $key . '.type') : false;
     }
 }

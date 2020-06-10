@@ -79,7 +79,7 @@ class SectionInput
             /*
              * Make sure some default parameters exist.
              */
-            $section['attributes'] = array_get($section, 'attributes', []);
+            $section['attributes'] = Arr::get($section, 'attributes', []);
 
             /*
              * Move all data-* keys

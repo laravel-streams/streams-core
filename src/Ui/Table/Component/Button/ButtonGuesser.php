@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Gate;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -66,7 +67,7 @@ class ButtonGuesser
                 continue;
             }
 
-            switch (array_get($button, 'button')) {
+            switch (Arr::get($button, 'button')) {
 
                 case 'restore':
 
@@ -79,7 +80,7 @@ class ButtonGuesser
                 default:
 
                     // Determine the HREF based on the button type.
-                    $type = array_get($button, 'segment', array_get($button, 'button'));
+                    $type = Arr::get($button, 'segment', Arr::get($button, 'button'));
 
                     if ($type && !Str::contains($type, '\\') && !class_exists($type)) {
                         $button['attributes']['href'] = request()->url() . '/' . $type . '/{entry.id}';
@@ -142,7 +143,7 @@ class ButtonGuesser
              * Try and guess the ability value.
              * @todo mention of abilitys can pry go - use policies and gates.
              */
-            switch (array_get($button, 'button')) {
+            switch (Arr::get($button, 'button')) {
 
                 case 'update':
                     $button['ability'] = $module->getNamespace($stream->slug . '.write');
@@ -150,7 +151,7 @@ class ButtonGuesser
 
                 default:
                     $button['ability'] = $module->getNamespace(
-                        $stream->slug . '.' . array_get($button, 'slug')
+                        $stream->slug . '.' . Arr::get($button, 'slug')
                     );
                     break;
             }
@@ -170,7 +171,7 @@ class ButtonGuesser
 
         foreach ($buttons as &$button) {
 
-            if (($policy = array_get($button, 'policy')) && !Gate::any((array) $policy)) {
+            if (($policy = Arr::get($button, 'policy')) && !Gate::any((array) $policy)) {
                 $button['enabled'] = false;
             }
         }

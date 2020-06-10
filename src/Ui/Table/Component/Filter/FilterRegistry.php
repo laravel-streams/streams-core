@@ -1,10 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\DatetimeFilter;
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\FieldFilter;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\InputFilter;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\SearchFilter;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\SelectFilter;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\DatetimeFilter;
 
 /**
  * Class FilterRegistry
@@ -60,7 +61,7 @@ class FilterRegistry
      */
     public function get($filter)
     {
-        return array_get($this->filters, $filter);
+        return Arr::get($this->filters, $filter);
     }
 
     /**

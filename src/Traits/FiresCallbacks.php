@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Traits;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 
 /**
@@ -84,7 +85,7 @@ trait FiresCallbacks
 
         foreach (array_keys($classes) as $caller) {
 
-            $listeners = (array) array_get(
+            $listeners = (array) Arr::get(
                 self::$listeners,
                 $caller . '::' . $trigger
             );
@@ -108,7 +109,7 @@ trait FiresCallbacks
          * Finally, run through all of
          * the registered callbacks.
          */
-        $callbacks = (array) array_get(
+        $callbacks = (array) Arr::get(
             $this->callbacks,
             $trigger
         );

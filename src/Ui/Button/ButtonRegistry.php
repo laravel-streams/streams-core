@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Ui\Button;
 
+use Illuminate\Support\Arr;
+
 /**
  * Class ButtonRegistry
  *
@@ -312,7 +314,7 @@ class ButtonRegistry
             return null;
         }
 
-        return array_get($this->buttons, $button);
+        return Arr::get($this->buttons, $button);
     }
 
     /**
