@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Image\Concerns;
 
+use Illuminate\Support\Str;
 use League\Flysystem\MountManager;
 use Illuminate\Support\Facades\File;
 use Anomaly\Streams\Platform\Image\ImageManager;
@@ -63,7 +64,7 @@ trait CanPublish
          * then just use it as it is.
          */
         if (
-            str_contains($this->source, public_path())
+            Str::contains($this->source, public_path())
             && !$this->hasAlterations()
             && !$this->getQuality()
         ) {
@@ -82,7 +83,7 @@ trait CanPublish
          * If the path is a file or file path then
          * put it in /app/files/disk/folder/filename.ext
          */
-        if (is_string($this->source) && str_is('*://*', $this->source)) {
+        if (is_string($this->source) && Str::is('*://*', $this->source)) {
 
             list($disk, $folder, $filename) = explode('/', str_replace('://', '/', $this->source));
 

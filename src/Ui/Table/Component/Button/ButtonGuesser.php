@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Gate;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser\HrefGuesser;
@@ -80,7 +81,7 @@ class ButtonGuesser
                     // Determine the HREF based on the button type.
                     $type = array_get($button, 'segment', array_get($button, 'button'));
 
-                    if ($type && !str_contains($type, '\\') && !class_exists($type)) {
+                    if ($type && !Str::contains($type, '\\') && !class_exists($type)) {
                         $button['attributes']['href'] = request()->url() . '/' . $type . '/{entry.id}';
                     }
 

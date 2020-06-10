@@ -77,7 +77,7 @@ class SetActiveSection
              * If the request URL does not even
              * contain the HREF then skip it.
              */
-            if (!str_contains($request->url(), $href)) {
+            if (!Str::contains($request->url(), $href)) {
                 continue;
             }
 

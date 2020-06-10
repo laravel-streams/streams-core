@@ -2,8 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Image;
 
-use Anomaly\Streams\Platform\Application\Application;
-use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 /**
  * Class ImagePaths
@@ -76,7 +75,7 @@ class ImagePaths
      */
     public function resolve($path)
     {
-        if (str_contains($path, '::')) {
+        if (Str::contains($path, '::')) {
 
             list($namespace, $path) = explode('::', $path);
 

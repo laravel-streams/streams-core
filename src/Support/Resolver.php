@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Support;
 
 use Exception;
+use Illuminate\Support\Str;
 
 /**
  * Class Resolver
@@ -34,7 +35,7 @@ class Resolver
         $method = array_get($options, 'method', 'handle');
 
         if (
-            (is_string($target) && str_contains($target, '@'))
+            (is_string($target) && Str::contains($target, '@'))
             || is_callable($target)
         ) {
             return app()->call($target, $arguments);

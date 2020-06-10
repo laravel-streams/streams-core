@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
+use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -67,7 +68,7 @@ class FilterInput
              * If the filter is a string and is
              * not core then use it for everything.
              */
-            if (is_string($filter) && !str_contains($filter, '/') && !in_array($filter, $core)) {
+            if (is_string($filter) && !Str::contains($filter, '/') && !in_array($filter, $core)) {
                 $filter = [
                     'slug'   => $filter,
                     'field'  => $filter,
@@ -79,7 +80,7 @@ class FilterInput
              * If the filter is a string and
              * core then use it for everything.
              */
-            if (is_string($filter) && !str_contains($filter, '/') && in_array($filter, $core)) {
+            if (is_string($filter) && !Str::contains($filter, '/') && in_array($filter, $core)) {
                 $filter = [
                     'slug'   => $filter,
                     'field'  => $filter,
@@ -91,7 +92,7 @@ class FilterInput
              * If the filter is a class string then use
              * it for the filter.
              */
-            if (is_string($filter) && str_contains($filter, '/')) {
+            if (is_string($filter) && Str::contains($filter, '/')) {
                 $filter = [
                     'slug'   => $slug,
                     'filter' => $filter,

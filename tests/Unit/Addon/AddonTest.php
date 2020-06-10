@@ -1,10 +1,9 @@
 <?php
 
 use Tests\TestCase;
+use Illuminate\Support\Str;
 use Illuminate\Testing\Assert;
-use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
 
 class AddonTest extends TestCase
 {
@@ -97,7 +96,7 @@ class AddonTest extends TestCase
     {
         $addons = app(AddonCollection::class);
 
-        $this->assertTrue(str_contains($addons->instance('anomaly.module.users')->getReadMe(), 'Users Module'));
+        $this->assertTrue(Str::contains($addons->instance('anomaly.module.users')->getReadMe(), 'Users Module'));
     }
 
     public function testGetPackageName()

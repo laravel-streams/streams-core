@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Provider\Concerns;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
@@ -60,7 +61,7 @@ trait RegistersApi
                  * contain an action then
                  * treat it as a resource.
                  */
-                if (str_contains($route['uses'], '@')) {
+                if (Str::contains($route['uses'], '@')) {
                     $route = Route::{$verb}($uri, $route);
                 } else {
                     $route = Route::resource($uri, $route['uses']);

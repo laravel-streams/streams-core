@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Provider\Concerns;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
 
@@ -108,7 +109,7 @@ trait RegistersRoutes
              */
             if (isset($route['view'])) {
                 $route = Route::view($route['uri'], $route['view']);
-            } elseif (str_contains($route['uses'], '@')) {
+            } elseif (Str::contains($route['uses'], '@')) {
                 $route = Route::{$verb}($route['uri'], $route);
             } else {
                 $route = Route::resource($route['uri'], $route['uses']);

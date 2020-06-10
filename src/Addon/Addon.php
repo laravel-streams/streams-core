@@ -2,15 +2,14 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Anomaly\Streams\Platform\Traits\HasMemory;
-use Anomaly\Streams\Platform\Support\Presenter;
-use Anomaly\Streams\Platform\Traits\Presentable;
-use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
+use Anomaly\Streams\Platform\Support\Traits\Properties;
 
 /**
  * Class Addon
@@ -160,7 +159,7 @@ class Addon implements Arrayable, Jsonable
      */
     public function isCore()
     {
-        return str_contains($this->path, 'core/' . $this->getVendor());
+        return Str::contains($this->path, 'core/' . $this->getVendor());
     }
 
     /**
@@ -170,7 +169,7 @@ class Addon implements Arrayable, Jsonable
      */
     public function isShared()
     {
-        return str_contains($this->path, 'addons/shared/' . $this->getVendor());
+        return Str::contains($this->path, 'addons/shared/' . $this->getVendor());
     }
 
     /**
@@ -180,7 +179,7 @@ class Addon implements Arrayable, Jsonable
      */
     public function isTesting()
     {
-        return str_contains($this->path, 'vendor/anomaly/streams-platform/addons/' . $this->getVendor());
+        return Str::contains($this->path, 'vendor/anomaly/streams-platform/addons/' . $this->getVendor());
     }
 
     /**

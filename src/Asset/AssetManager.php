@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Asset;
 
+use Illuminate\Support\Str;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Filesystem\Filesystem;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
@@ -258,7 +259,7 @@ class AssetManager
     {
         $path = ltrim($path, '/\\');
 
-        if (str_contains($collection, public_path())) {
+        if (Str::contains($collection, public_path())) {
             return;
         }
 

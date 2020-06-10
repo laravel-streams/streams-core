@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Anomaly\Streams\Platform\Support\Breadcrumb;
@@ -70,7 +71,7 @@ class SetActiveNavigationLink
              * If the request URL does not even
              * contain the HREF then skip it.
              */
-            if (!str_contains($request->url(), $href)) {
+            if (!Str::contains($request->url(), $href)) {
                 continue;
             }
 

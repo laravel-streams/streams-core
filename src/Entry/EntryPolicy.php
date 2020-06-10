@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Entry;
 
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Container\Container;
 use Anomaly\Streams\Platform\Support\Facades\Locator;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
@@ -69,11 +70,11 @@ class EntryPolicy
             return $this->container->call([$this, $method], $parameters);
         }
 
-        if (!str_contains($route, '.') && $stream = $this->entry->getStreamSlug()) {
+        if (!Str::contains($route, '.') && $stream = $this->entry->getStreamSlug()) {
             $route = "{$stream}.{$route}";
         }
 
-        if (!str_contains($route, '::') && $namespace = $this->locator->locate($this->entry)) {
+        if (!Str::contains($route, '::') && $namespace = $this->locator->locate($this->entry)) {
             $route = "{$namespace}::{$route}";
         }
 

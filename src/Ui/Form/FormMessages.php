@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Illuminate\Support\Str;
+
 /**
  * Class FormMessages
  *
@@ -28,7 +30,7 @@ class FormMessages
                     $message = trans($message);
                 }
 
-                if ($message && str_contains($message, '::')) {
+                if ($message && Str::contains($message, '::')) {
                     $message = trans($message);
                 }
 
@@ -36,7 +38,7 @@ class FormMessages
             }
 
             foreach ($field->getMessages() as $rule => $message) {
-                if ($message && str_contains($message, '::')) {
+                if ($message && Str::contains($message, '::')) {
                     $message = trans($message);
                 }
 

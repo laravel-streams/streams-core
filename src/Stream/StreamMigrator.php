@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Stream;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Database\Schema\Blueprint;
@@ -152,7 +153,7 @@ class StreamMigrator
 
         $column->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true);
 
-        if (!str_contains(self::$fieldType->getColumnType(), ['text', 'blob'])) {
+        if (!Str::contains(self::$fieldType->getColumnType(), ['text', 'blob'])) {
             $column->default(array_get(self::$fieldType->getConfig(), 'default_value'));
         }
     }
