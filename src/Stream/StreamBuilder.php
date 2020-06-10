@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Stream;
 
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Field\FieldBuilder;
 use Anomaly\Streams\Platform\Field\FieldFactory;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasBuilt;
@@ -30,7 +31,7 @@ class StreamBuilder
          * Build our components and
          * configure the application.
          */
-        $fields = array_pull($stream, 'fields', []);
+        $fields = Arr::pull($stream, 'fields', []);
         
         // (new Workflow([
         //     'step_name' => $closure
