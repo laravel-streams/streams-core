@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Criteria;
 
 use Filebase\Database;
 use Filebase\Document;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
@@ -221,10 +222,10 @@ class FilebaseCriteria implements CriteriaInterface
 
         $path = Request::path();
 
-        $total = array_get($parameters, 'total');
-        $perPage = array_get($parameters, 'per_page', 15);
-        $pageName = array_get($parameters, 'page_name', 'page');
-        $limitName = array_get($parameters, 'limit_name', 'limit');
+        $total = Arr::get($parameters, 'total');
+        $perPage = Arr::get($parameters, 'per_page', 15);
+        $pageName = Arr::get($parameters, 'page_name', 'page');
+        $limitName = Arr::get($parameters, 'limit_name', 'limit');
 
         if (!$total) {
             $total = $this->count();

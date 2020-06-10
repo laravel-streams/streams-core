@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Asset;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Config\Repository;
@@ -105,7 +106,7 @@ class AssetPaths
      */
     public function getPath($namespace)
     {
-        return array_get($this->paths, $namespace);
+        return Arr::get($this->paths, $namespace);
     }
 
     /**

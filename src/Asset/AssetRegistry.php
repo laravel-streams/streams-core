@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Asset;
 
+use Illuminate\Support\Arr;
+
 /**
  * Class AssetRegistry
  *
@@ -49,6 +51,6 @@ class AssetRegistry
      */
     public function resolve($name)
     {
-        return (array) array_get($this->assets, $name);
+        return (array) Arr::get($this->assets, $name);
     }
 }

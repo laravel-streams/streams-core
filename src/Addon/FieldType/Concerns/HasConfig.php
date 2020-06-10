@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Addon\FieldType\Concerns;
 
+use Illuminate\Support\Arr;
+
 /**
  * Trait HasConfig
  *
@@ -28,7 +30,7 @@ trait HasConfig
      */
     public function config($key, $default = null)
     {
-        return array_get($this->config, $key, $default);
+        return Arr::get($this->config, $key, $default);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Addon\Extension;
 
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Addon\Addon;
 
 /**
@@ -29,7 +30,7 @@ class Extension extends Addon
      */
     public function provides()
     {
-        return array_get($this->getComposerJson(), 'extra.streams.provides');
+        return Arr::get($this->getComposerJson(), 'extra.streams.provides');
     }
 
     /**

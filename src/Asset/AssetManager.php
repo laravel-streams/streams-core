@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Asset;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Filesystem\Filesystem;
@@ -101,7 +102,7 @@ class AssetManager
      */
     public function collection($name)
     {
-        if (!$collection = array_get($this->collections, $name)) {
+        if (!$collection = Arr::get($this->collections, $name)) {
             $this->collections[$name] = $collection = new AssetCollection();
         }
 

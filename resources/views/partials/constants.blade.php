@@ -7,7 +7,7 @@
     const APP_DEBUG = "{{ config('app.debug') }}";
     const APP_URL = "{{ config('app.url') }}";
     const REQUEST_ROOT = "{{ request()->root() }}";
-    const REQUEST_ROOT_PATH = "{{ array_get(parse_url(request()->root()), 'path') }}";
+    const REQUEST_ROOT_PATH = "{{ \Illuminate\Support\Arr::get(parse_url(request()->root()), 'path') }}";
     const TIMEZONE = "{{ config('app.timezone') }}";
     const LOCALE = "{{ config('app.locale') }}";
 </script>

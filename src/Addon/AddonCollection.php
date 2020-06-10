@@ -2,9 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
+use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Addon\Addon;
-use Exception;
 
 /**
  * Class AddonCollection
@@ -143,7 +144,7 @@ class AddonCollection extends Collection
     {
         return $this->installable()->filter(
             function (array $addon) {
-                return array_get($addon, 'enabled');
+                return Arr::get($addon, 'enabled');
             }
         );
     }
@@ -158,7 +159,7 @@ class AddonCollection extends Collection
     {
         return $this->installable()->filter(
             function (array $addon) {
-                return array_get($addon, 'installed');
+                return Arr::get($addon, 'installed');
             }
         );
     }
@@ -173,7 +174,7 @@ class AddonCollection extends Collection
     {
         return $this->installable()->filter(
             function (array $addon) {
-                return !array_get($addon, 'installed');
+                return !Arr::get($addon, 'installed');
             }
         );
     }

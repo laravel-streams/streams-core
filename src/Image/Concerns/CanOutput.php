@@ -7,6 +7,7 @@ use Collective\Html\HtmlFacade;
 use Illuminate\Support\Facades\Request;
 use Anomaly\Streams\Platform\Image\Concerns\CanPublish;
 use Anomaly\Streams\Platform\Image\Concerns\HasVersion;
+use Illuminate\Support\Arr;
 
 /**
  * Trait CanOutput
@@ -38,7 +39,7 @@ trait CanOutput
         }
 
         if (!$alt && !isset($attributes['alt']) && config('streams.images.auto_alt', true)) {
-            $attributes['alt'] = array_get(
+            $attributes['alt'] = Arr::get(
                 $this->attributes(),
                 'alt',
                 ucwords(

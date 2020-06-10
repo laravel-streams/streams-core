@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Provider\ServiceProvider;
 
 /**
@@ -83,8 +84,8 @@ class AddonServiceProvider extends ServiceProvider
             }
 
             if ($data = $this->app->make('addon.collection')->get($namespace)) {
-                $addon->enabled = array_get($data, 'enabled');
-                $addon->installed = array_get($data, 'installed');
+                $addon->enabled = Arr::get($data, 'enabled');
+                $addon->installed = Arr::get($data, 'installed');
             }
 
             return $addon;

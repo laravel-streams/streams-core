@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Image;
 
+use Illuminate\Support\Arr;
+
 /**
  * Class ImageRegistry
  *
@@ -40,6 +42,6 @@ class ImageRegistry
      */
     public function resolve($name, $default = null)
     {
-        return array_get($this->images, $name, $default);
+        return Arr::get($this->images, $name, $default);
     }
 }

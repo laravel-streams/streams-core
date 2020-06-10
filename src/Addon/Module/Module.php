@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Addon\Module;
 
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Addon\Addon;
 
 /**
@@ -119,7 +120,7 @@ class Module extends Addon
      */
     public function addSectionButton($section, $slug, array $button, $position = null)
     {
-        $buttons = (array) array_get($this->sections, "{$section}.buttons");
+        $buttons = (array) Arr::get($this->sections, "{$section}.buttons");
 
         if ($position === null) {
             $position = count($buttons) + 1;

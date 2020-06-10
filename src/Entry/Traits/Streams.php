@@ -15,6 +15,7 @@ use Anomaly\Streams\Platform\Entry\Traits\Presentable;
 use Anomaly\Streams\Platform\Entry\Traits\Translatable;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Streams\Facades\Streams as StreamsFacade;
+use Illuminate\Support\Arr;
 
 /**
  * Class Streams
@@ -125,7 +126,7 @@ trait Streams
         if ($field->translatable) {
             // @todo roles for users.. this is obviously not right. 
             // Option handlers and translatable values. 
-            $value = array_get($value, $this->locale($locale));
+            $value = Arr::get($value, $this->locale($locale));
         }
 
         $type->setValue($value);

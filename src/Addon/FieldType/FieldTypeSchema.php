@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Addon\FieldType;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Facades\Schema;
@@ -42,7 +43,7 @@ class FieldTypeSchema
         $column->nullable(!$field->translatable ? !$field->required : true);
 
         if (!Str::contains($type->getColumnType(), ['text', 'blob'])) {
-            $column->default(array_get($type->getConfig(), 'default_value'));
+            $column->default(Arr::get($type->getConfig(), 'default_value'));
         }
     }
 
@@ -113,7 +114,7 @@ class FieldTypeSchema
         $column->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true)->change();
 
         if (!Str::contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
-            $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
+            $column->default(Arr::get($this->fieldType->getConfig(), 'default_value'));
         }
     }
 
@@ -192,7 +193,7 @@ class FieldTypeSchema
         $column->nullable(!$assignment->isRequired())->change();
 
         if (!Str::contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
-            $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
+            $column->default(Arr::get($this->fieldType->getConfig(), 'default_value'));
         }
     }
 
