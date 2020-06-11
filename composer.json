@@ -6,21 +6,20 @@
         "email": "ryan@pyrocms.com"
     }],
     "require": {
-        "doctrine/dbal": "^2.6",
-        "fideloper/proxy": "^4.0",
-        "laravel/framework": "^7.0",
-        "laravel/scout": "^7.0",
-        "intervention/image": "^2.5",
-        "jenssegers/agent": "^2.6",
-        "laravelcollective/html": "^6.1.0",
-        "erusev/parsedown-extra": "^0.7",
-        "erusev/parsedown": "^1.7",
-        "mrclay/jsmin-php": "^2.4",
-        "tubalmartin/cssmin": "^4.0",
-        "nicmart/string-template": "^0.1",
         "misd/linkify": "1.1.*",
+        "laravel/scout": "^7.0",        
+        "fideloper/proxy": "^4.0",
+        "jenssegers/agent": "^2.6",
+        "mrclay/jsmin-php": "^2.4",
+        "erusev/parsedown": "^1.7",
+        "tmarois/filebase": "^1.0",
+        "laravel/framework": "^7.0",
+        "tubalmartin/cssmin": "^4.0",
+        "intervention/image": "^2.5",
         "ezyang/htmlpurifier": "^4.0",
-        "tmarois/filebase": "^1.0"
+        "erusev/parsedown-extra": "^0.7",
+        "nicmart/string-template": "^0.1",
+        "laravelcollective/html": "^6.1.0"
     },
     "autoload": {
         "psr-4": {
