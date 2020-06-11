@@ -122,7 +122,7 @@ class Value
          * If the value looks like a language
          * key then try translating it.
          */
-        if (is_string($value) && str_is('*.*.*::*', $value)) {
+        if (is_string($value) && Str::is('*.*.*::*', $value)) {
             $value = trans($value);
         }
 

@@ -40,7 +40,7 @@ class MergeComponents
 
         foreach ($components as &$parameters) {
             if ($registered = $registry->get(Arr::get($parameters, $singular))) {
-                $parameters = array_replace_recursive($registered, array_except($parameters, [$singular]));
+                $parameters = array_replace_recursive($registered, Arr::except($parameters, [$singular]));
             }
         }
         

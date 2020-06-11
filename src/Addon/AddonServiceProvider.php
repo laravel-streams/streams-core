@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Addon;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Provider\ServiceProvider;
 
 /**
@@ -223,8 +224,8 @@ class AddonServiceProvider extends ServiceProvider
         }
 
         $class  = explode('\\', $this->addon());
-        $vendor = snake_case(array_shift($class));
-        $addon  = snake_case(array_shift($class));
+        $vendor = Str::snake(array_shift($class));
+        $addon  = Str::snake(array_shift($class));
 
         preg_match('/' . implode('$|', [
             'field_type',

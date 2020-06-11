@@ -1,6 +1,7 @@
 <?php
 
 use Tests\TestCase;
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Ui\Button\Button;
@@ -34,7 +35,7 @@ class ButtonTest extends TestCase
 
     public function testOpen()
     {
-        $this->assertTrue(starts_with($this->button()->open(), '<a'));
+        $this->assertTrue(Str::startsWith($this->button()->open(), '<a'));
     }
 
     public function testClose()

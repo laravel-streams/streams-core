@@ -223,7 +223,7 @@ class AssetManager
         /*
          * If the asset is remote just return it.
          */
-        if (starts_with($asset, ['http', '//'])) {
+        if (Str::startsWith($asset, ['http', '//'])) {
             return $asset;
         }
 
@@ -234,7 +234,7 @@ class AssetManager
         /*
          * If the asset is public just use it.
          */
-        if (starts_with($asset, 'public::')) {
+        if (Str::startsWith($asset, 'public::')) {
             return $this->paths->outputPath($file);
         }
 
@@ -306,11 +306,11 @@ class AssetManager
     {
         $path = ltrim($path, '/\\');
 
-        if (starts_with($collection, 'public::')) {
+        if (Str::startsWith($collection, 'public::')) {
             return false;
         }
 
-        if (starts_with($path, 'http')) {
+        if (Str::startsWith($path, 'http')) {
             return false;
         }
 

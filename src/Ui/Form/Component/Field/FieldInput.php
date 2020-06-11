@@ -233,12 +233,12 @@ class FieldInput
 
             if (isset($field['locale'])) {
 
-                array_set($field, 'hidden', $field['locale'] !== $defaultLocale);
+                Arr::set($field, 'hidden', $field['locale'] !== $defaultLocale);
 
                 if ($field['locale'] !== $defaultLocale) {
-                    array_set($field, 'hidden', true);
-                    array_set($field, 'required', false);
-                    array_set($field, 'rules', array_diff(Arr::get($field, 'rules', []), ['required']));
+                    Arr::set($field, 'hidden', true);
+                    Arr::set($field, 'required', false);
+                    Arr::set($field, 'rules', array_diff(Arr::get($field, 'rules', []), ['required']));
                 }
 
                 $translations[] = $field;
@@ -250,17 +250,17 @@ class FieldInput
 
                 $translation = $field;
 
-                array_set($translation, 'locale', $locale);
-                array_set($translation, 'hidden', Arr::get($field, 'hidden', false) ?: ($locale !== $locale));
+                Arr::set($translation, 'locale', $locale);
+                Arr::set($translation, 'hidden', Arr::get($field, 'hidden', false) ?: ($locale !== $locale));
 
                 if ($value = Arr::get($field, 'values.' . $locale)) {
-                    array_set($translation, 'value', $value);
+                    Arr::set($translation, 'value', $value);
                 }
 
                 if ($defaultLocale !== $locale) {
-                    array_set($translation, 'hidden', true);
-                    array_set($translation, 'required', false);
-                    array_set($translation, 'rules', array_diff(Arr::get($translation, 'rules', []), ['required']));
+                    Arr::set($translation, 'hidden', true);
+                    Arr::set($translation, 'required', false);
+                    Arr::set($translation, 'rules', array_diff(Arr::get($translation, 'rules', []), ['required']));
                 }
 
                 $translations[] = $translation;

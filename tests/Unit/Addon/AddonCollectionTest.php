@@ -1,6 +1,7 @@
 <?php
 
 use Tests\TestCase;
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
@@ -49,7 +50,7 @@ class AddonCollectionTest extends TestCase
     {
         $collection = app(AddonCollection::class);
 
-        $this->assertTrue(str_is('*/*-field_type', $collection->type('field_type')->first()['name']));
+        $this->assertTrue(Str::is('*/*-field_type', $collection->type('field_type')->first()['name']));
     }
 
     public function testEnabled()

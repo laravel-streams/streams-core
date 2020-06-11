@@ -182,7 +182,7 @@ class IconRegistry
      */
     public function register($icon, array $class)
     {
-        array_set($this->icons, $icon, $class);
+        Arr::set($this->icons, $icon, $class);
 
         return $this;
     }

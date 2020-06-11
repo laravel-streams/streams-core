@@ -356,14 +356,14 @@ class StreamsServiceProvider extends ServiceProvider
                 [$vendor, $slug, $type] = preg_split("/(\/|-)/", $addon['name']);
 
                 $addon['class'] = implode('\\', [
-                    studly_case($vendor),
-                    studly_case($slug . '_' . $type),
+                    Str::studly($vendor),
+                    Str::studly($slug . '_' . $type),
                 ]);
 
                 $addon['provider'] = implode('\\', [
-                    studly_case($vendor),
-                    studly_case($slug . '_' . $type),
-                    studly_case($slug . '_' . $type) . 'ServiceProvider',
+                    Str::studly($vendor),
+                    Str::studly($slug . '_' . $type),
+                    Str::studly($slug . '_' . $type) . 'ServiceProvider',
                 ]);
 
                 (new $addon['provider']($this->app))->registerAddon();
@@ -733,7 +733,7 @@ class StreamsServiceProvider extends ServiceProvider
          * be a unique addon slug.
          */
         if (!$addon = app('addon.collection')->first(function ($addon) use ($segments) {
-            return str_is('*.*.' . $segments[0], $addon['namespace']);
+            return Str::is('*.*.' . $segments[0], $addon['namespace']);
         })) {
             return;
         }
@@ -754,7 +754,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             $path = implode('/', ['admin', $module]);
 
-            $controller = ucfirst(studly_case($stream)) . 'Controller';
+            $controller = ucfirst(Str::studly($stream)) . 'Controller';
             $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
         }
 
@@ -765,7 +765,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             $path = implode('/', ['admin', $module, $stream]);
 
-            $controller = ucfirst(studly_case($stream)) . 'Controller';
+            $controller = ucfirst(Str::studly($stream)) . 'Controller';
             $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
 
             if (!class_exists($controller)) {
@@ -780,7 +780,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             $path = implode('/', array_unique(['admin', $module, $stream, $method]));
 
-            $controller = ucfirst(studly_case($stream)) . 'Controller';
+            $controller = ucfirst(Str::studly($stream)) . 'Controller';
             $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
         }
 
@@ -791,7 +791,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             $path = implode('/', ['admin', $module, $stream, $method]);
 
-            $controller = ucfirst(studly_case($stream)) . 'Controller';
+            $controller = ucfirst(Str::studly($stream)) . 'Controller';
             $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
 
             if (!class_exists($controller)) {
@@ -807,7 +807,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             $path = implode('/', array_unique(['admin', $module, $stream, $method, $id]));
 
-            $controller = ucfirst(studly_case($stream)) . 'Controller';
+            $controller = ucfirst(Str::studly($stream)) . 'Controller';
             $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
         }
 
@@ -819,7 +819,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             $path = implode('/', ['admin', $module, $stream, $method, $id]);
 
-            $controller = ucfirst(studly_case($stream)) . 'Controller';
+            $controller = ucfirst(Str::studly($stream)) . 'Controller';
             $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
         }
 

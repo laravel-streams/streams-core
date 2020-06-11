@@ -60,13 +60,13 @@ class ButtonFactory
         $button = Arr::get($parameters, 'button');
 
         if ($button && $registered = $this->buttons->get($button)) {
-            $parameters = array_replace_recursive($registered, array_except($parameters, 'button'));
+            $parameters = array_replace_recursive($registered, Arr::except($parameters, 'button'));
         }
 
         $parameters = Lang::translate($parameters);
 
         if (!Arr::get($parameters, 'button') || !class_exists(Arr::get($parameters, 'button'))) {
-            array_set($parameters, 'button', $this->button);
+            Arr::set($parameters, 'button', $this->button);
         }
 
         /* @var Button$button */

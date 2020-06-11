@@ -71,7 +71,7 @@ class ActionRegistry
         $registered = Arr::get($this->actions, $action);
 
         if ($button = app(ButtonRegistry::class)->get(Arr::get($registered, 'button'))) {
-            $registered = array_replace_recursive($button, array_except($registered, ['button']));
+            $registered = array_replace_recursive($button, Arr::except($registered, ['button']));
         }
 
         return $registered;
@@ -86,7 +86,7 @@ class ActionRegistry
      */
     public function register($action, array $parameters)
     {
-        array_set($this->actions, $action, $parameters);
+        Arr::set($this->actions, $action, $parameters);
 
         return $this;
     }

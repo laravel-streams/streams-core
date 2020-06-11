@@ -299,7 +299,7 @@ class FieldTypeSchema
 
             $this->connection
                 ->table($table->getTable())
-                ->where('id', array_pull($result, 'id'))
+                ->where('id', Arr::pull($result, 'id'))
                 ->update($result);
         }
 

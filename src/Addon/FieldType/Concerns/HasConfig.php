@@ -65,7 +65,7 @@ trait HasConfig
      */
     public function configSet($key, $value)
     {
-        array_set($this->config, $key, $value);
+        Arr::set($this->config, $key, $value);
 
         return $this;
     }

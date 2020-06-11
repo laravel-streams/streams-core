@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Provider\Concerns;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
@@ -69,7 +70,7 @@ trait RegistersRoutes
             }
 
             $route['uri'] = ltrim($uri, '/');
-            $route['admin'] = starts_with($route['uri'], 'admin');
+            $route['admin'] = Str::startsWith($route['uri'], 'admin');
 
             if ($route['admin']) {
                 $route['uri'] = ltrim(str_replace_first('admin', '', $route['uri']), '/');
@@ -91,9 +92,9 @@ trait RegistersRoutes
             /**
              * Pull out post-route configuration. 
              */
-            $verb        = array_pull($route, 'verb', 'any');
-            $middleware  = array_pull($route, 'middleware', []);
-            $constraints = array_pull($route, 'constraints', []);
+            $verb        = Arr::pull($route, 'verb', 'any');
+            $middleware  = Arr::pull($route, 'middleware', []);
+            $constraints = Arr::pull($route, 'constraints', []);
 
             /**
              * If the route defines

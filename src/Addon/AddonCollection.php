@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Addon;
 
 use Exception;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Addon\Addon;
 
@@ -116,7 +117,7 @@ class AddonCollection extends Collection
     public function type(string $type)
     {
         return $this->filter(function ($addon, $namespace) use ($type) {
-            return str_is("*.{$type}.*", $namespace);
+            return Str::is("*.{$type}.*", $namespace);
         });
     }
 
@@ -129,7 +130,7 @@ class AddonCollection extends Collection
     {
         return $this->filter(
             function (array $addon) {
-                return str_is(['*/*-module', '*/*-extension'], $addon['name']);
+                return Str::is(['*/*-module', '*/*-extension'], $addon['name']);
             }
         );
     }
@@ -188,7 +189,7 @@ class AddonCollection extends Collection
      */
     public function __call($method, $arguments)
     {
-        $type = str_singular(snake_case($method));
+        $type = Str::singular(Str::snake($method));
 
         if (in_array($type, [
             'field_type',
@@ -210,7 +211,7 @@ class AddonCollection extends Collection
      */
     public function __get($name)
     {
-        $type = str_singular($name);
+        $type = Str::singular($name);
 
         if (in_array($type, [
             'field_type',

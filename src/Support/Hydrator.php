@@ -2,9 +2,11 @@
 
 namespace Anomaly\Streams\Platform\Support;
 
-use Anomaly\Streams\Platform\Support\Traits\Properties;
-use Anomaly\Streams\Platform\Ui\Button\Button;
 use ReflectionProperty;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use Anomaly\Streams\Platform\Ui\Button\Button;
+use Anomaly\Streams\Platform\Support\Traits\Properties;
 
 /**
  * Class Hydrator
@@ -34,7 +36,7 @@ class Hydrator
             $method = camel_case('set_' . $parameter);
 
             if (method_exists($object, $method)) {
-                $object->{$method}(array_pull($parameters, $parameter));
+                $object->{$method}(Arr::pull($parameters, $parameter));
             }
         }
 
@@ -66,7 +68,7 @@ class Hydrator
         $accessors = array_filter(
             array_combine(
                 array_map(function (ReflectionProperty $property) {
-                    return snake_case($property->getName());
+                    return Str::snake($property->getName());
                 }, $properties),
                 array_map(function (ReflectionProperty $property) use ($object) {
 
@@ -86,7 +88,7 @@ class Hydrator
         $public = array_filter(
             array_combine(
                 array_map(function (ReflectionProperty $property) {
-                    return snake_case($property->getName());
+                    return Str::snake($property->getName());
                 }, $properties),
                 array_map(function (ReflectionProperty $property) {
                     return $property->isPublic() ? $property->getName() : null;

@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Section;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -86,8 +87,8 @@ class SectionInput
              * to attributes.
              */
             foreach ($section as $attribute => $value) {
-                if (str_is('data-*', $attribute)) {
-                    array_set($section, 'attributes.' . $attribute, array_pull($section, $attribute));
+                if (Str::is('data-*', $attribute)) {
+                    Arr::set($section, 'attributes.' . $attribute, Arr::pull($section, $attribute));
                 }
             }
         }

@@ -2,8 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
 
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
  * Class UniqueGuesser
@@ -26,7 +27,7 @@ class UniqueGuesser
         $entry  = $builder->getFormEntry();
 
         foreach ($fields as &$field) {
-            $unique = array_pull($field, 'rules.unique');
+            $unique = Arr::pull($field, 'rules.unique');
 
             /*
              * No unique? Continue...

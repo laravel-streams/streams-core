@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Provider\Concerns;
 
+use Illuminate\Support\Str;
 use Illuminate\Console\Scheduling\Schedule;
 
 /**
@@ -48,7 +49,7 @@ trait RegistersSchedules
                  * If the frequency is a CRON
                  * expression then use that.
                  */
-                if (str_is('* * * *', $frequency)) {
+                if (Str::is('* * * *', $frequency)) {
                     $command = $schedule
                         ->command($command)
                         ->cron($frequency);
@@ -58,7 +59,7 @@ trait RegistersSchedules
                  * If the frequency is not a CRON
                  * expression then it's a method.
                  */
-                if (!str_is('* * * *', $frequency)) {
+                if (!Str::is('* * * *', $frequency)) {
 
                     // Unpack {method}:{arg1},{arg2},...
                     $parts = explode(':', $frequency);

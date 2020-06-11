@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Support;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 /**
  * Class Normalizer
@@ -86,29 +87,29 @@ class Normalizer
              * Move the HREF if any to attributes.
              */
             if (isset($item['href'])) {
-                array_set($item['attributes'], 'href', array_pull($item, 'href'));
+                Arr::set($item['attributes'], 'href', Arr::pull($item, 'href'));
             }
 
             /**
              * Move the URL if any to attributes.
              */
             if (isset($item['url'])) {
-                array_set($item['attributes'], 'url', array_pull($item, 'url'));
+                Arr::set($item['attributes'], 'url', Arr::pull($item, 'url'));
             }
 
             /**
              * Move the target if any to attributes.
              */
             if (isset($item['target'])) {
-                array_set($item['attributes'], 'target', array_pull($item, 'target'));
+                Arr::set($item['attributes'], 'target', Arr::pull($item, 'target'));
             }
 
             /**
              * Move all data-* keys to attributes.
              */
             foreach ($item as $attribute => $value) {
-                if (str_is('data-*', $attribute)) {
-                    array_set($item, 'attributes.' . $attribute, array_pull($item, $attribute));
+                if (Str::is('data-*', $attribute)) {
+                    Arr::set($item, 'attributes.' . $attribute, Arr::pull($item, $attribute));
                 }
             }
 
@@ -118,7 +119,7 @@ class Normalizer
             if (
                 isset($item['attributes']['href']) &&
                 is_string($item['attributes']['href']) &&
-                !starts_with($item['attributes']['href'], ['http', '{', '//'])
+                !Str::startsWith($item['attributes']['href'], ['http', '{', '//'])
             ) {
                 $item['attributes']['href'] = url($item['attributes']['href']);
             }

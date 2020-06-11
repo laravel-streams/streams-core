@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Image\Concerns;
 
+use Illuminate\Support\Str;
+
 /**
  * Trait HasSource
  *
@@ -26,7 +28,7 @@ trait HasSource
      */
     public function isRemote()
     {
-        return is_string($this->source) && starts_with($this->source, ['http://', 'https://', '//']);
+        return is_string($this->source) && Str::startsWith($this->source, ['http://', 'https://', '//']);
     }
 
 }

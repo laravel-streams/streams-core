@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Image;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Image\Concerns\CanOutput;
 use Anomaly\Streams\Platform\Image\Concerns\HasSource;
@@ -12,8 +13,8 @@ use Anomaly\Streams\Platform\Image\Concerns\HasSrcsets;
 use Anomaly\Streams\Platform\Image\Concerns\HasVersion;
 use Anomaly\Streams\Platform\Image\Concerns\HasFilename;
 use Anomaly\Streams\Platform\Image\Concerns\HasExtension;
-use Anomaly\Streams\Platform\Image\Concerns\HasAlterations;
 use Anomaly\Streams\Platform\Image\Concerns\HasAttributes;
+use Anomaly\Streams\Platform\Image\Concerns\HasAlterations;
 
 /**
  * Class Image
@@ -62,7 +63,7 @@ class Image
             return $this->addAlteration($method, $parameters);
         }
 
-        if ($this->hasMacro(snake_case($method))) {
+        if ($this->hasMacro(Str::snake($method))) {
 
             $macro = static::$macros[$method];
 

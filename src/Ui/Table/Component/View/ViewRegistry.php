@@ -78,7 +78,7 @@ class ViewRegistry
      */
     public function register($view, array $parameters)
     {
-        array_set($this->views, $view, $parameters);
+        Arr::set($this->views, $view, $parameters);
 
         return $this;
     }

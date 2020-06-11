@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Event\SortNavigation;
 
@@ -72,7 +73,7 @@ class NavigationInput
              * Move the HREF into attributes.
              */
             if (isset($link['href'])) {
-                $link['attributes']['href'] = array_pull($link, 'href');
+                $link['attributes']['href'] = Arr::pull($link, 'href');
             }
 
             /*
@@ -80,8 +81,8 @@ class NavigationInput
              * to attributes.
              */
             foreach ($link as $attribute => $value) {
-                if (str_is('data-*', $attribute)) {
-                    array_set($link, 'attributes.' . $attribute, array_pull($link, $attribute));
+                if (Str::is('data-*', $attribute)) {
+                    Arr::set($link, 'attributes.' . $attribute, Arr::pull($link, $attribute));
                 }
             }
 
@@ -91,7 +92,7 @@ class NavigationInput
             if (
                 isset($link['attributes']['href']) &&
                 is_string($link['attributes']['href']) &&
-                !starts_with($link['attributes']['href'], 'http')
+                !Str::startsWith($link['attributes']['href'], 'http')
             ) {
                 $link['attributes']['href'] = url($link['attributes']['href']);
             }

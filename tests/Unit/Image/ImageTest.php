@@ -1,6 +1,7 @@
 <?php
 
 use Tests\TestCase;
+use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Image\Facades\Images;
 
@@ -79,7 +80,7 @@ class ImageTest extends TestCase
     public function testBase64Output()
     {
         $this->assertTrue(
-            str_is(
+            Str::is(
                 'data:image/jpg*',
                 Images::make('streams::testing/cat.jpg')->base64()
             )
@@ -105,7 +106,7 @@ class ImageTest extends TestCase
     public function testInlineOutput()
     {
         $this->assertTrue(
-            str_is(
+            Str::is(
                 '<img src="data:image/jpg*" alt="Cat">',
                 Images::make('streams::testing/cat.jpg')->inline()
             )
@@ -146,7 +147,7 @@ class ImageTest extends TestCase
     public function testCanChangeEncoding()
     {
         $this->assertTrue(
-            str_is(
+            Str::is(
                 '<img src="/vendor/anomaly/streams-platform/resources/testing/*.png" alt="Cat">',
                 Images::make('streams::testing/cat.jpg')->encode('png')->img()
             )

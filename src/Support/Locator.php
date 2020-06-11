@@ -2,8 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Support;
 
-use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Traits\Hookable;
+use Anomaly\Streams\Platform\Addon\AddonCollection;
 
 /**
  * Class Locator
@@ -34,8 +35,8 @@ class Locator
 
         $class = explode('\\', is_string($object) ? $object : get_class($object));
 
-        $vendor = snake_case(array_shift($class));
-        $addon  = snake_case(array_shift($class));
+        $vendor = Str::snake(array_shift($class));
+        $addon  = Str::snake(array_shift($class));
 
         if (!preg_match('/(?!_)module$|(?!_)extension$|(?!_)field_type$|(?!_)theme$/', $addon, $type)) {
             return null;

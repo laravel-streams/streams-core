@@ -28,7 +28,7 @@ class ButtonRegistry extends ButtonButtonRegistry
         $registered = Arr::get($this->buttons, $button);
 
         if ($button = parent::get(Arr::get($registered, 'button'))) {
-            $registered = array_replace_recursive($button, array_except($registered, ['button']));
+            $registered = array_replace_recursive($button, Arr::except($registered, ['button']));
         }
 
         return $registered;
@@ -43,7 +43,7 @@ class ButtonRegistry extends ButtonButtonRegistry
      */
     public function register($action, array $parameters)
     {
-        array_set($this->actions, $action, $parameters);
+        Arr::set($this->actions, $action, $parameters);
 
         return $this;
     }

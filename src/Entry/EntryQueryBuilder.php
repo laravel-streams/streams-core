@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Entry;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Anomaly\Streams\Platform\Traits\HasMemory;
@@ -133,7 +134,7 @@ class EntryQueryBuilder extends Builder
      */
     public function __call($method, $parameters)
     {
-        if ($this->hasHook($hook = snake_case($method))) {
+        if ($this->hasHook($hook = Str::snake($method))) {
             return $this->call($hook, $parameters);
         }
 

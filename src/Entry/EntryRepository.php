@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Entry;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Anomaly\Streams\Platform\Stream\Stream;
 use Anomaly\Streams\Platform\Traits\Hookable;
@@ -153,8 +155,8 @@ class EntryRepository implements EntryRepositoryInterface
      */
     public function paginate(array $parameters = [])
     {
-        $paginator = array_pull($parameters, 'paginator');
-        $perPage   = array_pull($parameters, 'per_page', config('streams.system.per_page', 15));
+        $paginator = Arr::pull($parameters, 'paginator');
+        $perPage   = Arr::pull($parameters, 'per_page', config('streams.system.per_page', 15));
 
         /* @var Builder $query */
         $query = $this->model->newQuery();
@@ -162,8 +164,8 @@ class EntryRepository implements EntryRepositoryInterface
         /*
          * First apply any desired scope.
          */
-        if ($scope = array_pull($parameters, 'scope')) {
-            call_user_func([$query, camel_case($scope)], array_pull($parameters, 'scope_arguments', []));
+        if ($scope = Arr::pull($parameters, 'scope')) {
+            call_user_func([$query, camel_case($scope)], Arr::pull($parameters, 'scope_arguments', []));
         }
 
         /*
@@ -328,7 +330,7 @@ class EntryRepository implements EntryRepositoryInterface
      */
     public function __call($method, $parameters)
     {
-        if ($this->hasHook($hook = snake_case($method))) {
+        if ($this->hasHook($hook = Str::snake($method))) {
             return $this->call($hook, $parameters);
         }
 

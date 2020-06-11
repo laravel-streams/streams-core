@@ -2,8 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Addon\Extension;
 
-use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use Anomaly\Streams\Platform\Addon\AddonCollection;
 
 /**
  * Class ExtensionCollection
@@ -25,7 +26,7 @@ class ExtensionCollection extends AddonCollection
     public function search($pattern, $instance = true)
     {
         return $this->filter(function (array $addon) use ($pattern) {
-            return str_is($pattern, Arr::get($addon, 'extra.streams.provides')) ? $addon : null;
+            return Str::is($pattern, Arr::get($addon, 'extra.streams.provides')) ? $addon : null;
         });
     }
 }

@@ -73,7 +73,7 @@ class FilterRegistry
      */
     public function register($filter, array $parameters)
     {
-        array_set($this->filters, $filter, $parameters);
+        Arr::set($this->filters, $filter, $parameters);
 
         return $this;
     }

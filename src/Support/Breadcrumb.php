@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Support;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\View;
 
@@ -38,7 +39,7 @@ class Breadcrumb extends Collection
             $value = url()->current();
         }
 
-        if (!starts_with($value, 'http')) {
+        if (!Str::startsWith($value, 'http')) {
             $value = url($value);
         }
 

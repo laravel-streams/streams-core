@@ -3,7 +3,6 @@
 namespace Anomaly\Streams\Platform\Criteria;
 
 use Filebase\Database;
-use Filebase\Document;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
@@ -263,7 +262,7 @@ class FilebaseCriteria implements CriteriaInterface
     public function create(array $attributes = [])
     {
         // @todo automatically map to slug or something?
-        return $this->make($this->query->get(array_pull($attributes, 'id'))->save($attributes));
+        return $this->make($this->query->get(Arr::pull($attributes, 'id'))->save($attributes));
     }
 
     /**
@@ -280,9 +279,9 @@ class FilebaseCriteria implements CriteriaInterface
          * Remove these protected
          * and automated attributes.
          */
-        array_pull($attributes, 'id');
-        array_pull($attributes, 'created_at');
-        array_pull($attributes, 'updated_at');
+        Arr::pull($attributes, 'id');
+        Arr::pull($attributes, 'created_at');
+        Arr::pull($attributes, 'updated_at');
 
         return (bool) $this->query
             ->get($entry->id)

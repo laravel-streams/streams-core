@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 
@@ -44,7 +45,7 @@ class PrefixDomain
             return $next($request);
         }
 
-        if ($prefix == 'www' && !starts_with($request->getHost(), 'www.')) {
+        if ($prefix == 'www' && !Str::startsWith($request->getHost(), 'www.')) {
             return $this->redirect->to(
                 preg_replace(
                     '/' . preg_quote($request->getHost()) . '/',
@@ -56,7 +57,7 @@ class PrefixDomain
             );
         }
 
-        if ($prefix == 'non-www' && starts_with($request->getHost(), 'www.')) {
+        if ($prefix == 'non-www' && Str::startsWith($request->getHost(), 'www.')) {
             return $this->redirect->to(
                 preg_replace(
                     '/' . preg_quote($request->getHost()) . '/',

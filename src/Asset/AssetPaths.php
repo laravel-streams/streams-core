@@ -175,7 +175,7 @@ class AssetPaths
         $application = $this->application->getReference();
         $filename    = basename($path);
 
-        if (starts_with($directory, 'vendor/')) {
+        if (Str::startsWith($directory, 'vendor/')) {
             $directory = substr($directory, 7);
         }
 

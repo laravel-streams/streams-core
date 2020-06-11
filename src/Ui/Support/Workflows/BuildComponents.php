@@ -2,9 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Ui\Support\Workflows;
 
+use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Ui\Support\Builder;
-use Exception;
 
 /**
  * Class BuildComponents
@@ -35,7 +36,7 @@ class BuildComponents
 
             $fallback = "Anomaly\Streams\Platform\Ui\\{$parentSegment}\Component\\{$componentSegment}\\{$componentSegment}Builder";
 
-            $builder = array_pull($parameters, 'builder', $parent->{$singular . '_builder'} ?: $fallback);
+            $builder = Arr::pull($parameters, 'builder', $parent->{$singular . '_builder'} ?: $fallback);
 
             $parameters['parent'] = $parent;
             $parameters['stream'] = $parent->stream;

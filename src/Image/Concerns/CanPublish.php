@@ -28,7 +28,7 @@ trait CanPublish
     {
         $source = Images::path($this->source);
 
-        if (starts_with($source, ['http://', 'https://', '//'])) {
+        if (Str::startsWith($source, ['http://', 'https://', '//'])) {
             return $source;
         }
 
@@ -139,12 +139,12 @@ trait CanPublish
             return true;
         }
 
-        if (is_string($this->source) && !str_is('*://*', $this->source) && filemtime($path) < filemtime($resolved)) {
+        if (is_string($this->source) && !Str::is('*://*', $this->source) && filemtime($path) < filemtime($resolved)) {
             return true;
         }
 
         if (
-            is_string($this->source) && str_is('*://*', $this->source) && filemtime($path) < app(
+            is_string($this->source) && Str::is('*://*', $this->source) && filemtime($path) < app(
                 'League\Flysystem\MountManager'
             )->getTimestamp($resolved)
         ) {
@@ -229,7 +229,7 @@ trait CanPublish
         //     return app(intervention::class)->make(app(MountManager::class)->read($this->source->location()));
         // }
 
-        if (is_string($this->source) && str_is('*://*', $this->source)) {
+        if (is_string($this->source) && Str::is('*://*', $this->source)) {
             return app(intervention::class)->make(app(MountManager::class)->read($this->source));
         }
 

@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Image\Concerns;
 
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Image\Facades\Images;
 
@@ -52,7 +53,7 @@ trait HasSrcsets
                 continue;
             }
 
-            $alterations = Images::make(array_pull($alterations, 'image', $this->getSource()))
+            $alterations = Images::make(Arr::pull($alterations, 'image', $this->getSource()))
                 ->setAlterations($alterations)
                 ->setOutput('url');
         }

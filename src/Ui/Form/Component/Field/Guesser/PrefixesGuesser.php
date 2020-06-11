@@ -26,7 +26,7 @@ class PrefixesGuesser
         $prefix = $builder->getFormOption('prefix');
 
         foreach ($fields as &$field) {
-            array_set($field, 'prefix', Arr::get($field, 'prefix', $prefix));
+            Arr::set($field, 'prefix', Arr::get($field, 'prefix', $prefix));
         }
 
         $builder->setFields($fields);

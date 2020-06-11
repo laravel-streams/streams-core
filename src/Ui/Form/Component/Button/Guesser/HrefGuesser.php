@@ -43,7 +43,7 @@ class HrefGuesser
              * If a route has been defined then
              * move that to an HREF closure.
              */
-            if (($route = array_pull($button, 'route')) && $builder->getFormStream()) {
+            if (($route = Arr::pull($button, 'route')) && $builder->getFormStream()) {
 
                 $button['attributes']['href'] = $entry->route($route);
 

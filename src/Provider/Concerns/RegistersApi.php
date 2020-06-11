@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Provider\Concerns;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -48,9 +49,9 @@ trait RegistersApi
                 /**
                  * Pull out post-route configuration. 
                  */
-                $verb        = array_pull($route, 'verb', 'any');
-                $middleware  = array_pull($route, 'middleware', []);
-                $constraints = array_pull($route, 'constraints', []);
+                $verb        = Arr::pull($route, 'verb', 'any');
+                $middleware  = Arr::pull($route, 'middleware', []);
+                $constraints = Arr::pull($route, 'constraints', []);
 
                 /**
                  * If the route contains a

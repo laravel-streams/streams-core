@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser\HrefGuesser;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser\TextGuesser;
@@ -57,7 +58,7 @@ class ButtonGuesser
              * If the button starts with "new_" just use
              * "new" and move the rest to the text.
              */
-            if (isset($button['button']) && starts_with($button['button'], 'new_')) {
+            if (isset($button['button']) && Str::startsWith($button['button'], 'new_')) {
 
                 if (!isset($button['text'])) {
 
@@ -71,15 +72,15 @@ class ButtonGuesser
                 // Change this to slug for later.
                 $button['slug'] = $button['button'];
 
-                array_set($button, 'button', substr($button['button'], 0, 3));
-                array_set($button, 'primary', Arr::get($button, 'primary', true));
+                Arr::set($button, 'button', substr($button['button'], 0, 3));
+                Arr::set($button, 'primary', Arr::get($button, 'primary', true));
             }
 
             /*
              * If the button starts with "add_" just use
              * "add" and move the rest to the text.
              */
-            if (isset($button['button']) && starts_with($button['button'], 'add_')) {
+            if (isset($button['button']) && Str::startsWith($button['button'], 'add_')) {
                 if (!isset($button['text'])) {
                     $button['text'] = $module->getNamespace('button.' . $button['button']);
                 }
@@ -87,7 +88,7 @@ class ButtonGuesser
                 // Change this to slug for later.
                 $button['slug'] = $button['button'];
 
-                array_set($button, 'button', substr($button['button'], 0, 3));
+                Arr::set($button, 'button', substr($button['button'], 0, 3));
             }
         }
 
@@ -222,7 +223,7 @@ class ButtonGuesser
              * and toggling buttons on and off if matching.
              */
             if (is_string($button['enabled'])) {
-                $button['enabled'] = str_is($button['enabled'], request()->path());
+                $button['enabled'] = Str::is($button['enabled'], request()->path());
             }
         }
 

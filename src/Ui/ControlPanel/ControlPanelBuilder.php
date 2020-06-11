@@ -202,7 +202,7 @@ class ControlPanelBuilder
 
         $buttons = $front + [$slug => $button] + $back;
 
-        array_set($this->sections, "{$section}.buttons", $buttons);
+        Arr::set($this->sections, "{$section}.buttons", $buttons);
 
         return $this;
     }

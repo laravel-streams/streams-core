@@ -3,6 +3,8 @@
 namespace Anomaly\Streams\Platform\Model\Traits;
 
 use Exception;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Illuminate\Support\Facades\App;
 use Anomaly\Streams\Platform\Traits\Hookable;
@@ -15,7 +17,6 @@ use Anomaly\Streams\Platform\Entry\Traits\Presentable;
 use Anomaly\Streams\Platform\Entry\Traits\Translatable;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Streams\Facades\Streams as StreamsFacade;
-use Illuminate\Support\Arr;
 
 /**
  * Class Streams
@@ -225,7 +226,7 @@ trait Streams
      */
     public function __call($method, $parameters)
     {
-        if ($this->hasHook($hook = snake_case($method))) {
+        if ($this->hasHook($hook = Str::snake($method))) {
             return $this->call($hook, $parameters);
         }
 

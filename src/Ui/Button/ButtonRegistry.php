@@ -326,7 +326,7 @@ class ButtonRegistry
      */
     public function register($button, array $parameters)
     {
-        array_set($this->buttons, $button, $parameters);
+        Arr::set($this->buttons, $button, $parameters);
 
         return $this;
     }

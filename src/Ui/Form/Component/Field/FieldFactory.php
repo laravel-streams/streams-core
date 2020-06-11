@@ -70,7 +70,7 @@ class FieldFactory
 
             //$modifier = $field->getModifier();
 
-            $value = array_pull($parameters, 'value');
+            $value = Arr::pull($parameters, 'value');
 
             /* @var EntryInterface $entry */
             $field->setValue(
@@ -80,12 +80,12 @@ class FieldFactory
         } elseif (is_object($entry)) {
             $field    = $this->builder->build($parameters);
 
-            $value = array_pull($parameters, 'value');
+            $value = Arr::pull($parameters, 'value');
 
             $field->setValue((!is_null($value)) ? $value : $entry->{$field->getField()});
         } else {
             $field    = $this->builder->build($parameters);
-            $field->setValue(array_pull($parameters, 'value'));
+            $field->setValue(Arr::pull($parameters, 'value'));
         }
 
         // Set the entry.
@@ -93,10 +93,10 @@ class FieldFactory
 
         // Merge in rules and validators.
         $field
-            ->mergeRules(array_pull($parameters, 'rules', []))
-            ->mergeConfig(array_pull($parameters, 'config', []))
-            ->mergeMessages(array_pull($parameters, 'messages', []))
-            ->mergeValidators(array_pull($parameters, 'validators', []));
+            ->mergeRules(Arr::pull($parameters, 'rules', []))
+            ->mergeConfig(Arr::pull($parameters, 'config', []))
+            ->mergeMessages(Arr::pull($parameters, 'messages', []))
+            ->mergeValidators(Arr::pull($parameters, 'validators', []));
 
         // Add the form builder.
         $parameters['form'] = $this->builder;

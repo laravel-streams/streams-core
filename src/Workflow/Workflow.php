@@ -2,8 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Workflow;
 
-use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 
 /**
  * Class Workflow
@@ -192,7 +193,7 @@ class Workflow
 
         $step = end($step);
 
-        return snake_case($step);
+        return Str::snake($step);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
@@ -157,10 +158,10 @@ class FilterInput
 
         foreach ($filters as &$parameters) {
 
-            $filter = array_pull($parameters, 'filter');
+            $filter = Arr::pull($parameters, 'filter');
 
             if ($filter && $filter = app(FilterRegistry::class)->get($filter)) {
-                $parameters = array_replace_recursive($filter, array_except($parameters, 'filter'));
+                $parameters = array_replace_recursive($filter, Arr::except($parameters, 'filter'));
             }
         }
 

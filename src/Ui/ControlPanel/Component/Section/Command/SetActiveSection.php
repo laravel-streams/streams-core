@@ -58,7 +58,7 @@ class SetActiveSection
         /* @var Section $section */
         foreach ($sections as $section) {
 
-            if (($matcher = $section->matcher) && str_is($matcher, $request->path())) {
+            if (($matcher = $section->matcher) && Str::is($matcher, $request->path())) {
                 $active = $section;
             }
 
