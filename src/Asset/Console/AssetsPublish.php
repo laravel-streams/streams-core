@@ -2,13 +2,14 @@
 
 namespace Anomaly\Streams\Platform\Asset\Console;
 
-use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\StreamsServiceProvider;
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Filesystem\Filesystem;
-use Symfony\Component\Console\Input\InputArgument;
+use Illuminate\Contracts\Console\Kernel;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
+use Anomaly\Streams\Platform\StreamsServiceProvider;
+use Anomaly\Streams\Platform\Application\Application;
 
 /**
  * Class AssetsPublish
@@ -49,7 +50,7 @@ class AssetsPublish extends Command
             $parts = addon_map($namespace);
 
             array_walk($parts, function (&$part) {
-                $part = ucfirst(camel_case($part));
+                $part = ucfirst(Str::camel($part));
             });
 
             $parts[1] = $parts[2] . $parts[1];

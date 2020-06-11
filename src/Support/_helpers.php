@@ -550,7 +550,7 @@ if (!function_exists('addon_map')) {
     {
         [$vendor, $type, $slug] = array_map(
             function ($value) {
-                return str_slug(strtolower($value), '_');
+                return Str::slug(strtolower($value), '_');
             },
             explode('.', $namespace)
         );
