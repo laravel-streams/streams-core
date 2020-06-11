@@ -2,14 +2,14 @@
 
 namespace Anomaly\Streams\Platform\Asset\Console;
 
-use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\StreamsServiceProvider;
-use Illuminate\Console\Command;
-use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
-use Symfony\Component\Console\Input\InputArgument;
+use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Contracts\Console\Kernel;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
+use Anomaly\Streams\Platform\StreamsServiceProvider;
+use Anomaly\Streams\Platform\Application\Application;
 
 /**
  * Class AssetsPublish
