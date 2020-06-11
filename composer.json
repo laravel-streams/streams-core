@@ -9,7 +9,6 @@
         "doctrine/dbal": "^2.6",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^7.0",
-        "laravel/helpers": "^1.1",
         "laravel/scout": "^7.0",
         "intervention/image": "^2.5",
         "jenssegers/agent": "^2.6",
