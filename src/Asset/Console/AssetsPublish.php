@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\StreamsServiceProvider;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -49,7 +50,7 @@ class AssetsPublish extends Command
             $parts = addon_map($namespace);
 
             array_walk($parts, function (&$part) {
-                $part = ucfirst(camel_case($part));
+                $part = ucfirst(Str::camel($part));
             });
 
             $parts[1] = $parts[2] . $parts[1];
