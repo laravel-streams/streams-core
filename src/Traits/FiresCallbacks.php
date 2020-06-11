@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Traits;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 
 /**
@@ -99,7 +100,7 @@ trait FiresCallbacks
          * Next, check if the method
          * exists and call it if it does.
          */
-        $method = camel_case('on_' . $trigger);
+        $method = Str::camel('on_' . $trigger);
 
         if (method_exists($this, $method)) {
             App::call([$this, $method], $parameters);
