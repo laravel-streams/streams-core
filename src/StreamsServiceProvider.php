@@ -295,7 +295,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerStreams()
     {
-        foreach (File::files(base_path('streams/data')) as $file) {
+        foreach (File::files(base_path('streams')) as $file) {
 
             if (!$stream = json_decode(file_get_contents($file->getPathname()), true)) {
                 throw new Exception("Failed to parse JSON: {$file->getPathname()}");
