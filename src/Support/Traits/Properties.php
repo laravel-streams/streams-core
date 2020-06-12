@@ -443,6 +443,10 @@ trait Properties
             case 'array':
             case 'json':
 
+                if (!is_string($value)) {
+                    return $value;
+                }
+
                 return json_decode($value, true);
 
             case 'collection':
