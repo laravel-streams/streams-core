@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\Table\Workflows;
 
 use Anomaly\Streams\Platform\Workflow\Workflow;
 use Anomaly\Streams\Platform\Ui\Support\Workflows\StartQuery;
+use Anomaly\Streams\Platform\Ui\Table\Workflows\Query\OrderQuery;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Query\FilterQuery;
 use Anomaly\Streams\Platform\Ui\Table\Workflows\Query\FinishQuery;
 
@@ -29,6 +30,8 @@ class QueryWorkflow extends Workflow
          */
         StartQuery::class,
         FilterQuery::class,
+        OrderQuery::class,
         FinishQuery::class,
     ];
 }
+//order_by=display_name&sort=asc

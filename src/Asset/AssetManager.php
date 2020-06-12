@@ -196,20 +196,19 @@ class AssetManager
     }
 
     /**
-     * Return the style tag for a collection.
+     * Return the style tag for an asset.
      *
-     * @param $collection
-     * @param  array $filters
+     * @param $asset
      * @param  array $attributes
      * @return string
      */
-    public function style($collection, array $attributes = [])
+    public function style($asset, array $attributes = [])
     {
         $defaults = ['media' => 'all', 'type' => 'text/css', 'rel' => 'stylesheet'];
 
         $attributes = $attributes + $defaults;
 
-        $attributes['href'] = $this->path($collection);
+        $attributes['href'] = $this->path($asset);
 
         return '<link' . $this->html->attributes($attributes) . '>';
     }
