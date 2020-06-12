@@ -19,7 +19,6 @@ use Illuminate\Translation\Translator;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Collection;
 use Anomaly\Streams\Platform\Support\Purifier;
 use Anomaly\Streams\Platform\View\ViewIncludes;
 use Anomaly\Streams\Platform\View\ViewTemplate;
@@ -30,6 +29,9 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableComponent;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Http\Controller\EntryController;
+
+use Illuminate\Support\Collection as SupportCollection;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 /**
  * Class StreamsServiceProvider
@@ -120,7 +122,7 @@ class StreamsServiceProvider extends ServiceProvider
         /**
          * @todo ?
          */
-        Collection::macro('ids', function () {
+        EloquentCollection::macro('ids', function () {
             return $this->pluck('id')->all();
         });
 
@@ -326,9 +328,9 @@ class StreamsServiceProvider extends ServiceProvider
 
             if (config('streams.installed')) {
                 // $states = AddonModel::get();
-                $states = new Collection;
+                $states = new EloquentCollection;
             } else {
-                $states = new Collection;
+                $states = new EloquentCollection;
             }
 
             $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
@@ -554,7 +556,7 @@ class StreamsServiceProvider extends ServiceProvider
     {
         Translator::macro('translate', function ($target) {
 
-            if (is_array($target)) {
+            if (is_array($target) || $target instanceof SupportCollection) {
                 foreach ($target as &$value) {
                     $value = Lang::translate($value);
                 }
@@ -595,7 +597,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         Factory::macro('includes', function ($slot, array $payload = []) {
             return app('includes')->get($slot, function () {
-                return new Collection;
+                return new EloquentCollection;
             })->map(function ($item) use ($payload) {
                 return View::make($item, $payload)->render();
             })->implode("\n");

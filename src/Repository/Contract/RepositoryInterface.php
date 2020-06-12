@@ -128,7 +128,7 @@ interface RepositoryInterface
     public function newInstance(array $attributes = []);
 
     /**
-     * Return a new query builder.
+     * Return a new entry criteria.
      *
      * @return CriteriaInterface
      */

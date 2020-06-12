@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Stream;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Traits\Macroable;
+use Illuminate\Support\Traits\ForwardsCalls;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Traits\HasMemory;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
@@ -25,6 +26,7 @@ class Stream implements StreamInterface
     use Macroable;
     use HasMemory;
     use Properties;
+    use ForwardsCalls;
     use FiresCallbacks;
 
     /**
@@ -80,5 +82,17 @@ class Stream implements StreamInterface
     public function repository()
     {
         return new Repository($this);
+    }
+    
+    /**
+     * Forward calls to the repository.
+     *
+     * @param string $method
+     * @param array $parameters
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        return $this->forwardCallTo($this->repository(), $method, $parameters);
     }
 }

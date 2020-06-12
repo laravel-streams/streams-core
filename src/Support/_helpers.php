@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Collective\Html\FormFacade;
+use Collective\Html\HtmlFacade;
 use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Support\Value;
 use Anomaly\Streams\Platform\Image\ImageManager;
@@ -12,6 +14,7 @@ use Anomaly\Streams\Platform\Message\Facades\Messages;
 use Anomaly\Streams\Platform\Support\Facades\Decorator;
 use Anomaly\Streams\Platform\Ui\Form\Command\GetFormCriteria;
 use Anomaly\Streams\Platform\Ui\Form\Command\GetTableCriteria;
+use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
 
 if (!function_exists('app_storage_path')) {
 
@@ -338,35 +341,6 @@ if (!function_exists('img')) {
     }
 }
 
-if (!function_exists('decorate')) {
-
-    /**
-     * Decorate a target
-     *
-     * @param null $collection
-     * @param null $asset
-     * @param array $filters
-     * @return \Anomaly\Streams\Platform\Support\Presenter
-     */
-    function decorate($target)
-    {
-        return app(\Anomaly\Streams\Platform\Support\Decorator::class)->decorate($target);
-    }
-}
-
-if (!function_exists('undecorate')) {
-
-    /**
-     * Un-decorate a target
-     *
-     * @return mixed
-     */
-    function undecorate($target)
-    {
-        return app(\Anomaly\Streams\Platform\Support\Facades\Decorator::class)->undecorate($target);
-    }
-}
-
 if (!function_exists('application')) {
 
     /**
@@ -423,16 +397,17 @@ if (!function_exists('constants')) {
     }
 }
 
-if (!function_exists('markdown')) {
+if (!function_exists('stream')) {
 
     /**
-     * Return parsed markdown content.
+     * Return a Stream instance.
      * 
-     * @return string
+     * @param $stream
+     * @return Stream
      */
-    function markdown($content)
+    function stream($stream)
     {
-        return (new ParsedownExtra())->parse($content);
+        return Streams::make($stream);
     }
 }
 
@@ -441,50 +416,11 @@ if (!function_exists('entries')) {
     /**
      * Return a collection of entries.
      * 
-     * @return \Anomaly\Streams\Platform\Entry\EntryQueryBuilder
+     * @return CriteriaInterface
      */
-    function entries(string $namespace, string $stream = null)
+    function entries($stream)
     {
-        return stream($namespace, $stream)->model->newQuery();
-    }
-}
-
-if (!function_exists('stream')) {
-
-    /**
-     * Return a single stream.
-     * 
-     * @return StreamInterface
-     */
-    function stream(string $namespace, string $stream = null)
-    {
-        return decorate(app($namespace . '.' . $stream));
-    }
-}
-
-if (!function_exists('stream')) {
-
-    /**
-     * Return a collection of streams.
-     * 
-     * @return string
-     */
-    function stream(string $stream)
-    {
-        return Streams::make($stream);
-    }
-}
-
-if (!function_exists('streams')) {
-
-    /**
-     * Return a collection of streams.
-     * 
-     * @return string
-     */
-    function streams(string $namespace)
-    {
-        return app(\Anomaly\Streams\Platform\Stream\StreamManager::class);
+        return stream($stream)->repository()->newCriteria();
     }
 }
 
@@ -499,7 +435,7 @@ if (!function_exists('form_open')) {
      */
     function form_open(array $options = [])
     {
-        return \Form::open($options);
+        return FormFacade::open($options);
     }
 }
 
@@ -512,7 +448,7 @@ if (!function_exists('form_close')) {
      */
     function form_close()
     {
-        return \Form::close();
+        return FormFacade::close();
     }
 }
 
@@ -531,7 +467,7 @@ if (!function_exists('html_link')) {
      */
     function html_link($url, $title = null, $attributes = [], $secure = null, $escape = true)
     {
-        return \Html::link($url, $title, $attributes, $secure, $escape);
+        return HtmlFacade::link($url, $title, $attributes, $secure, $escape);
     }
 }
 

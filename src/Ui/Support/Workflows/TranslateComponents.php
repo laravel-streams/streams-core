@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Ui\Support\Workflows;
 
-use Illuminate\Support\Facades\App;
+use Illuminate\Translation\Translator;
 use Anomaly\Streams\Platform\Ui\Support\Builder;
 
 /**
@@ -23,6 +23,6 @@ class TranslateComponents
      */
     public function handle(Builder $builder, $component)
     {
-        $builder->{$component} = translate($builder->{$component});
+        $builder->{$component} = Translator::translate($builder->{$component});
     }
 }
