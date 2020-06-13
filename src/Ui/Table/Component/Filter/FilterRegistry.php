@@ -23,33 +23,10 @@ class FilterRegistry
      * @var array
      */
     protected $filters = [
-        'input'      => [
-            'slug'   => 'input',
-            'filter' => InputFilter::class,
-        ],
         'search'     => [
             'slug'        => 'search',
             'filter'      => SearchFilter::class,
             'placeholder' => 'streams::message.search',
-        ],
-        'select'     => [
-            'slug'   => 'select',
-            'filter' => SelectFilter::class,
-        ],
-        'field'      => [
-            'filter' => FieldFilter::class,
-        ],
-        'datetime'   => [
-            'slug'   => 'datetime',
-            'filter' => DatetimeFilter::class,
-        ],
-        'created_at' => [
-            'filter'      => DatetimeFilter::class,
-            'placeholder' => 'streams::entry.created_at',
-        ],
-        'updated_at' => [
-            'filter'      => DatetimeFilter::class,
-            'placeholder' => 'streams::entry.updated_at',
         ],
     ];
 

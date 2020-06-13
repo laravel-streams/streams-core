@@ -21,7 +21,7 @@ class DefaultColumns
      */
     public function handle(TableBuilder $builder)
     {
-        if (!$builder->actions) {
+        if (!$builder->column) {
             $builder->columns = [
                 'id',
             ];

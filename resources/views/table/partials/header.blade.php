@@ -14,12 +14,12 @@
     @foreach ($table->columns as $column)
         <th {!! html_attributes($column->attr('attributes', [])) !!}>
             @if ($column->sortable)
-            
-                {!! html_link(url()->current() . '?' . $column->getQueryString(), $column->heading) !!}
+
+                {!! html_link(url()->current() . '?order_by=' . $column->field . '&sort=' . ($column->direction == 'asc' ? 'desc' : 'asc'), $column->heading) !!}
                 
-                @if ($column->getDirection() == 'asc')
+                @if ($column->direction == 'asc')
                     {!! icon('sort-ascending') !!}
-                @elseif ($column->getDirection() == 'desc')
+                @elseif ($column->direction == 'desc')
                     {!! icon('sort-descending') !!}
                 @else
                     {!! icon('sortable') !!}
