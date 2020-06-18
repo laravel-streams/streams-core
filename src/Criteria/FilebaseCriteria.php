@@ -15,6 +15,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
+use Anomaly\Streams\Platform\Stream\Format\Markdown;
 
 /**
  * Class FilebaseCriteria
@@ -57,7 +58,7 @@ class FilebaseCriteria implements CriteriaInterface
             'dir' => base_path($stream->attr('filebase', 'streams/data/' . $stream->slug)),
 
             //'backupLocation' => 'path/to/database/backup/dir',
-            //'format'         => \Filebase\Format\Json::class,
+            'format'         => Markdown::class,
             'cache'          => false,
             //'cache_expires'  => 1800,
             'pretty'         => true,
