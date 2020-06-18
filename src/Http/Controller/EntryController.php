@@ -45,7 +45,7 @@ class EntryController extends PublicController
     {
         $stream = Streams::make(request()->route()->getAction('stream'));
 
-        $entry = decorate($stream->repository()->find($slug));
+        $entry = $stream->repository()->find($slug);
 
         if (!$entry || !$entry->id) {
             abort(404);
