@@ -195,6 +195,7 @@ class Repository implements RepositoryInterface
      */
     public function newCriteria()
     {
+        // @todo need a way to resolve the criteria
         //return new EloquentCriteria($this->stream);
         return new FilebaseCriteria($this->stream);
     }

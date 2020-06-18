@@ -19,6 +19,7 @@
         "ezyang/htmlpurifier": "^4.0",
         "erusev/parsedown-extra": "^0.7",
         "nicmart/string-template": "^0.1",
+        "spatie/yaml-front-matter": "^2.0",
         "laravelcollective/html": "^6.1.0"
     },
     "autoload": {

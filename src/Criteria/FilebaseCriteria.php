@@ -12,10 +12,10 @@ use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Entry\Entry;
 use Anomaly\Streams\Platform\Traits\HasMemory;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Anomaly\Streams\Platform\Criteria\Format\Markdown;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
-use Anomaly\Streams\Platform\Stream\Format\Markdown;
 
 /**
  * Class FilebaseCriteria
