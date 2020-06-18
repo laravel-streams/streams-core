@@ -5,6 +5,7 @@ namespace Anomaly\Streams\Platform\Http\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
 use Anomaly\Streams\Platform\Entry\Entry;
 use Anomaly\Streams\Platform\Stream\StreamManager;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
@@ -59,17 +60,10 @@ class EntryController extends PublicController
         }
 
         /**
-         * @todo move this as well I am sure.. middleware?
-         */
-        if ($entry->redirect) {
-            return redirect(Str::parse($entry->redirect, compact('entry', 'stream', 'slug')));
-        }
-
-        /**
          * @todo probably set this in middleware with cascade style access?
          */
         if ($stream->template) {
-            return view($stream->template, compact('stream', 'entry'));
+            return Response::view($stream->template, compact('stream', 'entry'));
         }
 
         return response()->json($entry->toArray());
