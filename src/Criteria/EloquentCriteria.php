@@ -7,7 +7,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Entry\Entry;
-use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Traits\HasMemory;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;

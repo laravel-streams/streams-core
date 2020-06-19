@@ -15,7 +15,7 @@ interface EntryInterface
 {
 
     /**
-     * Return the entry stream.
+     * Return the Stream definition.
      *
      * @var Stream
      */
@@ -27,20 +27,4 @@ interface EntryInterface
      * @var array
      */
     public function getAttributes();
-
-    /**
-     * Get the instance as an array.
-     *
-     * @return array
-     */
-    public function toArray();
-
-    /**
-     * Convert the object to
-     * its JSON representation.
-     *
-     * @param  int  $options
-     * @return string
-     */
-    public function toJson($options = 0);
 }

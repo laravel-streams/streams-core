@@ -223,11 +223,6 @@ class StreamsServiceProvider extends ServiceProvider
                 \Anomaly\Streams\Platform\Asset\Console\AssetsClear::class,
                 \Anomaly\Streams\Platform\Asset\Console\AssetsPublish::class,
 
-                // Streams Commands
-                \Anomaly\Streams\Platform\Stream\Console\StreamsIndex::class,
-                \Anomaly\Streams\Platform\Stream\Console\StreamsCleanup::class,
-                \Anomaly\Streams\Platform\Stream\Console\StreamsDestroy::class,
-
                 // Addon Commands
                 \Anomaly\Streams\Platform\Addon\Console\AddonSeed::class,
                 \Anomaly\Streams\Platform\Addon\Console\AddonReset::class,
@@ -487,6 +482,9 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function addThemeNamespaces()
     {
+        // @todo REMOVE THIS
+        return;
+
         $view = view();
         $image = img();
         $trans = trans();
