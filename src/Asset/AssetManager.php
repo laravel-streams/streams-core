@@ -5,9 +5,8 @@ namespace Anomaly\Streams\Platform\Asset;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Collective\Html\HtmlBuilder;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Filesystem\Filesystem;
-use Anomaly\Streams\Platform\Routing\UrlGenerator;
-
 /**
  * Class AssetManager
  *
@@ -34,13 +33,6 @@ class AssetManager
      * @var array
      */
     protected $loaded = [];
-
-    /**
-     * The URL generator.
-     *
-     * @var UrlGenerator
-     */
-    protected $url;
 
     /**
      * The HTML utility.
@@ -79,16 +71,13 @@ class AssetManager
      * @param Filesystem $files
      * @param AssetPaths $paths
      * @param HtmlBuilder $html
-     * @param UrlGenerator $url
      */
     public function __construct(
         AssetRegistry $registry,
         Filesystem $files,
         AssetPaths $paths,
-        HtmlBuilder $html,
-        UrlGenerator $url
+        HtmlBuilder $html
     ) {
-        $this->url      = $url;
         $this->html     = $html;
         $this->files    = $files;
         $this->paths    = $paths;
@@ -162,7 +151,7 @@ class AssetManager
             return null;
         }
 
-        return $this->url->asset($path, $parameters, $secure);
+        return URL::asset($path, $parameters, $secure);
     }
 
     /**

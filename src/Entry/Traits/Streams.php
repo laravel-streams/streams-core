@@ -16,7 +16,7 @@ use Anomaly\Streams\Platform\Stream\StreamManager;
 use Anomaly\Streams\Platform\Entry\Traits\Presentable;
 use Anomaly\Streams\Platform\Entry\Traits\Translatable;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Streams\Facades\Streams as StreamsFacade;
+use Anomaly\Streams\Platform\Support\Facades\Streams as StreamsFacade;
 
 /**
  * Class Streams

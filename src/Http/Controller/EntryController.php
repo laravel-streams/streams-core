@@ -6,11 +6,11 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
-use Anomaly\Streams\Platform\Entry\Entry;
 use Anomaly\Streams\Platform\Stream\StreamManager;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Entry\EntryRepository;
-use Anomaly\Streams\Platform\Streams\Facades\Streams;
+use Anomaly\Streams\Platform\Support\Facades\Streams;
+use Illuminate\Routing\Controller;
 
 /**
  * Class EntryController
@@ -19,8 +19,7 @@ use Anomaly\Streams\Platform\Streams\Facades\Streams;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-//class EntryController extends AdminController
-class EntryController extends PublicController
+class EntryController extends Controller
 {
 
     /**

@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Support\Workflows;
 
 use Anomaly\Streams\Platform\Ui\Support\Builder;
-use Anomaly\Streams\Platform\Streams\Facades\Streams;
+use Anomaly\Streams\Platform\Support\Facades\Streams;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**

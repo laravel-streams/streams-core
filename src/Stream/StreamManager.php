@@ -3,7 +3,6 @@
 namespace Anomaly\Streams\Platform\Stream;
 
 use Illuminate\Support\Facades\App;
-use Anomaly\Streams\Platform\Stream\StreamRegistry;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
@@ -15,23 +14,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class StreamManager
 {
-
-    /**
-     * The Stream registry.
-     *
-     * @var array
-     */
-    protected $registry;
-
-    /**
-     * Create a new class instance.
-     *
-     * @param StreamRegistry $registry
-     */
-    public function __construct(StreamRegistry $registry)
-    {
-        $this->registry = $registry;
-    }
 
     /**
      * Make a stream instance.

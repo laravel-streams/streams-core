@@ -84,7 +84,6 @@ class StreamsServiceProvider extends ServiceProvider
         \Anomaly\Streams\Platform\Image\ImageManager::class => \Anomaly\Streams\Platform\Image\ImageManager::class,
 
         \Anomaly\Streams\Platform\Stream\StreamManager::class    => \Anomaly\Streams\Platform\Stream\StreamManager::class,
-        \Anomaly\Streams\Platform\Routing\UrlGenerator::class    => \Anomaly\Streams\Platform\Routing\UrlGenerator::class,
         \Anomaly\Streams\Platform\Addon\AddonCollection::class   => \Anomaly\Streams\Platform\Addon\AddonCollection::class,
         \Anomaly\Streams\Platform\Message\MessageManager::class  => \Anomaly\Streams\Platform\Message\MessageManager::class,
         \Anomaly\Streams\Platform\Application\Application::class => \Anomaly\Streams\Platform\Application\Application::class,

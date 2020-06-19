@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Entry;
 
 use Illuminate\Database\Eloquent\Model;
-use Anomaly\Streams\Platform\Streams\Facades\Streams;
+use Anomaly\Streams\Platform\Support\Facades\Streams;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
