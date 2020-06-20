@@ -73,7 +73,7 @@ trait Properties
      */
     public function attr($key, $default = null)
     {
-        return data($this->attributes, $key, $default);
+        return Arr::get($this->attributes, $key, $default);
     }
 
     /**

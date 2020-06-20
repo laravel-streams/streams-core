@@ -26,6 +26,7 @@ use Anomaly\Streams\Platform\Asset\Facades\Assets;
 use Anomaly\Streams\Platform\Image\Facades\Images;
 use Anomaly\Streams\Platform\Stream\StreamBuilder;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Ui\Table\TableComponent;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Http\Controller\EntryController;
@@ -380,7 +381,7 @@ class StreamsServiceProvider extends ServiceProvider
     {
         $reference = env('APP_REFERENCE', 'default');
 
-        $application = application();
+        $application = app(Application::class);
 
         /*
          * Set the reference to our default first.
@@ -408,7 +409,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function configureFileCacheStore()
     {
-        config(['cache.stores.file.path' => config('cache.stores.file.path') . DIRECTORY_SEPARATOR . application()->getReference()]);
+        config(['cache.stores.file.path' => config('cache.stores.file.path') . DIRECTORY_SEPARATOR . app(Application::class)->getReference()]);
     }
 
     /**
@@ -422,10 +423,10 @@ class StreamsServiceProvider extends ServiceProvider
         Assets::addPath('node', base_path('node_modules'));
         Assets::addPath('bower', base_path('bower_components'));
 
-        Assets::addPath('asset', application()->getAssetsPath());
-        Assets::addPath('storage', application()->getStoragePath());
-        Assets::addPath('resources', application()->getResourcesPath());
-        Assets::addPath('download', application()->getAssetsPath('assets/downloads'));
+        Assets::addPath('asset', app(Application::class)->getAssetsPath());
+        Assets::addPath('storage', app(Application::class)->getStoragePath());
+        Assets::addPath('resources', app(Application::class)->getResourcesPath());
+        Assets::addPath('download', app(Application::class)->getAssetsPath('assets/downloads'));
 
         Assets::addPath('streams', base_path('vendor/anomaly/streams-platform/resources'));
     }
@@ -443,9 +444,9 @@ class StreamsServiceProvider extends ServiceProvider
         Images::addPath('node', base_path('node_modules'));
         Images::addPath('bower', base_path('bower_components'));
 
-        Images::addPath('asset', application()->getAssetsPath());
-        Images::addPath('storage', application()->getStoragePath());
-        Images::addPath('resources', application()->getResourcesPath());
+        Images::addPath('asset', app(Application::class)->getAssetsPath());
+        Images::addPath('storage', app(Application::class)->getStoragePath());
+        Images::addPath('resources', app(Application::class)->getResourcesPath());
 
         Images::addPath('streams', base_path('vendor/anomaly/streams-platform/resources'));
     }
@@ -468,10 +469,9 @@ class StreamsServiceProvider extends ServiceProvider
         //$views->composer('*', ViewComposer::class);
 
         $views->addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/views'));
-        $views->addNamespace('storage', application()->getStoragePath());
+        $views->addNamespace('storage', app(Application::class)->getStoragePath());
         $views->addNamespace('shared', base_path('resources/views'));
         $views->addNamespace('theme', base_path('resources/views'));
-        $views->addNamespace('app', app_resources_path('views'));
         $views->addNamespace('root', base_path());
 
         //$views->addExtension('html', 'php');
