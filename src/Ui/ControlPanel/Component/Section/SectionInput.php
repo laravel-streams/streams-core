@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Illuminate\Support\Arr;
+use Illuminate\Translation\Translator;
 use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationLink;
@@ -142,6 +143,6 @@ class SectionInput
      */
     protected static function translate(ControlPanelBuilder $builder)
     {
-        $builder->setSections(translate($builder->getSections()));
+        $builder->setSections(Translator::translate($builder->getSections()));
     }
 }

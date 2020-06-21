@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Illuminate\Support\Arr;
+use Illuminate\Translation\Translator;
 use Illuminate\Database\Eloquent\Model;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
@@ -267,7 +268,7 @@ class FieldInput
             }
         }
 
-        $builder->setFields(translate($translations));
+        $builder->setFields(Translator::translate($translations));
     }
 
     /**

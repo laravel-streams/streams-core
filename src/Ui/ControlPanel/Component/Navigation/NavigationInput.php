@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Translation\Translator;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Event\SortNavigation;
 
@@ -152,6 +153,6 @@ class NavigationInput
      */
     protected static function translate(ControlPanelBuilder $builder)
     {
-        $builder->setNavigation(translate($builder->getNavigation()));
+        $builder->setNavigation(Translator::translate($builder->getNavigation()));
     }
 }

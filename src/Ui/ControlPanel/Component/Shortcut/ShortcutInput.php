@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Shortcut;
 
 use Illuminate\Support\Arr;
+use Illuminate\Translation\Translator;
 use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
@@ -163,6 +164,6 @@ class ShortcutInput
      */
     protected static function translate(ControlPanelBuilder $builder)
     {
-        $builder->setShortcuts(translate($builder->getShortcuts()));
+        $builder->setShortcuts(Translator::translate($builder->getShortcuts()));
     }
 }

@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button;
 
 use Illuminate\Support\Arr;
+use Illuminate\Translation\Translator;
 use Anomaly\Streams\Platform\Ui\Support\Normalizer;
 use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
@@ -142,6 +143,6 @@ class ButtonInput
      */
     protected static function translate(ControlPanelBuilder $builder)
     {
-        $builder->setButtons(translate($builder->getButtons()));
+        $builder->setButtons(Translator::translate($builder->getButtons()));
     }
 }

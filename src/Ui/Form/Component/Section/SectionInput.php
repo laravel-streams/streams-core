@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Ui\Form\Component\Section;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Translation\Translator;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -103,7 +104,7 @@ class SectionInput
      */
     protected static function translate(FormBuilder $builder)
     {
-        $builder->sections = translate($builder->sections);
+        $builder->sections = Translator::translate($builder->sections);
     }
 
     /**
