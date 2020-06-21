@@ -27,6 +27,14 @@ class StreamInput
             $stream['location'] = Locator::locate($model);
         }
 
+        /**
+         * Defaults.
+         */
+        if (!isset($stream['type'])) {
+            $stream['type'] = 'filebase';
+            $stream['format'] = 'md';
+        }
+
         return $stream;
     }
 }

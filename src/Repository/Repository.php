@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Repository;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Stream\Stream;
@@ -10,6 +11,7 @@ use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Criteria\FilebaseCriteria;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
+use Anomaly\Streams\Platform\Criteria\EloquentCriteria;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 
 /**
@@ -195,8 +197,28 @@ class Repository implements RepositoryInterface
      */
     public function newCriteria()
     {
-        // @todo need a way to resolve the criteria
-        //return new EloquentCriteria($this->stream);
+        $method = Str::camel("new_{$this->stream->type}_criteria");
+
+        return $this->$method();
+    }
+
+    /**
+     * Return a new filebase criteria.
+     * 
+     * @return FilebaseCriteria
+     */
+    public function newFilebaseCriteria()
+    {
         return new FilebaseCriteria($this->stream);
+    }
+
+    /**
+     * Return a new filebase criteria.
+     * 
+     * @return EloquentCriteria
+     */
+    public function newEloquentCriteria()
+    {
+        return new EloquentCriteria($this->stream);
     }
 }
