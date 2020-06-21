@@ -27,6 +27,19 @@ class StreamManager
     }
 
     /**
+     * Return an entry criteria.
+     * 
+     * @return CriteriaInterface
+     */
+    function entries($stream)
+    {
+        return $this
+            ->make($stream)
+            ->repository()
+            ->newCriteria();
+    }
+
+    /**
      * Try making a stream instance.
      *
      * @param string $stream

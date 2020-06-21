@@ -47,7 +47,12 @@ class AssetsPublish extends Command
 
         foreach (app('addon.collection')->keys() as $namespace) {
 
-            $parts = addon_map($namespace);
+            $parts = array_map(
+                function ($value) {
+                    return Str::slug(strtolower($value), '_');
+                },
+                explode('.', $namespace)
+            );
 
             array_walk($parts, function (&$part) {
                 $part = ucfirst(Str::camel($part));

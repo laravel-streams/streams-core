@@ -69,9 +69,9 @@ class Stream implements StreamInterface
      */
     public function model(array $attributes = [])
     {
-        return (new EntryModel($attributes))
-            ->setTable($this->table ?: $this->slug)
-            ->setStream($this);
+        $model = $this->model;
+        
+        return new $model($attributes);
     }
 
     /**
