@@ -36,9 +36,11 @@ class Markdown implements FormatInterface
      */
     public static function encode($data = [], $pretty = true)
     {
+        $data = (array) $data;
+
         $body = Arr::pull($data, 'body');
 
-        $encoded = Yaml::dump($data);
+        $encoded = $data ? Yaml::dump($data) : null;
 
         return "---\n{$encoded}\n---{$body}";
     }

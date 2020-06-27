@@ -16,6 +16,7 @@ use Anomaly\Streams\Platform\Criteria\Format\Markdown;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
+use Exception;
 
 /**
  * Class FilebaseCriteria
@@ -262,8 +263,19 @@ class FilebaseCriteria implements CriteriaInterface
      */
     public function create(array $attributes = [])
     {
-        // @todo automatically map to slug or something?
-        return $this->make($this->query->get(Arr::pull($attributes, 'id'))->save($attributes));
+        $id = Arr::pull($attributes, 'id');
+
+        if ($this->query->has($id)) {
+            throw new Exception("Entry with ID [{$id}] already exists.");
+        }
+
+        $document = $this->query->get($id);
+
+        if (!$document->save($attributes)) {
+            return false;
+        }
+
+        return $this->make($document);
     }
 
     /**
