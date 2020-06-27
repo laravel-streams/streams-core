@@ -4,7 +4,9 @@ namespace Anomaly\Streams\Platform\Criteria;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Entry\Entry;
 use Anomaly\Streams\Platform\Traits\HasMemory;
@@ -48,9 +50,13 @@ class EloquentCriteria implements CriteriaInterface
     {
         $this->stream = $stream;
 
-        $this->query = $stream
-            ->model()
-            ->newQuery();
+        if ($table = $stream->attr('eloquent.table')) {
+            $this->query = DB::table($table);
+        }
+
+        if ($model = $stream->attr('eloquent.model')) {
+            $this->query = (new $model)->newQuery();
+        }
     }
 
     /**

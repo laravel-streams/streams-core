@@ -16,14 +16,6 @@ interface StreamInterface
 {
 
     /**
-     * Return the entry model.
-     * 
-     * @param array $attributes
-     * @return Model
-     */
-    public function model(array $attributes = []);
-
-    /**
      * Return the entry repository.
      * 
      * @return RepositoryInterface

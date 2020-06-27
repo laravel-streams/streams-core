@@ -61,18 +61,7 @@ class Stream implements StreamInterface
         $this->fill($attributes);
     }
 
-    /**
-     * Return the entry model.
-     * 
-     * @param array $attributes
-     * @return Model
-     */
-    public function model(array $attributes = [])
-    {
-        $model = $this->model;
-        
-        return new $model($attributes);
-    }
+    
 
     /**
      * Return the entry repository.
