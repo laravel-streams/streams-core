@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Translation\Translator;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
@@ -29,8 +30,8 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Ui\Table\TableComponent;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Http\Controller\EntryController;
 use Illuminate\Support\Collection as SupportCollection;
+use Anomaly\Streams\Platform\Http\Controller\EntryController;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 /**
@@ -42,6 +43,15 @@ use Illuminate\Database\Eloquent\Collection as EloquentCollection;
  */
 class StreamsServiceProvider extends ServiceProvider
 {
+
+    /**
+     * The class aliases.
+     *
+     * @var array
+     */
+    public $aliases = [
+        'Streams' => \Anomaly\Streams\Platform\Support\Facades\Streams::class
+    ];
 
     /**
      * The class bindings.
@@ -116,6 +126,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerComposerJson();
         $this->registerComposerLock();
         $this->registerFieldTypes();
+        $this->registerAliases();
         $this->registerStreams();
 
         /**
@@ -282,6 +293,14 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->bind('bool', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
         $this->app->bind('boolean', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
         $this->app->bind('textarea', \Anomaly\Streams\Platform\Field\Type\Textarea::class);
+    }
+    
+    /**
+     * Register Aliases.
+     */
+    protected function registerAliases()
+    {
+        AliasLoader::getInstance($this->aliases)->register();
     }
 
     /**
