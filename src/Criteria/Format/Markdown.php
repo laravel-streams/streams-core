@@ -38,11 +38,14 @@ class Markdown implements FormatInterface
     {
         $data = (array) $data;
 
-        $body = Arr::pull($data, 'body');
+        $body = Arr::pull($data['data'], 'body');
 
-        $encoded = $data ? Yaml::dump($data) : null;
+        $encoded = $data ? Yaml::dump(Arr::pull($data, 'data')) : null;
 
-        return "---\n{$encoded}\n---{$body}";
+        // @todo swallow meta for now.
+        //$encoded = Yaml::dump($data) . $encoded;
+
+        return "---\n{$encoded}---{$body}";
     }
 
     /**

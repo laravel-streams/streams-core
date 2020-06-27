@@ -27,4 +27,11 @@ interface EntryInterface
      * @var array
      */
     public function getAttributes();
+
+    /**
+     * Save the entry.
+     * 
+     * @var bool
+     */
+    public function save();
 }

@@ -61,6 +61,18 @@ class Entry implements EntryInterface, Arrayable, Jsonable
     }
 
     /**
+     * Save the entry.
+     * 
+     * @return bool
+     */
+    public function save()
+    {
+        return $this->stream
+            ->repository()
+            ->save($this);
+    }
+
+    /**
      * Get the instance as an array.
      *
      * @return array

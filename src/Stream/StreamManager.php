@@ -17,6 +17,8 @@ class StreamManager
 
     /**
      * Make a stream instance.
+     * 
+     * @todo prefer get() and make creates/returns from array?
      *
      * @param string $stream
      * @return StreamInterface
