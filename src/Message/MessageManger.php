@@ -53,11 +53,11 @@ class MessageManager
     /**
      * Merge a message onto the session.
      *
-     * @param $type
-     * @param $message
+     * @param string $type
+     * @param array $message
      * @return $this
      */
-    protected function merge(string $key, $message)
+    protected function merge(string $key, array $message)
     {
         $messages = $this->session->get('messages', []);
 
@@ -71,23 +71,21 @@ class MessageManager
     /**
      * Get messages.
      *
-     * @param array $default
      * @return array
      */
-    public function get(array $default = [])
+    public function get()
     {
-        return $this->session->get('messages', $default);
+        return $this->session->get('messages');
     }
 
     /**
      * Pull the messages.
      *
-     * @param array $default
      * @return array
      */
-    public function pull(array $default = [])
+    public function pull()
     {
-        return $this->session->pull('messages', $default);
+        return $this->session->pull('messages');
     }
 
     /**
@@ -136,19 +134,6 @@ class MessageManager
      * @return $this
      */
     public function warning($message)
-    {
-        $this->add(__FUNCTION__, $message);
-
-        return $this;
-    }
-
-    /**
-     * Add an important message.
-     *
-     * @param $message
-     * @return $this
-     */
-    public function important($message)
     {
         $this->add(__FUNCTION__, $message);
 
