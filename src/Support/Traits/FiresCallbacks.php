@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Traits;
+namespace Anomaly\Streams\Platform\Support\Traits;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;

@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Field;
 
-use Anomaly\Streams\Platform\Traits\HasMemory;
+use Anomaly\Streams\Platform\Support\Traits\HasMemory;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Support\Traits\Properties;
 

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Request;
 use Facade\Ignition\QueryRecorder\Query;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Entry\Entry;
-use Anomaly\Streams\Platform\Traits\HasMemory;
+use Anomaly\Streams\Platform\Support\Traits\HasMemory;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Anomaly\Streams\Platform\Criteria\Format\Markdown;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;

@@ -4,7 +4,7 @@ namespace Anomaly\Streams\Platform\Workflow;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
-use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
 
 /**
  * Class Workflow
