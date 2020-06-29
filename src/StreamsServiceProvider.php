@@ -130,13 +130,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerStreams();
 
         /**
-         * @todo ?
-         */
-        EloquentCollection::macro('ids', function () {
-            return $this->pluck('id')->all();
-        });
-
-        /**
          * Load core routes.
          */
         Route::middleware('web')
