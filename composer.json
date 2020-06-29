@@ -25,10 +25,7 @@
     "autoload": {
         "psr-4": {
             "Anomaly\\Streams\\Platform\\": "src/"
-        },
-        "files": [
-            "tests/factories/_load.php"
-        ]
+        }
     },
     "config": {
         "bin-dir": "bin"

@@ -2,10 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Addon\Console;
 
-use Anomaly\Streams\Platform\Addon\AddonManager;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputArgument;
+use Anomaly\Streams\Platform\Addon\AddonManager;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Class AddonInstall
