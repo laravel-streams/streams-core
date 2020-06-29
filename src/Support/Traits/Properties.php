@@ -9,7 +9,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
-use Anomaly\Streams\Platform\Traits\Hookable;
 
 /**
  * Trait Properties
@@ -19,8 +18,6 @@ use Anomaly\Streams\Platform\Traits\Hookable;
  */
 trait Properties
 {
-
-    use Hookable;
 
     /**
      * The attribute values.
@@ -335,9 +332,9 @@ trait Properties
      */
     protected function hasAttributeGetter($key)
     {
-        if ($this->hasHook('get_', $key . '_attribute')) {
-            return true;
-        }
+        // if (self::hasMacro('get_', $key . '_attribute')) {
+        //     return true;
+        // }
 
         if (method_exists($this, Str::studly('get_' . $key . '_attribute'))) {
             return true;

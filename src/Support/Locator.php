@@ -3,8 +3,6 @@
 namespace Anomaly\Streams\Platform\Support;
 
 use Illuminate\Support\Str;
-use Anomaly\Streams\Platform\Traits\Hookable;
-use Anomaly\Streams\Platform\Addon\AddonCollection;
 
 /**
  * Class Locator
@@ -27,7 +25,6 @@ class Locator
     {
         if (
             is_object($object)
-            && in_array(Hookable::class, class_uses_recursive($object))
             && ($object->hasHook('__locate') || method_exists($object, '__locate'))
         ) {
             return $object->__locate();

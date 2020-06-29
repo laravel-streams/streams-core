@@ -50,7 +50,8 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $aliases = [
-        'Streams' => \Anomaly\Streams\Platform\Support\Facades\Streams::class
+        'Streams' => \Anomaly\Streams\Platform\Support\Facades\Streams::class,
+        'Messages' => \Anomaly\Streams\Platform\Support\Facades\Messages::class,
     ];
 
     /**
