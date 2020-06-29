@@ -352,9 +352,9 @@ trait Properties
      */
     protected function hasAttributeSetter($key)
     {
-        if ($this->hasHook('set_', $key . '_attribute')) {
-            return true;
-        }
+        // if ($this->hasHook('set_', $key . '_attribute')) {
+        //     return true;
+        // }
 
         if (method_exists($this, Str::studly('get_' . $key . '_attribute'))) {
             return true;
@@ -374,9 +374,9 @@ trait Properties
      */
     public function mutateAttributeValue($key, $value)
     {
-        if ($this->hasHook($hook = 'get_', $key . '_attribute')) {
-            return $this->call($hook, compact('value'));
-        }
+        // if ($this->hasHook($hook = 'get_', $key . '_attribute')) {
+        //     return $this->call($hook, compact('value'));
+        // }
 
         if (method_exists($this, $method = Str::studly('get_' . $key . '_attribute'))) {
             return $this->{$method}($value);

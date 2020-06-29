@@ -25,7 +25,7 @@ class Locator
     {
         if (
             is_object($object)
-            && ($object->hasHook('__locate') || method_exists($object, '__locate'))
+            && ($object::hasMacro('__locate') || method_exists($object, '__locate'))
         ) {
             return $object->__locate();
         }
