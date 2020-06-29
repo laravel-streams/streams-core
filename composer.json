@@ -33,7 +33,6 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Anomaly\\Streams\\Platform\\StreamsEventProvider",
                 "Anomaly\\Streams\\Platform\\StreamsServiceProvider"
             ]
         }
