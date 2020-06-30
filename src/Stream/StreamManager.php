@@ -17,15 +17,13 @@ class StreamManager
 
     /**
      * Make a stream instance.
-     * 
-     * @todo prefer get() and make creates/returns from array?
      *
      * @param string $stream
      * @return StreamInterface
      */
     public function make($stream)
     {
-        return App::make('streams::' . $stream);
+        return App::make('streams.instance.' . $stream);
     }
 
     /**
@@ -39,28 +37,5 @@ class StreamManager
             ->make($stream)
             ->repository()
             ->newCriteria();
-    }
-
-    /**
-     * Try making a stream instance.
-     *
-     * @param string $stream
-     * @param \Closure|null $callback
-     * @return null|StreamInterface
-     */
-    public function try($stream, $callback = null)
-    {
-        try {
-            
-            $stream = $this->make($stream);
-
-            if ($callback) {
-                $stream = App::call($callback, compact('stream'));
-            }
-
-            return $stream;
-        } catch (\Exception $e) {
-            return null;
-        }
     }
 }

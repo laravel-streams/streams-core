@@ -311,7 +311,7 @@ class StreamsServiceProvider extends ServiceProvider
             $stream = StreamBuilder::build($stream);
 
             $this->app->instance(
-                'streams::' . $file->getBasename('.' . $file->getExtension()),
+                'streams.instance.' . $file->getBasename('.' . $file->getExtension()),
                 $stream
             );
 
@@ -333,13 +333,6 @@ class StreamsServiceProvider extends ServiceProvider
     {
         $this->app->singleton(AddonCollection::class, function () {
 
-            if (config('streams.installed')) {
-                // $states = AddonModel::get();
-                $states = new EloquentCollection;
-            } else {
-                $states = new EloquentCollection;
-            }
-
             $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
 
             $addons = array_filter(array_merge($lock['packages'], $lock['packages-dev']), function (array $package) {
@@ -353,14 +346,9 @@ class StreamsServiceProvider extends ServiceProvider
                 return "{$vendor}.{$type}.{$addon}";
             }, $addons), $addons);
 
-            array_walk($addons, function (&$addon, $namespace) use ($states) {
+            array_walk($addons, function (&$addon, $namespace) {
 
                 $addon['namespace'] = $namespace;
-
-                if ($state = $states->where('namespace', $namespace)->first()) {
-                    $addon['enabled'] = $state->enabled;
-                    $addon['installed'] = $state->installed;
-                }
 
                 [$vendor, $slug, $type] = preg_split("/(\/|-)/", $addon['name']);
 

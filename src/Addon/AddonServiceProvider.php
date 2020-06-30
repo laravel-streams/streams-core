@@ -4,7 +4,7 @@ namespace Anomaly\Streams\Platform\Addon;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Anomaly\Streams\Platform\Provider\ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 /**
  * Class AddonServiceProvider
@@ -49,7 +49,7 @@ class AddonServiceProvider extends ServiceProvider
         $this->registerHints($namespace, $path);
         $this->registerPublishables($path, $namespace);
 
-        $this->registerCommon();
+        //$this->registerCommon();
     }
 
     /**
