@@ -74,6 +74,17 @@ trait Properties
     }
 
     /**
+     * Expand an attribute value.
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function expand($key)
+    {
+        return $this->expandAttributeValue($key, $this->getAttributes()[$key] ?? $this->propertyDefault($key));
+    }
+
+    /**
      * Get an attribute.
      *
      * @param string $key
@@ -150,6 +161,101 @@ trait Properties
         }
 
         return $value;
+    }
+    
+    /**
+     * Expand the attribute value.
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return mixed
+     */
+    protected function expandAttributeValue($key, $value)
+    {
+        /**
+         * Mutators may step in
+         * and handle transforming.
+         */
+        // if ($this->hasAttributeGetter($key)) {
+        //     return $this->mutateAttributeValue($key, $value);
+        // }
+
+        $type = $this->properties[$key]['type'];
+
+        // switch ($type) {
+
+        //     case 'int':
+        //     case 'integer':
+
+        //         return (int) $value;
+
+        //     case 'real':
+        //     case 'float':
+        //     case 'double':
+
+        //         switch ((string) $value) {
+        //             case 'Infinity':
+        //                 return INF;
+        //             case '-Infinity':
+        //                 return -INF;
+        //             case 'NaN':
+        //                 return NAN;
+        //             default:
+        //                 return (float) $value;
+        //         }
+
+        //     case 'decimal':
+
+        //         return number_format($value, explode(':', $this->getCasts()[$key], 2)[1]);
+
+        //     case 'string':
+
+        //         return (string) $value;
+
+        //     case 'bool':
+        //     case 'boolean':
+
+        //         return filter_var($value, FILTER_VALIDATE_BOOL);
+
+        //     case 'object':
+
+        //         return json_decode($value);
+
+        //     case 'array':
+        //     case 'json':
+
+        //         if (!is_string($value)) {
+        //             return $value;
+        //         }
+
+        //         return json_decode($value, true);
+
+        //     case 'collection':
+
+        //         return new Collection($this->json_decode($value, true));
+
+        //     case 'datetime':
+        //     case 'custom_datetime':
+
+        //         return $this->castDateTimeAttribute($value);
+
+        //     case 'date':
+
+        //         return $this->castDateTimeAttribute($value)->startOfDay();
+
+        //     case 'timestamp':
+
+        //         return $this->castDateTimeAttribute($value)->getTimestamp();
+        // }
+
+        // @todo would prefer this but resolve for now
+        //$type = new $type($this->properties[$key]);
+        $type = app($type, $this->properties[$key]);
+
+        $type->field = $key;
+        // @todo fill type here or use FieldTypeBuilder::build
+
+        return $type->expand($value);
     }
 
     /**
@@ -437,8 +543,9 @@ trait Properties
 
                 return json_decode($value);
 
-            case 'array':
             case 'json':
+            case 'array':
+            case 'collection':
 
                 if (!is_string($value)) {
                     return $value;
@@ -446,9 +553,9 @@ trait Properties
 
                 return json_decode($value, true);
 
-            case 'collection':
+            // case 'collection':
 
-                return new Collection($this->json_decode($value, true));
+            //     return new Collection($this->json_decode($value, true));
 
             case 'datetime':
             case 'custom_datetime':
@@ -464,12 +571,14 @@ trait Properties
                 return $this->castDateTimeAttribute($value)->getTimestamp();
         }
 
-        $type = app($type);
+        // @todo would prefer this but resolve for now
+        //$type = new $type($this->properties[$key]);
+        $type = app($type, $this->properties[$key]);
 
         $type->field = $key;
         // @todo fill type here or use FieldTypeBuilder::build
 
-        return $type->modify($value);
+        return $type->restore($value);
     }
 
     /**

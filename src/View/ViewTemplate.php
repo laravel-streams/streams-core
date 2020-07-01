@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\View;
 
+use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 
@@ -25,7 +26,7 @@ class ViewTemplate
     {
         $view = 'support/parsed/' . md5($template);
 
-        $path = application()->getStoragePath($view);
+        $path = app(Application::class)->getStoragePath($view);
 
         if (!is_dir($directory = dirname($path))) {
             File::makeDirectory($directory, 0766, true);

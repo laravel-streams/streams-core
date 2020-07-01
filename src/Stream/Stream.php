@@ -82,6 +82,6 @@ class Stream implements StreamInterface
      */
     public function __call($method, $parameters)
     {
-        return $this->forwardCallTo($this->repository(), $method, $parameters);
+        return $this->forwardCallTo($this->repository()->newCriteria(), $method, $parameters);
     }
 }

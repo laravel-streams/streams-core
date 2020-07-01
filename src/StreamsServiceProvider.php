@@ -260,6 +260,8 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->bind('bool', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
         $this->app->bind('boolean', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
         $this->app->bind('textarea', \Anomaly\Streams\Platform\Field\Type\Textarea::class);
+        $this->app->bind('collection', \Anomaly\Streams\Platform\Field\Type\Collection::class);
+        $this->app->bind('relationship', \Anomaly\Streams\Platform\Field\Type\Relationship::class);
     }
 
     /**
@@ -406,6 +408,10 @@ class StreamsServiceProvider extends ServiceProvider
     public function addViewNamespaces()
     {
         View::addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/views'));
+        View::addNamespace('storage', app(Application::class)->getStoragePath());
+        //View::addNamespace('shared', base_path('resources/views'));
+        //View::addNamespace('theme', base_path('resources/views'));
+        //View::addNamespace('root', base_path());
     }
 
     /**
