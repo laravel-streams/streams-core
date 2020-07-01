@@ -150,7 +150,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->singleton('parser_data', function() {
+        $this->app->singleton('parser_data', function () {
 
             $data = [
                 'request' => [
@@ -169,7 +169,7 @@ class StreamsServiceProvider extends ServiceProvider
             ];
 
             if ($route = Request::route()) {
-                
+
                 $data['route'] = [
                     'uri' => $route->uri(),
                     'parameters' => $route->parameters(),
@@ -199,7 +199,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         // Setup and preparing utilities.
         $this->loadStreamsConfiguration();
-        $this->registerAddonCollections();
+        $this->registerAddonCollection();
         $this->configureFileCacheStore();
         $this->routeAutomatically();
         $this->addAssetNamespaces();
@@ -288,7 +288,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->bind('boolean', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
         $this->app->bind('textarea', \Anomaly\Streams\Platform\Field\Type\Textarea::class);
     }
-    
+
     /**
      * Register Aliases.
      */
@@ -329,49 +329,23 @@ class StreamsServiceProvider extends ServiceProvider
     /**
      * Register addon collections.
      */
-    protected function registerAddonCollections()
+    protected function registerAddonCollection()
     {
         $this->app->singleton(AddonCollection::class, function () {
 
             $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
 
-            $addons = array_filter(array_merge($lock['packages'], $lock['packages-dev']), function (array $package) {
-                return Arr::get($package, 'type') == 'streams-addon';
-            });
-
-            $addons = array_combine(array_map(function ($addon) {
-
-                [$vendor, $addon, $type] = preg_split("/(\/|-)/", $addon['name']);
-
-                return "{$vendor}.{$type}.{$addon}";
-            }, $addons), $addons);
-
-            array_walk($addons, function (&$addon, $namespace) {
-
-                $addon['namespace'] = $namespace;
-
-                [$vendor, $slug, $type] = preg_split("/(\/|-)/", $addon['name']);
-
-                $addon['class'] = implode('\\', [
-                    Str::studly($vendor),
-                    Str::studly($slug . '_' . $type),
-                ]);
-
-                $addon['provider'] = implode('\\', [
-                    Str::studly($vendor),
-                    Str::studly($slug . '_' . $type),
-                    Str::studly($slug . '_' . $type) . 'ServiceProvider',
-                ]);
-
-                (new $addon['provider']($this->app))->registerAddon();
-            });
+            $addons = array_filter(
+                array_merge($lock['packages'], $lock['packages-dev']),
+                function (array $package) {
+                    return Arr::get($package, 'type') == 'streams-addon';
+                }
+            );
 
             ksort($addons);
 
             return new AddonCollection($addons);
         });
-
-        app(AddonCollection::class)->disperse();
     }
 
     /**
