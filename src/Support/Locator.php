@@ -43,7 +43,7 @@ class Locator
 
         $namespace = "{$vendor}.{$type[0]}.{$addon}";
 
-        return app('addon.collection')->offsetExists($namespace) ? $namespace : null;
+        return app('streams.addons')->offsetExists($namespace) ? $namespace : null;
     }
 
     /**
@@ -58,6 +58,6 @@ class Locator
             return null;
         }
 
-        return app('addon.collection')->instance($namespace);
+        return app('streams.addons')->instance($namespace);
     }
 }

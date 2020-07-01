@@ -84,7 +84,7 @@ class AddonServiceProvider extends ServiceProvider
                 return $addon;
             }
 
-            if ($data = $this->app->make('addon.collection')->get($namespace)) {
+            if ($data = $this->app->make('streams.addons')->get($namespace)) {
                 $addon->enabled = Arr::get($data, 'enabled');
                 $addon->installed = Arr::get($data, 'installed');
             }

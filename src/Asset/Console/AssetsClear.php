@@ -2,10 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Asset\Console;
 
-use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputArgument;
+use Anomaly\Streams\Platform\Application\Application;
 
 /**
  * Class AssetsClear

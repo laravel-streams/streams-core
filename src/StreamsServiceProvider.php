@@ -60,16 +60,7 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $bindings = [
-        'addon.collection'      => \Anomaly\Streams\Platform\Addon\AddonCollection::class,
-        'theme.collection'      => \Anomaly\Streams\Platform\Addon\Theme\ThemeCollection::class,
-        'module.collection'     => \Anomaly\Streams\Platform\Addon\Module\ModuleCollection::class,
-        'extension.collection'  => \Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection::class,
-        'field_type.collection' => \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection::class,
-
-        \Anomaly\Streams\Platform\Addon\Contract\AddonRepositoryInterface::class    => \Anomaly\Streams\Platform\Addon\AddonRepository::class,
-        \Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface::class    => \Anomaly\Streams\Platform\Entry\EntryRepository::class,
-        \Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface::class    => \Anomaly\Streams\Platform\Field\FieldRepository::class,
-        \Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface::class  => \Anomaly\Streams\Platform\Stream\StreamRepository::class,
+        'streams.addons'      => \Anomaly\Streams\Platform\Addon\AddonCollection::class,
     ];
 
     /**
@@ -78,11 +69,12 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $singletons = [
-        'includes' => \Anomaly\Streams\Platform\View\ViewIncludes::class,
-        'assets'   => \Anomaly\Streams\Platform\Asset\AssetManager::class,
-        'images'   => \Anomaly\Streams\Platform\Image\ImageManager::class,
-        'streams'  => \Anomaly\Streams\Platform\Stream\StreamManager::class,
-        'messages' => \Anomaly\Streams\Platform\Message\MessageManager::class,
+        'includes'     => \Anomaly\Streams\Platform\View\ViewIncludes::class,
+        'assets'       => \Anomaly\Streams\Platform\Asset\AssetManager::class,
+        'images'       => \Anomaly\Streams\Platform\Image\ImageManager::class,
+        'streams'      => \Anomaly\Streams\Platform\Stream\StreamManager::class,
+        'messages'     => \Anomaly\Streams\Platform\Message\MessageManager::class,
+        'applications' => \Anomaly\Streams\Platform\Application\ApplicationManager::class,
 
         'locator' => \Anomaly\Streams\Platform\Support\Locator::class,
         'resolver' => \Anomaly\Streams\Platform\Support\Resolver::class,
@@ -90,31 +82,17 @@ class StreamsServiceProvider extends ServiceProvider
         'decorator' => \Anomaly\Streams\Platform\Support\Decorator::class,
         'evaluator' => \Anomaly\Streams\Platform\Support\Evaluator::class,
 
-        \Anomaly\Streams\Platform\View\ViewIncludes::class  => \Anomaly\Streams\Platform\View\ViewIncludes::class,
         \Anomaly\Streams\Platform\Asset\AssetManager::class => \Anomaly\Streams\Platform\Asset\AssetManager::class,
         \Anomaly\Streams\Platform\Image\ImageManager::class => \Anomaly\Streams\Platform\Image\ImageManager::class,
 
-        \Anomaly\Streams\Platform\Stream\StreamManager::class    => \Anomaly\Streams\Platform\Stream\StreamManager::class,
-        \Anomaly\Streams\Platform\Addon\AddonCollection::class   => \Anomaly\Streams\Platform\Addon\AddonCollection::class,
-        \Anomaly\Streams\Platform\Message\MessageManager::class  => \Anomaly\Streams\Platform\Message\MessageManager::class,
-        \Anomaly\Streams\Platform\Application\Application::class => \Anomaly\Streams\Platform\Application\Application::class,
-
         \Anomaly\Streams\Platform\Addon\AddonManager::class => \Anomaly\Streams\Platform\Addon\AddonManager::class,
+        \Anomaly\Streams\Platform\Stream\StreamManager::class    => \Anomaly\Streams\Platform\Stream\StreamManager::class,
+        \Anomaly\Streams\Platform\Message\MessageManager::class  => \Anomaly\Streams\Platform\Message\MessageManager::class,
+        \Anomaly\Streams\Platform\Application\ApplicationManager::class => \Anomaly\Streams\Platform\Application\ApplicationManager::class,
 
-        \Anomaly\Streams\Platform\Stream\StreamRegistry::class => \Anomaly\Streams\Platform\Stream\StreamRegistry::class,
+        \Anomaly\Streams\Platform\View\ViewIncludes::class  => \Anomaly\Streams\Platform\View\ViewIncludes::class,
 
-        \Anomaly\Streams\Platform\Addon\Theme\ThemeCollection::class         => \Anomaly\Streams\Platform\Addon\Theme\ThemeCollection::class,
-        \Anomaly\Streams\Platform\Addon\Module\ModuleCollection::class       => \Anomaly\Streams\Platform\Addon\Module\ModuleCollection::class,
-        \Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection::class => \Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection::class,
-        \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection::class => \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection::class,
-
-        \Anomaly\Streams\Platform\Ui\Icon\IconRegistry::class                     => \Anomaly\Streams\Platform\Ui\Icon\IconRegistry::class,
-        \Anomaly\Streams\Platform\Ui\Button\ButtonRegistry::class                 => \Anomaly\Streams\Platform\Ui\Button\ButtonRegistry::class,
-        \Anomaly\Streams\Platform\Support\Breadcrumb::class       => \Anomaly\Streams\Platform\Support\Breadcrumb::class,
-        \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder::class      => \Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder::class,
-        \Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry::class     => \Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry::class,
-        \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry::class => \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry::class,
-
+        \Anomaly\Streams\Platform\Addon\AddonCollection::class   => \Anomaly\Streams\Platform\Addon\AddonCollection::class,
     ];
 
     /**
@@ -204,7 +182,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->routeAutomatically();
         $this->addAssetNamespaces();
         $this->addImageNamespaces();
-        $this->addThemeNamespaces();
         $this->addViewNamespaces();
         $this->loadTranslations();
         $this->setActiveTheme();
@@ -231,13 +208,9 @@ class StreamsServiceProvider extends ServiceProvider
                 // Addon Commands
                 \Anomaly\Streams\Platform\Addon\Console\AddonSeed::class,
                 \Anomaly\Streams\Platform\Addon\Console\AddonReset::class,
-                \Anomaly\Streams\Platform\Addon\Console\AddonInstall::class,
                 \Anomaly\Streams\Platform\Addon\Console\AddonMigrate::class,
-                \Anomaly\Streams\Platform\Addon\Console\AddonUninstall::class,
-                \Anomaly\Streams\Platform\Addon\Console\AddonReinstall::class,
 
                 // Application Commands
-                \Anomaly\Streams\Platform\Application\Console\Build::class,
                 \Anomaly\Streams\Platform\Application\Console\Refresh::class,
             ]);
         }
@@ -311,7 +284,7 @@ class StreamsServiceProvider extends ServiceProvider
             $stream = StreamBuilder::build($stream);
 
             $this->app->instance(
-                'streams.instance.' . $file->getBasename('.' . $file->getExtension()),
+                'streams.instances.' . $file->getBasename('.' . $file->getExtension()),
                 $stream
             );
 
@@ -432,70 +405,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function addViewNamespaces()
     {
-        $views = view();
-
-        /**
-         * We still need the composer
-         * for $view->make() overloading.
-         * 
-         * @todo Remove this. Publishing should be used.
-         */
-        //$views->composer('*', ViewComposer::class);
-
-        $views->addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/views'));
-        $views->addNamespace('storage', app(Application::class)->getStoragePath());
-        $views->addNamespace('shared', base_path('resources/views'));
-        $views->addNamespace('theme', base_path('resources/views'));
-        $views->addNamespace('root', base_path());
-
-        //$views->addExtension('html', 'php');
-    }
-
-    /**
-     * Add the active theme hints.
-     */
-    public function addThemeNamespaces()
-    {
-        // @todo REMOVE THIS
-        return;
-
-        $view = view();
-        $image = img();
-        $trans = trans();
-        $assets = assets();
-
-        if ($default = config('streams.themes.default')) {
-
-            $path = app($default)->path;
-
-            $view->addNamespace('theme', $path . '/resources/views');
-            $trans->addNamespace('theme', $path . '/resources/lang');
-
-            $assets->addPath('theme', $path . '/resources');
-            $image->addPath('theme', $path . '/resources');
-        }
-
-        if (!$default) {
-
-            $path = base_path('resources');
-
-            $view->addNamespace('theme', $path . '/views');
-            $trans->addNamespace('theme', $path . '/lang');
-
-            $assets->addPath('theme', $path);
-            $image->addPath('theme', $path);
-        }
-
-        if ($admin = config('streams.themes.admin')) {
-
-            $path = app($admin)->path;
-
-            $view->addNamespace('admin', $path . '/resources/views');
-            $trans->addNamespace('admin', $path . '/resources/lang');
-
-            $assets->addPath('admin', $path . '/resources');
-            $image->addPath('admin', $path . '/resources');
-        }
+        View::addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/views'));
     }
 
     /**
@@ -511,13 +421,13 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function setActiveTheme()
     {
-        $theme = config('streams.themes.default');
+        // $theme = config('streams.themes.default');
 
-        if (request()->segment(1) == 'admin') {
-            $theme = config('streams.themes.admin');
-        }
+        // if (request()->segment(1) == 'admin') {
+        //     $theme = config('streams.themes.admin');
+        // }
 
-        app('theme.collection')->setActive($theme);
+        // app('theme.collection')->setActive($theme);
     }
 
     /**
@@ -705,7 +615,7 @@ class StreamsServiceProvider extends ServiceProvider
          * The first segment MUST
          * be a unique addon slug.
          */
-        if (!$addon = app('addon.collection')->first(function ($addon) use ($segments) {
+        if (!$addon = app('streams.addons')->first(function ($addon) use ($segments) {
             return Str::is('*.*.' . $segments[0], $addon['namespace']);
         })) {
             return;

@@ -2,19 +2,18 @@
 
 namespace Anomaly\Streams\Platform\Http\Middleware;
 
-use Anomaly\Streams\Platform\Support\Facades\Locator;
-use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
+use Anomaly\Streams\Platform\Support\Facades\Locator;
 
 /**
- * Class DetectActiveModule
+ * Class DetectAddon
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class DetectActiveModule
+class DetectAddon
 {
 
     /**
@@ -24,16 +23,9 @@ class DetectActiveModule
      * @param  \Closure $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, \Closure $next)
     {
 
-        /**
-         * In order to detect we MUST have a route
-         * and we MUST have a namespace in the
-         * streams::addon action parameter.
-         *
-         * @var Route $route
-         */
         if (!$route = $request->route()) {
             return $next($request);
         }
@@ -46,7 +38,7 @@ class DetectActiveModule
             return $next($request);
         }
 
-        app('module.collection')->setActive($detected);
+        app('streams.addons')->setActive($detected);
 
         return $next($request);
     }

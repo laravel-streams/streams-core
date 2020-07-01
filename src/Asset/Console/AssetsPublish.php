@@ -45,7 +45,7 @@ class AssetsPublish extends Command
     {
         $console->call('vendor:publish', ['--tag' => 'assets', '--provider' => StreamsServiceProvider::class, '--force' => true]);
 
-        foreach (app('addon.collection')->keys() as $namespace) {
+        foreach (app('streams.addons')->keys() as $namespace) {
 
             $parts = array_map(
                 function ($value) {

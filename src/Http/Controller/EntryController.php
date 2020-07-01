@@ -3,14 +3,15 @@
 namespace Anomaly\Streams\Platform\Http\Controller;
 
 use Illuminate\Support\Str;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Anomaly\Streams\Platform\Stream\StreamManager;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Entry\EntryRepository;
 use Anomaly\Streams\Platform\Support\Facades\Streams;
-use Illuminate\Routing\Controller;
 
 /**
  * Class EntryController
@@ -23,144 +24,31 @@ class EntryController extends Controller
 {
 
     /**
-     * The addon collection.
+     * Return a Stream entry's view.
      *
-     * @var AddonCollection
+     * @param string $slug
      */
-    protected $addons;
-
-    /**
-     * Create a new EntryController instance.
-     *
-     * @param AddonCollection $addons
-     */
-    public function __construct(AddonCollection $addons)
-    {
-        //parent::__construct();
-
-        $this->addons = $addons;
-    }
-
     public function render($slug)
     {
-        $stream = Streams::make(request()->route()->getAction('stream'));
+        $stream = Streams::make(Request::route()->getAction('stream'));
 
-        $entry = $stream->repository()->find($slug);
-
-        if (!$entry || !$entry->id) {
+        if (!$entry = $stream->find($slug)) {
             abort(404);
         }
 
-        /**
-         * @todo move this as well I am sure.. middleware?
-         */
         if ($stream->redirect) {
-            return redirect(Str::parse($stream->redirect, compact('entry', 'stream', 'slug')));
+            return Response::redirect(
+                Str::parse($stream->redirect, compact('entry', 'stream', 'slug'))
+            );
         }
 
-        /**
-         * @todo probably set this in middleware with cascade style access?
-         */
         if ($stream->template) {
-            return Response::view($stream->template, compact('stream', 'entry'));
+            return Response::view(
+                Str::parse($stream->template, compact('entry', 'stream', 'slug')),
+                compact('entry', 'stream', 'slug')
+            );
         }
 
-        return response()->json($entry->toArray());
-    }
-
-
-
-
-
-
-
-    /**
-     * Restore an entry.
-     *
-     * @param $addon
-     * @param $namespace
-     * @param $stream
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function restore($addon, $stream, $id)
-    {
-        /* @var StreamInterface $stream */
-        // @todo this needs to be resolved.. 
-        $stream = StreamManager::get($stream);
-
-        /*
-         * Resolve the model and set
-         * it on the repository.
-         */
-        $repository = (new EntryRepository)->setModel($stream->model);
-
-        $entry = $repository->findTrashed($id);
-
-        if (!Gate::allows("{$stream->slug}.update")) {
-            abort(403);
-        }
-
-        if (!$entry->isRestorable()) {
-
-            messages('error', 'streams::message.restore_failed');
-
-            return back();
-        }
-
-        $repository->restore($entry);
-
-        messages('success', 'streams::message.restore_success');
-
-        return Redirect::back();
-    }
-
-    /**
-     * Export all entries.
-     *
-     * @param $addon
-     * @param $stream
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function export($addon, $stream)
-    {
-        /* @var StreamInterface $stream */
-        $stream = StreamManager::get($stream);
-
-        /*
-         * Resolve the model and set
-         * it on the repository.
-         */
-        $repository = (new EntryRepository)->setModel($stream->model);
-
-        if (!Gate::allows("{$stream->slug}.view")) {
-            abort(403);
-        }
-
-        $headers = [
-            'Content-Disposition' => 'attachment; filename=' . $stream->slug . '.csv',
-            'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
-            'Content-type'        => 'text/csv',
-            'Pragma'              => 'public',
-            'Expires'             => '0',
-        ];
-
-        $callback = function () use ($repository) {
-
-            $output = fopen('php://output', 'w');
-
-            foreach ($repository->all() as $k => $entry) {
-
-                if ($k == 0) {
-                    fputcsv($output, array_keys($entry->toArray()));
-                }
-
-                fputcsv($output, $entry->toArray());
-            }
-
-            fclose($output);
-        };
-
-        return $this->response->stream($callback, 200, $headers);
+        return Response::json($entry->toArray());
     }
 }

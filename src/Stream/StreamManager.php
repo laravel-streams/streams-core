@@ -23,7 +23,7 @@ class StreamManager
      */
     public function make($stream)
     {
-        return App::make('streams.instance.' . $stream);
+        return App::make('streams.instances.' . $stream);
     }
 
     /**

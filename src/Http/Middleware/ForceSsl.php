@@ -1,8 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Http\Middleware;
+<?php
 
-use Closure;
+namespace Anomaly\Streams\Platform\Http\Middleware;
+
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Response;
 
 /**
  * Class ForceSsl
@@ -15,35 +17,18 @@ class ForceSsl
 {
 
     /**
-     * The redirect utility.
-     *
-     * @var Redirector
-     */
-    protected $redirect;
-
-    /**
-     * Create a new PoweredBy instance.
-     *
-     * @param Redirector $redirect
-     */
-    public function __construct(Redirector $redirect)
-    {
-        $this->redirect = $redirect;
-    }
-
-    /**
      * Force SSL connections.
      *
      * @param  Request $request
      * @param  \Closure $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, \Closure $next)
     {
-        $force = config('streams.system.force_ssl', false);
+        $force = Config::get('streams.system.force_ssl', false);
 
         if ($force && !$request->isSecure()) {
-            return $this->redirect->secure($request->getRequestUri(), 301);
+            return Response::secure($request->getRequestUri(), 301);
         }
 
         return $next($request);
