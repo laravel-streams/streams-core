@@ -2,10 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Addon\Console;
 
-use Anomaly\Streams\Platform\Addon\AddonManager;
-use Anomaly\Streams\Platform\Addon\Extension\ExtensionManager;
-use Anomaly\Streams\Platform\Addon\Module\ModuleManager;
 use Illuminate\Console\Command;
+use Anomaly\Streams\Platform\Addon\AddonManager;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
@@ -40,7 +38,7 @@ class AddonSeed extends Command
     {
         $addon = app($this->argument('addon'));
 
-        $manager->seed($addon);
+        // php artisan migrate:reset --path=TheAddonPath
 
         $this->info('Addon [' . $this->argument('addon') . '] was seeded.');
     }

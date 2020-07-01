@@ -2,8 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Addon\Console;
 
-use Anomaly\Streams\Platform\Addon\AddonManager;
 use Illuminate\Console\Command;
+use Anomaly\Streams\Platform\Addon\AddonManager;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
@@ -38,7 +38,7 @@ class AddonMigrate extends Command
     {
         $addon = app($this->argument('addon'));
 
-        $manager->migrate($addon);
+        // php artisan migrate --path=TheAddonPath
 
         $this->info('Addon [' . $this->argument('addon') . '] was migrated.');
     }

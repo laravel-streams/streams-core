@@ -38,7 +38,7 @@ class AddonReset extends Command
     {
         $addon = app($this->argument('addon'));
 
-        $manager->reset($addon);
+        // php artisan migrate:reset --path=TheAddonPath
 
         $this->info('Addon [' . $this->argument('addon') . '] was reset.');
     }
