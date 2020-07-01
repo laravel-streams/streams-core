@@ -260,8 +260,9 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->bind('bool', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
         $this->app->bind('boolean', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
         $this->app->bind('textarea', \Anomaly\Streams\Platform\Field\Type\Textarea::class);
-        $this->app->bind('collection', \Anomaly\Streams\Platform\Field\Type\Collection::class);
-        $this->app->bind('relationship', \Anomaly\Streams\Platform\Field\Type\Relationship::class);
+
+        $this->app->bind('entry', \Anomaly\Streams\Platform\Field\Type\Entry::class);
+        $this->app->bind('entries', \Anomaly\Streams\Platform\Field\Type\Entries::class);
     }
 
     /**
