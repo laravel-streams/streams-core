@@ -2,14 +2,13 @@
 
 namespace Anomaly\Streams\Platform\Stream;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\ForwardsCalls;
-use Anomaly\Streams\Platform\Entry\EntryModel;
-use Anomaly\Streams\Platform\Support\Traits\HasMemory;
-use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Repository\Repository;
+use Anomaly\Streams\Platform\Support\Facades\Hydrator;
+use Anomaly\Streams\Platform\Support\Traits\HasMemory;
 use Anomaly\Streams\Platform\Support\Traits\Properties;
+use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 
@@ -71,6 +70,27 @@ class Stream implements StreamInterface
     public function repository()
     {
         return new Repository($this);
+    }
+
+    /**
+     * Get the instance as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return Hydrator::dehydrate($this);
+    }
+
+    /**
+     * Convert the object to its JSON representation.
+     *
+     * @param  int  $options
+     * @return string
+     */
+    public function toJson($options = 0)
+    {
+        return json_encode($this->toArray(), $options);
     }
     
     /**

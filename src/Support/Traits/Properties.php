@@ -545,17 +545,16 @@ trait Properties
 
             case 'json':
             case 'array':
-            case 'collection':
-
+            
                 if (!is_string($value)) {
                     return $value;
                 }
 
                 return json_decode($value, true);
 
-            // case 'collection':
+            case 'collection':
 
-            //     return new Collection($this->json_decode($value, true));
+                return new Collection($this->json_decode($value, true));
 
             case 'datetime':
             case 'custom_datetime':
