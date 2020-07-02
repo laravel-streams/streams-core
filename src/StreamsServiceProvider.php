@@ -256,14 +256,15 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerFieldTypes()
     {
-        $this->app->bind('text', \Anomaly\Streams\Platform\Field\Type\Text::class);
-        $this->app->bind('array', \Anomaly\Streams\Platform\Field\Type\Arr::class);
-        $this->app->bind('bool', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
-        $this->app->bind('boolean', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
-        $this->app->bind('textarea', \Anomaly\Streams\Platform\Field\Type\Textarea::class);
+        $this->app->bind('streams.field_types.text', \Anomaly\Streams\Platform\Field\Type\Text::class);
+        $this->app->bind('streams.field_types.array', \Anomaly\Streams\Platform\Field\Type\Arr::class);
+        $this->app->bind('streams.field_types.bool', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
+        $this->app->bind('streams.field_types.boolean', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
+        $this->app->bind('streams.field_types.textarea', \Anomaly\Streams\Platform\Field\Type\Textarea::class);
 
-        $this->app->bind('entry', \Anomaly\Streams\Platform\Field\Type\Entry::class);
-        $this->app->bind('entries', \Anomaly\Streams\Platform\Field\Type\Entries::class);
+        $this->app->bind('streams.field_types.image', \Anomaly\Streams\Platform\Field\Type\Image::class);
+        $this->app->bind('streams.field_types.entry', \Anomaly\Streams\Platform\Field\Type\Entry::class);
+        $this->app->bind('streams.field_types.entries', \Anomaly\Streams\Platform\Field\Type\Entries::class);
     }
 
     /**

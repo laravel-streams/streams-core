@@ -5,7 +5,6 @@ namespace Anomaly\Streams\Platform\Image\Concerns;
 use Illuminate\Support\Str;
 use League\Flysystem\MountManager;
 use Illuminate\Support\Facades\File;
-use Anomaly\Streams\Platform\Image\ImageManager;
 use Anomaly\Streams\Platform\Image\Facades\Images;
 use Intervention\Image\ImageManager as Intervention;
 
@@ -64,11 +63,11 @@ trait CanPublish
          * then just use it as it is.
          */
         if (
-            Str::contains($this->source, public_path())
+            Str::contains($this->source, [public_path(), 'public::'])
             && !$this->hasAlterations()
             && !$this->getQuality()
         ) {
-            return str_replace(public_path(), '', $this->source);
+            return str_replace([public_path(), 'public::'], '', $this->source);
         }
 
         /**
@@ -137,6 +136,10 @@ trait CanPublish
 
         if (!File::exists($path)) {
             return true;
+        }
+
+        if (is_string($this->source) && Str::startsWith($this->source, 'public::')) {
+            return false;
         }
 
         if (is_string($this->source) && !Str::is('*://*', $this->source) && filemtime($path) < filemtime($resolved)) {

@@ -57,7 +57,7 @@ class FilebaseCriteria implements CriteriaInterface
         $this->query = new Database([
             // @todo IDE not hinting attr?
             // @todo replace with expand('source')->get('path', 'streams/data/' . $stream->slug)
-            'dir' => base_path(Arr::get($stream->source, 'path', 'streams/data/' . $stream->slug)),
+            'dir' => base_path($source->get('path', 'streams/data/' . $stream->slug)),
 
             //'backupLocation' => 'path/to/database/backup/dir',
             // @todo Gross - shorten/fix

@@ -2,20 +2,17 @@
 
 namespace Anomaly\Streams\Platform\Field\Value;
 
-use Illuminate\Support\Traits\Macroable;
-use Illuminate\Support\Traits\ForwardsCalls;
+use Anomaly\Streams\Platform\Image\Facades\Images;
 
 /**
- * Class Value
+ * Class ImageValue
+ * 
  * @link    http://pyrocms.com/
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Value
+class ImageValue extends Value
 {
-
-    use Macroable;
-    use ForwardsCalls;
 
     /**
      * The value.
@@ -25,13 +22,11 @@ class Value
     protected $value;
 
     /**
-     * Create a new class instance.
-     *
-     * @param $value
+     * Return an image instance.
      */
-    public function __construct($value)
+    public function make()
     {
-        $this->value = $value;
+        return Images::make($this->value);
     }
 
     /**
@@ -43,6 +38,16 @@ class Value
      */
     public function __call($method, $parameters)
     {
-        return $this->forwardCallTo($this->value, $method, $parameters);
+        return $this->forwardCallTo($this->make(), $method, $parameters);
+    }
+
+    /**
+     * Return the string value.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode($this->value);
     }
 }

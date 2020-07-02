@@ -2,12 +2,12 @@
 
 namespace Anomaly\Streams\Platform\Image\Concerns;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Collective\Html\HtmlFacade;
 use Illuminate\Support\Facades\Request;
 use Anomaly\Streams\Platform\Image\Concerns\CanPublish;
 use Anomaly\Streams\Platform\Image\Concerns\HasVersion;
-use Illuminate\Support\Arr;
 
 /**
  * Trait CanOutput
