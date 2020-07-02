@@ -256,6 +256,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerFieldTypes()
     {
+        $this->app->bind('streams.field_types.url', \Anomaly\Streams\Platform\Field\Type\Url::class);
         $this->app->bind('streams.field_types.text', \Anomaly\Streams\Platform\Field\Type\Text::class);
         $this->app->bind('streams.field_types.array', \Anomaly\Streams\Platform\Field\Type\Arr::class);
         $this->app->bind('streams.field_types.bool', \Anomaly\Streams\Platform\Field\Type\Boolean::class);

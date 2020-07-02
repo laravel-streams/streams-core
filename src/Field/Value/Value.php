@@ -45,4 +45,14 @@ class Value
     {
         return $this->forwardCallTo($this->value, $method, $parameters);
     }
+
+    /**
+     * Return the string value.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode($this->value);
+    }
 }
