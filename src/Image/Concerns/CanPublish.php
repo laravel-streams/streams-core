@@ -70,6 +70,18 @@ trait CanPublish
             return str_replace([public_path(), 'public::'], '', $this->source);
         }
 
+        /*
+         * If the path is already public
+         * and we DO have alterations
+         * then use the assets dir.
+         */
+        if (
+            Str::contains($this->source, [public_path(), 'public::'])
+            && ($this->hasAlterations() || $this->getQuality())
+        ) {
+            return str_replace([public_path(), 'public::'], 'assets/', $this->source);
+        }
+
         /**
          * If renaming then this has already
          * been provided by the filename.
@@ -133,7 +145,7 @@ trait CanPublish
     private function shouldPublish($path)
     {
         $resolved = Images::path($path);
-
+        
         if (!File::exists($path)) {
             return true;
         }
