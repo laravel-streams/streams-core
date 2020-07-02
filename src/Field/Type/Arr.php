@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Field\Type;
 
 use Anomaly\Streams\Platform\Field\FieldType;
+use Anomaly\Streams\Platform\Field\Value\ArrValue;
 
 /**
  * Class Arr
@@ -44,5 +45,16 @@ class Arr extends FieldType
         }
 
         return json_decode($value, true);
+    }
+
+    /**
+     * Expand the value.
+     *
+     * @param $value
+     * @return Collection
+     */
+    public function expand($value)
+    {
+        return new ArrValue($value);
     }
 }

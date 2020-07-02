@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Field;
 
+use Anomaly\Streams\Platform\Field\Value\Value;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Support\Traits\Properties;
@@ -69,6 +70,17 @@ class FieldType
     public function restore($value)
     {
         return (string) $value;
+    }
+
+    /**
+     * Expand the value.
+     *
+     * @param $value
+     * @return Collection
+     */
+    public function expand($value)
+    {
+        return new Value($value);
     }
 
     /**

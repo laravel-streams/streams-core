@@ -398,28 +398,28 @@ trait Properties
             /**
              * Type sniff the attribute value.
              */
-            // $type = gettype($attribute);
+            $type = gettype($attribute);
 
-            // /**
-            //  * Default type is string.
-            //  */
-            // if ($type === 'NULL') {
-            //     $type = 'string';
-            // }
+            /**
+             * Default type is string.
+             */
+            if ($type === 'NULL') {
+                $type = 'string';
+            }
 
-            // /**
-            //  * "double" is returned in lieue
-            //  * of float for historical reasons.
-            //  */
-            // if ($type === 'double') {
-            //     $type = 'float';
-            // }
+            /**
+             * "double" is returned in lieue
+             * of float for historical reasons.
+             */
+            if ($type === 'double') {
+                $type = 'float';
+            }
 
             /**
              * Default property definition.
              */
             $attribute = [
-                //'type' => $type,
+                'type' => $type,
                 'default' => $attribute,
             ];
 

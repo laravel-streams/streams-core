@@ -2,8 +2,6 @@
 
 namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-
 /**
  * Class StreamFactory
  *

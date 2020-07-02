@@ -3,13 +3,14 @@
 namespace Anomaly\Streams\Platform\Stream;
 
 use Illuminate\Support\Traits\Macroable;
+use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Anomaly\Streams\Platform\Repository\Repository;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
 use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 
 /**
@@ -19,7 +20,7 @@ use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Stream implements StreamInterface
+class Stream implements Arrayable, Jsonable
 {
 
     use Macroable;
@@ -35,7 +36,7 @@ class Stream implements StreamInterface
      */
     public function __construct(array $attributes = [])
     {
-        $this->setAttributes([
+        $this->setAttributes(array_merge([
             'name' => null,
             'slug' => null,
             'description' => null,
@@ -53,14 +54,12 @@ class Stream implements StreamInterface
             'searchable' => true,
             'versionable' => true,
             'translatable' => false,
-        ]);
+        ], $attributes));
 
         $this->buildProperties();
 
         $this->fill($attributes);
     }
-
-    
 
     /**
      * Return the entry repository.

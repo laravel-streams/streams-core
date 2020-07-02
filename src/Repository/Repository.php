@@ -197,7 +197,7 @@ class Repository implements RepositoryInterface
      */
     public function newCriteria()
     {
-        $method = Str::camel("new_{$this->stream->type}_criteria");
+        $method = Str::camel("new_{$this->stream->source['type']}_criteria");
 
         return $this->$method();
     }

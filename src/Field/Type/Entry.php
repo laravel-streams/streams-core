@@ -22,10 +22,10 @@ class Entry extends FieldType
     protected $attributes = [];
 
     /**
-     * Restore the value from storage.
+     * Expand the value.
      *
      * @param $value
-     * @return string
+     * @return EntryInterface|null
      */
     public function expand($value)
     {

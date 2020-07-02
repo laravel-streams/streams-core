@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Stream;
 
 use Illuminate\Support\Facades\App;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Stream\Stream;
 
 /**
  * Class StreamManager
@@ -19,7 +19,7 @@ class StreamManager
      * Make a stream instance.
      *
      * @param string $stream
-     * @return StreamInterface
+     * @return Stream
      */
     public function make($stream)
     {

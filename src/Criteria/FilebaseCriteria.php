@@ -6,17 +6,15 @@ use Filebase\Database;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
-use Facade\Ignition\QueryRecorder\Query;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Entry\Entry;
-use Anomaly\Streams\Platform\Support\Traits\HasMemory;
+use Anomaly\Streams\Platform\Stream\Stream;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Anomaly\Streams\Platform\Criteria\Format\Markdown;
+use Anomaly\Streams\Platform\Support\Traits\HasMemory;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
-use Exception;
 
 /**
  * Class FilebaseCriteria
@@ -34,34 +32,38 @@ class FilebaseCriteria implements CriteriaInterface
     /**
      * The database query.
      *
-     * @var Query
+     * @var Database
      */
     protected $query;
 
     /**
      * The entry stream.
      *
-     * @var StreamInterface
+     * @var Stream
      */
     protected $stream;
 
     /**
      * Create a new class instance.
      *
-     * @param StreamInterface $stream
+     * @param Stream $stream
      */
-    public function __construct(StreamInterface $stream)
+    public function __construct(Stream $stream)
     {
         $this->stream = $stream;
 
+        $source = $stream->expand('source');
+
         $this->query = new Database([
-            // @todo IDE not hinting
-            'dir' => base_path($stream->attr('filebase', 'streams/data/' . $stream->slug)),
+            // @todo IDE not hinting attr?
+            // @todo replace with expand('source')->get('path', 'streams/data/' . $stream->slug)
+            'dir' => base_path(Arr::get($stream->source, 'path', 'streams/data/' . $stream->slug)),
 
             //'backupLocation' => 'path/to/database/backup/dir',
-            'format'         => Markdown::class,
-            'cache'          => false,
-            //'cache_expires'  => 1800,
+            // @todo Gross - shorten/fix
+            'format'         => Config::get('streams.sources.filebase.formats.' . $source->get('format', 'md')),
+            'cache'          => $source->get('cache', false),
+            'cache_expires'  => $source->get('ttl', 1800),
             'pretty'         => true,
             'safe_filename'  => true,
             //'read_only'      => false,
@@ -159,7 +161,7 @@ class FilebaseCriteria implements CriteriaInterface
         $method = Str::studly($nested ? $nested . '_where' : 'where');
 
         if (is_string($value) && $operator == 'like') {
-            $value = str_replace('%', '', $value);// @todo - Filebase doesn't need this?
+            $value = str_replace('%', '', $value); // @todo - Filebase doesn't need this?
         }
 
         $this->query = $this->query->{$method}($field, $operator, $value);
@@ -272,7 +274,7 @@ class FilebaseCriteria implements CriteriaInterface
         $id = Arr::pull($attributes, 'id');
 
         if ($this->query->has($id)) {
-            throw new Exception("Entry with ID [{$id}] already exists.");
+            throw new \Exception("Entry with ID [{$id}] already exists.");
         }
 
         $document = $this->query->get($id);

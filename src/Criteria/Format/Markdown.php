@@ -57,9 +57,11 @@ class Markdown implements FormatInterface
     public static function decode($data)
     {
         $decoded = YamlFrontMatter::parse($data);
+        
+        $matter = $decoded->matter();
 
         return [
-            'data' => array_merge($decoded->matter(), ['body' => $decoded->body()])
+            'data' => array_merge(Arr::get($matter, 'data', $matter), ['body' => $decoded->body()])
         ];
     }
 }

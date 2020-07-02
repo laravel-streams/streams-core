@@ -28,11 +28,18 @@ class StreamInput
         }
 
         /**
-         * Defaults.
+         * Defaults to filebase.
          */
-        if (!isset($stream['type'])) {
-            $stream['type'] = 'filebase';
-            $stream['format'] = 'md';
+        if (!isset($stream['source'])) {
+            // @todo maybe config('streams.source.default', $default)
+            $stream['source'] = [
+                'type' => 'filebase',
+                'format' => 'md',
+            ];
+        }
+
+        if (!isset($stream['source']['type'])) {
+            $stream['source']['type'] = 'filebase';
         }
 
         return $stream;

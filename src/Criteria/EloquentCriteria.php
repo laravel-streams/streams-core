@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Entry\Entry;
+use Anomaly\Streams\Platform\Stream\Stream;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
 
 /**
@@ -36,16 +36,16 @@ class EloquentCriteria implements CriteriaInterface
     /**
      * The entry stream.
      *
-     * @var StreamInterface
+     * @var Stream
      */
     protected $stream;
 
     /**
      * Create a new class instance.
      *
-     * @param StreamInterface $stream
+     * @param Stream $stream
      */
-    public function __construct(StreamInterface $stream)
+    public function __construct(Stream $stream)
     {
         $this->stream = $stream;
 

@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Field\Type;
 
+use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Field\FieldType;
 use Anomaly\Streams\Platform\Support\Facades\Streams;
 
@@ -22,10 +23,10 @@ class Entries extends FieldType
     protected $attributes = [];
 
     /**
-     * Restore the value from storage.
+     * Expand the value.
      *
      * @param $value
-     * @return string
+     * @return Collection
      */
     public function expand($value)
     {

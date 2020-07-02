@@ -5,7 +5,6 @@ namespace Anomaly\Streams\Platform\Stream;
 use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Field\FieldBuilder;
 use Anomaly\Streams\Platform\Field\FieldFactory;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
  * Class StreamBuilder
@@ -21,7 +20,7 @@ class StreamBuilder
      * Build a stream.
      *
      * @param array $stream
-     * @return StreamInterface
+     * @return Stream
      */
     public static function build(array $stream)
     {
