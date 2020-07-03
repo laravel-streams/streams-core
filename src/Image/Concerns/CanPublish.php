@@ -79,7 +79,7 @@ trait CanPublish
             Str::contains($this->source, [public_path(), 'public::'])
             && ($this->hasAlterations() || $this->getQuality())
         ) {
-            return str_replace([public_path(), 'public::'], 'assets/', $this->source);
+            return str_replace([public_path(), 'public::'], '/assets/', $this->source);
         }
 
         /**
