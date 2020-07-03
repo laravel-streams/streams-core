@@ -23,10 +23,10 @@ use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Purifier;
 use Anomaly\Streams\Platform\View\ViewIncludes;
 use Anomaly\Streams\Platform\View\ViewTemplate;
-use Anomaly\Streams\Platform\Asset\Facades\Assets;
-use Anomaly\Streams\Platform\Image\Facades\Images;
 use Anomaly\Streams\Platform\Stream\StreamBuilder;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Anomaly\Streams\Platform\Support\Facades\Assets;
+use Anomaly\Streams\Platform\Support\Facades\Images;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Ui\Table\TableComponent;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
@@ -50,6 +50,8 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $aliases = [
+        'Assets' => \Anomaly\Streams\Platform\Support\Facades\Assets::class,
+        'Images' => \Anomaly\Streams\Platform\Support\Facades\Images::class,
         'Streams' => \Anomaly\Streams\Platform\Support\Facades\Streams::class,
         'Messages' => \Anomaly\Streams\Platform\Support\Facades\Messages::class,
     ];
@@ -423,7 +425,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function loadTranslations()
     {
-        trans()->addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/lang'));
+        Lang::addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/lang'));
     }
 
     /**
@@ -722,7 +724,7 @@ class StreamsServiceProvider extends ServiceProvider
          */
         try {
             Route::getRoutes()->match($request);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             // 404 == Onward!
         }
 

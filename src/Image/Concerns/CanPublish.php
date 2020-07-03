@@ -5,7 +5,7 @@ namespace Anomaly\Streams\Platform\Image\Concerns;
 use Illuminate\Support\Str;
 use League\Flysystem\MountManager;
 use Illuminate\Support\Facades\File;
-use Anomaly\Streams\Platform\Image\Facades\Images;
+use Anomaly\Streams\Platform\Support\Facades\Images;
 use Intervention\Image\ImageManager as Intervention;
 
 /**

@@ -3,7 +3,7 @@
 use Tests\TestCase;
 use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Image\Image;
-use Anomaly\Streams\Platform\Image\Facades\Images;
+use Anomaly\Streams\Platform\Support\Facades\Images;
 
 /**
  * Class ImageTest

@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Field\Value;
 
-use Anomaly\Streams\Platform\Image\Facades\Images;
+use Anomaly\Streams\Platform\Support\Facades\Images;
 
 /**
  * Class UrlValue
