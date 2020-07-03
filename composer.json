@@ -20,7 +20,7 @@
         "cartalyst/assetic": "1.4.*",
         "linkorb/jsmin-php": "1.0.0",
         "leafo/scssphp": "0.7.*",
-        "natxet/CssMin": "3.0.*",
+        "natxet/cssmin": "3.0.*",
         "oyejorge/less.php": "1.7.*",
         "ptachoire/cssembed": "1.0.*",
         "robclancy/presenter": "1.3.*",
