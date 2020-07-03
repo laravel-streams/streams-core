@@ -25,7 +25,7 @@
         "kriswallsmith/assetic": "1.4.*",
         "leafo/scssphp": "0.6.*",
         "lmammino/jsmin4assetic": "1.0.*",
-        "natxet/CssMin": "3.0.*",
+        "natxet/cssmin": "3.0.*",
         "oyejorge/less.php": "1.7.*",
         "ptachoire/cssembed": "1.0.*",
         "robclancy/presenter": "1.3.*",
