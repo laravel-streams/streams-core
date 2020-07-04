@@ -8,7 +8,8 @@ use Anomaly\Streams\Platform\Console\Kernel;
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
- * @deprecated 1.7.30 Has been replaced with a PSR-4 compliant class.
+ * @deprecated v1.7.30 Has been replaced with a PSR-4 compliant class.
+ * @see Anomaly\Streams\Platform\Config\Command\CacheConfig
  */
 class CacheConfig
 {
