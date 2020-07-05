@@ -35,7 +35,6 @@ class StreamManager
     {
         return $this
             ->make($stream)
-            ->repository()
-            ->newCriteria();
+            ->entries();
     }
 }

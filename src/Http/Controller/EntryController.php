@@ -32,7 +32,7 @@ class EntryController extends Controller
     {
         $stream = Streams::make(Request::route()->getAction('stream'));
 
-        if (!$entry = $stream->find($slug)) {
+        if (!$entry = $stream->entries()->find($slug)) {
             abort(404);
         }
 
