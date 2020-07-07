@@ -579,7 +579,7 @@ class Asset
 
             $twig->setLexer(
                 new \Twig_Lexer($twig, [
-                    'tag_comment' => ['{*', '*}']
+                    'tag_comment' => ['{^', '^}']
                 ])
             );
 
