@@ -64,10 +64,6 @@ class ApplicationManager
             return $this->app->make('streams.applications.' . $handle);
         });
 
-        $this->app->singleton('streams.application.origin', function () use ($handle) {
-            return $this->app->make('streams.applications.' . $handle);
-        });
-
         $this->app->singleton('streams.application.handle', function () use ($handle) {
             return $this->app->make('streams.applications.' . $handle)->handle;
         });
