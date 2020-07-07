@@ -67,7 +67,7 @@ class WriteEntityRouter
         $path = $this->addon->getPath("src/{$entity}/{$entity}Router.php");
 
         $template = $filesystem->get(
-            base_path("vendor/anomaly/streams-platform/resources/stubs/entity/router.stub")
+            base_path("vendor/visiosoft/streams-platform/resources/stubs/entity/router.stub")
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

@@ -361,7 +361,7 @@ class EloquentQueryBuilder extends Builder
                 )
         );
 
-        $this->query->groupBy([$model->getTableName() . '.id', $model->getTranslationsTableName() . '.id']);
+        $this->query->groupBy([$model->getTableName() . '.id']);
 
         /**
          * Grab either what matches or null because
@@ -369,7 +369,9 @@ class EloquentQueryBuilder extends Builder
          */
         $this->query->where(
             function (\Illuminate\Database\Query\Builder $query) use ($model, $locale) {
-                $query->where($model->getTranslationsTableName() . '.locale', $locale ?: config('app.locale'));
+                $query->where($model->getTranslationsTableName() . '.locale', $locale ?: config('app.locale'));//active lang
+                $query->orWhere($model->getTranslationsTableName() . '.locale',setting_value('streams::default_locale'));//system lang
+                $query->orWhere($model->getTranslationsTableName() . '.locale','en');//default lang
                 $query->orWhereNull($model->getTranslationsTableName() . '.locale');
             }
         );

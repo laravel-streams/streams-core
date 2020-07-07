@@ -1,5 +1,5 @@
 {
-    "name": "anomaly/streams-platform",
+    "name": "visiosoft/streams-platform",	
     "description": "A powerful, inclusive, modular PHP application engine built lovingly for Laravel.",
     "authors": [
         {
@@ -34,7 +34,13 @@
         "barryvdh/laravel-httpcache": "^0.3.0",
         "tubalmartin/cssmin": "~4.0",
         "mrclay/jsmin-php": "~2.4",
-        "fzaninotto/faker": "~1.4"
+        "fzaninotto/faker": "~1.4",
+        "symfony/console": "v4.4.8",
+        "symfony/debug": "v4.4.8",
+        "symfony/error-handler": "v4.4.8",
+        "symfony/http-kernel": "v4.4.8",
+        "symfony/mime": "v5.0.9",
+        "symfony/var-dumper": "v4.4.8"
     },
     "autoload": {
         "psr-4": {

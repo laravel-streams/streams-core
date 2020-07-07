@@ -22,8 +22,8 @@ class MigrateStreams
      * @var array
      */
     protected $paths = [
-        'vendor/anomaly/streams-platform/migrations/core',
-        'vendor/anomaly/streams-platform/migrations/application',
+        'vendor/visiosoft/streams-platform/migrations/core',
+        'vendor/visiosoft/streams-platform/migrations/application',
     ];
 
     /**

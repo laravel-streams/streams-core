@@ -76,7 +76,7 @@ class WriteAddonTestCase
         $path = "{$this->path}/tests/{$addon}TestCase.php";
 
         $template = $filesystem->get(
-            base_path("vendor/anomaly/streams-platform/resources/stubs/addons/tests/test.stub")
+            base_path("vendor/visiosoft/streams-platform/resources/stubs/addons/tests/test.stub")
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

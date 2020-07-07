@@ -1,14 +1,11 @@
-<?php
+<?php namespace Anomaly\Streams\Platform\Addon;
 
-namespace Anomaly\Streams\Platform\Addon;
-
-use Illuminate\Support\Str;
-use Robbo\Presenter\Presenter;
-use Robbo\Presenter\PresentableInterface;
-use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Traits\Hookable;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Anomaly\Streams\Platform\Traits\Hookable;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Robbo\Presenter\PresentableInterface;
+use Robbo\Presenter\Presenter;
 
 /**
  * Class Addon
@@ -144,7 +141,7 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function isCore()
     {
-        return Str::contains($this->getPath(), 'core/' . $this->getVendor());
+        return str_contains($this->getPath(), 'core/' . $this->getVendor());
     }
 
     /**
@@ -154,7 +151,7 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function isShared()
     {
-        return Str::contains($this->getPath(), 'addons/shared/' . $this->getVendor());
+        return str_contains($this->getPath(), 'addons/shared/' . $this->getVendor());
     }
 
     /**
@@ -164,7 +161,7 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function isTesting()
     {
-        return Str::contains($this->getPath(), 'vendor/anomaly/streams-platform/addons/' . $this->getVendor());
+        return str_contains($this->getPath(), 'vendor/visiosoft/streams-platform/addons/' . $this->getVendor());
     }
 
     /**
@@ -286,7 +283,7 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function hasConfig($key = '*')
     {
-        return (bool) config($this->getNamespace($key));
+        return (bool)config($this->getNamespace($key));
     }
 
     /**
