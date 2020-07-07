@@ -26,140 +26,15 @@ class Addon implements Arrayable, Jsonable
     use Properties;
     use FiresCallbacks;
 
-    /**
-     * Create a new class instance.
-     *
-     * @param array $attributes
-     */
-    public function __construct(array $attributes = [])
-    {
-        $this->setAttributes([
-            'path' => null,
-            'type' => null,
-        ]);
-
-        $this->buildProperties();
-
-        $this->fill($attributes);
-    }
-
-    /**
-     * The addon slug.
-     *
-     * @var string
-     */
-    protected $slug;
-
-    /**
-     * Get the name.
-     *
-     * @var null|string
-     */
-    protected $name;
-
-    /**
-     * Get the title.
-     *
-     * @var null|string
-     */
-    protected $title;
-
-    /**
-     * Get the title.
-     *
-     * @var null|string
-     */
-    protected $description;
-
-    /**
-     * The addon vendor.
-     *
-     * @var string
-     */
-    protected $vendor;
-
-    /**
-     * The addon namespace.
-     *
-     * @var null|string
-     */
-    protected $namespace;
-
-    /**
-     * The sub-addons to load.
-     *
-     * @var array
-     */
-    protected $addons = [];
-
-    /**
-     * The enabled flag.
-     *
-     * @var bool
-     */
-    public $enabled = false;
-
-    /**
-     * The installed flag.
-     *
-     * @var bool
-     */
-    public $installed = false;
-
-    /**
-     * Set the installed flag.
-     *
-     * @param  $installed
-     * @return $this
-     */
-    public function setInstalled($installed)
-    {
-        $this->installed = $installed;
-
-        return $this;
-    }
-
-    /**
-     * Get the installed flag.
-     *
-     * @return bool
-     */
-    public function isInstalled()
-    {
-        return $this->installed;
-    }
-
-    /**
-     * Set the enabled flag.
-     *
-     * @param  $enabled
-     * @return $this
-     */
-    public function setEnabled($enabled)
-    {
-        $this->enabled = $enabled;
-
-        return $this;
-    }
-
-    /**
-     * Get the enabled flag.
-     *
-     * @return bool
-     */
-    public function isEnabled()
-    {
-        return $this->enabled && $this->installed;
-    }
-
+    
     /**
      * Return whether the addon is core or not.
      *
      * @return bool
      */
-    public function isCore()
+    public function inVendor()
     {
-        return Str::contains($this->path, 'core/' . $this->getVendor());
+        return Str::contains(__DIR__, base_path('vendor'));
     }
 
     /**
@@ -169,82 +44,7 @@ class Addon implements Arrayable, Jsonable
      */
     public function isShared()
     {
-        return Str::contains($this->path, 'addons/shared/' . $this->getVendor());
-    }
-
-    /**
-     * Return whether the addon is for testing or not.
-     *
-     * @return bool
-     */
-    public function isTesting()
-    {
-        return Str::contains($this->path, 'vendor/anomaly/streams-platform/addons/' . $this->getVendor());
-    }
-
-    /**
-     * Get the addon name string.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name ?: $this->getNamespace('addon.name');
-    }
-
-    /**
-     * Get the addon description string.
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description ?: $this->getNamespace('addon.description');
-    }
-
-    /**
-     * Get a namespaced key string.
-     *
-     * @param  null $key
-     * @return string
-     */
-    public function getNamespace($key = null)
-    {
-        if (!$this->namespace) {
-            $this->makeNamespace();
-        }
-
-        return $this->namespace . ($key ? '::' . $key : $key);
-    }
-
-    /**
-     * Return whether an addon has
-     * config matching the key.
-     *
-     * @param  string $key
-     * @return boolean
-     */
-    public function hasConfig($key = '*')
-    {
-        return (bool) config($this->getNamespace($key));
-    }
-
-    /**
-     * Return whether an addon has
-     * config matching any key.
-     *
-     * @param  array $keys
-     * @return bool
-     */
-    public function hasAnyConfig(array $keys = ['*'])
-    {
-        foreach ($keys as $key) {
-            if ($this->hasConfig($key)) {
-                return true;
-            }
-        }
-
-        return false;
+        return Str::contains(__DIR__, base_path('addons/shared'));
     }
 
     /**
@@ -252,7 +52,7 @@ class Addon implements Arrayable, Jsonable
      *
      * @return mixed|null
      */
-    public function getComposerJson()
+    public function composerJson()
     {
         $self = $this;
 
@@ -269,11 +69,9 @@ class Addon implements Arrayable, Jsonable
      *
      * @return array|null
      */
-    public function getComposerLock()
+    public function lockInformation()
     {
-        $self = $this;
-
-        $target = $self->getPackageName();
+        $target = $this->package;
 
         return $this->once($this->getNamespace('composer.lock'), function () use ($self, $target) {
 
@@ -295,7 +93,7 @@ class Addon implements Arrayable, Jsonable
      *
      * @return string|null
      */
-    public function getReadme()
+    public function readme()
     {
         $self = $this;
 
@@ -305,123 +103,6 @@ class Addon implements Arrayable, Jsonable
 
             return file_get_contents($readme);
         });
-    }
-
-    /**
-     * Return the package name.
-     *
-     * @return string
-     */
-    public function getPackageName()
-    {
-        return $this->getVendor() . '/' . $this->getSlug() . '-' . $this->getType();
-    }
-
-    /**
-     * Return an addon path.
-     *
-     * @return string
-     */
-    public function path($path = null)
-    {
-        return $this->path . ($path ? DIRECTORY_SEPARATOR . $path : $path);
-    }
-
-    /**
-     * Return the app path.
-     *
-     * @param null $path
-     */
-    public function getAppPath($path = null)
-    {
-        return ltrim(str_replace(base_path(), '', $this->path($path)), DIRECTORY_SEPARATOR);
-    }
-
-    /**
-     * Set the addon slug.
-     *
-     * @param  $slug
-     * @return $this
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get the addon slug.
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    /**
-     * Set the addon type.
-     *
-     * @param  $type
-     * @return $this
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get the addon type.
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Set the vendor.
-     *
-     * @param $vendor
-     * @return $this
-     */
-    public function setVendor($vendor)
-    {
-        $this->vendor = $vendor;
-
-        return $this;
-    }
-
-    /**
-     * Get the vendor.
-     *
-     * @return string
-     */
-    public function getVendor()
-    {
-        return $this->vendor;
-    }
-
-    /**
-     * Get the sub-addons.
-     *
-     * @return array
-     */
-    public function getAddons()
-    {
-        return $this->addons;
-    }
-
-    /**
-     * Make the addon namespace.
-     */
-    protected function makeNamespace()
-    {
-        $this->namespace = "{$this->getVendor()}.{$this->getType()}.{$this->getSlug()}";
     }
 
     /**

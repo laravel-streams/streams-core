@@ -16,20 +16,6 @@ class AddonServiceProvider extends ServiceProvider
 {
 
     /**
-     * The addon class.
-     *
-     * @var string
-     */
-    protected $addon;
-
-    /**
-     * The addon namespace.
-     *
-     * @var string
-     */
-    protected $namespace;
-
-    /**
      * Register the addon.
      */
     public function registerAddon()
