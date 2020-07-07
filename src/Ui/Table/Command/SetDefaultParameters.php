@@ -1,5 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php
 
+namespace Anomaly\Streams\Platform\Ui\Table\Command;
+
+use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -92,7 +95,7 @@ class SetDefaultParameters
                  * Make sure the handler is
                  * formatted properly.
                  */
-                if (!str_contains($handler, '@')) {
+                if (!Str::contains($handler, '@')) {
                     $handler .= '@handle';
                 }
 

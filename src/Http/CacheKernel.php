@@ -82,7 +82,7 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
         /**
          * Disable for Control Panel
          */
-        if (str_is(self::$excluded, $_SERVER['REQUEST_URI']) || in_array($_SERVER['HTTP_HOST'], $domains)) {
+        if (str_is(static::$excluded, $_SERVER['REQUEST_URI']) || in_array($_SERVER['HTTP_HOST'], $domains)) {
             return $kernel;
         }
 

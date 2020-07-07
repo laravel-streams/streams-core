@@ -1,49 +1,52 @@
-<?php namespace Anomaly\Streams\Platform;
+<?php
 
-use Anomaly\Streams\Platform\Addon\AddonManager;
-use Anomaly\Streams\Platform\Addon\Theme\Command\LoadCurrentTheme;
-use Anomaly\Streams\Platform\Application\Command\ConfigureFileCacheStore;
-use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
-use Anomaly\Streams\Platform\Application\Command\ConfigureUriValidator;
-use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
-use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
-use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
-use Anomaly\Streams\Platform\Application\Command\SetApplicationDomain;
-use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
-use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
-use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
-use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
-use Anomaly\Streams\Platform\Entry\EntryModel;
-use Anomaly\Streams\Platform\Entry\EntryObserver;
-use Anomaly\Streams\Platform\Event\Booted;
-use Anomaly\Streams\Platform\Event\Booting;
-use Anomaly\Streams\Platform\Event\Ready;
-use Anomaly\Streams\Platform\Field\FieldModel;
-use Anomaly\Streams\Platform\Field\FieldObserver;
-use Anomaly\Streams\Platform\Http\Command\ConfigureRequest;
-use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Model\EloquentObserver;
-use Anomaly\Streams\Platform\Routing\Command\IncludeRoutes;
-use Anomaly\Streams\Platform\Routing\UrlGenerator;
-use Anomaly\Streams\Platform\Search\Command\ConfigureScout;
-use Anomaly\Streams\Platform\Stream\StreamModel;
-use Anomaly\Streams\Platform\Stream\StreamObserver;
-use Anomaly\Streams\Platform\View\Cache\CacheAdapter;
-use Anomaly\Streams\Platform\View\Cache\CacheKey;
-use Anomaly\Streams\Platform\View\Cache\CacheStrategy;
-use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
-use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
-use Anomaly\Streams\Platform\View\ViewServiceProvider;
+namespace Anomaly\Streams\Platform;
+
+use Illuminate\Support\Str;
+use Illuminate\Routing\Redirector;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\ServiceProvider;
 use Asm89\Twig\CacheExtension\Extension;
-use Illuminate\Console\Scheduling\Schedule;
+use Anomaly\Streams\Platform\Event\Ready;
+use Anomaly\Streams\Platform\Event\Booted;
 use Illuminate\Contracts\Cache\Repository;
+use Anomaly\Streams\Platform\Event\Booting;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Routing\Redirector;
-use Illuminate\Support\ServiceProvider;
+use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Field\FieldModel;
+use Anomaly\Streams\Platform\Addon\AddonManager;
+use Anomaly\Streams\Platform\Stream\StreamModel;
+use Anomaly\Streams\Platform\Entry\EntryObserver;
+use Anomaly\Streams\Platform\Field\FieldObserver;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\View\Cache\CacheKey;
+use Anomaly\Streams\Platform\Routing\UrlGenerator;
+use Anomaly\Streams\Platform\Stream\StreamObserver;
+use Anomaly\Streams\Platform\Model\EloquentObserver;
+use Anomaly\Streams\Platform\View\Cache\CacheAdapter;
+use Anomaly\Streams\Platform\View\Cache\CacheStrategy;
+use Anomaly\Streams\Platform\View\ViewServiceProvider;
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
+use Anomaly\Streams\Platform\Http\Command\ConfigureRequest;
+use Anomaly\Streams\Platform\Routing\Command\IncludeRoutes;
+use Anomaly\Streams\Platform\Search\Command\ConfigureScout;
+use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
+use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
+use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
+use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
+use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
+use Anomaly\Streams\Platform\Addon\Theme\Command\LoadCurrentTheme;
+use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
+use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
+use Anomaly\Streams\Platform\Application\Command\SetApplicationDomain;
+use Anomaly\Streams\Platform\Application\Command\ConfigureUriValidator;
+use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
+use Anomaly\Streams\Platform\Application\Command\ConfigureFileCacheStore;
+use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
+use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
 
 /**
  * Class StreamsServiceProvider
@@ -234,12 +237,12 @@ class StreamsServiceProvider extends ServiceProvider
                 foreach (array_merge($this->schedule, config('streams.schedules', [])) as $frequency => $commands) {
                     foreach (array_filter($commands) as $command) {
 
-                        if (str_contains($frequency, ' ')) {
+                        if (Str::contains($frequency, ' ')) {
                             $schedule->command($command)->cron($frequency);
                         }
 
-                        if (!str_contains($frequency, ' ')) {
-                            $schedule->command($command)->{camel_case($frequency)}();
+                        if (!Str::contains($frequency, ' ')) {
+                            $schedule->command($command)->{Str::camel($frequency)}();
                         }
                     }
                 }
@@ -264,7 +267,8 @@ class StreamsServiceProvider extends ServiceProvider
                         $twig->addExtension(
                             new Extension(
                                 new CacheStrategy(
-                                    new CacheAdapter($this->app->make(Repository::class)), new CacheKey()
+                                    new CacheAdapter($this->app->make(Repository::class)),
+                                    new CacheKey()
                                 )
                             )
                         );
@@ -476,8 +480,10 @@ class StreamsServiceProvider extends ServiceProvider
             $routes = $app['router']->getRoutes();
 
             $url = new \Anomaly\Streams\Platform\Routing\UrlGenerator(
-                $routes, $app->rebinding(
-                    'request', function ($app, $request) {
+                $routes,
+                $app->rebinding(
+                    'request',
+                    function ($app, $request) {
                         $app['url']->setRequest($request);
                     }
                 )
@@ -504,5 +510,4 @@ class StreamsServiceProvider extends ServiceProvider
             return $url;
         });
     }
-
 }

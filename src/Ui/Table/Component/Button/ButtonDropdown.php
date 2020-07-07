@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
 
+use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -47,8 +48,14 @@ class ButtonDropdown
     public function build(TableBuilder $builder)
     {
         $buttons = $builder->getButtons();
+        $authorizer = resolve(Authorizer::class);
 
         foreach ($buttons as $key => &$button) {
+            if (isset($button['permission']) && !$authorizer->authorize($button['permission'])) {
+                // We don't have permission to use this button so hide it
+                continue;
+            }
+
             if ($dropdown = array_get($button, 'parent')) {
                 foreach ($buttons as &$parent) {
                     if (array_get($parent, 'button') == $dropdown) {

@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Message\MessageBag;
-use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
@@ -74,11 +72,13 @@ class HandleVersioning
         ) {
             $entry->unguard();
 
-            try {
-                $entry->version();
-            } catch (\Exception $exception) {
-                $messages->error('Versioning failed: ' . $exception->getMessage());
-            }
+            // try {
+            //     $entry->version();
+            // } catch (\Exception $exception) {
+            //     $messages->error('Versioning failed: ' . $exception->getMessage());
+            // }
+
+            $entry->version();
 
             $entry->reguard();
         }

@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Config\Command;
+<?php namespace Anomaly\Streams\Platform\Cache\Command;
 
 use Anomaly\Streams\Platform\Console\Kernel;
 
@@ -8,6 +8,8 @@ use Anomaly\Streams\Platform\Console\Kernel;
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
+ * @deprecated v1.7.30 Has been replaced with a PSR-4 compliant class.
+ * @see Anomaly\Streams\Platform\Config\Command\CacheConfig
  */
 class CacheConfig
 {

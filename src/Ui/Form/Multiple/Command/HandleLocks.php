@@ -76,14 +76,5 @@ class HandleLocks
         $this->builder->setSave(false);
 
         $this->builder->setOption('locked', true);
-
-        $messages->important(
-            trans(
-                'streams::lock.locked_by_user',
-                [
-                    'username' => $user->getUsername(),
-                ]
-            )
-        );
     }
 }

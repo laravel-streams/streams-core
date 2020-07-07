@@ -1,8 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Asset;
+<?php
 
-use Anomaly\Streams\Platform\Application\Application;
-use Illuminate\Contracts\Config\Repository;
+namespace Anomaly\Streams\Platform\Asset;
+
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Config\Repository;
+use Anomaly\Streams\Platform\Application\Application;
 
 /**
  * Class AssetPaths
@@ -144,7 +147,7 @@ class AssetPaths
      */
     public function realPath($path)
     {
-        if (str_contains($path, '::')) {
+        if (Str::contains($path, '::')) {
 
             list($namespace, $path) = explode('::', $path);
 
@@ -190,7 +193,7 @@ class AssetPaths
          * If the path is already public
          * then just use it as it is.
          */
-        if (str_contains($collection, public_path())) {
+        if (Str::contains($collection, public_path())) {
             return str_replace(public_path(), '', $collection);
         }
 

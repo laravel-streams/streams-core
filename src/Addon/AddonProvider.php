@@ -2,20 +2,23 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Extension\Extension;
-use Anomaly\Streams\Platform\Addon\Module\Module;
-use Anomaly\Streams\Platform\Addon\Theme\Theme;
-use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
-use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
-use Anomaly\Streams\Platform\View\ViewMobileOverrides;
-use Anomaly\Streams\Platform\View\ViewOverrides;
-use Illuminate\Console\Events\ArtisanStarting;
+use Illuminate\Support\Str;
+use Illuminate\Routing\Router;
+use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Traits\Macroable;
+use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Console\Events\ArtisanStarting;
+use Anomaly\Streams\Platform\Addon\Theme\Theme;
+use Anomaly\Streams\Platform\View\ViewOverrides;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Database\Eloquent\Factory;
-use Illuminate\Foundation\AliasLoader;
-use Illuminate\Routing\Router;
+use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Anomaly\Streams\Platform\View\ViewMobileOverrides;
+use Anomaly\Streams\Platform\Addon\Extension\Extension;
+use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
+use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
 
 /**
  * Class AddonProvider
@@ -26,6 +29,8 @@ use Illuminate\Routing\Router;
  */
 class AddonProvider
 {
+    use Macroable;
+    use FiresCallbacks;
 
     /**
      * The cached services.
@@ -143,6 +148,8 @@ class AddonProvider
 
         $this->providers[] = $provider = $addon->newServiceProvider();
 
+        $this->fire('register', ['provider' => $provider, 'addon' => $addon, 'addonProvider' => $this]);
+
         $this->bindAliases($provider);
         $this->bindClasses($provider);
         $this->bindSingletons($provider);
@@ -167,6 +174,8 @@ class AddonProvider
 
         // Call other providers last.
         $this->registerProviders($provider);
+
+        $this->fire('registered', ['provider' => $provider, 'addon' => $addon, 'addonProvider' => $this]);
     }
 
     /**
@@ -323,7 +332,7 @@ class AddonProvider
              * Check if the route is a view. In
              * which case we can simplify things.
              */
-            if (is_string($route) && str_contains($route, ['.', '::'])) {
+            if (is_string($route) && Str::contains($route, ['.', '::'])) {
 
                 \Route::view($uri, $route);
 
@@ -351,7 +360,7 @@ class AddonProvider
 
             array_set($route, 'streams::addon', $addon->getNamespace());
 
-            if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
+            if (is_string($route['uses']) && !Str::contains($route['uses'], '@')) {
                 $this->router->resource($uri, $route['uses']);
             } else {
 
@@ -411,7 +420,7 @@ class AddonProvider
 
                     array_set($route, 'streams::addon', $addon->getNamespace());
 
-                    if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
+                    if (is_string($route['uses']) && !Str::contains($route['uses'], '@')) {
                         $router->resource($uri, $route['uses']);
                     } else {
 
@@ -483,7 +492,7 @@ class AddonProvider
 
             array_set($route, 'streams::addon', $addon->getNamespace());
 
-            if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
+            if (is_string($route['uses']) && !Str::contains($route['uses'], '@')) {
                 $this->router->resource($uri, $route['uses']);
             } else {
 
@@ -647,7 +656,8 @@ class AddonProvider
                  * If, for whatever reason, this fails let
                  * it fail silently. Mapping additional routes
                  * could be volatile at certain application states.
-                 */ }
+                 */
+            }
         }
     }
 

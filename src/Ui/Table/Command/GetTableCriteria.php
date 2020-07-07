@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Support\Presenter;

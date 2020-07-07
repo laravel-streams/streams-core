@@ -1,8 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
 
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Model\EloquentModel;
+namespace Anomaly\Streams\Platform\Support;
+
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Support\Arrayable;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
  * Class Value
@@ -94,20 +98,20 @@ class Value
             ];
         }
 
-        $value = array_get($parameters, 'value');
+        $value = Arr::get($parameters, 'value');
 
         /*
          * If the value is a view path then return a view.
          */
-        if ($view = array_get($parameters, 'view')) {
+        if ($view = Arr::get($parameters, 'view')) {
             return view($view, ['value' => $value, $term => $entry])->render();
         }
 
         /*
          * If the value uses a template then parse it.
          */
-        if ($template = array_get($parameters, 'template')) {
-            return (string)$this->template->render($template, ['value' => $value, $term => $entry]);
+        if ($template = Arr::get($parameters, 'template')) {
+            return (string) $this->template->render($template, ['value' => $value, $term => $entry]);
         }
 
         /*
@@ -138,7 +142,7 @@ class Value
          * then parse it as a template.
          */
         if (is_string($value) && preg_match("/^{$term}.([a-zA-Z\\_]+)/", $value, $match)) {
-            $value = (string)$this->template->render("{{ {$value}|raw }}", $payload);
+            $value = (string) $this->template->render("{{ {$value}|raw }}", $payload);
         }
 
         $payload[$term] = $entry;
@@ -160,7 +164,7 @@ class Value
         /*
          * Parse the value with the entry.
          */
-        if ($wrapper = array_get($parameters, 'wrapper')) {
+        if ($wrapper = Arr::get($parameters, 'wrapper')) {
             $value = $this->parser->parse(
                 $wrapper,
                 ['value' => $value, $term => $entry]
@@ -192,11 +196,11 @@ class Value
          * If the value looks like a render-able
          * string then render it.
          */
-        if (is_string($value) && str_contains($value, ['{{', '{%'])) {
-            $value = (string)$this->template->render($value, [$term => $entry]);
+        if (is_string($value) && Str::contains($value, ['{{', '{%'])) {
+            $value = (string) $this->template->render($value, [$term => $entry]);
         }
 
-        if (is_string($value) && array_get($parameters, 'is_safe') !== true) {
+        if (is_string($value) && Arr::get($parameters, 'is_safe') !== true) {
             $value = $this->purifier->purify($value);
         }
 

@@ -164,7 +164,7 @@ class HttpCache
         /**
          * Determine the default TTL value.
          */
-        $default = $route->getAction('streams::http_cache') ?: config('streams::httpcache.ttl', 3600);
+        $default = $route->getAction('ttl') ?: config('streams::httpcache.ttl', 3600);
 
         /**
          * Exclude these paths from caching

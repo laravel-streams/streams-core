@@ -1,9 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Console\Command;
+<?php
 
-use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Support\Parser;
+namespace Anomaly\Streams\Platform\Stream\Console\Command;
+
+use Illuminate\Support\Str;
 use Illuminate\Filesystem\Filesystem;
+use Anomaly\Streams\Platform\Addon\Addon;
 use Symfony\Component\Finder\SplFileInfo;
+use Anomaly\Streams\Platform\Support\Parser;
 
 /**
  * Class WriteEntityTestCases
@@ -59,10 +62,10 @@ class WriteEntityTestCases
      */
     public function handle(Parser $parser, Filesystem $filesystem)
     {
-        $suffix = ucfirst(camel_case($this->slug));
-        $entity = str_singular($suffix);
+        $suffix = ucfirst(Str::camel($this->slug));
+        $entity = Str::singular($suffix);
 
-        $addon     = ucfirst(camel_case($this->addon->getSlug() . '_' . $this->addon->getType()));
+        $addon     = ucfirst(Str::camel($this->addon->getSlug() . '_' . $this->addon->getType()));
         $base      = $this->addon->getTransformedClass("Test\\{$addon}TestCase");
         $namespace = $this->addon->getTransformedClass("Test\\Unit\\{$entity}");
         $extends   = "{$addon}TestCase";
@@ -75,7 +78,7 @@ class WriteEntityTestCases
         foreach ($filesystem->allFiles($this->addon->getPath("src/{$entity}")) as $file) {
 
             // Skip interfaces.
-            if (str_contains($file->getFilename(), 'Interface')) {
+            if (Str::contains($file->getFilename(), 'Interface')) {
                 continue;
             }
 
