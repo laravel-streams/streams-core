@@ -574,6 +574,15 @@ class Asset
          * Parse the content. Always parse CSS.
          */
         if (in_array('parse', $filters) || $hint == 'css') {
+            /** @var Bridge $twig */
+            $twig = resolve('twig');
+
+            $twig->setLexer(
+                new \Twig_Lexer($twig, [
+                    'tag_comment' => ['{*', '*}']
+                ])
+            );
+
             try {
                 $contents = $this->template
                     ->render($contents)
@@ -586,6 +595,12 @@ class Asset
 
                 \Log::error($e->getMessage());
             }
+
+            $twig->setLexer(
+                new \Twig_Lexer($twig, [
+                    'tag_comment' => ['{#', '#}']
+                ])
+            );
         }
 
         /**
