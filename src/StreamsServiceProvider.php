@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Translation\Translator;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
@@ -259,7 +260,16 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerApplications()
     {
-        //
+        $applications = Config::get('streams.applications', []) ?: ['default' => []];
+        
+        foreach ($applications as $handle => $configuration) {
+
+            $configuration['handle'] = $handle;
+
+            $this->app->instance('streams.applications.' . $handle, function() use ($configuration) {
+                return new Application($configuration);
+            });
+        }
     }
 
     /**
