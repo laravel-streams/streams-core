@@ -55,6 +55,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Images' => \Anomaly\Streams\Platform\Support\Facades\Images::class,
         'Streams' => \Anomaly\Streams\Platform\Support\Facades\Streams::class,
         'Messages' => \Anomaly\Streams\Platform\Support\Facades\Messages::class,
+        'Application' => \Anomaly\Streams\Platform\Support\Facades\Application::class,
     ];
 
     /**
@@ -132,6 +133,15 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Register the application.
+        $this->app->singleton('streams.application', function () {
+            return $this->app->make('streams.applications.default');
+        });
+
+        $this->app->singleton('streams.application.handle', function () {
+            return $this->app->make('streams.applications.default')->handle;
+        });
+
         $this->app->singleton('parser_data', function () {
 
             $data = [
@@ -175,9 +185,6 @@ class StreamsServiceProvider extends ServiceProvider
 
             return $data;
         });
-
-        // Take care of core utilities.
-        $this->initializeApplication();
 
         // Setup and preparing utilities.
         $this->loadStreamsConfiguration();
@@ -261,12 +268,12 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerApplications()
     {
         $applications = Config::get('streams.applications', []) ?: ['default' => []];
-        
+
         foreach ($applications as $handle => $configuration) {
 
             $configuration['handle'] = $handle;
 
-            $this->app->instance('streams.applications.' . $handle, function() use ($configuration) {
+            $this->app->singleton('streams.applications.' . $handle, function() use ($configuration) {
                 return new Application($configuration);
             });
         }
@@ -354,23 +361,6 @@ class StreamsServiceProvider extends ServiceProvider
     }
 
     /**
-     * Initialize the Streams application.
-     */
-    protected function initializeApplication()
-    {
-        $reference = env('APP_REFERENCE', 'default');
-
-        $application = app(Application::class);
-
-        /*
-         * Set the reference to our default first.
-         * When in a dev environment and working
-         * with Artisan this the same as locating.
-         */
-        $application->setReference($reference);
-    }
-
-    /**
      * Load the streams configuration.
      *
      * @return void
@@ -388,7 +378,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function configureFileCacheStore()
     {
-        config(['cache.stores.file.path' => config('cache.stores.file.path') . DIRECTORY_SEPARATOR . app(Application::class)->getReference()]);
+        config(['cache.stores.file.path' => config('cache.stores.file.path') . DIRECTORY_SEPARATOR . $this->app['streams.application.handle']]);
     }
 
     /**
@@ -397,15 +387,12 @@ class StreamsServiceProvider extends ServiceProvider
     protected function addAssetNamespaces()
     {
         Assets::addPath('public', public_path());
-        Assets::addPath('shared', resource_path());
+        Assets::addPath('resources', resource_path());
 
-        Assets::addPath('node', base_path('node_modules'));
-        Assets::addPath('bower', base_path('bower_components'));
-
-        Assets::addPath('asset', app(Application::class)->getAssetsPath());
-        Assets::addPath('storage', app(Application::class)->getStoragePath());
-        Assets::addPath('resources', app(Application::class)->getResourcesPath());
-        Assets::addPath('download', app(Application::class)->getAssetsPath('assets/downloads'));
+        // @todo review these
+        Assets::addPath('asset', public_path('assets/' . $this->app['streams.application.handle']));
+        Assets::addPath('storage', storage_path('streams/' .  $this->app['streams.application.handle']));
+        Assets::addPath('application', resource_path($this->app['streams.application.handle']));
 
         Assets::addPath('streams', base_path('vendor/anomaly/streams-platform/resources'));
     }
@@ -418,14 +405,12 @@ class StreamsServiceProvider extends ServiceProvider
     private function addImageNamespaces()
     {
         Images::addPath('public', public_path());
-        Images::addPath('shared', resource_path());
+        Images::addPath('resources', resource_path());
 
-        Images::addPath('node', base_path('node_modules'));
-        Images::addPath('bower', base_path('bower_components'));
-
-        Images::addPath('asset', app(Application::class)->getAssetsPath());
-        Images::addPath('storage', app(Application::class)->getStoragePath());
-        Images::addPath('resources', app(Application::class)->getResourcesPath());
+        // @todo review these
+        Images::addPath('asset', public_path('assets/' . $this->app['streams.application.handle']));
+        Images::addPath('storage', storage_path('streams/' .  $this->app['streams.application.handle']));
+        Images::addPath('application', resource_path($this->app['streams.application.handle']));
 
         Images::addPath('streams', base_path('vendor/anomaly/streams-platform/resources'));
     }
@@ -438,7 +423,7 @@ class StreamsServiceProvider extends ServiceProvider
     public function addViewNamespaces()
     {
         View::addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/views'));
-        View::addNamespace('storage', app(Application::class)->getStoragePath());
+        View::addNamespace('storage', storage_path('streams/' .  $this->app['streams.application.handle']));
         //View::addNamespace('shared', base_path('resources/views'));
         //View::addNamespace('theme', base_path('resources/views'));
         //View::addNamespace('root', base_path());
