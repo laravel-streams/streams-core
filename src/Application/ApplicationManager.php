@@ -28,7 +28,7 @@ class ApplicationManager
         if (!$handle) {
             return App::make('streams.application');
         }
-        
+
         return App::make('streams.applications.' . $handle);
     }
 
@@ -40,5 +40,36 @@ class ApplicationManager
     public function handle()
     {
         return App::make('streams.application.handle');
+    }
+
+    /**
+     * Swith the application.
+     *
+     * @param string|null $handle
+     */
+    public function switch($handle = null)
+    {
+        if (!$handle) {
+
+            $this->app->singleton('streams.application', function () {
+                return $this->app->make('streams.application.origin');
+            });
+
+            $this->app->singleton('streams.application.handle', function () {
+                return $this->app->make('streams.applications.origin')->handle;
+            });
+        }
+
+        $this->app->singleton('streams.application', function () use ($handle) {
+            return $this->app->make('streams.applications.' . $handle);
+        });
+
+        $this->app->singleton('streams.application.origin', function () use ($handle) {
+            return $this->app->make('streams.applications.' . $handle);
+        });
+
+        $this->app->singleton('streams.application.handle', function () use ($handle) {
+            return $this->app->make('streams.applications.' . $handle)->handle;
+        });
     }
 }

@@ -137,6 +137,10 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->singleton('streams.application', function () {
             return $this->app->make('streams.applications.default');
         });
+        
+        $this->app->singleton('streams.application.origin', function () {
+            return $this->app->make('streams.applications.default');
+        });
 
         $this->app->singleton('streams.application.handle', function () {
             return $this->app->make('streams.applications.default')->handle;
