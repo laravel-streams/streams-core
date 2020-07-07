@@ -20,51 +20,47 @@ class Refresh extends Command
 {
 
     /**
-     * The console command name.
+     * The console command signature.
      *
      * @var string
      */
-    protected $name = 'refresh';
+    protected $signature = 'app:refresh';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Refresh the application.';
+    protected $description = 'Refresh the application(s).';
 
     /**
      * Execute the console command.
      */
     public function handle(Kernel $console, Filesystem $files)
     {
-        $this->info('Refreshing application.');
+        $this->info('Refreshing application(s).');
 
         Event::dispatch(new SystemIsRefreshing($this));
 
-        $console->call('package:discover', []);
+        $console->call('package:discover');
 
-        $this->info('Refreshing package list.');
+        $this->info('Refreshing package list(s).');
 
         /**
          * Clear the various caches.
          */
-        $this->info('HTTP cache cleared.');
+        //$this->info('HTTP cache cleared.');
 
-        $console->call('assets:clear', []);
-
+        $console->call('assets:clear');
         $this->info('Assets cache cleared.');
 
-        $console->call('cache:clear', []);
-
+        $console->call('cache:clear');
         $this->info('Cache cleared.');
 
-        $console->call('view:clear', []);
-
+        $console->call('view:clear');
         $this->info('View caches cleared.');
 
-        $console->call('assets:publish', []);
-
+        $console->call('assets:publish');
         $this->info('Assets published.');
 
         /**
@@ -77,6 +73,7 @@ class Refresh extends Command
          * delete it and regenerate again.
          */
         if ($files->exists($config = base_path('bootstrap/cache/config.php'))) {
+        
             $files->delete($config);
 
             $console->call('config:cache', [], $this->getOutput());
@@ -87,6 +84,7 @@ class Refresh extends Command
          * delete them and regenerate.
          */
         if ($files->exists($routes = base_path('bootstrap/cache/routes.php'))) {
+            
             $files->delete($routes);
 
             $console->call('route:cache', [], $this->getOutput());

@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Application;
 
+use Illuminate\Support\Facades\App;
+
 /**
  * Class ApplicationManager
  *
@@ -12,4 +14,14 @@ namespace Anomaly\Streams\Platform\Application;
 class ApplicationManager
 {
 
+    /**
+     * Make an application instance.
+     *
+     * @param string $handle
+     * @return Applilcation
+     */
+    public function make($handle)
+    {
+        return App::make('streams.applications.' . $handle);
+    }
 }

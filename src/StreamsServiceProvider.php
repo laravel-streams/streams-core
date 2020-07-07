@@ -106,6 +106,7 @@ class StreamsServiceProvider extends ServiceProvider
     {
         $this->registerComposerJson();
         $this->registerComposerLock();
+        $this->registerApplications();
         $this->registerFieldTypes();
         $this->registerAliases();
         $this->registerStreams();
@@ -254,6 +255,14 @@ class StreamsServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register the applications(s).
+     */
+    protected function registerApplications()
+    {
+        //
+    }
+
+    /**
      * Register the field types.
      */
     protected function registerFieldTypes()
@@ -289,6 +298,9 @@ class StreamsServiceProvider extends ServiceProvider
                 throw new Exception("Failed to parse JSON: {$file->getPathname()}");
             }
 
+            /**
+             * Register the Stream instance.
+             */
             $stream = StreamBuilder::build($stream);
 
             $this->app->instance(
@@ -296,11 +308,13 @@ class StreamsServiceProvider extends ServiceProvider
                 $stream
             );
 
-
-            if ($stream->route) {
-
-                Route::any($stream->route, [
+            /**
+             * Route the Stream.
+             */
+            foreach ($stream->route as $key => $route) {
+                Route::any($route, [
                     'stream' => $stream->slug,
+                    'as' => 'streams.' . $stream->slug . '.' . $key,
                     'uses' => $stream->attr('uses', EntryController::class . '@render'),
                 ]);
             }
