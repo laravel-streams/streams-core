@@ -224,7 +224,7 @@ class StreamsServiceProvider extends ServiceProvider
                 //\Anomaly\Streams\Platform\Addon\Console\AddonMigrate::class,
 
                 // Application Commands
-                \Anomaly\Streams\Platform\Application\Console\Refresh::class,
+                //\Anomaly\Streams\Platform\Application\Console\Refresh::class,
             ]);
         }
 
