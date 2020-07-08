@@ -221,9 +221,7 @@ class StreamsServiceProvider extends ServiceProvider
                 \Anomaly\Streams\Platform\Asset\Console\AssetsPublish::class,
 
                 // Addon Commands
-                \Anomaly\Streams\Platform\Addon\Console\AddonSeed::class,
-                \Anomaly\Streams\Platform\Addon\Console\AddonReset::class,
-                \Anomaly\Streams\Platform\Addon\Console\AddonMigrate::class,
+                //\Anomaly\Streams\Platform\Addon\Console\AddonMigrate::class,
 
                 // Application Commands
                 \Anomaly\Streams\Platform\Application\Console\Refresh::class,

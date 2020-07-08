@@ -24,7 +24,7 @@ class Refresh extends Command
      *
      * @var string
      */
-    protected $signature = 'app:refresh';
+    protected $signature = 'refresh';
 
     /**
      * The console command description.
