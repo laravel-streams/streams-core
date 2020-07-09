@@ -330,12 +330,14 @@ class StreamsServiceProvider extends ServiceProvider
             /**
              * Route the Stream.
              */
-            foreach ($stream->route as $key => $route) {
-                Route::any($route, [
-                    'stream' => $stream->slug,
-                    'as' => 'streams.' . $stream->slug . '.' . $key,
-                    'uses' => $stream->attr('uses', EntryController::class . '@render'),
-                ]);
+            if ($routes = $stream->route) {
+                foreach ($routes as $key => $route) {
+                    Route::any($route, [
+                        'stream' => $stream->slug,
+                        'as' => 'streams.' . $stream->slug . '.' . $key,
+                        'uses' => $stream->attr('uses', EntryController::class . '@render'),
+                    ]);
+                }
             }
         }
     }
