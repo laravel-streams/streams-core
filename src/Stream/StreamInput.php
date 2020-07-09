@@ -30,12 +30,7 @@ class StreamInput
         if (!isset($input['source'])) {
             $input['source'] = [
                 'type' => 'filebase',
-                'format' => 'md',
             ];
-        }
-
-        if (!isset($input['source']['type'])) {
-            $input['source']['type'] = 'filebase';
         }
 
         /**
