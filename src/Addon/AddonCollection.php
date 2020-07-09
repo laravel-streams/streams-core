@@ -19,21 +19,6 @@ class AddonCollection extends Collection
 {
 
     /**
-     * Return all addon namespaces.
-     *
-     * @param  null $key
-     * @return array
-     */
-    public function namespaces($key = null)
-    {
-        return $this->map(
-            function ($item, $namespace) use ($key) {
-                return $namespace . ($key ? "::{$key}" : null);
-            }
-        )->all();
-    }
-
-    /**
      * Return only core addons.
      *
      * @return AddonCollection
@@ -62,80 +47,6 @@ class AddonCollection extends Collection
     }
 
     /**
-     * Disperse addons to their
-     * respective collections.
-     * 
-     * @return $this
-     */
-    public function disperse()
-    {
-        foreach (config('streams.addons.types', []) as $type) {
-
-            /* @var AddonCollection $collection */
-            $collection = app("{$type}.collection");
-
-            $this->type($type)->each(function ($addon, $namespace) use ($collection) {
-                $collection->put($namespace, $addon);
-            });
-        }
-
-        return $this;
-    }
-
-    /**
-     * Return addon instances.
-     * 
-     * @return $this
-     */
-    public function instances()
-    {
-        return new Collection($this->map(function ($addon, $namespace) {
-            return $this->instance($namespace);
-        })->all());
-    }
-
-    /**
-     * Return an addon instance.
-     *
-     * @param string $addon
-     * @return Addon|null
-     */
-    public function instance($addon)
-    {
-        if (!$this->has($addon)) {
-            return null;
-        }
-
-        return app($addon);
-    }
-
-    /**
-     * Return only a certain type.
-     *
-     * @param string $type
-     */
-    public function type(string $type)
-    {
-        return $this->filter(function ($addon, $namespace) use ($type) {
-            return Str::is("*.{$type}.*", $namespace);
-        });
-    }
-
-    /**
-     * Return only installable addons.
-     *
-     * @return AddonCollection
-     */
-    public function installable()
-    {
-        return $this->filter(
-            function (array $addon) {
-                return Str::is(['*/*-module', '*/*-extension'], $addon['name']);
-            }
-        );
-    }
-
-    /**
      * Return enabled addons.
      *
      * @todo replace this with using a config / runtime cache of namespaces from database
@@ -151,31 +62,16 @@ class AddonCollection extends Collection
     }
 
     /**
-     * Return installed addons.
+     * Return disabled addons.
      *
      * @todo replace this with using a config / runtime cache of namespaces from database
      * @return AddonCollection
      */
-    public function installed()
+    public function disabled()
     {
         return $this->installable()->filter(
             function (array $addon) {
-                return Arr::get($addon, 'installed');
-            }
-        );
-    }
-
-    /**
-     * Return uninstalled addons.
-     *
-     * @todo replace this with using a config / runtime cache of namespaces from database
-     * @return AddonCollection
-     */
-    public function uninstalled()
-    {
-        return $this->installable()->filter(
-            function (array $addon) {
-                return !Arr::get($addon, 'installed');
+                return Arr::get($addon, 'enabled') == false;
             }
         );
     }

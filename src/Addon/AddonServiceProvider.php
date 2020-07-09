@@ -4,6 +4,9 @@ namespace Anomaly\Streams\Platform\Addon;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Console\Application;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -16,241 +19,158 @@ class AddonServiceProvider extends ServiceProvider
 {
 
     /**
-     * The addon class.
+     * The addon routes.
      *
-     * @var string
+     * @var array
      */
-    protected $addon;
+    public $routes = [
+        'web' => [],
+        'cp' => [],
+    ];
 
     /**
-     * The addon namespace.
+     * The middleware by group.
      *
-     * @var string
+     * @var array
      */
-    protected $namespace;
+    public $middleware = [
+        'web' => [],
+        'cp' => [],
+    ];
+
+    /**
+     * Artisan commands.
+     *
+     * @var array
+     */
+    public $commands = [];
+
+    /**
+     * Event listeners.
+     *
+     * @var array
+     */
+    public $listeners = [];
 
     /**
      * Register the addon.
      */
-    public function registerAddon()
+    public function register()
     {
-        $addon     = $this->addon();
-        $namespace = $this->namespace();
-
-        [$vendor, $type, $slug] = explode('.', $namespace);
-
-        $path = dirname((new \ReflectionClass(get_called_class()))->getFileName(), 2);
-
-        $this->bindAddon($addon, $namespace, $vendor, $type, $slug, $path);
-
-        $this->mergeConfig($path, $namespace);
-        $this->loadTranslations($namespace, $path);
-
-        $this->registerHints($namespace, $path);
-        $this->registerPublishables($path, $namespace);
-
-        //$this->registerCommon();
+        $this->registerRoutes();
+        $this->registerMiddleware();
     }
 
     /**
-     * Bind the addon instance.
-     *
-     * @param string $addon
-     * @param string $namespace
-     * @param string $vendor
-     * @param string $type
-     * @param string $slug
-     * @param string $path
+     * Register the addon routes.
      */
-    protected function bindAddon($addon, $namespace, $vendor, $type, $slug, $path)
+    protected function registerRoutes()
     {
-        $this->app->singleton($namespace, function () use (
-            $addon,
-            $namespace,
-            $vendor,
-            $type,
-            $slug,
-            $path
-        ) {
+        foreach ($this->routes as $group => $routes) {
+            Route::middleware($group)->group(function () use ($routes) {
+                foreach ($routes as $uri => $route) {
+    
+                    /*
+                     * Normalize the route
+                     * into an array as needed.
+                     */
+                    if (is_string($route)) {
+                        $route = [
+                            'uses' => $route,
+                        ];
+                    }
+    
+                    /**
+                     * Pull out post-route configuration. 
+                     */
+                    $verb        = Arr::pull($route, 'verb', 'any');
+                    $middleware  = Arr::pull($route, 'middleware', []);
+                    $constraints = Arr::pull($route, 'constraints', []);
+    
+                    /**
+                     * If the route contains a
+                     * controller@action then 
+                     * create a normal route.
+                     * -----------------------
+                     * If the route does NOT
+                     * contain an action then
+                     * treat it as a resource.
+                     */
+                    if (str_contains($route['uses'], '@')) {
+                        $route = Route::{$verb}($uri, $route);
+                    } else {
+                        $route = Route::resource($uri, $route['uses']);
+                    }
+    
+                    /**
+                     * Call constraints if
+                     * any are provided.
+                     */
+                    if ($constraints) {
+                        call_user_func_array([$route, 'constraints'], (array) $constraints);
+                    }
+    
+                    /**
+                     * Call middleware if
+                     * any are provided.
+                     */
+                    if ($middleware) {
+                        call_user_func_array([$route, 'middleware'], (array) $middleware);
+                    }
+                }
+            });
+        }
+    }
 
-            // @var Addon $addon
-            $addon = $this->app->make($addon)
-                ->setSlug($slug)
-                ->setVendor($vendor)
-                ->setAttribute('type', $type)
-                ->setAttribute('path', $path);
-
-            if (!config('streams.installed')) {
-                return $addon;
+    /**
+     * Register middleware by group.
+     */
+    protected function registerMiddleware()
+    {
+        foreach ($this->middleware as $group => $middlewares) {
+            foreach ($middlewares as $middleware) {
+                Route::pushMiddlewareToGroup($group, $middleware);
             }
+        }
+    }
 
-            if ($data = $this->app->make('streams.addons')->get($namespace)) {
-                $addon->enabled = Arr::get($data, 'enabled');
-                $addon->installed = Arr::get($data, 'installed');
-            }
+    /**
+     * Register the Artisan commands.
+     */
+    protected function registerCommands()
+    {
+        if (!$this->commands) {
+            return;
+        }
 
-            return $addon;
+        Application::starting(function ($artisan) {
+            $artisan->resolveCommands($this->commands);
         });
     }
 
     /**
-     * Merge automatic config.
-     *
-     * @param string $path
-     * @param string $namespace
+     * Register the event listeners.
      */
-    protected function mergeConfig(string $path, string $namespace)
+    protected function registerListeners()
     {
-        [$vendor, $type, $slug] = explode('.', $namespace);
+        foreach ($this->listeners as $event => $classes) {
+            
+            foreach ($classes as $key => $listener) {
 
-        if (file_exists($config = $path . '/resources/config/addon.php')) {
-            $this->mergeConfigFrom($config, $slug);
+                $priority = 0;
+
+                /**
+                 * If the listener is an integer
+                 * then the key is the listener
+                 * and listener is priority.
+                 */
+                if (is_integer($listener)) {
+                    $priority = $listener;
+                    $listener = $key;
+                }
+
+                Event::listen($event, $listener, $priority);
+            }
         }
-    }
-
-    /**
-     * Load the addon's lang files.
-     *
-     * @param string $namespace
-     * @param string $path
-     */
-    protected function loadTranslations($namespace, $path)
-    {
-        if (is_dir($translations = ($path . '/resources/lang'))) {
-            $this->loadTranslationsFrom($translations, $namespace);
-        }
-    }
-
-    /**
-     * Register the publishable material.
-     * 
-     * @param string $path
-     * @param string $namespace
-     */
-    protected function registerPublishables(string $path, string $namespace)
-    {
-        [$vendor, $type, $slug] = explode('.', $namespace);
-
-        /**
-         * If an assets directory exists
-         * within the addon directory
-         * then push automatically.
-         */
-        if (is_dir($assets = $path . DIRECTORY_SEPARATOR . 'assets')) {
-            $this->publishes([
-                $assets => public_path(
-                    implode(DIRECTORY_SEPARATOR, array_merge(['vendor'], explode('.', $namespace)))
-                )
-            ], ['assets', 'public']);
-        }
-
-        /**
-         * If a dist directory exists
-         * within the addon resources
-         * then push automatically.
-         */
-        if (is_dir($dist = implode(DIRECTORY_SEPARATOR, [$path, 'resources', 'dist']))) {
-            $this->publishes([
-                $dist => public_path(
-                    implode(DIRECTORY_SEPARATOR, array_merge(['vendor'], explode('.', $namespace)))
-                )
-            ], ['assets', 'public']);
-        }
-
-        /**
-         * Automatically publish
-         * addon.php configuration.
-         */
-        if (file_exists($config = implode(DIRECTORY_SEPARATOR, [$path, 'resources', 'config', 'addon.php']))) {
-            $this->publishes([
-                $config => config_path(
-                    implode(DIRECTORY_SEPARATOR, array_merge(['vendor'], explode('.', $namespace), ['addon.php']))
-                )
-            ], 'config');
-        }
-    }
-
-    /**
-     * Register paths to be published by the publish command.
-     *
-     * @param  array  $paths
-     * @param  mixed  $groups
-     * @return void
-     */
-    protected function publishes(array $paths, $groups = null)
-    {
-        $this->ensurePublishArrayInitialized($class = static::class);
-
-        static::$publishes[$class] = array_merge(static::$publishes[$class], $paths);
-
-        foreach ((array) $groups as $group) {
-            $this->addPublishGroup($group, $paths);
-        }
-    }
-
-    /**
-     * Register the addon hints.
-     * 
-     * @param string $namespace
-     * @param string $path
-     */
-    protected function registerHints(string $namespace, string $path)
-    {
-        if (is_dir($views = ($path . '/resources/views'))) {
-            $this->loadViewsFrom($views, $namespace);
-        }
-
-        if (is_dir($migrations = ($path . '/migrations'))) {
-            $this->loadMigrationsFrom($migrations);
-        }
-
-        if (is_dir($routes = ($path . '/routes'))) {
-            $this->loadRoutesFrom($routes);
-        }
-
-        img()->addPath($namespace, $path . '/resources');
-        assets()->addPath($namespace, $path . '/resources');
-    }
-
-    /**
-     * Return the detected addon namespace.
-     * 
-     * @return string
-     */
-    protected function namespace()
-    {
-        if ($this->namespace) {
-            return $this->namespace;
-        }
-
-        $class  = explode('\\', $this->addon());
-        $vendor = Str::snake(array_shift($class));
-        $addon  = Str::snake(array_shift($class));
-
-        preg_match('/' . implode('$|', [
-            'field_type',
-            'extension',
-            'module',
-            'theme',
-        ]) . '$/', $addon, $type);
-
-        $addon = str_replace('_' . $type[0], '', $addon);
-        $type = ltrim(array_shift($type), '_');
-
-        return $this->namespace = "{$vendor}.{$type}.{$addon}";
-    }
-
-    /**
-     * Return the detected addon class.
-     * 
-     * @return string
-     */
-    protected function addon()
-    {
-        if ($this->addon) {
-            return $this->addon;
-        }
-
-        return $this->addon = str_replace('ServiceProvider', '', get_class($this));
     }
 }

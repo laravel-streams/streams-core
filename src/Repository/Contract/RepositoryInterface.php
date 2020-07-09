@@ -51,11 +51,12 @@ interface RepositoryInterface
     /**
      * Find all entries by field value.
      *
-     * @param $column
+     * @param $field
+     * @param $operator
      * @param $value
      * @return Collection
      */
-    public function findAllBy($column, $value);
+    //public function findAllWhere($field, $operator, $value = null);
 
     /**
      * Find a trashed entry by it's ID.

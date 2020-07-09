@@ -4,7 +4,7 @@ namespace Anomaly\Streams\Platform\Image\Concerns;
 
 use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Image\Image;
-use Anomaly\Streams\Platform\Image\Facades\Images;
+use Anomaly\Streams\Platform\Support\Facades\Images;
 
 /**
  * Trait HasSrcsets

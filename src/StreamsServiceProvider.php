@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Translation\Translator;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
@@ -23,10 +24,10 @@ use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Purifier;
 use Anomaly\Streams\Platform\View\ViewIncludes;
 use Anomaly\Streams\Platform\View\ViewTemplate;
-use Anomaly\Streams\Platform\Asset\Facades\Assets;
-use Anomaly\Streams\Platform\Image\Facades\Images;
 use Anomaly\Streams\Platform\Stream\StreamBuilder;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Anomaly\Streams\Platform\Support\Facades\Assets;
+use Anomaly\Streams\Platform\Support\Facades\Images;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Ui\Table\TableComponent;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
@@ -50,8 +51,11 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $aliases = [
+        'Assets' => \Anomaly\Streams\Platform\Support\Facades\Assets::class,
+        'Images' => \Anomaly\Streams\Platform\Support\Facades\Images::class,
         'Streams' => \Anomaly\Streams\Platform\Support\Facades\Streams::class,
         'Messages' => \Anomaly\Streams\Platform\Support\Facades\Messages::class,
+        'Application' => \Anomaly\Streams\Platform\Support\Facades\Application::class,
     ];
 
     /**
@@ -104,6 +108,7 @@ class StreamsServiceProvider extends ServiceProvider
     {
         $this->registerComposerJson();
         $this->registerComposerLock();
+        $this->registerApplications();
         $this->registerFieldTypes();
         $this->registerAliases();
         $this->registerStreams();
@@ -128,6 +133,19 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Register the application.
+        $this->app->singleton('streams.application', function () {
+            return $this->app->make('streams.applications.default');
+        });
+        
+        $this->app->singleton('streams.application.origin', function () {
+            return $this->app->make('streams.applications.default');
+        });
+
+        $this->app->singleton('streams.application.handle', function () {
+            return $this->app->make('streams.applications.default')->handle;
+        });
+
         $this->app->singleton('parser_data', function () {
 
             $data = [
@@ -172,9 +190,6 @@ class StreamsServiceProvider extends ServiceProvider
             return $data;
         });
 
-        // Take care of core utilities.
-        $this->initializeApplication();
-
         // Setup and preparing utilities.
         $this->loadStreamsConfiguration();
         $this->registerAddonCollection();
@@ -206,12 +221,10 @@ class StreamsServiceProvider extends ServiceProvider
                 \Anomaly\Streams\Platform\Asset\Console\AssetsPublish::class,
 
                 // Addon Commands
-                \Anomaly\Streams\Platform\Addon\Console\AddonSeed::class,
-                \Anomaly\Streams\Platform\Addon\Console\AddonReset::class,
-                \Anomaly\Streams\Platform\Addon\Console\AddonMigrate::class,
+                //\Anomaly\Streams\Platform\Addon\Console\AddonMigrate::class,
 
                 // Application Commands
-                \Anomaly\Streams\Platform\Application\Console\Refresh::class,
+                //\Anomaly\Streams\Platform\Application\Console\Refresh::class,
             ]);
         }
 
@@ -252,6 +265,23 @@ class StreamsServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register the applications(s).
+     */
+    protected function registerApplications()
+    {
+        $applications = Config::get('streams.applications', []) ?: ['default' => []];
+
+        foreach ($applications as $handle => $configuration) {
+
+            $configuration['handle'] = $handle;
+
+            $this->app->singleton('streams.applications.' . $handle, function() use ($configuration) {
+                return new Application($configuration);
+            });
+        }
+    }
+
+    /**
      * Register the field types.
      */
     protected function registerFieldTypes()
@@ -287,6 +317,9 @@ class StreamsServiceProvider extends ServiceProvider
                 throw new Exception("Failed to parse JSON: {$file->getPathname()}");
             }
 
+            /**
+             * Register the Stream instance.
+             */
             $stream = StreamBuilder::build($stream);
 
             $this->app->instance(
@@ -294,13 +327,17 @@ class StreamsServiceProvider extends ServiceProvider
                 $stream
             );
 
-
-            if ($stream->route) {
-
-                Route::any($stream->route, [
-                    'stream' => $stream->slug,
-                    'uses' => $stream->attr('uses', EntryController::class . '@render'),
-                ]);
+            /**
+             * Route the Stream.
+             */
+            if ($routes = $stream->route) {
+                foreach ($routes as $key => $route) {
+                    Route::any($route, [
+                        'stream' => $stream->slug,
+                        'as' => 'streams.' . $stream->slug . '.' . $key,
+                        'uses' => $stream->attr('uses', EntryController::class . '@render'),
+                    ]);
+                }
             }
         }
     }
@@ -328,23 +365,6 @@ class StreamsServiceProvider extends ServiceProvider
     }
 
     /**
-     * Initialize the Streams application.
-     */
-    protected function initializeApplication()
-    {
-        $reference = env('APP_REFERENCE', 'default');
-
-        $application = app(Application::class);
-
-        /*
-         * Set the reference to our default first.
-         * When in a dev environment and working
-         * with Artisan this the same as locating.
-         */
-        $application->setReference($reference);
-    }
-
-    /**
      * Load the streams configuration.
      *
      * @return void
@@ -362,7 +382,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function configureFileCacheStore()
     {
-        config(['cache.stores.file.path' => config('cache.stores.file.path') . DIRECTORY_SEPARATOR . app(Application::class)->getReference()]);
+        config(['cache.stores.file.path' => config('cache.stores.file.path') . DIRECTORY_SEPARATOR . $this->app['streams.application.handle']]);
     }
 
     /**
@@ -371,15 +391,12 @@ class StreamsServiceProvider extends ServiceProvider
     protected function addAssetNamespaces()
     {
         Assets::addPath('public', public_path());
-        Assets::addPath('shared', resource_path());
+        Assets::addPath('resources', resource_path());
 
-        Assets::addPath('node', base_path('node_modules'));
-        Assets::addPath('bower', base_path('bower_components'));
-
-        Assets::addPath('asset', app(Application::class)->getAssetsPath());
-        Assets::addPath('storage', app(Application::class)->getStoragePath());
-        Assets::addPath('resources', app(Application::class)->getResourcesPath());
-        Assets::addPath('download', app(Application::class)->getAssetsPath('assets/downloads'));
+        // @todo review these
+        Assets::addPath('asset', public_path('assets/' . $this->app['streams.application.handle']));
+        Assets::addPath('storage', storage_path('streams/' .  $this->app['streams.application.handle']));
+        Assets::addPath('application', resource_path($this->app['streams.application.handle']));
 
         Assets::addPath('streams', base_path('vendor/anomaly/streams-platform/resources'));
     }
@@ -392,14 +409,12 @@ class StreamsServiceProvider extends ServiceProvider
     private function addImageNamespaces()
     {
         Images::addPath('public', public_path());
-        Images::addPath('shared', resource_path());
+        Images::addPath('resources', resource_path());
 
-        Images::addPath('node', base_path('node_modules'));
-        Images::addPath('bower', base_path('bower_components'));
-
-        Images::addPath('asset', app(Application::class)->getAssetsPath());
-        Images::addPath('storage', app(Application::class)->getStoragePath());
-        Images::addPath('resources', app(Application::class)->getResourcesPath());
+        // @todo review these
+        Images::addPath('asset', public_path('assets/' . $this->app['streams.application.handle']));
+        Images::addPath('storage', storage_path('streams/' .  $this->app['streams.application.handle']));
+        Images::addPath('application', resource_path($this->app['streams.application.handle']));
 
         Images::addPath('streams', base_path('vendor/anomaly/streams-platform/resources'));
     }
@@ -412,7 +427,7 @@ class StreamsServiceProvider extends ServiceProvider
     public function addViewNamespaces()
     {
         View::addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/views'));
-        View::addNamespace('storage', app(Application::class)->getStoragePath());
+        View::addNamespace('storage', storage_path('streams/' .  $this->app['streams.application.handle']));
         //View::addNamespace('shared', base_path('resources/views'));
         //View::addNamespace('theme', base_path('resources/views'));
         //View::addNamespace('root', base_path());
@@ -423,7 +438,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function loadTranslations()
     {
-        trans()->addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/lang'));
+        Lang::addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/lang'));
     }
 
     /**
@@ -722,7 +737,7 @@ class StreamsServiceProvider extends ServiceProvider
          */
         try {
             Route::getRoutes()->match($request);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             // 404 == Onward!
         }
 

@@ -5,6 +5,7 @@ namespace Anomaly\Streams\Platform\Image\Concerns;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Collective\Html\HtmlFacade;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Request;
 use Anomaly\Streams\Platform\Image\Concerns\CanPublish;
 use Anomaly\Streams\Platform\Image\Concerns\HasVersion;
@@ -31,7 +32,7 @@ trait CanOutput
         $attributes = array_merge($this->attributes, $attributes);
 
         if (!isset($attributes['src'])) {
-            $attributes['src'] = $this->path();
+            $attributes['src'] = $this->url();
         }
 
         if ($srcset = $this->srcset()) {
@@ -114,7 +115,7 @@ trait CanOutput
      */
     public function url(array $parameters = [], $secure = null)
     {
-        return asset($this->getCachePath(), $parameters, $secure);
+        return URL::asset($this->getCachePath(), $parameters, $secure);
     }
 
     /**
@@ -149,7 +150,7 @@ trait CanOutput
      */
     public function css()
     {
-        return 'url(' . $this->path() . ')';
+        return 'url(' . $this->url() . ')';
     }
 
     /**

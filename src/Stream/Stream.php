@@ -11,6 +11,7 @@ use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
 use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
+use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 
 /**
@@ -72,6 +73,18 @@ class Stream implements Arrayable, Jsonable
     }
 
     /**
+     * Return the entry criteria.
+     * 
+     * @return CriteriaInterface
+     */
+    public function entries()
+    {
+        return $this
+            ->repository()
+            ->newCriteria();
+    }
+
+    /**
      * Get the instance as an array.
      *
      * @return array
@@ -90,17 +103,5 @@ class Stream implements Arrayable, Jsonable
     public function toJson($options = 0)
     {
         return json_encode($this->toArray(), $options);
-    }
-    
-    /**
-     * Forward calls to the repository.
-     *
-     * @param string $method
-     * @param array $parameters
-     * @return mixed
-     */
-    public function __call($method, $parameters)
-    {
-        return $this->forwardCallTo($this->repository()->newCriteria(), $method, $parameters);
     }
 }

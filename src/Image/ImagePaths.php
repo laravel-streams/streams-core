@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Image;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class ImagePaths
@@ -26,7 +27,7 @@ class ImagePaths
      */
     public function __construct()
     {
-        $this->paths = config('streams.images.paths', []);
+        $this->paths = Config::get('streams.images.paths', []);
     }
 
     /**

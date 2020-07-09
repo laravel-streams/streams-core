@@ -2,7 +2,7 @@
 
 use Tests\TestCase;
 use Anomaly\Streams\Platform\Image\Image;
-use Anomaly\Streams\Platform\Image\Facades\Images;
+use Anomaly\Streams\Platform\Support\Facades\Images;
 
 /**
  * Class ImageManagerTest

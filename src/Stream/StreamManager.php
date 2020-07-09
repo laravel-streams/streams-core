@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Stream;
 
 use Illuminate\Support\Facades\App;
 use Anomaly\Streams\Platform\Stream\Stream;
+use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 
 /**
  * Class StreamManager
@@ -35,7 +36,18 @@ class StreamManager
     {
         return $this
             ->make($stream)
-            ->repository()
-            ->newCriteria();
+            ->entries();
+    }
+
+    /**
+     * Return an entry repository.
+     * 
+     * @return RepositoryInterface
+     */
+    function repository($stream)
+    {
+        return $this
+            ->make($stream)
+            ->repository();
     }
 }

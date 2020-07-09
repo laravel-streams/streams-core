@@ -18,30 +18,33 @@ class StreamInput
     /**
      * Read and process the stream input.
      *
-     * @param array $stream
+     * @param array $input
      * @return array
      */
-    public static function read(array $stream)
+    public static function read(array $input)
     {
-        if ($model = Arr::get($stream, 'model')) {
-            $stream['location'] = Locator::locate($model);
-        }
 
         /**
          * Defaults to filebase.
          */
-        if (!isset($stream['source'])) {
-            // @todo maybe config('streams.source.default', $default)
-            $stream['source'] = [
+        if (!isset($input['source'])) {
+            $input['source'] = [
                 'type' => 'filebase',
-                'format' => 'md',
             ];
         }
 
-        if (!isset($stream['source']['type'])) {
-            $stream['source']['type'] = 'filebase';
+        /**
+         * If only one route is defined
+         * then treat it as the view route.
+         */
+        $route = Arr::get($input, 'route');
+
+        if ($route && is_string($route)) {
+            $input['route'] = [
+                'view' => $route,
+            ];
         }
 
-        return $stream;
+        return $input;
     }
 }

@@ -45,7 +45,7 @@ class AssetsClear extends Command
             $directory .= DIRECTORY_SEPARATOR . str_replace('../', '', $path);
         }
 
-        $files->deleteDirectory($directory = $application->getAssetsPath($directory), true);
+        //$files->deleteDirectory($directory = $application->getAssetsPath($directory), true);
 
         $this->info($directory . ' has been emptied!');
     }
