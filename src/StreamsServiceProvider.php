@@ -106,6 +106,12 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->mergeConfigFrom(__DIR__ . '/../resources/config/streams.php', 'streams');
+
+        if (file_exists($config = __DIR__ . '/../../../../config/streams.php')) {
+            $this->mergeConfigFrom($config, 'streams');
+        }
+
         $this->registerComposerJson();
         $this->registerComposerLock();
         $this->registerApplications();
@@ -137,7 +143,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->singleton('streams.application', function () {
             return $this->app->make('streams.applications.default');
         });
-        
+
         $this->app->singleton('streams.application.origin', function () {
             return $this->app->make('streams.applications.default');
         });
@@ -275,7 +281,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             $configuration['handle'] = $handle;
 
-            $this->app->singleton('streams.applications.' . $handle, function() use ($configuration) {
+            $this->app->singleton('streams.applications.' . $handle, function () use ($configuration) {
                 return new Application($configuration);
             });
         }
