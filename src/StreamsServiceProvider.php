@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform;
 
+use Anomaly\Streams\Platform\Addon\Addon;
 use Exception;
 use Parsedown;
 use Misd\Linkify\Linkify;
@@ -366,8 +367,14 @@ class StreamsServiceProvider extends ServiceProvider
 
             ksort($addons);
 
+            $addons = array_map(function($addon) {
+                return new Addon($addon);
+            }, $addons);
+
             return new AddonCollection($addons);
         });
+        
+        dd(app(AddonCollection::class));
     }
 
     /**

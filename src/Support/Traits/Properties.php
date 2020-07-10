@@ -40,9 +40,9 @@ trait Properties
      */
     public function __construct(array $attributes = [])
     {
-        $this->buildProperties();
-
         $this->fill($attributes);
+
+        $this->buildProperties();
     }
 
     /**
