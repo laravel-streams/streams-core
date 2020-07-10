@@ -3,7 +3,6 @@
 namespace Anomaly\Streams\Platform\Provider\Concerns;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
 
 /**

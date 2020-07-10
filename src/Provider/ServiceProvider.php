@@ -27,15 +27,19 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     use Macroable;
     use HasMemory;
 
-    //use RegistersAssets;
+    // @todo Do we need this?
+    use RegistersAssets;
+
     use RegistersRoutes;
-    //use RegistersStreams;
     use RegistersCommands;
-    //use RegistersPolicies;
     use RegistersListeners;
+    use RegistersMiddleware;
+    
+    // @todo this can be replaced with Streams::register
+    //use RegistersStreams; 
+    //use RegistersPolicies;
     //use RegistersProviders;
     //use RegistersSchedules;
-    use RegistersMiddleware;
 
     /**
      * Register common provisions.
