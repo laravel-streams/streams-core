@@ -69,7 +69,7 @@ class StreamManager
     /**
      * Register a stream instance.
      *
-     * @param $file
+     * @param array $stream
      * @return Stream
      */
     public function register(array $stream)

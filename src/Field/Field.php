@@ -28,8 +28,8 @@ class Field implements FieldInterface
     public function __construct(array $attributes = [])
     {
         $this->setAttributes([
+            'handle' => null,
             'name' => null,
-            'slug' => null,
             'type' => null,
             'label' => null,
             'stream' => null,
@@ -58,11 +58,11 @@ class Field implements FieldInterface
      */
     public function type()
     {
-        return $this->remember($this->slug . '.' . $this->type, function () {
+        return $this->remember($this->handle . '.' . $this->type, function () {
 
             $type = FieldTypeBuilder::build($this->type);
 
-            $type->field = $this->slug;
+            $type->field = $this->handle;
             $type->parent = $this;
             
             // if (isset($this->stream->model->id)) {

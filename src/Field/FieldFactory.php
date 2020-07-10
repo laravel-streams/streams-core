@@ -26,7 +26,7 @@ class FieldFactory
 
             $field = new Field($field);
 
-            $collection->put($field->slug, $field);
+            $collection->put($field->handle, $field);
         }
 
         return $collection;

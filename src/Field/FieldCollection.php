@@ -15,15 +15,15 @@ class FieldCollection extends Collection
 {
 
     /**
-     * Return field slugs.
+     * Return field handles.
      * 
      * @param null $prefix
      * @return FieldCollection
      */
-    public function slugs($prefix = null)
+    public function handles($prefix = null)
     {
         return $this->map(function ($field) use ($prefix) {
-            return ($prefix ?: null) . $field->slug;
+            return ($prefix ?: null) . $field->handle;
         });
     }
 

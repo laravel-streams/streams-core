@@ -27,8 +27,8 @@ class FieldType
     public function __construct(array $attributes = [])
     {
         $this->setAttributes([
+            'handle' => null,
             'name' => null,
-            'slug' => null,
             'type' => null,
             'label' => null,
             'stream' => null,

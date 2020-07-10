@@ -340,8 +340,8 @@ class StreamsServiceProvider extends ServiceProvider
             if ($routes = $stream->route) {
                 foreach ($routes as $key => $route) {
                     Route::any($route, [
-                        'stream' => $stream->slug,
-                        'as' => 'streams.' . $stream->slug . '.' . $key,
+                        'stream' => $stream->handle,
+                        'as' => 'streams.' . $stream->handle . '.' . $key,
                         'uses' => $stream->attr('uses', EntryController::class . '@render'),
                     ]);
                 }
@@ -650,6 +650,8 @@ class StreamsServiceProvider extends ServiceProvider
         /**
          * The first segment MUST
          * be a unique addon slug.
+         * 
+         * @todo this all needs work
          */
         if (!$addon = app('streams.addons')->first(function ($addon) use ($segments) {
             return Str::is('*.*.' . $segments[0], $addon['namespace']);

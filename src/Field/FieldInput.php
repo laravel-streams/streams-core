@@ -20,7 +20,7 @@ class FieldInput
      */
     public static function read(array $fields)
     {
-        foreach ($fields as $slug => &$field) {
+        foreach ($fields as $handle => &$field) {
 
             if (is_string($field)) {
                 $field = [
@@ -28,8 +28,8 @@ class FieldInput
                 ];
             }
 
-            if (!isset($field['slug'])) {
-                $field['slug'] = $slug;
+            if (!isset($field['handle'])) {
+                $field['handle'] = $handle;
             }
         }
 
