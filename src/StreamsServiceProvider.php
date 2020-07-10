@@ -373,8 +373,6 @@ class StreamsServiceProvider extends ServiceProvider
 
             return new AddonCollection($addons);
         });
-        
-        dd(app(AddonCollection::class));
     }
 
     /**

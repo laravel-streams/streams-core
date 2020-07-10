@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Stream;
 
 use Illuminate\Support\Facades\App;
 use Anomaly\Streams\Platform\Stream\Stream;
+use Anomaly\Streams\Platform\Support\Traits\HasMemory;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 
 /**
@@ -16,6 +17,8 @@ use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 class StreamManager
 {
 
+    use HasMemory;
+
     /**
      * Make a stream instance.
      *
@@ -25,6 +28,24 @@ class StreamManager
     public function make($stream)
     {
         return App::make('streams.instances.' . $stream);
+    }
+
+    /**
+     * Build a stream instance.
+     *
+     * @param array $stream
+     * @return Stream
+     */
+    public function build(array $stream)
+    {
+        return $this->once(md5(json_encode($stream)), function () use ($stream) {
+            
+            $stream = StreamBuilder::build($stream);
+
+            App::singleton('streams.instances.' . $stream->handle, $stream);
+
+            return $stream;
+        });
     }
 
     /**
