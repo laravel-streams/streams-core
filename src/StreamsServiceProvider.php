@@ -30,6 +30,7 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Support\Facades\Assets;
 use Anomaly\Streams\Platform\Support\Facades\Images;
 use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Support\Facades\Streams;
 use Anomaly\Streams\Platform\Ui\Table\TableComponent;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Illuminate\Support\Collection as SupportCollection;
@@ -319,33 +320,7 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerStreams()
     {
         foreach (File::files(base_path('streams')) as $file) {
-
-            if (!$stream = json_decode(file_get_contents($file->getPathname()), true)) {
-                throw new Exception("Failed to parse JSON: {$file->getPathname()}");
-            }
-
-            /**
-             * Register the Stream instance.
-             */
-            $stream = StreamBuilder::build($stream);
-
-            $this->app->instance(
-                'streams.instances.' . $file->getBasename('.' . $file->getExtension()),
-                $stream
-            );
-
-            /**
-             * Route the Stream.
-             */
-            if ($routes = $stream->route) {
-                foreach ($routes as $key => $route) {
-                    Route::any($route, [
-                        'stream' => $stream->handle,
-                        'as' => 'streams.' . $stream->handle . '.' . $key,
-                        'uses' => $stream->attr('uses', EntryController::class . '@render'),
-                    ]);
-                }
-            }
+            Streams::load($file->getPathname());
         }
     }
 
