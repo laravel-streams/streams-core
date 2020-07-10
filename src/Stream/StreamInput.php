@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Stream;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Config;
 use Anomaly\Streams\Platform\Support\Facades\Locator;
 
 /**
@@ -25,12 +26,18 @@ class StreamInput
     {
 
         /**
-         * Defaults to filebase.
+         * Defaults the source.
+         * @todo is "types" stinky? Was thinking adapters.
          */
+        $type = Config::get('streams.sources.default', 'filebase');
+        $default = Config::get('streams.sources.types.' . $type);
+
         if (!isset($input['source'])) {
-            $input['source'] = [
-                'type' => 'filebase',
-            ];
+            $input['source'] = $default;
+        }
+
+        if (!isset($input['source']['type'])) {
+            $input['source']['type'] = $type;
         }
 
         /**

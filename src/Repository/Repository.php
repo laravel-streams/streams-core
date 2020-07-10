@@ -4,13 +4,14 @@ namespace Anomaly\Streams\Platform\Repository;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Stream\Stream;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
 use Anomaly\Streams\Platform\Criteria\EloquentCriteria;
 use Anomaly\Streams\Platform\Criteria\FilebaseCriteria;
-use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 
@@ -200,7 +201,9 @@ class Repository implements RepositoryInterface
      */
     public function newCriteria()
     {
-        $method = Str::camel("new_{$this->stream->expand('source')->get('type', 'filebase')}_criteria");
+        $default = Config::get('streams.sources.default', 'filebase');
+        
+        $method = Str::camel("new_{$this->stream->expand('source')->get('type', $default)}_criteria");
 
         return $this->$method();
     }
