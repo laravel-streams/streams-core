@@ -58,7 +58,7 @@ class StreamManager
      */
     public function load($file)
     {
-        $stream = json_decode(file_get_contents(base_path($file)), true);
+        $stream = json_decode(file_get_contents($file), true);
 
         $handle = basename($file, '.json');
 

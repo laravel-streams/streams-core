@@ -119,7 +119,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerApplications();
         $this->registerFieldTypes();
         $this->registerAliases();
-        $this->registerStreams();
 
         /**
          * Load core routes.
@@ -213,6 +212,8 @@ class StreamsServiceProvider extends ServiceProvider
         $this->extendArr();
         $this->extendStr();
 
+        $this->registerStreams();
+        
         /**
          * Register Blade components.
          */
