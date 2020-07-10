@@ -2,7 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Provider\Concerns;
 
-use Anomaly\Streams\Platform\Asset\Facades\Assets;
+use Anomaly\Streams\Platform\Support\Facades\Assets;
 
 /**
  * Trait RegistersAssets

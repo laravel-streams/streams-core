@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Stream;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Anomaly\Streams\Platform\Stream\Stream;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
@@ -45,6 +46,36 @@ class StreamManager
             App::singleton('streams.instances.' . $stream->handle, $stream);
 
             return $stream;
+        });
+    }
+
+    /**
+     * Load a stream instance.
+     *
+     * @param $file
+     * @return Stream
+     */
+    public function load($file)
+    {
+        $stream = json_decode(file_get_contents(base_path($file)), true);
+
+        $handle = basename($file, '.json');
+
+        Arr::set($stream, 'handle', Arr::get($stream, 'handle', $handle));
+
+        $this->register($stream);
+    }
+
+    /**
+     * Register a stream instance.
+     *
+     * @param $file
+     * @return Stream
+     */
+    public function register(array $stream)
+    {
+        App::singleton('streams.instances.' . $stream['handle'], function() use ($stream) {
+            return StreamBuilder::build($stream);
         });
     }
 

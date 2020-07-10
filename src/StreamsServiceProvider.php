@@ -2,7 +2,6 @@
 
 namespace Anomaly\Streams\Platform;
 
-use Anomaly\Streams\Platform\Addon\Addon;
 use Exception;
 use Parsedown;
 use Misd\Linkify\Linkify;
@@ -21,6 +20,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Translation\Translator;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
+use Anomaly\Streams\Platform\Addon\Addon;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Purifier;
 use Anomaly\Streams\Platform\View\ViewIncludes;
