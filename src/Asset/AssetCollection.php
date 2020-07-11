@@ -3,7 +3,7 @@
 namespace Anomaly\Streams\Platform\Asset;
 
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Asset\Facades\Assets;
+use Anomaly\Streams\Platform\Support\Facades\Assets;
 
 /**
  * Class AssetCollection

@@ -4,9 +4,7 @@ namespace Anomaly\Streams\Platform\Asset;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Contracts\Config\Repository;
-use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Support\Facades\Application;
 
 /**
  * Class AssetPaths
@@ -24,42 +22,6 @@ class AssetPaths
      * @var array
      */
     protected $paths = [];
-
-    /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
-
-    /**
-     * The request object.
-     *
-     * @var Request
-     */
-    protected $request;
-
-    /**
-     * The application object.
-     *
-     * @var Application
-     */
-    protected $application;
-
-    /**
-     * Create a new AssetPaths instance.
-     *
-     * @param Repository $config
-     * @param Request $request
-     */
-    public function __construct(Repository $config, Request $request, Application $application)
-    {
-        $this->config      = $config;
-        $this->request     = $request;
-        $this->application = $application;
-
-        $this->paths = $config->get('streams.assets.paths', []);
-    }
 
     /**
      * Get the paths.
@@ -171,8 +133,8 @@ class AssetPaths
         /*
          * Build out path parts.
          */
+        $application = Application::handle();
         $directory   = ltrim(dirname($path), '/\\') . '/';
-        $application = $this->application->getReference();
         $filename    = basename($path);
 
         if (Str::startsWith($directory, 'vendor/')) {
