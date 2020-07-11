@@ -240,7 +240,7 @@ class EloquentCriteria implements CriteriaInterface
      */
     public function newInstance(array $attributes = [])
     {
-        $abstract = $this->stream->attr('abstract', Entry::class);
+        $abstract = $this->stream->attr('config.model', Entry::class);
 
         return new $abstract($this->stream, $attributes);
     }
