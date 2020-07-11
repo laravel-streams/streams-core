@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Anomaly\Streams\Platform\Stream\Stream;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
+use Anomaly\Streams\Platform\Http\Controller\EntryController;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 
 /**
@@ -40,14 +41,11 @@ class StreamManager
      */
     public function build(array $stream)
     {
-        return $this->once(md5(json_encode($stream)), function () use ($stream) {
+        $stream = StreamBuilder::build($stream);
 
-            $stream = StreamBuilder::build($stream);
+        App::singleton('streams.instances.' . $stream->handle, $stream);
 
-            App::singleton('streams.instances.' . $stream->handle, $stream);
-
-            return $stream;
-        });
+        return $stream;
     }
 
     /**
@@ -64,7 +62,7 @@ class StreamManager
 
         Arr::set($stream, 'handle', Arr::get($stream, 'handle', $handle));
 
-        $this->register($stream);
+        return $this->register($stream);
     }
 
     /**
@@ -75,23 +73,11 @@ class StreamManager
      */
     public function register(array $stream)
     {
-        /**
-         * Route the Stream.
-         * @todo Hmmm.. is this appropriate?
-         */
-        if ($routes = Arr::get($stream, 'route')) {
-            foreach ($routes as $key => $route) {
-                Route::any($route, [
-                    'stream' => $stream['handle'],
-                    'as' => 'streams.' . $stream['handle'] . '.' . $key,
-                    'uses' => Arr::get($stream, 'uses', EntryController::class . '@render'),
-                ]);
-            }
-        }
+        $stream = StreamBuilder::build($stream);
 
-        App::singleton('streams.instances.' . $stream['handle'], function () use ($stream) {
-            return StreamBuilder::build($stream);
-        });
+        App::instance('streams.instances.' . $stream->handle, $stream);
+        
+        return $stream;
     }
 
     /**

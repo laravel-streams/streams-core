@@ -213,7 +213,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->extendStr();
 
         $this->registerStreams();
-        
+
         /**
          * Register Blade components.
          */
@@ -321,7 +321,22 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerStreams()
     {
         foreach (File::files(base_path('streams')) as $file) {
-            Streams::load($file->getPathname());
+
+            $stream = Streams::load($file->getPathname());
+
+            /**
+             * Route the Stream.
+             * @todo Hmmm.. is this appropriate?
+             */
+            if ($routes = $stream->route) {
+                foreach ($routes as $key => $route) {
+                    Route::any($route, [
+                        'stream' => $stream->handle,
+                        'as' => 'streams.' . $stream->handle . '.' . $key,
+                        'uses' => EntryController::class . '@view',
+                    ]);
+                }
+            }
         }
     }
 
@@ -343,7 +358,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             ksort($addons);
 
-            $addons = array_map(function($addon) {
+            $addons = array_map(function ($addon) {
                 return new Addon($addon);
             }, $addons);
 
