@@ -28,7 +28,7 @@ class EntryController extends Controller
      *
      * @param string $slug
      */
-    public function render($slug)
+    public function view($slug)
     {
         $stream = Streams::make(Request::route()->getAction('stream'));
 
