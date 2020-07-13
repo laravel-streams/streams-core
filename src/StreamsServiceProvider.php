@@ -120,6 +120,8 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerFieldTypes();
         $this->registerAliases();
 
+        
+
         /**
          * Load core routes.
          */
@@ -212,12 +214,12 @@ class StreamsServiceProvider extends ServiceProvider
         $this->extendArr();
         $this->extendStr();
 
-        $this->registerStreams();
-
         /**
-         * Register Blade components.
+         * Register Sterams
+         * 
+         * @todo this needs pushed up into the register() method
          */
-        Blade::component('ui-table', TableComponent::class);
+        $this->registerStreams();
 
         /**
          * Register core commands.

@@ -4,13 +4,8 @@ namespace Anomaly\Streams\Platform\Http\Controller;
 
 use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
-use Anomaly\Streams\Platform\Stream\StreamManager;
-use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Anomaly\Streams\Platform\Entry\EntryRepository;
 use Anomaly\Streams\Platform\Support\Facades\Streams;
 
 /**
