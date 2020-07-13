@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\View;
 /**
  * Class ViewTemplate
  *
+ * @todo review this
+ * 
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
@@ -26,7 +28,7 @@ class ViewTemplate
     {
         $view = 'support/parsed/' . md5($template);
 
-        $path = app(Application::class)->getStoragePath($view);
+        $path = storage_path(implode(DIRECTORY_SEPARATOR, ['streams', Application::handle(), $view]));
 
         if (!is_dir($directory = dirname($path))) {
             File::makeDirectory($directory, 0766, true);
@@ -50,10 +52,9 @@ class ViewTemplate
     {
         $path = self::path($template, $extension);
 
-        return 'storage::' . ltrim(
-            str_replace(application()->getStoragePath(), '', $path),
-            '\\/'
-        );
+        $base = storage_path(implode(DIRECTORY_SEPARATOR, [Application::handle()]));
+
+        return 'storage::' . ltrim(str_replace($base, '', $path), '\\/');
     }
 
     /**
@@ -65,7 +66,9 @@ class ViewTemplate
      */
     public static function path($template, $extension = 'blade.php')
     {
-        $path = application()->getStoragePath('support/parsed/' . md5($template));
+        $path = storage_path(
+            implode(DIRECTORY_SEPARATOR, [Application::handle(), 'support', 'streams', md5($template)])
+        );
 
         if (!is_dir($directory = dirname($path))) {
             mkdir($directory, 0777, true);

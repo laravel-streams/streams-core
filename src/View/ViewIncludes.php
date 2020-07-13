@@ -7,6 +7,8 @@ use Illuminate\Support\Collection;
 
 /**
  * Class ViewIncludes
+ * 
+ * @todo review this
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>

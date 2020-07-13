@@ -8,6 +8,8 @@ use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
 
 /**
  * Class Workflow
+ * 
+ * @todo this needs changed up.. UI work
  *
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
@@ -42,8 +44,7 @@ class Workflow
      */
     public function process(array $payload = [])
     {
-        $this->fire('processing', $payload);
-        $this->fire('processing_' . static::class, $payload);
+        //$this->fire('processing', $payload);
 
         foreach ($this->steps as $name => $step) {
 
@@ -54,7 +55,7 @@ class Workflow
             $this->fire('after_' . $name, $payload);
         }
 
-        $this->fire('processed', $payload);
+        //$this->fire('processed', $payload);
     }
 
     /**
