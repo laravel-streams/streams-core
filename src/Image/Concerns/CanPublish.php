@@ -239,7 +239,7 @@ trait CanPublish
      */
     protected function intervention()
     {
-        // @todo allow a workflow with registry to cycle over here?
+        // @todo extend
         // if ($this->source instanceof FileInterface) {
         //     return app(intervention::class)->make(app(MountManager::class)->read($this->source->location()));
         // }
@@ -248,7 +248,7 @@ trait CanPublish
             return app(intervention::class)->make(app(MountManager::class)->read($this->source));
         }
 
-        // @todo allow a workflow with registry to cycle over here?
+        // @todo extend
         // if ($this->source instanceof File) {
         //     return app(intervention::class)->make($this->source->read());
         // }

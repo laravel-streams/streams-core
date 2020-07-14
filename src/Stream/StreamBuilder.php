@@ -31,10 +31,6 @@ class StreamBuilder
          */
         $fields = Arr::pull($stream, 'fields', []);
         
-        // (new Workflow([
-        //     'step_name' => $closure
-        // ]))->process();
-
         $stream = StreamInput::read($stream);
         $stream = StreamFactory::make($stream);
 
