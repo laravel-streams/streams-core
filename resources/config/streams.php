@@ -57,7 +57,7 @@ return [
             'filebase' => [
 
                 'format' => env('STREAMS_SOURCE_FORMAT', 'md'),
-                'path' => env('STREAMS_SOURCE_PATH', 'streams/data'),
+                //'path' => env('STREAMS_SOURCE_PATH', 'streams/data'),
                 
                 'formats' => [
                     'json' => \Filebase\Format\Json::class,
