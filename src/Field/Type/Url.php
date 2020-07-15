@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Field\Value\UrlValue;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Url extends FieldType
+class Url extends Text
 {
     /**
      * The class attributes.
