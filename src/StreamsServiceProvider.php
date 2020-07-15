@@ -200,7 +200,6 @@ class StreamsServiceProvider extends ServiceProvider
         });
 
         // Setup and preparing utilities.
-        $this->loadStreamsConfiguration();
         $this->registerAddonCollection();
         $this->configureFileCacheStore();
         $this->routeAutomatically();
@@ -208,7 +207,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->addImageNamespaces();
         $this->addViewNamespaces();
         $this->loadTranslations();
-        $this->setActiveTheme();
         $this->extendLang();
         $this->extendView();
         $this->extendArr();
@@ -232,10 +230,7 @@ class StreamsServiceProvider extends ServiceProvider
                 \Anomaly\Streams\Platform\Asset\Console\AssetsPublish::class,
 
                 // Addon Commands
-                //\Anomaly\Streams\Platform\Addon\Console\AddonMigrate::class,
-
-                // Application Commands
-                //\Anomaly\Streams\Platform\Application\Console\Refresh::class,
+                //\Anomaly\Streams\Platform\Addon\Console\AddonPublish::class,
             ]);
         }
 
@@ -370,16 +365,6 @@ class StreamsServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load the streams configuration.
-     *
-     * @return void
-     */
-    protected function loadStreamsConfiguration()
-    {
-        $this->mergeConfigFrom(realpath(__DIR__ . '/../resources/config/streams.php'), 'streams');
-    }
-
-    /**
      * Configure the file cache store so that cache doesn't collide
      * in the event that there are multiple applications running.
      *
@@ -399,7 +384,7 @@ class StreamsServiceProvider extends ServiceProvider
         Assets::addPath('resources', resource_path());
 
         // @todo review these
-        Assets::addPath('asset', public_path('assets/' . $this->app['streams.application.handle']));
+        //Assets::addPath('asset', public_path('assets/' . $this->app['streams.application.handle']));
         Assets::addPath('storage', storage_path('streams/' .  $this->app['streams.application.handle']));
         Assets::addPath('application', resource_path($this->app['streams.application.handle']));
 
@@ -417,7 +402,7 @@ class StreamsServiceProvider extends ServiceProvider
         Images::addPath('resources', resource_path());
 
         // @todo review these
-        Images::addPath('asset', public_path('assets/' . $this->app['streams.application.handle']));
+        //Images::addPath('asset', public_path('assets/' . $this->app['streams.application.handle']));
         Images::addPath('storage', storage_path('streams/' .  $this->app['streams.application.handle']));
         Images::addPath('application', resource_path($this->app['streams.application.handle']));
 
@@ -444,20 +429,6 @@ class StreamsServiceProvider extends ServiceProvider
     public function loadTranslations()
     {
         Lang::addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/lang'));
-    }
-
-    /**
-     * Load translations.
-     */
-    protected function setActiveTheme()
-    {
-        // $theme = config('streams.themes.default');
-
-        // if (request()->segment(1) == 'admin') {
-        //     $theme = config('streams.themes.admin');
-        // }
-
-        // app('theme.collection')->setActive($theme);
     }
 
     /**
