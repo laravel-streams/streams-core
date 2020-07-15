@@ -306,6 +306,8 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->bind('streams.field_types.image', \Anomaly\Streams\Platform\Field\Type\Image::class);
         $this->app->bind('streams.field_types.entry', \Anomaly\Streams\Platform\Field\Type\Entry::class);
         $this->app->bind('streams.field_types.entries', \Anomaly\Streams\Platform\Field\Type\Entries::class);
+        $this->app->bind('streams.field_types.multiple', \Anomaly\Streams\Platform\Field\Type\Multiple::class);
+        $this->app->bind('streams.field_types.relationship', \Anomaly\Streams\Platform\Field\Type\Relationship::class);
     }
 
     /**
