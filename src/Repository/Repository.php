@@ -92,7 +92,7 @@ class Repository implements RepositoryInterface
      * @param $value
      * @return EntryInterface|null
      */
-    public function findBy($field, $value = null)
+    public function findBy($field, $value)
     {
         return $this
             ->newCriteria()
