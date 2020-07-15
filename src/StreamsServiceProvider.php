@@ -91,7 +91,6 @@ class StreamsServiceProvider extends ServiceProvider
         \Anomaly\Streams\Platform\Asset\AssetManager::class => \Anomaly\Streams\Platform\Asset\AssetManager::class,
         \Anomaly\Streams\Platform\Image\ImageManager::class => \Anomaly\Streams\Platform\Image\ImageManager::class,
 
-        \Anomaly\Streams\Platform\Addon\AddonManager::class => \Anomaly\Streams\Platform\Addon\AddonManager::class,
         \Anomaly\Streams\Platform\Stream\StreamManager::class    => \Anomaly\Streams\Platform\Stream\StreamManager::class,
         \Anomaly\Streams\Platform\Message\MessageManager::class  => \Anomaly\Streams\Platform\Message\MessageManager::class,
         \Anomaly\Streams\Platform\Application\ApplicationManager::class => \Anomaly\Streams\Platform\Application\ApplicationManager::class,
@@ -108,6 +107,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // @todo split this into streams/images.php, etc for example? 
         $this->mergeConfigFrom(__DIR__ . '/../resources/config/streams.php', 'streams');
 
         if (file_exists($config = __DIR__ . '/../../../../config/streams.php')) {
@@ -120,16 +120,16 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerFieldTypes();
         $this->registerAliases();
 
-        
-
         /**
          * Load core routes.
          */
         Route::middleware('web')
             ->group(base_path('vendor/anomaly/streams-platform/resources/routes/web.php'));
 
+        // Load default CP middleware
         Route::middlewareGroup('cp', config('streams.cp.middleware', ['auth']));
 
+        // @todo Load CP base routes.. this could be removed. Use route sp if neeed.
         if (file_exists($routes = base_path('routes/cp.php'))) {
             Route::prefix(config('streams.cp.prefix', 'admin'))
                 ->middleware('cp')
@@ -155,7 +155,7 @@ class StreamsServiceProvider extends ServiceProvider
             return $this->app->make('streams.applications.default')->handle;
         });
 
-        $this->app->singleton('parser_data', function () {
+        $this->app->singleton('streams.parser_data', function () {
 
             $data = [
                 'request' => [
@@ -598,11 +598,11 @@ class StreamsServiceProvider extends ServiceProvider
         });
 
         Str::macro('parse', function ($target, array $data = []) {
-            return app(Engine::class)->render($target, array_merge(app('parser_data'), Arr::make($data)));
+            return app(Engine::class)->render($target, array_merge(app('streams.parser_data'), Arr::make($data)));
         });
 
         Str::macro('markdown', function ($target, array $data = []) {
-            return (new Parsedown)->parse($target, array_merge(app('parser_data'), Arr::make($data)));
+            return (new Parsedown)->parse($target, array_merge(app('streams.parser_data'), Arr::make($data)));
         });
     }
 
