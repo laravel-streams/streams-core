@@ -3,15 +3,16 @@
 namespace Anomaly\Streams\Platform\Field\Type;
 
 use Anomaly\Streams\Platform\Field\FieldType;
+use Anomaly\Streams\Platform\Support\Facades\Streams;
 
 /**
- * Class Textarea
+ * Class Entry
  *
  * @link    http://pyrocms.com/
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Textarea extends FieldType
+class Entry extends FieldType
 {
     /**
      * The class attributes.
@@ -21,24 +22,13 @@ class Textarea extends FieldType
     protected $attributes = [];
 
     /**
-     * Modify the value for storage.
-     *
-     * @param string $value
-     * @return string
-     */
-    public function modify($value)
-    {
-        return (string) $value;
-    }
-
-    /**
-     * Restore the value from storage.
+     * Expand the value.
      *
      * @param $value
-     * @return string
+     * @return EntryInterface|null
      */
-    public function restore($value)
+    public function expand($value)
     {
-        return (string) $value;
+        return Streams::make($this->stream)->find($value);
     }
 }

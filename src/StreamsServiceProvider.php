@@ -302,7 +302,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->bind('streams.field_types.array', \Anomaly\Streams\Platform\Field\Type\Arr::class);
         $this->app->bind('streams.field_types.bool', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
         $this->app->bind('streams.field_types.boolean', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
-        $this->app->bind('streams.field_types.textarea', \Anomaly\Streams\Platform\Field\Type\Textarea::class);
 
         $this->app->bind('streams.field_types.image', \Anomaly\Streams\Platform\Field\Type\Image::class);
         $this->app->bind('streams.field_types.entry', \Anomaly\Streams\Platform\Field\Type\Entry::class);
