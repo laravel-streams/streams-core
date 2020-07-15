@@ -1,0 +1,26 @@
+#messages {
+    right: 1rem;
+    width: 300px;
+    bottom: 1rem;
+    position: absolute;
+}
+
+.noty_bar {
+    @apply .flex .shadow .items-center .text-white .text-sm .font-bold .px-4 .py-3;
+}
+
+.noty_type__info {
+    @apply .bg-blue-500;
+}
+
+.noty_type__error {
+    @apply .bg-red-500;
+}
+
+.noty_type__warning {
+    @apply .bg-orange-500;
+}
+
+.noty_type__success {
+    @apply .bg-green-500;
+}

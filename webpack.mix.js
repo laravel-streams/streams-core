@@ -1,5 +1,23 @@
 let mix = require('laravel-mix');
 const tailwindcss = require('tailwindcss');
+require('laravel-mix-purgecss');
+
+/*
+ |--------------------------------------------------------------------------
+ | Webpack Configuration
+ |--------------------------------------------------------------------------
+ |
+ | Configure webpack...
+ |
+ */
+mix.webpackConfig({
+    externals: {
+        "@anomaly/streams-platform": "streams"
+    },
+    plugins: [
+        require('@tailwindcss/ui'),
+    ],
+});
 
 /*
  |--------------------------------------------------------------------------
@@ -13,8 +31,15 @@ const tailwindcss = require('tailwindcss');
  */
 
 mix
-    .js('resources/assets/js/index.js', 'resources/dist/js/index.js')
-    .copyDirectory('resources/dist', '../../../public/vendor/anomaly/core')
+    //.js('./resources/js/app.js', './assets/js')
+    .js('./resources/assets/js/index.js', './resources/dist/js')
+    .sass('./resources/scss/theme.scss', './resources/dist/css')
+    .sass('./resources/scss/login.scss', './resources/dist/css')
+    .copyDirectory(
+        './node_modules/@fortawesome/fontawesome-free/webfonts',
+        './resources/dist/fonts/fontawesome'
+    )
+    .copyDirectory('resources/dist', '../../../public/vendor/anomaly/streams/core')
     .options({
         processCssUrls: false,
         postCss: [
@@ -22,6 +47,33 @@ mix
         ],
     })
     .sourceMaps();
+
+
+   // We need to use purge css later
+
+//    if (mix.inProduction()) {
+//     mix.purgeCss({
+//         enabled: true,
+
+//         whitelist: [
+//             'o-navbar--shadow',
+//             'o-navbar--white-bg',
+//             'pm--toggle',
+//             'pm--open',
+//             'pm--open-menu',
+//             'in-viewport'
+//         ],
+
+//         globs: [
+//             path.join(__dirname, 'addons/stengarde/pixney/stengarde-theme/resources/**/*.twig'),
+//             path.join(__dirname, 'addons/stengarde/pixney/stengarde-theme/resources/**/*.vue'),
+//         ],
+
+//         extensions: ['html', 'js', 'php', 'vue', 'twig'],
+
+//     })
+//         .version();
+// }
 
 // Full API
 // mix.js(src, output);

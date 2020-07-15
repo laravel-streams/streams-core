@@ -1,0 +1,33 @@
+#sidebar {
+    @apply .w-56 .p-6 .bg-white .rounded;
+
+    >ul {
+        @apply .mb-3;
+
+        >li {
+            @apply .mb-3;
+
+            >a {
+                @apply .block .mb-1 .uppercase .text-gray-400 .font-bold;
+
+                i {
+                    @apply .hidden;
+                }
+            }
+
+            >ul {
+                >li {
+                    @apply .mb-1;
+
+                    >a {
+                        @apply .block .text-gray-700;
+
+                        &.active {
+                            @apply .font-bold .text-green-500;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

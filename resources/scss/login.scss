@@ -1,0 +1,64 @@
+@import "theme";
+
+.login__wrapper {
+    @apply .flex .h-screen;
+}
+
+.login__left {
+    @apply .w-1/2 .flex .justify-center .items-center .overflow-hidden .p-4 .px-3 .py-10 .bg-gray-200 .border-gray-400 .border-0 .border-r-2;
+
+    .form__fieldset {
+        @apply .mb-0;
+    }
+}
+
+.login__right {
+    @apply .w-1/2 .flex .justify-center .items-center .bg-green-500;
+
+    svg {
+        width: 100px;
+        filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.1));
+
+        path {
+            fill: #ffffff;
+        }
+    }
+}
+
+.login__version {
+    @apply .absolute .bottom-0 .left-0 .ml-2 .mb-2 .text-gray-500 .text-xs;
+}
+
+.login__link {
+    @apply .inline-block .align-baseline .font-bold .text-xs .text-gray-500 .py-2 .px-4 .rounded;
+
+    &:hover,
+    &:focus,
+    &:active {
+        @apply .outline-none .shadow-outline .text-gray-800;
+    }
+}
+
+.form__wrapper {
+    @apply .w-full .max-w-xs .relative;
+
+    form {
+        @apply .bg-white .shadow-md .rounded .px-8 .pt-6 .pb-8 .mb-4;
+
+        label {
+            @apply .block .text-gray-700 .text-sm .font-bold .mb-2;
+        }
+
+        input {
+            @apply .shadow .appearance-none .border .rounded .w-full .py-2 .px-3 .text-gray-700 .leading-tight;
+
+            &:focus {
+                @apply .outline-none .shadow-outline;
+            }
+        }
+    }
+
+    .form__actions {
+        @apply .flex .items-center .justify-between;
+    }
+}

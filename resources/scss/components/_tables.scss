@@ -1,0 +1,95 @@
+.table__wrapper {
+    @apply .m-6;
+}
+
+.table__filters {
+    @apply .mb-6 .m-5;
+
+    form {
+        @apply .flex;
+    }
+}
+
+.table__views {
+    @apply .section .p-0 .px-3  .m-5;
+
+    nav {
+        @apply .flex;
+
+        a {
+            @apply .py-4 .mx-3;
+        }
+    }
+}
+
+.table__container {
+    @apply .section .p-0 .m-5;
+
+    table {
+        @apply .w-full .text-left;
+
+        thead {
+            th {
+                @apply .p-2 .text-gray-500;
+
+                i {
+                    @apply .ml-1;
+
+                    &.fa-sort {
+                        @apply .text-gray-300;
+                    }
+                }
+
+                &.--sorting {
+                    a {
+                        @apply .text-green-500;
+                    }
+                }
+            }
+        }
+
+        tbody {
+            tr {
+                &:hover {
+                    background: #efefef;
+                }
+            }
+        }
+
+        tbody,
+        tfoot {
+            tr {
+                td {
+                    @apply .p-2;
+                }
+            }
+        }
+    }
+}
+
+.table__checkbox {
+    width: 30px;
+}
+
+.table__header {
+    @apply .section;
+}
+
+.table__footer {
+    @apply .flex;
+}
+
+.table__actions {
+}
+
+.table__buttons {
+    @apply .text-right;
+
+    .button {
+        @apply .text-sm .py-1 .px-2;
+    }
+}
+
+.table__total {
+    @apply .text-sm .text-gray-400;
+}

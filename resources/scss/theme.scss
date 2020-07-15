@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans|Ubuntu:500&display=swap");
+
+@tailwind base;
+@tailwind screens;
+@tailwind utilities;
+@tailwind components;
+
+@import "../../node_modules/noty/lib/noty.css";
+@import "../../node_modules/tingle.js/src/tingle.css";
+
+@import "root";
+
+@import "core/fonts";
+@import "core/sections";
+
+@import "components/tabs";
+@import "components/forms";
+@import "components/fields";
+@import "components/inputs";
+@import "components/modals";
+@import "components/tables";
+@import "components/buttons";
+@import "components/messages";
+@import "components/dropdowns";
+
+@import "layout/app";
+@import "layout/main";
+@import "layout/header";
+@import "layout/footer";
+@import "layout/actions";
+@import "layout/content";
+@import "layout/sidebar";
+
+@import "plugins/tingle";
+
+
+.svg-fill-white {
+    path {
+        fill: white;
+    }
+}
+
+button {
+    line-height: 1.15;
+}

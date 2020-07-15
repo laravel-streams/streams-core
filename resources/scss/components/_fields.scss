@@ -1,0 +1,18 @@
+.field {
+
+    >label {
+        @apply .font-bold .inline-block .mb-3;
+    }
+}
+
+.field_required {
+    @apply .text-red-500 .ml-1;
+}
+
+.field__instructions {
+    @apply .text-gray-600 .mb-3;
+}
+
+.field__warning {
+    @apply .text-orange-500 .mb-3;
+}
