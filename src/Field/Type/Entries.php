@@ -30,8 +30,10 @@ class Entries extends FieldType
      */
     public function expand($value)
     {
-        return Streams::make($this->stream)
-            ->where($this->key_name ? $this->key_name : 'id', 'IN', $value)
-            ->get();
+        $stream = Streams::entries($this->config['stream']);
+
+        return new Collection(array_map(function ($value) use ($stream) {
+            return $stream->newInstance($value);
+        }, (array)$value));
     }
 }

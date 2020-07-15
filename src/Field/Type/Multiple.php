@@ -7,13 +7,13 @@ use Anomaly\Streams\Platform\Field\FieldType;
 use Anomaly\Streams\Platform\Support\Facades\Streams;
 
 /**
- * Class Entries
+ * Class Multiple
  *
  * @link    http://pyrocms.com/
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Entries extends FieldType
+class Multiple extends FieldType
 {
     /**
      * The class attributes.

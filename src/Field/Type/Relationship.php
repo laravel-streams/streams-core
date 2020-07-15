@@ -6,13 +6,13 @@ use Anomaly\Streams\Platform\Field\FieldType;
 use Anomaly\Streams\Platform\Support\Facades\Streams;
 
 /**
- * Class Entry
+ * Class Relationship
  *
  * @link    http://pyrocms.com/
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Entry extends FieldType
+class Relationship extends FieldType
 {
     /**
      * The class attributes.

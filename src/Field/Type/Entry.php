@@ -29,6 +29,6 @@ class Entry extends FieldType
      */
     public function expand($value)
     {
-        return Streams::make($this->stream)->find($value);
+        return Streams::entries($this->config['stream'])->newInstance($value);
     }
 }
