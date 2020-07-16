@@ -38,7 +38,7 @@ class EntryController extends Controller
             $criteria->where($field, $param);
         }
 
-        if (!$entry = $stream->entries()->where('year', '2017')->find($id)) {
+        if (!$entry = $criteria->find($id)) {
             abort(404);
         }
 
