@@ -11,13 +11,10 @@ return [
     |
     */
     
-    'images' => [
-
-        /**
-         * Initial image path hints.
-         */
-        'paths' => [
-            'unsplash' => 'https://source.unsplash.com',
-        ],
+    /**
+     * Initial image path hints.
+     */
+    'paths' => [
+        'unsplash' => 'https://source.unsplash.com',
     ],
 ];

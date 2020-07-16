@@ -11,22 +11,19 @@ return [
     |
     */
     
-    'sources' => [
+    'default' => env('STREAMS_SOURCE', 'filebase'),
 
-        'default' => env('STREAMS_SOURCE', 'filebase'),
+    'types' => [
 
-        'types' => [
+        'filebase' => [
 
-            'filebase' => [
-
-                'format' => env('STREAMS_SOURCE_FORMAT', 'md'),
-                //'path' => env('STREAMS_SOURCE_PATH', 'streams/data'),
-                
-                'formats' => [
-                    'json' => \Filebase\Format\Json::class,
-                    'yaml' => \Filebase\Format\Yaml::class,
-                    'md' => \Anomaly\Streams\Platform\Criteria\Format\Markdown::class,
-                ],
+            'format' => env('STREAMS_SOURCE_FORMAT', 'md'),
+            //'path' => env('STREAMS_SOURCE_PATH', 'streams/data'),
+            
+            'formats' => [
+                'json' => \Filebase\Format\Json::class,
+                'yaml' => \Filebase\Format\Yaml::class,
+                'md' => \Anomaly\Streams\Platform\Criteria\Format\Markdown::class,
             ],
         ],
     ],

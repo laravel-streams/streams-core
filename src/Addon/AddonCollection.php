@@ -49,7 +49,6 @@ class AddonCollection extends Collection
     /**
      * Return enabled addons.
      *
-     * @todo replace this with using a config / runtime cache of namespaces from database
      * @return AddonCollection
      */
     public function enabled()
@@ -64,7 +63,6 @@ class AddonCollection extends Collection
     /**
      * Return disabled addons.
      *
-     * @todo replace this with using a config / runtime cache of namespaces from database
      * @return AddonCollection
      */
     public function disabled()

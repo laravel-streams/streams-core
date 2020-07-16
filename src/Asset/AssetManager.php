@@ -232,7 +232,6 @@ class AssetManager
             $this->publish($path, $asset);
         }
 
-        /** @todo should versioning be gone? */
         $path .= '?v=' . filemtime(public_path(trim($path, '/\\')));
 
         return $path;

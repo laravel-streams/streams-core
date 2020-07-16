@@ -11,13 +11,10 @@ return [
     |
     */
     
-    'system' => [
-
-        /**
-         * Force the application
-         * to run over HTTPS.
-         */
-        'force_ssl' => false,
-    ],
+    /**
+     * Force the application
+     * to run over HTTPS.
+     */
+    'force_ssl' => false,
 
 ];

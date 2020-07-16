@@ -55,19 +55,14 @@ class FilebaseCriteria implements CriteriaInterface
         $source = $stream->expand('source');
 
         $this->query = new Database([
-            // @todo IDE not hinting attr?
-            // @todo replace with expand('source')->get('path', 'streams/data/' . $stream->handle)
             'dir' => base_path($source->get('path', 'streams/data/' . $stream->handle)),
 
             //'backupLocation' => 'path/to/database/backup/dir',
-            // @todo Gross - shorten/fix
             'format'         => Config::get('streams.sources.types.filebase.formats.' . $source->get('format', 'md')),
             'cache'          => $source->get('cache', false),
             'cache_expires'  => $source->get('ttl', 1800),
             'pretty'         => true,
             'safe_filename'  => true,
-            //'read_only'      => false,
-            //'rules' => []
         ]);
     }
 

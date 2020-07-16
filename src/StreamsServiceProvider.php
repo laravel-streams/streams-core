@@ -307,27 +307,27 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         // Create the Streams config.
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/cp.php', 'streams');
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/addons.php', 'streams');
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/images.php', 'streams');
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/system.php', 'streams');
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/sources.php', 'streams');
+        $this->mergeConfigFrom(__DIR__ . '/../resources/config/cp.php', 'streams.cp');
+        $this->mergeConfigFrom(__DIR__ . '/../resources/config/addons.php', 'streams.addons');
+        $this->mergeConfigFrom(__DIR__ . '/../resources/config/images.php', 'streams.images');
+        $this->mergeConfigFrom(__DIR__ . '/../resources/config/system.php', 'streams.system');
+        $this->mergeConfigFrom(__DIR__ . '/../resources/config/sources.php', 'streams.sources');
 
         // Merge overrides if present.
         if (file_exists($config = __DIR__ . '/../../../../config/streams/cp.php')) {
-            $this->mergeConfigFrom($config, 'streams');
+            $this->mergeConfigFrom($config, 'streams.cp');
         }
         if (file_exists($config = __DIR__ . '/../../../../config/streams/addons.php')) {
-            $this->mergeConfigFrom($config, 'streams');
+            $this->mergeConfigFrom($config, 'streams.addons');
         }
         if (file_exists($config = __DIR__ . '/../../../../config/streams/images.php')) {
-            $this->mergeConfigFrom($config, 'streams');
+            $this->mergeConfigFrom($config, 'streams.images');
         }
         if (file_exists($config = __DIR__ . '/../../../../config/streams/system.php')) {
-            $this->mergeConfigFrom($config, 'streams');
+            $this->mergeConfigFrom($config, 'streams.system');
         }
         if (file_exists($config = __DIR__ . '/../../../../config/streams/sources.php')) {
-            $this->mergeConfigFrom($config, 'streams');
+            $this->mergeConfigFrom($config, 'streams.sources');
         }
 
         // Publish config.
@@ -380,6 +380,8 @@ class StreamsServiceProvider extends ServiceProvider
     {
         $this->app->singleton(AddonCollection::class, function () {
 
+            $disabled = Config::get('streams.addons.disabled');
+
             $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
 
             $addons = array_filter(
@@ -391,11 +393,10 @@ class StreamsServiceProvider extends ServiceProvider
 
             ksort($addons);
 
-            $disabled = Config::get('streams.addons.disabled');
-
             $addons = array_map(function ($addon) use ($disabled) {
 
-                dd($addon);
+                //@todo look out for this one
+                dd(__FILE__);
 
                 return new Addon($addon);
             }, $addons);
