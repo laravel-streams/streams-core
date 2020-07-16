@@ -108,17 +108,12 @@ class StreamsServiceProvider extends ServiceProvider
     public function register()
     {
         // @todo split this into streams/images.php, etc for example? 
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/streams.php', 'streams');
-
-        if (file_exists($config = __DIR__ . '/../../../../config/streams.php')) {
-            $this->mergeConfigFrom($config, 'streams');
-        }
-
         $this->registerComposerJson();
         $this->registerComposerLock();
         $this->registerApplications();
         $this->registerFieldTypes();
         $this->registerAliases();
+        $this->registerConfig();
 
         /**
          * Load core routes.
@@ -311,6 +306,36 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerAliases()
     {
         AliasLoader::getInstance($this->aliases)->register();
+    }
+    
+    /**
+     * Register config.
+     */
+    protected function registerConfig()
+    {
+        // Create the Streams config.
+        $this->mergeConfigFrom(__DIR__ . '/../resources/config/cp.php', 'streams');
+        $this->mergeConfigFrom(__DIR__ . '/../resources/config/addons.php', 'streams');
+        $this->mergeConfigFrom(__DIR__ . '/../resources/config/images.php', 'streams');
+        $this->mergeConfigFrom(__DIR__ . '/../resources/config/system.php', 'streams');
+        $this->mergeConfigFrom(__DIR__ . '/../resources/config/sources.php', 'streams');
+
+        // Merge overrides if present.
+        if (file_exists($config = __DIR__ . '/../../../../config/streams/cp.php')) {
+            $this->mergeConfigFrom($config, 'streams');
+        }
+        if (file_exists($config = __DIR__ . '/../../../../config/streams/addons.php')) {
+            $this->mergeConfigFrom($config, 'streams');
+        }
+        if (file_exists($config = __DIR__ . '/../../../../config/streams/images.php')) {
+            $this->mergeConfigFrom($config, 'streams');
+        }
+        if (file_exists($config = __DIR__ . '/../../../../config/streams/system.php')) {
+            $this->mergeConfigFrom($config, 'streams');
+        }
+        if (file_exists($config = __DIR__ . '/../../../../config/streams/sources.php')) {
+            $this->mergeConfigFrom($config, 'streams');
+        }
     }
 
     /**
