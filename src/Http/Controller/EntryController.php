@@ -32,7 +32,7 @@ class EntryController extends Controller
             $criteria->where($field, $param);
         }
 
-        if (count($params) == 0 || !$entry = $stream->entries()->first()) {
+        if (count($params) == 0 || !$entry = $criteria->first()) {
             abort(404);
         }
 
