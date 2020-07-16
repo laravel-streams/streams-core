@@ -3,17 +3,15 @@
 namespace Anomaly\Streams\Platform\Image;
 
 use Illuminate\Support\Str;
+use Collective\Html\HtmlFacade;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Image\Concerns\CanOutput;
-use Anomaly\Streams\Platform\Image\Concerns\HasSource;
 use Anomaly\Streams\Platform\Image\Concerns\CanPublish;
 use Anomaly\Streams\Platform\Image\Concerns\HasQuality;
-use Anomaly\Streams\Platform\Image\Concerns\HasSources;
 use Anomaly\Streams\Platform\Image\Concerns\HasSrcsets;
 use Anomaly\Streams\Platform\Image\Concerns\HasVersion;
-use Anomaly\Streams\Platform\Image\Concerns\HasFilename;
+use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Image\Concerns\HasExtension;
-use Anomaly\Streams\Platform\Image\Concerns\HasAttributes;
 use Anomaly\Streams\Platform\Image\Concerns\HasAlterations;
 
 /**
@@ -27,27 +25,74 @@ class Image
 {
     use Macroable;
 
-    use HasSource;
-    use HasSources;
     use HasQuality;
     use HasSrcsets;
     use HasVersion;
-    use HasFilename;
     use HasExtension;
-    use HasAttributes;
     use HasAlterations;
 
     use CanOutput;
     use CanPublish;
 
+    use Properties;
+
     /**
-     * Create a new Image instance.
+     * Create a new class instance.
      *
-     * @param mixed $source
+     * @param array $attributes
      */
-    public function __construct($source)
+    public function __construct(array $attributes = [])
     {
-        $this->source = $source;
+        $this->fill($attributes);
+
+        $this->buildProperties();
+    }
+
+    /**
+     * Set the filename.
+     *
+     * @param $filename
+     * @return $this
+     */
+    public function rename($filename = null)
+    {
+        return $this->setAttribute('filename', $filename);
+    }
+
+    /**
+     * Return a source tag.
+     *
+     * @param array $attributes
+     * @return string
+     */
+    public function source(array $attributes = [])
+    {
+        $attributes = array_merge($this->attributes(['srcset' => $this->srcset() ?: $this->path()]), $attributes);
+
+        return '<source' . HtmlFacade::attributes($attributes) . '>';
+    }
+
+    /**
+     * Set the sources.
+     *
+     * @param array $sources
+     * @return $this
+     */
+    public function sources(array $sources)
+    {
+        $this->sources = $sources;
+
+        return $this;
+    }
+
+    /**
+     * Return if the Image is remote or not.
+     *
+     * @return bool
+     */
+    public function isRemote()
+    {
+        return is_string($this->source) && Str::startsWith($this->source, ['http://', 'https://', '//']);
     }
 
     /**
@@ -74,7 +119,9 @@ class Image
             return $macro(...$parameters);
         }
 
-        return $this->addAttribute($method, array_shift($parameters));
+        $this->attributes[$method] = array_shift($parameters);
+
+        return $this;
     }
 
     /**

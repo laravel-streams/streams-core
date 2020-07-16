@@ -48,8 +48,11 @@ class ImageManager
      */
     public function make($source)
     {
-        return (new Image($source))
-            ->setOriginal(basename($source));
+        $attributes = is_array($source) ? $source : compact('source');
+
+        $attributes['original'] = basename($attributes['source']);
+
+        return (new Image($attributes));
     }
 
     /**
