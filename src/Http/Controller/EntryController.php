@@ -21,26 +21,31 @@ class EntryController extends Controller
     /**
      * Return a Stream entry's view.
      *
-     * @param string $slug
      */
-    public function view($slug)
+    public function view()
     {
         $stream = Streams::make(Request::route()->getAction('stream'));
+        $criteria = $stream->entries();
+        $params = Request::route()->parameters();
 
-        if (!$entry = $stream->entries()->find($slug)) {
+        foreach ($params as $field => $param) {
+            $criteria->where($field, $param);
+        }
+
+        if (count($params) == 0 || !$entry = $stream->entries()->first()) {
             abort(404);
         }
 
         if ($stream->redirect) {
             return Response::redirect(
-                Str::parse($stream->redirect, compact('entry', 'stream', 'slug'))
+                Str::parse($stream->redirect, compact('entry', 'stream', 'params'))
             );
         }
 
         if ($stream->template) {
             return Response::view(
-                Str::parse($stream->template, compact('entry', 'stream', 'slug')),
-                compact('entry', 'stream', 'slug')
+                Str::parse($stream->template, compact('entry', 'stream', 'params')),
+                compact('entry', 'stream', 'params')
             );
         }
 
