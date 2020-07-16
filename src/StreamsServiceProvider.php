@@ -114,12 +114,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerAliases();
         $this->registerConfig();
 
-        /**
-         * Load core routes.
-         */
-        Route::middleware('web')
-            ->group(base_path('vendor/anomaly/streams-platform/resources/routes/web.php'));
-
         // Load default CP middleware
         Route::middlewareGroup('cp', config('streams.cp.middleware', ['auth']));
 
@@ -397,7 +391,12 @@ class StreamsServiceProvider extends ServiceProvider
 
             ksort($addons);
 
-            $addons = array_map(function ($addon) {
+            $disabled = Config::get('streams.addons.disabled');
+
+            $addons = array_map(function ($addon) use ($disabled) {
+
+                dd($addon);
+
                 return new Addon($addon);
             }, $addons);
 

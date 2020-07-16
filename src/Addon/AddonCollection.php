@@ -54,7 +54,7 @@ class AddonCollection extends Collection
      */
     public function enabled()
     {
-        return $this->installable()->filter(
+        return $this->filter(
             function (array $addon) {
                 return Arr::get($addon, 'enabled');
             }
@@ -69,7 +69,7 @@ class AddonCollection extends Collection
      */
     public function disabled()
     {
-        return $this->installable()->filter(
+        return $this->filter(
             function (array $addon) {
                 return Arr::get($addon, 'enabled') == false;
             }
