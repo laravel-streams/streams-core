@@ -107,7 +107,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // @todo split this into streams/images.php, etc for example? 
         $this->registerComposerJson();
         $this->registerComposerLock();
         $this->registerApplications();
