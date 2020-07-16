@@ -336,6 +336,23 @@ class StreamsServiceProvider extends ServiceProvider
         if (file_exists($config = __DIR__ . '/../../../../config/streams/sources.php')) {
             $this->mergeConfigFrom($config, 'streams');
         }
+
+        // Publish config.
+        $this->publishes([
+            __DIR__ . '/../resources/config/cp.php' => config_path('streams/cp.php')
+        ], 'config');
+        $this->publishes([
+            __DIR__ . '/../resources/config/addons.php' => config_path('streams/addons.php')
+        ], 'config');
+        $this->publishes([
+            __DIR__ . '/../resources/config/images.php' => config_path('streams/images.php')
+        ], 'config');
+        $this->publishes([
+            __DIR__ . '/../resources/config/system.php' => config_path('streams/system.php')
+        ], 'config');
+        $this->publishes([
+            __DIR__ . '/../resources/config/sources.php' => config_path('streams/sources.php')
+        ], 'config');
     }
 
     /**

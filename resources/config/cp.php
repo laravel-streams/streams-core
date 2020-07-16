@@ -12,19 +12,16 @@ return [
     |
     */
 
-    'cp' => [
+    /**
+     * This is the URI  prefix
+     * for the control panel.
+     */
+    'prefix' => env('STREAMS_CP_PREFIX', 'admin'),
 
-        /**
-         * This is the URI  prefix
-         * for the control panel.
-         */
-        'prefix' => env('STREAMS_CP_PREFIX', 'admin'),
-
-        /**
-         * Define additional CP middleware.
-         */
-        'middleware' => [
-            //\App\Http\Middleware\RickRoll::class,
-        ],
+    /**
+     * Define additional CP middleware.
+     */
+    'middleware' => [
+        //\App\Http\Middleware\RickRoll::class,
     ],
 ];

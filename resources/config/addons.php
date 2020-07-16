@@ -12,15 +12,11 @@ return [
     |
     */
 
-    'addons' => [
-
-        /**
-         * An array of disabled
-         * addons by handle.
-         */
-        'disabled' => [
-            //'anomaly.module.users',
-        ],
+    /**
+     * An array of disabled
+     * addons by handle.
+     */
+    'disabled' => [
+        //'anomaly.module.users',
     ],
-
 ];
