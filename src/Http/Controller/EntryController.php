@@ -28,11 +28,17 @@ class EntryController extends Controller
         $criteria = $stream->entries();
         $params = Request::route()->parameters();
 
+
+        if (count($params) == 0) {
+            abort(404);
+        }
+
+        $id = array_pop($params);
         foreach ($params as $field => $param) {
             $criteria->where($field, $param);
         }
 
-        if (count($params) == 0 || !$entry = $criteria->first()) {
+        if (!$entry = $stream->entries()->where('year', '2017')->find($id)) {
             abort(404);
         }
 
