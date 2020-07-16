@@ -423,13 +423,7 @@ class StreamsServiceProvider extends ServiceProvider
     {
         Assets::addPath('public', public_path());
         Assets::addPath('resources', resource_path());
-
-        // @todo review these
-        //Assets::addPath('asset', public_path('assets/' . $this->app['streams.application.handle']));
-        Assets::addPath('storage', storage_path('streams/' .  $this->app['streams.application.handle']));
-        Assets::addPath('application', resource_path($this->app['streams.application.handle']));
-
-        Assets::addPath('streams', base_path('vendor/anomaly/streams-platform/resources'));
+        Assets::addPath('streams', realpath(__DIR__ . '/../resources'));
     }
 
     /**
@@ -441,13 +435,7 @@ class StreamsServiceProvider extends ServiceProvider
     {
         Images::addPath('public', public_path());
         Images::addPath('resources', resource_path());
-
-        // @todo review these
-        //Images::addPath('asset', public_path('assets/' . $this->app['streams.application.handle']));
-        Images::addPath('storage', storage_path('streams/' .  $this->app['streams.application.handle']));
-        Images::addPath('application', resource_path($this->app['streams.application.handle']));
-
-        Images::addPath('streams', base_path('vendor/anomaly/streams-platform/resources'));
+        Images::addPath('streams', realpath(__DIR__ . '/../resources'));
     }
 
     /**
@@ -457,6 +445,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function addViewNamespaces()
     {
+        // @todo what's needed here?
         View::addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/views'));
         View::addNamespace('storage', storage_path('streams/' .  $this->app['streams.application.handle']));
         //View::addNamespace('shared', base_path('resources/views'));
