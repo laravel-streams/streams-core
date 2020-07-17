@@ -2,8 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Http\Controller;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Anomaly\Streams\Platform\Support\Facades\Streams;
@@ -24,30 +26,38 @@ class EntryController extends Controller
      */
     public function view()
     {
-        $stream = Streams::make(Request::route()->getAction('stream'));
+        $route= Request::route();
+
+        $stream = Streams::make($route->getAction('stream'));
+        
+        $parameters = $route->parameters();
         $criteria = $stream->entries();
-        $params = Request::route()->parameters();
-
-
-        if (count($params) == 0) {
+        
+        if (!$parameters) {
             abort(404);
         }
 
-        $id = array_pop($params);
-        foreach ($params as $field => $param) {
-            $criteria->where($field, $param);
-        }
-
-        if (!$entry = $criteria->find($id)) {
+        // @todo use keyname from stream at least
+        $identifier = Arr::get($parameters, 'id', Arr::get($parameters, 'handle'));
+        
+        if ($identifier && !$entry = $criteria->find($identifier)) {
             abort(404);
         }
 
+        /**
+         * If the Stream is redirected
+         * then redirect here and now.
+         */
         if ($stream->redirect) {
             return Response::redirect(
                 Str::parse($stream->redirect, compact('entry', 'stream', 'params'))
             );
         }
 
+        /**
+         * If the Stream has it's own template
+         * then go ahead and render that now.
+         */
         if ($stream->template) {
             return Response::view(
                 Str::parse($stream->template, compact('entry', 'stream', 'params')),
@@ -55,6 +65,7 @@ class EntryController extends Controller
             );
         }
 
+        // Default JSON response.
         return Response::json($entry->toArray());
     }
 }
