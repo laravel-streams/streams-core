@@ -60,8 +60,8 @@ class EntryController extends Controller
          */
         if ($stream->template) {
             return Response::view(
-                Str::parse($stream->template, compact('entry', 'stream', 'params')),
-                compact('entry', 'stream', 'params')
+                Str::parse($stream->template, compact('entry', 'stream', 'parameters')),
+                compact('entry', 'stream', 'parameters')
             );
         }
 
