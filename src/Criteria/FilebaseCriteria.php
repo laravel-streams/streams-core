@@ -142,8 +142,6 @@ class FilebaseCriteria implements CriteriaInterface
      */
     public function where($field, $operator = null, $value = null, $nested = null)
     {
-        $operator = strtoupper($operator);
-
         if (!$value) {
             $value = $operator;
             $operator = '=';
@@ -153,13 +151,13 @@ class FilebaseCriteria implements CriteriaInterface
             $field = '__id';
         }
 
-        $method = Str::studly($nested ? $nested . '_where' : 'where');
+        $method = $nested ? Str::studly($nested . '_where') : 'where';
 
         if (is_string($value) && $operator == 'like') {
             $value = str_replace('%', '', $value); // @todo - Filebase doesn't need this?
         }
 
-        $this->query = $this->query->{$method}($field, $operator, $value);
+        $this->query = $this->query->{$method}($field, strtoupper($operator), $value);
 
         return $this;
     }
