@@ -50,7 +50,7 @@ class EntryController extends Controller
          */
         if ($stream->redirect) {
             return Response::redirect(
-                Str::parse($stream->redirect, compact('entry', 'stream', 'params'))
+                Str::parse($stream->redirect, compact('entry', 'stream', 'parameters'))
             );
         }
 
