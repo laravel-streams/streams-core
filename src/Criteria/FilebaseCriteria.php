@@ -147,6 +147,8 @@ class FilebaseCriteria implements CriteriaInterface
             $operator = '=';
         }
 
+        $operator = strtoupper($operator);
+
         if ($field == 'id') {
             $field = '__id';
         }
@@ -157,7 +159,7 @@ class FilebaseCriteria implements CriteriaInterface
             $value = str_replace('%', '', $value); // @todo - Filebase doesn't need this?
         }
 
-        $this->query = $this->query->{$method}($field, strtoupper($operator), $value);
+        $this->query = $this->query->{$method}($field, $operator, $value);
 
         return $this;
     }
