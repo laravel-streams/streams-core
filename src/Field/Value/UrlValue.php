@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Field\Value;
 
 use Illuminate\Support\Arr;
+use Collective\Html\HtmlFacade;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
@@ -69,15 +70,15 @@ class UrlValue extends Value
      */
     public function link($title = null, $attributes = [])
     {
-        if (!$url = $this->object->normalize()) {
+        if (!$url = $this->normalize()) {
             return null;
         }
 
         if (!$title) {
-            $title = $this->object->normalize();
+            $title = $url;
         }
 
-        return $this->html->link($url, $title, $attributes);
+        return HtmlFacade::link($url, $title, $attributes);
     }
 
     /**
@@ -88,7 +89,7 @@ class UrlValue extends Value
      */
     public function to($path = null)
     {
-        if (!$this->object->getValue()) {
+        if (!$this->value) {
             return null;
         }
 
