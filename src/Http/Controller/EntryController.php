@@ -29,17 +29,17 @@ class EntryController extends Controller
         $route= Request::route();
 
         $stream = Streams::make($route->getAction('stream'));
-        
+
         $parameters = $route->parameters();
         $criteria = $stream->entries();
-        
+
         if (!$parameters) {
             abort(404);
         }
 
         $identifier = Arr::get($parameters, $stream->key_name ?: 'id', Arr::get($parameters, 'handle'));
-        
-        if ($identifier && !$entry = $criteria->find($identifier)) {
+
+        if (!$identifier || !$entry = $criteria->find($identifier)) {
             abort(404);
         }
 
