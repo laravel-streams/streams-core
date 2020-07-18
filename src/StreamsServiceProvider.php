@@ -395,8 +395,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             $addons = array_map(function ($addon) use ($disabled) {
 
-                //@todo look out for this one
-                dd(__FILE__);
+                $addon['enabled'] = in_array($addon['name'], $disabled);
 
                 return new Addon($addon);
             }, $addons);
