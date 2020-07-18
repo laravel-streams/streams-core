@@ -37,8 +37,7 @@ class EntryController extends Controller
             abort(404);
         }
 
-        // @todo use keyname from stream at least
-        $identifier = Arr::get($parameters, 'id', Arr::get($parameters, 'handle'));
+        $identifier = Arr::get($parameters, $stream->key_name ?: 'id', Arr::get($parameters, 'handle'));
         
         if ($identifier && !$entry = $criteria->find($identifier)) {
             abort(404);

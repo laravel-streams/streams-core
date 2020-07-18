@@ -102,21 +102,19 @@ class Repository implements RepositoryInterface
 
     /**
      * Find all entries by field value.
-     *
-     * @todo review - value added or miss?
      * 
      * @param $field
      * @param $operator
      * @param $value
      * @return Collection
      */
-    // public function findAllWhere($field, $operator, $value = null)
-    // {
-    //     return $this
-    //         ->newCriteria()
-    //         ->where($field, $operator, $value)
-    //         ->get();
-    // }
+    public function findAllWhere($field, $operator, $value = null)
+    {
+        return $this
+            ->newCriteria()
+            ->where($field, $operator, $value)
+            ->get();
+    }
 
     /**
      * Count all entries.

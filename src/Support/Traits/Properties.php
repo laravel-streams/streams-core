@@ -567,12 +567,9 @@ trait Properties
                 return $this->castDateTimeAttribute($value)->getTimestamp();
         }
 
-        // @todo would prefer this but resolve for now
-        //$type = new $type($this->properties[$key]);
         $type = app('streams.field_types.' . $type, $this->properties[$key]);
         
         $type->field = $key;
-        // @todo fill type here or use FieldTypeBuilder::build
 
         return $type->restore($value);
     }

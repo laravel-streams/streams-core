@@ -56,7 +56,7 @@ interface RepositoryInterface
      * @param $value
      * @return Collection
      */
-    //public function findAllWhere($field, $operator, $value = null);
+    public function findAllWhere($field, $operator, $value = null);
 
     /**
      * Find a trashed entry by it's ID.
