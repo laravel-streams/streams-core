@@ -5,6 +5,7 @@ namespace Anomaly\Streams\Platform\Support;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\App;
 
 /**
  * Class Resolver
@@ -24,8 +25,6 @@ class Resolver
     /**
      * Resolve the target.
      *
-     * @todo should this be wrapped in a try catch to prevent a ReflectionException?
-     *
      * @param $target
      * @param array $arguments
      * @param array $options
@@ -39,7 +38,7 @@ class Resolver
             (is_string($target) && Str::contains($target, '@'))
             || is_callable($target)
         ) {
-            return app()->call($target, $arguments);
+            return App::call($target, $arguments);
         }
 
         if (
@@ -47,7 +46,7 @@ class Resolver
             && class_exists($target)
             && method_exists($target, $method)
         ) {
-            return app()->call($target . '@' . $method, $arguments);
+            return App::call($target . '@' . $method, $arguments);
         }
 
         return null;
