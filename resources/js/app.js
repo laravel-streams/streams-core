@@ -1,29 +1,13 @@
-import Vue from 'vue';
+import {Application} from './Application';
+// noinspection ES6UnusedImports
+import {autoProvide, buildProviderModule, fluentProvide, provide} from 'inversify-binding-decorators';
+import createDecorators from 'inversify-inject-decorators';
+import {decorate, injectable, named, optional, postConstruct, tagged, unmanaged} from 'inversify';
 
 
+const app = new Application();
+const {lazyInject: inject} = createDecorators(app);
 
-Vue.config.silent = false;
-Vue.config.devtools = true;
-Vue.config.productionTip = false
-
-
-window.Vue = Vue;
-
-// require('./bootstrap/components.js');
-import Messages from "./components/Messages";
-Vue.component('messages', Messages);
-
-import Top from "./components/layout/Top";
-Vue.component('layout-top', Top);
-
-// Our bus for future use.
-export const bus = new Vue();
-
-const app = new Vue({
-  el: '#app',
-  created() {
-    console.log(
-      '%c >>> App created',
-      'background-color:red;color:white;font-size:11px;padding:5px 10px;')
-  }
-});
+export {app, inject};
+export {provide, buildProviderModule, fluentProvide, autoProvide};
+export {injectable, unmanaged, optional, decorate, named, tagged, postConstruct};

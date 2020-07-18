@@ -1,4 +1,3 @@
-import Vue, {ComponentOptions} from 'vue';
 import {Container,AsyncContainerModule} from 'inversify';
 // import {Config, IConfig, IServiceProviderClass, loadConfigDefaults, ServiceProvider} from '@pyro/platform';
 import {merge} from 'lodash';
@@ -23,7 +22,7 @@ export class Application extends Container {
             defaultScope       : 'Transient',
             skipBaseClassChecks: false
         });
-        this.Root = Vue.extend({});
+        //this.Root = Vue.extend({});
         this.loadedProviders = {};
         this.providers = [];
         this.booted = false;
