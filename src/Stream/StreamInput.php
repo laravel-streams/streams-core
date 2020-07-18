@@ -27,7 +27,6 @@ class StreamInput
 
         /**
          * Defaults the source.
-         * @todo is "types" stinky? Was thinking adapters.
          */
         $type = Config::get('streams.sources.default', 'filebase');
         $default = Config::get('streams.sources.types.' . $type);
