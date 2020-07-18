@@ -37,9 +37,13 @@ class EntryController extends Controller
             abort(404);
         }
 
-        $identifier = Arr::get($parameters, $stream->key_name ?: 'id', Arr::get($parameters, 'handle'));
+        $criteria = $stream->entries();
 
-        if (!$identifier || !$entry = $criteria->find($identifier)) {
+        foreach ($parameters as $parameter => $value) {
+            $criteria->where($parameter, $value);
+        }
+
+        if (!$entry = $criteria->first()) {
             abort(404);
         }
 
