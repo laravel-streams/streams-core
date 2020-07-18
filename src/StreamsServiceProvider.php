@@ -183,7 +183,6 @@ class StreamsServiceProvider extends ServiceProvider
         // Setup and preparing utilities.
         $this->registerAddonCollection();
         $this->configureFileCacheStore();
-        $this->routeAutomatically();
         $this->addAssetNamespaces();
         $this->addImageNamespaces();
         $this->addViewNamespaces();
@@ -437,12 +436,8 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function addViewNamespaces()
     {
-        // @todo what's needed here?
         View::addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/views'));
-        View::addNamespace('storage', storage_path('streams/' .  $this->app['streams.application.handle']));
-        //View::addNamespace('shared', base_path('resources/views'));
-        //View::addNamespace('theme', base_path('resources/views'));
-        //View::addNamespace('root', base_path());
+        View::addNamespace('storage', storage_path('streams'));
     }
 
     /**
@@ -596,168 +591,6 @@ class StreamsServiceProvider extends ServiceProvider
 
         Str::macro('markdown', function ($target, array $data = []) {
             return (new Parsedown)->parse($target, array_merge(app('streams.parser_data'), Arr::make($data)));
-        });
-    }
-
-    /**
-     * Attempt to route the request automatically.
-     *
-     * Huge thanks to @frednwt for this one.
-     */
-    protected function routeAutomatically()
-    {
-        $request = request();
-
-        /**
-         * This only applies to admin
-         * controllers at this time.
-         */
-        if ($request->segment(1) !== config('streams.cp.prefix', 'admin')) {
-            return;
-        }
-
-        /**
-         * Use the segments to figure
-         * out what we need to do.
-         */
-        $segments = $request->segments();
-
-        /**
-         * Remove CP prefix.
-         */
-        array_shift($segments);
-
-        /**
-         * This is just /admin
-         */
-        if (!$segments) {
-            return;
-        }
-
-        /**
-         * The first segment MUST
-         * be a unique addon slug.
-         * 
-         * @todo this all needs work
-         */
-        if (!$addon = app('streams.addons')->first(function ($addon) use ($segments) {
-            return Str::is('*.*.' . $segments[0], $addon['namespace']);
-        })) {
-            return;
-        }
-
-        $namespace = (new \ReflectionClass(app($addon['namespace'])))->getNamespaceName();
-
-        $controller = null;
-        $module     = null;
-        $stream     = null;
-        $method     = null;
-        $path       = null;
-        $id         = null;
-
-        if (count($segments) == 1) {
-            $module = $segments[0];
-            $stream = $segments[0];
-            $method = 'index';
-
-            $path = implode('/', ['admin', $module]);
-
-            $controller = ucfirst(Str::studly($stream)) . 'Controller';
-            $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
-        }
-
-        if (count($segments) == 2) {
-            $module = $segments[0];
-            $stream = $segments[1];
-            $method = 'index';
-
-            $path = implode('/', ['admin', $module, $stream]);
-
-            $controller = ucfirst(Str::studly($stream)) . 'Controller';
-            $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
-
-            if (!class_exists($controller)) {
-                $controller = null;
-            }
-        }
-
-        if (!$controller && count($segments) == 2) {
-            $module = $segments[0];
-            $stream = $segments[0];
-            $method = $segments[1];
-
-            $path = implode('/', array_unique(['admin', $module, $stream, $method]));
-
-            $controller = ucfirst(Str::studly($stream)) . 'Controller';
-            $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
-        }
-
-        if (count($segments) == 3) {
-            $module = $segments[0];
-            $stream = $segments[1];
-            $method = $segments[2];
-
-            $path = implode('/', ['admin', $module, $stream, $method]);
-
-            $controller = ucfirst(Str::studly($stream)) . 'Controller';
-            $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
-
-            if (!class_exists($controller)) {
-                $controller = null;
-            }
-        }
-
-        if (!$controller && count($segments) == 3) {
-            $module = $segments[0];
-            $stream = $segments[0];
-            $method = $segments[1];
-            $id     = '{id}';
-
-            $path = implode('/', array_unique(['admin', $module, $stream, $method, $id]));
-
-            $controller = ucfirst(Str::studly($stream)) . 'Controller';
-            $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
-        }
-
-        if (count($segments) == 4) {
-            $module = $segments[0];
-            $stream = $segments[1];
-            $method = $segments[2];
-            $id     = '{id}';
-
-            $path = implode('/', ['admin', $module, $stream, $method, $id]);
-
-            $controller = ucfirst(Str::studly($stream)) . 'Controller';
-            $controller = $namespace . '\Http\Controller\Admin\\' . $controller;
-        }
-
-        /**
-         * If the route has already been
-         * defined then let it handle itself.
-         */
-        try {
-            Route::getRoutes()->match($request);
-        } catch (Exception $exception) {
-            // 404 == Onward!
-        }
-
-        /**
-         * Make sure the assumed controller exists.
-         */
-        if (!class_exists($controller)) {
-            return;
-        }
-
-        /**
-         * Route the request automatically.
-         */
-        Route::middleware('web')->group(function () use ($path, $method, $controller) {
-            Route::any(
-                $path,
-                [
-                    'uses' => $controller . '@' . $method,
-                ]
-            );
         });
     }
 }
