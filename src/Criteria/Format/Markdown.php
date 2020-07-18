@@ -42,9 +42,6 @@ class Markdown implements FormatInterface
 
         $encoded = $data ? Yaml::dump(Arr::pull($data, 'data')) : null;
 
-        // @todo swallow meta for now.
-        //$encoded = Yaml::dump($data) . $encoded;
-
         return "---\n{$encoded}---{$body}";
     }
 
