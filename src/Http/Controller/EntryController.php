@@ -31,7 +31,6 @@ class EntryController extends Controller
         $stream = Streams::make($route->getAction('stream'));
 
         $parameters = $route->parameters();
-        $criteria = $stream->entries();
 
         if (!$parameters) {
             abort(404);
