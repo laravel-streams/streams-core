@@ -8,6 +8,7 @@ use Collective\Html\HtmlFacade;
 use Intervention\Image\Constraint;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Support\Facades\Images;
@@ -147,7 +148,7 @@ class Image
                 $this->publish($output);
             }
         } catch (\Exception $e) {
-            return config('app.debug', false) ? $e->getMessage() : null;
+            return Config::get('app.debug', false) ? $e->getMessage() : null;
         }
 
         if (config('streams.images.version') && $this->version !== false) {
@@ -213,7 +214,7 @@ class Image
                 ) . '.' . $this->extension();
             }
 
-            if ($rename = $this->getFilename()) {
+            if ($rename = $this->filename) {
 
                 $filename = $rename;
 
@@ -243,6 +244,20 @@ class Image
         }
 
         return "/{$directory}{$filename}";
+    }
+
+    /**
+     * Return the image extension.
+     *
+     * @return string
+     */
+    public function extension()
+    {
+        if ($this->extension) {
+            return $this->extension;
+        }
+
+        return $this->extension = pathinfo($this->source, PATHINFO_EXTENSION);
     }
 
     /**
@@ -318,7 +333,7 @@ class Image
             //$this->addAlteration('orientate');
         }
 
-        if (in_array($this->getExtension(), ['jpeg', 'jpg']) && config('streams.images.interlace')) {
+        if (in_array($this->extension(), ['jpeg', 'jpg']) && config('streams.images.interlace')) {
             //$this->addAlteration('interlace');
         }
 
@@ -338,7 +353,7 @@ class Image
             }
         }
 
-        $image->save(public_path($path), $this->quality ?: config('streams.images.quality', null));
+        $image->save(public_path($path), $this->quality ?: Config::get('streams.images.quality', null));
     }
 
     /**
@@ -426,8 +441,8 @@ class Image
      */
     public function encode($format = null, $quality = null)
     {
-        $this->setQuality($quality);
-        $this->setExtension($format);
+        $this->quality = $quality;
+        $this->extension = $format;
         $this->addAlteration('encode');
 
         return $this;
