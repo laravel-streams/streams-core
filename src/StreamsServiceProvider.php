@@ -2,8 +2,6 @@
 
 namespace Anomaly\Streams\Platform;
 
-use Exception;
-use Parsedown;
 use Misd\Linkify\Linkify;
 use StringTemplate\Engine;
 use Illuminate\Support\Arr;
@@ -13,7 +11,6 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Config;
@@ -25,13 +22,11 @@ use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Purifier;
 use Anomaly\Streams\Platform\View\ViewIncludes;
 use Anomaly\Streams\Platform\View\ViewTemplate;
-use Anomaly\Streams\Platform\Stream\StreamBuilder;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Support\Facades\Assets;
 use Anomaly\Streams\Platform\Support\Facades\Images;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Support\Facades\Streams;
-use Anomaly\Streams\Platform\Ui\Table\TableComponent;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Illuminate\Support\Collection as SupportCollection;
 use Anomaly\Streams\Platform\Http\Controller\EntryController;
@@ -87,17 +82,6 @@ class StreamsServiceProvider extends ServiceProvider
         'hydrator' => \Anomaly\Streams\Platform\Support\Hydrator::class,
         'decorator' => \Anomaly\Streams\Platform\Support\Decorator::class,
         'evaluator' => \Anomaly\Streams\Platform\Support\Evaluator::class,
-
-        \Anomaly\Streams\Platform\Asset\AssetManager::class => \Anomaly\Streams\Platform\Asset\AssetManager::class,
-        \Anomaly\Streams\Platform\Image\ImageManager::class => \Anomaly\Streams\Platform\Image\ImageManager::class,
-
-        \Anomaly\Streams\Platform\Stream\StreamManager::class    => \Anomaly\Streams\Platform\Stream\StreamManager::class,
-        \Anomaly\Streams\Platform\Message\MessageManager::class  => \Anomaly\Streams\Platform\Message\MessageManager::class,
-        \Anomaly\Streams\Platform\Application\ApplicationManager::class => \Anomaly\Streams\Platform\Application\ApplicationManager::class,
-
-        \Anomaly\Streams\Platform\View\ViewIncludes::class  => \Anomaly\Streams\Platform\View\ViewIncludes::class,
-
-        \Anomaly\Streams\Platform\Addon\AddonCollection::class   => \Anomaly\Streams\Platform\Addon\AddonCollection::class,
     ];
 
     /**
@@ -111,11 +95,9 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerComposerLock();
         $this->registerApplications();
         $this->registerFieldTypes();
+        $this->registerMiddleware();
         $this->registerAliases();
         $this->registerConfig();
-
-        // Load default CP middleware
-        Route::middlewareGroup('cp', config('streams.cp.middleware', ['auth']));
     }
 
     /**
@@ -285,6 +267,14 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->bind('streams.field_types.relationship', \Anomaly\Streams\Platform\Field\Type\Relationship::class);
     }
 
+    /**
+     * Register middleware.
+     */
+    protected function registerMiddleware()
+    {
+        Route::middlewareGroup('cp', Config::get('streams.cp.middleware', ['auth']));
+    }
+    
     /**
      * Register Aliases.
      */
@@ -590,7 +580,7 @@ class StreamsServiceProvider extends ServiceProvider
         });
 
         Str::macro('markdown', function ($target, array $data = []) {
-            return (new Parsedown)->parse($target, array_merge(app('streams.parser_data'), Arr::make($data)));
+            return (new \Parsedown)->parse($target, array_merge(app('streams.parser_data'), Arr::make($data)));
         });
     }
 }
