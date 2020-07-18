@@ -348,19 +348,9 @@ class Image
      */
     protected function intervention()
     {
-        // @todo extend
-        // if ($this->source instanceof FileInterface) {
-        //     return app(intervention::class)->make(app(MountManager::class)->read($this->source->location()));
-        // }
-
         if (is_string($this->source) && Str::is('*://*', $this->source)) {
             return app(intervention::class)->make(app(MountManager::class)->read($this->source));
         }
-
-        // @todo extend
-        // if ($this->source instanceof File) {
-        //     return app(intervention::class)->make($this->source->read());
-        // }
 
         if (is_string($this->source) && file_exists($path = Images::path($this->source))) {
             return app(intervention::class)->make($path);

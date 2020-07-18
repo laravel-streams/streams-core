@@ -39,11 +39,6 @@ class StreamBuilder
 
         $stream->fields = $fields;
 
-        /**
-         * @todo Revisit
-         */
-        //Gate::policy(get_class($stream->model), $stream->config('policy', Policy::class));
-
         $stream->fire('built', compact($stream));
 
         return $stream;

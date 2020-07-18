@@ -34,7 +34,7 @@ class Markdown implements FormatInterface
      * @param bool $pretty
      * @return string
      */
-    public static function encode($data = [], $pretty = true)
+    public static function encode($data, $pretty)
     {
         $data = (array) $data;
 
