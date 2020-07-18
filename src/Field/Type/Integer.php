@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Field\Type;
 
 use Anomaly\Streams\Platform\Field\FieldType;
+use Anomaly\Streams\Platform\Field\Value\IntegerValue;
 
 /**
  * Class Integer
@@ -40,5 +41,16 @@ class Integer extends FieldType
     public function restore($value)
     {
         return (int) $value;
+    }
+
+    /**
+     * Expand the value.
+     *
+     * @param $value
+     * @return Collection
+     */
+    public function expand($value)
+    {
+        return new IntegerValue($value);
     }
 }
