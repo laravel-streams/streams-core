@@ -116,13 +116,6 @@ class StreamsServiceProvider extends ServiceProvider
 
         // Load default CP middleware
         Route::middlewareGroup('cp', config('streams.cp.middleware', ['auth']));
-
-        // @todo Load CP base routes.. this could be removed. Use route sp if neeed.
-        if (file_exists($routes = base_path('routes/cp.php'))) {
-            Route::prefix(config('streams.cp.prefix', 'admin'))
-                ->middleware('cp')
-                ->group($routes);
-        }
     }
 
     /**
