@@ -139,7 +139,7 @@ class Image
         if (Str::startsWith($source, ['http://', 'https://', '//'])) {
             return $source;
         }
-
+        
         $output = $this->outputPath($source);
 
         try {
@@ -186,7 +186,7 @@ class Image
          */
         if (
             Str::contains($this->source, [public_path(), 'public::'])
-            && ($this->hasAlterations() || $this->getQuality())
+            && ($this->alterations || $this->quality)
         ) {
             return str_replace([public_path(), 'public::'], '/assets/', $this->source);
         }
@@ -195,7 +195,7 @@ class Image
          * If renaming then this has already
          * been provided by the filename.
          */
-        if ($rename = $this->getFilename()) {
+        if ($rename = $this->filename) {
             return ltrim($rename, '/\\');
         }
 
@@ -207,9 +207,9 @@ class Image
 
             list($disk, $folder, $filename) = explode('/', str_replace('://', '/', $this->source));
 
-            if ($this->hasAlterations() || $this->getQuality()) {
+            if ($this->alterations || $this->quality) {
                 $filename = md5(
-                    var_export([$this->source, $this->getAlterations()], true) . $this->getQuality()
+                    var_export([$this->source, $this->alterations], true) . $this->quality
                 ) . '.' . $this->extension();
             }
 
@@ -236,9 +236,9 @@ class Image
         $filename    = basename($source);
         $directory   = ltrim(dirname($source), '/\\') . '/';
 
-        if ($this->getAlterations() || $this->getQuality()) {
+        if ($this->alterations || $this->quality) {
             $filename = md5(
-                var_export([$source, $this->getAlterations()], true) . $this->getQuality()
+                var_export([$source, $this->alterations], true) . $this->quality
             ) . '.' . $this->extension();
         }
 
@@ -322,15 +322,15 @@ class Image
             //$this->addAlteration('interlace');
         }
 
-        if (!$this->getAlterations() && !$this->getQuality()) {
-            return $image->save(public_path($path), $this->getQuality() ?: config('streams.images.quality', null));
+        if (!$this->alterations && !$this->quality) {
+            return $image->save(public_path($path), $this->quality ?: config('streams.images.quality', null));
         }
 
-        if (is_callable('exif_read_data') && in_array('orientate', $this->getAlterations())) {
-            $this->setAlterations(array_unique(array_merge(['orientate'], $this->getAlterations())));
+        if (is_callable('exif_read_data') && in_array('orientate', $this->alterations)) {
+            $this->setAlterations(array_unique(array_merge(['orientate'], $this->alterations)));
         }
 
-        foreach ($this->getAlterations() as $method => $arguments) {
+        foreach ($this->alterations as $method => $arguments) {
             if (is_array($arguments)) {
                 call_user_func_array([$image, $method], $arguments);
             } else {
@@ -338,7 +338,7 @@ class Image
             }
         }
 
-        $image->save(public_path($path), $this->getQuality() ?: config('streams.images.quality', null));
+        $image->save(public_path($path), $this->quality ?: config('streams.images.quality', null));
     }
 
     /**
