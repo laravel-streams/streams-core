@@ -194,7 +194,6 @@ class EloquentCriteria implements CriteriaInterface
      */
     public function create(array $attributes = [])
     {
-        // @todo automatically map to slug or something?
         return $this->query->create($attributes);
     }
 

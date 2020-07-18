@@ -156,7 +156,7 @@ class FilebaseCriteria implements CriteriaInterface
         $method = $nested ? Str::studly($nested . '_where') : 'where';
 
         if (is_string($value) && $operator == 'like') {
-            $value = str_replace('%', '', $value); // @todo - Filebase doesn't need this?
+            $value = str_replace('%', '', $value); // Filebase doesn't use "%"
         }
 
         $this->query = $this->query->{$method}($field, $operator, $value);
