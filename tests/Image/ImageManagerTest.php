@@ -1,13 +1,13 @@
 <?php
 
-use Tests\TestCase;
+
 use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Support\Facades\Images;
 
 /**
  * Class ImageManagerTest
  */
-class ImageManagerTest extends TestCase
+class ImageManagerTest extends StreamsTestCase
 {
     public function testCanMakeImageInstances()
     {
@@ -22,7 +22,7 @@ class ImageManagerTest extends TestCase
         );
 
         $this->assertEquals(
-            '/vendor/anomaly/streams-platform/resources/testing/cat.jpg',
+            '/vendor/anomaly/streams-platform/_streams/testing/cat.jpg',
             Images::register('example', 'streams::testing/cat.jpg')
                 ->make('example')
                 ->path()
@@ -33,11 +33,11 @@ class ImageManagerTest extends TestCase
     {
         Images::addPath(
             'testing',
-            base_path('vendor/anomaly/streams-platform/resources/testing')
+            base_path('vendor/anomaly/streams-platform/_streams/testing')
         );
 
         $this->assertSame(
-            '/vendor/anomaly/streams-platform/resources/testing/cat.jpg',
+            '/vendor/anomaly/streams-platform/_streams/testing/cat.jpg',
             Images::make('testing::cat.jpg')->path()
         );
     }

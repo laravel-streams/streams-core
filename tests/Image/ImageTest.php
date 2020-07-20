@@ -1,14 +1,14 @@
 <?php
 
-use Tests\TestCase;
+
 use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Support\Facades\Images;
 
 /**
- * Class ImageTest
+ * Class FieldTypeImageTest
  */
-class ImageTest extends TestCase
+class ImageTest extends StreamsTestCase
 {
 
     public function testAlterationsPassThroughCall()
@@ -42,7 +42,7 @@ class ImageTest extends TestCase
     public function testToStringMethod()
     {
         $this->assertSame(
-            '<img src="/vendor/anomaly/streams-platform/resources/testing/cat.jpg" alt="Cat">',
+            '<img src="/vendor/anomaly/streams-platform/_streams/testing/cat.jpg" alt="Cat">',
             (string) Images::make('streams::testing/cat.jpg')
         );
     }
@@ -50,12 +50,12 @@ class ImageTest extends TestCase
     public function testImgOutput()
     {
         $this->assertEquals(
-            '<img src="/vendor/anomaly/streams-platform/resources/testing/cat.jpg" alt="Cat">',
+            '<img src="/vendor/anomaly/streams-platform/_streams/testing/cat.jpg" alt="Cat">',
             Images::make('streams::testing/cat.jpg')->img()
         );
 
         $this->assertEquals(
-            '<img src="/vendor/anomaly/streams-platform/resources/testing/cat.jpg" alt="Cat">',
+            '<img src="/vendor/anomaly/streams-platform/_streams/testing/cat.jpg" alt="Cat">',
             Images::register('cat', 'streams::testing/cat.jpg')->make('cat')->img()
         );
     }
@@ -64,10 +64,10 @@ class ImageTest extends TestCase
     {
         $this->assertSame(
             '<picture>
-<source media="(min-width: 1000px)" srcset="/vendor/anomaly/streams-platform/resources/testing/cat.jpg">
-<source media="(min-width: 800px)" srcset="/vendor/anomaly/streams-platform/resources/testing/a6a12235c5b0ddea5d2caf6b306dd5df.jpg">
-<source media="(max-width: 799px)" srcset="/vendor/anomaly/streams-platform/resources/testing/d77fa15955caa3616dac5d789f8ee888.jpg">
-<img src="/vendor/anomaly/streams-platform/resources/testing/cat.jpg" alt="Cat">
+<source media="(min-width: 1000px)" srcset="/vendor/anomaly/streams-platform/_streams/testing/cat.jpg">
+<source media="(min-width: 800px)" srcset="/vendor/anomaly/streams-platform/_streams/testing/a6a12235c5b0ddea5d2caf6b306dd5df.jpg">
+<source media="(max-width: 799px)" srcset="/vendor/anomaly/streams-platform/_streams/testing/d77fa15955caa3616dac5d789f8ee888.jpg">
+<img src="/vendor/anomaly/streams-platform/_streams/testing/cat.jpg" alt="Cat">
 </picture>',
             Images::make('streams::testing/cat.jpg')->sources([
                 Images::make('streams::testing/cat.jpg')->media('(min-width: 1000px)'),
@@ -90,7 +90,7 @@ class ImageTest extends TestCase
     public function testUrlOutput()
     {
         $this->assertEquals(
-            url('vendor/anomaly/streams-platform/resources/testing/cat.jpg'),
+            url('vendor/anomaly/streams-platform/_streams/testing/cat.jpg'),
             Images::make('streams::testing/cat.jpg')->url()
         );
     }
@@ -98,7 +98,7 @@ class ImageTest extends TestCase
     public function testPathOutput()
     {
         $this->assertEquals(
-            '/vendor/anomaly/streams-platform/resources/testing/cat.jpg',
+            '/vendor/anomaly/streams-platform/_streams/testing/cat.jpg',
             Images::make('streams::testing/cat.jpg')->path()
         );
     }
@@ -116,7 +116,7 @@ class ImageTest extends TestCase
     public function testCssOutput()
     {
         $this->assertEquals(
-            'url(/vendor/anomaly/streams-platform/resources/testing/cat.jpg)',
+            'url(/vendor/anomaly/streams-platform/_streams/testing/cat.jpg)',
             Images::make('streams::testing/cat.jpg')->css()
         );
     }
@@ -127,7 +127,7 @@ class ImageTest extends TestCase
         $this->markTestIncomplete();
 
         $this->assertStringContainsString(
-            file_get_contents(base_path('vendor/anomaly/streams-platform/resources/testing/cat.jpg')),
+            file_get_contents(base_path('vendor/anomaly/streams-platform/_streams/testing/cat.jpg')),
             Images::make('streams::testing/cat.jpg')->data()
         );
     }
@@ -135,7 +135,7 @@ class ImageTest extends TestCase
     public function testSrcsets()
     {
         $this->assertSame(
-            '<img src="/vendor/anomaly/streams-platform/resources/testing/cat.jpg" srcset="/vendor/anomaly/streams-platform/resources/testing/cat.jpg 1000w, /vendor/anomaly/streams-platform/resources/testing/a6a12235c5b0ddea5d2caf6b306dd5df.jpg 800w, /vendor/anomaly/streams-platform/resources/testing/d77fa15955caa3616dac5d789f8ee888.jpg 400w" alt="Cat">',
+            '<img src="/vendor/anomaly/streams-platform/_streams/testing/cat.jpg" srcset="/vendor/anomaly/streams-platform/_streams/testing/cat.jpg 1000w, /vendor/anomaly/streams-platform/_streams/testing/a6a12235c5b0ddea5d2caf6b306dd5df.jpg 800w, /vendor/anomaly/streams-platform/_streams/testing/d77fa15955caa3616dac5d789f8ee888.jpg 400w" alt="Cat">',
             Images::make('streams::testing/cat.jpg')->srcsets([
                 '1000w' => Images::make('streams::testing/cat.jpg'),
                 '800w' => Images::make('streams::testing/cat.jpg')->resize(800),
@@ -148,7 +148,7 @@ class ImageTest extends TestCase
     {
         $this->assertTrue(
             Str::is(
-                '<img src="/vendor/anomaly/streams-platform/resources/testing/*.png" alt="Cat">',
+                '<img src="/vendor/anomaly/streams-platform/_streams/testing/*.png" alt="Cat">',
                 Images::make('streams::testing/cat.jpg')->encode('png')->img()
             )
         );

@@ -1,11 +1,11 @@
 <?php
 
-use Tests\TestCase;
+
 use Illuminate\Support\Collection;
 use Anomaly\Streams\Platform\Stream\Stream;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
-class RepositoryTest extends TestCase
+class RepositoryTest extends StreamsTestCase
 {
     public function testAll()
     {
@@ -101,7 +101,7 @@ class RepositoryTest extends TestCase
 
     /**
      * Cleanup entries.
-     * 
+     *
      * @param $id
      */
     protected function cleanup($id)

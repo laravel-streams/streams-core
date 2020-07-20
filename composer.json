@@ -7,7 +7,7 @@
     }],
     "require": {
         "misd/linkify": "1.1.*",
-        "laravel/scout": "^7.0",        
+        "laravel/scout": "^7.0",
         "fideloper/proxy": "^4.0",
         "jenssegers/agent": "^2.6",
         "mrclay/jsmin-php": "^2.4",
@@ -22,10 +22,19 @@
         "spatie/yaml-front-matter": "^2.0",
         "laravelcollective/html": "^6.1.0"
     },
+    "require-dev": {
+        "fzaninotto/faker": "^1.9",
+        "mockery/mockery": "^1.3",
+        "phpunit/phpunit": "^9.0",
+        "orchestra/testbench": "^5.3"
+    },
     "autoload": {
         "psr-4": {
             "Anomaly\\Streams\\Platform\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "classmap": ["tests/"]
     },
     "config": {
         "bin-dir": "bin"
