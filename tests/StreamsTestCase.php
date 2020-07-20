@@ -13,6 +13,9 @@ class StreamsTestCase extends \Orchestra\Testbench\TestCase
      */
     protected $streamsPath = __DIR__ . '/../vendor/orchestra/testbench-core/laravel/streams';
 
+    /**
+     * @var string 
+     */
     protected $resourcesPath = __DIR__ . '/../vendor/orchestra/testbench-core/laravel/resources';
 
     /**
