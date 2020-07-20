@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Support;
 
 use Exception;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
@@ -34,19 +35,23 @@ class Resolver
     {
         $method = Arr::get($options, 'method', 'handle');
 
-        if (
-            (is_string($target) && Str::contains($target, '@'))
-            || is_callable($target)
-        ) {
-            return App::call($target, $arguments);
-        }
+        try {
+            if (
+                (is_string($target) && Str::contains($target, '@'))
+                || is_callable($target)
+            ) {
+                return App::call($target, $arguments);
+            }
 
-        if (
-            is_string($target)
-            && class_exists($target)
-            && method_exists($target, $method)
-        ) {
-            return App::call($target . '@' . $method, $arguments);
+            if (
+                is_string($target)
+                && class_exists($target)
+                && method_exists($target, $method)
+            ) {
+                return App::call($target . '@' . $method, $arguments);
+            }
+        } catch (BindingResolutionException $e) {
+            return null;
         }
 
         return null;

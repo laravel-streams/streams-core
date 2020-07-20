@@ -176,7 +176,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         /**
          * Register Sterams
-         * 
+         *
          * @todo this needs pushed up into the register() method
          */
         $this->registerStreams();
@@ -274,7 +274,7 @@ class StreamsServiceProvider extends ServiceProvider
     {
         Route::middlewareGroup('cp', Config::get('streams.cp.middleware', ['auth']));
     }
-    
+
     /**
      * Register Aliases.
      */
@@ -282,7 +282,7 @@ class StreamsServiceProvider extends ServiceProvider
     {
         AliasLoader::getInstance($this->aliases)->register();
     }
-    
+
     /**
      * Register config.
      */
@@ -421,7 +421,7 @@ class StreamsServiceProvider extends ServiceProvider
 
     /**
      * Add view namespaces.
-     * 
+     *
      * @deprecated  2.0 - Remove
      */
     public function addViewNamespaces()

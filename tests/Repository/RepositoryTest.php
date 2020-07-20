@@ -96,7 +96,7 @@ class RepositoryTest extends StreamsTestCase
      */
     protected function repository()
     {
-        return (new Stream(json_decode(file_get_contents(realpath(__DIR__ . '/../../streams/data/widgets.json')), true)))->repository();
+        return $this->getTestingStream()->repository();
     }
 
     /**

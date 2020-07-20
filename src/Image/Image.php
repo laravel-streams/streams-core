@@ -41,7 +41,7 @@ class Image
 
             'alterations' => [],
             'attributes' => [],
-            'soruces' => [],
+            'sources' => [],
             'srcsets' => [],
         ], $attributes);
 
@@ -140,7 +140,7 @@ class Image
         if (Str::startsWith($source, ['http://', 'https://', '//'])) {
             return $source;
         }
-        
+
         $output = $this->outputPath($source);
 
         try {
@@ -396,7 +396,7 @@ class Image
         if ($srcset = $this->srcsets) {
             $attributes['srcset'] = $srcset;
         }
-        
+
         if (!$alt && !isset($attributes['alt']) && config('streams.images.auto_alt', true)) {
             $attributes['alt'] = Arr::get(
                 $this->attributes,

@@ -13,17 +13,15 @@ class StreamsTestCase extends \Orchestra\Testbench\TestCase
      */
     protected $streamsPath = __DIR__ . '/../vendor/orchestra/testbench-core/laravel/streams';
 
+    protected $resourcesPath = __DIR__ . '/../vendor/orchestra/testbench-core/laravel/resources';
+
     /**
      * Setup the test environment. Scaffold some folders for the Streams application in a relative path to Orchestra.
      */
     protected function setUp(): void
     {
-        if (!file_exists($this->streamsPath)) {
-            mkdir($this->streamsPath);
-        }
-
-        if (!file_exists($this->streamsPath . '/data')) {
-            mkdir($this->streamsPath . '/data');
+        if (!file_exists($this->streamsPath . '/data/widgets')) {
+            mkdir($this->streamsPath . '/data/widgets', 0775, true);
         }
 
         if (!file_exists($this->streamsPath . '/widgets.json')) {
@@ -71,22 +69,25 @@ class StreamsTestCase extends \Orchestra\Testbench\TestCase
     }
 
     /**
-     *
+     * Create a test entry.
      */
     protected function setUpTestEntry()
     {
-        if (!File::exists($this->streamsPath . '/data/widgets')) {
-            File::makeDirectory($this->streamsPath . '/data/widgets');
-        }
+        $this->getTestingStream()->repository()->create([
+            'id' => 'test',
+            'name' => 'Test',
+        ]);
+    }
 
-        $testEntryPath = $this->streamsPath . '/data/widgets/test.json';
+    /**
+     * Tear down an entry.
+     */
+    protected function tearDownTestEntry()
+    {
+        $stream = $this->getTestingStream();
 
-        if (!File::exists($testEntryPath)) {
-            File::put($testEntryPath, json_encode([
-                "data" => [
-                    "name" => "test"
-                ]
-            ]));
+        if ($remove = $stream->repository()->find('test')) {
+            $stream->repository()->delete($remove);
         }
     }
 
