@@ -26,7 +26,8 @@
         "fzaninotto/faker": "^1.9",
         "mockery/mockery": "^1.3",
         "phpunit/phpunit": "^9.0",
-        "orchestra/testbench": "^5.3"
+        "orchestra/testbench": "^5.3",
+        "helmich/phpunit-json-assert": "^3.1"
     },
     "autoload": {
         "psr-4": {

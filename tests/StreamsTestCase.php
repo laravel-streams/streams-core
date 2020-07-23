@@ -8,13 +8,15 @@ use Illuminate\Support\Facades\File;
  */
 class StreamsTestCase extends \Orchestra\Testbench\TestCase
 {
+    use \Helmich\JsonAssert\JsonAssertions;
+
     /**
      * @var string
      */
     protected $streamsPath = __DIR__ . '/../vendor/orchestra/testbench-core/laravel/streams';
 
     /**
-     * @var string 
+     * @var string
      */
     protected $resourcesPath = __DIR__ . '/../vendor/orchestra/testbench-core/laravel/resources';
 
@@ -34,7 +36,8 @@ class StreamsTestCase extends \Orchestra\Testbench\TestCase
                 ],
                 "slug" => "widgets",
                 "fields" => [
-                    "name" => "text"
+                    "name" => "text",
+                    "type" => "text"
                 ]
             ]));
         }
@@ -63,6 +66,23 @@ class StreamsTestCase extends \Orchestra\Testbench\TestCase
     }
 
     /**
+     * Don't handle the exception because we could pollute a test if we return any value.
+     *
+     * @param $object
+     * @param $property
+     * @return mixed
+     * @throws ReflectionException
+     *
+     */
+    protected function reflectObjectProperty($object, $property)
+    {
+        $reflectionClass = new \ReflectionClass($object);
+        $reflectedProperty = $reflectionClass->getProperty($property);
+        $reflectedProperty->setAccessible(true);
+        return $reflectedProperty->getValue($object);
+    }
+
+    /**
      * Modify runtime environment
      *
      * @param \Illuminate\Foundation\Application $app
@@ -73,12 +93,15 @@ class StreamsTestCase extends \Orchestra\Testbench\TestCase
 
     /**
      * Create a test entry.
+     *
+     * @param null $handle
      */
-    protected function setUpTestEntry()
+    protected function setUpTestEntry($handle = null)
     {
         $this->getTestingStream()->repository()->create([
-            'id' => 'test',
-            'name' => 'Test',
+            'id' => $handle ?? 'test',
+            'name' => $handle ? ucfirst($handle) : 'Test',
+            'type' => 'testing'
         ]);
     }
 

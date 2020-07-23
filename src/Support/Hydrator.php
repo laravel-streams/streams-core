@@ -33,7 +33,7 @@ class Hydrator
 
         foreach ($parameters as $parameter => $value) {
 
-            $method = camel_case('set_' . $parameter);
+            $method = Str::camel('set_' . $parameter);
 
             if (method_exists($object, $method)) {
                 $object->{$method}(Arr::pull($parameters, $parameter));

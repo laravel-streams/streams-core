@@ -26,6 +26,7 @@
 
     <php>
       <env name="APP_ENV" value="testing"/>
+      <env name="APP_REFERENCE" value="testing"/>
       <env name="VERSION_IMAGES" value="false"/>
       <env name="VERSION_ASSETS" value="false"/>
     </php>

@@ -5,10 +5,15 @@ use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Support\Facades\Images;
 
 /**
+ * @todo complete tests
+ *
  * Class ImageManagerTest
  */
 class ImageManagerTest extends StreamsTestCase
 {
+    /**
+     * @todo determine how to test assets in package
+     */
     public function testCanMakeImageInstances()
     {
         $this->assertInstanceOf(Image::class, Images::make('test'));
@@ -16,6 +21,8 @@ class ImageManagerTest extends StreamsTestCase
 
     public function testNamedImages()
     {
+        $this->markTestIncomplete();
+
         $this->assertEquals(
             'streams::testing/cat.jpg',
             Images::register('example', 'streams::testing/cat.jpg')->resolve('example')
@@ -31,6 +38,8 @@ class ImageManagerTest extends StreamsTestCase
 
     public function testRegisteredPaths()
     {
+        $this->markTestIncomplete();
+
         Images::addPath(
             'testing',
             base_path('vendor/anomaly/streams-platform/_streams/testing')

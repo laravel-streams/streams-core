@@ -14,31 +14,41 @@ class RepositoryTest extends StreamsTestCase
 
     public function testFind()
     {
+        $this->setUpTestEntry();
         $this->assertNull($this->repository()->find('null_widget'));
-        $this->assertInstanceOf(EntryInterface::class, $this->repository()->find('foo_widget'));
+        $this->assertInstanceOf(EntryInterface::class, $this->repository()->find('test'));
     }
 
     public function testFindBy()
     {
+        $this->setUpTestEntry();
         $this->assertNull($this->repository()->findBy('non_field', 'bogus_value'));
-        $this->assertInstanceOf(EntryInterface::class, $this->repository()->findBy('secret', 'itsasecret'));
+        $this->assertInstanceOf(EntryInterface::class, $this->repository()->findBy('type', 'testing'));
     }
 
     public function testFindAll()
     {
+        $this->setUpTestEntry('foo');
+        $this->setUpTestEntry('bar');
         $this->assertInstanceOf(Collection::class, $this->repository()->findAll([
-            'bar_widget',
-            'foo_widget',
+            'foo',
+            'bar',
         ]));
     }
 
+    /**
+     * @todo - has findAllBy been removed?
+     */
     public function testFindAllBy()
     {
+        $this->markTestIncomplete();
+
         $this->assertInstanceOf(Collection::class, $this->repository()->findAllBy('type', 'testing'));
     }
 
     public function testCount()
     {
+        $this->setUpTestEntry();
         $this->assertGreaterThan(0, $this->repository()->count());
     }
 
@@ -62,11 +72,10 @@ class RepositoryTest extends StreamsTestCase
         ]);
 
         $entry = $this->repository()->find('test_widget');
-        //$entry2 = $this->repository()->find('test_widget_faker');
+        $entry2 = $this->repository()->find('test_widget_faker');
 
         $this->assertTrue($this->repository()->delete($entry));
-        // @todo finish
-        //$this->assertFalse($this->repository()->delete($entry2));
+        $this->assertFalse($this->repository()->delete($entry2));
     }
 
     public function testSave()

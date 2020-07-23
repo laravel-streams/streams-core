@@ -3,6 +3,10 @@
 
 use Anomaly\Streams\Platform\Support\Evaluator;
 
+/**
+ *
+ * Class EvaluatorTest
+ */
 class EvaluatorTest extends StreamsTestCase
 {
 
