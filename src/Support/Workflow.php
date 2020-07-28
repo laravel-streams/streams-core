@@ -52,13 +52,13 @@ class Workflow
     protected function triggerCallback($name, array $payload)
     {
         $callback = [
-            'workflow' => $this->name($this),
+            'workflow' => $this->name ?: $this->name($this),
             'name' => $name,
         ];
 
         $payload = compact('payload', 'callback');
 
-        $this->callback ?? App::call($this->callback, $payload);
+        $this->callback ? App::call($this->callback, $payload) : null;
     }
 
     /**

@@ -405,6 +405,13 @@ trait Properties
             }
 
             /**
+             * Skip this?
+             */
+            if ($type === 'object') {
+                $type = null;
+            }
+
+            /**
              * "double" is returned in lieue
              * of float for historical reasons.
              */
@@ -420,7 +427,7 @@ trait Properties
                 'default' => $attribute,
             ];
 
-            return $attribute;
+            return array_filter($attribute);
         }, $this->attributes);
 
         $this->attributes['__initialized'] = true;
