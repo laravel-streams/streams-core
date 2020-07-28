@@ -58,9 +58,7 @@ class Workflow
 
         $payload = compact('payload', 'callback');
 
-        Log::info($payload);
-
-        return $this->callback ? App::call($this->callback, $payload) : null;
+        $this->callback ?? App::call($this->callback, $payload);
     }
 
     /**
