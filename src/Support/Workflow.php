@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Anomaly\Streams\Platform\Support\Traits\Properties;
+use Anomaly\Streams\Platform\Support\Traits\HasWorkflows;
 use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
 
 /**
@@ -19,6 +20,7 @@ class Workflow
 {
 
     use Properties;
+    use HasWorkflows;
     use FiresCallbacks;
 
     /**
