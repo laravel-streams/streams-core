@@ -47,7 +47,7 @@ class Entry implements EntryInterface, Arrayable, Jsonable
     {
         $this->stream = $stream;
 
-        $this->properties = Arr::make($stream->fields->toArray());
+        $this->properties = Arr::make(is_array($stream->fields) ? $stream->fields : $stream->fields->toArray());
 
         $this->fill($attributes);
     }
@@ -62,7 +62,7 @@ class Entry implements EntryInterface, Arrayable, Jsonable
 
     /**
      * Save the entry.
-     * 
+     *
      * @return bool
      */
     public function save()

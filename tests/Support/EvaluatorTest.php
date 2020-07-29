@@ -1,9 +1,13 @@
 <?php
 
-use Tests\TestCase;
+
 use Anomaly\Streams\Platform\Support\Evaluator;
 
-class EvaluatorTest extends TestCase
+/**
+ *
+ * Class EvaluatorTest
+ */
+class EvaluatorTest extends StreamsTestCase
 {
 
     public function testCanEvaluateClosures()

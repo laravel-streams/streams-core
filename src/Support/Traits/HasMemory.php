@@ -22,7 +22,7 @@ trait HasMemory
      * Remember something.
      *
      * @param string $key
-     * @param CLosure $callable
+     * @param callable $callable
      * @return null|string
      */
     public static function remember($key, $callable)
@@ -40,7 +40,7 @@ trait HasMemory
      * Remember something across all instances.
      *
      * @param string $key
-     * @param CLosure $callable
+     * @param callable $callable
      * @return null|string
      */
     public static function once($key, $callable)
@@ -71,9 +71,7 @@ trait HasMemory
     }
 
     /**
-     * Forget a key.
-     *
-     * @param string $key
+     * Reset memory.
      */
     public static function resetMemory()
     {

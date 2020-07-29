@@ -4,6 +4,8 @@ namespace Anomaly\Streams\Platform\Support;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
+use Anomaly\Streams\Platform\Support\Traits\Properties;
+use Anomaly\Streams\Platform\Support\Traits\HasWorkflows;
 use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
 
 /**
@@ -15,24 +17,10 @@ use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
  */
 class Workflow
 {
+
+    use Properties;
+    use HasWorkflows;
     use FiresCallbacks;
-
-    /**
-     * The workflow steps.
-     *
-     * @var array
-     */
-    protected $steps = [];
-
-    /**
-     * Create a new Workflow instance.
-     *
-     * @param array $steps
-     */
-    public function __construct(array $steps = [])
-    {
-        $this->steps = $this->named(array_merge($this->steps, $steps));
-    }
 
     /**
      * Process the workflow.
@@ -42,19 +30,36 @@ class Workflow
      */
     public function process(array $payload = [])
     {
-        $this->fire('processing', $payload);
-        $this->fire('processing_' . static::class, $payload);
+        $this->triggerCallback('processing', $payload);
 
         foreach ($this->steps as $name => $step) {
 
-            $this->fire('before_' . $name, $payload);
+            $this->triggerCallback('before_' . $name, $payload);
 
             $this->do($step, $payload);
 
-            $this->fire('after_' . $name, $payload);
+            $this->triggerCallback('after_' . $name, $payload);
         }
 
         $this->fire('processed', $payload);
+    }
+
+    /**
+     * Trigger the callbacks.
+     *
+     * @param [type] $name
+     * @param array $payload
+     */
+    protected function triggerCallback($name, array $payload)
+    {
+        $callback = [
+            'workflow' => $this->name ?: $this->name($this),
+            'name' => $name,
+        ];
+
+        $payload = compact('payload', 'callback');
+
+        $this->callback ? App::call($this->callback, $payload) : null;
     }
 
     /**
@@ -131,7 +136,7 @@ class Workflow
      * @param string|\Closure $step
      * @return $this
      */
-    public function addStep($name, $step)
+    public function set($name, $step)
     {
         $this->steps[$name] = $step;
 

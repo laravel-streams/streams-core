@@ -21,7 +21,7 @@ class ApplicationManager
      * Make an application instance.
      *
      * @param string|null $handle
-     * @return Applilcation
+     * @return Application
      */
     public function make($handle = null)
     {
@@ -43,7 +43,9 @@ class ApplicationManager
     }
 
     /**
-     * Swith the application.
+     * Switch the application.
+     *
+     * @todo does this work?
      *
      * @param string|null $handle
      */

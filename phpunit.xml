@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
-         bootstrap="../../../vendor/autoload.php"
+         bootstrap="vendor/autoload.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
@@ -26,6 +26,7 @@
 
     <php>
       <env name="APP_ENV" value="testing"/>
+      <env name="APP_REFERENCE" value="testing"/>
       <env name="VERSION_IMAGES" value="false"/>
       <env name="VERSION_ASSETS" value="false"/>
     </php>

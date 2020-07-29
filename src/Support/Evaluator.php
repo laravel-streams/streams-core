@@ -15,6 +15,8 @@ class Evaluator
     /**
      * Evaluate a target entity with arguments.
      *
+     * @todo data() -> data_get(), confirm
+     *
      * @param $target
      * @param array $arguments
      * @return mixed
@@ -44,7 +46,7 @@ class Evaluator
          * format then traverse the target using the arguments.
          */
         if (is_string($target) && !isset($arguments[$target]) && $this->isTraversable($target)) {
-            $target = data($arguments, $target, $target);
+            $target = data_get($arguments, $target, $target);
         }
 
         return $target;
