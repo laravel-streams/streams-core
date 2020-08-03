@@ -114,4 +114,14 @@ class Entry implements EntryInterface, Arrayable, Jsonable
     {
         $this->setAttribute($key, $value);
     }
+
+    /**
+     * Return a string representation.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toJson();
+    }
 }
