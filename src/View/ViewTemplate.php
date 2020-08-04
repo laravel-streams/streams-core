@@ -2,9 +2,10 @@
 
 namespace Anomaly\Streams\Platform\View;
 
-use Anomaly\Streams\Platform\Application\Application;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
+use Anomaly\Streams\Platform\Application\Application;
 
 /**
  * Class ViewTemplate
@@ -28,7 +29,7 @@ class ViewTemplate
     {
         $view = 'support/parsed/' . md5($template);
 
-        $path = storage_path(implode(DIRECTORY_SEPARATOR, ['streams', Application::handle(), $view]));
+        $path = storage_path(implode(DIRECTORY_SEPARATOR, ['streams', App::make('streams.application.handle'), $view]));
 
         if (!is_dir($directory = dirname($path))) {
             File::makeDirectory($directory, 0766, true);
