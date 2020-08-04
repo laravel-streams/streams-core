@@ -29,7 +29,7 @@ class ViewTemplate
     {
         $view = 'support/parsed/' . md5($template);
 
-        $path = storage_path(implode(DIRECTORY_SEPARATOR, ['streams', App::make('streams.application.handle'), $view]));
+        $path = storage_path(implode(DIRECTORY_SEPARATOR, ['streams', app('streams.application.handle'), $view]));
 
         if (!is_dir($directory = dirname($path))) {
             File::makeDirectory($directory, 0766, true);
@@ -39,7 +39,7 @@ class ViewTemplate
             file_put_contents($path . '.blade.php', $template);
         }
 
-        return View::make('storage::' . $view, $payload);
+        return View::make('storage::' . ltrim(str_replace(storage_path('streams'), '', $path), '/\\'), $payload);
     }
 
     /**
@@ -53,7 +53,7 @@ class ViewTemplate
     {
         $path = self::path($template, $extension);
 
-        $base = storage_path(implode(DIRECTORY_SEPARATOR, [Application::handle()]));
+        $base = storage_path(implode(DIRECTORY_SEPARATOR, [app('streams.application.handle')]));
 
         return 'storage::' . ltrim(str_replace($base, '', $path), '\\/');
     }
@@ -68,7 +68,7 @@ class ViewTemplate
     public static function path($template, $extension = 'blade.php')
     {
         $path = storage_path(
-            implode(DIRECTORY_SEPARATOR, [Application::handle(), 'support', 'streams', md5($template)])
+            implode(DIRECTORY_SEPARATOR, [app('streams.application.handle'), 'support', 'streams', md5($template)])
         );
 
         if (!is_dir($directory = dirname($path))) {
