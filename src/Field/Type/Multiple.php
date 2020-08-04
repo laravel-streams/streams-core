@@ -30,7 +30,7 @@ class Multiple extends FieldType
      */
     public function expand($value)
     {
-        return Streams::make($this->stream)
+        return Streams::make($this->config['stream'])
             ->where($this->key_name ? $this->key_name : 'id', 'IN', $value)
             ->get();
     }
