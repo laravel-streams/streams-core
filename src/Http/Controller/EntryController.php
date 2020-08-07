@@ -39,7 +39,9 @@ class EntryController extends Controller
         $criteria = $stream->entries();
 
         foreach ($parameters as $parameter => $value) {
-            $criteria->where($parameter, $value);
+            if ($stream->fields->has($parameter)) {
+                $criteria->where($parameter, $value);
+            }
         }
 
         if (!$entry = $criteria->first()) {
