@@ -39,7 +39,7 @@ class EntryController extends Controller
         $criteria = $stream->entries();
 
         foreach ($parameters as $parameter => $value) {
-            if ($stream->fields->has($parameter)) {
+            if ($stream->fields->has($parameter) || $stream->isMeta($parameter)) {
                 $criteria->where($parameter, $value);
             }
         }

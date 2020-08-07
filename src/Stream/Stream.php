@@ -85,6 +85,20 @@ class Stream implements Arrayable, Jsonable
     }
 
     /**
+     * Return if the field name is meta.
+     *
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function isMeta($name)
+    {
+        return in_array($name, [
+            $this->key_name ?: 'id',
+        ]);
+    }
+
+    /**
      * Get the instance as an array.
      *
      * @return array
