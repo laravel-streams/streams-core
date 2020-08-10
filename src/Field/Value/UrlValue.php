@@ -23,9 +23,10 @@ class UrlValue extends Value
      * Return the parsed query string.
      *
      * @param  null $key
-     * @return null|mixed
+     * @param  null $default
+     * @return mixed
      */
-    public function query($key = null)
+    public function query($key = null, $default = null)
     {
         if (!$parsed = $this->parsed()) {
             return null;
@@ -34,7 +35,7 @@ class UrlValue extends Value
         parse_str(Arr::get($parsed, 'query'), $query);
 
         if ($key) {
-            return Arr::get($query, $key);
+            return Arr::get($query, $key, $default);
         }
 
         return $query;
@@ -44,16 +45,17 @@ class UrlValue extends Value
      * Return the parsed URL.
      *
      * @param  null $key
-     * @return array|null
+     * @param  null $default
+     * @return mixed
      */
-    public function parsed($key = null)
+    public function parsed($key = null, $default = null)
     {
         if ($url = $this->normalize()) {
 
             $parsed = parse_url($url);
 
             if ($key) {
-                return Arr::get($parsed, $key);
+                return Arr::get($parsed, $key, $default);
             }
 
             return $parsed;
