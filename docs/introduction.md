@@ -1,4 +1,4 @@
 ---
 title: Introduction
-intro: Streams.
+intro: Streams Core
 ---

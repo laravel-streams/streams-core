@@ -199,11 +199,11 @@ class StreamsServiceProvider extends ServiceProvider
         /**
          * Register publishables.
          */
-        // $this->publishes([
-        //     base_path('vendor/anomaly/streams-platform/resources/dist') => public_path(
-        //         implode(DIRECTORY_SEPARATOR, ['vendor', 'anomaly', 'core'])
-        //     )
-        // ], ['assets', 'public']);
+        $this->publishes([
+            base_path('vendor/anomaly/streams-platform/docs') => base_path(
+                implode(DIRECTORY_SEPARATOR, ['docs', 'core'])
+            )
+        ], ['docs']);
     }
 
     /**
