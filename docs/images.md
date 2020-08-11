@@ -1,5 +1,6 @@
 ---
 title: Images
+category: basics
 intro: An API for reading, editing, and outputting images.
 ---
 

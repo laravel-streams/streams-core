@@ -1,5 +1,6 @@
 ---
-title: Entries
+title: Streams
+category: basics
 intro: 
 ---
 

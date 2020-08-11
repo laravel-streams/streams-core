@@ -1,5 +1,6 @@
 ---
 title: Entries
+category: basics
 intro: 
 ---
 
