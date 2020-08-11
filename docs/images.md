@@ -10,15 +10,14 @@ intro: An API for reading, editing, and outputting images.
     - config(streams.images) => list what they do
 - Reading Images: http://image.intervention.io/use/basics
     - Sources
-        - Path of the image in filesystem.
+        - Relative path of the image in filesystem.
+        - Hinted path of the image in filesystem.
         - URL of an image (allow_url_fopen must be enabled).
-        - Binary image data.
-        - Data-URL encoded image data.
-        - Base64 encoded image data.
-        - PHP resource of type gd. (when using GD driver)
-        - Imagick instance (when using Imagick driver)
-        - Intervention\Image\Image instance
-        - SplFileInfo instance (To handle Laravel file uploads via Symfony\Component\HttpFoundation\File\UploadedFile)
+        //- Binary image data.
+        //- Data-URL encoded image data.
+        //- Base64 encoded image data.
+        //- Intervention\Image\Image instance
+        //- SplFileInfo instance (To handle Laravel file uploads via Symfony\Component\HttpFoundation\File\UploadedFile)
 - Editing Images: http://image.intervention.io/use/basics
     - Resizing Images
         - resize()

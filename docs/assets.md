@@ -10,7 +10,8 @@ intro:
 - Reading Assets
     - Named assets
     - Asset Sources
-        - Path of the asset in filesystem.
+        - Relative path of the asset in filesystem.
+        - Hinted path of the asset in filesystem.
         - URL of an asset (allow_url_fopen must be enabled).
         //- SplFileInfo instance (To handle Laravel file uploads via Symfony\Component\HttpFoundation\File\UploadedFile)
 - Editing Assets
