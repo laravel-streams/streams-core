@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Stream;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
@@ -105,7 +106,7 @@ class Stream implements Arrayable, Jsonable
      */
     public function toArray()
     {
-        return Hydrator::dehydrate($this);
+        return Arr::make(Hydrator::dehydrate($this));
     }
 
     /**

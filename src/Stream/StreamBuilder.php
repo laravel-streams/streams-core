@@ -5,6 +5,7 @@ namespace Anomaly\Streams\Platform\Stream;
 use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Field\FieldBuilder;
 use Anomaly\Streams\Platform\Field\FieldFactory;
+use Anomaly\Streams\Platform\Support\Facades\Streams;
 
 /**
  * Class StreamBuilder
@@ -32,8 +33,21 @@ class StreamBuilder
          * configure the application.
          */
         $fields = Arr::pull($stream, 'fields', []);
-        
+
         $stream = StreamInput::read($stream);
+
+        /**
+         * Merge extending Stream data.
+         */
+        if (isset($stream['extends'])) {
+            
+            $parent = Streams::make($stream['extends'])->toArray()['attributes'];
+
+            $fields = array_merge(Arr::pull($parent, 'fields', []), $fields);
+
+            $stream = array_merge_recursive_distinct($parent, $stream);
+        }
+
         $stream = StreamFactory::make($stream);
 
         $fields = FieldBuilder::build($fields);

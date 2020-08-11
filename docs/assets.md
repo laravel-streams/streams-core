@@ -1,5 +1,6 @@
 ---
 title: Assets
+category: basics
 intro: 
 ---
 
