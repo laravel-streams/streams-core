@@ -24,7 +24,7 @@ class StreamManager
     /**
      * The streams collection.
      *
-     * @var StreamCollection
+     * @var Collection
      */
     protected $collection;
 
@@ -91,7 +91,7 @@ class StreamManager
 
         App::instance('streams.instances.' . $stream->handle, $stream);
 
-        App::make(StreamCollection::class)->put($stream->handle, $stream);
+        $this->collection->put($stream->handle, $stream);
         
         return $stream;
     }
