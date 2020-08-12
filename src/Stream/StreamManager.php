@@ -76,6 +76,8 @@ class StreamManager
         $stream = StreamBuilder::build($stream);
 
         App::instance('streams.instances.' . $stream->handle, $stream);
+
+        App::make(StreamCollection::class)->put($stream->handle, $stream);
         
         return $stream;
     }

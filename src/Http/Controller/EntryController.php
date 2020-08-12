@@ -2,10 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Http\Controller;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Anomaly\Streams\Platform\Support\Facades\Streams;
