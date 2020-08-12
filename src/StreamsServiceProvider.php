@@ -82,9 +82,6 @@ class StreamsServiceProvider extends ServiceProvider
         'hydrator' => \Anomaly\Streams\Platform\Support\Hydrator::class,
         'decorator' => \Anomaly\Streams\Platform\Support\Decorator::class,
         'evaluator' => \Anomaly\Streams\Platform\Support\Evaluator::class,
-
-        //'streams.collection'      => \Anomaly\Streams\Platform\Stream\StreamCollection::class,
-        \Anomaly\Streams\Platform\Stream\StreamCollection::class => \Anomaly\Streams\Platform\Stream\StreamCollection::class,
     ];
 
     /**

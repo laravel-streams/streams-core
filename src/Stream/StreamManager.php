@@ -3,11 +3,10 @@
 namespace Anomaly\Streams\Platform\Stream;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Route;
 use Anomaly\Streams\Platform\Stream\Stream;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
-use Anomaly\Streams\Platform\Http\Controller\EntryController;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 
 /**
@@ -21,6 +20,21 @@ class StreamManager
 {
 
     use HasMemory;
+
+    /**
+     * The streams collection.
+     *
+     * @var StreamCollection
+     */
+    protected $collection;
+
+    /**
+     * Create a new class instance.
+     */
+    public function __construct()
+    {
+        $this->collection = new Collection;
+    }
 
     /**
      * Make a stream instance.
@@ -87,7 +101,7 @@ class StreamManager
      * 
      * @return CriteriaInterface
      */
-    function entries($stream)
+    public function entries($stream)
     {
         return $this
             ->make($stream)
@@ -99,10 +113,20 @@ class StreamManager
      * 
      * @return RepositoryInterface
      */
-    function repository($stream)
+    public function repository($stream)
     {
         return $this
             ->make($stream)
             ->repository();
+    }
+
+    /**
+     * Return the Streams collection.
+     * 
+     * @return Collection
+     */
+    public function collection()
+    {
+        return $this->collection;
     }
 }
