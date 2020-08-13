@@ -29,6 +29,10 @@ class Integer extends FieldType
      */
     public function modify($value)
     {
+        if (is_null($value)) {
+            return $value;
+        }
+        
         return (int) $value;
     }
 
@@ -40,6 +44,10 @@ class Integer extends FieldType
      */
     public function restore($value)
     {
+        if (is_null($value)) {
+            return $value;
+        }
+
         return (int) $value;
     }
 
