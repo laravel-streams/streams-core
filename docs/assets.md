@@ -1,6 +1,6 @@
 ---
 title: Assets
-category: basics
+category: core_concepts
 intro: 
 ---
 

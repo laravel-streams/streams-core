@@ -1,6 +1,6 @@
 ---
-title: Streams
-category: basics
+title: Data
+category: core_concepts
 intro:
 ---
 

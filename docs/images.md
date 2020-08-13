@@ -1,6 +1,6 @@
 ---
 title: Images
-category: basics
+category: core_concepts
 intro: 
 ---
 
