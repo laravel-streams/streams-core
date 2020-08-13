@@ -1,6 +1,6 @@
 ---
 title: Change Log
-category: prologue
+category: getting_started
 ---
 
 All notable changes to this project will be documented in this file.
