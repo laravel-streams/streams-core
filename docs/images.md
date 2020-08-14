@@ -1,6 +1,6 @@
 ---
 title: Images
-category: core_concepts
+category: frontend
 intro: 
 ---
 

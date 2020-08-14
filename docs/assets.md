@@ -1,6 +1,6 @@
 ---
 title: Assets
-category: core_concepts
+category: frontend
 intro: 
 ---
 

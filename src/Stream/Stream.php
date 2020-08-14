@@ -66,11 +66,14 @@ class Stream implements Arrayable, Jsonable
     /**
      * Return the entry repository.
      * 
+     * @todo Let's review this idea. Could use for allowing configuration of criteria too. Flat or in some kinda config array?
      * @return RepositoryInterface
      */
     public function repository()
     {
-        return new Repository($this);
+        $repository = $this->repository = $this->repository ?: Repository::class;
+
+        return new $repository($this);
     }
 
     /**

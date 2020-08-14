@@ -1,6 +1,6 @@
 ---
 title: Views
-category: basics
+category: frontend
 intro: 
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Routing
-category: basics
+category: frontend
 intro: 
 ---
 
