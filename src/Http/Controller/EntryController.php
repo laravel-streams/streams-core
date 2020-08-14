@@ -5,6 +5,7 @@ namespace Anomaly\Streams\Platform\Http\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Anomaly\Streams\Platform\Support\Facades\Streams;
 
@@ -47,11 +48,21 @@ class EntryController extends Controller
         }
 
         /**
+         * If the Entry is redirected
+         * then redirect here and now.
+         */
+        if ($entry->redirect) {
+            return Redirect::to(
+                Str::parse($entry->redirect, compact('entry', 'stream', 'parameters'))
+            );
+        }
+
+        /**
          * If the Stream is redirected
          * then redirect here and now.
          */
         if ($stream->redirect) {
-            return Response::redirect(
+            return Redirect::to(
                 Str::parse($stream->redirect, compact('entry', 'stream', 'parameters'))
             );
         }

@@ -1,9 +1,8 @@
 ---
 title: Change Log
-category: getting_started
+intro: All notable changes to this project will be documented in this file.
+sort: 10
 ---
-
-All notable changes to this project will be documented in this file.
 
 - `Added` for new features.
 - `Changed` for changes in existing functionality.

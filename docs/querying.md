@@ -5,4 +5,4 @@ intro:
 sort: 10
 ---
 
-- Introduction
+- Intro

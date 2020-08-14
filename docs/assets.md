@@ -4,6 +4,6 @@ category: frontend
 intro: 
 ---
 
-- Introduction
+- Intro
 
 [Assets Documentation](/docs/core/assets)

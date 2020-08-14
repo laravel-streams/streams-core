@@ -5,7 +5,7 @@ intro:
 sort: 
 ---
 
-- Introduction
+- Intro
 - Application Matching
 - Application Configuration
 

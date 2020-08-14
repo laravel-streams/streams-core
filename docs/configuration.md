@@ -7,4 +7,4 @@ sort: 10
 
 https://craftcms.com/docs/3.x/config/
 
-- Introduction
+- Intro
