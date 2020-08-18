@@ -1,5 +1,5 @@
 ---
-title: Applications
+title: Service Providers
 category: core_concepts
 intro: 
 sort: 

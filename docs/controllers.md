@@ -1,7 +1,8 @@
 ---
 title: Controllers
-category: frontend
+category: basics
 intro: 
+sort: 10
 ---
 
 https://statamic.dev/controllers
