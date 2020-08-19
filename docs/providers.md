@@ -2,7 +2,7 @@
 title: Service Providers
 category: core_concepts
 intro: 
-sort: 
+sort: 99
 ---
 
 - **Intro:** Introduce the idea in one sentance.
