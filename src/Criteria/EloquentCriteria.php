@@ -49,11 +49,11 @@ class EloquentCriteria implements CriteriaInterface
     {
         $this->stream = $stream;
 
-        if ($table = $stream->attr('config.table')) {
+        if ($table = $stream->attr('source.table')) {
             $this->query = DB::table($table);
         }
 
-        if ($model = $stream->attr('config.model')) {
+        if ($model = $stream->attr('source.model')) {
             $this->query = (new $model)->newQuery();
         }
     }

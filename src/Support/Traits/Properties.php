@@ -2,20 +2,27 @@
 
 namespace Anomaly\Streams\Platform\Support\Traits;
 
-use Carbon\Carbon;
-use DateTimeInterface;
-use Carbon\CarbonInterface;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Traits\Macroable;
-use Anomaly\Streams\Platform\Field\FieldType;
 use Anomaly\Streams\Platform\Field\Value\Value;
 
 /**
  * Trait Properties
+ * 
+ * By default you can load Property classes
+ * by passing an array of attributes:
+ * 
+ *      $object = new Class(array $attributes)
+ * 
+ * Attributes support a basic public property API
+ * 
+ *      echo $object->attribute; // attribute value
+ * 
+ * Attributes can be expanded:
+ * 
+ *      echo $object->expand('attribute'); // A new Value instance
  *
  * @link   http://pyrocms.com/
  * @author Ryan Thompson <ryan@pyrocms.com>
@@ -96,15 +103,16 @@ trait Properties
      */
     public function getAttribute($key)
     {
-        if (
-            $this->offsetExists($key) ||
-            $this->hasAttributeGetter($key) ||
-            $this->hasAttributeType($key)
-        ) {
-            return $this->getAttributeValue($key);
-        }
+        return $this->getAttributeValue($key);
+        // if (
+        //     $this->offsetExists($key) ||
+        //     $this->hasAttributeGetter($key) ||
+        //     $this->hasAttributeType($key)
+        // ) {
+        //     return $this->getAttributeValue($key);
+        // }
 
-        return $this->attr($key, $this->propertyDefault($key));
+        // return $this->propertyDefault($key);
     }
 
     /**
@@ -122,7 +130,7 @@ trait Properties
      *
      * @param string $key
      */
-    public function setAttributeValue($key, $value)
+    public function setPropertyAttributeValue($key, $value)
     {
         $this->attributes[$key] = $this->transformAttributeValue($key, $value);
 
@@ -148,20 +156,14 @@ trait Properties
      */
     protected function transformAttributeValue($key, $value)
     {
-        /**
-         * Mutators may step in
-         * and handle transforming.
-         */
-        if ($this->hasAttributeGetter($key)) {
+        $name = 'get_' . $key . '_attribute';
+
+        if ($this->hasAttributeOverrideMethod($name)) {
             return $this->{Str::camel('get_' . $key . '_attribute')}($value);
         }
 
-        /**
-         * If the attribute is defined by a type
-         * then let the type class cast the value.
-         */
         if ($this->hasAttributeType($key)) {
-            return $this->typeCastAttributeValue($key, $value);
+            return $this->restoreAttributeValue($key, $value);
         }
 
         return $value;
@@ -169,8 +171,10 @@ trait Properties
 
     protected function expandAttributeValue($key, $value): Value
     {
-        if ($this->hasAttributeExpander($key)) {
-            return $this->{Str::camel('expand_' . $key . '_attribute')}($value);
+        $name = 'expand_' . $key . '_attribute';
+
+        if ($this->hasAttributeOverrideMethod($name)) {
+            return $this->{Str::camel($name)}($value);
         }
 
         $type = $this->newAttributeFieldType($key);
@@ -189,65 +193,13 @@ trait Properties
      */
     public function setAttribute($key, $value)
     {
-        if (
-            $this->offsetExists($key) ||
-            $this->hasAttributeSetter($key) ||
-            $this->hasAttributeType($key)
-        ) {
-            return $this->setAttributeValue($key, $value);
-        }
-
-        $this->attributes[$key] = $value;
-
-        return $this;
+        return $this->setPropertyAttributeValue($key, $value);
     }
 
-    /**
-     * Get the attributes.
-     *
-     * @return array
-     */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return $this->attributes;
     }
-
-    /**
-     * Set the attributes.
-     *
-     * @param array $attributes
-     * @return $this
-     */
-    public function setAttributes(array $attributes)
-    {
-        $this->attributes = $attributes;
-
-        return $this;
-    }
-
-    /**
-     * Dynamically retrieve attributes.
-     *
-     * @param string $key
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        return $this->getAttribute($key);
-    }
-
-    /**
-     * Dynamically set attributes.
-     *
-     * @param string  $key
-     * @param mixed $value
-     */
-    public function __set($key, $value)
-    {
-        $this->setAttribute($key, $value);
-    }
-
-    // ------------------------  ARRAY ACCESS  ---------------------------
 
     public function offsetExists($offset): bool
     {
@@ -273,6 +225,16 @@ trait Properties
         unset($this->attributes[$offset]);
     }
 
+    public function __get($key)
+    {
+        return $this->getAttribute($key);
+    }
+
+    public function __set($key, $value)
+    {
+        $this->setAttribute($key, $value);
+    }
+
     // ------------------------  LOCAL UTILITY  ---------------------------
 
     protected function guessPropertyType($key): string
@@ -294,21 +256,6 @@ trait Properties
         return $type;
     }
 
-    protected function hasAttributeGetter($key): bool
-    {
-        return $this->hasAttributeOverrideMethod('get_' . $key . '_attribute');
-    }
-
-    protected function hasAttributeSetter($key): bool
-    {
-        return $this->hasAttributeOverrideMethod('set_' . $key . '_attribute');
-    }
-
-    protected function hasAttributeExpander($key): bool
-    {
-        return $this->hasAttributeOverrideMethod('expand_' . $key . '_attribute');
-    }
-
     protected function hasAttributeOverrideMethod($name): bool
     {
         if (self::hasMacro($name)) {
@@ -322,13 +269,22 @@ trait Properties
         return false;
     }
 
-    protected function typeCastAttributeValue($key, $value)
+    protected function restoreAttributeValue($key, $value)
     {
         $type = $this->newAttributeFieldType($key);
 
         $type->field = $key;
 
         return $type->restore($value);
+    }
+
+    protected function modifyAttributeValue($key, $value)
+    {
+        $type = $this->newAttributeFieldType($key);
+
+        $type->field = $key;
+
+        return $type->modify($value);
     }
 
     protected function newAttributeFieldType($key)
@@ -340,13 +296,6 @@ trait Properties
         return App::make('streams.field_types.' . $type, Arr::get($this->properties, $key, []));
     }
 
-    /**
-     * Return if the object has an attribute type.
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
     public function hasAttributeType($key)
     {
         return isset($this->properties) ? (bool) Arr::get($this->properties, $key . '.type') : false;
