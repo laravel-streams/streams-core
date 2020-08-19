@@ -96,8 +96,27 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerApplications();
         $this->registerFieldTypes();
         $this->registerMiddleware();
+        
+
+        foreach ($this->bindings as $abstract => $concrete) {
+            $this->app->bind($abstract, $concrete);
+        }
+
+        foreach ($this->singletons as $abstract => $concrete) {
+            $this->app->singleton($abstract, $concrete);
+        }
+
+        
         $this->registerAliases();
         $this->registerConfig();
+
+
+        $this->extendLang();
+        $this->extendView();
+        $this->extendArr();
+        $this->extendStr();
+
+        $this->registerStreams();        
     }
 
     /**
@@ -169,17 +188,17 @@ class StreamsServiceProvider extends ServiceProvider
         $this->addImageNamespaces();
         $this->addViewNamespaces();
         $this->loadTranslations();
-        $this->extendLang();
-        $this->extendView();
-        $this->extendArr();
-        $this->extendStr();
+        // $this->extendLang();
+        // $this->extendView();
+        // $this->extendArr();
+        // $this->extendStr();
 
         /**
          * Register Sterams
          *
          * @todo this needs pushed up into the register() method
          */
-        $this->registerStreams();
+        //$this->registerStreams();
 
         /**
          * Register core commands.

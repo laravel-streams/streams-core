@@ -26,8 +26,6 @@ class StreamBuilder
     public static function build(array $stream)
     {
 
-        $stream = Arr::parse($stream);
-
         /**
          * Build our components and
          * configure the application.
