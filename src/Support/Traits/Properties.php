@@ -11,6 +11,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Traits\Macroable;
+use Anomaly\Streams\Platform\Field\FieldType;
+use Anomaly\Streams\Platform\Field\Value\Value;
 
 /**
  * Trait Properties
@@ -165,28 +167,13 @@ trait Properties
         return $value;
     }
 
-    /**
-     * Expand the attribute value.
-     *
-     * @param string $key
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function expandAttributeValue($key, $value)
+    protected function expandAttributeValue($key, $value): Value
     {
-        /**
-         * @todo Mutators may step in
-         * and handle transforming.
-         */
         if ($this->hasAttributeExpander($key)) {
             return $this->{Str::camel('expand_' . $key . '_attribute')}($value);
         }
 
-        if (!$type = Arr::get($this->properties, $key . '.type')) {
-            $type = $this->guessPropertyType($key);
-        }
-
-        $type = App::make('streams.field_types.' . $type, Arr::get($this->properties, $key, []));
+        $type = $this->newAttributeFieldType($key);
 
         $type->field = $key;
 
@@ -239,16 +226,6 @@ trait Properties
     }
 
     /**
-     * Get the properties.
-     *
-     * @return array
-     */
-    public function getProperties()
-    {
-        return $this->properties;
-    }
-
-    /**
      * Dynamically retrieve attributes.
      *
      * @param string $key
@@ -272,7 +249,7 @@ trait Properties
 
     // ------------------------  ARRAY ACCESS  ---------------------------
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return array_key_exists($offset, $this->attributes);
     }
@@ -298,9 +275,9 @@ trait Properties
 
     // ------------------------  LOCAL UTILITY  ---------------------------
 
-    protected function guessPropertyType($handle): string
+    protected function guessPropertyType($key): string
     {
-        $type = gettype($value = Arr::get($this->attributes, $handle));
+        $type = gettype(Arr::get($this->attributes, $key));
 
         if ($type === 'NULL') {
             $type = 'string';
@@ -345,89 +322,22 @@ trait Properties
         return false;
     }
 
-    /**
-     * Run the attribute type
-     * cast and return the value.
-     *
-     * @param string $key
-     * @param mixed $value
-     *
-     * @return mixed
-     */
     protected function typeCastAttributeValue($key, $value)
     {
-        $type = $this->properties[$key]['type'];
-
-        if ($key == 'fields') {
-            dd($this->properties[$key]);
-        }
-
-        $type = app('streams.field_types.' . $type, $this->properties[$key]);
+        $type = $this->newAttributeFieldType($key);
 
         $type->field = $key;
 
         return $type->restore($value);
     }
 
-    /**
-     * Cast the value to a datetime instance.
-     *
-     * @param mixed $value
-     */
-    public function castDateTimeAttribute($value)
+    protected function newAttributeFieldType($key)
     {
-        // If this value is already a Carbon instance, we shall just return it as is.
-        // This prevents us having to re-instantiate a Carbon instance when we know
-        // it already is one, which wouldn't be fulfilled by the DateTime check.
-        if ($value instanceof CarbonInterface) {
-            return Date::instance($value);
+        if (!$type = Arr::get($this->properties, $key . '.type')) {
+            $type = $this->guessPropertyType($key);
         }
 
-        // If the value is already a DateTime instance, we will just skip the rest of
-        // these checks since they will be a waste of time, and hinder performance
-        // when checking the field. We will just return the DateTime right away.
-        if ($value instanceof DateTimeInterface) {
-            return Date::parse(
-                $value->format('Y-m-d H:i:s.u'),
-                $value->getTimezone()
-            );
-        }
-
-        // If this value is an integer, we will assume it is a UNIX timestamp's value
-        // and format a Carbon object from this timestamp. This allows flexibility
-        // when defining your date fields as they might be UNIX timestamps here.
-        if (is_numeric($value)) {
-            return Date::createFromTimestamp($value);
-        }
-
-        // If the value is in simply year, month, day format, we will instantiate the
-        // Carbon instances from that format. Again, this provides for simple date
-        // fields on the database, while still supporting Carbonized conversion.
-        if ($this->isStandardDateFormat($value)) {
-            return Date::instance(Carbon::createFromFormat('Y-m-d', $value)->startOfDay());
-        }
-
-        $format = 'Y-m-d H:i:s'; //$this->getDateFormat();
-
-        // Finally, we will just assume this date is in the format used by default on
-        // the database connection and use that format to create the Carbon object
-        // that is returned back out to the developers after we convert it here.
-        if (Date::hasFormat($value, $format)) {
-            return Date::createFromFormat($format, $value);
-        }
-
-        return Date::parse($value);
-    }
-
-    /**
-     * Determine if the given value is a standard date format.
-     *
-     * @param  string  $value
-     * @return bool
-     */
-    protected function isStandardDateFormat($value)
-    {
-        return preg_match('/^(\d{4})-(\d{1,2})-(\d{1,2})$/', $value);
+        return App::make('streams.field_types.' . $type, Arr::get($this->properties, $key, []));
     }
 
     /**
