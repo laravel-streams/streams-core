@@ -270,6 +270,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         // Decimals
         $this->app->bind('streams.field_types.float', \Anomaly\Streams\Platform\Field\Type\Decimal::class);
+        $this->app->bind('streams.field_types.double', \Anomaly\Streams\Platform\Field\Type\Decimal::class);
         $this->app->bind('streams.field_types.decimal', \Anomaly\Streams\Platform\Field\Type\Decimal::class);
         
         // Boolean

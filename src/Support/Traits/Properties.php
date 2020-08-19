@@ -45,8 +45,6 @@ trait Properties
     public function __construct(array $attributes = [])
     {
         $this->fill($attributes);
-
-        $this->guessProperties();
     }
 
     /**
@@ -153,7 +151,7 @@ trait Properties
          * and handle transforming.
          */
         if ($this->hasAttributeGetter($key)) {
-            return $this->restoreAttributeValue($key, $value);
+            return $this->{Str::camel('get_' . $key . '_attribute')}($value);
         }
 
         /**
@@ -180,15 +178,15 @@ trait Properties
          * @todo Mutators may step in
          * and handle transforming.
          */
-        // if ($this->hasAttributeGetter($key)) {
-        //     return $this->restoreAttributeValue($key, $value);
-        // }
+        if ($this->hasAttributeExpander($key)) {
+            return $this->{Str::camel('expand_' . $key . '_attribute')}($value);
+        }
 
         if (!$type = Arr::get($this->properties, $key . '.type')) {
             $type = $this->guessPropertyType($key);
         }
 
-        $type = App::make('streams.field_types.' . $type, Arr::get($this->properties, $key));
+        $type = App::make('streams.field_types.' . $type, Arr::get($this->properties, $key, []));
 
         $type->field = $key;
 
@@ -300,149 +298,51 @@ trait Properties
 
     // ------------------------  LOCAL UTILITY  ---------------------------
 
-    /**
-     * Build property definitions.
-     *
-     * @return void
-     */
-    protected function guessProperties()
+    protected function guessPropertyType($handle): string
     {
-        if (!isset($this->attributes)) {
-            return;
-        }
-
-        if (!empty($this->properties)) {
-            return;
-        }
-
-        $this->properties = array_map(function ($attribute) {
-
-            $attribute = [
-                'default' => $attribute,
-            ];
-
-            return array_filter($attribute);
-        }, $this->attributes);
-    }
-
-    protected function guessPropertyType($handle) : string
-    {
-        /**
-         * Type sniff the attribute value.
-         */
         $type = gettype($value = Arr::get($this->attributes, $handle));
 
-        /**
-         * Default type is string.
-         */
         if ($type === 'NULL') {
             $type = 'string';
         }
 
-        /**
-         * Skip this?
-         */
         if ($type === 'object') {
             $type = null;
         }
 
-        /**
-         * "double" is returned in lieue
-         * of float for historical reasons.
-         */
         if ($type === 'double') {
             $type = 'float';
         }
 
-        /**
-         * Default property definition.
-         */
         return $type;
     }
 
     protected function hasAttributeGetter($key): bool
     {
-        $name = 'get_' . $key . '_attribute';
+        return $this->hasAttributeOverrideMethod('get_' . $key . '_attribute');
+    }
 
+    protected function hasAttributeSetter($key): bool
+    {
+        return $this->hasAttributeOverrideMethod('set_' . $key . '_attribute');
+    }
+
+    protected function hasAttributeExpander($key): bool
+    {
+        return $this->hasAttributeOverrideMethod('expand_' . $key . '_attribute');
+    }
+
+    protected function hasAttributeOverrideMethod($name): bool
+    {
         if (self::hasMacro($name)) {
             return true;
         }
 
-        if (method_exists($this, Str::studly($name))) {
+        if (method_exists($this, Str::camel($name))) {
             return true;
         }
 
         return false;
-    }
-
-    /**
-     * Return if the object has an attribute setter.
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-    protected function hasAttributeSetter($key)
-    {
-        $name = 'set_' . $key . '_attribute';
-
-        if (self::hasMacro($name)) {
-            return true;
-        }
-
-        if (method_exists($this, Str::studly($name))) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Run the attribute mutator
-     * and restore the value.
-     *
-     * @param string $key
-     * @param mixed $value
-     *
-     * @return mixed|null
-     */
-    public function restoreAttributeValue($key, $value)
-    {
-        $mutator = 'get_' . $key . '_attribute';
-
-        if (self::hasMacro($mutator)) {
-            return $this->{Str::studly($mutator)}($value);
-        }
-
-        if (method_exists($this, $method = Str::studly($mutator))) {
-            return $this->{$method}($value);
-        }
-
-        return $value;
-    }
-
-    /**
-     * Run the attribute mutator
-     * and restore the value.
-     *
-     * @param string $key
-     * @param mixed $value
-     *
-     * @return mixed|null
-     */
-    public function mutateAttributeValue($key, $value)
-    {
-        $mutator = 'set_' . $key . '_attribute';
-
-        if (self::hasMacro($mutator)) {
-            return $this->{Str::studly($mutator)}($value);
-        }
-
-        if (method_exists($this, $method = Str::studly($mutator))) {
-            return $this->{$method}($value);
-        }
-
-        return $value;
     }
 
     /**
@@ -457,50 +357,6 @@ trait Properties
     protected function typeCastAttributeValue($key, $value)
     {
         $type = $this->properties[$key]['type'];
-
-        switch ($type) {
-
-            case 'int':
-            case 'integer':
-
-                return (int) $value;
-
-            case 'real':
-            case 'float':
-            case 'double':
-
-                switch ((string) $value) {
-                    case 'Infinity':
-                        return INF;
-                    case '-Infinity':
-                        return -INF;
-                    case 'NaN':
-                        return NAN;
-                    default:
-                        return (float) $value;
-                }
-
-                // case 'decimal':
-
-                //     return number_format($value, explode(':', $this->getCasts()[$key], 2)[1]);
-
-            case 'object':
-
-                return json_decode($value);
-
-                // case 'json':
-                // case 'array':
-
-                //     if (!is_string($value)) {
-                //         return $value;
-                //     }
-
-                //     return json_decode($value, true);
-
-            case 'collection':
-
-                return new Collection(json_decode($value, true));
-        }
 
         if ($key == 'fields') {
             dd($this->properties[$key]);
