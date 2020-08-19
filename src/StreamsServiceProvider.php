@@ -251,20 +251,50 @@ class StreamsServiceProvider extends ServiceProvider
 
     /**
      * Register the field types.
+     * @todo Finish up
      */
     protected function registerFieldTypes()
     {
+        // Text
         $this->app->bind('streams.field_types.url', \Anomaly\Streams\Platform\Field\Type\Url::class);
         $this->app->bind('streams.field_types.text', \Anomaly\Streams\Platform\Field\Type\Text::class);
+        $this->app->bind('streams.field_types.string', \Anomaly\Streams\Platform\Field\Type\Text::class);
+        //$this->app->bind('streams.field_types.template', \Anomaly\Streams\Platform\Field\Type\Template::class);
+        
+        // Array
         $this->app->bind('streams.field_types.array', \Anomaly\Streams\Platform\Field\Type\Arr::class);
+
+        // Integers
+        $this->app->bind('streams.field_types.int', \Anomaly\Streams\Platform\Field\Type\Integer::class);
+        $this->app->bind('streams.field_types.integer', \Anomaly\Streams\Platform\Field\Type\Integer::class);
+
+        // Decimals
+        $this->app->bind('streams.field_types.float', \Anomaly\Streams\Platform\Field\Type\Decimal::class);
+        $this->app->bind('streams.field_types.decimal', \Anomaly\Streams\Platform\Field\Type\Decimal::class);
+        
+        // Boolean
         $this->app->bind('streams.field_types.bool', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
         $this->app->bind('streams.field_types.boolean', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
+        
+        // Dates
+        $this->app->bind('streams.field_types.date', \Anomaly\Streams\Platform\Field\Type\Datetime::class);
+        $this->app->bind('streams.field_types.time', \Anomaly\Streams\Platform\Field\Type\Datetime::class);
         $this->app->bind('streams.field_types.datetime', \Anomaly\Streams\Platform\Field\Type\Datetime::class);
 
+        // Assets
+        //$this->app->bind('streams.field_types.asset', \Anomaly\Streams\Platform\Field\Type\Asset::class);
         $this->app->bind('streams.field_types.image', \Anomaly\Streams\Platform\Field\Type\Image::class);
+
+        // Objects
+        //$this->app->bind('streams.field_types.object', \Anomaly\Streams\Platform\Field\Type\Object::class);
+        
+        // Streams
         $this->app->bind('streams.field_types.entry', \Anomaly\Streams\Platform\Field\Type\Entry::class);
         $this->app->bind('streams.field_types.entries', \Anomaly\Streams\Platform\Field\Type\Entries::class);
+
+        // Relationships
         $this->app->bind('streams.field_types.multiple', \Anomaly\Streams\Platform\Field\Type\Multiple::class);
+        //$this->app->bind('streams.field_types.polymorphic', \Anomaly\Streams\Platform\Field\Type\Polymorphic::class);
         $this->app->bind('streams.field_types.relationship', \Anomaly\Streams\Platform\Field\Type\Relationship::class);
     }
 

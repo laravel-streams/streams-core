@@ -25,37 +25,6 @@ class Field implements FieldInterface, Arrayable, Jsonable
     use Properties;
 
     /**
-     * Create a new class instance.
-     *
-     * @param array $attributes
-     */
-    public function __construct(array $attributes = [])
-    {
-        $this->setAttributes([
-            'handle' => null,
-            'name' => null,
-            'type' => null,
-            'label' => null,
-            'stream' => null,
-            'warning' => null,
-            'placeholder' => null,
-            'instructions' => null,
-
-            'unique' => false,
-            'required' => false,
-            'searchable' => true,
-            'translatable' => false,
-
-            'config' => [],
-            'rules' => [],
-        ]);
-
-        $this->buildProperties();
-
-        $this->fill($attributes);
-    }
-
-    /**
      * Return the type instance.
      * 
      * @return FieldType

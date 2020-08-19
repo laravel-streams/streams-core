@@ -32,38 +32,6 @@ class Stream implements Arrayable, Jsonable
     use FiresCallbacks;
 
     /**
-     * Create a new class instance.
-     *
-     * @param array $attributes
-     */
-    public function __construct(array $attributes = [])
-    {
-        $this->setAttributes(array_merge([
-            'name' => null,
-            'slug' => null,
-            'description' => null,
-
-            'model' => null,
-            'repository' => null,
-            
-            'location' => null,
-            
-            'fields' => [],
-            'config' => [],
-
-            'sortable' => false,
-            'trashable' => true,
-            'searchable' => true,
-            'versionable' => true,
-            'translatable' => false,
-        ], $attributes));
-
-        $this->buildProperties();
-
-        $this->fill($attributes);
-    }
-
-    /**
      * Return the entry repository.
      * 
      * @todo Let's review this idea. Could use for allowing configuration of criteria too. Flat or in some kinda config array?

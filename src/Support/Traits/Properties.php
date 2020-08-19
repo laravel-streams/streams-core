@@ -8,6 +8,7 @@ use Carbon\CarbonInterface;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Traits\Macroable;
 
@@ -45,7 +46,7 @@ trait Properties
     {
         $this->fill($attributes);
 
-        $this->buildProperties();
+        $this->guessProperties();
     }
 
     /**
@@ -176,82 +177,18 @@ trait Properties
     protected function expandAttributeValue($key, $value)
     {
         /**
-         * Mutators may step in
+         * @todo Mutators may step in
          * and handle transforming.
          */
         // if ($this->hasAttributeGetter($key)) {
         //     return $this->restoreAttributeValue($key, $value);
         // }
 
-        $type = $this->properties[$key]['type'];
+        if (!$type = Arr::get($this->properties, $key . '.type')) {
+            $type = $this->guessPropertyType($key);
+        }
 
-        // switch ($type) {
-
-        //     case 'int':
-        //     case 'integer':
-
-        //         return (int) $value;
-
-        //     case 'real':
-        //     case 'float':
-        //     case 'double':
-
-        //         switch ((string) $value) {
-        //             case 'Infinity':
-        //                 return INF;
-        //             case '-Infinity':
-        //                 return -INF;
-        //             case 'NaN':
-        //                 return NAN;
-        //             default:
-        //                 return (float) $value;
-        //         }
-
-        //     case 'decimal':
-
-        //         return number_format($value, explode(':', $this->getCasts()[$key], 2)[1]);
-
-        //     case 'string':
-
-        //         return (string) $value;
-
-        //     case 'bool':
-        //     case 'boolean':
-
-        //         return filter_var($value, FILTER_VALIDATE_BOOL);
-
-        //     case 'object':
-
-        //         return json_decode($value);
-
-        //     case 'array':
-        //     case 'json':
-
-        //         if (!is_string($value)) {
-        //             return $value;
-        //         }
-
-        //         return json_decode($value, true);
-
-        //     case 'collection':
-
-        //         return new Collection($this->json_decode($value, true));
-
-        //     case 'datetime':
-        //     case 'custom_datetime':
-
-        //         return $this->castDateTimeAttribute($value);
-
-        //     case 'date':
-
-        //         return $this->castDateTimeAttribute($value)->startOfDay();
-
-        //     case 'timestamp':
-
-        //         return $this->castDateTimeAttribute($value)->getTimestamp();
-        // }
-
-        $type = app('streams.field_types.' . $type, $this->properties[$key]);
+        $type = App::make('streams.field_types.' . $type, Arr::get($this->properties, $key));
 
         $type->field = $key;
 
@@ -368,82 +305,62 @@ trait Properties
      *
      * @return void
      */
-    protected function buildProperties()
+    protected function guessProperties()
     {
-
-        /**
-         * If we don't have any attributes
-         * then we have nothing to do at all.
-         * 
-         * Can't guess and don't need anything!
-         */
         if (!isset($this->attributes)) {
             return;
         }
 
-        /**
-         * If we have properties defined
-         * then we can skip this step.
-         */
         if (!empty($this->properties)) {
             return;
         }
 
-        /**
-         * Build the properties from
-         * default attribute values.
-         */
         $this->properties = array_map(function ($attribute) {
 
-            /**
-             * Type sniff the attribute value.
-             */
-            $type = gettype($attribute);
-
-            /**
-             * Default type is string.
-             */
-            if ($type === 'NULL') {
-                $type = 'string';
-            }
-
-            /**
-             * Skip this?
-             */
-            if ($type === 'object') {
-                $type = null;
-            }
-
-            /**
-             * "double" is returned in lieue
-             * of float for historical reasons.
-             */
-            if ($type === 'double') {
-                $type = 'float';
-            }
-
-            /**
-             * Default property definition.
-             */
             $attribute = [
-                'type' => $type,
                 'default' => $attribute,
             ];
 
             return array_filter($attribute);
         }, $this->attributes);
-
-        $this->attributes['__initialized'] = true;
     }
 
-    /**
-     * Return if the object has an attribute getter.
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-    protected function hasAttributeGetter($key)
+    protected function guessPropertyType($handle) : string
+    {
+        /**
+         * Type sniff the attribute value.
+         */
+        $type = gettype($value = Arr::get($this->attributes, $handle));
+
+        /**
+         * Default type is string.
+         */
+        if ($type === 'NULL') {
+            $type = 'string';
+        }
+
+        /**
+         * Skip this?
+         */
+        if ($type === 'object') {
+            $type = null;
+        }
+
+        /**
+         * "double" is returned in lieue
+         * of float for historical reasons.
+         */
+        if ($type === 'double') {
+            $type = 'float';
+        }
+
+        /**
+         * Default property definition.
+         */
+        return $type;
+    }
+
+    protected function hasAttributeGetter($key): bool
     {
         $name = 'get_' . $key . '_attribute';
 
@@ -563,48 +480,30 @@ trait Properties
                         return (float) $value;
                 }
 
-            case 'decimal':
+                // case 'decimal':
 
-                return number_format($value, explode(':', $this->getCasts()[$key], 2)[1]);
-
-            case 'string':
-
-                return (string) $value;
-
-            case 'bool':
-            case 'boolean':
-
-                return filter_var($value, FILTER_VALIDATE_BOOL);
+                //     return number_format($value, explode(':', $this->getCasts()[$key], 2)[1]);
 
             case 'object':
 
                 return json_decode($value);
 
-            case 'json':
-            case 'array':
+                // case 'json':
+                // case 'array':
 
-                if (!is_string($value)) {
-                    return $value;
-                }
+                //     if (!is_string($value)) {
+                //         return $value;
+                //     }
 
-                return json_decode($value, true);
+                //     return json_decode($value, true);
 
             case 'collection':
 
-                return new Collection($this->json_decode($value, true));
+                return new Collection(json_decode($value, true));
+        }
 
-            case 'datetime':
-            case 'custom_datetime':
-
-                //return $this->castDateTimeAttribute($value);
-
-            case 'date':
-
-                return $this->castDateTimeAttribute($value)->startOfDay();
-
-            case 'timestamp':
-
-                return $this->castDateTimeAttribute($value)->getTimestamp();
+        if ($key == 'fields') {
+            dd($this->properties[$key]);
         }
 
         $type = app('streams.field_types.' . $type, $this->properties[$key]);
@@ -684,6 +583,6 @@ trait Properties
      */
     public function hasAttributeType($key)
     {
-        return isset($this->properties) ? Arr::get($this->properties, $key . '.type') : false;
+        return isset($this->properties) ? (bool) Arr::get($this->properties, $key . '.type') : false;
     }
 }

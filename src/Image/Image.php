@@ -28,29 +28,6 @@ class Image
     use Properties;
 
     /**
-     * Create a new class instance.
-     *
-     * @param array $attributes
-     */
-    public function __construct(array $attributes = [])
-    {
-        $attributes = array_merge([
-            'source' => null,
-            'filename' => null,
-            'original' => null,
-
-            'alterations' => [],
-            'attributes' => [],
-            'sources' => [],
-            'srcsets' => [],
-        ], $attributes);
-
-        $this->fill($attributes);
-
-        $this->buildProperties();
-    }
-
-    /**
      * Set the filename.
      *
      * @param $filename
