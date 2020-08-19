@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Support\Facades\Assets;
 use Anomaly\Streams\Platform\Support\Facades\Streams;
-use Anomaly\Streams\Platform\Support\Traits\HasMemory;
+use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
 
 /**
  * Class ServiceProvider
@@ -20,11 +21,11 @@ use Anomaly\Streams\Platform\Support\Traits\HasMemory;
  * @link   http://pyrocms.com/
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class ServiceProvider extends \Illuminate\Support\ServiceProvider
+class Provider extends ServiceProvider
 {
 
     use Macroable;
-    use HasMemory;
+    use FiresCallbacks;
 
     /**
      * The named assets.
@@ -85,9 +86,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     /**
      * Register common provisions.
      */
-    protected function register()
+    public function register()
     {
-        //$this->fire('registering');
+        $this->fire('registering');
 
         $this->registerAssets();
         $this->registerRoutes();
@@ -99,7 +100,19 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->registerSchedules();
         $this->registerMiddleware();
 
-        //$this->fire('registered');
+        $this->fire('registered');
+    }
+
+    /**
+     * Boot the provider.
+     */
+    public function boot()
+    {
+        $this->fire('booting');
+
+        //$this->bootSomething();
+
+        $this->fire('booted');
     }
 
     /**
