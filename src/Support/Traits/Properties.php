@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Traits\Macroable;
 
 /**
  * Trait Properties
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Date;
  */
 trait Properties
 {
+
+    use Macroable;
 
     /**
      * The attribute values.
@@ -149,7 +152,7 @@ trait Properties
          * and handle transforming.
          */
         if ($this->hasAttributeGetter($key)) {
-            return $this->mutateAttributeValue($key, $value);
+            return $this->restoreAttributeValue($key, $value);
         }
 
         /**
@@ -162,7 +165,7 @@ trait Properties
 
         return $value;
     }
-    
+
     /**
      * Expand the attribute value.
      *
@@ -177,11 +180,11 @@ trait Properties
          * and handle transforming.
          */
         // if ($this->hasAttributeGetter($key)) {
-        //     return $this->mutateAttributeValue($key, $value);
+        //     return $this->restoreAttributeValue($key, $value);
         // }
 
         $type = $this->properties[$key]['type'];
-        
+
         // switch ($type) {
 
         //     case 'int':
@@ -442,11 +445,13 @@ trait Properties
      */
     protected function hasAttributeGetter($key)
     {
-        // if (self::hasMacro('get_', $key . '_attribute')) {
-        //     return true;
-        // }
+        $name = 'get_' . $key . '_attribute';
 
-        if (method_exists($this, Str::studly('get_' . $key . '_attribute'))) {
+        if (self::hasMacro($name)) {
+            return true;
+        }
+
+        if (method_exists($this, Str::studly($name))) {
             return true;
         }
 
@@ -462,11 +467,13 @@ trait Properties
      */
     protected function hasAttributeSetter($key)
     {
-        // if ($this->hasHook('set_', $key . '_attribute')) {
-        //     return true;
-        // }
+        $name = 'set_' . $key . '_attribute';
 
-        if (method_exists($this, Str::studly('get_' . $key . '_attribute'))) {
+        if (self::hasMacro($name)) {
+            return true;
+        }
+
+        if (method_exists($this, Str::studly($name))) {
             return true;
         }
 
@@ -475,7 +482,31 @@ trait Properties
 
     /**
      * Run the attribute mutator
-     * and return the value.
+     * and restore the value.
+     *
+     * @param string $key
+     * @param mixed $value
+     *
+     * @return mixed|null
+     */
+    public function restoreAttributeValue($key, $value)
+    {
+        $mutator = 'get_' . $key . '_attribute';
+
+        if (self::hasMacro($mutator)) {
+            return $this->{Str::studly($mutator)}($value);
+        }
+
+        if (method_exists($this, $method = Str::studly($mutator))) {
+            return $this->{$method}($value);
+        }
+
+        return $value;
+    }
+
+    /**
+     * Run the attribute mutator
+     * and restore the value.
      *
      * @param string $key
      * @param mixed $value
@@ -484,11 +515,13 @@ trait Properties
      */
     public function mutateAttributeValue($key, $value)
     {
-        // if ($this->hasHook($hook = 'get_', $key . '_attribute')) {
-        //     return $this->call($hook, compact('value'));
-        // }
+        $mutator = 'set_' . $key . '_attribute';
 
-        if (method_exists($this, $method = Str::studly('get_' . $key . '_attribute'))) {
+        if (self::hasMacro($mutator)) {
+            return $this->{Str::studly($mutator)}($value);
+        }
+
+        if (method_exists($this, $method = Str::studly($mutator))) {
             return $this->{$method}($value);
         }
 
@@ -507,7 +540,7 @@ trait Properties
     protected function typeCastAttributeValue($key, $value)
     {
         $type = $this->properties[$key]['type'];
-        
+
         switch ($type) {
 
             case 'int':
@@ -549,7 +582,7 @@ trait Properties
 
             case 'json':
             case 'array':
-            
+
                 if (!is_string($value)) {
                     return $value;
                 }
@@ -563,7 +596,7 @@ trait Properties
             case 'datetime':
             case 'custom_datetime':
 
-                return $this->castDateTimeAttribute($value);
+                //return $this->castDateTimeAttribute($value);
 
             case 'date':
 
@@ -575,7 +608,7 @@ trait Properties
         }
 
         $type = app('streams.field_types.' . $type, $this->properties[$key]);
-        
+
         $type->field = $key;
 
         return $type->restore($value);
@@ -619,7 +652,7 @@ trait Properties
             return Date::instance(Carbon::createFromFormat('Y-m-d', $value)->startOfDay());
         }
 
-        $format = $this->getDateFormat();
+        $format = 'Y-m-d H:i:s'; //$this->getDateFormat();
 
         // Finally, we will just assume this date is in the format used by default on
         // the database connection and use that format to create the Carbon object
