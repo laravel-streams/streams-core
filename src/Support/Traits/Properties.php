@@ -32,197 +32,15 @@ trait Properties
 
     use Macroable;
 
-    /**
-     * The attribute values.
-     *
-     * @var array
-     */
+
     protected $attributes = [];
 
-    /**
-     * The object properties.
-     *
-     * @var array
-     */
     protected $properties = [];
 
-    /**
-     * Create a new class instance.
-     *
-     * @param array $attributes
-     */
+
     public function __construct(array $attributes = [])
     {
-        $this->fill($attributes);
-    }
-
-    /**
-     * Fill the attributes.
-     *
-     * @param array $attributes
-     * @return $this
-     */
-    public function fill(array $attributes)
-    {
         $this->attributes = $attributes;
-
-        return $this;
-    }
-
-    /**
-     * Return the key expression value
-     * from the attribuets array.
-     * 
-     * Or default.
-     * 
-     * @param mixed $key
-     * @param null $default
-     * @return mixed
-     */
-    public function attr($key, $default = null)
-    {
-        return Arr::get($this->attributes, $key, $default);
-    }
-
-    /**
-     * Expand an attribute value.
-     *
-     * @param string $key
-     * @return mixed
-     */
-    public function expand($key)
-    {
-        return $this->expandAttributeValue($key, $this->getAttributes()[$key] ?? $this->propertyDefault($key));
-    }
-
-    /**
-     * Get an attribute.
-     *
-     * @param string $key
-     * @return mixed
-     */
-    public function getAttribute($key)
-    {
-        return $this->getAttributeValue($key);
-        // if (
-        //     $this->offsetExists($key) ||
-        //     $this->hasAttributeGetter($key) ||
-        //     $this->hasAttributeType($key)
-        // ) {
-        //     return $this->getAttributeValue($key);
-        // }
-
-        // return $this->propertyDefault($key);
-    }
-
-    /**
-     * Return the attribute's value.
-     *
-     * @param string $key
-     */
-    public function getAttributeValue($key)
-    {
-        return $this->transformAttributeValue($key, $this->getAttributes()[$key] ?? $this->propertyDefault($key));
-    }
-
-    /**
-     * Set the attribute's value.
-     *
-     * @param string $key
-     */
-    public function setPropertyAttributeValue($key, $value)
-    {
-        $this->attributes[$key] = $this->transformAttributeValue($key, $value);
-
-        return $this;
-    }
-
-    /**
-     * Return a properties default value.
-     *
-     * @param string $key
-     */
-    protected function propertyDefault($key)
-    {
-        return Arr::get($this->properties, $key . '.default');
-    }
-
-    /**
-     * Transform the attribute value via mutators, types, etc.
-     *
-     * @param string $key
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function transformAttributeValue($key, $value)
-    {
-        $name = 'get_' . $key . '_attribute';
-
-        if ($this->hasAttributeOverrideMethod($name)) {
-            return $this->{Str::camel('get_' . $key . '_attribute')}($value);
-        }
-
-        if ($this->hasAttributeType($key)) {
-            return $this->restoreAttributeValue($key, $value);
-        }
-
-        return $value;
-    }
-
-    protected function expandAttributeValue($key, $value): Value
-    {
-        $name = 'expand_' . $key . '_attribute';
-
-        if ($this->hasAttributeOverrideMethod($name)) {
-            return $this->{Str::camel($name)}($value);
-        }
-
-        $type = $this->newAttributeFieldType($key);
-
-        $type->field = $key;
-
-        return $type->expand($value);
-    }
-
-    /**
-     * Set an attribute value.
-     *
-     * @param string $key
-     * @param mixed $value
-     * @return $this
-     */
-    public function setAttribute($key, $value)
-    {
-        return $this->setPropertyAttributeValue($key, $value);
-    }
-
-    public function getAttributes(): array
-    {
-        return $this->attributes;
-    }
-
-    public function offsetExists($offset): bool
-    {
-        return array_key_exists($offset, $this->attributes);
-    }
-
-    public function offsetGet($offset)
-    {
-        return $this->attributes[$offset];
-    }
-
-    public function offsetSet($offset, $value): void
-    {
-        if (null === $offset) {
-            $this->attributes[] = $value;
-        } else {
-            $this->attributes[$offset] = $value;
-        }
-    }
-
-    public function offsetUnset($offset): void
-    {
-        unset($this->attributes[$offset]);
     }
 
     public function __get($key)
@@ -235,7 +53,77 @@ trait Properties
         $this->setAttribute($key, $value);
     }
 
-    // ------------------------  LOCAL UTILITY  ---------------------------
+    public function attr($key, $default = null)
+    {
+        return Arr::get($this->attributes, $key, $default);
+    }
+
+    public function getAttributes(): array
+    {
+        return $this->attributes;
+    }
+
+    public function expand($key): Value
+    {
+        $name = 'expand_' . $key . '_attribute';
+
+        $value = $this->getAttribute($key);
+
+        if ($this->hasAttributeOverrideMethod($name)) {
+            return $this->{Str::camel($name)}($value);
+        }
+
+        $type = $this->newAttributeFieldType($key);
+
+        $type->field = $key;
+
+        return $type->expand($value);
+    }
+
+    public function getAttribute($key)
+    {
+        $name = 'get_' . $key . '_attribute';
+
+        if ($this->hasAttributeOverrideMethod($name)) {
+            return $this->{Str::camel($name)}();
+        }
+
+        $value = $this->attributes[$key] ?? $this->propertyDefault($key);
+
+        if ($this->hasAttributeType($key)) {
+            return $this->restoreAttributeValue($key, $value);
+        }
+
+        return $value;
+    }
+
+    public function setAttribute($key, $value)
+    {
+        $name = 'set_' . $key . '_attribute';
+
+        if ($this->hasAttributeOverrideMethod($name)) {
+            
+            $this->{Str::camel($name)}($value);
+
+            return $this;
+        }
+
+        if ($this->hasAttributeType($key)) {
+            
+            $this->attributes[$key] = $this->modifyAttributeValue($key, $value);
+
+            return $this;
+        }
+
+        $this->attributes[$key] = $value;
+
+        return $this;
+    }
+
+    protected function propertyDefault($key)
+    {
+        return Arr::get($this->properties, $key . '.default');
+    }
 
     protected function guessPropertyType($key): string
     {
@@ -299,5 +187,31 @@ trait Properties
     public function hasAttributeType($key)
     {
         return isset($this->properties) ? (bool) Arr::get($this->properties, $key . '.type') : false;
+    }
+
+
+
+    public function offsetExists($offset): bool
+    {
+        return array_key_exists($offset, $this->attributes);
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->attributes[$offset];
+    }
+
+    public function offsetSet($offset, $value): void
+    {
+        if (null === $offset) {
+            $this->attributes[] = $value;
+        } else {
+            $this->attributes[$offset] = $value;
+        }
+    }
+
+    public function offsetUnset($offset): void
+    {
+        unset($this->attributes[$offset]);
     }
 }
