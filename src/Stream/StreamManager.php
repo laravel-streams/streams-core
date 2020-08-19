@@ -57,8 +57,6 @@ class StreamManager
     {
         $stream = StreamBuilder::build($stream);
 
-        App::singleton('streams.instances.' . $stream->handle, $stream);
-
         return $stream;
     }
 
@@ -87,7 +85,7 @@ class StreamManager
      */
     public function register(array $stream)
     {
-        $stream = StreamBuilder::build($stream);
+        $stream = $this->build($stream);
 
         App::instance('streams.instances.' . $stream->handle, $stream);
 

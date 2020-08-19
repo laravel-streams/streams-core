@@ -24,3 +24,4 @@ references:
 - **Insights:** Tips, post scriptum, creative links.
 - **Additional Reading:** Link to related ideas/topics/guides/recipes.
     - REST API
+    - UI Configuration
