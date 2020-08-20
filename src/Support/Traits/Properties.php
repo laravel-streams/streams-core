@@ -40,7 +40,7 @@ trait Properties
 
     public function __construct(array $attributes = [])
     {
-        $this->attributes = array_merge_recursive($this->attributes, $attributes);
+        $this->attributes = array_merge_recursive_distinct($this->attributes, $attributes);
     }
 
     public function __get($key)
