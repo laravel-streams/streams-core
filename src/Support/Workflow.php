@@ -5,7 +5,6 @@ namespace Anomaly\Streams\Platform\Support;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 use Anomaly\Streams\Platform\Support\Traits\Properties;
-use Anomaly\Streams\Platform\Support\Traits\HasWorkflows;
 use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
 
 /**
@@ -19,8 +18,24 @@ class Workflow
 {
 
     use Properties;
-    use HasWorkflows;
     use FiresCallbacks;
+
+    /**
+     * The workflow steps.
+     *
+     * @var array
+     */
+    protected $steps = [];
+
+    /**
+     * Create a new class instance.
+     *
+     * @param array $steps
+     */
+    public function __construct(array $steps = [])
+    {
+        $this->steps = $this->named(array_merge($this->steps, $steps));
+    }
 
     /**
      * Process the workflow.
@@ -45,6 +60,25 @@ class Workflow
     }
 
     /**
+     * Default callbacks through the provided object.
+     *
+     * @param mixed $object
+     */
+    public function passThrough($object)
+    {
+        $this->object = $object;
+
+        $this->callback = function ($callback, $payload) use ($object) {
+            $object->fire(implode('_', [
+                $callback['workflow'],
+                $callback['name']
+            ]), $payload);
+        };
+
+        return $this;
+    }
+
+    /**
      * Trigger the callbacks.
      *
      * @param [type] $name
@@ -60,6 +94,16 @@ class Workflow
         $payload = compact('payload', 'callback');
 
         $this->callback ? App::call($this->callback, $payload) : null;
+
+        $method = Str::camel(implode('_', [
+            'on',
+            $callback['workflow'],
+            $callback['name']
+        ]));
+
+        if ($this->object && method_exists($this->object, $method)) {
+            App::call([$this->object, $method], $payload);
+        }
     }
 
     /**
@@ -143,13 +187,19 @@ class Workflow
         return $this;
     }
 
-    /**
-     * Name the steps.
-     *
-     * @param array $steps
-     * @return array
-     */
-    private function named($steps)
+    public function getSteps(): array
+    {
+        return $this->steps;
+    }
+
+    public function setSteps(array $steps): Workflow
+    {
+        $this->steps = $steps;
+
+        return $this;
+    }
+
+    protected function named($steps): array
     {
         $named = [];
 
@@ -182,13 +232,7 @@ class Workflow
         return $named;
     }
 
-    /**
-     * Return the step name.
-     *
-     * @param mixed $step
-     * @return string
-     */
-    private function name($step)
+    protected function name($step): string
     {
         if (is_object($step)) {
             $step = get_class($step);
@@ -201,13 +245,7 @@ class Workflow
         return Str::snake($step);
     }
 
-    /**
-     * Do the step with the payload.
-     *
-     * @param mixed $step
-     * @param array $payload
-     */
-    private function do($step, array $payload = [])
+    protected function do($step, array $payload = [])
     {
         if (is_string($step)) {
             return App::call($step, $payload, 'handle');
@@ -216,26 +254,5 @@ class Workflow
         if (is_callable($step)) {
             return App::call($step, $payload);
         }
-    }
-
-    /**
-     * Get the steps.
-     */
-    public function getSteps()
-    {
-        return $this->steps;
-    }
-
-    /**
-     * Set the steps.
-     *
-     * @param array $steps
-     * @return $this
-     */
-    public function setSteps(array $steps)
-    {
-        $this->steps = $steps;
-
-        return $this;
     }
 }
