@@ -2,16 +2,13 @@
 
 namespace Anomaly\Streams\Platform\Field;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 
 /**
  * Class Field
@@ -30,7 +27,7 @@ class Field implements FieldInterface, Arrayable, Jsonable
      * 
      * @return FieldType
      */
-    public function type()
+    public function type(): FieldType
     {
         return $this->remember($this->handle . '.' . $this->type, function () {
 
@@ -47,46 +44,13 @@ class Field implements FieldInterface, Arrayable, Jsonable
         });
     }
 
-    /**
-     * Get the instance as an array.
-     *
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return Hydrator::dehydrate($this);
     }
 
-    /**
-     * Convert the object to its JSON representation.
-     *
-     * @param  int  $options
-     * @return string
-     */
-    public function toJson($options = 0)
+    public function toJson($options = 0): string
     {
         return json_encode($this->toArray(), $options);
-    }
-
-    /**
-     * Dynamically retrieve attributes.
-     *
-     * @param  string $key
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        return $this->getAttribute($key);
-    }
-
-    /**
-     * Dynamically set attributes.
-     *
-     * @param  string  $key
-     * @param  mixed $value
-     */
-    public function __set($key, $value)
-    {
-        $this->setAttribute($key, $value);
     }
 }

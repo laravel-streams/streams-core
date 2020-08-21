@@ -37,7 +37,6 @@ trait Properties
 
     protected $properties = [];
 
-
     public function __construct(array $attributes = [])
     {
         $this->attributes = array_merge_recursive_distinct($this->attributes, $attributes);

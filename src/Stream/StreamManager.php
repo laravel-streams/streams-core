@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\App;
 use Anomaly\Streams\Platform\Stream\Stream;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
+use Illuminate\Support\Traits\Macroable;
 
 /**
  * Class StreamManager
@@ -20,6 +21,7 @@ class StreamManager
 {
 
     use HasMemory;
+    use Macroable;
 
     /**
      * The streams collection.
