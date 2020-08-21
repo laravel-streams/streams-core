@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Field;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
@@ -33,7 +34,7 @@ class Field implements FieldInterface, Arrayable, Jsonable
     {
         return $this->remember($this->handle . '.' . $this->type, function () {
 
-            $type = FieldTypeBuilder::build($this->type);
+            $type = App::make('streams.field_types.' . $this->type);
 
             $type->field = $this->handle;
             $type->parent = $this;
