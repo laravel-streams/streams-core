@@ -34,12 +34,15 @@ trait Properties
 
 
     protected $attributes = [];
+    protected $original = [];
 
     protected $properties = [];
 
     public function __construct(array $attributes = [])
     {
         $this->attributes = array_merge_recursive_distinct($this->attributes, $attributes);
+
+        $this->original = $this->attributes;
     }
 
     public function __get($key)
@@ -52,6 +55,13 @@ trait Properties
         $this->setAttribute($key, $value);
     }
 
+    public function fill(array $attributes)
+    {
+        $this->attributes = $attributes;
+
+        return $this;
+    }
+
     public function attr($key, $default = null)
     {
         return Arr::get($this->attributes, $key, $default);
@@ -60,6 +70,11 @@ trait Properties
     public function getAttributes(): array
     {
         return $this->attributes;
+    }
+
+    public function getOriginalAttributes(): array
+    {
+        return $this->original;
     }
 
     public function expand($key): Value
