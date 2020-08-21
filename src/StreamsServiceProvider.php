@@ -308,6 +308,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         // Objects
         //$this->app->bind('streams.field_types.object', \Anomaly\Streams\Platform\Field\Type\Object::class);
+        $this->app->bind('streams.field_types.collection', \Anomaly\Streams\Platform\Field\Type\Collection::class);
         
         // Streams
         $this->app->bind('streams.field_types.entry', \Anomaly\Streams\Platform\Field\Type\Entry::class);

@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Field\Value\Value;
+use Anomaly\Streams\Ui\Table\Component\Row\Row;
 
 /**
  * Trait Properties
@@ -40,7 +41,7 @@ trait Properties
 
     public function __construct(array $attributes = [])
     {
-        $this->attributes = array_merge_recursive_distinct($this->attributes, $attributes);
+        $this->fill(array_merge_recursive_distinct($this->attributes, $attributes));
 
         $this->original = $this->attributes;
     }
@@ -57,8 +58,10 @@ trait Properties
 
     public function fill(array $attributes)
     {
-        $this->attributes = $attributes;
-
+        foreach ($attributes as $key => $value) {
+            $this->setAttribute($key, $value);
+        }
+        
         return $this;
     }
 
@@ -195,7 +198,7 @@ trait Properties
             $type = $this->guessPropertyType($key);
         }
 
-        return App::make('streams.field_types.' . $type, Arr::get($this->properties, $key, []));
+        return App::make('streams.field_types.' . $type)->fill(Arr::get($this->properties, $key, []));
     }
 
     public function hasAttributeType($key)

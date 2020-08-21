@@ -27,7 +27,7 @@ class FieldType
      */
     public function modify($value)
     {
-        return (string) $value;
+        return $value;
     }
 
     /**
@@ -38,7 +38,7 @@ class FieldType
      */
     public function restore($value)
     {
-        return (string) $value;
+        return $value;
     }
 
     /**
