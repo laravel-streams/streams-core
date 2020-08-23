@@ -7,14 +7,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Traits\Macroable;
-use Anomaly\Streams\Platform\Entry\Entry;
 use Anomaly\Streams\Platform\Stream\Stream;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Anomaly\Streams\Platform\Support\Traits\HasMemory;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
 
 /**
  * Class FilebaseCriteria
@@ -23,11 +17,8 @@ use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class FilebaseCriteria implements CriteriaInterface
+class FilebaseCriteria extends AbstractCiteria
 {
-
-    use Macroable;
-    use HasMemory;
 
     /**
      * The database query.
@@ -35,13 +26,6 @@ class FilebaseCriteria implements CriteriaInterface
      * @var Database
      */
     protected $query;
-
-    /**
-     * The entry stream.
-     *
-     * @var Stream
-     */
-    protected $stream;
 
     /**
      * Create a new class instance.
@@ -211,54 +195,6 @@ class FilebaseCriteria implements CriteriaInterface
     }
 
     /**
-     * Return paginated entries.
-     *
-     * @param  array|int $parameters
-     * @return Paginator
-     */
-    public function paginate($parameters = null)
-    {
-        if (is_numeric($parameters)) {
-            $parameters = [
-                'per_page' => $parameters,
-            ];
-        }
-
-        $path = Request::url();
-
-        $total = Arr::get($parameters, 'total');
-        $perPage = Arr::get($parameters, 'per_page', 15);
-        $pageName = Arr::get($parameters, 'page_name', 'page');
-        $limitName = Arr::get($parameters, 'limit_name', 'limit');
-
-        if (!$total) {
-            $total = $this->count();
-        }
-
-        $page = (int) Request::get($pageName, 1);
-        $perPage = (int) Request::get($limitName, $perPage);
-
-        $offset = $page * $perPage - $perPage;
-
-        $entries = $this->limit($perPage, $offset)->get();
-
-        $paginator = new LengthAwarePaginator(
-            $entries,
-            $total,
-            $perPage,
-            $page,
-            [
-                'path' => $path,
-                'pageName' => $pageName,
-            ]
-        );
-
-        $paginator->appends(Request::all());
-
-        return $paginator;
-    }
-
-    /**
      * Create a new entry.
      *
      * @param array $attributes
@@ -325,51 +261,5 @@ class FilebaseCriteria implements CriteriaInterface
     public function truncate()
     {
         $this->query->truncate();
-    }
-
-    /**
-     * Return an entry instance.
-     *
-     * @param array $attributes
-     * @return EntryInterface
-     */
-    public function newInstance(array $attributes = [])
-    {
-        $abstract = $this->stream->attr('abstract', Entry::class);
-
-        return new $abstract($this->stream, $attributes);
-    }
-
-    /**
-     * Return an entry collection.
-     *
-     * @param array $entries
-     * @return Collection
-     */
-    protected function collect(array $entries)
-    {
-        $collection = $this->stream->attr('collection', Collection::class);
-
-        return new $collection(array_map(function ($entry) {
-            return $this->make($entry);
-        }, $entries));
-    }
-
-    /**
-     * Return an entry interface from a file.
-     *
-     * @param $entry
-     * @return EntryInterface
-     */
-    protected function make($entry)
-    {
-        return $this->newInstance(array_merge(
-            [
-                'id' => $entry->getId(),
-                'created_at' => $entry->createdAt(),
-                'updated_at' => $entry->updatedAt(),
-            ],
-            $entry->toArray()
-        ));
     }
 }
