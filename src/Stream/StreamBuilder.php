@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Field\FieldBuilder;
 use Anomaly\Streams\Platform\Field\FieldFactory;
 use Anomaly\Streams\Platform\Support\Facades\Streams;
+use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
 
 /**
  * Class StreamBuilder
@@ -16,6 +17,8 @@ use Anomaly\Streams\Platform\Support\Facades\Streams;
  */
 class StreamBuilder
 {
+
+    use FiresCallbacks;
 
     /**
      * Build a stream.
