@@ -224,7 +224,7 @@ class FilebaseCriteria implements CriteriaInterface
             ];
         }
 
-        $path = Request::path();
+        $path = Request::url();
 
         $total = Arr::get($parameters, 'total');
         $perPage = Arr::get($parameters, 'per_page', 15);

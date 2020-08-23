@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Field\Value;
 
+use Collective\Html\HtmlFacade;
 use Illuminate\Support\Arr;
 
 /**
@@ -34,5 +35,17 @@ class ArrValue extends Value
     public function pull($key, $default = null)
     {
         return Arr::pull($this->value, $key, $default);
+    }
+
+    /**
+     * Return the array value as an html attributes string.
+     *
+     * @param array $attributes
+     *
+     * @return string
+     */
+    public function htmlAttributes($attributes = []): string
+    {
+        return HtmlFacade::attributes(array_merge($this->value, $attributes));
     }
 }
