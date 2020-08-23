@@ -7,6 +7,7 @@ use StringTemplate\Engine;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\View\Factory;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
@@ -96,7 +97,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerApplications();
         $this->registerFieldTypes();
         $this->registerMiddleware();
-        
+
 
         foreach ($this->bindings as $abstract => $concrete) {
             $this->app->bind($abstract, $concrete);
@@ -106,17 +107,18 @@ class StreamsServiceProvider extends ServiceProvider
             $this->app->singleton($abstract, $concrete);
         }
 
-        
+
         $this->registerAliases();
         $this->registerConfig();
 
 
+        $this->extendCollection();
         $this->extendLang();
         $this->extendView();
         $this->extendArr();
         $this->extendStr();
 
-        $this->registerStreams();        
+        $this->registerStreams();
     }
 
     /**
@@ -280,7 +282,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->bind('streams.field_types.string', \Anomaly\Streams\Platform\Field\Type\Text::class);
         $this->app->bind('streams.field_types.textarea', \Anomaly\Streams\Platform\Field\Type\Text::class);
         $this->app->bind('streams.field_types.template', \Anomaly\Streams\Platform\Field\Type\Template::class);
-        
+
         // Array
         $this->app->bind('streams.field_types.array', \Anomaly\Streams\Platform\Field\Type\Arr::class);
 
@@ -292,11 +294,11 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->bind('streams.field_types.float', \Anomaly\Streams\Platform\Field\Type\Decimal::class);
         $this->app->bind('streams.field_types.double', \Anomaly\Streams\Platform\Field\Type\Decimal::class);
         $this->app->bind('streams.field_types.decimal', \Anomaly\Streams\Platform\Field\Type\Decimal::class);
-        
+
         // Boolean
         $this->app->bind('streams.field_types.bool', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
         $this->app->bind('streams.field_types.boolean', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
-        
+
         // Dates
         $this->app->bind('streams.field_types.date', \Anomaly\Streams\Platform\Field\Type\Datetime::class);
         $this->app->bind('streams.field_types.time', \Anomaly\Streams\Platform\Field\Type\Datetime::class);
@@ -309,7 +311,7 @@ class StreamsServiceProvider extends ServiceProvider
         // Objects
         //$this->app->bind('streams.field_types.object', \Anomaly\Streams\Platform\Field\Type\Object::class);
         $this->app->bind('streams.field_types.collection', \Anomaly\Streams\Platform\Field\Type\Collection::class);
-        
+
         // Streams
         $this->app->bind('streams.field_types.entry', \Anomaly\Streams\Platform\Field\Type\Entry::class);
         $this->app->bind('streams.field_types.entries', \Anomaly\Streams\Platform\Field\Type\Entries::class);
@@ -490,6 +492,25 @@ class StreamsServiceProvider extends ServiceProvider
     public function loadTranslations()
     {
         Lang::addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/lang'));
+    }
+
+    /**
+     * Extend the base collection.
+     */
+    protected function extendCollection()
+    {
+        Collection::macro('hasAny', function ($key) {
+
+            $keys = is_array($key) ? $key : func_get_args();
+
+            foreach ($keys as $value) {
+                if ($this->has($value)) {
+                    return true;
+                }
+            }
+
+            return false;
+        });
     }
 
     /**
