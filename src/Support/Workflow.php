@@ -6,6 +6,9 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
+use Anomaly\Streams\Ui\Form\Component\Field\Workflows\BuildFields;
+use Anomaly\Streams\Ui\Form\Component\Field\Workflows\Fields\DefaultFields;
+use Exception;
 
 /**
  * Class Workflow
@@ -51,7 +54,11 @@ class Workflow
 
             $this->triggerCallback('before_' . $name, $payload);
 
-            $this->do($step, $payload);
+            try {
+                $this->do($step, $payload);
+            } catch (\Exception $e) {
+                throw new Exception("Step [{$name}] failed: {$e->getMessage()}");
+            }
 
             $this->triggerCallback('after_' . $name, $payload);
         }
@@ -247,12 +254,6 @@ class Workflow
 
     protected function do($step, array $payload = [])
     {
-        if (is_string($step)) {
-            return App::call($step, $payload, 'handle');
-        }
-
-        if (is_callable($step)) {
-            return App::call($step, $payload);
-        }
+        return App::call($step, $payload, 'handle');
     }
 }

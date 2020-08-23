@@ -46,6 +46,12 @@ class ArrValue extends Value
      */
     public function htmlAttributes($attributes = []): string
     {
-        return HtmlFacade::attributes(array_merge($this->value, $attributes));
+        $attributes = array_merge($this->value, $attributes);
+
+        array_walk($attributes, function(&$value, $key) {
+            $value = $key . '="'.$value.'"';
+        });
+
+        return implode(' ', $attributes);
     }
 }

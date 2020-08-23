@@ -61,7 +61,7 @@ trait Properties
         foreach ($attributes as $key => $value) {
             $this->setAttribute($key, $value);
         }
-        
+
         return $this;
     }
 
@@ -119,14 +119,14 @@ trait Properties
         $name = 'set_' . $key . '_attribute';
 
         if ($this->hasAttributeOverrideMethod($name)) {
-            
+
             $this->{Str::camel($name)}($value);
 
             return $this;
         }
 
         if ($this->hasAttributeType($key)) {
-            
+
             $this->attributes[$key] = $this->modifyAttributeValue($key, $value);
 
             return $this;
@@ -144,7 +144,9 @@ trait Properties
 
     protected function guessPropertyType($key): string
     {
-        $type = gettype(Arr::get($this->attributes, $key));
+        $default = Arr::get($this->properties, $key . '.default');
+        
+        $type = gettype(Arr::get($this->attributes, $key, $default));
 
         if ($type === 'NULL') {
             $type = 'string';
