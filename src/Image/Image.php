@@ -375,14 +375,17 @@ class Image
         }
 
         if (!$alt && !isset($attributes['alt']) && config('streams.images.auto_alt', true)) {
+
+            $original = $this->attr('original');
+
             $attributes['alt'] = Arr::get(
                 $this->attributes,
                 'alt',
                 ucwords(
                     Str::humanize(
                         trim(basename(
-                            $this->original,
-                            pathinfo($this->original, PATHINFO_EXTENSION)
+                            $original,
+                            pathinfo($original, PATHINFO_EXTENSION)
                         ), '.'),
                         '^a-zA-Z0-9'
                     )
