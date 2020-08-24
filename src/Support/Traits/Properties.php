@@ -41,7 +41,7 @@ trait Properties
 
     public function __construct(array $attributes = [])
     {
-        $this->fill(array_merge_recursive_distinct($this->attributes, $attributes));
+        $this->fill(array_merge($this->attributes, $attributes));
 
         $this->original = $this->attributes;
     }
