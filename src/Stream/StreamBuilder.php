@@ -56,6 +56,33 @@ class StreamBuilder
 
         $stream->fields = $fields;
 
+
+
+        // @todo encapsulate this
+        $rules = $stream->rules;
+        $validators = $stream->validators;
+        
+        foreach ($stream->fields as $handle => $field) {
+
+            if ($field->required) {
+                $rules[$handle] = array_unique(array_merge(Arr::get($rules, $handle, []), ['required']));
+            }
+
+            if ($field->rules) {
+                $rules[$handle] = array_unique(array_merge(Arr::get($rules, $handle, []), $field->rules));
+            }
+
+            if ($field->validators) {
+                foreach ($field->validators  as $rule => $config) {
+                    $validators[$rule] = $config;
+                }
+            }
+        }
+
+        $stream->rules = $rules;
+        ////
+
+
         $stream->fire('built', compact($stream));
 
         return $stream;

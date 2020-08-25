@@ -63,33 +63,24 @@ class Stream implements Arrayable, Jsonable
     /**
      * Return an entry validator.
      * 
+     * @param $data
      * @return Validator
      */
-    public function validator(EntryInterface $entry)
+    public function validator($data): Validator
     {
         $factory = App::make(Factory::class);
 
-        $rules = $this->attr('rules', []);
-        
-        foreach ($this->fields as $handle => $field) {
-
-            if ($field->required) {
-                $rules[$handle] = array_merge(Arr::get($rules, $handle, []), ['required']);
-            }
-            
-            if ($field->rules) {
-                $rules[$handle] = array_merge(Arr::get($rules, $handle, []), $field->rules);
-            }
+        if ($data instanceof EntryInterface) {
+            $data = $data->getAttributes();
         }
+
+        $rules = $this->attr('rules', []);
 
         $rules = array_map(function($rules) {
             return implode('|', array_unique($rules));
-        }, $rules);
+        }, $this->rules);
 
-        return $factory->make(
-            $entry->getAttributes(),
-            $rules
-        );
+        return $factory->make($data, $rules);
     }
 
     /**
