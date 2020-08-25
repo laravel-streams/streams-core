@@ -2,7 +2,9 @@
 
 namespace Anomaly\Streams\Platform\Field;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
@@ -20,6 +22,7 @@ use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 class Field implements FieldInterface, Arrayable, Jsonable
 {
     use HasMemory;
+    use Macroable;
     use Properties;
 
     /**
