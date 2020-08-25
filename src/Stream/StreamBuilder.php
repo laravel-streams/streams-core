@@ -94,7 +94,7 @@ class StreamBuilder
 
         foreach ($stream as $key => &$value) {
             if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
-                $merged[$key] = array_merge_recursive_distinct($merged[$key], $value);
+                $merged[$key] = self::extend($merged[$key], $value);
             } else {
                 $merged[$key] = $value;
             }
