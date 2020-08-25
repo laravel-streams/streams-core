@@ -42,10 +42,11 @@ class MessageManager
     {
         if (is_string($message)) {
             $message = [
-                'type' => $type,
                 'content' => $message,
             ];
         }
+
+        $message['type'] = $type;
         
         return $this->merge(md5(json_encode($message)), $message);
     }
@@ -75,7 +76,7 @@ class MessageManager
      */
     public function get()
     {
-        return $this->session->get('messages');
+        return $this->session->get('messages', []);
     }
 
     /**
@@ -85,7 +86,7 @@ class MessageManager
      */
     public function pull()
     {
-        return $this->session->pull('messages');
+        return $this->session->pull('messages', []);
     }
 
     /**

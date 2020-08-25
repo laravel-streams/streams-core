@@ -54,11 +54,7 @@ class Workflow
 
             $this->triggerCallback('before_' . $name, $payload);
 
-            try {
-                $this->do($step, $payload);
-            } catch (\Exception $e) {
-                throw new Exception("Step [{$name}] failed: {$e->getMessage()}");
-            }
+            $this->do($step, $payload);
 
             $this->triggerCallback('after_' . $name, $payload);
         }
