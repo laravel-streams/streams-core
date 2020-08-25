@@ -3,9 +3,10 @@
 namespace Anomaly\Streams\Platform\Entry;
 
 use Illuminate\Support\Arr;
+use Illuminate\Validation\Validator;
 use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Stream\Stream;
+use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
@@ -70,6 +71,16 @@ class Entry implements EntryInterface, Arrayable, Jsonable
         return $this->stream
             ->repository()
             ->save($this);
+    }
+
+    /**
+     * Return the entry validator.
+     * 
+     * @return Validator
+     */
+    public function validator()
+    {
+        return $this->stream->validator($this);
     }
 
     /**
