@@ -36,11 +36,6 @@ class FieldInput
             if (strpos($field['type'], '|')) {
                 list($field['type'], $field['input']) = explode('|', $field['type']);
             }
-
-            // INPUT EXPAND
-            if (isset($field['input']) && is_string($field['input'])) {
-                $field['input'] = ['type' => $field['input']];
-            }
         }
 
         return $fields;
