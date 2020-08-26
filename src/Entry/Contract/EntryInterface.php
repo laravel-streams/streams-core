@@ -34,4 +34,11 @@ interface EntryInterface
      * @var bool
      */
     public function save();
+
+    /**
+     * Delete the entry.
+     * 
+     * @var bool
+     */
+    public function delete();
 }
