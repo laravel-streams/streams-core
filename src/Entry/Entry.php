@@ -74,6 +74,18 @@ class Entry implements EntryInterface, Arrayable, Jsonable
     }
 
     /**
+     * Delete the entry.
+     *
+     * @return bool
+     */
+    public function delete()
+    {
+        return $this->stream
+            ->repository()
+            ->delete($this);
+    }
+
+    /**
      * Return the entry validator.
      * 
      * @return Validator

@@ -26,6 +26,18 @@ class StreamInput
     {
 
         /**
+         * Import values matching @ which
+         * refer to existing base path file.
+         */
+        foreach (array_filter(Arr::dot($input), function($value) {
+            return strpos($value, '@') === 0;
+        }) as $key => $import) {
+            if (file_exists($import = base_path(substr($import, 1)))) {
+                Arr::set($input, $key, json_decode(file_get_contents($import), true));
+            }
+        }
+
+        /**
          * Defaults the source.
          */
         $type = Config::get('streams.sources.default', 'filebase');
