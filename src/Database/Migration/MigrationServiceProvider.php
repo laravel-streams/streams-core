@@ -56,7 +56,7 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
      *
      * @return void
      */
-    protected function registerMakeCommand()
+    protected function registerMigrateMakeCommand()
     {
         $this->registerCreator();
 
@@ -95,7 +95,7 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
      *
      * @return void
      */
-    protected function registerResetCommand()
+    protected function registerMigrateResetCommand()
     {
         $this->app->singleton(
             'command.migrate.reset',
@@ -110,7 +110,7 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
      *
      * @return void
      */
-    protected function registerRefreshCommand()
+    protected function registerMigrateRefreshCommand()
     {
         $this->app->singleton(
             'command.migrate.refresh',
@@ -125,7 +125,7 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
      *
      * @return void
      */
-    protected function registerRollbackCommand()
+    protected function registerMigrateRollbackCommand()
     {
         $this->app->singleton(
             'command.migrate.rollback',
