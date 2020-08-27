@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Cache\Command;
+<?php namespace Anomaly\Streams\Platform\Config\Command;
 
 use Anomaly\Streams\Platform\Console\Kernel;
 
