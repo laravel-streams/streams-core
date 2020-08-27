@@ -2,10 +2,11 @@
 
 namespace Anomaly\Streams\Platform\Support;
 
-use Anomaly\Streams\Platform\Routing\UrlGenerator;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Http\Request;
 use StringTemplate\Engine;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Contracts\Support\Arrayable;
+use Anomaly\Streams\Platform\Routing\UrlGenerator;
 
 /**
  * Class Parser
@@ -77,7 +78,7 @@ class Parser
          * if the target is a string and is in a parsable
          * format then parse the target with the payload.
          */
-        if (is_string($target) && str_contains($target, ['{', '}'])) {
+        if (is_string($target) && Str::contains($target, ['{', '}'])) {
             $target = $this->parser->render($target, $data);
         }
 
