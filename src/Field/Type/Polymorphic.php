@@ -32,7 +32,7 @@ class Polymorphic extends FieldType
     {
         $stream = $this->entry->{Arr::get($this->config, 'morph_type', $this->field . '_type')};
         $key = $this->entry->{Arr::get($this->config, 'foreign_key', $this->field . '_id')};
-        dd($key);
+        
         return Streams::entries('pages_default')->find($key);
     }
 }
