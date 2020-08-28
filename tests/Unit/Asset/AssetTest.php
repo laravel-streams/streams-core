@@ -8,7 +8,7 @@ class AssetTest extends TestCase
         /* @var \Anomaly\Streams\Platform\Asset\Asset $asset */
         $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
 
-        $target = 'https://gist.githubusercontent.com/RyanThompson/f75b540ecbd3bc9b5ee8614ccd4dc080/raw/01fc971eda86bd89cad8c91c9042261aeb0b5d18/test.scss';
+        $target = 'https://gist.githubusercontent.com/RyanThompson/f75b540ecbd3bc9b5ee8614ccd4dc080/raw/a224e8c477bf5c3c081cdeb02b3e0bbd430bd12b/test.css';
 
         $path = $asset->download($target);
 
@@ -17,38 +17,9 @@ class AssetTest extends TestCase
             file_get_contents($asset->realPath($path))
         );
 
-        $content = $asset->inline($path, ["min"]);
+        $content = $asset->inline($path, ["min", "scss"]);
 
-        $this->assertEquals($content, '.test{color:#fff}.test .invert{color:#000}');
-    }
-
-    public function testPreCompilers()
-    {
-        /* @var \Anomaly\Streams\Platform\Asset\Asset $asset */
-        $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
-
-        // @todo fix coffee or drop it
-//        $this->assertEquals(
-//            "\nalert('Hello');",
-//            $asset->inline('anomaly.module.test::scripts/test.coffee')
-//        );
-
-        $this->assertEquals(
-            '.test{color:#fff}.test .invert{color:#000}',
-            $asset->inline('anomaly.module.test::styles/test.scss', ['min'])
-        );
-
-        $this->assertEquals(
-            '.test{color:#ffffff}.test .invert{color:#000000}',
-            $asset->inline('anomaly.module.test::styles/test.less', ['min'])
-        );
-
-        // @todo fix stylus or drop it
-//        $this->assertEquals(
-//            '.test{color:#ffffff}.test .invert{color:#000000}',
-//            $asset->inline('anomaly.module.test::styles/test.styl', ['min'])
-//        );
-
+        $this->assertEquals('.test{color:#fff}', $content);
     }
 
     public function testInline()

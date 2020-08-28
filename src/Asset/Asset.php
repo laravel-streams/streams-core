@@ -546,11 +546,11 @@ class Asset
         if (str_contains($collection, public_path())) {
             return;
         }
-
+        
         $hint = $this->paths->hint($collection);
 
         $filters = $this->collectionFilters($collection, $additionalFilters); // Returns combined filter flags
-
+        
         /**
          * Get the concatenated content
          * of the asset collection.

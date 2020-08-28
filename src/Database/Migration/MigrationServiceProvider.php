@@ -145,7 +145,7 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
         $this->app->singleton(
             'migration.creator',
             function ($app) {
-                return new MigrationCreator($app['files']);
+                return new MigrationCreator($app['files'], $app->basePath('stubs'));
             }
         );
     }
