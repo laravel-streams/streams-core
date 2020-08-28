@@ -29,29 +29,7 @@ class Entry implements EntryInterface, Arrayable, Jsonable
      *
      * @var Stream
      */
-    protected $stream;
-
-    /**
-     * The entry attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [];
-
-    /**
-     * Create a new Entry instance.
-     *
-     * @param Stream $stream
-     * @param array $attributes
-     */
-    public function __construct(Stream $stream, array $attributes = [])
-    {
-        $this->stream = $stream;
-
-        $this->properties = Arr::make(is_array($stream->fields) ? $stream->fields : $stream->fields->toArray());
-
-        $this->attributes = $attributes;
-    }
+    public $stream;
 
     /**
      * Return the entry stream.

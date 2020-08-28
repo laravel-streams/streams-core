@@ -29,6 +29,10 @@ class Relationship extends FieldType
      */
     public function expand($value)
     {
+        if (isset($this->config['key_name'])) {
+            $value = $this->entry->{$this->config['key_name']};
+        }
+
         return Streams::entries($this->config['stream'])->find($value);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Field\Type;
 
+use Illuminate\Support\Arr;
 use Anomaly\Streams\Platform\Field\FieldType;
 use Anomaly\Streams\Platform\Support\Facades\Streams;
 
@@ -29,7 +30,9 @@ class Polymorphic extends FieldType
      */
     public function expand($value)
     {
-        dd($value);
-        return Streams::entries($this->config['stream'])->find($value);
+        $stream = $this->entry->{Arr::get($this->config, 'morph_type', $this->field . '_type')};
+        $key = $this->entry->{Arr::get($this->config, 'foreign_key', $this->field . '_id')};
+        dd($key);
+        return Streams::entries('pages_default')->find($key);
     }
 }

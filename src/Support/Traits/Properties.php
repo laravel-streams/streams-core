@@ -80,7 +80,7 @@ trait Properties
         return $this->original;
     }
 
-    public function expand($key): Value
+    public function expand($key)
     {
         $name = 'expand_' . $key . '_attribute';
 
@@ -93,6 +93,7 @@ trait Properties
         $type = $this->newAttributeFieldType($key);
 
         $type->field = $key;
+        $type->entry = $this;
 
         return $type->expand($value);
     }
@@ -106,6 +107,10 @@ trait Properties
         }
 
         $value = $this->attributes[$key] ?? $this->propertyDefault($key);
+
+        if ($key == 'parent') {
+            dd($this->hasAttributeType($key));
+        }
 
         if ($this->hasAttributeType($key)) {
             return $this->restoreAttributeValue($key, $value);

@@ -237,7 +237,11 @@ class DatabaseCriteria implements CriteriaInterface
     {
         $prototype = $this->stream->attr('config.prototype', Entry::class);
 
-        return new $prototype($this->stream, $attributes);
+        $prototype = new $prototype($attributes);
+
+        $prototype->stream = $this->stream;
+
+        return $prototype;
     }
 
     /**
