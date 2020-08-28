@@ -33,7 +33,7 @@ class AssetTest extends TestCase
         );
 
         $this->assertEquals(
-            ".test{color:#ffffff}",
+            ".test{color:#fff}",
             $asset->inline('anomaly.module.test::styles/test.css', ['min'])
         );
     }
@@ -175,8 +175,8 @@ class AssetTest extends TestCase
 
         $this->assertEquals(
             [
-                '.test{color:#ffffff}',
-                '.test{color:#000000}',
+                '.test{color:#fff}',
+                '.test{color:#000}',
             ],
             $asset->inlines('test.css', ['noversion', 'min'], ['foo' => 'bar'])
         );
