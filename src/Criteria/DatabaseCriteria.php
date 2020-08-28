@@ -4,21 +4,24 @@ namespace Anomaly\Streams\Platform\Criteria;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Traits\Macroable;
+use Anomaly\Streams\Platform\Entry\Entry;
 use Anomaly\Streams\Platform\Stream\Stream;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
 
 /**
- * Class EloquentCriteria
+ * Class DatabaseCriteria
  *
  * @link    http://pyrocms.com/
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class EloquentCriteria implements CriteriaInterface
+class DatabaseCriteria implements CriteriaInterface
 {
 
     use Macroable;
@@ -47,9 +50,8 @@ class EloquentCriteria implements CriteriaInterface
     {
         $this->stream = $stream;
 
-        $model = $stream->attr('source.model');
-
-        $this->query = (new $model)->newQuery();
+        $this->query = DB::connection($stream->attr('source.connection', Config::get('database.default')))
+            ->table($stream->attr('source.table'));
     }
 
     /**
@@ -233,8 +235,8 @@ class EloquentCriteria implements CriteriaInterface
      */
     public function newInstance(array $attributes = [])
     {
-        $model = $this->stream->attr('config.model');
+        $prototype = $this->stream->attr('config.prototype', Entry::class);
 
-        return new $model($this->stream, $attributes);
+        return new $prototype($this->stream, $attributes);
     }
 }

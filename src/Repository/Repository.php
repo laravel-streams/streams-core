@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Stream\Stream;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
+use Anomaly\Streams\Platform\Criteria\DatabaseCriteria;
 use Anomaly\Streams\Platform\Criteria\EloquentCriteria;
 use Anomaly\Streams\Platform\Criteria\FilebaseCriteria;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
@@ -214,6 +215,16 @@ class Repository implements RepositoryInterface
     public function newFilebaseCriteria()
     {
         return new FilebaseCriteria($this->stream);
+    }
+
+    /**
+     * Return a new database criteria.
+     * 
+     * @return DatabaseCriteria
+     */
+    public function newDatabaseCriteria()
+    {
+        return new DatabaseCriteria($this->stream);
     }
 
     /**

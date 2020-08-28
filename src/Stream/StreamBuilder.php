@@ -35,7 +35,6 @@ class StreamBuilder
          */
         $fields = Arr::pull($stream, 'fields', []);
 
-        $stream = StreamInput::read($stream);
 
         /**
          * Merge extending Stream data.
@@ -49,14 +48,14 @@ class StreamBuilder
             $stream = self::extend($parent, $stream);
         }
 
+        $stream = StreamInput::read($stream);
+
         $stream = StreamFactory::make($stream);
 
         $fields = FieldBuilder::build($fields);
         $fields = FieldFactory::make($fields);
 
         $stream->fields = $fields;
-
-
 
         // @todo encapsulate this
         $rules = $stream->rules;
