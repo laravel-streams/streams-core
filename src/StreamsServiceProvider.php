@@ -318,7 +318,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         // Relationships
         $this->app->bind('streams.field_types.multiple', \Anomaly\Streams\Platform\Field\Type\Multiple::class);
-        //$this->app->bind('streams.field_types.polymorphic', \Anomaly\Streams\Platform\Field\Type\Polymorphic::class);
+        $this->app->bind('streams.field_types.polymorphic', \Anomaly\Streams\Platform\Field\Type\Polymorphic::class);
         $this->app->bind('streams.field_types.relationship', \Anomaly\Streams\Platform\Field\Type\Relationship::class);
     }
 

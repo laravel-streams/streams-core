@@ -169,7 +169,7 @@ class DatabaseCriteria implements CriteriaInterface
      */
     public function get()
     {
-        return $this->query->get();
+        return $this->collect($this->query->get());
     }
 
     /**
@@ -238,5 +238,29 @@ class DatabaseCriteria implements CriteriaInterface
         $prototype = $this->stream->attr('config.prototype', Entry::class);
 
         return new $prototype($this->stream, $attributes);
+    }
+
+    /**
+     * Return an entry collection.
+     *
+     * @param $entries
+     * @return Collection
+     */
+    protected function collect($entries)
+    {
+        return $entries->map(function($entry) {
+            return $this->make($entry);
+        });
+    }
+
+    /**
+     * Return an entry interface from a file.
+     *
+     * @param $entry
+     * @return EntryInterface
+     */
+    protected function make($entry)
+    {
+        return $this->newInstance((array) $entry);
     }
 }

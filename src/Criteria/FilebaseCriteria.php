@@ -262,4 +262,37 @@ class FilebaseCriteria extends AbstractCiteria
     {
         $this->query->truncate();
     }
+
+    /**
+     * Return an entry collection.
+     *
+     * @param array $entries
+     * @return Collection
+     */
+    protected function collect(array $entries)
+    {
+        $collection = $this->stream->attr('collection', Collection::class);
+
+        return new $collection(array_map(function ($entry) {
+            return $this->make($entry);
+        }, $entries));
+    }
+
+    /**
+     * Return an entry interface from a file.
+     *
+     * @param $entry
+     * @return EntryInterface
+     */
+    protected function make($entry)
+    {
+        return $this->newInstance(array_merge(
+            [
+                'id' => $entry->getId(),
+                'created_at' => $entry->createdAt(),
+                'updated_at' => $entry->updatedAt(),
+            ],
+            $entry->toArray()
+        ));
+    }
 }
