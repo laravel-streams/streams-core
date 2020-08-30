@@ -31,6 +31,15 @@ class Entry implements EntryInterface, Arrayable, Jsonable
      */
     public $stream;
 
+    public function __construct(array $attributes = [])
+    {
+        $this->stream = Arr::pull($attributes, 'stream');
+
+        $this->fill(array_merge($this->attributes, $attributes));
+
+        $this->original = $this->attributes;
+    }
+
     /**
      * Return the entry stream.
      */

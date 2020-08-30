@@ -25,7 +25,7 @@ class EntryController extends Controller
      */
     public function view()
     {
-        $route= Request::route();
+        $route = Request::route();
 
         $stream = Streams::make($route->getAction('stream'));
 

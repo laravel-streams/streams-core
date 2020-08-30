@@ -117,4 +117,14 @@ class Stream implements Arrayable, Jsonable
     {
         return json_encode($this->toArray(), $options);
     }
+
+    /**
+     * Return a string representation.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toJson();
+    }
 }
