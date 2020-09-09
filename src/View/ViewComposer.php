@@ -1,14 +1,17 @@
-<?php namespace Anomaly\Streams\Platform\View;
+<?php
 
-use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Anomaly\Streams\Platform\Addon\Module\Module;
-use Anomaly\Streams\Platform\Addon\Theme\Theme;
-use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\Support\Decorator;
-use Anomaly\Streams\Platform\View\Event\ViewComposed;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
+namespace Anomaly\Streams\Platform\View;
+
 use Mobile_Detect;
+use Illuminate\View\View;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Anomaly\Streams\Platform\Addon\Theme\Theme;
+use Anomaly\Streams\Platform\Support\Decorator;
+use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\View\Event\ViewComposed;
 
 /**
  * Class ViewComposer
@@ -211,7 +214,7 @@ class ViewComposer
          * We can only overload namespaced
          * views right now.
          */
-        if (!str_contains($view->getName(), '::')) {
+        if (!Str::contains($view->getName(), '::')) {
             return null;
         }
 
@@ -250,5 +253,4 @@ class ViewComposer
 
         return null;
     }
-
 }

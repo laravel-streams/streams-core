@@ -1,10 +1,14 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser;
+<?php
 
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
-use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser;
+
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 
 /**
  * Class HrefGuesser
@@ -84,7 +88,7 @@ class HrefGuesser
                 continue;
             }
 
-            switch (array_get($button, 'button')) {
+            switch (Arr::get($button, 'button')) {
 
                 case 'cancel':
                     $button['attributes']['href'] = $section->getHref();
@@ -97,9 +101,9 @@ class HrefGuesser
                 default:
 
                     // Determine the HREF based on the button type.
-                    $type = array_get($button, 'segment', array_get($button, 'button'));
+                    $type = Arr::get($button, 'segment', Arr::get($button, 'button'));
 
-                    if ($type && !str_contains($type, '\\') && !class_exists($type)) {
+                    if ($type && !Str::contains($type, '\\') && !class_exists($type)) {
                         if ($builder instanceof MultipleFormBuilder) {
                             $button['attributes']['href'] = $section->getHref($type . '/{request.route.parameters.id}');
                         } else {

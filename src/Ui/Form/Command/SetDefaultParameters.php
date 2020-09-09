@@ -1,8 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
 
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
+
+use Illuminate\Support\Str;
+use Anomaly\Streams\Platform\Ui\Form\FormRules;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormHandler;
-use Anomaly\Streams\Platform\Ui\Form\FormRules;
 use Anomaly\Streams\Platform\Ui\Form\FormValidator;
 
 /**
@@ -112,7 +115,7 @@ class SetDefaultParameters
                  * Make sure the handler is
                  * formatted properly.
                  */
-                if (!str_contains($handler, '@')) {
+                if (!Str::contains($handler, '@')) {
                     $handler .= '@handle';
                 }
 

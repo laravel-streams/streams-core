@@ -64,10 +64,10 @@ class SetSuccessMessage
         ];
 
         // If the name doesn't exist we need to be clever.
-        if (Str::contains((string)$parameters['name'], '::') && !trans()->has($parameters['name']) && $stream) {
-            $parameters['name'] = ucfirst(str_singular(str_replace('_', ' ', $stream->getSlug())));
+        if (Str::contains($parameters['name'], '::') && !trans()->has($parameters['name']) && $stream) {
+            $parameters['name'] = ucfirst(Str::singular(str_replace('_', ' ', $stream->getSlug())));
         } elseif ($parameters['name']) {
-            $parameters['name'] = str_singular(trans($parameters['name']));
+            $parameters['name'] = Str::singular(trans($parameters['name']));
         } else {
             $parameters['name'] = trans('streams::entry.name');
         }

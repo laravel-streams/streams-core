@@ -1,9 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
+<?php
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Container\Container;
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
+
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Container\Container;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 
 /**
  * Class FilterQuery
@@ -61,7 +64,7 @@ class FilterQuery
         $handler = $filter->getQuery();
 
         // Self handling implies @handle
-        if (is_string($handler) && !str_contains($handler, '@')) {
+        if (is_string($handler) && !Str::contains($handler, '@')) {
             $handler .= '@handle';
         }
 

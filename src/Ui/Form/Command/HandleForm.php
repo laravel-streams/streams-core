@@ -1,7 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
 
-use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
+
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Container\Container;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
  * Class HandleForm
@@ -43,7 +46,7 @@ class HandleForm
 
         $handler = $this->builder->getHandler();
 
-        if ($handler && !str_contains($handler, '@')) {
+        if ($handler && !Str::contains($handler, '@')) {
             $handler .= '@handle';
         }
 

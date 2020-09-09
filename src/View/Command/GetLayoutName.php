@@ -1,5 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\View\Command;
+<?php
 
+namespace Anomaly\Streams\Platform\View\Command;
+
+use Illuminate\Support\Str;
 use Illuminate\Contracts\View\Factory;
 
 /**
@@ -46,7 +49,7 @@ class GetLayoutName
      */
     public function handle(Factory $view)
     {
-        if (str_contains($this->layout, '::')) {
+        if (Str::contains($this->layout, '::')) {
             return $this->layout;
         }
 
@@ -54,6 +57,6 @@ class GetLayoutName
             return $layout;
         }
 
-        return str_contains($this->default, '::') ? $this->default : "theme::layouts/{$this->default}";
+        return Str::contains($this->default, '::') ? $this->default : "theme::layouts/{$this->default}";
     }
 }

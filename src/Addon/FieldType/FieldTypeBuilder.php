@@ -1,8 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon\FieldType;
+<?php
 
-use Anomaly\Streams\Platform\Support\Hydrator;
+namespace Anomaly\Streams\Platform\Addon\FieldType;
+
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Anomaly\Streams\Platform\Support\Hydrator;
 
 /**
  * Class FieldTypeBuilder
@@ -66,7 +69,7 @@ class FieldTypeBuilder
          * parameter has been set.
          */
         if (!is_string($type)) {
-            throw new \Exception("The [type] parameter of [".array_get($parameters, 'field')."] is required and should be string.");
+            throw new \Exception("The [type] parameter of [" . array_get($parameters, 'field') . "] is required and should be string.");
         }
 
         /*
@@ -75,8 +78,8 @@ class FieldTypeBuilder
          * streams then it's a class path and
          * we can resolve it from the container.
          */
-        if (str_contains($type, '\\') && class_exists($type)) {
-            $fieldType = clone($this->container->make($type));
+        if (Str::contains($type, '\\') && class_exists($type)) {
+            $fieldType = clone ($this->container->make($type));
         }
 
         /*

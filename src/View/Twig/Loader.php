@@ -2,17 +2,18 @@
 
 namespace Anomaly\Streams\Platform\View\Twig;
 
-use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Anomaly\Streams\Platform\Addon\Module\Module;
-use Anomaly\Streams\Platform\Addon\Theme\Theme;
-use Anomaly\Streams\Platform\View\ViewMobileOverrides;
-use Anomaly\Streams\Platform\View\ViewOverrides;
-use Illuminate\Console\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Http\Request;
-use Illuminate\View\ViewFinderInterface;
 use Mobile_Detect;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Console\Application;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\View\ViewFinderInterface;
+use Anomaly\Streams\Platform\Addon\Theme\Theme;
+use Anomaly\Streams\Platform\View\ViewOverrides;
+use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Anomaly\Streams\Platform\View\ViewMobileOverrides;
 
 /**
  * Basic loader using absolute paths.
@@ -185,7 +186,7 @@ class Loader extends OriginalLoader
          * We can only overload namespaced
          * views right now.
          */
-        if (!str_contains($name, '::')) {
+        if (!Str::contains($name, '::')) {
             return null;
         }
 
@@ -211,7 +212,7 @@ class Loader extends OriginalLoader
             $this->overrides->all(),
             config('streams.overrides', [])
         );
-        
+
         /**
          * Normalize the theme:: shortcut prefix.
          */

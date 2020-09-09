@@ -37,12 +37,4 @@ class Seeder extends \Illuminate\Database\Seeder
         $this->streams     = app(StreamRepositoryInterface::class);
         $this->assignments = app(AssignmentRepositoryInterface::class);
     }
-
-    /**
-     * Run the seeder.
-     */
-    public function run()
-    {
-        # code...
-    }
 }

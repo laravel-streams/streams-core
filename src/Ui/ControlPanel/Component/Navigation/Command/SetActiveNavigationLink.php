@@ -1,10 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command;
+<?php
 
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Command;
+
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Illuminate\Http\Request;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
 
 /**
  * Class SetActiveNavigationLink
@@ -70,7 +73,7 @@ class SetActiveNavigationLink
              * If the request URL does not even
              * contain the HREF then skip it.
              */
-            if (!str_contains($request->url(), $href)) {
+            if (!Str::contains($request->url(), $href)) {
                 continue;
             }
 
@@ -93,7 +96,7 @@ class SetActiveNavigationLink
         if (!$active) {
             return;
         }
-        
+
         // Active navigation link!
         $active->setActive(true);
 

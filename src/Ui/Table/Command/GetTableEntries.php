@@ -43,10 +43,11 @@ class GetTableEntries
         /*
          * If the builder has an entries handler
          * then call it through the container and
-         * let it load the entries itself.
+         * let it load the entries itself, then repopulate the variable for comparison.
          */
         if (is_string($entries) || $entries instanceof \Closure) {
             $container->call($entries, ['builder' => $this->builder], 'handle');
+            $entries = $this->builder->getEntries();
         }
 
         /**

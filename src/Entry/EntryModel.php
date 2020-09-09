@@ -428,8 +428,12 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function getAttribute($key)
     {
 
-        // Check if it's a relationship first.
-        if (in_array($key, array_merge($this->relationships, ['created_by', 'updated_by']))) {
+        // Check if it's a relationship first. Ignore translated relationships as these
+        // end up being handled by the field type anyway.
+        if (
+            in_array($key, array_merge($this->relationships, ['created_by', 'updated_by']))
+            && !in_array($key, $this->translatedAttributes)
+        ) {
             return parent::getAttribute(camel_case($key));
         }
 
@@ -1056,19 +1060,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
                 );
             }
         }
-
-        array_walk(
-            $array,
-            function ($value, $key) use (&$array) {
-
-                /**
-                 * Make sure any nested arrays are serialized.
-                 */
-                if (is_array($value)) {
-                    $array[$key] = serialize($value);
-                }
-            }
-        );
 
         return $array;
     }

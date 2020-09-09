@@ -1,8 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Image;
+<?php
 
+namespace Anomaly\Streams\Platform\Image;
+
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Anomaly\FilesModule\File\Contract\FileInterface;
 use Anomaly\Streams\Platform\Application\Application;
-use Illuminate\Http\Request;
 
 /**
  * Class ImagePaths
@@ -95,7 +98,7 @@ class ImagePaths
      */
     public function realPath($path)
     {
-        if (str_contains($path, '::')) {
+        if (Str::contains($path, '::')) {
             list($namespace, $path) = explode('::', $path);
 
             if (!isset($this->paths[$namespace])) {
@@ -127,7 +130,7 @@ class ImagePaths
          * and we don't have alterations
          * then just use it as it is.
          */
-        if (str_contains($path, public_path()) && !$image->getAlterations() && !$image->getQuality()) {
+        if (Str::contains($path, public_path()) && !$image->getAlterations() && !$image->getQuality()) {
             return str_replace(public_path(), '', $path);
         }
 
@@ -143,8 +146,8 @@ class ImagePaths
 
             if ($image->getAlterations() || $image->getQuality()) {
                 $filename = md5(
-                        var_export([$path, $image->getAlterations()], true) . $image->getQuality()
-                    ) . '.' . $image->getExtension();
+                    var_export([$path, $image->getAlterations()], true) . $image->getQuality()
+                ) . '.' . $image->getExtension();
             }
 
             if ($rename = $image->getFilename()) {
@@ -173,8 +176,8 @@ class ImagePaths
 
         if ($image->getAlterations() || $image->getQuality()) {
             $filename = md5(
-                    var_export([$path, $image->getAlterations()], true) . $image->getQuality()
-                ) . '.' . $image->getExtension();
+                var_export([$path, $image->getAlterations()], true) . $image->getQuality()
+            ) . '.' . $image->getExtension();
         }
 
         if ($rename = $image->getFilename()) {

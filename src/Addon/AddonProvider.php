@@ -27,6 +27,8 @@ use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
  */
 class AddonProvider
 {
+    use Macroable;
+    use FiresCallbacks;
 
     /**
      * The cached services.
@@ -144,6 +146,8 @@ class AddonProvider
 
         $this->providers[] = $provider = $addon->newServiceProvider();
 
+        $this->fire('register', ['provider' => $provider, 'addon' => $addon, 'addonProvider' => $this]);
+
         $this->bindAliases($provider);
         $this->bindClasses($provider);
         $this->bindSingletons($provider);
@@ -168,6 +172,8 @@ class AddonProvider
 
         // Call other providers last.
         $this->registerProviders($provider);
+
+        $this->fire('registered', ['provider' => $provider, 'addon' => $addon, 'addonProvider' => $this]);
     }
 
     /**
@@ -648,7 +654,8 @@ class AddonProvider
                  * If, for whatever reason, this fails let
                  * it fail silently. Mapping additional routes
                  * could be volatile at certain application states.
-                 */ }
+                 */
+            }
         }
     }
 

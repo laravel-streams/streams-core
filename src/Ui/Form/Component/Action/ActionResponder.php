@@ -1,9 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
+<?php
 
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionHandlerInterface;
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
-use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
+
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Container\Container;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionHandlerInterface;
 
 /**
  * Class ActionResponder
@@ -44,7 +47,7 @@ class ActionResponder
         $handler = $action->getHandler();
 
         // Self handling implies @handle
-        if (is_string($handler) && !str_contains($handler, '@')) {
+        if (is_string($handler) && !Str::contains($handler, '@')) {
             $handler .= '@handle';
         }
 

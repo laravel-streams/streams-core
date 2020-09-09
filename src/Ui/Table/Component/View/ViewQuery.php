@@ -1,10 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
+<?php
 
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
+
+use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Container\Container;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewQueryInterface;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class ViewQuery
@@ -51,7 +54,7 @@ class ViewQuery
         }
 
         // Self handling implies @handle
-        if (is_string($handler) && !str_contains($handler, '@')) {
+        if (is_string($handler) && !Str::contains($handler, '@')) {
             $handler .= '@handle';
         }
 

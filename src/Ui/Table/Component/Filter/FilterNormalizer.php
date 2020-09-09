@@ -1,5 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
+<?php
 
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
+
+use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -42,7 +45,7 @@ class FilterNormalizer
              * If the filter is a string and is
              * not core then use it for everything.
              */
-            if (is_string($filter) && !str_contains($filter, '/') && !$this->isCoreAttribute($filter)) {
+            if (is_string($filter) && !Str::contains($filter, '/') && !$this->isCoreAttribute($filter)) {
                 $filter = [
                     'slug'   => $filter,
                     'field'  => $filter,
@@ -54,7 +57,7 @@ class FilterNormalizer
              * If the filter is a string and
              * core then use it for everything.
              */
-            if (is_string($filter) && !str_contains($filter, '/') && $this->isCoreAttribute($filter)) {
+            if (is_string($filter) && !Str::contains($filter, '/') && $this->isCoreAttribute($filter)) {
                 $filter = [
                     'slug'   => $filter,
                     'field'  => $filter,
@@ -66,7 +69,7 @@ class FilterNormalizer
              * If the filter is a class string then use
              * it for the filter.
              */
-            if (is_string($filter) && str_contains($filter, '/')) {
+            if (is_string($filter) && Str::contains($filter, '/')) {
                 $filter = [
                     'slug'   => $slug,
                     'filter' => $filter,

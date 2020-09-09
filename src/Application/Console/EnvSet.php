@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Application\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Application\Console;
 
 use Anomaly\Streams\Platform\Application\Command\ReadEnvironmentFile;
 use Anomaly\Streams\Platform\Application\Command\WriteEnvironmentFile;
@@ -40,11 +42,9 @@ class EnvSet extends Command
 
         list($variable, $value) = explode('=', $line, 2);
 
-        $data = $this->dispatchNow(new ReadEnvironmentFile());
+        $contents = preg_replace("/{$variable}=.+/", "{$variable}=\"{$value}\"", file_get_contents(base_path('.env')));
 
-        array_set($data, $variable, $value);
-
-        $this->dispatchNow(new WriteEnvironmentFile($data));
+        file_put_contents(base_path('.env'), $contents);
     }
 
     /**

@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Addon\FieldType;
+<?php
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Fluent;
@@ -107,7 +107,7 @@ class FieldTypeSchema
         $column->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true);
 
         if (!Str::contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
-            $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
+            $column->default(Arr::get($this->fieldType->getConfig(), 'default_value'));
         }
     }
 
@@ -166,7 +166,7 @@ class FieldTypeSchema
         $column->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true)->change();
 
         if (!Str::contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
-            $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
+            $column->default(Arr::get($this->fieldType->getConfig(), 'default_value'));
         }
     }
 
@@ -245,7 +245,7 @@ class FieldTypeSchema
         $column->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true)->change();
 
         if (!Str::contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
-            $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
+            $column->default(Arr::get($this->fieldType->getConfig(), 'default_value'));
         }
     }
 
@@ -371,7 +371,7 @@ class FieldTypeSchema
 
         foreach ($results as $result) {
 
-            $result = (array)$result;
+            $result = (array) $result;
 
             $this->connection
                 ->table($table->getTable())

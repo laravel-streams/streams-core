@@ -1,13 +1,16 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
+<?php
 
-use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
+
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Foundation\Application;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Support\Authorizer;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionHandlerInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionHandlerInterface;
 
 /**
  * Class ActionExecutor
@@ -90,7 +93,7 @@ class ActionExecutor
         $handler = $action->getHandler();
 
         // Self handling implies @handle
-        if (is_string($handler) && !str_contains($handler, '@')) {
+        if (is_string($handler) && !Str::contains($handler, '@')) {
             $handler .= '@handle';
         }
 

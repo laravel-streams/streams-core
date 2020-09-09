@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 use Anomaly\Streams\Platform\Addon\Theme\Theme;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Support\Traits\Macroable;
 
 /**
  * Class AddonServiceProvider
@@ -16,7 +17,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class AddonServiceProvider
 {
-
+    use Macroable;
     use DispatchesJobs;
 
     /**

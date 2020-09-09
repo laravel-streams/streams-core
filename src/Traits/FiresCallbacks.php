@@ -49,6 +49,24 @@ trait FiresCallbacks
      * @param $callback
      * @return $this
      */
+    public static function when($trigger, $callback)
+    {
+        $trigger = static::class . '::' . $trigger;
+
+        if ( ! isset(self::$listeners[ $trigger ])) {
+            self::$listeners[ $trigger ] = [];
+        }
+
+        self::$listeners[ $trigger ][] = $callback;
+    }
+
+    /**
+     * Register a new listener.
+     *
+     * @param $trigger
+     * @param $callback
+     * @return $this
+     */
     public function listen($trigger, $callback)
     {
         $trigger = get_class($this) . '::' . $trigger;

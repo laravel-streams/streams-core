@@ -1,4 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
+
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 /**
  * Class FormMessages
@@ -22,23 +27,23 @@ class FormMessages
 
         foreach ($builder->getEnabledFormFields() as $field) {
             foreach ($field->getValidators() as $rule => $validator) {
-                if ($message = array_get($validator, 'message')) {
+                if ($message = Arr::get($validator, 'message')) {
                     $message = trans($message);
                 }
 
-                if ($message && str_contains($message, '::')) {
+                if ($message && Str::contains($message, '::')) {
                     $message = trans($message);
                 }
 
-                $messages[$field->prefix.$field->field.'.'.$rule] = $message;
+                $messages[$field->prefix . $field->field . '.' . $rule] = $message;
             }
 
             foreach ($field->getMessages() as $rule => $message) {
-                if ($message && str_contains($message, '::')) {
+                if ($message && Str::contains($message, '::')) {
                     $message = trans($message);
                 }
 
-                $messages[$field->prefix.$field->field.'.'.$rule] = $message;
+                $messages[$field->prefix . $field->field . '.' . $rule] = $message;
             }
         }
 

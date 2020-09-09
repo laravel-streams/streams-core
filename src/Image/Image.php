@@ -1,19 +1,22 @@
-<?php namespace Anomaly\Streams\Platform\Image;
+<?php
 
-use Anomaly\FilesModule\File\Contract\FileInterface;
-use Anomaly\FilesModule\File\FilePresenter;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\Routing\UrlGenerator;
-use Collective\Html\HtmlBuilder;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Http\Request;
-use Intervention\Image\Constraint;
-use Intervention\Image\ImageManager;
-use League\Flysystem\File;
-use League\Flysystem\MountManager;
+namespace Anomaly\Streams\Platform\Image;
+
 use Mobile_Detect;
+use League\Flysystem\File;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Robbo\Presenter\Presenter;
+use Collective\Html\HtmlBuilder;
+use Intervention\Image\Constraint;
+use League\Flysystem\MountManager;
+use Intervention\Image\ImageManager;
+use Illuminate\Filesystem\Filesystem;
+use Anomaly\FilesModule\File\FilePresenter;
+use Anomaly\Streams\Platform\Routing\UrlGenerator;
+use Anomaly\FilesModule\File\Contract\FileInterface;
+use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 
 /**
  * Class Image
@@ -284,7 +287,7 @@ class Image
             $this->setOutput($output);
         }
 
-        $clone = clone($this);
+        $clone = clone ($this);
 
         $clone->setAlterations([]);
         $clone->setSources([]);
@@ -585,7 +588,7 @@ class Image
      */
     public function setQuality($quality)
     {
-        $this->quality = (int)$quality;
+        $this->quality = (int) $quality;
 
         return $this;
     }
@@ -637,9 +640,8 @@ class Image
         }
 
         if (is_string($this->image) && str_is('*://*', $this->image) && filemtime($path) < app(
-                'League\Flysystem\MountManager'
-            )->getTimestamp($this->image)
-        ) {
+            'League\Flysystem\MountManager'
+        )->getTimestamp($this->image)) {
             return true;
         }
 
@@ -869,7 +871,7 @@ class Image
         }
 
         // Replace path prefixes.
-        if (is_string($image) && str_contains($image, '::')) {
+        if (is_string($image) && Str::contains($image, '::')) {
 
             $image = $this->paths->realPath($image);
 
@@ -933,11 +935,11 @@ class Image
     protected function makeImage()
     {
         if ($this->image instanceof FileInterface) {
-            return $this->manager->make(app(MountManager::class)->read($this->image->location()));
+            return $this->manager->make(app(MountManager::class)->url($this->image->location()));
         }
 
         if (is_string($this->image) && str_is('*://*', $this->image)) {
-            return $this->manager->make(app(MountManager::class)->read($this->image));
+            return $this->manager->make(app(MountManager::class)->url($this->image));
         }
 
         if ($this->image instanceof File) {
@@ -1362,7 +1364,7 @@ class Image
      */
     public function __toString()
     {
-        return (string)$this->output();
+        return (string) $this->output();
     }
 
     /**

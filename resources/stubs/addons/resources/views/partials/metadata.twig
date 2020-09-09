@@ -4,7 +4,7 @@
   Any other head element should come *after* these tags.
 #}
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,shrink-to-fit=no">
 
 <!-- Locale -->
 <meta http-equiv="Content-Language" content="{{ config('app.locale') }}">
@@ -15,7 +15,6 @@
 <!-- Meta Tags -->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="generator" content="{{ config_get('streams::distribution.name') }}"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="description" content="{{ trans(template.meta_description) }}"/>
 
 {{ template.includes.render('meta')|raw }}
