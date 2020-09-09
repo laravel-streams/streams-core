@@ -5,10 +5,10 @@ namespace Anomaly\Streams\Platform\Stream;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Stream\Stream;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
-use Illuminate\Support\Traits\Macroable;
 
 /**
  * Class StreamManager

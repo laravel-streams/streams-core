@@ -1,8 +1,8 @@
 ---
-title: Introduction
-intro: Streams Core is the heart of the Streams platform.
-stage: drafting
-sort: 1
+title: Sources
+category: database
+intro: 
+sort:
 ---
 
 - **Intro:** Introduce the idea in one sentance.
