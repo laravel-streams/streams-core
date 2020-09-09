@@ -50,6 +50,14 @@ interface FilterInterface
     public function getValue();
 
     /**
+     * Set the filter value.
+     *
+     * @param $value
+     * @return $this
+     */
+    public function setValue($value);
+
+    /**
      * Set the exact flag.
      *
      * @param  bool $exact

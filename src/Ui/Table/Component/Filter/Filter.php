@@ -65,6 +65,13 @@ class Filter implements FilterInterface
     protected $column = null;
 
     /**
+     * The filter value.
+     *
+     * @var mixed
+     */
+    protected $value = null;
+
+    /**
      * The filter placeholder.
      *
      * @var null|string
@@ -141,7 +148,19 @@ class Filter implements FilterInterface
      */
     public function getValue()
     {
-        return app('request')->get($this->getInputName());
+        return app('request')->get($this->getInputName(), $this->value);
+    }
+
+    /**
+     * Get the filter value.
+     *
+     * @return $this
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+
+        return $this;
     }
 
     /**
