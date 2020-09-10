@@ -5,7 +5,7 @@
         </div>
     </div>
 {% else %}
-    {% if not form.sections.empty() %}
+    {% if not form.sections.isEmpty() %}
         {% for section in form.sections %}
             {% if section.view %}
                 {% include section.view %}

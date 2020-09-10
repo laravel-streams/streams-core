@@ -1,6 +1,6 @@
 {{ asset_add("scripts.js", "streams::js/table/table.js") }}
 
-{% if not actions.empty() %}
+{% if not actions.isEmpty() %}
     {{ asset_add("scripts.js", "streams::js/table/actions.js") }}
 {% endif %}
 
@@ -13,7 +13,7 @@
 
 {{ view(table.options.heading ?: "streams::table/partials/heading", {'table': table}) }}
 
-{% if not table.rows.empty() %}
+{% if not table.rows.isEmpty() %}
     {{ form_open({ 'url': url_full() }) }}
     <div class="table-stack">
         <table
