@@ -69,7 +69,7 @@ class Filter implements FilterInterface
      *
      * @var mixed
      */
-    protected $value = null;
+    protected $value = '__BLANK';
 
     /**
      * The filter placeholder.
@@ -148,7 +148,11 @@ class Filter implements FilterInterface
      */
     public function getValue()
     {
-        return app('request')->get($this->getInputName(), $this->value);
+        if ($this->value != '__BLANK') {
+            return $this->value;
+        }
+
+        return app('request')->get($this->getInputName());
     }
 
     /**
