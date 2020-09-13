@@ -5,6 +5,8 @@ intro:
 stage: drafting
 enabled: true
 sort: 10
+todo:
+    - [ ] This needs to be organized slightly better.
 ---
 
 ## Introduction
@@ -15,13 +17,13 @@ Domain entities are called `entries` within the Streams platform. A stream also 
 - [Entry Fields](fields)
 - [Field Types](fields#field-types)
 
-## Entry Storage
+## Creating Entries
 
-Entries represent the rows in your database. 
+Entries represent the rows in your database. In most cases, manually creating entry data is self-explanatory, based on the source of the stream.
 
 ### Flat-file Storage
 
-You can define entry data as files within the `streams/{handle}/` directory where the `handle` is the stream handle to which the entry belongs.
+You can define flat-file entry data as files within the `streams/{handle}/` directory where the `handle` is the stream handle to which the entry belongs.
 
 Like streams, entry filenames serve as a `handle`, which you can use to reference the entry. JSON is the default data format, though other [data formats](sources#data-format) are available through [source configuration](sources).
 
@@ -34,9 +36,9 @@ Like streams, entry filenames serve as a `handle`, which you can use to referenc
 }
 ```
 
-### Creating Entries
+### Entry Repositories
 
-Regardless of the source used, you can use the below-mentioned repositories to create entries programmatically.
+Regardless of the source used, you can use repositories to create entries programmatically.
 
 ```php
 $entry = Streams::repository('contacts')->create([
@@ -83,6 +85,44 @@ foreach (Streams::entries('family')->where('relation', 'brother')->get() as $sib
 ```
 
 - [Querying Entries](querying)
+
+## Updating Entries
+
+Updating entries is easy. You can, of course, directly modify the flat-file data. But let's take a look at a couple of other methods.
+
+### Entry Repositories
+
+Like the operations above, you can use the `Stream` facade to `save` and `delete` entries.
+
+```php
+$entry->name = "Mr Ryan Thompson";
+
+Streams::repository('contacts')->save($entry);
+```
+
+```php
+Streams::repository('contacts')->delete($entry);
+```
+
+- [Entry Repositories](repositories)
+
+### Storage Methods
+
+You can use a few storage methods directly on the entry instance itself.
+
+```php
+$entry->name = "Mr Ryan Thompson";
+
+$entry->save(); // Returns bool.
+```
+
+```php
+$entry->delete(); // Returns bool.
+```
+
+## Entry Objects
+
+Working with entry objects is the same regardless of the source of the stream entries. With this, you can quickly scaffold projects using flat-file storage, then easily migrate stream schema into a database and manage entries there with zero code changes.
 
 ### Expanding Entry Values
 
