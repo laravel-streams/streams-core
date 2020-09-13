@@ -6,7 +6,7 @@ stage: drafting
 enabled: true
 sort: 10
 todo:
-    - [ ] This needs to be organized slightly better.
+    - This needs to be organized slightly better.
 ---
 
 ## Introduction
