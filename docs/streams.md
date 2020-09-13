@@ -3,6 +3,8 @@ title: Streams
 category: database
 intro: Streams are code-configured data-structures.
 sort: 1
+stage: drafting
+enabled: true
 references:
     - https://craftcms.com/docs/3.x/elements.html
     - https://craftcms.com/docs/3.x/element-queries.html
@@ -10,15 +12,19 @@ references:
 
 ## Introduction
 
-Streams are the foundation of building with the Streams platform. A stream represents a domain object in your application. For example, a CRM might have a stream for `people` and one for `companies`. Streams can extend and relate to each other and offer streamlined integration with Laravel to quickly build up basic appliction behavior.
+The Streams platform leans heavily on domain-driven design (DDD). We call these domain abstractions `streams`, hence our namesake.
+
+An example could be configuring a domain model (a stream) for a website's pages, users of an application, or feedback submissions from a form.
 
 ## Defining Streams
 
-Stream configurations are stored in the `streams/` directory as JSON files. The filenames are used as the `handle` which you can use to reference the stream later.
+You can define stream configurations in the `streams/` directory using JSON files. The filenames serve as a `handle`, which you can use to reference the stream later.
 
-Stream configurations only _require_ field configurations to get started. This makes it easy to test structural ideas and firm them up later with more detail as needed.
+### Essential Configuration
 
-A very basic Stream structure might look like this:
+To get started, you need only specify the `handle`, which is the filename itself, and some `fields` to describe the domain object's structure.
+
+Let's create a little stream to hold information for a simple CRM.
 
 ```json
 // streams/contacts.json
@@ -35,31 +41,34 @@ A very basic Stream structure might look like this:
 }
 ```
 
-### Stream Fields
+### Field Configuration
 
-Fields define the properties or attributes of the stream's entry data. They provide type casting, data validation, and other helpful functionality. 
+Fields are an essential descriptor of the domain object. They describe what properties the domain object will have available and how the property data works like accessors and data mutation and casting.
 
-- [Learn more about Fields](fields)
+The `fields` configuration keys serve as a `handle`, which you can use to reference the field later. For example, the above contact fields can be accessed later like this:
 
-### Stream Routes
+```php
+$entry->email;          		// The email value.
+$entry->company->email; 	// The related company's email value.
+```
 
-Stream configurations help organize routing by domain with named routes.
+- [Learn more about fields](fields)
 
-- [Learn more about Routing](routing)
+### Source Configuration
 
-### Stream Sources
+If not configured otherwise, streams will utilize the flat-file database that comes built-in. In this case, **you are ready to use the stream now**.
 
-Source configuration is defined in the Stream configuration. It defines where the source of the data for the Stream.
+- [Stream Entries](entries)
+- [Entry Repositories](repositories)
+- [Querying Entries](querying)
 
-> If not specified, the built-in flat-file database will be used by default.
+All databases available to Laravel are supported, though additional steps may be necessary before leveraging them.
 
-- [Learn more about Sources](sources)
+- [Stream Sources](sources)
 
 ### JSON References
 
-You can use JSON file references anywhere in Stream configuration to reuse various configurations or tidy up larger ones. The JSON reference will be directly replaced with the referenced file's JSON data.
-
-> Note all references are relative to the base installation path.
+You can use JSON file references within stream configurations to point to other JSON files using the `@` symbol followed by a relative path to the file. In this way, you can reuse various configuration information or tidy up larger files. **The referenced file's JSON data directly replaces the reference.**
 
 ```json
 // streams/contacts.json
@@ -81,37 +90,48 @@ You can use JSON file references anywhere in Stream configuration to reuse vario
 }
 ```
 
-## Querying Entries
+### Extending Other Streams
 
-You can use entry `Criteria` to query entries from your database much like a Laravel query builder:
+A stream can `extend` another stream, which works like a recursive **merge**.
 
-- [Learn more about querying](querying)
-
-## Entries
-
-Entries are like the rows of your database. They behave much like an `Eloquent` model. Entries will leverage the Stream configuration to maximize what you can do with your data with minimal input.
-
-### Repositories
-
-Repositories are the most basic way of access stream entries.
-
-```php
-foreach (Streams::repository('contacts')->all() as $entry) {
-    echo $entry->expand('email')->mailto($entry->name); // <a href="mailto:obfuscated">Ryan Thompson</a>
+```json
+// streams/family.json
+{
+    "name": "Family Members",
+    "fields": {
+        "relation": {
+            "type": "selection",
+            "config": {
+                "options": {
+                    "mother": "Mother",
+                    "father": "Father",
+                    "brother": "Brother",
+                    "sister": "Sister"
+                }
+            }
+        }
+    }
 }
 ```
 
-- [Learn more about repositories](repositories)
+In the above example, all `contacts` fields are available to you, as well as the new `relation` field.
 
+```php
+$entry->email;      // The email value.
+$entry->relation;       // The relation value.
+```
 
+## Stream Entries
 
+Domain entities are called `entries` within the Streams platform. A stream defines entry attributes, or `fields`, that dictate the entry's properties, data-casting, and more.
 
-- Introduction
-- Defining Streams
-    - Stream Fields
-    - Stream Routes
-    - Stream Sources
-    - JSON References
-- Querying Entries
-- Entry Repositories
-- Extending a Stream
+- [Stream Entries](entries)
+- [Entry Fields](fields)
+- [Field Types](fields#field-types)
+
+### Retrieving Entities
+
+The Streams platform separates methods to retrieve and store entries from the entry objects themselves, less a few convenient functions like `save` and `delete`, by using a repository pattern.
+
+- [Repositories](/docs/core/repositories)
+- [Querying Entries](/docs/core/querying)
