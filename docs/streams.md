@@ -8,6 +8,8 @@ enabled: true
 references:
     - https://craftcms.com/docs/3.x/elements.html
     - https://craftcms.com/docs/3.x/element-queries.html
+todo:
+    - Finish streams routes
 ---
 
 ## Introduction
@@ -65,6 +67,15 @@ If not configured otherwise, streams will utilize the flat-file database that co
 All databases available to Laravel are supported, though additional steps may be necessary before leveraging them.
 
 - [Stream Sources](sources)
+
+### Route Configuration
+
+<!-- This area needs work -->
+Stream can define routes named routes which make it easy to reference later by name.
+
+```json
+// Routes here
+```
 
 ### JSON References
 
