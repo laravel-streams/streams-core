@@ -3,9 +3,21 @@ title: Routing
 category: basics
 intro: 
 sort: 1
+enabled: true
 references:
     - https://statamic.dev/routing
 ---
+
+Default "view" route.
+
+```json
+// streams/contacts.json
+{
+    ...
+    "template": "contact", // resources/contact.blade.php
+    "route": "contacts/{id}"
+}
+```
 
 - **Intro:** Introduce the idea in one sentance.
 - **Explaination:** An elevator pitch that signals the reader to continue or not (keep looking for relavant page).
