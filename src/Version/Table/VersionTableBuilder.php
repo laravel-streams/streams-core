@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Version\Table;
+<?php
 
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Model\Traits\Versionable;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+namespace Anomaly\Streams\Platform\Version\Table;
+
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Model\Traits\Versionable;
+use Anomaly\Streams\Platform\Version\VersionModel;
 
 /**
  * Class VersionTableBuilder
@@ -29,6 +31,13 @@ class VersionTableBuilder extends TableBuilder
      * @var null|string
      */
     protected $type = null;
+
+    /**
+     * The current version.
+     *
+     * @var mixed
+     */
+    protected $current = null;
 
     /**
      * The table filters.
@@ -139,4 +148,23 @@ class VersionTableBuilder extends TableBuilder
         return $this;
     }
 
+    /**
+     * Set the current version.
+     *
+     * @param VersionModel $current
+     */
+    public function setCurrent(VersionModel $current)
+    {
+        $this->current = $current;
+
+        return $this;
+    }
+
+    /**
+     * Get the current version.
+     */
+    public function getCurrent()
+    {
+        return $this->current;
+    }
 }
