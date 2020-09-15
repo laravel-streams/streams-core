@@ -2,7 +2,6 @@
 
 namespace Anomaly\Streams\Platform;
 
-use Misd\Linkify\Linkify;
 use StringTemplate\Engine;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -29,6 +28,7 @@ use Anomaly\Streams\Platform\Support\Facades\Images;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Support\Facades\Streams;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
+use Anomaly\Streams\Platform\Support\StringHelper;
 use Illuminate\Support\Collection as SupportCollection;
 use Anomaly\Streams\Platform\Http\Controller\EntryController;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
@@ -687,9 +687,7 @@ class StreamsServiceProvider extends ServiceProvider
             return app(Purifier::class)->purify($value);
         });
 
-        Str::macro('purify', function ($text, array $options = []) {
-            return (new Linkify($options))->process($text);
-        });
+        Str::macro('linkify', [StringHelper::class , 'linkify']);
 
         Str::macro('truncate', function ($value, $limit = 100, $end = '...') {
 
