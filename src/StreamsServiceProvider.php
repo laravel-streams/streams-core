@@ -677,38 +677,14 @@ class StreamsServiceProvider extends ServiceProvider
     /**
      * Extend the string utility.
      */
-    protected function extendStr()
+    protected function extendStr(): void
     {
-        Str::macro('humanize', function ($value, $separator = '_') {
-            return preg_replace('/[' . $separator . ']+/', ' ', strtolower(trim($value)));
-        });
+        Str::macro('humanize', [StringHelper::class , 'humanize']);
+        Str::macro('linkify', [StringHelper::class , 'linkify']);
+        Str::macro('truncate', [StringHelper::class , 'truncate']);
 
         Str::macro('purify', function ($value) {
             return app(Purifier::class)->purify($value);
-        });
-
-        Str::macro('linkify', [StringHelper::class , 'linkify']);
-
-        Str::macro('truncate', function ($value, $limit = 100, $end = '...') {
-
-            if (strlen($value) <= $limit) {
-                return $value;
-            }
-
-            $parts  = preg_split('/([\s\n\r]+)/', $value, null, PREG_SPLIT_DELIM_CAPTURE);
-            $count  = count($parts);
-            $length = 0;
-
-            for ($last = 0; $last < $count; ++$last) {
-
-                $length += strlen($parts[$last]);
-
-                if ($length > $limit) {
-                    break;
-                }
-            }
-
-            return trim(implode(array_slice($parts, 0, $last))) . $end;
         });
 
         Str::macro('parse', function ($target, array $data = []) {

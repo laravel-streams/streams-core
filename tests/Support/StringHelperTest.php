@@ -8,6 +8,30 @@ use PHPUnit\Framework\TestCase;
 class StringHelperTest extends TestCase
 {
     /**
+     * @dataProvider humanizeDataProvider
+     */
+    public function testHumanize(string $text, string $separator, string $expected): void
+    {
+        self::assertSame(
+            $expected,
+            StringHelper::humanize($text, $separator)
+        );
+    }
+
+    /**
+     * @return array[]
+     */
+    public function humanizeDataProvider(): array
+    {
+        return [
+            ['Some_Example_Text', '_', 'some example text'],
+            ['Some+Example_Text', '_', 'some+example text'],
+            ['Some+Example+Text', '+', 'some example text'],
+            ['Some/Example/Text', '/', 'some example text'],
+        ];
+    }
+
+    /**
      * @dataProvider linkifyDataProvider
      */
     public function testLinkify(string $text, array $attributes, string $expected): void
@@ -54,6 +78,32 @@ class StringHelperTest extends TestCase
                 ['target' => '_blank'],
                 'Some <a href="http://example.com" target="_blank">http://example.com</a> text',
             ],
+        ];
+    }
+
+    /**
+     * @dataProvider truncateDataProvider
+     */
+    public function testTruncate(string $text, int $limit, string $end, string $expected): void
+    {
+        self::assertSame(
+            $expected,
+            StringHelper::truncate($text, $limit, $end)
+        );
+    }
+
+    /**
+     * @return array[]
+     */
+    public function truncateDataProvider(): array
+    {
+        return [
+            ['Some example text', 100, '...', 'Some example text'],
+            ['Some example text', 17, '...', 'Some example text'],
+            ['Some example text', 16, '...', 'Some example tex...'],
+            ['Some example text', 12, '...', 'Some example...'],
+            ['Some example text', 12, '|', 'Some example|'],
+            ['☺️ Some example text', 15, '...', '☺️ Some example...'],
         ];
     }
 }
