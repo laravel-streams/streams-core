@@ -186,13 +186,13 @@ Route::permanentRedirect('/from', '/to');
 Use the `verb` options to define the HTTP verb the route should respond to:
 
 ```php
-Route::streams('uri', ['verb' => 'get']); // Default
+Route::streams('uri', ['verb' => 'any']); // Default
+Route::streams('uri', ['verb' => 'get']);
 Route::streams('uri', ['verb' => 'post']);
 Route::streams('uri', ['verb' => 'put']);
 Route::streams('uri', ['verb' => 'patch']);
 Route::streams('uri', ['verb' => 'delete']);
 Route::streams('uri', ['verb' => 'options']);
-Route::streams('uri', ['verb' => 'any']);
 ```
 
 ### Route Middleware
