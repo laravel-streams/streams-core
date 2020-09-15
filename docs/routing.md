@@ -82,6 +82,12 @@ Route::streams('uri/{id}', [
 ]);
 ```
 
+The stream entry will be injected into the view:
+
+```blade
+@verbatim<h1>{{ $entry->name }}</h1>@endverbatim
+```
+
 #### Routing a Specific Entry
 
 You can also specify a specific entry:
