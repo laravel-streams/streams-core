@@ -13,11 +13,7 @@ todo:
 
 ## Introduction
 
-Laravel handles all application requests unless otherwise configured.
-
-<br>
-
-***These features are currently under development.***
+Laravel handles all application requests unless otherwise the request is routed using one of the below methods.
 
 ## Defining Routes
 
@@ -31,7 +27,7 @@ You can configure routes as you would in a regular Laravel application in `route
 
 You can also use a streamlined [service provider](providers) to define routes.
 
-### Route Facade
+### Streams Router
 
 The Streams platform provides a `Route::streams()` method for defining routes. All streams-specific routing approaches pass through this method.
 
@@ -39,13 +35,17 @@ The Streams platform provides a `Route::streams()` method for defining routes. A
 // Route a view.
 Route::streams('uri', 'view');
 
-// Route more.
+// Route options.
 Route::streams('uri', [
     'foo' => 'bar',
 ]);
 ```
 
-The first argument is the URI and the second is either the name of the [template](templates) to render, a [controller](controllers) with `@verbatim@method@endverbatim`, or an array of options.
+The first argument is the URI and the second is either:
+
+- The name of the [template](templates) to render.
+- A [Controller](controllers)`@verbatim@method@endverbatim` string.
+- Or, an array of [route options](#route-options).
 
 ### Stream Routes
 
@@ -108,6 +108,28 @@ Route::streams('uri', [
 To specify the stream entry for the route:
 
 ```php
+Route::streams('uri', [
+    'stream' => 'contacts',
+]);
+```
+
+The stream entry will be injected into the view:
+
+```blade
+@verbatim<h1>{{ $stream->name }}</h1>
+
+<ul>
+    @foreach ($stream->entries()->get() as $entry)
+    <li>{{ $entry->name }}</li>
+    @endforeach
+</ul>@endverbatim
+```
+
+#### Routing a Specific Entry
+
+You can also specify a specific entry:
+
+```php
 Route::streams('uri/{id}', [
     'stream' => 'contacts',
 ]);
@@ -116,12 +138,20 @@ Route::streams('uri/{id}', [
 The stream entry will be injected into the view:
 
 ```blade
+// uri/ryan_thompson
 @verbatim<h1>{{ $entry->name }}</h1>@endverbatim
 ```
 
-#### Routing a Specific Entry
+You can use entry fields to query entries for the view. The first result will be sent to the view.
 
-You can also specify a specific entry:
+```php
+// uri/ryan@example.com
+Route::streams('uri/{entry.email}', [
+    'stream' => 'contacts',
+]);
+```
+
+You can also hard code the entry ID:
 
 ```php
 Route::streams('uri', [
@@ -133,29 +163,8 @@ Route::streams('uri', [
 The stream entry will be injected into the view:
 
 ```blade
+// uri/ryan_thompson
 @verbatim<h1>{{ $entry->name }}</h1>@endverbatim
-```
-
-#### Routing a Stream Only
-
-To specify the stream for the route:
-
-```php
-Route::streams('uri', [
-    'stream' => 'contacts',
-]);
-```
-
-The stream instance will be injected into the view:
-
-```blade
-@verbatim<h1>{{ $stream->name }}</h1>
-
-<ul>
-    @foreach ($stream->repository()->all() as $entry)
-    <li>{{ $entry->name }}</li>
-    @endforeach
-</ul>@endverbatim
 ```
 
 ### Redirects

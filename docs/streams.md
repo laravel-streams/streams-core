@@ -72,12 +72,28 @@ All databases available to Laravel are supported, though additional steps may be
 
 ### Route Configuration
 
-<!-- This area needs work -->
 Stream can define routes named routes which make it easy to reference later by name.
 
 ```json
-// Routes here
+{
+    "routes": {
+        "index": "contacts",
+        "view": "contacts/{id}"
+    }
+}
 ```
+
+You can also use 
+
+```json
+{
+    "routes": {
+        "index": "contacts/{entry.email}"
+    }
+}
+```
+
+- [Stream Routes](routing#stream-routes)
 
 ### JSON References
 
