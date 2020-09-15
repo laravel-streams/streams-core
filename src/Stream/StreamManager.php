@@ -57,7 +57,7 @@ class StreamManager
      */
     public function build(array $stream)
     {
-        $stream = StreamBuilder::build($stream);
+        $stream = StreamBuilder::build(Arr::undot($stream));
 
         return $stream;
     }
@@ -92,7 +92,7 @@ class StreamManager
         App::instance('streams.instances.' . $stream->handle, $stream);
 
         $this->collection->put($stream->handle, $stream);
-        
+
         return $stream;
     }
 

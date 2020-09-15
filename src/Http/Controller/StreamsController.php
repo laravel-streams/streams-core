@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
@@ -195,18 +196,25 @@ class StreamsController extends Controller
          */
         $name = Arr::get($action, 'as');
 
-        if ($name && Str::is('streams::*.index', $name)) {
+        if ($name && Str::is('streams::*.index', $name) && View::exists($view = $stream->handle)) {
 
-            $data->put('view', $stream->handle);
+            $data->put('view', $view);
 
             return;
         }
 
-        if ($name && Str::is('streams::*.view', $name)) {
+        if ($name && Str::is('streams::*.view', $name) && View::exists($view = Str::singular($stream->handle))) {
 
-            $data->put('view', Str::singular($stream->handle));
+            $data->put('view', $view);
 
             return;
+        }
+
+        /**
+         * Try falling back to the stream template.
+         */
+        if ($stream->template) {
+            $data->put('view', $stream->template);
         }
     }
 

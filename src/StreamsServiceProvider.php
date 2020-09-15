@@ -395,18 +395,11 @@ class StreamsServiceProvider extends ServiceProvider
 
             $stream = Streams::load($file->getPathname());
 
-            /**
-             * Route the Stream.
-             * @todo Hmmm.. is this appropriate?
-             */
-            if ($routes = $stream->route) {
-                foreach ($routes as $key => $route) {
-                    Route::any($route, [
-                        'stream' => $stream->handle,
-                        'as' => 'streams::' . $stream->handle . '.' . $key,
-                        'uses' => EntryController::class . '@view',
-                    ]);
-                }
+            foreach ($stream->routes ?: [] as $key => $route) {
+                Route::streams($route, [
+                    'stream' => $stream->handle,
+                    'as' => 'streams::' . $stream->handle . '.' . $key,
+                ]);
             }
         }
     }
@@ -690,6 +683,23 @@ class StreamsServiceProvider extends ServiceProvider
             }
 
             return $target;
+        });
+
+        Arr::macro('undot', function (array $array) {
+
+            foreach ($array as $key => $value) {
+
+                if (!strpos($key, '.')) {
+                    continue;
+                }
+
+                Arr::set($array, $key, $value);
+
+                // Trash the old key.
+                unset($array[$key]);
+            }
+
+            return $array;
         });
     }
 
