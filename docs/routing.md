@@ -3,6 +3,7 @@ title: Routing
 category: basics
 intro: 
 sort: 1
+stage: drafting
 enabled: true
 references:
     - https://statamic.dev/routing
@@ -40,7 +41,7 @@ Route::streams('uri', [
 ]);
 ```
 
-The first argument is the URI and the second is either the name of the [template](templates) to render, a [controller](controllers) with `@method`, or an array of options.
+The first argument is the URI and the second is either the name of the [template](templates) to render, a [controller](controllers) with `@verbatim@method@endverbatim`, or an array of options.
 
 #### Route View
 
