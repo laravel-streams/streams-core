@@ -15,6 +15,10 @@ todo:
 
 Laravel handles all application requests unless otherwise configured.
 
+<br>
+
+***These features are currently under development.***
+
 ## Defining Routes
 
 The Streams platform has a few specific routing approaches, which essentially map to the same native Laravel routing behind the scenes.
