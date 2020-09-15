@@ -22,6 +22,8 @@ An example could be configuring a domain model (a stream) for a website's pages,
 
 You can define stream configurations in the `streams/` directory using JSON files. The filenames serve as a `handle`, which you can use to reference the stream later.
 
+It is highly encouraged to use the plural form of a noun when naming Streams—for example, contacts and people. You may also use naming conventions like `business_contacts` or `neat-people`.
+
 ### Essential Configuration
 
 To get started, you need only specify the `handle`, which is the filename itself, and some `fields` to describe the domain object's structure.
@@ -50,8 +52,8 @@ Fields are an essential descriptor of the domain object. They describe what prop
 The `fields` configuration keys serve as a `handle`, which you can use to reference the field later. For example, the above contact fields can be accessed later like this:
 
 ```php
-$entry->email;          		// The email value.
-$entry->company->email; 	// The related company's email value.
+$entry->email;                  // The email value.
+$entry->company->email;     // The related company's email value.
 ```
 
 - [Learn more about fields](fields)
