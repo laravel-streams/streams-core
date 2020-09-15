@@ -27,18 +27,24 @@ class StreamsController extends Controller
 
     /**
      * Handle the request.
+     * 
+     * @return Response
      */
     public function handle()
     {
         $data = collect();
-
-        $this->fire('handling', ['data' => $data]);
 
         $workflow = new Workflow([
             'resolve_stream' => [$this, 'resolveStream'],
             'resolve_entry' => [$this, 'resolveEntry'],
             'resolve_view' => [$this, 'resolveView'],
             'resolve_redirect' => [$this, 'resolveRedirect'],
+            'resolve_response' => [$this, 'resolveResponse'],
+        ]);
+
+        $this->fire('handling', [
+            'data' => $data,
+            'workflow' => $workflow
         ]);
 
         $workflow
@@ -46,20 +52,12 @@ class StreamsController extends Controller
             ->process(['data' => $data]);
 
         $this->fire('responding', ['data' => $data]);
-        
-        if ($redirect = $data->get('redirect')) {
-            return Redirect::to($redirect, $data->get('status_code', 302));
-        }
 
-        if ($view = $data->get('view')) {
-            return Response::view($view, $data->all());
+        if ($response = $data->get('response')) {
+            return $response;
         }
 
         abort(404);
-    }
-
-    public function onAfterResolveRedirect($data) {
-        dd('Test');
     }
 
     /**
@@ -72,7 +70,7 @@ class StreamsController extends Controller
         $action = Request::route()->action;
 
         if (isset($action['stream'])) {
-            
+
             $data->put('stream', Streams::make($action['stream']));
 
             return;
@@ -85,7 +83,7 @@ class StreamsController extends Controller
         $parameters = Request::route()->parameters;
 
         if (isset($parameters['stream'])) {
-            
+
             $data->put('stream', Streams::make($parameters['stream']));
 
             return;
@@ -117,7 +115,7 @@ class StreamsController extends Controller
         if (isset($action['entry'])) {
 
             $data->put('entry', $stream->repository()->find($action['entry']));
-            
+
             return;
         }
 
@@ -126,7 +124,7 @@ class StreamsController extends Controller
          * to resolve an entry otherwise.
          */
         $parameters = Request::route()->parameters;
-        
+
         if (isset($parameters['id'])) {
 
             $data->put('entry', $stream->repository()->find($parameters['id']));
@@ -252,5 +250,28 @@ class StreamsController extends Controller
         }
 
         // @todo: Entry data redirects?
+    }
+
+    /**
+     * Resolve the response.
+     *
+     * @param \Illuminate\Support\Collection $data
+     */
+    public function resolveResponse(Collection $data)
+    {
+
+        if ($redirect = $data->get('redirect')) {
+
+            $data->put('response', Redirect::to($redirect, $data->get('status_code', 302)));
+
+            return;
+        }
+
+        if ($view = $data->get('view')) {
+
+            $data->put('response', Response::view($view, $data->all()));
+
+            return;
+        }
     }
 }

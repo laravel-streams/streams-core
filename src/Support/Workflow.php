@@ -45,8 +45,6 @@ class Workflow
      */
     public function process(array $payload = [])
     {
-        $this->triggerCallback('processing', $payload);
-
         foreach ($this->steps as $name => $step) {
 
             $this->triggerCallback('before_' . $name, $payload);
@@ -55,8 +53,6 @@ class Workflow
 
             $this->triggerCallback('after_' . $name, $payload);
         }
-
-        $this->fire('processed', $payload);
     }
 
     /**
