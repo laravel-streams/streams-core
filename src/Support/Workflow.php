@@ -69,10 +69,7 @@ class Workflow
         $this->object = $object;
 
         $this->callback = function ($callback, $payload) use ($object) {
-            $object->fire(implode('_', [
-                $callback['workflow'],
-                $callback['name']
-            ]), $payload);
+            $object->fire(implode('_', $callback), $payload);
         };
 
         return $this;
@@ -86,20 +83,16 @@ class Workflow
      */
     protected function triggerCallback($name, array $payload)
     {
-        $callback = [
+        $callback = array_filter([
             'workflow' => $this->name ?: $this->name($this),
             'name' => $name,
-        ];
+        ]);
 
         $payload = compact('payload', 'callback');
 
         $this->callback ? App::call($this->callback, $payload) : null;
 
-        $method = Str::camel(implode('_', [
-            'on',
-            $callback['workflow'],
-            $callback['name']
-        ]));
+        $method = Str::camel(implode('_', ['on'] + $callback));
 
         if ($this->object && method_exists($this->object, $method)) {
             App::call([$this->object, $method], $payload);
@@ -234,6 +227,10 @@ class Workflow
 
     protected function name($step): string
     {
+        if ($step == $this) {
+            return '';
+        }
+        
         if (is_object($step)) {
             $step = get_class($step);
         }
@@ -247,6 +244,10 @@ class Workflow
 
     protected function do($step, array $payload = [])
     {
+        if (is_array($step)) {
+            return App::call($step, $payload);
+        }
+
         return App::call($step, $payload, 'handle');
     }
 }

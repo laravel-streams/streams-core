@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
+use Anomaly\Streams\Platform\Support\Workflow;
 use Anomaly\Streams\Platform\Support\Facades\Streams;
 use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
 
@@ -31,10 +32,20 @@ class StreamsController extends Controller
     {
         $data = collect();
 
-        $this->resolveStream($data);
-        $this->resolveEntry($data);
-        $this->resolveView($data);
-        $this->resolveRedirect($data);
+        $this->fire('handling', ['data' => $data]);
+
+        $workflow = new Workflow([
+            'resolve_stream' => [$this, 'resolveStream'],
+            'resolve_entry' => [$this, 'resolveEntry'],
+            'resolve_view' => [$this, 'resolveView'],
+            'resolve_redirect' => [$this, 'resolveRedirect'],
+        ]);
+
+        $workflow
+            ->passThrough($this)
+            ->process(['data' => $data]);
+
+        $this->fire('responding', ['data' => $data]);
         
         if ($redirect = $data->get('redirect')) {
             return Redirect::to($redirect, $data->get('status_code', 302));
@@ -47,6 +58,10 @@ class StreamsController extends Controller
         abort(404);
     }
 
+    public function onAfterResolveRedirect($data) {
+        dd('Test');
+    }
+
     /**
      * Resolve the stream.
      *
@@ -56,11 +71,25 @@ class StreamsController extends Controller
     {
         $action = Request::route()->action;
 
-        if (!$stream = Arr::get($action, 'stream')) {
+        if (isset($action['stream'])) {
+            
+            $data->put('stream', Streams::make($action['stream']));
+
             return;
         }
 
-        $data->put('stream', Streams::make($stream));
+        /**
+         * Try and use the route parameters
+         * to resolve the stream otherwise.
+         */
+        $parameters = Request::route()->parameters;
+
+        if (isset($parameters['stream'])) {
+            
+            $data->put('stream', Streams::make($parameters['stream']));
+
+            return;
+        }
     }
 
     /**
@@ -145,9 +174,9 @@ class StreamsController extends Controller
          * If the view is set
          * then use it as is.
          */
-        if ($view = Arr::get($action, 'view')) {
+        if (isset($action['view'])) {
 
-            $data->put('view', $view);
+            $data->put('view', $action['view']);
 
             return;
         }
@@ -197,9 +226,9 @@ class StreamsController extends Controller
          * If a redirect is set
          * then use it as is.
          */
-        if ($redirect = Arr::get($action, 'redirect')) {
+        if (isset($action['redirect'])) {
 
-            $data->put('redirect', Str::parse($redirect, $data->toArray()));
+            $data->put('redirect', Str::parse($action['redirect'], $data->toArray()));
 
             return;
         }
