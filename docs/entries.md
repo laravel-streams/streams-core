@@ -1,10 +1,10 @@
 ---
 title: Entries
-category: database
+category: basics
 intro:
 stage: drafting
 enabled: true
-sort: 10
+sort: 2
 todo:
     - This needs to be organized slightly better.
 ---

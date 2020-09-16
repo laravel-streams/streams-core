@@ -1,6 +1,6 @@
 ---
 title: Streams
-category: database
+category: basics
 intro: Streams are code-configured data-structures.
 sort: 1
 stage: outlining

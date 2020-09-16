@@ -65,7 +65,7 @@ class Image
      * Add an alteration.
      *
      * @param  $method
-     * @param  $arguments
+     * @param  array $arguments
      * @return $this
      */
     public function addAlteration($method, $arguments = [])
@@ -74,11 +74,11 @@ class Image
             $this->guessResizeArguments($arguments);
         }
 
-        $attributes = $this->attributes;
+        $alterations = $this->alterations;
+        
+        $alterations[$method] = $arguments;
 
-        $attributes[$method] = $arguments;
-
-        $this->attributes = $attributes;
+        $this->alterations = $alterations;
 
         return $this;
     }
@@ -98,7 +98,7 @@ class Image
         }
 
         if (array_pop($arguments) !== false) {
-            $arguments[] = function (Constraint $constraint) {
+            $arguments[] = function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             };
@@ -128,11 +128,11 @@ class Image
             return Config::get('app.debug', false) ? $e->getMessage() : null;
         }
 
-        if (config('streams.images.version') && $this->version !== false) {
-            $output .= '?v=' . filemtime(public_path(trim($output, '/\\')));
+        if (Config::get('streams.images.version') && $this->version !== false) {
+            $output .= '?v=' . filemtime($output);
         }
 
-        return $output;
+        return str_replace(public_path(), '', $output);
     }
 
     /**
@@ -150,11 +150,12 @@ class Image
          * then just use it as it is.
          */
         if (
-            Str::contains($this->source, [public_path(), 'public::'])
+            is_string($this->source)
+            && Str::contains($this->source, [public_path(), 'public::'])
             && !$this->alterations
             && !$this->quality
         ) {
-            return str_replace([public_path(), 'public::'], '', $this->source);
+            return $this->source;
         }
 
         /*
@@ -163,10 +164,11 @@ class Image
          * then use the assets dir.
          */
         if (
-            Str::contains($this->source, [public_path(), 'public::'])
+            is_string($this->source)
+            && Str::contains($this->source, [public_path(), 'public::'])
             && ($this->alterations || $this->quality)
         ) {
-            return str_replace([public_path(), 'public::'], '/assets/', $this->source);
+            return public_path('assets/' . str_replace([public_path(), 'public::'], '', $this->source));
         }
 
         /**
@@ -174,7 +176,7 @@ class Image
          * been provided by the filename.
          */
         if ($rename = $this->filename) {
-            return ltrim($rename, '/\\');
+            return public_path('assets/' . ltrim($rename, '/\\'));
         }
 
         /*
@@ -200,7 +202,7 @@ class Image
                 }
             }
 
-            return "/img/{$disk}/{$folder}/{$filename}";
+            return public_path("assets/img/{$disk}/{$folder}/{$filename}");
         }
 
         /*
@@ -220,7 +222,7 @@ class Image
             ) . '.' . $this->extension();
         }
 
-        return "/{$directory}{$filename}";
+        return public_path("assets/{$directory}{$filename}");
     }
 
     /**
@@ -247,27 +249,40 @@ class Image
     {
         $resolved = Images::path($path);
 
-        if (!File::exists($path)) {
-            return true;
-        }
-
-        if (is_string($this->source) && Str::startsWith($this->source, 'public::')) {
-            return false;
-        }
-
-        if (is_string($this->source) && !Str::is('*://*', $this->source) && filemtime($path) < filemtime($resolved)) {
+        if (!File::exists($resolved)) {
             return true;
         }
 
         if (
-            is_string($this->source) && Str::is('*://*', $this->source) && filemtime($path) < app(
+            is_string($this->source)
+            && str_contains($this->source, public_path())
+            && !$this->alterations
+            && !$this->quality
+        ) {
+            return false;
+        }
+
+        if (
+            is_string($this->source)
+            && str_contains($this->source, public_path())
+            && !str_contains($this->source, public_path('assets'))
+        ) {
+            return true;
+        }
+
+        if (is_string($this->source) && !Str::is('*://*', $this->source) && filemtime($resolved) < filemtime($resolved)) {
+            return true;
+        }
+
+        if (
+            is_string($this->source) && Str::is('*://*', $this->source) && filemtime($resolved) < app(
                 'League\Flysystem\MountManager'
             )->getTimestamp($resolved)
         ) {
             return true;
         }
 
-        // if ($this->source instanceof FileInterface && filemtime($path) < $this->source->lastModified()->format('U')) {
+        // if ($this->source instanceof FileInterface && filemtime($resolved) < $this->source->lastModified()->format('U')) {
         //     return true;
         // }
 
@@ -283,8 +298,8 @@ class Image
     protected function publish($path)
     {
 
-        File::makeDirectory(dirname(public_path($path)), 0755, true, true);
-
+        File::makeDirectory(dirname($path), 0755, true, true);
+        
         if (!in_array($this->extension(), [
             'gif',
             'jpeg',
@@ -293,10 +308,7 @@ class Image
             'png',
             'webp',
         ])) {
-            return File::put(
-                public_path($path),
-                File::get(Images::path($this->source))
-            );
+            return File::put($path, File::get(Images::path($this->source)));
         }
 
         /**
@@ -306,21 +318,21 @@ class Image
             return false;
         }
 
-        if (function_exists('exif_read_data') && $image->exif('Orientation') && $image->exif('Orientation') > 1) {
-            //$this->addAlteration('orientate');
-        }
+        // if (function_exists('exif_read_data') && $image->exif('Orientation') && $image->exif('Orientation') > 1) {
+        //     //$this->addAlteration('orientate');
+        // }
 
-        if (in_array($this->extension(), ['jpeg', 'jpg']) && config('streams.images.interlace')) {
-            //$this->addAlteration('interlace');
-        }
+        // if (in_array($this->extension(), ['jpeg', 'jpg']) && Config::get('streams.images.interlace')) {
+        //     //$this->addAlteration('interlace');
+        // }
 
         if (!$this->alterations && !$this->quality) {
-            return $image->save(public_path($path), $this->quality ?: config('streams.images.quality', null));
+            return $image->save($path, $this->quality ?: Config::get('streams.images.quality', null));
         }
 
-        if (is_callable('exif_read_data') && in_array('orientate', $this->alterations)) {
-            $this->setAlterations(array_unique(array_merge(['orientate'], $this->alterations)));
-        }
+        // if (is_callable('exif_read_data') && in_array('orientate', $this->alterations)) {
+        //     $this->setAlterations(array_unique(array_merge(['orientate'], $this->alterations)));
+        // }
 
         foreach ($this->alterations as $method => $arguments) {
             if (is_array($arguments)) {
@@ -330,7 +342,7 @@ class Image
             }
         }
 
-        $image->save(public_path($path), $this->quality ?: Config::get('streams.images.quality', null));
+        $image->save($path, $this->quality ?: Config::get('streams.images.quality', null));
     }
 
     /**
@@ -374,7 +386,7 @@ class Image
             $attributes['srcset'] = $srcset;
         }
 
-        if (!$alt && !isset($attributes['alt']) && config('streams.images.auto_alt', true)) {
+        if (!$alt && !isset($attributes['alt']) && Config::get('streams.images.auto_alt', true)) {
 
             $original = $this->attr('original');
 
@@ -453,7 +465,9 @@ class Image
      */
     public function url(array $parameters = [], $secure = null)
     {
-        return URL::asset($this->getCachePath(), $parameters, $secure);
+        $parameters = $parameters ? '?' . http_build_query($parameters) : null;
+
+        return URL::asset($this->getCachePath().$parameters, $secure);
     }
 
     /**
@@ -517,7 +531,7 @@ class Image
      *
      * @return bool
      */
-    public function isAlteration(string $method)
+    protected function isAlteration(string $method)
     {
         return in_array($method, [
             'blur',
