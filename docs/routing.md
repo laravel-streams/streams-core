@@ -3,7 +3,7 @@ title: Routing
 category: basics
 intro: 
 sort: 1
-stage: drafting
+stage: reviewing
 enabled: true
 references:
     - https://statamic.dev/routing
