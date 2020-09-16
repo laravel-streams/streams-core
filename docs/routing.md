@@ -89,7 +89,7 @@ The `index` and `view` route names are unique. Unless a view is specified, the a
 }
 ```
 
-The process ignores the views if they do not exist.
+You can configure automatic view patterns within the `streams/route.php` [configuration file](configuration). The process ignores the views if they do not exist.
 
 ## Parameters
 
@@ -167,7 +167,7 @@ Route::streams('address-book/{stream}/{id}', [
 
 ### Views
 
-Use the `view` option to specify a [view template](views) to render:
+Use the `view` option to specify a [view](views) to render:
 
 ```php
 Route::streams('uri', [
