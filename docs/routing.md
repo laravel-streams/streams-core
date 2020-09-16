@@ -59,6 +59,7 @@ Define stream routes using a `action => options` format, where `options` is agai
     "routes": {
         "index": "contacts",
         "view": "contacts/{id}",
+    },
     "profile": {
         "uri": "contacts/{id}",
         "view": "profile"
@@ -111,9 +112,9 @@ Consider locking down this routing pattern using a [parameter constraint](#param
 
 ```php
 Route::streams('address-book/{stream}', [
-    'view' => 'contacts',
+    'view' => 'contacts.list',
     'constraints' => [
-        'stream' =>  '(contacts|family)'
+        'stream' =>  '(businesses|family)'
     ],
 ]);
 ```
