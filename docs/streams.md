@@ -3,7 +3,7 @@ title: Streams
 category: database
 intro: Streams are code-configured data-structures.
 sort: 1
-stage: reviewing
+stage: outlining
 enabled: true
 references:
     - https://craftcms.com/docs/3.x/elements.html
