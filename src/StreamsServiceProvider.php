@@ -112,6 +112,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerConfig();
 
 
+        $this->extendUrlGenerator();
         $this->extendCollection();
         $this->extendRouter();
         $this->extendLang();
@@ -396,9 +397,16 @@ class StreamsServiceProvider extends ServiceProvider
             $stream = Streams::load($file->getPathname());
 
             foreach ($stream->routes ?: [] as $key => $route) {
-                Route::streams($route, [
+
+                if (is_string($route)) {
+                    $route = [
+                        'uri' => $route,
+                    ];
+                }
+
+                Route::streams(Arr::get($route, 'uri'), [
                     'stream' => $stream->handle,
-                    'as' => 'streams::' . $stream->handle . '.' . $key,
+                    'as' => Arr::get($route, 'as', 'streams::' . $stream->handle . '.' . $key),
                 ]);
             }
         }
@@ -489,6 +497,31 @@ class StreamsServiceProvider extends ServiceProvider
     }
 
     /**
+     * Extend the URL generator.
+     */
+    protected function extendUrlGenerator()
+    {
+        URL::macro('streams', function ($name, $parameters = [], array $extra = [], $absolute = true) {
+
+            $parameters = Arr::make($parameters);
+
+            $extra = $extra ? '?' . http_build_query($extra) : null;
+
+            if (!$route = $this->routes->getByName($name)) {
+                return URL::to(Str::parse($name, $parameters) . $extra, [], $absolute);
+            }
+
+            $uri = $route->uri();
+
+            foreach (array_keys($parameters) as $key) {
+                $uri = str_replace("{{$key}__", "{{$key}.", $uri);
+            }
+            
+            return URL::to(Str::parse($uri, $parameters) . $extra, [], $absolute);
+        });
+    }
+
+    /**
      * Extend the base collection.
      */
     protected function extendCollection()
@@ -543,7 +576,7 @@ class StreamsServiceProvider extends ServiceProvider
              * Pull out route options. What's left
              * is passed in as route action data. 
              */
-            $verb        = Arr::pull($route, 'verb', 'any');
+            $verb        = Arr::pull($route, 'verb', 'get');
             $middleware  = Arr::pull($route, 'middleware', []);
             $constraints = Arr::pull($route, 'constraints', []);
 
