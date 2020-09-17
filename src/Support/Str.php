@@ -71,7 +71,7 @@ class Str extends \Illuminate\Support\Str
     public function linkify($text, array $options = [])
     {
         $encoder = new HtmlSpecialcharsEncoder();
-        $highlighter = new HtmlHighlighter('http', Arr::get($options, 'attr'));
+        $highlighter = new HtmlHighlighter('http', Arr::get($options, 'attr', []));
         $urlHighlight = new UrlHighlight(null, $highlighter, $encoder);
         return $urlHighlight->highlightUrls($text);
     }
