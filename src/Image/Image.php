@@ -425,6 +425,7 @@ abstract class Image
             'flip',
             'gamma',
             'greyscale',
+            'grayscale', // Mapped
             'heighten',
             'insert',
             'interlace',
