@@ -2,17 +2,14 @@
 
 namespace Anomaly\Streams\Platform\Image;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Collective\Html\HtmlFacade;
 use Intervention\Image\Constraint;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Traits\Macroable;
-use Anomaly\Streams\Platform\Support\Facades\Images;
-use Intervention\Image\ImageManager as Intervention;
+use Intervention\Image\Image as InterventionImage;
 use Anomaly\Streams\Platform\Support\Traits\Properties;
 
 /**
@@ -22,359 +19,67 @@ use Anomaly\Streams\Platform\Support\Traits\Properties;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Image
+abstract class Image
 {
     use Macroable;
     use Properties;
 
     /**
-     * Set the filename.
-     *
-     * @param $filename
-     * @return $this
-     */
-    public function rename($filename = null)
-    {
-        return $this->setAttribute('filename', $filename);
-    }
-
-    /**
-     * Return a source tag.
-     *
-     * @param array $attributes
+     * Return the image asset URL.
+     * 
      * @return string
      */
-    public function source(array $attributes = [])
-    {
-        $attributes = array_merge($this->attributes(['srcset' => $this->srcset() ?: $this->path()]), $attributes);
-
-        return '<source' . HtmlFacade::attributes($attributes) . '>';
-    }
+    abstract public function assetUrl();
 
     /**
-     * Return if the Image is remote or not.
-     *
+     * Return if the image exists.
+     * 
      * @return bool
      */
-    public function isRemote()
-    {
-        return is_string($this->source) && Str::startsWith($this->source, ['http://', 'https://', '//']);
-    }
+    abstract public function exists();
 
     /**
-     * Add an alteration.
-     *
-     * @param  $method
-     * @param  array $arguments
-     * @return $this
+     * Return the image size.
+     * 
+     * return int
      */
-    public function addAlteration($method, $arguments = [])
-    {
-        if ($method == 'resize') {
-            $this->guessResizeArguments($arguments);
-        }
-
-        $alterations = $this->alterations;
-        
-        $alterations[$method] = $arguments;
-
-        $this->alterations = $alterations;
-
-        return $this;
-    }
+    abstract public function size();
 
     /**
-     * Guess the resize callback value
-     * from a boolean.
-     *
-     * @param array $arguments
+     * Return the last modified timestamp.
+     * 
+     * @return int
      */
-    private function guessResizeArguments(array &$arguments)
-    {
-        $arguments = array_pad($arguments, 3, null);
-
-        if (end($arguments) instanceof \Closure) {
-            return;
-        }
-
-        if (array_pop($arguments) !== false) {
-            $arguments[] = function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            };
-        }
-    }
+    abstract public function lastModified();
 
     /**
-     * Get the cache path of the image.
+     * Return the output image instance.
      *
-     * @return string
+     * @return Image
      */
-    protected function getCachePath()
-    {
-        $source = Images::path($this->source);
-
-        if (Str::startsWith($source, ['http://', 'https://', '//'])) {
-            return $source;
-        }
-
-        $output = $this->outputPath($source);
-
-        try {
-            if ($this->shouldPublish($output)) {
-                $this->publish($output);
-            }
-        } catch (\Exception $e) {
-            return Config::get('app.debug', false) ? $e->getMessage() : null;
-        }
-
-        if (Config::get('streams.images.version') && $this->version !== false) {
-            $output .= '?v=' . filemtime($output);
-        }
-
-        return str_replace(public_path(), '', $output);
-    }
+    abstract protected function output();
 
     /**
-     * Return the output path for an image.
+     * Return an Intervention instance.
      *
-     * @param $path
-     * @return string
+     * @return InterventionImage
      */
-    protected function outputPath($path)
-    {
-
-        /*
-         * If the path is already public
-         * and we don't have alterations
-         * then just use it as it is.
-         */
-        if (
-            is_string($this->source)
-            && Str::contains($this->source, [public_path(), 'public::'])
-            && !$this->alterations
-            && !$this->quality
-        ) {
-            return $this->source;
-        }
-
-        /*
-         * If the path is already public
-         * and we DO have alterations
-         * then use the assets dir.
-         */
-        if (
-            is_string($this->source)
-            && Str::contains($this->source, [public_path(), 'public::'])
-            && ($this->alterations || $this->quality)
-        ) {
-            return public_path('assets/' . str_replace([public_path(), 'public::'], '', $this->source));
-        }
-
-        /**
-         * If renaming then this has already
-         * been provided by the filename.
-         */
-        if ($rename = $this->filename) {
-            return public_path('assets/' . ltrim($rename, '/\\'));
-        }
-
-        /*
-         * If the path is a file or file path then
-         * put it in /app/files/disk/folder/filename.ext
-         */
-        if (is_string($this->source) && Str::is('*://*', $this->source)) {
-
-            list($disk, $folder, $filename) = explode('/', str_replace('://', '/', $this->source));
-
-            if ($this->alterations || $this->quality) {
-                $filename = md5(
-                    var_export([$this->source, $this->alterations], true) . $this->quality
-                ) . '.' . $this->extension();
-            }
-
-            if ($rename = $this->filename) {
-
-                $filename = $rename;
-
-                if (strpos($filename, DIRECTORY_SEPARATOR)) {
-                    $directory = null;
-                }
-            }
-
-            return public_path("assets/img/{$disk}/{$folder}/{$filename}");
-        }
-
-        /*
-         * Get the real path relative to our installation.
-         */
-        $source = str_replace(base_path(), '', $path);
-
-        /*
-         * Build out path parts.
-         */
-        $filename    = basename($source);
-        $directory   = ltrim(dirname($source), '/\\') . '/';
-
-        if ($this->alterations || $this->quality) {
-            $filename = md5(
-                var_export([$source, $this->alterations], true) . $this->quality
-            ) . '.' . $this->extension();
-        }
-
-        return public_path("assets/{$directory}{$filename}");
-    }
+    abstract protected function intervention();
 
     /**
-     * Return the image extension.
-     *
-     * @return string
+     * Save the contents of the image.
+     * 
+     * @param InterventionImage $intervention
      */
-    public function extension()
-    {
-        if ($this->extension) {
-            return $this->extension;
-        }
-
-        return $this->extension = pathinfo($this->source, PATHINFO_EXTENSION);
-    }
-
-    /**
-     * Determine if the image needs to be published
-     *
-     * @param $path
-     * @return bool
-     */
-    private function shouldPublish($path)
-    {
-        $resolved = Images::path($path);
-
-        if (!File::exists($resolved)) {
-            return true;
-        }
-
-        if (
-            is_string($this->source)
-            && str_contains($this->source, public_path())
-            && !$this->alterations
-            && !$this->quality
-        ) {
-            return false;
-        }
-
-        if (
-            is_string($this->source)
-            && str_contains($this->source, public_path())
-            && !str_contains($this->source, public_path('assets'))
-        ) {
-            return true;
-        }
-
-        if (is_string($this->source) && !Str::is('*://*', $this->source) && filemtime($resolved) < filemtime($resolved)) {
-            return true;
-        }
-
-        if (
-            is_string($this->source) && Str::is('*://*', $this->source) && filemtime($resolved) < app(
-                'League\Flysystem\MountManager'
-            )->getTimestamp($resolved)
-        ) {
-            return true;
-        }
-
-        // if ($this->source instanceof FileInterface && filemtime($resolved) < $this->source->lastModified()->format('U')) {
-        //     return true;
-        // }
-
-        return false;
-    }
-
-    /**
-     * Publish an image to the publish directory.
-     *
-     * @param $path
-     * @return void
-     */
-    protected function publish($path)
-    {
-
-        File::makeDirectory(dirname($path), 0755, true, true);
-        
-        if (!in_array($this->extension(), [
-            'gif',
-            'jpeg',
-            'jpg',
-            'jpe',
-            'png',
-            'webp',
-        ])) {
-            return File::put($path, File::get(Images::path($this->source)));
-        }
-
-        /**
-         * @var Intervention $image
-         */
-        if (!$image = $this->intervention()) {
-            return false;
-        }
-
-        // if (function_exists('exif_read_data') && $image->exif('Orientation') && $image->exif('Orientation') > 1) {
-        //     //$this->addAlteration('orientate');
-        // }
-
-        // if (in_array($this->extension(), ['jpeg', 'jpg']) && Config::get('streams.images.interlace')) {
-        //     //$this->addAlteration('interlace');
-        // }
-
-        if (!$this->alterations && !$this->quality) {
-            return $image->save($path, $this->quality ?: Config::get('streams.images.quality', null));
-        }
-
-        // if (is_callable('exif_read_data') && in_array('orientate', $this->alterations)) {
-        //     $this->setAlterations(array_unique(array_merge(['orientate'], $this->alterations)));
-        // }
-
-        foreach ($this->alterations as $method => $arguments) {
-            if (is_array($arguments)) {
-                call_user_func_array([$image, $method], $arguments);
-            } else {
-                call_user_func([$image, $method], $arguments);
-            }
-        }
-
-        $image->save($path, $this->quality ?: Config::get('streams.images.quality', null));
-    }
-
-    /**
-     * Make an image instance.
-     *
-     * @return Intervention
-     */
-    protected function intervention()
-    {
-        if (is_string($this->source) && Str::is('*://*', $this->source)) {
-            return app(intervention::class)->make(app(MountManager::class)->read($this->source));
-        }
-
-        if (is_string($this->source) && file_exists($path = Images::path($this->source))) {
-            return app(intervention::class)->make($path);
-        }
-
-        if ($this->source instanceof Intervention) {
-            return $this->source;
-        }
-
-        return null;
-    }
+    abstract public function save(InterventionImage $intervention);
 
     /**
      * Return the image tag to an image.
      *
-     * @param  null $alt
      * @param  array $attributes
      * @return string
      */
-    public function img($alt = null, array $attributes = [])
+    public function img(array $attributes = [])
     {
         $attributes = array_merge((array)$this->attr('attributes', []), $attributes);
 
@@ -386,23 +91,8 @@ class Image
             $attributes['srcset'] = $srcset;
         }
 
-        if (!$alt && !isset($attributes['alt']) && Config::get('streams.images.auto_alt', true)) {
-
-            $original = $this->attr('original');
-
-            $attributes['alt'] = Arr::get(
-                $this->attributes,
-                'alt',
-                ucwords(
-                    Str::humanize(
-                        trim(basename(
-                            $original,
-                            pathinfo($original, PATHINFO_EXTENSION)
-                        ), '.'),
-                        '^a-zA-Z0-9'
-                    )
-                )
-            );
+        if (!isset($attributes['alt']) && Config::get('streams.images.auto_alt', true)) {
+            $attributes['alt'] = $this->altTag();
         }
 
         return '<img' . HtmlFacade::attributes($attributes) . '>';
@@ -422,22 +112,6 @@ class Image
         $sources .= "\n" . $this->img($attributes);
 
         return "<picture>\n{$sources}\n</picture>";
-    }
-
-    /**
-     * Encode the image.
-     *
-     * @param  null $format
-     * @param  int $quality
-     * @return $this
-     */
-    public function encode($format = null, $quality = null)
-    {
-        $this->quality = $quality;
-        $this->extension = $format;
-        $this->addAlteration('encode');
-
-        return $this;
     }
 
     /**
@@ -467,17 +141,11 @@ class Image
     {
         $parameters = $parameters ? '?' . http_build_query($parameters) : null;
 
-        return URL::asset($this->getCachePath().$parameters, $secure);
-    }
+        if (Config::get('streams.images.version') && $this->version !== false) {
+            $parameters['v'] = $this->lastModified();
+        }
 
-    /**
-     * Return the path to an image.
-     *
-     * @return string
-     */
-    public function path()
-    {
-        return Request::getBasePath() . $this->getCachePath();
+        return URL::asset($this->outputImage()->assetUrl($secure) . $parameters, $secure);
     }
 
     /**
@@ -512,15 +180,227 @@ class Image
      */
     public function data()
     {
-
-        /**
-         * @var HasVersion|CanPublish $this
-         */
         return file_get_contents(public_path(
             $this
                 ->setVersion(false)
-                ->getCachePath()
+                ->outputImage()
         ));
+    }
+
+    /**
+     * Return a source tag.
+     *
+     * @param array $attributes
+     * @return string
+     */
+    public function source(array $attributes = [])
+    {
+        $attributes = array_merge($this->attributes(['srcset' => $this->srcset() ?: $this->url()]), $attributes);
+
+        return '<source' . HtmlFacade::attributes($attributes) . '>';
+    }
+
+    /**
+     * Set the filename.
+     *
+     * @param $filename
+     * @return $this
+     */
+    public function rename($filename)
+    {
+        $this->filename = $filename;
+
+        return $this;
+    }
+
+    /**
+     * Return a guessed alt tag.
+     * 
+     * @return string
+     */
+    public function altTag()
+    {
+        $name = $this->filename ?: $this->attr('original');
+
+        return ucwords(
+            Str::humanize(
+                trim(basename(
+                    $name,
+                    pathinfo($name, PATHINFO_EXTENSION)
+                ), '.'),
+                '^a-zA-Z0-9'
+            )
+        );
+    }
+
+    /**
+     * Return the image extension.
+     *
+     * @return string
+     */
+    public function extension()
+    {
+        if ($this->extension) {
+            return $this->extension;
+        }
+
+        return $this->extension = pathinfo($this->source, PATHINFO_EXTENSION);
+    }
+
+    /**
+     * Return if the image needs to be published.
+     *
+     * @param Image $output
+     * @return bool
+     */
+    protected function shouldPublish(Image $output)
+    {
+        /**
+         * If the image doesn't exist
+         * we need to publish it.
+         */
+        if (!$output->exists()) {
+            return true;
+        }
+
+        /**
+         * If the image is outdated
+         * we need to publish it.
+         */
+        if ($output->lastModified() < $this->lastModified()) {
+            return true;
+        }
+
+        /**
+         * If debug mode is enabled and request
+         * is no-cache then we force publish.
+         */
+        if (Config::get('app.debug') && Request::isNoCache()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Publish an image to the publish directory.
+     *
+     * @param Image $output
+     * @return void
+     */
+    protected function publish(Image $output)
+    {
+        $intervention = $this->intervention();
+
+        if (function_exists('exif_read_data') && $intervention->exif('Orientation') > 1) {
+            $intervention->orientate();
+        }
+
+        if (in_array($this->extension(), ['jpeg', 'jpg'])) {
+            $intervention->interlace(Config::get('streams.images.interlace', true));
+        }
+
+        foreach ($this->alterations ?: [] as $method => $arguments) {
+            if (is_array($arguments)) {
+                call_user_func_array([$intervention, $method], $arguments);
+            } else {
+                call_user_func([$intervention, $method], $arguments);
+            }
+        }
+
+        $output->save($intervention);
+    }
+
+    /**
+     * Get the cached asset path of the image.
+     *
+     * @return Image
+     */
+    protected function outputImage()
+    {
+        $output = $this->output();
+
+        if ($this->shouldPublish($output)) {
+            $this->publish($output);
+        }
+
+        return $output;
+    }
+
+    /**
+     * Return the generated filename.
+     * 
+     * @return string
+     */
+    protected function filename()
+    {
+        if (!$this->alterations && !$this->quality) {
+            return $this->filename ?: $this->attr('original');
+        }
+
+        return md5(json_encode([$this->alterations, $this->quality])) . '.' . $this->extension();
+    }
+
+    /**
+     * Add an alteration.
+     *
+     * @param  $method
+     * @param  array $arguments
+     * @return $this
+     */
+    protected function addAlteration($method, $arguments = [])
+    {
+        if ($method == 'resize') {
+            $this->guessResizeArguments($arguments);
+        }
+
+        $alterations = $this->alterations;
+
+        $alterations[$method] = $arguments;
+
+        $this->alterations = $alterations;
+
+        return $this;
+    }
+
+    /**
+     * Guess the resize callback value
+     * from a boolean.
+     *
+     * @param array $arguments
+     */
+    protected function guessResizeArguments(array &$arguments)
+    {
+        $arguments = array_pad($arguments, 3, null);
+
+        if (end($arguments) instanceof \Closure) {
+            return;
+        }
+
+        if (array_pop($arguments) !== false) {
+            $arguments[] = function (Constraint $constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            };
+        }
+    }
+
+    /**
+     * Add an attribute
+     *
+     * @param string $name
+     * @param string $value
+     * @return $this
+     */
+    public function addAttribute($name, $value)
+    {
+        $attributes = $this->attr('attributes', []);
+
+        $attributes[$name] = $value;
+
+        $this->setAttribute('attributes', $attributes);
+
+        return $this;
     }
 
     /**
@@ -571,6 +451,12 @@ class Image
     public function __call($method, array $parameters = [])
     {
         if ($this->isAlteration($method)) {
+
+            // Map gray to grey.
+            if ($method == 'grayscale') {
+                $method = 'greyscale';
+            }
+
             return $this->addAlteration($method, $parameters);
         }
 
@@ -585,7 +471,7 @@ class Image
             return $macro(...$parameters);
         }
 
-        $this->attributes[$method] = array_shift($parameters);
+        $this->addAttribute($method, array_shift($parameters));
 
         return $this;
     }

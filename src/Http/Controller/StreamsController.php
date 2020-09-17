@@ -47,11 +47,11 @@ class StreamsController extends Controller
             'data' => $data,
             'workflow' => $workflow
         ]);
-
+        
         $workflow
             ->passThrough($this)
             ->process(['data' => $data]);
-
+            
         $this->fire('responding', ['data' => $data]);
 
         if ($response = $data->get('response')) {
