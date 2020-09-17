@@ -5,12 +5,12 @@ namespace Anomaly\Streams\Platform\Image;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Image\ImageRegistry;
 use Anomaly\Streams\Platform\Image\Type\LocalImage;
 use Anomaly\Streams\Platform\Image\Type\RemoteImage;
 use Anomaly\Streams\Platform\Image\Type\StorageImage;
 use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
-use Illuminate\Support\Traits\Macroable;
 
 /**
  * Class ImageManager
@@ -98,7 +98,7 @@ class ImageManager
         if (
             !isset($attributes['type'])
             && is_string($attributes['source'])
-            && Storage::exists($attributes['source'])
+            && Storage::disk('public')->exists($attributes['source'])
         ) {
             $attributes['type'] = 'storage';
         }
