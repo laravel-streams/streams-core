@@ -24,9 +24,9 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
         $this->app->singleton(
             'migration.repository',
             function ($app) {
-                $table = $app['config']['database.migrations'];
+                $table = $app[ 'config' ][ 'database.migrations' ];
 
-                return new MigrationRepository($app['db'], $table);
+                return new MigrationRepository($app[ 'db' ], $table);
             }
         );
     }
@@ -44,9 +44,9 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
         $this->app->singleton(
             'migrator',
             function ($app) {
-                $repository = $app['migration.repository'];
+                $repository = $app[ 'migration.repository' ];
 
-                return new Migrator($repository, $app['db'], $app['files']);
+                return new Migrator($repository, $app[ 'db' ], $app[ 'files' ]);
             }
         );
     }
@@ -67,8 +67,8 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
                 // Once we have the migration creator registered, we will create the command
                 // and inject the creator. The creator is responsible for the actual file
                 // creation of the migrations, and may be extended by these developers.
-                $creator  = $app['migration.creator'];
-                $composer = $app['composer'];
+                $creator  = $app[ 'migration.creator' ];
+                $composer = $app[ 'composer' ];
 
                 return new MigrateMakeCommand($creator, $composer);
             }
@@ -85,7 +85,7 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
         $this->app->singleton(
             'command.migrate',
             function ($app) {
-                return new MigrateCommand($app['migrator']);
+                return new MigrateCommand($app[ 'migrator' ], $app[ 'events' ]);
             }
         );
     }
@@ -100,7 +100,7 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
         $this->app->singleton(
             'command.migrate.reset',
             function ($app) {
-                return new ResetCommand($app['migrator']);
+                return new ResetCommand($app[ 'migrator' ]);
             }
         );
     }
@@ -130,7 +130,7 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
         $this->app->singleton(
             'command.migrate.rollback',
             function ($app) {
-                return new RollbackCommand($app['migrator']);
+                return new RollbackCommand($app[ 'migrator' ]);
             }
         );
     }
@@ -145,7 +145,7 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
         $this->app->singleton(
             'migration.creator',
             function ($app) {
-                return new MigrationCreator($app['files'], $app->basePath('stubs'));
+                return new MigrationCreator($app[ 'files' ], $app->basePath('stubs'));
             }
         );
     }
