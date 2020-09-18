@@ -1,10 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration;
 
-use Anomaly\Streams\Platform\Database\Migration\Console\MigrateCommand;
-use Anomaly\Streams\Platform\Database\Migration\Console\MigrateMakeCommand;
-use Anomaly\Streams\Platform\Database\Migration\Console\RefreshCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\ResetCommand;
+use Anomaly\Streams\Platform\Database\Migration\Console\MigrateCommand;
+use Anomaly\Streams\Platform\Database\Migration\Console\RefreshCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\RollbackCommand;
+use Anomaly\Streams\Platform\Database\Migration\Console\MigrateMakeCommand;
 
 /**
  * Class MigrationServiceProvider

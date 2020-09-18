@@ -26,7 +26,7 @@ class MigrationRepository extends DatabaseMigrationRepository
      */
     public function getRan($namespace = null)
     {
-        if ($addon = $this->migrator->getAddon()) {
+        if ($this->migrator && $addon = $this->migrator->getAddon()) {
             return $this->table()
                 ->orderBy('batch', 'asc')
                 ->orderBy('migration', 'asc')
