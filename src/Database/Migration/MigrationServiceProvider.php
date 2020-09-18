@@ -85,7 +85,7 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
         $this->app->singleton(
             'command.migrate',
             function ($app) {
-                return new MigrateCommand($app['migrator']);
+                return new MigrateCommand($app['migrator'], $app['events']);
             }
         );
     }
