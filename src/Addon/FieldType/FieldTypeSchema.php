@@ -1,5 +1,8 @@
 <?php
 
+namespace Anomaly\Streams\Platform\Addon\FieldType;
+
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Fluent;
 use Illuminate\Database\Connection;
