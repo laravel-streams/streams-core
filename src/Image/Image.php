@@ -79,8 +79,14 @@ abstract class Image
      * @param  array $attributes
      * @return string
      */
-    public function img(array $attributes = [])
+    public function img($alt = null, array $attributes = [])
     {
+        $attributes = $alt ? $attributes : $alt;
+
+        if ($alt) {
+            $attributes['alt'] = $alt;
+        }
+
         $attributes = array_merge((array)$this->attr('attributes', []), $attributes);
 
         if (!isset($attributes['src'])) {
@@ -180,11 +186,7 @@ abstract class Image
      */
     public function data()
     {
-        return file_get_contents(public_path(
-            $this
-                ->setVersion(false)
-                ->outputImage()
-        ));
+        return file_get_contents($this->url());
     }
 
     /**

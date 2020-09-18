@@ -20,7 +20,7 @@ To get started, use the `Images` facade to create a new image for working with.
 ```php
 use Anomaly\Streams\Platform\Support\Facades\Images;
 
-$image = Images::make('public/foo.jpg');
+$image = Images::make('img/foo.jpg');
 ```
 
 The facade is aliased for use in [views](views) as well:
@@ -74,7 +74,7 @@ Modification methods return the image instance, so you are able to chain methods
 ```php
 use Anomaly\Streams\Platform\Support\Facades\Images;
 
-$image = Images::make('public/foo.jpg')->fit(300, 500)->quality(60);
+$image = Images::make('img/foo.jpg')->fit(300, 500)->quality(60);
 ```
 
 ```blade
@@ -85,204 +85,208 @@ $image = Images::make('public/foo.jpg')->fit(300, 500)->quality(60);
 
 Use the following methods to resize images.
 
-#### fit()
-
-Combine cropping and resizing to format image in a smart way. This method will find the best fitting aspect ratio of your given width and height on the current image automatically, cut it out and resize it to the given dimension. You may pass an optional boolean value as third parameter, to prevent possible upsizing and a custom position of the cutout as fourth parameter.
-
-```php
-$image->fit($width, $height = null, $upsize = false, $position = 'center')
-```
-
-The following values are supported for the `position` parameter.
-
-- top-left
-- top
-- top-right
-- left
-- center (default)
-- right
-- bottom-left
-- bottom
-- bottom-right
-
-#### resize()
-
-Resizes current image based on given width and/or height. To disable resize constrains, pass an optional boolean with `false` value as the third parameter. To allow upsizing, pass an optional boolean with `true` value as the fourth parameter.
-
-```php
-// Resize image to fixed size
-Image::make('img/foo.jpg')->resize(300, 200);
-
-// resize only the width of the image
-Image::make('img/foo.jpg')->resize(300, null);
-
-// resize only the height of the image
-Image::make('img/foo.jpg')->resize(null, 200);
-
-// resize the image to a width of 300 and disable constraining aspect ratio (auto height)
-Image::make('img/foo.jpg')->resize(300, null, false);
-
-// resize the image to a height of 200 and disable constraining aspect ratio (auto width)
-Image::make('img/foo.jpg')->resize(null, 200, false);
-
-// Allow possible upsizing
-Image::make('img/foo.jpg')->resize(null, 400, true, false);
-
-// resize the image so that the largest side fits within the limit; the smaller
-// side will NOT be scaled to maintain the original aspect ratio. Upsizing allowed.
-Image::make('img/foo.jpg')->resize(400, 400, false, false);
-```
-
-#### widen()
-
-Resizes the current image to new width, constraining aspect ratio. Pass an optional boolean as second parameter, to prevent possible upsizing.
-
-```php
-// resize image to new width
-Image::make('img/foo.jpg')->widen(300);
-
-// resize image to new width and allow upsizing
-Image::make('img/foo.jpg')->widen(300, true);
-```
-
-#### heighten()
-
-Resizes the current image to new height, constraining aspect ratio. Pass an optional boolean as econd parameter, to prevent possible upsizing.
-
-```php
-// Resize image to new height
-Image::make('img/foo.jpg')->heighten(100);
-
-// Resize image to new height and allow upsizing
-Image::make('img/foo.jpg')->heighten(100, true);
-```
-
-#### crop()
-
-Cut out a rectangular part of the current image with given width and height. Define optional **x,y** coordinates to move the **top-left corner** of the cutout to a specific position.
-
-```php
-Image::make('img/foo.jpg')->crop(100, 100, 25, 25);
-```
-
-#### trim()
-
-Trim away image space in given color. Define an optional base to pick a color at a certain position and borders that should be trimmed away. You can also set an optional tolerance level, to trim similar colors and add a feathering border around the trimed image.
-
-```php
-// Trim image (by default on all borders with top-left color)
-Image::make('img/foo.jpg')->trim();
-
-// Trim image (on all borders with bottom-right color)
-Image::make('img/foo.jpg')->trim('bottom-right');
-
-// Trim image (only top and bottom with transparency)
-Image::make('img/foo.jpg')->trim('transparent', ['top', 'bottom']);
-
-// Trim image (only left side top-left color)
-Image::make('img/foo.jpg')->trim('top-left', 'left');
-
-// Trim image on all borders (with 40% tolerance)
-Image::make('img/foo.jpg')->trim('top-left', null, 40);
-
-// Trim image and leave a border of 50px by feathering
-Image::make('img/foo.jpg')->trim('top-left', null, 25, 50);
-```
+- [resize()](http://image.intervention.io/api/resize)
+- [widen()](http://image.intervention.io/api/widen)
+- [heighten()](http://image.intervention.io/api/heighten)
+- [fit()](http://image.intervention.io/api/fit)
+- [crop()](http://image.intervention.io/api/crop)
+- [trim()](http://image.intervention.io/api/trim)
 
 ### Adjusting Images
 
 Use the following methods to adjust various aspects of images.
 
-#### encode()
-
-Encodes the current image in given **format** and *optional* image **quality**. Quality supports values from 0 (poor quality, small file) to 100 (best quality, big file). Quality is only applied when encoding JPGs.
-
-Define the encoding format from one of the following formats:
-
-- **jpg** — Return JPEG encoded image data
-- **png** — Return Portable Network Graphics (PNG) encoded image data
-- **gif** — Return Graphics Interchange Format (GIF) encoded image data
-- **tif** — Return Tagged Image File Format (TIFF) encoded image data
-- **bmp** — Return Bitmap (BMP) encoded image data
-- **ico** — Return ICO encoded image data
-- **psd** — Return Photoshop Document (PSD) encoded image data
-- **webp** — Return WebP encoded image data
-
-```php
-// Encode png image as jpg.
-Image::make('img/foo.png')->encode('jpg', 75);
-```
+- [encode()](http://image.intervention.io/api/encode)
+- [gamma()](http://image.intervention.io/api/gamma)
+- [brightness()](http://image.intervention.io/api/brightness)
+- [contrast()](http://image.intervention.io/api/contrast)
+- [colorize()](http://image.intervention.io/api/colorize)
+- [greyscale()](http://image.intervention.io/api/greyscale)
+- [invert()](http://image.intervention.io/api/invert)
+- [mask()](http://image.intervention.io/api/mask)
+- [flip()](http://image.intervention.io/api/flip)
 
 #### quality()
 
-Adjust the quality of a jpg image.
+Additionally, you may use the `quality` method to adjust the quality alone of JPG images.
 
 ```php
-// Reduce the quality of a jpg
-Image::make('img/foo.jpg')->quality(60);
+Images::make('img/foo.jpg')->quality(60);
 ```
-
-#### gamma()
-
-Performs a gamma correction operation on the current image.
-
-```php
-Image::make('img/foo.jpg')->gamma(1.6);
-```
-
-#### brightness()
-
-Changes the brightness of the current image by the given level. Use values between -100 for min. brightness 0 for no change and +100 for max. brightness.
-
-```php
-Image::make('img/foo.jpg')->brightness(35);
-```
-
-#### contrast()
-
-Changes the contrast of the current image by the given level. Use values between -100 for min. contrast 0 for no change and +100 for max. contrast.
-
-```php
-Image::make('img/foo.jpg')->contrast(35);
-```
-
-#### colorize()
-#### greyscale()
-#### invert()
-#### mask()
-#### flip()
 
 ### Applying Effects
 
 Use the following methods to apply effects to images.
 
-- filter()
-- pixelate()
-- rotate()
-- blur()
+- [filter()](http://image.intervention.io/api/filter)
+- [pixelate()](http://image.intervention.io/api/pixelate)
+- [rotate()](http://image.intervention.io/api/rotate)
+- [blur()](http://image.intervention.io/api/blur)
 
 ### Drawing
 
 Use the following methods to draw on images.
 
-- text()
-- pixel()
-- line()
-- rectangle()
-- circle()
-- ellipse()
+- [text()](http://image.intervention.io/api/text)
+- [pixel()](http://image.intervention.io/api/pixel)
+- [line()](http://image.intervention.io/api/line)
+- [rectangle()](http://image.intervention.io/api/rectangle)
+- [circle()](http://image.intervention.io/api/circle)
+- [ellipse()](http://image.intervention.io/api/ellipse)
+
+### Macros
+
+#### Defining Macros
+
+```php
+"macros" => [
+    "card" => [
+        "fit"  => [300, 500],
+        "quality" => 70,
+    ],
+    "thumbnail" => [
+        "fit"  => 125,
+        "quality" => 50,
+        "rename" => "thumbs/{filename}",
+    ],
+],
+```
+
+#### Applying Macros
+
+```php
+Images::make('img/foo.jpg')->macro('thumbnail')
+```
 
 ## Outputting Images
 
 Use output methods to display image data from an image object. The `img` method is used by default.
 
-- img($alt = null, array $attributes = [])
-- url(array $parameters = [], $secure = null)
-- base64()
-- path()
-- inline($alt = null, array $attributes = [])
-- css()
-- data()
+#### img()
+
+Use the `img` method to return an `<img>` tag.
+
+```blade
+@verbatim{!! Images::make('img/foo.jpg') !!}@endverbatim
+```
+
+The first parameter can be an `alt` tag or array of attributes. If an alt tag is provided, the attributes can still be provided as a second parameter. Note this is the default output method when used in Blade.
+
+```php
+Images::make('img/foo.jpg')->img('Foo Bar Image', ['width' => '100'])
+```
+
+Note that unmatched methods will pass through to set attribute values.
+
+```php
+Images::make('img/foo.jpg')->width(100)->img('Foo Bar Image')
+```
+
+#### url()
+
+Use the `url` method to output a URL to the image. The first argument may be an array of query string parameters to append. The second argument can be used to force secure URLs. If not specified, the URLs will use the protocol of the request. If 
+
+```php
+Images::make('img/foo.jpg')->url()
+
+// Append a manual version query parameter.
+Images::make('img/foo.jpg')->url(['version' => 'v1'])
+```
+
+#### inline()
+
+Use the `inline` method to return an `<img>` tag with a **base64** encoded **src**.
+
+```blade
+@verbatim{!! Images::inline('img/foo.jpg') !!}@endverbatim
+```
+
+The first parameter can be an `alt` tag or array of attributes. If an alt tag is provided, the attributes can still be provided as a second parameter. Note this is the default output method when used in Blade.
+
+```php
+Images::make('img/foo.jpg')->inline('Foo Bar')
+```
+
+#### base64()
+
+Use the `base64` method to return a base64 encoded string.
+
+```blade
+@verbatim<img src="{!! Images::make('img/foo.jpg')->base64() !!}">@endverbatim
+```
+
+#### css()
+
+Use the `css` method to return a `url()` string for use in CSS backgrounds.
+
+```blade
+@verbatim<div style="background: {!! Images::make('img/foo.jpg')->css() !!};">@endverbatim
+```
+
+#### data()
+
+The `data` method will return the contents of the image as a string.
+
+```php
+echo Images::make('img/foo.jpg')->data()
+```
 
 ### Responsive Images
-- sourcesets
+
+#### srcsets()
+
+```php
+Images::make('img/foo.jpg')
+    ->srcsets([
+        '1x' => [
+            'resize'  => 400,
+            'quality' => 60
+        ],
+        '2x' => [
+            'resize'  => 800,
+            'quality' => 90
+        ],
+        '640w' => [
+            'resize'  => 800,
+            'quality' => 90
+        ]
+    ]);
+```
+
+#### sources()
+
+```php
+Images::make('img/foo.jpg')
+    ->srcsets([
+        '(min-width: 600px)' => [
+            'resize'  => 400,
+            'quality' => 60
+        ],
+        '(min-width: 1600px)' => [
+            'resize'  => 800,
+            'quality' => 90
+        ],
+        'fallback' => [
+            'resize'  => 1800
+        ]
+    ]);
+```
+
+#### picture()
+
+```php
+Images::make('img/foo.jpg')
+    ->sources([
+        '(min-width: 600px)' => [
+            'resize'  => 400,
+            'quality' => 60
+        ],
+        '(min-width: 1600px)' => [
+            'resize'  => 800,
+            'quality' => 90
+        ],
+        'fallback' => [
+            'resize'  => 1800
+        ]
+    ])->picture();
+```
