@@ -81,7 +81,7 @@ abstract class Image
      */
     public function img($alt = null, array $attributes = [])
     {
-        $attributes = $alt ? $attributes : $alt;
+        $attributes = is_null($alt) ? $attributes : $alt;
 
         if ($alt) {
             $attributes['alt'] = $alt;
