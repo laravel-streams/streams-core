@@ -11,13 +11,13 @@ references:
 
 Views contain the HTML served by the frontend of your application. You can find and define views in the `resources/views` directory. A simple view might look something like this:
 
-```
+```blade
 // resources/views/welcome.blade.php
-@verbatim<html>
+<html>
     <body>
-        <h1>{{ config('app.name') }}</h1>
+        <h1>@verbatim{{ config('app.name') }}@endverbatim</h1>
     </body>
-</html>@endverbatim
+</html>
 ```
 
 Each file inside your `resources/views` directory is a **view** and is available for use however you like.
