@@ -214,9 +214,38 @@ Image::make('img/foo.png')->encode('jpg', 75);
 ```
 
 #### quality()
+
+Adjust the quality of a jpg image.
+
+```php
+// Reduce the quality of a jpg
+Image::make('img/foo.jpg')->quality(60);
+```
+
 #### gamma()
+
+Performs a gamma correction operation on the current image.
+
+```php
+Image::make('img/foo.jpg')->gamma(1.6);
+```
+
 #### brightness()
+
+Changes the brightness of the current image by the given level. Use values between -100 for min. brightness 0 for no change and +100 for max. brightness.
+
+```php
+Image::make('img/foo.jpg')->brightness(35);
+```
+
 #### contrast()
+
+Changes the contrast of the current image by the given level. Use values between -100 for min. contrast 0 for no change and +100 for max. contrast.
+
+```php
+Image::make('img/foo.jpg')->contrast(35);
+```
+
 #### colorize()
 #### greyscale()
 #### invert()
