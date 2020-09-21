@@ -23,6 +23,7 @@ todo:
     - Stream Sources
     - JSON References
     - Handler Resolution
+        - (As documented (point here))
 - Managing Entries
     - Flat File Storage
     - Entry Repositories
