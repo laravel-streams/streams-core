@@ -7,17 +7,22 @@ enabled: true
 sort: 2
 todo:
     - This needs to be organized slightly better.
----
-
+---    
 
 - Introduction
-- Creating Entries
+- Defining Entries
     - Flat File Storage
-    - Entry Repository
-    - Entry Prototype
-- Retrieving Entries
-    - Entry Repositories
-    - Querying Entries
+- Querying Entries
+    - Where Clauses
+    - Filtering
+    - Ordering
+    - Grouping
+    - Limit & Offset
+- Entry Repositories
+    - Inserting Entries
+    - Updating Entries
+    - Deleting Entries
+- Custom Repositories
 
 
 ## Introduction

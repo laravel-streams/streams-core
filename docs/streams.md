@@ -24,10 +24,10 @@ todo:
     - JSON References
     - Handler Resolution
         - (As documented (point here))
-- Managing Entries
-    - Flat File Storage
-    - Entry Repositories
-    - Querying Entries
+- Stream Entries
+    - [Defining Entries](entries#defining-entries)
+    - [Entry Repositories](repositories)
+    - [Querying Entries](querying)
 
 
 ## Introduction
