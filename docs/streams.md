@@ -16,10 +16,13 @@ todo:
 - Introduction
 - Defining Streams
     - The Basics
-    - Field Types
+    - Field and Types
     - Stream Routes
 - Advanced Streams
     - Extend a Stream
+    - Stream Sources
+    - JSON References
+    - Handler Resolution
 - Managing Entries
     - Flat File Storage
     - Entry Repositories
@@ -59,7 +62,7 @@ Let's create a little stream to hold information for a simple CRM.
 }
 ```
 
-### Field Configuration
+### Field Types
 
 Fields are an essential descriptor of the domain object. They describe what properties the domain object will have available and how the property data works like accessors and data mutation and casting.
 
