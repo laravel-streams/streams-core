@@ -15,9 +15,11 @@ todo:
 
 - Introduction
 - Defining Streams
-    - Essential Configuration
+    - The Basics
     - Field Types
     - Stream Routes
+- Advanced Streams
+    - Extend a Stream
 - Managing Entries
     - Flat File Storage
     - Entry Repositories
@@ -36,7 +38,7 @@ You can define stream configurations in the `streams/` directory using JSON file
 
 It is highly encouraged to use the plural form of a noun when naming Streams—for example, contacts and people. You may also use naming conventions like `business_contacts` or `neat-people`.
 
-### Essential Configuration
+### The Basics
 
 To get started, you need only specify the `handle`, which is the filename itself, and some `fields` to describe the domain object's structure.
 
