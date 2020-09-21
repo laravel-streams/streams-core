@@ -3,7 +3,7 @@ title: Streams
 category: basics
 intro: Streams are code-configured data-structures.
 sort: 1
-stage: outlining
+stage: drafting
 enabled: true
 references:
     - https://craftcms.com/docs/3.x/elements.html
@@ -11,6 +11,18 @@ references:
 todo:
     - Finish streams routes
 ---
+
+
+- Introduction
+- Defining Streams
+    - Essential Configuration
+    - Field Types
+    - Stream Routes
+- Managing Entries
+    - Flat File Storage
+    - Entry Repositories
+    - Querying Entries
+
 
 ## Introduction
 

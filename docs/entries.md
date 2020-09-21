@@ -9,6 +9,17 @@ todo:
     - This needs to be organized slightly better.
 ---
 
+
+- Introduction
+- Creating Entries
+    - Flat File Storage
+    - Entry Repository
+    - Entry Prototype
+- Retrieving Entries
+    - Entry Repositories
+    - Querying Entries
+
+
 ## Introduction
 
 Domain entities are called `entries` within the Streams platform. A stream also defines entry attributes, or fields, that dictate the entry's properties and data-casting.
