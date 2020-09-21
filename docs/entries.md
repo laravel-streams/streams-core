@@ -7,17 +7,12 @@ enabled: true
 sort: 2
 todo:
     - This needs to be organized slightly better.
----    
+---
 
 - Introduction
 - Defining Entries
     - Flat File Storage
 - Querying Entries
-    - Where Clauses
-    - Filtering
-    - Ordering
-    - Grouping
-    - Limit & Offset
 - Entry Repositories
     - Inserting Entries
     - Updating Entries
@@ -27,21 +22,13 @@ todo:
 
 ## Introduction
 
-Domain entities are called `entries` within the Streams platform. A stream also defines entry attributes, or fields, that dictate the entry's properties and data-casting.
+Domain entities are called `entries` within the Streams platform. Please familiarize yourself with [streams](streams) and [fields](fields) before getting started with entries.
 
-- [Defining Streams](streams)
-- [Entry Fields](fields)
-- [Field Types](fields#field-types)
+## Defining Entries
 
-## Creating Entries
+You can define entry data using the default flat-file database within the `streams/{stream}/` directory where stream is the stream **handle** to which the entry belongs.
 
-Entries represent the rows in your database. In most cases, manually creating entry data is self-explanatory, based on the source of the stream.
-
-### Flat-file Storage
-
-You can define flat-file entry data as files within the `streams/{handle}/` directory where the `handle` is the stream handle to which the entry belongs.
-
-Like streams, entry filenames serve as a `handle`, which you can use to reference the entry. JSON is the default data format, though other [data formats](sources#data-format) are available through [source configuration](sources).
+Like streams, entry filenames serve as an **id** called a **handle**, which you can use to reference the entry the same as you would its numeric ID. JSON is the default data format, though other [data formats](sources#data-format) are available through [source configuration](sources).
 
 ```json
 // streams/contacts/ryan_thompson.json

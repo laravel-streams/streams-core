@@ -2,19 +2,22 @@
 title: Querying
 category: database
 intro: 
+stage: outlining
+enabled: true
 sort: 10
 ---
 
-- **Intro:** Introduce the idea in one sentance.
-- **Explaination:** An elevator pitch that signals the reader to continue or not (keep looking for relavant page).
-- **Sections/Features:** Separate sections/sub-sections (h2s/h3s) consistently. This will build the ToC.
-    - Basics
-        - Streams::entries
-    - Filtering
-    - Sorting
+- Introduction
+    - Please familiarize yourself with [streams](streams), [fields](fields), and [entries](entries) before getting started with querying.
+- Getting Started
+    - New Queries
+- The Basics
+    - Filtering (Where Clauses)
+    - Sorting/Ordering
     - Pagination
     - Selecting Fields
-- **Next Steps:** Next actions to take that are intentional versus simply additional reading.
-- **Code Examples:** Code examples and snippets.
-- **Insights:** Tips, post scriptum, creative links.
-- **Additional Reading:** Link to related ideas/topics/guides/recipes.
+    - Grouping
+    - Limit & Offset
+- Extending Queries
+    - Query Criteria
+    - Extending Basics

@@ -43,7 +43,7 @@ class Stream implements Arrayable, Jsonable
      */
     public function repository()
     {
-        $repository = $this->repository = $this->repository ?: Repository::class;
+        $repository = $this->repository ?: Repository::class;
 
         return new $repository($this);
     }

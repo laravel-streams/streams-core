@@ -2,13 +2,19 @@
 title: Repositories
 category: database
 intro: 
+stage: outlining
+enabled: true
 sort: 10
 ---
 
-- **Intro:** Introduce the idea in one sentance.
-- **Explaination:** An elevator pitch that signals the reader to continue or not (keep looking for relavant page).
-- **Sections/Features:** Separate sections/sub-sections (h2s/h3s) consistently. This will build the ToC.
-- **Next Steps:** Next actions to take that are intentional versus simply additional reading.
-- **Code Examples:** Code examples and snippets.
-- **Insights:** Tips, post scriptum, creative links.
-- **Additional Reading:** Link to related ideas/topics/guides/recipes.
+- Introduction
+    - Please familiarize yourself with [streams](streams), [fields](fields), [entries](entries), before getting started with repositories and [queries](querying) before [extending](extending#the-basics) them.
+- Getting Started
+    - New Queries
+- The Basics
+    - Inserting Entries
+    - Updating Entries
+    - Deleting Entries
+- Extending Queries
+    - Custom Repositories
+    - Extending Basics

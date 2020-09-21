@@ -16,18 +16,18 @@ todo:
 - Introduction
 - Defining Streams
     - The Basics
-    - Field and Types
-    - Stream Routes
-- Advanced Streams
-    - Extend a Stream
-    - Stream Sources
-    - JSON References
-    - Handler Resolution
-        - (As documented (point here))
+    - [Field Types](fields#field-types)
+    - [Stream Routes](routing#stream-routes)
 - Stream Entries
     - [Defining Entries](entries#defining-entries)
     - [Entry Repositories](repositories)
     - [Querying Entries](querying)
+- Advanced Streams
+    - Extend a Stream
+    - [Stream Sources](sources)
+    - JSON References
+    - Handler Resolution
+        - (As documented (point here))
 
 
 ## Introduction

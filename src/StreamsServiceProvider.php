@@ -404,10 +404,15 @@ class StreamsServiceProvider extends ServiceProvider
                     ];
                 }
 
-                Route::streams(Arr::get($route, 'uri'), [
-                    'stream' => $stream->handle,
-                    'as' => Arr::get($route, 'as', 'streams::' . $stream->handle . '.' . $key),
-                ]);
+                if (!isset($route['stream'])) {
+                    $route['stream'] = $stream->handle;
+                }
+
+                if (!isset($route['as'])) {
+                    $route['as'] = Arr::get($route, 'as', 'streams::' . $stream->handle . '.' . $key);
+                }
+
+                Route::streams(Arr::get($route, 'uri'), $route);
             }
         }
     }
@@ -516,7 +521,7 @@ class StreamsServiceProvider extends ServiceProvider
             foreach (array_keys($parameters) as $key) {
                 $uri = str_replace("{{$key}__", "{{$key}.", $uri);
             }
-            
+
             return URL::to(Str::parse($uri, $parameters) . $extra, [], $absolute);
         });
     }
@@ -576,6 +581,7 @@ class StreamsServiceProvider extends ServiceProvider
              * Pull out route options. What's left
              * is passed in as route action data. 
              */
+            $csrf        = Arr::pull($route, 'csrf');
             $verb        = Arr::pull($route, 'verb', 'get');
             $middleware  = Arr::pull($route, 'middleware', []);
             $constraints = Arr::pull($route, 'constraints', []);
@@ -617,6 +623,13 @@ class StreamsServiceProvider extends ServiceProvider
              */
             if ($middleware) {
                 call_user_func_array([$route, 'middleware'], (array) $middleware);
+            }
+
+            /**
+             * Disable CSRF
+             */
+            if ($csrf === false) {
+                call_user_func_array([$route, 'withoutMiddleware'], ['csrf']);
             }
         });
     }
