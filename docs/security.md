@@ -20,5 +20,11 @@ You can also disable CSRF protection using [route options](routing#route-options
 "csrf": false
 ```
 
+```php
+Route::streams('uri', [
+    'csrf' => false
+]);
+```
+
 - Policies
 - Users

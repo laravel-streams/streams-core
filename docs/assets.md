@@ -4,10 +4,23 @@ category: frontend
 intro: 
 ---
 
-- **Intro:** Introduce the idea in one sentance.
-- **Explaination:** An elevator pitch that signals the reader to continue or not (keep looking for relavant page).
-- **Sections/Features:** Separate sections/sub-sections (h2s/h3s) consistently. This will build the ToC.
-- **Next Steps:** Next actions to take that are intentional versus simply additional reading.
-- **Code Examples:** Code examples and snippets.
-- **Insights:** Tips, post scriptum, creative links.
-- **Additional Reading:** Link to related ideas/topics/guides/recipes.
+## Introduction
+## Reading Assets
+### Image Sources
+#### Paths in the Filesystem
+#### Configured Storage Disks
+#### Remote URLs
+### Named Assets
+#### Registering Assets
+#### Specifying Named Assets
+
+## Editing Assets
+### Resizing Assets
+### Adjusting Assets
+#### quality()
+### Applying Effects
+### Drawing
+### Macros
+#### Defining Macros
+#### Applying Macros
+## Outputting Assets

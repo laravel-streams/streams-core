@@ -65,6 +65,11 @@ The URL of a remote image may also be used. The `allow_url_fopen` PHP directive 
 
 Remote images are cached locally. To use remote images without caching locally just use regular `<img>` tags.
 
+### Named Images
+@todo Finish
+#### Registering Images
+#### Specifying Named Images
+
 ## Editing Images
 
 After you initiat a new image instance with `Images::make()`, you can use the whole palette of [manipulation methods](http://image.intervention.io/use/basics#editing) on the instance.
