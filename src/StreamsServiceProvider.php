@@ -718,7 +718,7 @@ class StreamsServiceProvider extends ServiceProvider
             return $target;
         });
 
-        Arr::macro('undot', function (array $array) {
+        Arr::macro('undot', function ($array) {
 
             foreach ($array as $key => $value) {
 
@@ -749,7 +749,7 @@ class StreamsServiceProvider extends ServiceProvider
             return app(Purifier::class)->purify($value);
         });
 
-        Str::macro('purify', function ($text, array $options = []) {
+        Str::macro('linkify', function ($text, array $options = []) {
             return (new Linkify($options))->process($text);
         });
 
@@ -779,8 +779,8 @@ class StreamsServiceProvider extends ServiceProvider
             return app(Engine::class)->render($target, array_merge(app('streams.parser_data'), Arr::make($data)));
         });
 
-        Str::macro('markdown', function ($target, array $data = []) {
-            return (new \Parsedown)->parse($target, array_merge(app('streams.parser_data'), Arr::make($data)));
+        Str::macro('markdown', function ($target) {
+            return (new \Parsedown)->parse($target);
         });
     }
 }
