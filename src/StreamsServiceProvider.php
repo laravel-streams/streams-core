@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform;
 
+use HTMLPurifier;
 use Misd\Linkify\Linkify;
 use StringTemplate\Engine;
 use Illuminate\Support\Arr;
@@ -760,7 +761,7 @@ class StreamsServiceProvider extends ServiceProvider
         });
 
         Str::macro('purify', function ($value) {
-            return app(Purifier::class)->purify($value);
+            return (new HTMLPurifier)->purify($value);
         });
 
         Str::macro('linkify', function ($text, array $options = []) {
