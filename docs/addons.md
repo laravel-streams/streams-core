@@ -7,5 +7,5 @@ enabled: true
 ---
 
 - Introduction
-- Available Addons
+- [Available Addons](/addons)
 - Developing Addons

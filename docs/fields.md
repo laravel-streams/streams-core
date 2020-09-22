@@ -1,7 +1,8 @@
 ---
 title: Fields
-category: database
+category: core_concepts
 intro:
+enabled: true
 sort: 10
 ---
 

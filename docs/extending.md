@@ -1,7 +1,7 @@
 ---
 title: Extending
 category: advanced
-intro: 
+intro: See you how deep the rabbit hole goes.
 stage: outlining
 enabled: true
 sort: 2
@@ -12,4 +12,7 @@ sort: 2
     - Macros
     - Callbacks
     - Workflows
+    - [Parsing](support#arr-parse)
+- Patterns
+    - Handler Resolution
 - Addon Development

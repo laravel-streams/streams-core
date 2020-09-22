@@ -350,7 +350,7 @@ abstract class Image
      * @param  array $arguments
      * @return $this
      */
-    protected function addAlteration($method, $arguments = [])
+    public function addAlteration($method, $arguments = [])
     {
         if ($method == 'resize') {
             $this->guessResizeArguments($arguments);

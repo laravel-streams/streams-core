@@ -52,6 +52,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Assets' => \Anomaly\Streams\Platform\Support\Facades\Assets::class,
         'Images' => \Anomaly\Streams\Platform\Support\Facades\Images::class,
         'Streams' => \Anomaly\Streams\Platform\Support\Facades\Streams::class,
+        'Includes' => \Anomaly\Streams\Platform\Support\Facades\Includes::class,
         'Messages' => \Anomaly\Streams\Platform\Support\Facades\Messages::class,
         'Application' => \Anomaly\Streams\Platform\Support\Facades\Application::class,
     ];

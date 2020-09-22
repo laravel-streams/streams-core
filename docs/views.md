@@ -74,6 +74,22 @@ Partials are reusable views intended to be included in many other views and even
 @verbatim@include('partials.assets')@endverbatim
 ```
 
+## Includes
+
+Includes are like named slots that can be accessed outside of, and prior to, the view layer.
+
+```php
+use Anomaly\Streams\Platform\Support\Facades\Includes;
+
+Includes::include('assets', 'partials.scripts');
+```
+
+```blade
+@verbatim@foreach($includes->get('assets', []) as $include)
+    @include $include
+@endforeach@endverbatim
+```
+
 ## Conventions
 
 We recommend the following conventions as best practice.

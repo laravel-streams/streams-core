@@ -141,26 +141,24 @@ Use the following methods to draw on images.
 
 ### Macros
 
+Macros are a basic method of [extending the Streams platform](extending).
+
 #### Defining Macros
 
+You can define macros in a service provider.
+
 ```php
-"macros" => [
-    "card" => [
-        "fit"  => [300, 500],
-        "quality" => 70,
-    ],
-    "thumbnail" => [
-        "fit"  => 125,
-        "quality" => 50,
-        "rename" => "thumbs/{filename}",
-    ],
-],
+use Anomaly\Streams\Platform\Image\Image;
+
+Image::macro('thumbnail', function () {
+    return $this->fit(148)->encode('jpg', 50);
+});
 ```
 
 #### Applying Macros
 
 ```php
-Images::make('img/foo.jpg')->macro('thumbnail')
+$thumbnail = Images::make('img/foo.jpg')->thumbnail();
 ```
 
 ## Outputting Images

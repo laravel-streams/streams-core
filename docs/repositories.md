@@ -7,14 +7,38 @@ enabled: true
 sort: 10
 ---
 
-- Introduction
-    - Please familiarize yourself with [streams](streams), [fields](fields), [entries](entries), before getting started with repositories and [queries](querying) before [extending](extending#the-basics) them.
-- Getting Started
-    - New Queries
-- The Basics
-    - Inserting Entries
-    - Updating Entries
-    - Deleting Entries
-- Extending Queries
-    - Custom Repositories
-    - Extending Basics
+## Introduction
+
+The Streams platform separates methods to retrieve and store entries from the entry objects themselves via repositories.
+
+You can initialize an entry repository using the `Streams::repository()` method and specifying the **stream**.
+
+```php
+use Anomaly\Streams\Platform\Support\Facades\Streams;
+
+// Start using the repository.
+Streams::repository('contacts');
+
+// You can also access from the stream.
+Streams::make('contacts')->repository();
+```
+
+### New Queries
+
+New queries can be started from the repository.
+
+```php
+// Start a new query.
+Streams::entries('contacts');
+
+// You can also start queries from the repository.
+Streams::repository('contacts')->newQuery();
+```
+
+## The Basics
+### Inserting Entries
+### Updating Entries
+### Deleting Entries
+## Extending Repositories
+### [Extending Basics](extending)
+### Custom Repositories

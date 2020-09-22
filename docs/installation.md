@@ -2,12 +2,23 @@
 title: Installation
 category: getting_started
 intro:
+enabled: true
 ---
 
-- **Intro:** Introduce the idea in one sentance.
-- **Explaination:** An elevator pitch that signals the reader to continue or not (keep looking for relavant page).
-- **Sections/Features:** Separate sections/sub-sections (h2s/h3s) consistently. This will build the ToC.
-- **Next Steps:** Next actions to take that are intentional versus simply additional reading.
-- **Code Examples:** Code examples and snippets.
-- **Insights:** Tips, post scriptum, creative links.
-- **Additional Reading:** Link to related ideas/topics/guides/recipes.
+The Streams platform is added to existing Laravel projects as a dependency by requiring it with Composer.
+
+```bash
+composer require anomaly/streams-platform
+```
+
+You might consider starting with the [Streams starter application](/docs/installation).
+
+## Updating
+
+From within your project, use Composer to update individual packages:
+
+```bash
+composer update anomaly/streams-platform --with-dependencies
+```
+
+You can, of course, update your entire project using `composer update`.
