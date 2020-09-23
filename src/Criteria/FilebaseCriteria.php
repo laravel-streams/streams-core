@@ -271,7 +271,7 @@ class FilebaseCriteria extends AbstractCiteria
      */
     protected function collect(array $entries)
     {
-        $collection = $this->stream->attr('collection', Collection::class);
+        $collection = $this->stream->getPrototypeAttribute('collection') ?: Collection::class;
 
         return new $collection(array_map(function ($entry) {
             return $this->make($entry);

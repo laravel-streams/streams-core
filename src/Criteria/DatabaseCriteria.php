@@ -50,8 +50,8 @@ class DatabaseCriteria implements CriteriaInterface
     {
         $this->stream = $stream;
 
-        $this->query = DB::connection($stream->attr('source.connection', Config::get('database.default')))
-            ->table($stream->attr('source.table'));
+        $this->query = DB::connection($stream->getPrototypeAttribute('source.connection') ?: Config::get('database.default'))
+            ->table($stream->getPrototypeAttribute('source.table'));
     }
 
     /**
@@ -235,7 +235,7 @@ class DatabaseCriteria implements CriteriaInterface
      */
     public function newInstance(array $attributes = [])
     {
-        $prototype = $this->stream->attr('config.prototype', Entry::class);
+        $prototype = $this->stream->getPrototypeAttribute('config.prototype') ?: Entry::class;
 
         $prototype = new $prototype($attributes);
 

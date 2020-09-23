@@ -74,7 +74,7 @@ class Stream implements Arrayable, Jsonable
             $data = $data->getAttributes();
         }
 
-        $rules = $this->attr('rules', []);
+        $rules = $this->getPrototypeAttribute('rules') ?: [];
 
         $rules = array_map(function($rules) {
             return implode('|', array_unique($rules));

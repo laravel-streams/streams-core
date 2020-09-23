@@ -41,11 +41,6 @@ trait Prototype
         'original' => [],
     ];
 
-    public function attr($key, $default = null)
-    {
-        return Arr::get($this->attributes, $key, $default);
-    }
-
     /**
      * Create a new Prototype instance.
      *
@@ -65,7 +60,7 @@ trait Prototype
      */
     public function __get($key)
     {
-        return $this->getAttribute($key);
+        return $this->getPrototypeAttribute($key);
     }
 
     /**
@@ -127,7 +122,7 @@ trait Prototype
      * @param string $key
      * @return mixed|Value
      */
-    public function getAttribute($key)
+    public function getPrototypeAttribute($key)
     {
         $parts = explode('.', $key);
 
@@ -144,7 +139,6 @@ trait Prototype
         }
 
         if ($parts) {
-            dd($parts);
             return data_get($value, implode('.', $parts));
         }
 
@@ -171,7 +165,7 @@ trait Prototype
     {
         $name = 'expand_' . $key . '_attribute';
 
-        $value = $this->getAttribute($key);
+        $value = $this->getPrototypeAttribute($key);
 
         if ($this->hasPrototypeOverrideMethod($name)) {
             return $this->{Str::camel($name)}($value);

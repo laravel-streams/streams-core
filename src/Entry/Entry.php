@@ -116,7 +116,7 @@ class Entry implements EntryInterface, Arrayable, Jsonable
      */
     public function __get($key)
     {
-        return $this->getAttribute($key);
+        return $this->getPrototypeAttribute($key);
     }
 
     /**

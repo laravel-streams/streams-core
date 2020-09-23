@@ -87,7 +87,7 @@ abstract class Image
             $attributes['alt'] = $alt;
         }
 
-        $attributes = array_merge((array)$this->attr('attributes', []), $attributes);
+        $attributes = array_merge((array)$this->getPrototypeAttribute('attributes') ?: [], $attributes);
 
         if (!isset($attributes['src'])) {
             $attributes['src'] = $this->url();
@@ -222,7 +222,7 @@ abstract class Image
      */
     public function altTag()
     {
-        $name = $this->filename ?: $this->attr('original');
+        $name = $this->filename ?: $this->getPrototypeAttribute('original');
 
         return ucwords(
             Str::humanize(
@@ -337,7 +337,7 @@ abstract class Image
     protected function filename()
     {
         if (!$this->alterations && !$this->quality) {
-            return $this->filename ?: $this->attr('original');
+            return $this->filename ?: $this->getPrototypeAttribute('original');
         }
 
         return md5(json_encode([$this->alterations, $this->quality])) . '.' . $this->extension();
@@ -396,7 +396,7 @@ abstract class Image
      */
     public function addAttribute($name, $value)
     {
-        $attributes = $this->attr('attributes', []);
+        $attributes = $this->getPrototypeAttribute('attributes', []);
 
         $attributes[$name] = $value;
 
