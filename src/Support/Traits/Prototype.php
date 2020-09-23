@@ -74,6 +74,7 @@ trait Prototype
         $this->setPrototypeAttribute($key, $value);
     }
 
+    
     /**
      * Set the prototype properties
      *
@@ -87,6 +88,16 @@ trait Prototype
         }
 
         return $this;
+    }
+
+    /**
+     * Get the prototype attributes.
+     *
+     * @return array
+     */
+    public function getPrototypeAttributes(): array
+    {
+        return $this->__prototype['attributes'];
     }
 
     /**
@@ -143,16 +154,6 @@ trait Prototype
         }
 
         return $value;
-    }
-
-    /**
-     * Get the prototype attributes.
-     *
-     * @return array
-     */
-    public function getPrototypeAttributes(): array
-    {
-        return $this->__prototype['attributes'];
     }
 
     /**
