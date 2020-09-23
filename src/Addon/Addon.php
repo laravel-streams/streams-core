@@ -66,6 +66,6 @@ class Addon implements Arrayable, Jsonable
      */
     public function __set($key, $value)
     {
-        $this->setAttribute($key, $value);
+        $this->setPrototypeAttribute($key, $value);
     }
 }

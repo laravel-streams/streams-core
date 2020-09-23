@@ -36,7 +36,7 @@ class FilebaseCriteria extends AbstractCiteria
     {
         $this->stream = $stream;
 
-        $source = $stream->expand('source');
+        $source = $stream->expandPrototypeAttribute('source');
 
         $this->query = new Database([
             'dir' => base_path($source->get('path', 'streams/data/' . $stream->handle)),

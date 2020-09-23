@@ -400,7 +400,7 @@ abstract class Image
 
         $attributes[$name] = $value;
 
-        $this->setAttribute('attributes', $attributes);
+        $this->setPrototypeAttribute('attributes', $attributes);
 
         return $this;
     }

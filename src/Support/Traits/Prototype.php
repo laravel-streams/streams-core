@@ -71,7 +71,7 @@ trait Prototype
      */
     public function __set($key, $value)
     {
-        $this->setAttribute($key, $value);
+        $this->setPrototypeAttribute($key, $value);
     }
 
     /**
@@ -83,7 +83,7 @@ trait Prototype
     public function setPrototypeAttributes(array $attributes)
     {
         foreach ($attributes as $key => $value) {
-            $this->setAttribute($key, $value);
+            $this->setPrototypeAttribute($key, $value);
         }
 
         return $this;
@@ -95,7 +95,7 @@ trait Prototype
      * @param string $key
      * @param mixed $value
      */
-    public function setAttribute($key, $value)
+    public function setPrototypeAttribute($key, $value)
     {
         if ($this->hasPrototypeOverrideMethod($name = 'set_' . $key . '_attribute')) {
 
@@ -161,7 +161,7 @@ trait Prototype
      * @param string $key
      * @return Value
      */
-    public function expand($key)
+    public function expandPrototypeAttribute($key)
     {
         $name = 'expand_' . $key . '_attribute';
 
