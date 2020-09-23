@@ -33,6 +33,11 @@ trait Fluency
         return $this->setPrototypeAttributes($attributes);
     }
 
+    public function expand($key)
+    {
+        return $this->expandPrototypeAttribute($key);
+    }
+
     public function setAttributes(array $attributes)
     {
         return $this->setPrototypeAttributes($attributes);

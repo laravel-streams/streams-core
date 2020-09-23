@@ -169,7 +169,7 @@ trait Prototype
         $value = $this->getPrototypeAttribute($key);
 
         if ($this->hasPrototypeOverrideMethod($name)) {
-            return $this->{Str::camel($name)}($value);
+            return $this->{Str::camel($name)}($value); 
         }
 
         $type = $this->newProtocolPropertyFieldType($key);
