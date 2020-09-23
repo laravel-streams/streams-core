@@ -6,7 +6,7 @@ use ReflectionProperty;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Ui\Button\Button;
-use Anomaly\Streams\Platform\Support\Traits\Properties;
+use Anomaly\Streams\Platform\Support\Traits\Prototype;
 
 /**
  * Class Hydrator
@@ -41,7 +41,7 @@ class Hydrator
         }
 
         if ($hasAttributes) {
-            $object->fill($parameters);
+            $object->setPrototypeAttributes($parameters);
         }
 
         return $object;
@@ -113,8 +113,8 @@ class Hydrator
         /**
          * Grab attributes last.
          */
-        if (in_array(Properties::class, $classes)) {
-            $attributes = $object->getAttributes();
+        if (in_array(Prototype::class, $classes)) {
+            $attributes = $object->getPrototypeAttributes();
         }
 
         return $attributes + $public + $accessors;

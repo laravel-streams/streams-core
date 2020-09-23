@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Traits\Macroable;
 use Intervention\Image\Image as InterventionImage;
-use Anomaly\Streams\Platform\Support\Traits\Properties;
+use Anomaly\Streams\Platform\Support\Traits\Prototype;
 
 /**
  * Class Image
@@ -22,7 +22,7 @@ use Anomaly\Streams\Platform\Support\Traits\Properties;
 abstract class Image
 {
     use Macroable;
-    use Properties;
+    use Prototype;
 
     /**
      * Return the image asset URL.

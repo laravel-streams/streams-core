@@ -5,7 +5,7 @@ namespace Anomaly\Streams\Platform\Field;
 use Anomaly\Streams\Platform\Field\Value\Value;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Support\Traits\Properties;
+use Anomaly\Streams\Platform\Support\Traits\Prototype;
 
 /**
  * Class Field
@@ -17,7 +17,7 @@ use Anomaly\Streams\Platform\Support\Traits\Properties;
 class FieldType
 {
     use HasMemory;
-    use Properties;
+    use Prototype;
 
     /**
      * Modify the value for storage.

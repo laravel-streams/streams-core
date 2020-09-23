@@ -41,7 +41,7 @@ class ImageTest extends StreamsTestCase
         $this->markTestIncomplete();
         $this->assertEquals(
             ['width' => '100%'],
-            Images::make('streams::testing/cat.jpg')->width('100%')->getAttributes()
+            Images::make('streams::testing/cat.jpg')->width('100%')->getPrototypeAttributes()
         );
     }
 

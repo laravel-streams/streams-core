@@ -5,7 +5,7 @@ namespace Anomaly\Streams\Platform\Application;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
-use Anomaly\Streams\Platform\Support\Traits\Properties;
+use Anomaly\Streams\Platform\Support\Traits\Prototype;
 use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
 
 /**
@@ -20,7 +20,7 @@ class Application
 
     use Macroable;
     use HasMemory;
-    use Properties;
+    use Prototype;
     use FiresCallbacks;
     
     /**

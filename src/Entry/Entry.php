@@ -8,7 +8,7 @@ use Illuminate\Contracts\Support\Jsonable;
 use Anomaly\Streams\Platform\Stream\Stream;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Support\Traits\Properties;
+use Anomaly\Streams\Platform\Support\Traits\Prototype;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
@@ -22,7 +22,9 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 class Entry implements EntryInterface, Arrayable, Jsonable
 {
 
-    use Properties;
+    use Prototype {
+        Prototype::__construct as private constructPrototype;
+    }
 
     /**
      * The stream instance.
@@ -35,9 +37,12 @@ class Entry implements EntryInterface, Arrayable, Jsonable
     {
         $this->stream = Arr::pull($attributes, 'stream');
 
-        $this->fill(array_merge($this->attributes, $attributes));
+        $this->constructPrototype($attributes);
+    }
 
-        $this->original = $this->attributes;
+    public function getAttributes()
+    {
+        return $this->getPrototypeAttributes();
     }
 
     /**

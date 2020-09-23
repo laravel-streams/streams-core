@@ -4,7 +4,7 @@ namespace Anomaly\Streams\Platform\Support;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
-use Anomaly\Streams\Platform\Support\Traits\Properties;
+use Anomaly\Streams\Platform\Support\Traits\Prototype;
 use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
 
 /**
@@ -17,8 +17,11 @@ use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
 class Workflow
 {
 
-    use Properties;
     use FiresCallbacks;
+
+    use Prototype {
+        Prototype::__construct as private constructPrototype;
+    }
 
     /**
      * The workflow steps.
@@ -35,6 +38,8 @@ class Workflow
     public function __construct(array $steps = [])
     {
         $this->steps = $this->named(array_merge($this->steps, $steps));
+
+        $this->constructPrototype();
     }
 
     /**
@@ -226,7 +231,7 @@ class Workflow
         if ($step == $this) {
             return '';
         }
-        
+
         if (is_object($step)) {
             $step = get_class($step);
         }

@@ -41,7 +41,7 @@ class StreamBuilder
          */
         if (isset($stream['extends'])) {
 
-            $parent = Streams::make($stream['extends'])->toArray()['attributes'];
+            $parent = Streams::make($stream['extends'])->toArray();
 
             $fields = array_merge(Arr::pull($parent, 'fields', []), $fields);
 

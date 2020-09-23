@@ -13,7 +13,7 @@ use Illuminate\Support\Traits\ForwardsCalls;
 use Anomaly\Streams\Platform\Repository\Repository;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
-use Anomaly\Streams\Platform\Support\Traits\Properties;
+use Anomaly\Streams\Platform\Support\Traits\Prototype;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
@@ -31,7 +31,7 @@ class Stream implements Arrayable, Jsonable
 
     use Macroable;
     use HasMemory;
-    use Properties;
+    use Prototype;
     use ForwardsCalls;
     use FiresCallbacks;
 

@@ -7,9 +7,10 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
+use Anomaly\Streams\Platform\Field\FieldType;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
-use Anomaly\Streams\Platform\Support\Traits\Properties;
+use Anomaly\Streams\Platform\Support\Traits\Prototype;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 
 /**
@@ -23,7 +24,7 @@ class Field implements FieldInterface, Arrayable, Jsonable
 {
     use HasMemory;
     use Macroable;
-    use Properties;
+    use Prototype;
 
     /**
      * Return the type instance.
