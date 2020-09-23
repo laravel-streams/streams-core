@@ -7,8 +7,8 @@ use Illuminate\Validation\Validator;
 use Illuminate\Contracts\Support\Jsonable;
 use Anomaly\Streams\Platform\Stream\Stream;
 use Illuminate\Contracts\Support\Arrayable;
+use Anomaly\Streams\Platform\Support\Traits\Eloquence;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Support\Traits\Prototype;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
@@ -19,11 +19,11 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
  * @author  Ryan Thompson <ryan@pyrocms.com>
  *
  */
-class Entry implements EntryInterface, Arrayable, Jsonable
+class Entry
 {
 
-    use Prototype {
-        Prototype::__construct as private constructPrototype;
+    use Eloquence {
+        Eloquence::__construct as private constructEloquence;
     }
 
     /**
@@ -33,16 +33,16 @@ class Entry implements EntryInterface, Arrayable, Jsonable
      */
     public $stream;
 
+    /**
+     * Create a new
+     *
+     * @param array $attributes
+     */
     public function __construct(array $attributes = [])
     {
         $this->stream = Arr::pull($attributes, 'stream');
 
-        $this->constructPrototype($attributes);
-    }
-
-    public function getAttributes()
-    {
-        return $this->getPrototypeAttributes();
+        $this->constructEloquence($attributes);
     }
 
     /**
@@ -106,28 +106,6 @@ class Entry implements EntryInterface, Arrayable, Jsonable
     public function toJson($options = 0)
     {
         return json_encode($this->toArray(), $options);
-    }
-
-    /**
-     * Dynamically retrieve attributes.
-     *
-     * @param  string $key
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        return $this->getPrototypeAttribute($key);
-    }
-
-    /**
-     * Dynamically set attributes.
-     *
-     * @param  string  $key
-     * @param  mixed $value
-     */
-    public function __set($key, $value)
-    {
-        $this->setPrototypeAttribute($key, $value);
     }
 
     /**
