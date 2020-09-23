@@ -19,12 +19,17 @@ You can also disable CSRF protection using [route options](routing#route-options
 ```json
 "csrf": false
 ```
-
+ 
 ```php
 Route::streams('uri', [
     'csrf' => false
 ]);
 ```
 
-- Policies
-- Users
+## Policies
+
+The Streams platform provides a flexible [policy interface](authorization) for policies.
+
+## Users
+
+The Streams platform provides a simple [user interface](authentication) to adapt to our requirements.
