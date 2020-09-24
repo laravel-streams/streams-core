@@ -52,7 +52,7 @@ class ArrValue extends Value
      */
     public function __call($method, $arguments)
     {
-        return Arr::{$method}(...$arguments);
+        return Arr::{$method}($this->value, ...$arguments);
 
         //throw new \Exception("Method [{$method}] does not exist on [{self::class}].");
     }

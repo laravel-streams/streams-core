@@ -52,6 +52,34 @@ class FieldCollection extends Collection
     }
 
     /**
+     * Return the rules for all fields.
+     * 
+     * @return array
+     */
+    public function rules()
+    {
+        return array_filter(
+            array_combine($this->keys()->all(), $this->map(function ($field) {
+                return $field->rules;
+            })->all())
+        );
+    }
+
+    /**
+     * Return the validators for all fields.
+     * 
+     * @return array
+     */
+    public function validators()
+    {
+        return array_filter(
+            array_combine($this->keys()->all(), $this->map(function ($field) {
+                return $field->validators;
+            })->all())
+        );
+    }
+
+    /**
      * Map attributes to get.
      *
      * @param string $key

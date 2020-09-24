@@ -30,6 +30,11 @@ class StreamInput
          * refer to existing base path file.
          */
         foreach (array_filter(Arr::dot($input), function ($value) {
+
+            if (!is_string($value)) {
+                return false;
+            }
+
             return strpos($value, '@') === 0;
         }) as $key => $import) {
             if (file_exists($import = base_path(substr($import, 1)))) {

@@ -61,7 +61,7 @@ class Stream implements Arrayable, Jsonable
     }
 
     /**
-     * Return an entry validator.
+     * Return an entry validator with the data.
      * 
      * @param $data
      * @return Validator
@@ -78,19 +78,8 @@ class Stream implements Arrayable, Jsonable
         $rules = $this->getPrototypeAttribute('rules') ?: [];
         $validators = $this->getPrototypeAttribute('validators') ?: [];
         
-        $fieldRules = $this->getPrototypeAttribute('rules') ?: [];
-        $fieldValidators = $this->getPrototypeAttribute('validators') ?: [];
-
-        /**
-         * Process validator rules.
-         */
-        $rules = array_map(function ($rules) {
-            return implode('|', array_unique($rules));
-        }, $rules);
-
-        $fieldRules = array_map(function ($rules) {
-            return implode('|', array_unique($rules));
-        }, $fieldRules);
+        $fieldRules = $this->fields->rules();
+        $fieldValidators = $this->fields->validators();
 
         /**
          * Merge stream and field configurations.
@@ -106,6 +95,17 @@ class Stream implements Arrayable, Jsonable
                 $fieldValidators[$field] = array_merge(Arr::get($fieldValidators, $field, []), $validators);
             }
         }
+
+        /**
+         * Process validator rules.
+         */
+        $rules = array_map(function ($rules) {
+            return implode('|', array_unique($rules));
+        }, $rules);
+
+        $fieldRules = array_map(function ($rules) {
+            return implode('|', array_unique($rules));
+        }, $fieldRules);
 
         /**
          * Extend the factory with custom validators.
