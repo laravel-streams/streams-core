@@ -47,11 +47,11 @@ class StreamsController extends Controller
             'data' => $data,
             'workflow' => $workflow
         ]);
-        
+
         $workflow
             ->passThrough($this)
             ->process(['data' => $data]);
-            
+
         $this->fire('responding', ['data' => $data]);
 
         if ($response = $data->get('response')) {
@@ -169,7 +169,14 @@ class StreamsController extends Controller
 
         $action = Request::route()->action;
 
-        if (($entry = $data->get('entry')) && $view = $entry->getPrototypeAttribute('streams__view')) {
+        /**
+         * Check if the entry is 
+         * overriding the view.
+         */
+        if (
+            ($entry = $data->get('entry'))
+            && $view = $entry->getPrototypeAttribute('streams__view')
+        ) {
 
             $data->put('view', $view);
 
