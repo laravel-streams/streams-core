@@ -29,7 +29,7 @@ class StreamInput
          * Import values matching @ which
          * refer to existing base path file.
          */
-        foreach (array_filter(Arr::dot($input), function($value) {
+        foreach (array_filter(Arr::dot($input), function ($value) {
             return strpos($value, '@') === 0;
         }) as $key => $import) {
             if (file_exists($import = base_path(substr($import, 1)))) {
@@ -62,6 +62,15 @@ class StreamInput
                 'view' => $route,
             ];
         }
+
+        $input['rules'] = array_map(function ($rules) {
+
+            if (is_string($rules)) {
+                return explode('|', $rules);
+            }
+
+            return $rules;
+        }, Arr::get($input, 'rules', []));
 
         return $input;
     }

@@ -68,17 +68,70 @@ class Stream implements Arrayable, Jsonable
      */
     public function validator($data): Validator
     {
+        $data = Arr::make($data);
+
         $factory = App::make(Factory::class);
 
-        if ($data instanceof EntryInterface) {
-            $data = $data->getAttributes();
+        /**
+         * https://gph.is/g/Eqn635a
+         */
+        $rules = $this->getPrototypeAttribute('rules') ?: [];
+        $validators = $this->getPrototypeAttribute('validators') ?: [];
+        
+        $fieldRules = $this->getPrototypeAttribute('rules') ?: [];
+        $fieldValidators = $this->getPrototypeAttribute('validators') ?: [];
+
+        /**
+         * Process validator rules.
+         */
+        $rules = array_map(function ($rules) {
+            return implode('|', array_unique($rules));
+        }, $rules);
+
+        $fieldRules = array_map(function ($rules) {
+            return implode('|', array_unique($rules));
+        }, $fieldRules);
+
+        /**
+         * Merge stream and field configurations.
+         */
+        foreach ($fieldRules as $field => $rules) {
+            if ($rules) {
+                $fieldRules[$field] = array_merge(Arr::get($fieldRules, $field, []), $rules);
+            }
         }
 
-        $rules = $this->getPrototypeAttribute('rules') ?: [];
+        foreach ($fieldValidators as $field => $validators) {
+            if ($validators) {
+                $fieldValidators[$field] = array_merge(Arr::get($fieldValidators, $field, []), $validators);
+            }
+        }
 
-        $rules = array_map(function($rules) {
-            return implode('|', array_unique($rules));
-        }, $this->rules);
+        /**
+         * Extend the factory with custom validators.
+         */
+        foreach ($validators as $rule => $validator) {
+
+            $handler = Arr::get($validator, 'handler');
+
+            $factory->extend(
+                $rule,
+                function ($attribute, $value, $parameters, Validator $validator) use ($handler) {
+
+                    App::call(
+                        $handler,
+                        [
+                            'value' => $value,
+                            'attribute' => $attribute,
+                            'validator' => $validator,
+                            'parameters' => $parameters,
+                        ],
+                        'handle'
+                    );
+                },
+                Arr::get($validator, 'message')
+            );
+        }
 
         return $factory->make($data, $rules);
     }
