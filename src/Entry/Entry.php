@@ -50,41 +50,9 @@ class Entry implements EntryInterface, Arrayable, Jsonable
     }
 
     /**
-     * Load an entry over this one.
-     *
-     * @param $identifier
-     * @return $this
-     */
-    public function loadEntry($identifier)
-    {
-        $loaded = $this->stream->repository()->find($identifier);
-
-        $this->setPrototypeAttributes(
-            array_merge($this->toArray(), $loaded->toArray())
-        );
-
-        return $this;
-    }
-
-    /**
-     * Extend over another entry.
-     *
-     * @param $identifier
-     * @return $this
-     */
-    public function extendEntry($identifier)
-    {
-        $extended = $this->stream->repository()->find($identifier);
-
-        $this->setPrototypeAttributes(
-            array_merge($extended->toArray(), $this->toArray())
-        );
-
-        return $this;
-    }
-
-    /**
      * Return the entry stream.
+     * 
+     * @return Stream
      */
     public function stream()
     {
@@ -123,6 +91,40 @@ class Entry implements EntryInterface, Arrayable, Jsonable
     public function validator()
     {
         return $this->stream->validator($this);
+    }
+
+    /**
+     * Load an entry over this one.
+     *
+     * @param $identifier
+     * @return $this
+     */
+    protected function loadEntry($identifier)
+    {
+        $loaded = $this->stream->repository()->find($identifier);
+
+        $this->setPrototypeAttributes(
+            array_merge($this->toArray(), $loaded->toArray())
+        );
+
+        return $this;
+    }
+
+    /**
+     * Extend over another entry.
+     *
+     * @param $identifier
+     * @return $this
+     */
+    protected function extendEntry($identifier)
+    {
+        $extended = $this->stream->repository()->find($identifier);
+
+        $this->setPrototypeAttributes(
+            array_merge($extended->toArray(), $this->toArray())
+        );
+
+        return $this;
     }
 
     /**
