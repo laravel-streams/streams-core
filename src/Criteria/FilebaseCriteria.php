@@ -156,19 +156,6 @@ class FilebaseCriteria extends AbstractCiteria
      * @param string|null $value
      * @return $this
      */
-    public function andWhere($field, $operator = null, $value = null)
-    {
-        return $this->where($field, $operator, $value, 'and');
-    }
-
-    /**
-     * Add a where constraint.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
-     * @return $this
-     */
     public function orWhere($field, $operator = null, $value = null)
     {
         return $this->where($field, $operator, $value, 'or');

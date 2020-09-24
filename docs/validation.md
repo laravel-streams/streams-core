@@ -1,7 +1,7 @@
 ---
 title: Validation
 category: basics
-intro: 
+intro: The Streams platform helps you organize and execute your validation policies.
 stage: outlining
 enabled: true
 sort: 10
@@ -11,22 +11,40 @@ references:
 
 ## Introduction
 
-The Streams platform provides a simple interface to leverage [Laravel validation](https://laravel.com/docs/validation).
+The Streams platform provides a simple interface to leverage Laravel's own validation. Please make sure you are familiar with basic [Laravel validation](https://laravel.com/docs/validation) before proceeding.
 
 ## Defining Rules
 
-In general, you define validation rules in the Streams platform in a similar fashion as Laravel.
+The Streams platform leans heavily on native Laravel validation and focuses on automating the process from domain information and allowing flexibility to adjust this behavior entirely.
 
-```php
-$rules = [
-    'title' => 'required|max:100',
-    'body' => 'required',
-];
+### Rule Configuration
+
+Rules are generally configured and built the same way within the Streams platform. All Streams rule configurations support arrays of rules or the typical pipe deliminated string.
+
+#### Stream Rules
+
+You can also define validation rules within [stream cofiguration](streams#defining-streams).
+
+```json
+// streams/contacts.json
+{
+    "rules": {
+        "name": [
+            "required",
+            "max:100"
+        ],
+        "email": [
+            "required",
+            "email:rfc,dns"
+        ],
+        "company": "required|unique"
+    }
+}
 ```
 
-### Field Rules
+#### Field Rules
 
-You can define **rules** directly on stream [fields](fields#defining-fields). Note you can specify the individual rules as an array or pipe deliminated string.
+You can define **rules** whithin [field configuration](fields#defining-fields) as well.
 
 ```json
 // streams/contacts.json
@@ -55,32 +73,32 @@ You can define **rules** directly on stream [fields](fields#defining-fields). No
 }
 ```
 
-### Stream Rules
-
-You can also define validation rules directly on the [stream cofiguration](streams#defining-streams). Here again, you can specify the individual rules as an array or pipe deliminated string.
-
-```json
-// streams/contacts.json
-{
-    "rules": {
-        "name": [
-            "required",
-            "max:100"
-        ],
-        "email": [
-            "required",
-            "email:rfc,dns"
-        ],
-        "company": "required|unique"
-    }
-}
-```
-
 ### Custom Validators
 
 The Streams platform supports [custom validators](https://laravel.com/docs/validation#custom-validation-rules). The **handler** or validator class is required as well as a **message** string which is translatable.
 
+#### Stream Validators
+
+Validators can also be defined on the [stream configuration](streams#defining-streams) to support all fields.
+
+```json
+// streams/contacts.json
+{
+    "rules": [
+        "name": ["custom_rule"]
+    ],
+    "validators": {
+        "custom_rule": {
+            "handler": "App\\Validators\\CustomRuleValidator",
+            "message": "The :attribute value is no good."
+        }
+    }
+}
+```
+
 #### Field Validators
+
+Validators can be defined on the [field configuration](fields#defining-fields) in which they apply.
 
 ```json
 // streams/contacts.json
@@ -102,23 +120,38 @@ The Streams platform supports [custom validators](https://laravel.com/docs/valid
 }
 ```
 
-#### Stream Validators
+## Validating
 
-```json
-// streams/contacts.json
-{
-    "rules": [
-        "name": ["custom_rule"]
-    ],
-    "validators": {
-        "custom_rule": {
-            "handler": "App\\Validators\\CustomRuleValidator",
-            "message": "The :attribute value is no good."
-        }
-    }
+Being that data validation is a fundamental principle, all validation typically operates around the domain objects.
+
+### Entry Validator
+
+You can return a pre-loaded validator instance directly from the entry itself.
+
+```php
+use Anomaly\Streams\Platform\Support\Facades\Streams;
+
+$entry = Streams::repository('contacts')->find('john-doe');
+
+if ($entry->validator()->passes()) {
+    // Yay!
 }
 ```
 
-## Validating
-    - Entry Validator
-    - Stream Validator ($data)
+### Stream Validator
+
+You may also return a validator instance with your own **data** which can be an entry object or _array_ of data to validate as an entry. 
+
+```php
+use Anomaly\Streams\Platform\Support\Facades\Streams;
+
+$validator = Streams::repository('contacts')->validator([
+    'name' => 'John Doe',
+    'email' => 'john@doe.me',
+    'company' => 'streams',
+]);
+
+if ($entry->validator()->passes()) {
+    // Yay!
+}
+```

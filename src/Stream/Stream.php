@@ -14,7 +14,6 @@ use Anomaly\Streams\Platform\Repository\Repository;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
 use Anomaly\Streams\Platform\Support\Traits\Prototype;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
@@ -114,9 +113,8 @@ class Stream implements Arrayable, Jsonable
 
             $handler = Arr::get($validator, 'handler');
 
-            $factory->extend(
-                $rule,
-                function ($attribute, $value, $parameters, Validator $validator) use ($handler) {
+            if (strpos($handler, '@')) {
+                $handler = function ($attribute, $value, $parameters, Validator $validator) use ($handler) {
 
                     App::call(
                         $handler,
@@ -128,7 +126,12 @@ class Stream implements Arrayable, Jsonable
                         ],
                         'handle'
                     );
-                },
+                };
+            }
+
+            $factory->extend(
+                $rule,
+                $handler,
                 Arr::get($validator, 'message')
             );
         }

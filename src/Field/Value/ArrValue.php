@@ -36,8 +36,8 @@ class ArrValue extends Value
     {
         $attributes = array_merge($this->value, $attributes);
 
-        array_walk($attributes, function(&$value, $key) {
-            $value = $key . '="'.$value.'"';
+        array_walk($attributes, function (&$value, $key) {
+            $value = $key . '="' . $value . '"';
         });
 
         return implode(' ', $attributes);
@@ -52,8 +52,10 @@ class ArrValue extends Value
      */
     public function __call($method, $arguments)
     {
-        return Arr::{$method}($this->value, ...$arguments);
+        if (method_exists(Arr::class, $method)) {
+            return Arr::{$method}($this->value, ...$arguments);
+        }
 
-        //throw new \Exception("Method [{$method}] does not exist on [{self::class}].");
+        throw new \Exception("Method [{$method}] does not exist on [{self::class}].");
     }
 }

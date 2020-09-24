@@ -68,6 +68,7 @@ $entry->company->email;     // The related company's email value.
 Streams can streamline **routing** by defining routes in their configuration.
 
 ```json
+// streams/contacts.json
 {
     "routes": {
         "index": "contacts",
@@ -79,10 +80,34 @@ Streams can streamline **routing** by defining routes in their configuration.
 You can also use an array to include other **route options**.
 
 ```json
+// streams/contacts.json
 {
     "routes": {
         "csrf": false,
         "email": "form/{entry.email}",
+    }
+}
+```
+
+### Stream Validation
+
+Streams simplify **validation** by defining validation in their configuration.
+
+- [Defining Rules](validation#rule-configuration)
+
+```json
+// streams/contacts.json
+{
+    "rules": {
+        "name": [
+            "required",
+            "max:100"
+        ],
+        "email": [
+            "required",
+            "email:rfc,dns"
+        ],
+        "company": "required|unique"
     }
 }
 ```

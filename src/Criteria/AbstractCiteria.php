@@ -99,7 +99,7 @@ abstract class AbstractCiteria implements CriteriaInterface
      * @param string|null $value
      * @return $this
      */
-    abstract public function andWhere($field, $operator = null, $value = null);
+    //abstract public function andWhere($field, $operator = null, $value = null);
 
     /**
      * Add a where constraint.
