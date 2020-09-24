@@ -169,6 +169,13 @@ class StreamsController extends Controller
 
         $action = Request::route()->action;
 
+        if (($entry = $data->get('entry')) && $view = $entry->getPrototypeAttribute('streams__view')) {
+
+            $data->put('view', $view);
+
+            return;
+        }
+
         /**
          * If the view is set
          * then use it as is.

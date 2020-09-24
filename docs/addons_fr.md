@@ -1,8 +1,8 @@
 ---
 title: French Addons
-streams__extends: addons
 enabled: true
 category: advanced
+streams__extends: addons
 ---
 
 This is the French content.

@@ -44,31 +44,43 @@ class Entry implements EntryInterface, Arrayable, Jsonable
 
         $this->constructFluency($attributes);
 
-        /**
-         * Extend another entry.
-         */
-        if ($this->hasPrototypeAttribute('streams__extends')) {
-
-            $parent = $this->stream->repository()->find($this->streams__extends);
-
-            $this->setPrototypeAttributes(
-                array_merge($parent->toArray(), $this->toArray(), ['parent' => $parent])
-            );
+        if ($handle = $this->getPrototypeAttribute('streams__extends')) {
+            $this->extendEntry($handle);
         }
+    }
 
-        // /**
-        //  * Load another entry.
-        //  */
-        // if ($this->hasPrototypeAttribute('streams__load')) {
+    /**
+     * Load an entry over this one.
+     *
+     * @param $identifier
+     * @return $this
+     */
+    public function loadEntry($identifier)
+    {
+        $loaded = $this->stream->repository()->find($identifier);
 
-        //     $parent = $this->stream->repository()->find($this->streams__load);
+        $this->setPrototypeAttributes(
+            array_merge($this->toArray(), $loaded->toArray())
+        );
 
-        //     $parent->loadPrototypeAttributes(
-        //         array_merge($this->toArray(), ['parent' => $parent])
-        //     );
+        return $this;
+    }
 
-        //     $this->setPrototypeAttributes($parent->getPrototypeAttributes());
-        // }
+    /**
+     * Extend over another entry.
+     *
+     * @param $identifier
+     * @return $this
+     */
+    public function extendEntry($identifier)
+    {
+        $extended = $this->stream->repository()->find($identifier);
+
+        $this->setPrototypeAttributes(
+            array_merge($extended->toArray(), $this->toArray())
+        );
+
+        return $this;
     }
 
     /**
