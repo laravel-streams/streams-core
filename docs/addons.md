@@ -1,7 +1,7 @@
 ---
 title: Addons
 category: advanced
-intro: 
+intro: This is the addons intro.
 stage: outlining
 enabled: true
 ---

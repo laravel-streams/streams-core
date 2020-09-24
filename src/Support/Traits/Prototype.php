@@ -74,7 +74,21 @@ trait Prototype
         $this->setPrototypeAttribute($key, $value);
     }
 
-    
+    /**
+     * Load prototype attributes.
+     *
+     * @param array $attributes
+     * @return $this
+     */
+    public function loadPrototypeAttributes(array $attributes)
+    {
+        foreach ($attributes as $key => $value) {
+            $this->setPrototypeAttribute($key, $value);
+        }
+
+        return $this;
+    }
+
     /**
      * Set the prototype properties
      *
@@ -83,6 +97,8 @@ trait Prototype
      */
     public function setPrototypeAttributes(array $attributes)
     {
+        $this->__prototype['attributes'] = [];
+
         foreach ($attributes as $key => $value) {
             $this->setPrototypeAttribute($key, $value);
         }
@@ -169,7 +185,7 @@ trait Prototype
         $value = $this->getPrototypeAttribute($key);
 
         if ($this->hasPrototypeOverrideMethod($name)) {
-            return $this->{Str::camel($name)}($value); 
+            return $this->{Str::camel($name)}($value);
         }
 
         $type = $this->newProtocolPropertyFieldType($key);
@@ -291,6 +307,23 @@ trait Prototype
         }
 
         if (method_exists($this, Str::camel($name))) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if an attribute exists.
+     * 
+     *
+     * @param string $name
+     *
+     * @return bool
+     */
+    protected function hasPrototypeAttribute($key): bool
+    {
+        if (isset($this->__prototype['attributes'][$key])) {
             return true;
         }
 

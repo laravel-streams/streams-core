@@ -43,6 +43,32 @@ class Entry implements EntryInterface, Arrayable, Jsonable
         $this->stream = Arr::pull($attributes, 'stream');
 
         $this->constructFluency($attributes);
+
+        /**
+         * Extend another entry.
+         */
+        if ($this->hasPrototypeAttribute('streams__extends')) {
+
+            $parent = $this->stream->repository()->find($this->streams__extends);
+
+            $this->setPrototypeAttributes(
+                array_merge($parent->toArray(), $this->toArray(), ['parent' => $parent])
+            );
+        }
+
+        // /**
+        //  * Load another entry.
+        //  */
+        // if ($this->hasPrototypeAttribute('streams__load')) {
+
+        //     $parent = $this->stream->repository()->find($this->streams__load);
+
+        //     $parent->loadPrototypeAttributes(
+        //         array_merge($this->toArray(), ['parent' => $parent])
+        //     );
+
+        //     $this->setPrototypeAttributes($parent->getPrototypeAttributes());
+        // }
     }
 
     /**

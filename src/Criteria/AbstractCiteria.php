@@ -217,9 +217,9 @@ abstract class AbstractCiteria implements CriteriaInterface
     {
         $prototype = $this->stream->getPrototypeAttribute('config.prototype') ?: Entry::class;
 
-        $prototype = new $prototype($attributes);
+        $attributes['stream'] = $this->stream;
 
-        $prototype->stream = $this->stream;
+        $prototype = new $prototype($attributes);
 
         return $prototype;
     }

@@ -30,7 +30,7 @@ trait Fluency
 
     public function fill(array $attributes)
     {
-        return $this->setPrototypeAttributes($attributes);
+        return $this->loadPrototypeAttributes($attributes);
     }
 
     public function expand($key)
