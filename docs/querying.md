@@ -11,9 +11,7 @@ sort: 10
 
 Querying builds upon knowledge of [streams](streams), [fields](fields), and [entries](entries). Using the querying techniques below you can retreive, insert, and update stream configured entry data.
 
-## Getting Started
-
-### New Queries
+### Getting Started
 
 To initialize a new query use the `Streams::entries()` method.
 
@@ -45,27 +43,27 @@ You may use the `where` method on a query instance to add where clauses to the q
 For example, here is a query that verifies the value of the "votes" column is equal to 100:
 
 ```php
-$users = Streams::make('users')->where('votes', '=', 100)->get();
+$users = Streams::entries('users')->where('votes', '=', 100)->get();
 ```
 
 For convenience, if you want to verify that a field is equal to a given value, you may pass the value directly as the second argument to the where method:
 
 ```php
-$users = Streams::make('users')->where('votes', 100)->get();
+$users = Streams::entries('users')->where('votes', 100)->get();
 ```
 
 You may use a variety of other operators when writing a where clause:
 
 ```php
-$users = Streams::make('users')
+$users = Streams::entries('users')
     ->where('votes', '>=', 100)
     ->get();
 
-$users = Streams::make('users')
+$users = Streams::entries('users')
     ->where('votes', '<>', 100)
     ->get();
 
-$users = Streams::make('users')
+$users = Streams::entries('users')
     ->where('name', 'like', 'T%')
     ->get();
 ```
@@ -75,7 +73,7 @@ $users = Streams::make('users')
 You may chain where constraints together as well as add **or** clauses to the query. The orWhere method accepts the same arguments as the where method:
 
 ```php
-$users = Streams::make('users')
+$users = Streams::entries('users')
     ->where('votes', '>', 100)
     ->orWhere('name', 'John')
     ->get();
@@ -86,7 +84,7 @@ $users = Streams::make('users')
 The `orderBy` method allows you to sort the result of the query by a given field. The first argument to the `orderBy` method should be the field you wish to sort by, while the second argument controls the direction of the sort and may be either `asc` or `desc`:
 
 ```php
-$users = Streams::make('users')
+$users = Streams::entries('users')
     ->orderBy('name', 'desc')
     ->get();
 ```
@@ -94,22 +92,10 @@ $users = Streams::make('users')
 If you need to sort by multiple fields, you may invoke `orderBy` as many times as needed:
 
 ```php
-$users = Streams::make('users')
+$users = Streams::entries('users')
     ->orderBy('name', 'desc')
     ->orderBy('email', 'asc')
     ->get();
-```
-
-### Pagination
-
-The `paginate` method allows you to generate a paginated result. A [Laravel paginator](https://laravel.com/docs/pagination) instance is returned.
-
-```php
-$users = Streams::make('users')->paginate(15);
-
-echo $users->links(); // Render pagination
-echo $users->items(); // Return all items
-echo $users->total(); // Return total items
 ```
 
 ### Limit/Offset
@@ -118,14 +104,26 @@ The `limit` method allows you to limit the number of result returned by the quer
 
 ```php
 // The first 10
-$users = Streams::make('users')
+$users = Streams::entries('users')
     ->limit(10)
     ->get();
 
 // The next 10
-$users = Streams::make('users')
+$users = Streams::entries('users')
     ->limit(10, 10)
     ->get();
+```
+
+### Pagination
+
+The `paginate` method allows you to generate a paginated result. A [Laravel paginator](https://laravel.com/docs/pagination) instance is returned.
+
+```php
+$users = Streams::entries('users')->paginate(15);
+
+echo $users->links(); // Render pagination
+echo $users->items(); // Return all items
+echo $users->total(); // Return total items
 ```
 
 ## Extending Queries

@@ -142,6 +142,32 @@ class MessageManager
     }
 
     /**
+     * Add a danger message.
+     *
+     * @param $message
+     * @return $this
+     */
+    public function danger($message)
+    {
+        $this->add(__FUNCTION__, $message);
+
+        return $this;
+    }
+
+    /**
+     * Add a important message.
+     *
+     * @param $message
+     * @return $this
+     */
+    public function important($message)
+    {
+        $this->add(__FUNCTION__, $message);
+
+        return $this;
+    }
+
+    /**
      * Flush the messages.
      *
      * @return $this

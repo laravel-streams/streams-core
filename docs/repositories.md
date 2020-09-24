@@ -11,6 +11,8 @@ sort: 10
 
 The Streams platform separates methods to retrieve and store entries from the entry objects themselves via repositories.
 
+### Getting Started
+
 You can initialize an entry repository using the `Streams::repository()` method and specifying the **stream**.
 
 ```php
@@ -25,7 +27,7 @@ Streams::make('contacts')->repository();
 
 ### New Queries
 
-New queries can be started from the repository.
+New [queries](querying) can be started from the repository.
 
 ```php
 // Start a new query.
