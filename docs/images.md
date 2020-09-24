@@ -60,7 +60,7 @@ If the file is not found relative to the base path of your application, the defa
 The URL of a remote image may also be used. The `allow_url_fopen` PHP directive must be enabled to use remote image sources.
 
 ```blade
-@verbatim{!! Images::make('resources/img/foo.jpg') !!}@endverbatim
+@verbatim{!! Images::make('https://example.com/img/foo.jpg') !!}@endverbatim
 ```
 
 Remote images are cached locally. To use remote images without caching locally just use regular `<img>` tags.

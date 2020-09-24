@@ -112,6 +112,37 @@ Streams simplify **validation** by defining validation in their configuration.
 }
 ```
 
+### Caching
+
+Streams provides a touch-free caching system you can define in the configuration.
+
+- [Defining Rules](validation#rule-configuration)
+
+```json
+// streams/contacts.json
+{
+    "cache": false,
+    "ttl": 1800 // 30 minutes
+}
+```
+
+### Sources
+
+Sources define the source information for entry data which you can define in the configuration.
+
+- [Defining Sources](sources#defining-sources)
+
+```json
+// streams/contacts.json
+{
+    "source": {
+        "type": "filebase",
+        "format": "md",
+        "prototype": "Anomaly\\Streams\\Platform\\Entry\\Entry"
+    }
+}
+```
+
 ## Stream Entries
 
 Domain entities are called `entries` within the Streams platform. A stream defines entry attributes, or `fields`, that dictate the entry's properties, data-casting, and more.
