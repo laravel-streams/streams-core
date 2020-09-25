@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform;
 
+use HTMLPurifier;
 use StringTemplate\Engine;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -52,6 +53,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Assets' => \Anomaly\Streams\Platform\Support\Facades\Assets::class,
         'Images' => \Anomaly\Streams\Platform\Support\Facades\Images::class,
         'Streams' => \Anomaly\Streams\Platform\Support\Facades\Streams::class,
+        'Includes' => \Anomaly\Streams\Platform\Support\Facades\Includes::class,
         'Messages' => \Anomaly\Streams\Platform\Support\Facades\Messages::class,
         'Application' => \Anomaly\Streams\Platform\Support\Facades\Application::class,
     ];
@@ -112,6 +114,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerConfig();
 
 
+        $this->extendUrlGenerator();
         $this->extendCollection();
         $this->extendRouter();
         $this->extendLang();
@@ -395,18 +398,23 @@ class StreamsServiceProvider extends ServiceProvider
 
             $stream = Streams::load($file->getPathname());
 
-            /**
-             * Route the Stream.
-             * @todo Hmmm.. is this appropriate?
-             */
-            if ($routes = $stream->route) {
-                foreach ($routes as $key => $route) {
-                    Route::any($route, [
-                        'stream' => $stream->handle,
-                        'as' => 'streams::' . $stream->handle . '.' . $key,
-                        'uses' => EntryController::class . '@view',
-                    ]);
+            foreach ($stream->routes ?: [] as $key => $route) {
+
+                if (is_string($route)) {
+                    $route = [
+                        'uri' => $route,
+                    ];
                 }
+
+                if (!isset($route['stream'])) {
+                    $route['stream'] = $stream->handle;
+                }
+
+                if (!isset($route['as'])) {
+                    $route['as'] = Arr::get($route, 'as', 'streams::' . $stream->handle . '.' . $key);
+                }
+
+                Route::streams(Arr::get($route, 'uri'), $route);
             }
         }
     }
@@ -496,6 +504,31 @@ class StreamsServiceProvider extends ServiceProvider
     }
 
     /**
+     * Extend the URL generator.
+     */
+    protected function extendUrlGenerator()
+    {
+        URL::macro('streams', function ($name, $parameters = [], array $extra = [], $absolute = true) {
+
+            $parameters = Arr::make($parameters);
+
+            $extra = $extra ? '?' . http_build_query($extra) : null;
+
+            if (!$route = $this->routes->getByName($name)) {
+                return URL::to(Str::parse($name, $parameters) . $extra, [], $absolute);
+            }
+
+            $uri = $route->uri();
+
+            foreach (array_keys($parameters) as $key) {
+                $uri = str_replace("{{$key}__", "{{$key}.", $uri);
+            }
+
+            return URL::to(Str::parse($uri, $parameters) . $extra, [], $absolute);
+        });
+    }
+
+    /**
      * Extend the base collection.
      */
     protected function extendCollection()
@@ -521,27 +554,47 @@ class StreamsServiceProvider extends ServiceProvider
     {
         Route::macro('streams', function ($uri, $route) {
 
+            /**
+             * Replace deep entry attributes with
+             * something we can reference later.
+             */
+            $uri = str_replace('entry.', 'entry__', $uri);
+
+            /**
+             * If the route is a controller...
+             */
             if (is_string($route) && strpos($route, '@')) {
                 $route = [
                     'uses' => $route,
                 ];
             }
 
+            /**
+             * Assume the route is a view otherwise.
+             */
             if (is_string($route) && !strpos($route, '@')) {
-                
-                // $route = [
-                //     'view' => $route,
-                // ];
-
-                return Route::view($uri, $route);
+                $route = [
+                    'view' => $route,
+                    'uses' => '\Anomaly\Streams\Platform\Http\Controller\StreamsController@handle',
+                ];
             }
 
             /**
-             * Pull out post-route configuration. 
+             * Pull out route options. What's left
+             * is passed in as route action data.
              */
-            $verb        = Arr::pull($route, 'verb', 'any');
+            $csrf        = Arr::pull($route, 'csrf');
+            $verb        = Arr::pull($route, 'verb', 'get');
             $middleware  = Arr::pull($route, 'middleware', []);
             $constraints = Arr::pull($route, 'constraints', []);
+
+            /**
+             * Ensure some default
+             * information is present.
+             */
+            if (!isset($route['uses'])) {
+                $route['uses'] = '\Anomaly\Streams\Platform\Http\Controller\StreamsController@handle';
+            }
 
             /**
              * If the route contains a
@@ -572,6 +625,13 @@ class StreamsServiceProvider extends ServiceProvider
              */
             if ($middleware) {
                 call_user_func_array([$route, 'middleware'], (array) $middleware);
+            }
+
+            /**
+             * Disable CSRF
+             */
+            if ($csrf === false) {
+                call_user_func_array([$route, 'withoutMiddleware'], ['csrf']);
             }
         });
     }
@@ -672,6 +732,23 @@ class StreamsServiceProvider extends ServiceProvider
 
             return $target;
         });
+
+        Arr::macro('undot', function ($array) {
+
+            foreach ($array as $key => $value) {
+
+                if (!strpos($key, '.')) {
+                    continue;
+                }
+
+                Arr::set($array, $key, $value);
+
+                // Trash the old key.
+                unset($array[$key]);
+            }
+
+            return $array;
+        });
     }
 
     /**
@@ -684,15 +761,15 @@ class StreamsServiceProvider extends ServiceProvider
         Str::macro('truncate', [StringHelper::class , 'truncate']);
 
         Str::macro('purify', function ($value) {
-            return app(Purifier::class)->purify($value);
+            return (new HTMLPurifier)->purify($value);
         });
 
         Str::macro('parse', function ($target, array $data = []) {
             return app(Engine::class)->render($target, array_merge(app('streams.parser_data'), Arr::make($data)));
         });
 
-        Str::macro('markdown', function ($target, array $data = []) {
-            return (new \Parsedown)->parse($target, array_merge(app('streams.parser_data'), Arr::make($data)));
+        Str::macro('markdown', function ($target) {
+            return (new \Parsedown)->parse($target);
         });
     }
 }

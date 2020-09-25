@@ -2,8 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Field\Value;
 
-use Collective\Html\HtmlFacade;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 /**
  * Class ArrValue
@@ -16,25 +16,13 @@ class ArrValue extends Value
 {
 
     /**
-     * Get an array value.
-     *
-     * @param string $key
-     * @param mixed $default
+     * Return a collection of the value.
+     * 
+     * @return Collection
      */
-    public function get($key, $default = null)
+    public function collect()
     {
-        return Arr::get($this->value, $key, $default);
-    }
-
-    /**
-     * Pull an array value.
-     *
-     * @param string $key
-     * @param mixed $default
-     */
-    public function pull($key, $default = null)
-    {
-        return Arr::pull($this->value, $key, $default);
+        return Arr::collect($this->value);
     }
 
     /**
@@ -48,10 +36,26 @@ class ArrValue extends Value
     {
         $attributes = array_merge($this->value, $attributes);
 
-        array_walk($attributes, function(&$value, $key) {
-            $value = $key . '="'.$value.'"';
+        array_walk($attributes, function (&$value, $key) {
+            $value = $key . '="' . $value . '"';
         });
 
         return implode(' ', $attributes);
+    }
+
+    /**
+     * Map calls through the array helper.
+     *
+     * @param $method
+     * @param $arguments
+     * @return mixed
+     */
+    public function __call($method, $arguments)
+    {
+        if (method_exists(Arr::class, $method)) {
+            return Arr::{$method}($this->value, ...$arguments);
+        }
+
+        throw new \Exception("Method [{$method}] does not exist on [{self::class}].");
     }
 }

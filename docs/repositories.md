@@ -2,13 +2,45 @@
 title: Repositories
 category: database
 intro: 
+stage: outlining
+enabled: true
 sort: 10
 ---
 
-- **Intro:** Introduce the idea in one sentance.
-- **Explaination:** An elevator pitch that signals the reader to continue or not (keep looking for relavant page).
-- **Sections/Features:** Separate sections/sub-sections (h2s/h3s) consistently. This will build the ToC.
-- **Next Steps:** Next actions to take that are intentional versus simply additional reading.
-- **Code Examples:** Code examples and snippets.
-- **Insights:** Tips, post scriptum, creative links.
-- **Additional Reading:** Link to related ideas/topics/guides/recipes.
+## Introduction
+
+The Streams platform separates methods to retrieve and store entries from the entry objects themselves via repositories.
+
+### Getting Started
+
+You can initialize an entry repository using the `Streams::repository()` method and specifying the **stream**.
+
+```php
+use Anomaly\Streams\Platform\Support\Facades\Streams;
+
+// Start using the repository.
+Streams::repository('contacts');
+
+// You can also access from the stream.
+Streams::make('contacts')->repository();
+```
+
+### New Queries
+
+New [queries](querying) can be started from the repository.
+
+```php
+// Start a new query.
+Streams::entries('contacts');
+
+// You can also start queries from the repository.
+Streams::repository('contacts')->newQuery();
+```
+
+## The Basics
+### Inserting Entries
+### Updating Entries
+### Deleting Entries
+## Extending Repositories
+### [Extending Basics](extending)
+### Custom Repositories

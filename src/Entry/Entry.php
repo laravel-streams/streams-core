@@ -5,10 +5,10 @@ namespace Anomaly\Streams\Platform\Entry;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Validator;
 use Illuminate\Contracts\Support\Jsonable;
-use Anomaly\Streams\Platform\Stream\Stream;
 use Illuminate\Contracts\Support\Arrayable;
+use Anomaly\Streams\Platform\Stream\Stream;
+use Anomaly\Streams\Platform\Support\Traits\Fluency;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Support\Traits\Properties;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
@@ -22,7 +22,9 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 class Entry implements EntryInterface, Arrayable, Jsonable
 {
 
-    use Properties;
+    use Fluency {
+        Fluency::__construct as private constructFluency;
+    }
 
     /**
      * The stream instance.
@@ -31,17 +33,26 @@ class Entry implements EntryInterface, Arrayable, Jsonable
      */
     public $stream;
 
+    /**
+     * Create a new
+     *
+     * @param array $attributes
+     */
     public function __construct(array $attributes = [])
     {
         $this->stream = Arr::pull($attributes, 'stream');
 
-        $this->fill(array_merge($this->attributes, $attributes));
+        $this->constructFluency($attributes);
 
-        $this->original = $this->attributes;
+        if ($handle = $this->getPrototypeAttribute('streams__extends')) {
+            $this->extendEntry($handle);
+        }
     }
 
     /**
      * Return the entry stream.
+     * 
+     * @return Stream
      */
     public function stream()
     {
@@ -83,6 +94,40 @@ class Entry implements EntryInterface, Arrayable, Jsonable
     }
 
     /**
+     * Load an entry over this one.
+     *
+     * @param $identifier
+     * @return $this
+     */
+    protected function loadEntry($identifier)
+    {
+        $loaded = $this->stream->repository()->find($identifier);
+
+        $this->setPrototypeAttributes(
+            array_merge($this->toArray(), $loaded->toArray())
+        );
+
+        return $this;
+    }
+
+    /**
+     * Extend over another entry.
+     *
+     * @param $identifier
+     * @return $this
+     */
+    protected function extendEntry($identifier)
+    {
+        $extended = $this->stream->repository()->find($identifier);
+
+        $this->setPrototypeAttributes(
+            array_merge($extended->toArray(), $this->toArray())
+        );
+
+        return $this;
+    }
+
+    /**
      * Get the instance as an array.
      *
      * @return array
@@ -101,28 +146,6 @@ class Entry implements EntryInterface, Arrayable, Jsonable
     public function toJson($options = 0)
     {
         return json_encode($this->toArray(), $options);
-    }
-
-    /**
-     * Dynamically retrieve attributes.
-     *
-     * @param  string $key
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        return $this->getAttribute($key);
-    }
-
-    /**
-     * Dynamically set attributes.
-     *
-     * @param  string  $key
-     * @param  mixed $value
-     */
-    public function __set($key, $value)
-    {
-        $this->setAttribute($key, $value);
     }
 
     /**

@@ -4,17 +4,36 @@ return [
     
     /*
     |--------------------------------------------------------------------------
-    | Image Configuration
+    | Image Path Hints
     |--------------------------------------------------------------------------
     |
-    | Configure core image service.
+    | Usage: Images::make('unsplash::random');
     |
     */
-    
-    /**
-     * Initial image path hints.
-     */
     'paths' => [
-        'unsplash' => 'https://source.unsplash.com',
+        'unsplash' => 'https://source.unsplash.com/',
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Automatically Interlace JPGs
+    |--------------------------------------------------------------------------
+    |
+    | You can set this on the image too:
+    |
+    | Images::make('img/foo.jpg')->interlace(false);
+    |
+    */
+    'interlace' => env('IMAGES_INTERLACE', true),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Automatic Alt Tags
+    |--------------------------------------------------------------------------
+    |
+    | Enabling this feature automatically
+    | generages alt tags when not specified.
+    |
+    */
+    'auto_alt' => env('IMAGES_AUTO_ALT', true),
 ];

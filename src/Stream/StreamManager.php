@@ -7,7 +7,11 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Stream\Stream;
+use Anomaly\Streams\Platform\Support\Workflow;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
+use Anomaly\Streams\Platform\Support\Traits\Prototype;
+use Anomaly\Streams\Platform\Stream\Workflows\BuildStream;
+use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
 
 /**
@@ -22,6 +26,12 @@ class StreamManager
 
     use HasMemory;
     use Macroable;
+    use Prototype;
+    use FiresCallbacks;
+
+    public $workflows = [
+        'build' => BuildStream::class,
+    ];
 
     /**
      * The streams collection.
@@ -52,13 +62,25 @@ class StreamManager
     /**
      * Build a stream instance.
      *
-     * @param array $stream
+     * @param $stream
      * @return Stream
      */
-    public function build(array $stream)
+    public function build($stream)
     {
-        $stream = StreamBuilder::build($stream);
+        $stream = Arr::undot($stream);
 
+        $workflow = $this->workflow('build');
+
+        $workflow->stream = $stream;
+
+        $workflow->process([
+            'workflow' => $workflow
+        ]);
+
+        $stream = $workflow->stream;
+
+        $stream->fire('built', ['stream' => $stream]);
+        
         return $stream;
     }
 
@@ -92,7 +114,7 @@ class StreamManager
         App::instance('streams.instances.' . $stream->handle, $stream);
 
         $this->collection->put($stream->handle, $stream);
-        
+
         return $stream;
     }
 
@@ -128,5 +150,25 @@ class StreamManager
     public function collection()
     {
         return $this->collection;
+    }
+
+    /**
+     * Return a workflow by nane.
+     *
+     * @param string $name
+     *
+     * @return \Anomaly\Streams\Platform\Support\Workflow
+     */
+    protected function workflow($name): Workflow
+    {
+        $workflow = Arr::get($this->workflows, $name);
+
+        if (!class_exists($workflow)) {
+            throw new \Exception("Workflow [{$name}] does not exist.");
+        }
+
+        return (new $workflow)
+            ->setPrototypeAttribute('name', $name)
+            ->passThrough($this);
     }
 }

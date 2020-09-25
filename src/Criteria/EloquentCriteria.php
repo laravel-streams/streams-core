@@ -47,7 +47,7 @@ class EloquentCriteria implements CriteriaInterface
     {
         $this->stream = $stream;
 
-        $model = $stream->attr('source.model');
+        $model = $stream->getPrototypeAttribute('source.model');
 
         $this->query = (new $model)->newQuery();
     }
@@ -233,7 +233,7 @@ class EloquentCriteria implements CriteriaInterface
      */
     public function newInstance(array $attributes = [])
     {
-        $model = $this->stream->attr('config.model');
+        $model = $this->stream->getPrototypeAttribute('config.model');
 
         return new $model($this->stream, $attributes);
     }

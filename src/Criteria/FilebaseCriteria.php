@@ -36,7 +36,7 @@ class FilebaseCriteria extends AbstractCiteria
     {
         $this->stream = $stream;
 
-        $source = $stream->expand('source');
+        $source = $stream->expandPrototypeAttribute('source');
 
         $this->query = new Database([
             'dir' => base_path($source->get('path', 'streams/data/' . $stream->handle)),
@@ -156,19 +156,6 @@ class FilebaseCriteria extends AbstractCiteria
      * @param string|null $value
      * @return $this
      */
-    public function andWhere($field, $operator = null, $value = null)
-    {
-        return $this->where($field, $operator, $value, 'and');
-    }
-
-    /**
-     * Add a where constraint.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
-     * @return $this
-     */
     public function orWhere($field, $operator = null, $value = null)
     {
         return $this->where($field, $operator, $value, 'or');
@@ -271,7 +258,7 @@ class FilebaseCriteria extends AbstractCiteria
      */
     protected function collect(array $entries)
     {
-        $collection = $this->stream->attr('collection', Collection::class);
+        $collection = $this->stream->getPrototypeAttribute('collection') ?: Collection::class;
 
         return new $collection(array_map(function ($entry) {
             return $this->make($entry);

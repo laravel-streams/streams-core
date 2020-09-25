@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\View;
+namespace Anomaly\Streams\Platform\Suppport;
 
 use Exception;
 use Illuminate\Support\Collection;
@@ -12,7 +12,7 @@ use Illuminate\Support\Collection;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
-class ViewIncludes extends Collection
+class Includes extends Collection
 {
 
     /**

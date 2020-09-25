@@ -13,8 +13,7 @@ use Illuminate\Support\Traits\ForwardsCalls;
 use Anomaly\Streams\Platform\Repository\Repository;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
-use Anomaly\Streams\Platform\Support\Traits\Properties;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Support\Traits\Prototype;
 use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
 use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
@@ -31,7 +30,7 @@ class Stream implements Arrayable, Jsonable
 
     use Macroable;
     use HasMemory;
-    use Properties;
+    use Prototype;
     use ForwardsCalls;
     use FiresCallbacks;
 
@@ -43,7 +42,7 @@ class Stream implements Arrayable, Jsonable
      */
     public function repository()
     {
-        $repository = $this->repository = $this->repository ?: Repository::class;
+        $repository = $this->repository ?: Repository::class;
 
         return new $repository($this);
     }
@@ -61,24 +60,81 @@ class Stream implements Arrayable, Jsonable
     }
 
     /**
-     * Return an entry validator.
+     * Return an entry validator with the data.
      * 
      * @param $data
      * @return Validator
      */
     public function validator($data): Validator
     {
+        $data = Arr::make($data);
+
         $factory = App::make(Factory::class);
 
-        if ($data instanceof EntryInterface) {
-            $data = $data->getAttributes();
+        /**
+         * https://gph.is/g/Eqn635a
+         */
+        $rules = $this->getPrototypeAttribute('rules') ?: [];
+        $validators = $this->getPrototypeAttribute('validators') ?: [];
+        
+        $fieldRules = $this->fields->rules();
+        $fieldValidators = $this->fields->validators();
+
+        /**
+         * Merge stream and field configurations.
+         */
+        foreach ($fieldRules as $field => $rules) {
+            if ($rules) {
+                $fieldRules[$field] = array_merge(Arr::get($fieldRules, $field, []), $rules);
+            }
         }
 
-        $rules = $this->attr('rules', []);
+        foreach ($fieldValidators as $field => $validators) {
+            if ($validators) {
+                $fieldValidators[$field] = array_merge(Arr::get($fieldValidators, $field, []), $validators);
+            }
+        }
 
-        $rules = array_map(function($rules) {
+        /**
+         * Process validator rules.
+         */
+        $rules = array_map(function ($rules) {
             return implode('|', array_unique($rules));
-        }, $this->rules);
+        }, $rules);
+
+        $fieldRules = array_map(function ($rules) {
+            return implode('|', array_unique($rules));
+        }, $fieldRules);
+
+        /**
+         * Extend the factory with custom validators.
+         */
+        foreach ($validators as $rule => $validator) {
+
+            $handler = Arr::get($validator, 'handler');
+
+            if (strpos($handler, '@')) {
+                $handler = function ($attribute, $value, $parameters, Validator $validator) use ($handler) {
+
+                    App::call(
+                        $handler,
+                        [
+                            'value' => $value,
+                            'attribute' => $attribute,
+                            'validator' => $validator,
+                            'parameters' => $parameters,
+                        ],
+                        'handle'
+                    );
+                };
+            }
+
+            $factory->extend(
+                $rule,
+                $handler,
+                Arr::get($validator, 'message')
+            );
+        }
 
         return $factory->make($data, $rules);
     }

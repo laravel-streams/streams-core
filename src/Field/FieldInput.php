@@ -2,6 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Field;
 
+use Illuminate\Support\Arr;
+
 /**
  * Class FieldInput
  *
@@ -20,22 +22,32 @@ class FieldInput
      */
     public static function read(array $fields)
     {
-        foreach ($fields as $handle => &$field) {
+        foreach ($fields as $handle => &$input) {
 
-            if (is_string($field)) {
-                $field = [
-                    'type' => $field,
+            if (is_string($input)) {
+                $input = [
+                    'type' => $input,
                 ];
             }
 
-            if (!isset($field['handle'])) {
-                $field['handle'] = $handle;
+            if (!isset($input['handle'])) {
+                $input['handle'] = $handle;
             }
 
             // INPUT TEST
-            if (strpos($field['type'], '|')) {
-                list($field['type'], $field['input']) = explode('|', $field['type']);
+            // @todo replace
+            if (strpos($input['type'], '|')) {
+                list($input['type'], $input['input']) = explode('|', $input['type']);
             }
+
+            $input['rules'] = array_map(function ($rules) {
+
+                if (is_string($rules)) {
+                    return explode('|', $rules);
+                }
+    
+                return $rules;
+            }, Arr::get($input, 'rules', []));
         }
 
         return $fields;

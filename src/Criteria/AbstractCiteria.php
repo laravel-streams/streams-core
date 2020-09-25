@@ -99,7 +99,7 @@ abstract class AbstractCiteria implements CriteriaInterface
      * @param string|null $value
      * @return $this
      */
-    abstract public function andWhere($field, $operator = null, $value = null);
+    //abstract public function andWhere($field, $operator = null, $value = null);
 
     /**
      * Add a where constraint.
@@ -215,11 +215,11 @@ abstract class AbstractCiteria implements CriteriaInterface
      */
     public function newInstance(array $attributes = [])
     {
-        $prototype = $this->stream->attr('config.prototype', Entry::class);
+        $prototype = $this->stream->getPrototypeAttribute('config.prototype') ?: Entry::class;
+
+        $attributes['stream'] = $this->stream;
 
         $prototype = new $prototype($attributes);
-
-        $prototype->stream = $this->stream;
 
         return $prototype;
     }

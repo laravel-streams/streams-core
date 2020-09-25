@@ -1,14 +1,90 @@
 ---
 title: Sources
 category: database
-intro: 
+intro: Source adapters connect streams to any source of information you might encounter.
+enabled: true
 sort:
 ---
 
-- **Intro:** Introduce the idea in one sentance.
-- **Explaination:** An elevator pitch that signals the reader to continue or not (keep looking for relavant page).
-- **Sections/Features:** Separate sections/sub-sections (h2s/h3s) consistently. This will build the ToC.
-- **Next Steps:** Next actions to take that are intentional versus simply additional reading.
-- **Code Examples:** Code examples and snippets.
-- **Insights:** Tips, post scriptum, creative links.
-- **Additional Reading:** Link to related ideas/topics/guides/recipes.
+## Introduction
+
+Source adapters connect streams to any source of information you might encounter.
+
+### Defining Sources 
+
+Specify **source** information in your [stream configuration](streams#defining-streams). Below is the default configuration.
+
+```json
+// streams/contacts.json
+{
+    "source": {
+        "type": "filebase",
+        "format": "md"
+    }
+}
+```
+
+## Available Sources
+
+The following **sources** are available with the Streams platform by default.
+
+### Filebase
+
+The flat file database powered by the fantastic [Filebase](https://figt) package is the **default** source.
+
+```json
+// streams/contacts.json
+{
+    "source": {
+        "type": "filebase",
+        "format": "md",
+        "prototype": "Anomaly\\Streams\\Platform\\Entry\\Entry"
+    }
+}
+```
+
+#### Available Formats
+
+The following formats are supported:
+
+- `json`
+- `md`
+- `yaml`
+
+### Eloquent Model
+
+The eloquent model source uses Laravel models to query and return stream-enhanced models.
+
+```json
+// streams/contacts.json
+{
+    "source": {
+        "type": "eloquent",
+        "model": "App\\Contact\\ContactModel"
+    }
+}
+```
+
+### Laravel Database
+
+The Laravel database source uses genetic Laravel database tables to query and return stream [entry prototypes](entries).
+
+```json
+// streams/contacts.json
+{
+    "source": {
+        "type": "database",
+        "table": "contacts",
+        "connection": "default",
+        "prototype": "Anomaly\\Streams\\Platform\\Entry\\Entry"
+    }
+}
+```
+
+## Extending
+
+You can very likely provide a custom source adapter for **any source of information** you might encounter.
+
+### Custom Sources
+
+@todo talk about developing custom source adapters.

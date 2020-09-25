@@ -8,7 +8,7 @@ use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Anomaly\Streams\Platform\Support\Traits\HasMemory;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Support\Traits\Properties;
+use Anomaly\Streams\Platform\Support\Traits\Prototype;
 use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
 
 /**
@@ -23,7 +23,7 @@ class Addon implements Arrayable, Jsonable
 
     use Macroable;
     use HasMemory;
-    use Properties;
+    use Prototype;
     use FiresCallbacks;
 
     /**
@@ -55,7 +55,7 @@ class Addon implements Arrayable, Jsonable
      */
     public function __get($key)
     {
-        return $this->getAttribute($key);
+        return $this->getPrototypeAttribute($key);
     }
 
     /**
@@ -66,6 +66,6 @@ class Addon implements Arrayable, Jsonable
      */
     public function __set($key, $value)
     {
-        $this->setAttribute($key, $value);
+        $this->setPrototypeAttribute($key, $value);
     }
 }
