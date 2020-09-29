@@ -36,7 +36,9 @@ trait Prototype
      * The prototype information.
      */
     protected $__prototype = [
-        'attributes' => [],
+        'attributes' => [
+            'test' => 'Foo'
+        ],
         'properties' => [],
         'original' => [],
     ];
@@ -48,7 +50,7 @@ trait Prototype
      */
     public function __construct(array $attributes = [])
     {
-        $this->setPrototypeAttributes($attributes);
+        $this->initializePrototype($attributes);
 
         $this->__prototype['original'] = $this->__prototype['attributes'];
     }
@@ -72,6 +74,19 @@ trait Prototype
     public function __set($key, $value)
     {
         $this->setPrototypeAttribute($key, $value);
+    }
+
+    /**
+     * Initialize the prototype.
+     *
+     * @param array $attributes
+     * @return $this
+     */
+    public function initializePrototype(array $attributes)
+    {
+        $attributes = array_merge(isset($this->attributes) ? $this->attributes : $this->getPrototypeAttributes(), $attributes);
+        
+        return $this->setPrototypeAttributes($attributes);
     }
 
     /**
