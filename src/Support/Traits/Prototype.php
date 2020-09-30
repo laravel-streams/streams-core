@@ -4,6 +4,7 @@ namespace Anomaly\Streams\Platform\Support\Traits;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Traits\Macroable;
 use Anomaly\Streams\Platform\Field\Value\Value;
@@ -82,10 +83,10 @@ trait Prototype
      * @param array $attributes
      * @return $this
      */
-    public function initializePrototype(array $attributes)
+    protected function initializePrototype(array $attributes)
     {
-        $attributes = array_merge(isset($this->attributes) ? $this->attributes : $this->getPrototypeAttributes(), $attributes);
-        
+        $attributes = array_merge($this->getPrototypeAttributes(), $attributes);
+
         return $this->setPrototypeAttributes($attributes);
     }
 
@@ -146,9 +147,9 @@ trait Prototype
             return $this;
         }
 
-        if ($this->hasPrototypePropertyFieldType($key)) {
+        if ($this->hasPrototypePropertyType($key)) {
 
-            $this->__prototype['attributes'][$key] = $this->modifyAttributeValue($key, $value);
+            $this->__prototype['attributes'][$key] = $this->modifyPrototypeAttributeValue($key, $value);
 
             return $this;
         }
@@ -174,10 +175,10 @@ trait Prototype
             return $this->{Str::camel($name)}();
         }
 
-        $value = $this->__prototype['attributes'][$key] ?? $this->defaultProtocolProperty($key);
+        $value = $this->__prototype['attributes'][$key] ?? $this->getPrototypePropertyDefault($key);
 
-        if ($this->hasPrototypePropertyFieldType($key)) {
-            return $this->restoreAttributeValue($key, $value);
+        if ($this->hasPrototypePropertyType($key)) {
+            return $this->restorePrototypeAttributeValue($key, $value);
         }
 
         if ($parts) {
@@ -216,7 +217,7 @@ trait Prototype
      *
      * @param string $key
      */
-    protected function defaultProtocolProperty($key)
+    protected function getPrototypePropertyDefault($key)
     {
         return Arr::get($this->__prototype['properties'], $key . '.default');
     }
@@ -230,6 +231,10 @@ trait Prototype
     protected function guessProtocolPropertyType($key): string
     {
         $default = Arr::get($this->__prototype['properties'], $key . '.default');
+
+        if (is_string($default) && class_exists($default)) {
+            dd($default);
+        }
 
         $type = gettype(Arr::get($this->__prototype['attributes'], $key, $default));
 
@@ -254,7 +259,7 @@ trait Prototype
      * @param string $key
      * @param mixed $value
      */
-    protected function restoreAttributeValue($key, $value)
+    protected function restorePrototypeAttributeValue($key, $value)
     {
         $type = $this->newProtocolPropertyFieldType($key);
 
@@ -269,7 +274,7 @@ trait Prototype
      * @param string $key
      * @param mixed $value
      */
-    protected function modifyAttributeValue($key, $value)
+    protected function modifyPrototypeAttributeValue($key, $value)
     {
         $type = $this->newProtocolPropertyFieldType($key);
 
@@ -301,9 +306,85 @@ trait Prototype
      *
      * @return bool
      */
-    protected function hasPrototypePropertyFieldType($key)
+    protected function hasPrototypePropertyType($key)
     {
         return (bool) Arr::get($this->__prototype['properties'], $key . '.type');
+    }
+
+    /**
+     * Load prototype properties.
+     *
+     * @param array $properties
+     * @return $this
+     */
+    public function loadPrototypeProperties(array $properties)
+    {
+        foreach ($properties as $key => $value) {
+            $this->setPrototypeProperty($key, $value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set the prototype properties
+     *
+     * @param array $properties
+     * @return $this
+     */
+    public function setPrototypeProperties(array $properties)
+    {
+        $this->__prototype['properties'] = [];
+
+        foreach ($properties as $key => $value) {
+            $this->setPrototypeProperty($key, $value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get the prototype properties.
+     *
+     * @return array
+     */
+    public function getPrototypeProperties(): array
+    {
+        return $this->__prototype['properties'];
+    }
+
+    /**
+     * Set an attribute value.
+     *
+     * @param string $key
+     * @param mixed $value
+     */
+    public function setPrototypeProperty($key, $value)
+    {
+        $this->__prototype['properties'][$key] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get an attribute value.
+     *
+     * @param string $key
+     * @return mixed|Value
+     */
+    public function getPrototypeProperty($key)
+    {
+        $parts = explode('.', $key);
+
+        $key = array_shift($parts);
+
+        $value = $this->__prototype['properties'][$key] ?? [];
+
+        if ($parts) {
+            return data_get($value, implode('.', $parts));
+        }
+
+        return $value;
     }
 
     /**
