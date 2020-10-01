@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 use Anomaly\Streams\Platform\Addon\Addon;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Support\Purifier;
 use Anomaly\Streams\Platform\View\ViewIncludes;
 use Anomaly\Streams\Platform\View\ViewTemplate;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
@@ -31,7 +30,6 @@ use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Support\Facades\Streams;
 use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Illuminate\Support\Collection as SupportCollection;
-use Anomaly\Streams\Platform\Http\Controller\EntryController;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 /**
