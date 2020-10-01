@@ -201,7 +201,7 @@ class Repository implements RepositoryInterface
     public function newCriteria()
     {
         $default = Config::get('streams.sources.default', 'filebase');
-        
+
         $method = Str::camel("new_{$this->stream->expandPrototypeAttribute('source')->get('type', $default)}_criteria");
         
         return $this->$method();

@@ -6,8 +6,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Anomaly\Streams\Platform\Stream\Stream;
 use Anomaly\Streams\Platform\Support\Workflow;
-use Anomaly\Streams\Platform\Field\FieldBuilder;
-use Anomaly\Streams\Platform\Field\FieldFactory;
 use Anomaly\Streams\Platform\Support\Facades\Streams;
 use Anomaly\Streams\Platform\Field\Workflows\BuildFields;
 
