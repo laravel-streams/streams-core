@@ -143,7 +143,9 @@ class AssetCollection extends Collection
      */
     public function content()
     {
-        return $this->tags()->implode("\n\n");
+        return $this->map(function ($asset) {
+            return Assets::content($asset);
+        })->implode("\n\n");
     }
 
     /**
