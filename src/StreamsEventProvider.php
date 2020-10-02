@@ -64,27 +64,4 @@ class StreamsEventProvider extends EventServiceProvider
             DeleteVersionableHistory::class,
         ],
     ];
-
-    /**
-     * Register the application's event listeners.
-     */
-    public function boot()
-    {
-        foreach ($this->listen as $event => $listeners) {
-            foreach ($listeners as $key => $listener) {
-                if (is_integer($listener)) {
-                    $listener = $key;
-                    $priority = $listener;
-                } else {
-                    $priority = 0;
-                }
-
-                app('events')->listen($event, $listener, $priority);
-            }
-        }
-
-        foreach ($this->subscribe as $subscriber) {
-            app('events')->subscribe($subscriber);
-        }
-    }
 }
