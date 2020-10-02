@@ -23,7 +23,7 @@
 }
 
 .table__container {
-    @apply .section .p-0 .m-5;
+    @apply .section .p-0;
 
     table {
         @apply .w-full .text-left;

@@ -1,9 +1,11 @@
 ---
-title: Change Log
-intro: All notable changes to this project will be documented in this file.
-sort: 10
+test: Foo
+title: 'Change Log'
+intro: 'All notable changes to this project will be documented in this file.'
+sort: '10'
+category: null
+stage: null
 ---
-
 - `Added` for new features.
 - `Changed` for changes in existing functionality.
 - `Deprecated` for soon-to-be removed features.
@@ -17,7 +19,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Deprecated Features
 
-Features that are deprecated will generally be removed in the next `minor` update unless noted otherwise.
+Deprecated features will generally be removed in the next `minor` update unless noted otherwise.
 
 ## Releases
 
