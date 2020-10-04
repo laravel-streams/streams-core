@@ -8,7 +8,6 @@ use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Date;
 use Anomaly\Streams\Platform\Field\FieldType;
 use Anomaly\Streams\Platform\Field\Value\DatetimeValue;
-use Anomaly\Streams\Platform\Field\Value\IntegerValue;
 
 /**
  * Class Integer

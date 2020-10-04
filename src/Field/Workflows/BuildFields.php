@@ -3,14 +3,9 @@
 namespace Anomaly\Streams\Platform\Field\Workflows;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Config;
 use Anomaly\Streams\Platform\Field\Field;
-use Anomaly\Streams\Platform\Stream\Stream;
 use Anomaly\Streams\Platform\Support\Workflow;
-use Anomaly\Streams\Platform\Field\FieldBuilder;
-use Anomaly\Streams\Platform\Field\FieldFactory;
 use Anomaly\Streams\Platform\Field\FieldCollection;
-use Anomaly\Streams\Platform\Support\Facades\Streams;
 
 /**
  * Class BuildFields
@@ -47,6 +42,8 @@ class BuildFields extends Workflow
             // @todo replace
             if (strpos($input['type'], '|')) {
                 list($input['type'], $input['input']) = explode('|', $input['type']);
+            } else {
+                $input['input'] = $input['type'];
             }
 
             $input['rules'] = array_map(function ($rules) {

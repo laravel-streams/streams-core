@@ -283,6 +283,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->bind('streams.field_types.text', \Anomaly\Streams\Platform\Field\Type\Text::class);
         $this->app->bind('streams.field_types.string', \Anomaly\Streams\Platform\Field\Type\Text::class);
         $this->app->bind('streams.field_types.textarea', \Anomaly\Streams\Platform\Field\Type\Text::class);
+        $this->app->bind('streams.field_types.markdown', \Anomaly\Streams\Platform\Field\Type\Markdown::class);
         $this->app->bind('streams.field_types.template', \Anomaly\Streams\Platform\Field\Type\Template::class);
 
         // Array
@@ -322,6 +323,9 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->bind('streams.field_types.multiple', \Anomaly\Streams\Platform\Field\Type\Multiple::class);
         $this->app->bind('streams.field_types.polymorphic', \Anomaly\Streams\Platform\Field\Type\Polymorphic::class);
         $this->app->bind('streams.field_types.relationship', \Anomaly\Streams\Platform\Field\Type\Relationship::class);
+
+        // Miscellaneous
+        $this->app->bind('streams.field_types.color', \Anomaly\Streams\Platform\Field\Type\Color::class);
     }
 
     /**

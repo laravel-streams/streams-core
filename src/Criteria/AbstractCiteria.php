@@ -221,6 +221,8 @@ abstract class AbstractCiteria implements CriteriaInterface
 
         $prototype = new $prototype($attributes);
 
+        $prototype->loadPrototypeProperties($this->stream->fields->toArray());
+
         return $prototype;
     }
 }
