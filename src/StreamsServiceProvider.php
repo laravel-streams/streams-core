@@ -793,6 +793,11 @@ class StreamsServiceProvider extends ServiceProvider
         });
 
         Str::macro('parse', function ($target, array $data = []) {
+
+            if (!strpos($target, '}')) {
+                return $target;
+            }
+            
             return app(Engine::class)->render($target, array_merge(app('streams.parser_data'), Arr::make($data)));
         });
 
