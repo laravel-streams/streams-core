@@ -10,7 +10,7 @@ use Anomaly\Streams\Platform\Field\FieldType;
 use Anomaly\Streams\Platform\Field\Value\DatetimeValue;
 
 /**
- * Class Integer
+ * Class Datetime
  *
  * @link    http://pyrocms.com/
  * @author  PyroCMS, Inc. <support@pyrocms.com>
@@ -18,13 +18,6 @@ use Anomaly\Streams\Platform\Field\Value\DatetimeValue;
  */
 class Datetime extends FieldType
 {
-    /**
-     * The class attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [];
-
     /**
      * Modify the value for storage.
      *

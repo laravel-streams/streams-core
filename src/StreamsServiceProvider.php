@@ -281,6 +281,7 @@ class StreamsServiceProvider extends ServiceProvider
         // Text
         $this->app->bind('streams.field_types.url', \Anomaly\Streams\Platform\Field\Type\Url::class);
         $this->app->bind('streams.field_types.text', \Anomaly\Streams\Platform\Field\Type\Text::class);
+        $this->app->bind('streams.field_types.slug', \Anomaly\Streams\Platform\Field\Type\Slug::class);
         $this->app->bind('streams.field_types.string', \Anomaly\Streams\Platform\Field\Type\Text::class);
         $this->app->bind('streams.field_types.textarea', \Anomaly\Streams\Platform\Field\Type\Text::class);
         $this->app->bind('streams.field_types.markdown', \Anomaly\Streams\Platform\Field\Type\Markdown::class);
@@ -301,6 +302,9 @@ class StreamsServiceProvider extends ServiceProvider
         // Boolean
         $this->app->bind('streams.field_types.bool', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
         $this->app->bind('streams.field_types.boolean', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
+
+        // Selections
+        $this->app->bind('streams.field_types.select', \Anomaly\Streams\Platform\Field\Type\Select::class);
 
         // Dates
         $this->app->bind('streams.field_types.date', \Anomaly\Streams\Platform\Field\Type\Datetime::class);
