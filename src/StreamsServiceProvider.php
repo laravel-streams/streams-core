@@ -307,8 +307,8 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->bind('streams.field_types.select', \Anomaly\Streams\Platform\Field\Type\Select::class);
 
         // Dates
-        $this->app->bind('streams.field_types.date', \Anomaly\Streams\Platform\Field\Type\Datetime::class);
-        $this->app->bind('streams.field_types.time', \Anomaly\Streams\Platform\Field\Type\Datetime::class);
+        $this->app->bind('streams.field_types.date', \Anomaly\Streams\Platform\Field\Type\Date::class);
+        $this->app->bind('streams.field_types.time', \Anomaly\Streams\Platform\Field\Type\Time::class);
         $this->app->bind('streams.field_types.datetime', \Anomaly\Streams\Platform\Field\Type\Datetime::class);
 
         // Assets
