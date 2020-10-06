@@ -71,11 +71,12 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $singletons = [
-        'includes'     => \Anomaly\Streams\Platform\View\ViewIncludes::class,
-        'assets'       => \Anomaly\Streams\Platform\Asset\AssetManager::class,
-        'images'       => \Anomaly\Streams\Platform\Image\ImageManager::class,
-        'streams'      => \Anomaly\Streams\Platform\Stream\StreamManager::class,
-        'messages'     => \Anomaly\Streams\Platform\Message\MessageManager::class,
+        'assets' => \Anomaly\Streams\Platform\Asset\AssetManager::class,
+        'images' => \Anomaly\Streams\Platform\Image\ImageManager::class,
+        'includes' => \Anomaly\Streams\Platform\View\ViewIncludes::class,
+        'streams' => \Anomaly\Streams\Platform\Stream\StreamManager::class,
+        ViewOverrides::class => \Anomaly\Streams\Platform\View\ViewOverrides::class,
+        'messages' => \Anomaly\Streams\Platform\Message\MessageManager::class,
         'applications' => \Anomaly\Streams\Platform\Application\ApplicationManager::class,
 
         'locator' => \Anomaly\Streams\Platform\Support\Locator::class,
@@ -695,6 +696,16 @@ class StreamsServiceProvider extends ServiceProvider
                 return View::make($item, $payload)->render();
             })->implode("\n");
         });
+
+        Factory::macro('override', function ($view, $override) {
+            return app(ViewOverrides::class)->put($view, $override);
+        });
+
+        View::composer('*', function ($view) {
+            if ($override = app(ViewOverrides::class)->get($view->name())) {
+                $view->setPath(base_path($override));
+            }
+        });
     }
 
     /**
@@ -801,7 +812,7 @@ class StreamsServiceProvider extends ServiceProvider
             if (!strpos($target, '}')) {
                 return $target;
             }
-            
+
             return app(Engine::class)->render($target, array_merge(app('streams.parser_data'), Arr::make($data)));
         });
 
