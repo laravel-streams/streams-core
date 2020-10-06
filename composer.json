@@ -13,7 +13,7 @@
         "mrclay/jsmin-php": "^2.4",
         "erusev/parsedown": "^1.7",
         "tmarois/filebase": "^1.0",
-        "laravel/framework": "^7.0",
+        "laravel/framework": "^8.0|^9.0",
         "tubalmartin/cssmin": "^4.0",
         "intervention/image": "^2.5",
         "ezyang/htmlpurifier": "^4.0",
