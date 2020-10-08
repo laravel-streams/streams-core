@@ -225,7 +225,7 @@ class StreamsServiceProvider extends ServiceProvider
          * Register publishables.
          */
         $this->publishes([
-            base_path('vendor/anomaly/streams-platform/docs') => base_path(
+            base_path('vendor/streams/core/docs') => base_path(
                 implode(DIRECTORY_SEPARATOR, ['docs', 'core'])
             )
         ], ['docs']);
@@ -498,7 +498,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function addViewNamespaces()
     {
-        View::addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/views'));
+        View::addNamespace('streams', base_path('vendor/streams/core/resources/views'));
         View::addNamespace('storage', storage_path('streams'));
         View::addNamespace('theme', storage_path('resources'));
     }
@@ -508,7 +508,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function loadTranslations()
     {
-        Lang::addNamespace('streams', base_path('vendor/anomaly/streams-platform/resources/lang'));
+        Lang::addNamespace('streams', base_path('vendor/streams/core/resources/lang'));
     }
 
     /**

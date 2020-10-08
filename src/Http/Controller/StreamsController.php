@@ -51,7 +51,7 @@ class StreamsController extends Controller
         $workflow
             ->passThrough($this)
             ->process(['data' => $data]);
-
+            
         $this->fire('responding', ['data' => $data]);
 
         if ($response = $data->get('response')) {
@@ -108,7 +108,7 @@ class StreamsController extends Controller
         if (!$stream = $data->get('stream')) {
             return;
         }
-
+        
         /**
          * If the entry is explicitly set then
          * find it and get on with the show.
@@ -119,7 +119,7 @@ class StreamsController extends Controller
 
             return;
         }
-
+        
         /**
          * Try and use the route parameters
          * to resolve an entry otherwise.
@@ -290,7 +290,7 @@ class StreamsController extends Controller
         }
 
         if ($view = $data->get('view')) {
-
+dd($data->get('entry'));
             $data->put('response', Response::view($view, $data->all()));
 
             return;
