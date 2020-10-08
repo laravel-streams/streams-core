@@ -29,18 +29,7 @@ class AssetRegistry
      */
     public function register($name, $assets)
     {
-
-        /**
-         * We can assume the keyname 
-         * if it's just one asset.
-         */
-        if (is_string($assets)) {
-            $assets = [
-                $assets => $assets,
-            ];
-        }
-
-        $this->assets[$name] = (array) $assets;
+        $this->assets[$name] = $assets;
     }
 
     /**
@@ -51,6 +40,6 @@ class AssetRegistry
      */
     public function resolve($name)
     {
-        return (array) Arr::get($this->assets, $name);
+        return Arr::get($this->assets, $name, $name);
     }
 }

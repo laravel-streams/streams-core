@@ -47,7 +47,7 @@ class AssetPaths
     }
 
     /**
-     * Add an image path hint.
+     * Add an asset path hint.
      *
      * @param $namespace
      * @param $path
@@ -55,7 +55,7 @@ class AssetPaths
      */
     public function addPath($namespace, $path)
     {
-        $this->paths[$namespace] = rtrim($path, '/\\');
+        $this->paths[$namespace] = rtrim(ltrim($path, '/\\'), '/\\');
 
         return $this;
     }
@@ -72,75 +72,34 @@ class AssetPaths
     }
 
     /**
-     * Return the extension of the path.
+     * Return the real public
+     * path for a given asset.
      *
-     * @param $path
-     * @return string
-     */
-    public function extension($path)
-    {
-        return pathinfo($path, PATHINFO_EXTENSION);
-    }
-
-    /**
-     * Return the real path for a given path.
-     *
-     * @param $path
+     * @param $asset
      * @return string
      * @throws \Exception
      */
-    public function real($path)
+    public function real($asset)
     {
-        if (Str::contains($path, '::')) {
+        if (Str::contains($asset, '::')) {
 
-            list($namespace, $path) = explode('::', $path);
+            list($namespace, $asset) = explode('::', $asset);
 
             if (!isset($this->paths[$namespace])) {
-                throw new \Exception("Path hint [{$namespace}::{$path}] does not exist!");
+                throw new \Exception("Path hint [{$namespace}::{$asset}] does not exist!");
             }
 
-            $path = rtrim($this->paths[$namespace], '/\\') . DIRECTORY_SEPARATOR . $path;
+            $asset = $this->paths[$namespace] . '/' . $asset;
+
+            if (!filter_var($asset, FILTER_VALIDATE_URL)) {
+                $asset = '/' . $asset;
+            }
         }
 
-        if (strpos($path, '?v=')) {
-            $path = substr($path, 0, strpos($path, '?v='));
+        if (strpos($asset, '?v=')) {
+            $asset = substr($asset, 0, strpos($asset, '?v='));
         }
 
-        return $path;
-    }
-
-    /**
-     * Return the output path.
-     *
-     * @param $collection
-     * @return string
-     */
-    public function outputPath($collection)
-    {
-        /*
-         * If the path is already public
-         * then just use it as it is.
-         */
-        if (Str::contains($collection, public_path())) {
-            return str_replace(public_path(), '', $collection);
-        }
-
-        /*
-         * Get the real path relative to our installation.
-         */
-        $path = str_replace(base_path(), '', $this->real($collection));
-
-        /*
-         * Build out path parts.
-         */
-        $application = Application::handle();
-        $directory   = ltrim(dirname($path), '/\\') . '/';
-        $filename    = basename($path);
-
-        if (Str::startsWith($directory, 'vendor/')) {
-            $directory = substr($directory, 7);
-        }
-
-        return "/app/{$application}/assets/{$directory}{$filename}";
+        return $asset;
     }
 }

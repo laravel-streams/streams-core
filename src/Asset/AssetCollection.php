@@ -23,6 +23,21 @@ class AssetCollection extends Collection
     private $loaded = [];
 
     /**
+     * Add an item to the collection.
+     * 
+     * To avoid duplicates we simply
+     * override this method to prevent
+     * this kind of addition to assets.
+     *
+     * @param  $asset
+     * @return $this
+     */
+    public function add($asset)
+    {
+        return $this->put($asset, $asset);
+    }
+
+    /**
      * Load a named asset.
      *
      * @param $name
@@ -31,28 +46,32 @@ class AssetCollection extends Collection
      */
     public function load($name, array $default = [])
     {
-
-        // Strip the @load indicator.
-        $name = str_replace('@', '', $name);
-
-        /**
-         * Only load named assets once.
-         */
-        if (in_array($name, $this->loaded)) {
+        if (isset($this->loaded[$name])) {
             return $this;
         }
 
-        /**
-         * Loop over the resolved assets and 
-         */
-        foreach (Assets::resolve($name, $default) as $resolved) {
+        $resolved = (array) Assets::resolve($name, $default);
 
-            $this->loaded[] = $name;
+        foreach ($resolved as $asset) {
 
-            $this->put($resolved, $resolved);
+            $this->loaded[$name] = $name;
+
+            $this->put($asset, $asset);
         }
 
         return $this;
+    }
+
+    /**
+     * Return resolved assets.
+     *
+     * @return $this
+     */
+    public function resolved()
+    {
+        return $this->map(function ($asset) {
+            return Assets::resolve($asset);
+        });
     }
 
     /**
@@ -121,31 +140,16 @@ class AssetCollection extends Collection
     }
 
     /**
-     * Return published paths.
-     *
-     * This instead of combining the collection contents
-     * just returns an array of individual processed
-     * paths instead.
-     *
-     * @return $this
-     */
-    public function paths()
-    {
-        return $this->map(function ($asset) {
-            return Assets::path($asset);
-        });
-    }
-
-    /**
      * Return the content of a collection.
      *
      * @param $collection
+     * @return $this
      */
     public function content()
     {
         return $this->map(function ($asset) {
             return Assets::content($asset);
-        })->implode("\n\n");
+        });
     }
 
     /**
@@ -155,6 +159,6 @@ class AssetCollection extends Collection
      */
     public function __toString()
     {
-        return $this->tags()->implode("\n\n");
+        return implode("\n\n", $this->items);
     }
 }

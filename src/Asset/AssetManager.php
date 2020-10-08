@@ -3,10 +3,10 @@
 namespace Anomaly\Streams\Platform\Asset;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Filesystem\Filesystem;
+
 /**
  * Class AssetManager
  *
@@ -26,13 +26,11 @@ class AssetManager
     protected $collections = [];
 
     /**
-     * Loaded provisions. When tagging
-     * assets using "as:*" they will be
-     * added to the loaded array.
+     * Resolved assets.
      *
      * @var array
      */
-    protected $loaded = [];
+    protected $resolved = [];
 
     /**
      * The HTML utility.
@@ -113,19 +111,7 @@ class AssetManager
     }
 
     /**
-     * Resolve named assets.
-     *
-     * @param string $name
-     * @param string|array $assets
-     * @return $this
-     */
-    public function resolve($name)
-    {
-        return $this->registry->resolve($name);
-    }
-
-    /**
-     * Return the contents of a collection.
+     * Return the contents of an asset.
      *
      * @param $asset
      * @param  array $filters
@@ -133,9 +119,37 @@ class AssetManager
      */
     public function inline($asset)
     {
-        return file_get_contents(
-            $this->paths->real('public::' . ltrim($this->path($asset), '/\\'))
-        );
+        $asset = $this->resolve($asset);
+
+        if (!filter_var($asset, FILTER_VALIDATE_URL)) {
+            $asset = public_path(ltrim($asset, '/\\'));
+        }
+
+        $contents = file_get_contents($asset);
+
+        if (pathinfo($asset, PATHINFO_EXTENSION) == 'js') {
+            return $this->script(null, [], $contents);
+        }
+
+        return $this->style(null, [], $contents);
+    }
+
+    /**
+     * Return the contents of an asset.
+     *
+     * @param $asset
+     * @param  array $filters
+     * @return string
+     */
+    public function contents($asset)
+    {
+        $asset = $this->resolve($asset);
+
+        if (!filter_var($asset, FILTER_VALIDATE_URL)) {
+            $asset = public_path(ltrim($asset, '/\\'));
+        }
+
+        return file_get_contents($asset);
     }
 
     /**
@@ -147,11 +161,7 @@ class AssetManager
      */
     public function url($asset, array $parameters = [], $secure = null)
     {
-        if (!$path = $this->path($asset)) {
-            return null;
-        }
-
-        return URL::asset($path, $parameters, $secure);
+        return URL::to($this->resolve($asset), $parameters, $secure);
     }
 
     /**
@@ -162,7 +172,9 @@ class AssetManager
      */
     public function tag($asset, array $attributes = [])
     {
-        if ($this->paths->extension($asset) == 'js') {
+        $asset = $this->resolve($asset);
+
+        if (pathinfo($asset, PATHINFO_EXTENSION) == 'js') {
             return $this->script($asset, $attributes);
         } else {
             return $this->style($asset, $attributes);
@@ -175,13 +187,16 @@ class AssetManager
      * @param $collection
      * @param  array $filters
      * @param  array $attributes
+     * @param  $content
      * @return string
      */
-    public function script($asset, array $attributes = [])
+    public function script($asset, array $attributes = [], $content = null)
     {
-        $attributes['src'] = $this->path($asset);
+        if (!$content) {
+            $attributes['src'] = $this->resolve($asset);
+        }
 
-        return '<script' . $this->html->attributes($attributes) . '></script>';
+        return '<script' . $this->html->attributes($attributes) . '>' . $content . '</script>';
     }
 
     /**
@@ -189,127 +204,55 @@ class AssetManager
      *
      * @param $asset
      * @param  array $attributes
+     * @param  $content
      * @return string
      */
-    public function style($asset, array $attributes = [])
+    public function style($asset, array $attributes = [], $content = null)
     {
         $defaults = ['media' => 'all', 'type' => 'text/css', 'rel' => 'stylesheet'];
 
         $attributes = $attributes + $defaults;
 
-        $attributes['href'] = $this->path($asset);
+        if ($content) {
+            return '<style' . $this->html->attributes($attributes) . '>' . $content . '</style>';
+        }
 
-        return '<link' . $this->html->attributes($attributes) . '>';
+        if (!$content) {
+            $attributes['href'] = $this->resolve($asset);
+        }
+
+        return '<link' . $this->html->attributes($attributes) . '/>';
     }
 
     /**
-     * @param $path
-     * @return string
+     * Resolve an asset.
+     *
+     * @param string $asset
+     * @return $this
      */
-    public function path($asset)
+    public function resolve($asset)
     {
-        /*
-         * If the asset is remote just return it.
-         */
-        if (Str::startsWith($asset, ['http', '//'])) {
+        if (isset($this->resolved[$asset])) {
+            return $this->resolved;
+        }
+
+        if (filter_var($asset, FILTER_VALIDATE_URL)) {
             return $asset;
         }
 
-        if (!file_exists($file = $this->paths->real($asset))) {
-            return null;
+        $resolved = $this->registry->resolve($asset);
+
+        if (is_array($resolved)) {
+            return $this->resolved[$asset] = array_map(function ($asset) {
+                return $this->realPath($asset);
+            }, $resolved);
         }
 
-        /*
-         * If the asset is public just use it.
-         */
-        if (Str::startsWith($asset, 'public::')) {
-            return $this->paths->outputPath($file);
-        }
-
-        $path = $this->paths->outputPath($asset);
-
-        if ($this->shouldPublish($path, $asset)) {
-            $this->publish($path, $asset);
-        }
-
-        $path .= '?v=' . filemtime(public_path(trim($path, '/\\')));
-
-        return $path;
+        return $this->realPath($asset);
     }
 
     /**
-     * Publish the collection of assets to the path.
-     *
-     * @param $path
-     * @param $collection
-     */
-    protected function publish($path, $collection)
-    {
-        $path = ltrim($path, '/\\');
-
-        if (Str::contains($collection, public_path())) {
-            return;
-        }
-
-        /**
-         * Get the concatenated content
-         * of the asset collection.
-         */
-        $contents = $this->collection($collection)->content();
-
-        // if (in_array('min', $filters) && $hint == 'css') {
-        //     $compressor = new Minifier;
-
-        //     $compressor->setLineBreakPosition(0);
-        //     $compressor->removeImportantComments();
-        //     $compressor->keepSourceMapComment(false);
-
-        //     $contents = $compressor->run($contents);
-        // }
-
-        // if (in_array('min', $filters) && $hint == 'js') {
-        //     $contents = JSMin::minify($contents);
-        // }
-
-        $path = public_path($path);
-
-        $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0755, true, true);
-
-        /**
-         * Save the processed content.
-         */
-        $this->files->put($path, $contents);
-    }
-
-    /**
-     * Decide whether we need to publish the file
-     * to the path or not.
-     *
-     * @param $path
-     * @param $collection
-     * @return bool
-     */
-    protected function shouldPublish($path, $collection)
-    {
-        $path = ltrim($path, '/\\');
-
-        if (Str::startsWith($collection, 'public::')) {
-            return false;
-        }
-
-        if (Str::startsWith($path, 'http')) {
-            return false;
-        }
-
-        if (!$this->files->exists($path)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Add a namespace path hint.
+     * Add a namespace asset hint.
      *
      * @param  $namespace
      * @param  $path
@@ -326,10 +269,10 @@ class AssetManager
      * Return the real path
      * for a prefixed one.
      *
-     * @param $path
+     * @param $asset
      * @return string
      */
-    public function real($asset)
+    public function realPath($asset)
     {
         return $this->paths->real($asset);
     }
