@@ -1,6 +1,9 @@
 ---
 title: Assets
 category: frontend
+status: drafting
+enabled: true
+sort: 2
 intro: 
 ---
 
