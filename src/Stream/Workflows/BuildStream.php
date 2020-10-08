@@ -38,7 +38,7 @@ class BuildStream extends Workflow
 
         $workflow->fields = Arr::pull($stream, 'fields', []);
 
-        $workflow->stream = $stream;        
+        $workflow->stream = $stream;
     }
     
     public function extend($workflow)

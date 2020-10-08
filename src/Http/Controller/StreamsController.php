@@ -290,7 +290,7 @@ class StreamsController extends Controller
         }
 
         if ($view = $data->get('view')) {
-dd($data->get('entry'));
+
             $data->put('response', Response::view($view, $data->all()));
 
             return;
