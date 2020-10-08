@@ -115,6 +115,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         $this->extendUrlGenerator();
         $this->extendCollection();
+        $this->extendRequest();
         $this->extendRouter();
         $this->extendLang();
         $this->extendView();
@@ -551,6 +552,16 @@ class StreamsServiceProvider extends ServiceProvider
             }
 
             return false;
+        });
+    }
+
+    /**
+     * Extend the request.
+     */
+    protected function extendRequest()
+    {
+        Request::macro('isLocal', function() {
+            return in_array(Request::ip(), ['127.0.0.1', '::1']);
         });
     }
 
