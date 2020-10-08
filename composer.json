@@ -1,6 +1,6 @@
 {
-    "name": "anomaly/streams-platform",
-    "description": "A drop-in application platform for Laravel.",
+    "name": "streams/core",
+    "description": "A domain-driven, code-configured, flat-file application platform for Laravel.",
     "authors": [{
         "name": "Ryan Thompson",
         "email": "ryan@pyrocms.com"
