@@ -70,8 +70,11 @@ The URL of a remote asset may also be used. The `allow_url_fopen` PHP directive 
 Hinted assets are prefixed with a `namespace::` that is replaced with a [registered path](#registering-paths).
 
 ```blade
-@verbatim{!! Assets::collection('footer')->add('ui::js/example.js') !!} // /public/vendor/anomaly/streams/ui/js/example.js@endverbatim
-@verbatim{!! Assets::collection('footer')->add('cdn::js/example.js') !!} // https://cdn.domain.com/js/example.js@endverbatim
+// /public/vendor/anomaly/streams/ui/js/example.js@endverbatim
+@verbatim{!! Assets::collection('footer')->add('ui::js/example.js') !!} 
+
+// https://cdn.domain.com/js/example.js@endverbatim
+@verbatim{!! Assets::collection('footer')->add('cdn::js/example.js') !!} 
 ```
 
 
