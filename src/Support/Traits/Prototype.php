@@ -37,9 +37,7 @@ trait Prototype
      * The prototype information.
      */
     protected $__prototype = [
-        'attributes' => [
-            'test' => 'Foo'
-        ],
+        'attributes' => [],
         'properties' => [],
         'original' => [],
     ];
