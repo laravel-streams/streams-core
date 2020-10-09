@@ -12,6 +12,7 @@ sort: 2
     - Macros
     - Callbacks
     - Workflows
+    - View Overrides
     - [Parsing](support#arr-parse)
 - Patterns
     - Handler Resolution
