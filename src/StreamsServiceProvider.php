@@ -500,7 +500,6 @@ class StreamsServiceProvider extends ServiceProvider
     {
         View::addNamespace('streams', base_path('vendor/streams/core/resources/views'));
         View::addNamespace('storage', storage_path('streams'));
-        View::addNamespace('theme', storage_path('resources'));
     }
 
     /**
