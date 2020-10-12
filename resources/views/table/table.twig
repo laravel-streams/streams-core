@@ -19,7 +19,7 @@
         {% block card %}
             <div class="card">
 
-                {{ form_open({ 'url': url_full() }) }}
+                {{ form_open({ 'url': table.options.url ?: url_full() }) }}
                 <div class="table-stack">
                     <table
                             class="
