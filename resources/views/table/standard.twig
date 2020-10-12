@@ -14,7 +14,7 @@
 {{ view(table.options.heading ?: "streams::table/partials/heading", {'table': table}) }}
 
 {% if not table.rows.empty() %}
-    {{ form_open({ 'url': url_full() }) }}
+    {{ form_open({ 'url': table.optoins.url ?: url_full() }) }}
     <div class="table-stack">
         <table
                 class="
