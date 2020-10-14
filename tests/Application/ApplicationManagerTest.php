@@ -12,11 +12,11 @@ class ApplicationManagerTest extends StreamsTestCase
      */
     public function testCanMakeAnApplicationInstance()
     {
-        $manager = app(\Anomaly\Streams\Platform\Application\ApplicationManager::class);
+        $manager = app(\Streams\Core\Application\ApplicationManager::class);
 
         $application = $manager->make('default');
 
-        $this->assertInstanceOf(\Anomaly\Streams\Platform\Application\Application::class, $application);
+        $this->assertInstanceOf(\Streams\Core\Application\Application::class, $application);
     }
 
     /**
@@ -26,7 +26,7 @@ class ApplicationManagerTest extends StreamsTestCase
     {
         $this->markTestIncomplete();
 
-        $manager = app(\Anomaly\Streams\Platform\Application\ApplicationManager::class);
+        $manager = app(\Streams\Core\Application\ApplicationManager::class);
 
         $application = $manager->make();
 
@@ -40,10 +40,10 @@ class ApplicationManagerTest extends StreamsTestCase
     {
         $this->markTestIncomplete('@todo how to test multiple applications here.');
 
-        /** @var \Anomaly\Streams\Platform\Application\ApplicationManager $manager */
-        $manager = app(\Anomaly\Streams\Platform\Application\ApplicationManager::class);
+        /** @var \Streams\Core\Application\ApplicationManager $manager */
+        $manager = app(\Streams\Core\Application\ApplicationManager::class);
 
-        /** @var \Anomaly\Streams\Platform\Application\Application $application */
+        /** @var \Streams\Core\Application\Application $application */
         $application = $manager->make('random');
 
         $this->assertEquals('random', $manager->handle());
@@ -56,9 +56,9 @@ class ApplicationManagerTest extends StreamsTestCase
     {
         $this->markTestIncomplete();
 
-        $manager = app(\Anomaly\Streams\Platform\Application\ApplicationManager::class);
+        $manager = app(\Streams\Core\Application\ApplicationManager::class);
 
-        /** @var \Anomaly\Streams\Platform\Application\Application $application */
+        /** @var \Streams\Core\Application\Application $application */
         $application = $manager->make('default');
 
         $manager->switch('testing');

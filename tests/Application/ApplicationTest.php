@@ -7,7 +7,7 @@ class ApplicationTest extends StreamsTestCase
      */
     public function testCanReturnAnArray()
     {
-        $application = resolve(\Anomaly\Streams\Platform\Application\Application::class);
+        $application = resolve(\Streams\Core\Application\Application::class);
 
         $this->assertIsArray($application->toArray());
     }
@@ -17,7 +17,7 @@ class ApplicationTest extends StreamsTestCase
      */
     public function testCanReturnJson()
     {
-        $application = resolve(\Anomaly\Streams\Platform\Application\Application::class);
+        $application = resolve(\Streams\Core\Application\Application::class);
 
         $this->assertJson($application->toJson());
     }

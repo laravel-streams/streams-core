@@ -1,8 +1,8 @@
 <?php
 
 
-use Anomaly\Streams\Platform\Stream\Stream;
-use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
+use Streams\Core\Stream\Stream;
+use Streams\Core\Repository\Contract\RepositoryInterface;
 
 class StreamTest extends StreamsTestCase
 {

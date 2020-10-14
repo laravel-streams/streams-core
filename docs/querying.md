@@ -16,7 +16,7 @@ Querying builds upon knowledge of [streams](streams), [fields](fields), and [ent
 To initialize a new query use the `Streams::entries()` method.
 
 ```php
-use Anomaly\Streams\Platform\Support\Facades\Streams;
+use Streams\Core\Support\Facades\Streams;
 
 $query = Streams::entries('contacts');
 ```
@@ -26,7 +26,7 @@ $query = Streams::entries('contacts');
 You can **chain** the below methods together to build query logic and return a collection of **results**.
 
 ```php
-use Anomaly\Streams\Platform\Support\Facades\Streams;
+use Streams\Core\Support\Facades\Streams;
 
 $results = Streams::entries('contacts')
     ->where('email', 'like', '%@gmail.com')

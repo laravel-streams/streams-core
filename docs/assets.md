@@ -16,7 +16,7 @@ The Streams platform comes with a fluid and highly extensible asset management t
 Assets are organized into **collections** which can be accessed and output later. You can access or create an asset collection using the `Assets` facade or alias.
 
 ```php
-use Anomaly\Streams\Platform\Support\Facades\Assets;
+use Streams\Core\Support\Facades\Assets;
 
 $collection = Assets::collection('footer');
 ```
@@ -120,7 +120,7 @@ You can also use the `tags()` method on a **collection** to return all tags.
 Use the `addPath()` method to register a **namespace** and **path**. The path parameter can be any path in the filesystem relative to the application's public root or a remote URL prefix.
 
 ```php
-use Anomaly\Streams\Platform\Support\Facades\Assets;
+use Streams\Core\Support\Facades\Assets;
 
 Assets::addPath('ui', 'vendor/anomaly/streams/ui');
 Assets::addPath('cdn', 'https://cdn.domain.com');
@@ -141,7 +141,7 @@ You can now use the above path hints to resolve assets.
 Use the `register()` method to **name** one or more **assets**. The assets parameter can be any valid source or array of sources.
 
 ```php
-use Anomaly\Streams\Platform\Support\Facades\Assets;
+use Streams\Core\Support\Facades\Assets;
 
 Assets::register('ui/tables', [
     'ui::js/tables.js',

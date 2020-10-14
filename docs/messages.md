@@ -23,7 +23,7 @@ Messages can provide standardized [API errors](/docs/api/errors).
 Within your code, before the response is generated, make a call to the `Messages` facade.
 
 ```php
-use Anomaly\Streams\Platform\Support\Facades\Messages;
+use Streams\Core\Support\Facades\Messages;
 
 public function example()
 {

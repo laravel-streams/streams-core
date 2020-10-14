@@ -23,7 +23,7 @@ return [
             'formats' => [
                 'json' => \Filebase\Format\Json::class,
                 'yaml' => \Filebase\Format\Yaml::class,
-                'md' => \Anomaly\Streams\Platform\Criteria\Format\Markdown::class,
+                'md' => \Streams\Core\Criteria\Format\Markdown::class,
             ],
         ],
     ],

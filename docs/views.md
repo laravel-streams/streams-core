@@ -79,7 +79,7 @@ Partials are reusable views intended to be included in many other views and even
 Includes are like named slots that can be accessed outside of, and prior to, the view layer.
 
 ```php
-use Anomaly\Streams\Platform\Support\Facades\Includes;
+use Streams\Core\Support\Facades\Includes;
 
 Includes::include('assets', 'partials.scripts');
 ```

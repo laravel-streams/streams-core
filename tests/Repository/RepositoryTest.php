@@ -2,8 +2,8 @@
 
 
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Stream\Stream;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Streams\Core\Stream\Stream;
+use Streams\Core\Entry\Contract\EntryInterface;
 
 class RepositoryTest extends StreamsTestCase
 {

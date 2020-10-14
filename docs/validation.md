@@ -129,7 +129,7 @@ Being that data validation is a fundamental principle, all validation typically 
 You can return a pre-loaded validator instance directly from the entry itself.
 
 ```php
-use Anomaly\Streams\Platform\Support\Facades\Streams;
+use Streams\Core\Support\Facades\Streams;
 
 $entry = Streams::repository('contacts')->find('john-doe');
 
@@ -143,7 +143,7 @@ if ($entry->validator()->passes()) {
 You may also return a validator instance with your own **data** which can be an entry object or _array_ of data to validate as an entry. 
 
 ```php
-use Anomaly\Streams\Platform\Support\Facades\Streams;
+use Streams\Core\Support\Facades\Streams;
 
 $validator = Streams::repository('contacts')->validator([
     'name' => 'John Doe',

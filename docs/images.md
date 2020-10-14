@@ -18,7 +18,7 @@ The Streams platform comes with a fluid and highly extensible image handling and
 To get started, use the `Images` facade to create a new image for working with.
 
 ```php
-use Anomaly\Streams\Platform\Support\Facades\Images;
+use Streams\Core\Support\Facades\Images;
 
 $image = Images::make('img/foo.jpg');
 ```
@@ -77,7 +77,7 @@ After you initiat a new image instance with `Images::make()`, you can use the wh
 Modification methods return the image instance, so you are able to chain methods.
 
 ```php
-use Anomaly\Streams\Platform\Support\Facades\Images;
+use Streams\Core\Support\Facades\Images;
 
 $image = Images::make('img/foo.jpg')->fit(300, 500)->quality(60);
 ```
@@ -148,7 +148,7 @@ Macros are a basic method of [extending the Streams platform](extending).
 You can define macros in a service provider.
 
 ```php
-use Anomaly\Streams\Platform\Image\Image;
+use Streams\Core\Image\Image;
 
 Image::macro('thumbnail', function () {
     return $this->fit(148)->encode('jpg', 50);

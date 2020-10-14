@@ -1,6 +1,6 @@
 <?php
 
-use Anomaly\Streams\Platform\Stream\Stream;
+use Streams\Core\Stream\Stream;
 use Illuminate\Support\Facades\File;
 
 /**
@@ -62,7 +62,7 @@ class StreamsTestCase extends \Orchestra\Testbench\TestCase
      */
     protected function getPackageProviders($app)
     {
-        return [\Anomaly\Streams\Platform\StreamsServiceProvider::class];
+        return [\Streams\Core\StreamsServiceProvider::class];
     }
 
     /**

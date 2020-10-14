@@ -1,7 +1,7 @@
 <?php
 
 
-use Anomaly\Streams\Platform\Support\Evaluator;
+use Streams\Core\Support\Evaluator;
 
 class ServiceProviderTest extends StreamsTestCase
 {

@@ -1,7 +1,7 @@
 <?php
 
 
-use Anomaly\Streams\Platform\Support\Resolver;
+use Streams\Core\Support\Resolver;
 
 class ResolverTest extends StreamsTestCase
 {

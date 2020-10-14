@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform;
+namespace Streams\Core;
 
 use HTMLPurifier;
 use Misd\Linkify\Linkify;
@@ -559,7 +559,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function extendRequest()
     {
-        Request::macro('isLocal', function() {
+        Request::macro('isLocal', function () {
             return in_array(Request::ip(), ['127.0.0.1', '::1']);
         });
     }

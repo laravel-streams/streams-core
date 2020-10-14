@@ -2,8 +2,8 @@
 
 
 use Illuminate\Support\Str;
-use Anomaly\Streams\Platform\Image\Image;
-use Anomaly\Streams\Platform\Support\Facades\Images;
+use Streams\Core\Image\Image;
+use Streams\Core\Support\Facades\Images;
 
 /**
  * @todo complete tests

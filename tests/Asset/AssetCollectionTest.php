@@ -1,8 +1,8 @@
 <?php
 
 
-use Anomaly\Streams\Platform\Asset\AssetCollection;
-use Anomaly\Streams\Platform\Asset\Facades\Assets;
+use Streams\Core\Asset\AssetCollection;
+use Streams\Core\Asset\Facades\Assets;
 
 /**
  * Class AssetCollectionTest

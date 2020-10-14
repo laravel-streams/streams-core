@@ -1,6 +1,6 @@
 <?php
 
-use Anomaly\Streams\Platform\Message\MessageManager;
+use Streams\Core\Message\MessageManager;
 
 /**
  * @todo complete tests for pull, merge, flush, and the type getters

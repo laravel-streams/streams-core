@@ -16,7 +16,7 @@ The Streams platform separates methods to retrieve and store entries from the en
 You can initialize an entry repository using the `Streams::repository()` method and specifying the **stream**.
 
 ```php
-use Anomaly\Streams\Platform\Support\Facades\Streams;
+use Streams\Core\Support\Facades\Streams;
 
 // Start using the repository.
 Streams::repository('contacts');
