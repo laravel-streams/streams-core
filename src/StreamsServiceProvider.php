@@ -95,7 +95,6 @@ class StreamsServiceProvider extends ServiceProvider
     {
         $this->registerComposerJson();
         $this->registerComposerLock();
-        $this->registerApplications();
         $this->registerFieldTypes();
         $this->registerMiddleware();
 
@@ -121,6 +120,8 @@ class StreamsServiceProvider extends ServiceProvider
         $this->extendView();
         $this->extendArr();
         $this->extendStr();
+
+        $this->registerApplication();
 
         $this->registerStreams();
     }
@@ -260,13 +261,20 @@ class StreamsServiceProvider extends ServiceProvider
     /**
      * Register the applications(s).
      */
-    protected function registerApplications()
+    protected function registerApplication()
     {
         $applications = Config::get('streams.applications', []) ?: ['default' => []];
 
         foreach ($applications as $handle => $configuration) {
 
             $configuration['handle'] = $handle;
+
+            if (
+                isset($configuration['match'])
+                && Str::is($configuration['match'], Request::fullUrlWithQuery(Request::query()))
+            ) {
+                config(Arr::get($configuration, 'config', []));
+            }
 
             $this->app->singleton('streams.applications.' . $handle, function () use ($configuration) {
                 return new Application($configuration);
