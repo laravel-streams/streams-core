@@ -38,7 +38,7 @@ The flat file database powered by the fantastic [Filebase](https://figt) package
     "source": {
         "type": "filebase",
         "format": "md",
-        "prototype": "Anomaly\\Streams\\Platform\\Entry\\Entry"
+        "prototype": "Streams\\Core\\Entry\\Entry"
     }
 }
 ```
@@ -76,7 +76,7 @@ The Laravel database source uses genetic Laravel database tables to query and re
         "type": "database",
         "table": "contacts",
         "connection": "default",
-        "prototype": "Anomaly\\Streams\\Platform\\Entry\\Entry"
+        "prototype": "Streams\\Core\\Entry\\Entry"
     }
 }
 ```

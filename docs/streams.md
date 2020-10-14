@@ -138,7 +138,7 @@ Sources define the source information for entry data which you can define in the
     "source": {
         "type": "filebase",
         "format": "md",
-        "prototype": "Anomaly\\Streams\\Platform\\Entry\\Entry"
+        "prototype": "Streams\\Core\\Entry\\Entry"
     }
 }
 ```

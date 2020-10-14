@@ -25,7 +25,7 @@ Published configuration files reside in `config/streams/`.
 Use the following command to publish configuration files.
 
 ```bash
-php artisan vendor:publish --vendor=Anomaly\\Streams\\Platform\\StreamsServiceProvider --tag=config
+php artisan vendor:publish --vendor=Streams\\Core\\StreamsServiceProvider --tag=config
 ```
 
 The above command will copy configuration files from their package location to the directory mentioned above so that you can modify them directly and commit them to your version control system.
