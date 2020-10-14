@@ -7,6 +7,10 @@ class WriteEnvironmentFileTest extends TestCase
 
     public function testCanWriteEnvironmentFile()
     {
+        $this->markTestSkipped('We should not be touching the file.');
+
+        return;
+        
         $this->dispatchNow(
             new \Anomaly\Streams\Platform\Application\Command\WriteEnvironmentFile(
                 array_merge(
