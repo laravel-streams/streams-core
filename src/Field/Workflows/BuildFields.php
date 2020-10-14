@@ -1,11 +1,11 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Field\Workflows;
+namespace Streams\Core\Field\Workflows;
 
 use Illuminate\Support\Arr;
-use Anomaly\Streams\Platform\Field\Field;
-use Anomaly\Streams\Platform\Support\Workflow;
-use Anomaly\Streams\Platform\Field\FieldCollection;
+use Streams\Core\Field\Field;
+use Streams\Core\Support\Workflow;
+use Streams\Core\Field\FieldCollection;
 
 /**
  * Class BuildFields

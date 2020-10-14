@@ -1,12 +1,12 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Addon;
+namespace Streams\Core\Addon;
 
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Addon\Addon;
+use Streams\Core\Addon\Addon;
 
 /**
  * Class AddonCollection

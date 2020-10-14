@@ -1,8 +1,8 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Support\Traits;
+namespace Streams\Core\Support\Traits;
 
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
+use Streams\Core\Support\Facades\Hydrator;
 
 /**
  * Trait Eloquence

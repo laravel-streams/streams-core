@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Field\Value;
+namespace Streams\Core\Field\Value;
 
 /**
  * Class MarkdownValue

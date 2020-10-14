@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Message;
+namespace Streams\Core\Message;
 
 use Illuminate\Session\Store;
 

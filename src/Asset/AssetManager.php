@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Asset;
+namespace Streams\Core\Asset;
 
 use Illuminate\Support\Arr;
 use Collective\Html\HtmlBuilder;

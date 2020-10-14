@@ -8,7 +8,10 @@ use StringTemplate\Engine;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\View\Factory;
+use Streams\Core\Addon\Addon;
 use Illuminate\Support\Collection;
+use Streams\Core\View\ViewIncludes;
+use Streams\Core\View\ViewTemplate;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
@@ -17,18 +20,15 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Translation\Translator;
+use Streams\Core\Addon\AddonCollection;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
-use Anomaly\Streams\Platform\Addon\Addon;
+use Streams\Core\Support\Facades\Assets;
+use Streams\Core\Support\Facades\Images;
+use Streams\Core\Application\Application;
+use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\View\ViewIncludes;
-use Anomaly\Streams\Platform\View\ViewTemplate;
-use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Anomaly\Streams\Platform\Support\Facades\Assets;
-use Anomaly\Streams\Platform\Support\Facades\Images;
-use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\Support\Facades\Streams;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
 use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
@@ -48,12 +48,12 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $aliases = [
-        'Assets' => \Anomaly\Streams\Platform\Support\Facades\Assets::class,
-        'Images' => \Anomaly\Streams\Platform\Support\Facades\Images::class,
-        'Streams' => \Anomaly\Streams\Platform\Support\Facades\Streams::class,
-        'Includes' => \Anomaly\Streams\Platform\Support\Facades\Includes::class,
-        'Messages' => \Anomaly\Streams\Platform\Support\Facades\Messages::class,
-        'Application' => \Anomaly\Streams\Platform\Support\Facades\Application::class,
+        'Assets' => \Streams\Core\Support\Facades\Assets::class,
+        'Images' => \Streams\Core\Support\Facades\Images::class,
+        'Streams' => \Streams\Core\Support\Facades\Streams::class,
+        'Includes' => \Streams\Core\Support\Facades\Includes::class,
+        'Messages' => \Streams\Core\Support\Facades\Messages::class,
+        'Application' => \Streams\Core\Support\Facades\Application::class,
     ];
 
     /**
@@ -62,7 +62,7 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $bindings = [
-        'streams.addons'      => \Anomaly\Streams\Platform\Addon\AddonCollection::class,
+        'streams.addons'      => \Streams\Core\Addon\AddonCollection::class,
     ];
 
     /**
@@ -71,19 +71,19 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $singletons = [
-        'assets' => \Anomaly\Streams\Platform\Asset\AssetManager::class,
-        'images' => \Anomaly\Streams\Platform\Image\ImageManager::class,
-        'includes' => \Anomaly\Streams\Platform\View\ViewIncludes::class,
-        'streams' => \Anomaly\Streams\Platform\Stream\StreamManager::class,
-        ViewOverrides::class => \Anomaly\Streams\Platform\View\ViewOverrides::class,
-        'messages' => \Anomaly\Streams\Platform\Message\MessageManager::class,
-        'applications' => \Anomaly\Streams\Platform\Application\ApplicationManager::class,
+        'assets' => \Streams\Core\Asset\AssetManager::class,
+        'images' => \Streams\Core\Image\ImageManager::class,
+        'includes' => \Streams\Core\View\ViewIncludes::class,
+        'streams' => \Streams\Core\Stream\StreamManager::class,
+        ViewOverrides::class => \Streams\Core\View\ViewOverrides::class,
+        'messages' => \Streams\Core\Message\MessageManager::class,
+        'applications' => \Streams\Core\Application\ApplicationManager::class,
 
-        'locator' => \Anomaly\Streams\Platform\Support\Locator::class,
-        'resolver' => \Anomaly\Streams\Platform\Support\Resolver::class,
-        'hydrator' => \Anomaly\Streams\Platform\Support\Hydrator::class,
-        'decorator' => \Anomaly\Streams\Platform\Support\Decorator::class,
-        'evaluator' => \Anomaly\Streams\Platform\Support\Evaluator::class,
+        'locator' => \Streams\Core\Support\Locator::class,
+        'resolver' => \Streams\Core\Support\Resolver::class,
+        'hydrator' => \Streams\Core\Support\Hydrator::class,
+        'decorator' => \Streams\Core\Support\Decorator::class,
+        'evaluator' => \Streams\Core\Support\Evaluator::class,
     ];
 
     /**
@@ -213,11 +213,11 @@ class StreamsServiceProvider extends ServiceProvider
             $this->commands([
 
                 // Asset Commands
-                \Anomaly\Streams\Platform\Asset\Console\AssetsClear::class,
-                \Anomaly\Streams\Platform\Asset\Console\AssetsPublish::class,
+                \Streams\Core\Asset\Console\AssetsClear::class,
+                \Streams\Core\Asset\Console\AssetsPublish::class,
 
                 // Addon Commands
-                //\Anomaly\Streams\Platform\Addon\Console\AddonPublish::class,
+                //\Streams\Core\Addon\Console\AddonPublish::class,
             ]);
         }
 
@@ -281,57 +281,57 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerFieldTypes()
     {
         // Text
-        $this->app->bind('streams.field_types.url', \Anomaly\Streams\Platform\Field\Type\Url::class);
-        $this->app->bind('streams.field_types.text', \Anomaly\Streams\Platform\Field\Type\Text::class);
-        $this->app->bind('streams.field_types.slug', \Anomaly\Streams\Platform\Field\Type\Slug::class);
-        $this->app->bind('streams.field_types.string', \Anomaly\Streams\Platform\Field\Type\Text::class);
-        $this->app->bind('streams.field_types.textarea', \Anomaly\Streams\Platform\Field\Type\Text::class);
-        $this->app->bind('streams.field_types.markdown', \Anomaly\Streams\Platform\Field\Type\Markdown::class);
-        $this->app->bind('streams.field_types.template', \Anomaly\Streams\Platform\Field\Type\Template::class);
+        $this->app->bind('streams.field_types.url', \Streams\Core\Field\Type\Url::class);
+        $this->app->bind('streams.field_types.text', \Streams\Core\Field\Type\Text::class);
+        $this->app->bind('streams.field_types.slug', \Streams\Core\Field\Type\Slug::class);
+        $this->app->bind('streams.field_types.string', \Streams\Core\Field\Type\Text::class);
+        $this->app->bind('streams.field_types.textarea', \Streams\Core\Field\Type\Text::class);
+        $this->app->bind('streams.field_types.markdown', \Streams\Core\Field\Type\Markdown::class);
+        $this->app->bind('streams.field_types.template', \Streams\Core\Field\Type\Template::class);
 
         // Array
-        $this->app->bind('streams.field_types.array', \Anomaly\Streams\Platform\Field\Type\Arr::class);
+        $this->app->bind('streams.field_types.array', \Streams\Core\Field\Type\Arr::class);
 
         // Integers
-        $this->app->bind('streams.field_types.int', \Anomaly\Streams\Platform\Field\Type\Integer::class);
-        $this->app->bind('streams.field_types.integer', \Anomaly\Streams\Platform\Field\Type\Integer::class);
+        $this->app->bind('streams.field_types.int', \Streams\Core\Field\Type\Integer::class);
+        $this->app->bind('streams.field_types.integer', \Streams\Core\Field\Type\Integer::class);
 
         // Decimals
-        $this->app->bind('streams.field_types.float', \Anomaly\Streams\Platform\Field\Type\Decimal::class);
-        $this->app->bind('streams.field_types.double', \Anomaly\Streams\Platform\Field\Type\Decimal::class);
-        $this->app->bind('streams.field_types.decimal', \Anomaly\Streams\Platform\Field\Type\Decimal::class);
+        $this->app->bind('streams.field_types.float', \Streams\Core\Field\Type\Decimal::class);
+        $this->app->bind('streams.field_types.double', \Streams\Core\Field\Type\Decimal::class);
+        $this->app->bind('streams.field_types.decimal', \Streams\Core\Field\Type\Decimal::class);
 
         // Boolean
-        $this->app->bind('streams.field_types.bool', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
-        $this->app->bind('streams.field_types.boolean', \Anomaly\Streams\Platform\Field\Type\Boolean::class);
+        $this->app->bind('streams.field_types.bool', \Streams\Core\Field\Type\Boolean::class);
+        $this->app->bind('streams.field_types.boolean', \Streams\Core\Field\Type\Boolean::class);
 
         // Selections
-        $this->app->bind('streams.field_types.select', \Anomaly\Streams\Platform\Field\Type\Select::class);
+        $this->app->bind('streams.field_types.select', \Streams\Core\Field\Type\Select::class);
 
         // Dates
-        $this->app->bind('streams.field_types.date', \Anomaly\Streams\Platform\Field\Type\Date::class);
-        $this->app->bind('streams.field_types.time', \Anomaly\Streams\Platform\Field\Type\Time::class);
-        $this->app->bind('streams.field_types.datetime', \Anomaly\Streams\Platform\Field\Type\Datetime::class);
+        $this->app->bind('streams.field_types.date', \Streams\Core\Field\Type\Date::class);
+        $this->app->bind('streams.field_types.time', \Streams\Core\Field\Type\Time::class);
+        $this->app->bind('streams.field_types.datetime', \Streams\Core\Field\Type\Datetime::class);
 
         // Assets
-        //$this->app->bind('streams.field_types.asset', \Anomaly\Streams\Platform\Field\Type\Asset::class);
-        $this->app->bind('streams.field_types.image', \Anomaly\Streams\Platform\Field\Type\Image::class);
+        //$this->app->bind('streams.field_types.asset', \Streams\Core\Field\Type\Asset::class);
+        $this->app->bind('streams.field_types.image', \Streams\Core\Field\Type\Image::class);
 
         // Objects
-        //$this->app->bind('streams.field_types.object', \Anomaly\Streams\Platform\Field\Type\Object::class);
-        $this->app->bind('streams.field_types.collection', \Anomaly\Streams\Platform\Field\Type\Collection::class);
+        //$this->app->bind('streams.field_types.object', \Streams\Core\Field\Type\Object::class);
+        $this->app->bind('streams.field_types.collection', \Streams\Core\Field\Type\Collection::class);
 
         // Streams
-        $this->app->bind('streams.field_types.entry', \Anomaly\Streams\Platform\Field\Type\Entry::class);
-        $this->app->bind('streams.field_types.entries', \Anomaly\Streams\Platform\Field\Type\Entries::class);
+        $this->app->bind('streams.field_types.entry', \Streams\Core\Field\Type\Entry::class);
+        $this->app->bind('streams.field_types.entries', \Streams\Core\Field\Type\Entries::class);
 
         // Relationships
-        $this->app->bind('streams.field_types.multiple', \Anomaly\Streams\Platform\Field\Type\Multiple::class);
-        $this->app->bind('streams.field_types.polymorphic', \Anomaly\Streams\Platform\Field\Type\Polymorphic::class);
-        $this->app->bind('streams.field_types.relationship', \Anomaly\Streams\Platform\Field\Type\Relationship::class);
+        $this->app->bind('streams.field_types.multiple', \Streams\Core\Field\Type\Multiple::class);
+        $this->app->bind('streams.field_types.polymorphic', \Streams\Core\Field\Type\Polymorphic::class);
+        $this->app->bind('streams.field_types.relationship', \Streams\Core\Field\Type\Relationship::class);
 
         // Miscellaneous
-        $this->app->bind('streams.field_types.color', \Anomaly\Streams\Platform\Field\Type\Color::class);
+        $this->app->bind('streams.field_types.color', \Streams\Core\Field\Type\Color::class);
     }
 
     /**
@@ -592,7 +592,7 @@ class StreamsServiceProvider extends ServiceProvider
             if (is_string($route) && !strpos($route, '@')) {
                 $route = [
                     'view' => $route,
-                    'uses' => '\Anomaly\Streams\Platform\Http\Controller\StreamsController@handle',
+                    'uses' => '\Streams\Core\Http\Controller\StreamsController@handle',
                 ];
             }
 
@@ -610,7 +610,7 @@ class StreamsServiceProvider extends ServiceProvider
              * information is present.
              */
             if (!isset($route['uses'])) {
-                $route['uses'] = '\Anomaly\Streams\Platform\Http\Controller\StreamsController@handle';
+                $route['uses'] = '\Streams\Core\Http\Controller\StreamsController@handle';
             }
 
             /**

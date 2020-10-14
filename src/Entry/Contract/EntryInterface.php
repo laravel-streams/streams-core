@@ -1,8 +1,8 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Entry\Contract;
+namespace Streams\Core\Entry\Contract;
 
-use Anomaly\Streams\Platform\Stream\Stream;
+use Streams\Core\Stream\Stream;
 
 /**
  * Interface EntryInterface

@@ -1,8 +1,8 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Field\Type;
+namespace Streams\Core\Field\Type;
 
-use Anomaly\Streams\Platform\Field\Value\DatetimeValue;
+use Streams\Core\Field\Value\DatetimeValue;
 
 /**
  * Class Date

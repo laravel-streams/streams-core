@@ -1,8 +1,8 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Field;
+namespace Streams\Core\Field;
 
-use Anomaly\Streams\Platform\Stream\Stream;
+use Streams\Core\Stream\Stream;
 
 /**
  * Class FieldBuilder

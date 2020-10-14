@@ -1,10 +1,10 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Repository\Contract;
+namespace Streams\Core\Repository\Contract;
 
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
+use Streams\Core\Entry\Contract\EntryInterface;
+use Streams\Core\Criteria\Contract\CriteriaInterface;
 
 /**
  * Interface RepositoryInterface

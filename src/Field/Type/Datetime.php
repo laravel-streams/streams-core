@@ -1,13 +1,13 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Field\Type;
+namespace Streams\Core\Field\Type;
 
 use Carbon\Carbon;
 use DateTimeInterface;
 use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Date;
-use Anomaly\Streams\Platform\Field\FieldType;
-use Anomaly\Streams\Platform\Field\Value\DatetimeValue;
+use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Value\DatetimeValue;
 
 /**
  * Class Datetime

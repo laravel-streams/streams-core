@@ -1,12 +1,12 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Application;
+namespace Streams\Core\Application;
 
 use Illuminate\Support\Traits\Macroable;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Support\Traits\HasMemory;
-use Anomaly\Streams\Platform\Support\Traits\Prototype;
-use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
+use Streams\Core\Support\Facades\Hydrator;
+use Streams\Core\Support\Traits\HasMemory;
+use Streams\Core\Support\Traits\Prototype;
+use Streams\Core\Support\Traits\FiresCallbacks;
 
 /**
  * Class Application

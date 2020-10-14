@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Security;
+namespace Streams\Core\Security;
 
 use Illuminate\Support\Traits\Macroable;
 

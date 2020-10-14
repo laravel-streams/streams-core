@@ -1,8 +1,8 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Application;
+namespace Streams\Core\Application;
 
-use Anomaly\Streams\Platform\Support\Traits\HasMemory;
+use Streams\Core\Support\Traits\HasMemory;
 use Illuminate\Support\Facades\App;
 
 /**

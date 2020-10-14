@@ -1,11 +1,11 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Asset\Console;
+namespace Streams\Core\Asset\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputArgument;
-use Anomaly\Streams\Platform\Application\Application;
+use Streams\Core\Application\Application;
 
 /**
  * Class AssetsClear

@@ -1,12 +1,12 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Support;
+namespace Streams\Core\Support;
 
 use ReflectionProperty;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Anomaly\Streams\Platform\Ui\Button\Button;
-use Anomaly\Streams\Platform\Support\Traits\Prototype;
+use Streams\Core\Ui\Button\Button;
+use Streams\Core\Support\Traits\Prototype;
 
 /**
  * Class Hydrator

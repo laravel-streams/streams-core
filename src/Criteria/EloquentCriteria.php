@@ -1,15 +1,15 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Criteria;
+namespace Streams\Core\Criteria;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Traits\Macroable;
-use Anomaly\Streams\Platform\Stream\Stream;
-use Anomaly\Streams\Platform\Support\Traits\HasMemory;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
+use Streams\Core\Stream\Stream;
+use Streams\Core\Support\Traits\HasMemory;
+use Streams\Core\Entry\Contract\EntryInterface;
+use Streams\Core\Criteria\Contract\CriteriaInterface;
 
 /**
  * Class EloquentCriteria

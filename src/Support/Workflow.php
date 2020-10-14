@@ -1,11 +1,11 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Support;
+namespace Streams\Core\Support;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
-use Anomaly\Streams\Platform\Support\Traits\Prototype;
-use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
+use Streams\Core\Support\Traits\Prototype;
+use Streams\Core\Support\Traits\FiresCallbacks;
 
 /**
  * Class Workflow

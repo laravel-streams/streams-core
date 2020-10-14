@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Asset\Console;
+namespace Streams\Core\Asset\Console;
 
 use Illuminate\Support\Str;
 use Illuminate\Console\Command;
@@ -8,8 +8,8 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Contracts\Console\Kernel;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-use Anomaly\Streams\Platform\StreamsServiceProvider;
-use Anomaly\Streams\Platform\Application\Application;
+use Streams\Core\StreamsServiceProvider;
+use Streams\Core\Application\Application;
 
 /**
  * Class AssetsPublish

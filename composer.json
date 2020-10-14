@@ -31,7 +31,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Anomaly\\Streams\\Platform\\": "src/"
+            "Streams\\Core\\": "src/"
         }
     },
     "autoload-dev": {
@@ -43,7 +43,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Anomaly\\Streams\\Platform\\StreamsServiceProvider"
+                "Streams\\Core\\StreamsServiceProvider"
             ]
         }
     },

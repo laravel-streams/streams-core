@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Criteria\Format;
+namespace Streams\Core\Criteria\Format;
 
 use Illuminate\Support\Arr;
 use Symfony\Component\Yaml\Yaml;

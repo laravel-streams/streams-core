@@ -1,9 +1,9 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Asset;
+namespace Streams\Core\Asset;
 
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Support\Facades\Assets;
+use Streams\Core\Support\Facades\Assets;
 
 /**
  * Class AssetCollection

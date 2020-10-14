@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Image;
+namespace Streams\Core\Image;
 
 use Illuminate\Support\Str;
 use Collective\Html\HtmlFacade;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Traits\Macroable;
 use Intervention\Image\Image as InterventionImage;
-use Anomaly\Streams\Platform\Support\Traits\Prototype;
+use Streams\Core\Support\Traits\Prototype;
 
 /**
  * Class Image

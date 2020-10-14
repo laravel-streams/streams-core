@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Field\Value;
+namespace Streams\Core\Field\Value;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;

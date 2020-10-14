@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Support;
+namespace Streams\Core\Support;
 
 use Exception;
 use Illuminate\Contracts\Container\BindingResolutionException;

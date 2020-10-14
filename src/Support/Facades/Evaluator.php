@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Support\Facades;
+namespace Streams\Core\Support\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

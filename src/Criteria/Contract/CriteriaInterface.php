@@ -1,9 +1,9 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Criteria\Contract;
+namespace Streams\Core\Criteria\Contract;
 
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
+use Streams\Core\Entry\Contract\EntryInterface;
+use Streams\Core\Repository\Contract\RepositoryInterface;
 
 /**
  * Interface CriteriaInterface

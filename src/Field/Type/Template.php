@@ -1,9 +1,9 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Field\Type;
+namespace Streams\Core\Field\Type;
 
-use Anomaly\Streams\Platform\Field\FieldType;
-use Anomaly\Streams\Platform\Field\Value\TemplateValue;
+use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Value\TemplateValue;
 
 /**
  * Class Template

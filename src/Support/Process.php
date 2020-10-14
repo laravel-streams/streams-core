@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Support;
+namespace Streams\Core\Support;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Image;
+namespace Streams\Core\Image;
 
 use Illuminate\Support\Arr;
 

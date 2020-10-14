@@ -1,13 +1,13 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Stream\Workflows;
+namespace Streams\Core\Stream\Workflows;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
-use Anomaly\Streams\Platform\Stream\Stream;
-use Anomaly\Streams\Platform\Support\Workflow;
-use Anomaly\Streams\Platform\Support\Facades\Streams;
-use Anomaly\Streams\Platform\Field\Workflows\BuildFields;
+use Streams\Core\Stream\Stream;
+use Streams\Core\Support\Workflow;
+use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Workflows\BuildFields;
 
 /**
  * Class BuildStream

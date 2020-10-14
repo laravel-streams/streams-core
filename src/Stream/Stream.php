@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Stream;
+namespace Streams\Core\Stream;
 
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Factory;
@@ -10,13 +10,13 @@ use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Traits\ForwardsCalls;
-use Anomaly\Streams\Platform\Repository\Repository;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Support\Traits\HasMemory;
-use Anomaly\Streams\Platform\Support\Traits\Prototype;
-use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
-use Anomaly\Streams\Platform\Criteria\Contract\CriteriaInterface;
-use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
+use Streams\Core\Repository\Repository;
+use Streams\Core\Support\Facades\Hydrator;
+use Streams\Core\Support\Traits\HasMemory;
+use Streams\Core\Support\Traits\Prototype;
+use Streams\Core\Support\Traits\FiresCallbacks;
+use Streams\Core\Criteria\Contract\CriteriaInterface;
+use Streams\Core\Repository\Contract\RepositoryInterface;
 
 /**
  * Class Stream

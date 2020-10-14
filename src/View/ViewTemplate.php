@@ -1,11 +1,11 @@
 <?php
 
-namespace Anomaly\Streams\Platform\View;
+namespace Streams\Core\View;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
-use Anomaly\Streams\Platform\Application\Application;
+use Streams\Core\Application\Application;
 
 /**
  * Class ViewTemplate

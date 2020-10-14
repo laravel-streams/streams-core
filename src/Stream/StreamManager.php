@@ -1,18 +1,18 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Stream;
+namespace Streams\Core\Stream;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Traits\Macroable;
-use Anomaly\Streams\Platform\Stream\Stream;
-use Anomaly\Streams\Platform\Support\Workflow;
-use Anomaly\Streams\Platform\Support\Traits\HasMemory;
-use Anomaly\Streams\Platform\Support\Traits\Prototype;
-use Anomaly\Streams\Platform\Stream\Workflows\BuildStream;
-use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
-use Anomaly\Streams\Platform\Repository\Contract\RepositoryInterface;
+use Streams\Core\Stream\Stream;
+use Streams\Core\Support\Workflow;
+use Streams\Core\Support\Traits\HasMemory;
+use Streams\Core\Support\Traits\Prototype;
+use Streams\Core\Stream\Workflows\BuildStream;
+use Streams\Core\Support\Traits\FiresCallbacks;
+use Streams\Core\Repository\Contract\RepositoryInterface;
 
 /**
  * Class StreamManager
@@ -157,7 +157,7 @@ class StreamManager
      *
      * @param string $name
      *
-     * @return \Anomaly\Streams\Platform\Support\Workflow
+     * @return \Streams\Core\Support\Workflow
      */
     protected function workflow($name): Workflow
     {

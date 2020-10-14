@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Support\Traits;
+namespace Streams\Core\Support\Traits;
 
 /**
  * Trait HasMemory

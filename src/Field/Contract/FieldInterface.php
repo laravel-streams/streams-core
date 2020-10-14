@@ -1,8 +1,8 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Field\Contract;
+namespace Streams\Core\Field\Contract;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Streams\Core\Addon\FieldType\FieldType;
 
 /**
  * Interface FieldInterface

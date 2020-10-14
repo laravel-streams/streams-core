@@ -1,17 +1,17 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Field;
+namespace Streams\Core\Field;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Field\FieldType;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Support\Traits\HasMemory;
-use Anomaly\Streams\Platform\Support\Traits\Prototype;
-use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Streams\Core\Field\FieldType;
+use Streams\Core\Support\Facades\Hydrator;
+use Streams\Core\Support\Traits\HasMemory;
+use Streams\Core\Support\Traits\Prototype;
+use Streams\Core\Field\Contract\FieldInterface;
 
 /**
  * Class Field

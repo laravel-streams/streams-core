@@ -1,9 +1,9 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Field\Type;
+namespace Streams\Core\Field\Type;
 
-use Anomaly\Streams\Platform\Field\FieldType;
-use Anomaly\Streams\Platform\Support\Facades\Streams;
+use Streams\Core\Field\FieldType;
+use Streams\Core\Support\Facades\Streams;
 
 /**
  * Class Relationship

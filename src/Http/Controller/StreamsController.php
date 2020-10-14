@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Http\Controller;
+namespace Streams\Core\Http\Controller;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
-use Anomaly\Streams\Platform\Support\Workflow;
-use Anomaly\Streams\Platform\Support\Facades\Streams;
-use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
+use Streams\Core\Support\Workflow;
+use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Support\Traits\FiresCallbacks;
 
 /**
  * Class StreamsController

@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Support;
+namespace Streams\Core\Support;
 
 use Illuminate\Support\Str;
 
@@ -50,7 +50,7 @@ class Locator
      * Return the located addon instance.
      *
      * @param $object
-     * @return \Anomaly\Streams\Platform\Addon\Addon|mixed|null
+     * @return \Streams\Core\Addon\Addon|mixed|null
      */
     public static function resolve($object)
     {

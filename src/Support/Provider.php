@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Support;
+namespace Streams\Core\Support;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Traits\Macroable;
-use Anomaly\Streams\Platform\Support\Facades\Assets;
-use Anomaly\Streams\Platform\Support\Facades\Streams;
-use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
+use Streams\Core\Support\Facades\Assets;
+use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Support\Traits\FiresCallbacks;
 
 /**
  * Class ServiceProvider

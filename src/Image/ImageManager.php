@@ -1,16 +1,16 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Image;
+namespace Streams\Core\Image;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Traits\Macroable;
-use Anomaly\Streams\Platform\Image\ImageRegistry;
-use Anomaly\Streams\Platform\Image\Type\LocalImage;
-use Anomaly\Streams\Platform\Image\Type\RemoteImage;
-use Anomaly\Streams\Platform\Image\Type\StorageImage;
-use Anomaly\Streams\Platform\Support\Traits\FiresCallbacks;
+use Streams\Core\Image\ImageRegistry;
+use Streams\Core\Image\Type\LocalImage;
+use Streams\Core\Image\Type\RemoteImage;
+use Streams\Core\Image\Type\StorageImage;
+use Streams\Core\Support\Traits\FiresCallbacks;
 
 /**
  * Class ImageManager

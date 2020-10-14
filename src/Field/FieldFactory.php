@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Field;
+namespace Streams\Core\Field;
 
 /**
  * Class FieldFactory

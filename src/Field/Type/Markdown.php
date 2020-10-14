@@ -1,9 +1,9 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Field\Type;
+namespace Streams\Core\Field\Type;
 
-use Anomaly\Streams\Platform\Field\FieldType;
-use Anomaly\Streams\Platform\Field\Value\MarkdownValue;
+use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Value\MarkdownValue;
 
 /**
  * Class Markdown

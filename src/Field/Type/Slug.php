@@ -1,9 +1,9 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Field\Type;
+namespace Streams\Core\Field\Type;
 
 use Illuminate\Support\Str;
-use Anomaly\Streams\Platform\Field\FieldType;
+use Streams\Core\Field\FieldType;
 
 /**
  * Class Slug

@@ -1,9 +1,9 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Image\Type;
+namespace Streams\Core\Image\Type;
 
 use Illuminate\Support\Facades\File;
-use Anomaly\Streams\Platform\Image\Image;
+use Streams\Core\Image\Image;
 use Intervention\Image\ImageManagerStatic;
 use Intervention\Image\Image as InterventionImage;
 

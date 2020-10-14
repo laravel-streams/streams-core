@@ -1,10 +1,10 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Asset;
+namespace Streams\Core\Asset;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Anomaly\Streams\Platform\Support\Facades\Application;
+use Streams\Core\Support\Facades\Application;
 
 /**
  * Class AssetPaths

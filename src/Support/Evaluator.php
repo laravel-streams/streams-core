@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Support;
+namespace Streams\Core\Support;
 
 /**
  * Class Evaluator

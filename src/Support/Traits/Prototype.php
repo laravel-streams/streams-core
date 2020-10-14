@@ -1,13 +1,13 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Support\Traits;
+namespace Streams\Core\Support\Traits;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Traits\Macroable;
-use Anomaly\Streams\Platform\Field\Value\Value;
+use Streams\Core\Field\Value\Value;
 
 /**
  * Trait Prototype

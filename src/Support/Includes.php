@@ -1,6 +1,6 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Suppport;
+namespace Streams\Core\Suppport;
 
 use Exception;
 use Illuminate\Support\Collection;

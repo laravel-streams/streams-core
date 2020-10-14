@@ -1,11 +1,11 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Field;
+namespace Streams\Core\Field;
 
-use Anomaly\Streams\Platform\Field\Value\Value;
-use Anomaly\Streams\Platform\Support\Traits\HasMemory;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Support\Traits\Prototype;
+use Streams\Core\Field\Value\Value;
+use Streams\Core\Support\Traits\HasMemory;
+use Streams\Core\Support\Facades\Hydrator;
+use Streams\Core\Support\Traits\Prototype;
 
 /**
  * Class Field

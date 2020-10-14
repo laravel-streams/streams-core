@@ -1,15 +1,15 @@
 <?php
 
-namespace Anomaly\Streams\Platform\Entry;
+namespace Streams\Core\Entry;
 
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Validator;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
-use Anomaly\Streams\Platform\Stream\Stream;
-use Anomaly\Streams\Platform\Support\Traits\Fluency;
-use Anomaly\Streams\Platform\Support\Facades\Hydrator;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Streams\Core\Stream\Stream;
+use Streams\Core\Support\Traits\Fluency;
+use Streams\Core\Support\Facades\Hydrator;
+use Streams\Core\Entry\Contract\EntryInterface;
 
 /**
  * Class Entry
