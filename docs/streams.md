@@ -86,6 +86,7 @@ You can also use an array to include other **route options**.
         "contact": {
             "csrf": false,
             "uri": "form/{entry.email}"
+        }
     }
 }
 ```
