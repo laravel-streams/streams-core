@@ -263,37 +263,42 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerApplication()
     {
+        $matched = 'default';
+
         $applications = Config::get('streams.applications', []) ?: ['default' => []];
+
+        $this->app->singleton('streams.applications.default', function () use ($applications) {
+            return new Application(Arr::get($applications, 'default', []));
+        });
 
         foreach ($applications as $handle => $configuration) {
 
             $configuration['handle'] = $handle;
 
             if ($handle == 'default') {
-
-                config(Arr::get($configuration, 'config', []));
-
-                $this->app->singleton('streams.application', function () use ($configuration) {
-                    return new Application($configuration);
-                });
-
-                $this->app->singleton('streams.applications.default', function () use ($configuration) {
-                    return new Application($configuration);
-                });
-
-                return;
+                continue;
             }
 
             if (
                 isset($configuration['match'])
                 && Str::is($configuration['match'], Request::fullUrlWithQuery(Request::query()))
             ) {
-                config(Arr::get($configuration, 'config', []));
-
-                $this->app->singleton('streams.application', function () use ($configuration) {
-                    return new Application($configuration);
-                });
+                $matched = $handle;
             }
+
+            $this->app->singleton('streams.applications.' . $handle, function () use ($configuration) {
+                return new Application($configuration);
+            });
+        }
+
+        $this->app->singleton('streams.application', function () use ($matched) {
+            return app('streams.applications.' . $matched);
+        });
+
+        $application = $this->app->make('streams.application');
+        
+        if ($application->config) {
+            config($application->config);
         }
     }
 
