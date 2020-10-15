@@ -121,9 +121,9 @@ class StreamsServiceProvider extends ServiceProvider
         $this->extendArr();
         $this->extendStr();
 
-        $this->registerApplication();
-
         $this->registerStreams();
+
+        $this->registerApplications();
     }
 
     /**
@@ -131,17 +131,12 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Register the application.
-        $this->app->singleton('streams.application', function () {
-            return $this->app->make('streams.applications.default');
-        });
-
         $this->app->singleton('streams.application.origin', function () {
-            return $this->app->make('streams.applications.default');
+            return $this->app->make('streams.application');
         });
 
         $this->app->singleton('streams.application.handle', function () {
-            return $this->app->make('streams.applications.default')->handle;
+            return $this->app->make('streams.application')->handle;
         });
 
         $this->app->singleton('streams.parser_data', function () {
@@ -259,46 +254,40 @@ class StreamsServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the applications(s).
+     * Register the applications.
      */
-    protected function registerApplication()
+    protected function registerApplications()
     {
-        $matched = 'default';
+        $applications = Streams::entries('streams.applications')->all();
 
-        $applications = Config::get('streams.applications', []) ?: ['default' => []];
+        $applications->each(function ($application) {
 
-        $this->app->singleton('streams.applications.default', function () use ($applications) {
-            return new Application(Arr::get($applications, 'default', []));
+            $default = ($application->match
+                && Str::is($application->match, Request::fullUrlWithQuery(Request::query())));
+
+            $application->active = $application->active ?: $default;
         });
 
-        foreach ($applications as $handle => $configuration) {
+        $active = $applications->first(function ($application) {
+            return $application->active === true;
+        });
 
-            $configuration['handle'] = $handle;
-
-            if ($handle == 'default') {
-                continue;
-            }
-
-            if (
-                isset($configuration['match'])
-                && Str::is($configuration['match'], Request::fullUrlWithQuery(Request::query()))
-            ) {
-                $matched = $handle;
-            }
-
-            $this->app->singleton('streams.applications.' . $handle, function () use ($configuration) {
-                return new Application($configuration);
+        if (!$active) {
+            $active = $applications->first(function ($application) {
+                return $application->id == 'default';
             });
         }
 
-        $this->app->singleton('streams.application', function () use ($matched) {
-            return app('streams.applications.' . $matched);
+        if (!$active) {
+            $active = new Application([]);
+        }
+
+        $this->app->singleton('streams.application', function () use ($active) {
+            return $active;
         });
 
-        $application = $this->app->make('streams.application');
-        
-        if ($application->config) {
-            config($application->config);
+        if ($active->config) {
+            config($active->config);
         }
     }
 
@@ -430,6 +419,18 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerStreams()
     {
+        Streams::register([
+            'handle' => 'streams.applications',
+            'source' => [
+                'path' => 'streams/apps',
+                'format' => 'json',
+            ],
+            'fields' => [
+                'match' => 'string',
+                'config' => 'array',
+            ],
+        ]);
+
         foreach (File::files(base_path('streams')) as $file) {
 
             $stream = Streams::load($file->getPathname());
