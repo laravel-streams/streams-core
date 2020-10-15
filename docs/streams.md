@@ -83,8 +83,9 @@ You can also use an array to include other **route options**.
 // streams/contacts.json
 {
     "routes": {
-        "csrf": false,
-        "email": "form/{entry.email}",
+        "contact": {
+            "csrf": false,
+            "uri": "form/{entry.email}"
     }
 }
 ```
