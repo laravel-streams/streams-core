@@ -269,16 +269,31 @@ class StreamsServiceProvider extends ServiceProvider
 
             $configuration['handle'] = $handle;
 
+            if ($handle == 'default') {
+
+                config(Arr::get($configuration, 'config', []));
+
+                $this->app->singleton('streams.application', function () use ($configuration) {
+                    return new Application($configuration);
+                });
+
+                $this->app->singleton('streams.applications.default', function () use ($configuration) {
+                    return new Application($configuration);
+                });
+
+                return;
+            }
+
             if (
                 isset($configuration['match'])
                 && Str::is($configuration['match'], Request::fullUrlWithQuery(Request::query()))
             ) {
                 config(Arr::get($configuration, 'config', []));
-            }
 
-            $this->app->singleton('streams.applications.' . $handle, function () use ($configuration) {
-                return new Application($configuration);
-            });
+                $this->app->singleton('streams.application', function () use ($configuration) {
+                    return new Application($configuration);
+                });
+            }
         }
     }
 
