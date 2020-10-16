@@ -186,6 +186,7 @@ A stream can `extend` another stream, which works like a recursive **merge**.
 // streams/family.json
 {
     "name": "Family Members",
+    "extend": "contacts",
     "fields": {
         "relation": {
             "type": "selection",
