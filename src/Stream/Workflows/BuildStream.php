@@ -117,7 +117,14 @@ class BuildStream extends Workflow
 
             return $rules;
         }, Arr::get($stream, 'rules', []));
-        
+
+        /**
+         * Default handle.
+         */
+        if (!isset($stream['handle'])) {
+            $stream['handle'] = 'id';
+        }
+
         $workflow->stream = $stream;
     }
 

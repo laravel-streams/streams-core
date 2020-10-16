@@ -27,6 +27,28 @@ class Entry implements EntryInterface, Arrayable, Jsonable
     }
 
     /**
+     * Get the handle attribute. This is typically
+     * the ID. But if the entry is in a database it
+     * may have a handle identifier aside from the 
+     * originally intended database table ID.
+     */
+    protected function getHandleAttribute()
+    {
+        return Arr::get($this->__prototype, 'attributes.' . $this->getPrototypeHandleName());
+    }
+
+    /**
+     * Get the configured
+     * handle attribute name.
+     * 
+     * Defaults to "id".
+     */
+    public function getPrototypeHandleName()
+    {
+        return $this->stream->getPrototypeAttribute('config.handle') ?: 'id';
+    }
+
+    /**
      * The stream instance.
      *
      * @var Stream
