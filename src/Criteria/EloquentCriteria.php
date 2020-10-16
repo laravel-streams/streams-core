@@ -127,6 +127,10 @@ class EloquentCriteria implements CriteriaInterface
             $operator = '=';
         }
 
+        if ($field == 'handle') {
+            $field = $this->stream->getPrototypeAttribute('config.handle', 'id');
+        }
+
         $method = Str::studly($nested ? $nested . '_where' : 'where');
 
         $this->query = $this->query->{$method}($field, $operator, $value);

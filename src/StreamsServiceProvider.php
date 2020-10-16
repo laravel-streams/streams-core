@@ -260,6 +260,10 @@ class StreamsServiceProvider extends ServiceProvider
     {
         $applications = Streams::entries('streams.applications')->all();
 
+        /**
+         * Mark the active application
+         * according to it's match.
+         */
         $applications->each(function ($application) {
 
             $default = ($application->match
@@ -268,24 +272,38 @@ class StreamsServiceProvider extends ServiceProvider
             $application->active = $application->active ?: $default;
         });
 
+        /**
+         * Get the first
+         * active application.
+         */
         $active = $applications->first(function ($application) {
             return $application->active === true;
         });
 
+        /**
+         * Otherwise get the
+         * default application.
+         */
         if (!$active) {
             $active = $applications->first(function ($application) {
                 return $application->id == 'default';
             });
         }
 
+        /**
+         * Otherwise use a
+         * blank application.
+         */
         if (!$active) {
             $active = new Application([]);
         }
 
+        // Register it as so.
         $this->app->singleton('streams.application', function () use ($active) {
             return $active;
         });
 
+        // Configure
         if ($active->config) {
             config($active->config);
         }
@@ -419,6 +437,11 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerStreams()
     {
+
+        /**
+         * Register the core stream responsible
+         * for managing multi-site configurations.
+         */
         Streams::register([
             'handle' => 'streams.applications',
             'source' => [
@@ -431,6 +454,12 @@ class StreamsServiceProvider extends ServiceProvider
             ],
         ]);
 
+        /**
+         * Configure all base streams
+         * defined for the application.
+         * 
+         * @todo configure this base path
+         */
         foreach (File::files(base_path('streams')) as $file) {
 
             $stream = Streams::load($file->getPathname());

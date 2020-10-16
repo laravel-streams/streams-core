@@ -133,6 +133,10 @@ class FilebaseCriteria extends AbstractCiteria
 
         $operator = strtoupper($operator);
 
+        if ($field == 'handle') {
+            $field = $this->stream->getPrototypeAttribute('config.handle', 'id');
+        }
+
         if ($field == 'id') {
             $field = '__id';
         }
