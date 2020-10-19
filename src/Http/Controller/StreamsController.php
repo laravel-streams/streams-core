@@ -6,11 +6,11 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
+use Streams\Core\Support\Workflow;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
-use Streams\Core\Support\Workflow;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
@@ -26,6 +26,14 @@ class StreamsController extends Controller
 
     use FiresCallbacks;
 
+    protected $steps = [
+        'resolve_stream',
+        'resolve_entry',
+        'resolve_view',
+        'resolve_redirect',
+        'resolve_response',
+    ];
+
     /**
      * Handle the request.
      * 
@@ -35,13 +43,9 @@ class StreamsController extends Controller
     {
         $data = collect();
 
-        $workflow = new Workflow([
-            'resolve_stream' => [$this, 'resolveStream'],
-            'resolve_entry' => [$this, 'resolveEntry'],
-            'resolve_view' => [$this, 'resolveView'],
-            'resolve_redirect' => [$this, 'resolveRedirect'],
-            'resolve_response' => [$this, 'resolveResponse'],
-        ]);
+        $workflow = new Workflow(array_combine($this->steps, array_map(function($step) {
+            return [$this, Str::camel($step)];
+        }, $this->steps)));
 
         $this->fire('handling', [
             'data' => $data,

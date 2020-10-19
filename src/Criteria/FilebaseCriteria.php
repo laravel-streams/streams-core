@@ -143,7 +143,7 @@ class FilebaseCriteria extends AbstractCiteria
 
         $method = $nested ? Str::studly($nested . '_where') : 'where';
 
-        if (is_string($value) && $operator == 'like') {
+        if (is_string($value) && $operator == 'LIKE') {
             $value = str_replace('%', '', $value); // Filebase doesn't use "%"
         }
 

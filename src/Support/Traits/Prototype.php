@@ -240,10 +240,6 @@ trait Prototype
             $type = 'string';
         }
 
-        if ($type === 'object') {
-            $type = null;
-        }
-
         if ($type === 'double') {
             $type = 'float';
         }
