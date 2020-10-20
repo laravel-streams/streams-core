@@ -2,11 +2,10 @@
 
 namespace Streams\Core\Support;
 
-use Exception;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
+use Illuminate\Contracts\Container\BindingResolutionException;
 
 /**
  * Class Resolver

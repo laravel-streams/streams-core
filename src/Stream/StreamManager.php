@@ -60,6 +60,18 @@ class StreamManager
     }
 
     /**
+     * Check if a given
+     * stream exists.
+     *
+     * @param string $handle
+     * @return bool
+     */
+    public function has($handle)
+    {
+        return App::has('streams.instances.' . $handle);
+    }
+
+    /**
      * Build a stream instance.
      *
      * @param $stream
@@ -80,7 +92,7 @@ class StreamManager
         $stream = $workflow->stream;
 
         $stream->fire('built', ['stream' => $stream]);
-        
+
         return $stream;
     }
 

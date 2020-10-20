@@ -264,9 +264,14 @@ class FilebaseCriteria extends AbstractCiteria
     {
         $collection = $this->stream->getPrototypeAttribute('collection') ?: Collection::class;
 
-        return new $collection(array_map(function ($entry) {
-            return $this->make($entry);
-        }, $entries));
+        $collection = new $collection();
+
+        array_map(function ($entry) use ($collection) {
+            $entry = $this->make($entry);
+            $collection->put($entry->id, $entry);
+        }, $entries);
+
+        return $collection;
     }
 
     /**

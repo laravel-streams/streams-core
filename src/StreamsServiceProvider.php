@@ -2,6 +2,7 @@
 
 namespace Streams\Core;
 
+use Collective\Html\HtmlFacade;
 use HTMLPurifier;
 use Misd\Linkify\Linkify;
 use StringTemplate\Engine;
@@ -831,6 +832,10 @@ class StreamsServiceProvider extends ServiceProvider
             }
 
             return $array;
+        });
+
+        Arr::macro('htmlAttributes', function ($attributes) {
+            return HtmlFacade::attributes($attributes);
         });
     }
 
