@@ -97,7 +97,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerComposerJson();
         $this->registerComposerLock();
         $this->registerFieldTypes();
-        $this->registerMiddleware();
 
 
         foreach ($this->bindings as $abstract => $concrete) {
@@ -368,14 +367,6 @@ class StreamsServiceProvider extends ServiceProvider
 
         // Miscellaneous
         $this->app->bind('streams.field_types.color', \Streams\Core\Field\Type\Color::class);
-    }
-
-    /**
-     * Register middleware.
-     */
-    protected function registerMiddleware()
-    {
-        Route::middlewareGroup('cp', Config::get('streams.cp.middleware', ['auth']));
     }
 
     /**
