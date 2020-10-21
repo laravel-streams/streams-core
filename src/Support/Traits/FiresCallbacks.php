@@ -28,7 +28,7 @@ trait FiresCallbacks
      *
      * @var array
      */
-    protected static $listeners = [];
+    public static $listeners = [];
 
     /**
      * Register a new callback.
@@ -59,11 +59,11 @@ trait FiresCallbacks
     {
         $trigger = static::class . '::' . $trigger;
 
-        if (!isset(self::$listeners[$trigger])) {
-            self::$listeners[$trigger] = [];
+        if (!isset(static::$listeners[$trigger])) {
+            static::$listeners[$trigger] = [];
         }
 
-        self::$listeners[$trigger][] = $callback;
+        static::$listeners[$trigger][] = $callback;
     }
 
     /**

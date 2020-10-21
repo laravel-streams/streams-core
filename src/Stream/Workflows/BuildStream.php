@@ -3,9 +3,9 @@
 namespace Streams\Core\Stream\Workflows;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Config;
 use Streams\Core\Stream\Stream;
 use Streams\Core\Support\Workflow;
+use Illuminate\Support\Facades\Config;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Workflows\BuildFields;
 
@@ -22,6 +22,7 @@ class BuildStream extends Workflow
     protected $steps = [
         'setup' => BuildStream::class . '@setup',
         'extend' => BuildStream::class . '@extend',
+        'import' => BuildStream::class . '@import',
         'normalize' => BuildStream::class . '@normalize',
         'make' => BuildStream::class . '@make',
         'fields' => BuildStream::class . '@fields',
@@ -29,7 +30,7 @@ class BuildStream extends Workflow
 
     public function setup($workflow)
     {
-        
+
         /**
          * Build our components and
          * configure the application.
@@ -40,11 +41,11 @@ class BuildStream extends Workflow
 
         $workflow->stream = $stream;
     }
-    
+
     public function extend($workflow)
     {
         $stream = $workflow->stream;
-        
+
         /**
          * Merge extending Stream data.
          */
@@ -60,11 +61,14 @@ class BuildStream extends Workflow
         $workflow->stream = $stream;
     }
 
-    public function normalize($workflow)
+    public function import($workflow)
     {
         $stream = $workflow->stream;
 
-        $filtered = array_filter(Arr::dot($stream), function ($value) {
+        /**
+         * Filter out the imports.
+         */
+        $imports = array_filter(Arr::dot($stream), function ($value) {
 
             if (!is_string($value)) {
                 return false;
@@ -77,11 +81,18 @@ class BuildStream extends Workflow
          * Import values matching @ which
          * refer to existing base path file.
          */
-        foreach ($filtered as $key => $import) {
+        foreach ($imports as $key => $import) {
             if (file_exists($import = base_path(substr($import, 1)))) {
                 Arr::set($stream, $key, json_decode(file_get_contents($import), true));
             }
         }
+
+        $workflow->stream = $stream;
+    }
+
+    public function normalize($workflow)
+    {
+        $stream = $workflow->stream;
 
         /**
          * Defaults the source.
@@ -132,7 +143,7 @@ class BuildStream extends Workflow
     {
         $workflow->stream = new Stream($workflow->stream);
     }
-    
+
     public function fields($workflow)
     {
         $fields = Arr::undot($workflow->fields);
@@ -140,10 +151,14 @@ class BuildStream extends Workflow
         $fieldsWorkflow = new BuildFields();
 
         $fieldsWorkflow->fields = $fields;
-
-        $fieldsWorkflow->process([
-            'workflow' => $fieldsWorkflow
-        ]);
+        $fieldsWorkflow->stream = $workflow->stream;
+        
+        $fieldsWorkflow
+            ->passThrough($workflow->object)
+            ->setPrototypeAttribute('name', 'fields')
+            ->process([
+                'workflow' => $fieldsWorkflow
+            ]);
 
         $stream = $workflow->stream;
 

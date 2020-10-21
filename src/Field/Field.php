@@ -2,15 +2,14 @@
 
 namespace Streams\Core\Field;
 
-use Illuminate\Support\Str;
+use Streams\Core\Field\FieldType;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Contracts\Support\Arrayable;
-use Streams\Core\Field\FieldType;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
+use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Field\Contract\FieldInterface;
 
 /**

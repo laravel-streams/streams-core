@@ -3,11 +3,11 @@
 namespace Streams\Core\Stream;
 
 use Illuminate\Support\Arr;
+use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
+use Streams\Core\Support\Workflow;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Traits\Macroable;
-use Streams\Core\Stream\Stream;
-use Streams\Core\Support\Workflow;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
 use Streams\Core\Stream\Workflows\BuildStream;
@@ -85,7 +85,7 @@ class StreamManager
 
         $workflow->stream = $stream;
 
-        $workflow->process([
+        $workflow->passThrough($this)->process([
             'workflow' => $workflow
         ]);
 

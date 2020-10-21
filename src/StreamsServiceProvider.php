@@ -131,7 +131,7 @@ class StreamsServiceProvider extends ServiceProvider
      * Boot the service provider.
      */
     public function boot()
-    {
+    {$this->registerStreams();
         $this->app->singleton('streams.application.origin', function () {
             return $this->app->make('streams.application');
         });

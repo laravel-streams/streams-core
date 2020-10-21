@@ -89,15 +89,17 @@ class Workflow
             'name' => $name,
         ]);
 
-        $payload = compact('payload', 'callback');
+        $bundle = compact('payload', 'callback');
 
-        $this->callback ? App::call($this->callback, $payload) : null;
+        $this->callback ? App::call($this->callback, $bundle) : null;
 
         $method = Str::camel(implode('_', ['on'] + $callback));
 
         if ($this->object && method_exists($this->object, $method)) {
-            App::call([$this->object, $method], $payload);
+            App::call([$this->object, $method], $bundle);
         }
+
+        $this->fire($name, $payload);
     }
 
     /**

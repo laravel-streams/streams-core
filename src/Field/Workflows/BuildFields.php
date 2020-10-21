@@ -19,6 +19,7 @@ class BuildFields extends Workflow
 
     protected $steps = [
         'normalize' => BuildFields::class . '@normalize',
+        'expand' => BuildFields::class . '@expand',
         'make' => BuildFields::class . '@make',
     ];
 
@@ -38,14 +39,6 @@ class BuildFields extends Workflow
                 $input['handle'] = $handle;
             }
 
-            // INPUT TEST
-            // @todo replace
-            if (strpos($input['type'], '|')) {
-                list($input['type'], $input['input']) = explode('|', $input['type']);
-            } else {
-                $input['input'] = $input['type'];
-            }
-
             $input['rules'] = array_map(function ($rules) {
 
                 if (is_string($rules)) {
@@ -54,6 +47,22 @@ class BuildFields extends Workflow
     
                 return $rules;
             }, Arr::get($input, 'rules', []));
+        }
+        
+        $workflow->fields = $fields;
+    }
+    
+    public function expand($workflow)
+    {
+        $fields = $workflow->fields;
+
+        foreach ($fields as &$input) {
+            
+            if (strpos($input['type'], '|')) {
+                list($input['type'], $input['input']) = explode('|', $input['type']);
+            } else {
+                $input['input'] = $input['type'];
+            }
         }
         
         $workflow->fields = $fields;
