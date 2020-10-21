@@ -13,28 +13,28 @@ Enhancing Laravel is a fundamental aspect of the Streams platform. Laravel enhan
 
 The Streams platform helps you take Laravel basics further to do more with less. 
 
-- [Views](core/views)
-- [Assets](core/assets)
-- [Images](core/images)
-- [Routing](core/routing)
-- [Support](core/support)
+- [Views](views)
+- [Assets](assets)
+- [Images](images)
+- [Routing](routing)
+- [Support](support)
 <!-- - Policies -->
 <!-- - Events -->
 - Schedules
-- [Providers](core/providers)
+- [Providers](providers)
 - Middleware
 
 ### Addon Packages
 
 Streams addons are Composer packages that serve as logical containers for your application. While not required, they provide a great form of application organization and are, of course, easy to distribute just as with any other Composer package.
 
-- [Addons](core/addons)
+- [Addons](addons)
 
 ## Data Modeling
 
 Data modeling is a fundamental aspect of building with the Streams platform.
 
-- [Data Modeling Introduction](core/introduction#data-modeling)
+- [Data Modeling Introduction](introduction#data-modeling)
 
 ### Domain Information
 
