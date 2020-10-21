@@ -43,7 +43,7 @@ class StreamsController extends Controller
     {
         $data = collect();
 
-        $workflow = new Workflow(array_combine($this->steps, array_map(function($step) {
+        $workflow = new Workflow(array_combine($this->steps, array_map(function ($step) {
             return [$this, Str::camel($step)];
         }, $this->steps)));
 
@@ -55,7 +55,7 @@ class StreamsController extends Controller
         $workflow
             ->passThrough($this)
             ->process(['data' => $data]);
-            
+
         $this->fire('responding', ['data' => $data]);
 
         if ($response = $data->get('response')) {
@@ -112,7 +112,7 @@ class StreamsController extends Controller
         if (!$stream = $data->get('stream')) {
             return;
         }
-        
+
         /**
          * If the entry is explicitly set then
          * find it and get on with the show.
@@ -123,7 +123,7 @@ class StreamsController extends Controller
 
             return;
         }
-        
+
         /**
          * Try and use the route parameters
          * to resolve an entry otherwise.
@@ -140,6 +140,13 @@ class StreamsController extends Controller
         if (isset($parameters['handle'])) {
 
             $data->put('entry', $stream->repository()->find($parameters['handle']));
+
+            return;
+        }
+
+        if (isset($parameters['entry'])) {
+
+            $data->put('entry', $stream->repository()->find($parameters['entry']));
 
             return;
         }
@@ -231,9 +238,10 @@ class StreamsController extends Controller
         /**
          * Try falling back to the stream template.
          */
-        if ($stream->template) {
-            $data->put('view', $stream->template);
-        }
+        // if ($stream->template) {
+        //     $data->put('view', $stream->template);
+        //     dd('Test');
+        // }
     }
 
     /**
@@ -285,6 +293,9 @@ class StreamsController extends Controller
      */
     public function resolveResponse(Collection $data)
     {
+        if ($data->has('response')) {
+            return;
+        }
 
         if ($redirect = $data->get('redirect')) {
 
