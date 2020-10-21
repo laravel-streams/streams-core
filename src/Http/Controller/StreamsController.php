@@ -238,10 +238,9 @@ class StreamsController extends Controller
         /**
          * Try falling back to the stream template.
          */
-        // if ($stream->template) {
-        //     $data->put('view', $stream->template);
-        //     dd('Test');
-        // }
+        if ($stream->template) {
+            $data->put('view', $stream->template);
+        }
     }
 
     /**
