@@ -318,6 +318,7 @@ class StreamsServiceProvider extends ServiceProvider
         // Text
         $this->app->bind('streams.field_types.url', \Streams\Core\Field\Type\Url::class);
         $this->app->bind('streams.field_types.text', \Streams\Core\Field\Type\Text::class);
+        $this->app->bind('streams.field_types.hash', \Streams\Core\Field\Type\Hash::class);
         $this->app->bind('streams.field_types.slug', \Streams\Core\Field\Type\Slug::class);
         $this->app->bind('streams.field_types.string', \Streams\Core\Field\Type\Text::class);
         $this->app->bind('streams.field_types.textarea', \Streams\Core\Field\Type\Text::class);
@@ -649,7 +650,7 @@ class StreamsServiceProvider extends ServiceProvider
              * is passed in as route action data. 
              */
             $csrf        = Arr::pull($route, 'csrf');
-            $verb        = Arr::pull($route, 'verb', 'get');
+            $verb        = Arr::pull($route, 'verb', 'any');
             $middleware  = Arr::pull($route, 'middleware', []);
             $constraints = Arr::pull($route, 'constraints', []);
 
