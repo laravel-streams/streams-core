@@ -145,10 +145,10 @@ class Repository implements RepositoryInterface
     /**
      * Save an entry.
      *
-     * @param  EntryInterface $entry
+     * @param  $entry
      * @return bool
      */
-    public function save(EntryInterface $entry)
+    public function save($entry)
     {
         return $this
             ->newCriteria()
@@ -158,14 +158,16 @@ class Repository implements RepositoryInterface
     /**
      * Delete an entry.
      *
-     * @param EntryInterface $entry
+     * @param $entry
      * @return bool
      */
-    public function delete(EntryInterface $entry)
+    public function delete($entry)
     {
+        $id = is_object($entry) ? $entry->id : $entry;
+
         return $this
             ->newCriteria()
-            ->delete($entry);
+            ->delete($id);
     }
 
     /**

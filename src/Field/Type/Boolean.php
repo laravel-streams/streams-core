@@ -24,7 +24,7 @@ class Boolean extends FieldType
      * Modify the value for storage.
      *
      * @param string $value
-     * @return string
+     * @return bool
      */
     public function modify($value)
     {
@@ -35,7 +35,7 @@ class Boolean extends FieldType
      * Restore the value from storage.
      *
      * @param $value
-     * @return string
+     * @return bool
      */
     public function restore($value)
     {

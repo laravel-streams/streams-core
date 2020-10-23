@@ -234,13 +234,13 @@ class FilebaseCriteria extends AbstractCiteria
     /**
      * Delete an entry.
      *
-     * @param EntryInterface $entry
+     * @param $id
      * @return bool
      */
-    public function delete(EntryInterface $entry)
+    public function delete($id)
     {
         return $this->query
-            ->get($entry->id)
+            ->get($id)
             ->delete();
     }
 

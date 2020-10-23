@@ -271,7 +271,7 @@ trait Prototype
     protected function modifyPrototypeAttributeValue($key, $value)
     {
         $type = $this->newProtocolPropertyFieldType($key);
-
+        
         $type->field = $key;
 
         return $type->modify($value);
