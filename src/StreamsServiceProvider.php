@@ -2,7 +2,6 @@
 
 namespace Streams\Core;
 
-use Collective\Html\HtmlFacade;
 use HTMLPurifier;
 use Misd\Linkify\Linkify;
 use StringTemplate\Engine;
@@ -10,10 +9,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\View\Factory;
 use Streams\Core\Addon\Addon;
+use Collective\Html\HtmlFacade;
+use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\URL;
 use Streams\Core\View\ViewIncludes;
 use Streams\Core\View\ViewTemplate;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\View;
@@ -21,9 +22,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Translation\Translator;
-use Streams\Core\Addon\AddonCollection;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
+use Streams\Core\Addon\AddonCollection;
 use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Images;
 use Streams\Core\Application\Application;
@@ -432,6 +433,24 @@ class StreamsServiceProvider extends ServiceProvider
     {
 
         /**
+         * The stream for streams.
+         */
+        Streams::register([
+            'handle' => 'streams',
+            'source' => [
+                'path' => 'streams',
+                'format' => 'json',
+            ],
+            'config' => [
+                'prototype' => Stream::class
+            ],
+            'fields' => [
+                'routes' => 'array',
+                // 'config' => 'array',
+            ],
+        ]);
+
+        /**
          * Register the core stream responsible
          * for managing multi-site configurations.
          */
@@ -453,9 +472,16 @@ class StreamsServiceProvider extends ServiceProvider
          * 
          * @todo configure this base path
          */
-        foreach (File::files(base_path('streams')) as $file) {
+        foreach (Streams::repository('streams')->all() as $stream) {
 
-            $stream = Streams::load($file->getPathname());
+            $id = $stream->id;
+
+            $data = json_decode(file_get_contents(base_path('streams/' . $id . '.json')), true);
+
+            $data['id'] = $id;
+            $data['handle'] = $id;
+            
+            $stream = Streams::register($data);
 
             foreach ($stream->routes ?: [] as $key => $route) {
 
