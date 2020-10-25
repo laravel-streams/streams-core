@@ -384,46 +384,24 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerConfig()
     {
-        // Create the Streams config.
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/cp.php', 'streams.cp');
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/addons.php', 'streams.addons');
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/images.php', 'streams.images');
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/system.php', 'streams.system');
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/sources.php', 'streams.sources');
+        $configNames = ['cp', 'addons', 'images', 'system', 'sources'];
+        $locations = [
+            __DIR__ . '/../resources/config/'        => true,
+            __DIR__ . '/../../../../config/streams/' => false,
+        ];
 
-        // Merge overrides if present.
-        if (file_exists($config = __DIR__ . '/../../../../config/streams/cp.php')) {
-            $this->mergeConfigFrom($config, 'streams.cp');
+        foreach ($locations as $location => $publish) {
+            foreach ($configNames as $name) {
+                if (file_exists($config = "{$location}{$name}.php")) {
+                    $this->mergeConfigFrom($config, "streams.{$name}");
+                }
+                if ($publish) {
+                    $this->publishes([
+                        "{$location}{$name}.php" => config_path("streams/{$name}.php")
+                    ], 'config');      
+                }
+            }
         }
-        if (file_exists($config = __DIR__ . '/../../../../config/streams/addons.php')) {
-            $this->mergeConfigFrom($config, 'streams.addons');
-        }
-        if (file_exists($config = __DIR__ . '/../../../../config/streams/images.php')) {
-            $this->mergeConfigFrom($config, 'streams.images');
-        }
-        if (file_exists($config = __DIR__ . '/../../../../config/streams/system.php')) {
-            $this->mergeConfigFrom($config, 'streams.system');
-        }
-        if (file_exists($config = __DIR__ . '/../../../../config/streams/sources.php')) {
-            $this->mergeConfigFrom($config, 'streams.sources');
-        }
-
-        // Publish config.
-        $this->publishes([
-            __DIR__ . '/../resources/config/cp.php' => config_path('streams/cp.php')
-        ], 'config');
-        $this->publishes([
-            __DIR__ . '/../resources/config/addons.php' => config_path('streams/addons.php')
-        ], 'config');
-        $this->publishes([
-            __DIR__ . '/../resources/config/images.php' => config_path('streams/images.php')
-        ], 'config');
-        $this->publishes([
-            __DIR__ . '/../resources/config/system.php' => config_path('streams/system.php')
-        ], 'config');
-        $this->publishes([
-            __DIR__ . '/../resources/config/sources.php' => config_path('streams/sources.php')
-        ], 'config');
     }
 
     /**
