@@ -44,7 +44,7 @@ class AssetTest extends TestCase
         $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
 
         $this->assertEquals(
-            url('app/default/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/scripts/test.js'),
+            url('app/'.env('APPLICATION_REFERENCE', 'default').'/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/scripts/test.js'),
             $asset->url('anomaly.module.test::scripts/test.js', ['noversion'])
         );
     }
@@ -55,7 +55,7 @@ class AssetTest extends TestCase
         $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
 
         $this->assertEquals(
-            '/app/default/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/scripts/test.js',
+            '/app/'.env('APPLICATION_REFERENCE', 'default').'/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/scripts/test.js',
             $asset->path('anomaly.module.test::scripts/test.js', ['noversion'])
         );
     }
@@ -66,7 +66,7 @@ class AssetTest extends TestCase
         $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
 
         $this->assertEquals(
-            '/app/default/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/scripts/test.js',
+            '/app/'.env('APPLICATION_REFERENCE', 'default').'/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/scripts/test.js',
             $asset->asset('anomaly.module.test::scripts/test.js', ['noversion'])
         );
     }
@@ -77,7 +77,7 @@ class AssetTest extends TestCase
         $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
 
         $this->assertEquals(
-            '<script foo="bar" src="/app/default/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/scripts/test.js"></script>',
+            '<script foo="bar" src="/app/'.env('APPLICATION_REFERENCE', 'default').'/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/scripts/test.js"></script>',
             $asset->script('anomaly.module.test::scripts/test.js', ['noversion'], ['foo' => 'bar'])
         );
     }
@@ -88,7 +88,7 @@ class AssetTest extends TestCase
         $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
 
         $this->assertEquals(
-            '<link foo="bar" media="all" type="text/css" rel="stylesheet" href="/app/default/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/styles/test.css">',
+            '<link foo="bar" media="all" type="text/css" rel="stylesheet" href="/app/'.env('APPLICATION_REFERENCE', 'default').'/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/styles/test.css">',
             $asset->style('anomaly.module.test::styles/test.css', ['noversion'], ['foo' => 'bar'])
         );
     }
@@ -103,8 +103,8 @@ class AssetTest extends TestCase
 
         $this->assertEquals(
             [
-                '<script foo="bar" src="/app/default/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/scripts/test.js"></script>',
-                '<script foo="bar" src="/app/default/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/scripts/test2.js"></script>',
+                '<script foo="bar" src="/app/'.env('APPLICATION_REFERENCE', 'default').'/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/scripts/test.js"></script>',
+                '<script foo="bar" src="/app/'.env('APPLICATION_REFERENCE', 'default').'/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/scripts/test2.js"></script>',
             ],
             $asset->scripts('test.js', ['noversion'], ['foo' => 'bar'])
         );
@@ -120,8 +120,8 @@ class AssetTest extends TestCase
 
         $this->assertEquals(
             [
-                '<link foo="bar" media="all" type="text/css" rel="stylesheet" href="/app/default/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/styles/test.css">',
-                '<link foo="bar" media="all" type="text/css" rel="stylesheet" href="/app/default/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/styles/test2.css">',
+                '<link foo="bar" media="all" type="text/css" rel="stylesheet" href="/app/'.env('APPLICATION_REFERENCE', 'default').'/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/styles/test.css">',
+                '<link foo="bar" media="all" type="text/css" rel="stylesheet" href="/app/'.env('APPLICATION_REFERENCE', 'default').'/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/styles/test2.css">',
             ],
             $asset->styles('test.css', ['noversion'], ['foo' => 'bar'])
         );
@@ -137,8 +137,8 @@ class AssetTest extends TestCase
 
         $this->assertEquals(
             [
-                '/app/default/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/styles/test.css',
-                '/app/default/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/styles/test2.css',
+                '/app/'.env('APPLICATION_REFERENCE', 'default').'/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/styles/test.css',
+                '/app/'.env('APPLICATION_REFERENCE', 'default').'/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/styles/test2.css',
             ],
             $asset->paths('test.css', ['noversion'], ['foo' => 'bar'])
         );
@@ -155,10 +155,10 @@ class AssetTest extends TestCase
         $this->assertEquals(
             [
                 url(
-                    'app/default/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/styles/test.css'
+                    'app/'.env('APPLICATION_REFERENCE', 'default').'/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/styles/test.css'
                 ),
                 url(
-                    'app/default/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/styles/test2.css'
+                    'app/'.env('APPLICATION_REFERENCE', 'default').'/assets/anomaly/streams-platform/addons/anomaly/test-module/resources/styles/test2.css'
                 ),
             ],
             $asset->urls('test.css', ['noversion'])
