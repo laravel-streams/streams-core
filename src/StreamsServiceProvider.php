@@ -385,7 +385,6 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         // Create the Streams config.
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/cp.php', 'streams.cp');
         $this->mergeConfigFrom(__DIR__ . '/../resources/config/addons.php', 'streams.addons');
         $this->mergeConfigFrom(__DIR__ . '/../resources/config/images.php', 'streams.images');
         $this->mergeConfigFrom(__DIR__ . '/../resources/config/system.php', 'streams.system');
