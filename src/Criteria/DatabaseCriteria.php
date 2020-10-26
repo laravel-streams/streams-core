@@ -3,16 +3,15 @@
 namespace Streams\Core\Criteria;
 
 use Illuminate\Support\Str;
+use Streams\Core\Entry\Entry;
+use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Traits\Macroable;
-use Streams\Core\Entry\Entry;
-use Streams\Core\Stream\Stream;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Entry\Contract\EntryInterface;
-use Streams\Core\Criteria\Contract\CriteriaInterface;
 
 /**
  * Class DatabaseCriteria
@@ -21,7 +20,7 @@ use Streams\Core\Criteria\Contract\CriteriaInterface;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class DatabaseCriteria implements CriteriaInterface
+class DatabaseCriteria extends AbstractCiteria
 {
 
     use Macroable;

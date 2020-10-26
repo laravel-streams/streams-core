@@ -5,9 +5,9 @@ namespace Streams\Core\Criteria;
 use Filebase\Database;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
-use Streams\Core\Stream\Stream;
 use Streams\Core\Entry\Contract\EntryInterface;
 
 /**

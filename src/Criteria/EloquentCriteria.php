@@ -3,13 +3,12 @@
 namespace Streams\Core\Criteria;
 
 use Illuminate\Support\Str;
+use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Traits\Macroable;
-use Streams\Core\Stream\Stream;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Entry\Contract\EntryInterface;
-use Streams\Core\Criteria\Contract\CriteriaInterface;
 
 /**
  * Class EloquentCriteria
@@ -18,7 +17,7 @@ use Streams\Core\Criteria\Contract\CriteriaInterface;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class EloquentCriteria implements CriteriaInterface
+class EloquentCriteria extends AbstractCiteria
 {
 
     use Macroable;

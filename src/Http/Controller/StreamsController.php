@@ -186,7 +186,7 @@ class StreamsController extends Controller
          */
         if (
             ($entry = $data->get('entry'))
-            && $view = $entry->getPrototypeAttribute('streams__view')
+            && $view = $entry->getAttribute('streams__view')
         ) {
 
             $data->put('view', $view);
