@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Entry\Contract\EntryInterface;
@@ -197,12 +198,12 @@ class EloquentCriteria extends AbstractCiteria
     /**
      * Save an entry.
      *
-     * @param  EntryInterface $entry
+     * @param  Model $entry
      * @return bool
      */
-    public function save(EntryInterface $entry)
+    public function save($entry)
     {
-        return $this->query->save($entry);
+        return $entry->save();
     }
 
     /**

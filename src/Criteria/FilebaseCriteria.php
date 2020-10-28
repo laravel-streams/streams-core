@@ -214,7 +214,7 @@ class FilebaseCriteria extends AbstractCiteria
      * @param  EntryInterface $entry
      * @return bool
      */
-    public function save(EntryInterface $entry)
+    public function save($entry)
     {
         $attributes = $entry->getAttributes();
 

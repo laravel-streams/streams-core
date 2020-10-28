@@ -198,7 +198,7 @@ class DatabaseCriteria extends AbstractCiteria
      * @param  EntryInterface $entry
      * @return bool
      */
-    public function save(EntryInterface $entry)
+    public function save($entry)
     {
         return $this->query->save($entry);
     }

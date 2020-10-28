@@ -4,10 +4,10 @@ namespace Streams\Core\Image;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Image\ImageRegistry;
 use Streams\Core\Image\Type\LocalImage;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Image\Type\RemoteImage;
 use Streams\Core\Image\Type\StorageImage;
 use Streams\Core\Support\Traits\FiresCallbacks;

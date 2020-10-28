@@ -117,9 +117,9 @@ class StreamsController extends Controller
          * If the entry is explicitly set then
          * find it and get on with the show.
          */
-        if (isset($action['entry'])) {
+        if ($entry = Arr::get($action, 'entry')) {
 
-            $data->put('entry', $stream->repository()->find($action['entry']));
+            $data->put('entry', $stream->repository()->find($entry));
 
             return;
         }
