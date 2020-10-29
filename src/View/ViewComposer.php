@@ -144,7 +144,8 @@ class ViewComposer
 
         if (!$this->theme || !env('INSTALLED')) {
 
-            if (!self::$loaded && self::$loaded = true) {
+            // ensure we re-view compose on every testing run.
+            if ((!self::$loaded && self::$loaded = true) || env('APP_ENV') === 'testing') {
                 /* @deprecated since 1.6; this is no longer needed for every view. */
                 event(new ViewComposed($view));
             }
@@ -154,7 +155,8 @@ class ViewComposer
 
         $this->setPath($view);
 
-        if (!self::$loaded && self::$loaded = true) {
+        // ensure we re-view compose on every testing run.
+        if ((!self::$loaded && self::$loaded = true) || env('APP_ENV') === 'testing') {
             /* @deprecated since 1.6; this is no longer needed for every view. */
             event(new ViewComposed($view));
         }
