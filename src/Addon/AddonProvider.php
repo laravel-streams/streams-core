@@ -333,7 +333,10 @@ class AddonProvider
             $middleware  = array_pull($route, 'middleware', []);
             $constraints = array_pull($route, 'constraints', []);
 
-            array_set($route, 'streams::addon', $addon->getNamespace());
+
+            if (!isset($route['streams::addon'])) {
+                array_set($route, 'streams::addon', $addon->getNamespace());
+            }
 
             if (is_string($route['uses']) && !Str::contains($route['uses'], '@')) {
                 $this->router->resource($uri, $route['uses']);
@@ -393,7 +396,10 @@ class AddonProvider
                     $middleware  = array_pull($route, 'middleware', []);
                     $constraints = array_pull($route, 'constraints', []);
 
-                    array_set($route, 'streams::addon', $addon->getNamespace());
+
+                    if (!isset($route['streams::addon'])) {
+                        array_set($route, 'streams::addon', $addon->getNamespace());
+                    }
 
                     if (is_string($route['uses']) && !Str::contains($route['uses'], '@')) {
                         $router->resource($uri, $route['uses']);
