@@ -60,7 +60,7 @@ class DatabaseCriteria extends AbstractCiteria
      */
     public function all()
     {
-        return $this->query->get();
+        return $this->collect($this->query->get());
     }
 
     /**
