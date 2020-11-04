@@ -189,7 +189,7 @@ class DatabaseCriteria extends AbstractCiteria
      */
     public function create(array $attributes = [])
     {
-        return $this->query->create($attributes);
+        return $this->query->insert($attributes);
     }
 
     /**
