@@ -59,7 +59,7 @@ class EloquentCriteria extends AbstractCiteria
      */
     public function all()
     {
-        return $this->query->get();
+        return $this->collect($this->query->get());
     }
 
     /**
@@ -70,7 +70,7 @@ class EloquentCriteria extends AbstractCiteria
      */
     public function find($id)
     {
-        return $this->query->find($id);
+        return $this->make($this->query->find($id));
     }
 
     /**
@@ -80,7 +80,7 @@ class EloquentCriteria extends AbstractCiteria
      */
     public function first()
     {
-        return $this->query->first();
+        return $this->make($this->query->first());
     }
 
     /**
@@ -171,7 +171,7 @@ class EloquentCriteria extends AbstractCiteria
      */
     public function get()
     {
-        return $this->query->get();
+        return $this->collect($this->query->get());
     }
 
     /**
