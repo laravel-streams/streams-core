@@ -71,7 +71,7 @@ class DatabaseCriteria extends AbstractCiteria
      */
     public function find($id)
     {
-        return $this->query->find($id);
+        return $this->make($this->query->find($id));
     }
 
     /**
@@ -81,7 +81,7 @@ class DatabaseCriteria extends AbstractCiteria
      */
     public function first()
     {
-        return $this->query->first();
+        return $this->make($this->query->first());
     }
 
     /**
