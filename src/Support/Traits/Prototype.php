@@ -131,6 +131,16 @@ trait Prototype
     }
 
     /**
+     * Get the original prototype attributes.
+     *
+     * @return array
+     */
+    public function getOriginalPrototypeAttributes(): array
+    {
+        return $this->__prototype['original'];
+    }
+
+    /**
      * Set an attribute value.
      *
      * @param string $key
@@ -151,7 +161,9 @@ trait Prototype
 
             return $this;
         }
-
+if ($key == 'columns' && $value == ['foo']) {
+            dd($this->hasPrototypePropertyType($key));
+        }
         $this->__prototype['attributes'][$key] = $value;
 
         return $this;
