@@ -66,6 +66,9 @@ class Entry implements EntryInterface, Arrayable, Jsonable
 
         $this->constructFluency($attributes);
 
+        /**
+         * @todo Hmm.. need a more elegant approach.
+         */
         if ($handle = $this->getPrototypeAttribute('streams__extends')) {
             $this->extendEntry($handle);
         }
