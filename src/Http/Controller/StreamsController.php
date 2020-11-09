@@ -151,23 +151,29 @@ class StreamsController extends Controller
             return;
         }
 
+        $criteria = [];
+
+        foreach ($parameters as $key => $value) {
+            if (Str::startsWith($key, 'entry__')) {
+                $criteria[str_replace('entry__', '', $key)] = $value;
+            }
+        }
+
+        if (!$criteria) {
+            return;
+        }
+        
         /**
          * Try and loop over parameters
          * to query a result from them.
          */
         $query = $stream->entries();
 
-        foreach ($parameters as $key => $value) {
-            if (Str::startsWith($key, 'entry__')) {
-                $query->where(str_replace('entry__', '', $key), $value);
-            }
+        foreach ($criteria as $key => $value) {
+            $query->where($key, $value);
         }
 
         $results = $query->limit(1)->get();
-
-        if ($results->isNotEmpty()) {
-            $data->put('entry', $results->first());
-        }
     }
 
     /**
