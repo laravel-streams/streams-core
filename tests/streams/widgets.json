@@ -1,0 +1,13 @@
+{
+    "handle": "testing.widgets",
+    
+    "source": {
+        "path": "vendor/streams/core/tests/streams/data"
+    },
+    "rules": {
+        "id": "required"
+    },
+    "fields": {
+        "name": "text"
+    }
+}
