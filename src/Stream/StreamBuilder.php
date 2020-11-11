@@ -1,6 +1,6 @@
 <?php
 
-namespace Streams\Core\Stream\Workflows;
+namespace Streams\Core\Stream;
 
 use Illuminate\Support\Arr;
 use Streams\Core\Stream\Stream;
@@ -9,23 +9,16 @@ use Illuminate\Support\Facades\Config;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Workflows\BuildFields;
 
-/**
- * Class BuildStream
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
-class BuildStream extends Workflow
+class StreamBuilder extends Workflow
 {
 
     protected $steps = [
-        'setup' => BuildStream::class . '@setup',
-        'extend' => BuildStream::class . '@extend',
-        'import' => BuildStream::class . '@import',
-        'normalize' => BuildStream::class . '@normalize',
-        'make' => BuildStream::class . '@make',
-        'fields' => BuildStream::class . '@fields',
+        'setup' => StreamBuilder::class . '@setup',
+        'extend' => StreamBuilder::class . '@extend',
+        'import' => StreamBuilder::class . '@import',
+        'normalize' => StreamBuilder::class . '@normalize',
+        'make' => StreamBuilder::class . '@make',
+        'fields' => StreamBuilder::class . '@fields',
     ];
 
     public function setup($workflow)

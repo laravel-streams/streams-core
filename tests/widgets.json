@@ -1,13 +1,16 @@
 {
     "handle": "testing.widgets",
+    "description": "Used for testing.",
     
     "source": {
         "path": "vendor/streams/core/tests/data/widgets",
         "format": "json"
     },
+
     "rules": {
-        "id": "required"
+        "name": "required"
     },
+
     "fields": {
         "name": "text"
     }

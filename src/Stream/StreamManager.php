@@ -5,22 +5,14 @@ namespace Streams\Core\Stream;
 use Illuminate\Support\Arr;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
-use Streams\Core\Support\Workflow;
 use Illuminate\Support\Facades\App;
+use Streams\Core\Stream\StreamBuilder;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
-use Streams\Core\Stream\Workflows\BuildStream;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 
-/**
- * Class StreamManager
- *
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
- */
 class StreamManager
 {
 
@@ -28,10 +20,6 @@ class StreamManager
     use Macroable;
     use Prototype;
     use FiresCallbacks;
-
-    public $workflows = [
-        'build' => BuildStream::class,
-    ];
 
     /**
      * The streams collection.
@@ -79,9 +67,23 @@ class StreamManager
      */
     public function build($stream)
     {
+
+        /**
+         * If the stream is a string
+         * then treat it like a file.
+         */
+        if (is_string($stream)) {
+
+            $stream = json_decode(file_get_contents($file = $stream), true);
+
+            $handle = basename($file, '.json');
+
+            Arr::set($stream, 'handle', Arr::get($stream, 'handle', $handle));
+        }
+
         $stream = Arr::undot($stream);
 
-        $workflow = (new BuildStream)
+        $workflow = (new StreamBuilder)
             ->passThrough($this);
 
         $workflow->stream = $stream;

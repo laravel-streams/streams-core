@@ -44,7 +44,7 @@ class StreamManagerTest extends TestCase
 
     public function testCanBuildStreamWithoutRegistering()
     {
-        $stream = Streams::build([
+        $runtime = Streams::build([
             'handle' => 'testing.runtime',
             'source' => [
                 'path' => 'vendor/streams/core/tests/data/runtime',
@@ -55,9 +55,13 @@ class StreamManagerTest extends TestCase
             ],
         ]);
 
-        $this->assertFalse(Streams::has('testing.runtime'));
+        $json = Streams::build(base_path('vendor/streams/core/tests/build.json'));
 
-        $this->assertInstanceOf(Stream::class, $stream);
+        $this->assertFalse(Streams::has('testing.runtime'));
+        $this->assertFalse(Streams::has('testing.build'));
+
+        $this->assertInstanceOf(Stream::class, $runtime);
+        $this->assertInstanceOf(Stream::class, $json);
     }
 
     public function testCollectsRegisteredStreams()

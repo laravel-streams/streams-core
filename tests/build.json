@@ -1,0 +1,15 @@
+{
+    "handle": "testing.build",
+    "description": "Used for testing building streams from JSON file.",
+    
+    "source": {
+        "path": "vendor/streams/core/tests/data/runtime",
+        "format": "json"
+    },
+    "rules": {
+        "id": "required"
+    },
+    "fields": {
+        "name": "text"
+    }
+}

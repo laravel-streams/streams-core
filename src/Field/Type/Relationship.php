@@ -22,6 +22,28 @@ class Relationship extends FieldType
     protected $attributes = [];
 
     /**
+     * Modify the value for storage.
+     *
+     * @param string $value
+     * @return string
+     */
+    public function modify($value)
+    {
+        return $value;
+    }
+
+    /**
+     * Restore the value from storage.
+     *
+     * @param $value
+     * @return string
+     */
+    public function restore($value)
+    {
+        return $this->expand($value);
+    }
+
+    /**
      * Expand the value.
      *
      * @param $value

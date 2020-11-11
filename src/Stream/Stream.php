@@ -6,25 +6,18 @@ use Illuminate\Support\Arr;
 use Illuminate\Validation\Factory;
 use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Validator;
+use Streams\Core\Repository\Repository;
 use Illuminate\Support\Traits\Macroable;
+use Streams\Core\Support\Traits\HasMemory;
+use Streams\Core\Support\Traits\Prototype;
+use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Traits\ForwardsCalls;
-use Streams\Core\Repository\Repository;
-use Streams\Core\Support\Facades\Hydrator;
-use Streams\Core\Support\Traits\HasMemory;
-use Streams\Core\Support\Traits\Prototype;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Criteria\Contract\CriteriaInterface;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 
-/**
- * Class Stream
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 class Stream implements Arrayable, Jsonable
 {
 
