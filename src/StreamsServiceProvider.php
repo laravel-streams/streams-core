@@ -211,8 +211,8 @@ class StreamsServiceProvider extends ServiceProvider
             $this->commands([
 
                 // Asset Commands
-                \Streams\Core\Asset\Console\AssetsClear::class,
-                \Streams\Core\Asset\Console\AssetsPublish::class,
+                // \Streams\Core\Asset\Console\AssetsClear::class,
+                // \Streams\Core\Asset\Console\AssetsPublish::class,
 
                 // Addon Commands
                 //\Streams\Core\Addon\Console\AddonPublish::class,
