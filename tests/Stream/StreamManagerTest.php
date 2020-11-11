@@ -1,6 +1,10 @@
 <?php
 
-class StreamManagerTest extends StreamsTestCase
+namespace Streams\Core\Tests\Stream;
+
+use PHPUnit\Framework\TestCase;
+
+class StreamManagerTest extends TestCase
 {
     /**
      * @todo complete tests

@@ -1,10 +1,12 @@
 {
     "name": "streams/core",
     "description": "A domain-driven, code-configured, flat-file application platform for Laravel.",
-    "authors": [{
-        "name": "Ryan Thompson",
-        "email": "ryan@pyrocms.com"
-    }],
+    "authors": [
+        {
+            "name": "Ryan Thompson",
+            "email": "ryan@pyrocms.com"
+        }
+    ],
     "require": {
         "misd/linkify": "1.1.*",
         "fideloper/proxy": "^4.0",
@@ -35,7 +37,9 @@
         }
     },
     "autoload-dev": {
-        "classmap": ["tests/"]
+        "psr-4": {
+            "Streams\\Core\\Tests\\": "tests/"
+        }
     },
     "config": {
         "bin-dir": "bin"
