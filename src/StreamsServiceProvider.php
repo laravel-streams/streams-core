@@ -574,7 +574,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function addViewNamespaces()
     {
-        View::addNamespace('streams', base_path('vendor/streams/core/resources/views'));
+        View::addNamespace('streams-core', base_path('vendor/streams/core/resources/views'));
         View::addNamespace('storage', storage_path('streams'));
     }
 
@@ -583,7 +583,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function loadTranslations()
     {
-        Lang::addNamespace('streams', base_path('vendor/streams/core/resources/lang'));
+        Lang::addNamespace('streams-core', base_path('vendor/streams/core/resources/lang'));
     }
 
     /**
