@@ -3,12 +3,13 @@
 namespace Streams\Core\Entry;
 
 use Illuminate\Support\Arr;
-use Illuminate\Validation\Validator;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Stream\Stream;
+use Illuminate\Validation\Validator;
 use Streams\Core\Support\Traits\Fluency;
+use Streams\Core\Support\Facades\Streams;
+use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Facades\Hydrator;
+use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
 
 /**
@@ -64,14 +65,7 @@ class Entry implements EntryInterface, Arrayable, Jsonable
     {
         $this->stream = Arr::pull($attributes, 'stream');
 
-        $this->constructFluency($attributes);
-
-        /**
-         * @todo Hmm.. need a more elegant approach.
-         */
-        if ($handle = $this->getPrototypeAttribute('streams__extends')) {
-            $this->extendEntry($handle);
-        }
+        $this->constructFluency($attributes);        
     }
 
     /**
@@ -81,7 +75,11 @@ class Entry implements EntryInterface, Arrayable, Jsonable
      */
     public function stream()
     {
-        return $this->stream;
+        if ($this->stream instanceof Stream) {
+            return $this->stream;
+        }
+
+        return $this->stream = Streams::make($this->stream);
     }
 
     /**
@@ -91,7 +89,7 @@ class Entry implements EntryInterface, Arrayable, Jsonable
      */
     public function save()
     {
-        return $this->stream
+        return $this->stream()
             ->repository()
             ->save($this);
     }
@@ -103,7 +101,7 @@ class Entry implements EntryInterface, Arrayable, Jsonable
      */
     public function delete()
     {
-        return $this->stream
+        return $this->stream()
             ->repository()
             ->delete($this);
     }
@@ -115,42 +113,42 @@ class Entry implements EntryInterface, Arrayable, Jsonable
      */
     public function validator()
     {
-        return $this->stream->validator($this);
+        return $this->stream()->validator($this);
     }
 
-    /**
-     * Load an entry over this one.
-     *
-     * @param $identifier
-     * @return $this
-     */
-    protected function loadEntry($identifier)
-    {
-        $loaded = $this->stream->repository()->find($identifier);
+    // /**
+    //  * Load an entry over this one.
+    //  *
+    //  * @param $identifier
+    //  * @return $this
+    //  */
+    // protected function loadEntry($identifier)
+    // {
+    //     $loaded = $this->stream()->repository()->find($identifier);
 
-        $this->setPrototypeAttributes(
-            array_merge($this->toArray(), $loaded->toArray())
-        );
+    //     $this->setPrototypeAttributes(
+    //         array_merge($this->toArray(), $loaded->toArray())
+    //     );
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    /**
-     * Extend over another entry.
-     *
-     * @param $identifier
-     * @return $this
-     */
-    protected function extendEntry($identifier)
-    {
-        $extended = $this->stream->repository()->find($identifier);
+    // /**
+    //  * Extend over another entry.
+    //  *
+    //  * @param $identifier
+    //  * @return $this
+    //  */
+    // protected function extendEntry($identifier)
+    // {
+    //     $extended = $this->stream()->repository()->find($identifier);
 
-        $this->setPrototypeAttributes(
-            array_merge($extended->toArray(), $this->toArray())
-        );
+    //     $this->setPrototypeAttributes(
+    //         array_merge($extended->toArray(), $this->toArray())
+    //     );
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     /**
      * Get the instance as an array.
