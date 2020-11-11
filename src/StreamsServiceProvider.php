@@ -12,6 +12,7 @@ use Streams\Core\Addon\Addon;
 use Collective\Html\HtmlFacade;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
 use Streams\Core\View\ViewIncludes;
 use Streams\Core\View\ViewTemplate;
@@ -479,7 +480,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             $data['id'] = $id;
             $data['handle'] = $id;
-            
+
             $stream = Streams::register($data);
 
             foreach ($stream->routes ?: [] as $key => $route) {
