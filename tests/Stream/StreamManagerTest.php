@@ -17,9 +17,9 @@ class StreamManagerTest extends TestCase
         $this->createApplication();
 
         Streams::register([
-            'handle' => 'testing.examples',
+            'handle' => 'testing.widgets',
             'source' => [
-                'path' => 'vendor/streams/core/tests/data/examples',
+                'path' => 'vendor/streams/core/tests/data/widgets',
                 'format' => 'json',
             ],
             'fields' => [
@@ -27,19 +27,19 @@ class StreamManagerTest extends TestCase
             ],
         ]);
 
-        Streams::load(base_path('vendor/streams/core/tests/widgets.json'));
+        Streams::load(base_path('vendor/streams/core/tests/examples.json'));
     }
 
     public function testCanMakeRegisteredStreams()
     {
-        $this->assertTrue(Streams::has('testing.examples'));
         $this->assertTrue(Streams::has('testing.widgets'));
+        $this->assertTrue(Streams::has('testing.examples'));
 
-        $this->assertInstanceOf(Stream::class, Streams::make('testing.examples'));
         $this->assertInstanceOf(Stream::class, Streams::make('testing.widgets'));
+        $this->assertInstanceOf(Stream::class, Streams::make('testing.examples'));
 
-        $this->assertTrue(Streams::entries('testing.examples')->get()->isNotEmpty());
         $this->assertTrue(Streams::entries('testing.widgets')->get()->isNotEmpty());
+        $this->assertTrue(Streams::entries('testing.examples')->get()->isNotEmpty());
     }
 
     public function testCanBuildStreamWithoutRegistering()
