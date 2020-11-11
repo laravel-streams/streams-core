@@ -17,7 +17,12 @@ class StreamManagerTest extends TestCase
         $this->createApplication();
 
         Streams::register([
+            'handle' => 'testing.widgets'
+        ]);
+        
+        Streams::register([
             'handle' => 'testing.widgets',
+            'route' => 'testing/widgets/{entry}',
             'source' => [
                 'path' => 'vendor/streams/core/tests/data/widgets',
                 'format' => 'json',
