@@ -2,6 +2,9 @@
 
 namespace Streams\Core\Tests\Stream;
 
+use Illuminate\Support\Collection;
+use Streams\Core\Criteria\Contract\CriteriaInterface;
+use Streams\Core\Repository\Contract\RepositoryInterface;
 use Tests\TestCase;
 use Streams\Core\Stream\Stream;
 use Streams\Core\Support\Facades\Streams;
@@ -16,7 +19,7 @@ class StreamManagerTest extends TestCase
         Streams::register([
             'handle' => 'testing.examples',
             'source' => [
-                'path' => 'vendor/streams/core/tests/streams/data/examples',
+                'path' => 'vendor/streams/core/tests/data/examples',
                 'format' => 'json',
             ],
             'fields' => [
@@ -24,24 +27,27 @@ class StreamManagerTest extends TestCase
             ],
         ]);
 
-        Streams::load(base_path('vendor/streams/core/tests/streams/widgets.json'));
+        Streams::load(base_path('vendor/streams/core/tests/widgets.json'));
     }
 
     public function testCanMakeRegisteredStreams()
     {
         $this->assertTrue(Streams::has('testing.examples'));
         $this->assertTrue(Streams::has('testing.widgets'));
-        
+
         $this->assertInstanceOf(Stream::class, Streams::make('testing.examples'));
         $this->assertInstanceOf(Stream::class, Streams::make('testing.widgets'));
+
+        $this->assertTrue(Streams::entries('testing.examples')->get()->isNotEmpty());
+        $this->assertTrue(Streams::entries('testing.widgets')->get()->isNotEmpty());
     }
-    
+
     public function testCanBuildStreamWithoutRegistering()
     {
         $stream = Streams::build([
             'handle' => 'testing.runtime',
             'source' => [
-                'path' => 'vendor/streams/core/tests/streams/data/runtime',
+                'path' => 'vendor/streams/core/tests/data/runtime',
                 'format' => 'json',
             ],
             'fields' => [
@@ -50,7 +56,24 @@ class StreamManagerTest extends TestCase
         ]);
 
         $this->assertFalse(Streams::has('testing.runtime'));
-        
+
         $this->assertInstanceOf(Stream::class, $stream);
+    }
+
+    public function testCollectsRegisteredStreams()
+    {
+        $this->assertTrue(Streams::collection()->isNotEmpty());
+
+        $this->assertInstanceOf(Collection::class, Streams::collection());
+    }
+
+    public function testCanReturnStreamEntryCriteria()
+    {
+        $this->assertInstanceOf(CriteriaInterface::class, Streams::entries('testing.examples'));
+    }
+
+    public function testCanReturnStreamEntryRepository()
+    {
+        $this->assertInstanceOf(RepositoryInterface::class, Streams::repository('testing.examples'));
     }
 }

@@ -81,7 +81,8 @@ class StreamManager
     {
         $stream = Arr::undot($stream);
 
-        $workflow = $this->workflow('build');
+        $workflow = (new BuildStream)
+            ->passThrough($this);
 
         $workflow->stream = $stream;
 
@@ -162,25 +163,5 @@ class StreamManager
     public function collection()
     {
         return $this->collection;
-    }
-
-    /**
-     * Return a workflow by nane.
-     *
-     * @param string $name
-     *
-     * @return \Streams\Core\Support\Workflow
-     */
-    protected function workflow($name): Workflow
-    {
-        $workflow = Arr::get($this->workflows, $name);
-
-        if (!class_exists($workflow)) {
-            throw new \Exception("Workflow [{$name}] does not exist.");
-        }
-
-        return (new $workflow)
-            ->setPrototypeAttribute('name', $name)
-            ->passThrough($this);
     }
 }

@@ -2,7 +2,8 @@
     "handle": "testing.widgets",
     
     "source": {
-        "path": "vendor/streams/core/tests/streams/data"
+        "path": "vendor/streams/core/tests/data/widgets",
+        "format": "json"
     },
     "rules": {
         "id": "required"
