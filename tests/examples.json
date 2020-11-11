@@ -8,10 +8,10 @@
     },
 
     "rules": {
-        "name": "required|test_validator"
+        "name": "required|example_validator"
     },
     "validators": {
-        "test_validator": {
+        "example_validator": {
             "handler": "Streams\\Core\\Tests\\Stream\\ExampleValidator",
             "message": "The :attribute value is very bad."
         }

@@ -24,11 +24,11 @@ class StreamTest extends TestCase
                 'format' => 'json',
             ],
             'rules' => [
-                'name' => 'required|example_validator'
+                'name' => 'required|widget_validator'
             ],
             'validators' => [
-                'example_validator' => [
-                    'handler' => 'Streams\Core\Tests\Stream\TestValidator@handle',
+                'widget_validator' => [
+                    'handler' => 'Streams\Core\Tests\Stream\WidgetValidator@handle',
                     'message' => 'Testing message',
                 ],
             ],
@@ -66,7 +66,7 @@ class StreamTest extends TestCase
 
         $entry = Streams::entries('testing.examples')->first();
 
-        // Fails on TestValidator below
+        // Fails on ExampleValidator below
         $this->assertTrue(Streams::make('testing.examples')->validator($entry)->passes());
 
         $entry->name = 'Test';
@@ -75,7 +75,7 @@ class StreamTest extends TestCase
 
         $entry = Streams::entries('testing.widgets')->first();
 
-        // Fails on TestValidator below
+        // Fails on WidgetsValidator below
         $this->assertTrue(Streams::make('testing.widgets')->validator($entry)->passes());
 
         $entry->name = 'Test';
@@ -93,7 +93,7 @@ class ExampleValidator
     }
 }
 
-class TestValidator
+class WidgetValidator
 {
 
     public function handle($attribute, $value)
