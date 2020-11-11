@@ -145,7 +145,6 @@ class StreamsController extends Controller
         }
 
         if (isset($parameters['entry'])) {
-
             $data->put('entry', $stream->repository()->find($parameters['entry']));
 
             return;

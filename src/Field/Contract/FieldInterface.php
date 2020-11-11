@@ -19,5 +19,5 @@ interface FieldInterface
      *
      * @return FieldType
      */
-    public function type();
+    //public function type();
 }
