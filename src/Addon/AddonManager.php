@@ -1,9 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
-use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
-use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Contracts\Container\Container;
+use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
+use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
+use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
 
 /**
  * Class AddonManager
@@ -202,7 +203,7 @@ class AddonManager
      */
     protected function getEnabledAddonNamespaces()
     {
-        if (!env('INSTALLED')) {
+        if (!env('INSTALLED') || (env('INSTALLED') === 'admin' && Request::segment(1) !== 'admin')) {
             return [];
         }
 
@@ -247,7 +248,7 @@ class AddonManager
      */
     protected function getInstalledAddonNamespaces()
     {
-        if (!env('INSTALLED')) {
+        if (!env('INSTALLED') || (env('INSTALLED') === 'admin' && Request::segment(1) !== 'admin')) {
             return [];
         }
 

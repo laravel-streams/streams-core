@@ -47,6 +47,7 @@ use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
 use Anomaly\Streams\Platform\Application\Command\ConfigureFileCacheStore;
 use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
 use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
+use Illuminate\Support\Facades\Request;
 
 /**
  * Class StreamsServiceProvider
@@ -194,6 +195,14 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot(Dispatcher $events)
     {
+        /**
+         * If the admin is needed only
+         * then we don't even register.
+         */
+        if (env('INSTALLED') === 'admin' && Request::segment(1) !== 'admin') {
+            return;
+        }
+        
         $events->dispatch(new Booting());
 
         // Next take care of core utilities.
@@ -316,6 +325,14 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+
+        /**
+         * If the admin is needed only
+         * then we don't even register.
+         */
+        if (env('INSTALLED') === 'admin' && Request::segment(1) !== 'admin') {
+            return;
+        }
 
         /**
          * When config is cached by Laravel we
