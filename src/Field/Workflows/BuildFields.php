@@ -35,8 +35,16 @@ class BuildFields extends Workflow
                 ];
             }
 
-            if (!isset($input['handle'])) {
+            if (!isset($input['handle']) && !is_numeric($handle)) {
                 $input['handle'] = $handle;
+            }
+
+            if (!isset($input['type'])) {
+                $input['type'] = $input['handle'];
+            }
+
+            if (!isset($input['handle']) && !isset($input['type'])) {
+                $input['handle'] = $input['type'];
             }
 
             $input['rules'] = array_map(function ($rules) {
