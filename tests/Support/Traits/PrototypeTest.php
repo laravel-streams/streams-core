@@ -2,17 +2,40 @@
 
 namespace Streams\Core\Tests\Support\Traits;
 
-use Streams\Core\Field\Value\Value;
+use ArrayAccess;
 use Tests\TestCase;
+use Streams\Core\Field\Value\Value;
+use Streams\Core\Field\Value\DecimalValue;
 use Streams\Core\Support\Traits\Prototype;
 
 class PrototypeTest extends TestCase
 {
 
+    public function testSupportInterfaces()
+    {
+        $prototype = new TestPrototype();
+
+        // $this->assertIsArray($prototype->toArray());
+        // $this->assertJson($prototype->toJson());
+        // $this->assertJson((string) $prototype);
+
+        $this->assertTrue(isset($prototype['name']));
+        $this->assertTrue($prototype['name'] === 'Original');
+        
+        $prototype['name'] = 'Test';
+
+        $this->assertTrue($prototype['name'] === 'Test');
+        
+        unset($prototype['name']);
+
+        $this->assertFalse(isset($prototype['name']));
+    }
+
     public function testCanInstantiate()
     {
         $prototype = new TestPrototype();
 
+        $this->assertTrue($prototype->hasPrototypeAttribute('name'));
         $this->assertTrue($prototype->name === 'Original');
     }
 
@@ -31,6 +54,8 @@ class PrototypeTest extends TestCase
         $this->assertTrue([
             'name' => 'Original',
             'description' => 'NONE',
+            'price' => 0.0,
+            'status' => null,
         ] === $prototype->getPrototypeAttributes());
     }
 
@@ -74,10 +99,13 @@ class PrototypeTest extends TestCase
         $value = $prototype->expandPrototypeAttribute('description');
 
         $this->assertTrue((string) $value == '--');
+
+        $this->assertInstanceOf(DecimalValue::class, $prototype->expandPrototypeAttribute('price'));
+        $this->assertInstanceOf(Value::class, $prototype->expandPrototypeAttribute('status'));
     }
 }
 
-class TestPrototype
+class TestPrototype implements ArrayAccess
 {
     use Prototype;
 
@@ -86,7 +114,15 @@ class TestPrototype
         $attributes = array_merge([
             'name' => 'Original',
             'description' => 'None',
+            'price' => 0.0,
+            'status' => null,
         ], $attributes);
+
+        $this->loadPrototypeProperties([
+            'name' => [
+                'type' => 'string',
+            ],
+        ]);
 
         return $this->setPrototypeAttributes($attributes);
     }

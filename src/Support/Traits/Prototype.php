@@ -252,10 +252,6 @@ trait Prototype
     {
         $default = Arr::get($this->__prototype['properties'], $key . '.default');
 
-        if (is_string($default) && class_exists($default)) {
-            dd($default);
-        }
-
         $type = gettype(Arr::get($this->__prototype['attributes'], $key, $default));
 
         if ($type === 'NULL') {
@@ -433,7 +429,7 @@ trait Prototype
      *
      * @return bool
      */
-    protected function hasPrototypeAttribute($key): bool
+    public function hasPrototypeAttribute($key): bool
     {
         if (isset($this->__prototype['attributes'][$key])) {
             return true;
