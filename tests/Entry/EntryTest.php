@@ -2,12 +2,8 @@
 
 namespace Streams\Core\Tests\Entry;
 
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Support\Collection;
-use Streams\Core\Criteria\Contract\CriteriaInterface;
-use Streams\Core\Entry\Entry;
-use Streams\Core\Repository\Contract\RepositoryInterface;
 use Tests\TestCase;
+use Streams\Core\Entry\Entry;
 use Streams\Core\Stream\Stream;
 use Streams\Core\Support\Facades\Streams;
 

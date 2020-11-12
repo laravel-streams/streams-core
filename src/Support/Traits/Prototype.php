@@ -4,10 +4,9 @@ namespace Streams\Core\Support\Traits;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Field\Value\Value;
+use Illuminate\Support\Traits\Macroable;
 
 /**
  * Trait Prototype
