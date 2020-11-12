@@ -53,6 +53,6 @@ class Value
      */
     public function __toString()
     {
-        return json_encode($this->value);
+        return (string) $this->value;
     }
 }

@@ -160,9 +160,20 @@ trait Prototype
 
             return $this;
         }
-if ($key == 'columns' && $value == ['foo']) {
-            dd($this->hasPrototypePropertyType($key));
-        }
+
+        $this->setPrototypeAttributeValue($key, $value);
+
+        return $this;
+    }
+
+    /**
+     * Set the value on the prototype's attributes.
+     *
+     * @param string $key
+     * @param mixed $value
+     */
+    public function setPrototypeAttributeValue($key, $value)
+    {
         $this->__prototype['attributes'][$key] = $value;
 
         return $this;

@@ -2,26 +2,36 @@
 
 namespace Streams\Core\Tests\Support\Traits;
 
+use Streams\Core\Field\Value\Value;
 use Tests\TestCase;
 use Streams\Core\Support\Traits\Prototype;
 
 class PrototypeTest extends TestCase
 {
 
-    public function testCanInstantiateWithOriginalAttributes()
+    public function testCanInstantiate()
+    {
+        $prototype = new TestPrototype();
+
+        $this->assertTrue($prototype->name === 'Original');
+    }
+
+    public function testCanResetAttributes()
     {
         $prototype = new TestPrototype();
 
         $prototype->name = 'Testing';
 
-        
         $this->assertTrue($prototype->name === 'Testing');
-        $this->assertTrue($prototype->getPrototypeAttribute('name') === 'Testing');
-        
+
         $prototype->setPrototypeAttributes($prototype->getOriginalPrototypeAttributes());
 
         $this->assertTrue($prototype->name === 'Original');
-        $this->assertTrue(['name' => 'Original'] === $prototype->getPrototypeAttributes());
+
+        $this->assertTrue([
+            'name' => 'Original',
+            'description' => 'NONE',
+        ] === $prototype->getPrototypeAttributes());
     }
 
     public function testCanLoadAttributes()
@@ -29,7 +39,7 @@ class PrototypeTest extends TestCase
         $prototype = new TestPrototype();
 
         $this->assertTrue($prototype->name === 'Original');
-        $this->assertNull($prototype->description);
+        $this->assertTrue($prototype->description === 'NONE');
 
         $prototype->loadPrototypeAttributes([
             'name' => 'Testing',
@@ -37,7 +47,7 @@ class PrototypeTest extends TestCase
         ]);
 
         $this->assertTrue($prototype->name === 'Testing');
-        $this->assertTrue($prototype->description === 'Test');
+        $this->assertTrue($prototype->description === 'TEST');
     }
 
     public function testCanSetAttributes()
@@ -52,20 +62,42 @@ class PrototypeTest extends TestCase
 
         $this->assertTrue($prototype->name === 'Testing');
     }
+
+    public function testCanExpandAttributes()
+    {
+        $prototype = new TestPrototype();
+
+        $value = $prototype->expandPrototypeAttribute('name');
+
+        $this->assertInstanceOf(Value::class, $value);
+
+        $value = $prototype->expandPrototypeAttribute('description');
+
+        $this->assertTrue((string) $value == '--');
+    }
 }
 
 class TestPrototype
 {
-    use Prototype {
-        Prototype::initializePrototype as private initializeBasePrototype;
-    }
+    use Prototype;
 
     protected function initializePrototype(array $attributes)
     {
-        $this->setPrototypeAttributes(array_merge([
+        $attributes = array_merge([
             'name' => 'Original',
-        ], $attributes));
+            'description' => 'None',
+        ], $attributes);
 
-        return $this->initializeBasePrototype([]);
+        return $this->setPrototypeAttributes($attributes);
+    }
+
+    public function setDescriptionAttribute($value)
+    {
+        return $this->setPrototypeAttributeValue('description', strtoupper($value));
+    }
+
+    public function expandDescriptionAttribute($value)
+    {
+        return new Value('--');
     }
 }
