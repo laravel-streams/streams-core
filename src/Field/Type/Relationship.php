@@ -55,6 +55,6 @@ class Relationship extends FieldType
             $value = $this->entry->{$this->config['key_name']};
         }
 
-        return Streams::entries($this->config['stream'])->find($value);
+        return Streams::entries($this->config['related'])->find($value);
     }
 }

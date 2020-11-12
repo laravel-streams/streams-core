@@ -274,7 +274,7 @@ trait Prototype
     protected function restorePrototypeAttributeValue($key, $value)
     {
         $type = $this->newProtocolPropertyFieldType($key);
-
+        
         $type->field = $key;
 
         return $type->restore($value);
