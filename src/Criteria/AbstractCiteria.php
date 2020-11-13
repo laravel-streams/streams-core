@@ -215,7 +215,7 @@ abstract class AbstractCiteria implements CriteriaInterface
      */
     public function newInstance(array $attributes = [])
     {
-        $prototype = $this->stream->getPrototypeAttribute('config.prototype') ?: Entry::class;
+        $prototype = $this->stream->getPrototypeAttribute('config.prototype') ?: Entry::class;// @todo or 'config.abstract' as a general term.
 
         $attributes['stream'] = $this->stream;
 

@@ -260,11 +260,12 @@ class FilebaseCriteria extends AbstractCiteria
      * @param array $entries
      * @return Collection
      */
-    protected function collect(array $entries)
+    protected function collect($entries)
     {
-        $collection = $this->stream->getPrototypeAttribute('collection') ?: Collection::class;
-
-        $collection = new $collection();
+        if (!$entries instanceof Collection) {
+            $collection = $this->stream->getPrototypeAttribute('collection') ?: Collection::class;
+            $collection = new $collection();
+        }
 
         array_map(function ($entry) use ($collection) {
             $entry = $this->make($entry);

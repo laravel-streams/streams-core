@@ -237,8 +237,32 @@ class EloquentCriteria extends AbstractCiteria
      */
     public function newInstance(array $attributes = [])
     {
-        $model = $this->stream->getPrototypeAttribute('config.model');
+        $model = $this->stream->getPrototypeAttribute('source.model');
 
-        return new $model($this->stream, $attributes);
+        return new $model($attributes);
+    }
+
+    /**
+     * Return an entry collection.
+     *
+     * @param $entries
+     * @return Collection
+     */
+    protected function collect($entries)
+    {
+        return $entries->map(function($entry) {
+            return $this->make($entry);
+        });
+    }
+
+    /**
+     * Return an entry interface from a file.
+     *
+     * @param $entry
+     * @return EntryInterface
+     */
+    protected function make($entry)
+    {
+        return $this->newInstance($entry->toArray());
     }
 }
