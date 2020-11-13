@@ -4,14 +4,14 @@ namespace Streams\Core\Criteria;
 
 use Filebase\Database;
 use Illuminate\Support\Arr;
+use Streams\Core\Entry\Entry;
+use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Traits\Macroable;
-use Streams\Core\Entry\Entry;
-use Streams\Core\Stream\Stream;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Entry\Contract\EntryInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Streams\Core\Criteria\Contract\CriteriaInterface;
 
 /**
@@ -218,7 +218,7 @@ abstract class AbstractCiteria implements CriteriaInterface
         $prototype = $this->stream->getPrototypeAttribute('config.prototype');
 
         if (!$prototype) {
-            $prototype = $this->stream->getPrototypeAttribute('config.abstract', Entry::class);
+            $prototype = $this->stream->getPrototypeAttribute('config.abstract') ?: Entry::class;
         }
 
         $attributes['stream'] = $this->stream;
