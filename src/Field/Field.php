@@ -30,22 +30,17 @@ class Field implements FieldInterface, Arrayable, Jsonable
      * 
      * @return FieldType
      */
-    // public function type(): FieldType
-    // {
-    //     return $this->remember($this->handle . '.' . $this->type, function () {
+    public function type()
+    {
+        return $this->remember($this->handle . '.' . $this->type, function () {
 
-    //         $type = App::make('streams.field_types.' . $this->type);
+            $type = App::make('streams.field_types.' . $this->type);
 
-    //         $type->field = $this->handle;
-    //         $type->parent = $this;
+            $type->field = $this;
             
-    //         // if (isset($this->stream->model->id)) {
-    //         //     $type->setEntry($this->stream->model);
-    //         // }
-
-    //         return $type;
-    //     });
-    // }
+            return $type;
+        });
+    }
 
     public function toArray(): array
     {

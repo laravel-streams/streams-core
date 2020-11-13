@@ -200,7 +200,7 @@ trait Prototype
         if ($this->hasPrototypePropertyType($key)) {
             return $this->restorePrototypeAttributeValue($key, $value);
         }
-
+        
         if ($parts) {
             return data_get($value, implode('.', $parts));
         }

@@ -263,7 +263,9 @@ class FilebaseCriteria extends AbstractCiteria
     protected function collect($entries)
     {
         if (!$entries instanceof Collection) {
+            
             $collection = $this->stream->getPrototypeAttribute('collection') ?: Collection::class;
+            
             $collection = new $collection();
         }
 
