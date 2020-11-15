@@ -227,6 +227,23 @@ class DatabaseCriteria extends AbstractCiteria
     }
 
     /**
+     * Return an entry instance.
+     *
+     * @param array $attributes
+     * @return EntryInterface
+     */
+    public function newInstance(array $attributes = [])
+    {
+        $prototype = $this->stream->getPrototypeAttribute('config.prototype') ?: Entry::class;
+
+        $prototype = new $prototype($attributes);
+
+        $prototype->stream = $this->stream;
+        
+        return $prototype;
+    }
+
+    /**
      * Return an entry collection.
      *
      * @param $entries
