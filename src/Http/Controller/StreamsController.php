@@ -287,7 +287,19 @@ class StreamsController extends Controller
             return;
         }
 
-        // @todo: Entry data redirects?
+        /**
+         * Check if the entry is 
+         * overriding the view.
+         */
+        if (
+            $entry
+            && $redirect = $entry->getAttribute('streams__redirect')
+        ) {
+
+            $data->put('response', Redirect::to($redirect));
+
+            return;
+        }
     }
 
     /**
