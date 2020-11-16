@@ -194,12 +194,21 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot(Dispatcher $events)
     {
+        if (!env('INSTALLED') || (!IS_ADMIN && env('INSTALLED') === 'admin')) {
+
+            $this->dispatchNow(new SetCoreConnection());
+            $this->dispatchNow(new AutoloadEntryModels());
+            $this->dispatchNow(new InitializeApplication());
+
+            return;
+        }
+
         $events->dispatch(new Booting());
 
         // Next take care of core utilities.
         $this->dispatchNow(new SetCoreConnection());
         $this->dispatchNow(new ConfigureUriValidator());
-        $this->dispatchNow(new InitializeApplication()); // 24
+        $this->dispatchNow(new InitializeApplication());
 
         // Load application specific .env file.
         $this->dispatchNow(new LoadEnvironmentOverrides());
@@ -316,6 +325,19 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+
+        if (!env('INSTALLED') || (!IS_ADMIN && env('INSTALLED') === 'admin')) {
+
+            /**
+             * Fallback to database users.
+             */
+            config([
+                'auth.providers.users.driver' => 'database',
+                'auth.providers.users.table' => 'users_users',
+            ]);
+
+            return;
+        }
 
         /**
          * When config is cached by Laravel we

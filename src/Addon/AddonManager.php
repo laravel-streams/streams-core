@@ -202,7 +202,7 @@ class AddonManager
      */
     protected function getEnabledAddonNamespaces()
     {
-        if (!env('INSTALLED')) {
+        if (!env('INSTALLED') || (!IS_ADMIN && env('INSTALLED') === 'admin')) {
             return [];
         }
 
@@ -247,7 +247,7 @@ class AddonManager
      */
     protected function getInstalledAddonNamespaces()
     {
-        if (!env('INSTALLED')) {
+        if (!env('INSTALLED') || (!IS_ADMIN && env('INSTALLED') === 'admin')) {
             return [];
         }
 
