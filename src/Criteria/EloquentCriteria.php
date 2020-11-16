@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Entry\Contract\EntryInterface;
-use Streams\Core\Entry\Entry;
 
 /**
  * Class EloquentCriteria
@@ -264,6 +263,10 @@ class EloquentCriteria extends AbstractCiteria
      */
     protected function make($entry)
     {
-        return $this->newInstance((array) $entry);
+        if ($entry instanceof Model) {
+            return $entry;
+        }
+        
+        return $this->newInstance($entry);
     }
 }
