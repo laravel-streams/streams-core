@@ -47,6 +47,7 @@ use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
 use Anomaly\Streams\Platform\Application\Command\ConfigureFileCacheStore;
 use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
 use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
+use Illuminate\Support\Facades\Request;
 
 /**
  * Class StreamsServiceProvider
@@ -336,6 +337,14 @@ class StreamsServiceProvider extends ServiceProvider
                 'auth.providers.users.table' => 'users_users',
             ]);
 
+            return;
+        }
+
+        /**
+         * If the admin is needed only
+         * then we don't even register.
+         */
+        if (env('INSTALLED') === 'admin' && Request::segment(1) !== 'admin') {
             return;
         }
 
