@@ -174,7 +174,7 @@ trait Prototype
      */
     public function setPrototypeAttributeValue($key, $value)
     {
-        $this->__prototype['attributes'][$key] = $value;
+        Arr::set($this->__prototype['attributes'], $key, $value);
 
         return $this;
     }

@@ -49,6 +49,8 @@ class EloquentCriteria extends AbstractCiteria
 
         $model = $stream->getPrototypeAttribute('source.model');
 
+        $stream->setPrototypeAttribute('config.abstract', $model);
+
         $this->query = (new $model)->newQuery();
     }
 
@@ -229,18 +231,18 @@ class EloquentCriteria extends AbstractCiteria
         $this->query->truncate();
     }
 
-    /**
-     * Return an entry instance.
-     *
-     * @param array $attributes
-     * @return EntryInterface
-     */
-    public function newInstance(array $attributes = [])
-    {
-        $model = $this->stream->getPrototypeAttribute('source.model');
+    // /**
+    //  * Return an entry instance.
+    //  *
+    //  * @param array $attributes
+    //  * @return EntryInterface
+    //  */
+    // public function newInstance(array $attributes = [])
+    // {
+    //     $model = $this->stream->getPrototypeAttribute('source.model');
 
-        return new $model($attributes);
-    }
+    //     return new $model($attributes);
+    // }
 
     /**
      * Return an entry collection.
