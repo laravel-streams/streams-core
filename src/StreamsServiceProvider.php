@@ -180,6 +180,9 @@ class StreamsServiceProvider extends ServiceProvider
                         ),
                     ],
                 ];
+
+                // Alias this key variable.
+                $data['route']['prefix'] = $data['route']['compiled']['static_prefix'];
             }
 
             return $data;
