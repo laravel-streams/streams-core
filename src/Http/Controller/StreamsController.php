@@ -129,7 +129,7 @@ class StreamsController extends Controller
          * to resolve an entry otherwise.
          */
         $parameters = Request::route()->parameters;
-
+        
         if (isset($parameters['id'])) {
 
             $data->put('entry', $stream->repository()->find($parameters['id']));
@@ -149,6 +149,18 @@ class StreamsController extends Controller
 
             return;
         }
+
+        /**
+         * Try and resolve entry
+         * from post input ID.
+         */
+        if (Request::has('id')) {
+            $data->put('entry', $stream->repository()->find(Request::get('id')));
+
+            return;    
+        }
+
+        //------------
 
         $criteria = [];
 
