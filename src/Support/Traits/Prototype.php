@@ -147,7 +147,14 @@ trait Prototype
      */
     public function setPrototypeAttribute($key, $value)
     {
-        if ($this->hasPrototypeOverrideMethod($name = 'set_' . $key . '_attribute')) {
+        if ($this->hasPrototypeAttributeOverride($name = 'set_' . $key . '_attribute')) {
+
+            if (self::hasMacro($name)) {
+                
+                $this->{$name}($value);
+
+                return $this;
+            }
 
             $this->{Str::camel($name)}($value);
 
@@ -191,7 +198,7 @@ trait Prototype
 
         $key = array_shift($parts);
 
-        if ($this->hasPrototypeOverrideMethod($name = 'get_' . $key . '_attribute')) {
+        if ($this->hasPrototypeAttributeOverride($name = 'get_' . $key . '_attribute')) {
             return $this->{Str::camel($name)}();
         }
 
@@ -220,7 +227,7 @@ trait Prototype
 
         $value = $this->getPrototypeAttribute($key);
 
-        if ($this->hasPrototypeOverrideMethod($name)) {
+        if ($this->hasPrototypeAttributeOverride($name)) {
             return $this->{Str::camel($name)}($value);
         }
 
@@ -408,7 +415,7 @@ trait Prototype
      *
      * @return bool
      */
-    protected function hasPrototypeOverrideMethod($name): bool
+    protected function hasPrototypeAttributeOverride($name): bool
     {
         if (self::hasMacro($name)) {
             return true;
