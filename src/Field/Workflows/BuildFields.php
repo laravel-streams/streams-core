@@ -47,14 +47,11 @@ class BuildFields extends Workflow
                 $input['handle'] = $input['type'];
             }
 
-            $input['rules'] = array_map(function ($rules) {
+            $input['rules'] = Arr::get($input, 'rules', []);
 
-                if (is_string($rules)) {
-                    return explode('|', $rules);
-                }
-    
-                return $rules;
-            }, Arr::get($input, 'rules', []));
+            if (is_string($input['rules'])) {
+                return explode('|', $input['rules']);
+            }
         }
         
         $workflow->fields = $fields;

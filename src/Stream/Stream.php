@@ -70,34 +70,26 @@ class Stream implements Arrayable, Jsonable
         $rules = $this->getPrototypeAttribute('rules') ?: [];
         $validators = $this->getPrototypeAttribute('validators') ?: [];
         
-        // $fieldRules = $this->fields->rules();
-        // $fieldValidators = $this->fields->validators();
-
+        $fieldRules = $this->fields->rules();
+        $fieldValidators = $this->fields->validators();
+        
         /**
          * Merge stream and field configurations.
          */
-        // foreach ($fieldRules as $field => $rules) {
-        //     if ($rules) {
-        //         $fieldRules[$field] = array_merge(Arr::get($fieldRules, $field, []), $rules);
-        //     }
-        // }
+        foreach ($fieldRules as $field => $configured) {
+            $rules[$field] = array_merge(Arr::get($rules, $field, []), $configured);
+        }
 
-        // foreach ($fieldValidators as $field => $validators) {
-        //     if ($validators) {
-        //         $fieldValidators[$field] = array_merge(Arr::get($fieldValidators, $field, []), $validators);
-        //     }
-        // }
+        foreach ($fieldValidators as $field => $configured) {
+            $validators[$field] = array_merge(Arr::get($validators, $field, []), $configured);
+        }
 
         /**
-         * Process validator rules.
+         * Stringify rules for Laravel.
          */
         $rules = array_map(function ($rules) {
             return implode('|', array_unique($rules));
         }, $rules);
-
-        // $fieldRules = array_map(function ($rules) {
-        //     return implode('|', array_unique($rules));
-        // }, $fieldRules);
 
         /**
          * Extend the factory with custom validators.
