@@ -202,7 +202,7 @@ class Application
     public function isInstalled()
     {
         if (is_null($this->installed)) {
-            $this->installed = file_exists(base_path('.env'));
+            $this->installed = env('INSTALLED');
         }
 
         return $this->installed;
