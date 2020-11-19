@@ -176,7 +176,7 @@ abstract class AbstractCiteria implements CriteriaInterface
         $path = Request::url();
 
         $total = Arr::get($parameters, 'total');
-        $perPage = Arr::get($parameters, 'per_page', 15);
+        $perPage = Arr::get($parameters, 'per_page', 25);
         $pageName = Arr::get($parameters, 'page_name', 'page');
         $limitName = Arr::get($parameters, 'limit_name', 'limit');
 
