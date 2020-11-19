@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Facade;
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
+ *
+ * @property Streams\Core\Image\ImagePaths $paths
+ * @property Streams\Core\Image\ImageRegistry $registry
+ * @method static \Streams\Core\Image\ImageManager make($source)
+ * @method static \Streams\Core\Image\ImageManager register(string $name, $image)
+ * @method static \Streams\Core\Image\ImageManager addPath(string $namespace, string $path)
+ * @method static \Streams\Core\Image\ImageManager resolve($image)
+ * @method static \Streams\Core\Image\ImageManager newRemoteImage(array $attributes)
+ * @method static \Streams\Core\Image\ImageManager newStorageImage(array $attributes)
+ * @method static \Streams\Core\Image\ImageManager newLocalImage(array $attributes)
  */
 class Images extends Facade
 {

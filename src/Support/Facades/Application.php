@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Facade;
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
+ *
+ * @method static \Streams\Core\Application\ApplicationManager make($handle = null)
+ * @method static \Streams\Core\Application\ApplicationManager handle()
+ * @method static \Streams\Core\Application\ApplicationManager switch($handle = null)
  */
 class Application extends Facade
 {

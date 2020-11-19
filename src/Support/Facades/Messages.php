@@ -10,6 +10,19 @@ use Illuminate\Support\Facades\Facade;
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
+ *
+ * @property Illuminate\Session\Store $session
+ * @method static \Streams\Core\Message\MessageManager add($type, $message)
+ * @method static \Streams\Core\Message\MessageManager merge(string $key, array $message)
+ * @method static \Streams\Core\Message\MessageManager get()
+ * @method static \Streams\Core\Message\MessageManager pull()
+ * @method static \Streams\Core\Message\MessageManager error($message)
+ * @method static \Streams\Core\Message\MessageManager info($message)
+ * @method static \Streams\Core\Message\MessageManager success($message)
+ * @method static \Streams\Core\Message\MessageManager warning($message)
+ * @method static \Streams\Core\Message\MessageManager danger($message)
+ * @method static \Streams\Core\Message\MessageManager important($message)
+ * @method static \Streams\Core\Message\MessageManager flush()
  */
 class Messages extends Facade
 {

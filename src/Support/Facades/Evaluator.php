@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Facade;
  * @link   http://pyrocms.com/
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
+ *
+ * @method static \Streams\Core\Support\Evaluator evaluate($target, array $arguments = [])
+ * @method static \Streams\Core\Support\Evaluator isTraversable(string $target)
  */
 class Evaluator extends Facade
 {
