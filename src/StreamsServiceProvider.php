@@ -195,7 +195,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot(Dispatcher $events)
     {
-        if (!env('INSTALLED') || (!IS_ADMIN && env('INSTALLED') === 'admin')) {
+        if (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin') {
 
             $this->dispatchNow(new SetCoreConnection());
             $this->dispatchNow(new AutoloadEntryModels());
@@ -326,8 +326,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
-        if (!env('INSTALLED') || (!IS_ADMIN && env('INSTALLED') === 'admin')) {
+        if (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin') {
 
             /**
              * Fallback to database users.
@@ -337,14 +336,6 @@ class StreamsServiceProvider extends ServiceProvider
                 'auth.providers.users.table' => 'users_users',
             ]);
 
-            return;
-        }
-
-        /**
-         * If the admin is needed only
-         * then we don't even register.
-         */
-        if (env('INSTALLED') === 'admin' && Request::segment(1) !== 'admin') {
             return;
         }
 

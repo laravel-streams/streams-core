@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon;
 
 use Illuminate\Support\Facades\Request;
 use Illuminate\Contracts\Container\Container;
@@ -203,7 +205,7 @@ class AddonManager
      */
     protected function getEnabledAddonNamespaces()
     {
-        if (!env('INSTALLED') || (!IS_ADMIN && env('INSTALLED') === 'admin')) {
+        if (!env('INSTALLED') || (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin')) {
             return [];
         }
 
@@ -248,7 +250,7 @@ class AddonManager
      */
     protected function getInstalledAddonNamespaces()
     {
-        if (!env('INSTALLED') || (!IS_ADMIN && env('INSTALLED') === 'admin')) {
+        if (!env('INSTALLED') || (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin')) {
             return [];
         }
 

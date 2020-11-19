@@ -70,7 +70,7 @@ class InitializeApplication
             try {
 
                 $application->setup();
-
+                
                 if ($application->isInstalled()) {
                     if (PHP_SAPI != 'cli') {
                         $application->locate();
