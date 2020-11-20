@@ -100,7 +100,7 @@ The Streams platform adds support for deep parameter variables using a dot notat
 Route::streams('uri/{foo.bar}', 'view');
 ```
 
-#### Stream Parameter
+### Stream Parameter
 
 You can specify the stream associated with the route using the [route option](#streams) or by using the `{stream}` URI segment variable in your URI pattern to resolve the stream by its handle.
 
@@ -131,7 +131,7 @@ The resolved stream will be available within the view:
 </ul>@endverbatim
 ```
 
-#### Entry Parameters
+### Entry Parameters
 
 You can specify a stream entry associated with the route using the [route option](#entries) or by using the `{id}` URI segment variable in your URI pattern to resolve the entry by its ID or handle.
 
