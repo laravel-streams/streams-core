@@ -21,9 +21,10 @@ return [
             //'path' => env('STREAMS_SOURCE_PATH', 'streams/data'),
             
             'formats' => [
-                'json' => \Filebase\Format\Json::class,
-                'yaml' => \Filebase\Format\Yaml::class,
+                'json' => \Streams\Core\Criteria\Format\Json::class,
+                'yaml' => \Streams\Core\Criteria\Format\Yaml::class,
                 'md' => \Streams\Core\Criteria\Format\Markdown::class,
+                'template' => \Streams\Core\Criteria\Format\Template::class,
             ],
         ],
     ],

@@ -7,13 +7,13 @@ use Symfony\Component\Yaml\Yaml;
 use Filebase\Format\FormatInterface;
 
 /**
- * Class Markdown
+ * Class Template
  *
  * @link    http://pyrocms.com/
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Markdown implements FormatInterface
+class Template implements FormatInterface
 {
 
     /**
@@ -23,7 +23,7 @@ class Markdown implements FormatInterface
      */
     public static function getFileExtension()
     {
-        return 'md';
+        return 'tpl';
     }
 
     /**
@@ -37,11 +37,11 @@ class Markdown implements FormatInterface
     {
         $data = (array) $data;
 
-        $body = Arr::pull($data['data'], 'body');
+        $template = Arr::pull($data['data'], 'template');
 
         $encoded = $data ? Yaml::dump(Arr::pull($data, 'data')) : null;
 
-        return "---\n{$encoded}---\n{$body}";
+        return "---\n{$encoded}---\n{$template}";
     }
 
     /**
@@ -52,8 +52,8 @@ class Markdown implements FormatInterface
      */
     public static function decode($data)
     {
-        if (is_array($data) && isset($data['body'])) {
-            $data = $data['body'];
+        if (is_array($data) && isset($data['template'])) {
+            $data = $data['template'];
         }
 
         $pattern = '/^[\s\r\n]?---[\s\r\n]?$/sm';
@@ -64,12 +64,14 @@ class Markdown implements FormatInterface
             return [];
         }
 
-        $matter = Yaml::parse(trim($parts[1]));
+        if (!$matter = json_decode(trim($parts[1]), true)) {
+            $matter = Yaml::parse(trim($parts[1]));
+        }
 
-        $body = implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2));
+        $template = implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2));
 
         return [
-            'data' => array_merge(Arr::get($matter, 'data', $matter), ['body' => $body])
+            'data' => array_merge(Arr::get($matter, 'data', $matter), ['template' => $template])
         ];
     }
 }
