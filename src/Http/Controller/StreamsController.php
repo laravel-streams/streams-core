@@ -129,7 +129,7 @@ class StreamsController extends Controller
          * to resolve an entry otherwise.
          */
         $parameters = Request::route()->parameters;
-        
+
         if (isset($parameters['id'])) {
 
             $data->put('entry', $stream->repository()->find($parameters['id']));
@@ -157,7 +157,7 @@ class StreamsController extends Controller
         if (Request::has('id')) {
             $data->put('entry', $stream->repository()->find(Request::get('id')));
 
-            return;    
+            return;
         }
 
         //------------
@@ -173,7 +173,7 @@ class StreamsController extends Controller
         if (!$criteria) {
             return;
         }
-        
+
         /**
          * Try and loop over parameters
          * to query a result from them.
@@ -231,32 +231,27 @@ class StreamsController extends Controller
         }
 
         /**
-         * Try to use the route name to
-         * guess the view template to use.
-         * 
-         * @todo Would be nice to configure this behavior to /stream/action.blade.php for example
-         */
-        $name = Arr::get($action, 'as');
-
-        if ($name && Str::is('streams::*.index', $name) && View::exists($view = $stream->handle)) {
-
-            $data->put('view', $view);
-
-            return;
-        }
-
-        if ($name && Str::is('streams::*.view', $name) && View::exists($view = Str::singular($stream->handle))) {
-
-            $data->put('view', $view);
-
-            return;
-        }
-
-        /**
-         * Try falling back to the stream template.
+         * Try the stream template.
          */
         if ($stream->template) {
             $data->put('view', $stream->template);
+        }
+
+        /**
+         * Fallback to the route name to try
+         * and guess a view template to use.
+         */
+        $name = Arr::get($action, 'as');
+
+        if ($name && Str::is('streams::*.*', $name)) {
+            $name = explode('.', str_replace('streams::', '', $name));
+        }
+
+        if ($name && View::exists($view = "{$name[0]}.{$name[1]}")) {
+
+            $data->put('view', $view);
+
+            return;
         }
     }
 

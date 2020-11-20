@@ -12,11 +12,9 @@ use Streams\Core\Addon\Addon;
 use Collective\Html\HtmlFacade;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
 use Streams\Core\View\ViewIncludes;
 use Streams\Core\View\ViewTemplate;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +30,7 @@ use Streams\Core\Application\Application;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request as RequestObject;
 use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
@@ -500,6 +499,15 @@ class StreamsServiceProvider extends ServiceProvider
 
                 if (!isset($route['as'])) {
                     $route['as'] = Arr::get($route, 'as', 'streams::' . $stream->handle . '.' . $key);
+                }
+
+                if (Arr::pull($route, 'defer')) {
+
+                    $this->app->booted(function () use ($route) {
+                        Route::streams(Arr::get($route, 'uri'), $route);
+                    });
+
+                    continue;
                 }
 
                 Route::streams(Arr::get($route, 'uri'), $route);
