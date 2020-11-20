@@ -344,6 +344,17 @@ Route::streams('uri', [
 ]);
 ```
 
+### Deferring Routes
+
+Use the `defer` option to defer registering a route.
+
+```php
+Route::streams('/{id}', [
+    // ...
+    'defer' => true,
+]);
+```
+
 ## Generating URLs
 
 You may use the `URL::streams()` method to generate URLs for named routes, including those with dotted parameter variables. This method also supports parsing URL strings with parameter data. The `extra` data argument is appending as a query string. Use the `absolute` argument to control whether the resulting URL is absolute or not.
