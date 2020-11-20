@@ -13,7 +13,7 @@ todo:
 
 ## Introduction
 
-All requests to your application are handled by Laravel unless you create the routes using one of the specific methods described below.
+All requests to your application are handled by **Laravel** unless you create the routes using one of the specific methods described below.
 
 ## Defining Routes
 
@@ -21,7 +21,7 @@ The Streams platform has a couple of ways it routes requests, which are listed b
 
 ### Route Files
 
-You can configure routes just as you would in a regular Laravel application using the `routes/web.php` file. Routing within `routes/*` files alone does not mean that the Streams platform will handle the request.
+You can configure routes just as you would in a regular Laravel application using the `routes/web.php` file.
 
 ### Service Providers
 
@@ -32,20 +32,23 @@ You may use the enhanced [service providers](providers#routing) that come with t
 The Streams platform provides a `Route::streams()` method for defining routes. *All streams-specific routing approaches pass through this method.*
 
 ```php
-// Basic route.
-Route::streams('uri', 'view');
-
-// Route options.
+// Options
 Route::streams('uri', [
     'foo' => 'bar',
 ]);
+
+// View
+Route::streams('uri', 'view');
+
+// Controller
+Route::streams('uri', 'App\Http\Controller\Example@show');
 ```
 
 The first argument is the URI and the second is either:
 
 - The name of the [view](views) to render.
 - A [Controller](controllers)`@verbatim@method@endverbatim` string.
-- Or, an array of [route options](#route-options).
+- An array of [route options](#route-options).
 
 ### Stream Routes
 
@@ -78,14 +81,15 @@ $url = route('streams::contacts.index');
 
 #### Automatically Resolved Views
 
-The `index` and `view` route names are unique. Unless a view is specified, the associated requests will attempt to resolve a view automatically.
+Unless a view is specified, the associated requests will attempt to resolve a view automatically.
 
 ```json
 // streams/contacts.json
 {
     "routes": {
-        "index": "contacts",    // resources/contacts.blade.php
-        "view": "contacts/{id}" // resources/contact.blade.php
+        "index": "contacts",    // resources/contacts/index.php
+        "view": "contacts/{id}", // resources/contacts/view.php
+        "rss": "contacts/{id}/rss" // resources/contacts/rss.php
     }
 }
 ```
