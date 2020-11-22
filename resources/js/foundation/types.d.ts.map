@@ -1,0 +1,8 @@
+{
+    "version": 3,
+    "file": "types.d.ts",
+    "sourceRoot": "",
+    "sources": ["../../ts/foundation/types.ts"],
+    "names": [],
+    "mappings": "AAAA,OAAO,EAAE,kBAAkB,EAAE,MAAM,OAAO,CAAC;AAG3C,MAAM,WAAW,gBAAgB;CAAG;AAEpC,MAAM,WAAW,OAAO;IACpB,MAAM,CAAC,EAAE,MAAM,CAAA;IACf,KAAK,CAAC,EAAE,OAAO,CAAA;IACf,IAAI,CAAC,EAAE,MAAM,CAAA;IACb,UAAU,CAAC,EAAE,CAAE,MAAM,EAAE,MAAM,CAAE,CAAA;IAC/B,IAAI,CAAC,EAAE,kBAAkB,CAAA;CAC5B"
+}

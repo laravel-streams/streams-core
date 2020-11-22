@@ -1,0 +1,8 @@
+{
+    "version": 3,
+    "file": "ServiceProvider.js",
+    "sourceRoot": "",
+    "sources": ["../../ts/foundation/ServiceProvider.ts"],
+    "names": [],
+    "mappings": "AAGA,MAAM,OAAgB,eAAe;IACjC,YAA4B,GAAgB;QAAhB,QAAG,GAAH,GAAG,CAAa;IAC5C,CAAC;CACJ"
+}

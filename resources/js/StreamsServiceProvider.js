@@ -1,11 +1,9 @@
-import {ServiceProvider} from './ServiceProvider';
-import {Agent,Cookies, Storage} from './utils';
-
+import {ServiceProvider} from './foundation/ServiceProvider';
 
 export class StreamsServiceProvider extends ServiceProvider {
-    register(){
-        this.app.singleton('storage', Storage)
-        this.app.singleton('cookies', Cookies)
-        this.app.singleton('agent', Agent)
+    register() {
+
     }
 }
+
+//# sourceMappingURL=StreamsServiceProvider.js.map

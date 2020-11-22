@@ -1,0 +1,8 @@
+{
+    "version": 3,
+    "file": "StreamsServiceProvider.d.ts",
+    "sourceRoot": "",
+    "sources": ["../ts/StreamsServiceProvider.ts"],
+    "names": [],
+    "mappings": "AAAA,OAAO,EAAC,eAAe,EAAC,MAAM,8BAA8B,CAAC;AAG7D,qBAAa,sBAAuB,SAAQ,eAAe;IACvD,QAAQ;CAIX"
+}
