@@ -51,7 +51,7 @@ class EntryTest extends TestCase
         ]);
 
         $result = $entry->save();
-
+        
         $this->assertTrue($result);
 
 
@@ -66,14 +66,14 @@ class EntryTest extends TestCase
 
         $entry = Streams::entries('testing.examples')->find('delete_me');
 
-        $this->assertTrue($entry->name === 'Test');
+        $this->assertEquals('Test', $entry->name);
         $this->assertFalse($entry->validator()->passes());
 
-        
+
         $result = $entry->delete();
 
         $this->assertTrue($result);
-        
+
         $entry = Streams::entries('testing.examples')->find('delete_me');
 
         $this->assertNull($entry);

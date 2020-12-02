@@ -2,7 +2,9 @@
 
 namespace Streams\Core\Criteria\Format;
 
+use Illuminate\Support\Arr;
 use Filebase\Format\FormatInterface;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class Json
@@ -33,7 +35,19 @@ class Json implements FormatInterface
      */
     public static function encode($data, $pretty)
     {
-        $data = (array) $data;
+        $meta = (array) $data;
+
+        $data = Arr::pull($meta, 'data', []);
+
+        $data = array_merge($meta, $data);
+
+        if (!isset($data['__created_by']) && $user = Auth::user()) {
+            $data['__created_by'] = $user->getAuthIdentifier();
+        }
+
+        if (!isset($data['__updated_by']) && $user = Auth::user()) {
+            $data['__updated_by'] = $user->getAuthIdentifier();
+        }
 
         return json_encode($data);
     }
