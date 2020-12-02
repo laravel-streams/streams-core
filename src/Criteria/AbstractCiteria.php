@@ -185,7 +185,7 @@ abstract class AbstractCiteria implements CriteriaInterface
         }
 
         $page = (int) Request::get($pageName, 1);
-        $perPage = (int) Request::get($limitName, $perPage);
+        $perPage = (int) Request::get($limitName, $perPage) ?: 9999;
 
         $offset = $page * $perPage - $perPage;
 

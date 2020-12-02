@@ -14,13 +14,6 @@ use Streams\Core\Field\FieldType;
 class Boolean extends FieldType
 {
     /**
-     * The class attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [];
-
-    /**
      * Modify the value for storage.
      *
      * @param string $value
