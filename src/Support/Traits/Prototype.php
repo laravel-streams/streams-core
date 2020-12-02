@@ -82,7 +82,7 @@ trait Prototype
      */
     protected function initializePrototype(array $attributes)
     {
-        $attributes = array_merge($this->getPrototypeAttributes(), $attributes);
+        $attributes = array_merge_recursive($this->getPrototypeAttributes(), $attributes);
 
         return $this->setPrototypeAttributes($attributes);
     }

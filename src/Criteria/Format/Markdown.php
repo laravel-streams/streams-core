@@ -5,6 +5,7 @@ namespace Streams\Core\Criteria\Format;
 use Illuminate\Support\Arr;
 use Symfony\Component\Yaml\Yaml;
 use Filebase\Format\FormatInterface;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class Markdown
@@ -35,11 +36,23 @@ class Markdown implements FormatInterface
      */
     public static function encode($data, $pretty)
     {
-        $data = (array) $data;
+        $meta = (array) $data;
 
-        $body = Arr::pull($data['data'], 'body');
+        $data = Arr::pull($meta, 'data', []);
 
-        $encoded = $data ? Yaml::dump(Arr::pull($data, 'data')) : null;
+        $data = array_merge($meta, $data);
+
+        if (!isset($data['__created_by']) && $user = Auth::user()) {
+            $data['__created_by'] = $user->getAuthIdentifier();
+        }
+
+        if (!isset($data['__updated_by']) && $user = Auth::user()) {
+            $data['__updated_by'] = $user->getAuthIdentifier();
+        }
+
+        $body = Arr::pull($data, 'body');
+
+        $encoded = $data ? Yaml::dump($data) : null;
 
         return "---\n{$encoded}---\n{$body}";
     }

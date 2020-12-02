@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field;
 
+use Illuminate\Support\Str;
 use Streams\Core\Field\FieldType;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Traits\Macroable;
@@ -26,6 +27,16 @@ class Field implements FieldInterface, Arrayable, Jsonable
     use Prototype;
 
     /**
+     * Return the field's name.
+     * 
+     * @return string
+     */
+    public function name()
+    {
+        return $this->name ?: ($this->name = Str::title(Str::humanize($this->handle)));
+    }
+
+    /**
      * Return the type instance.
      * 
      * @return FieldType
@@ -37,7 +48,7 @@ class Field implements FieldInterface, Arrayable, Jsonable
             $type = App::make('streams.field_types.' . $this->type);
 
             $type->field = $this;
-            
+
             return $type;
         });
     }
