@@ -42,7 +42,7 @@ class Field implements FieldInterface, Arrayable, Jsonable
         });
     }
 
-    public function toArray(): array
+    public function toArray()
     {
         return Hydrator::dehydrate($this);
     }
