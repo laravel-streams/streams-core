@@ -42,9 +42,12 @@
         }
     },
     "config": {
-        "bin-dir": "bin"
+        "bin-dir": "bin",
     },
     "extra": {
+        "branch-alias": {
+            "dev-master": "2.x-dev"
+        },
         "laravel": {
             "providers": [
                 "Streams\\Core\\StreamsServiceProvider"
