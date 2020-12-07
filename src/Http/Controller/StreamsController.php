@@ -203,7 +203,7 @@ class StreamsController extends Controller
          */
         if (
             ($entry = $data->get('entry'))
-            && $view = $entry->getAttribute('streams__view')
+            && $view = $entry->getAttribute('__template')
         ) {
 
             $data->put('view', $view);
@@ -241,13 +241,22 @@ class StreamsController extends Controller
          * Fallback to the route name to try
          * and guess a view template to use.
          */
-        $name = Arr::get($action, 'as');
+        if (!$name = Arr::get($action, 'as')) {
+            return;
+        }
 
-        if ($name && Str::is('streams::*.*', $name)) {
+        if (Str::is('streams::*.*', $name)) {
             $name = explode('.', str_replace('streams::', '', $name));
         }
 
-        if ($name && View::exists($view = "{$name[0]}.{$name[1]}")) {
+        if (View::exists($view = "{$name[0]}.{$name[1]}")) {
+
+            $data->put('view', $view);
+
+            return;
+        }
+
+        if ($name[1] == 'view' && View::exists($view = Str::singular($name[0]))) {
 
             $data->put('view', $view);
 
