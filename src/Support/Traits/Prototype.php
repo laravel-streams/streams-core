@@ -82,6 +82,8 @@ trait Prototype
      */
     protected function initializePrototype(array $attributes)
     {
+        $this->loadPrototypeProperties(Arr::pull($attributes, '__properties', []));
+        
         $attributes = array_merge_recursive($this->getPrototypeAttributes(), $attributes);
 
         return $this->setPrototypeAttributes($attributes);
