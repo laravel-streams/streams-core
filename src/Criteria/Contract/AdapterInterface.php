@@ -3,16 +3,8 @@
 namespace Streams\Core\Criteria\Contract;
 
 use Streams\Core\Entry\Contract\EntryInterface;
-use Streams\Core\Repository\Contract\RepositoryInterface;
 
-/**
- * Interface CriteriaInterface
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
-interface CriteriaInterface
+interface AdapterInterface
 {
 
     /**
@@ -99,10 +91,10 @@ interface CriteriaInterface
     /**
      * Delete an entry.
      *
-     * @param $entry
+     * @param EntryInterface $entry
      * @return bool
      */
-    public function delete($entry);
+    public function delete(EntryInterface $entry);
 
     /**
      * Delete all entries.

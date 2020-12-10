@@ -1,6 +1,6 @@
 <?php
 
-namespace Streams\Core\Criteria;
+namespace Streams\Core\Criteria\Adapter;
 
 use Filebase\Database;
 use Illuminate\Support\Arr;
@@ -10,18 +10,11 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\HasMemory;
-use Streams\Core\Entry\Contract\EntryInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Streams\Core\Criteria\Contract\CriteriaInterface;
+use Streams\Core\Entry\Contract\EntryInterface;
+use Streams\Core\Criteria\Contract\AdapterInterface;
 
-/**
- * Class AbstractCiteria
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
-abstract class AbstractCiteria implements CriteriaInterface
+abstract class AbstractAdapter implements AdapterInterface
 {
 
     use Macroable;

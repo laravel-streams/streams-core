@@ -1,28 +1,17 @@
 <?php
 
-namespace Streams\Core\Criteria;
+namespace Streams\Core\Criteria\Adapter;
 
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Traits\Macroable;
-use Streams\Core\Support\Traits\HasMemory;
+use Illuminate\Support\Facades\Config;
 use Streams\Core\Entry\Contract\EntryInterface;
 
-/**
- * Class EloquentCriteria
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
-class EloquentCriteria extends AbstractCiteria
+class DatabaseAdapter extends AbstractAdapter
 {
-
-    use Macroable;
-    use HasMemory;
 
     /**
      * The database query.
@@ -47,11 +36,8 @@ class EloquentCriteria extends AbstractCiteria
     {
         $this->stream = $stream;
 
-        $model = $stream->getPrototypeAttribute('source.model');
-
-        $stream->setPrototypeAttribute('config.abstract', $model);
-
-        $this->query = (new $model)->newQuery();
+        $this->query = DB::connection($stream->getPrototypeAttribute('source.connection') ?: Config::get('database.default'))
+            ->table($stream->getPrototypeAttribute('source.table'));
     }
 
     /**
@@ -129,10 +115,6 @@ class EloquentCriteria extends AbstractCiteria
             $operator = '=';
         }
 
-        if ($field == 'handle') {
-            $field = $this->stream->getPrototypeAttribute('config.handle', 'id');
-        }
-
         $method = Str::studly($nested ? $nested . '_where' : 'where');
 
         $this->query = $this->query->{$method}($field, $operator, $value);
@@ -200,12 +182,12 @@ class EloquentCriteria extends AbstractCiteria
     /**
      * Save an entry.
      *
-     * @param  Model $entry
+     * @param  EntryInterface $entry
      * @return bool
      */
     public function save($entry)
     {
-        return $entry->save();
+        return $this->query->save($entry);
     }
 
     /**
@@ -231,19 +213,6 @@ class EloquentCriteria extends AbstractCiteria
         $this->query->truncate();
     }
 
-    // /**
-    //  * Return an entry instance.
-    //  *
-    //  * @param array $attributes
-    //  * @return EntryInterface
-    //  */
-    // public function newInstance(array $attributes = [])
-    // {
-    //     $model = $this->stream->getPrototypeAttribute('source.model');
-
-    //     return new $model($attributes);
-    // }
-
     /**
      * Return an entry collection.
      *
@@ -265,10 +234,6 @@ class EloquentCriteria extends AbstractCiteria
      */
     protected function make($entry)
     {
-        if ($entry instanceof Model) {
-            return $entry;
-        }
-        
-        return $this->newInstance($entry);
+        return $this->newInstance((array) $entry);
     }
 }

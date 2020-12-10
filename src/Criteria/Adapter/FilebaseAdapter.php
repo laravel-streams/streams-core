@@ -1,44 +1,24 @@
 <?php
 
-namespace Streams\Core\Criteria;
+namespace Streams\Core\Criteria\Adapter;
 
+use Filebase\Database;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Streams\Core\Entry\Entry;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Traits\Macroable;
-use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Entry\Contract\EntryInterface;
 
-/**
- * Class DatabaseCriteria
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
-class DatabaseCriteria extends AbstractCiteria
+class FilebaseAdapter extends AbstractAdapter
 {
-
-    use Macroable;
-    use HasMemory;
 
     /**
      * The database query.
      *
-     * @var Builder
+     * @var Database
      */
     protected $query;
-
-    /**
-     * The entry stream.
-     *
-     * @var Stream
-     */
-    protected $stream;
 
     /**
      * Create a new class instance.
@@ -49,8 +29,18 @@ class DatabaseCriteria extends AbstractCiteria
     {
         $this->stream = $stream;
 
-        $this->query = DB::connection($stream->getPrototypeAttribute('source.connection') ?: Config::get('database.default'))
-            ->table($stream->getPrototypeAttribute('source.table'));
+        $source = $stream->expandPrototypeAttribute('source');
+
+        $this->query = new Database([
+            'dir' => base_path($source->get('path', 'streams/data/' . $stream->handle)),
+
+            //'backupLocation' => 'path/to/database/backup/dir',
+            'format'         => Config::get('streams.sources.types.filebase.formats.' . $source->get('format', 'md')),
+            'cache'          => $source->get('cache', false),
+            'cache_expires'  => $source->get('ttl', 1800),
+            'pretty'         => true,
+            'safe_filename'  => true,
+        ]);
     }
 
     /**
@@ -60,7 +50,7 @@ class DatabaseCriteria extends AbstractCiteria
      */
     public function all()
     {
-        return $this->collect($this->query->get());
+        return $this->collect($this->query->findAll());
     }
 
     /**
@@ -71,7 +61,11 @@ class DatabaseCriteria extends AbstractCiteria
      */
     public function find($id)
     {
-        return $this->make($this->query->find($id));
+        if (!$this->query->has($id)) {
+            return null;
+        }
+
+        return $this->make($this->query->get($id));
     }
 
     /**
@@ -81,7 +75,10 @@ class DatabaseCriteria extends AbstractCiteria
      */
     public function first()
     {
-        return $this->make($this->query->first());
+        return $this
+            ->limit(1, 0)
+            ->get()
+            ->first();
     }
 
     /**
@@ -106,7 +103,7 @@ class DatabaseCriteria extends AbstractCiteria
      */
     public function limit($limit, $offset = 0)
     {
-        $this->query = $this->query->take($limit)->skip($offset);
+        $this->query = $this->query->limit($limit, $offset);
 
         return $this;
     }
@@ -119,7 +116,6 @@ class DatabaseCriteria extends AbstractCiteria
      * @param string|null $operator
      * @param string|null $value
      * @param string|null $nested
-     * @return $this
      */
     public function where($field, $operator = null, $value = null, $nested = null)
     {
@@ -128,24 +124,25 @@ class DatabaseCriteria extends AbstractCiteria
             $operator = '=';
         }
 
-        $method = Str::studly($nested ? $nested . '_where' : 'where');
+        $operator = strtoupper($operator);
+
+        if ($field == 'handle') {
+            $field = $this->stream->getPrototypeAttribute('config.handle', 'id');
+        }
+
+        if ($field == 'id') {
+            $field = '__id';
+        }
+
+        $method = $nested ? Str::studly($nested . '_where') : 'where';
+
+        if (is_string($value) && $operator == 'LIKE') {
+            $value = str_replace('%', '', $value); // Filebase doesn't use "%"
+        }
 
         $this->query = $this->query->{$method}($field, $operator, $value);
 
         return $this;
-    }
-
-    /**
-     * Add a where constraint.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
-     * @return $this
-     */
-    public function andWhere($field, $operator = null, $value = null)
-    {
-        return $this->where($field, $operator, $value, 'and');
     }
 
     /**
@@ -168,7 +165,7 @@ class DatabaseCriteria extends AbstractCiteria
      */
     public function get()
     {
-        return $this->collect($this->query->get());
+        return $this->collect($this->query->resultDocuments());
     }
 
     /**
@@ -189,7 +186,19 @@ class DatabaseCriteria extends AbstractCiteria
      */
     public function create(array $attributes = [])
     {
-        return $this->query->create($attributes);
+        $id = Arr::pull($attributes, 'id');
+
+        if ($this->query->has($id)) {
+            throw new \Exception("Entry with ID [{$id}] already exists.");
+        }
+
+        $document = $this->query->get($id);
+
+        if (!$document->save($attributes)) {
+            return false;
+        }
+
+        return $this->make($document);
     }
 
     /**
@@ -200,19 +209,31 @@ class DatabaseCriteria extends AbstractCiteria
      */
     public function save($entry)
     {
-        return $this->query->save($entry);
+        $attributes = $entry->getAttributes();
+
+        /**
+         * Remove these protected
+         * and automated attributes.
+         */
+        Arr::pull($attributes, 'id');
+        Arr::pull($attributes, 'created_at');
+        Arr::pull($attributes, 'updated_at');
+
+        return (bool) $this->query
+            ->get($entry->id)
+            ->save($attributes);
     }
 
     /**
      * Delete an entry.
      *
-     * @param EntryInterface $entry
+     * @param $id
      * @return bool
      */
-    public function delete(EntryInterface $entry)
+    public function delete($id)
     {
         return $this->query
-            ->get($entry->id)
+            ->get($id)
             ->delete();
     }
 
@@ -229,14 +250,24 @@ class DatabaseCriteria extends AbstractCiteria
     /**
      * Return an entry collection.
      *
-     * @param $entries
+     * @param array $entries
      * @return Collection
      */
     protected function collect($entries)
     {
-        return $entries->map(function($entry) {
-            return $this->make($entry);
-        });
+        if (!$entries instanceof Collection) {
+            
+            $collection = $this->stream->getPrototypeAttribute('collection') ?: Collection::class;
+            
+            $collection = new $collection();
+        }
+
+        array_map(function ($entry) use ($collection) {
+            $entry = $this->make($entry);
+            $collection->put($entry->id, $entry);
+        }, $entries);
+
+        return $collection;
     }
 
     /**
@@ -247,6 +278,13 @@ class DatabaseCriteria extends AbstractCiteria
      */
     protected function make($entry)
     {
-        return $this->newInstance((array) $entry);
+        return $this->newInstance(array_merge(
+            [
+                'id' => $entry->getId(),
+                'created_at' => $entry->createdAt(),
+                'updated_at' => $entry->updatedAt(),
+            ],
+            $entry->toArray()
+        ));
     }
 }

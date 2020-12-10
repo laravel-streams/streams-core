@@ -3,26 +3,20 @@
 namespace Streams\Core\Repository;
 
 use Illuminate\Support\Str;
+use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
+use Streams\Core\Criteria\Criteria;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Traits\Macroable;
-use Streams\Core\Stream\Stream;
 use Streams\Core\Support\Traits\HasMemory;
-use Streams\Core\Criteria\DatabaseCriteria;
-use Streams\Core\Criteria\EloquentCriteria;
-use Streams\Core\Criteria\FilebaseCriteria;
 use Streams\Core\Entry\Contract\EntryInterface;
 use Streams\Core\Support\Traits\FiresCallbacks;
+use Streams\Core\Criteria\Adapter\DatabaseAdapter;
+use Streams\Core\Criteria\Adapter\EloquentAdapter;
+use Streams\Core\Criteria\Adapter\FilebaseAdapter;
 use Streams\Core\Criteria\Contract\CriteriaInterface;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 
-/**
- * Class Repository
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 class Repository implements RepositoryInterface
 {
 
@@ -204,38 +198,38 @@ class Repository implements RepositoryInterface
     {
         $default = Config::get('streams.sources.default', 'filebase');
 
-        $method = Str::camel("new_{$this->stream->expandPrototypeAttribute('source')->get('type', $default)}_criteria");
+        $adapter = Str::camel("new_{$this->stream->expandPrototypeAttribute('source')->get('type', $default)}_adapter");
         
-        return $this->$method();
+        return new Criteria($this->$adapter());
     }
 
     /**
      * Return a new filebase criteria.
      * 
-     * @return FilebaseCriteria
+     * @return FilebaseAdapter
      */
-    public function newFilebaseCriteria()
+    public function newFilebaseAdapter()
     {
-        return new FilebaseCriteria($this->stream);
+        return new FilebaseAdapter($this->stream);
     }
 
     /**
      * Return a new database criteria.
      * 
-     * @return DatabaseCriteria
+     * @return DatabaseAdapter
      */
-    public function newDatabaseCriteria()
+    public function newDatabaseAdapter()
     {
-        return new DatabaseCriteria($this->stream);
+        return new DatabaseAdapter($this->stream);
     }
 
     /**
      * Return a new filebase criteria.
      * 
-     * @return EloquentCriteria
+     * @return EloquentAdapter
      */
-    public function newEloquentCriteria()
+    public function newEloquentAdapter()
     {
-        return new EloquentCriteria($this->stream);
+        return new EloquentAdapter($this->stream);
     }
 }
