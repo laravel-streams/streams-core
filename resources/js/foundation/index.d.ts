@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import { Application } from './Application';
 
 export * from './Application';
 export * from './Dispatcher';

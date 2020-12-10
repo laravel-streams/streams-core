@@ -12,7 +12,7 @@ require('laravel-mix-purgecss');
  */
 mix.webpackConfig({
     externals: {
-        "@anomaly/streams-platform": "streams"
+        "@streams/core": "streams"
     },
     plugins: [
         require('@tailwindcss/ui'),
@@ -31,12 +31,12 @@ mix.webpackConfig({
  */
 
 mix
-    .js('./resources/js/index.js', './resources/dist/js')
+    .js('./resources/js/foundation/index.js', './resources/dist/js')
     .copyDirectory(
         './node_modules/@fortawesome/fontawesome-free/webfonts',
         './resources/dist/fonts/fontawesome'
     )
-    .copyDirectory('resources/dist', '../../../public/vendor/anomaly/streams/core')
+    .copyDirectory('resources/dist', '../../../public/vendor/streams/core')
     .options({
         processCssUrls: false,
         postCss: [

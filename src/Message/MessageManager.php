@@ -64,7 +64,7 @@ class MessageManager
 
         $messages = array_merge($messages, [$key => $message]);
 
-        $this->session->put('messages', $messages);
+        $this->session->flash('messages', $messages);
 
         return $this;
     }
