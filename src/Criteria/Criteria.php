@@ -12,9 +12,8 @@ use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Entry\Contract\EntryInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Streams\Core\Criteria\Contract\AdapterInterface;
-use Streams\Core\Criteria\Contract\CriteriaInterface;
 
-class Criteria implements CriteriaInterface
+class Criteria
 {
 
     use Macroable;
