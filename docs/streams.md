@@ -46,7 +46,7 @@ Let's create a little stream to hold information for a simple CRM.
 }
 ```
 
-### Field Types
+### Fields
 
 - [Fields](fields)
 - [Field Types](fields#field-types)
