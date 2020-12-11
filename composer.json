@@ -42,7 +42,7 @@
         }
     },
     "config": {
-        "bin-dir": "bin",
+        "bin-dir": "bin"
     },
     "extra": {
         "branch-alias": {
