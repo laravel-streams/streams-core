@@ -157,7 +157,9 @@ class Entry implements EntryInterface, Arrayable, Jsonable
      */
     public function toArray()
     {
-        return Hydrator::dehydrate($this);
+        return array_diff_key(Hydrator::dehydrate($this), array_flip([
+            'stream',
+        ]));
     }
 
     /**

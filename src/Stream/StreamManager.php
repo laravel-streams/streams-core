@@ -2,6 +2,8 @@
 
 namespace Streams\Core\Stream;
 
+use Exception;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Arr;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
@@ -44,7 +46,11 @@ class StreamManager
      */
     public function make($stream)
     {
-        return App::make('streams.instances.' . $stream);
+        try {
+            return App::make('streams.instances.' . $stream);
+        } catch (BindingResolutionException $e) {
+            throw new Exception("Stream [{$stream}] does not exist.");
+        }
     }
 
     /**

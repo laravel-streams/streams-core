@@ -125,6 +125,19 @@ class Stream implements Arrayable, Jsonable
         return $factory->make($data, $rules);
     }
 
+    public function isRequired($field)
+    {
+        if (!$rules = Arr::get($this->rules, $field)) {
+            return;
+        }
+
+        if (in_array('required', $rules)) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Get the instance as an array.
      *
