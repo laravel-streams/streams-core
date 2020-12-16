@@ -31,6 +31,26 @@ trait FiresCallbacks
     public static $listeners = [];
 
     /**
+     * The static observers.
+     *
+     * @var array
+     */
+    public static $observers = [];
+
+    /**
+     * Register observers with the instance.
+     *
+     * @param  object|array|string  $classes
+     */
+    public static function observeCallbacks($classes)
+    {
+        // @todo Alternatively we could push this into $listeners
+        foreach (Arr::wrap($classes) as $class) {
+            self::$observers[static::class][] = $class;
+        }
+    }
+
+    /**
      * Register a new callback.
      *
      * @param $trigger
@@ -76,24 +96,13 @@ trait FiresCallbacks
     public function fire($trigger, array $parameters = [])
     {
 
-        /**
-         * First, fire global listeners.
-         */
-        $classes = array_merge(
-            class_parents($this),
-            [static::class => static::class]
+        $listeners = (array) Arr::get(
+            self::$listeners,
+            static::class . '::' . $trigger
         );
 
-        foreach (array_keys($classes) as $caller) {
-
-            $listeners = (array) Arr::get(
-                self::$listeners,
-                $caller . '::' . $trigger
-            );
-
-            foreach ($listeners as $callback) {
-                App::call($callback, $parameters);
-            }
+        foreach ($listeners as $callback) {
+            App::call($callback, $parameters);
         }
 
         /*
@@ -107,7 +116,7 @@ trait FiresCallbacks
         }
 
         /*
-         * Finally, run through all of
+         * Next, run through all of
          * the registered callbacks.
          */
         $callbacks = (array) Arr::get(
@@ -117,6 +126,18 @@ trait FiresCallbacks
 
         foreach ($callbacks as $callback) {
             App::call($callback, $parameters);
+        }
+
+        /**
+         * Lastly, let any observers
+         * know about the callback.
+         */
+        if (isset(self::$observers[static::class])) {
+            foreach (self::$observers[static::class] as $observer) {
+                if (method_exists($observer, $method = Str::camel($trigger))) {
+                    App::call($observer . '@' . $method, $parameters);
+                }
+            }
         }
 
         return $this;

@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
+import { StreamsServiceProvider } from '../StreamsServiceProvider';
 import { Application } from './Application';
 import { Collection } from './Collection';
 import { Dispatcher } from './Dispatcher';
@@ -21,6 +22,7 @@ export interface StreamsGlobal {
     ServiceProvider: typeof ServiceProvider;
     Dispatcher: typeof Dispatcher;
     Collection: typeof Collection;
+    StreamsServiceProvider: typeof StreamsServiceProvider;
 }
 export interface Window {
     streams: StreamsGlobal;
