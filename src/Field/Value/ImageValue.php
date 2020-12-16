@@ -4,13 +4,6 @@ namespace Streams\Core\Field\Value;
 
 use Streams\Core\Support\Facades\Images;
 
-/**
- * Class ImageValue
- * 
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 class ImageValue extends Value
 {
 

@@ -31,12 +31,12 @@ mix.webpackConfig({
  */
 
 mix
-    .js('./resources/js/foundation/index.js', './resources/dist/js')
+    .js('./resources/js/foundation/index.js', './resources/public/js')
     .copyDirectory(
         './node_modules/@fortawesome/fontawesome-free/webfonts',
-        './resources/dist/fonts/fontawesome'
+        './resources/public/fonts/fontawesome'
     )
-    .copyDirectory('resources/dist', '../../../public/vendor/streams/core')
+    .copyDirectory('resources/public', '../../../public/vendor/streams/core')
     .options({
         processCssUrls: false,
         postCss: [

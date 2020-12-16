@@ -132,6 +132,11 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->publishes([
+            base_path('vendor/streams/core/resources/public')
+            => public_path('vendor/streams/core')
+        ], ['public']);
+
         $this->app->singleton('streams.application.origin', function () {
             return $this->app->make('streams.application');
         });
@@ -355,6 +360,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         // Assets
         //$this->app->bind('streams.field_types.asset', \Streams\Core\Field\Type\Asset::class);
+        $this->app->bind('streams.field_types.file', \Streams\Core\Field\Type\File::class);
         $this->app->bind('streams.field_types.image', \Streams\Core\Field\Type\Image::class);
 
         // Objects

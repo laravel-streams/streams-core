@@ -5,13 +5,6 @@ namespace Streams\Core\Field\Type;
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\ImageValue;
 
-/**
- * Class Image
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 class Image extends FieldType
 {
     /**
@@ -25,7 +18,7 @@ class Image extends FieldType
      * Expand the value.
      *
      * @param $value
-     * @return Collection
+     * @return \Streams\Core\Image\Image
      */
     public function expand($value)
     {
