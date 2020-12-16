@@ -1,7 +1,8 @@
 import { Container, decorate, injectable, named, optional, postConstruct, tagged, unmanaged } from 'inversify';
-import { Dispatcher }                                                                         from './Dispatcher';
-import { autoProvide, buildProviderModule, fluentProvide, provide }                           from 'inversify-binding-decorators';
-
+import { Dispatcher } from './Dispatcher';
+import { autoProvide, buildProviderModule, fluentProvide, provide } from 'inversify-binding-decorators';
+import { IConfig } from './types';
+import { Collection } from 'collect.js';
 /**
  * The main application has some similarity to laravel.
  *
@@ -31,13 +32,14 @@ import { autoProvide, buildProviderModule, fluentProvide, provide }             
  * @class
  */
 export declare class Application extends Container {
+    protected static _instance: Application;
+    static get instance(): Application;
+    static set instance(instance: Application);
     /**
      * Returns the singleton instance of Application
      * @return {Application}
      */
     static getInstance(): Application;
-
-    static _instance: Application;
     loadedProviders: any;
     providers: any[];
     booted: boolean;
@@ -45,12 +47,11 @@ export declare class Application extends Container {
     shuttingDown: boolean;
     startEnabled: boolean;
     events: Dispatcher;
-
+    config: Collection<IConfig>;
     /**
      * @private
      */
     private constructor();
-
     /**
      * Starts bootstrapping the application with the given options.
      * - This would be the place to add all your ServiceProviders
@@ -61,47 +62,27 @@ export declare class Application extends Container {
      * @return {Promise<Application>}
      */
     bootstrap(_options: any, ...mergeOptions: any[]): Promise<this>;
-
     private loadProviders;
     private loadProvider;
-
-    getConfigDefaults(): {
-        prefix: string;
-        debug: boolean;
-        csrf: any;
-        delimiters: string[];
-    };
-
-    configure(config: any): this;
-
+    getConfigDefaults(): IConfig;
+    configure(config: IConfig): this;
     private registerProviders;
     register: (Provider: any) => Promise<this>;
     boot: () => Promise<this>;
     start: (elementOrSelector?: string) => Promise<void>;
     error: (error: any) => Promise<never>;
-
     addBindingGetter(id: any, key?: any): void;
-
     alias(abstract: any, alias: any, singleton?: boolean): this;
-
     bindIf(id: any, override: any, cb: any): this;
-
-    dynamic(id: any, cb: any): import('inversify/dts/interfaces/interfaces').interfaces.BindingInWhenOnSyntax<unknown>;
-
+    dynamic(id: any, cb: any): import("inversify/dts/interfaces/interfaces").interfaces.BindingInWhenOnSyntax<unknown>;
     singleton(id: any, value: any, override?: boolean): this;
-
     binding(id: any, value: any): this;
-
     instance(id: any, value: any, override?: boolean): this;
-
     ctxfactory(id: any, factory: any): this;
-
     factory(id: any, factory: any): this;
 }
-
 declare const app: Application;
-declare const inject: (serviceIdentifier: import('inversify/dts/interfaces/interfaces').interfaces.ServiceIdentifier<any>) => (proto: any, key: string) => void;
+declare const inject: (serviceIdentifier: import("inversify/dts/interfaces/interfaces").interfaces.ServiceIdentifier<any>) => (proto: any, key: string) => void;
 export { app, inject };
 export { provide, buildProviderModule, fluentProvide, autoProvide };
 export { injectable, unmanaged, optional, decorate, named, tagged, postConstruct };
-//# sourceMappingURL=Application.d.ts.map

@@ -1,8 +1,0 @@
-{
-    "version": 3,
-    "file": "Dispatcher.d.ts",
-    "sourceRoot": "",
-    "sources": ["../../ts/foundation/Dispatcher.ts"],
-    "names": [],
-    "mappings": "AAAA,OAAO,YAAY,MAAM,eAAe,CAAC;AAGzC,oBAAY,UAAU,GAAG,UAAU,GAAG,YAAY,GAAG,MAAM,GAAG,QAAQ,GAAG,MAAM,CAAC;AAIhF,qBACa,UAAU,CAAC,CAAC,SAAS,MAAM,GAAC,UAAU,CAAE,SAAQ,YAAY,CAAC,CAAC,CAAC;CAC3E"
-}

@@ -10,13 +10,19 @@ require('laravel-mix-purgecss');
  | Configure webpack...
  |
  */
-mix.webpackConfig({
-    externals: {
-        "@streams/core": "streams"
-    },
-    plugins: [
-        require('@tailwindcss/ui'),
-    ],
+mix.webpackConfig(webpack => {
+    return {
+        externals: {
+            "@streams/core": "streams"
+        },
+        plugins: [
+            require('@tailwindcss/ui'),
+        ],
+        output: {
+            library: 'streams',
+            libraryTarget: 'window'
+        }
+    };
 });
 
 /*
@@ -31,7 +37,8 @@ mix.webpackConfig({
  */
 
 mix
-    .js('./resources/js/foundation/index.js', './resources/public/js')
+    .ts('./resources/ts/index.ts', './resources/public/js')
+    //.js('./resources/js/foundation/index.js', './resources/public/js')
     .copyDirectory(
         './node_modules/@fortawesome/fontawesome-free/webfonts',
         './resources/public/fonts/fontawesome'

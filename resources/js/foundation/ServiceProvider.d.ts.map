@@ -1,8 +1,0 @@
-{
-    "version": 3,
-    "file": "ServiceProvider.d.ts",
-    "sourceRoot": "",
-    "sources": ["../../ts/foundation/ServiceProvider.ts"],
-    "names": [],
-    "mappings": "AAAA,OAAO,EAAE,gBAAgB,EAAE,MAAM,SAAS,CAAC;AAC3C,OAAO,EAAE,WAAW,EAAE,MAAW,eAAe,CAAC;AAEjD,8BAAsB,eAAgB,YAAW,gBAAgB;aACjC,GAAG,EAAE,WAAW;gBAAhB,GAAG,EAAE,WAAW;CAE/C"
-}

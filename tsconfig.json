@@ -30,10 +30,11 @@
         "noImplicitUseStrict": true,
         "jsx": "preserve",
         "declaration": true,
-        "declarationMap": true,
-        "declarationDir": "resources/js",
+        "declarationMap": false,
+        "declarationDir": "resources/public/js",
         "typeRoots": [
-            "node_modules/@types"
+            "node_modules/@types",
+            "../../node_modules/@types",
         ],
         "outDir": "resources/js"
     },

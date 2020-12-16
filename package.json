@@ -1,6 +1,8 @@
 {
-    "name": "streams-core",
-    "version": "1.1.0",
+    "name": "@streams/core",
+    "version": "1.0.0",
+    "types": "resources/public/js/index.d.ts",
+    "typings": "resources/public/js/index.d.ts",
     "scripts": {
         "dev": "npm run development",
         "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
@@ -10,21 +12,21 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "dependencies": {
-        "@babel/plugin-proposal-decorators": "^7.10.5",
         "@fortawesome/fontawesome-free": "^5.11.2",
-        "@tailwindcss/ui": "^0.3.0",
         "default": "^0.1.1",
         "inversify": "^5.0.1",
         "inversify-binding-decorators": "^4.0.0",
         "inversify-inject-decorators": "^3.1.0",
         "mousetrap": "^1.6",
-        "reflect-metadata": "^0.1.13",
-        "tailwind-css-variables": "^2.0.3",
-        "tailwindcss": "^1.5.1",
-        "tailwindcss-transitions": "^2.1.0"
+        "collect.js": "^4.28.6",
+        "deepmerge": "^4.2.2",
+        "reflect-metadata": "^0.1.13"
     },
     "devDependencies": {
+        "@babel/plugin-proposal-decorators": "^7.10.5",
+        "@tailwindcss/ui": "^0.3.0",
         "@types/debug": "^4.1.5",
+        "@types/lodash": "^4.14.165",
         "@types/node": "^14.14.9",
         "@types/reflect-metadata": "^0.1.0",
         "axios": "^0.21.0",
@@ -37,6 +39,10 @@
         "resolve-url-loader": "^3.1.2",
         "sass": "^1.29.0",
         "sass-loader": "^10.1.0",
+        "tailwind-css-variables": "^2.0.3",
+        "tailwindcss": "^1.5.1",
+        "tailwindcss-transitions": "^2.1.0",
+        "ts-loader": "^8.0.12",
         "ts-node": "^9.0.0",
         "typescript": "^4.1.2"
     }

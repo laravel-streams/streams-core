@@ -1,8 +1,0 @@
-{
-    "version": 3,
-    "file": "index.d.ts",
-    "sourceRoot": "",
-    "sources": ["../../ts/foundation/index.ts"],
-    "names": [],
-    "mappings": "AAAA,OAAO,kBAAkB,CAAA;AAEzB,cAAc,eAAe,CAAC;AAC9B,cAAc,cAAc,CAAC;AAC7B,cAAc,UAAU,CAAC;AACzB,cAAc,SAAS,CAAC"
-}
