@@ -1,5 +1,5 @@
 let mix = require('laravel-mix');
-const tailwindcss = require('tailwindcss');
+
 require('laravel-mix-purgecss');
 
 mix
@@ -9,12 +9,6 @@ mix
         './resources/public/fonts/fontawesome'
     )
     .copyDirectory('resources/public', '../../../public/vendor/streams/core')
-    .options({
-        processCssUrls: false,
-        postCss: [
-            tailwindcss('./tailwind.config.js'),
-        ],
-    })
     .webpackConfig(
 
         /**
