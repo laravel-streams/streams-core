@@ -36,7 +36,7 @@
             "node_modules/@types",
             "../../node_modules/@types",
         ],
-        "outDir": "resources/js"
+        "outDir": "resources/public/js"
     },
     "exclude": [
         "node_modules"

@@ -13,13 +13,13 @@ require('laravel-mix-purgecss');
 mix.webpackConfig(webpack => {
     return {
         externals: {
-            "@streams/core": "streams"
+            "@streams/core": "streams.core"
         },
         plugins: [
             require('@tailwindcss/ui'),
         ],
         output: {
-            library: 'streams',
+            library: ['streams', 'core'],
             libraryTarget: 'window'
         }
     };

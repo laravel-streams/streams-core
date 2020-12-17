@@ -16,14 +16,19 @@ export interface IConfig {
     delimiters?: [string, string];
     http?: AxiosRequestConfig;
 }
-export interface StreamsGlobal {
-    app: Application;
-    Application: typeof Application;
-    ServiceProvider: typeof ServiceProvider;
-    Dispatcher: typeof Dispatcher;
-    Collection: typeof Collection;
-    StreamsServiceProvider: typeof StreamsServiceProvider;
-}
-export interface Window {
-    streams: StreamsGlobal;
+declare global {
+    export interface StreamsGlobalCore {
+        app: Application;
+        Application: typeof Application;
+        ServiceProvider: typeof ServiceProvider;
+        Dispatcher: typeof Dispatcher;
+        Collection: typeof Collection;
+        StreamsServiceProvider: typeof StreamsServiceProvider;
+    }
+    export interface StreamsGlobal {
+        core: StreamsGlobalCore;
+    }
+    export interface Window {
+        streams: StreamsGlobal;
+    }
 }
