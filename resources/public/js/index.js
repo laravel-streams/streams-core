@@ -2438,7 +2438,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var refl
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/radic/projects/streams/packages/core/resources/ts/index.ts */"./resources/ts/index.ts");
+module.exports = __webpack_require__(/*! /Users/ryanthompson/Sites/streams.dev/vendor/streams/core/resources/ts/index.ts */"./resources/ts/index.ts");
 
 
 /***/ })
