@@ -51,7 +51,7 @@ export declare class Application extends Container {
     /**
      * @private
      */
-    private constructor();
+    constructor();
     /**
      * Starts bootstrapping the application with the given options.
      * - This would be the place to add all your ServiceProviders

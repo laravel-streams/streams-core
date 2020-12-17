@@ -66,7 +66,7 @@ export class Application extends Container {
     /**
      * @private
      */
-    private constructor() {
+    public constructor() {
         super({
             autoBindInjectable: false,
             defaultScope: 'Transient',
@@ -278,7 +278,7 @@ export class Application extends Container {
     //endregion
 }
 
-const app = Application.instance;
+const app = new Application;
 const { lazyInject: inject } = createDecorators(app);
 export { app, inject };
 export { provide, buildProviderModule, fluentProvide, autoProvide };
