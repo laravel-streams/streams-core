@@ -44,15 +44,24 @@ export class Application extends Container {
 
     protected static _instance: Application;
 
-    static get instance() {return this._instance;}
+    static get instance() {
+        if ( !this._instance ) {
+            this._instance = new this();
+        }
+        return this._instance;
+    }
 
-    static set instance(instance) {this._instance = instance;}
+    static set instance(instance) {
+        this._instance = instance;
+    }
 
     /**
      * Returns the singleton instance of Application
      * @return {Application}
      */
-    static getInstance() {return this.instance; }
+    static getInstance() {
+        return this.instance;
+    }
 
     loadedProviders: any  = {};
     providers: any[]      = [];
@@ -61,7 +70,7 @@ export class Application extends Container {
     shuttingDown: boolean = false;
     startEnabled: boolean = true;
     events: Dispatcher;
-    config:Collection<IConfig>
+    config: Collection<IConfig>;
 
     /**
      * @private
@@ -76,10 +85,8 @@ export class Application extends Container {
         this.instance('app', this);
         this.singleton('events', Dispatcher);
         this.addBindingGetter('events');
-        this.instance('config', collect<IConfig>({
-
-        } as IConfig));
-        this.addBindingGetter('config')
+        this.instance('config', collect<IConfig>({} as IConfig));
+        this.addBindingGetter('config');
     }
 
     /**
@@ -142,7 +149,7 @@ export class Application extends Container {
         return provider;
     }
 
-    getConfigDefaults():IConfig {
+    getConfigDefaults(): IConfig {
         return {
             prefix    : 'streams',
             debug     : false,
@@ -151,8 +158,8 @@ export class Application extends Container {
         };
     }
 
-    configure(config:IConfig) {
-        this.config.merge(config)
+    configure(config: IConfig) {
+        this.config.merge(config);
         config = merge({}, this.getConfigDefaults, config);
         this.events.emit('app:configure', config);
         let instance = Config.proxied(config);
