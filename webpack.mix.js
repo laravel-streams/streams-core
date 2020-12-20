@@ -1,11 +1,11 @@
 let mix = require('laravel-mix');
-
+const path = require('path');
 require('laravel-mix-purgecss');
 
 const isDev = process.env.NODE_ENV === 'development';
 
 mix
-    .ts('./resources/ts/index.ts', './resources/public/js')
+    .ts('resources/ts/index.ts', '')
     .copyDirectory(
         './node_modules/@fortawesome/fontawesome-free/webfonts',
         './resources/public/fonts/fontawesome'
@@ -19,11 +19,12 @@ mix
         function (webpack) {
 
             return {
-                devtool  : isDev ? '#source-map' : null,
+                devtool  : isDev ? 'hidden-source-map' : null,
                 plugins: [
                     require('@tailwindcss/ui'),
                 ],
                 output: {
+                    path: path.resolve('./resources/public/js'),
                     library: ['streams', 'core'],
                     libraryTarget: 'window',
                     devtoolFallbackModuleFilenameTemplate: 'webpack:///[resource-path]?[hash]',
