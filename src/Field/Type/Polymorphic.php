@@ -16,11 +16,17 @@ use Streams\Core\Support\Facades\Streams;
 class Polymorphic extends FieldType
 {
     /**
-     * The class attributes.
+     * Initialize the prototype.
      *
-     * @var array
+     * @param array $attributes
+     * @return $this
      */
-    protected $attributes = [];
+    protected function initializePrototype(array $attributes)
+    {
+        return parent::initializePrototype(array_merge([
+            'rules' => [],
+        ], $attributes));
+    }
 
     /**
      * Modify the value for storage.

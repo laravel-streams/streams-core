@@ -15,11 +15,19 @@ use Streams\Core\Field\Value\ArrValue;
 class Arr extends FieldType
 {
     /**
-     * The class attributes.
+     * Initialize the prototype.
      *
-     * @var array
+     * @param array $attributes
+     * @return $this
      */
-    protected $attributes = [];
+    protected function initializePrototype(array $attributes)
+    {
+        return parent::initializePrototype(array_merge([
+            'rules' => [
+                'array',
+            ],
+        ], $attributes));
+    }
 
     /**
      * Modify the value for storage.
