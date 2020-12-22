@@ -30,11 +30,10 @@ class AssetCollection extends Collection
      * this kind of addition to assets.
      *
      * @param  $asset
-     * @return $this
      */
     public function add($asset)
     {
-        return $this->put($asset, $asset);
+        $this->put($asset, $asset);
     }
 
     /**
@@ -44,13 +43,13 @@ class AssetCollection extends Collection
      * @param array $default
      * @return $this
      */
-    public function load($name, array $default = [])
+    public function load($name)
     {
         if (isset($this->loaded[$name])) {
             return $this;
         }
 
-        $resolved = (array) Assets::resolve($name, $default);
+        $resolved = (array) Assets::resolve($name);
 
         foreach ($resolved as $asset) {
 

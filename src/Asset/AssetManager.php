@@ -96,6 +96,16 @@ class AssetManager
         return $collection;
     }
 
+    public function add($collection, $asset)
+    {
+        $this->collection($collection)->add($asset);
+    }
+    
+    public function load($collection, $asset)
+    {
+        $this->collection($collection)->load($asset);
+    }
+
     /**
      * Register assets by name.
      *
