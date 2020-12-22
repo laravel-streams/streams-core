@@ -121,7 +121,7 @@ class StreamBuilder extends Workflow
 
             return $rules;
         }, Arr::get($stream, 'rules', []));
-        
+
 
         $workflow->stream = $stream;
     }
@@ -133,13 +133,30 @@ class StreamBuilder extends Workflow
 
     public function fields($workflow)
     {
-        $fields = Arr::undot($workflow->fields);
+        $fields = $workflow->fields;
+
+        $rules = $workflow->stream->rules;
+        $validators = $workflow->stream->validators;
+
+        array_walk($fields, function ($field, $handle) use (&$rules, &$validators) {
+
+            if (isset($field['rules']) && $field['rules']) {
+                $rules[$handle] = array_merge(Arr::pull($rules, $handle, []), $field['rules']);
+            }
+
+            if (isset($field['validators']) && $field['validators']) {
+                $validators[$handle] = array_merge(Arr::pull($validators, $handle, []), $field['validators']);
+            }
+        });
+
+        $workflow->stream->rules = $rules;
+        $workflow->stream->validators = $validators;
 
         $fieldsWorkflow = new BuildFields();
 
         $fieldsWorkflow->fields = $fields;
         $fieldsWorkflow->stream = $workflow->stream;
-        
+
         $fieldsWorkflow
             ->passThrough($workflow->object)
             ->setPrototypeAttribute('name', 'fields')
@@ -150,6 +167,20 @@ class StreamBuilder extends Workflow
         $stream = $workflow->stream;
 
         $stream->fields = $workflow->fields = $fieldsWorkflow->fields;
+
+        $stream->fields->each(function ($field, $handle) use (&$rules, &$validators) {
+
+            if ($field->type()->rules) {
+                $rules[$handle] = array_merge(Arr::pull($rules, $handle, []), $field->type()->rules);
+            }
+
+            if ($field->type()->validators) {
+                $validators[$handle] = array_merge(Arr::pull($validators, $handle, []), $field->type()->validators);
+            }
+        });
+
+        $stream->rules = $rules;
+        $stream->validators = $validators;
 
         $workflow->stream = $stream;
     }

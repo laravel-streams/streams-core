@@ -1,10 +1,13 @@
 ---
+__created_at: 1608608552
+__updated_at: 1608608552
 test: Foo
 title: 'Change Log'
 intro: 'All notable changes to this project will be documented in this file.'
-sort: '10'
-category: null
-stage: null
+sort: 1
+category: introduction
+stage: outlining
+enabled: false
 ---
 - `Added` for new features.
 - `Changed` for changes in existing functionality.
