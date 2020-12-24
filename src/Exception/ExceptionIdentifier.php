@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Exception;
 
-use Exception;
+use Throwable;
 
 /**
  * Class ExceptionIdentifier
@@ -26,11 +26,11 @@ class ExceptionIdentifier
     /**
      * Identify the given exception.
      *
-     * @param \Exception $exception
+     * @param Throwable $exception
      *
      * @return string
      */
-    public function identify(Exception $exception)
+    public function identify(Throwable $exception)
     {
         $hash = spl_object_hash($exception);
 
