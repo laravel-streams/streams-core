@@ -53,8 +53,18 @@ class HrefGuesser
 
             // Only automate it if not set.
             if (!isset($view['attributes']['href'])) {
+
+                $prefix = array_get($view, 'prefix');
+                $query = $this->request->all();
+
+                $filters = array_filter(array_keys($query), function($key) use ($prefix) {
+                    return strpos($key, $prefix . 'filter_') !== false;
+                });
+
+                $filters = array_intersect_key($query, array_flip($filters));
+
                 $view['attributes']['href'] = $this->url->to(
-                    $this->request->path() . '?' . array_get($view, 'prefix') . 'view=' . $view['slug']
+                    $this->request->path() . '?' . $prefix . 'view=' . $view['slug'] . '&' . http_build_query($filters)
                 );
             }
         }
