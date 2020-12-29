@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\Facade;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  *
- * @method static \Streams\Core\Stream\StreamManager make(string $stream)
- * @method static \Streams\Core\Stream\StreamManager has(string $handle)
- * @method static \Streams\Core\Stream\StreamManager build($stream)
- * @method static \Streams\Core\Stream\StreamManager load(string $file)
- * @method static \Streams\Core\Stream\StreamManager register(array $stream)
- * @method static \Streams\Core\Stream\StreamManager entries(string $stream)
- * @method static \Streams\Core\Stream\StreamManager repository(string $stream)
- * @method static \Streams\Core\Stream\StreamManager collection()
+ * @method static bool has(string $handle)
+ * @method static \Streams\Core\Stream\Stream build($stream)
+ * @method static \Streams\Core\Stream\Stream load(string $file)
+ * @method static \Streams\Core\Stream\Stream make(string $stream)
+ * @method static \Streams\Core\Stream\Stream register(array $stream)
+ * @method static \Streams\Core\Entry\Contract\EntryInterface entries(string $stream)
+ * @method static \Streams\Core\Repository\Contract\RepositoryInterface repository(string $stream)
+ * @method static \Streams\Core\Stream\StreamCollection collection()
  */
 class Streams extends Facade
 {
