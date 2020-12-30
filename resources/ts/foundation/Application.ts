@@ -1,14 +1,14 @@
 import { AsyncContainerModule, Container, decorate, injectable, named, optional, postConstruct, tagged, unmanaged } from 'inversify';
-import { merge }                                                                                                    from 'lodash';
-import { Dispatcher }                                                                                               from './Dispatcher';
-import { ServiceProvider }                                                                                          from './ServiceProvider';
-import { Config }                                                                                                   from './Config';
-import debug                                                                                                        from 'debug';
-import { autoProvide, buildProviderModule, fluentProvide, provide }                                                 from 'inversify-binding-decorators';
-import createDecorators                                                                                             from 'inversify-inject-decorators';
-import { collect }                                                                                                  from './Collection';
-import { IConfig }                                                                                                  from './types';
-import { Collection }                                                                                               from 'collect.js';
+import { merge } from 'lodash';
+import { Dispatcher } from './Dispatcher';
+import { ServiceProvider } from './ServiceProvider';
+import { Config } from './Config';
+import debug from 'debug';
+import { autoProvide, buildProviderModule, fluentProvide, provide } from 'inversify-binding-decorators';
+import createDecorators from 'inversify-inject-decorators';
+import { collect } from './Collection';
+import { IConfig } from './types';
+import { Collection } from 'collect.js';
 
 const log = debug('Application');
 
@@ -45,7 +45,7 @@ export class Application extends Container {
     protected static _instance: Application;
 
     static get instance() {
-        if ( !this._instance ) {
+        if (!this._instance) {
             this._instance = new this();
         }
         return this._instance;
@@ -63,10 +63,10 @@ export class Application extends Container {
         return this.instance;
     }
 
-    loadedProviders: any  = {};
-    providers: any[]      = [];
-    booted: boolean       = false;
-    started: boolean      = false;
+    loadedProviders: any = {};
+    providers: any[] = [];
+    booted: boolean = false;
+    started: boolean = false;
     shuttingDown: boolean = false;
     startEnabled: boolean = true;
     events: Dispatcher;
@@ -77,8 +77,8 @@ export class Application extends Container {
      */
     private constructor() {
         super({
-            autoBindInjectable : false,
-            defaultScope       : 'Transient',
+            autoBindInjectable: false,
+            defaultScope: 'Transient',
             skipBaseClassChecks: false,
         });
         Application._instance = this;
@@ -101,8 +101,8 @@ export class Application extends Container {
     async bootstrap(_options, ...mergeOptions) {
         let options = merge({
             providers: [],
-            config   : {},
-            data     : {},
+            config: {},
+            data: {},
         }, _options, ...mergeOptions);
         log('bootstrap', { options });
         this.events.emit('bootstrap', options); //this.hooks.bootstrap.call(options);
@@ -127,22 +127,22 @@ export class Application extends Container {
     }
 
     private async loadProvider(Provider) {
-        if ( Provider.name in this.loadedProviders ) {
-            return this.loadedProviders[ Provider.name ];
+        if (Provider.name in this.loadedProviders) {
+            return this.loadedProviders[Provider.name];
         }
         log('loadProvider', { Provider });
         this.events.emit('loadProvider', Provider);
         let provider = new Provider(this);
-        if ( 'configure' in provider && Reflect.getMetadata('configure', provider) !== true ) {
+        if ('configure' in provider && Reflect.getMetadata('configure', provider) !== true) {
             const defaults = this.getConfigDefaults();
             Reflect.defineMetadata('configure', true, provider);
             await provider.configure(defaults);
         }
-        if ( 'providers' in provider && Reflect.getMetadata('providers', provider) !== true ) {
+        if ('providers' in provider && Reflect.getMetadata('providers', provider) !== true) {
             Reflect.defineMetadata('providers', true, provider);
             await this.loadProviders(provider.providers);
         }
-        this.loadedProviders[ Provider.name ] = provider;
+        this.loadedProviders[Provider.name] = provider;
         this.providers.push(provider);
         this.events.emit('loadedProvider', provider);
         log('loadedProvider', { Provider });
@@ -151,10 +151,10 @@ export class Application extends Container {
 
     getConfigDefaults(): IConfig {
         return {
-            prefix    : 'streams',
-            debug     : false,
-            csrf      : null,
-            delimiters: [ '\{\{', '}}' ],
+            prefix: 'streams',
+            debug: false,
+            csrf: null,
+            delimiters: ['\{\{', '}}'],
         };
     }
 
@@ -179,10 +179,10 @@ export class Application extends Container {
         log('register', { Provider });
         this.events.emit('registerProvider', Provider);
         let provider = Provider;
-        if ( Provider instanceof ServiceProvider === false ) {
+        if (Provider instanceof ServiceProvider === false) {
             provider = await this.loadProvider(Provider);
         }
-        if ( 'register' in provider && Reflect.getMetadata('register', provider) !== true ) {
+        if ('register' in provider && Reflect.getMetadata('register', provider) !== true) {
             Reflect.defineMetadata('register', true, provider);
             await this.loadAsync(new AsyncContainerModule(() => provider.register()));
         }
@@ -192,13 +192,13 @@ export class Application extends Container {
     };
 
     boot = async () => {
-        if ( this.booted ) {
+        if (this.booted) {
             return this;
         }
         log('boot');
         this.events.emit('boot');
-        for ( const provider of this.providers ) {
-            if ( 'boot' in provider && Reflect.getMetadata('boot', provider) !== true ) {
+        for (const provider of this.providers) {
+            if ('boot' in provider && Reflect.getMetadata('boot', provider) !== true) {
                 this.events.emit('bootProvider', provider);
                 Reflect.defineMetadata('boot', true, provider);
                 await provider.boot();
@@ -228,7 +228,7 @@ export class Application extends Container {
     };
 
     addBindingGetter(id, key = null) {
-        key        = key || id;
+        key = key || id;
         const self = this;
         Object.defineProperty(this, key, {
             get() {
@@ -240,14 +240,14 @@ export class Application extends Container {
     //region: ioc helpers
     alias(abstract, alias, singleton = false) {
         let binding = this.bind(alias).toDynamicValue(ctx => ctx.container.get(abstract));
-        if ( singleton ) {
+        if (singleton) {
             binding.inSingletonScope();
         }
         return this;
     }
 
     bindIf(id, override, cb) {
-        if ( this.isBound(id) && !override ) return this;
+        if (this.isBound(id) && !override) return this;
         cb(this.isBound(id) ? this.rebind(id) : this.bind(id));
         return this;
     }
@@ -285,7 +285,8 @@ export class Application extends Container {
     //endregion
 }
 
-const app                    = Application.instance;
+const app = Application.instance;
+
 const { lazyInject: inject } = createDecorators(app);
 export { app, inject };
 export { provide, buildProviderModule, fluentProvide, autoProvide };
