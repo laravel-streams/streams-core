@@ -34,6 +34,7 @@ declare global {
     }
 
     export interface StreamsGlobal {
+        http: any;
         core: StreamsGlobalCore
     }
 
