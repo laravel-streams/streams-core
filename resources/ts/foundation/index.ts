@@ -1,4 +1,7 @@
 import 'reflect-metadata';
+import axios from 'axios';
+
+export { axios }
 
 export * from './Application';
 export * from './Collection';

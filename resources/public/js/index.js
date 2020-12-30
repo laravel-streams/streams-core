@@ -28856,12 +28856,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StreamsServiceProvider", function() { return StreamsServiceProvider; });
 /* harmony import */ var _foundation_ServiceProvider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./foundation/ServiceProvider */ "./resources/ts/foundation/ServiceProvider.ts");
 
-const axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 class StreamsServiceProvider extends _foundation_ServiceProvider__WEBPACK_IMPORTED_MODULE_0__["ServiceProvider"] {
     register() {
-        this.app.factory('http', () => {
-            return axios;
-        });
+        // Go >>
     }
 }
 
@@ -29387,64 +29384,69 @@ class ServiceProvider {
 /*!******************************************!*\
   !*** ./resources/ts/foundation/index.ts ***!
   \******************************************/
-/*! exports provided: Application, app, inject, provide, buildProviderModule, fluentProvide, autoProvide, injectable, unmanaged, optional, decorate, named, tagged, postConstruct, Collection, collect, toJS, Config, configProxy, configValue, Dispatcher, ServiceProvider */
+/*! exports provided: axios, Application, app, inject, provide, buildProviderModule, fluentProvide, autoProvide, injectable, unmanaged, optional, decorate, named, tagged, postConstruct, Collection, collect, toJS, Config, configProxy, configValue, Dispatcher, ServiceProvider */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var reflect_metadata__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! reflect-metadata */ "./node_modules/reflect-metadata/Reflect.js");
 /* harmony import */ var reflect_metadata__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(reflect_metadata__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Application__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Application */ "./resources/ts/foundation/Application.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Application", function() { return _Application__WEBPACK_IMPORTED_MODULE_1__["Application"]; });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony reexport (default from non-harmony) */ __webpack_require__.d(__webpack_exports__, "axios", function() { return axios__WEBPACK_IMPORTED_MODULE_1___default.a; });
+/* harmony import */ var _Application__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Application */ "./resources/ts/foundation/Application.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Application", function() { return _Application__WEBPACK_IMPORTED_MODULE_2__["Application"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "app", function() { return _Application__WEBPACK_IMPORTED_MODULE_1__["app"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "app", function() { return _Application__WEBPACK_IMPORTED_MODULE_2__["app"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "inject", function() { return _Application__WEBPACK_IMPORTED_MODULE_1__["inject"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "inject", function() { return _Application__WEBPACK_IMPORTED_MODULE_2__["inject"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "provide", function() { return _Application__WEBPACK_IMPORTED_MODULE_1__["provide"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "provide", function() { return _Application__WEBPACK_IMPORTED_MODULE_2__["provide"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "buildProviderModule", function() { return _Application__WEBPACK_IMPORTED_MODULE_1__["buildProviderModule"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "buildProviderModule", function() { return _Application__WEBPACK_IMPORTED_MODULE_2__["buildProviderModule"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "fluentProvide", function() { return _Application__WEBPACK_IMPORTED_MODULE_1__["fluentProvide"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "fluentProvide", function() { return _Application__WEBPACK_IMPORTED_MODULE_2__["fluentProvide"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoProvide", function() { return _Application__WEBPACK_IMPORTED_MODULE_1__["autoProvide"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "autoProvide", function() { return _Application__WEBPACK_IMPORTED_MODULE_2__["autoProvide"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "injectable", function() { return _Application__WEBPACK_IMPORTED_MODULE_1__["injectable"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "injectable", function() { return _Application__WEBPACK_IMPORTED_MODULE_2__["injectable"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unmanaged", function() { return _Application__WEBPACK_IMPORTED_MODULE_1__["unmanaged"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unmanaged", function() { return _Application__WEBPACK_IMPORTED_MODULE_2__["unmanaged"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "optional", function() { return _Application__WEBPACK_IMPORTED_MODULE_1__["optional"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "optional", function() { return _Application__WEBPACK_IMPORTED_MODULE_2__["optional"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "decorate", function() { return _Application__WEBPACK_IMPORTED_MODULE_1__["decorate"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "decorate", function() { return _Application__WEBPACK_IMPORTED_MODULE_2__["decorate"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "named", function() { return _Application__WEBPACK_IMPORTED_MODULE_1__["named"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "named", function() { return _Application__WEBPACK_IMPORTED_MODULE_2__["named"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "tagged", function() { return _Application__WEBPACK_IMPORTED_MODULE_1__["tagged"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "tagged", function() { return _Application__WEBPACK_IMPORTED_MODULE_2__["tagged"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "postConstruct", function() { return _Application__WEBPACK_IMPORTED_MODULE_1__["postConstruct"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "postConstruct", function() { return _Application__WEBPACK_IMPORTED_MODULE_2__["postConstruct"]; });
 
-/* harmony import */ var _Collection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Collection */ "./resources/ts/foundation/Collection.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Collection", function() { return _Collection__WEBPACK_IMPORTED_MODULE_2__["Collection"]; });
+/* harmony import */ var _Collection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Collection */ "./resources/ts/foundation/Collection.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Collection", function() { return _Collection__WEBPACK_IMPORTED_MODULE_3__["Collection"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "collect", function() { return _Collection__WEBPACK_IMPORTED_MODULE_2__["collect"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "collect", function() { return _Collection__WEBPACK_IMPORTED_MODULE_3__["collect"]; });
 
-/* harmony import */ var _Config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Config */ "./resources/ts/foundation/Config.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "toJS", function() { return _Config__WEBPACK_IMPORTED_MODULE_3__["toJS"]; });
+/* harmony import */ var _Config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Config */ "./resources/ts/foundation/Config.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "toJS", function() { return _Config__WEBPACK_IMPORTED_MODULE_4__["toJS"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Config", function() { return _Config__WEBPACK_IMPORTED_MODULE_3__["Config"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Config", function() { return _Config__WEBPACK_IMPORTED_MODULE_4__["Config"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "configProxy", function() { return _Config__WEBPACK_IMPORTED_MODULE_3__["configProxy"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "configProxy", function() { return _Config__WEBPACK_IMPORTED_MODULE_4__["configProxy"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "configValue", function() { return _Config__WEBPACK_IMPORTED_MODULE_3__["configValue"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "configValue", function() { return _Config__WEBPACK_IMPORTED_MODULE_4__["configValue"]; });
 
-/* harmony import */ var _Dispatcher__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Dispatcher */ "./resources/ts/foundation/Dispatcher.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Dispatcher", function() { return _Dispatcher__WEBPACK_IMPORTED_MODULE_4__["Dispatcher"]; });
+/* harmony import */ var _Dispatcher__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Dispatcher */ "./resources/ts/foundation/Dispatcher.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Dispatcher", function() { return _Dispatcher__WEBPACK_IMPORTED_MODULE_5__["Dispatcher"]; });
 
-/* harmony import */ var _ServiceProvider__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ServiceProvider */ "./resources/ts/foundation/ServiceProvider.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ServiceProvider", function() { return _ServiceProvider__WEBPACK_IMPORTED_MODULE_5__["ServiceProvider"]; });
+/* harmony import */ var _ServiceProvider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ServiceProvider */ "./resources/ts/foundation/ServiceProvider.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ServiceProvider", function() { return _ServiceProvider__WEBPACK_IMPORTED_MODULE_6__["ServiceProvider"]; });
 
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./types */ "./resources/ts/foundation/types.ts");
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./types */ "./resources/ts/foundation/types.ts");
 /* empty/unused harmony star reexport */
+
+
 
 
 
@@ -29473,7 +29475,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!*******************************!*\
   !*** ./resources/ts/index.ts ***!
   \*******************************/
-/*! exports provided: Application, app, inject, provide, buildProviderModule, fluentProvide, autoProvide, injectable, unmanaged, optional, decorate, named, tagged, postConstruct, Collection, collect, toJS, Config, configProxy, configValue, Dispatcher, ServiceProvider, StreamsServiceProvider */
+/*! exports provided: axios, Application, app, inject, provide, buildProviderModule, fluentProvide, autoProvide, injectable, unmanaged, optional, decorate, named, tagged, postConstruct, Collection, collect, toJS, Config, configProxy, configValue, Dispatcher, ServiceProvider, StreamsServiceProvider */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -29481,6 +29483,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var reflect_metadata__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! reflect-metadata */ "./node_modules/reflect-metadata/Reflect.js");
 /* harmony import */ var reflect_metadata__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(reflect_metadata__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _foundation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./foundation */ "./resources/ts/foundation/index.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "axios", function() { return _foundation__WEBPACK_IMPORTED_MODULE_1__["axios"]; });
+
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Application", function() { return _foundation__WEBPACK_IMPORTED_MODULE_1__["Application"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "app", function() { return _foundation__WEBPACK_IMPORTED_MODULE_1__["app"]; });
