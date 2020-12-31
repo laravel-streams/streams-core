@@ -26,6 +26,7 @@ declare global {
         StreamsServiceProvider: typeof StreamsServiceProvider;
     }
     export interface StreamsGlobal {
+        http: any;
         core: StreamsGlobalCore;
     }
     export interface Window {
