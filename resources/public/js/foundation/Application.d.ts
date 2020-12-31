@@ -3,6 +3,7 @@ import { Dispatcher } from './Dispatcher';
 import { autoProvide, buildProviderModule, fluentProvide, provide } from 'inversify-binding-decorators';
 import { IConfig } from './types';
 import { Collection } from 'collect.js';
+import { interfaces } from 'inversify';
 /**
  * The main application has some similarity to laravel.
  *
@@ -74,15 +75,15 @@ export declare class Application extends Container {
     addBindingGetter(id: any, key?: any): void;
     alias(abstract: any, alias: any, singleton?: boolean): this;
     bindIf(id: any, override: any, cb: any): this;
-    dynamic(id: any, cb: any): import("inversify/dts/interfaces/interfaces").interfaces.BindingInWhenOnSyntax<unknown>;
+    dynamic(id: any, cb: any): interfaces.BindingInWhenOnSyntax<unknown>;
     singleton(id: any, value: any, override?: boolean): this;
     binding(id: any, value: any): this;
     instance(id: any, value: any, override?: boolean): this;
-    ctxfactory(id: any, factory: any): this;
+    ctxfactory(id: any, factory: (ctx: interfaces.Context) => any): this;
     factory(id: any, factory: any): this;
 }
 declare const app: Application;
-declare const inject: (serviceIdentifier: import("inversify/dts/interfaces/interfaces").interfaces.ServiceIdentifier<any>) => (proto: any, key: string) => void;
+declare const inject: (serviceIdentifier: interfaces.ServiceIdentifier<any>) => (proto: any, key: string) => void;
 export { app, inject };
 export { provide, buildProviderModule, fluentProvide, autoProvide };
 export { injectable, unmanaged, optional, decorate, named, tagged, postConstruct };

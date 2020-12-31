@@ -9,6 +9,7 @@ import createDecorators                                                         
 import { collect }                                                                                                  from './Collection';
 import { IConfig }                                                                                                  from './types';
 import { Collection }                                                                                               from 'collect.js';
+import { interfaces }                                                                                                  from 'inversify';
 
 const log = debug('Application');
 
@@ -272,7 +273,7 @@ export class Application extends Container {
         return this.bindIf(id, override, b => b.toConstantValue(value));
     }
 
-    ctxfactory(id, factory) {
+    ctxfactory(id, factory: (ctx:interfaces.Context) => any) {
         this.bind(id).toFactory(ctx => factory(ctx));
         return this;
     }

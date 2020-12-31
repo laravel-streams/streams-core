@@ -10,7 +10,7 @@ mix
         './node_modules/@fortawesome/fontawesome-free/webfonts',
         './resources/public/fonts/fontawesome'
     )
-    .copyDirectory('resources/public', '../../public/vendor/streams/core')
+    .copyDirectory('resources/public', '../../../public/vendor/streams/core')
     .webpackConfig(
 
         /**
