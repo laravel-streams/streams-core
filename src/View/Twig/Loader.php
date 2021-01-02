@@ -132,13 +132,13 @@ class Loader extends OriginalLoader
     public function __construct(
         Filesystem $files,
         ViewFinderInterface $finder,
-        $extension = 'twig',
         Factory $view,
         Mobile_Detect $agent,
         AddonCollection $addons,
         ViewOverrides $overrides,
         Request $request,
-        ViewMobileOverrides $mobiles
+        ViewMobileOverrides $mobiles,
+        $extension = 'twig'
     ) {
         $this->view      = $view;
         $this->agent     = $agent;
