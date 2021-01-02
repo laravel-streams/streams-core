@@ -3,8 +3,8 @@
 return [
     'id'         => 'ID',
     'name'       => 'Giriş',
-    'created_at' => 'Oluşturuldu',
-    'created_by' => 'Tarafından oluşturuldu',
-    'updated_at' => 'Yüklendi',
-    'updated_by' => 'Tarafından yüklendi',
+    'created_at' => 'Kayıt tarihi',
+    'created_by' => 'Oluşturan kullanıcı',
+    'updated_at' => 'Güncelleme tarihi',
+    'updated_by' => 'Güncelletyen kullanıcı',
 ];
