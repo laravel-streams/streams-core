@@ -28,7 +28,7 @@ class BuildFields extends Workflow
         $fields = $workflow->fields;
 
         foreach ($fields as $handle => &$input) {
-            
+
             if (is_string($input)) {
                 $input = [
                     'type' => $input,
@@ -53,23 +53,29 @@ class BuildFields extends Workflow
                 return explode('|', $input['rules']);
             }
         }
-        
+
         $workflow->fields = $fields;
     }
-    
+
     public function expand($workflow)
     {
         $fields = $workflow->fields;
 
         foreach ($fields as &$input) {
-            
+
             if (strpos($input['type'], '|')) {
                 list($input['type'], $input['input']) = explode('|', $input['type']);
             } else {
                 $input['input'] = $input['type'];
             }
+
+            if (is_string($input['input'])) {
+                $input['input'] = [
+                    'type' => $input['input'],
+                ];
+            }
         }
-        
+
         $workflow->fields = $fields;
     }
 
