@@ -20,7 +20,10 @@ use Streams\Core\Field\Contract\FieldInterface;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Field implements FieldInterface, Arrayable, Jsonable
+class Field implements
+    FieldInterface,
+    Arrayable,
+    Jsonable
 {
     use HasMemory;
     use Macroable;
@@ -51,6 +54,26 @@ class Field implements FieldInterface, Arrayable, Jsonable
 
             return $type;
         });
+    }
+
+    public function hasRule($rule)
+    {
+        return $this->stream->hasRule($this->handle, $rule);
+    }
+
+    public function getRule($rule)
+    {
+        return $this->stream->getRule($this->handle, $rule);
+    }
+
+    public function getRuleParameters($rule)
+    {
+        return $this->stream->getRuleParameters($this->handle, $rule);
+    }
+
+    public function isRequired()
+    {
+        return $this->stream->isRequired($this->handle);
     }
 
     public function toArray()

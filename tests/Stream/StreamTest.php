@@ -2,13 +2,11 @@
 
 namespace Streams\Core\Tests\Stream;
 
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Support\Collection;
-use Streams\Core\Criteria\Contract\CriteriaInterface;
-use Streams\Core\Repository\Contract\RepositoryInterface;
 use Tests\TestCase;
-use Streams\Core\Stream\Stream;
+use Streams\Core\Criteria\Criteria;
 use Streams\Core\Support\Facades\Streams;
+use Illuminate\Contracts\Validation\Validator;
+use Streams\Core\Repository\Contract\RepositoryInterface;
 
 class StreamTest extends TestCase
 {
@@ -49,7 +47,7 @@ class StreamTest extends TestCase
 
     public function testCanReturnEntryCriteria()
     {
-        $this->assertInstanceOf(CriteriaInterface::class, Streams::make('testing.examples')->entries());
+        $this->assertInstanceOf(Criteria::class, Streams::make('testing.examples')->entries());
     }
 
     public function testCanReturnEntryRepository()
@@ -82,6 +80,31 @@ class StreamTest extends TestCase
 
         $this->assertFalse(Streams::make('testing.widgets')->validator($entry)->passes());
     }
+
+    public function testRuleAccessors()
+    {
+        $stream = Streams::make('testing.examples');
+
+        $this->assertTrue($stream->hasRule('name', 'required'));
+        $this->assertTrue($stream->hasRule('name', 'min'));
+
+        $this->assertNull($stream->getRule('name', 'max'));
+        $this->assertEquals('min:3', $stream->getRule('name', 'min'));
+        
+        $this->assertEquals(['3'], $stream->getRuleParameters('name', 'min'));
+        $this->assertEquals([], $stream->getRuleParameters('name', 'max'));
+        $this->assertEquals([], $stream->getRuleParameters('age', 'min'));
+        
+        $this->assertTrue($stream->isRequired('name'));
+        $this->assertFalse($stream->isRequired('age'));
+    }
+
+    // public function testHtmlAttributes()
+    // {
+    //     $name = Streams::make('testing.examples');
+        
+    //     $name->htmlAttributes();
+    // }
 }
 
 class ExampleValidator

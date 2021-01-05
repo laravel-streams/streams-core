@@ -8,7 +8,7 @@
     },
 
     "rules": {
-        "name": "required|example_validator"
+        "name": "required|min:3|example_validator"
     },
     "validators": {
         "example_validator": {
@@ -18,6 +18,7 @@
     },
 
     "fields": {
-        "name": "text"
+        "name": "text",
+        "age": "integer"
     }
 }
