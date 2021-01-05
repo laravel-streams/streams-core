@@ -15,6 +15,7 @@ use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Traits\ForwardsCalls;
+use Illuminate\Validation\ValidationRuleParser;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Criteria\Contract\CriteriaInterface;
 use Streams\Core\Repository\Contract\RepositoryInterface;
@@ -144,11 +145,13 @@ class Stream implements
 
     public function getRuleParameters($field, $rule)
     {
-        $rule = $this->getRule($field, $rule);
+        if (!$rule = $this->getRule($field, $rule)) {
+            return [];
+        }
 
-        $parts = explode(':', $rule);
+        [$rule, $parameters] = ValidationRuleParser::parse($rule);
 
-        return (array) explode(',', Arr::get($parts, 1));
+        return $parameters;
     }
 
     public function isRequired($field)
