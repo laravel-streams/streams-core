@@ -85,6 +85,8 @@ class BuildFields extends Workflow
 
         foreach ($workflow->fields as $field) {
 
+            $field['stream'] = Arr::get($field, 'stream', $workflow->stream);
+
             $field = new Field($field);
 
             $collection->put($field->handle, $field);

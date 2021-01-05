@@ -130,11 +130,25 @@ class Stream implements
 
     public function hasRule($field, $rule)
     {
+        return (bool) $this->getRule($field, $rule);
+    }
+
+    public function getRule($field, $rule)
+    {
         $rules = Arr::get($this->rules, $field, []);
 
-        return (bool) Arr::first($rules, function ($target) use ($rule) {
-            return Str::is($rule, $target);
+        return Arr::first($rules, function ($target) use ($rule) {
+            return Str::is($rule, $target) || strpos($target, $rule) !== false;
         });
+    }
+
+    public function getRuleParameters($field, $rule)
+    {
+        $rule = $this->getRule($field, $rule);
+
+        $parts = explode(':', $rule);
+
+        return (array) explode(',', Arr::get($parts, 1));
     }
 
     public function isRequired($field)
