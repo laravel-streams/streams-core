@@ -139,7 +139,7 @@ class Stream implements
         $rules = Arr::get($this->rules, $field, []);
 
         return Arr::first($rules, function ($target) use ($rule) {
-            return Str::is($rule, $target) || strpos($target, $rule) !== false;
+            return strpos($target, $rule . ':') !== false || strpos($target, $rule) !== false;
         });
     }
 
