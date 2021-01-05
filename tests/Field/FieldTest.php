@@ -27,14 +27,19 @@ class FieldTest extends TestCase
     public function testRuleAccessors()
     {
         $name = Streams::make('testing.examples')->fields->get('name');
+        $age = Streams::make('testing.examples')->fields->get('age');
         
         $this->assertTrue($name->hasRule('required'));
         $this->assertTrue($name->hasRule('min'));
 
+        $this->assertNull($name->getRule('max'));
         $this->assertEquals('min:3', $name->getRule('min'));
-        
+
         $this->assertEquals(['3'], $name->getRuleParameters('min'));
+        $this->assertEquals([], $name->getRuleParameters('max'));
+        $this->assertEquals([], $age->getRuleParameters('min'));
         
         $this->assertTrue($name->isRequired());
+        $this->assertFalse($age->isRequired());
     }
 }

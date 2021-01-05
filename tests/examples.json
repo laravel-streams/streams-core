@@ -18,6 +18,7 @@
     },
 
     "fields": {
-        "name": "text"
+        "name": "text",
+        "age": "integer"
     }
 }
