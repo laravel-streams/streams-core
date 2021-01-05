@@ -3,22 +3,25 @@
 namespace Streams\Core\Stream;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Factory;
 use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Validator;
 use Streams\Core\Repository\Repository;
 use Illuminate\Support\Traits\Macroable;
+use Illuminate\Contracts\Support\Jsonable;
+use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
-use Streams\Core\Support\Facades\Hydrator;
-use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Criteria\Contract\CriteriaInterface;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 
-class Stream implements Arrayable, Jsonable
+class Stream implements
+    Arrayable,
+    Jsonable
 {
 
     use Macroable;
@@ -69,10 +72,10 @@ class Stream implements Arrayable, Jsonable
          */
         $rules = $this->getPrototypeAttribute('rules') ?: [];
         $validators = $this->getPrototypeAttribute('validators') ?: [];
-        
+
         $fieldRules = $this->fields->rules();
         $fieldValidators = $this->fields->validators();
-        
+
         /**
          * Merge stream and field configurations.
          */
@@ -99,7 +102,7 @@ class Stream implements Arrayable, Jsonable
             $handler = Arr::get($validator, 'handler');
 
             if (strpos($handler, '@')) {
-                
+
                 $handler = function ($attribute, $value, $parameters, Validator $validator) use ($handler) {
 
                     return App::call(
@@ -125,17 +128,18 @@ class Stream implements Arrayable, Jsonable
         return $factory->make($data, $rules);
     }
 
+    public function hasRule($field, $rule)
+    {
+        $rules = Arr::get($this->rules, $field, []);
+
+        return (bool) Arr::first($rules, function ($target) use ($rule) {
+            return Str::is($rule, $target);
+        });
+    }
+
     public function isRequired($field)
     {
-        if (!$rules = Arr::get($this->rules, $field)) {
-            return;
-        }
-
-        if (in_array('required', $rules)) {
-            return true;
-        }
-
-        return false;
+        return $this->hasRule($field, 'required');
     }
 
     /**
