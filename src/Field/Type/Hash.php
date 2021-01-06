@@ -2,18 +2,10 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\HashValue;
 use Illuminate\Support\Facades\Hash as FacadesHash;
 
-/**
- * Class Hash
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
-class Hash extends FieldType
+class Hash extends Str
 {
     /**
      * Modify the value for storage.
@@ -23,6 +15,10 @@ class Hash extends FieldType
      */
     public function modify($value)
     {
+        if (is_null($value)) {
+            return $value;
+        }
+
         return FacadesHash::make($value);
     }
 

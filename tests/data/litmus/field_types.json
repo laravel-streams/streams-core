@@ -14,5 +14,7 @@
     },
     "select": "foo",
     "multiselect": ["foo", "bar"],
+    "hash": null,
+    "url": "streams.dev",
     "color": "#111111"
 }

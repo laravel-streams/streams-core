@@ -2,17 +2,9 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\UrlValue;
 
-/**
- * Class Url
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
-class Url extends Text
+class Url extends Str
 {
     /**
      * Initialize the prototype.
@@ -23,7 +15,9 @@ class Url extends Text
     protected function initializePrototype(array $attributes)
     {
         return parent::initializePrototype(array_merge([
-            'rules' => [],
+            'rules' => [
+                //'valid_target',
+            ],
         ], $attributes));
     }
 

@@ -55,6 +55,12 @@
                 "baz": "Baz"
             }
         },
+        "url": {
+            "type": "url"
+        },
+        "hash": {
+            "type": "hash"
+        },
         "color": {
             "type": "color"
         },
