@@ -1,15 +1,14 @@
-import { AsyncContainerModule, Container, decorate, injectable, named, optional, postConstruct, tagged, unmanaged } from 'inversify';
-import { merge }                                                                                                    from 'lodash';
-import { Dispatcher }                                                                                               from './Dispatcher';
-import { ServiceProvider }                                                                                          from './ServiceProvider';
-import { Config }                                                                                                   from './Config';
-import debug                                                                                                        from 'debug';
-import { autoProvide, buildProviderModule, fluentProvide, provide }                                                 from 'inversify-binding-decorators';
-import createDecorators                                                                                             from 'inversify-inject-decorators';
-import { collect }                                                                                                  from './Collection';
-import { IConfig }                                                                                                  from './types';
-import { Collection }                                                                                               from 'collect.js';
-import { interfaces }                                                                                                  from 'inversify';
+import { AsyncContainerModule, Container, decorate, injectable, interfaces, named, optional, postConstruct, tagged, unmanaged } from 'inversify';
+import { merge }                                                                                                                from 'lodash';
+import { Dispatcher }                                                                                                           from './Dispatcher';
+import { ServiceProvider }                                                                                                      from './ServiceProvider';
+import { Config }                                                                                                               from './Config';
+import debug                                                                                                                    from 'debug';
+import { autoProvide, buildProviderModule, fluentProvide, provide }                                                             from 'inversify-binding-decorators';
+import createDecorators                                                                                                         from 'inversify-inject-decorators';
+import { collect }                                                                                                              from './Collection';
+import { IConfig }                                                                                                              from './types';
+import { Collection }                                                                                                           from 'collect.js';
 
 const log = debug('Application');
 

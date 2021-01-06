@@ -1,8 +1,9 @@
 {
     "name": "@streams/core",
     "version": "1.0.0",
-    "types": "resources/public/js/index.d.ts",
-    "typings": "resources/public/js/index.d.ts",
+    "types": "lib/index.ts",
+    "typings": "lib/index.ts",
+    "main": "lib/index.ts",
     "scripts": {
         "dev": "npm run development",
         "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
