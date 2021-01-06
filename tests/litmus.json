@@ -39,6 +39,33 @@
         "object": {
             "type": "prototype",
             "config.abstract": "Streams\\Core\\Tests\\Field\\Type\\ExampleAbstract"
+        },
+        "select": {
+            "type": "select",
+            "config.options": {
+                "foo": "Bar",
+                "baz": "Baz"
+            }
+        },
+        "multiselect": {
+            "type": "multiselect",
+            "config.options": {
+                "foo": "Foo",
+                "bar": "Bar",
+                "baz": "Baz"
+            }
+        },
+        "file": {
+            "type": "file"
+        },
+        "image": {
+            "type": "image"
+        },
+        "entry": {
+            "type": "entry"
+        },
+        "entries": {
+            "type": "entries"
         }
     }
 }

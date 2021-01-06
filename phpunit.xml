@@ -14,19 +14,9 @@
         </testsuite>
     </testsuites>
 
-    <logging>
-        <log type="coverage-html" target="./coverage"/>
-    </logging>
-
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="false">
-            <directory suffix=".php">src/</directory>
-        </whitelist>
-    </filter>
-
     <coverage processUncoveredFiles="true">
         <include>
-            <directory suffix=".php">./src</directory>
+            <directory suffix=".php">src/</directory>
         </include>
     </coverage>
 

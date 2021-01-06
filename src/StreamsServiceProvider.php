@@ -339,11 +339,10 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->bind('streams.field_types.number', \Streams\Core\Field\Type\Number::class);
         $this->app->bind('streams.field_types.integer', \Streams\Core\Field\Type\Integer::class);
         $this->app->bind('streams.field_types.float', \Streams\Core\Field\Type\Decimal::class);
-        
+
         $this->app->bind('streams.field_types.decimal', \Streams\Core\Field\Type\Decimal::class);
 
         // Boolean
-        $this->app->bind('streams.field_types.bool', \Streams\Core\Field\Type\Boolean::class);
         $this->app->bind('streams.field_types.boolean', \Streams\Core\Field\Type\Boolean::class);
 
         // Arrays
@@ -352,22 +351,22 @@ class StreamsServiceProvider extends ServiceProvider
         // Objects
         $this->app->bind('streams.field_types.prototype', \Streams\Core\Field\Type\Prototype::class);
         $this->app->bind('streams.field_types.object', \Streams\Core\Field\Type\Prototype::class);
+        // @todo Test me
+        $this->app->bind('streams.field_types.image', \Streams\Core\Field\Type\Image::class);
+        // @todo Test me
+        $this->app->bind('streams.field_types.file', \Streams\Core\Field\Type\File::class);
 
         // Dates
+        $this->app->bind('streams.field_types.datetime', \Streams\Core\Field\Type\Datetime::class);
         $this->app->bind('streams.field_types.date', \Streams\Core\Field\Type\Date::class);
         $this->app->bind('streams.field_types.time', \Streams\Core\Field\Type\Time::class);
-        $this->app->bind('streams.field_types.datetime',\Streams\Core\Field\Type\Datetime::class);
 
         // Selections
         $this->app->bind('streams.field_types.select', \Streams\Core\Field\Type\Select::class);
+        $this->app->bind('streams.field_types.multiselect', \Streams\Core\Field\Type\Multiselect::class);
 
-        // Assets
-        //$this->app->bind('streams.field_types.asset', \Streams\Core\Field\Type\Asset::class);
-        $this->app->bind('streams.field_types.file', \Streams\Core\Field\Type\File::class);
-        $this->app->bind('streams.field_types.image', \Streams\Core\Field\Type\Image::class);
-
-        // Objects
-        //$this->app->bind('streams.field_types.object', \Streams\Core\Field\Type\Object::class);
+        // Collections
+        // @todo Test me
         $this->app->bind('streams.field_types.collection', \Streams\Core\Field\Type\Collection::class);
 
         // Streams
@@ -396,44 +395,14 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerConfig()
     {
-        // Create the Streams config.
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/addons.php', 'streams.addons');
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/images.php', 'streams.images');
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/system.php', 'streams.system');
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/sources.php', 'streams.sources');
+        $this->mergeConfigFrom(__DIR__ . '/../resources/config/core.php', 'streams');
 
-        // Merge overrides if present.
-        if (file_exists($config = __DIR__ . '/../../../../config/streams/cp.php')) {
-            $this->mergeConfigFrom($config, 'streams.cp');
-        }
-        if (file_exists($config = __DIR__ . '/../../../../config/streams/addons.php')) {
-            $this->mergeConfigFrom($config, 'streams.addons');
-        }
-        if (file_exists($config = __DIR__ . '/../../../../config/streams/images.php')) {
-            $this->mergeConfigFrom($config, 'streams.images');
-        }
-        if (file_exists($config = __DIR__ . '/../../../../config/streams/system.php')) {
-            $this->mergeConfigFrom($config, 'streams.system');
-        }
-        if (file_exists($config = __DIR__ . '/../../../../config/streams/sources.php')) {
-            $this->mergeConfigFrom($config, 'streams.sources');
+        if (file_exists($config = __DIR__ . '/../../../../config/streams/core.php')) {
+            $this->mergeConfigFrom($config, 'streams');
         }
 
-        // Publish config.
         $this->publishes([
-            __DIR__ . '/../resources/config/cp.php' => config_path('streams/cp.php')
-        ], 'config');
-        $this->publishes([
-            __DIR__ . '/../resources/config/addons.php' => config_path('streams/addons.php')
-        ], 'config');
-        $this->publishes([
-            __DIR__ . '/../resources/config/images.php' => config_path('streams/images.php')
-        ], 'config');
-        $this->publishes([
-            __DIR__ . '/../resources/config/system.php' => config_path('streams/system.php')
-        ], 'config');
-        $this->publishes([
-            __DIR__ . '/../resources/config/sources.php' => config_path('streams/sources.php')
+            __DIR__ . '/../resources/config/core.php' => config_path('streams/core.php')
         ], 'config');
     }
 

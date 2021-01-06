@@ -11,5 +11,7 @@
     },
     "object": {
         "foo": "bar"
-    }
+    },
+    "select": "foo",
+    "multiselect": ["foo", "bar"]
 }

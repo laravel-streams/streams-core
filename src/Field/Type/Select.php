@@ -4,13 +4,6 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 
-/**
- * Class Select
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 class Select extends FieldType
 {
     /**
@@ -22,7 +15,9 @@ class Select extends FieldType
     protected function initializePrototype(array $attributes)
     {
         return parent::initializePrototype(array_merge([
-            'rules' => [],
+            'rules' => [
+                //'in_options',
+            ],
         ], $attributes));
     }
 }

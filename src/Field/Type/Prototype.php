@@ -4,7 +4,6 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 use Illuminate\Support\Facades\App;
-use Streams\Core\Support\Facades\Streams;
 
 /**
  * Class Prototype
