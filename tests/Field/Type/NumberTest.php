@@ -3,6 +3,7 @@
 namespace Streams\Core\Tests\Field\Type;
 
 use Tests\TestCase;
+use Streams\Core\Field\Value\NumberValue;
 use Streams\Core\Support\Facades\Streams;
 
 class NumberTest extends TestCase
@@ -44,5 +45,12 @@ class NumberTest extends TestCase
         $test->number = "-1,234.50";
 
         $this->assertSame(-1234.5, $test->number);
+    }
+
+    public function testExpandedValue()
+    {
+        $test = Streams::repository('testing.litmus')->find('field_types');
+        
+        $this->assertInstanceOf(NumberValue::class, $test->expand('number'));
     }
 }

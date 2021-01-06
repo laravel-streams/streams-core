@@ -3,6 +3,7 @@
 namespace Streams\Core\Tests\Field\Type;
 
 use Tests\TestCase;
+use Streams\Core\Field\Value\NumberValue;
 use Streams\Core\Support\Facades\Streams;
 
 class DecimalTest extends TestCase
