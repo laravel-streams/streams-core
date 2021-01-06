@@ -324,39 +324,42 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerFieldTypes()
     {
-        // Text
+        // Strings
+        $this->app->bind('streams.field_types.string', \Streams\Core\Field\Type\Str::class);
+
         $this->app->bind('streams.field_types.url', \Streams\Core\Field\Type\Url::class);
-        $this->app->bind('streams.field_types.text', \Streams\Core\Field\Type\Text::class);
+        $this->app->bind('streams.field_types.text', \Streams\Core\Field\Type\Str::class);
         $this->app->bind('streams.field_types.hash', \Streams\Core\Field\Type\Hash::class);
         $this->app->bind('streams.field_types.slug', \Streams\Core\Field\Type\Slug::class);
-        $this->app->bind('streams.field_types.string', \Streams\Core\Field\Type\Text::class);
-        $this->app->bind('streams.field_types.textarea', \Streams\Core\Field\Type\Text::class);
+        $this->app->bind('streams.field_types.textarea', \Streams\Core\Field\Type\Str::class);
         $this->app->bind('streams.field_types.markdown', \Streams\Core\Field\Type\Markdown::class);
         $this->app->bind('streams.field_types.template', \Streams\Core\Field\Type\Template::class);
 
-        // Array
-        $this->app->bind('streams.field_types.array', \Streams\Core\Field\Type\Arr::class);
-
-        // Integers
-        $this->app->bind('streams.field_types.int', \Streams\Core\Field\Type\Integer::class);
+        // Numbers
+        $this->app->bind('streams.field_types.number', \Streams\Core\Field\Type\Number::class);
         $this->app->bind('streams.field_types.integer', \Streams\Core\Field\Type\Integer::class);
-
-        // Decimals
         $this->app->bind('streams.field_types.float', \Streams\Core\Field\Type\Decimal::class);
-        $this->app->bind('streams.field_types.double', \Streams\Core\Field\Type\Decimal::class);
+        
         $this->app->bind('streams.field_types.decimal', \Streams\Core\Field\Type\Decimal::class);
 
         // Boolean
         $this->app->bind('streams.field_types.bool', \Streams\Core\Field\Type\Boolean::class);
         $this->app->bind('streams.field_types.boolean', \Streams\Core\Field\Type\Boolean::class);
 
-        // Selections
-        $this->app->bind('streams.field_types.select', \Streams\Core\Field\Type\Select::class);
+        // Arrays
+        $this->app->bind('streams.field_types.array', \Streams\Core\Field\Type\Arr::class);
+
+        // Objects
+        $this->app->bind('streams.field_types.prototype', \Streams\Core\Field\Type\Prototype::class);
+        $this->app->bind('streams.field_types.object', \Streams\Core\Field\Type\Prototype::class);
 
         // Dates
         $this->app->bind('streams.field_types.date', \Streams\Core\Field\Type\Date::class);
         $this->app->bind('streams.field_types.time', \Streams\Core\Field\Type\Time::class);
-        $this->app->bind('streams.field_types.datetime', \Streams\Core\Field\Type\Datetime::class);
+        $this->app->bind('streams.field_types.datetime',\Streams\Core\Field\Type\Datetime::class);
+
+        // Selections
+        $this->app->bind('streams.field_types.select', \Streams\Core\Field\Type\Select::class);
 
         // Assets
         //$this->app->bind('streams.field_types.asset', \Streams\Core\Field\Type\Asset::class);

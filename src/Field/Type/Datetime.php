@@ -16,7 +16,7 @@ use Streams\Core\Field\Value\DatetimeValue;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Datetime extends FieldType
+class Datetime extends Str
 {
     /**
      * Modify the value for storage.
@@ -33,7 +33,7 @@ class Datetime extends FieldType
      * Restore the value from storage.
      *
      * @param $value
-     * @return string
+     * @return null|Carbon
      */
     public function restore($value)
     {

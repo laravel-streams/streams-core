@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Field\FieldType;
 use Illuminate\Support\Facades\App;
@@ -44,13 +45,15 @@ class Field implements
      * 
      * @return FieldType
      */
-    public function type()
+    public function type(array $attributes = [])
     {
-        return $this->remember($this->handle . '.' . $this->type, function () {
+        return $this->remember($this->handle . '.' . $this->type, function () use ($attributes) {
 
-            $type = App::make('streams.field_types.' . $this->type);
-
-            $type->field = $this;
+            $attributes['field'] = $this;
+            
+            $type = App::make('streams.field_types.' . $this->type, [
+                'attributes' => $attributes,
+            ]);
 
             return $type;
         });

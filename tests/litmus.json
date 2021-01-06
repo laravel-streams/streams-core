@@ -1,0 +1,44 @@
+{
+    "handle": "testing.litmus",
+    "description": "Used for testing.",
+    
+    "source": {
+        "path": "vendor/streams/core/tests/data/litmus",
+        "format": "json"
+    },
+
+    "rules": {
+        "number": "required"
+    },
+
+    "fields": {
+        "number": {
+            "type": "number"
+        },
+        "integer": {
+            "type": "integer"
+        },
+        "decimal": {
+            "type": "float"
+        },
+        "datetime": {
+            "type": "datetime"
+        },
+        "date": {
+            "type": "date"
+        },
+        "time": {
+            "type": "time"
+        },
+        "boolean": {
+            "type": "boolean"
+        },
+        "array": {
+            "type": "array"
+        },
+        "object": {
+            "type": "prototype",
+            "config.abstract": "Streams\\Core\\Tests\\Field\\Type\\ExampleAbstract"
+        }
+    }
+}

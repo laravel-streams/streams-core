@@ -12,14 +12,6 @@ use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
 
-/**
- * Class Entry
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- *
- */
 class Entry implements EntryInterface, Arrayable, Jsonable
 {
 

@@ -4,14 +4,7 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 
-/**
- * Class Text
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
-class Text extends FieldType
+class Str extends FieldType
 {
     /**
      * Initialize the prototype.

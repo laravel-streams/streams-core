@@ -3,16 +3,9 @@
 namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
-use Streams\Core\Field\Value\ArrValue;
+use Streams\Core\Field\Value\NumberValue;
 
-/**
- * Class Arr
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
-class Arr extends FieldType
+class Number extends FieldType
 {
     /**
      * Initialize the prototype.
@@ -24,7 +17,7 @@ class Arr extends FieldType
     {
         return parent::initializePrototype(array_merge([
             'rules' => [
-                'array',
+                'numeric',
             ],
         ], $attributes));
     }
@@ -32,22 +25,27 @@ class Arr extends FieldType
     /**
      * Modify the value for storage.
      *
-     * @param $value
-     * @return array
+     * @param string $value
+     * @return string
      */
     public function modify($value)
     {
-        return (array) $value;
-    }
+        if (is_null($value)) {
+            return $value;
+        }
 
-    /**
-     * Restore the value from storage.
-     *
-     * @param $value
-     * @return array
-     */
-    public function restore($value)
-    {
+        if (is_string($value)) {
+            $value = preg_replace('/[^\da-z\.\-]/i', '', $value);
+        }
+
+        $float = floatval($value);
+        
+        if ($float && intval($float) != $float) {
+            $value = $float;
+        } else {
+            $value = intval($value);
+        }
+
         return $value;
     }
 
@@ -59,6 +57,6 @@ class Arr extends FieldType
      */
     public function expand($value)
     {
-        return new ArrValue($value);
+        return new NumberValue($value);
     }
 }
