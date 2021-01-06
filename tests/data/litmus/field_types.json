@@ -13,5 +13,6 @@
         "foo": "bar"
     },
     "select": "foo",
-    "multiselect": ["foo", "bar"]
+    "multiselect": ["foo", "bar"],
+    "color": "#111111"
 }

@@ -55,6 +55,9 @@
                 "baz": "Baz"
             }
         },
+        "color": {
+            "type": "color"
+        },
         "file": {
             "type": "file"
         },
