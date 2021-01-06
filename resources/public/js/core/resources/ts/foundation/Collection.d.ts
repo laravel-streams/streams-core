@@ -1,4 +1,5 @@
 import { Collection as BaseCollection } from 'collect.js';
+
 export declare class Collection<T> extends BaseCollection<T> {
     mergeDeep<T>(objectOrArray: object | T[]): Collection<T>;
 }

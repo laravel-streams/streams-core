@@ -1,4 +1,5 @@
 import { Application } from './Application';
+
 export declare function toJS(v: any): any;
 export interface Config<T> {
     get<T>(path: string, defaultValue?: any): T;

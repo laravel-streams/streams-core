@@ -1,9 +1,9 @@
-import { Container, decorate, injectable, named, optional, postConstruct, tagged, unmanaged } from 'inversify';
-import { Dispatcher } from './Dispatcher';
-import { autoProvide, buildProviderModule, fluentProvide, provide } from 'inversify-binding-decorators';
-import { IConfig } from './types';
-import { Collection } from 'collect.js';
-import { interfaces } from 'inversify';
+import { Container, decorate, injectable, interfaces, named, optional, postConstruct, tagged, unmanaged } from 'inversify';
+import { Dispatcher }                                                                                     from './Dispatcher';
+import { autoProvide, buildProviderModule, fluentProvide, provide }                                       from 'inversify-binding-decorators';
+import { IConfig }                                                                                        from './types';
+import { Collection }                                                                                     from 'collect.js';
+
 /**
  * The main application has some similarity to laravel.
  *

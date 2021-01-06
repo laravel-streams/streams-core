@@ -1,14 +1,18 @@
-import { AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig }     from 'axios';
 import { StreamsServiceProvider } from '../StreamsServiceProvider';
-import { Application } from './Application';
-import { Collection } from './Collection';
-import { Dispatcher } from './Dispatcher';
-import { ServiceProvider } from './ServiceProvider';
+import { Application }            from './Application';
+import { Collection }             from './Collection';
+import { Dispatcher }             from './Dispatcher';
+import { ServiceProvider }        from './ServiceProvider';
+
 export interface IServiceProvider {
     app: Application;
+
     register?(): void;
+
     boot?(): void;
 }
+
 export interface IConfig {
     prefix?: string;
     debug?: boolean;
@@ -25,11 +29,32 @@ declare global {
         Collection: typeof Collection;
         StreamsServiceProvider: typeof StreamsServiceProvider;
     }
+
     export interface StreamsGlobal {
         http: any;
         core: StreamsGlobalCore;
     }
+
     export interface Window {
         streams: StreamsGlobal;
     }
+}
+
+export interface Stream {
+}
+
+export interface StreamsGlobal {
+    make(stream: Stream): StreamsInstance;
+}
+
+export interface StreamsRepository {
+    where(col: any, op: any, val?: any): this;
+
+    get(): any;
+
+    find(id: any): any;
+}
+
+export interface StreamsInstance {
+    repository(): StreamsRepository;
 }
