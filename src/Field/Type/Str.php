@@ -3,6 +3,7 @@
 namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Value\StrValue;
 
 class Str extends FieldType
 {
@@ -47,5 +48,17 @@ class Str extends FieldType
         }
         
         return (string) $value;
+    }
+
+
+    /**
+     * Expand the value.
+     *
+     * @param $value
+     * @return StrValue
+     */
+    public function expand($value)
+    {
+        return new StrValue($value);
     }
 }

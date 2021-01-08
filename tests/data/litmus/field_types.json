@@ -15,6 +15,8 @@
     "select": "foo",
     "multiselect": ["foo", "bar"],
     "hash": null,
+    "string": "Hello String",
+    "email": "hello@example.com",
     "url": "streams.dev",
     "color": "#111111"
 }

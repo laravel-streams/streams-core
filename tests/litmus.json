@@ -21,6 +21,12 @@
         "decimal": {
             "type": "float"
         },
+        "string": {
+            "type": "string"
+        },
+        "email": {
+            "type": "email"
+        },
         "datetime": {
             "type": "datetime"
         },
