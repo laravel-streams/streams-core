@@ -35,7 +35,7 @@ class FilebaseAdapter extends AbstractAdapter
             'dir' => base_path($source->get('path', 'streams/data/' . $stream->handle)),
 
             //'backupLocation' => 'path/to/database/backup/dir',
-            'format'         => Config::get('streams.sources.types.filebase.formats.' . $source->get('format', 'md')),
+            'format'         => Config::get('streams.sources.types.filebase.formats.' . $source->get('format', 'json')),
             'cache'          => $source->get('cache', false),
             'cache_expires'  => $source->get('ttl', 1800),
             'pretty'         => true,
