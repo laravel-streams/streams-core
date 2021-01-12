@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Stream;
 
+use ArrayAccess;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Factory;
 use Illuminate\Support\Facades\App;
@@ -20,6 +21,7 @@ use Streams\Core\Criteria\Contract\CriteriaInterface;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 
 class Stream implements
+    ArrayAccess,
     Arrayable,
     Jsonable
 {
