@@ -31,11 +31,16 @@ class FilebaseAdapter extends AbstractAdapter
 
         $source = $stream->expandPrototypeAttribute('source');
 
+        $format = $source->get('format', 'json');
+        $format = Config::get('streams.sources.types.filebase.formats.' . $format);
+        
+        $path = $source->get('path', 'streams/data/' . $stream->handle);
+
         $this->query = new Database([
-            'dir' => base_path($source->get('path', 'streams/data/' . $stream->handle)),
+            'dir' => base_path($path),
 
             //'backupLocation' => 'path/to/database/backup/dir',
-            'format'         => Config::get('streams.sources.types.filebase.formats.' . $source->get('format', 'json')),
+            'format'         => $format,
             'cache'          => $source->get('cache', false),
             'cache_expires'  => $source->get('ttl', 1800),
             'pretty'         => true,
@@ -256,9 +261,9 @@ class FilebaseAdapter extends AbstractAdapter
     protected function collect($entries)
     {
         if (!$entries instanceof Collection) {
-            
+
             $collection = $this->stream->getPrototypeAttribute('collection') ?: Collection::class;
-            
+
             $collection = new $collection();
         }
 

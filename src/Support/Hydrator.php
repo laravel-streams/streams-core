@@ -5,16 +5,8 @@ namespace Streams\Core\Support;
 use ReflectionProperty;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Streams\Core\Ui\Button\Button;
 use Streams\Core\Support\Traits\Prototype;
 
-/**
- * Class Hydrator
- *
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
- */
 class Hydrator
 {
 
