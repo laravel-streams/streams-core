@@ -33,9 +33,10 @@ class Criteria
      */
     protected $stream;
 
-    public function __construct(AdapterInterface $adapter)
+    public function __construct(AdapterInterface $adapter, Stream $stream)
     {
         $this->adapter = $adapter;
+        $this->stream = $stream;
     }
 
     /**

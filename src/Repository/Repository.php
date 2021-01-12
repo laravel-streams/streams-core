@@ -200,7 +200,7 @@ class Repository implements RepositoryInterface
 
         $adapter = Str::camel("new_{$this->stream->expandPrototypeAttribute('source')->get('type', $default)}_adapter");
         
-        return new Criteria($this->$adapter());
+        return new Criteria($this->$adapter(), $this->stream);
     }
 
     /**

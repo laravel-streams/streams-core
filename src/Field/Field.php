@@ -2,11 +2,9 @@
 
 namespace Streams\Core\Field;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Field\FieldType;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
@@ -18,7 +16,6 @@ class Field implements
     Jsonable
 {
     use HasMemory;
-    use Macroable;
     use Prototype;
 
     /**

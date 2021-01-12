@@ -3,7 +3,6 @@
 namespace Streams\Core\Stream;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Factory;
 use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Validator;
@@ -25,7 +24,6 @@ class Stream implements
     Jsonable
 {
 
-    use Macroable;
     use HasMemory;
     use Prototype;
     use ForwardsCalls;

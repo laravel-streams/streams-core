@@ -4,10 +4,10 @@ namespace Streams\Core\Support\Traits;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Field\Value\Value;
 use Illuminate\Support\Traits\Macroable;
-use Streams\Core\Field\Field;
 
 /**
  * Trait Prototype
@@ -31,7 +31,9 @@ use Streams\Core\Field\Field;
 trait Prototype
 {
 
-    use Macroable;
+    use Macroable {
+        Macroable::__call as private callMacroable;
+    }
 
     /**
      * The prototype information.
@@ -62,6 +64,24 @@ trait Prototype
     public function __get($key)
     {
         return $this->getPrototypeAttribute($key);
+    }
+
+    /**
+     * Mapp methods to expanded values.
+     *
+     * @param $method
+     * @param $arguments
+     * @return mixed
+     */
+    public function __call($method, $arguments)
+    {
+        $key = Str::snake($method);
+
+        if ($this->hasPrototypeAttribute($key)) {
+            return $this->expand($key);
+        }
+
+        return $this->callMacroable($method, $arguments);
     }
 
     /**

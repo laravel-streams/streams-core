@@ -18,7 +18,7 @@ return [
 
             'filebase' => [
 
-                'format' => env('STREAMS_SOURCE_FORMAT', 'md'),
+                'format' => env('STREAMS_SOURCE_FORMAT', 'json'),
                 //'path' => env('STREAMS_SOURCE_PATH', 'streams/data'),
 
                 'formats' => [

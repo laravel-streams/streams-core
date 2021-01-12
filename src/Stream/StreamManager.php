@@ -19,7 +19,6 @@ class StreamManager
 {
 
     use HasMemory;
-    use Macroable;
     use Prototype;
     use FiresCallbacks;
 
