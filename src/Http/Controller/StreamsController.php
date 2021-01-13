@@ -131,7 +131,7 @@ class StreamsController extends Controller
         $parameters = Request::route()->parameters;
 
         if (isset($parameters['id'])) {
-
+            
             $data->put('entry', $stream->repository()->find($parameters['id']));
 
             return;
@@ -185,6 +185,10 @@ class StreamsController extends Controller
         }
 
         $results = $query->limit(1)->get();
+
+        if (!$results->count() == 1) {
+            $data->put('entry', $results->first());
+        }
     }
 
     /**

@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Streams\Core\Entry\Contract\EntryInterface;
 
@@ -35,6 +36,13 @@ class FilebaseAdapter extends AbstractAdapter
         $format = Config::get('streams.sources.types.filebase.formats.' . $format);
         
         $path = $source->get('path', 'streams/data/' . $stream->handle);
+
+        if ($stream->translatable && App::getLocale() != App::getFallbackLocale()) {
+            
+            $localization = $stream->translatable[App::getLocale()];
+
+            $path = Arr::get($localization, 'source.path', $path);
+        }
 
         $this->query = new Database([
             'dir' => base_path($path),
