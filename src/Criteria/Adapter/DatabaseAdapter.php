@@ -36,7 +36,11 @@ class DatabaseAdapter extends AbstractAdapter
     {
         $this->stream = $stream;
 
-        $this->query = DB::connection($stream->getPrototypeAttribute('source.connection') ?: Config::get('database.default'))
+        if (!$connection = $stream->getPrototypeAttribute('source.connection')) {
+            $connection = Config::get('database.default');
+        }
+
+        $this->query = DB::connection($connection)
             ->table($stream->getPrototypeAttribute('source.table'));
     }
 
@@ -176,7 +180,7 @@ class DatabaseAdapter extends AbstractAdapter
      */
     public function create(array $attributes = [])
     {
-        return $this->query->create($attributes);
+        return $this->make($this->query->insert($attributes));
     }
 
     /**
@@ -187,7 +191,7 @@ class DatabaseAdapter extends AbstractAdapter
      */
     public function save($entry)
     {
-        return $this->query->save($entry);
+        return $this->query->update($entry->getAttributes());
     }
 
     /**
