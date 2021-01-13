@@ -131,7 +131,7 @@ class StreamsController extends Controller
         $parameters = Request::route()->parameters;
 
         if (isset($parameters['id'])) {
-            
+
             $data->put('entry', $stream->repository()->find($parameters['id']));
 
             return;
