@@ -3,14 +3,15 @@
 namespace Streams\Core\Criteria;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Streams\Core\Entry\Entry;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\HasMemory;
-use Streams\Core\Entry\Contract\EntryInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Streams\Core\Entry\Contract\EntryInterface;
 use Streams\Core\Criteria\Contract\AdapterInterface;
 
 class Criteria
@@ -18,6 +19,13 @@ class Criteria
 
     use Macroable;
     use HasMemory;
+
+    /**
+     * The criteria parameters.
+     *
+     * @var array
+     */
+    protected $parameters = [];
 
     /**
      * The source adapter.
@@ -33,8 +41,19 @@ class Criteria
      */
     protected $stream;
 
-    public function __construct(AdapterInterface $adapter, Stream $stream)
-    {
+    /**
+     * Create a new class instance.
+     *
+     * @param \Streams\Core\Criteria\Contract\AdapterInterface $adapter
+     * @param \Streams\Core\Stream\Stream $stream
+     * @param array $parameters
+     */
+    public function __construct(
+        AdapterInterface $adapter,
+        Stream $stream,
+        array $parameters = []
+    ) {
+        $this->parameters = $parameters;
         $this->adapter = $adapter;
         $this->stream = $stream;
     }
@@ -46,18 +65,18 @@ class Criteria
      */
     public function all()
     {
-        return $this->adapter->all();
+        return $this->get();
     }
 
     /**
-     * Return all entries.
+     * Return the first matching result.
      * 
      * @param string $id
      * @return EntryInterface
      */
     public function find($id)
     {
-        return $this->adapter->find($id);
+        return $this->where('id', $id)->get()->first();
     }
 
     /**
@@ -67,7 +86,7 @@ class Criteria
      */
     public function first()
     {
-        return $this->adapter->first();
+        return $this->limit(1)->get()->first();
     }
 
     /**
@@ -79,6 +98,7 @@ class Criteria
      */
     public function orderBy($field, $direction = 'asc')
     {
+        $this->parameters['order_by'][] = [$field, $direction];
         $this->adapter->orderBy($field, $direction);
 
         return $this;
@@ -92,6 +112,7 @@ class Criteria
      */
     public function limit($limit, $offset = 0)
     {
+        $this->parameters['limit'][] = [$limit, $offset];
         $this->adapter->limit($limit, $offset);
 
         return $this;
@@ -108,20 +129,10 @@ class Criteria
      */
     public function where($field, $operator = null, $value = null, $nested = null)
     {
-        $this->adapter->where($field, $operator, $value, $nested);
+        $this->parameters['where'][] = [$field, $operator, $value, $nested];
 
         return $this;
     }
-
-    /**
-     * Add a where constraint.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
-     * @return $this
-     */
-    //abstract public function andWhere($field, $operator = null, $value = null);
 
     /**
      * Add a where constraint.
@@ -133,7 +144,7 @@ class Criteria
      */
     public function orWhere($field, $operator = null, $value = null)
     {
-        $this->adapter->orWhere($field, $operator, $value);
+        $this->where($field, $operator, $value, 'or');
 
         return $this;
     }
@@ -145,7 +156,11 @@ class Criteria
      */
     public function get()
     {
-        return $this->adapter->get();
+        $fingerprint = $this->stream->handle . '__' . md5(serialize($this->parameters));
+        
+        return $this->once($fingerprint, function() {
+            return $this->performQuery();
+        });
     }
 
     /**
@@ -247,6 +262,25 @@ class Criteria
         $paginator->appends(Request::all());
 
         return $paginator;
+    }
+
+    /**
+     * Perform the query and return results.
+     * 
+     * @return Collection
+     */
+    protected function performQuery()
+    {
+        foreach ($this->parameters as $key => $call) {
+
+            $method = Str::camel($key);
+
+            foreach ($call as $parameters) {
+                call_user_func_array([$this->adapter, $method], $parameters);
+            }
+        }
+
+        return $this->adapter->get();
     }
 
     /**

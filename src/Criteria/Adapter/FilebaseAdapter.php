@@ -57,44 +57,6 @@ class FilebaseAdapter extends AbstractAdapter
     }
 
     /**
-     * Return all entries.
-     * 
-     * @return Collection
-     */
-    public function all()
-    {
-        return $this->collect($this->query->findAll());
-    }
-
-    /**
-     * Return all entries.
-     * 
-     * @param string $id
-     * @return Collection
-     */
-    public function find($id)
-    {
-        if (!$this->query->has($id)) {
-            return null;
-        }
-
-        return $this->make($this->query->get($id));
-    }
-
-    /**
-     * Return the first result.
-     * 
-     * @return null|EntryInterface
-     */
-    public function first()
-    {
-        return $this
-            ->limit(1, 0)
-            ->get()
-            ->first();
-    }
-
-    /**
      * Order the query by field/direction.
      *
      * @param string $field
@@ -258,29 +220,6 @@ class FilebaseAdapter extends AbstractAdapter
     public function truncate()
     {
         $this->query->truncate();
-    }
-
-    /**
-     * Return an entry collection.
-     *
-     * @param array $entries
-     * @return Collection
-     */
-    protected function collect($entries)
-    {
-        if (!$entries instanceof Collection) {
-
-            $collection = $this->stream->getPrototypeAttribute('collection') ?: Collection::class;
-
-            $collection = new $collection();
-        }
-
-        array_map(function ($entry) use ($collection) {
-            $entry = $this->make($entry);
-            $collection->put($entry->id, $entry);
-        }, $entries);
-
-        return $collection;
     }
 
     /**

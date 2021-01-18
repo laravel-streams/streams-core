@@ -8,28 +8,6 @@ interface AdapterInterface
 {
 
     /**
-     * Return all entries.
-     * 
-     * @return Collection
-     */
-    public function all();
-
-    /**
-     * Return an entry by ID.
-     * 
-     * @param string $id
-     * @return nunll|EntryInterface
-     */
-    public function find($id);
-
-    /**
-     * Return the first entry only.
-     * 
-     * @return null|EntryInterface
-     */
-    public function first();
-
-    /**
      * Add criteria for sorting entries.
      *
      * @param string $field

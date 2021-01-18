@@ -35,28 +35,6 @@ abstract class AbstractAdapter implements AdapterInterface
     protected $stream;
 
     /**
-     * Return all entries.
-     * 
-     * @return Collection
-     */
-    abstract public function all();
-
-    /**
-     * Return all entries.
-     * 
-     * @param string $id
-     * @return EntryInterface
-     */
-    abstract public function find($id);
-
-    /**
-     * Return the first result.
-     * 
-     * @return null|EntryInterface
-     */
-    abstract public function first();
-
-    /**
      * Order the query by field/direction.
      *
      * @param string $field
@@ -92,17 +70,10 @@ abstract class AbstractAdapter implements AdapterInterface
      * @param string|null $value
      * @return $this
      */
-    //abstract public function andWhere($field, $operator = null, $value = null);
-
-    /**
-     * Add a where constraint.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
-     * @return $this
-     */
-    abstract public function orWhere($field, $operator = null, $value = null);
+    public function orWhere($field, $operator = null, $value = null)
+    {
+        return $this->where($field, $operator, $value, 'or');
+    }
 
     /**
      * Get the criteria results.
@@ -147,10 +118,7 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @return void
      */
-    public function truncate()
-    {
-        $this->query->truncate();
-    }
+    abstract public function truncate();
 
     /**
      * Return paginated entries.
@@ -198,6 +166,30 @@ abstract class AbstractAdapter implements AdapterInterface
         $paginator->appends(Request::all());
 
         return $paginator;
+    }
+
+    /**
+     * Return an entry collection.
+     *
+     * @param array $entries
+     * @return Collection
+     */
+    protected function collect($entries)
+    {
+        $collection = $this->stream->getPrototypeAttribute('source.collection') ?: Collection::class;
+
+        if ($entries instanceof Collection) {
+            $collection = get_class($collection);
+        }
+
+        $collection = new $collection;
+
+        array_map(function ($entry) use ($collection) {
+            $entry = $this->make($entry);
+            $collection->put($entry->id, $entry);
+        }, $entries);
+
+        return $collection;
     }
 
     /**
