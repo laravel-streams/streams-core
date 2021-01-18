@@ -23,6 +23,8 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
     protected static $excluded = [
         '/admin',
         '/admin/*',
+        '/cron',
+        '/cron/*',
         '/streams/*-field_type/*',
         '/streams/*-extension/*',
         '/streams/*-module/*',
