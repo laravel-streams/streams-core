@@ -1,15 +1,12 @@
 <?php
 
-namespace Streams\Core\Tests\Stream;
+namespace Streams\Core\Tests\Stream\Criteria;
 
-use Illuminate\Pagination\AbstractPaginator;
 use Tests\TestCase;
-use Streams\Core\Stream\Stream;
-use Illuminate\Support\Collection;
-use Streams\Core\Criteria\Criteria;
 use Streams\Core\Entry\Entry;
+use Illuminate\Support\Collection;
 use Streams\Core\Support\Facades\Streams;
-use Streams\Core\Repository\Contract\RepositoryInterface;
+use Illuminate\Pagination\AbstractPaginator;
 
 class CriteriaTest extends TestCase
 {

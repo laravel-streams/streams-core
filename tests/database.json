@@ -1,0 +1,14 @@
+{
+    "handle": "testing.database",
+    "description": "Used for testing.",
+    
+    "source": {
+        "type": "database",
+        "table": "testing"
+    },
+
+    "fields": {
+        "name": "text",
+        "age": "integer"
+    }
+}

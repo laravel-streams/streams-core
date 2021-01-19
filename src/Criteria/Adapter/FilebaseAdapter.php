@@ -121,19 +121,6 @@ class FilebaseAdapter extends AbstractAdapter
     }
 
     /**
-     * Add a where constraint.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
-     * @return $this
-     */
-    public function orWhere($field, $operator = null, $value = null)
-    {
-        return $this->where($field, $operator, $value, 'or');
-    }
-
-    /**
      * Get the criteria results.
      * 
      * @param array $parameters

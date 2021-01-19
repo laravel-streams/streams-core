@@ -108,7 +108,7 @@ class DatabaseAdapter extends AbstractAdapter
             $method = Str::camel($key);
 
             foreach ($call as $parameters) {
-                call_user_func_array([$this, $method], $parameters);
+                call_user_func_array([$this, $method], array_filter($parameters));
             }
         }
 

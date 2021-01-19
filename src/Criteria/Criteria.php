@@ -155,7 +155,7 @@ class Criteria
     public function get()
     {
         $fingerprint = $this->stream->handle . '__' . md5(serialize($this->parameters));
-
+        
         return $this->once($fingerprint, function () {
             return $this->adapter->get($this->parameters);
         });

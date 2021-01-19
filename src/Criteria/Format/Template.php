@@ -57,16 +57,17 @@ class Template implements FormatInterface
      */
     public static function decode($data)
     {
-        if (is_array($data) && isset($data['template'])) {
-            $data = $data['template'];
-        }
+        // @todo unsed - remove?
+        // if (is_array($data) && isset($data['template'])) {
+        //     $data = $data['template'];
+        // }
 
         $pattern = '/^[\s\r\n]?---[\s\r\n]?$/sm';
 
         $parts = preg_split($pattern, PHP_EOL . ltrim($data));
 
         if (count($parts) < 3) {
-            return [];
+            return ['data' => ['template' => $data]];
         }
 
         if (!$matter = json_decode(trim($parts[1]), true)) {

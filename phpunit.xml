@@ -8,6 +8,7 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="true">
+    
     <testsuites>
         <testsuite name="Streams Core">
             <directory suffix="Test.php">tests/</directory>
@@ -21,10 +22,11 @@
     </filter>
 
     <php>
-      <env name="APP_ENV" value="testing"/>
-      <env name="APP_REFERENCE" value="testing"/>
-      <env name="VERSION_IMAGES" value="false"/>
-      <env name="VERSION_ASSETS" value="false"/>
+        <ini name="display_errors" value="true"/>
+        <env name="APP_ENV" value="testing"/>
+        <env name="APP_REFERENCE" value="testing"/>
+        <env name="VERSION_IMAGES" value="false"/>
+        <env name="VERSION_ASSETS" value="false"/>
     </php>
 
 </phpunit>

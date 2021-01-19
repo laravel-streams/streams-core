@@ -4,7 +4,6 @@ namespace Streams\Core\Criteria\Adapter;
 
 use Filebase\Database;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Streams\Core\Entry\Entry;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
@@ -64,19 +63,6 @@ abstract class AbstractAdapter implements AdapterInterface
     abstract public function where($field, $operator = null, $value = null, $nested = null);
 
     /**
-     * Add a where constraint.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
-     * @return $this
-     */
-    public function orWhere($field, $operator = null, $value = null)
-    {
-        return $this->where($field, $operator, $value, 'or');
-    }
-
-    /**
      * Get the criteria results.
      * 
      * @param array $parameters
@@ -123,54 +109,6 @@ abstract class AbstractAdapter implements AdapterInterface
     abstract public function truncate();
 
     /**
-     * Return paginated entries.
-     *
-     * @param  array|int $parameters
-     * @return Paginator
-     */
-    public function paginate($parameters = null)
-    {
-        if (is_numeric($parameters)) {
-            $parameters = [
-                'per_page' => $parameters,
-            ];
-        }
-
-        $path = Request::url();
-
-        $total = Arr::get($parameters, 'total');
-        $perPage = Arr::get($parameters, 'per_page', 25);
-        $pageName = Arr::get($parameters, 'page_name', 'page');
-        $limitName = Arr::get($parameters, 'limit_name', 'limit');
-
-        if (!$total) {
-            $total = $this->count();
-        }
-
-        $page = (int) Request::get($pageName, 1);
-        $perPage = (int) Request::get($limitName, $perPage) ?: 9999;
-
-        $offset = $page * $perPage - $perPage;
-
-        $entries = $this->limit($perPage, $offset)->get();
-
-        $paginator = new LengthAwarePaginator(
-            $entries,
-            $total,
-            $perPage,
-            $page,
-            [
-                'path' => $path,
-                'pageName' => $pageName,
-            ]
-        );
-
-        $paginator->appends(Request::all());
-
-        return $paginator;
-    }
-
-    /**
      * Return an entry collection.
      *
      * @param array $entries
@@ -180,16 +118,12 @@ abstract class AbstractAdapter implements AdapterInterface
     {
         $collection = $this->stream->getPrototypeAttribute('source.collection') ?: Collection::class;
 
-        if ($entries instanceof Collection) {
-            $collection = get_class($collection);
-        }
-
         $collection = new $collection;
 
         array_map(function ($entry) use ($collection) {
             $entry = $this->make($entry);
             $collection->put($entry->id, $entry);
-        }, $entries);
+        }, (array) $entries);
 
         return $collection;
     }

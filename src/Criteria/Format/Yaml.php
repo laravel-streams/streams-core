@@ -4,7 +4,6 @@ namespace Streams\Core\Criteria\Format;
 
 use Illuminate\Support\Arr;
 use Filebase\Format\FormatInterface;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\Yaml\Yaml as Parser;
 
 /**
