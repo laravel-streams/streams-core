@@ -42,14 +42,6 @@ class Yaml implements FormatInterface
 
         $data = array_merge($meta, $data);
 
-        if (!isset($data['__created_by']) && $user = Auth::user()) {
-            $data['__created_by'] = $user->getAuthIdentifier();
-        }
-
-        if (!isset($data['__updated_by']) && $user = Auth::user()) {
-            $data['__updated_by'] = $user->getAuthIdentifier();
-        }
-
         return Parser::dump($data);
     }
 

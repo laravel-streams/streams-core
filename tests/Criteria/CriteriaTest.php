@@ -99,6 +99,12 @@ class CriteriaTest extends TestCase
 
     public function testCanPaginateResults()
     {
+        $pagination = Streams::entries('testing.examples')->paginate(10);
+
+        $this->assertInstanceOf(AbstractPaginator::class, $pagination);
+        $this->assertEquals(2, $pagination->total());
+
+        
         $pagination = Streams::entries('testing.examples')->paginate([
             'per_page' => 1
         ]);
@@ -127,9 +133,18 @@ class CriteriaTest extends TestCase
 
         $this->assertEquals(3, Streams::entries('testing.examples')->count());
 
+
         $entry->delete();
 
         $this->assertEquals(2, Streams::entries('testing.examples')->count());
+
+
+        $entry = Streams::entries('testing.examples')->create([
+            'id' => 'third',
+            'name' => 'Third Example',
+        ]);
+
+        $this->assertEquals(3, Streams::entries('testing.examples')->count());
     }
 
     public function tearDown(): void
