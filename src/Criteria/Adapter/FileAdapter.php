@@ -2,24 +2,15 @@
 
 namespace Streams\Core\Criteria\Adapter;
 
-use Filebase\Database;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Config;
 use Streams\Core\Entry\Contract\EntryInterface;
 
-class FilebaseAdapter extends AbstractAdapter
+class FileAdapter extends AbstractAdapter
 {
-
-    /**
-     * The database query.
-     *
-     * @var Database
-     */
-    protected $query;
 
     /**
      * Create a new class instance.
@@ -33,27 +24,46 @@ class FilebaseAdapter extends AbstractAdapter
         $source = $stream->expandPrototypeAttribute('source');
 
         $format = $source->get('format', 'json');
-        $format = Config::get('streams.sources.types.filebase.formats.' . $format);
-        
-        $path = $source->get('path', 'streams/data/' . $stream->handle);
+        $path = trim($source->get('path', 'streams/data'), '/\\');
 
         if ($stream->translatable && App::getLocale() != App::getFallbackLocale()) {
-            
+
             $localization = $stream->translatable[App::getLocale()];
 
-            $path = Arr::get($localization, 'source.path', $path);
+            $path = trim(Arr::get($localization, 'source.path', $path), '/\\');
         }
 
-        $this->query = new Database([
-            'dir' => base_path($path),
+        if ($format == 'json') {
 
-            //'backupLocation' => 'path/to/database/backup/dir',
-            'format'         => $format,
-            'cache'          => $source->get('cache', false),
-            'cache_expires'  => $source->get('ttl', 1800),
-            'pretty'         => true,
-            'safe_filename'  => true,
-        ]);
+            $this->data = json_decode(file_get_contents(base_path($path . '/' . $stream->handle . '.' . $format)), true);
+
+            array_walk($this->data, function ($item, $key) {
+                $this->data[$key] = ['id' => $key] + $item;
+            });
+        }
+
+        if ($format == 'csv') {
+
+            $handle = fopen(base_path($path . '/' . $stream->handle . '.' . $format), 'r');
+
+            $i = 0;
+
+            while (($row = fgetcsv($handle, 4096)) !== false) {
+
+                if (empty($fields)) {
+                    $fields = $row;
+                    continue;
+                }
+
+                foreach ($row as $k => $value) {
+                    $this->data[$i][$fields[$k]] = $value;
+                }
+
+                $i++;
+            }
+
+            fclose($handle);
+        }
     }
 
     /**
@@ -65,7 +75,7 @@ class FilebaseAdapter extends AbstractAdapter
      */
     public function orderBy($field, $direction = 'asc')
     {
-        $this->query = $this->query->orderBy($field, $direction);
+        $this->data = $this->data->sortBy($field, strtolower($direction) == 'asc' ? 0 : 1);
 
         return $this;
     }
@@ -78,7 +88,11 @@ class FilebaseAdapter extends AbstractAdapter
      */
     public function limit($limit, $offset = 0)
     {
-        $this->query = $this->query->limit($limit, $offset);
+        if ($offset) {
+            $this->data = $this->data->skip($offset);
+        }
+
+        $this->data = $this->data->take($limit);
 
         return $this;
     }
@@ -105,32 +119,15 @@ class FilebaseAdapter extends AbstractAdapter
             $field = $this->stream->getPrototypeAttribute('config.handle', 'id');
         }
 
-        if ($field == 'id') {
-            $field = '__id';
-        }
-
         $method = $nested ? Str::studly($nested . '_where') : 'where';
 
         if (is_string($value) && $operator == 'LIKE') {
             $value = str_replace('%', '', $value); // Filebase doesn't use "%"
         }
 
-        $this->query = $this->query->{$method}($field, $operator, $value);
+        $this->data = $this->data->{$method}($field, $operator, $value);
 
         return $this;
-    }
-
-    /**
-     * Add a where constraint.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
-     * @return $this
-     */
-    public function orWhere($field, $operator = null, $value = null)
-    {
-        return $this->where($field, $operator, $value, 'or');
     }
 
     /**
@@ -141,16 +138,18 @@ class FilebaseAdapter extends AbstractAdapter
      */
     public function get(array $parameters = [])
     {
+        $this->data = $this->collect($this->data);
+
         foreach ($parameters as $key => $call) {
 
             $method = Str::camel($key);
 
             foreach ($call as $parameters) {
-                call_user_func_array([$this, $method], $parameters);
+                call_user_func_array([$this, $method], array_filter($parameters));
             }
         }
 
-        return $this->collect($this->query->resultDocuments());
+        return $this->data;
     }
 
     /**
@@ -161,16 +160,7 @@ class FilebaseAdapter extends AbstractAdapter
      */
     public function count(array $parameters = [])
     {
-        foreach ($parameters as $key => $call) {
-
-            $method = Str::camel($key);
-
-            foreach ($call as $parameters) {
-                call_user_func_array([$this, $method], $parameters);
-            }
-        }
-        
-        return $this->query->count();
+        return $this->get($parameters)->count();
     }
 
     /**
@@ -252,11 +242,11 @@ class FilebaseAdapter extends AbstractAdapter
     {
         return $this->newInstance(array_merge(
             [
-                'id' => $entry->getId(),
-                'created_at' => $entry->createdAt(),
-                'updated_at' => $entry->updatedAt(),
+                //'id' => Arr::get($entry, 'id'),
+                //'created_at' => Arr::get($entry, 'created_at'),
+                //'updated_at' => Arr::get($entry, 'updated_at'),
             ],
-            $entry->toArray()
+            $entry
         ));
     }
 }

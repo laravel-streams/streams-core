@@ -4,6 +4,7 @@ namespace Streams\Core\Criteria\Adapter;
 
 use Filebase\Database;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Streams\Core\Entry\Entry;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
@@ -78,9 +79,10 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Get the criteria results.
      * 
+     * @param array $parameters
      * @return Collection
      */
-    abstract public function get();
+    abstract public function get(array $parameters = []);
 
     /**
      * Count the criteria results.

@@ -39,9 +39,10 @@ interface AdapterInterface
     /**
      * Get the criteria results.
      * 
+     * @param array $parameters
      * @return Collection
      */
-    public function get();
+    public function get(array $parameters = []);
 
     /**
      * Count the criteria results.

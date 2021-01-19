@@ -99,7 +99,6 @@ class Criteria
     public function orderBy($field, $direction = 'asc')
     {
         $this->parameters['order_by'][] = [$field, $direction];
-        $this->adapter->orderBy($field, $direction);
 
         return $this;
     }
@@ -113,7 +112,6 @@ class Criteria
     public function limit($limit, $offset = 0)
     {
         $this->parameters['limit'][] = [$limit, $offset];
-        $this->adapter->limit($limit, $offset);
 
         return $this;
     }
@@ -157,9 +155,9 @@ class Criteria
     public function get()
     {
         $fingerprint = $this->stream->handle . '__' . md5(serialize($this->parameters));
-        
-        return $this->once($fingerprint, function() {
-            return $this->performQuery();
+
+        return $this->once($fingerprint, function () {
+            return $this->adapter->get($this->parameters);
         });
     }
 
@@ -170,7 +168,7 @@ class Criteria
      */
     public function count()
     {
-        return $this->adapter->count();
+        return $this->adapter->count($this->parameters);
     }
 
     /**
@@ -222,7 +220,7 @@ class Criteria
      * @param  array|int $parameters
      * @return Paginator
      */
-    public function paginate($parameters = null)
+    public function paginate($parameters = [])
     {
         if (is_numeric($parameters)) {
             $parameters = [
@@ -262,25 +260,6 @@ class Criteria
         $paginator->appends(Request::all());
 
         return $paginator;
-    }
-
-    /**
-     * Perform the query and return results.
-     * 
-     * @return Collection
-     */
-    protected function performQuery()
-    {
-        foreach ($this->parameters as $key => $call) {
-
-            $method = Str::camel($key);
-
-            foreach ($call as $parameters) {
-                call_user_func_array([$this->adapter, $method], $parameters);
-            }
-        }
-
-        return $this->adapter->get();
     }
 
     /**

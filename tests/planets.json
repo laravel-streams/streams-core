@@ -1,0 +1,24 @@
+{
+    "handle": "testing.planets",
+    "description": "Used for testing.",
+    "source": {
+        "path": "vendor/streams/core/tests/data",
+        "type": "file",
+        "format": "json"
+    },
+    "rules": {
+        "id": "required",
+        "name": "required"
+    },
+    "fields": {
+        "name": "string",
+        "climate": "string",
+        "surface_water": "string",
+        "diameter": "integer",
+        "rotation_period": "integer",
+        "terrain": "string",
+        "gravity": "string",
+        "orbital_period": "integer",
+        "population": "integer"
+    }
+}
