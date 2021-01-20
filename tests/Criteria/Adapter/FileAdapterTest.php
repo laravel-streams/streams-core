@@ -15,155 +15,203 @@ class FileAdapterTest extends TestCase
     {
         $this->createApplication();
 
+        $this->tearDown();
+
         Streams::load(base_path('vendor/streams/core/tests/planets.json'));
+        Streams::load(base_path('vendor/streams/core/tests/planets_csv.json'));
     }
 
-    // public function testCanReturnResults()
-    // {
-    //     $second = Streams::entries('testing.planets')->find('second');
-    //     $collection = Streams::entries('testing.planets')->get();
-    //     $first = Streams::entries('testing.planets')->first();
-    //     $all = Streams::entries('testing.planets')->all();
+    public function testCanReturnResults()
+    {
+        $second = Streams::entries('testing.planets')->find('alderaan');
+        $collection = Streams::entries('testing.planets')->get();
+        $first = Streams::entries('testing.planets')->first();
+        $all = Streams::entries('testing.planets')->all();
 
-    //     $this->assertEquals(2, $all->count());
-    //     $this->assertEquals("First Example", $first->name);
-    //     $this->assertEquals("Second Example", $second->name);
+        $this->assertEquals(9, $all->count());
+        $this->assertEquals("Tatooine", $first->name);
+        $this->assertEquals("Alderaan", $second->name);
 
-    //     $this->assertInstanceOf(Collection::class, $collection);
-    //     $this->assertInstanceOf(Entry::class, $first);
-    // }
+        $this->assertInstanceOf(Collection::class, $collection);
+        $this->assertInstanceOf(Entry::class, $first);
+    }
 
-    // public function testCanOrderResults()
-    // {
-    //     $this->assertEquals(
-    //         "Second Example",
-    //         Streams::entries('testing.planets')
-    //             ->orderBy('name', 'desc')
-    //             ->first()->name
-    //     );
-    // }
+    public function testCanOrderResults()
+    {
+        $this->assertEquals(
+            "Yavin IV",
+            Streams::entries('testing.planets')
+                ->orderBy('name', 'desc')
+                ->first()->name
+        );
+    }
 
-    // public function testCanLimitResults()
-    // {
-    //     $this->assertEquals(
-    //         "Second Example",
-    //         Streams::entries('testing.planets')
-    //             ->limit(1, 1)
-    //             ->get()
-    //             ->first()->name
-    //     );
-    // }
+    public function testCanLimitResults()
+    {
+        $this->assertEquals(
+            "Alderaan",
+            Streams::entries('testing.planets')
+                ->limit(1, 1)
+                ->get()
+                ->first()->name
+        );
+    }
 
-    // public function testCanConstrainResults()
-    // {
-    //     $this->assertEquals(
-    //         1,
-    //         Streams::entries('testing.planets')
-    //             ->where('name', 'Second Example')
-    //             ->get()
-    //             ->count()
-    //     );
+    public function testCanConstrainResults()
+    {
+        $this->assertEquals(
+            1,
+            Streams::entries('testing.planets')
+                ->where('name', 'Hoth')
+                ->get()
+                ->count()
+        );
 
-    //     $this->assertEquals(
-    //         2,
-    //         Streams::entries('testing.planets')
-    //             ->where('name', 'Second Example')
-    //             ->orWhere('name', 'First Example')
-    //             ->get()->count()
-    //     );
+        $this->assertEquals(
+            5,
+            Streams::entries('testing.planets')
+                ->where('orbital_period', '>=', 365)
+                ->get()->count()
+        );
 
-    //     $this->assertEquals(
-    //         'Second Example',
-    //         Streams::entries('testing.planets')
-    //             ->where('name', 'Second Example')
-    //             ->first()->name
-    //     );
+        // $this->assertEquals(
+        //     2,
+        //     Streams::entries('testing.planets')
+        //         ->where('orbital_period', '>=', 365)
+        //         ->orWhere('name', 'First Example')
+        //         ->get()->count()
+        // );
 
-    //     $this->assertEquals(
-    //         'First Example',
-    //         Streams::entries('testing.planets')
-    //             ->where('name', '!=', 'Second Example')
-    //             ->first()->name
-    //     );
-    // }
+        $this->assertEquals(
+            'Endor',
+            Streams::entries('testing.planets')
+                ->where('name', 'Endor')
+                ->first()->name
+        );
+    }
 
-    // public function testCanCountResults()
-    // {
-    //     $this->assertEquals(2, Streams::entries('testing.planets')->count());
+    public function testCanCountResults()
+    {
+        $this->assertEquals(9, Streams::entries('testing.planets')->count());
 
-    //     $this->assertEquals(1, Streams::entries('testing.planets')->where('name', 'First Example')->count());
-    // }
+        $this->assertEquals(1, Streams::entries('testing.planets')->where('name', 'Endor')->count());
+    }
 
-    // public function testCanPaginateResults()
-    // {
-    //     $pagination = Streams::entries('testing.planets')->paginate(10);
+    public function testCanPaginateResults()
+    {
+        $pagination = Streams::entries('testing.planets')->paginate(10);
 
-    //     $this->assertInstanceOf(AbstractPaginator::class, $pagination);
-    //     $this->assertEquals(2, $pagination->total());
+        $this->assertInstanceOf(AbstractPaginator::class, $pagination);
+        $this->assertEquals(9, $pagination->total());
 
 
-    //     $pagination = Streams::entries('testing.planets')->paginate([
-    //         'per_page' => 1
-    //     ]);
+        $pagination = Streams::entries('testing.planets')->paginate([
+            'per_page' => 1
+        ]);
 
-    //     $this->assertInstanceOf(AbstractPaginator::class, $pagination);
-    //     $this->assertEquals(2, $pagination->total());
-    // }
+        $this->assertInstanceOf(AbstractPaginator::class, $pagination);
+        $this->assertEquals(9, $pagination->total());
+    }
 
-    // public function testCanReturnNewInstances()
-    // {
-    //     $entry = Streams::entries('testing.planets')->newInstance([
-    //         'name' => 'Jack Smith',
-    //     ]);
+    public function testCanReturnNewInstances()
+    {
+        $entry = Streams::entries('testing.planets')->newInstance([
+            'name' => 'Earth',
+            'climate' => "temperate",
+            'rotation_period' => 24,
+            'orbital_period' => 365,
+        ]);
 
-    //     $this->assertEquals('Jack Smith', $entry->name);
-    // }
+        $this->assertEquals('Earth', $entry->name);
+    }
 
-    // public function testCanCreateAndDelete()
-    // {
-    //     $entry = Streams::entries('testing.planets')->newInstance([
-    //         'id' => 'third',
-    //         'name' => 'Jack Smith',
-    //         'age' => 5,
-    //     ]);
+    public function testCanCreateAndDeleteJsonFormat()
+    {
+        $entry = Streams::entries('testing.planets')->newInstance([
+            'id' => 'earth',
+            'name' => 'Earth',
+            'climate' => "temperate",
+            'rotation_period' => 24,
+            'orbital_period' => 365,
+        ]);
 
-    //     Streams::repository('testing.planets')->save($entry);
+        Streams::repository('testing.planets')->save($entry);
+
+        $this->assertEquals(10, Streams::entries('testing.planets')->count());
+
+        Streams::repository('testing.planets')->delete($entry);
+
+        $this->assertEquals(9, Streams::entries('testing.planets')->count());
+
+
+        $entry = Streams::entries('testing.planets')->create([
+            'id' => 'earth',
+            'name' => 'Earth',
+            'climate' => "temperate",
+            'rotation_period' => 24,
+            'orbital_period' => 365,
+        ]);
+
+        $this->assertEquals('Earth', $entry->name);
+        $this->assertEquals(10, Streams::entries('testing.planets')->count());
+    }
+
+    public function testCanCreateAndDeleteCsvFormat()
+    {
+        $entry = Streams::entries('testing.planets_csv')->newInstance([
+            'id' => 'earth',
+            'name' => 'Earth',
+            'climate' => "temperate",
+            'rotation_period' => 24,
+            'orbital_period' => 365,
+        ]);
         
-    //     $this->assertEquals(3, Streams::entries('testing.planets')->count());
+        Streams::repository('testing.planets_csv')->save($entry);
+
+        $this->assertEquals(10, Streams::entries('testing.planets_csv')->count());
+        
+        Streams::repository('testing.planets_csv')->delete($entry);
+
+        $this->assertEquals(9, Streams::entries('testing.planets_csv')->count());
 
 
-    //     Streams::repository('testing.planets')->delete($entry);
+        $entry = Streams::entries('testing.planets_csv')->create([
+            'id' => 'earth',
+            'name' => 'Earth',
+            'climate' => "temperate",
+            'rotation_period' => 24,
+            'orbital_period' => 365,
+        ]);
 
-    //     $this->assertEquals(2, Streams::entries('testing.planets')->count());
+        $this->assertEquals('Earth', $entry->name);
+        $this->assertEquals(10, Streams::entries('testing.planets_csv')->count());
+    }
 
+    public function testCanTruncate()
+    {
+        Streams::repository('testing.planets')->truncate();
 
-    //     $entry = Streams::entries('testing.planets')->create([
-    //         'id' => 'third',
-    //         'name' => 'Jack Smith',
-    //         'age' => 5,
-    //     ]);
+        $this->assertEquals(0, Streams::entries('testing.planets')->count());
 
-    //     $this->assertEquals('Jack Smith', $entry->name);
-    //     $this->assertEquals(3, Streams::entries('testing.planets')->count());
-    // }
-
-    // public function testCanTruncate()
-    // {
-    //     Streams::repository('testing.planets')->truncate();
-
-    //     $this->assertEquals(0, Streams::entries('testing.planets')->count());
-
-    //     $this->setUp();
-    // }
+        $this->setUp();
+    }
 
     public function tearDown(): void
     {
         $this->createApplication();
 
-        $filename = base_path('vendor/streams/core/tests/data/examples/third.json');
+        $json = base_path('vendor/streams/core/tests/data/planets.json');
+        $csv = base_path('vendor/streams/core/tests/data/planets.csv');
 
-        if (file_exists($filename)) {
-            unlink($filename);
+        if (file_exists($json)) {
+            unlink($json);
         }
+
+        if (file_exists($csv)) {
+            unlink($csv);
+        }
+
+        copy($json . '.bak', $json);
+        copy($csv . '.bak', $csv);
     }
 }

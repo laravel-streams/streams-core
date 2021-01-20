@@ -1,10 +1,10 @@
 {
-    "handle": "testing.planets",
+    "handle": "testing.planets_csv",
     "description": "Used for testing.",
     "source": {
-        "file": "vendor/streams/core/tests/data/planets.json",
+        "file": "vendor/streams/core/tests/data/planets.csv",
         "type": "file",
-        "format": "json"
+        "format": "csv"
     },
     "rules": {
         "id": "required",

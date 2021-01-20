@@ -6,11 +6,13 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\App;
 use Streams\Core\Entry\Contract\EntryInterface;
 
 class FileAdapter extends AbstractAdapter
 {
+
+    protected $data = [];
+    protected $query = [];
 
     /**
      * Create a new class instance.
@@ -21,42 +23,9 @@ class FileAdapter extends AbstractAdapter
     {
         $this->stream = $stream;
 
-        $source = $stream->expandPrototypeAttribute('source');
+        $this->readData();
 
-        $format = $source->get('format', 'json');
-        $path = trim($source->get('path', 'streams/data'), '/\\');
-
-        if ($format == 'json') {
-
-            $this->data = json_decode(file_get_contents(base_path($path . '/' . $stream->handle . '.' . $format)), true);
-
-            array_walk($this->data, function ($item, $key) {
-                $this->data[$key] = ['id' => $key] + $item;
-            });
-        }
-
-        if ($format == 'csv') {
-
-            $handle = fopen(base_path($path . '/' . $stream->handle . '.' . $format), 'r');
-
-            $i = 0;
-
-            while (($row = fgetcsv($handle, 4096)) !== false) {
-
-                if (empty($fields)) {
-                    $fields = $row;
-                    continue;
-                }
-
-                foreach ($row as $k => $value) {
-                    $this->data[$i][$fields[$k]] = $value;
-                }
-
-                $i++;
-            }
-
-            fclose($handle);
-        }
+        $this->query = $this->data;
     }
 
     /**
@@ -68,7 +37,7 @@ class FileAdapter extends AbstractAdapter
      */
     public function orderBy($field, $direction = 'asc')
     {
-        $this->data = $this->data->sortBy($field, strtolower($direction) == 'asc' ? 0 : 1);
+        $this->query = $this->query->sortBy($field, SORT_REGULAR, strtolower($direction) === 'desc' ? true : false);
 
         return $this;
     }
@@ -82,10 +51,10 @@ class FileAdapter extends AbstractAdapter
     public function limit($limit, $offset = 0)
     {
         if ($offset) {
-            $this->data = $this->data->skip($offset);
+            $this->query = $this->query->skip($offset);
         }
 
-        $this->data = $this->data->take($limit);
+        $this->query = $this->query->take($limit);
 
         return $this;
     }
@@ -114,11 +83,7 @@ class FileAdapter extends AbstractAdapter
 
         $method = $nested ? Str::studly($nested . '_where') : 'where';
 
-        if (is_string($value) && $operator == 'LIKE') {
-            $value = str_replace('%', '', $value); // Filebase doesn't use "%"
-        }
-
-        $this->data = $this->data->{$method}($field, $operator, $value);
+        $this->query = $this->query->{$method}($field, $operator, $value);
 
         return $this;
     }
@@ -131,7 +96,7 @@ class FileAdapter extends AbstractAdapter
      */
     public function get(array $parameters = [])
     {
-        $this->data = $this->collect($this->data);
+        $this->query = $this->collect($this->query);
 
         foreach ($parameters as $key => $call) {
 
@@ -142,7 +107,7 @@ class FileAdapter extends AbstractAdapter
             }
         }
 
-        return $this->data;
+        return $this->query;
     }
 
     /**
@@ -166,17 +131,30 @@ class FileAdapter extends AbstractAdapter
     {
         $id = Arr::pull($attributes, 'id');
 
-        if ($this->query->has($id)) {
+        if (array_key_exists($id, $this->data)) {
             throw new \Exception("Entry with ID [{$id}] already exists.");
         }
 
-        $document = $this->query->get($id);
 
-        if (!$document->save($attributes)) {
-            return false;
+        $format = $this->stream->getPrototypeAttribute('source.format', 'json');
+
+        if ($format == 'csv') {
+
+            $fields = $this->stream->fields->keys()->all();
+
+            $fields = array_combine($fields, array_fill(0, count($fields), null));
+
+            $this->data[$id] = array_merge($fields, $attributes);
         }
 
-        return $this->make($document);
+        if ($format == 'json') {
+            $this->data[$id] = $attributes;
+        }
+
+
+        $this->writeData();
+
+        return $this->make(['id' => $id] + $attributes);
     }
 
     /**
@@ -189,17 +167,26 @@ class FileAdapter extends AbstractAdapter
     {
         $attributes = $entry->getAttributes();
 
-        /**
-         * Remove these protected
-         * and automated attributes.
-         */
-        Arr::pull($attributes, 'id');
-        Arr::pull($attributes, 'created_at');
-        Arr::pull($attributes, 'updated_at');
+        if (!$id = Arr::pull($attributes, 'id')) {
+            throw new \Exception('The ID attribute is required.');
+        }
 
-        return (bool) $this->query
-            ->get($entry->id)
-            ->save($attributes);
+        $format = $this->stream->getPrototypeAttribute('source.format', 'json');
+
+        if ($format == 'csv') {
+
+            $fields = $this->stream->fields->keys()->all();
+
+            $fields = array_combine($fields, array_fill(0, count($fields), null));
+
+            $this->data[$id] = ['id' => $id] + array_merge($fields, $attributes);
+        }
+
+        if ($format == 'json') {
+            $this->data[$id] = $attributes;
+        }
+
+        $this->writeData();
     }
 
     /**
@@ -210,16 +197,13 @@ class FileAdapter extends AbstractAdapter
      */
     public function delete(array $parameters = [])
     {
-        foreach ($parameters as $key => $call) {
+        $this->get($parameters)->each(function ($entry) {
+            unset($this->data[$entry->id]);
+        });
 
-            $method = Str::camel($key);
+        $this->writeData();
 
-            foreach ($call as $parameters) {
-                call_user_func_array([$this, $method], $parameters);
-            }
-        }
-        
-        return $this->query->delete();
+        return true;
     }
 
     /**
@@ -229,7 +213,9 @@ class FileAdapter extends AbstractAdapter
      */
     public function truncate()
     {
-        $this->query->truncate();
+        $this->data = [];
+
+        $this->writeData();
     }
 
     /**
@@ -240,13 +226,81 @@ class FileAdapter extends AbstractAdapter
      */
     protected function make($entry)
     {
+        if ($entry instanceof EntryInterface) {
+            return $entry;
+        }
+
         return $this->newInstance(array_merge(
             [
-                //'id' => Arr::get($entry, 'id'),
-                //'created_at' => Arr::get($entry, 'created_at'),
-                //'updated_at' => Arr::get($entry, 'updated_at'),
+                'id' => Arr::get($entry, 'id'),
             ],
             $entry
         ));
+    }
+
+    protected function readData()
+    {
+        $source = $this->stream->expandPrototypeAttribute('source');
+
+        $format = $source->get('format', 'json');
+        $file = trim($source->get('file', 'streams/data/' . $this->stream->handle . '.' . $format), '/\\');
+
+        if ($format == 'json') {
+
+            $this->data = json_decode(file_get_contents(base_path($file)), true);
+
+            array_walk($this->data, function ($item, $key) {
+                $this->data[$key] = ['id' => $key] + $item;
+            });
+        }
+
+        if ($format == 'csv') {
+
+            $handle = fopen(base_path($file), 'r');
+
+            $i = 0;
+
+            while (($row = fgetcsv($handle)) !== false) {
+
+                if ($i == 0) {
+                    $fields = $row;
+                    $i++;
+                    continue;
+                }
+
+                $row = array_combine($fields, $row);
+
+                $this->data[Arr::get($row, 'id', $i)] = $row;
+
+                $i++;
+            }
+
+            fclose($handle);
+        }
+    }
+
+    protected function writeData()
+    {
+        $source = $this->stream->expandPrototypeAttribute('source');
+
+        $format = $source->get('format', 'json');
+        $file = base_path(trim($source->get('file', 'streams/data/' . $this->stream->handle . '.' . $format), '/\\'));
+
+        if ($format == 'json') {
+            file_put_contents($file, json_encode($this->data, JSON_PRETTY_PRINT));
+        }
+
+        if ($format == 'csv') {
+
+            $handle = fopen($file, 'w');
+
+            fputcsv($handle, $this->stream->fields->keys()->all());
+            
+            array_map(function ($item) use ($handle) {
+                fputcsv($handle, $item);
+            }, $this->data);
+
+            fclose($handle);
+        }
     }
 }

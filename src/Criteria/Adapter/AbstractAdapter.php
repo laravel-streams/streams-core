@@ -137,10 +137,6 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     protected function make($entry)
     {
-        if ($entry instanceof EntryInterface) {
-            return $entry;
-        }
-        
         return $this->newInstance(array_merge(
             [
                 'id' => $entry->getId(),
