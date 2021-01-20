@@ -18,20 +18,20 @@ class FileAdapterTest extends TestCase
         Streams::load(base_path('vendor/streams/core/tests/planets.json'));
     }
 
-    public function testCanReturnResults()
-    {
-        $second = Streams::entries('testing.planets')->find('second');
-        $collection = Streams::entries('testing.planets')->get();
-        $first = Streams::entries('testing.planets')->first();
-        $all = Streams::entries('testing.planets')->all();
+    // public function testCanReturnResults()
+    // {
+    //     $second = Streams::entries('testing.planets')->find('second');
+    //     $collection = Streams::entries('testing.planets')->get();
+    //     $first = Streams::entries('testing.planets')->first();
+    //     $all = Streams::entries('testing.planets')->all();
 
-        $this->assertEquals(2, $all->count());
-        $this->assertEquals("First Example", $first->name);
-        $this->assertEquals("Second Example", $second->name);
+    //     $this->assertEquals(2, $all->count());
+    //     $this->assertEquals("First Example", $first->name);
+    //     $this->assertEquals("Second Example", $second->name);
 
-        $this->assertInstanceOf(Collection::class, $collection);
-        $this->assertInstanceOf(Entry::class, $first);
-    }
+    //     $this->assertInstanceOf(Collection::class, $collection);
+    //     $this->assertInstanceOf(Entry::class, $first);
+    // }
 
     // public function testCanOrderResults()
     // {
