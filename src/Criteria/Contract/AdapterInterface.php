@@ -70,10 +70,10 @@ interface AdapterInterface
     /**
      * Delete an entry.
      *
-     * @param EntryInterface $entry
+     * @param array $parameters
      * @return bool
      */
-    public function delete(EntryInterface $entry);
+    public function delete(array $parameters = []);
 
     /**
      * Delete all entries.

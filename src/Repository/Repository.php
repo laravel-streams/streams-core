@@ -162,7 +162,8 @@ class Repository implements RepositoryInterface
 
         return $this
             ->newCriteria()
-            ->delete($id);
+            ->where('id', $id)
+            ->delete();
     }
 
     /**

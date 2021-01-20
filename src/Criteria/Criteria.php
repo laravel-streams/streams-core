@@ -185,10 +185,10 @@ class Criteria
     /**
      * Save an entry.
      *
-     * @param  EntryInterface $entry
+     * @param $entry
      * @return bool
      */
-    public function save(EntryInterface $entry)
+    public function save($entry)
     {
         return $this->adapter->save($entry);
     }
@@ -196,12 +196,11 @@ class Criteria
     /**
      * Delete an entry.
      *
-     * @param $entry
      * @return bool
      */
-    public function delete($entry)
+    public function delete()
     {
-        return $this->adapter->delete($entry);
+        return $this->adapter->delete($this->parameters);
     }
 
     /**
@@ -270,14 +269,6 @@ class Criteria
      */
     public function newInstance(array $attributes = [])
     {
-        $prototype = $this->stream->getPrototypeAttribute('config.prototype') ?: Entry::class; // @todo or 'config.abstract' as a general term.
-
-        $attributes['stream'] = $this->stream;
-
-        $prototype = new $prototype($attributes);
-
-        $prototype->loadPrototypeProperties($this->stream->fields->toArray());
-
-        return $prototype;
+        return $this->adapter->newInstance($attributes);
     }
 }

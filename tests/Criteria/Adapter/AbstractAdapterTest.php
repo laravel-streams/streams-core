@@ -1,6 +1,6 @@
 <?php
 
-namespace Streams\Core\Tests\Stream\Criteria\Format;
+namespace Streams\Core\Tests\Stream\Criteria\Adapter;
 
 use Tests\TestCase;
 use Streams\Core\Support\Facades\Streams;

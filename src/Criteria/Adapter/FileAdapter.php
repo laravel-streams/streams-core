@@ -26,13 +26,6 @@ class FileAdapter extends AbstractAdapter
         $format = $source->get('format', 'json');
         $path = trim($source->get('path', 'streams/data'), '/\\');
 
-        if ($stream->translatable && App::getLocale() != App::getFallbackLocale()) {
-
-            $localization = $stream->translatable[App::getLocale()];
-
-            $path = trim(Arr::get($localization, 'source.path', $path), '/\\');
-        }
-
         if ($format == 'json') {
 
             $this->data = json_decode(file_get_contents(base_path($path . '/' . $stream->handle . '.' . $format)), true);
@@ -145,7 +138,7 @@ class FileAdapter extends AbstractAdapter
             $method = Str::camel($key);
 
             foreach ($call as $parameters) {
-                call_user_func_array([$this, $method], array_filter($parameters));
+                call_user_func_array([$this, $method], $parameters);
             }
         }
 
@@ -210,16 +203,23 @@ class FileAdapter extends AbstractAdapter
     }
 
     /**
-     * Delete an entry.
+     * Delete results.
      *
-     * @param $id
+     * @param array $parameters
      * @return bool
      */
-    public function delete($id)
+    public function delete(array $parameters = [])
     {
-        return $this->query
-            ->get($id)
-            ->delete();
+        foreach ($parameters as $key => $call) {
+
+            $method = Str::camel($key);
+
+            foreach ($call as $parameters) {
+                call_user_func_array([$this, $method], $parameters);
+            }
+        }
+        
+        return $this->query->delete();
     }
 
     /**

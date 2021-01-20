@@ -3,14 +3,11 @@
 namespace Streams\Core\Criteria\Adapter;
 
 use Filebase\Database;
-use Illuminate\Support\Arr;
 use Streams\Core\Entry\Entry;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\HasMemory;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Streams\Core\Entry\Contract\EntryInterface;
 use Streams\Core\Criteria\Contract\AdapterInterface;
 
@@ -96,10 +93,10 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Delete an entry.
      *
-     * @param EntryInterface $entry
+     * @param array $parameters
      * @return bool
      */
-    abstract public function delete(EntryInterface $entry);
+    abstract public function delete(array $parameters = []);
 
     /**
      * Truncate all entries.
@@ -120,12 +117,38 @@ abstract class AbstractAdapter implements AdapterInterface
 
         $collection = new $collection;
 
+        if ($entries instanceof Collection) {
+            $entries = $entries->all();
+        }
+
         array_map(function ($entry) use ($collection) {
             $entry = $this->make($entry);
             $collection->put($entry->id, $entry);
-        }, (array) $entries);
+        }, $entries);
 
         return $collection;
+    }
+
+    /**
+     * Return an entry interface from a file.
+     *
+     * @param $entry
+     * @return EntryInterface
+     */
+    protected function make($entry)
+    {
+        if ($entry instanceof EntryInterface) {
+            return $entry;
+        }
+        
+        return $this->newInstance(array_merge(
+            [
+                'id' => $entry->getId(),
+                'created_at' => $entry->createdAt(),
+                'updated_at' => $entry->updatedAt(),
+            ],
+            $entry->toArray()
+        ));
     }
 
     /**

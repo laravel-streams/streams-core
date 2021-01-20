@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Criteria\Adapter;
 
+use Filebase\Query;
 use Filebase\Database;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -17,7 +18,7 @@ class FilebaseAdapter extends AbstractAdapter
     /**
      * The database query.
      *
-     * @var Database
+     * @var Database|Query
      */
     protected $query;
 
@@ -36,13 +37,6 @@ class FilebaseAdapter extends AbstractAdapter
         $format = Config::get('streams.sources.types.filebase.formats.' . $format);
         
         $path = $source->get('path', 'streams/data/' . $stream->handle);
-
-        if ($stream->translatable && App::getLocale() != App::getFallbackLocale()) {
-            
-            $localization = $stream->translatable[App::getLocale()];
-
-            $path = Arr::get($localization, 'source.path', $path);
-        }
 
         $this->query = new Database([
             'dir' => base_path($path),
@@ -176,11 +170,7 @@ class FilebaseAdapter extends AbstractAdapter
 
         $document = $this->query->get($id);
 
-        if (!$document->save($attributes)) {
-            return false;
-        }
-
-        return $this->make($document);
+        return $this->make($document->save($attributes));
     }
 
     /**
@@ -207,16 +197,23 @@ class FilebaseAdapter extends AbstractAdapter
     }
 
     /**
-     * Delete an entry.
+     * Delete results.
      *
-     * @param $id
+     * @param array $parameters
      * @return bool
      */
-    public function delete($id)
+    public function delete(array $parameters = [])
     {
-        return $this->query
-            ->get($id)
-            ->delete();
+        foreach ($parameters as $key => $call) {
+
+            $method = Str::camel($key);
+
+            foreach ($call as $parameters) {
+                call_user_func_array([$this, $method], $parameters);
+            }
+        }
+        
+        return $this->query->delete();
     }
 
     /**
@@ -227,23 +224,5 @@ class FilebaseAdapter extends AbstractAdapter
     public function truncate()
     {
         $this->query->truncate();
-    }
-
-    /**
-     * Return an entry interface from a file.
-     *
-     * @param $entry
-     * @return EntryInterface
-     */
-    protected function make($entry)
-    {
-        return $this->newInstance(array_merge(
-            [
-                'id' => $entry->getId(),
-                'created_at' => $entry->createdAt(),
-                'updated_at' => $entry->updatedAt(),
-            ],
-            $entry->toArray()
-        ));
     }
 }

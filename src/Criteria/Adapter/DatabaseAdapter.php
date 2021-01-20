@@ -108,7 +108,7 @@ class DatabaseAdapter extends AbstractAdapter
             $method = Str::camel($key);
 
             foreach ($call as $parameters) {
-                call_user_func_array([$this, $method], array_filter($parameters));
+                call_user_func_array([$this, $method], $parameters);
             }
         }
 
@@ -143,7 +143,9 @@ class DatabaseAdapter extends AbstractAdapter
      */
     public function create(array $attributes = [])
     {
-        return $this->make($this->query->insert($attributes));
+        $id = $this->query->insertGetId($attributes);
+
+        return $this->make(['id' => $id] + $attributes);
     }
 
     /**
@@ -154,20 +156,37 @@ class DatabaseAdapter extends AbstractAdapter
      */
     public function save($entry)
     {
-        return $this->query->update($entry->getAttributes());
+        $attributes = $entry->getAttributes();
+
+        if (isset($attributes['id'])) {
+            return $this->query->update($entry->getAttributes());
+        }
+
+        $id = $this->query->insertGetId($entry->getAttributes());
+
+        $entry->id = $id;
+
+        return true;
     }
 
     /**
-     * Delete an entry.
+     * Delete results.
      *
-     * @param EntryInterface $entry
+     * @param array $parameters
      * @return bool
      */
-    public function delete(EntryInterface $entry)
+    public function delete(array $parameters = [])
     {
-        return $this->query
-            ->get($entry->id)
-            ->delete();
+        foreach ($parameters as $key => $call) {
+
+            $method = Str::camel($key);
+
+            foreach ($call as $parameters) {
+                call_user_func_array([$this, $method], $parameters);
+            }
+        }
+
+        return $this->query->delete();
     }
 
     /**

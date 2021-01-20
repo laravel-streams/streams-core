@@ -160,16 +160,23 @@ class EloquentAdapter extends AbstractAdapter
     }
 
     /**
-     * Delete an entry.
+     * Delete results.
      *
-     * @param EntryInterface $entry
+     * @param array $parameters
      * @return bool
      */
-    public function delete(EntryInterface $entry)
+    public function delete(array $parameters = [])
     {
-        return $this->query
-            ->get($entry->id)
-            ->delete();
+        foreach ($parameters as $key => $call) {
+
+            $method = Str::camel($key);
+
+            foreach ($call as $parameters) {
+                call_user_func_array([$this, $method], $parameters);
+            }
+        }
+        
+        return $this->query->delete();
     }
 
     /**
@@ -195,5 +202,20 @@ class EloquentAdapter extends AbstractAdapter
         }
         
         return $this->newInstance($entry);
+    }
+
+    /**
+     * Return an entry instance.
+     *
+     * @param array $attributes
+     * @return EntryInterface
+     */
+    public function newInstance(array $attributes = [])
+    {
+        $model = $this->stream->getPrototypeAttribute('source.model');
+
+        $model = new $model($attributes);
+
+        return $model;
     }
 }
