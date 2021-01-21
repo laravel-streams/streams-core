@@ -4,7 +4,6 @@ namespace Streams\Core\Criteria\Format;
 
 use Illuminate\Support\Arr;
 use Filebase\Format\FormatInterface;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\Yaml\Yaml as Parser;
 
 /**
@@ -41,14 +40,6 @@ class Yaml implements FormatInterface
         $data = Arr::pull($meta, 'data', []);
 
         $data = array_merge($meta, $data);
-
-        if (!isset($data['__created_by']) && $user = Auth::user()) {
-            $data['__created_by'] = $user->getAuthIdentifier();
-        }
-
-        if (!isset($data['__updated_by']) && $user = Auth::user()) {
-            $data['__updated_by'] = $user->getAuthIdentifier();
-        }
 
         return Parser::dump($data);
     }

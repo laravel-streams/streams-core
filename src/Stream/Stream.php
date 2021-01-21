@@ -8,7 +8,6 @@ use Illuminate\Validation\Factory;
 use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Validator;
 use Streams\Core\Repository\Repository;
-use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;

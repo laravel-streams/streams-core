@@ -2,11 +2,13 @@
 
 namespace Streams\Core\Criteria\Adapter;
 
+use Filebase\Query;
 use Filebase\Database;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Streams\Core\Entry\Contract\EntryInterface;
 
@@ -16,7 +18,7 @@ class FilebaseAdapter extends AbstractAdapter
     /**
      * The database query.
      *
-     * @var Database
+     * @var Database|Query
      */
     protected $query;
 
@@ -31,54 +33,21 @@ class FilebaseAdapter extends AbstractAdapter
 
         $source = $stream->expandPrototypeAttribute('source');
 
+        $format = $source->get('format', 'json');
+        $format = Config::get('streams.sources.types.filebase.formats.' . $format);
+        
+        $path = $source->get('path', 'streams/data/' . $stream->handle);
+
         $this->query = new Database([
-            'dir' => base_path($source->get('path', 'streams/data/' . $stream->handle)),
+            'dir' => base_path($path),
 
             //'backupLocation' => 'path/to/database/backup/dir',
-            'format'         => Config::get('streams.sources.types.filebase.formats.' . $source->get('format', 'json')),
+            'format'         => $format,
             'cache'          => $source->get('cache', false),
             'cache_expires'  => $source->get('ttl', 1800),
             'pretty'         => true,
             'safe_filename'  => true,
         ]);
-    }
-
-    /**
-     * Return all entries.
-     * 
-     * @return Collection
-     */
-    public function all()
-    {
-        return $this->collect($this->query->findAll());
-    }
-
-    /**
-     * Return all entries.
-     * 
-     * @param string $id
-     * @return Collection
-     */
-    public function find($id)
-    {
-        if (!$this->query->has($id)) {
-            return null;
-        }
-
-        return $this->make($this->query->get($id));
-    }
-
-    /**
-     * Return the first result.
-     * 
-     * @return null|EntryInterface
-     */
-    public function first()
-    {
-        return $this
-            ->limit(1, 0)
-            ->get()
-            ->first();
     }
 
     /**
@@ -146,35 +115,42 @@ class FilebaseAdapter extends AbstractAdapter
     }
 
     /**
-     * Add a where constraint.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
-     * @return $this
-     */
-    public function orWhere($field, $operator = null, $value = null)
-    {
-        return $this->where($field, $operator, $value, 'or');
-    }
-
-    /**
      * Get the criteria results.
      * 
+     * @param array $parameters
      * @return Collection
      */
-    public function get()
+    public function get(array $parameters = [])
     {
+        foreach ($parameters as $key => $call) {
+
+            $method = Str::camel($key);
+
+            foreach ($call as $parameters) {
+                call_user_func_array([$this, $method], $parameters);
+            }
+        }
+
         return $this->collect($this->query->resultDocuments());
     }
 
     /**
      * Count the criteria results.
      * 
+     * @param array $parameters
      * @return int
      */
-    public function count()
+    public function count(array $parameters = [])
     {
+        foreach ($parameters as $key => $call) {
+
+            $method = Str::camel($key);
+
+            foreach ($call as $parameters) {
+                call_user_func_array([$this, $method], $parameters);
+            }
+        }
+        
         return $this->query->count();
     }
 
@@ -194,11 +170,7 @@ class FilebaseAdapter extends AbstractAdapter
 
         $document = $this->query->get($id);
 
-        if (!$document->save($attributes)) {
-            return false;
-        }
-
-        return $this->make($document);
+        return $this->make($document->save($attributes));
     }
 
     /**
@@ -225,16 +197,23 @@ class FilebaseAdapter extends AbstractAdapter
     }
 
     /**
-     * Delete an entry.
+     * Delete results.
      *
-     * @param $id
+     * @param array $parameters
      * @return bool
      */
-    public function delete($id)
+    public function delete(array $parameters = [])
     {
-        return $this->query
-            ->get($id)
-            ->delete();
+        foreach ($parameters as $key => $call) {
+
+            $method = Str::camel($key);
+
+            foreach ($call as $parameters) {
+                call_user_func_array([$this, $method], $parameters);
+            }
+        }
+        
+        return $this->query->delete();
     }
 
     /**
@@ -245,46 +224,5 @@ class FilebaseAdapter extends AbstractAdapter
     public function truncate()
     {
         $this->query->truncate();
-    }
-
-    /**
-     * Return an entry collection.
-     *
-     * @param array $entries
-     * @return Collection
-     */
-    protected function collect($entries)
-    {
-        if (!$entries instanceof Collection) {
-            
-            $collection = $this->stream->getPrototypeAttribute('collection') ?: Collection::class;
-            
-            $collection = new $collection();
-        }
-
-        array_map(function ($entry) use ($collection) {
-            $entry = $this->make($entry);
-            $collection->put($entry->id, $entry);
-        }, $entries);
-
-        return $collection;
-    }
-
-    /**
-     * Return an entry interface from a file.
-     *
-     * @param $entry
-     * @return EntryInterface
-     */
-    protected function make($entry)
-    {
-        return $this->newInstance(array_merge(
-            [
-                'id' => $entry->getId(),
-                'created_at' => $entry->createdAt(),
-                'updated_at' => $entry->updatedAt(),
-            ],
-            $entry->toArray()
-        ));
     }
 }

@@ -43,37 +43,6 @@ class EloquentAdapter extends AbstractAdapter
     }
 
     /**
-     * Return all entries.
-     * 
-     * @return Collection
-     */
-    public function all()
-    {
-        return $this->collect($this->query->get());
-    }
-
-    /**
-     * Return all entries.
-     * 
-     * @param string $id
-     * @return Collection
-     */
-    public function find($id)
-    {
-        return $this->make($this->query->find($id));
-    }
-
-    /**
-     * Return the first result.
-     * 
-     * @return null|EntryInterface
-     */
-    public function first()
-    {
-        return $this->make($this->query->first());
-    }
-
-    /**
      * Order the query by field/direction.
      *
      * @param string $field
@@ -129,48 +98,42 @@ class EloquentAdapter extends AbstractAdapter
     }
 
     /**
-     * Add a where constraint.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
-     * @return $this
-     */
-    public function andWhere($field, $operator = null, $value = null)
-    {
-        return $this->where($field, $operator, $value, 'and');
-    }
-
-    /**
-     * Add a where constraint.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
-     * @return $this
-     */
-    public function orWhere($field, $operator = null, $value = null)
-    {
-        return $this->where($field, $operator, $value, 'or');
-    }
-
-    /**
      * Get the criteria results.
      * 
+     * @param array $parameters
      * @return Collection
      */
-    public function get()
+    public function get(array $parameters = [])
     {
+        foreach ($parameters as $key => $call) {
+
+            $method = Str::camel($key);
+
+            foreach ($call as $parameters) {
+                call_user_func_array([$this, $method], $parameters);
+            }
+        }
+
         return $this->collect($this->query->get());
     }
 
     /**
      * Count the criteria results.
      * 
+     * @param array $parameters
      * @return int
      */
-    public function count()
+    public function count(array $parameters = [])
     {
+        foreach ($parameters as $key => $call) {
+
+            $method = Str::camel($key);
+
+            foreach ($call as $parameters) {
+                call_user_func_array([$this, $method], $parameters);
+            }
+        }
+
         return $this->query->count();
     }
 
@@ -197,16 +160,23 @@ class EloquentAdapter extends AbstractAdapter
     }
 
     /**
-     * Delete an entry.
+     * Delete results.
      *
-     * @param EntryInterface $entry
+     * @param array $parameters
      * @return bool
      */
-    public function delete(EntryInterface $entry)
+    public function delete(array $parameters = [])
     {
-        return $this->query
-            ->get($entry->id)
-            ->delete();
+        foreach ($parameters as $key => $call) {
+
+            $method = Str::camel($key);
+
+            foreach ($call as $parameters) {
+                call_user_func_array([$this, $method], $parameters);
+            }
+        }
+        
+        return $this->query->delete();
     }
 
     /**
@@ -217,32 +187,6 @@ class EloquentAdapter extends AbstractAdapter
     public function truncate()
     {
         $this->query->truncate();
-    }
-
-    // /**
-    //  * Return an entry instance.
-    //  *
-    //  * @param array $attributes
-    //  * @return EntryInterface
-    //  */
-    // public function newInstance(array $attributes = [])
-    // {
-    //     $model = $this->stream->getPrototypeAttribute('source.model');
-
-    //     return new $model($attributes);
-    // }
-
-    /**
-     * Return an entry collection.
-     *
-     * @param $entries
-     * @return Collection
-     */
-    protected function collect($entries)
-    {
-        return $entries->map(function($entry) {
-            return $this->make($entry);
-        });
     }
 
     /**
@@ -258,5 +202,20 @@ class EloquentAdapter extends AbstractAdapter
         }
         
         return $this->newInstance($entry);
+    }
+
+    /**
+     * Return an entry instance.
+     *
+     * @param array $attributes
+     * @return EntryInterface
+     */
+    public function newInstance(array $attributes = [])
+    {
+        $model = $this->stream->getPrototypeAttribute('source.model');
+
+        $model = new $model($attributes);
+
+        return $model;
     }
 }

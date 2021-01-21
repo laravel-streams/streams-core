@@ -86,6 +86,7 @@ class StreamsServiceProvider extends ServiceProvider
         'hydrator' => \Streams\Core\Support\Hydrator::class,
         'decorator' => \Streams\Core\Support\Decorator::class,
         'evaluator' => \Streams\Core\Support\Evaluator::class,
+        'transformer' => \Streams\Core\Support\Transformer::class,
     ];
 
     /**
@@ -132,6 +133,8 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->bootApplication();
+
         $this->publishes([
             base_path('vendor/streams/core/resources/public')
             => public_path('vendor/streams/core')
@@ -267,16 +270,17 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerApplications()
     {
+        $url = Request::fullUrl();
         $applications = Streams::entries('streams.applications')->all();
 
         /**
          * Mark the active application
          * according to it's match.
          */
-        $applications->each(function ($application) {
+        $applications->each(function ($application) use ($url) {
 
             $default = ($application->match
-                && Str::is($application->match, Request::fullUrlWithQuery(Request::query())));
+                && Str::is($application->match, $url));
 
             $application->active = $application->active ?: $default;
         });
@@ -307,14 +311,28 @@ class StreamsServiceProvider extends ServiceProvider
             $active = new Application([]);
         }
 
-        // Register it as so.
+        // Register the active application.
         $this->app->singleton('streams.application', function () use ($active) {
             return $active;
         });
 
         // Configure
         if ($active->config) {
-            config($active->config);
+            Config::set($active->config);
+        }
+    }
+
+    /**
+     * Register the applications.
+     */
+    protected function bootApplication()
+    {
+        // Register the active application.
+        $active = $this->app->make('streams.application');
+
+        // Locale
+        if ($active->locale) {
+            $this->app->setLocale($active->locale);
         }
     }
 

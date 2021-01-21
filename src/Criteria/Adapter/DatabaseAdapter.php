@@ -36,39 +36,12 @@ class DatabaseAdapter extends AbstractAdapter
     {
         $this->stream = $stream;
 
-        $this->query = DB::connection($stream->getPrototypeAttribute('source.connection') ?: Config::get('database.default'))
+        if (!$connection = $stream->getPrototypeAttribute('source.connection')) {
+            $connection = Config::get('database.default');
+        }
+
+        $this->query = DB::connection($connection)
             ->table($stream->getPrototypeAttribute('source.table'));
-    }
-
-    /**
-     * Return all entries.
-     * 
-     * @return Collection
-     */
-    public function all()
-    {
-        return $this->collect($this->query->get());
-    }
-
-    /**
-     * Return all entries.
-     * 
-     * @param string $id
-     * @return Collection
-     */
-    public function find($id)
-    {
-        return $this->make($this->query->find($id));
-    }
-
-    /**
-     * Return the first result.
-     * 
-     * @return null|EntryInterface
-     */
-    public function first()
-    {
-        return $this->make($this->query->first());
     }
 
     /**
@@ -123,48 +96,42 @@ class DatabaseAdapter extends AbstractAdapter
     }
 
     /**
-     * Add a where constraint.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
-     * @return $this
-     */
-    public function andWhere($field, $operator = null, $value = null)
-    {
-        return $this->where($field, $operator, $value, 'and');
-    }
-
-    /**
-     * Add a where constraint.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
-     * @return $this
-     */
-    public function orWhere($field, $operator = null, $value = null)
-    {
-        return $this->where($field, $operator, $value, 'or');
-    }
-
-    /**
      * Get the criteria results.
      * 
+     * @param array $parameters
      * @return Collection
      */
-    public function get()
+    public function get(array $parameters = [])
     {
+        foreach ($parameters as $key => $call) {
+
+            $method = Str::camel($key);
+
+            foreach ($call as $parameters) {
+                call_user_func_array([$this, $method], $parameters);
+            }
+        }
+
         return $this->collect($this->query->get());
     }
 
     /**
      * Count the criteria results.
      * 
+     * @param array $parameters
      * @return int
      */
-    public function count()
+    public function count(array $parameters = [])
     {
+        foreach ($parameters as $key => $call) {
+
+            $method = Str::camel($key);
+
+            foreach ($call as $parameters) {
+                call_user_func_array([$this, $method], $parameters);
+            }
+        }
+        
         return $this->query->count();
     }
 
@@ -176,7 +143,9 @@ class DatabaseAdapter extends AbstractAdapter
      */
     public function create(array $attributes = [])
     {
-        return $this->query->create($attributes);
+        $id = $this->query->insertGetId($attributes);
+
+        return $this->make(['id' => $id] + $attributes);
     }
 
     /**
@@ -187,20 +156,37 @@ class DatabaseAdapter extends AbstractAdapter
      */
     public function save($entry)
     {
-        return $this->query->save($entry);
+        $attributes = $entry->getAttributes();
+
+        if (isset($attributes['id'])) {
+            return $this->query->update($entry->getAttributes());
+        }
+
+        $id = $this->query->insertGetId($entry->getAttributes());
+
+        $entry->id = $id;
+
+        return true;
     }
 
     /**
-     * Delete an entry.
+     * Delete results.
      *
-     * @param EntryInterface $entry
+     * @param array $parameters
      * @return bool
      */
-    public function delete(EntryInterface $entry)
+    public function delete(array $parameters = [])
     {
-        return $this->query
-            ->get($entry->id)
-            ->delete();
+        foreach ($parameters as $key => $call) {
+
+            $method = Str::camel($key);
+
+            foreach ($call as $parameters) {
+                call_user_func_array([$this, $method], $parameters);
+            }
+        }
+
+        return $this->query->delete();
     }
 
     /**
@@ -211,19 +197,6 @@ class DatabaseAdapter extends AbstractAdapter
     public function truncate()
     {
         $this->query->truncate();
-    }
-
-    /**
-     * Return an entry collection.
-     *
-     * @param $entries
-     * @return Collection
-     */
-    protected function collect($entries)
-    {
-        return $entries->map(function($entry) {
-            return $this->make($entry);
-        });
     }
 
     /**

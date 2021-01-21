@@ -9,6 +9,7 @@ use Streams\Core\Criteria\Criteria;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\HasMemory;
+use Streams\Core\Criteria\Adapter\FileAdapter;
 use Streams\Core\Entry\Contract\EntryInterface;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Criteria\Adapter\DatabaseAdapter;
@@ -161,7 +162,8 @@ class Repository implements RepositoryInterface
 
         return $this
             ->newCriteria()
-            ->delete($id);
+            ->where('id', $id)
+            ->delete();
     }
 
     /**
@@ -201,6 +203,16 @@ class Repository implements RepositoryInterface
         $adapter = Str::camel("new_{$this->stream->expandPrototypeAttribute('source')->get('type', $default)}_adapter");
         
         return new Criteria($this->$adapter(), $this->stream);
+    }
+
+    /**
+     * Return a new file criteria.
+     * 
+     * @return FileAdapter
+     */
+    public function newFileAdapter()
+    {
+        return new FileAdapter($this->stream);
     }
 
     /**

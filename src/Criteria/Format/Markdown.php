@@ -42,14 +42,6 @@ class Markdown implements FormatInterface
 
         $data = array_merge($meta, $data);
 
-        if (!isset($data['__created_by']) && $user = Auth::user()) {
-            $data['__created_by'] = $user->getAuthIdentifier();
-        }
-
-        if (!isset($data['__updated_by']) && $user = Auth::user()) {
-            $data['__updated_by'] = $user->getAuthIdentifier();
-        }
-
         $body = Arr::pull($data, 'body');
 
         $encoded = $data ? Yaml::dump($data) : null;
@@ -65,16 +57,17 @@ class Markdown implements FormatInterface
      */
     public static function decode($data)
     {
-        if (is_array($data) && isset($data['body'])) {
-            $data = $data['body'];
-        }
+        // @todo unused - delete?
+        // if (is_array($data) && isset($data['body'])) {
+        //     $data = $data['body'];
+        // }
 
         $pattern = '/^[\s\r\n]?---[\s\r\n]?$/sm';
 
         $parts = preg_split($pattern, PHP_EOL . ltrim($data));
 
         if (count($parts) < 3) {
-            return [];
+            return ['data' => ['body' => $data]];
         }
 
         $matter = Yaml::parse(trim($parts[1]));
