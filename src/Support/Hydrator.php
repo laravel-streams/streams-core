@@ -110,6 +110,6 @@ class Hydrator
             $attributes = $object->getPrototypeAttributes();
         }
 
-        return array_diff_key(array_flip($except), $attributes + $public + $accessors);
+        return array_diff_key($attributes + $public + $accessors, array_flip($except));
     }
 }
