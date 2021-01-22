@@ -12,6 +12,8 @@ class TemplateTest extends TestCase
     {
         $this->createApplication();
 
+        $this->tearDown();
+
         Streams::register([
             "handle" => "testing.examples.tpl",
             "description" => "Used for testing.",
