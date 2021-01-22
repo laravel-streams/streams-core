@@ -42,9 +42,10 @@ class Hydrator
     /**
      * Dehydrate an object.
      *
-     * @param array $object
+     * @param $object
+     * @param array $except
      */
-    public function dehydrate($object)
+    public function dehydrate($object, array $except = [])
     {
         $attributes = [];
 
@@ -109,6 +110,6 @@ class Hydrator
             $attributes = $object->getPrototypeAttributes();
         }
 
-        return $attributes + $public + $accessors;
+        return array_diff_key(array_flip($except), $attributes + $public + $accessors);
     }
 }
