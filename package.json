@@ -34,7 +34,7 @@
         "cross-env": "^7.0.2",
         "debug": "^4.3.1",
         "fetch": "^1.1.0",
-        "laravel-mix": "^6.0.0",
+        "laravel-mix": "^6.0",
         "lodash": "^4.17.13",
         "postcss": "^8.2.1",
         "resolve-url-loader": "^3.1.2",
