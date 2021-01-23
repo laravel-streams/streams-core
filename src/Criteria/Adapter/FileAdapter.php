@@ -171,7 +171,7 @@ class FileAdapter extends AbstractAdapter
             throw new \Exception('The ID attribute is required.');
         }
 
-        $format = $this->stream->getPrototypeAttribute('source.format', 'json');
+        $format = $this->stream->getPrototypeAttribute('source.format', 'json') ?: 'json';
 
         if ($format == 'csv') {
 
@@ -185,8 +185,8 @@ class FileAdapter extends AbstractAdapter
         if ($format == 'json') {
             $this->data[$id] = $attributes;
         }
-
-        $this->writeData();
+        
+        return $this->writeData();
     }
 
     /**
@@ -243,11 +243,18 @@ class FileAdapter extends AbstractAdapter
         $source = $this->stream->expandPrototypeAttribute('source');
 
         $format = $source->get('format', 'json');
-        $file = trim($source->get('file', 'streams/data/' . $this->stream->handle . '.' . $format), '/\\');
+        $file = base_path(trim($source->get('file', 'streams/data/' . $this->stream->handle . '.' . $format), '/\\'));
+
+        if (!file_exists($file)) {
+            
+            $this->data = [];
+
+            return;
+        }
 
         if ($format == 'json') {
 
-            $this->data = json_decode(file_get_contents(base_path($file)), true);
+            $this->data = json_decode(file_get_contents($file), true);
 
             array_walk($this->data, function ($item, $key) {
                 $this->data[$key] = ['id' => $key] + $item;
@@ -256,7 +263,7 @@ class FileAdapter extends AbstractAdapter
 
         if ($format == 'csv') {
 
-            $handle = fopen(base_path($file), 'r');
+            $handle = fopen($file, 'r');
 
             $i = 0;
 
@@ -283,7 +290,7 @@ class FileAdapter extends AbstractAdapter
     {
         $source = $this->stream->expandPrototypeAttribute('source');
 
-        $format = $source->get('format', 'json');
+        $format = $source->get('format', 'json') ?: 'json';
         $file = base_path(trim($source->get('file', 'streams/data/' . $this->stream->handle . '.' . $format), '/\\'));
 
         if ($format == 'json') {
@@ -302,5 +309,7 @@ class FileAdapter extends AbstractAdapter
 
             fclose($handle);
         }
+
+        return true;
     }
 }
