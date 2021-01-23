@@ -75,13 +75,19 @@ trait Prototype
      */
     public function __call($method, $arguments)
     {
+        if (static::hasMacro($method)) {
+            return $this->callMacroable($method, $arguments);
+        }
+
         $key = Str::snake($method);
 
         if ($this->hasPrototypeAttribute($key)) {
             return $this->expand($key);
         }
 
-        return $this->callMacroable($method, $arguments);
+        throw new \BadMethodCallException(sprintf(
+            'Method %s::%s does not exist.', static::class, $method
+        ));
     }
 
     /**
