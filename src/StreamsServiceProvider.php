@@ -350,7 +350,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->bind('streams.field_types.hash', \Streams\Core\Field\Type\Hash::class);
         $this->app->bind('streams.field_types.slug', \Streams\Core\Field\Type\Slug::class);
         $this->app->bind('streams.field_types.email', \Streams\Core\Field\Type\Email::class);
-        $this->app->bind('streams.field_types.textarea', \Streams\Core\Field\Type\Str::class);
+        
         $this->app->bind('streams.field_types.markdown', \Streams\Core\Field\Type\Markdown::class);
         $this->app->bind('streams.field_types.template', \Streams\Core\Field\Type\Template::class);
 
