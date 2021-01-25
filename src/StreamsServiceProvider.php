@@ -370,9 +370,7 @@ class StreamsServiceProvider extends ServiceProvider
         // Objects
         $this->app->bind('streams.field_types.prototype', \Streams\Core\Field\Type\Prototype::class);
         $this->app->bind('streams.field_types.object', \Streams\Core\Field\Type\Prototype::class);
-        // @todo Test me
         $this->app->bind('streams.field_types.image', \Streams\Core\Field\Type\Image::class);
-        // @todo Test me
         $this->app->bind('streams.field_types.file', \Streams\Core\Field\Type\File::class);
 
         // Dates

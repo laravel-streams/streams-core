@@ -2,9 +2,11 @@
 
 namespace Streams\Core\Field\Type;
 
+use Illuminate\Support\Arr;
+use Illuminate\Http\UploadedFile;
 use Streams\Core\Field\Value\ImageValue;
 
-class Image extends Str
+class Image extends File
 {
     /**
      * Initialize the prototype.
@@ -18,7 +20,7 @@ class Image extends Str
             'rules' => [],
         ], $attributes);
     }
-
+    
     /**
      * Expand the value.
      *
