@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
-use Streams\Core\Addon\Addon;
 
 /**
  * Class AddonCollection
