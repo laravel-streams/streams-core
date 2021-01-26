@@ -81,6 +81,13 @@ class StreamsServiceProvider extends ServiceProvider
     ];
 
     /**
+     * The regular bindings.
+     *
+     * @var array
+     */
+    public $bindings = [];
+
+    /**
      * Register the service provider.
      *
      * @return void
