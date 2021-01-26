@@ -269,7 +269,7 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerApplications()
     {
         $url = Request::fullUrl();
-        $applications = Streams::entries('streams.applications')->all();
+        $applications = Streams::repository('core.applications')->all();
 
         /**
          * Mark the active application
@@ -431,17 +431,17 @@ class StreamsServiceProvider extends ServiceProvider
          * The stream for streams.
          */
         Streams::register([
-            'handle' => 'streams',
+            'handle' => 'core.streams',
             'source' => [
                 'path' => 'streams',
                 'format' => 'json',
             ],
             'config' => [
-                'prototype' => Stream::class
+                'prototype' => \Streams\Core\Stream\Stream::class
             ],
             'fields' => [
-                'routes' => 'array',
-                // 'config' => 'array',
+                'id' => 'slug',
+                'source' => 'array',
             ],
         ]);
 
@@ -450,7 +450,7 @@ class StreamsServiceProvider extends ServiceProvider
          * for managing multi-site configurations.
          */
         Streams::register([
-            'handle' => 'streams.applications',
+            'handle' => 'core.applications',
             'source' => [
                 'path' => 'streams/apps',
                 'format' => 'json',
@@ -467,7 +467,7 @@ class StreamsServiceProvider extends ServiceProvider
          * 
          * @todo configure this base path
          */
-        foreach (Streams::repository('streams')->all() as $stream) {
+        foreach (Streams::repository('core.streams')->all() as $stream) {
 
             $id = $stream->id;
 
