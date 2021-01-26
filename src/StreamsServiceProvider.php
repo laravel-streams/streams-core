@@ -2,37 +2,36 @@
 
 namespace Streams\Core;
 
-use HTMLPurifier;
-use Misd\Linkify\Linkify;
-use StringTemplate\Engine;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Illuminate\View\Factory;
-use Streams\Core\Addon\Addon;
 use Collective\Html\HtmlFacade;
-use Streams\Core\Stream\Stream;
+use HTMLPurifier;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Collection as SupportCollection;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
+use Illuminate\Translation\Translator;
+use Illuminate\View\Factory;
+use Misd\Linkify\Linkify;
+use Streams\Core\Addon\Addon;
+use Streams\Core\Addon\AddonCollection;
+use Streams\Core\Application\Application;
+use Streams\Core\Stream\Stream;
+use Streams\Core\Support\Facades\Assets;
+use Streams\Core\Support\Facades\Hydrator;
+use Streams\Core\Support\Facades\Images;
+use Streams\Core\Support\Facades\Streams;
 use Streams\Core\View\ViewIncludes;
 use Streams\Core\View\ViewTemplate;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\AliasLoader;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Translation\Translator;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\ServiceProvider;
-use Streams\Core\Addon\AddonCollection;
-use Streams\Core\Support\Facades\Assets;
-use Streams\Core\Support\Facades\Images;
-use Streams\Core\Application\Application;
-use Streams\Core\Support\Facades\Streams;
-use Streams\Core\Support\Facades\Hydrator;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Http\Request as RequestObject;
-use Illuminate\Support\Collection as SupportCollection;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use StringTemplate\Engine;
 
 /**
  * Class StreamsServiceProvider
@@ -50,11 +49,11 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $aliases = [
-        'Assets' => \Streams\Core\Support\Facades\Assets::class,
-        'Images' => \Streams\Core\Support\Facades\Images::class,
-        'Streams' => \Streams\Core\Support\Facades\Streams::class,
-        'Includes' => \Streams\Core\Support\Facades\Includes::class,
-        'Messages' => \Streams\Core\Support\Facades\Messages::class,
+        'Assets'      => \Streams\Core\Support\Facades\Assets::class,
+        'Images'      => \Streams\Core\Support\Facades\Images::class,
+        'Streams'     => \Streams\Core\Support\Facades\Streams::class,
+        'Includes'    => \Streams\Core\Support\Facades\Includes::class,
+        'Messages'    => \Streams\Core\Support\Facades\Messages::class,
         'Application' => \Streams\Core\Support\Facades\Application::class,
     ];
 
@@ -64,7 +63,7 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $bindings = [
-        'streams.addons'      => \Streams\Core\Addon\AddonCollection::class,
+        'streams.addons' => \Streams\Core\Addon\AddonCollection::class,
     ];
 
     /**
@@ -73,17 +72,17 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $singletons = [
-        'assets' => \Streams\Core\Asset\AssetManager::class,
-        'images' => \Streams\Core\Image\ImageManager::class,
-        'includes' => \Streams\Core\View\ViewIncludes::class,
-        'streams' => \Streams\Core\Stream\StreamManager::class,
+        'assets'             => \Streams\Core\Asset\AssetManager::class,
+        'images'             => \Streams\Core\Image\ImageManager::class,
+        'includes'           => \Streams\Core\View\ViewIncludes::class,
+        'streams'            => \Streams\Core\Stream\StreamManager::class,
         ViewOverrides::class => \Streams\Core\View\ViewOverrides::class,
-        'messages' => \Streams\Core\Message\MessageManager::class,
-        'applications' => \Streams\Core\Application\ApplicationManager::class,
+        'messages'           => \Streams\Core\Message\MessageManager::class,
+        'applications'       => \Streams\Core\Application\ApplicationManager::class,
 
-        'locator' => \Streams\Core\Support\Locator::class,
-        'resolver' => \Streams\Core\Support\Resolver::class,
-        'hydrator' => \Streams\Core\Support\Hydrator::class,
+        'locator'   => \Streams\Core\Support\Locator::class,
+        'resolver'  => \Streams\Core\Support\Resolver::class,
+        'hydrator'  => \Streams\Core\Support\Hydrator::class,
         'decorator' => \Streams\Core\Support\Decorator::class,
         'evaluator' => \Streams\Core\Support\Evaluator::class,
     ];
@@ -99,7 +98,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerComposerLock();
         $this->registerFieldTypes();
 
-
         foreach ($this->bindings as $abstract => $concrete) {
             $this->app->bind($abstract, $concrete);
         }
@@ -108,10 +106,8 @@ class StreamsServiceProvider extends ServiceProvider
             $this->app->singleton($abstract, $concrete);
         }
 
-
         $this->registerAliases();
         $this->registerConfig();
-
 
         $this->extendUrlGenerator();
         $this->extendCollection();
@@ -132,10 +128,12 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->app->make('assets')->add('scripts', '/vendor/streams/core/js/core.js');
+
         $this->publishes([
             base_path('vendor/streams/core/resources/public')
-            => public_path('vendor/streams/core')
-        ], ['public']);
+            => public_path('vendor/streams/core'),
+        ], [ 'public' ]);
 
         $this->app->singleton('streams.application.origin', function () {
             return $this->app->make('streams.application');
@@ -149,16 +147,16 @@ class StreamsServiceProvider extends ServiceProvider
 
             $data = [
                 'request' => [
-                    'url' => Request::url(),
-                    'path' => Request::path(),
-                    'root' => Request::root(),
-                    'input' => Request::input(),
+                    'url'      => Request::url(),
+                    'path'     => Request::path(),
+                    'root'     => Request::root(),
+                    'input'    => Request::input(),
                     'full_url' => Request::fullUrl(),
                     'segments' => Request::segments(),
-                    'uri' => Request::getRequestUri(),
-                    'query' => Request::getQueryString(),
+                    'uri'      => Request::getRequestUri(),
+                    'query'    => Request::getQueryString(),
                 ],
-                'url' => [
+                'url'     => [
                     'previous' => URL::previous(),
                 ]
             ];
@@ -166,17 +164,17 @@ class StreamsServiceProvider extends ServiceProvider
             if ($route = Request::route()) {
 
                 $data['route'] = [
-                    'uri' => $route->uri(),
-                    'parameters' => $route->parameters(),
+                    'uri'                      => $route->uri(),
+                    'parameters'               => $route->parameters(),
                     'parameters.to_urlencoded' => array_map(
                         function ($parameter) {
                             return urlencode($parameter);
                         },
                         array_filter($route->parameters())
                     ),
-                    'parameter_names' => $route->parameterNames(),
-                    'compiled' => [
-                        'static_prefix' => $route->getCompiled()->getStaticPrefix(),
+                    'parameter_names'          => $route->parameterNames(),
+                    'compiled'                 => [
+                        'static_prefix'     => $route->getCompiled()->getStaticPrefix(),
                         'parameters_suffix' => str_replace(
                             $route->getCompiled()->getStaticPrefix(),
                             '',
@@ -446,7 +444,7 @@ class StreamsServiceProvider extends ServiceProvider
         Streams::register([
             'handle' => 'streams',
             'source' => [
-                'path' => 'streams',
+                'path'   => 'streams',
                 'format' => 'json',
             ],
             'config' => [
@@ -465,11 +463,11 @@ class StreamsServiceProvider extends ServiceProvider
         Streams::register([
             'handle' => 'streams.applications',
             'source' => [
-                'path' => 'streams/apps',
+                'path'   => 'streams/apps',
                 'format' => 'json',
             ],
             'fields' => [
-                'match' => 'string',
+                'match'  => 'string',
                 'config' => 'array',
             ],
         ]);
@@ -477,7 +475,7 @@ class StreamsServiceProvider extends ServiceProvider
         /**
          * Configure all base streams
          * defined for the application.
-         * 
+         *
          * @todo configure this base path
          */
         foreach (Streams::repository('streams')->all() as $stream) {
@@ -486,7 +484,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             $data = json_decode(file_get_contents(base_path('streams/' . $id . '.json')), true);
 
-            $data['id'] = $id;
+            $data['id']     = $id;
             $data['handle'] = $id;
 
             $stream = Streams::register($data);
@@ -690,7 +688,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             /**
              * Pull out route options. What's left
-             * is passed in as route action data. 
+             * is passed in as route action data.
              */
             $csrf        = Arr::pull($route, 'csrf');
             $verb        = Arr::pull($route, 'verb', 'any');
@@ -707,7 +705,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             /**
              * If the route contains a
-             * controller@action then 
+             * controller@action then
              * create a normal route.
              * -----------------------
              * If the route does NOT

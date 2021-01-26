@@ -40,37 +40,8 @@ declare global {
 
     export interface Window {
         streams: StreamsGlobal
+        startLoadingAlpine: () => void
     }
 
 }
 
-
-export interface Stream {
-
-}
-
-export interface StreamsGlobal {
-    make(stream: Stream): StreamsInstance
-}
-
-export interface StreamsRepository {
-    where(col: any, op: any, val?: any): this
-
-    get(): any
-
-    find(id): any
-}
-
-export interface StreamsInstance {
-    repository(): StreamsRepository
-}
-
-let stream: Stream;
-let streams: StreamsGlobal;
-let entries = streams.make(stream)
-    .repository()
-    .where('enabled', true)
-    .get();
-let entry = streams.make(stream)
-    .repository()
-    .find(1);

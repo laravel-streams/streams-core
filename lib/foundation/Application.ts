@@ -9,6 +9,7 @@ import createDecorators                                                         
 import { collect }                                                                                                              from './Collection';
 import { IConfig }                                                                                                              from './types';
 import { Collection }                                                                                                           from 'collect.js';
+import Alpine                                                                                                                   from 'alpinejs';
 
 const log = debug('Application');
 
@@ -63,12 +64,10 @@ export class Application extends Container {
         return this.instance;
     }
 
-    loadedProviders: any  = {};
-    providers: any[]      = [];
-    booted: boolean       = false;
-    started: boolean      = false;
-    shuttingDown: boolean = false;
-    startEnabled: boolean = true;
+    loadedProviders: any = {};
+    providers: any[]     = [];
+    _booted: boolean     = false;
+    _started: boolean    = false;
     events: Dispatcher;
     config: Collection<IConfig>;
 
@@ -126,28 +125,25 @@ export class Application extends Container {
         return this;
     }
 
-    private async loadProvider(Provider) {
-        if ( Provider.name in this.loadedProviders ) {
-            return this.loadedProviders[ Provider.name ];
+    boot = async () => {
+        if ( this._booted ) {
+            return this;
         }
-        log('loadProvider', { Provider });
-        this.events.emit('loadProvider', Provider);
-        let provider = new Provider(this);
-        if ( 'configure' in provider && Reflect.getMetadata('configure', provider) !== true ) {
-            const defaults = this.getConfigDefaults();
-            Reflect.defineMetadata('configure', true, provider);
-            await provider.configure(defaults);
+        this._booted = true;
+        log('boot');
+        this.events.emit('boot');
+        for ( const provider of this.providers ) {
+            if ( 'boot' in provider && Reflect.getMetadata('boot', provider) !== true ) {
+                this.events.emit('bootProvider', provider);
+                Reflect.defineMetadata('boot', true, provider);
+                await provider.boot();
+                this.events.emit('bootedProvider', provider);
+            }
         }
-        if ( 'providers' in provider && Reflect.getMetadata('providers', provider) !== true ) {
-            Reflect.defineMetadata('providers', true, provider);
-            await this.loadProviders(provider.providers);
-        }
-        this.loadedProviders[ Provider.name ] = provider;
-        this.providers.push(provider);
-        this.events.emit('loadedProvider', provider);
-        log('loadedProvider', { Provider });
-        return provider;
-    }
+        this.events.emit('booted');
+        return this;
+    };
+
 
     getConfigDefaults(): IConfig {
         return {
@@ -191,35 +187,37 @@ export class Application extends Container {
         return this;
     };
 
-    boot = async () => {
-        if ( this.booted ) {
-            return this;
-        }
-        log('boot');
-        this.events.emit('boot');
-        for ( const provider of this.providers ) {
-            if ( 'boot' in provider && Reflect.getMetadata('boot', provider) !== true ) {
-                this.events.emit('bootProvider', provider);
-                Reflect.defineMetadata('boot', true, provider);
-                await provider.boot();
-                this.events.emit('bootedProvider', provider);
-            }
-        }
-        this.events.emit('booted');
-        return this;
-    };
-
-
     start = async (elementOrSelector = '#app') => {
+        if ( this._started ) {
+            throw new Error('Cannot start Application twice');
+        }
+        this._started = true;
         log('start');
         this.events.emit('start');
         /* This part is ment to kick start the application. */
         /* and is currently emtpy. awaiting purpose */
-
+        window.startLoadingAlpine();
+        const comps = document.querySelectorAll('[defer-x-data]');
+        for ( const comp of comps ) {
+            comp.setAttribute('x-data', comp.getAttribute('defer-x-data'));
+            Alpine.initializeComponent(comp);
+        }
         this.events.emit('started');
         log('started');
     };
 
+    started(cb: (app: this) => any) {
+        if ( this._started ) {
+            cb(this);
+        } else {
+            this.events.on('started', () => cb(this));
+        }
+    }
+
+    ctxfactory(id, factory: (ctx: interfaces.Context) => any) {
+        this.bind(id).toFactory(ctx => factory(ctx));
+        return this;
+    }
 
     error = async (error) => {
         log('error', { error });
@@ -272,9 +270,28 @@ export class Application extends Container {
         return this.bindIf(id, override, b => b.toConstantValue(value));
     }
 
-    ctxfactory(id, factory: (ctx:interfaces.Context) => any) {
-        this.bind(id).toFactory(ctx => factory(ctx));
-        return this;
+    private async loadProvider(Provider) {
+        const name = Provider.name ?? Provider.constructor.name;
+        if ( name in this.loadedProviders ) {
+            return this.loadedProviders[ name ];
+        }
+        log('loadProvider', { Provider });
+        this.events.emit('loadProvider', Provider);
+        let provider = new Provider(this);
+        if ( 'configure' in provider && Reflect.getMetadata('configure', provider) !== true ) {
+            const defaults = this.getConfigDefaults();
+            Reflect.defineMetadata('configure', true, provider);
+            await provider.configure(defaults);
+        }
+        if ( 'providers' in provider && Reflect.getMetadata('providers', provider) !== true ) {
+            Reflect.defineMetadata('providers', true, provider);
+            await this.loadProviders(provider.providers);
+        }
+        this.loadedProviders[ name ] = provider;
+        this.providers.push(provider);
+        this.events.emit('loadedProvider', provider);
+        log('loadedProvider', { Provider });
+        return provider;
     }
 
     factory(id, factory) {
