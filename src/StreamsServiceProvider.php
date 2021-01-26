@@ -8,7 +8,6 @@ use StringTemplate\Engine;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\View\Factory;
-use Streams\Core\Addon\Addon;
 use Collective\Html\HtmlFacade;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
@@ -23,14 +22,13 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Translation\Translator;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
-use Streams\Core\Addon\AddonCollection;
+use Streams\Core\Support\Facades\Addons;
 use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Images;
 use Streams\Core\Application\Application;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Http\Request as RequestObject;
 use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
@@ -59,25 +57,16 @@ class StreamsServiceProvider extends ServiceProvider
     ];
 
     /**
-     * The class bindings.
-     *
-     * @var array
-     */
-    public $bindings = [
-        'streams.addons'      => \Streams\Core\Addon\AddonCollection::class,
-    ];
-
-    /**
      * The singleton bindings.
      *
      * @var array
      */
     public $singletons = [
+        'addons' => \Streams\Core\Addon\AddonManager::class,
         'assets' => \Streams\Core\Asset\AssetManager::class,
         'images' => \Streams\Core\Image\ImageManager::class,
         'includes' => \Streams\Core\View\ViewIncludes::class,
         'streams' => \Streams\Core\Stream\StreamManager::class,
-        ViewOverrides::class => \Streams\Core\View\ViewOverrides::class,
         'messages' => \Streams\Core\Message\MessageManager::class,
         'applications' => \Streams\Core\Application\ApplicationManager::class,
 
@@ -87,6 +76,8 @@ class StreamsServiceProvider extends ServiceProvider
         'decorator' => \Streams\Core\Support\Decorator::class,
         'evaluator' => \Streams\Core\Support\Evaluator::class,
         'transformer' => \Streams\Core\Support\Transformer::class,
+
+        ViewOverrides::class => \Streams\Core\View\ViewOverrides::class,
     ];
 
     /**
@@ -196,7 +187,7 @@ class StreamsServiceProvider extends ServiceProvider
         });
 
         // Setup and preparing utilities.
-        $this->registerAddonCollection();
+        $this->registerAddons();
         $this->configureFileCacheStore();
         $this->addAssetNamespaces();
         $this->addImageNamespaces();
@@ -350,7 +341,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->bind('streams.field_types.hash', \Streams\Core\Field\Type\Hash::class);
         $this->app->bind('streams.field_types.slug', \Streams\Core\Field\Type\Slug::class);
         $this->app->bind('streams.field_types.email', \Streams\Core\Field\Type\Email::class);
-        
+
         $this->app->bind('streams.field_types.markdown', \Streams\Core\Field\Type\Markdown::class);
         $this->app->bind('streams.field_types.template', \Streams\Core\Field\Type\Template::class);
 
@@ -511,34 +502,24 @@ class StreamsServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register addon collections.
+     * Register addons.
      */
-    protected function registerAddonCollection()
+    protected function registerAddons()
     {
-        $this->app->singleton(AddonCollection::class, function () {
+        $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
 
-            $disabled = Config::get('streams.addons.disabled');
+        $addons = array_filter(
+            array_merge($lock['packages'], $lock['packages-dev']),
+            function (array $package) {
+                return Arr::get($package, 'type') == 'streams-addon';
+            }
+        );
 
-            $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
+        ksort($addons);
 
-            $addons = array_filter(
-                array_merge($lock['packages'], $lock['packages-dev']),
-                function (array $package) {
-                    return Arr::get($package, 'type') == 'streams-addon';
-                }
-            );
-
-            ksort($addons);
-
-            $addons = array_map(function ($addon) use ($disabled) {
-
-                $addon['enabled'] = in_array($addon['name'], $disabled);
-
-                return new Addon($addon);
-            }, $addons);
-
-            return new AddonCollection($addons);
-        });
+        $addons = array_map(function ($addon) {
+            $addon = Addons::load(base_path('vendor/' . $addon['name']));
+        }, $addons);
     }
 
     /**

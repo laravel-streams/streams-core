@@ -5,6 +5,7 @@ namespace Streams\Core\Addon;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Streams\Core\Addon\Addon;
 use Illuminate\Support\Collection;
 
 /**
@@ -25,8 +26,8 @@ class AddonCollection extends Collection
     public function core()
     {
         return $this->filter(
-            function (array $addon) {
-                return is_dir(base_path('vendor/' . $addon['name']));
+            function (Addon $addon) {
+                return Str::startsWith($addon->path, base_path('vendor'));
             }
         );
     }
@@ -39,8 +40,8 @@ class AddonCollection extends Collection
     public function nonCore()
     {
         return $this->filter(
-            function (array $addon) {
-                return !is_dir(base_path('vendor/' . $addon['name']));
+            function (Addon $addon) {
+                return !Str::startsWith($addon->path, base_path('vendor'));
             }
         );
     }
@@ -53,8 +54,8 @@ class AddonCollection extends Collection
     public function enabled()
     {
         return $this->filter(
-            function (array $addon) {
-                return Arr::get($addon, 'enabled');
+            function (Addon $addon) {
+                return $addon->enabled;
             }
         );
     }
@@ -67,8 +68,8 @@ class AddonCollection extends Collection
     public function disabled()
     {
         return $this->filter(
-            function (array $addon) {
-                return Arr::get($addon, 'enabled') == false;
+            function (Addon $addon) {
+                return !$addon->enabled;
             }
         );
     }

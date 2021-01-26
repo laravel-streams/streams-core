@@ -21,9 +21,8 @@ use Streams\Core\Support\Traits\FiresCallbacks;
 class Addon implements Arrayable, Jsonable
 {
 
-    use Macroable;
-    use HasMemory;
     use Prototype;
+    use HasMemory;
     use FiresCallbacks;
 
     /**
@@ -45,27 +44,5 @@ class Addon implements Arrayable, Jsonable
     public function toJson($options = 0)
     {
         return json_encode($this->toArray(), $options);
-    }
-
-    /**
-     * Dynamically retrieve attributes.
-     *
-     * @param  string $key
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        return $this->getPrototypeAttribute($key);
-    }
-
-    /**
-     * Dynamically set attributes.
-     *
-     * @param  string  $key
-     * @param  mixed $value
-     */
-    public function __set($key, $value)
-    {
-        $this->setPrototypeAttribute($key, $value);
     }
 }
