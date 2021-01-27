@@ -4,13 +4,16 @@ namespace Streams\Core;
 
 use Collective\Html\HtmlFacade;
 use HTMLPurifier;
+use Illuminate\Foundation\AliasLoader;
+use Illuminate\Translation\Translator;
 use Misd\Linkify\Linkify;
+use Streams\Core\View\ViewIncludes;
+use Streams\Core\View\ViewOverrides;
+use Streams\Core\View\ViewTemplate;
 use StringTemplate\Engine;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\View\Factory;
-use Collective\Html\HtmlFacade;
-use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Support\Facades\Config;
@@ -25,9 +28,7 @@ use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Facades\Images;
 use Streams\Core\Support\Facades\Streams;
-use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 /**
@@ -752,6 +753,7 @@ class StreamsServiceProvider extends ServiceProvider
             if (is_array($slot)) {
 
                 foreach ($slot as $name => $includes) {
+                    /** @noinspection SuspiciousLoopInspection */
                     foreach ($includes as $include) {
                         View::include($name, $include);
                     }
