@@ -1,6 +1,5 @@
 let mix = require('laravel-mix');
 const path = require('path');
-require('laravel-mix-purgecss');
 
 const isDev = process.env.NODE_ENV === 'development';
 

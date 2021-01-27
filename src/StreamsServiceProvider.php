@@ -100,7 +100,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerComposerLock();
         $this->registerFieldTypes();
 
-
         foreach ($this->bindings as $abstract => $concrete) {
             $this->app->bind($abstract, $concrete);
         }
@@ -109,10 +108,8 @@ class StreamsServiceProvider extends ServiceProvider
             $this->app->singleton($abstract, $concrete);
         }
 
-
         $this->registerAliases();
         $this->registerConfig();
-
 
         $this->extendUrlGenerator();
         $this->extendCollection();
@@ -206,13 +203,6 @@ class StreamsServiceProvider extends ServiceProvider
         // $this->extendView();
         // $this->extendArr();
         // $this->extendStr();
-
-        /**
-         * Register Sterams
-         *
-         * @todo this needs pushed up into the register() method
-         */
-        //$this->registerStreams();
 
         /**
          * Register core commands.
