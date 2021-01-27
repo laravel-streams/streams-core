@@ -32,12 +32,12 @@ class Arr extends FieldType
     /**
      * Modify the value for storage.
      *
-     * @param string $value
-     * @return string
+     * @param $value
+     * @return array
      */
     public function modify($value)
     {
-        return json_encode($value);
+        return (array) $value;
     }
 
     /**
@@ -48,11 +48,7 @@ class Arr extends FieldType
      */
     public function restore($value)
     {
-        if (!is_string($value)) {
-            return (array) $value;
-        }
-
-        return json_decode($value, true);
+        return $value;
     }
 
     /**

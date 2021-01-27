@@ -29,6 +29,14 @@ interface EntryInterface
     public function getAttributes();
 
     /**
+     * Expand the field value.
+     *
+     * @param string $key
+     * @var \Streams\Core\Field\Value\Value
+     */
+    public function expand($key);
+
+    /**
      * Save the entry.
      * 
      * @var bool

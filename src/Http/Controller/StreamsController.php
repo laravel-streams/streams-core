@@ -185,6 +185,10 @@ class StreamsController extends Controller
         }
 
         $results = $query->limit(1)->get();
+
+        if (!$results->count() == 1) {
+            $data->put('entry', $results->first());
+        }
     }
 
     /**

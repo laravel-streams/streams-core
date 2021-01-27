@@ -1,0 +1,25 @@
+{
+    "handle": "testing.planets_csv",
+    "description": "Used for testing.",
+    "source": {
+        "file": "vendor/streams/core/tests/data/planets.csv",
+        "type": "file",
+        "format": "csv"
+    },
+    "rules": {
+        "id": "required",
+        "name": "required"
+    },
+    "fields": {
+        "id": "string",
+        "name": "string",
+        "climate": "string",
+        "surface_water": "string",
+        "diameter": "integer",
+        "rotation_period": "integer",
+        "terrain": "string",
+        "gravity": "string",
+        "orbital_period": "integer",
+        "population": "integer"
+    }
+}

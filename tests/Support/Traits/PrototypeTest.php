@@ -5,7 +5,7 @@ namespace Streams\Core\Tests\Support\Traits;
 use ArrayAccess;
 use Tests\TestCase;
 use Streams\Core\Field\Value\Value;
-use Streams\Core\Field\Value\DecimalValue;
+use Streams\Core\Field\Value\NumberValue;
 use Streams\Core\Support\Traits\Prototype;
 
 class PrototypeTest extends TestCase
@@ -98,9 +98,9 @@ class PrototypeTest extends TestCase
 
         $value = $prototype->expandPrototypeAttribute('description');
 
-        $this->assertTrue((string) $value == '--');
+        $this->assertSame('--', (string) $value);
 
-        $this->assertInstanceOf(DecimalValue::class, $prototype->expandPrototypeAttribute('price'));
+        $this->assertInstanceOf(NumberValue::class, $prototype->expandPrototypeAttribute('price'));
         $this->assertInstanceOf(Value::class, $prototype->expandPrototypeAttribute('status'));
     }
 }

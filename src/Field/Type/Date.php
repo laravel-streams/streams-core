@@ -2,15 +2,6 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\Value\DatetimeValue;
-
-/**
- * Class Date
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 class Date extends Datetime
 {
     /**
@@ -28,25 +19,17 @@ class Date extends Datetime
      * Restore the value from storage.
      *
      * @param $value
-     * @return string
+     * @return null|Carbon
      */
     public function restore($value)
     {
-        if (is_null($value)) {
+        if (is_null($value = parent::restore($value))) {
             return $value;
         }
 
-        return $this->toCarbon($value);
-    }
-
-    /**
-     * Expand the value.
-     *
-     * @param $value
-     * @return Collection
-     */
-    public function expand($value)
-    {
-        return new DatetimeValue($value);
+        return $value
+            ->setHours(0)
+            ->setMinutes(0)
+            ->setSeconds(0);
     }
 }

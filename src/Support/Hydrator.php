@@ -5,16 +5,8 @@ namespace Streams\Core\Support;
 use ReflectionProperty;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Streams\Core\Ui\Button\Button;
 use Streams\Core\Support\Traits\Prototype;
 
-/**
- * Class Hydrator
- *
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
- */
 class Hydrator
 {
 
@@ -50,9 +42,10 @@ class Hydrator
     /**
      * Dehydrate an object.
      *
-     * @param array $object
+     * @param $object
+     * @param array $except
      */
-    public function dehydrate($object)
+    public function dehydrate($object, array $except = [])
     {
         $attributes = [];
 
@@ -117,6 +110,6 @@ class Hydrator
             $attributes = $object->getPrototypeAttributes();
         }
 
-        return $attributes + $public + $accessors;
+        return array_diff_key($attributes + $public + $accessors, array_flip($except));
     }
 }

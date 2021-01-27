@@ -47,7 +47,7 @@ class Entries extends FieldType
      */
     public function restore($value)
     {
-        return $this->expand($value);
+        return $value;
     }
 
     /**
@@ -58,10 +58,10 @@ class Entries extends FieldType
      */
     public function expand($value)
     {
-        $stream = Streams::entries($this->config['stream']);
-
+        $stream = Streams::make($this->config['stream']);
+        
         return new Collection(array_map(function ($value) use ($stream) {
-            return $stream->newInstance($value);
+            return $stream->repository()->newInstance($value);
         }, (array)$value));
     }
 }

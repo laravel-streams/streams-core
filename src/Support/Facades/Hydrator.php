@@ -11,8 +11,8 @@ use Illuminate\Support\Facades\Facade;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  *
- * @method static \Streams\Core\Support\Hydrator hydrate($object, array $parameters)
- * @method static \Streams\Core\Support\Hydrator dehydrate($object)
+ * @method static mixed hydrate($object, array $parameters)
+ * @method static array dehydrate($object)
  */
 class Hydrator extends Facade
 {

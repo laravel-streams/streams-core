@@ -340,7 +340,7 @@ abstract class Image
             return $this->filename ?: $this->getPrototypeAttribute('original');
         }
 
-        return md5(json_encode([$this->alterations, $this->quality])) . '.' . $this->extension();
+        return md5($this->getPrototypeAttribute('original') . json_encode([$this->alterations, $this->quality])) . '.' . $this->extension();
     }
 
     /**

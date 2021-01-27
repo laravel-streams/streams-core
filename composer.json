@@ -1,5 +1,6 @@
 {
     "name": "streams/core",
+    "type": "streams-addon",
     "description": "A domain-driven, code-configured, flat-file application platform for Laravel.",
     "authors": [
         {

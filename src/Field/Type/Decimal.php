@@ -2,17 +2,7 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\FieldType;
-use Streams\Core\Field\Value\DecimalValue;
-
-/**
- * Class Decimal
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
-class Decimal extends FieldType
+class Decimal extends Number
 {
     /**
      * Initialize the prototype.
@@ -37,36 +27,10 @@ class Decimal extends FieldType
      */
     public function modify($value)
     {
-        if (is_null($value)) {
-            return $value;
-        }
-        
-        return $value;
-    }
-
-    /**
-     * Restore the value from storage.
-     *
-     * @param $value
-     * @return string
-     */
-    public function restore($value)
-    {
-        if (is_null($value)) {
+        if (is_null($value = parent::modify($value))) {
             return $value;
         }
 
-        return $value;
-    }
-
-    /**
-     * Expand the value.
-     *
-     * @param $value
-     * @return Collection
-     */
-    public function expand($value)
-    {
-        return new DecimalValue($value);
+        return floatval($value);
     }
 }

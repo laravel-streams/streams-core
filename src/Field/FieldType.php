@@ -53,6 +53,18 @@ class FieldType
     }
 
     /**
+     * Return a field configuration value.
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function config($key, $default = null)
+    {
+        return $this->getPrototypeAttribute("config.{$key}", $default);
+    }
+    
+    /**
      * Get the instance as an array.
      *
      * @return array

@@ -4,6 +4,7 @@ namespace Streams\Core\Support\Traits;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Field\Value\Value;
 use Illuminate\Support\Traits\Macroable;
@@ -30,7 +31,9 @@ use Illuminate\Support\Traits\Macroable;
 trait Prototype
 {
 
-    use Macroable;
+    use Macroable {
+        Macroable::__call as private callMacroable;
+    }
 
     /**
      * The prototype information.
@@ -64,6 +67,30 @@ trait Prototype
     }
 
     /**
+     * Mapp methods to expanded values.
+     *
+     * @param $method
+     * @param $arguments
+     * @return mixed
+     */
+    public function __call($method, $arguments)
+    {
+        if (static::hasMacro($method)) {
+            return $this->callMacroable($method, $arguments);
+        }
+
+        $key = Str::snake($method);
+
+        if ($this->hasPrototypeAttribute($key)) {
+            return $this->expand($key);
+        }
+
+        throw new \BadMethodCallException(sprintf(
+            'Method %s::%s does not exist.', static::class, $method
+        ));
+    }
+
+    /**
      * Map attribute access to attribute data.
      *
      * @param string $key
@@ -83,7 +110,7 @@ trait Prototype
     protected function initializePrototype(array $attributes)
     {
         $this->loadPrototypeProperties(Arr::pull($attributes, '__properties', []));
-        
+
         $attributes = array_merge_recursive($this->getPrototypeAttributes(), $attributes);
 
         return $this->setPrototypeAttributes($attributes);
@@ -152,7 +179,7 @@ trait Prototype
         if ($this->hasPrototypeAttributeOverride($name = Str::camel('set_' . $key . '_attribute'))) {
 
             if (self::hasMacro($name)) {
-                
+
                 $this->{$name}($value);
 
                 return $this;
@@ -194,7 +221,7 @@ trait Prototype
      * @param string $key
      * @return mixed|Value
      */
-    public function getPrototypeAttribute($key)
+    public function getPrototypeAttribute($key, $default = null)
     {
         $parts = explode('.', $key);
 
@@ -204,12 +231,12 @@ trait Prototype
             return $this->{$name}();
         }
 
-        $value = $this->__prototype['attributes'][$key] ?? $this->getPrototypePropertyDefault($key);
+        $value = $this->__prototype['attributes'][$key] ?? $this->getPrototypePropertyDefault($key, $default);
 
         if ($this->hasPrototypePropertyType($key)) {
             return $this->restorePrototypeAttributeValue($key, $value);
         }
-        
+
         if ($parts) {
             return data_get($value, implode('.', $parts));
         }
@@ -225,7 +252,7 @@ trait Prototype
      */
     public function expandPrototypeAttribute($key)
     {
-        $name = 'expand_' . $key . '_attribute';
+        $name = Str::camel('expand_' . $key . '_attribute');
 
         $value = $this->getPrototypeAttribute($key);
 
@@ -245,10 +272,11 @@ trait Prototype
      * Return the default property
      *
      * @param string $key
+     * @param mixed $default
      */
-    protected function getPrototypePropertyDefault($key)
+    protected function getPrototypePropertyDefault($key, $default = null)
     {
-        return Arr::get($this->__prototype['properties'], $key . '.default');
+        return Arr::get($this->__prototype['properties'], $key . '.default', $default);
     }
 
     /**
@@ -283,7 +311,7 @@ trait Prototype
     protected function restorePrototypeAttributeValue($key, $value)
     {
         $type = $this->newProtocolPropertyFieldType($key);
-        
+
         $type->field = $key;
 
         return $type->restore($value);
@@ -298,7 +326,7 @@ trait Prototype
     protected function modifyPrototypeAttributeValue($key, $value)
     {
         $type = $this->newProtocolPropertyFieldType($key);
-        
+
         $type->field = $key;
 
         return $type->modify($value);
@@ -316,7 +344,14 @@ trait Prototype
             $type = $this->guessProtocolPropertyType($key);
         }
 
-        return App::make('streams.field_types.' . $type)->setPrototypeAttributes(Arr::get($this->__prototype['properties'], $key, []));
+        $attributes = Arr::get($this->__prototype['properties'], $key, []);
+
+        if ($this instanceof Field) {
+            $attributes['field'] = $this;
+        }
+
+        return App::make('streams.field_types.' . $type)
+            ->loadPrototypeAttributes($attributes);
     }
 
     /**

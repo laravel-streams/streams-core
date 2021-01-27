@@ -12,7 +12,7 @@ use Streams\Core\Support\Facades\Streams;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Entry extends FieldType
+class Entry extends Arr
 {
     /**
      * Initialize the prototype.
@@ -20,12 +20,12 @@ class Entry extends FieldType
      * @param array $attributes
      * @return $this
      */
-    protected function initializePrototype(array $attributes)
-    {
-        return parent::initializePrototype(array_merge([
-            'rules' => [],
-        ], $attributes));
-    }
+    // protected function initializePrototype(array $attributes)
+    // {
+    //     return parent::initializePrototype(array_merge([
+    //         'rules' => [],
+    //     ], $attributes));
+    // }
 
     /**
      * Modify the value for storage.

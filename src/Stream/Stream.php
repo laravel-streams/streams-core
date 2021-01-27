@@ -2,13 +2,12 @@
 
 namespace Streams\Core\Stream;
 
+use ArrayAccess;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Factory;
 use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Validator;
 use Streams\Core\Repository\Repository;
-use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
@@ -21,11 +20,11 @@ use Streams\Core\Criteria\Contract\CriteriaInterface;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 
 class Stream implements
+    ArrayAccess,
     Arrayable,
     Jsonable
 {
 
-    use Macroable;
     use HasMemory;
     use Prototype;
     use ForwardsCalls;

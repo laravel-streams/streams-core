@@ -4,10 +4,13 @@ namespace Streams\Core;
 
 use Collective\Html\HtmlFacade;
 use HTMLPurifier;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
-use Illuminate\Foundation\AliasLoader;
+use Misd\Linkify\Linkify;
+use StringTemplate\Engine;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use Illuminate\View\Factory;
+use Collective\Html\HtmlFacade;
+use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Support\Facades\Config;
@@ -17,21 +20,15 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
-use Illuminate\Translation\Translator;
-use Illuminate\View\Factory;
-use Misd\Linkify\Linkify;
-use Streams\Core\Addon\Addon;
-use Streams\Core\Addon\AddonCollection;
-use Streams\Core\Application\Application;
-use Streams\Core\Stream\Stream;
+use Streams\Core\Support\Facades\Addons;
 use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Facades\Images;
 use Streams\Core\Support\Facades\Streams;
-use Streams\Core\View\ViewIncludes;
-use Streams\Core\View\ViewTemplate;
-use StringTemplate\Engine;
+use Streams\Core\Support\Facades\Hydrator;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Collection as SupportCollection;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 /**
  * Class StreamsServiceProvider
@@ -58,25 +55,16 @@ class StreamsServiceProvider extends ServiceProvider
     ];
 
     /**
-     * The class bindings.
-     *
-     * @var array
-     */
-    public $bindings = [
-        'streams.addons' => \Streams\Core\Addon\AddonCollection::class,
-    ];
-
-    /**
      * The singleton bindings.
      *
      * @var array
      */
     public $singletons = [
-        'assets'             => \Streams\Core\Asset\AssetManager::class,
-        'images'             => \Streams\Core\Image\ImageManager::class,
-        'includes'           => \Streams\Core\View\ViewIncludes::class,
-        'streams'            => \Streams\Core\Stream\StreamManager::class,
-        ViewOverrides::class => \Streams\Core\View\ViewOverrides::class,
+        'addons' => \Streams\Core\Addon\AddonManager::class,
+        'assets' => \Streams\Core\Asset\AssetManager::class,
+        'images' => \Streams\Core\Image\ImageManager::class,
+        'includes' => \Streams\Core\View\ViewIncludes::class,
+        'streams' => \Streams\Core\Stream\StreamManager::class,
         'messages'           => \Streams\Core\Message\MessageManager::class,
         'applications'       => \Streams\Core\Application\ApplicationManager::class,
 
@@ -85,7 +73,17 @@ class StreamsServiceProvider extends ServiceProvider
         'hydrator'  => \Streams\Core\Support\Hydrator::class,
         'decorator' => \Streams\Core\Support\Decorator::class,
         'evaluator' => \Streams\Core\Support\Evaluator::class,
+        'transformer' => \Streams\Core\Support\Transformer::class,
+
+        ViewOverrides::class => \Streams\Core\View\ViewOverrides::class,
     ];
+
+    /**
+     * The regular bindings.
+     *
+     * @var array
+     */
+    public $bindings = [];
 
     /**
      * Register the service provider.
@@ -128,6 +126,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->bootApplication();
 
         $this->publishes([
             base_path('vendor/streams/core/resources/public')
@@ -190,7 +189,7 @@ class StreamsServiceProvider extends ServiceProvider
         });
 
         // Setup and preparing utilities.
-        $this->registerAddonCollection();
+        $this->registerAddons();
         $this->configureFileCacheStore();
         $this->addAssetNamespaces();
         $this->addImageNamespaces();
@@ -202,14 +201,6 @@ class StreamsServiceProvider extends ServiceProvider
         // $this->extendStr();
 
         $this->extendAssets();
-
-        /**
-         * Register Sterams
-         *
-         * @todo this needs pushed up into the register() method
-         */
-        //$this->registerStreams();
-
         /**
          * Register core commands.
          */
@@ -272,16 +263,17 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerApplications()
     {
-        $applications = Streams::entries('streams.applications')->all();
+        $url = Request::fullUrl();
+        $applications = Streams::repository('core.applications')->all();
 
         /**
          * Mark the active application
          * according to it's match.
          */
-        $applications->each(function ($application) {
+        $applications->each(function ($application) use ($url) {
 
             $default = ($application->match
-                && Str::is($application->match, Request::fullUrlWithQuery(Request::query())));
+                && Str::is($application->match, $url));
 
             $application->active = $application->active ?: $default;
         });
@@ -312,14 +304,28 @@ class StreamsServiceProvider extends ServiceProvider
             $active = new Application([]);
         }
 
-        // Register it as so.
+        // Register the active application.
         $this->app->singleton('streams.application', function () use ($active) {
             return $active;
         });
 
         // Configure
         if ($active->config) {
-            config($active->config);
+            Config::set($active->config);
+        }
+    }
+
+    /**
+     * Register the applications.
+     */
+    protected function bootApplication()
+    {
+        // Register the active application.
+        $active = $this->app->make('streams.application');
+
+        // Locale
+        if ($active->locale) {
+            $this->app->setLocale($active->locale);
         }
     }
 
@@ -329,47 +335,48 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerFieldTypes()
     {
-        // Text
+        // Strings
+        $this->app->bind('streams.field_types.string', \Streams\Core\Field\Type\Str::class);
+
         $this->app->bind('streams.field_types.url', \Streams\Core\Field\Type\Url::class);
-        $this->app->bind('streams.field_types.text', \Streams\Core\Field\Type\Text::class);
+        $this->app->bind('streams.field_types.text', \Streams\Core\Field\Type\Str::class);
         $this->app->bind('streams.field_types.hash', \Streams\Core\Field\Type\Hash::class);
         $this->app->bind('streams.field_types.slug', \Streams\Core\Field\Type\Slug::class);
-        $this->app->bind('streams.field_types.string', \Streams\Core\Field\Type\Text::class);
-        $this->app->bind('streams.field_types.textarea', \Streams\Core\Field\Type\Text::class);
+        $this->app->bind('streams.field_types.email', \Streams\Core\Field\Type\Email::class);
+
         $this->app->bind('streams.field_types.markdown', \Streams\Core\Field\Type\Markdown::class);
         $this->app->bind('streams.field_types.template', \Streams\Core\Field\Type\Template::class);
 
-        // Array
-        $this->app->bind('streams.field_types.array', \Streams\Core\Field\Type\Arr::class);
-
-        // Integers
-        $this->app->bind('streams.field_types.int', \Streams\Core\Field\Type\Integer::class);
+        // Numbers
+        $this->app->bind('streams.field_types.number', \Streams\Core\Field\Type\Number::class);
         $this->app->bind('streams.field_types.integer', \Streams\Core\Field\Type\Integer::class);
-
-        // Decimals
         $this->app->bind('streams.field_types.float', \Streams\Core\Field\Type\Decimal::class);
-        $this->app->bind('streams.field_types.double', \Streams\Core\Field\Type\Decimal::class);
+
         $this->app->bind('streams.field_types.decimal', \Streams\Core\Field\Type\Decimal::class);
 
         // Boolean
-        $this->app->bind('streams.field_types.bool', \Streams\Core\Field\Type\Boolean::class);
         $this->app->bind('streams.field_types.boolean', \Streams\Core\Field\Type\Boolean::class);
+
+        // Arrays
+        $this->app->bind('streams.field_types.array', \Streams\Core\Field\Type\Arr::class);
+
+        // Objects
+        $this->app->bind('streams.field_types.prototype', \Streams\Core\Field\Type\Prototype::class);
+        $this->app->bind('streams.field_types.object', \Streams\Core\Field\Type\Prototype::class);
+        $this->app->bind('streams.field_types.image', \Streams\Core\Field\Type\Image::class);
+        $this->app->bind('streams.field_types.file', \Streams\Core\Field\Type\File::class);
+
+        // Dates
+        $this->app->bind('streams.field_types.datetime', \Streams\Core\Field\Type\Datetime::class);
+        $this->app->bind('streams.field_types.date', \Streams\Core\Field\Type\Date::class);
+        $this->app->bind('streams.field_types.time', \Streams\Core\Field\Type\Time::class);
 
         // Selections
         $this->app->bind('streams.field_types.select', \Streams\Core\Field\Type\Select::class);
+        $this->app->bind('streams.field_types.multiselect', \Streams\Core\Field\Type\Multiselect::class);
 
-        // Dates
-        $this->app->bind('streams.field_types.date', \Streams\Core\Field\Type\Date::class);
-        $this->app->bind('streams.field_types.time', \Streams\Core\Field\Type\Time::class);
-        $this->app->bind('streams.field_types.datetime', \Streams\Core\Field\Type\Datetime::class);
-
-        // Assets
-        //$this->app->bind('streams.field_types.asset', \Streams\Core\Field\Type\Asset::class);
-        $this->app->bind('streams.field_types.file', \Streams\Core\Field\Type\File::class);
-        $this->app->bind('streams.field_types.image', \Streams\Core\Field\Type\Image::class);
-
-        // Objects
-        //$this->app->bind('streams.field_types.object', \Streams\Core\Field\Type\Object::class);
+        // Collections
+        // @todo Test me
         $this->app->bind('streams.field_types.collection', \Streams\Core\Field\Type\Collection::class);
 
         // Streams
@@ -398,44 +405,14 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerConfig()
     {
-        // Create the Streams config.
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/addons.php', 'streams.addons');
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/images.php', 'streams.images');
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/system.php', 'streams.system');
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/sources.php', 'streams.sources');
+        $this->mergeConfigFrom(__DIR__ . '/../resources/config/core.php', 'streams');
 
-        // Merge overrides if present.
-        if (file_exists($config = __DIR__ . '/../../../../config/streams/cp.php')) {
-            $this->mergeConfigFrom($config, 'streams.cp');
-        }
-        if (file_exists($config = __DIR__ . '/../../../../config/streams/addons.php')) {
-            $this->mergeConfigFrom($config, 'streams.addons');
-        }
-        if (file_exists($config = __DIR__ . '/../../../../config/streams/images.php')) {
-            $this->mergeConfigFrom($config, 'streams.images');
-        }
-        if (file_exists($config = __DIR__ . '/../../../../config/streams/system.php')) {
-            $this->mergeConfigFrom($config, 'streams.system');
-        }
-        if (file_exists($config = __DIR__ . '/../../../../config/streams/sources.php')) {
-            $this->mergeConfigFrom($config, 'streams.sources');
+        if (file_exists($config = __DIR__ . '/../../../../config/streams/core.php')) {
+            $this->mergeConfigFrom($config, 'streams');
         }
 
-        // Publish config.
         $this->publishes([
-            __DIR__ . '/../resources/config/cp.php' => config_path('streams/cp.php')
-        ], 'config');
-        $this->publishes([
-            __DIR__ . '/../resources/config/addons.php' => config_path('streams/addons.php')
-        ], 'config');
-        $this->publishes([
-            __DIR__ . '/../resources/config/images.php' => config_path('streams/images.php')
-        ], 'config');
-        $this->publishes([
-            __DIR__ . '/../resources/config/system.php' => config_path('streams/system.php')
-        ], 'config');
-        $this->publishes([
-            __DIR__ . '/../resources/config/sources.php' => config_path('streams/sources.php')
+            __DIR__ . '/../resources/config/core.php' => config_path('streams/core.php')
         ], 'config');
     }
 
@@ -449,17 +426,17 @@ class StreamsServiceProvider extends ServiceProvider
          * The stream for streams.
          */
         Streams::register([
-            'handle' => 'streams',
+            'handle' => 'core.streams',
             'source' => [
                 'path'   => 'streams',
                 'format' => 'json',
             ],
             'config' => [
-                'prototype' => Stream::class
+                'prototype' => \Streams\Core\Stream\Stream::class
             ],
             'fields' => [
-                'routes' => 'array',
-                // 'config' => 'array',
+                'id' => 'slug',
+                'source' => 'array',
             ],
         ]);
 
@@ -468,7 +445,7 @@ class StreamsServiceProvider extends ServiceProvider
          * for managing multi-site configurations.
          */
         Streams::register([
-            'handle' => 'streams.applications',
+            'handle' => 'core.applications',
             'source' => [
                 'path'   => 'streams/apps',
                 'format' => 'json',
@@ -485,7 +462,7 @@ class StreamsServiceProvider extends ServiceProvider
          *
          * @todo configure this base path
          */
-        foreach (Streams::repository('streams')->all() as $stream) {
+        foreach (Streams::repository('core.streams')->all() as $stream) {
 
             $id = $stream->id;
 
@@ -527,34 +504,24 @@ class StreamsServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register addon collections.
+     * Register addons.
      */
-    protected function registerAddonCollection()
+    protected function registerAddons()
     {
-        $this->app->singleton(AddonCollection::class, function () {
+        $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
 
-            $disabled = Config::get('streams.addons.disabled');
+        $addons = array_filter(
+            array_merge($lock['packages'], $lock['packages-dev']),
+            function (array $package) {
+                return Arr::get($package, 'type') == 'streams-addon';
+            }
+        );
 
-            $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
+        ksort($addons);
 
-            $addons = array_filter(
-                array_merge($lock['packages'], $lock['packages-dev']),
-                function (array $package) {
-                    return Arr::get($package, 'type') == 'streams-addon';
-                }
-            );
-
-            ksort($addons);
-
-            $addons = array_map(function ($addon) use ($disabled) {
-
-                $addon['enabled'] = in_array($addon['name'], $disabled);
-
-                return new Addon($addon);
-            }, $addons);
-
-            return new AddonCollection($addons);
-        });
+        $addons = array_map(function ($addon) {
+            $addon = Addons::load(base_path('vendor/' . $addon['name']));
+        }, $addons);
     }
 
     /**

@@ -42,14 +42,6 @@ class Template implements FormatInterface
 
         $data = array_merge($meta, $data);
 
-        if (!isset($data['__created_by']) && $user = Auth::user()) {
-            $data['__created_by'] = $user->getAuthIdentifier();
-        }
-
-        if (!isset($data['__updated_by']) && $user = Auth::user()) {
-            $data['__updated_by'] = $user->getAuthIdentifier();
-        }
-
         $template = Arr::pull($data, 'template');
 
         $encoded = $data ? Yaml::dump($data) : null;
@@ -65,16 +57,17 @@ class Template implements FormatInterface
      */
     public static function decode($data)
     {
-        if (is_array($data) && isset($data['template'])) {
-            $data = $data['template'];
-        }
+        // @todo unsed - remove?
+        // if (is_array($data) && isset($data['template'])) {
+        //     $data = $data['template'];
+        // }
 
         $pattern = '/^[\s\r\n]?---[\s\r\n]?$/sm';
 
         $parts = preg_split($pattern, PHP_EOL . ltrim($data));
 
         if (count($parts) < 3) {
-            return [];
+            return ['data' => ['template' => $data]];
         }
 
         if (!$matter = json_decode(trim($parts[1]), true)) {

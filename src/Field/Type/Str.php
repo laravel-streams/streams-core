@@ -3,15 +3,9 @@
 namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Value\StrValue;
 
-/**
- * Class Text
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
-class Text extends FieldType
+class Str extends FieldType
 {
     /**
      * Initialize the prototype.
@@ -34,6 +28,10 @@ class Text extends FieldType
      */
     public function modify($value)
     {
+        if (is_null($value)) {
+            return $value;
+        }
+        
         return (string) $value;
     }
 
@@ -45,6 +43,22 @@ class Text extends FieldType
      */
     public function restore($value)
     {
+        if (is_null($value)) {
+            return $value;
+        }
+        
         return (string) $value;
+    }
+
+
+    /**
+     * Expand the value.
+     *
+     * @param $value
+     * @return StrValue
+     */
+    public function expand($value)
+    {
+        return new StrValue($value);
     }
 }

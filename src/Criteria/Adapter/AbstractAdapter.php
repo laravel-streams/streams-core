@@ -3,14 +3,11 @@
 namespace Streams\Core\Criteria\Adapter;
 
 use Filebase\Database;
-use Illuminate\Support\Arr;
 use Streams\Core\Entry\Entry;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\HasMemory;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Streams\Core\Entry\Contract\EntryInterface;
 use Streams\Core\Criteria\Contract\AdapterInterface;
 
@@ -33,28 +30,6 @@ abstract class AbstractAdapter implements AdapterInterface
      * @var Stream
      */
     protected $stream;
-
-    /**
-     * Return all entries.
-     * 
-     * @return Collection
-     */
-    abstract public function all();
-
-    /**
-     * Return all entries.
-     * 
-     * @param string $id
-     * @return EntryInterface
-     */
-    abstract public function find($id);
-
-    /**
-     * Return the first result.
-     * 
-     * @return null|EntryInterface
-     */
-    abstract public function first();
 
     /**
      * Order the query by field/direction.
@@ -85,31 +60,12 @@ abstract class AbstractAdapter implements AdapterInterface
     abstract public function where($field, $operator = null, $value = null, $nested = null);
 
     /**
-     * Add a where constraint.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
-     * @return $this
-     */
-    //abstract public function andWhere($field, $operator = null, $value = null);
-
-    /**
-     * Add a where constraint.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
-     * @return $this
-     */
-    abstract public function orWhere($field, $operator = null, $value = null);
-
-    /**
      * Get the criteria results.
      * 
+     * @param array $parameters
      * @return Collection
      */
-    abstract public function get();
+    abstract public function get(array $parameters = []);
 
     /**
      * Count the criteria results.
@@ -137,67 +93,58 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Delete an entry.
      *
-     * @param EntryInterface $entry
+     * @param array $parameters
      * @return bool
      */
-    abstract public function delete(EntryInterface $entry);
+    abstract public function delete(array $parameters = []);
 
     /**
      * Truncate all entries.
      *
      * @return void
      */
-    public function truncate()
+    abstract public function truncate();
+
+    /**
+     * Return an entry collection.
+     *
+     * @param array $entries
+     * @return Collection
+     */
+    protected function collect($entries)
     {
-        $this->query->truncate();
+        $collection = $this->stream->getPrototypeAttribute('source.collection') ?: Collection::class;
+
+        $collection = new $collection;
+
+        if ($entries instanceof Collection) {
+            $entries = $entries->all();
+        }
+
+        array_map(function ($entry) use ($collection) {
+            $entry = $this->make($entry);
+            $collection->put($entry->id, $entry);
+        }, $entries);
+
+        return $collection;
     }
 
     /**
-     * Return paginated entries.
+     * Return an entry interface from a file.
      *
-     * @param  array|int $parameters
-     * @return Paginator
+     * @param $entry
+     * @return EntryInterface
      */
-    public function paginate($parameters = null)
+    protected function make($entry)
     {
-        if (is_numeric($parameters)) {
-            $parameters = [
-                'per_page' => $parameters,
-            ];
-        }
-
-        $path = Request::url();
-
-        $total = Arr::get($parameters, 'total');
-        $perPage = Arr::get($parameters, 'per_page', 25);
-        $pageName = Arr::get($parameters, 'page_name', 'page');
-        $limitName = Arr::get($parameters, 'limit_name', 'limit');
-
-        if (!$total) {
-            $total = $this->count();
-        }
-
-        $page = (int) Request::get($pageName, 1);
-        $perPage = (int) Request::get($limitName, $perPage) ?: 9999;
-
-        $offset = $page * $perPage - $perPage;
-
-        $entries = $this->limit($perPage, $offset)->get();
-
-        $paginator = new LengthAwarePaginator(
-            $entries,
-            $total,
-            $perPage,
-            $page,
+        return $this->newInstance(array_merge(
             [
-                'path' => $path,
-                'pageName' => $pageName,
-            ]
-        );
-
-        $paginator->appends(Request::all());
-
-        return $paginator;
+                'id' => $entry->getId(),
+                'created_at' => $entry->createdAt(),
+                'updated_at' => $entry->updatedAt(),
+            ],
+            $entry->toArray()
+        ));
     }
 
     /**

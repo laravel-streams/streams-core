@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Entry;
 
+use ArrayAccess;
 use Illuminate\Support\Arr;
 use Streams\Core\Stream\Stream;
 use Illuminate\Validation\Validator;
@@ -12,15 +13,11 @@ use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
 
-/**
- * Class Entry
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- *
- */
-class Entry implements EntryInterface, Arrayable, Jsonable
+class Entry implements
+    EntryInterface,
+    ArrayAccess,
+    Arrayable,
+    Jsonable
 {
 
     use Fluency {
@@ -65,7 +62,7 @@ class Entry implements EntryInterface, Arrayable, Jsonable
     {
         $this->stream = Arr::pull($attributes, 'stream');
 
-        $this->constructFluency($attributes);        
+        $this->constructFluency($attributes);
     }
 
     /**

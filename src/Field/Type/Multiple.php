@@ -47,7 +47,7 @@ class Multiple extends FieldType
      */
     public function restore($value)
     {
-        return $this->expand($value);
+        return $value;
     }
 
     /**

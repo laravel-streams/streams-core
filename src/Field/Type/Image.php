@@ -2,10 +2,11 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\FieldType;
+use Illuminate\Support\Arr;
+use Illuminate\Http\UploadedFile;
 use Streams\Core\Field\Value\ImageValue;
 
-class Image extends FieldType
+class Image extends File
 {
     /**
      * Initialize the prototype.
@@ -15,11 +16,11 @@ class Image extends FieldType
      */
     protected function initializePrototype(array $attributes)
     {
-        return parent::initializePrototype(array_merge([
+        return array_merge([
             'rules' => [],
-        ], $attributes));
+        ], $attributes);
     }
-
+    
     /**
      * Expand the value.
      *

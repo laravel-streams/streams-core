@@ -5,28 +5,17 @@ namespace Streams\Core\Field;
 use Illuminate\Support\Str;
 use Streams\Core\Field\FieldType;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
-use Streams\Core\Field\Contract\FieldInterface;
 
-/**
- * Class Field
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 class Field implements
-    FieldInterface,
     Arrayable,
     Jsonable
 {
     use HasMemory;
-    use Macroable;
     use Prototype;
 
     /**
@@ -44,13 +33,15 @@ class Field implements
      * 
      * @return FieldType
      */
-    public function type()
+    public function type(array $attributes = [])
     {
-        return $this->remember($this->handle . '.' . $this->type, function () {
+        return $this->remember($this->handle . '.' . $this->type, function () use ($attributes) {
 
-            $type = App::make('streams.field_types.' . $this->type);
+            $attributes['field'] = $this;
 
-            $type->field = $this;
+            $type = App::make('streams.field_types.' . $this->type, [
+                'attributes' => $attributes,
+            ]);
 
             return $type;
         });

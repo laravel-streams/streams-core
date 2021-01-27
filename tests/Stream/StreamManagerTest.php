@@ -2,12 +2,12 @@
 
 namespace Streams\Core\Tests\Stream;
 
-use Illuminate\Support\Collection;
-use Streams\Core\Criteria\Contract\CriteriaInterface;
-use Streams\Core\Repository\Contract\RepositoryInterface;
 use Tests\TestCase;
 use Streams\Core\Stream\Stream;
+use Illuminate\Support\Collection;
+use Streams\Core\Criteria\Criteria;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Repository\Contract\RepositoryInterface;
 
 class StreamManagerTest extends TestCase
 {
@@ -78,7 +78,7 @@ class StreamManagerTest extends TestCase
 
     public function testCanReturnStreamEntryCriteria()
     {
-        $this->assertInstanceOf(CriteriaInterface::class, Streams::entries('testing.examples'));
+        $this->assertInstanceOf(Criteria::class, Streams::entries('testing.examples'));
     }
 
     public function testCanReturnStreamEntryRepository()

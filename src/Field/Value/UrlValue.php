@@ -7,7 +7,6 @@ use Collective\Html\HtmlFacade;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
-use Streams\Core\Support\Facades\Images;
 
 /**
  * Class UrlValue
