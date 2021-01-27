@@ -128,7 +128,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->make('assets')->add('scripts', '/vendor/streams/core/js/core.js');
 
         $this->publishes([
             base_path('vendor/streams/core/resources/public')
@@ -202,6 +201,8 @@ class StreamsServiceProvider extends ServiceProvider
         // $this->extendArr();
         // $this->extendStr();
 
+        $this->extendAssets();
+
         /**
          * Register Sterams
          *
@@ -229,9 +230,15 @@ class StreamsServiceProvider extends ServiceProvider
          */
         $this->publishes([
             base_path('vendor/streams/core/docs') => base_path(
-                implode(DIRECTORY_SEPARATOR, ['docs', 'core'])
-            )
-        ], ['docs']);
+                implode(DIRECTORY_SEPARATOR, [ 'docs', 'core' ])
+            ),
+        ], [ 'docs' ]);
+    }
+
+    protected function extendAssets()
+    {
+        Assets::add('scripts', '/vendor/streams-vendors.js');
+        Assets::add('scripts', '/vendor/streams/core/js/core.js');
     }
 
     /**
