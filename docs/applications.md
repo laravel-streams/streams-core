@@ -1,10 +1,11 @@
 ---
+__created_at: 1611725792
+__updated_at: 1611725792
 title: Applications
-category: core_concepts
-intro: 
-sort: 
+category: introduction
+intro: null
+sort: 0
+stage: outlining
+enabled: false
 ---
-
-- Introduction
-- Defining Apps
-- App Switching
+## Introduction
