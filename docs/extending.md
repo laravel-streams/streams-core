@@ -55,7 +55,4 @@ $table = Streams::make('contacts')->table();
 
 
 ### Parsing
-
-- Patterns
-    - Handler Resolution
 ## Addon Development

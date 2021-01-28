@@ -35,3 +35,7 @@ Using [repository paths](https://getcomposer.org/doc/05-repositories.md#path) yo
         "url": "../addons/*"
     }]
 }
+```
+
+**@todo Talk about Installing Addons**<br>
+**@todo Talk about Developing Addons**
