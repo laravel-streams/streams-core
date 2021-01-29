@@ -2,8 +2,11 @@
 
 namespace Streams\Core\Application;
 
-use Streams\Core\Support\Traits\HasMemory;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
+use Streams\Core\Application\Application;
+use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Support\Traits\HasMemory;
 
 /**
  * Class ApplicationManager
@@ -18,6 +21,25 @@ class ApplicationManager
     use HasMemory;
 
     /**
+     * The application collection.
+     *
+     * @var Collection
+     */
+    protected $collection;
+
+    /**
+     * The active application.
+     *
+     * @var null|string
+     */
+    protected $active = null;
+
+    public function __construct()
+    {
+        $this->collection = Streams::repository('core.applications')->all();
+    }
+
+    /**
      * Make an application instance.
      *
      * @param string|null $handle
@@ -25,21 +47,25 @@ class ApplicationManager
      */
     public function make($handle = null)
     {
-        if (!$handle) {
-            return App::make('streams.application');
-        }
-
-        return App::make('streams.applications.' . $handle);
+        return App::make('streams.applications.' . ($handle ?: $this->active));
     }
 
     /**
-     * Return the active application reference.
+     * Return the active application.
      *
-     * @return string
+     * @return Application
      */
-    public function handle()
+    public function active($active = null)
     {
-        return App::make('streams.application.handle');
+        if (is_object($active)) {
+            $active = $active->id;
+        }
+        
+        if ($active) {
+            $this->active = $active;
+        }
+
+        return $this->collection->get($this->active);
     }
 
     /**
@@ -49,25 +75,18 @@ class ApplicationManager
      *
      * @param string|null $handle
      */
-    public function switch($handle = null)
+    public function activate($handle = 'default')
     {
-        if (!$handle) {
+        $this->active = $handle;
+    }
 
-            $this->app->singleton('streams.application', function () {
-                return $this->app->make('streams.application.origin');
-            });
-
-            $this->app->singleton('streams.application.handle', function () {
-                return $this->app->make('streams.applications.origin')->handle;
-            });
-        }
-
-        $this->app->singleton('streams.application', function () use ($handle) {
-            return $this->app->make('streams.applications.' . $handle);
-        });
-
-        $this->app->singleton('streams.application.handle', function () use ($handle) {
-            return $this->app->make('streams.applications.' . $handle)->handle;
-        });
+    /**
+     * Return the collection instance.
+     * 
+     * @return Collection
+     */
+    public function collection()
+    {
+        return $this->collection;
     }
 }

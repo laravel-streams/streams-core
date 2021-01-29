@@ -31,6 +31,7 @@ use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Streams\Core\Support\Facades\Application as ApplicationManager;
 
 /**
  * Class StreamsServiceProvider
@@ -134,14 +135,6 @@ class StreamsServiceProvider extends ServiceProvider
             base_path('vendor/streams/core/resources/public')
             => public_path('vendor/streams/core')
         ], ['public']);
-
-        $this->app->singleton('streams.application.origin', function () {
-            return $this->app->make('streams.application');
-        });
-
-        $this->app->singleton('streams.application.handle', function () {
-            return $this->app->make('streams.application')->handle;
-        });
 
         $this->app->singleton('streams.parser_data', function () {
 
@@ -259,54 +252,38 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerApplications()
     {
         $url = Request::fullUrl();
-        $applications = Streams::repository('core.applications')->all();
+        $applications = ApplicationManager::collection();
 
         /**
          * Mark the active application
          * according to it's match.
          */
-        $applications->each(function ($application) use ($url) {
+        $active = $applications->first(function ($application) use ($url) {
 
-            $default = ($application->match
+            return ($application->match
                 && Str::is($application->match, $url));
-
-            $application->active = $application->active ?: $default;
         });
 
-        /**
-         * Get the first
-         * active application.
-         */
-        $active = $applications->first(function ($application) {
-            return $application->active === true;
-        });
-
-        /**
-         * Otherwise get the
-         * default application.
-         */
         if (!$active) {
             $active = $applications->first(function ($application) {
-                return $application->id == 'default';
+                return !$application->match;
             });
         }
 
-        /**
-         * Otherwise use a
-         * blank application.
-         */
-        if (!$active) {
-            $active = new Application([]);
-        }
+        if ($active) {
+            
+            ApplicationManager::active($active);
 
-        // Register the active application.
-        $this->app->singleton('streams.application', function () use ($active) {
-            return $active;
-        });
+            $this->app['streams.application.handle'] = $active->id;
+        } 
 
         // Configure
-        if ($active->config) {
+        if ($active && $active->config) {
             Config::set($active->config);
+        }
+
+        if (!$active) {
+            $this->app['streams.application.handle'] = 'default';
         }
     }
 
@@ -316,10 +293,10 @@ class StreamsServiceProvider extends ServiceProvider
     protected function bootApplication()
     {
         // Register the active application.
-        $active = $this->app->make('streams.application');
+        $active = ApplicationManager::active();
 
         // Locale
-        if ($active->locale) {
+        if ($active && $active->locale) {
             $this->app->setLocale($active->locale);
         }
     }
