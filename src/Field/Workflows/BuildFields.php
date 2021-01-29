@@ -50,7 +50,11 @@ class BuildFields extends Workflow
             $input['rules'] = Arr::get($input, 'rules', []);
 
             if (is_string($input['rules'])) {
-                return explode('|', $input['rules']);
+                $input['rules'] = explode('|', $input['rules']);
+            }
+
+            if (Arr::pull($input, 'required') == true) {
+                $input['rules'][] = 'required';
             }
         }
 
