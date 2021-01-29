@@ -7,7 +7,7 @@ import debug                                                                    
 import { autoProvide, buildProviderModule, fluentProvide, provide }                                                             from 'inversify-binding-decorators';
 import createDecorators                                                                                                         from 'inversify-inject-decorators';
 import { collect }                                                                                                              from './Collection';
-import { IConfig }                                                                                                              from './types';
+import { IConfig }                                                                                                              from '../types';
 import { Collection }                                                                                                           from 'collect.js';
 import Alpine                                                                                                                   from 'alpinejs';
 
@@ -303,6 +303,7 @@ export class Application extends Container {
 }
 
 const app                    = Application.instance;
+window.app                   = app;
 const { lazyInject: inject } = createDecorators(app);
 export { app, inject };
 export { provide, buildProviderModule, fluentProvide, autoProvide };

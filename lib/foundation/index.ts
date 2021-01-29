@@ -8,4 +8,3 @@ export * from './Collection';
 export * from './Config';
 export * from './Dispatcher';
 export * from './ServiceProvider';
-export * from './types';
