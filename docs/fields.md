@@ -84,6 +84,26 @@ The `url` field type stores a URL or named route.
 }
 ```
     
+### Hash
+
+The `hash` field type stores a one-way hashed string, great for passwords.
+
+```json
+{
+    "type": "hash"
+}
+```
+
+### Encrypted
+
+The `encrypted` field type stores a two-way encrypted string.
+
+```json
+{
+    "type": "encrypted"
+}
+```
+
 ### Markdown
 
 The `markdown` field type stores markdown formatted text.

@@ -33,11 +33,17 @@ Like streams, entry filenames serve as an **id** called a **handle**, which you 
 ## Basic Usage
 ### Expanding Fields
 
-You can also query entries using a fluent API like you would with `Eloquent`.
+You can use the `expand` function to return expanded field values.
 
 ```php
 foreach (Streams::entries('family')->where('relation', 'brother')->get() as $sibling) {
-    $entry->email; // The email value.
+    
+    // The raw value.
+    $entry->email;
+
+     // An email link.
+    $entry->expand('email')->mailto();
+    $entry->email()->mailto();
 }
 ```
 
