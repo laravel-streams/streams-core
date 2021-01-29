@@ -169,15 +169,112 @@ The `multiselect` field type stores an array of selections from a list of option
 ```
 
 ### Boolean
+
+```json
+{
+    "type": "boolean"
+}
+```
+
 ### Integer
+
+```json
+{
+    "type": "integer"
+}
+```
+
 ### Datetime
+
+```json
+{
+    "type": "datetime"
+}
+```
+
 ### Date
+
+```json
+{
+    "type": "date"
+}
+```
+
 ### Time
+
+```json
+{
+    "type": "time"
+}
+```
+
 ### Entry
+
+```json
+{
+    "type": "entry",
+    "config": {
+        "stream": "handle"
+    }
+}
+```
+
 ### Entries
+
+```json
+{
+    "type": "entries",
+    "config": {
+        "stream": "handle"
+    }
+}
+```
+
 ### Polymorphic
+
 ### Relationship
+
+```json
+{
+    "type": "relationship",
+    "config": {
+        "related": "stream"
+    }
+}
+```
+
 ### Multiple
+
+```json
+{
+    "type": "multiple",
+    "config": {
+        "related": "stream"
+    }
+}
+```
+
+### File
+
+```json
+{
+    "type": "file",
+    "config": {
+        "path": "storage/app/public/uploads"
+    }
+}
+```
+
 ### Image
+
+```json
+{
+    "type": "image",
+    "config": {
+        "path": "storage/app/public/uploads/img"
+    }
+}
+```
+
 ### Collection
 ### Template
