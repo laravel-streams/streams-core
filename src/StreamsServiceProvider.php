@@ -283,6 +283,7 @@ class StreamsServiceProvider extends ServiceProvider
         }
 
         if (!$active) {
+            // @todo use config value for this - easier to access/override
             $this->app['streams.application.handle'] = 'default';
         }
     }
