@@ -8,52 +8,102 @@ sort:
 
 ## Introduction
 
-Source adapters connect streams to any source of information you might encounter.
+Source adapters helps you query any source of data you might encounter in the wild.
 
 ### Defining Sources 
 
-Specify **source** information in your [stream configuration](streams#defining-streams). Below is the default configuration.
+Specify **source** information in your [stream configuration](streams#defining-streams).
+
+If no source is specified, the below defaults will be assumed.
+
 
 ```json
-// streams/contacts.json
+// streams/{handle}.json
 {
     "source": {
+        "format": "json",
         "type": "filebase",
-        "format": "md"
-    }
-}
-```
-
-## Available Sources
-
-The following **sources** are available with the Streams platform by default.
-
-### Filebase
-
-The flat file database powered by the fantastic [Filebase](https://figt) package is the **default** source.
-
-```json
-// streams/contacts.json
-{
-    "source": {
-        "type": "filebase",
-        "format": "md",
+        "path": "streams/data/{handle}",
         "prototype": "Streams\\Core\\Entry\\Entry"
     }
 }
 ```
 
-#### Available Formats
 
-The following formats are supported:
+## Available Sources
 
-- `json`
-- `md`
-- `yaml`
+The following **sources** are available with the Streams platform by default.
+
+
+### Filebase
+
+The flat file database powered by the fantastic [Filebase](https://github.com/tmarois/Filebase) package is the **default** source.
+
+
+```json
+// streams/contacts.json
+{
+    ...
+    "source": {
+        "format": "json",
+        "type": "filebase",
+        "path": "streams/data/contacts",
+        "prototype": "Streams\\Core\\Entry\\Entry"
+    }
+}
+```
+
+#### JSON Format
+
+```json
+// streams/data/contacts/ryan.json
+{
+    "name": "Ryan",
+    "email": "ryan@example.com"
+}
+```
+
+#### YAML Format
+
+@verbatim
+```yaml
+// streams/data/contacts/ryan.yaml
+---
+name: "Ryan"
+email: "ryan@example.com"
+---
+The body is built in: {{ $entry->name }}
+```
+@endverbatim
+
+#### MD Format
+
+@verbatim
+```markdown
+// streams/data/contacts/ryan.md
+---
+name: "Ryan"
+email: "ryan@example.com"
+---
+The body is built in: {{ $entry->name }}
+```
+@endverbatim
+
+#### TPL Format
+@verbatim
+```template
+// streams/data/contacts/ryan.tpl
+---
+name: "Ryan"
+email: "ryan@example.com"
+---
+The body is built in: {{ $entry->name }}
+```
+@endverbatim
 
 ### Eloquent Model
 
-The eloquent model source uses Laravel models to query and return stream-enhanced models.
+The eloquent model source uses Laravel models to query and can return stream-enhanced Eloquent models.
 
 ```json
 // streams/contacts.json
@@ -67,7 +117,7 @@ The eloquent model source uses Laravel models to query and return stream-enhance
 
 ### Laravel Database
 
-The Laravel database source uses genetic Laravel database tables to query and return stream [entry prototypes](entries).
+The Laravel database source uses generic Laravel database tables to query and return stream [entries](entries).
 
 ```json
 // streams/contacts.json
@@ -83,8 +133,8 @@ The Laravel database source uses genetic Laravel database tables to query and re
 
 ## Extending
 
-You can very likely provide a custom source adapter for **any source of information** you might encounter.
+You can create and register a custom source adapter for **any source of information** you might encounter.
 
 ### Custom Sources
 
-@todo talk about developing custom source adapters.
+**@todo Talk about developing custom source adapters.**
