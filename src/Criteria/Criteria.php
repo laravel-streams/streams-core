@@ -3,8 +3,6 @@
 namespace Streams\Core\Criteria;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Streams\Core\Entry\Entry;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
