@@ -35,12 +35,23 @@ Let's create a little stream to hold information for a simple CRM.
 // streams/contacts.json
 {
     "name": "Contacts",
+    "source": {
+        "type": "filebase",
+        "filename": "streams/data/contacts",
+        "format": "json"
+    },
+    "config": {
+        "prototype": "Streams\\Core\\Entry\\Entry",
+        "collection": "Illuminate\\Support\\Collection"
+    },
     "fields": {
         "name": "string",
         "email": "email",
         "company": {
             "type": "relationship",
-            "stream": "companies"
+            "config": {
+                "related": "companies"
+            }
         }
     }
 }

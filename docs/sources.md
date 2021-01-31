@@ -23,8 +23,7 @@ If no source is specified, the below defaults will be assumed.
     "source": {
         "format": "json",
         "type": "filebase",
-        "path": "streams/data/{handle}",
-        "prototype": "Streams\\Core\\Entry\\Entry"
+        "path": "streams/data/{handle}"
     }
 }
 ```
