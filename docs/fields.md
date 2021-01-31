@@ -90,7 +90,10 @@ The `hash` field type stores a one-way hashed string, great for passwords.
 
 ```json
 {
-    "type": "hash"
+    "type": "hash",
+    "config": {
+        "prefix": "string"
+    }
 }
 ```
 
