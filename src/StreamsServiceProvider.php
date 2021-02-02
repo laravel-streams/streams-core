@@ -127,8 +127,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->bootApplication();
-
         $this->publishes([
             base_path('vendor/streams/core/resources/public')
             => public_path('vendor/streams/core')
@@ -183,6 +181,8 @@ class StreamsServiceProvider extends ServiceProvider
 
             return $data;
         });
+
+        $this->bootApplication();
 
         // Setup and preparing utilities.
         $this->registerAddons();
@@ -278,11 +278,6 @@ class StreamsServiceProvider extends ServiceProvider
             $this->app['streams.application.handle'] = $active->id;
         } 
 
-        // Configure
-        if ($active && $active->config) {
-            Config::set($active->config);
-        }
-
         if (!$active) {
             // @todo use config value for this - easier to access/override
             $this->app['streams.application.handle'] = 'default';
@@ -296,6 +291,13 @@ class StreamsServiceProvider extends ServiceProvider
     {
         // Register the active application.
         $active = ApplicationManager::active();
+
+        // Configure
+        if ($active && $active->config) {
+            foreach (Arr::dot(Arr::parse($active->config)) as $key => $value) {
+                Config::set($key, $value);
+            }
+        }
 
         // Locale
         if ($active && $active->locale) {
