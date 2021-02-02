@@ -9,7 +9,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\View\Factory;
 use Collective\Html\HtmlFacade;
-use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\URL;
 use Streams\Core\View\ViewIncludes;
@@ -25,7 +24,6 @@ use Illuminate\Support\ServiceProvider;
 use Streams\Core\Support\Facades\Addons;
 use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Images;
-use Streams\Core\Application\Application;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
@@ -178,6 +176,9 @@ class StreamsServiceProvider extends ServiceProvider
 
                 // Alias this key variable.
                 $data['route']['prefix'] = $data['route']['compiled']['static_prefix'];
+
+                // This is necessary for parsing.
+                $data['cp_prefix'] = Config::get('streams.ui.cp.prefix', 'cp');
             }
 
             return $data;
