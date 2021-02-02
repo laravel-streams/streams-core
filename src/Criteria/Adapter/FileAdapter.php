@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\File;
 use Streams\Core\Entry\Contract\EntryInterface;
 
 class FileAdapter extends AbstractAdapter
@@ -294,6 +295,10 @@ class FileAdapter extends AbstractAdapter
 
         $format = $source->get('format', 'json') ?: 'json';
         $file = base_path(trim($source->get('file', 'streams/data/' . $this->stream->handle . '.' . $format), '/\\'));
+
+        if (!file_exists($file)) {
+            mkdir(dirname($file), 0755, true);
+        }
 
         if ($format == 'json') {
             file_put_contents($file, json_encode($this->data, JSON_PRETTY_PRINT));
