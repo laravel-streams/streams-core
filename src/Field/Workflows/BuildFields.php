@@ -67,16 +67,20 @@ class BuildFields extends Workflow
 
         foreach ($fields as &$input) {
 
-            if (strpos($input['type'], '|')) {
-                list($input['type'], $input['input']) = explode('|', $input['type']);
-            } else {
-                $input['input'] = $input['type'];
+            if (!isset($input['input'])) {
+                $input['input'] = [];
             }
 
             if (is_string($input['input'])) {
                 $input['input'] = [
                     'type' => $input['input'],
                 ];
+            }
+
+            if (strpos($input['type'], '|')) {
+                list($input['type'], $input['input']['type']) = explode('|', $input['type']);
+            } else {
+                $input['input']['type'] = $input['type'];
             }
         }
 
