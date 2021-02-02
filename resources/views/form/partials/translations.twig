@@ -4,7 +4,7 @@
     </a>
     <div class="dropdown-menu">
         {% for iso in config_get('streams::locales.enabled') %}
-            <a class="dropdown-item {{ iso == config_get('streams::locales.default') ? 'active' }}"
+            <a class="dropdown-item {{ iso == config('app.locale', config_get('streams::locales.enabled')) ? 'active' }}"
                href="#"
                data-toggle="lang" lang="{{ iso }}">
                 {{ trans('streams::locale.' ~ iso ~ '.name') }}
