@@ -30,7 +30,5 @@ class AddonManagerTest extends TestCase
         $addons = Addons::collection();
 
         $this->assertInstanceOf(AddonCollection::class, $addons);
-        dd($addons->keys());
-        $this->assertEquals(1, $addons->count());
     }
 }
