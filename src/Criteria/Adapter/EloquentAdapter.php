@@ -145,7 +145,11 @@ class EloquentAdapter extends AbstractAdapter
      */
     public function create(array $attributes = [])
     {
-        return $this->query->create($attributes);
+        $model = $this->stream->getPrototypeAttribute('source.model');
+
+        $model::unguard();
+        
+        return $model::create($attributes);
     }
 
     /**
