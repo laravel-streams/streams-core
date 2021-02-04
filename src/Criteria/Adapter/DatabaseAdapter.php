@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Criteria\Adapter;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
@@ -158,8 +159,9 @@ class DatabaseAdapter extends AbstractAdapter
     {
         $attributes = $entry->getAttributes();
 
-        if (isset($attributes['id'])) {
-            return $this->query->update($entry->getAttributes());
+        // @todo Configurable key_name
+        if ($id = Arr::pull($attributes, 'id')) {
+            return $this->query->where('id', $id)->update($attributes);
         }
 
         $id = $this->query->insertGetId($entry->getAttributes());
