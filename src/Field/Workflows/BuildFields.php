@@ -67,6 +67,8 @@ class BuildFields extends Workflow
 
         foreach ($fields as &$input) {
 
+            $input = Arr::undot($input);
+            
             if (!isset($input['input'])) {
                 $input['input'] = [];
             }
