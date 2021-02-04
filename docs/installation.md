@@ -5,13 +5,23 @@ intro:
 enabled: true
 ---
 
-The Streams platform is added to existing Laravel projects as a dependency by requiring it with Composer.
+### Download
+
+Download the Streams Core package using Composer.
 
 ```bash
 composer require streams/core
 ```
 
 You might consider starting with the [Streams starter application](/docs/installation).
+
+### Publish Assets
+
+Use the following command to publish the public assets required for this package.
+
+```bash
+php artisan vendor:publish --vendor=Streams\\Core\\CoreServiceProvider --tag=public
+```
 
 ## Updating
 

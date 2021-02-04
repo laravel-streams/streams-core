@@ -84,6 +84,29 @@ The `url` field type stores a URL or named route.
 }
 ```
     
+### Hash
+
+The `hash` field type stores a one-way hashed string, great for passwords.
+
+```json
+{
+    "type": "hash",
+    "config": {
+        "prefix": "string"
+    }
+}
+```
+
+### Encrypted
+
+The `encrypted` field type stores a two-way encrypted string.
+
+```json
+{
+    "type": "encrypted"
+}
+```
+
 ### Markdown
 
 The `markdown` field type stores markdown formatted text.
@@ -169,15 +192,112 @@ The `multiselect` field type stores an array of selections from a list of option
 ```
 
 ### Boolean
+
+```json
+{
+    "type": "boolean"
+}
+```
+
 ### Integer
+
+```json
+{
+    "type": "integer"
+}
+```
+
 ### Datetime
+
+```json
+{
+    "type": "datetime"
+}
+```
+
 ### Date
+
+```json
+{
+    "type": "date"
+}
+```
+
 ### Time
+
+```json
+{
+    "type": "time"
+}
+```
+
 ### Entry
+
+```json
+{
+    "type": "entry",
+    "config": {
+        "stream": "handle"
+    }
+}
+```
+
 ### Entries
+
+```json
+{
+    "type": "entries",
+    "config": {
+        "stream": "handle"
+    }
+}
+```
+
 ### Polymorphic
+
 ### Relationship
+
+```json
+{
+    "type": "relationship",
+    "config": {
+        "related": "stream"
+    }
+}
+```
+
 ### Multiple
+
+```json
+{
+    "type": "multiple",
+    "config": {
+        "related": "stream"
+    }
+}
+```
+
+### File
+
+```json
+{
+    "type": "file",
+    "config": {
+        "path": "storage/app/public/uploads"
+    }
+}
+```
+
 ### Image
+
+```json
+{
+    "type": "image",
+    "config": {
+        "path": "storage/app/public/uploads/img"
+    }
+}
+```
+
 ### Collection
 ### Template

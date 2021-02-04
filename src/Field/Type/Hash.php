@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field\Type;
 
+use Illuminate\Support;
 use Streams\Core\Field\Value\HashValue;
 use Illuminate\Support\Facades\Hash as FacadesHash;
 
@@ -19,7 +20,13 @@ class Hash extends Str
             return $value;
         }
 
-        return FacadesHash::make($value);
+        $prefix = Support\Arr::get($this->config, 'prefix');
+
+        if ($prefix && Support\Str::startsWith($value, $prefix)) {
+            throw new \Exception("Value [{$value}] is already hashed.");
+        }
+
+        return $prefix . FacadesHash::make($value);
     }
 
     /**

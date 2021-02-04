@@ -57,7 +57,7 @@ class StreamsController extends Controller
             ->process(['data' => $data]);
 
         $this->fire('responding', ['data' => $data]);
-
+        
         if ($response = $data->get('response')) {
             return $response;
         }
@@ -248,7 +248,7 @@ class StreamsController extends Controller
         if (!$name = Arr::get($action, 'as')) {
             return;
         }
-
+        
         if (Str::is('streams::*.*', $name)) {
             $name = explode('.', str_replace('streams::', '', $name));
         }

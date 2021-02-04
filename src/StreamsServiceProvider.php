@@ -9,7 +9,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\View\Factory;
 use Collective\Html\HtmlFacade;
-use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\URL;
 use Streams\Core\View\ViewIncludes;
@@ -25,7 +24,6 @@ use Illuminate\Support\ServiceProvider;
 use Streams\Core\Support\Facades\Addons;
 use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Images;
-use Streams\Core\Application\Application;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
@@ -129,8 +127,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->bootApplication();
-
         $this->publishes([
             base_path('vendor/streams/core/resources/public')
             => public_path('vendor/streams/core')
@@ -182,6 +178,8 @@ class StreamsServiceProvider extends ServiceProvider
 
             return $data;
         });
+
+        $this->bootApplication();
 
         // Setup and preparing utilities.
         $this->registerAddons();
@@ -277,11 +275,6 @@ class StreamsServiceProvider extends ServiceProvider
             $this->app['streams.application.handle'] = $active->id;
         } 
 
-        // Configure
-        if ($active && $active->config) {
-            Config::set($active->config);
-        }
-
         if (!$active) {
             // @todo use config value for this - easier to access/override
             $this->app['streams.application.handle'] = 'default';
@@ -295,6 +288,13 @@ class StreamsServiceProvider extends ServiceProvider
     {
         // Register the active application.
         $active = ApplicationManager::active();
+
+        // Configure
+        if ($active && $active->config) {
+            foreach (Arr::dot(Arr::parse($active->config)) as $key => $value) {
+                Config::set($key, $value);
+            }
+        }
 
         // Locale
         if ($active && $active->locale) {
