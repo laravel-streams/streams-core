@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Field\FieldType;
 use Illuminate\Support\Facades\App;
@@ -60,6 +61,11 @@ class Field implements
     public function getRuleParameters($rule)
     {
         return $this->stream->getRuleParameters($this->handle, $rule);
+    }
+
+    public function getRuleParameter($rule, $key = 0)
+    {
+        return Arr::get($this->getRuleParameters($rule), $key);
     }
 
     public function isRequired()
