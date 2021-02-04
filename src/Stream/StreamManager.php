@@ -47,6 +47,7 @@ class StreamManager
     {
         try {
 
+            // @todo is this ok? Artifact from toArray()?
             if (is_array($stream)) {
                 $stream = $stream['handle'];
             }
