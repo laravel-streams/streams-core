@@ -36,7 +36,7 @@ class Field implements
      */
     public function type(array $attributes = [])
     {
-        return $this->remember($this->handle . '.' . $this->type, function () use ($attributes) {
+        return $this->once($this->handle . '.' . $this->type, function () use ($attributes) {
 
             $attributes['field'] = $this;
 
