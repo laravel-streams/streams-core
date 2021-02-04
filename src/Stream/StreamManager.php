@@ -46,6 +46,11 @@ class StreamManager
     public function make($stream)
     {
         try {
+
+            if (is_array($stream)) {
+                $stream = $stream['handle'];
+            }
+
             return App::make('streams.instances.' . $stream);
         } catch (BindingResolutionException $e) {
             throw new Exception("Stream [{$stream}] does not exist.");
