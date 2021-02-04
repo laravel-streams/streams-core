@@ -39,9 +39,10 @@ interface EntryInterface
     /**
      * Save the entry.
      * 
+     * @param array $options
      * @var bool
      */
-    public function save();
+    public function save(array $options = []);
 
     /**
      * Delete the entry.

@@ -33,6 +33,11 @@ trait Eloquence
         return $this->setPrototypeAttributes($attributes);
     }
 
+    public function expand($key)
+    {
+        return $this->expandPrototypeAttribute($key);
+    }
+
     public function getAttribute($key)
     {
         return $this->getPrototypeAttribute($key);

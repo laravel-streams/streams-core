@@ -81,10 +81,11 @@ class Entry implements
 
     /**
      * Save the entry.
-     *
-     * @return bool
+     * 
+     * @param array $options
+     * @var bool
      */
-    public function save()
+    public function save(array $options = [])
     {
         return $this->stream()
             ->repository()
