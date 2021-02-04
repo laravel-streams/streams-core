@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Support\Traits;
 
+use Illuminate\Support\Str;
 use Streams\Core\Support\Facades\Hydrator;
 
 /**
@@ -26,7 +27,9 @@ use Streams\Core\Support\Facades\Hydrator;
 trait Eloquence
 {
 
-    use Prototype;
+    use Prototype {
+        Prototype::__call as private callPrototype;
+    }
 
     public function fill(array $attributes)
     {
