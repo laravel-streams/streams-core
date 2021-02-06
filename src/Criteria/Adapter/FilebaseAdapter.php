@@ -59,6 +59,10 @@ class FilebaseAdapter extends AbstractAdapter
      */
     public function orderBy($field, $direction = 'asc')
     {
+        if ($field == 'id') {
+            $field = '__id';
+        }
+        
         $this->query = $this->query->orderBy($field, $direction);
 
         return $this;

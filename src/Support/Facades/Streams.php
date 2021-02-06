@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Streams\Core\Stream\Stream load(string $file)
  * @method static \Streams\Core\Stream\Stream make(string $stream)
  * @method static \Streams\Core\Stream\Stream register(array $stream)
- * @method static \Streams\Core\Entry\Contract\EntryInterface entries(string $stream)
- * @method static \Streams\Core\Repository\Contract\RepositoryInterface repository(string $stream)
- * @method static \Streams\Core\Stream\StreamCollection collection()
+ * @method static \Streams\Core\Criteria\Criteria entries(string $stream)
+ * @method static \Streams\Core\Repository\Repository repository(string $stream)
+ * @method static \Illuminate\Support\Collection collection()
  */
 class Streams extends Facade
 {

@@ -269,4 +269,16 @@ class Criteria
     {
         return $this->adapter->newInstance($attributes);
     }
+
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
+
+    public function setParameters(array $parameters = [])
+    {
+        $this->parameters = $parameters;
+
+        return $this;
+    }
 }
