@@ -107,15 +107,6 @@ class StreamTest extends TestCase
     // }
 }
 
-class ExampleValidator
-{
-
-    public function validate($attribute, $value)
-    {
-        return strpos($value, 'First') > -1;
-    }
-}
-
 class WidgetValidator
 {
 
