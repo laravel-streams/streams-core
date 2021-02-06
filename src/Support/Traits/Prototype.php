@@ -82,7 +82,7 @@ trait Prototype
         $key = Str::snake($method);
 
         if ($this->hasPrototypeAttribute($key)) {
-            return $this->expand($key);
+            return $this->expandPrototypeAttribute($key);
         }
 
         throw new \BadMethodCallException(sprintf(

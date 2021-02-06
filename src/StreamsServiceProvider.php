@@ -392,88 +392,63 @@ class StreamsServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register Streams.
+     * Register UI streams.
      */
     protected function registerStreams()
     {
+        $prefix = __DIR__ . '/../resources/streams/';
+        $streams = ['core.streams', 'core.applications'];
 
-        /**
-         * The stream for streams.
-         */
-        Streams::register([
-            'handle' => 'core.streams',
-            'source' => [
-                'path'   => 'streams',
-                'format' => 'json',
-            ],
-            'config' => [
-                'prototype' => \Streams\Core\Stream\Stream::class
-            ],
-            'fields' => [
-                'id' => 'slug',
-                'source' => 'array',
-            ],
-        ]);
+        foreach ($streams as $stream) {
+            if (!Streams::has($stream)) {
+                Streams::load($prefix . $stream . '.json');
+            }
+        }
 
-        /**
-         * Register the core stream responsible
-         * for managing multi-site configurations.
-         */
-        Streams::register([
-            'handle' => 'core.applications',
-            'source' => [
-                'path'   => 'streams/apps',
-                'format' => 'json',
-            ],
-            'fields' => [
-                'match'  => 'string',
-                'config' => 'array',
-            ],
-        ]);
+        $this->publishes([
+            __DIR__ . '/../resources/streams/' => base_path('streams/')
+        ], 'streams');
+
 
         /**
          * Configure all base streams
          * defined for the application.
-         *
-         * @todo configure this base path
          */
         foreach (Streams::repository('core.streams')->all() as $stream) {
 
-            $id = $stream->id;
+            $stream->handle = $stream->id;
 
-            $data = json_decode(file_get_contents(base_path('streams/' . $id . '.json')), true);
+            $stream = Streams::register($stream->toArray());
 
-            $data['id']     = $id;
-            $data['handle'] = $id;
+            if (!$this->app->routesAreCached()) {
 
-            $stream = Streams::register($data);
+                foreach ($stream->routes ?: [] as $key => $route) {
 
-            foreach ($stream->routes ?: [] as $key => $route) {
+                    if (is_string($route)) {
+                        $route = [
+                            'uri' => $route,
+                        ];
+                    }
 
-                if (is_string($route)) {
-                    $route = [
-                        'uri' => $route,
-                    ];
+                    if (!isset($route['stream'])) {
+                        $route['stream'] = $stream->handle;
+                    }
+
+                    if (!isset($route['as'])) {
+                        $route['as'] = Arr::get($route, 'as', 'streams::' . $stream->handle . '.' . $key);
+                    }
+
+                    if (Arr::pull($route, 'defer')) {
+
+                        $this->app->booted(function () use ($route) {
+                            Route::streams(Arr::get($route, 'uri'), $route);
+                        });
+
+                        continue;
+                    }
+
+                    Route::streams(Arr::get($route, 'uri'), $route);
                 }
-
-                if (!isset($route['stream'])) {
-                    $route['stream'] = $stream->handle;
-                }
-
-                if (!isset($route['as'])) {
-                    $route['as'] = Arr::get($route, 'as', 'streams::' . $stream->handle . '.' . $key);
-                }
-
-                if (Arr::pull($route, 'defer')) {
-
-                    $this->app->booted(function () use ($route) {
-                        Route::streams(Arr::get($route, 'uri'), $route);
-                    });
-
-                    continue;
-                }
-
-                Route::streams(Arr::get($route, 'uri'), $route);
             }
         }
     }

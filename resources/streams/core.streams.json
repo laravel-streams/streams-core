@@ -1,0 +1,15 @@
+{
+    "handle": "core.streams",
+    "source": {
+        "path": "streams",
+        "format": "json"
+    },
+    "config": {
+        "prototype": "Streams\\Core\\Stream\\Stream"
+    },
+    "fields": {
+        "id": "slug",
+        "source": "array",
+        "routes": "array"
+    }
+}

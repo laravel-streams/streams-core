@@ -33,10 +33,27 @@ class Stream implements
     Jsonable
 {
 
+    use Prototype {
+        Prototype::initializePrototype as private initializePrototypeTrait;
+    }
+
     use HasMemory;
-    use Prototype;
     use ForwardsCalls;
     use FiresCallbacks;
+
+    /**
+     * Initialize the prototype.
+     *
+     * @param array $attributes
+     * @return $this
+     */
+    protected function initializePrototype(array $attributes)
+    {
+        return $this->initializePrototypeTrait(array_merge([
+            'handle' => null,
+            'routes' => [],
+        ], $attributes));
+    }
 
     /**
      * Return the entry repository.
