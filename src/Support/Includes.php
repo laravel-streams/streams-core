@@ -1,6 +1,6 @@
 <?php
 
-namespace Streams\Core\Suppport;
+namespace Streams\Core\Support;
 
 use Exception;
 use Illuminate\Support\Collection;
