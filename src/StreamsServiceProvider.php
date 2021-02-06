@@ -127,11 +127,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes([
-            base_path('vendor/streams/core/resources/public')
-            => public_path('vendor/streams/core'),
-        ], ['public']);
-
         $this->app->singleton('streams.parser_data', function () {
 
             $data = [
