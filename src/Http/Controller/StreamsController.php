@@ -102,7 +102,6 @@ class StreamsController extends Controller
      */
     public function resolveEntry(Collection $data)
     {
-
         $action = Request::route()->action;
 
         /**

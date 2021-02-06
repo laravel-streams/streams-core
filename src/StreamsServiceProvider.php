@@ -411,10 +411,13 @@ class StreamsServiceProvider extends ServiceProvider
 
 
         /**
-         * Configure all base streams
-         * defined for the application.
+         * Register stream configurations.
          */
-        foreach (Streams::repository('core.streams')->all() as $stream) {
+        $streams = Streams::repository('core.streams')->all();
+        $base = $streams->where('extends', null);
+        $extending = $streams->where('extends', '!=', null);
+        
+        foreach ((new Collection)->merge($base)->merge($extending) as $stream) {
 
             $stream->handle = $stream->id;
 
