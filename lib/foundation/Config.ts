@@ -1,7 +1,7 @@
 // noinspection ES6UnusedImports
 import { cloneDeep, get, has, merge, set, unset } from 'lodash';
-import { Application } from './Application';
-import { IConfig } from './types';
+import { Application }                            from './Application';
+import { IConfig }                                from './types';
 
 
 export function toJS(v) {

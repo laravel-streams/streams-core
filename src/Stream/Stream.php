@@ -19,6 +19,14 @@ use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Criteria\Contract\CriteriaInterface;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 
+/**
+ * @property string handle
+ * @property Repository repository
+ * @property array rules
+ * @property array validators
+ * @property \Streams\Core\Field\FieldCollection|\Streams\Core\Field\Field[] fields
+ *
+ */
 class Stream implements
     ArrayAccess,
     Arrayable,
@@ -32,7 +40,7 @@ class Stream implements
 
     /**
      * Return the entry repository.
-     * 
+     *
      * @todo Let's review this idea. Could use for allowing configuration of criteria too. Flat or in some kinda config array?
      * @return RepositoryInterface
      */
@@ -45,7 +53,7 @@ class Stream implements
 
     /**
      * Return the entry criteria.
-     * 
+     *
      * @return CriteriaInterface
      */
     public function entries()
@@ -57,7 +65,7 @@ class Stream implements
 
     /**
      * Return an entry validator with the data.
-     * 
+     *
      * @param $data
      * @return Validator
      */
