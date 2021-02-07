@@ -1,15 +1,15 @@
 import { AsyncContainerModule, Container, decorate, injectable, interfaces, named, optional, postConstruct, tagged, unmanaged } from 'inversify';
-import { merge }                                                                                                                from 'lodash';
-import { Dispatcher }                                                                                                           from './Dispatcher';
-import { ServiceProvider }                                                                                                      from './ServiceProvider';
-import { Config }                                                                                                               from './Config';
-import debug                                                                                                                    from 'debug';
-import { autoProvide, buildProviderModule, fluentProvide, provide }                                                             from 'inversify-binding-decorators';
-import createDecorators                                                                                                         from 'inversify-inject-decorators';
-import { collect }                                                                                                              from './Collection';
-import { IConfig }                                                                                                              from '../types';
-import { Collection }                                                                                                           from 'collect.js';
-import Alpine                                                                                                                   from 'alpinejs';
+import { merge } from 'lodash';
+import { Dispatcher } from './Dispatcher';
+import { ServiceProvider } from './ServiceProvider';
+import { Config } from './Config';
+import debug from 'debug';
+import { autoProvide, buildProviderModule, fluentProvide, provide } from 'inversify-binding-decorators';
+import createDecorators from 'inversify-inject-decorators';
+import { collect } from './Collection';
+import { IConfig } from '../types';
+import { Collection } from 'collect.js';
+import Alpine from 'alpinejs';
 
 const log = debug('Application');
 
@@ -20,7 +20,7 @@ const log = debug('Application');
  * - Registers and boots Service Providers to provide a easy way into the application cycle and access to the IoC container
  * - The global event thread. Event listeners and dispatchers etc
  *
- * Lifecycle:
+ * Lifecycle: 
  *
  *  1. bootstrap()
  *  - This will take all the given providers and loop trough them, by loading and registering them with calling their (if existing) register function.
@@ -65,11 +65,11 @@ export class Application extends Container {
     }
 
     loadedProviders: any = {};
-    providers: any[]     = [];
-    _booted: boolean     = false;
-    _started: boolean    = false;
-    events: Dispatcher;
-    config: Collection<IConfig>;
+    providers      : any[]     = [];
+    _booted        : boolean     = false;
+    _started       : boolean    = false;
+    events         : Dispatcher;
+    config         : Collection<IConfig>;
 
     /**
      * @private
@@ -226,7 +226,7 @@ export class Application extends Container {
     };
 
     addBindingGetter(id, key = null) {
-        key        = key || id;
+              key  = key || id;
         const self = this;
         Object.defineProperty(this, key, {
             get() {
@@ -303,7 +303,7 @@ export class Application extends Container {
 }
 
 const app                    = Application.instance;
-window.app                   = app;
+      window.app             = app;
 const { lazyInject: inject } = createDecorators(app);
 export { app, inject };
 export { provide, buildProviderModule, fluentProvide, autoProvide };
