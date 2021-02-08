@@ -1,4 +1,4 @@
-import EventEmitter from 'eventemitter3';
+import EventEmitter             from 'eventemitter3';
 import { decorate, injectable } from 'inversify';
 
 export type EventTypes =

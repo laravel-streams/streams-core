@@ -3,7 +3,6 @@
 namespace Streams\Core\Tests\Stream\Criteria\Adapter;
 
 use Tests\TestCase;
-use Streams\Core\Entry\Entry;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Model;

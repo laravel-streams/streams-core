@@ -1,0 +1,11 @@
+{
+    "handle": "core.applications",
+    "source": {
+        "path": "streams/apps",
+        "format": "json"
+    },
+    "fields": {
+        "match": "string",
+        "config": "array"
+    }
+}

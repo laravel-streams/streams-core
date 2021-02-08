@@ -11,12 +11,12 @@ use Illuminate\Support\Facades\Facade;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  *
- * @property array $collections
- * @property array $resolved
- * @property Collective\Html\HtmlBuilder $html
- * @property Illuminate\Filesystem\Filesystem $files
- * @property Streams\Core\Asset\AssetPaths $paths
- * @property Streams\Core\Asset\AssetRegistry $registry
+ * @property array                             $collections
+ * @property array                             $resolved
+ * @property \Collective\Html\HtmlBuilder      $html
+ * @property \Illuminate\Filesystem\Filesystem $files
+ * @property \Streams\Core\Asset\AssetPaths    $paths
+ * @property \Streams\Core\Asset\AssetRegistry $registry
  * @method static \Streams\Core\Asset\AssetManager collection(string $name)
  * @method static \Streams\Core\Asset\AssetManager register(string $name, $assets)
  * @method static \Streams\Core\Asset\AssetManager inline($asset)

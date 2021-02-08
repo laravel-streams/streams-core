@@ -46,6 +46,12 @@ class StreamManager
     public function make($stream)
     {
         try {
+
+            // @todo is this ok? Artifact from toArray()?
+            if (is_array($stream)) {
+                $stream = $stream['handle'];
+            }
+
             return App::make('streams.instances.' . $stream);
         } catch (BindingResolutionException $e) {
             throw new Exception("Stream [{$stream}] does not exist.");

@@ -1,4 +1,4 @@
-import { AsyncContainerModule, Container, decorate, injectable, named, optional, postConstruct, tagged, unmanaged } from 'inversify';
+import { AsyncContainerModule, Container, decorate, injectable, interfaces, named, optional, postConstruct, tagged, unmanaged } from 'inversify';
 import { merge } from 'lodash';
 import { Dispatcher } from './Dispatcher';
 import { ServiceProvider } from './ServiceProvider';
@@ -7,8 +7,9 @@ import debug from 'debug';
 import { autoProvide, buildProviderModule, fluentProvide, provide } from 'inversify-binding-decorators';
 import createDecorators from 'inversify-inject-decorators';
 import { collect } from './Collection';
-import { IConfig } from './types';
+import { IConfig } from '../types';
 import { Collection } from 'collect.js';
+import Alpine from 'alpinejs';
 
 const log = debug('Application');
 
@@ -19,7 +20,7 @@ const log = debug('Application');
  * - Registers and boots Service Providers to provide a easy way into the application cycle and access to the IoC container
  * - The global event thread. Event listeners and dispatchers etc
  *
- * Lifecycle:
+ * Lifecycle: 
  *
  *  1. bootstrap()
  *  - This will take all the given providers and loop trough them, by loading and registering them with calling their (if existing) register function.
@@ -45,7 +46,7 @@ export class Application extends Container {
     protected static _instance: Application;
 
     static get instance() {
-        if (!this._instance) {
+        if ( !this._instance ) {
             this._instance = new this();
         }
         return this._instance;
@@ -64,21 +65,19 @@ export class Application extends Container {
     }
 
     loadedProviders: any = {};
-    providers: any[] = [];
-    booted: boolean = false;
-    started: boolean = false;
-    shuttingDown: boolean = false;
-    startEnabled: boolean = true;
-    events: Dispatcher;
-    config: Collection<IConfig>;
+    providers      : any[]     = [];
+    _booted        : boolean     = false;
+    _started       : boolean    = false;
+    events         : Dispatcher;
+    config         : Collection<IConfig>;
 
     /**
      * @private
      */
     private constructor() {
         super({
-            autoBindInjectable: false,
-            defaultScope: 'Transient',
+            autoBindInjectable : false,
+            defaultScope       : 'Transient',
             skipBaseClassChecks: false,
         });
         Application._instance = this;
@@ -101,8 +100,8 @@ export class Application extends Container {
     async bootstrap(_options, ...mergeOptions) {
         let options = merge({
             providers: [],
-            config: {},
-            data: {},
+            config   : {},
+            data     : {},
         }, _options, ...mergeOptions);
         log('bootstrap', { options });
         this.events.emit('bootstrap', options); //this.hooks.bootstrap.call(options);
@@ -126,35 +125,32 @@ export class Application extends Container {
         return this;
     }
 
-    private async loadProvider(Provider) {
-        if (Provider.name in this.loadedProviders) {
-            return this.loadedProviders[Provider.name];
+    boot = async () => {
+        if ( this._booted ) {
+            return this;
         }
-        log('loadProvider', { Provider });
-        this.events.emit('loadProvider', Provider);
-        let provider = new Provider(this);
-        if ('configure' in provider && Reflect.getMetadata('configure', provider) !== true) {
-            const defaults = this.getConfigDefaults();
-            Reflect.defineMetadata('configure', true, provider);
-            await provider.configure(defaults);
+        this._booted = true;
+        log('boot');
+        this.events.emit('boot');
+        for ( const provider of this.providers ) {
+            if ( 'boot' in provider && Reflect.getMetadata('boot', provider) !== true ) {
+                this.events.emit('bootProvider', provider);
+                Reflect.defineMetadata('boot', true, provider);
+                await provider.boot();
+                this.events.emit('bootedProvider', provider);
+            }
         }
-        if ('providers' in provider && Reflect.getMetadata('providers', provider) !== true) {
-            Reflect.defineMetadata('providers', true, provider);
-            await this.loadProviders(provider.providers);
-        }
-        this.loadedProviders[Provider.name] = provider;
-        this.providers.push(provider);
-        this.events.emit('loadedProvider', provider);
-        log('loadedProvider', { Provider });
-        return provider;
-    }
+        this.events.emit('booted');
+        return this;
+    };
+
 
     getConfigDefaults(): IConfig {
         return {
-            prefix: 'streams',
-            debug: false,
-            csrf: null,
-            delimiters: ['\{\{', '}}'],
+            prefix    : 'streams',
+            debug     : false,
+            csrf      : null,
+            delimiters: [ '\{\{', '}}' ],
         };
     }
 
@@ -179,10 +175,10 @@ export class Application extends Container {
         log('register', { Provider });
         this.events.emit('registerProvider', Provider);
         let provider = Provider;
-        if (Provider instanceof ServiceProvider === false) {
+        if ( Provider instanceof ServiceProvider === false ) {
             provider = await this.loadProvider(Provider);
         }
-        if ('register' in provider && Reflect.getMetadata('register', provider) !== true) {
+        if ( 'register' in provider && Reflect.getMetadata('register', provider) !== true ) {
             Reflect.defineMetadata('register', true, provider);
             await this.loadAsync(new AsyncContainerModule(() => provider.register()));
         }
@@ -191,35 +187,37 @@ export class Application extends Container {
         return this;
     };
 
-    boot = async () => {
-        if (this.booted) {
-            return this;
-        }
-        log('boot');
-        this.events.emit('boot');
-        for (const provider of this.providers) {
-            if ('boot' in provider && Reflect.getMetadata('boot', provider) !== true) {
-                this.events.emit('bootProvider', provider);
-                Reflect.defineMetadata('boot', true, provider);
-                await provider.boot();
-                this.events.emit('bootedProvider', provider);
-            }
-        }
-        this.events.emit('booted');
-        return this;
-    };
-
-
     start = async (elementOrSelector = '#app') => {
+        if ( this._started ) {
+            throw new Error('Cannot start Application twice');
+        }
+        this._started = true;
         log('start');
         this.events.emit('start');
         /* This part is ment to kick start the application. */
         /* and is currently emtpy. awaiting purpose */
-
+        window.startLoadingAlpine();
+        const comps = document.querySelectorAll('[defer-x-data]');
+        for ( const comp of comps ) {
+            comp.setAttribute('x-data', comp.getAttribute('defer-x-data'));
+            Alpine.initializeComponent(comp);
+        }
         this.events.emit('started');
         log('started');
     };
 
+    started(cb: (app: this) => any) {
+        if ( this._started ) {
+            cb(this);
+        } else {
+            this.events.on('started', () => cb(this));
+        }
+    }
+
+    ctxfactory(id, factory: (ctx: interfaces.Context) => any) {
+        this.bind(id).toFactory(ctx => factory(ctx));
+        return this;
+    }
 
     error = async (error) => {
         log('error', { error });
@@ -228,7 +226,7 @@ export class Application extends Container {
     };
 
     addBindingGetter(id, key = null) {
-        key = key || id;
+              key  = key || id;
         const self = this;
         Object.defineProperty(this, key, {
             get() {
@@ -240,14 +238,14 @@ export class Application extends Container {
     //region: ioc helpers
     alias(abstract, alias, singleton = false) {
         let binding = this.bind(alias).toDynamicValue(ctx => ctx.container.get(abstract));
-        if (singleton) {
+        if ( singleton ) {
             binding.inSingletonScope();
         }
         return this;
     }
 
     bindIf(id, override, cb) {
-        if (this.isBound(id) && !override) return this;
+        if ( this.isBound(id) && !override ) return this;
         cb(this.isBound(id) ? this.rebind(id) : this.bind(id));
         return this;
     }
@@ -272,9 +270,28 @@ export class Application extends Container {
         return this.bindIf(id, override, b => b.toConstantValue(value));
     }
 
-    ctxfactory(id, factory) {
-        this.bind(id).toFactory(ctx => factory(ctx));
-        return this;
+    private async loadProvider(Provider) {
+        const name = Provider.name ?? Provider.constructor.name;
+        if ( name in this.loadedProviders ) {
+            return this.loadedProviders[ name ];
+        }
+        log('loadProvider', { Provider });
+        this.events.emit('loadProvider', Provider);
+        let provider = new Provider(this);
+        if ( 'configure' in provider && Reflect.getMetadata('configure', provider) !== true ) {
+            const defaults = this.getConfigDefaults();
+            Reflect.defineMetadata('configure', true, provider);
+            await provider.configure(defaults);
+        }
+        if ( 'providers' in provider && Reflect.getMetadata('providers', provider) !== true ) {
+            Reflect.defineMetadata('providers', true, provider);
+            await this.loadProviders(provider.providers);
+        }
+        this.loadedProviders[ name ] = provider;
+        this.providers.push(provider);
+        this.events.emit('loadedProvider', provider);
+        log('loadedProvider', { Provider });
+        return provider;
     }
 
     factory(id, factory) {
@@ -285,8 +302,8 @@ export class Application extends Container {
     //endregion
 }
 
-const app = Application.instance;
-
+const app                    = Application.instance;
+      window.app             = app;
 const { lazyInject: inject } = createDecorators(app);
 export { app, inject };
 export { provide, buildProviderModule, fluentProvide, autoProvide };
