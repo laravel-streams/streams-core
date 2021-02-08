@@ -123,7 +123,7 @@ abstract class AbstractAdapter implements AdapterInterface
 
         array_map(function ($entry) use ($collection) {
             $entry = $this->make($entry);
-            $collection->put($entry->id, $entry);
+            $collection->push($entry->id, $entry);
         }, $entries);
 
         return $collection;
