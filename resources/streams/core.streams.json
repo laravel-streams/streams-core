@@ -10,6 +10,7 @@
     "fields": {
         "id": "slug",
         "source": "array",
-        "routes": "array"
+        "routes": "array",
+        "meta": "array"
     }
 }

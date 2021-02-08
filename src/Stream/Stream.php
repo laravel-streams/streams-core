@@ -52,6 +52,9 @@ class Stream implements
         return $this->initializePrototypeTrait(array_merge([
             'handle' => null,
             'routes' => [],
+            'meta' => [
+                'key_name' => 'id',
+            ],
         ], $attributes));
     }
 
@@ -181,6 +184,22 @@ class Stream implements
     public function isRequired($field)
     {
         return $this->hasRule($field, 'required');
+    }
+
+    public function config($key = null, $default = null)
+    {
+        if (!$key) {
+            return $this->expandPrototypeAttribute('config');
+        }
+        return Arr::get($this->config, $key, $default);
+    }
+
+    public function meta($key = null, $default = null)
+    {
+        if (!$key) {
+            return $this->expandPrototypeAttribute('meta');
+        }
+        return Arr::get($this->meta, $key, $default);
     }
 
     /**
