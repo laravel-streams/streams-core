@@ -121,7 +121,7 @@ class AddonLoader
      */
     public function dump()
     {
-        $process = new Process('composer dump-autoload');
+        $process = new Process(['composer dump-autoload']);
 
         $process->run();
         $process->wait();

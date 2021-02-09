@@ -1,6 +1,6 @@
 {{ asset_add("scripts.js", "streams::js/table/table.js") }}
 
-{% if not actions.empty() %}
+{% if not actions.isEmpty() %}
     {{ asset_add("scripts.js", "streams::js/table/actions.js") }}
 {% endif %}
 
@@ -13,7 +13,7 @@
 {{ view("streams::table/ajax/views", {'table': table}) }}
 {{ view("streams::table/ajax/filters", {'table': table}) }}
 
-{% if table.rows.empty() %}
+{% if table.rows.isEmpty() %}
     {% block no_results %}
         <div class="no-results">
             <p>
@@ -23,7 +23,7 @@
     {% endblock %}
 {% endif %}
 
-{% if not table.rows.empty() %}
+{% if not table.rows.isEmpty() %}
 
     {{ form_open({'url': url_full(), 'class': 'ajax'}) }}
 

@@ -1,10 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Entry;
+<?php
 
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Routing\UrlGenerator;
+namespace Anomaly\Streams\Platform\Entry;
+
+use Illuminate\Support\Str;
 use Anomaly\Streams\Platform\Support\Locator;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Anomaly\Streams\Platform\Routing\UrlGenerator;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
  * Class EntryRouter
@@ -82,61 +85,61 @@ class EntryRouter
             return $this->container->call([$this, $method], $parameters);
         }
 
-        if (!str_contains($route, '.') && $stream = $this->entry->getStreamSlug()) {
+        if (!Str::contains($route, '.') && $stream = $this->entry->getStreamSlug()) {
             $route = "{$stream}.{$route}";
         }
 
-        if (!str_contains($route, '::') && $namespace = $this->locator->locate($this->entry)) {
+        if (!Str::contains($route, '::') && $namespace = $this->locator->locate($this->entry)) {
             $route = "{$namespace}::{$route}";
         }
 
         return $this->url->make($route, $this->entry, $parameters);
     }
 
-//    /**
-//     * Return the create route.
-//     *
-//     * @return string|null
-//     */
-//    public function create()
-//    {
-//        $namespace = explode('.', $this->locator->locate($this->entry));
-//
-//        if (!$addon = $this->locator->locate($this->entry)) {
-//            return null;
-//        }
-//
-//        $segments = [
-//            'admin',
-//            array_pop($namespace),
-//            $this->entry->getStreamSlug(),
-//            'create',
-//        ];
-//
-//        return implode('/', array_unique($segments));
-//    }
-//
-//    /**
-//     * Return the edit route.
-//     *
-//     * @return string|null
-//     */
-//    public function edit()
-//    {
-//        $namespace = explode('.', $this->locator->locate($this->entry));
-//
-//        if (!$addon = $this->locator->locate($this->entry)) {
-//            return null;
-//        }
-//
-//        $segments = [
-//            'admin',
-//            array_pop($namespace),
-//            $this->entry->getStreamSlug(),
-//            'edit',
-//            $this->entry->getId(),
-//        ];
-//
-//        return implode('/', array_unique($segments));
-//    }
+    //    /**
+    //     * Return the create route.
+    //     *
+    //     * @return string|null
+    //     */
+    //    public function create()
+    //    {
+    //        $namespace = explode('.', $this->locator->locate($this->entry));
+    //
+    //        if (!$addon = $this->locator->locate($this->entry)) {
+    //            return null;
+    //        }
+    //
+    //        $segments = [
+    //            'admin',
+    //            array_pop($namespace),
+    //            $this->entry->getStreamSlug(),
+    //            'create',
+    //        ];
+    //
+    //        return implode('/', array_unique($segments));
+    //    }
+    //
+    //    /**
+    //     * Return the edit route.
+    //     *
+    //     * @return string|null
+    //     */
+    //    public function edit()
+    //    {
+    //        $namespace = explode('.', $this->locator->locate($this->entry));
+    //
+    //        if (!$addon = $this->locator->locate($this->entry)) {
+    //            return null;
+    //        }
+    //
+    //        $segments = [
+    //            'admin',
+    //            array_pop($namespace),
+    //            $this->entry->getStreamSlug(),
+    //            'edit',
+    //            $this->entry->getId(),
+    //        ];
+    //
+    //        return implode('/', array_unique($segments));
+    //    }
 }

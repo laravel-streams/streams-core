@@ -1,5 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
 
+namespace Anomaly\Streams\Platform\Support;
+
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Container\Container;
 
 /**
@@ -44,9 +48,9 @@ class Resolver
      */
     public function resolve($target, array $arguments = [], array $options = [])
     {
-        $method = array_get($options, 'method', 'handle');
+        $method = Arr::get($options, 'method', 'handle');
 
-        if ((is_string($target) && str_contains($target, '@')) || is_callable($target)) {
+        if ((is_string($target) && Str::contains($target, '@')) || is_callable($target)) {
             $target = $this->container->call($target, $arguments);
         } elseif (is_string($target) && class_exists($target) && method_exists($target, $method)) {
             $target = $this->container->call($target . '@' . $method, $arguments);

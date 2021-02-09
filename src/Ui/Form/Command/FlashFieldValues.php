@@ -44,7 +44,7 @@ class FlashFieldValues
 
         /* @var FieldType $field */
         foreach ($this->builder->getFormFields() as $field) {
-            $session->flash($field->getFieldName(), $field->getPostValue());
+            $session->flash($field->getFieldName(), $field->getRepopulateValue());
         }
     }
 }

@@ -53,7 +53,11 @@ class Markdown extends \ParsedownExtra
      */
     protected function inlineLink($excerpt)
     {
-        $link = parent::inlineLink($excerpt);
+        try {
+            $link = parent::inlineLink($excerpt);
+        } catch (\ErrorException $e) {
+            return;
+        }
 
         if (!isset($link['element']['text'][0])) {
             return $link;

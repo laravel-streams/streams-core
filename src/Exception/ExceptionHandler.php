@@ -1,13 +1,16 @@
-<?php namespace Anomaly\Streams\Platform\Exception;
+<?php
+
+namespace Anomaly\Streams\Platform\Exception;
 
 use Exception;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Foundation\Exceptions\Handler;
+use Throwable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Foundation\Exceptions\Handler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Throwable;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 /**
  * Class ExceptionHandler
@@ -48,7 +51,7 @@ class ExceptionHandler extends Handler
      * @param Exception $e
      * @return Exception
      */
-    protected function prepareException(Exception $e)
+    protected function prepareException(Throwable $e)
     {
         $this->original = $e;
 
@@ -62,7 +65,7 @@ class ExceptionHandler extends Handler
      * @param  Exception $e
      * @return Response|\Symfony\Component\HttpFoundation\Response
      */
-    public function render($request, Exception $e)
+    public function render($request, Throwable $e)
     {
         /**
          * Have to catch this for some reason.
@@ -99,7 +102,7 @@ class ExceptionHandler extends Handler
             return $this->convertExceptionToResponse($e);
         }
 
-        $summary = 'No Message';//$e->getMessage();
+        $summary = $e->getMessage();
         $headers = $e->getHeaders();
         $code    = $e->getStatusCode();
         $name    = trans("streams::error.{$code}.name");
@@ -123,10 +126,10 @@ class ExceptionHandler extends Handler
      *
      * But first make sure it's stashed.
      *
-     * @param Exception $e
+     * @param Throwable $e
      * @return mixed
      */
-    public function report(Exception $e)
+    public function report(Throwable $e)
     {
         $this->original = $e;
 
@@ -143,8 +146,8 @@ class ExceptionHandler extends Handler
         try {
             return array_filter(
                 [
-                    'user'       => \Auth::id(),
-                    'email'      => \Auth::user() ? \Auth::user()->email : null,
+                    'user'       => Auth::id(),
+                    'email'      => Auth::user() ? Auth::user()->email : null,
                     'url'        => request() ? request()->fullUrl() : null,
                     'identifier' => $this->container->make(ExceptionIdentifier::class)->identify($this->original),
                 ]

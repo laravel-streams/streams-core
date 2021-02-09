@@ -33,7 +33,7 @@ class ProxySession
 
         if (method_exists($response, 'withCookie')) {
             return $response->withCookie(
-                cookie('session_proxy', $check, $check ? config('session.lifetime', 120) : -1)
+                cookie('session_proxy', $check, $check ? config('session.lifetime', 120) : -1, null, null, $request->isSecure())
             );
         }
 

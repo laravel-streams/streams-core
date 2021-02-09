@@ -1,13 +1,19 @@
-<?php namespace Anomaly\Streams\Platform\Asset;
+<?php
 
-use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
-use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\Support\Template;
+namespace Anomaly\Streams\Platform\Asset;
+
+use Illuminate\Support\Str;
+use Assetic\Asset\FileAsset;
+use Assetic\Asset\GlobAsset;
 use Collective\Html\HtmlBuilder;
-use Illuminate\Filesystem\Filesystem;
 use Leafo\ScssPhp\Compiler;
-use League\Flysystem\MountManager;
 use tubalmartin\CssMin\Minifier;
+use Assetic\Asset\AssetCollection;
+use League\Flysystem\MountManager;
+use Illuminate\Filesystem\Filesystem;
+use Anomaly\Streams\Platform\Support\Template;
+use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 
 /**
  * Class Asset
@@ -125,7 +131,6 @@ class Asset
     public function __construct(
         Application $application,
         ThemeCollection $themes,
-        MountManager $manager,
         AssetFilters $filters,
         AssetParser $parser,
         Template $template,
@@ -139,7 +144,6 @@ class Asset
         $this->themes      = $themes;
         $this->parser      = $parser;
         $this->filters     = $filters;
-        $this->manager     = $manager;
         $this->template    = $template;
         $this->application = $application;
     }
@@ -544,14 +548,14 @@ class Asset
     {
         $path = ltrim($path, '/\\');
 
-        if (str_contains($collection, public_path())) {
+        if (Str::contains($collection, public_path())) {
             return;
         }
-
+        
         $hint = $this->paths->hint($collection);
 
         $filters = $this->collectionFilters($collection, $additionalFilters); // Returns combined filter flags
-
+        
         /**
          * Get the concatenated content
          * of the asset collection.
@@ -570,8 +574,16 @@ class Asset
          * Parse the content. Always parse CSS.
          */
         if (in_array('parse', $filters) || $hint == 'css') {
+            $twig = resolve('twig');
+
+            $twig->setLexer(
+                new \Twig_Lexer($twig, [
+                    'tag_comment' => ['{^', '^}']
+                ])
+            );
+            
             try {
-                $contents = (string)render($contents);
+                $contents = (string) render($contents);
             } catch (\Exception $e) {
 
                 if (config('app.debug')) {
@@ -580,6 +592,12 @@ class Asset
 
                 \Log::error($e->getMessage());
             }
+
+            $twig->setLexer(
+                new \Twig_Lexer($twig, [
+                    'tag_comment' => ['{#', '#}']
+                ])
+            );
         }
 
         if (in_array('min', $filters) && $hint == 'css') {
@@ -681,17 +699,16 @@ class Asset
          * files that have been modified then publish.
          */
         if (request()->isNoCache() && array_filter(
-                $filters,
-                function ($filter) use ($path) {
+            $filters,
+            function ($filter) use ($path) {
 
-                    if (!starts_with($filter, 'watch@')) {
-                        return false;
-                    }
-
-                    return $this->lastModifiedAt(substr($filter, 6)) > filemtime($path);
+                if (!starts_with($filter, 'watch@')) {
+                    return false;
                 }
-            )
-        ) {
+
+                return $this->lastModifiedAt(substr($filter, 6)) > filemtime($path);
+            }
+        )) {
             return true;
         }
 
@@ -866,6 +883,4 @@ class Asset
     {
         return '';
     }
-
-
 }

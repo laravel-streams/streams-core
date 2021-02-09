@@ -1,9 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Illuminate\Contracts\Container\Container;
+namespace Anomaly\Streams\Platform\Ui\Form;
+
+use Illuminate\Support\Str;
 use Illuminate\Validation\Factory;
 use Illuminate\Validation\Validator;
+use Illuminate\Contracts\Container\Container;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 
 /**
  * Class FormExtender
@@ -57,13 +60,17 @@ class FormExtender
         foreach ($fieldType->getValidators() as $rule => $validator) {
             $handler = array_get($validator, 'handler');
 
-            if (is_string($handler) && !str_contains($handler, '@')) {
+            if (is_string($handler) && !Str::contains($handler, '@')) {
                 $handler .= '@handle';
             }
 
             $factory->extend(
                 $rule,
                 function ($attribute, $value, $parameters, Validator $validator) use ($handler, $builder, $fieldType) {
+
+                    if ($prefix = $builder->getFormOption('prefix')) {
+                        $attribute = preg_replace("/^{$prefix}/", '', $attribute, 1);
+                    }
 
                     $fieldType = $builder->getFormField($attribute) ?: $fieldType;
 

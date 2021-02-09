@@ -172,13 +172,13 @@ class IconRegistry
     /**
      * Register an icon.
      *
-     * @param        $icon
-     * @param  array $parameters
+     * @param  string $icon
+     * @param  string $value
      * @return $this
      */
-    public function register($icon, array $parameters)
+    public function register($icon, $value)
     {
-        array_set($this->icons, $icon, $parameters);
+        array_set($this->icons, $icon, $value);
 
         return $this;
     }

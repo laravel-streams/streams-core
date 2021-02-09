@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Http\Middleware;
+<?php
+
+namespace Anomaly\Streams\Platform\Http\Middleware;
 
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Closure;
@@ -25,9 +27,17 @@ class HttpCache
      * @var array
      */
     protected $excluded = [
+        '/admin',
+        '/admin/*',
         '/streams/*-field_type/*',
         '/streams/*-extension/*',
         '/streams/*-module/*',
+        '/entry/handle/*',
+        '/form/handle/*',
+        '/locks/touch',
+        '/locks/release',
+        '/logout*',
+        '/login*',
     ];
 
     /**
@@ -154,7 +164,7 @@ class HttpCache
         /**
          * Determine the default TTL value.
          */
-        $default = $route->getAction('streams::http_cache') ?: config('streams::httpcache.ttl', 3600);
+        $default = $route->getAction('ttl') ?: config('streams::httpcache.ttl', 3600);
 
         /**
          * Exclude these paths from caching
@@ -172,7 +182,7 @@ class HttpCache
         }
 
         // Merge system excluded routes.
-        $excluded = array_merge((array)$excluded, $this->excluded);
+        $excluded = array_merge((array) $excluded, $this->excluded);
 
         foreach ($excluded as $path) {
             if (str_is($path, $request->getPathInfo())) {
@@ -195,7 +205,7 @@ class HttpCache
             );
         }
 
-        foreach ((array)$rules as $rule) {
+        foreach ((array) $rules as $rule) {
 
             $parts = explode(' ', $rule);
 
@@ -229,5 +239,4 @@ class HttpCache
 
         return $response;
     }
-
 }

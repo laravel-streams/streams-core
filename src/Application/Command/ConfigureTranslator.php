@@ -73,5 +73,10 @@ class ConfigureTranslator
 
         // Set our locale namespace.
         $application->make('translator')->addNamespace('streams', realpath(__DIR__ . '/../../../resources/lang'));
+
+        // Polyfill ->trans()
+        $application->make('translator')->macro('trans', function($key, array $replace = [], $locale = null, $fallback = true) {
+            return app('translator')->get($key, $replace, $locale, $fallback);
+        });
     }
 }

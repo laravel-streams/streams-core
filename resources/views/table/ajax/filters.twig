@@ -1,4 +1,4 @@
-{% if not table.filters.empty() %}
+{% if not table.filters.isEmpty() %}
     <div class="table-filters">
 
         {{ form_open({'method': 'get', 'id': 'filters', 'url': url_full(), 'class': 'ajax form-inline'}) }}

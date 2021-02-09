@@ -1,11 +1,11 @@
-{% if form.fields.empty %}
+{% if form.fields.isEmpty() %}
     <div class="panel">
         <div class="panel-body">
             {{ trans("streams::message.no_fields_available") }}
         </div>
     </div>
 {% else %}
-    {% if not form.sections.empty() %}
+    {% if not form.sections.isEmpty() %}
         {% for section in form.sections %}
             {% if section.view %}
                 {% include section.view %}

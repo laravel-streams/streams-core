@@ -1,10 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration;
 
-use Anomaly\Streams\Platform\Database\Migration\Console\MigrateCommand;
-use Anomaly\Streams\Platform\Database\Migration\Console\MigrateMakeCommand;
-use Anomaly\Streams\Platform\Database\Migration\Console\RefreshCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\ResetCommand;
+use Anomaly\Streams\Platform\Database\Migration\Console\MigrateCommand;
+use Anomaly\Streams\Platform\Database\Migration\Console\RefreshCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\RollbackCommand;
+use Anomaly\Streams\Platform\Database\Migration\Console\MigrateMakeCommand;
 
 /**
  * Class MigrationServiceProvider
@@ -56,7 +56,7 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
      *
      * @return void
      */
-    protected function registerMakeCommand()
+    protected function registerMigrateMakeCommand()
     {
         $this->registerCreator();
 
@@ -85,7 +85,7 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
         $this->app->singleton(
             'command.migrate',
             function ($app) {
-                return new MigrateCommand($app['migrator']);
+                return new MigrateCommand($app['migrator'], $app['events']);
             }
         );
     }
@@ -95,7 +95,7 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
      *
      * @return void
      */
-    protected function registerResetCommand()
+    protected function registerMigrateResetCommand()
     {
         $this->app->singleton(
             'command.migrate.reset',
@@ -110,7 +110,7 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
      *
      * @return void
      */
-    protected function registerRefreshCommand()
+    protected function registerMigrateRefreshCommand()
     {
         $this->app->singleton(
             'command.migrate.refresh',
@@ -125,7 +125,7 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
      *
      * @return void
      */
-    protected function registerRollbackCommand()
+    protected function registerMigrateRollbackCommand()
     {
         $this->app->singleton(
             'command.migrate.rollback',
@@ -145,7 +145,7 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
         $this->app->singleton(
             'migration.creator',
             function ($app) {
-                return new MigrationCreator($app['files']);
+                return new MigrationCreator($app['files'], $app->basePath('stubs'));
             }
         );
     }

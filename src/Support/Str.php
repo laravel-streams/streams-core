@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Misd\Linkify\Linkify;
+use Illuminate\Support\Arr;
+use VStelmakh\UrlHighlight\Encoder\HtmlSpecialcharsEncoder;
+use VStelmakh\UrlHighlight\Highlighter\HtmlHighlighter;
+use VStelmakh\UrlHighlight\UrlHighlight;
 
 /**
  * Class Str
@@ -67,7 +70,10 @@ class Str extends \Illuminate\Support\Str
      */
     public function linkify($text, array $options = [])
     {
-        return (new Linkify($options))->process($text);
+        $encoder = new HtmlSpecialcharsEncoder();
+        $highlighter = new HtmlHighlighter('http', Arr::get($options, 'attr', []));
+        $urlHighlight = new UrlHighlight(null, $highlighter, $encoder);
+        return $urlHighlight->highlightUrls($text);
     }
 
     /**
