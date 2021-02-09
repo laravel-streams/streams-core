@@ -1,27 +1,14 @@
 let mix = require('laravel-mix');
 const path = require('path');
 
-const isDev = process.env.NODE_ENV === 'development';
-
 mix
     .js('resources/lib/index.js', '')
-    .copyDirectory(
-        './node_modules/@fortawesome/fontawesome-free/webfonts',
-        './resources/public/fonts/fontawesome'
-    )
-    .copyDirectory('resources/public', '../../public/vendor/streams/core')
+    .copyDirectory('resources/public', '../../../public/vendor/streams/core')
     .webpackConfig(
 
-        /**
-         * @return webpack.Configuration
-         * */
         function (webpack) {
 
             return {
-                devtool: isDev ? 'hidden-source-map' : null,
-                plugins: [
-                    //require('@tailwindcss/ui'),
-                ],
                 output: {
                     path: path.resolve('./resources/public'),
                     filename: 'js/[name].js',
