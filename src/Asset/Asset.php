@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Support\Template;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Filesystem\Filesystem;
+use Leafo\ScssPhp\Compiler;
 use League\Flysystem\MountManager;
 use tubalmartin\CssMin\Minifier;
 
@@ -556,6 +557,14 @@ class Asset
          * of the asset collection.
          */
         $contents = $this->content($collection);
+
+        //scss fix
+        $type = explode('.', $collection);
+        if (end($type) == "scss") {
+            $compiler_scss = new Compiler();
+            $contents = $compiler_scss->compile($contents);
+        }
+
 
         /**
          * Parse the content. Always parse CSS.
