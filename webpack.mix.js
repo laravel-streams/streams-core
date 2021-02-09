@@ -4,7 +4,7 @@ const path = require('path');
 const isDev = process.env.NODE_ENV === 'development';
 
 mix
-    .ts('resources/ts/index.ts', '')
+    .js('resources/lib/index.js', '')
     .copyDirectory(
         './node_modules/@fortawesome/fontawesome-free/webfonts',
         './resources/public/fonts/fontawesome'
