@@ -127,6 +127,11 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->publishes([
+            base_path('vendor/streams/core/resources/public')
+            => public_path('vendor/streams/core')
+        ], ['public']);
+        
         $this->app->singleton('streams.parser_data', function () {
 
             $data = [
@@ -203,15 +208,6 @@ class StreamsServiceProvider extends ServiceProvider
                 //\Streams\Core\Addon\Console\AddonPublish::class,
             ]);
         }
-
-        /**
-         * Register publishables.
-         */
-        $this->publishes([
-            base_path('vendor/streams/core/docs') => base_path(
-                implode(DIRECTORY_SEPARATOR, ['docs', 'core'])
-            ),
-        ], ['docs']);
     }
 
     protected function extendAssets()

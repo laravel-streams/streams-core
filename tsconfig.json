@@ -1,0 +1,47 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "target": "es6",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "lib": [
+            "es5","es6","es7","es2018","es2018.promise","dom",
+            "esnext",
+            "dom",
+            "dom.iterable",
+            "scripthost"
+        ],
+        "allowJs": true,
+        "checkJs": false,
+        "sourceMap": true,
+        "skipLibCheck": true,
+        "noImplicitReturns": false,
+        "noImplicitThis": false,
+        "noImplicitAny": false,
+        "strictNullChecks": false,
+        "suppressImplicitAnyIndexErrors": true,
+        "noUnusedLocals": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "suppressExcessPropertyErrors": true,
+        "noStrictGenericChecks": false,
+        "noImplicitUseStrict": true,
+        "jsx": "preserve",
+        "declaration": true,
+        "declarationMap": false,
+        "declarationDir": "resources/public/js",
+        "typeRoots": [
+            "node_modules/@types",
+            "../../node_modules/@types",
+        ],
+        "outDir": "resources/public/js"
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "include": [
+        "resources/ts"
+    ]
+}
