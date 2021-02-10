@@ -113,8 +113,10 @@ class AssetManager
      * @param string|array $assets
      * @return $this
      */
-    public function register($name, $assets)
+    public function register($name, $assets = null)
     {
+        $assets = $assets ?: $name;
+        
         $this->registry->register($name, $assets);
 
         return $this;
