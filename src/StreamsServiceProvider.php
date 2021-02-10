@@ -184,7 +184,7 @@ class StreamsServiceProvider extends ServiceProvider
         // Setup and preparing utilities.
         $this->registerAddons();
         $this->configureFileCacheStore();
-        $this->addAssetNamespaces();
+        $this->addAssets();
         $this->addImageNamespaces();
         $this->addViewNamespaces();
         $this->loadTranslations();
@@ -193,7 +193,6 @@ class StreamsServiceProvider extends ServiceProvider
         // $this->extendArr();
         // $this->extendStr();
 
-        $this->extendAssets();
         /**
          * Register core commands.
          */
@@ -208,12 +207,6 @@ class StreamsServiceProvider extends ServiceProvider
                 //\Streams\Core\Addon\Console\AddonPublish::class,
             ]);
         }
-    }
-
-    protected function extendAssets()
-    {
-        Assets::add('scripts', '/vendor/streams-vendors.js');
-        Assets::add('scripts', '/vendor/streams/core/js/core.js');
     }
 
     /**
@@ -487,11 +480,16 @@ class StreamsServiceProvider extends ServiceProvider
     /**
      * Add the asset namespace hints.
      */
-    protected function addAssetNamespaces()
+    protected function addAssets()
     {
         Assets::addPath('public', public_path());
         Assets::addPath('resources', resource_path());
-        Assets::addPath('streams', realpath(__DIR__ . '/../resources'));
+        
+        Assets::addPath('core', 'vendor/streams/core');
+
+        //Assets::add('scripts', '/vendor/streams-vendors.js'); // No
+        //Assets::register('core::vendor/axios.js'); // Yes
+        Assets::register('core::js/core.js');
     }
 
     /**
