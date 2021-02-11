@@ -22,6 +22,7 @@ return [
                 //'path' => env('STREAMS_SOURCE_PATH', 'streams/data'),
 
                 'formats' => [
+                    'php' => \Streams\Core\Criteria\Format\Php::class,
                     'json' => \Streams\Core\Criteria\Format\Json::class,
                     'yaml' => \Streams\Core\Criteria\Format\Yaml::class,
                     'md' => \Streams\Core\Criteria\Format\Markdown::class,
