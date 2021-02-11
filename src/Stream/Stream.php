@@ -52,7 +52,7 @@ class Stream implements
         return $this->initializePrototypeTrait(array_merge([
             'handle' => null,
             'routes' => [],
-            'meta' => [
+            'config' => [
                 'key_name' => 'id',
             ],
         ], $attributes));

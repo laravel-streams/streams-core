@@ -6,7 +6,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\File;
 use Streams\Core\Entry\Contract\EntryInterface;
 
 class FileAdapter extends AbstractAdapter
@@ -130,12 +129,13 @@ class FileAdapter extends AbstractAdapter
      */
     public function create(array $attributes = [])
     {
-        $id = Arr::pull($attributes, 'id');
+        $keyName = $this->stream->config('key_name', 'id');
 
-        if (array_key_exists($id, $this->data)) {
-            throw new \Exception("Entry with ID [{$id}] already exists.");
+        $key = Arr::get($attributes, $keyName);
+
+        if (array_key_exists($key, $this->data)) {
+            throw new \Exception("Entry with key [{$key}] already exists.");
         }
-
 
         $format = $this->stream->getPrototypeAttribute('source.format', 'json');
 
@@ -145,17 +145,14 @@ class FileAdapter extends AbstractAdapter
 
             $fields = array_combine($fields, array_fill(0, count($fields), null));
 
-            $this->data[$id] = array_merge($fields, $attributes);
+            $attributes = array_merge($fields, $attributes);
         }
 
-        if ($format == 'json') {
-            $this->data[$id] = $attributes;
-        }
-
+        $this->data[$key] = $attributes;
 
         $this->writeData();
 
-        return $this->make(['id' => $id] + $attributes);
+        return $this->make($attributes);
     }
 
     /**
@@ -186,7 +183,7 @@ class FileAdapter extends AbstractAdapter
         if ($format == 'json') {
             $this->data[$id] = $attributes;
         }
-        
+
         return $this->writeData();
     }
 
@@ -249,18 +246,29 @@ class FileAdapter extends AbstractAdapter
         $format = $format ?: pathinfo($file, PATHINFO_EXTENSION);
 
         if (!file_exists($file)) {
-            
+
             $this->data = [];
 
             return;
+        }
+
+        $keyName = $this->stream->config('key_name', 'id');
+
+        if ($format == 'php') {
+
+            $this->data = include $file;
+
+            array_walk($this->data, function ($item, $key) use ($keyName) {
+                $this->data[$key] = [$keyName => $key] + $item;
+            });
         }
 
         if ($format == 'json') {
 
             $this->data = json_decode(file_get_contents($file), true);
 
-            array_walk($this->data, function ($item, $key) {
-                $this->data[$key] = ['id' => $key] + $item;
+            array_walk($this->data, function ($item, $key) use ($keyName) {
+                $this->data[$key] = [$keyName => $key] + $item;
             });
         }
 
@@ -280,7 +288,7 @@ class FileAdapter extends AbstractAdapter
 
                 $row = array_combine($fields, $row);
 
-                $this->data[Arr::get($row, 'id', $i)] = $row;
+                $this->data[Arr::get($row, $keyName, $i)] = $row;
 
                 $i++;
             }
@@ -300,6 +308,10 @@ class FileAdapter extends AbstractAdapter
             mkdir(dirname($file), 0755, true);
         }
 
+        if ($format == 'php') {
+            file_put_contents($file, "<?php\n\nreturn " . Arr::export($this->data, true) . ';');
+        }
+
         if ($format == 'json') {
             file_put_contents($file, json_encode($this->data, JSON_PRETTY_PRINT));
         }
@@ -309,7 +321,7 @@ class FileAdapter extends AbstractAdapter
             $handle = fopen($file, 'w');
 
             fputcsv($handle, $this->stream->fields->keys()->all());
-            
+
             array_map(function ($item) use ($handle) {
                 fputcsv($handle, $item);
             }, $this->data);

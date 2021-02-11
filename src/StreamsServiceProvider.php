@@ -131,7 +131,7 @@ class StreamsServiceProvider extends ServiceProvider
             base_path('vendor/streams/core/resources/public')
             => public_path('vendor/streams/core')
         ], ['public']);
-        
+
         $this->app->singleton('streams.parser_data', function () {
 
             $data = [
@@ -405,7 +405,7 @@ class StreamsServiceProvider extends ServiceProvider
         $streams = Streams::repository('core.streams')->all();
         $base = $streams->where('extends', null);
         $extending = $streams->where('extends', '!=', null);
-        
+
         foreach ((new Collection)->merge($base)->merge($extending) as $stream) {
 
             $stream->handle = $stream->id;
@@ -484,7 +484,7 @@ class StreamsServiceProvider extends ServiceProvider
     {
         Assets::addPath('public', public_path());
         Assets::addPath('resources', resource_path());
-        
+
         Assets::addPath('core', 'vendor/streams/core');
 
         //Assets::add('scripts', '/vendor/streams-vendors.js'); // No
@@ -791,6 +791,21 @@ class StreamsServiceProvider extends ServiceProvider
 
         Arr::macro('htmlAttributes', function ($attributes) {
             return HtmlFacade::attributes($attributes);
+        });
+
+        Arr::macro('export', function ($expression, $return = false) {
+
+            $export = var_export($expression, TRUE);
+            $export = preg_replace("/^([ ]*)(.*)/m", '$1$1$2', $export);
+            $array = preg_split("/\r\n|\n|\r/", $export);
+            $array = preg_replace(["/\s*array\s\($/", "/\)(,)?$/", "/\s=>\s$/"], [NULL, ']$1', ' => ['], $array);
+            $export = join(PHP_EOL, array_filter(["["] + $array));
+
+            if ((bool)$return) {
+                return $export;
+            }
+
+            echo $export;
         });
     }
 
