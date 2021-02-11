@@ -44,6 +44,18 @@ class Entry implements
     }
 
     /**
+     * Map the ID attribute to the desired key.
+     */
+    public function getIdAttribute()
+    {
+        $name = $this->stream()->config('meta.key_name', 'id');
+
+        $value = $this->__prototype['attributes'][$name] ?? $this->getPrototypePropertyDefault($name);
+
+        return $value;
+    }
+
+    /**
      * Return the entry stream.
      * 
      * @return Stream
