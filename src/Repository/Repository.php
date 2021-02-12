@@ -133,9 +133,19 @@ class Repository implements RepositoryInterface
      */
     public function create(array $attributes)
     {
-        return $this
+        $this->fire($this->stream->handle . '.creating', [
+            'attributes' => $attributes,
+        ]);
+
+        $result =  $this
             ->newCriteria()
-            ->create($attributes);
+            ->create($attributes); // @todo Should instantiate and use save?
+
+        $this->fire($this->stream->handle . '.created', [
+            'entry' => $result,
+        ]);
+
+        return $result;
     }
 
     /**
@@ -146,9 +156,19 @@ class Repository implements RepositoryInterface
      */
     public function save($entry)
     {
-        return $this
+        $this->fire($this->stream->handle . '.saving', [
+            'entry' => $entry,
+        ]);
+
+        $result = $this
             ->newCriteria()
             ->save($entry);
+
+        $this->fire($this->stream->handle . '.saved', [
+            'entry' => $entry,
+        ]);
+
+        return $result;
     }
 
     /**
@@ -159,12 +179,22 @@ class Repository implements RepositoryInterface
      */
     public function delete($entry)
     {
+        $this->fire($this->stream->handle . '.deleting', [
+            'entry' => $entry,
+        ]);
+
         $id = is_object($entry) ? $entry->id : $entry;
 
-        return $this
+        $result = $this
             ->newCriteria()
             ->where('id', $id)
             ->delete();
+
+        $this->fire($this->stream->handle . '.deleted', [
+            'entry' => $entry,
+        ]);
+
+        return $result;
     }
 
     /**
@@ -174,9 +204,15 @@ class Repository implements RepositoryInterface
      */
     public function truncate()
     {
-        return $this
+        $this->fire($this->stream->handle . '.truncating');
+
+        $result = $this
             ->newCriteria()
             ->truncate();
+
+        $this->fire($this->stream->handle . '.truncated');
+
+        return $result;
     }
 
     /**
@@ -201,8 +237,8 @@ class Repository implements RepositoryInterface
     {
         $default = Config::get('streams.sources.default', 'filebase');
 
-        $adapter = Str::camel("new_{$this->stream->expandPrototypeAttribute('source')->get('type', $default)}_adapter");
-        
+        $adapter = Str::camel("new_{$this->stream->expandPrototypeAttribute('source')->get('type',$default)}_adapter");
+
         return new Criteria($this->$adapter(), $this->stream);
     }
 

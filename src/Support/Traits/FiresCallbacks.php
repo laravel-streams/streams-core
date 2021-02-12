@@ -109,7 +109,7 @@ trait FiresCallbacks
          * Next, check if the method
          * exists and call it if it does.
          */
-        $method = Str::camel('on_' . $trigger);
+        $method = Str::camel('on_' . str_replace(['.'], '_', $trigger));
 
         if (method_exists($this, $method)) {
             App::call([$this, $method], $parameters);
