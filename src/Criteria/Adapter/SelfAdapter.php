@@ -32,13 +32,11 @@ class SelfAdapter extends FileAdapter
 
         $file = base_path(trim($source->get('file', 'streams/' . $this->stream->handle . '.json'), '/\\'));
 
-        $keyName = $this->stream->config('key_name', 'id');
-
         $contents = json_decode(file_get_contents($file), true);
 
         $contents['data'] = $this->data;
 
-        file_put_contents($file, $contents);
+        file_put_contents($file, json_encode($contents, JSON_PRETTY_PRINT));
 
         return true;
     }

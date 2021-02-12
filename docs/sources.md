@@ -33,6 +33,26 @@ If no source is specified, the below defaults will be assumed.
 
 The following **sources** are available with the Streams platform by default.
 
+### Self
+
+You can define data within on your stream configuration file.
+
+```json
+// streams/contacts.json
+{
+    "source": {
+        "type": "self"
+    },
+    "data": {
+        "john": {
+            "name": "John Doe"
+        },
+        "jane": {
+            "name": "Jane Doe"
+        }
+    }
+}
+```
 
 ### Filebase
 
