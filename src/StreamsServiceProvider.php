@@ -66,8 +66,8 @@ class StreamsServiceProvider extends ServiceProvider
         'images' => \Streams\Core\Image\ImageManager::class,
         'includes' => \Streams\Core\View\ViewIncludes::class,
         'streams' => \Streams\Core\Stream\StreamManager::class,
-        'messages'           => \Streams\Core\Message\MessageManager::class,
-        'applications'       => \Streams\Core\Application\ApplicationManager::class,
+        'messages' => \Streams\Core\Message\MessageManager::class,
+        'applications' => \Streams\Core\Application\ApplicationManager::class,
 
         'locator'   => \Streams\Core\Support\Locator::class,
         'resolver'  => \Streams\Core\Support\Resolver::class,
@@ -93,6 +93,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        dd('Test');
         $this->registerComposerJson();
         $this->registerComposerLock();
         $this->registerFieldTypes();
