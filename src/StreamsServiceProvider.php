@@ -93,7 +93,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        dd('Test');
         $this->registerComposerJson();
         $this->registerComposerLock();
         $this->registerFieldTypes();
