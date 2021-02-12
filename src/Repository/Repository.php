@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Criteria\Adapter\FileAdapter;
+use Streams\Core\Criteria\Adapter\SelfAdapter;
 use Streams\Core\Entry\Contract\EntryInterface;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Criteria\Adapter\DatabaseAdapter;
@@ -203,6 +204,16 @@ class Repository implements RepositoryInterface
         $adapter = Str::camel("new_{$this->stream->expandPrototypeAttribute('source')->get('type', $default)}_adapter");
         
         return new Criteria($this->$adapter(), $this->stream);
+    }
+
+    /**
+     * Return a new self criteria.
+     * 
+     * @return SelfAdapter
+     */
+    public function newSelfAdapter()
+    {
+        return new SelfAdapter($this->stream);
     }
 
     /**
