@@ -98,27 +98,6 @@ class EloquentAdapter extends AbstractAdapter
     }
 
     /**
-     * Include soft deleted records in the results.
-     */
-    public function withTrashed($toggle)
-    {
-        if ($toggle) {
-            $this->query = $this->query->withTrashed();
-        }
-    }
-
-    /**
-     * Set the relationships that should be eager loaded.
-     *
-     * @param  string|array  $relations
-     * @param  string|\Closure|null  $callback
-     */
-    public function with($relations, $callback = null)
-    {
-        $this->query = $this->query->with($relations, $callback);
-    }
-
-    /**
      * Get the criteria results.
      * 
      * @param array $parameters
