@@ -111,10 +111,11 @@ class EloquentAdapter extends AbstractAdapter
      * Set the relationships that should be eager loaded.
      *
      * @param  string|array  $relations
+     * @param  string|\Closure|null  $callback
      */
-    public function with($relations)
+    public function with($relations, $callback = null)
     {
-        $this->query = $this->query->with($relations);
+        $this->query = $this->query->with($relations, $callback);
     }
 
     /**
