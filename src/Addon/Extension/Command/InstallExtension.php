@@ -1,10 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension\Command;
 
-use Anomaly\Streams\Platform\Addon\AddonManager;
-use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface;
-use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasInstalled;
-use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Console\Kernel;
+use Anomaly\Streams\Platform\Addon\AddonManager;
+use Anomaly\Streams\Platform\Addon\Extension\Extension;
+use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
+use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasInstalled;
+use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface;
 
 /**
  * Class InstallExtension
@@ -66,6 +67,8 @@ class InstallExtension
 
         $extensions->install($this->extension);
 
+        dispatch_now(new AutoloadEntryModels);
+        
         $manager->register();
 
         if ($this->seed) {

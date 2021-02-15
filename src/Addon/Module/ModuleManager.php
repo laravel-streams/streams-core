@@ -1,11 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
-use Anomaly\Streams\Platform\Addon\Module\Command\DisableModule;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Anomaly\Streams\Platform\Addon\Module\Command\EnableModule;
+use Anomaly\Streams\Platform\Addon\Module\Command\DisableModule;
 use Anomaly\Streams\Platform\Addon\Module\Command\InstallModule;
 use Anomaly\Streams\Platform\Addon\Module\Command\MigrateModule;
 use Anomaly\Streams\Platform\Addon\Module\Command\UninstallModule;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class ModuleManager

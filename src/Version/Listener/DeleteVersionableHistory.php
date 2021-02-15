@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Version\Listener;
 
-use Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted;
+use Anomaly\Streams\Platform\Stream\Event\StreamIsDeleting;
 use Anomaly\Streams\Platform\Version\Contract\VersionRepositoryInterface;
 
 /**
@@ -33,9 +33,9 @@ class DeleteVersionableHistory
     /**
      * Handle the event.
      *
-     * @param StreamWasDeleted $event
+     * @param StreamIsDeleting $event
      */
-    public function handle(StreamWasDeleted $event)
+    public function handle(StreamIsDeleting $event)
     {
         $stream = $event->getStream();
 
