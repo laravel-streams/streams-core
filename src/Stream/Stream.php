@@ -17,6 +17,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Illuminate\Validation\ValidationRuleParser;
 use Streams\Core\Support\Traits\FiresCallbacks;
+use Streams\Core\Validation\StreamsPresenceVerifier;
 use Streams\Core\Criteria\Contract\CriteriaInterface;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 
@@ -96,6 +97,8 @@ class Stream implements
         $data = Arr::make($data);
 
         $factory = App::make(Factory::class);
+
+        $factory->setPresenceVerifier(new StreamsPresenceVerifier(App::make('db')));
 
         /**
          * https://gph.is/g/Eqn635a
