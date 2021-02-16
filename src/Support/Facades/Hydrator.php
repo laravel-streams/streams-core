@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Facade;
  * @author Ryan Thompson <ryan@pyrocms.com>
  *
  * @method static mixed hydrate($object, array $parameters)
- * @method static array dehydrate($object)
+ * @method static array dehydrate($object, array $except = [])
  */
 class Hydrator extends Facade
 {

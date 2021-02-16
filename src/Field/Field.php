@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field;
 
+use JsonSerializable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Field\FieldType;
@@ -13,6 +14,7 @@ use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
 
 class Field implements
+    JsonSerializable,
     Arrayable,
     Jsonable
 {
@@ -75,7 +77,20 @@ class Field implements
 
     public function toArray()
     {
-        return Hydrator::dehydrate($this);
+        return Hydrator::dehydrate($this, [
+            'stream',
+        ]);
+    }
+
+    /**
+     * Specify data which should
+     * be serialized to JSON.
+     * 
+     * @return mixed
+     */
+    public function jsonSerialize()
+    {
+        return $this->toArray();
     }
 
     public function toJson($options = 0): string

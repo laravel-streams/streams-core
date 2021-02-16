@@ -3,6 +3,7 @@
 namespace Streams\Core\Entry;
 
 use ArrayAccess;
+use JsonSerializable;
 use Illuminate\Support\Arr;
 use Streams\Core\Stream\Stream;
 use Illuminate\Validation\Validator;
@@ -14,6 +15,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
 
 class Entry implements
+    JsonSerializable,
     EntryInterface,
     ArrayAccess,
     Arrayable,
@@ -159,6 +161,17 @@ class Entry implements
     public function toJson($options = 0)
     {
         return json_encode($this->toArray(), $options);
+    }
+
+    /**
+     * Specify data which should
+     * be serialized to JSON.
+     * 
+     * @return mixed
+     */
+    public function jsonSerialize()
+    {
+        return $this->toArray();
     }
 
     /**

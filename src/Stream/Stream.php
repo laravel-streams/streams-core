@@ -3,6 +3,7 @@
 namespace Streams\Core\Stream;
 
 use ArrayAccess;
+use JsonSerializable;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Factory;
 use Illuminate\Support\Facades\App;
@@ -28,6 +29,7 @@ use Streams\Core\Repository\Contract\RepositoryInterface;
  *
  */
 class Stream implements
+    JsonSerializable,
     ArrayAccess,
     Arrayable,
     Jsonable
@@ -221,6 +223,17 @@ class Stream implements
     public function toJson($options = 0)
     {
         return json_encode($this->toArray(), $options);
+    }
+
+    /**
+     * Specify data which should
+     * be serialized to JSON.
+     * 
+     * @return mixed
+     */
+    public function jsonSerialize()
+    {
+        return $this->toArray();
     }
 
     /**
