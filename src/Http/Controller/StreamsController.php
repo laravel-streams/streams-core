@@ -113,6 +113,11 @@ class StreamsController extends Controller
         }
 
         /**
+         * @todo this needs to be broken into resolveEntryIdentifier and if found but no entry THEN 404 if also no criteria
+         * @todo criteria lookup should work similarly. Then we can get away without nested IFs and only 2.
+         */
+
+        /**
          * If the entry is explicitly set then
          * find it and get on with the show.
          */
