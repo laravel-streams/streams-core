@@ -118,7 +118,11 @@ class StreamsController extends Controller
          */
         if ($entry = Arr::get($action, 'entry')) {
 
-            $data->put('entry', $stream->repository()->find($entry));
+            if (!$entry = $stream->repository()->find($entry)) {
+                abort(404);
+            }
+
+            $data->put('entry', $entry);
 
             return;
         }
@@ -131,20 +135,33 @@ class StreamsController extends Controller
 
         if (isset($parameters['id'])) {
 
-            $data->put('entry', $stream->repository()->find($parameters['id']));
+            if (!$entry = $stream->repository()->find($parameters['id'])) {
+                abort(404);    
+            }
+
+            $data->put('entry', $entry);
 
             return;
         }
 
         if (isset($parameters['handle'])) {
 
-            $data->put('entry', $stream->repository()->find($parameters['handle']));
+            if (!$entry = $stream->repository()->find($parameters['handle'])) {
+                abort(404);    
+            }
+
+            $data->put('entry', $entry);
 
             return;
         }
 
         if (isset($parameters['entry'])) {
-            $data->put('entry', $stream->repository()->find($parameters['entry']));
+
+            if (!$entry = $stream->repository()->find($parameters['entry'])) {
+                abort(404);    
+            }
+
+            $data->put('entry', $entry);
 
             return;
         }
@@ -154,7 +171,12 @@ class StreamsController extends Controller
          * from post input ID.
          */
         if (Request::has('id')) {
-            $data->put('entry', $stream->repository()->find(Request::get('id')));
+
+            if (!$stream->repository()->find(Request::get('id'))) {
+                abort(404);
+            }
+            
+            $data->put('entry', $entry);
 
             return;
         }
@@ -185,9 +207,14 @@ class StreamsController extends Controller
 
         $results = $query->limit(1)->get();
 
-        if (!$results->count() == 1) {
+        if ($results->count() == 1) {
+            
             $data->put('entry', $results->first());
+
+            return;
         }
+
+        abort(404);
     }
 
     /**
