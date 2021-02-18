@@ -175,7 +175,7 @@ class Stream implements
         });
     }
 
-    public function getRuleParameters($field, $rule)
+    public function ruleParameters($field, $rule)
     {
         if (!$rule = $this->getRule($field, $rule)) {
             return [];

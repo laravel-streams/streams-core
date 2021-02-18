@@ -170,14 +170,30 @@ class StreamsController extends Controller
 
             return;
         }
-
+        
         /**
          * Try and resolve entry
          * from post input ID.
          */
-        if (Request::has('id')) {
+        if (Request::query('id')) {
 
-            if (!$stream->repository()->find(Request::get('id'))) {
+            if (!$stream->repository()->find(Request::query('id'))) {
+                abort(404);
+            }
+            
+            $data->put('entry', $entry);
+
+            return;
+        }
+
+        /**
+         * Try and resolve entry
+         * from post entry query.
+         */
+        
+        if (Request::query('entry')) {
+
+            if (!$entry = $stream->repository()->find(Request::query('entry'))) {
                 abort(404);
             }
             

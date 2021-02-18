@@ -60,14 +60,14 @@ class Field implements
         return $this->stream->getRule($this->handle, $rule);
     }
 
-    public function getRuleParameters($rule)
+    public function ruleParameters($rule)
     {
-        return $this->stream->getRuleParameters($this->handle, $rule);
+        return $this->stream->ruleParameters($this->handle, $rule);
     }
 
     public function getRuleParameter($rule, $key = 0)
     {
-        return Arr::get($this->getRuleParameters($rule), $key);
+        return Arr::get($this->ruleParameters($rule), $key);
     }
 
     public function isRequired()

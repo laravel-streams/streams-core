@@ -91,9 +91,9 @@ class StreamTest extends TestCase
         $this->assertNull($stream->getRule('name', 'max'));
         $this->assertEquals('min:3', $stream->getRule('name', 'min'));
         
-        $this->assertEquals(['3'], $stream->getRuleParameters('name', 'min'));
-        $this->assertEquals([], $stream->getRuleParameters('name', 'max'));
-        $this->assertEquals([], $stream->getRuleParameters('age', 'min'));
+        $this->assertEquals(['3'], $stream->ruleParameters('name', 'min'));
+        $this->assertEquals([], $stream->ruleParameters('name', 'max'));
+        $this->assertEquals([], $stream->ruleParameters('age', 'min'));
         
         $this->assertTrue($stream->isRequired('name'));
         $this->assertFalse($stream->isRequired('age'));

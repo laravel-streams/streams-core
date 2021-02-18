@@ -35,9 +35,9 @@ class FieldTest extends TestCase
         $this->assertNull($name->getRule('max'));
         $this->assertEquals('min:3', $name->getRule('min'));
 
-        $this->assertEquals(['3'], $name->getRuleParameters('min'));
-        $this->assertEquals([], $name->getRuleParameters('max'));
-        $this->assertEquals([], $age->getRuleParameters('min'));
+        $this->assertEquals(['3'], $name->ruleParameters('min'));
+        $this->assertEquals([], $name->ruleParameters('max'));
+        $this->assertEquals([], $age->ruleParameters('min'));
         
         $this->assertTrue($name->isRequired());
         $this->assertFalse($age->isRequired());

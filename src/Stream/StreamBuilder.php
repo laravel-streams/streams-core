@@ -170,8 +170,8 @@ class StreamBuilder extends Workflow
 
         $stream->fields->each(function ($field, $handle) use (&$rules, &$validators) {
 
-            if ($field->type()->rules) {
-                $rules[$handle] = array_merge(Arr::pull($rules, $handle, []), $field->type()->rules);
+            if ($fieldRules = $field->type()->rules) {
+                $rules[$handle] = array_merge(Arr::pull($rules, $handle, []), $fieldRules);
             }
 
             if ($field->type()->validators) {

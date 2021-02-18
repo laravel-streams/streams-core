@@ -35,10 +35,6 @@ class FilebaseAdapter extends AbstractAdapter
         $format = $source->get('format', 'json');
         $format = Config::get('streams.sources.types.filebase.formats.' . $format);
 
-        if (!$format) {
-            dd(Config::get('streams.sources.types.filebase.formats'));
-        }
-        
         $path = $source->get('path', 'streams/data/' . $stream->handle);
 
         $this->query = new Database([
@@ -101,6 +97,10 @@ class FilebaseAdapter extends AbstractAdapter
         }
 
         $operator = strtoupper($operator);
+
+        if ($operator == '<>') {
+            $operator = '!=';
+        }
 
         if ($field == 'handle') {
             $field = $this->stream->getPrototypeAttribute('config.handle', 'id');
