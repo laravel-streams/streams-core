@@ -140,6 +140,10 @@ class StreamBuilder extends Workflow
 
         array_walk($fields, function ($field, $handle) use (&$rules, &$validators) {
 
+            if (isset($field['rules']) && is_string($field['rules'])) {
+                $field['rules'] = explode('|', $field['rules']);
+            }
+
             if (isset($field['rules']) && $field['rules']) {
                 $rules[$handle] = array_merge(Arr::pull($rules, $handle, []), $field['rules']);
             }
