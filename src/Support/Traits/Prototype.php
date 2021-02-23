@@ -223,13 +223,28 @@ trait Prototype
      */
     public function getPrototypeAttribute($key, $default = null)
     {
-        $parts = explode('.', $key);
+        $parts = explode('.', $original = $key);
 
         $key = array_shift($parts);
 
         if ($this->hasPrototypeAttributeOverride($name = Str::camel('get_' . $key . '_attribute'))) {
             return $this->{$name}();
         }
+
+        return $this->getPrototypeAttributeValue($original, $default);
+    }
+    
+    /**
+     * Get an attribute value.
+     *
+     * @param string $key
+     * @return mixed|Value
+     */
+    public function getPrototypeAttributeValue($key, $default = null)
+    {
+        $parts = explode('.', $key);
+
+        $key = array_shift($parts);
 
         $value = $this->__prototype['attributes'][$key] ?? $this->getPrototypePropertyDefault($key, $default);
 
