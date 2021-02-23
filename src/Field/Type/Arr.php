@@ -37,6 +37,14 @@ class Arr extends FieldType
      */
     public function modify($value)
     {
+        if (is_string($value) && $json = json_decode($value)) {
+            $value = $json;
+        }
+
+        if (is_string($value) && is_null($json)) {
+            $value = explode("\n", $value);
+        }
+        
         return (array) $value;
     }
 

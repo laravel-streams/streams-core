@@ -5,6 +5,7 @@ namespace Streams\Core\Stream;
 use ArrayAccess;
 use JsonSerializable;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Factory;
 use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Validator;
@@ -113,18 +114,48 @@ class Stream implements
          * Merge stream and field configurations.
          */
         foreach ($fieldRules as $field => $configured) {
-            $rules[$field] = array_merge(Arr::get($rules, $field, []), $configured);
+            $rules[$field] = array_unique(array_merge(Arr::get($rules, $field, []), $configured));
         }
 
         foreach ($fieldValidators as $field => $configured) {
-            $validators[$field] = array_merge(Arr::get($validators, $field, []), $configured);
+            $validators[$field] = array_unique(array_merge(Arr::get($validators, $field, []), $configured));
         }
+
+        /**
+         * Automate Unique Rule
+         */
+        array_walk($rules, function (&$rules, $field) {
+
+            foreach ($rules as &$rule) {
+                
+                if (Str::startsWith($rule, 'unique')) {
+
+                    $parts = explode(':', $rule);
+                    $parameters = array_filter(explode(',', Arr::get($parts, 1)));
+    
+                    if (!$parameters) {
+                        $parameters[] = $this->handle;
+                    }
+    
+                    if (count($parameters) === 1) {
+                        $parameters[] = $field;
+                    }
+    
+                    // if (count($parameters) === 2 && $this->entry && $ignore = $this->entry->{$field}) {
+                    //     $parameters[] = $ignore;
+                    //     $parameters[] = $field;
+                    // }
+    
+                    $rule = 'unique:' . implode(',', $parameters);
+                }
+            }
+        });
 
         /**
          * Stringify rules for Laravel.
          */
         $rules = array_map(function ($rules) {
-            return implode('|', array_unique($rules));
+            return implode('|', $rules);
         }, $rules);
 
         /**

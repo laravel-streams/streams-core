@@ -3,6 +3,7 @@
 namespace Streams\Core\Stream;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Streams\Core\Support\Workflow;
 use Illuminate\Support\Facades\Config;
@@ -134,11 +135,12 @@ class StreamBuilder extends Workflow
     public function fields($workflow)
     {
         $fields = $workflow->fields;
+        $stream = $workflow->stream;
 
-        $rules = $workflow->stream->rules;
-        $validators = $workflow->stream->validators;
+        $rules = $stream->rules;
+        $validators = $stream->validators;
 
-        array_walk($fields, function ($field, $handle) use (&$rules, &$validators) {
+        array_walk($fields, function ($field, $handle) use (&$rules, &$validators, $stream) {
 
             if (isset($field['rules']) && is_string($field['rules'])) {
                 $field['rules'] = explode('|', $field['rules']);
@@ -147,6 +149,36 @@ class StreamBuilder extends Workflow
             if (isset($field['rules']) && $field['rules']) {
                 $rules[$handle] = array_merge(Arr::pull($rules, $handle, []), $field['rules']);
             }
+
+            /**
+             * Unique Rule
+             */
+            array_walk($rules, function (&$rules, $field) use ($stream) {
+
+                foreach ($rules as &$rule) {
+
+                    if (Str::startsWith($rule, 'unique')) {
+
+                        $parts = explode(':', $rule);
+                        $parameters = array_filter(explode(',', Arr::get($parts, 1)));
+
+                        if (!$parameters) {
+                            $parameters[] = $stream->handle;
+                        }
+
+                        if (count($parameters) === 1) {
+                            $parameters[] = $field;
+                        }
+
+                        // if (count($parameters) === 2 && $this->entry && $ignore = $this->entry->{$field}) {
+                        //     $parameters[] = $ignore;
+                        //     $parameters[] = $field;
+                        // }
+
+                        $rule = 'unique:' . implode(',', $parameters);
+                    }
+                }
+            });
 
             if (isset($field['validators']) && $field['validators']) {
                 $validators[$handle] = array_merge(Arr::pull($validators, $handle, []), $field['validators']);
