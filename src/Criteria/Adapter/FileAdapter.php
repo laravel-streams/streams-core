@@ -83,7 +83,13 @@ class FileAdapter extends AbstractAdapter
 
         $method = $nested ? Str::studly($nested . '_where') : 'where';
 
-        $this->query = $this->query->{$method}($field, $operator, $value);
+        if ($operator == 'LIKE') {
+            $this->query = $this->query->filter(function($entry) use ($field, $value) {
+                return Str::is(str_replace('%', '*', $value), $entry[$field]);
+            });
+        } else {
+            $this->query = $this->query->{$method}($field, $operator, $value);
+        }
 
         return $this;
     }
