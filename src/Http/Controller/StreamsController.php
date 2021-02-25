@@ -43,6 +43,8 @@ class StreamsController extends Controller
     {
         $data = collect();
 
+        $data->put('action', Request::route()->action);
+
         $workflow = new Workflow(array_combine($this->steps, array_map(function ($step) {
             return [$this, Str::camel($step)];
         }, $this->steps)));
@@ -72,7 +74,7 @@ class StreamsController extends Controller
      */
     public function resolveStream(Collection $data)
     {
-        $action = Request::route()->action;
+        $action = $data->get('action');
 
         if (isset($action['stream'])) {
 
@@ -102,7 +104,7 @@ class StreamsController extends Controller
      */
     public function resolveEntry(Collection $data)
     {
-        $action = Request::route()->action;
+        $action = $data->get('action');
 
         /**
          * We at least need a stream to
@@ -121,7 +123,9 @@ class StreamsController extends Controller
          * If the entry is explicitly set then
          * find it and get on with the show.
          */
-        if ($entry = Arr::get($action, 'entry')) {
+        $entry = Arr::get($action, 'entry');
+
+        if ($entry) {
 
             if (!$entry = $stream->repository()->find($entry)) {
                 abort(404);
@@ -206,14 +210,14 @@ class StreamsController extends Controller
 
         $criteria = [];
 
+        if (!$criteria) {
+            return;
+        }
+
         foreach ($parameters as $key => $value) {
             if (Str::startsWith($key, 'entry__')) {
                 $criteria[str_replace('entry__', '', $key)] = $value;
             }
-        }
-
-        if (!$criteria) {
-            return;
         }
 
         /**
@@ -246,7 +250,7 @@ class StreamsController extends Controller
     public function resolveView(Collection $data)
     {
 
-        $action = Request::route()->action;
+        $action = $data->get('action');
 
         /**
          * Check if the entry is 
@@ -323,7 +327,7 @@ class StreamsController extends Controller
     public function resolveRedirect(Collection $data)
     {
 
-        $action = Request::route()->action;
+        $action = $data->get('action');
 
         /**
          * If a redirect is set

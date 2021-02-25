@@ -85,7 +85,10 @@ class FileAdapter extends AbstractAdapter
 
         if ($operator == 'LIKE') {
             $this->query = $this->query->filter(function($entry) use ($field, $value) {
-                return Str::is(str_replace('%', '*', $value), $entry[$field]);
+                return Str::is(
+                    strtolower(str_replace('%', '*', $value)),
+                    strtolower($entry[$field])
+                );
             });
         } else {
             $this->query = $this->query->{$method}($field, $operator, $value);
