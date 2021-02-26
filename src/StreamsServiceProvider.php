@@ -634,11 +634,12 @@ class StreamsServiceProvider extends ServiceProvider
              * contain an action then
              * treat it as a resource.
              */
-            if (str_contains($route['uses'], '@')) {
-                $route = Route::{$verb}($uri, $route);
-            } else {
-                $route = Route::resource($uri, $route['uses']);
-            }
+            $route = Route::{$verb}($uri, $route); // includes Single action controllers
+            // if (str_contains($route['uses'], '@')) {
+            //     $route = Route::{$verb}($uri, $route);
+            // } else {
+            //     $route = Route::resource($uri, $route['uses']); // Need flag
+            // }
 
             /**
              * Call constraints if
