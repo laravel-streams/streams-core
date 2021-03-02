@@ -153,17 +153,6 @@ class StreamsController extends Controller
             return;
         }
 
-        if (isset($parameters['handle'])) {
-
-            if (!$entry = $stream->repository()->find($parameters['handle'])) {
-                abort(404);    
-            }
-
-            $data->put('entry', $entry);
-
-            return;
-        }
-
         if (isset($parameters['entry'])) {
 
             if (!$entry = $stream->repository()->find($parameters['entry'])) {
