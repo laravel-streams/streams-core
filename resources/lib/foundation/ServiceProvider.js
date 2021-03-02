@@ -6,11 +6,11 @@ export class ServiceProvider {
         this.app = app;
     }
 
-    async register() {
-        console.log('Registering');
+    register() {
+        //console.log('Registering');
     }
 
-    async boot() {
-        console.log('Bootering');
+    boot() {
+        //console.log('Booting');
     }
 }
