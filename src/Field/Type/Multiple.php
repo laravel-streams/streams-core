@@ -58,7 +58,7 @@ class Multiple extends FieldType
      */
     public function expand($value)
     {
-        return Streams::entries($this->config['stream'])
+        return Streams::entries($this->config['related'])
             ->where($this->key_name ? $this->key_name : 'id', 'IN', $value)
             ->get();
     }
