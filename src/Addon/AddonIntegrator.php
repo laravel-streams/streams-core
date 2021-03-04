@@ -113,6 +113,10 @@ class AddonIntegrator
             ) . studly_case($type);
 
         /* @var Addon|Module|Extension|Twig_ExtensionInterface $addon */
+        if (!class_exists($class)) {
+            return null;
+        }
+
         $addon = app($class)
             ->setPath($path)
             ->setType($type)

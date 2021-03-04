@@ -53,6 +53,7 @@ class AddonPaths
         $core        = $this->core() ?: [];
         $shared      = $this->shared() ?: [];
         $application = $this->application() ?: [];
+        $application = $this->native() ?: [];
 
         // Testing only addons.
         $testing = $this->testing() ?: [];
@@ -115,6 +116,28 @@ class AddonPaths
         );
     }
 
+    /**
+     * Return all native addon paths.
+     *
+     * @return bool
+     */
+    public function native()
+    {
+        $path = base_path('vendor');
+
+        if (!is_dir($path)) {
+            return false;
+        }
+        
+        $paths = [];
+
+        foreach (config('streams::addons.types') as $type) {
+            $paths = array_merge($paths, glob("{$path}/*/*-{$type}", GLOB_ONLYDIR));
+        }
+        
+        return $paths;
+    }
+    
     /**
      * Return all core addon paths in a given folder.
      *

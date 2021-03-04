@@ -164,8 +164,13 @@ class AddonManager
                 in_array($namespace, $installed)
             );
 
+            /**
+             * It's not an addon, k.
+             * Debug your addon by noting it not being loaded O_O
+             * Exception was forward...
+             */
             if (!$addon) {
-                throw new \Exception("Addon path not found [{$path}]. Check [resources/streams/config/addons.php]");
+                continue;
             }
 
             foreach ($addon->getAddons() as $class) {
