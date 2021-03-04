@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Contracts\Container\Container;
 use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
@@ -122,6 +123,16 @@ class AddonManager
         );
 
         $paths = $this->paths->all();
+
+        $addonsDirectory = base_path('addons');
+
+        if (config('streams::addons.autoload', true)) {
+            array_map(function ($path) {
+                $this->loader->load($path);
+            }, array_filter($paths, function ($path) use ($addonsDirectory) {
+                return Str::startsWith($path, $addonsDirectory);
+            }));
+        }
 
         /**
          * If we need to load then

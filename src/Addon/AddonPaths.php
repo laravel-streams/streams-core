@@ -53,7 +53,7 @@ class AddonPaths
         $core        = $this->core() ?: [];
         $shared      = $this->shared() ?: [];
         $application = $this->application() ?: [];
-        $application = $this->native() ?: [];
+        $native = $this->native() ?: [];
 
         // Testing only addons.
         $testing = $this->testing() ?: [];
@@ -66,7 +66,6 @@ class AddonPaths
          * onto the front and back of
          * the paths respectively.
          */
-
         return array_unique(
             array_merge(
                 $eager,
@@ -75,7 +74,7 @@ class AddonPaths
                         array_reverse(
                             array_merge(
                                 array_filter(
-                                    array_merge($core, $shared, $application, $configured, $testing)
+                                    array_merge($native, $core, $shared, $application, $configured, $testing)
                                 ),
                                 $deferred
                             )
