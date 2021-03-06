@@ -88,6 +88,18 @@ class Criteria
     }
 
     /**
+     * Cache the results.
+     *
+     * @param integer $seconds
+     */
+    public function cache($seconds)
+    {
+        $this->parameters['cache'] = [$seconds];
+
+        return $this;
+    }
+
+    /**
      * Order the query by field/direction.
      *
      * @param string $field
@@ -152,8 +164,16 @@ class Criteria
      */
     public function get()
     {
-        $fingerprint = $this->stream->handle . '__' . md5(serialize($this->parameters));
-        
+        $cache = Arr::pull($this->parameters, 'cache', false);
+
+        $fingerprint = $this->stream->handle . '.query__' . md5(serialize($this->parameters));
+
+        if ($cache) {
+            return $this->stream->cache($fingerprint, $cache[0], function () {
+                return $this->adapter->get($this->parameters);
+            });
+        }
+
         return $this->once($fingerprint, function () {
             return $this->adapter->get($this->parameters);
         });

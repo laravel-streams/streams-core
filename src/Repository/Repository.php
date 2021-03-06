@@ -141,6 +141,8 @@ class Repository implements RepositoryInterface
             ->newCriteria()
             ->create($attributes); // @todo Should instantiate and use save?
 
+        $this->stream->flush();
+
         $this->fire($this->stream->handle . '.created', [
             'entry' => $result,
         ]);
@@ -163,6 +165,8 @@ class Repository implements RepositoryInterface
         $result = $this
             ->newCriteria()
             ->save($entry);
+
+        $this->stream->flush();
 
         $this->fire($this->stream->handle . '.saved', [
             'entry' => $entry,
@@ -190,6 +194,8 @@ class Repository implements RepositoryInterface
             ->where('id', $id)
             ->delete();
 
+        $this->stream->flush();
+
         $this->fire($this->stream->handle . '.deleted', [
             'entry' => $entry,
         ]);
@@ -209,6 +215,8 @@ class Repository implements RepositoryInterface
         $result = $this
             ->newCriteria()
             ->truncate();
+
+        $this->stream->flush();
 
         $this->fire($this->stream->handle . '.truncated');
 
