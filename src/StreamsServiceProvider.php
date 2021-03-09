@@ -16,6 +16,8 @@ use Streams\Core\View\ViewTemplate;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\View;
 use Streams\Core\View\ViewOverrides;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Config;
@@ -29,7 +31,6 @@ use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
-use Illuminate\Validation\StreamsPresenceVerifier;
 use Streams\Core\Support\Facades\Application as ApplicationManager;
 
 /**
@@ -729,6 +730,33 @@ class StreamsServiceProvider extends ServiceProvider
             if ($override = app(ViewOverrides::class)->get($view->name())) {
                 $view->setPath(base_path($override));
             }
+        });
+
+        Blade::directive('lsCache', function ($expression) {
+
+            $parameters = eval("return [$expression];");
+
+            $view = array_shift($parameters);
+            $ttl = array_shift($parameters);
+            $payload = array_shift($parameters) ?: [];
+
+            return Cache::remember('blade_directive.' . $view, $ttl, function () use ($view, $payload) {
+                return (string) View::make($view, $payload);
+            });
+        });
+
+        Blade::directive('lsBindCache', function ($expression) {
+
+            $parameters = eval("return [$expression];");
+
+            $stream = array_shift($parameters);
+            $view = array_shift($parameters);
+            $ttl = array_shift($parameters);
+            $payload = array_shift($parameters) ?: [];
+
+            return Streams::make($stream)->cache('blade_directive.' . $view, $ttl, function () use ($view, $payload) {
+                return (string) View::make($view, $payload);
+            });
         });
     }
 

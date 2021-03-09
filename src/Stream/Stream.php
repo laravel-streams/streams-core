@@ -16,6 +16,7 @@ use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Illuminate\Validation\ValidationRuleParser;
 use Streams\Core\Support\Traits\FiresCallbacks;
@@ -241,16 +242,16 @@ class Stream implements
 
     public function cached($key)
     {
-        return Cache::get('ls.' . $this->handle . '.' . $key);
+        return Cache::store(Config::get('cache.default'))->get('ls.' . $this->handle . '.' . $key);
     }
 
     public function cache($key, $ttl, $target)
     {
         $key = 'ls.' . $this->handle . '.' . $key;
 
-        $exists = Cache::has($key);
+        $exists = Cache::store(Config::get('cache.default'))->has($key);
 
-        $result = Cache::remember($key, $ttl, $target);
+        $result = Cache::store(Config::get('cache.default'))->remember($key, $ttl, $target);
 
         if ($exists) {
             return $result;
@@ -258,20 +259,20 @@ class Stream implements
 
         $cacheKey = 'ls.' . $this->handle . '_cache_collection';
 
-        $collection = Cache::get($cacheKey, []);
+        $collection = Cache::store(Config::get('cache.default'))->get($cacheKey, []);
 
         $collection[] = $key;
 
-        Cache::remember($cacheKey, 3600, function () use ($collection) {
+        Cache::store(Config::get('cache.default'))->remember($cacheKey, 3600, function () use ($collection) {
             return array_unique($collection);
         });
-dd($collection);
+
         return $result;
     }
 
     public function forget($key)
     {
-        Cache::forget('ls.' . $this->handle . '.' . $key);
+        Cache::store(Config::get('cache.default'))->forget('ls.' . $this->handle . '.' . $key);
 
         return $this;
     }
@@ -280,13 +281,13 @@ dd($collection);
     {
         $cacheKey = 'ls.' . $this->handle . '_cache_collection';
 
-        $collection = Cache::get('ls.' . $this->handle . '_cache_collection', []);
+        $collection = Cache::store(Config::get('cache.default'))->get('ls.' . $this->handle . '_cache_collection', []);
 
         foreach ($collection as $key) {
-            Cache::forget($key);
+            Cache::store(Config::get('cache.default'))->forget($key);
         }
 
-        Cache::forget($cacheKey);
+        Cache::store(Config::get('cache.default'))->forget($cacheKey);
 
         return $this;
     }
