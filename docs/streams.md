@@ -200,7 +200,7 @@ A stream can `extend` another stream, which works like a recursive **merge**.
     "extend": "contacts",
     "fields": {
         "relation": {
-            "type": "selection",
+            "type": "select",
             "config": {
                 "options": {
                     "mother": "Mother",
