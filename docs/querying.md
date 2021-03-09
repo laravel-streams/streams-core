@@ -126,6 +126,19 @@ echo $users->items(); // Return all items
 echo $users->total(); // Return total items
 ```
 
+### Caching
+
+The `cache` method allows you to cache query results. The first parameter should be the **seconds** in which to cache the results. An optional second parameter can be provided as a **key**, otherwise one will be generated based on your query **fingerprint**.
+
+```php
+$favorites = Streams::entries('books')
+    ->where('favorited', true)
+    ->cache(600, 'favorites')
+    ->get();
+```
+
+For more information on managing cache please see the [cache documentation](caching).
+
 ## Extending Queries
 
 There are numerous techniques you can use to extend querying logic.

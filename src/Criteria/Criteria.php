@@ -91,10 +91,12 @@ class Criteria
      * Cache the results.
      *
      * @param integer $seconds
+     * @param null|string $key
+     * @return $this
      */
-    public function cache($seconds)
+    public function cache($seconds, $key = null)
     {
-        $this->parameters['cache'] = [$seconds];
+        $this->parameters['cache'] = [$seconds, $key];
 
         return $this;
     }
@@ -105,6 +107,7 @@ class Criteria
      * @param string $field
      * @param string|null $direction
      * @param string|null $value
+     * @return $this
      */
     public function orderBy($field, $direction = 'asc')
     {
@@ -118,6 +121,7 @@ class Criteria
      *
      * @param int $limit
      * @param int|null $offset
+     * @return $this
      */
     public function limit($limit, $offset = 0)
     {
@@ -134,6 +138,7 @@ class Criteria
      * @param string|null $operator
      * @param string|null $value
      * @param string|null $nested
+     * @return $this
      */
     public function where($field, $operator = null, $value = null, $nested = null)
     {
@@ -169,7 +174,7 @@ class Criteria
         $fingerprint = $this->stream->handle . '.query__' . md5(serialize($this->parameters));
 
         if ($cache) {
-            return $this->stream->cache($fingerprint, $cache[0], function () {
+            return $this->stream->cache(Arr::get($cache, 1) ?: $fingerprint, $cache[0], function () {
                 return $this->adapter->get($this->parameters);
             });
         }
