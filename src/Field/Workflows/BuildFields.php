@@ -66,7 +66,7 @@ class BuildFields extends Workflow
         $fields = $workflow->fields;
 
         foreach ($fields as &$input) {
-
+            
             $input = Arr::undot($input);
             
             if (!isset($input['input'])) {
@@ -79,9 +79,11 @@ class BuildFields extends Workflow
                 ];
             }
 
-            if (strpos($input['type'], '|')) {
+            if (is_string($input['type']) && strpos($input['type'], '|')) {
                 list($input['type'], $input['input']['type']) = explode('|', $input['type']);
-            } else {
+            }
+
+            if (!isset($input['input']['type'])) {
                 $input['input']['type'] = $input['type'];
             }
         }

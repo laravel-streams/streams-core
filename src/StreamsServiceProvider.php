@@ -33,13 +33,6 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Streams\Core\Support\Facades\Application as ApplicationManager;
 
-/**
- * Class StreamsServiceProvider
- *
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
- */
 class StreamsServiceProvider extends ServiceProvider
 {
 

@@ -169,13 +169,13 @@ class Criteria
      */
     public function get()
     {
-        $cache = Arr::pull($this->parameters, 'cache', false);
+        $cache = Arr::get($this->parameters, 'cache', false);
 
         $fingerprint = $this->stream->handle . '.query__' . md5(serialize($this->parameters));
 
         if ($cache) {
             return $this->stream->cache(Arr::get($cache, 1) ?: $fingerprint, $cache[0], function () {
-                return $this->adapter->get($this->parameters);
+                return $this->adapter->get(array_diff_key($this->parameters, array_flip(['cache'])));
             });
         }
 
@@ -191,6 +191,17 @@ class Criteria
      */
     public function count()
     {
+        $cache = Arr::get($this->parameters, 'cache', false);
+
+        if ($cache) {
+
+            $fingerprint = $this->stream->handle . '.query.count__' . md5(serialize($this->parameters));
+            
+            return $this->stream->cache(Arr::get($cache, 1) ?: $fingerprint, $cache[0], function () {
+                return $this->adapter->count(array_diff_key($this->parameters, array_flip(['cache'])));
+            });
+        }
+
         return $this->adapter->count($this->parameters);
     }
 
