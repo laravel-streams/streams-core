@@ -77,7 +77,7 @@ class StreamsController extends Controller
         $action = $data->get('action');
 
         if (isset($action['stream'])) {
-//dd($action['stream']);
+
             $data->put('stream', Streams::make($action['stream']));
 
             return;
