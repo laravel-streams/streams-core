@@ -2,24 +2,11 @@
 
 namespace Streams\Core\Support;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Traits\Macroable;
-use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Integrator;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
-/**
- * Class ServiceProvider
- *
- * @link   http://pyrocms.com/
- * @author Ryan Thompson <ryan@pyrocms.com>
- */
 class Provider extends ServiceProvider
 {
 
