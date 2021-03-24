@@ -47,12 +47,15 @@ class StreamManager
     {
         try {
 
-            // @todo is this ok? Artifact from toArray()?
-            if (is_array($stream)) {
-                $stream = $stream['handle'];
+            if (!is_array($stream)) {
+                return App::make('streams.instances.' . $stream);
             }
 
-            return App::make('streams.instances.' . $stream);
+            if (!$this->has($stream['handle'])) {
+                return $this->register($stream);
+            }
+
+            return App::make('streams.instances.' . $stream['handle']);
         } catch (BindingResolutionException $e) {
             throw new Exception("Stream [{$stream}] does not exist.");
         }
