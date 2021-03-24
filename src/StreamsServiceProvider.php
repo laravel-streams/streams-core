@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\AliasLoader;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Translation\Translator;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
@@ -30,9 +29,9 @@ use Streams\Core\Support\Facades\Images;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
+use Streams\Core\Support\Facades\Integrator;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Streams\Core\Support\Facades\Application as ApplicationManager;
-use Streams\Core\Support\Facades\Integrator;
 
 class StreamsServiceProvider extends ServiceProvider
 {

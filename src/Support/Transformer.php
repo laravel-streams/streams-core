@@ -23,6 +23,13 @@ class Transformer
         $this->transformers = Config::get('streams.core.transformers', []);
     }
 
+    public function integrate($target, $details)
+    {
+        foreach ($details as $type => $payload) {
+            $this->{$type}($payload);
+        }
+    }
+
     /**
      * Transform an object.
      *

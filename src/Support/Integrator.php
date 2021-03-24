@@ -44,17 +44,17 @@ class Integrator
         }
     }
 
-    public function bindings($bindings)
-    {
-        array_walk($bindings, function ($value, $key) {
-            App::bind($key, $value);
-        });
-    }
-
     public function aliases($aliases)
     {
         array_walk($aliases, function ($value, $key) {
             App::alias($key, $value);
+        });
+    }
+
+    public function bindings($bindings)
+    {
+        array_walk($bindings, function ($value, $key) {
+            App::bind($key, $value);
         });
     }
 
@@ -70,24 +70,6 @@ class Integrator
         Application::starting(function ($artisan) use ($commands) {
             $artisan->resolveCommands($commands);
         });
-    }
-
-    public function policies($policies)
-    {
-        foreach ($policies as $model => $policy) {
-            Gate::policy($model, $policy);
-        }
-    }
-
-    public function routes($routes)
-    {
-        foreach ($routes as $group => $routes) {
-            Route::middleware($group)->group(function () use ($routes) {
-                foreach ($routes as $uri => $route) {
-                    Route::streams($uri, $route);
-                }
-            });
-        }
     }
 
     public function listeners($listeners)
@@ -110,6 +92,24 @@ class Integrator
 
                 Event::listen($event, $listener, $priority);
             }
+        }
+    }
+    
+    public function policies($policies)
+    {
+        foreach ($policies as $model => $policy) {
+            Gate::policy($model, $policy);
+        }
+    }
+
+    public function routes($routes)
+    {
+        foreach ($routes as $group => $routes) {
+            Route::middleware($group)->group(function () use ($routes) {
+                foreach ($routes as $uri => $route) {
+                    Route::streams($uri, $route);
+                }
+            });
         }
     }
 

@@ -2,20 +2,10 @@
 
 namespace Streams\Core\View;
 
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
-use Streams\Core\Application\Application;
+use Streams\Core\Support\Facades\Application;
 
-/**
- * Class ViewTemplate
- *
- * @todo review this
- * 
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
- */
 class ViewTemplate
 {
     /**
@@ -29,7 +19,7 @@ class ViewTemplate
     {
         $view = 'support/parsed/' . md5($template);
 
-        $path = storage_path(implode(DIRECTORY_SEPARATOR, ['streams', app('streams.application.handle'), $view]));
+        $path = storage_path(implode(DIRECTORY_SEPARATOR, ['streams', Application::handle(), $view]));
 
         if (!is_dir($directory = dirname($path))) {
             File::makeDirectory($directory, 0766, true);
@@ -53,7 +43,7 @@ class ViewTemplate
     {
         $path = self::path($template, $extension);
 
-        $base = storage_path(implode(DIRECTORY_SEPARATOR, [app('streams.application.handle')]));
+        $base = storage_path(implode(DIRECTORY_SEPARATOR, [Application::handle()]));
 
         return 'storage::' . ltrim(str_replace($base, '', $path), '\\/');
     }
@@ -68,7 +58,7 @@ class ViewTemplate
     public static function path($template, $extension = 'blade.php')
     {
         $path = storage_path(
-            implode(DIRECTORY_SEPARATOR, [app('streams.application.handle'), 'support', 'streams', md5($template)])
+            implode(DIRECTORY_SEPARATOR, [Application::handle(), 'support', 'streams', md5($template)])
         );
 
         if (!is_dir($directory = dirname($path))) {

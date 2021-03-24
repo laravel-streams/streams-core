@@ -109,7 +109,7 @@ class Provider extends ServiceProvider
     {
         $this->fire('booting');
 
-        //$this->bootSomething();
+        // Do something.
 
         $this->fire('booted');
     }
