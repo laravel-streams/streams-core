@@ -4,15 +4,14 @@ namespace Streams\Core\Support;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Illuminate\Console\Application;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Traits\Macroable;
-use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Support\Facades\Integrator;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
 /**
@@ -120,9 +119,7 @@ class Provider extends ServiceProvider
      */
     protected function registerAssets()
     {
-        foreach ($this->assets as $name => $assets) {
-            Assets::register($name, $assets);
-        }
+        Integrator::assets($this->assets);
     }
 
     /**
@@ -130,13 +127,7 @@ class Provider extends ServiceProvider
      */
     protected function registerRoutes()
     {
-        foreach ($this->routes as $group => $routes) {
-            Route::middleware($group)->group(function () use ($routes) {
-                foreach ($routes as $uri => $route) {
-                    Route::streams($uri, $route);
-                }
-            });
-        }
+        Integrator::routes($this->routes);
     }
 
     /**
@@ -144,12 +135,7 @@ class Provider extends ServiceProvider
      */
     public function registerStreams()
     {
-        foreach ($this->streams as $handle => $stream) {
-
-            Arr::set($stream, 'handle', Arr::get($stream, 'handle', $handle));
-
-            Streams::register($stream);
-        }
+        Integrator::streams($this->streams);
     }
 
     /**
@@ -161,9 +147,7 @@ class Provider extends ServiceProvider
             return;
         }
 
-        Application::starting(function ($artisan) {
-            $artisan->resolveCommands($this->commands);
-        });
+        Integrator::commands($this->commands);
     }
 
     /**
@@ -171,9 +155,7 @@ class Provider extends ServiceProvider
      */
     protected function registerPolicies()
     {
-        foreach ($this->policies as $model => $policy) {
-            Gate::policy($model, $policy);
-        }
+        Integrator::policies($this->policies);
     }
 
     /**
@@ -181,25 +163,7 @@ class Provider extends ServiceProvider
      */
     protected function registerListeners()
     {
-        foreach ($this->listeners as $event => $classes) {
-
-            foreach ($classes as $key => $listener) {
-
-                $priority = 0;
-
-                /**
-                 * If the listener is an integer
-                 * then the key is the listener
-                 * and listener is priority.
-                 */
-                if (is_integer($listener)) {
-                    $priority = $listener;
-                    $listener = $key;
-                }
-
-                Event::listen($event, $listener, $priority);
-            }
-        }
+        Integrator::listeners($this->listeners);
     }
 
     /**
@@ -207,9 +171,7 @@ class Provider extends ServiceProvider
      */
     protected function registerProviders()
     {
-        foreach ($this->providers as $provider) {
-            App::register($provider);
-        }
+        Integrator::providers($this->providers);
     }
 
     /**
@@ -221,77 +183,7 @@ class Provider extends ServiceProvider
             return;
         }
 
-        $schedule = App::make(Schedule::class);
-
-        foreach ($this->schedules as $frequency => $commands) {
-
-            foreach (array_filter($commands) as $command => $options) {
-
-                /**
-                 * If the option is a string
-                 * then treat it as the command.
-                 */
-                if (is_string($options)) {
-                    $command = $options;
-                    $options = [];
-                }
-
-                /**
-                 * If the frequency is a CRON
-                 * expression then use that.
-                 */
-                if (Str::is('* * * *', $frequency)) {
-                    $command = $schedule
-                        ->command($command)
-                        ->cron($frequency);
-                }
-
-                /**
-                 * If the frequency is not a CRON
-                 * expression then it's a method.
-                 */
-                if (!Str::is('* * * *', $frequency)) {
-
-                    // Unpack {method}:{arg1},{arg2},...
-                    $parts = explode(':', $frequency);
-
-                    // First part is the method.
-                    $method = Str::camel(array_shift($parts));
-
-                    // The rest are arguments.
-                    $arguments = explode(',', array_shift($parts));
-
-                    // Use the method to create the command.
-                    $command = call_user_func_array([
-                        $schedule->command($command), $method
-                    ], $arguments);
-                }
-
-                /**
-                 * Loop over any options and chain them
-                 * onto the command we just built.
-                 * 
-                 * Option keys are snake-cased to form
-                 * the methods used to configure the command.
-                 */
-                foreach ($options as $option => $arguments) {
-
-                    /**
-                     * If the arguments are a string
-                     * then treat them like the method
-                     * and just run it with no arguments.
-                     */
-                    if (is_string($arguments)) {
-                        $option    = $arguments;
-                        $arguments = [];
-                    }
-
-                    $command = call_user_func_array([
-                        $command, Str::camel($option)
-                    ], (array) $arguments);
-                }
-            }
-        }
+        Integrator::schedules($this->schedules);
     }
 
     /**
@@ -299,10 +191,6 @@ class Provider extends ServiceProvider
      */
     protected function registerMiddleware()
     {
-        foreach ($this->middleware as $group => $middlewares) {
-            foreach ($middlewares as $middleware) {
-                Route::pushMiddlewareToGroup($group, $middleware);
-            }
-        }
+        Integrator::middleware($this->middleware);
     }
 }
