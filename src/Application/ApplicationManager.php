@@ -4,6 +4,7 @@ namespace Streams\Core\Application;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 use Streams\Core\Application\Application;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Traits\HasMemory;
@@ -36,7 +37,7 @@ class ApplicationManager
 
     public function __construct()
     {
-        $this->collection = Streams::repository('core.applications')->all();
+        $this->collection = Streams::entries('core.applications')->get()->keyBy('id');
     }
 
     /**
@@ -60,7 +61,7 @@ class ApplicationManager
         if (is_object($active)) {
             $active = $active->id;
         }
-        
+
         if ($active) {
             $this->active = $active;
         }
@@ -69,15 +70,11 @@ class ApplicationManager
     }
 
     /**
-     * Switch the application.
-     *
-     * @todo does this work?
-     *
-     * @param string|null $handle
+     * Return the active application handle.
      */
-    public function activate($handle = 'default')
+    public function handle()
     {
-        $this->active = $handle;
+        return $this->active;
     }
 
     /**

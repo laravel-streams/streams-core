@@ -2,11 +2,8 @@
 
 namespace Streams\Core\Support;
 
-use ReflectionProperty;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Str;
-use Streams\Core\Support\Traits\Prototype;
 
 class Transformer
 {

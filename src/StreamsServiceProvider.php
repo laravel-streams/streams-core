@@ -32,6 +32,7 @@ use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Streams\Core\Support\Facades\Application as ApplicationManager;
+use Streams\Core\Support\Facades\Integrator;
 
 class StreamsServiceProvider extends ServiceProvider
 {
@@ -69,6 +70,7 @@ class StreamsServiceProvider extends ServiceProvider
         'hydrator'  => \Streams\Core\Support\Hydrator::class,
         'decorator' => \Streams\Core\Support\Decorator::class,
         'evaluator' => \Streams\Core\Support\Evaluator::class,
+        'integrator' => \Streams\Core\Support\Integrator::class,
         'transformer' => \Streams\Core\Support\Transformer::class,
 
         ViewOverrides::class => \Streams\Core\View\ViewOverrides::class,
@@ -178,7 +180,6 @@ class StreamsServiceProvider extends ServiceProvider
 
         // Setup and preparing utilities.
         $this->registerAddons();
-        $this->configureFileCacheStore();
         $this->addAssets();
         $this->addImageNamespaces();
         $this->addViewNamespaces();
@@ -243,7 +244,6 @@ class StreamsServiceProvider extends ServiceProvider
          * according to it's match.
          */
         $active = $applications->first(function ($application) use ($url) {
-
             return ($application->match
                 && Str::is($application->match, $url));
         });
@@ -255,15 +255,7 @@ class StreamsServiceProvider extends ServiceProvider
         }
 
         if ($active) {
-
             ApplicationManager::active($active);
-
-            $this->app['streams.application.handle'] = $active->id;
-        }
-
-        if (!$active) {
-            // @todo use config value for this - easier to access/override
-            $this->app['streams.application.handle'] = 'default';
         }
     }
 
@@ -275,17 +267,14 @@ class StreamsServiceProvider extends ServiceProvider
         // Register the active application.
         $active = ApplicationManager::active();
 
-        // Configure
-        if ($active && $active->config) {
-            foreach (Arr::dot(Arr::parse($active->config)) as $key => $value) {
-                Config::set($key, $value);
-            }
-        }
-
-        // Locale
-        if ($active && $active->locale) {
-            $this->app->setLocale($active->locale);
-        }
+        //Transformer::transform($active);
+        Integrator::integrate(array_filter([
+            'locale' => $active->locale,
+            'config' => $active->config,
+            'aliases' => $active->aliases,
+            'bindings' => $active->bindings,
+            'singletons' => $active->singletons,
+        ]));
     }
 
     /**
@@ -459,17 +448,6 @@ class StreamsServiceProvider extends ServiceProvider
         $addons = array_map(function ($addon) {
             $addon = Addons::load(base_path('vendor/' . $addon['name']));
         }, $addons);
-    }
-
-    /**
-     * Configure the file cache store so that cache doesn't collide
-     * in the event that there are multiple applications running.
-     *
-     * @return void
-     */
-    protected function configureFileCacheStore()
-    {
-        config(['cache.stores.file.path' => config('cache.stores.file.path') . DIRECTORY_SEPARATOR . $this->app['streams.application.handle']]);
     }
 
     /**
