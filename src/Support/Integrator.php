@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Config;
 use Streams\Core\Support\Facades\Assets;
+use Streams\Core\Support\Facades\Streams;
 use Illuminate\Console\Scheduling\Schedule;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
@@ -200,6 +201,16 @@ class Integrator
             foreach ($middlewares as $middleware) {
                 Route::pushMiddlewareToGroup($group, $middleware);
             }
+        }
+    }
+
+    public function streams($streams)
+    {
+        foreach ($streams as $handle => $stream) {
+
+            Arr::set($stream, 'handle', Arr::get($stream, 'handle', $handle));
+
+            Streams::register($stream);
         }
     }
 }
