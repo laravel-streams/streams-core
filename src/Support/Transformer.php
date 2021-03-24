@@ -4,11 +4,27 @@ namespace Streams\Core\Support;
 
 use ReflectionProperty;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Streams\Core\Support\Traits\Prototype;
 
 class Transformer
 {
+
+    /**
+     * The array of transformers.
+     *
+     * @var array
+     */
+    protected $transformers;
+
+    /**
+     * Create a new class instance.
+     */
+    public function __construct()
+    {
+        $this->transformers = Config::get('streams.core.transformers', []);
+    }
 
     /**
      * Transform an object.
@@ -17,8 +33,58 @@ class Transformer
      * @param array $parameters
      * @return mixed
      */
-    public function transform($object, array $parameters = [])
+    public function transform($target, $name, array $payload = [])
     {
-        dd($object);
+        $payload['target'] = $target;
+        $prefix = $this->prefix($target);
+        $transformer = $this->get($key = $prefix . '.' . $name);
+
+        if (!$transformer) {
+            return $target;
+        }
+
+        if (is_array($transformer)) {
+            $workflow = new Workflow($transformer);
+        }
+
+        if (is_string($transformer)) {
+            $workflow = new $transformer;
+        }
+
+        $workflow->setPrototypeAttribute('name', $key)
+            //->passThrough($this)
+            ->process($payload);
+
+        return $payload['target'];
+    }
+
+    public function register($target, $transformer)
+    {
+        $this->transformers[$target] = $transformer;
+
+        return $this;
+    }
+
+    public function has($target)
+    {
+        return Arr::has($this->transformers, $target);
+    }
+
+    public function get($target, $default = [])
+    {
+        return Arr::get($this->transformers, $target, $default);
+    }
+
+    protected function prefix($object)
+    {
+        if (is_string($object)) {
+            return $object;
+        }
+
+        if (!is_object($object)) {
+            return gettype($object);
+        }
+
+        return get_class($object);
     }
 }

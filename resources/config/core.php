@@ -11,7 +11,7 @@ return [
     |
     */
     'sources' => [
-        
+
         'default' => env('STREAMS_SOURCE', 'filebase'),
 
         'types' => [
@@ -97,5 +97,23 @@ return [
         |
         */
         'auto_alt' => env('IMAGES_AUTO_ALT', true),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Transformers
+    |--------------------------------------------------------------------------
+    |
+    | Here you can define system transformers.
+    |
+    */
+    'transformers' => [
+        'Streams\Core\Stream\Stream' => [
+            'test' => [
+                'config' => [
+                    'app.name' => 'Transformers!',
+                ]
+            ],
+        ],
     ],
 ];

@@ -97,7 +97,7 @@ abstract class Image
             $attributes['srcset'] = $srcset;
         }
 
-        if (!isset($attributes['alt']) && Config::get('streams.images.auto_alt', true)) {
+        if (!isset($attributes['alt']) && Config::get('streams.core.images.auto_alt', true)) {
             $attributes['alt'] = $this->altTag();
         }
 
@@ -147,7 +147,7 @@ abstract class Image
     {
         $parameters = $parameters ? '?' . http_build_query($parameters) : null;
 
-        if (Config::get('streams.images.version') && $this->version !== false) {
+        if (Config::get('streams.core.images.version') && $this->version !== false) {
             $parameters['v'] = $this->lastModified();
         }
 
@@ -299,7 +299,7 @@ abstract class Image
         }
 
         if (in_array($this->extension(), ['jpeg', 'jpg'])) {
-            $intervention->interlace(Config::get('streams.images.interlace', true));
+            $intervention->interlace(Config::get('streams.core.images.interlace', true));
         }
 
         foreach ($this->alterations ?: [] as $method => $arguments) {

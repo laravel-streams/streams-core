@@ -27,7 +27,7 @@ class ImagePaths
      */
     public function __construct()
     {
-        $this->paths = Config::get('streams.images.paths', []);
+        $this->paths = Config::get('streams.core.images.paths', []);
     }
 
     /**

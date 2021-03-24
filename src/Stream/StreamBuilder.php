@@ -91,8 +91,8 @@ class StreamBuilder extends Workflow
         /**
          * Defaults the source.
          */
-        $type = Config::get('streams.sources.default', 'filebase');
-        $default = Config::get('streams.sources.types.' . $type);
+        $type = Config::get('streams.core.sources.default', 'filebase');
+        $default = Config::get('streams.core.sources.types.' . $type);
 
         if (!isset($stream['source'])) {
             $stream['source'] = $default;

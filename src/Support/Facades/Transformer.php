@@ -14,6 +14,6 @@ class Transformer extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'translator';
+        return 'transformer';
     }
 }

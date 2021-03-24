@@ -33,7 +33,7 @@ class FilebaseAdapter extends AbstractAdapter
         $source = $stream->expandPrototypeAttribute('source');
 
         $format = $source->get('format', 'json');
-        $format = Config::get('streams.sources.types.filebase.formats.' . $format);
+        $format = Config::get('streams.core.sources.types.filebase.formats.' . $format);
 
         $path = $source->get('path', 'streams/data/' . $stream->handle);
 

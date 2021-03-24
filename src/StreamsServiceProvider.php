@@ -364,7 +364,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerConfig()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/core.php', 'streams');
+        $this->mergeConfigFrom(__DIR__ . '/../resources/config/core.php', 'streams.core');
 
         if (file_exists($config = __DIR__ . '/../../../../config/streams/core.php')) {
             $this->mergeConfigFrom($config, 'streams');
