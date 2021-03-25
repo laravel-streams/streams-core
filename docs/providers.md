@@ -24,30 +24,135 @@ class YourProvider extends Provider
 }
 ```
 
-## [Assets](assets)
+## Assets
+
+The `assets` property specifies [named assets](assets#named-assets) to register.
 
 ```php
 public $assets = [
-    'scripts' => [
-        'theme.js' => 'your/own/theme.js',
-    ],
+    'theme.js' => 'resources/js/theme.js',
 ];
 ```
 
-## [Routes](routing)
+## Routes
+
+The `routes` property specifies [routes](routes) to register. Routes are specified by middleware group.
 
 ```php
 public $routes = [
     'web' => [
-        '/test' => 'You\Custom\Controller@test',
+        '/' => 'App\Http\Controller@index',
+    ],
+];
+```
+
+You can also specify routes as an array of [route options](routing#route-options)
+
+```php
+public $routes = [
+    'web' => [
+        '/' => [
+            'stream' => 'pages',
+            'entry' => 'home',
+            'view' => 'welcome',
+        ],
     ],
 ];
 ```
 
 ## Streams
+
+The `streams` property specifies [streams](streams) to register.
+
+```php
+public $streams = [
+        'contacts' => [
+            'name' => 'Contacts',
+        'source' => [
+            'type' => 'filebase',
+            'filename' => 'streams/data/contacts',
+            'format' => 'json'
+        ],
+        'config' => [
+            'prototype' => 'Streams\Core\Entry\Entry',
+            'collection' => 'Illuminate\Support\Collection'
+        ],
+        'fields' => [
+            'name' => 'string',
+            'email' => 'email',
+            'company' => [
+                'type' => 'relationship',
+                'config' => [
+                    'related' => 'companies'
+                ]
+            ]
+        ],
+    ]
+];
+```
+
 ## Commands
+
+The `commands` property specifies Artisan commands to register.
+
+```php
+public $commands = [
+    'App\Console\ExampleCommand',
+];
+```
+
 ## Policies
+
+The `policies` property specifies policies to register.
+
+```php
+public $policies = [
+    // ...
+];
+```
+
 ## Listeners
+
+The `listeners` property specifies event listeners to register.
+
+```php
+public $listeners = [
+    'example.event' => [
+        'App\Event\Listener\ExampleListener',
+    ],
+];
+```
+
 ## Providers
+
+The `providers` property specifies service providers to register.
+
+```php
+public $providers = [
+    'App\Providers\CustomProvider',
+];
+```
+
 ## Schedules
+
+The `schedules` property specifies scheduled commands to register.
+
+```php
+public $schedules = [
+    '* * * * *' => [
+        'App\Console\ExampleCommand',
+    ],
+];
+```
+
 ## Middleware
+
+The `middleware` property specifies grouped middleware to register.
+
+```php
+public $middleware = [
+    'web' => [
+        'App\Http\Middleware\ExampleMiddleware',
+    ],
+];
+```

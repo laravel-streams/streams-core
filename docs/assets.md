@@ -77,9 +77,35 @@ Hinted assets are prefixed with a `namespace::` that is replaced with a [registe
 @verbatim{!! Assets::collection('footer')->add('cdn::js/example.js') !!} 
 ```
 
-
 ### Named Assets
-@todo finish "Named Assets"
+
+Use the `register()` method to **name** one or more **assets**. The assets parameter can be any valid source or array of sources.
+
+```php
+use Streams\Core\Support\Facades\Assets;
+
+Assets::register('ui/tables', [
+    'ui::js/tables.js',
+    'ui::css/tables.css',
+]);
+```
+
+You can now use the collection's `load()` method to load the assets by **name**.
+
+```blade
+@verbatim{!! Assets::collection('footer')->load('ui/tables') !!}@endverbatim
+```
+
+```php
+Assets::collection('footer')->load('ui/tables');
+```
+
+You can also render the output of the named single assets.
+
+```php
+Assets::tags('ui/tables');
+```
+
 
 ## Outputting Assets
 
@@ -134,33 +160,4 @@ You can now use the above path hints to resolve assets.
 
 @verbatim{!! Assets::url('ui::js/example.js') !!}@endverbatim
 @verbatim{!! Assets::url('cdn::js/example.js') !!}@endverbatim
-```
-
-## Named Assets
-
-Use the `register()` method to **name** one or more **assets**. The assets parameter can be any valid source or array of sources.
-
-```php
-use Streams\Core\Support\Facades\Assets;
-
-Assets::register('ui/tables', [
-    'ui::js/tables.js',
-    'ui::css/tables.css',
-]);
-```
-
-You can now use the collection's `load()` method to load the assets by **name**.
-
-```blade
-@verbatim{!! Assets::collection('footer')->load('ui/tables') !!}@endverbatim
-```
-
-```php
-Assets::collection('footer')->load('ui/tables');
-```
-
-You can also render the output of the named single assets.
-
-```php
-Assets::tags('ui/tables');
 ```
