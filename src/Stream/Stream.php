@@ -64,6 +64,15 @@ class Stream implements
         ], $attributes));
     }
 
+    public function overload(array $stream)
+    {
+        foreach ($stream as $key => $value) {
+            $this->setPrototypeAttributeValue($key, $value);
+        }
+
+        return $this;
+    }
+
     /**
      * Return the entry repository.
      *
