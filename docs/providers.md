@@ -1,7 +1,7 @@
 ---
 title: Service Providers
-category: core_concepts
-intro: 
+category: developers
+enabled: true
 sort: 99
 ---
 
@@ -24,7 +24,13 @@ class YourProvider extends Provider
 }
 ```
 
-## Assets
+### Integration
+
+@todo Important to note: Uses `Integrator`.
+
+## Basic Usage
+
+### Assets
 
 The `assets` property specifies [named assets](assets#named-assets) to register.
 
@@ -34,7 +40,7 @@ public $assets = [
 ];
 ```
 
-## Routes
+### Routes
 
 The `routes` property specifies [routes](routes) to register. Routes are specified by middleware group.
 
@@ -60,7 +66,17 @@ public $routes = [
 ];
 ```
 
-## Streams
+### Policies
+
+The `policies` property specifies policies to register.
+
+```php
+public $policies = [
+    // ...
+];
+```
+
+### Streams
 
 The `streams` property specifies [streams](streams) to register.
 
@@ -91,27 +107,7 @@ public $streams = [
 ];
 ```
 
-## Commands
-
-The `commands` property specifies Artisan commands to register.
-
-```php
-public $commands = [
-    'App\Console\ExampleCommand',
-];
-```
-
-## Policies
-
-The `policies` property specifies policies to register.
-
-```php
-public $policies = [
-    // ...
-];
-```
-
-## Listeners
+### Listeners
 
 The `listeners` property specifies event listeners to register.
 
@@ -123,7 +119,7 @@ public $listeners = [
 ];
 ```
 
-## Providers
+### Providers
 
 The `providers` property specifies service providers to register.
 
@@ -133,19 +129,9 @@ public $providers = [
 ];
 ```
 
-## Schedules
 
-The `schedules` property specifies scheduled commands to register.
 
-```php
-public $schedules = [
-    '* * * * *' => [
-        'App\Console\ExampleCommand',
-    ],
-];
-```
-
-## Middleware
+### Middleware
 
 The `middleware` property specifies grouped middleware to register.
 
@@ -153,6 +139,28 @@ The `middleware` property specifies grouped middleware to register.
 public $middleware = [
     'web' => [
         'App\Http\Middleware\ExampleMiddleware',
+    ],
+];
+```
+
+### Commands
+
+The `commands` property specifies Artisan commands to register.
+
+```php
+public $commands = [
+    'App\Console\ExampleCommand',
+];
+```
+
+### Schedules
+
+The `schedules` property specifies scheduled commands to register.
+
+```php
+public $schedules = [
+    '* * * * *' => [
+        'App\Console\ExampleCommand',
     ],
 ];
 ```
