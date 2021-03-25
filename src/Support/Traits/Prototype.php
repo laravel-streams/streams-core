@@ -365,7 +365,7 @@ trait Prototype
             $attributes['field'] = $this;
         }
 
-        return App::make('streams.field_types.' . $type)
+        return App::make('streams.core.field_type.' . $type)
             ->loadPrototypeAttributes($attributes);
     }
 

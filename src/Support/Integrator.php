@@ -94,7 +94,7 @@ class Integrator
             }
         }
     }
-    
+
     public function policies($policies)
     {
         foreach ($policies as $model => $policy) {
@@ -210,7 +210,11 @@ class Integrator
 
             Arr::set($stream, 'handle', Arr::get($stream, 'handle', $handle));
 
-            Streams::register($stream);
+            if (Streams::has($stream['handle'])) {
+                Streams::overload(Arr::parse($stream));
+            } else {
+                Streams::register($stream);
+            }
         }
     }
 }
