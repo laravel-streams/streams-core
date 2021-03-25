@@ -42,7 +42,7 @@ class Field implements
 
             $attributes['field'] = $this;
 
-            $type = App::make('streams.field_types.' . $this->type, [
+            $type = App::make('streams.core.field_type.' . $this->type, [
                 'attributes' => $attributes,
             ]);
 

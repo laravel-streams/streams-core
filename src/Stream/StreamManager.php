@@ -147,6 +147,15 @@ class StreamManager
         return $stream;
     }
 
+    public function overload(array $stream)
+    {
+        $instance = $this->make($stream);
+
+        foreach ($stream as $key => $value) {
+            $instance->setPrototypeAttributeValue($key, $value);
+        }
+    }
+
     /**
      * Return an entry criteria.
      * 

@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\View\Factory;
 use Collective\Html\HtmlFacade;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
 use Streams\Core\View\ViewIncludes;
 use Streams\Core\View\ViewTemplate;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Translation\Translator;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
@@ -89,6 +91,8 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerConfig();
+
         $this->registerComposerJson();
         $this->registerComposerLock();
         $this->registerFieldTypes();
@@ -102,7 +106,6 @@ class StreamsServiceProvider extends ServiceProvider
         }
 
         $this->registerAliases();
-        $this->registerConfig();
 
         $this->extendUrlGenerator();
         $this->extendCollection();
@@ -271,6 +274,7 @@ class StreamsServiceProvider extends ServiceProvider
             'locale' => $active->locale,
             'config' => $active->config,
             'aliases' => $active->aliases,
+            'streams' => $active->streams,
             'bindings' => $active->bindings,
             'singletons' => $active->singletons,
         ]));
@@ -282,61 +286,9 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerFieldTypes()
     {
-        // Strings
-        $this->app->bind('streams.field_types.string', \Streams\Core\Field\Type\Str::class);
-
-        $this->app->bind('streams.field_types.url', \Streams\Core\Field\Type\Url::class);
-        $this->app->bind('streams.field_types.text', \Streams\Core\Field\Type\Str::class);
-        $this->app->bind('streams.field_types.hash', \Streams\Core\Field\Type\Hash::class);
-        $this->app->bind('streams.field_types.slug', \Streams\Core\Field\Type\Slug::class);
-        $this->app->bind('streams.field_types.email', \Streams\Core\Field\Type\Email::class);
-
-        $this->app->bind('streams.field_types.markdown', \Streams\Core\Field\Type\Markdown::class);
-        $this->app->bind('streams.field_types.template', \Streams\Core\Field\Type\Template::class);
-
-        // Numbers
-        $this->app->bind('streams.field_types.number', \Streams\Core\Field\Type\Number::class);
-        $this->app->bind('streams.field_types.integer', \Streams\Core\Field\Type\Integer::class);
-        $this->app->bind('streams.field_types.float', \Streams\Core\Field\Type\Decimal::class);
-
-        $this->app->bind('streams.field_types.decimal', \Streams\Core\Field\Type\Decimal::class);
-
-        // Boolean
-        $this->app->bind('streams.field_types.boolean', \Streams\Core\Field\Type\Boolean::class);
-
-        // Arrays
-        $this->app->bind('streams.field_types.array', \Streams\Core\Field\Type\Arr::class);
-
-        // Objects
-        $this->app->bind('streams.field_types.prototype', \Streams\Core\Field\Type\Prototype::class);
-        $this->app->bind('streams.field_types.object', \Streams\Core\Field\Type\Prototype::class);
-        $this->app->bind('streams.field_types.image', \Streams\Core\Field\Type\Image::class);
-        $this->app->bind('streams.field_types.file', \Streams\Core\Field\Type\File::class);
-
-        // Dates
-        $this->app->bind('streams.field_types.datetime', \Streams\Core\Field\Type\Datetime::class);
-        $this->app->bind('streams.field_types.date', \Streams\Core\Field\Type\Date::class);
-        $this->app->bind('streams.field_types.time', \Streams\Core\Field\Type\Time::class);
-
-        // Selections
-        $this->app->bind('streams.field_types.select', \Streams\Core\Field\Type\Select::class);
-        $this->app->bind('streams.field_types.multiselect', \Streams\Core\Field\Type\Multiselect::class);
-
-        // Collections
-        // @todo Test me
-        $this->app->bind('streams.field_types.collection', \Streams\Core\Field\Type\Collection::class);
-
-        // Streams
-        $this->app->bind('streams.field_types.entry', \Streams\Core\Field\Type\Entry::class);
-        $this->app->bind('streams.field_types.entries', \Streams\Core\Field\Type\Entries::class);
-
-        // Relationships
-        $this->app->bind('streams.field_types.multiple', \Streams\Core\Field\Type\Multiple::class);
-        $this->app->bind('streams.field_types.polymorphic', \Streams\Core\Field\Type\Polymorphic::class);
-        $this->app->bind('streams.field_types.relationship', \Streams\Core\Field\Type\Relationship::class);
-
-        // Miscellaneous
-        $this->app->bind('streams.field_types.color', \Streams\Core\Field\Type\Color::class);
+        foreach (Config::get('streams.core.fields.types', []) as $type => $class) {
+            $this->app->bind('streams.core.field_type.' . $type, $class);
+        }
     }
 
     /**
@@ -393,7 +345,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             $stream->handle = $stream->id;
 
-            $stream = Streams::register($stream->toArray());
+            $stream = Streams::register(Arr::parse($stream->toArray()));
 
             if (!$this->app->routesAreCached()) {
 
@@ -854,7 +806,13 @@ class StreamsServiceProvider extends ServiceProvider
                 return $target;
             }
 
-            return app(Engine::class)->render($target, array_merge(app('streams.parser_data'), Arr::make($data)));
+            $data = App::has('streams.parser_data') ? App::make('streams.parser_data') : [];
+
+            return app(Engine::class)->render($target, array_filter(array_merge($data, [
+                'app' => [
+                    'locale' => App::getLocale(),
+                ],
+            ], Arr::make($data))));
         });
 
         Str::macro('markdown', function ($target) {
