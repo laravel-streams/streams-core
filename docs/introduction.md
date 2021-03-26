@@ -6,62 +6,39 @@ enabled: true
 sort: 1
 ---
 
-## Laravel Enhancement
+## Streams Core
 
-Enhancing Laravel is a fundamental aspect of the Streams platform. Laravel enhancement both facilitates internal core functionality and also supports developers when building their work.
+Streams Core provides the most fundamental features offered by the Streams platform. It is the only required dependency to use [streams](streams) which rest of the platform addons build upon.
 
 ### Laravel Basics
 
-The Streams platform helps you take Laravel basics further to do more with less. 
+Streams Core helps you take Laravel basics further and in less time.
 
-- [Views](views)
-- [Assets](assets)
-- [Images](images)
-- [Routing](routing)
-- [Support](support)
-<!-- - Policies -->
-<!-- - Events -->
-- Schedules
-- [Providers](providers)
-- Middleware
+- [Views](core/views)
+- [Routing](core/routing)
+- [Security](core/security)
+- [Integration](core/providers)
 
-### Addon Packages
+### Frontend Support
 
-Streams addons are Composer packages that serve as logical containers for your application. While not required, they provide a great form of application organization and are, of course, easy to distribute just as with any other Composer package.
+Streams Core provides frontend support that encourages and supports best-practices.
 
-- [Addons](addons)
+- [Assets](core/assets)
+- [Images](core/images)
 
-## Data Modeling
+### Developer Support
 
-Data modeling is a fundamental aspect of building with the Streams platform.
+These juicy tools are specifically for developers. 
 
-- [Data Modeling Introduction](introduction#data-modeling)
+- [Support](core/support)
+- [Reusability](core/addons)
+- [Extensibility](core/extending)
+- [Multi-Everything](core/applications)
 
-### Domain Information
+### Data Modeling
 
-The Streams platform leans heavily on domain-driven design (DDD). We call these domain abstractions `streams`, hence our namesake.
+Data modeling is *the* fundamental function of Streams Core.
 
-An example could be configuring a domain model (a stream) for a website's pages, users of an application, or feedback submissions from a form.
-
-- [Defining Streams](/docs/core/streams#defining-streams)
-
-#### Data Sources
-
-If not configured otherwise, streams will utilize the built-in flat-file database. All databases available to Laravel are supported as well.
-
-- [Stream Sources](/docs/core/sources)
-
-### Domain Entities
-
-Domain entities are called `entries` within the Streams platform. A stream also defines entry attributes, or fields, that dictate the entry's properties, data-casting, and more.
-
-- [Stream Entries](/docs/core/entries)
-- [Entry Fields](/docs/core/fields)
-- [Field Types](/docs/core/fields#field-types)
-
-### Managing Entities
-
-The Streams platform separates methods to retrieve and store entries from the entry objects themselves, less a few convenient functions like `save` and `delete`, by using a repository pattern.
-
-- [Repositories](/docs/core/repositories)
-- [Querying Entries](/docs/core/querying)
+- [Streams](streams)
+- [Entries](entries)
+- [Fields](fields)
