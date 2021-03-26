@@ -3,7 +3,6 @@
 namespace Streams\Core\Support;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Config;
 
 class Transformer
 {
@@ -13,15 +12,7 @@ class Transformer
      *
      * @var array
      */
-    protected $transformers;
-
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        $this->transformers = Config::get('streams.core.transformers', []);
-    }
+    protected $steps = [];
 
     public function integrate($target, $details)
     {

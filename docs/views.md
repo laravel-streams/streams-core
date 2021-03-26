@@ -122,16 +122,21 @@ Organizing stream views by stream can not only be [automatically detected](routi
 
 ```files
 resources/views/
-|-- posts/
-|   |-- posts/contact
-|   |   |-- cards.blade.php
+|-- contacts/
 |   |-- index.blade.php
-|   |-- layout.blade.php
 |   |-- view.blade.php
-|-- contact/
-|   |-- index.blade.php
-|   |-- success.blade.php
-|-- faq/
-|   |-- index.blade.php
-|   |-- show.blade.php
+|   |-- vcard.blade.php
+```
+
+The above views correlate to the below routing example.
+
+```json
+// streams/contacts.json
+{
+    "routes": {
+        "index": "contacts",
+        "view": "contacts/{id}",
+        "vcard": "contacts/vcard/{id}"
+    }
+}
 ```

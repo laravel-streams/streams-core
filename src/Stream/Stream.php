@@ -64,15 +64,6 @@ class Stream implements
         ], $attributes));
     }
 
-    public function overload(array $stream)
-    {
-        foreach ($stream as $key => $value) {
-            $this->setPrototypeAttributeValue($key, $value);
-        }
-
-        return $this;
-    }
-
     /**
      * Return the entry repository.
      *
@@ -246,6 +237,7 @@ class Stream implements
         if (!$key) {
             return $this->expandPrototypeAttribute('meta');
         }
+
         return Arr::get($this->meta, $key, $default);
     }
 
