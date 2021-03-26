@@ -5,8 +5,6 @@ intro: Streams uses Laravel config files and environment variables for applicati
 stage: review
 enabled: true
 sort: 2
-todo:
-    - Update with the real config files.
 ---
 
 ## Configuration Files
@@ -15,9 +13,7 @@ Published configuration files reside in `config/streams/`.
 
 ``` files
 ├── config/streams/
-│   ├── foo.php
-│   ├── bar.php
-│   └── baz.php
+│   └── core.php
 ```
 
 #### Publishing Configuration

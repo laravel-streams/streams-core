@@ -3,62 +3,114 @@ __created_at: 1611725792
 __updated_at: 1611725792
 title: Applications
 category: advanced
-sort: 0
+sort: 10
 stage: outlining
 enabled: true
 ---
+
 ## Introduction
 
-**Application switching** provides a fundamental pathway to configure your application behavior based on matching request patterns.
+Applications provides a fundamental pathway to configure your application based on request patterns.
 
-### Configuration
+### Defining Applications
 
-The applications system leverages the `core.applications` stream. Entries are defined using `JSON` files within the `/streams/apps` directory.
+Applications are defined using the `core.applications` stream. Entries are defined using `JSON` entry files within the `/streams/apps` directory by default.
+
+The `match` value is compared to request URLs to determine the active application.
 
 ```json
-// streams/apps/{id}.json
+// streams/apps/docs.json
 {
-    "match": "docs.example.com/*",
-    "locale": "en",
-    "config": {
-        "app.name": "Documentation",
-        "database.default": "docs"
-    }
+    "match": "docs.example.com/*"
 }
 ```
 
-#### How It Works
+## Application Options
 
-The first application matching the request, if any, is used to reconfigure various aspects of the application.
+The following application options are available and support [parsing variables](parsing).
 
+### Locale
 
-## Multi-Tenancy
+Set the active locale using the **locale** option:
 
-Application switching provide the backbone functionality for building multi-tenancy applications.
+```json
+// streams/apps/docs.json
+{
+    "match": "docs.example.com/*",
+    "locale": "en"
+}
+```
+
+### Configuration
+
+Override configuration using the **config** option:
 
 ```json
 // streams/apps/docs.json
 {
     "match": "docs.example.com/*",
     "config": {
-        "app.name": "Documentation",
-        "database.default": "docs"
+        "app.name": "Documentation"
+    }
+}
+```
+
+### Streams
+
+You can overload streams using the **streams** option:
+
+```json
+// streams/apps/docs.json
+{
+    "match": "docs.example.com/*",
+    "streams": {
+        "pages": {
+            "source.path": "streams/data/pages/docs"
+        },
+        "docs": "@streams/docs.json" // @todo support importing
+    }
+}
+```
+
+### Assets
+### Routes
+### Policies
+### Listeners
+### Providers
+### Middleware
+### Commands
+### Schedules
+
+## Multi-Tenancy
+
+Applications provide the backbone functionality for building multi-tenancy applications.
+
+```json
+// streams/apps/accounts.json
+{
+    "match": "*.example.com/*",
+    "config": {
+        "app.name": "My Account",
+        "database.default": "{request.parsed.domain.0}",
+        "streams.core.streams_data": "streams/data/{request.parsed.domain.0}"
+    },
+    "users": {
+        "source.table": "users_{request.parsed.domain.0}"
     }
 }
 ```
 
 ## Localization
 
-Application switching provides the backbone functionality for building multi-lingual applications.
+Application switching provides the backbone functionality for building localized applications.
 
 ```json
-// streams/apps/docs.json
+// streams/apps/localized.json
 {
-    "match": "example.com/fr/*",
-    "locale": "fr",
-    "config": {
-        "app.name": "Documentation",
-        "database.default": "docs"
+    "match": "*.example.com/*",
+    "locale": "{request.parsed.domain.0}",
+    "pages": {
+        "source.path": "streams/data/pages/{request.parsed.domain.0}"
     }
 }
 ```

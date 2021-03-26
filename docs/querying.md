@@ -4,7 +4,7 @@ category: database
 intro: 
 stage: outlining
 enabled: true
-sort: 10
+sort: 9
 ---
 
 ## Introduction

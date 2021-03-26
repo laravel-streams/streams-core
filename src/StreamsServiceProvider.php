@@ -133,6 +133,8 @@ class StreamsServiceProvider extends ServiceProvider
 
         $this->app->singleton('streams.parser_data', function () {
 
+            $parsed = parse_url(Request::url());
+
             $data = [
                 'request' => [
                     'url'      => Request::url(),
@@ -143,10 +145,13 @@ class StreamsServiceProvider extends ServiceProvider
                     'segments' => Request::segments(),
                     'uri'      => Request::getRequestUri(),
                     'query'    => Request::getQueryString(),
+                    'parsed'   => array_merge($parsed, [
+                        'domain' => explode('.', $parsed['host'])
+                    ]),
                 ],
-                'url'     => [
+                'url' => [
                     'previous' => URL::previous(),
-                ]
+                ],
             ];
 
             if ($route = Request::route()) {

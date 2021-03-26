@@ -7,11 +7,12 @@ return [
     | Streams
     |--------------------------------------------------------------------------
     |
-    | Configure Streams system.
+    | Configure the Streams system.
     |
     */
 
-    'streams_dir' => 'streams/data',
+    'streams_path' => env('STREAMS_PATH', 'streams'),
+    'streams_data' => env('STREAMS_DATA_PATH', 'streams/data'),
 
     /*
     |--------------------------------------------------------------------------

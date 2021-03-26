@@ -1,10 +1,10 @@
 ---
 title: Validation
-category: basics
-intro: The Streams platform helps you organize and execute your validation policies.
+category: database
+intro: Organizing and executing data validation rules.
 stage: outlining
 enabled: true
-sort: 10
+sort: 11
 references:
     - https://laravel.com/docs/validation
 ---

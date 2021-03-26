@@ -14,26 +14,26 @@ Streams Core provides the most fundamental features offered by the Streams platf
 
 Streams Core helps you take Laravel basics further and in less time.
 
-- [Views](core/views)
-- [Routing](core/routing)
-- [Security](core/security)
-- [Integration](core/providers)
+- [Views](views)
+- [Routing](routing)
+- [Security](security)
+- [Integration](providers)
 
 ### Frontend Support
 
 Streams Core provides frontend support that encourages and supports best-practices.
 
-- [Assets](core/assets)
-- [Images](core/images)
+- [Assets](assets)
+- [Images](images)
 
 ### Developer Support
 
 These juicy tools are specifically for developers. 
 
-- [Support](core/support)
-- [Reusability](core/addons)
-- [Extensibility](core/extending)
-- [Multi-Everything](core/applications)
+- [Support](support)
+- [Reusability](addons)
+- [Extensibility](extending)
+- [Multi-Everything](applications)
 
 ### Data Modeling
 
@@ -42,3 +42,4 @@ Data modeling is *the* fundamental function of Streams Core.
 - [Streams](streams)
 - [Entries](entries)
 - [Fields](fields)
+- [Validation](validation)

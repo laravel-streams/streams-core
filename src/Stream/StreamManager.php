@@ -154,6 +154,8 @@ class StreamManager
         foreach ($stream as $key => $value) {
             $instance->setPrototypeAttributeValue($key, $value);
         }
+
+        App::instance('streams.instances.' . $instance->handle, $instance);
     }
 
     /**

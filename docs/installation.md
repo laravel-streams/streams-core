@@ -5,23 +5,19 @@ intro:
 enabled: true
 ---
 
+## Introduction
+
+You might consider starting with the [Streams starter application](/docs/installation).
+
+
 ### Download
 
-Download the Streams Core package using Composer.
+Download the Streams Core package using [Composer](https://getcomposer.org/).
 
 ```bash
 composer require streams/core
 ```
 
-You might consider starting with the [Streams starter application](/docs/installation).
-
-### Publish Assets
-
-Use the following command to publish the public assets required for this package.
-
-```bash
-php artisan vendor:publish --vendor=Streams\\Core\\CoreServiceProvider --tag=public
-```
 
 ## Updating
 

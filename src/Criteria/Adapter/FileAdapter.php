@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Streams\Core\Entry\Contract\EntryInterface;
 
 class FileAdapter extends AbstractAdapter
@@ -84,7 +85,7 @@ class FileAdapter extends AbstractAdapter
         $method = $nested ? Str::studly($nested . '_where') : 'where';
 
         if ($operator == 'LIKE') {
-            $this->query = $this->query->filter(function($entry) use ($field, $value) {
+            $this->query = $this->query->filter(function ($entry) use ($field, $value) {
                 return Str::is(
                     strtolower(str_replace('%', '*', $value)),
                     strtolower($entry[$field])
@@ -250,7 +251,7 @@ class FileAdapter extends AbstractAdapter
         $source = $this->stream->expandPrototypeAttribute('source');
 
         $format = $source->get('format');
-        $file = base_path(trim($source->get('file', 'streams/data/' . $this->stream->handle . '.' . ($format ?: 'json')), '/\\'));
+        $file = base_path(trim($source->get('file', Config::get('streams.core.streams_data') . '/' . $this->stream->handle . '.' . ($format ?: 'json')), '/\\'));
 
         $format = $format ?: pathinfo($file, PATHINFO_EXTENSION);
 

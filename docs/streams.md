@@ -12,7 +12,6 @@ todo:
     - Finish streams routes
 ---
 
-
 ## Introduction
 
 The Streams platform leans heavily on domain-driven design (DDD). We call these domain abstractions `streams`, hence our namesake.
