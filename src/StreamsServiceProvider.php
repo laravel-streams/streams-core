@@ -8,6 +8,7 @@ use StringTemplate\Engine;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\View\Factory;
+use Streams\Core\Entry\Entry;
 use Collective\Html\HtmlFacade;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
@@ -28,6 +29,7 @@ use Illuminate\Support\ServiceProvider;
 use Streams\Core\Support\Facades\Addons;
 use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Images;
+use Streams\Core\Application\Application;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
@@ -261,6 +263,17 @@ class StreamsServiceProvider extends ServiceProvider
             });
         }
 
+        if (!$active) {
+            
+            $active = Streams::repository('core.applications')->newInstance([
+                'id' => 'default',
+                'handle' => 'default',
+                'match' => '*',
+            ]);
+            
+            ApplicationManager::collection()->put('default', $active);
+        }
+        
         if ($active) {
             ApplicationManager::active($active);
         }
