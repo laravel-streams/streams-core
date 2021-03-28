@@ -248,7 +248,8 @@ class Stream implements
 
     public function cache($key, $ttl, $target)
     {
-        $key = 'ls.' . $this->handle . '.' . $key;
+        // This is handy.
+        $key = 'ls.core.' . $this->handle . '.' . $key;
 
         $exists = Cache::store(Config::get('cache.default'))->has($key);
 
