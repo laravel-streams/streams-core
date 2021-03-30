@@ -824,9 +824,9 @@ class StreamsServiceProvider extends ServiceProvider
                 return $target;
             }
 
-            $data = App::has('streams.parser_data') ? App::make('streams.parser_data') : [];
+            $default = App::has('streams.parser_data') ? App::make('streams.parser_data') : [];
 
-            return app(Engine::class)->render($target, array_filter(array_merge($data, [
+            return app(Engine::class)->render($target, array_filter(array_merge($default, [
                 'app' => [
                     'locale' => App::getLocale(),
                 ],
