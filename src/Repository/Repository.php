@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Repository;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
@@ -236,10 +237,13 @@ class Repository implements RepositoryInterface
     public function newCriteria()
     {
         $default = Config::get('streams.core.sources.default', 'filebase');
+        $criteria = Arr::get($this->stream->config, 'source.criteria', Criteria::class);
 
-        $adapter = Str::camel("new_{$this->stream->expandPrototypeAttribute('source')->get('type',$default)}_adapter");
+        $adapter = Arr::get($this->stream->config, 'source.adapter');
 
-        return new Criteria($this->$adapter(), $this->stream);
+        $default = Str::camel("new_{$this->stream->expandPrototypeAttribute('source')->get('type', $default)}_adapter");
+
+        return new $criteria($adapter ? new $adapter($this->stream) : $this->$default(), $this->stream);
     }
 
     /**
