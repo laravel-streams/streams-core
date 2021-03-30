@@ -23,7 +23,11 @@ trait Streams
     public function stream()
     {
         if ($this->stream && $this->stream instanceof Stream) {
-            return $this->stream();
+            return $this->stream;
+        }
+
+        if (!$this->stream) {
+            $this->stream = $this->table;
         }
 
         return StreamsFacade::make($this->stream);
