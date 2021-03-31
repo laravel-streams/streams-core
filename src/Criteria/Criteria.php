@@ -84,7 +84,11 @@ class Criteria
      */
     public function first()
     {
-        return $this->limit(1)->get()->first();
+        if (!isset($this->parameters['limit'])) {
+            $this->limit(1);
+        }
+        
+        return $this->get()->first();
     }
 
     /**
