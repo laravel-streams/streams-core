@@ -46,6 +46,15 @@ trait Streams
         return parent::setAttribute($key, $value);
     }
 
+    public function setAttributes(array $attributes)
+    {
+
+        $this->fill($attributes);
+        $this->setPrototypeAttributes($attributes);
+
+        return $this;
+    }
+
     /**
      * Return the stream instance.
      */
