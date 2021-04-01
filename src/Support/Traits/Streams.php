@@ -27,7 +27,7 @@ trait Streams
      */
     public function fill(array $attributes)
     {
-        $this->fillPrototype($attributes);
+        $this->loadPrototypeAttributes($attributes);
 
         return parent::fill($attributes);
     }
