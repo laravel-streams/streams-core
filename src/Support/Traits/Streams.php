@@ -4,6 +4,7 @@ namespace Streams\Core\Support\Traits;
 
 use Exception;
 use Streams\Core\Stream\Stream;
+use Illuminate\Validation\Validator;
 use Streams\Core\Support\Facades\Streams as StreamsFacade;
 
 /**
@@ -79,6 +80,16 @@ trait Streams
     public function expand($key)
     {
         return $this->expandPrototypeAttribute($key);
+    }
+
+    /**
+     * Return the entry validator.
+     * 
+     * @return Validator
+     */
+    public function validator()
+    {
+        return $this->stream()->validator($this);
     }
 
     /**
