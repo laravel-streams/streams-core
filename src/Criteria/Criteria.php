@@ -329,4 +329,9 @@ class Criteria
 
         return $this;
     }
+
+    public function __call($method, $arguments = [])
+    {
+        $this->parameters[$method][] = $arguments;
+    }
 }
