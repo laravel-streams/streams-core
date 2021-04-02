@@ -87,7 +87,7 @@ class Criteria
         if (!isset($this->parameters['limit'])) {
             $this->limit(1);
         }
-        
+
         return $this->get()->first();
     }
 
@@ -200,7 +200,7 @@ class Criteria
         if ($cache) {
 
             $fingerprint = $this->stream->handle . '.query.count__' . md5(serialize($this->parameters));
-            
+
             return $this->stream->cache(Arr::get($cache, 1) ?: $fingerprint, $cache[0], function () {
                 return $this->adapter->count(array_diff_key($this->parameters, array_flip(['cache'])));
             });
@@ -332,6 +332,19 @@ class Criteria
 
     public function __call($method, $arguments = [])
     {
-        $this->parameters[$method][] = $arguments;
+        if (static::hasMacro($method)) {
+            return $this->callMacroable($method, $arguments);
+        }
+
+        if (method_exists($this->adapter, $method)) {
+            
+            $this->parameters[$method][] = $arguments;
+
+            return $this;
+        }
+
+        throw new \BadMethodCallException(sprintf(
+            'Method %s::%s does not exist.', static::class, $method
+        ));
     }
 }
