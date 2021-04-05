@@ -13,6 +13,7 @@ use Illuminate\Filesystem\Filesystem;
 use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
+use Leafo\ScssPhp\Compiler;
 
 /**
  * Class Asset
@@ -560,6 +561,13 @@ class Asset
          * of the asset collection.
          */
         $contents = $this->content($collection);
+
+        //scss fix
+        $type = explode('.', $collection);
+        if (end($type) == "scss") {
+            $compiler_scss = new Compiler();
+            $contents = $compiler_scss->compile($contents);
+        }
 
         /**
          * Parse the content. Always parse CSS.

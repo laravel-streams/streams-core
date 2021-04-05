@@ -27,7 +27,8 @@
         "vstelmakh/url-highlight": "^2.2",
         "ezyang/htmlpurifier": "~4.0",
         "tubalmartin/cssmin": "~4.0",
-        "fzaninotto/faker": "~1.4"
+        "fzaninotto/faker": "~1.4",
+        "leafo/scssphp": "^0.8.4"
     },
     "autoload": {
         "psr-4": {
