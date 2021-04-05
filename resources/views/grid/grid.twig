@@ -4,7 +4,7 @@
 
     <div class="container-fluid">
 
-        {% if not grid.items.empty() %}
+        {% if not grid.items.isEmpty() %}
             <ul class="grid grid--sortable sortable row">
                 {% for item in grid.items %}
                     <li data-id="{{ item.id }}">

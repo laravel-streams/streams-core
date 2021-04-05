@@ -98,6 +98,19 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
     }
 
     /**
+     * Add a middleware group and sync.
+     *
+     * @param $group
+     * @param array $middleware
+     */
+    public function addMiddlewareGroup($group, $middleware = []) {
+        
+        $this->middlewareGroups[$group] = $middleware;
+
+        $this->syncMiddlewareToRouter();
+    }
+
+    /**
      * Send the request through the router.
      *
      * This is the same as the parent logic

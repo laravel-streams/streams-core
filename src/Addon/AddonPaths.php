@@ -53,6 +53,7 @@ class AddonPaths
         $core        = $this->core() ?: [];
         $shared      = $this->shared() ?: [];
         $application = $this->application() ?: [];
+        $native = $this->native() ?: [];
 
         // Testing only addons.
         $testing = $this->testing() ?: [];
@@ -65,7 +66,6 @@ class AddonPaths
          * onto the front and back of
          * the paths respectively.
          */
-
         return array_unique(
             array_merge(
                 $eager,
@@ -74,7 +74,7 @@ class AddonPaths
                         array_reverse(
                             array_merge(
                                 array_filter(
-                                    array_merge($core, $shared, $application, $configured, $testing)
+                                    array_merge($native, $core, $shared, $application, $configured, $testing)
                                 ),
                                 $deferred
                             )
@@ -115,6 +115,28 @@ class AddonPaths
         );
     }
 
+    /**
+     * Return all native addon paths.
+     *
+     * @return bool
+     */
+    public function native()
+    {
+        $path = base_path('vendor');
+
+        if (!is_dir($path)) {
+            return false;
+        }
+        
+        $paths = [];
+
+        foreach (config('streams::addons.types') as $type) {
+            $paths = array_merge($paths, glob("{$path}/*/*-{$type}", GLOB_ONLYDIR));
+        }
+        
+        return $paths;
+    }
+    
     /**
      * Return all core addon paths in a given folder.
      *

@@ -65,27 +65,24 @@ class InitializeApplication
          * then locate the application and
          * initialize.
          */
-        if ($application->isInstalled()) {
+        if (env('DB_CONNECTION', env('DB_DRIVER'))) {
 
-            if (env('DB_CONNECTION', env('DB_DRIVER'))) {
+            try {
 
-                try {
-
+                $application->setup();
+                
+                if ($application->isInstalled()) {
                     if (PHP_SAPI != 'cli') {
                         $application->locate();
                     }
 
-                    $application->setup();
-
                     if (!$application->isEnabled()) {
                         abort(503);
                     }
-                } catch (\Exception $e) {
-                    // Do nothing.
                 }
+            } catch (\Exception $e) {
+                // Do nothing.
             }
-
-            return;
         }
     }
 }

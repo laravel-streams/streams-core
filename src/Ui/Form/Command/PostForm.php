@@ -54,8 +54,8 @@ class PostForm
 
         $this->dispatchNow(new LoadFormValues($this->builder));
         $this->dispatchNow(new RemoveSkippedFields($this->builder));
-        $this->dispatchNow(new HandleVersioning($this->builder));
         $this->dispatchNow(new HandleForm($this->builder));
+        $this->dispatchNow(new HandleVersioning($this->builder));
         $this->dispatchNow(new SetSuccessMessage($this->builder));
         $this->dispatchNow(new SetActionResponse($this->builder));
 

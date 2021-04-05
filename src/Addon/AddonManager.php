@@ -1,9 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Addon;
+<?php
 
-use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
-use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
-use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
+namespace Anomaly\Streams\Platform\Addon;
+
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Contracts\Container\Container;
+use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
+use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
+use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
 
 /**
  * Class AddonManager
@@ -120,6 +124,16 @@ class AddonManager
 
         $paths = $this->paths->all();
 
+        $addonsDirectory = base_path('addons');
+
+        if (config('streams::addons.autoload', true)) {
+            array_map(function ($path) {
+                $this->loader->load($path);
+            }, array_filter($paths, function ($path) use ($addonsDirectory) {
+                return Str::startsWith($path, $addonsDirectory);
+            }));
+        }
+
         /**
          * If we need to load then
          * loop and load all the addons.
@@ -161,8 +175,13 @@ class AddonManager
                 in_array($namespace, $installed)
             );
 
+            /**
+             * It's not an addon, k.
+             * Debug your addon by noting it not being loaded O_O
+             * Exception was forward...
+             */
             if (!$addon) {
-                throw new \Exception("Addon path not found [{$path}]. Check [resources/streams/config/addons.php]");
+                continue;
             }
 
             foreach ($addon->getAddons() as $class) {
@@ -202,7 +221,7 @@ class AddonManager
      */
     protected function getEnabledAddonNamespaces()
     {
-        if (!env('INSTALLED')) {
+        if (!env('INSTALLED') || (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin')) {
             return [];
         }
 
@@ -247,7 +266,7 @@ class AddonManager
      */
     protected function getInstalledAddonNamespaces()
     {
-        if (!env('INSTALLED')) {
+        if (!env('INSTALLED') || (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin')) {
             return [];
         }
 

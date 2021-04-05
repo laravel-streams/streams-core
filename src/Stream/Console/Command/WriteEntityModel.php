@@ -64,6 +64,7 @@ class WriteEntityModel
 
         $class      = "{$entity}Model";
         $implements = "{$entity}Interface";
+        $factory    = "{$entity}Factory";
         $extends    = $prefix . $suffix . 'EntryModel';
         $namespace  = $this->addon->getTransformedClass("{$entity}");
         $interface  = $this->addon->getTransformedClass("{$entity}\\Contract\\{$entity}Interface");
@@ -79,7 +80,7 @@ class WriteEntityModel
 
         $filesystem->put(
             $path,
-            $parser->parse($template, compact('class', 'extends', 'implements', 'namespace', 'interface', 'base'))
+            $parser->parse($template, compact('class', 'extends', 'implements', 'namespace', 'interface', 'base', 'factory'))
         );
     }
 }

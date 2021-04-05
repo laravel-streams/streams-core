@@ -7,6 +7,10 @@ class ReloadEnvironmentFileTest extends TestCase
 
     public function testCanReadEnvironmentFile()
     {
+        $this->markTestSkipped('We should not be touching the file.');
+
+        return;
+        
         $this->dispatchNow(
             new \Anomaly\Streams\Platform\Application\Command\WriteEnvironmentFile(
                 array_merge(

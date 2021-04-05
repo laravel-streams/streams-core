@@ -1,4 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Application\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Application\Command;
+
+use Dotenv\Dotenv;
+use Illuminate\Support\Env;
 
 /**
  * Class ReadEnvironmentFile
@@ -32,7 +37,12 @@ class ReloadEnvironmentFile
          * and overload from the changes that may
          * have taken place.
          */
-        $dotenv = \Dotenv\Dotenv::create(base_path());
-        $dotenv->overload();
+        $dotenv = Dotenv::create(
+            Env::getRepository(),
+            app()->environmentPath(),
+            app()->environmentFile()
+        );
+
+        $dotenv->load();
     }
 }

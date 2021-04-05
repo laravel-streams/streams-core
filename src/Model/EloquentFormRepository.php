@@ -91,12 +91,10 @@ class EloquentFormRepository implements FormRepositoryInterface
         if ($entry->getId()) {
             $entry->update($data);
         } else {
-            $entry = $entry->create($data);
+            $entry->fill($data)->save();
         }
 
         $entry->reguard();
-
-        $builder->setFormEntry($entry);
 
         $this->processSelfHandlingFields($builder);
 
@@ -107,7 +105,6 @@ class EloquentFormRepository implements FormRepositoryInterface
         if ($builder->versioningEnabled() && in_array(Versionable::class, $classes) && isset($enabled) && $enabled == true) {
             $entry->enableVersioning();
         }
-
     }
 
     /**

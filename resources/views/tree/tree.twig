@@ -7,7 +7,7 @@
 
     <div class="container-fluid">
 
-        {% if not tree.items.empty() %}
+        {% if not tree.items.isEmpty() %}
             <ul class="tree tree--sortable sortable">
                 {{ macro.tree(tree.items.root(), tree) }}
             </ul>

@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Application\Event\ApplicationHasLoaded;
 use Anomaly\Streams\Platform\Asset\Listener\AddAddonPaths as AddAddonAssetPaths;
 use Anomaly\Streams\Platform\Image\Listener\AddAddonPaths as AddAddonImagePaths;
 use Anomaly\Streams\Platform\Message\Listener\LoadMessageBag;
+use Anomaly\Streams\Platform\Stream\Event\StreamIsDeleting;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\GuessBreadcrumbs;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\LoadBreadcrumbs;
@@ -60,31 +61,8 @@ class StreamsEventProvider extends EventServiceProvider
             ApplyView::class,
             FilterResults::class,
         ],
-        StreamWasDeleted::class      => [
+        StreamIsDeleting::class      => [
             DeleteVersionableHistory::class,
         ],
     ];
-
-    /**
-     * Register the application's event listeners.
-     */
-    public function boot()
-    {
-        foreach ($this->listen as $event => $listeners) {
-            foreach ($listeners as $key => $listener) {
-                if (is_integer($listener)) {
-                    $listener = $key;
-                    $priority = $listener;
-                } else {
-                    $priority = 0;
-                }
-
-                app('events')->listen($event, $listener, $priority);
-            }
-        }
-
-        foreach ($this->subscribe as $subscriber) {
-            app('events')->subscribe($subscriber);
-        }
-    }
 }

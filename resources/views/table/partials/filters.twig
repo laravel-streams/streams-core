@@ -1,4 +1,4 @@
-{% if not table.filters.empty() %}
+{% if not table.filters.isEmpty() %}
     <div class="card card-container">
         {{ form_open({'method': 'get', 'id': 'filters', 'url': url_full(), 'class': 'form-inline'}) }}
         <input type="hidden" name="{{ table.options.prefix }}limit" value="{{ table.options.limit }}">

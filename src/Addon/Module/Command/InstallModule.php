@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Console\Kernel;
+use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
 
 /**
  * Class InstallModule
@@ -64,6 +65,8 @@ class InstallModule
 
         $console->call('migrate', $options);
 
+        dispatch_now(new AutoloadEntryModels);
+        
         $modules->install($this->module);
 
         $manager->register();

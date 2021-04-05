@@ -46,13 +46,13 @@ class ViewIncludes extends Collection
         }
 
         return implode(
+            "\n",
             array_map(
                 function ($include) {
                     return view($include)->render();
                 },
                 $includes->all()
-            ),
-            "\n"
+            )
         );
     }
 }

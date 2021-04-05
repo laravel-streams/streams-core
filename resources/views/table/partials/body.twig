@@ -9,7 +9,7 @@
             </td>
         {% endif %}
 
-        {% if not table.actions.empty() %}
+        {% if not table.actions.isEmpty() %}
             <td>
                 <input type="checkbox" data-toggle="action" name="{{ row.table.options.prefix }}id[]" value="{{ row.key }}"/>
             </td>

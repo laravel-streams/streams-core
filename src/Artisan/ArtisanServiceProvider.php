@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Database\Migration\Console\RefreshCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\ResetCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\RollbackCommand;
 use Anomaly\Streams\Platform\Database\Seeder\Console\SeedCommand;
+use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class StreamsConsoleProvider
@@ -103,7 +104,7 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
         $this->app->singleton(
             'command.migrate',
             function ($app) {
-                return new MigrateCommand($app['migrator']);
+                return new MigrateCommand($app['migrator'], $app[Dispatcher::class]);
             }
         );
     }

@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Extension\Extension;
-use Anomaly\Streams\Platform\Addon\Module\Module;
 use Illuminate\Support\Collection;
 
 /**
@@ -241,28 +239,6 @@ class AddonCollection extends Collection
         }
 
         return self::make($addons);
-    }
-
-    /**
-     * Sort through each item with a callback.
-     *
-     * @param  callable|null $callback
-     * @return static
-     */
-    public function sort(callable $callback = null)
-    {
-        return parent::sort(
-            $callback ?: function ($a, $b) {
-
-                /* @var Addon $a */
-                /* @var Addon $b */
-                if ($a->getSlug() == $b->getSlug()) {
-                    return 0;
-                }
-
-                return ($a->getSlug() < $b->getSlug()) ? -1 : 1;
-            }
-        );
     }
 
     /**

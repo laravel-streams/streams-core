@@ -130,7 +130,6 @@ class Asset
     public function __construct(
         Application $application,
         ThemeCollection $themes,
-        MountManager $manager,
         AssetFilters $filters,
         AssetParser $parser,
         Template $template,
@@ -144,7 +143,6 @@ class Asset
         $this->themes      = $themes;
         $this->parser      = $parser;
         $this->filters     = $filters;
-        $this->manager     = $manager;
         $this->template    = $template;
         $this->application = $application;
     }
@@ -525,11 +523,7 @@ class Asset
         $path = $this->paths->outputPath($collection);
 
         if ($this->shouldPublish($path, $collection, $filters)) {
-            if (!env('ASSETIC_ENABLED', true)) {
-                $this->publishWithoutAssetic($path, $collection, $filters);
-            } else {
-                $this->publish($path, $collection, $filters);
-            }
+            $this->publish($path, $collection, $filters);
         }
 
         if (
@@ -556,82 +550,11 @@ class Asset
         if (Str::contains($collection, public_path())) {
             return;
         }
-
-        $hint    = $this->paths->hint($collection);
-        $filters = $this->collectionFilters($collection, $additionalFilters);
-        $assets  = $this->getAssetCollection($collection, $additionalFilters);
-
-        $path = $this->directory . DIRECTORY_SEPARATOR . $path;
-
-        $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
-
-        /**
-         * Process the contents with Assetic.
-         */
-        $contents = $assets->dump();
-
-        /**
-         * Parse the content. Always parse CSS.
-         */
-        if (in_array('parse', $filters) || $hint == 'css') {
-            try {
-                $contents = $this->template
-                    ->render($contents)
-                    ->render();
-            } catch (\Exception $e) {
-
-                if (config('app.debug')) {
-                    dd($e->getMessage());
-                }
-
-                \Log::error($e->getMessage());
-            }
-        }
-
-        /**
-         * Minify CSS separately because of the
-         * issue with filter ordering in Assetic.
-         */
-        if (in_array('min', $filters) && $hint == 'css') {
-            $contents = \CssMin::minify($contents);
-        }
-
-        /**
-         * Minify JS separately because of the
-         * issue with filter ordering in Assetic.
-         */
-        if (in_array('min', $filters) && $hint == 'js') {
-            $contents = preg_replace("/\;{2,}$/", ';', \JSMin::minify($contents));
-        }
-
-        /**
-         * Save the processed content.
-         */
-        $this->files->put(
-            $path,
-            $contents
-        );
-    }
-
-    /**
-     * Publish the collection of assets to the path.
-     *
-     * @param $path
-     * @param $collection
-     * @param $additionalFilters
-     */
-    protected function publishWithoutAssetic($path, $collection, $additionalFilters)
-    {
-        $path = ltrim($path, '/\\');
-
-        if (Str::contains($collection, public_path())) {
-            return;
-        }
-
+        
         $hint = $this->paths->hint($collection);
 
         $filters = $this->collectionFilters($collection, $additionalFilters); // Returns combined filter flags
-
+        
         /**
          * Get the concatenated content
          * of the asset collection.
@@ -642,6 +565,14 @@ class Asset
          * Parse the content. Always parse CSS.
          */
         if (in_array('parse', $filters) || $hint == 'css') {
+            $twig = resolve('twig');
+
+            $twig->setLexer(
+                new \Twig_Lexer($twig, [
+                    'tag_comment' => ['{^', '^}']
+                ])
+            );
+            
             try {
                 $contents = (string) render($contents);
             } catch (\Exception $e) {
@@ -652,12 +583,14 @@ class Asset
 
                 \Log::error($e->getMessage());
             }
+
+            $twig->setLexer(
+                new \Twig_Lexer($twig, [
+                    'tag_comment' => ['{#', '#}']
+                ])
+            );
         }
 
-        /**
-         * Minify CSS separately because of the
-         * issue with filter ordering in Assetic.
-         */
         if (in_array('min', $filters) && $hint == 'css') {
 
             $compressor = new Minifier;
@@ -669,10 +602,6 @@ class Asset
             $contents = $compressor->run($contents);
         }
 
-        /**
-         * Minify JS separately because of the
-         * issue with filter ordering in Assetic.
-         */
         if (in_array('min', $filters) && $hint == 'js') {
             $contents = \JSMin::minify($contents);
         }
@@ -779,15 +708,15 @@ class Asset
             $filters = array_filter(array_unique(array_merge($filters, $fileFilters)));
         }
 
-        $assets = $this->getAssetCollection($collection);
-
         /**
          * If any of the files are more recent
          * than the cache file then publish.
+         *
+         * @todo See about fixing this so that it still tracks.. Maybe force @watch?
          */
-        if ($assets->getLastModified() > filemtime($path)) {
-            return true;
-        }
+//        if ($this->lastModifiedAt($collection) > filemtime($path)) {
+//            return true;
+//        }
 
         return false;
     }
@@ -836,45 +765,6 @@ class Asset
         $this->directory = $directory;
 
         return $this;
-    }
-
-    /**
-     * Create asset collection from collection array
-     *
-     * @param                  $collection
-     * @param  array $additionalFilters
-     * @return AssetCollection
-     */
-    protected function getAssetCollection($collection, $additionalFilters = [])
-    {
-        $assets = new AssetCollection();
-
-        foreach ($this->collections[$collection] as $file => $filters) {
-
-            $filters = array_filter(array_merge($filters, $additionalFilters));
-
-            $filters = $this->filters->transform($filters);
-
-            $asset = FileAsset::class;
-
-            if (in_array('glob', $filters)) {
-                $asset = GlobAsset::class;
-            }
-
-            $file = new $asset(
-                $file,
-                array_filter(
-                    $filters,
-                    function ($value) {
-                        return !is_string($value);
-                    }
-                )
-            );
-
-            $assets->add($file);
-        }
-
-        return $assets;
     }
 
     /**

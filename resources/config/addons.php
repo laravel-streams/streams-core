@@ -76,4 +76,16 @@ return [
     'deferred' => [
         //'core/anomaly/pages-module'
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Autoload Addons
+    |--------------------------------------------------------------------------
+    |
+    | Disable autoloading on the fly to improve performance.
+    | Requires registering addons as local composer packages.
+    |
+    */
+
+    'autoload' => env('STREAMS_ADDONS_AUTOLOAD', true),
 ];

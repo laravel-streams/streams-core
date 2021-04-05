@@ -223,3 +223,16 @@ if (!function_exists('template')) {
         return $template;
     }
 }
+
+if (!function_exists('console')) {
+
+    /**
+     * Return the console instance.
+     *
+     * @return \Anomaly\Streams\Platform\Console\Kernel
+     */
+    function console()
+    {
+        return app(\Anomaly\Streams\Platform\Console\Kernel::class);
+    }
+}

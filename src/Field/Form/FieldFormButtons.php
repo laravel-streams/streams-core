@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Field\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Field\Form;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
@@ -28,6 +30,10 @@ class FieldFormButtons
         $field  = $builder->getFormEntry();
         $type   = $field->getType();
 
+        $enabled = $builder->getFormMode() == 'edit'
+            && $module
+            && $url->hasRoute($module->getNamespace('fields.change'));
+
         $builder->setButtons(
             [
                 'cancel',
@@ -36,13 +42,11 @@ class FieldFormButtons
                     'data-target' => '#modal',
                     'disabled'    => $builder->getFormMode() == 'edit'
                         && !$type->getColumnType(),
-                    'enabled'     => $builder->getFormMode() == 'edit'
-                        && $module
-                        && $url->hasRoute($module->getNamespace('fields.change')),
-                    'href'        => $url->route(
+                    'enabled'     => $enabled,
+                    'href'        => $enabled ? $url->route(
                         $module->getNamespace('fields.change'),
                         ['id' => $route->parameter('id')]
-                    ),
+                    ) : '#',
                 ],
             ]
         );

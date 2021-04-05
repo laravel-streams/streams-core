@@ -52,7 +52,7 @@ class Currency
             $suffix = $this->symbol($currency);
         }
 
-        return $prefix . number_format(floor(($number * 100)) / 100, $decimals, $point, $separator) . $suffix;
+        return $prefix . number_format(floor(($number * 1000)) / 1000, $decimals, $point, $separator) . $suffix;
     }
 
     /**
@@ -83,7 +83,7 @@ class Currency
             config('streams::currencies.supported.' . $currency . '.point', '.')
         );
 
-        return number_format(floor(($number * 100)) / 100, $decimals, $point, $separator);
+        return number_format(floor(($number * 1000)) / 1000, $decimals, $point, $separator);
     }
 
     /**

@@ -47,6 +47,7 @@ use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
 use Anomaly\Streams\Platform\Application\Command\ConfigureFileCacheStore;
 use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
 use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
+use Illuminate\Support\Facades\Request;
 
 /**
  * Class StreamsServiceProvider
@@ -194,12 +195,21 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot(Dispatcher $events)
     {
+        if (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin') {
+
+            $this->dispatchNow(new SetCoreConnection());
+            $this->dispatchNow(new AutoloadEntryModels());
+            $this->dispatchNow(new InitializeApplication());
+
+            return;
+        }
+
         $events->dispatch(new Booting());
 
         // Next take care of core utilities.
         $this->dispatchNow(new SetCoreConnection());
         $this->dispatchNow(new ConfigureUriValidator());
-        $this->dispatchNow(new InitializeApplication()); // 24
+        $this->dispatchNow(new InitializeApplication());
 
         // Load application specific .env file.
         $this->dispatchNow(new LoadEnvironmentOverrides());
@@ -316,6 +326,18 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        if (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin') {
+
+            /**
+             * Fallback to database users.
+             */
+            config([
+                'auth.providers.users.driver' => 'database',
+                'auth.providers.users.table' => 'users_users',
+            ]);
+
+            return;
+        }
 
         /**
          * When config is cached by Laravel we
@@ -338,7 +360,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register(\Barryvdh\HttpCache\ServiceProvider::class);
         $this->app->register(\Collective\Html\HtmlServiceProvider::class);
         $this->app->register(\Intervention\Image\ImageServiceProvider::class);
-        $this->app->register(\TeamTNT\Scout\TNTSearchScoutServiceProvider::class);
 
         // Register listeners.
         $events = $this->app->make(Dispatcher::class);

@@ -9,6 +9,7 @@ use Anomaly\Streams\Platform\Stream\Command\DeleteStreamTranslations;
 use Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\Command\RenameStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Stream\Event\StreamIsDeleting;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasCreated;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasSaved;
@@ -89,6 +90,16 @@ class StreamObserver extends Observer
         $model->fireFieldTypeEvents('stream_updated');
 
         $this->events->dispatch(new StreamWasUpdated($model));
+    }
+
+    /**
+     * Run before a stream is deleted.
+     *
+     * @param StreamInterface $model
+     */
+    public function deleting(StreamInterface $model)
+    {
+        $this->events->dispatch(new StreamIsDeleting($model));
     }
 
     /**
