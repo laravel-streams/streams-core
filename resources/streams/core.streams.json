@@ -7,8 +7,14 @@
     "config": {
         "prototype": "Streams\\Core\\Stream\\Stream"
     },
+    "rules": {
+        "id": "required"
+    },
     "fields": {
-        "id": "slug",
+        "id": {
+            "type": "slug",
+            "config.separator": "_"
+        },
         "source": "array",
         "routes": "array",
         "meta": "array"

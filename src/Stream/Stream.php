@@ -10,13 +10,14 @@ use Illuminate\Validation\Factory;
 use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
 use Streams\Core\Repository\Repository;
+use Streams\Core\Support\Traits\Fluency;
 use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Illuminate\Validation\ValidationRuleParser;
 use Streams\Core\Support\Traits\FiresCallbacks;
@@ -42,7 +43,8 @@ class Stream implements
     use Prototype {
         Prototype::initializePrototype as private initializePrototypeTrait;
     }
-
+    
+    use Fluency;
     use HasMemory;
     use ForwardsCalls;
     use FiresCallbacks;

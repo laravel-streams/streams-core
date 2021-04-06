@@ -22,7 +22,7 @@ class Slug extends FieldType
      */
     public function modify($value)
     {
-        return Str::slug($value);
+        return Str::slug($value, \Illuminate\Support\Arr::get($this->config, 'separator', '-'));
     }
 
     // /**
