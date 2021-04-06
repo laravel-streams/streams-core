@@ -41,7 +41,7 @@ class Stream implements
 {
 
     use Prototype {
-        Prototype::initializePrototype as private initializePrototypeTrait;
+        Prototype::initializePrototypeTrait as private initializePrototype;
     }
     
     use Fluency;
@@ -55,9 +55,9 @@ class Stream implements
      * @param array $attributes
      * @return $this
      */
-    protected function initializePrototype(array $attributes)
+    protected function initializePrototypeTrait(array $attributes)
     {
-        return $this->initializePrototypeTrait(array_merge([
+        return $this->initializePrototype(array_merge([
             'handle' => null,
             'routes' => [],
             'config' => [

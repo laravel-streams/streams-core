@@ -51,7 +51,7 @@ trait Prototype
      */
     public function __construct(array $attributes = [])
     {
-        $this->initializePrototype($attributes);
+        $this->initializePrototypeTrait($attributes);
 
         $this->__prototype['original'] = $this->__prototype['attributes'];
     }
@@ -107,7 +107,7 @@ trait Prototype
      * @param array $attributes
      * @return $this
      */
-    protected function initializePrototype(array $attributes)
+    protected function initializePrototypeTrait(array $attributes)
     {
         $this->loadPrototypeProperties(Arr::pull($attributes, '__properties', []));
 
