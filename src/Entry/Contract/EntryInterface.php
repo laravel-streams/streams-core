@@ -29,6 +29,13 @@ interface EntryInterface
     public function getAttributes();
 
     /**
+     * Set the entry attributes.
+     *
+     * @param array $attributes
+     */
+    public function setAttributes($attributes = []);
+
+    /**
      * Expand the field value.
      *
      * @param string $key
