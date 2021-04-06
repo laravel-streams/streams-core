@@ -97,8 +97,16 @@ class Integrator
 
     public function policies($policies)
     {
-        foreach ($policies as $model => $policy) {
-            Gate::policy($model, $policy);
+        foreach ($policies as $key => $policy) {
+
+            if (is_array($policy) || $policy instanceof \Closure) {
+
+                Gate::define($key, $policy);
+
+                continue;
+            }
+
+            Gate::policy($key, $policy);
         }
     }
 
