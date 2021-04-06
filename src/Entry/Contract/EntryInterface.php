@@ -33,7 +33,7 @@ interface EntryInterface
      *
      * @param array $attributes
      */
-    public function setAttributes($attributes = []);
+    public function setAttributes(array $attributes);
 
     /**
      * Expand the field value.
