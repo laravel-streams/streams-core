@@ -20,6 +20,10 @@ class Hash extends Str
             return $value;
         }
 
+        if (strpos($value, '$2y$') === 0) {
+            return $value;
+        }
+
         $prefix = Support\Arr::get($this->config, 'prefix');
 
         if ($prefix && Support\Str::startsWith($value, $prefix)) {

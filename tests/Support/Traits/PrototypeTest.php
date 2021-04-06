@@ -109,7 +109,7 @@ class TestPrototype implements ArrayAccess
 {
     use Prototype;
 
-    protected function initializePrototype(array $attributes)
+    protected function initializePrototypeTrait(array $attributes)
     {
         $attributes = array_merge([
             'name' => 'Original',
