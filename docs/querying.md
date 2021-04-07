@@ -1,7 +1,8 @@
 ---
-title: Querying
+title: Criteria
+link_title: Querying
 category: database
-intro: 
+intro: An extensible, fast, and database-indifferent querying API.
 stage: outlining
 enabled: true
 sort: 9
