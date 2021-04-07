@@ -124,6 +124,17 @@ Streams simplify **validation** by defining validation in their configuration.
 }
 ```
 
+### Security
+
+Specify the [Laravel policy](https://laravel.com/docs/authorization#creating-policies) to use for [security](security).
+
+```json
+// streams/contacts.json
+{
+    "policy": "App\\Contacts\\ContactPolicy"
+}
+```
+
 ### Caching
 
 Streams provides a touch-free caching system you can define in the configuration.
