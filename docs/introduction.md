@@ -1,12 +1,13 @@
 ---
-title: Introduction
+title: Streams Core
+link_title: Introduction
 intro: Streams Core is the foundation of the Streams platform.
 stage: drafting
 enabled: true
 sort: 1
 ---
 
-## Streams Core
+## Introduction
 
 Streams Core provides the most fundamental features offered by the Streams platform. It is the only required dependency to use [streams](streams) which rest of the platform addons build upon.
 
