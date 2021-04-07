@@ -304,7 +304,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerFieldTypes()
     {
-        foreach (Config::get('streams.core.fields.types', []) as $type => $class) {
+        foreach (Config::get('streams.core.field_types', []) as $type => $class) {
             $this->app->bind('streams.core.field_type.' . $type, $class);
         }
     }
