@@ -92,7 +92,7 @@ Applications provide the backbone functionality for building multi-tenancy appli
     "config": {
         "app.name": "My Account",
         "database.default": "{request.parsed.domain.0}",
-        "streams.core.streams_data": "streams/data/{request.parsed.domain.0}"
+        "streams.core.data_path": "streams/data/{request.parsed.domain.0}"
     },
     "users": {
         "source.table": "users_{request.parsed.domain.0}"

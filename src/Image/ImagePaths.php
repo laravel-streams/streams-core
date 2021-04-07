@@ -23,14 +23,6 @@ class ImagePaths
     protected $paths = [];
 
     /**
-     * Create a new ImagePaths instance.
-     */
-    public function __construct()
-    {
-        $this->paths = Config::get('streams.core.images.paths', []);
-    }
-
-    /**
      * Get the paths.
      *
      * @return array|mixed

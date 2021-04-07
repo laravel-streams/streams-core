@@ -251,7 +251,7 @@ class FileAdapter extends AbstractAdapter
         $source = $this->stream->expandPrototypeAttribute('source');
 
         $format = $source->get('format');
-        $file = base_path(trim($source->get('file', Config::get('streams.core.streams_data') . '/' . $this->stream->handle . '.' . ($format ?: 'json')), '/\\'));
+        $file = base_path(trim($source->get('file', Config::get('streams.core.data_path') . '/' . $this->stream->handle . '.' . ($format ?: 'json')), '/\\'));
 
         $format = $format ?: pathinfo($file, PATHINFO_EXTENSION);
 

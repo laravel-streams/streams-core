@@ -2,76 +2,38 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Streams
-    |--------------------------------------------------------------------------
-    |
-    | Configure the Streams system.
-    |
-    */
+    /**
+     * Specify the default directory for VCS compatible (file based) data.
+     */
+    'data_path' => env('STREAMS_DATA_PATH', 'streams/data'),
 
-    'streams_path' => env('STREAMS_PATH', 'streams'),
-    'streams_data' => env('STREAMS_DATA_PATH', 'streams/data'),
+    /**
+     * Specify the default source adapter for streams.
+     */
+    'default_source' => env('STREAMS_SOURCE', 'filebase'),
 
-    /*
-    |--------------------------------------------------------------------------
-    | Source Configuration
-    |--------------------------------------------------------------------------
-    |
-    | Configure Stream sources.
-    |
-    */
+    /**
+     * Configurable options for source adapters.
+     */
     'sources' => [
 
-        'default' => env('STREAMS_SOURCE', 'filebase'),
+        'filebase' => [
 
-        'types' => [
+            'default_format' => env('STREAMS_DEFAULT_FORMAT', 'json'),
 
-            'filebase' => [
-
-                'format' => env('STREAMS_SOURCE_FORMAT', 'json'),
-                //'path' => env('STREAMS_SOURCE_PATH', 'streams/data'),
-
-                'formats' => [
-                    'php' => \Streams\Core\Criteria\Format\Php::class,
-                    'json' => \Streams\Core\Criteria\Format\Json::class,
-                    'yaml' => \Streams\Core\Criteria\Format\Yaml::class,
-                    'md' => \Streams\Core\Criteria\Format\Markdown::class,
-                    'tpl' => \Streams\Core\Criteria\Format\Template::class,
-                ],
+            'formats' => [
+                'php' => \Streams\Core\Criteria\Format\Php::class,
+                'json' => \Streams\Core\Criteria\Format\Json::class,
+                'yaml' => \Streams\Core\Criteria\Format\Yaml::class,
+                'md' => \Streams\Core\Criteria\Format\Markdown::class,
+                'tpl' => \Streams\Core\Criteria\Format\Template::class,
             ],
         ],
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Addon Customization
-    |--------------------------------------------------------------------------
-    |
-    | Here you can customize and
-    | extend the addon loader.
-    |
-    */
-    'addons' => [
-
-        /**
-         * An array of disabled
-         * addons by handle.
-         */
-        'disabled' => [
-            //'anomaly.module.users',
-        ],
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Field Types
-    |--------------------------------------------------------------------------
-    |
-    | Here you can specify the default field type registry.
-    |
-    */
+    /**
+     * Configure the default field types.
+     */
     'field_types' => [
 
         // Strings
@@ -131,50 +93,9 @@ return [
         'color' => \Streams\Core\Field\Type\Color::class,
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Image Customization
-    |--------------------------------------------------------------------------
-    |
-    | Here you can customize and
-    | extend the image manager.
-    |
-    */
-    'images' => [
-
-        /*
-        |--------------------------------------------------------------------------
-        | Image Path Hints
-        |--------------------------------------------------------------------------
-        |
-        | Usage: Images::make('unsplash::random');
-        |
-        */
-        'paths' => [
-            'unsplash' => 'https://source.unsplash.com/',
-        ],
-
-        /*
-        |--------------------------------------------------------------------------
-        | Automatically Interlace JPGs
-        |--------------------------------------------------------------------------
-        |
-        | You can set this on the image too:
-        |
-        | Images::make('img/foo.jpg')->interlace(false);
-        |
-        */
-        'interlace' => env('IMAGES_INTERLACE', true),
-
-        /*
-        |--------------------------------------------------------------------------
-        | Automatic Alt Tags
-        |--------------------------------------------------------------------------
-        |
-        | Enabling this feature automatically
-        | generages alt tags when not specified.
-        |
-        */
-        'auto_alt' => env('IMAGES_AUTO_ALT', true),
-    ],
+    /**
+     * Enabling this feature automatically
+     * generages alt tags when not specified.
+     */
+    'auto_alt' => env('STREAMS_AUTO_ALT', true),
 ];

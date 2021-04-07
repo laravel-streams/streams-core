@@ -97,7 +97,7 @@ abstract class Image
             $attributes['srcset'] = $srcset;
         }
 
-        if (!isset($attributes['alt']) && Config::get('streams.core.images.auto_alt', true)) {
+        if (!isset($attributes['alt']) && Config::get('streams.core.auto_alt', true)) {
             $attributes['alt'] = $this->altTag();
         }
 
@@ -296,10 +296,6 @@ abstract class Image
 
         if (function_exists('exif_read_data') && $intervention->exif('Orientation') > 1) {
             $intervention->orientate();
-        }
-
-        if (in_array($this->extension(), ['jpeg', 'jpg'])) {
-            $intervention->interlace(Config::get('streams.core.images.interlace', true));
         }
 
         foreach ($this->alterations ?: [] as $method => $arguments) {
