@@ -236,7 +236,7 @@ class Repository implements RepositoryInterface
      */
     public function newCriteria()
     {
-        $default = Config::get('streams.core.sources.default', 'filebase');
+        $default = Config::get('streams.core.default_source', 'filebase');
         $criteria = Arr::get($this->stream->config, 'source.criteria', Criteria::class);
 
         $adapter = Arr::get($this->stream->source, 'adapter');
