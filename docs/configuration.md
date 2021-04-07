@@ -25,19 +25,14 @@ php artisan vendor:publish --provider=Streams\\Core\\StreamsServiceProvider --ta
 
 The above command will copy configuration files from their package location to the directory mentioned above so that you can modify them directly and commit them to your version control system.
 
-## Configuring the Core
+## Configuring Streams Core
 
 Below are the contents of the published configuration file:
 
 ```php
 // config/streams/core.php
 
-return [];
+return [
+    // Waiting
+];
 ```
-
-
-### Routes File
-
-The `app/Providers/RouteServiceProvider.php` file typically uses the `api` middleware group when loading the `routes/api.php` file. By default this file is compatible with this package and routes defined there will be properly prefixed and grouped.
-
-If you configure a non-standard middleware group to use, you will have to adjust all the above files accordingly.
