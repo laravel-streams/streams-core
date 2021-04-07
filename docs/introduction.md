@@ -1,6 +1,6 @@
 ---
 title: Introduction
-intro: Streams Core is the heart of the Streams platform.
+intro: Streams Core is the foundation of the Streams platform.
 stage: drafting
 enabled: true
 sort: 1
