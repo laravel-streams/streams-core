@@ -74,8 +74,10 @@ class EntryTest extends TestCase
 
         $this->assertTrue($result);
 
-        $entry = Streams::entries('testing.examples')->find('delete_me');
+        $count = Streams::entries('testing.examples')
+            ->where('id', 'delete_me')
+            ->count();
 
-        $this->assertNull($entry);
+        $this->assertEquals(0, $count);
     }
 }

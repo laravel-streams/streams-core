@@ -194,7 +194,7 @@ class Repository implements RepositoryInterface
         $this->fire($this->stream->handle . '.deleted', [
             'entry' => $entry,
         ]);
-
+        
         return $result;
     }
 
