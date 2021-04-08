@@ -12,7 +12,7 @@
     },
     "validators": {
         "example_validator": {
-            "handler": "Streams\\Core\\Tests\\Stream\\ExampleValidator",
+            "handler": "Streams\\Core\\Validation\\ExampleValidator",
             "message": "The :attribute value is very bad."
         }
     },

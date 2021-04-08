@@ -54,7 +54,7 @@ interface EntryInterface
     /**
      * Delete the entry.
      * 
-     * @var bool
+     * @return bool
      */
     public function delete();
 }

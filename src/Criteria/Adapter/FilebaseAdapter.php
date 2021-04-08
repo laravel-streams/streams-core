@@ -220,7 +220,9 @@ class FilebaseAdapter extends AbstractAdapter
             }
         }
         
-        return $this->query->delete();
+        $this->query->delete();
+
+        return true;
     }
 
     /**

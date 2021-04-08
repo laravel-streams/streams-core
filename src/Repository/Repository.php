@@ -241,7 +241,7 @@ class Repository implements RepositoryInterface
 
         $adapter = Arr::get($this->stream->source, 'adapter');
 
-        $default = Str::camel("new_{$this->stream->expandPrototypeAttribute('source')->get('type', $default)}_adapter");
+        $default = Str::camel("new_{$this->stream->expandPrototypeAttribute('source')->get('type',$default)}_adapter");
 
         return new $criteria($adapter ? new $adapter($this->stream) : $this->$default(), $this->stream);
     }

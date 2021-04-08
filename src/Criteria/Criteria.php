@@ -244,7 +244,7 @@ class Criteria
     {
         $this->stream->flush();
 
-        return $this->adapter->delete($this->parameters);
+        return (bool) $this->adapter->delete($this->parameters);
     }
 
     /**

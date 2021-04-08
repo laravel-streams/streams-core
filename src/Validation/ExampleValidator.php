@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Tests\Stream;
+<?php namespace Streams\Core\Validation;
 
 class ExampleValidator
 {
