@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Facade;
  * @property \Illuminate\Filesystem\Filesystem $files
  * @property \Streams\Core\Asset\AssetPaths    $paths
  * @property \Streams\Core\Asset\AssetRegistry $registry
- * @method static \Streams\Core\Asset\AssetManager collection(string $name)
+ * @method static \Streams\Core\Asset\AssetCollection collection(string $name)
  * @method static \Streams\Core\Asset\AssetManager register(string $name, $assets)
  * @method static \Streams\Core\Asset\AssetManager inline($asset)
  * @method static \Streams\Core\Asset\AssetManager contents($asset)

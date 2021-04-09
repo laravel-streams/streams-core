@@ -100,7 +100,7 @@ class AssetManager
     {
         $this->collection($collection)->add($asset);
     }
-    
+
     public function load($collection, $asset)
     {
         $this->collection($collection)->load($asset);
@@ -116,7 +116,7 @@ class AssetManager
     public function register($name, $assets = null)
     {
         $assets = $assets ?: $name;
-        
+
         $this->registry->register($name, $assets);
 
         return $this;
@@ -208,6 +208,13 @@ class AssetManager
             $attributes['src'] = $this->resolve($asset);
         }
 
+        if (
+            isset($attributes['src'])
+            && $attributes['src'] === basename($attributes['src'])
+        ) {
+            $attributes['src'] = '/' . $attributes['src'];
+        }
+
         return '<script' . $this->html->attributes($attributes) . '>' . $content . '</script>';
     }
 
@@ -233,6 +240,13 @@ class AssetManager
             $attributes['href'] = $this->resolve($asset);
         }
 
+        if (
+            isset($attributes['href'])
+            && $attributes['href'] === basename($attributes['href'])
+        ) {
+            $attributes['href'] = '/' . $attributes['href'];
+        }
+
         return '<link' . $this->html->attributes($attributes) . '/>';
     }
 
@@ -245,7 +259,7 @@ class AssetManager
     public function resolve($asset)
     {
         if (isset($this->resolved[$asset])) {
-            return $this->resolved;
+            return $this->resolved[$asset];
         }
 
         if (filter_var($asset, FILTER_VALIDATE_URL)) {
@@ -260,7 +274,7 @@ class AssetManager
             }, $resolved);
         }
 
-        return $this->realPath($asset);
+        return $this->realPath($resolved);
     }
 
     /**

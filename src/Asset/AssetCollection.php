@@ -68,7 +68,7 @@ class AssetCollection extends Collection
      */
     public function resolved()
     {
-        return $this->map(function ($asset) {
+        return $this->map(function (&$asset) {
             return Assets::resolve($asset);
         });
     }
@@ -82,7 +82,7 @@ class AssetCollection extends Collection
      */
     public function urls(array $attributes = [], $secure = null)
     {
-        return $this->map(function ($asset) use ($attributes, $secure) {
+        return $this->resolved()->map(function ($asset) use ($attributes, $secure) {
             return Assets::url($asset, $attributes, $secure);
         });
     }
@@ -95,7 +95,7 @@ class AssetCollection extends Collection
      */
     public function tags(array $attributes = [])
     {
-        return $this->map(function ($asset) use ($attributes) {
+        return $this->resolved()->map(function ($asset) use ($attributes) {
             return Assets::tag($asset, $attributes);
         });
     }
@@ -108,7 +108,7 @@ class AssetCollection extends Collection
      */
     public function scripts(array $attributes = [])
     {
-        return $this->map(function ($asset) use ($attributes) {
+        return $this->resolved()->map(function ($asset) use ($attributes) {
             return Assets::script($asset, $attributes);
         });
     }
@@ -121,7 +121,7 @@ class AssetCollection extends Collection
      */
     public function styles(array $attributes = [])
     {
-        return $this->map(function ($asset) use ($attributes) {
+        return $this->resolved()->map(function ($asset) use ($attributes) {
             return Assets::style($asset, $attributes);
         });
     }
@@ -133,7 +133,7 @@ class AssetCollection extends Collection
      */
     public function inlines()
     {
-        return $this->map(function ($asset) {
+        return $this->resolved()->map(function ($asset) {
             return Assets::inline($asset);
         });
     }
@@ -146,8 +146,8 @@ class AssetCollection extends Collection
      */
     public function content()
     {
-        return $this->map(function ($asset) {
-            return Assets::content($asset);
+        return $this->resolved()->map(function ($asset) {
+            return Assets::contents($asset);
         });
     }
 
@@ -158,6 +158,6 @@ class AssetCollection extends Collection
      */
     public function __toString()
     {
-        return implode("\n\n", $this->items);
+        return implode("\n", $this->items);
     }
 }
