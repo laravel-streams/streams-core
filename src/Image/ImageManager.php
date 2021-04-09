@@ -131,11 +131,7 @@ class ImageManager
             'image',
         ]));
 
-        try {
-            $image = $this->{$method}($attributes->all());
-        } catch (\Exception $e) {
-            throw new \Exception("Unable to make [{$attributes->get('type')}] image instance.");
-        }
+        $image = $this->{$method}($attributes->all());
 
         /**
          * It is done. Give others a chance to
@@ -182,7 +178,7 @@ class ImageManager
      */
     protected function resolve($image)
     {
-        return ltrim(str_replace(base_path(), '', $this->paths->resolve(
+        return ltrim(str_replace(base_path(), '', $this->paths->real(
             $this->registry->resolve($image) ?: $image
         )), '/\\');
     }

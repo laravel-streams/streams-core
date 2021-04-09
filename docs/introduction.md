@@ -31,10 +31,10 @@ Streams Core provides frontend support that encourages and supports best-practic
 
 These juicy tools are specifically for developers. 
 
-- [Support](support)
-- [Reusability](addons)
-- [Extensibility](extending)
-- [Multi-Everything](applications)
+<!-- - [Support](support) -->
+- [Addons](addons)
+- [Applications](applications)
+- [Extending Laravel Streams](extending)
 
 ### Data Modeling
 

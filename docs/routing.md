@@ -5,8 +5,6 @@ intro:
 sort: 10
 stage: reviewing
 enabled: true
-references:
-    - https://statamic.dev/routing
 todo:
     - Allow configuring view resolution patterns using tags (resources/{stream}.blade.php, resources/{singular}.blade.php, resources/{stream}/{action}.blade.php)
 ---
@@ -170,7 +168,7 @@ Route::streams('address-book/{stream}/{id}', [
 ]);
 ```
 
-### Views
+### View
 
 Use the `view` option to specify a [view](views) to render:
 
@@ -181,7 +179,7 @@ Route::streams('uri', [
 ]);
 ```
 
-### Streams
+### Stream
 
 Use the `stream` option to specify the stream associated with the request. [Stream configured routes](#stream-routes) will do this automatically.
 
@@ -203,13 +201,14 @@ The stream is automatically injected into the view:
 </ul>@endverbatim
 ```
 
-### Entries
+### Entry
 
-You can also specify a specific entry:
+You can also specify a specific entry identifier:
 
 ```php
-Route::streams('uri/{id}', [
+Route::streams('uri', [
     'stream' => 'contacts',
+    'entry' => 'john_smith',
 ]);
 ```
 
@@ -245,7 +244,7 @@ The first result is automatically injected into the view:
 @verbatim<h1>{{ $entry->name }}</h1>@endverbatim
 ```
 
-### Redirects
+### Redirect
 
 Use the `redirect` and optional `status_code` option to specify a redirect:
 

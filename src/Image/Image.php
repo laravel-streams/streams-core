@@ -74,6 +74,32 @@ abstract class Image
     abstract public function save(InterventionImage $intervention);
 
     /**
+     * Set the picture sources.
+     *
+     * @param array $sources
+     * @return $this
+     */
+    public function sources(array $sources = [])
+    {
+        $this->sources = $sources;
+
+        return $this;
+    }
+
+    /**
+     * Set the versioning option.
+     *
+     * @param $version
+     * @return $this
+     */
+    public function version($version = true)
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+
+    /**
      * Return the image tag to an image.
      *
      * @param  array $attributes
@@ -81,11 +107,7 @@ abstract class Image
      */
     public function img($alt = null, array $attributes = [])
     {
-        $attributes = is_null($alt) ? $attributes : $alt;
-
-        if ($alt) {
-            $attributes['alt'] = $alt;
-        }
+        $attributes = !$alt ? $attributes : [];
 
         $attributes = array_merge((array)$this->getPrototypeAttribute('attributes') ?: [], $attributes);
 
@@ -95,6 +117,10 @@ abstract class Image
 
         if ($srcset = $this->srcsets) {
             $attributes['srcset'] = $srcset;
+        }
+
+        if ($alt) {
+            $attributes['alt'] = $alt;
         }
 
         if (!isset($attributes['alt']) && Config::get('streams.core.auto_alt', true)) {
@@ -112,8 +138,9 @@ abstract class Image
     public function picture(array $attributes = [])
     {
         $sources = implode("\n", array_map(function ($source) {
+            dd($source);
             return $source->source();
-        }, $this->sources));
+        }, $this->sources ?: []));
 
         $sources .= "\n" . $this->img($attributes);
 
@@ -145,11 +172,11 @@ abstract class Image
      */
     public function url(array $parameters = [], $secure = null)
     {
-        $parameters = $parameters ? '?' . http_build_query($parameters) : null;
-
-        if (Config::get('streams.core.images.version') && $this->version !== false) {
-            $parameters['v'] = $this->lastModified();
+        if (Config::get('streams.core.version_images', true) && $this->version !== false) {
+            $parameters['v'] = is_bool($this->version) ? $this->lastModified() : $this->version;
         }
+
+        $parameters = $parameters ? '?' . http_build_query($parameters) : null;
 
         return URL::asset($this->outputImage()->assetUrl($secure) . $parameters, $secure);
     }
@@ -166,7 +193,7 @@ abstract class Image
     {
         $attributes['src'] = $this->base64();
 
-        return $this->img($alt, $attributes);
+        return $this->version(false)->img($alt, $attributes);
     }
 
     /**
@@ -226,10 +253,10 @@ abstract class Image
 
         return ucwords(
             Str::humanize(
-                trim(basename(
+                basename(
                     $name,
-                    pathinfo($name, PATHINFO_EXTENSION)
-                ), '.'),
+                    '.' . pathinfo($name, PATHINFO_EXTENSION)
+                ),
                 '^a-zA-Z0-9'
             )
         );
@@ -332,8 +359,12 @@ abstract class Image
      */
     protected function filename()
     {
+        if ($this->filename) {
+            return $this->filename;
+        }
+
         if (!$this->alterations && !$this->quality) {
-            return $this->filename ?: $this->getPrototypeAttribute('original');
+            return $this->getPrototypeAttribute('original');
         }
 
         return md5($this->getPrototypeAttribute('original') . json_encode([$this->alterations, $this->quality])) . '.' . $this->extension();

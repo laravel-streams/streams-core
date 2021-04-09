@@ -1,15 +1,19 @@
 ---
 title: Support
-category: basics
+category: developers
 intro: 
 stage: drafting
 enabled: true
-sort: 99
-todo: 
-    - Any more to add?
+sort: 9
 ---
 
-## Arr
+## Introduction
+
+Streams Core expands upon Laravel support utilities. These features both provide internal functionalities and can be easily integrated into your own work.
+
+## Laravel Support
+
+### Arrays
 
 The following methods have been added to Laravel's [array helper](https://laravel.com/docs/helpers#arrays).
 
@@ -19,7 +23,7 @@ use Illuminate\Support\Arr;
 Arr::make($target);
 ```
 
-### Arr::make()
+#### Arr::make()
 
 Convert the target recusively to array values. This method leverages `toArray` and public propertis of objects to resolve arrays as well.
 
@@ -28,7 +32,7 @@ Arr::make($target);
 Arr::make($collection);
 ```
 
-### Arr::parse()
+#### Arr::parse()
 
 Recusively [parse](#str-parse) an array of target values. This method leverages `Arr::make()` to ensure an array target.
 
@@ -37,7 +41,7 @@ Arr::parse($target, $entry);
 Arr::make($target, ['entry' => $entry]);
 ```
 
-### Arr::undot()
+#### Arr::undot()
 
 Converts array keys with dots to nested key values. This is the opposite of Laravel's [Arr::dot()](https://laravel.com/docs/helpers#method-array-dot) method.
 
@@ -55,7 +59,7 @@ array:1 [
 ]
 ```
 
-## Str
+### Strings
 
 The following methods have been added to Laravel's [string helper](https://laravel.com/docs/helpers#strings).
 
@@ -65,9 +69,9 @@ use Illuminate\Support\Str;
 Str::humanize($value);
 ```
 
-### Str::parse()
+#### Str::parse()
 
-The `parse` methods uses [Arr::make()](#arr-make) on the **payload** and parses the **string** with the array using a dot notation.-m-0
+The `parse` method parses the **target** string with the **payload** array using a dot notation.
 
 ```php
 $payload = [
@@ -83,7 +87,7 @@ Str::parse('Example {foo.bar}', $payload);
 Str::parse('Hi {name}', $entry);
 ```
 
-### Str::purify()
+#### Str::purify()
 
 Vigurously cleanse the **target** value of any impure content or malicious intent.
 
@@ -91,7 +95,7 @@ Vigurously cleanse the **target** value of any impure content or malicious inten
 $clean = Str::purify($dirty);
 ```
 
-### Str::humanize()
+#### Str::humanize()
 
 Humanize a [string slug](https://laravel.com/docs/helpers#method-fluent-str-slug). This method returns all **lowercase**.
 
@@ -105,7 +109,7 @@ $title = Str::humanize($segment);
 echo ucwords($title);
 ```
 
-### Str::markdown()
+#### Str::markdown()
 
 Parse a markdown string using the fantastic [Parsedown package](https://github.com/erusev/parsedown). You 
 
@@ -116,7 +120,7 @@ $markdown = '#Hello';
 echo Str::markdown($markdown);
 ```
 
-### Str::linkify()
+#### Str::linkify()
 
 Wrap all URLs within **target** with links.
 
@@ -127,7 +131,7 @@ $urls = 'Example: https://streams.dev/docs';
 echo Str::linkify($urls);
 ```
 
-### Str::truncate()
+#### Str::truncate()
 
 Truncate a string **value** to a given **length**. A third **end** argument maybe be used to specify the string ending which defaults to "**...**".
 
@@ -137,3 +141,5 @@ $lengthy = 'My long winded introduction has to start with my childhood.';
 // My long winded intro...
 echo Str::truncate($lengthy, 20);
 ```
+
+## Streams Support

@@ -43,7 +43,7 @@ The first and only argument should be the source of the asset. The following ass
 
 #### Paths in the Filesystem
 
-Any non-executable asset path relative to the application's **8*public root** may be used.
+Any non-executable asset path relative to the application's **public root** may be used.
 
 ```blade
 @verbatim{!! Assets::collection('footer')->add('js/example.js') !!} // /public/js/example.js@endverbatim
@@ -155,7 +155,7 @@ Assets::addPath('cdn', 'https://cdn.domain.com');
 You can now use the above path hints to resolve assets.
 
 ```blade
-@verbatim{!! Assets::collection('footer')->add('ui::js/example.js') !!} // /public/vendor/anomaly/streams/ui/js/example.js@endverbatim
+@verbatim{!! Assets::collection('footer')->add('ui::js/example.js') !!} // /vendor/anomaly/streams/ui/js/example.js@endverbatim
 @verbatim{!! Assets::collection('footer')->add('cdn::js/example.js') !!} // https://cdn.domain.com/js/example.js@endverbatim
 
 @verbatim{!! Assets::url('ui::js/example.js') !!}@endverbatim

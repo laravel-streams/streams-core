@@ -98,4 +98,12 @@ return [
      * generages alt tags when not specified.
      */
     'auto_alt' => env('STREAMS_AUTO_ALT', true),
+
+    /**
+     * Enabling this feature automatically
+     * generates version control query
+     * parameters when generating
+     * image URLs and output.
+     */
+    'version_images' => env('STREAMS_VERSION_IMAGES', true),
 ];

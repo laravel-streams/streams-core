@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Image;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Config;
 
@@ -54,9 +55,20 @@ class ImagePaths
      */
     public function addPath($namespace, $path)
     {
-        $this->paths[$namespace] = rtrim($path, '/\\');
+        $this->paths[$namespace] = rtrim(ltrim($path, '/\\'), '/\\');
 
         return $this;
+    }
+
+    /**
+     * Get a single path.
+     *
+     * @param $namespace
+     * @return string|null
+     */
+    public function getPath($namespace)
+    {
+        return Arr::get($this->paths, $namespace);
     }
 
     /**
@@ -66,7 +78,7 @@ class ImagePaths
      * @return string
      * @throws \Exception
      */
-    public function resolve($path)
+    public function real($path)
     {
         if (Str::contains($path, '::')) {
 
@@ -76,7 +88,15 @@ class ImagePaths
                 throw new \Exception("Path hint [{$namespace}] does not exist!");
             }
 
-            return rtrim($this->paths[$namespace], '/') . '/' . $path;
+            $path = rtrim($this->paths[$namespace], '/') . '/' . $path;
+
+            if (!filter_var($path, FILTER_VALIDATE_URL)) {
+                $path = '/' . $path;
+            }
+        }
+
+        if (strpos($path, '?v=')) {
+            $path = substr($path, 0, strpos($path, '?v='));
         }
 
         return $path;
