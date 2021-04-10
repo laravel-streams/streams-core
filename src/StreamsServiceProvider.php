@@ -35,7 +35,7 @@ use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Support\Facades\Integrator;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
-use Streams\Core\Support\Facades\Application as ApplicationManager;
+use Streams\Core\Support\Facades\Applications;
 
 class StreamsServiceProvider extends ServiceProvider
 {
@@ -51,7 +51,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Streams'     => \Streams\Core\Support\Facades\Streams::class,
         'Includes'    => \Streams\Core\Support\Facades\Includes::class,
         'Messages'    => \Streams\Core\Support\Facades\Messages::class,
-        'Application' => \Streams\Core\Support\Facades\Application::class,
+        'Applications' => \Streams\Core\Support\Facades\Applications::class,
     ];
 
     /**
@@ -246,7 +246,7 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerApplications()
     {
         $url = Request::fullUrl();
-        $applications = ApplicationManager::collection();
+        $applications = Applications::collection();
 
         /**
          * Mark the active application
@@ -271,11 +271,11 @@ class StreamsServiceProvider extends ServiceProvider
                 'match' => '*',
             ]);
             
-            ApplicationManager::collection()->put('default', $active);
+            Applications::collection()->put('default', $active);
         }
         
         if ($active) {
-            ApplicationManager::active($active);
+            Applications::active($active);
         }
     }
 
@@ -285,7 +285,7 @@ class StreamsServiceProvider extends ServiceProvider
     protected function bootApplication()
     {
         // Register the active application.
-        $active = ApplicationManager::active();
+        $active = Applications::active();
 
         //Transformer::transform($active);
         Integrator::integrate(array_filter([

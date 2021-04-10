@@ -4,7 +4,7 @@ namespace Streams\Core\View;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
-use Streams\Core\Support\Facades\Application;
+use Streams\Core\Support\Facades\Applications;
 
 class ViewTemplate
 {
@@ -19,7 +19,7 @@ class ViewTemplate
     {
         $view = 'support/parsed/' . md5($template);
 
-        $path = storage_path(implode(DIRECTORY_SEPARATOR, ['streams', Application::handle(), $view]));
+        $path = storage_path(implode(DIRECTORY_SEPARATOR, ['streams', Applications::handle(), $view]));
 
         if (!is_dir($directory = dirname($path))) {
             File::makeDirectory($directory, 0766, true);

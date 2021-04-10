@@ -87,7 +87,7 @@ class AssetCollectionTest extends TestCase
         $assets->load('testing.js');
 
         $this->assertEquals([
-            'resolved.js' => 'https://streams.local::8890/resolved.js',
+            'resolved.js' => 'http://streams.local::8888/resolved.js',
         ], $assets->urls()->all());
     }
 
@@ -159,6 +159,6 @@ class AssetCollectionTest extends TestCase
         $assets->add('testing.js');
         $assets->add('testing2.js');
 
-        $this->assertEquals("https://streams.local::8890/testing.js\nhttps://streams.local::8890/testing2.js", (string) $assets->urls());
+        $this->assertEquals("http://streams.local::8888/testing.js\nhttp://streams.local::8888/testing2.js", (string) $assets->urls());
     }
 }

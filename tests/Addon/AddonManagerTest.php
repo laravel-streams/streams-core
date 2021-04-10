@@ -2,11 +2,10 @@
 
 namespace Streams\Core\Tests\Addon;
 
+use Tests\TestCase;
 use Streams\Core\Addon\Addon;
 use Streams\Core\Addon\AddonCollection;
-use Tests\TestCase;
 use Streams\Core\Support\Facades\Addons;
-use Streams\Core\Support\Facades\Streams;
 
 class AddonManagerTest extends TestCase
 {
@@ -15,7 +14,7 @@ class AddonManagerTest extends TestCase
     {
         $this->createApplication();
 
-        $addon = Addons::load(base_path('vendor/streams/core/tests/addons/test-addon'));
+        Addons::load(base_path('vendor/streams/core/tests/addons/test-addon'));
     }
 
     public function testLoad()

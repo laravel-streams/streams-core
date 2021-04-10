@@ -2,9 +2,11 @@
 
 namespace Streams\Core\Tests\Addon;
 
+use Tests\TestCase;
+use Streams\Core\Addon\Addon;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Addon\AddonCollection;
-use Tests\TestCase;
+use Streams\Core\Support\Facades\Addons;
 use Streams\Core\Support\Facades\Streams;
 
 class AddonTest extends TestCase
@@ -14,26 +16,35 @@ class AddonTest extends TestCase
     {
         $this->createApplication();
 
-        $addons = App::make(AddonCollection::class);
-
-        $addons->put('test_addon', json_decode(base_path('vendor/streams/core/tests/addons/test-addon/composer.json')));
-
-        Streams::load(base_path('vendor/streams/core/tests/examples.json'));
-    }
-
-    public function tearDown(): void
-    {
-        $this->createApplication();
-
-        $filename = base_path('vendor/streams/core/tests/data/examples/delete_me.json');
-
-        if (file_exists($filename)) {
-            unlink($filename);
-        }
+        Addons::load(base_path('vendor/streams/core/tests/addons/test-addon'));
     }
 
     public function testRegisters()
     {
-        $this->assertJson((string) Streams::entries('testing.examples')->first());
+        $this->assertInstanceOf(Addon::class, Addons::make('streams/test-addon'));
+    }
+
+    public function testArrayable()
+    {
+        $this->assertEquals([
+            'name',
+            'path',
+            'composer',
+            'enabled',
+            'listeners',
+            'observers',
+        ], array_keys(Addons::make('streams/test-addon')->toArray()));
+    }
+
+    public function testJsonable()
+    {
+        $this->assertEquals([
+            'name',
+            'path',
+            'composer',
+            'enabled',
+            'listeners',
+            'observers',
+        ], array_keys(json_decode(Addons::make('streams/test-addon')->toJson(), true)));
     }
 }

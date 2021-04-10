@@ -4,18 +4,10 @@ namespace Streams\Core\Application;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Config;
 use Streams\Core\Application\Application;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Traits\HasMemory;
 
-/**
- * Class ApplicationManager
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 class ApplicationManager
 {
 
@@ -48,7 +40,7 @@ class ApplicationManager
      */
     public function make($handle = null)
     {
-        return App::make('streams.applications.' . ($handle ?: $this->active));
+        return $this->collection->get($handle ?: $this->active);
     }
 
     /**

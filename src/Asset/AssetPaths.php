@@ -4,7 +4,6 @@ namespace Streams\Core\Asset;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Streams\Core\Support\Facades\Application;
 
 /**
  * Class AssetPaths
