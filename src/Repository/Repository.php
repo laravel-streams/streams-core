@@ -194,7 +194,7 @@ class Repository implements RepositoryInterface
         $this->fire($this->stream->handle . '.deleted', [
             'entry' => $entry,
         ]);
-        
+
         return $result;
     }
 
@@ -237,7 +237,7 @@ class Repository implements RepositoryInterface
     public function newCriteria()
     {
         $default = Config::get('streams.core.default_source', 'filebase');
-        $criteria = Arr::get($this->stream->config, 'source.criteria', Criteria::class);
+        $criteria = $this->stream->criteria ?: Criteria::class;
 
         $adapter = Arr::get($this->stream->source, 'adapter');
 

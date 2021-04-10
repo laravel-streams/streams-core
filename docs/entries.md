@@ -114,6 +114,10 @@ $entry->delete(); // Returns bool.
 
 Working with entry objects is the same regardless of the source of the stream entries. With this, you can quickly scaffold projects using flat-file storage, then easily migrate stream schema into a database and manage entries there with zero code changes.
 
+### Configuring Abstracts
+
+Entry abstracts are configured on the [domain model](streams#).
+
 ### Expanding Entry Values
 
 Each field type provides it's own expanded data type besides the primary accessor and mutator casting. Please refer to individual [field type documentation] to learn more about their expanded values.

@@ -1,11 +1,9 @@
 {
     "handle": "core.streams",
+    "abstract": "Streams\\Core\\Stream\\Stream",
     "source": {
         "path": "streams",
         "format": "json"
-    },
-    "config": {
-        "prototype": "Streams\\Core\\Stream\\Stream"
     },
     "rules": {
         "id": "required"

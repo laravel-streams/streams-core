@@ -66,8 +66,7 @@ The flat file database powered by the fantastic [Filebase](https://github.com/tm
     "source": {
         "format": "json",
         "type": "filebase",
-        "path": "streams/data/contacts",
-        "prototype": "Streams\\Core\\Entry\\Entry"
+        "path": "streams/data/contacts"
     }
 }
 ```
@@ -144,8 +143,7 @@ The Laravel database source uses generic Laravel database tables to query and re
     "source": {
         "type": "database",
         "table": "contacts",
-        "connection": "default",
-        "prototype": "Streams\\Core\\Entry\\Entry"
+        "connection": "default"
     }
 }
 ```

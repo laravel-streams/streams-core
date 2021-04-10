@@ -3,7 +3,7 @@
 namespace Streams\Core\Tests\Appilcation;
 
 use Tests\TestCase;
-use Streams\Core\Support\Facades\Appilcations;
+use Streams\Core\Support\Facades\Applications;
 
 class AppilcationTest extends TestCase
 {
@@ -11,24 +11,24 @@ class AppilcationTest extends TestCase
     public function testArrayable()
     {
         $this->assertEquals([
-            'name',
-            'path',
-            'composer',
-            'enabled',
+            'id',
+            'handle',
+            'match',
+            'stream',
             'listeners',
             'observers',
-        ], array_keys(Appilcations::make('default')->toArray()));
+        ], array_keys(Applications::make('default')->toArray()));
     }
 
     public function testJsonable()
     {
         $this->assertEquals([
-            'name',
-            'path',
-            'composer',
-            'enabled',
+            'id',
+            'handle',
+            'match',
+            'stream',
             'listeners',
             'observers',
-        ], array_keys(json_decode(Appilcations::make('default')->toJson(), true)));
+        ], array_keys(json_decode(Applications::make('default')->toJson(), true)));
     }
 }

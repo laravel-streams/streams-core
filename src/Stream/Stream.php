@@ -74,8 +74,6 @@ class Stream implements
      */
     public function repository()
     {
-        //$repository = Arr::get($this->stream->config, 'source.repository');
-
         $repository = $this->repository ?: Repository::class;
 
         return new $repository($this);

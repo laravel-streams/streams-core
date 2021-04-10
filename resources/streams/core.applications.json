@@ -4,9 +4,7 @@
         "path": "streams/apps",
         "format": "json"
     },
-    "config": {
-        "prototype": "Streams\\Core\\Application\\Application"
-    },
+    "abstract": "Streams\\Core\\Application\\Application",
     "fields": {
         "match": "string",
         "config": "array"

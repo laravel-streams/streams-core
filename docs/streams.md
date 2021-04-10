@@ -39,10 +39,9 @@ Let's create a little stream to hold information for a simple CRM.
         "filename": "streams/data/contacts",
         "format": "json"
     },
-    "config": {
-        "prototype": "Streams\\Core\\Entry\\Entry",
-        "collection": "Illuminate\\Support\\Collection"
-    },
+    "abstract": "Streams\\Core\\Entry\\Entry",
+    "repository": "Streams\\Core\\Repository\\Repository",
+    "collection": "Illuminate\\Support\\Collection",
     "fields": {
         "name": "string",
         "email": "email",
@@ -160,8 +159,7 @@ Sources define the source information for entry data which you can define in the
 {
     "source": {
         "type": "filebase",
-        "format": "md",
-        "prototype": "Streams\\Core\\Entry\\Entry"
+        "format": "md"
     }
 }
 ```
@@ -171,10 +169,50 @@ Sources define the source information for entry data which you can define in the
 Domain entities are called `entries` within the Streams platform. A stream defines entry attributes, or `fields`, that dictate the entry's properties, data-casting, and more.
 
 - [Defining Entries](entries#defining-entries)
-- [Entry Repositories](repositories)
+
+### Abstracts
+
+The **abstract** parameter defines the class to use when constructing entry instances.
+
+- [Entry Abstracts](entries#entry-objects)
+
+```json
+// streams/contacts.json
+{
+    "abstract": "App\\Contacts\\Contact"
+}
+```
+
+> When defining Elqouent stream sources, the sources model will be used as the abstract.
+
+### Criteria
+
+The **criteria** parameter defines the class to use when building entry queries.
+
 - [Querying Entries](querying)
 
+```json
+// streams/contacts.json
+{
+    "criteria": "App\\Contacts\\ContactCriteria"
+}
+```
+
+### Repositories
+
+The **repository** parameter defines the repository class to use for the stream entries.
+
+- [Entry Repositories](repositories)
+
+```json
+// streams/contacts.json
+{
+    "repository": "App\\Contacts\\ContactRepository"
+}
+```
+
 ## Advanced Streams
+
 ### JSON References
 
 You can use JSON file references within stream configurations to point to other JSON files using the `@` symbol followed by a relative path to the file. In this way, you can reuse various configuration information or tidy up larger files. **The referenced file's JSON data directly replaces the reference.**
