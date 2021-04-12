@@ -33,6 +33,37 @@ class CriteriaTest extends TestCase
         $this->assertInstanceOf(Entry::class, $first);
     }
 
+    public function testCanCacheResults()
+    {
+        $entry = Streams::entries('testing.examples')->create([
+            'id' => 'third',
+            'name' => 'Third Example',
+        ]);
+
+        $this->assertInstanceOf(
+            Entry::class,
+            Streams::entries('testing.examples')
+                ->cache(60)
+                ->find('third')
+        );
+
+        unlink(base_path('vendor/streams/core/tests/data/examples/third.json'));
+
+        $this->assertInstanceOf(
+            Entry::class,
+            Streams::entries('testing.examples')
+                ->cache(60)
+                ->find('third')
+        );
+
+        Streams::make('testing.examples')->flush();
+
+        $this->assertNull(
+            Streams::entries('testing.examples')
+                ->find('third')
+        );
+    }
+
     public function testCanOrderResults()
     {
         $this->assertEquals(
@@ -87,9 +118,22 @@ class CriteriaTest extends TestCase
         );
     }
 
+    public function testParametersAccessors()
+    {
+        $query = Streams::entries('testing.examples')
+            ->where('name', 'Second Example');
+
+        $this->assertEquals(1, $query->get()->count());
+
+        $query->setParameters($query->getParameters());
+
+        $this->assertEquals(1, $query->get()->count());
+    }
+
     public function testCanCountResults()
     {
-        $this->assertEquals(2, Streams::entries('testing.examples')->count());
+        $this->assertEquals(2, Streams::entries('testing.examples')->cache(60)->count());
+        $this->assertEquals(2, Streams::entries('testing.examples')->cache(60)->count());
 
         $this->assertEquals(1, Streams::entries('testing.examples')->where('name', 'First Example')->count());
     }
@@ -101,7 +145,7 @@ class CriteriaTest extends TestCase
         $this->assertInstanceOf(AbstractPaginator::class, $pagination);
         $this->assertEquals(2, $pagination->total());
 
-        
+
         $pagination = Streams::entries('testing.examples')->paginate([
             'per_page' => 1
         ]);
