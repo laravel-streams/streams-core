@@ -6,20 +6,39 @@ enabled: true
 ---
 ## Introduction
 
-Addons provide a basic standard for developing distributable chunks of code designed specifically for Laravel Streams.
+Addons are [composer packages](https://getcomposer.org/) that are specifically designed for Laravel Streams. Addons and can be distributed anywhere composer packages can be distributed (Packagist, SATIS, etc.)
 
-Addons are composer packages marked `streams-addon` and can be distributed anywhere composer packages can be distributed (Packagist, SATIS, etc.)
+### Addon Development
 
-### Detecting Addons
+Creating addons is a great way to distribute reusable code as well as encapsulate and organize large project components. Before developing addons you should have a basic understanding of integrating with Laravel Streams as well as a general understanding of Composer packages.
 
-Packages of type `streams-addon` are automatically detected from your `composer.lock` file.
+## Defining Addons
+
+Mark your composer package as a `streams-addon` using the `type` parameter:
 
 ```json
-// vendor/example/widgets/composer.json
+// addons/example/widgets/composer.json
 {
     "name": "example/widgets",
     "description": "Widgets for your example project.",
     "type": "streams-addon",
+}
+```
+
+### Service Providers
+
+A [service provider](providers) is the easiest way to integrate with Laravel and Streams. You can specify autodetected service providers using your `composer.json` file.
+
+``` json
+// addons/example/widgets/composer.json
+{
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Example\\Widgets\\WidgetsProvider"
+            ]
+        }
+    }
 }
 ```
 
@@ -37,5 +56,6 @@ Using [repository paths](https://getcomposer.org/doc/05-repositories.md#path) yo
 }
 ```
 
-**@todo Talk about Installing Addons**<br>
-**@todo Talk about Developing Addons**
+### Installing Addons
+
+Generally speaking, installing an addon requires downloading it with composer and optionally publishing it's assets and any migrations. There is no addon manager to control state.
