@@ -114,7 +114,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     protected function collect($entries)
     {
-        $collection = $this->stream->getPrototypeAttribute('config.collection') ?: Collection::class;
+        $collection = $this->stream->getPrototypeAttribute('collection') ?: Collection::class;
 
         $collection = new $collection;
 
@@ -156,7 +156,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function newInstance(array $attributes = [])
     {
-        $prototype = $this->stream->abstract ?: Entry::class;// @todo or 'config.abstract' as a general term.
+        $prototype = $this->stream->abstract ?: Entry::class;
 
         $attributes['stream'] = $this->stream;
 
