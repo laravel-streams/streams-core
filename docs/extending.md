@@ -1,7 +1,7 @@
 ---
 title: Extending
 category: advanced
-intro: See you how deep the rabbit hole goes.
+intro: Extend and customize Streams core.
 stage: outlining
 enabled: true
 sort: 2
