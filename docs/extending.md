@@ -1,7 +1,7 @@
 ---
 title: Extending
 category: advanced
-intro: Extend and customize Streams core.
+intro: Extend and customize Streams Core.
 stage: outlining
 enabled: true
 sort: 2
