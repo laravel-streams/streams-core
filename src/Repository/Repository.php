@@ -115,18 +115,6 @@ class Repository implements RepositoryInterface
     }
 
     /**
-     * Count all entries.
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return $this
-            ->newCriteria()
-            ->count();
-    }
-
-    /**
      * Create a new entry.
      *
      * @param  array $attributes

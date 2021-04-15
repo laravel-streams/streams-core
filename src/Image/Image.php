@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Traits\Macroable;
-use Intervention\Image\Image as InterventionImage;
 use Streams\Core\Support\Traits\Prototype;
+use Intervention\Image\Image as InterventionImage;
 
 /**
  * Class Image
@@ -176,7 +176,7 @@ abstract class Image
             $parameters['v'] = is_bool($this->version) ? $this->lastModified() : $this->version;
         }
 
-        $parameters = $parameters ? '?' . http_build_query($parameters) : null;
+        $parameters = array_filter($parameters) ? '?' . http_build_query($parameters) : null;
 
         return URL::asset($this->outputImage()->assetUrl($secure) . $parameters, $secure);
     }
@@ -253,10 +253,7 @@ abstract class Image
 
         return ucwords(
             Str::humanize(
-                basename(
-                    $name,
-                    '.' . pathinfo($name, PATHINFO_EXTENSION)
-                ),
+                basename($name, '.' . pathinfo($name, PATHINFO_EXTENSION)),
                 '^a-zA-Z0-9'
             )
         );

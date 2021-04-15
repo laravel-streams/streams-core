@@ -4,8 +4,6 @@ namespace Streams\Core\Tests\Image;
 
 use Tests\TestCase;
 use Illuminate\Support\Str;
-use Streams\Core\Asset\AssetCollection;
-use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Images;
 
 class ImageTest extends TestCase
@@ -58,6 +56,14 @@ class ImageTest extends TestCase
         $this->assertEquals('<img src="' . url('/app/vendor/streams/core/tests/example.jpg') . '" alt="Example">', $image->version(false)->img());
         $this->assertEquals('<img src="' . url('/app/vendor/streams/core/tests/example.jpg') . '" alt="Test">', $image->version(false)->img('Test'));
         $this->assertEquals('<img src="' . url('/app/vendor/streams/core/tests/example.jpg?v=test') . '" alt="Example">', $image->version('test')->img());
+    }
+
+    public function testVersion()
+    {
+        $image = Images::make('vendor/streams/core/tests/example.jpg');
+
+        $this->assertEquals(url('/app/vendor/streams/core/tests/example.jpg?v=latest'), $image->version('latest')->url());
+        $this->assertEquals(url('/app/vendor/streams/core/tests/example.jpg?v=' . filemtime(base_path('vendor/streams/core/tests/example.jpg'))), $image->version(true)->url());
     }
 
     // public function testPicture()

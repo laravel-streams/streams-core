@@ -33,6 +33,7 @@ class EntryTest extends TestCase
         $this->assertIsArray(Streams::entries('testing.examples')->first()->toArray());
         $this->assertJson(Streams::entries('testing.examples')->first()->toJson());
         $this->assertJson((string) Streams::entries('testing.examples')->first());
+        $this->assertJson(json_encode(Streams::entries('testing.examples')->first()));
     }
 
     public function testCanReturnStreamInstance()

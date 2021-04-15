@@ -67,13 +67,6 @@ interface RepositoryInterface
     //public function findTrashed($id);
 
     /**
-     * Count all entries.
-     *
-     * @return int
-     */
-    public function count();
-
-    /**
      * Create a new entry.
      *
      * @param  array $attributes

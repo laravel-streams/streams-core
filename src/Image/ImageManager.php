@@ -12,13 +12,6 @@ use Streams\Core\Image\Type\RemoteImage;
 use Streams\Core\Image\Type\StorageImage;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
-/**
- * Class ImageManager
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 class ImageManager
 {
 

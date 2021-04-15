@@ -24,7 +24,7 @@ class AssetCollectionTest extends TestCase
 
         foreach ($filenames as $filename) {
             if (!file_exists($filename)) {
-                file_put_contents($filename, 'Test ' . basename($filename), );
+                file_put_contents($filename, 'Test ' . basename($filename),);
             }
         }
     }
@@ -87,7 +87,7 @@ class AssetCollectionTest extends TestCase
         $assets->load('testing.js');
 
         $this->assertEquals([
-            'resolved.js' => 'http://streams.local::8888/resolved.js',
+            'resolved.js' => url('resolved.js'),
         ], $assets->urls()->all());
     }
 
@@ -159,6 +159,6 @@ class AssetCollectionTest extends TestCase
         $assets->add('testing.js');
         $assets->add('testing2.js');
 
-        $this->assertEquals("http://streams.local::8888/testing.js\nhttp://streams.local::8888/testing2.js", (string) $assets->urls());
+        $this->assertEquals(url('testing.js') . "\n" . url('testing2.js'), (string) $assets->urls());
     }
 }

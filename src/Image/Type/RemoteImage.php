@@ -2,7 +2,6 @@
 
 namespace Streams\Core\Image\Type;
 
-use Illuminate\Support\Str;
 use Streams\Core\Image\Image;
 use Intervention\Image\ImageManagerStatic;
 use Intervention\Image\Image as InterventionImage;
@@ -24,15 +23,11 @@ class RemoteImage extends LocalImage
      */
     public function lastModified()
     {
-        if (Str::startsWith($this->source, ['http://', 'https://', '//'])) {
-            try {
-                return filemtime($this->source);
-            } catch (\Exception $e) {
-                return null;
-            }
+        try {
+            return filemtime($this->source);
+        } catch (\Exception $e) {
+            return null;
         }
-
-        return parent::lastModified();
     }
 
     /**
