@@ -8,14 +8,9 @@
     },
 
     "rules": {
-        "name": "required|min:3|example_validator"
+        "name": "required|min:3"
     },
-    "validators": {
-        "example_validator": {
-            "handler": "Streams\\Core\\Validation\\ExampleValidator",
-            "message": "The :attribute value is very bad."
-        }
-    },
+    "validators": {},
 
     "fields": {
         "name": "text",

@@ -52,7 +52,7 @@ class EntryTest extends TestCase
         ]);
 
         $result = $entry->save();
-        
+
         $this->assertTrue($result);
 
 
@@ -61,13 +61,13 @@ class EntryTest extends TestCase
         $this->assertInstanceOf(Entry::class, $entry);
 
 
-        $entry->name = 'Test';
+        $entry->name = 'Mo';
 
         $entry->save();
 
         $entry = Streams::entries('testing.examples')->find('delete_me');
 
-        $this->assertEquals('Test', $entry->name);
+        $this->assertEquals('Mo', $entry->name);
         $this->assertFalse($entry->validator()->passes());
 
 
