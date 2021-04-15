@@ -28,8 +28,10 @@ Route::streams('uri', [
 
 ## Policies
 
-The Streams platform provides a flexible [policy interface](authorization) for policies.
+The Streams platform uses [policies](policies) to authorize secured actions.
 
 ## Users
 
-The Streams platform provides a simple [user interface](authentication) to adapt to our requirements.
+The Streams platform makes it easy to use and integrate any authentication system or roll your own based on your projects needs.
+
+@todo Document user examples and how this can be acheived easily!
