@@ -51,6 +51,8 @@ class RepositoryTest extends TestCase
         
         Streams::repository('testing.examples')->save($entry);
         
+        $updated = Streams::repository('testing.examples')->find('third');
+        
         $this->assertEquals('THIRD EXAMPLE!', $updated->name);
 
 
