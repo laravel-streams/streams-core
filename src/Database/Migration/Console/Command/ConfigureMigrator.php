@@ -72,7 +72,7 @@ class ConfigureMigrator
         $this->migrator->setAddon($addon);
 
         $paths = [
-            $addon->getPath('migrations'),
+            //$addon->getPath('migrations')
             $this->command->getLaravel()->databasePath()
             . DIRECTORY_SEPARATOR.'migrations'
             . DIRECTORY_SEPARATOR.$addon->getNamespace(),
