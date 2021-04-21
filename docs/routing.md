@@ -40,6 +40,11 @@ Route::streams('uri', 'view');
 
 // Controller
 Route::streams('uri', 'App\Http\Controller\Example@show');
+
+// Controller and more
+Route::streams('uri', [
+    'uses' => 'App\Http\Controller\Example@show'
+]);
 ```
 
 The first argument is the URI and the second is either:
