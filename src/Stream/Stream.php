@@ -57,7 +57,7 @@ class Stream implements
      * @param array $attributes
      * @return $this
      */
-    protected function initializePrototypeInstance(array $attributes)
+    protected function initializePrototypeAttributes(array $attributes)
     {
         return $this->initializePrototype(array_merge([
             'handle' => null,

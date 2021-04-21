@@ -20,6 +20,7 @@ use Streams\Core\Field\Value\Value;
  * Attributes support a basic public property API
  * 
  *      echo $object->attribute; // attribute value
+ *      $object->attribute = $value;
  * 
  * Attributes can be expanded:
  * 
@@ -49,9 +50,7 @@ trait Prototype
      */
     public function __construct(array $attributes = [])
     {
-        $this->initializePrototypeInstance($attributes);
-
-        $this->__prototype['original'] = $this->__prototype['attributes'];
+        $this->initializePrototypeAttributes($attributes);
     }
 
     /**
@@ -81,11 +80,11 @@ trait Prototype
      * @param array $attributes
      * @return $this
      */
-    protected function initializePrototypeInstance(array $attributes)
+    protected function initializePrototypeAttributes(array $attributes)
     {
         $this->loadPrototypeProperties(Arr::pull($attributes, '__properties', []));
 
-        $attributes = array_merge_recursive($this->getPrototypeAttributes(), $attributes);
+        $this->__prototype['original'] = $attributes;
 
         return $this->setPrototypeAttributes($attributes);
     }
