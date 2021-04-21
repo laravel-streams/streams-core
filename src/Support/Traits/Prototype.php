@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Field\Value\Value;
 
 /**
@@ -29,6 +30,8 @@ use Streams\Core\Field\Value\Value;
  */
 trait Prototype
 {
+
+    use Macroable;
 
     /**
      * The prototype information.
