@@ -7,7 +7,6 @@ use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Field\Value\Value;
-use Illuminate\Support\Traits\Macroable;
 
 /**
  * Trait Prototype
@@ -23,17 +22,13 @@ use Illuminate\Support\Traits\Macroable;
  * 
  * Attributes can be expanded:
  * 
- *      echo $object->expand('attribute'); // A new Value instance
+ *      echo $object->expandPrototypeAttribute('attribute'); // A new Value instance
  *
  * @link   http://pyrocms.com/
  * @author Ryan Thompson <ryan@pyrocms.com>
  */
 trait Prototype
 {
-
-    use Macroable {
-        Macroable::__call as private callMacroable;
-    }
 
     /**
      * The prototype information.
@@ -51,7 +46,7 @@ trait Prototype
      */
     public function __construct(array $attributes = [])
     {
-        $this->initializePrototypeTrait($attributes);
+        $this->initializePrototypeInstance($attributes);
 
         $this->__prototype['original'] = $this->__prototype['attributes'];
     }
@@ -64,30 +59,6 @@ trait Prototype
     public function __get($key)
     {
         return $this->getPrototypeAttribute($key);
-    }
-
-    /**
-     * Mapp methods to expanded values.
-     *
-     * @param $method
-     * @param $arguments
-     * @return mixed
-     */
-    public function __call($method, $arguments)
-    {
-        if (static::hasMacro($method)) {
-            return $this->callMacroable($method, $arguments);
-        }
-
-        $key = Str::snake($method);
-
-        if ($this->hasPrototypeAttribute($key)) {
-            return $this->expandPrototypeAttribute($key);
-        }
-
-        throw new \BadMethodCallException(sprintf(
-            'Method %s::%s does not exist.', static::class, $method
-        ));
     }
 
     /**
@@ -107,7 +78,7 @@ trait Prototype
      * @param array $attributes
      * @return $this
      */
-    protected function initializePrototypeTrait(array $attributes)
+    protected function initializePrototypeInstance(array $attributes)
     {
         $this->loadPrototypeProperties(Arr::pull($attributes, '__properties', []));
 

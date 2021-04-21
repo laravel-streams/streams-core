@@ -19,6 +19,7 @@ use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Traits\ForwardsCalls;
+use Illuminate\Support\Traits\Macroable;
 use Illuminate\Validation\ValidationRuleParser;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Validation\StreamsPresenceVerifier;
@@ -41,11 +42,12 @@ class Stream implements
 {
 
     use Prototype {
-        Prototype::initializePrototypeTrait as private initializePrototype;
+        Prototype::initializePrototypeInstance as private initializePrototype;
     }
 
     use Fluency;
     use HasMemory;
+    use Macroable;
     use ForwardsCalls;
     use FiresCallbacks;
 
@@ -55,7 +57,7 @@ class Stream implements
      * @param array $attributes
      * @return $this
      */
-    protected function initializePrototypeTrait(array $attributes)
+    protected function initializePrototypeInstance(array $attributes)
     {
         return $this->initializePrototype(array_merge([
             'handle' => null,

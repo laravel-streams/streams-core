@@ -12,6 +12,7 @@ use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Traits\Macroable;
 
 class Field implements
     JsonSerializable,
@@ -20,6 +21,7 @@ class Field implements
 {
     use HasMemory;
     use Prototype;
+    use Macroable;
 
     /**
      * Return the field's name.

@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Support\Traits;
 
+use Illuminate\Support\Str;
 use Streams\Core\Support\Facades\Hydrator;
 
 /**

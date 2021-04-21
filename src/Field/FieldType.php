@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field;
 
+use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Field\Value\Value;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Facades\Hydrator;
@@ -18,6 +19,7 @@ class FieldType
 {
     use HasMemory;
     use Prototype;
+    use Macroable;
 
     /**
      * Modify the value for storage.

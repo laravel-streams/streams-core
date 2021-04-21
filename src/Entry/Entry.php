@@ -5,8 +5,10 @@ namespace Streams\Core\Entry;
 use ArrayAccess;
 use JsonSerializable;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Validation\Validator;
+use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\Fluency;
 use Streams\Core\Support\Facades\Streams;
 use Illuminate\Contracts\Support\Jsonable;
@@ -21,6 +23,8 @@ class Entry implements
     Arrayable,
     Jsonable
 {
+
+    use Macroable;
 
     use Fluency {
         Fluency::__construct as private constructFluency;
@@ -182,5 +186,29 @@ class Entry implements
     public function __toString()
     {
         return $this->toJson();
+    }
+
+    /**
+     * Mapp methods to expanded values.
+     *
+     * @param $method
+     * @param $arguments
+     * @return mixed
+     */
+    public function __call($method, $arguments)
+    {
+        // if (static::hasMacro($method)) {
+        //     return $this->callMacroable($method, $arguments);
+        // }
+
+        $key = Str::snake($method);
+
+        if ($this->hasPrototypeAttribute($key)) {
+            return $this->expandPrototypeAttribute($key);
+        }
+
+        throw new \BadMethodCallException(sprintf(
+            'Method %s::%s does not exist.', static::class, $method
+        ));
     }
 }

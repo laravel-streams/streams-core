@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Application;
 
+use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
@@ -19,6 +20,7 @@ class Application
 
     use HasMemory;
     use Prototype;
+    use Macroable;
     use FiresCallbacks;
     
     /**

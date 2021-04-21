@@ -4,6 +4,7 @@ namespace Streams\Core\Support;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\Prototype;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
@@ -17,6 +18,7 @@ use Streams\Core\Support\Traits\FiresCallbacks;
 class Workflow
 {
 
+    use Macroable;
     use FiresCallbacks;
 
     use Prototype {

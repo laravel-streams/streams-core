@@ -23,6 +23,7 @@ class Addon implements Arrayable, Jsonable
 
     use Prototype;
     use HasMemory;
+    use Macroable;
     use FiresCallbacks;
 
     /**

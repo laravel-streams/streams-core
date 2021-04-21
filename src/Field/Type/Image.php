@@ -14,7 +14,7 @@ class Image extends File
      * @param array $attributes
      * @return $this
      */
-    protected function initializePrototypeTrait(array $attributes)
+    protected function initializePrototypeInstance(array $attributes)
     {
         return array_merge([
             'rules' => [],
