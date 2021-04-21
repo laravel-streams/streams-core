@@ -15,8 +15,7 @@
     "fields": {
         "name": "text",
         "age": {
-            "type": "integer",
-            "rules": "required"
+            "type": "integer"
         }
     }
 }

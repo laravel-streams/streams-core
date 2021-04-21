@@ -64,6 +64,6 @@ class FieldTest extends TestCase
         $this->assertIsArray(Streams::make('testing.examples')->fields->get('name')->toArray());
         $this->assertJson(Streams::make('testing.examples')->fields->get('name')->toJson());
         $this->assertJson((string) Streams::make('testing.examples')->fields->get('name'));
-        $this->assertJson(Streams::make('testing.examples')->fields->get('name')->jsonSerialize());
+        $this->assertJson(json_encode(Streams::make('testing.examples')->fields->get('name')->jsonSerialize()));
     }
 }

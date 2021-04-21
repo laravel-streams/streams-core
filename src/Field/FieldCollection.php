@@ -19,8 +19,8 @@ class FieldCollection extends Collection
      *
      * @param string $key
      */
-    // public function __get($key)
-    // {
-    //     return $this->get($key);
-    // }
+    public function __get($key)
+    {
+        return $this->get($key);
+    }
 }
