@@ -45,18 +45,18 @@ class PrototypeTest extends TestCase
 
         $prototype->name = 'Testing';
 
-        $this->assertTrue($prototype->name === 'Testing');
+        $this->assertEquals('Testing', $prototype->name);
 
         $prototype->setPrototypeAttributes($prototype->getOriginalPrototypeAttributes());
 
-        $this->assertTrue($prototype->name === 'Original');
+        $this->assertEquals('Original', $prototype->name);
 
-        $this->assertTrue([
+        $this->assertEquals([
             'name' => 'Original',
             'description' => 'NONE',
             'price' => 0.0,
             'status' => null,
-        ] === $prototype->getPrototypeAttributes());
+        ], $prototype->getPrototypeAttributes());
     }
 
     public function testCanLoadAttributes()
@@ -107,7 +107,9 @@ class PrototypeTest extends TestCase
 
 class TestPrototype implements ArrayAccess
 {
-    use Prototype;
+    use Prototype {
+        Prototype::initializePrototypeAttributes as private initializePrototypeTraitAttributes;
+    }
 
     protected function initializePrototypeAttributes(array $attributes)
     {
@@ -118,13 +120,7 @@ class TestPrototype implements ArrayAccess
             'status' => null,
         ], $attributes);
 
-        $this->loadPrototypeProperties([
-            'name' => [
-                'type' => 'string',
-            ],
-        ]);
-
-        return $this->setPrototypeAttributes($attributes);
+        return $this->initializePrototypeTraitAttributes($attributes);
     }
 
     public function setDescriptionAttribute($value)
