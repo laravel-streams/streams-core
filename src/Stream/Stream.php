@@ -42,7 +42,7 @@ class Stream implements
 {
 
     use Prototype {
-        Prototype::initializePrototypeInstance as private initializePrototype;
+        Prototype::initializePrototypeAttributes as private initializePrototype;
     }
 
     use Fluency;
