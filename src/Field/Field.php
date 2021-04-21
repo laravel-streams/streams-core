@@ -65,7 +65,7 @@ class Field implements
         return $this->stream->ruleParameters($this->handle, $rule);
     }
 
-    public function getRuleParameter($rule, $key = 0)
+    public function ruleParameter($rule, $key = 0)
     {
         return Arr::get($this->ruleParameters($rule), $key);
     }
@@ -96,5 +96,15 @@ class Field implements
     public function toJson($options = 0): string
     {
         return json_encode($this->toArray(), $options);
+    }
+
+    /**
+     * Return a string representation.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toJson();
     }
 }

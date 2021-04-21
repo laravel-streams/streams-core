@@ -43,7 +43,7 @@ class Stream implements
     use Prototype {
         Prototype::initializePrototypeTrait as private initializePrototype;
     }
-    
+
     use Fluency;
     use HasMemory;
     use ForwardsCalls;
@@ -111,8 +111,17 @@ class Stream implements
         $rules = $this->getPrototypeAttribute('rules') ?: [];
         $validators = $this->getPrototypeAttribute('validators') ?: [];
 
-        $fieldRules = $this->fields->rules();
-        $fieldValidators = $this->fields->validators();
+        $fieldRules = array_filter(
+            array_combine($this->fields->keys()->all(), $this->fields->map(function ($field) {
+                return $field->rules;
+            })->all())
+        );
+
+        $fieldValidators = array_filter(
+            array_combine($this->fields->keys()->all(), $this->fields->map(function ($field) {
+                return $field->validators;
+            })->all())
+        );
 
         /**
          * Merge stream and field configurations.
