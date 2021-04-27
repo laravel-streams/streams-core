@@ -197,6 +197,17 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
     }
 
     /**
+     * Resolve a migration instance from a migration path.
+     *
+     * @param  string  $path
+     * @return object
+     */
+    protected function resolvePath(string $path)
+    {
+        return $this->resolve($path);
+    }
+
+    /**
      * Set the addon.
      *
      * @param Addon $addon
