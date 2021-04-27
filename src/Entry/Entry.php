@@ -24,7 +24,9 @@ class Entry implements
     Jsonable
 {
 
-    use Macroable;
+    use Macroable {
+        Macroable::__call as private callMacroable;
+    }
 
     use Fluency {
         Fluency::__construct as private constructFluency;
@@ -197,9 +199,9 @@ class Entry implements
      */
     public function __call($method, $arguments)
     {
-        // if (static::hasMacro($method)) {
-        //     return $this->callMacroable($method, $arguments);
-        // }
+        if (static::hasMacro($method)) {
+            return $this->callMacroable($method, $arguments);
+        }
 
         $key = Str::snake($method);
 
