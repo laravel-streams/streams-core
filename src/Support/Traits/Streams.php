@@ -68,6 +68,11 @@ trait Streams
         return parent::setAttribute($key, $value);
     }
 
+    public function hasAttribute($key)
+    {
+        return $this->hasPrototypeAttribute($key);
+    }
+
     public function setAttributes(array $attributes)
     {
 

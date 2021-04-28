@@ -49,6 +49,11 @@ trait Fluency
         return $this->getPrototypeAttributes();
     }
 
+    public function hasAttribute($key)
+    {
+        return $this->hasPrototypeAttribute($key);
+    }
+
     public function getAttribute($key)
     {
         return $this->getPrototypeAttribute($key);
