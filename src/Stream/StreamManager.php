@@ -145,7 +145,7 @@ class StreamManager
 
         $this->collection->put($stream->handle, $stream);
 
-        $this->route($stream);
+        $this->routeStream($stream);
 
         return $stream;
     }
@@ -195,7 +195,12 @@ class StreamManager
         return $this->collection;
     }
 
-    protected function route(Stream $stream)
+    /**
+     * Register the routes for a stream.
+     *
+     * @param \Streams\Core\Stream\Stream $stream
+     */
+    protected function routeStream(Stream $stream)
     {
 
         /**
