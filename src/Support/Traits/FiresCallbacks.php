@@ -4,7 +4,9 @@ namespace Streams\Core\Support\Traits;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
+use Streams\Core\Field\Field;
 
 /**
  * Class FiresCallbacks
@@ -96,18 +98,11 @@ trait FiresCallbacks
     public function fire($trigger, array $parameters = [])
     {
 
-        $listeners = (array) Arr::get(
-            self::$listeners,
-            static::class . '::' . $trigger
-        );
-
-        foreach ($listeners as $callback) {
-            App::call($callback, $parameters);
-        }
-
         /*
-         * Next, check if the method
+         * First, check if the method
          * exists and call it if it does.
+         * 
+         * This puts priority on the class.
          */
         $method = Str::camel('on_' . str_replace(['.'], '_', $trigger));
 
@@ -117,7 +112,24 @@ trait FiresCallbacks
 
         /*
          * Next, run through all of
+         * the global callbacks.
+         * 
+         * Priority moves to global callbacks.
+         */
+        $listeners = (array) Arr::get(
+            self::$listeners,
+            static::class . '::' . $trigger
+        );
+        
+        foreach ($listeners as $callback) {
+            App::call($callback, $parameters);
+        }
+
+        /*
+         * Next, run through all of
          * the registered callbacks.
+         * 
+         * Priority moves to this instance.
          */
         $callbacks = (array) Arr::get(
             $this->callbacks,

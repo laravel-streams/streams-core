@@ -6,13 +6,15 @@ use JsonSerializable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Field\FieldType;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Traits\Macroable;
+use Streams\Core\Support\Traits\FiresCallbacks;
 
 class Field implements
     JsonSerializable,
@@ -22,6 +24,29 @@ class Field implements
     use HasMemory;
     use Prototype;
     use Macroable;
+    use FiresCallbacks;
+
+    /**
+     * Create a new class instance.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        $callbackData = new Collection([
+            'attributes' => $attributes,
+        ]);
+
+        $this->fire('initializing', [
+            'callbackData' => $callbackData,
+        ]);
+        
+        $this->initializePrototypeAttributes($callbackData->get('attributes'));
+
+        $this->fire('initialized', [
+            'field' => $this,
+        ]);
+    }
 
     /**
      * Return the field's name.
@@ -108,5 +133,36 @@ class Field implements
     public function __toString()
     {
         return $this->toJson();
+    }
+
+
+
+
+    public function onInitializing($callbackData)
+    {
+        $attributes = $callbackData->get('attributes');
+
+        $this->normalizeInput($attributes);
+        
+        $callbackData->put('attributes', $attributes);
+    }
+
+    public function normalizeInput(&$attributes)
+    {
+        if (!isset($attributes['type'])) {
+            $attributes['type'] = $attributes['handle'];
+        }
+
+        $attributes['rules'] = Arr::get($attributes, 'rules', []);
+
+        if (is_string($attributes['rules'])) {
+            $attributes['rules'] = explode('|', $attributes['rules']);
+        }
+
+        if (Arr::pull($attributes, 'required') == true) {
+            $attributes['rules'][] = 'required';
+        }
+
+        $attributes = Arr::undot($attributes);
     }
 }

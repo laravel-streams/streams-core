@@ -4,11 +4,12 @@ namespace Streams\Core\Stream;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Streams\Core\Field\Field;
 use Streams\Core\Stream\Stream;
 use Streams\Core\Support\Workflow;
 use Illuminate\Support\Facades\Config;
+use Streams\Core\Field\FieldCollection;
 use Streams\Core\Support\Facades\Streams;
-use Streams\Core\Field\Workflows\BuildFields;
 
 class StreamBuilder extends Workflow
 {
@@ -188,22 +189,21 @@ class StreamBuilder extends Workflow
         $workflow->stream->rules = $rules;
         $workflow->stream->validators = $validators;
 
-        $fieldsWorkflow = new BuildFields();
+        array_walk($fields, function (&$field, $key) {
 
-        $fieldsWorkflow->fields = $fields;
-        $fieldsWorkflow->stream = $workflow->stream;
+            $field = is_string($field) ? ['type' => $field] : $field;
 
-        $fieldsWorkflow
-            ->passThrough($workflow->object)
-            ->setPrototypeAttribute('name', 'fields')
-            ->process([
-                'workflow' => $fieldsWorkflow
-            ]);
+            $field['handle'] = Arr::get($field, 'handle', $key);
 
-        $stream = $workflow->stream;
+            $field = new Field($field);
+        });
 
-        $stream->fields = $workflow->fields = $fieldsWorkflow->fields;
+        $stream->fields = new FieldCollection($fields);
 
+        /**
+         * Move the field type rules and validation into 
+         * the stream configured rules and validation.
+         */
         $stream->fields->each(function ($field, $handle) use (&$rules, &$validators) {
 
             if ($fieldRules = $field->type()->rules) {
@@ -217,8 +217,6 @@ class StreamBuilder extends Workflow
 
         $stream->rules = $rules;
         $stream->validators = $validators;
-
-        $workflow->stream = $stream;
     }
 
     public function merge(array &$parent, array &$stream)
