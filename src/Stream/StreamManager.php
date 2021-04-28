@@ -8,6 +8,7 @@ use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Criteria\Criteria;
+use Illuminate\Support\Facades\Route;
 use Streams\Core\Stream\StreamBuilder;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
@@ -144,6 +145,8 @@ class StreamManager
 
         $this->collection->put($stream->handle, $stream);
 
+        $this->route($stream);
+
         return $stream;
     }
 
@@ -190,5 +193,59 @@ class StreamManager
     public function collection()
     {
         return $this->collection;
+    }
+
+    protected function route(Stream $stream)
+    {
+
+        /**
+         * If not cached.
+         */
+        if (!App::routesAreCached()) {
+
+            foreach ($stream->routes ?: [] as $key => $route) {
+
+                if (is_string($route)) {
+                    $route = [
+                        'uri' => $route,
+                    ];
+                }
+
+                /**
+                 * Automatically bind if not bound.
+                 */
+                if (!isset($route['stream'])) {
+                    $route['stream'] = $stream->handle;
+                }
+
+                /**
+                 * Automatically name if not named.
+                 */
+                $route['as'] = Arr::get($route, 'as', 'streams::' . $stream->handle . '.' . $key);
+
+                /**
+                 * Automatically group if not grouped.
+                 * @todo configure default
+                 */
+                $route['middleware'] = Arr::get($route, 'middleware', 'web');
+
+                /**
+                 * Defer if opted to.
+                 */
+                if (Arr::pull($route, 'defer')) {
+
+                    App::booted(function () use ($route) {
+                        Route::streams(Arr::get($route, 'uri'), $route);
+                    });
+
+                    continue;
+                }
+
+                /**
+                 * Register the route.
+                 */
+                Route::streams(Arr::get($route, 'uri'), $route);
+            }
+        }
     }
 }

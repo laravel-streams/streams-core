@@ -262,16 +262,16 @@ class StreamsServiceProvider extends ServiceProvider
         }
 
         if (!$active) {
-            
+
             $active = Streams::repository('core.applications')->newInstance([
                 'id' => 'default',
                 'handle' => 'default',
                 'match' => '*',
             ]);
-            
+
             Applications::collection()->put('default', $active);
         }
-        
+
         if ($active) {
             Applications::active($active);
         }
@@ -354,6 +354,10 @@ class StreamsServiceProvider extends ServiceProvider
          * Register stream configurations.
          */
         $streams = Streams::repository('core.streams')->all();
+
+        /**
+         * Defer registering streams that extend others.
+         */
         $base = $streams->where('extends', null);
         $extending = $streams->where('extends', '!=', null);
 
@@ -361,38 +365,7 @@ class StreamsServiceProvider extends ServiceProvider
 
             $stream->handle = $stream->id;
 
-            $stream = Streams::register(Arr::parse($stream->toArray()));
-
-            if (!$this->app->routesAreCached()) {
-
-                foreach ($stream->routes ?: [] as $key => $route) {
-
-                    if (is_string($route)) {
-                        $route = [
-                            'uri' => $route,
-                        ];
-                    }
-
-                    if (!isset($route['stream'])) {
-                        $route['stream'] = $stream->handle;
-                    }
-
-                    if (!isset($route['as'])) {
-                        $route['as'] = Arr::get($route, 'as', 'streams::' . $stream->handle . '.' . $key);
-                    }
-
-                    if (Arr::pull($route, 'defer')) {
-
-                        $this->app->booted(function () use ($route) {
-                            Route::streams(Arr::get($route, 'uri'), $route);
-                        });
-
-                        continue;
-                    }
-
-                    Route::streams(Arr::get($route, 'uri'), $route);
-                }
-            }
+            Streams::register(Arr::parse($stream->toArray()));
         }
     }
 
