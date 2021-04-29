@@ -60,7 +60,7 @@ class StreamManagerTest extends TestCase
             ],
         ]);
 
-        $json = Streams::build(base_path('vendor/streams/core/tests/build.json'));
+        $json = Streams::build(json_decode(file_get_contents(base_path('vendor/streams/core/tests/build.json')), true));
 
         $this->assertFalse(Streams::has('testing.runtime'));
         $this->assertFalse(Streams::has('testing.build'));

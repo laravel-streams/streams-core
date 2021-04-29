@@ -88,6 +88,8 @@ class Stream implements
         return $this->initializePrototype(array_merge([
             'handle' => null,
             'routes' => [],
+            'rules' => [],
+            'validators' => [],
             'config' => [
                 'key_name' => 'id',
             ],
@@ -382,7 +384,7 @@ class Stream implements
         $attributes = $callbackData->get('attributes');
 
         $attributes = Arr::undot($attributes);
-
+        
         $this->extendInput($attributes);
         $this->importInput($attributes);
         $this->normalizeInput($attributes);
@@ -479,7 +481,7 @@ class Stream implements
     public function fieldsInput()
     {
 
-        $fields = $this->fields;
+        $fields = $this->fields ?: [];
 
         /**
          * Minimal standardization

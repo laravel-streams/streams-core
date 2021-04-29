@@ -3,6 +3,7 @@
 namespace Streams\Core\Tests\Stream;
 
 use Tests\TestCase;
+use Illuminate\Support\Str;
 use Streams\Core\Criteria\Criteria;
 use Streams\Core\Support\Facades\Streams;
 use Illuminate\Contracts\Validation\Validator;
@@ -68,9 +69,9 @@ class StreamTest extends TestCase
         $this->assertTrue(Streams::make('testing.examples')->validator($entry)->passes());
 
         $entry->name = 'Test';
-
+        
         $this->assertFalse(Streams::make('testing.examples')->validator($entry)->passes());
-
+        
         $entry = Streams::entries('testing.widgets')->first();
 
         // Fails on WidgetsValidator below
@@ -89,9 +90,9 @@ class StreamTest extends TestCase
         $this->assertTrue($stream->hasRule('name', 'min'));
 
         $this->assertNull($stream->getRule('name', 'max'));
-        $this->assertEquals('min:3', $stream->getRule('name', 'min'));
+        $this->assertEquals('min:5', $stream->getRule('name', 'min'));
         
-        $this->assertEquals(['3'], $stream->ruleParameters('name', 'min'));
+        $this->assertEquals(['5'], $stream->ruleParameters('name', 'min'));
         $this->assertEquals([], $stream->ruleParameters('name', 'max'));
         $this->assertEquals([], $stream->ruleParameters('age', 'min'));
         
@@ -112,6 +113,6 @@ class WidgetValidator
 
     public function handle($attribute, $value)
     {
-        return strpos($value, 'First') > -1;
+        return Str::startsWith($value, 'First');
     }
 }

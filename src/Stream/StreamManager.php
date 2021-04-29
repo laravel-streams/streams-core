@@ -116,7 +116,7 @@ class StreamManager
     public function register(array $stream)
     {
         $stream = $this->build($stream);
-
+        
         App::instance('streams.instances.' . $stream->handle, $stream);
 
         $this->collection->put($stream->handle, $stream);
