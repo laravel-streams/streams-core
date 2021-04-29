@@ -9,7 +9,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Criteria\Criteria;
 use Illuminate\Support\Facades\Route;
-use Streams\Core\Stream\StreamBuilder;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
 use Streams\Core\Support\Traits\FiresCallbacks;
@@ -77,37 +76,14 @@ class StreamManager
     /**
      * Build a stream instance.
      *
-     * @param $stream
+     * @param array $attributes
      * @return Stream
      */
-    public function build($stream)
+    public function build(array $attributes)
     {
+        $stream = $attributes = Arr::undot($attributes);
 
-        /**
-         * If the stream is a string
-         * then treat it like a file.
-         */
-        if (is_string($stream)) {
-
-            $stream = json_decode(file_get_contents($file = $stream), true);
-
-            $handle = basename($file, '.json');
-
-            Arr::set($stream, 'handle', Arr::get($stream, 'handle', $handle));
-        }
-
-        $stream = Arr::undot($stream);
-
-        $workflow = (new StreamBuilder)
-            ->passThrough($this);
-
-        $workflow->stream = $stream;
-
-        $workflow->passThrough($this)->process([
-            'workflow' => $workflow
-        ]);
-
-        $stream = $workflow->stream;
+        $stream = new Stream($attributes);
 
         $stream->fire('built', ['stream' => $stream]);
 

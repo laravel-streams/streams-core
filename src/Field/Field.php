@@ -40,7 +40,7 @@ class Field implements
         $this->fire('initializing', [
             'callbackData' => $callbackData,
         ]);
-        
+
         $this->initializePrototypeAttributes($callbackData->get('attributes'));
 
         $this->fire('initialized', [
@@ -143,7 +143,7 @@ class Field implements
         $attributes = $callbackData->get('attributes');
 
         $this->normalizeInput($attributes);
-        
+
         $callbackData->put('attributes', $attributes);
     }
 
@@ -162,6 +162,33 @@ class Field implements
         if (Arr::pull($attributes, 'required') == true) {
             $attributes['rules'][] = 'required';
         }
+
+        /**
+         * Unique Rule
+         */
+        array_walk($attributes['rules'], function (&$rule) use ($attributes) {
+
+            if (Str::startsWith($rule, 'unique')) {
+
+                $parts = explode(':', $rule);
+                $parameters = array_filter(explode(',', Arr::get($parts, 1)));
+
+                if (!$parameters) {
+                    $parameters[] = $attributes['stream']->handle;
+                }
+
+                if (count($parameters) === 1) {
+                    $parameters[] = $attributes['handle'];
+                }
+
+                // if (count($parameters) === 2 && $this->entry && $ignore = $this->entry->{$field}) {
+                //     $parameters[] = $ignore;
+                //     $parameters[] = $field;
+                // }
+
+                $rule = 'unique:' . implode(',', $parameters);
+            }
+        });
 
         $attributes = Arr::undot($attributes);
     }

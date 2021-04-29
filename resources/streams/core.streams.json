@@ -1,6 +1,5 @@
 {
     "handle": "core.streams",
-    "abstract": "Streams\\Core\\Stream\\Stream",
     "source": {
         "path": "streams",
         "format": "json"

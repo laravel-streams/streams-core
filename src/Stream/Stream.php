@@ -6,20 +6,24 @@ use ArrayAccess;
 use JsonSerializable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Streams\Core\Field\Field;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\Factory;
 use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
+use Streams\Core\Field\FieldCollection;
 use Streams\Core\Repository\Repository;
+use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\Fluency;
+use Streams\Core\Support\Facades\Streams;
 use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Traits\ForwardsCalls;
-use Illuminate\Support\Traits\Macroable;
 use Illuminate\Validation\ValidationRuleParser;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Validation\StreamsPresenceVerifier;
@@ -50,6 +54,28 @@ class Stream implements
     use Macroable;
     use ForwardsCalls;
     use FiresCallbacks;
+
+    /**
+     * Create a new class instance.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        $callbackData = new Collection([
+            'attributes' => $attributes,
+        ]);
+
+        $this->fire('initializing', [
+            'callbackData' => $callbackData,
+        ]);
+
+        $this->initializePrototypeAttributes($callbackData->get('attributes'));
+
+        $this->fire('initialized', [
+            'field' => $this,
+        ]);
+    }
 
     /**
      * Initialize the prototype.
@@ -347,5 +373,184 @@ class Stream implements
     public function __toString()
     {
         return $this->toJson();
+    }
+
+
+
+    public function onInitializing($callbackData)
+    {
+        $attributes = $callbackData->get('attributes');
+
+        $attributes = Arr::undot($attributes);
+
+        $this->extendInput($attributes);
+        $this->importInput($attributes);
+        $this->normalizeInput($attributes);
+
+        $callbackData->put('attributes', $attributes);
+    }
+
+    public function onInitialized()
+    {
+        $this->fieldsInput();
+    }
+
+    public function extendInput(&$attributes)
+    {
+
+        /**
+         * Merge extending Stream data.
+         */
+        if (isset($attributes['extends'])) {
+
+            $parent = Streams::make($attributes['extends'])->toArray();
+
+            $attributes['fields'] = array_merge(Arr::pull($parent, 'fields', []), Arr::get($attributes, 'fields', []));
+
+            $attributes = $this->merge($parent, $attributes);
+        }
+    }
+
+    public function importInput(&$attributes)
+    {
+
+        /**
+         * Filter out the imports.
+         */
+        $imports = array_filter(Arr::dot($attributes), function ($value) {
+
+            if (!is_string($value)) {
+                return false;
+            }
+
+            return strpos($value, '@') === 0;
+        });
+
+        /**
+         * Import values matching @ which
+         * refer to existing base path file.
+         */
+        foreach ($imports as $key => $import) {
+            if (file_exists($import = base_path(substr($import, 1)))) {
+                Arr::set($attributes, $key, json_decode(file_get_contents($import), true));
+            }
+        }
+    }
+
+    public function normalizeInput(&$attributes)
+    {
+
+        /**
+         * Defaults the source.
+         */
+        $type = Config::get('streams.core.default_source', 'filebase');
+        $default = Config::get('streams.core.sources.types.' . $type);
+
+        if (!isset($attributes['source'])) {
+            $attributes['source'] = $default;
+        }
+
+        if (!isset($attributes['source']['type'])) {
+            $attributes['source']['type'] = $type;
+        }
+
+        /**
+         * If only one route is defined
+         * then treat it as the view route.
+         */
+        $route = Arr::get($attributes, 'route');
+
+        if ($route && is_string($route)) {
+            $attributes['route'] = [
+                'view' => $route,
+            ];
+        }
+
+        $attributes['rules'] = array_map(function ($rules) {
+
+            if (is_string($rules)) {
+                return explode('|', $rules);
+            }
+
+            return $rules;
+        }, Arr::get($attributes, 'rules', []));
+    }
+
+    public function fieldsInput()
+    {
+
+        $fields = $this->fields;
+
+        /**
+         * Minimal standardization
+         */
+        array_walk($fields, function (&$field, $key) {
+
+            $field = is_string($field) ? ['type' => $field] : $field;
+
+            $field['handle'] = Arr::get($field, 'handle', $key);
+
+            $field['stream'] = $this;
+
+            $field = new Field($field);
+        });
+
+        $this->fields = new FieldCollection($fields);
+
+        /**
+         * Load rules from fields
+         * and types into the stream.
+         */
+        $rules = $this->rules;
+        $validators = $this->validators;
+
+        $this->fields->each(function ($field, $handle) use (&$rules, &$validators) {
+
+            if ($fieldRules = $field->rules) {
+                $rules[$handle] = array_merge(
+                    Arr::pull($rules, $handle, []),
+                    $fieldRules
+                );
+            }
+
+            if ($fieldTypeRules = $field->type()->rules) {
+                $rules[$handle] = array_merge(
+                    Arr::pull($rules, $handle, []),
+                    $fieldTypeRules
+                );
+            }
+
+            if ($fieldValidators = $field->type()->validators) {
+                $validators[$handle] = array_merge(
+                    Arr::pull($validators, $handle, []),
+                    $fieldValidators
+                );
+            }
+
+            if ($fieldTypeValidators = $field->type()->validators) {
+                $validators[$handle] = array_merge(
+                    Arr::pull($validators, $handle, []),
+                    $fieldTypeValidators
+                );
+            }
+        });
+
+        $this->rules = $rules;
+        $this->validators = $validators;
+    }
+
+    public function merge(array &$parent, array &$stream)
+    {
+        $merged = $parent;
+
+        foreach ($stream as $key => &$value) {
+            if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
+                $merged[$key] = $this->merge($merged[$key], $value);
+            } else {
+                $merged[$key] = $value;
+            }
+        }
+
+        return $merged;
     }
 }

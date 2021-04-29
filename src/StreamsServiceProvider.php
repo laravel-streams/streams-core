@@ -349,7 +349,6 @@ class StreamsServiceProvider extends ServiceProvider
             __DIR__ . '/../resources/streams/' => base_path('streams/')
         ], 'streams');
 
-
         /**
          * Register stream configurations.
          */
