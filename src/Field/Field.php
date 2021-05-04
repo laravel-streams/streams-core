@@ -69,6 +69,10 @@ class Field implements
 
             $attributes['field'] = $this;
 
+            if (!App::has('streams.core.field_type.' . $this->type)) {
+                throw new \Exception("Invalid type [{$this->type}] in stream [{$this->stream->handle}]");
+            }
+
             $type = App::make('streams.core.field_type.' . $this->type, [
                 'attributes' => $attributes,
             ]);
