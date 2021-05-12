@@ -43,6 +43,7 @@ class StreamsController extends Controller
     {
         $data = collect();
 
+        $data->put('route', Request::route());
         $data->put('action', Request::route()->action);
 
         $workflow = new Workflow(array_combine($this->steps, array_map(function ($step) {
