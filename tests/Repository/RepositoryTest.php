@@ -39,6 +39,8 @@ class RepositoryTest extends TestCase
 
     public function testCanCreateSaveAndDelete()
     {
+        $this->tearDown();
+
         $entry = Streams::repository('testing.examples')->create([
             'id' => 'third',
             'name' => 'Third Example',
@@ -46,7 +48,7 @@ class RepositoryTest extends TestCase
 
         $this->assertEquals(3, Streams::entries('testing.examples')->count());
         
-        
+
         $entry->name = 'THIRD EXAMPLE!';
         
         Streams::repository('testing.examples')->save($entry);

@@ -68,7 +68,7 @@ class StreamTest extends TestCase
         // Fails on ExampleValidator below
         $this->assertTrue(Streams::make('testing.examples')->validator($entry)->passes());
 
-        $entry->name = 'Test';
+        $entry->name = 'No';
         
         $this->assertFalse(Streams::make('testing.examples')->validator($entry)->passes());
         
@@ -90,9 +90,9 @@ class StreamTest extends TestCase
         $this->assertTrue($stream->hasRule('name', 'min'));
 
         $this->assertNull($stream->getRule('name', 'max'));
-        $this->assertEquals('min:5', $stream->getRule('name', 'min'));
+        $this->assertEquals('min:3', $stream->getRule('name', 'min'));
         
-        $this->assertEquals(['5'], $stream->ruleParameters('name', 'min'));
+        $this->assertEquals(['3'], $stream->ruleParameters('name', 'min'));
         $this->assertEquals([], $stream->ruleParameters('name', 'max'));
         $this->assertEquals([], $stream->ruleParameters('age', 'min'));
         

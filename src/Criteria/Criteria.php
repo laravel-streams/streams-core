@@ -183,9 +183,15 @@ class Criteria
             });
         }
 
-        return $this->once($fingerprint, function () {
-            return $this->adapter->get($this->parameters);
-        });
+        return $this->adapter->get($this->parameters);
+
+        /**
+         * This needs to flush memory (HasMemory) when 
+         * $this->streams->flush() is executed.
+         */
+        // return $this->once($fingerprint, function () {
+        //     return $this->adapter->get($this->parameters);
+        // });
     }
 
     /**

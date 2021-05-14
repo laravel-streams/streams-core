@@ -8,7 +8,7 @@
     },
 
     "rules": {
-        "name": "required|min:5"
+        "name": "required|min:3"
     },
     "validators": {},
 
