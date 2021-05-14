@@ -20,7 +20,7 @@
         "intervention/image": "^2.5",
         "ezyang/htmlpurifier": "^4.0",
         "laravel/framework": "^8.0|^9.0",
-        "erusev/parsedown-extra": "^0.7",
+        "erusev/parsedown-extra": "^0.8",
         "symfony/yaml": "^3.0|^4.0|^5.0",
         "nicmart/string-template": "^0.1",
         "laravelcollective/html": "^6.1.0"
