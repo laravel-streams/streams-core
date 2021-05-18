@@ -2,6 +2,8 @@
 
 namespace Streams\Core\Field\Type;
 
+use Illuminate\Support\Arr;
+
 class Multiselect extends Select
 {
     /**
@@ -43,6 +45,6 @@ class Multiselect extends Select
 
     public function options()
     {
-        return $this->config('options', []);
+        return Arr::get($this->field->config, 'options', []);
     }
 }

@@ -57,7 +57,7 @@ class Prototype extends FieldType
      */
     public function expand($value)
     {
-        return App::make($this->config('abstract'), [
+        return App::make($this->field->config['abstract'], [
             'attributes' => $value,
         ]);
     }

@@ -23,6 +23,6 @@ class Select extends FieldType
 
     public function options()
     {
-        return $this->config('options', []);
+        return Arr::get($this->field->config, 'options', []);
     }
 }
