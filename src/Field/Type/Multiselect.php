@@ -40,4 +40,9 @@ class Multiselect extends Select
     {
         return (array) $value;
     }
+
+    public function options()
+    {
+        return $this->config('options', []);
+    }
 }

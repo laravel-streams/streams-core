@@ -20,4 +20,9 @@ class Select extends FieldType
             ],
         ], $attributes));
     }
+
+    public function options()
+    {
+        return $this->config('options', []);
+    }
 }

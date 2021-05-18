@@ -62,4 +62,9 @@ class Multiple extends FieldType
             ->where($this->key_name ? $this->key_name : 'id', 'IN', $value)
             ->get();
     }
+
+    public function options()
+    {
+        return $this->value ? $this->value->pluck('id', 'id') : [];
+    }
 }
