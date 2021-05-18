@@ -82,18 +82,18 @@ class FileAdapter extends AbstractAdapter
             $field = $this->stream->getPrototypeAttribute('config.handle', 'id');
         }
 
-        $method = $nested ? Str::studly($nested . '_where') : 'where';
-
         if ($operator == 'LIKE') {
-            $this->query = $this->query->filter(function ($entry) use ($field, $value) {
+            $result = $this->collect($this->data)->keyBy('id')->filter(function ($entry) use ($field, $value) {
                 return Str::is(
                     strtolower(str_replace('%', '*', $value)),
                     strtolower($entry[$field])
                 );
             });
         } else {
-            $this->query = $this->query->{$method}($field, $operator, $value);
+            $result = $this->collect($this->data)->where($field, $operator, $value);
         }
+
+        $this->query = $nested ? $this->query->merge($result) : $result;
 
         return $this;
     }

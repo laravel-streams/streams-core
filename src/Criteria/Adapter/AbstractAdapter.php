@@ -127,7 +127,7 @@ abstract class AbstractAdapter implements AdapterInterface
             $collection->push($entry);
         }, $entries);
 
-        return $collection;
+        return $collection->keyBy('id');
     }
 
     /**
