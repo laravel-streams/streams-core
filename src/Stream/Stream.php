@@ -204,31 +204,35 @@ class Stream implements
         /**
          * Extend the factory with custom validators.
          */
-        foreach ($validators as $rule => $validator) {
+        foreach (Arr::get($validators, $field, []) as $rule => $validator) {
+
+            if (is_string($validator)) {
+                $validator = [
+                    'handler' => $validator,
+                ];
+            }
 
             $handler = Arr::get($validator, 'handler');
+            $message = Arr::get($validator, 'message');
 
-            if (strpos($handler, '@')) {
+            $handler = function ($attribute, $value, $parameters, Validator $validator) use ($handler) {
 
-                $handler = function ($attribute, $value, $parameters, Validator $validator) use ($handler) {
-
-                    return App::call(
-                        $handler,
-                        [
-                            'value' => $value,
-                            'attribute' => $attribute,
-                            'validator' => $validator,
-                            'parameters' => $parameters,
-                        ],
-                        'handle'
-                    );
-                };
-            }
+                return App::call(
+                    $handler,
+                    [
+                        'value' => $value,
+                        'attribute' => $attribute,
+                        'validator' => $validator,
+                        'parameters' => $parameters,
+                    ],
+                    'handle'
+                );
+            };
 
             $factory->extend(
                 $rule,
                 $handler,
-                Arr::get($validator, 'message')
+                $message
             );
         }
 
