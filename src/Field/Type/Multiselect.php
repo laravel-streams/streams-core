@@ -20,6 +20,19 @@ class Multiselect extends Select
             ],
         ], $attributes));
     }
+    
+    public function setValueAttribute($value)
+    {
+        if (
+            isset($value)
+            && is_string($value)
+            && $json = json_decode($value, true)
+            ) {
+                $value = $json;
+        }
+
+        $this->setPrototypeAttributeValue('value', $value);
+    }
 
     /**
      * Modify the value for storage.
