@@ -128,11 +128,9 @@ class StreamsController extends Controller
 
         if ($entry) {
 
-            if (!$entry = $stream->repository()->find($entry)) {
-                abort(404);
+            if ($entry = $stream->repository()->find($entry)) {
+                $data->put('entry', $entry);
             }
-
-            $data->put('entry', $entry);
 
             return;
         }
@@ -145,22 +143,18 @@ class StreamsController extends Controller
 
         if (isset($parameters['id'])) {
 
-            if (!$entry = $stream->repository()->find($parameters['id'])) {
-                abort(404);    
+            if ($entry = $stream->repository()->find($parameters['id'])) {
+                $data->put('entry', $entry);
             }
-
-            $data->put('entry', $entry);
 
             return;
         }
 
         if (isset($parameters['entry'])) {
 
-            if (!$entry = $stream->repository()->find($parameters['entry'])) {
-                abort(404);    
+            if ($entry = $stream->repository()->find($parameters['entry'])) {
+                $data->put('entry', $entry);
             }
-
-            $data->put('entry', $entry);
 
             return;
         }
@@ -171,11 +165,9 @@ class StreamsController extends Controller
          */
         if (Request::query('id')) {
 
-            if (!$stream->repository()->find(Request::query('id'))) {
-                abort(404);
+            if ($entry = $stream->repository()->find(Request::query('id'))) {
+                $data->put('entry', $entry);
             }
-            
-            $data->put('entry', $entry);
 
             return;
         }
@@ -187,11 +179,9 @@ class StreamsController extends Controller
         
         if (Request::query('entry')) {
 
-            if (!$entry = $stream->repository()->find(Request::query('entry'))) {
-                abort(404);
+            if ($entry = $stream->repository()->find(Request::query('entry'))) {
+                $data->put('entry', $entry);
             }
-            
-            $data->put('entry', $entry);
 
             return;
         }
