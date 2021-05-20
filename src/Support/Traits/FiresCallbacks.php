@@ -23,21 +23,21 @@ trait FiresCallbacks
      *
      * @var array
      */
-    protected $callbacks = [];
+    protected $__callbacks = [];
 
     /**
      * The static callbacks.
      *
      * @var array
      */
-    public static $listeners = [];
+    public static $__listeners = [];
 
     /**
      * The static observers.
      *
      * @var array
      */
-    public static $observers = [];
+    public static $__observers = [];
 
     /**
      * Register observers with the instance.
@@ -46,9 +46,9 @@ trait FiresCallbacks
      */
     public static function observeCallbacks($classes)
     {
-        // @todo Alternatively we could push this into $listeners
+        // @todo Alternatively we could push this into $__listeners
         foreach (Arr::wrap($classes) as $class) {
-            self::$observers[static::class][] = $class;
+            self::$__observers[static::class][] = $class;
         }
     }
 
@@ -61,11 +61,11 @@ trait FiresCallbacks
      */
     public function addCallback($name, $callback)
     {
-        if (!isset($this->callbacks[$name])) {
-            $this->callbacks[$name] = [];
+        if (!isset($this->__callbacks[$name])) {
+            $this->__callbacks[$name] = [];
         }
 
-        $this->callbacks[$name][] = $callback;
+        $this->__callbacks[$name][] = $callback;
 
         return $this;
     }
@@ -81,11 +81,11 @@ trait FiresCallbacks
     {
         $name = static::class . '::' . $name;
 
-        if (!isset(static::$listeners[$name])) {
-            static::$listeners[$name] = [];
+        if (!isset(static::$__listeners[$name])) {
+            static::$__listeners[$name] = [];
         }
 
-        static::$listeners[$name][] = $callback;
+        static::$__listeners[$name][] = $callback;
     }
 
     /**
@@ -117,7 +117,7 @@ trait FiresCallbacks
          * Priority moves to global callbacks.
          */
         $listeners = (array) Arr::get(
-            self::$listeners,
+            self::$__listeners,
             static::class . '::' . $name
         );
 
@@ -132,7 +132,7 @@ trait FiresCallbacks
          * Priority moves to this instance.
          */
         $callbacks = (array) Arr::get(
-            $this->callbacks,
+            $this->__callbacks,
             $name
         );
 
@@ -144,8 +144,8 @@ trait FiresCallbacks
          * Lastly, let any observers
          * know about the callback.
          */
-        if (isset(self::$observers[static::class])) {
-            foreach (self::$observers[static::class] as $observer) {
+        if (isset(self::$__observers[static::class])) {
+            foreach (self::$__observers[static::class] as $observer) {
                 if (method_exists($observer, $method = Str::camel($name))) {
                     App::call($observer . '@' . $method, $parameters);
                 }
@@ -163,7 +163,7 @@ trait FiresCallbacks
      */
     public function hasCallback($name)
     {
-        return isset($this->callbacks[$name]);
+        return isset($this->__callbacks[$name]);
     }
 
     /**
@@ -174,6 +174,6 @@ trait FiresCallbacks
      */
     public static function hasCallbackListener($name)
     {
-        return isset(self::$listeners[static::class . '::' . $name]);
+        return isset(self::$__listeners[static::class . '::' . $name]);
     }
 }

@@ -5,11 +5,13 @@ namespace Streams\Core\Support;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Facades\Integrator;
+use Streams\Core\Support\Traits\FiresCallbacks;
 
 class Provider extends ServiceProvider
 {
 
     use Macroable;
+    use FiresCallbacks;
 
     /**
      * The named assets.
@@ -93,7 +95,7 @@ class Provider extends ServiceProvider
      */
     public function register()
     {
-        //$this->fire('registering');
+        $this->fire('registering');
 
         $this->registerAssets();
         $this->registerRoutes();
@@ -105,7 +107,7 @@ class Provider extends ServiceProvider
         $this->registerSchedules();
         $this->registerMiddleware();
 
-        //$this->fire('registered');
+        $this->fire('registered');
     }
 
     /**
@@ -113,11 +115,11 @@ class Provider extends ServiceProvider
      */
     public function boot()
     {
-        //$this->fire('booting');
+        $this->fire('booting');
 
         // Do something.
 
-        //$this->fire('booted');
+        $this->fire('booted');
     }
 
     /**
