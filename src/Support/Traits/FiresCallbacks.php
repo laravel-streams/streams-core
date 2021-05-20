@@ -55,17 +55,17 @@ trait FiresCallbacks
     /**
      * Register a new callback.
      *
-     * @param $trigger
+     * @param $name
      * @param $callback
      * @return $this
      */
-    public function on($trigger, $callback)
+    public function addCallback($name, $callback)
     {
-        if (!isset($this->callbacks[$trigger])) {
-            $this->callbacks[$trigger] = [];
+        if (!isset($this->callbacks[$name])) {
+            $this->callbacks[$name] = [];
         }
 
-        $this->callbacks[$trigger][] = $callback;
+        $this->callbacks[$name][] = $callback;
 
         return $this;
     }
@@ -73,29 +73,29 @@ trait FiresCallbacks
     /**
      * Register a new global listener.
      *
-     * @param $trigger
+     * @param $name
      * @param $callback
      * @return $this
      */
-    public static function when($trigger, $callback)
+    public static function addCallbackListener($name, $callback)
     {
-        $trigger = static::class . '::' . $trigger;
+        $name = static::class . '::' . $name;
 
-        if (!isset(static::$listeners[$trigger])) {
-            static::$listeners[$trigger] = [];
+        if (!isset(static::$listeners[$name])) {
+            static::$listeners[$name] = [];
         }
 
-        static::$listeners[$trigger][] = $callback;
+        static::$listeners[$name][] = $callback;
     }
 
     /**
      * Fire a set of closures by trigger.
      *
-     * @param        $trigger
+     * @param        $name
      * @param  array $parameters
      * @return $this
      */
-    public function fire($trigger, array $parameters = [])
+    public function fire($name, array $parameters = [])
     {
 
         /*
@@ -104,7 +104,7 @@ trait FiresCallbacks
          * 
          * This puts priority on the class.
          */
-        $method = Str::camel('on_' . str_replace(['.'], '_', $trigger));
+        $method = Str::camel('on_' . str_replace(['.'], '_', $name));
 
         if (method_exists($this, $method)) {
             App::call([$this, $method], $parameters);
@@ -118,9 +118,9 @@ trait FiresCallbacks
          */
         $listeners = (array) Arr::get(
             self::$listeners,
-            static::class . '::' . $trigger
+            static::class . '::' . $name
         );
-        
+
         foreach ($listeners as $callback) {
             App::call($callback, $parameters);
         }
@@ -133,7 +133,7 @@ trait FiresCallbacks
          */
         $callbacks = (array) Arr::get(
             $this->callbacks,
-            $trigger
+            $name
         );
 
         foreach ($callbacks as $callback) {
@@ -146,7 +146,7 @@ trait FiresCallbacks
          */
         if (isset(self::$observers[static::class])) {
             foreach (self::$observers[static::class] as $observer) {
-                if (method_exists($observer, $method = Str::camel($trigger))) {
+                if (method_exists($observer, $method = Str::camel($name))) {
                     App::call($observer . '@' . $method, $parameters);
                 }
             }
@@ -158,22 +158,22 @@ trait FiresCallbacks
     /**
      * Return if the callback exists.
      *
-     * @param $trigger
+     * @param $name
      * @return bool
      */
-    public function hasCallback($trigger)
+    public function hasCallback($name)
     {
-        return isset($this->callbacks[$trigger]);
+        return isset($this->callbacks[$name]);
     }
 
     /**
      * Return if the listener exists.
      *
-     * @param $trigger
+     * @param $name
      * @return bool
      */
-    public static function hasListener($trigger)
+    public static function hasCallbackListener($name)
     {
-        return isset(self::$listeners[static::class . '::' . $trigger]);
+        return isset(self::$listeners[static::class . '::' . $name]);
     }
 }
