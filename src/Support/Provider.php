@@ -93,19 +93,19 @@ class Provider extends ServiceProvider
     /**
      * Register common provisions.
      */
-    public function register()
+    public function registerProperty()
     {
         $this->fire('registering');
 
-        $this->registerAssets();
-        $this->registerRoutes();
-        $this->registerStreams();
-        $this->registerCommands();
-        $this->registerPolicies();
-        $this->registerListeners();
-        $this->registerProviders();
-        $this->registerSchedules();
-        $this->registerMiddleware();
+        $this->registerAssetsProperty();
+        $this->registerRoutesProperty();
+        $this->registerStreamsProperty();
+        $this->registerCommandsProperty();
+        $this->registerPoliciesProperty();
+        $this->registerListenersProperty();
+        $this->registerProvidersProperty();
+        $this->registerSchedulesProperty();
+        $this->registerMiddlewareProperty();
 
         $this->fire('registered');
     }
@@ -125,7 +125,7 @@ class Provider extends ServiceProvider
     /**
      * Register the named assets.
      */
-    protected function registerAssets()
+    protected function registerAssetsProperty()
     {
         Integrator::assets($this->assets);
     }
@@ -133,7 +133,7 @@ class Provider extends ServiceProvider
     /**
      * Register the addon routes.
      */
-    protected function registerRoutes()
+    protected function registerRoutesProperty()
     {
         Integrator::routes($this->routes);
     }
@@ -141,7 +141,7 @@ class Provider extends ServiceProvider
     /**
      * Register Streams.
      */
-    public function registerStreams()
+    public function registerStreamsProperty()
     {
         Integrator::streams($this->streams);
     }
@@ -149,7 +149,7 @@ class Provider extends ServiceProvider
     /**
      * Register the Artisan commands.
      */
-    protected function registerCommands()
+    protected function registerCommandsProperty()
     {
         if (!$this->commands) {
             return;
@@ -161,7 +161,7 @@ class Provider extends ServiceProvider
     /**
      * Register policies
      */
-    protected function registerPolicies()
+    protected function registerPoliciesProperty()
     {
         Integrator::policies($this->policies);
     }
@@ -169,7 +169,7 @@ class Provider extends ServiceProvider
     /**
      * Register the event listeners.
      */
-    protected function registerListeners()
+    protected function registerListenersProperty()
     {
         Integrator::listeners($this->listeners);
     }
@@ -177,7 +177,7 @@ class Provider extends ServiceProvider
     /**
      * Register the additional providers.
      */
-    protected function registerProviders()
+    protected function registerProvidersProperty()
     {
         Integrator::providers($this->providers);
     }
@@ -185,7 +185,7 @@ class Provider extends ServiceProvider
     /**
      * Register the scheduled commands.
      */
-    protected function registerSchedules()
+    protected function registerSchedulesProperty()
     {
         if (!$this->schedules) {
             return;
@@ -197,7 +197,7 @@ class Provider extends ServiceProvider
     /**
      * Register middleware by group.
      */
-    protected function registerMiddleware()
+    protected function registerMiddlewareProperty()
     {
         Integrator::middleware($this->middleware);
     }
