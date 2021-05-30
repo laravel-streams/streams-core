@@ -4,9 +4,6 @@ category: frontend
 intro: 
 enabled: true
 sort: 10
-references:
-    - https://laravel.com/docs/filesystem
-    - http://image.intervention.io/
 ---
 
 ## Introduction
