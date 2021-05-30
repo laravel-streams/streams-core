@@ -184,11 +184,6 @@ class Stream implements
                         $parameters[] = $field;
                     }
 
-                    // if (count($parameters) === 2 && $this->entry && $ignore = $this->entry->{$field}) {
-                    //     $parameters[] = $ignore;
-                    //     $parameters[] = $field;
-                    // }
-
                     $rule = 'unique:' . implode(',', $parameters);
                 }
             }
@@ -204,36 +199,38 @@ class Stream implements
         /**
          * Extend the factory with custom validators.
          */
-        foreach (Arr::get($validators, $field, []) as $rule => $validator) {
+        foreach ($this->fields->keys() as $field) {
+            foreach (Arr::get($validators, $field, []) as $rule => $validator) {
 
-            if (is_string($validator)) {
-                $validator = [
-                    'handler' => $validator,
-                ];
-            }
-
-            $handler = Arr::get($validator, 'handler');
-            $message = Arr::get($validator, 'message');
-
-            $handler = function ($attribute, $value, $parameters, Validator $validator) use ($handler) {
-
-                return App::call(
+                if (is_string($validator)) {
+                    $validator = [
+                        'handler' => $validator,
+                    ];
+                }
+    
+                $handler = Arr::get($validator, 'handler');
+                $message = Arr::get($validator, 'message');
+    
+                $handler = function ($attribute, $value, $parameters, Validator $validator) use ($handler) {
+    
+                    return App::call(
+                        $handler,
+                        [
+                            'value' => $value,
+                            'attribute' => $attribute,
+                            'validator' => $validator,
+                            'parameters' => $parameters,
+                        ],
+                        'handle'
+                    );
+                };
+    
+                $factory->extend(
+                    $rule,
                     $handler,
-                    [
-                        'value' => $value,
-                        'attribute' => $attribute,
-                        'validator' => $validator,
-                        'parameters' => $parameters,
-                    ],
-                    'handle'
+                    $message
                 );
-            };
-
-            $factory->extend(
-                $rule,
-                $handler,
-                $message
-            );
+            }
         }
 
         return $factory->make($data, $rules);
