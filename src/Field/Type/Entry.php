@@ -56,6 +56,16 @@ class Entry extends Arr
      */
     public function expand($value)
     {
-        return Streams::entries($this->config['stream'])->newInstance($value);
+        return $this->stream()->newInstance($value);
+    }
+
+    /**
+     * Return the related stream.
+     * 
+     * @return Stream
+     */
+    public function stream()
+    {
+        return Streams::make($this->config['related']);
     }
 }

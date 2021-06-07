@@ -42,7 +42,7 @@ class Field implements
         ]);
 
         $this->initializePrototypeAttributes($callbackData->get('attributes'));
-
+        
         $this->fire('initialized', [
             'field' => $this,
         ]);

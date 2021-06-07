@@ -58,10 +58,18 @@ class Entries extends FieldType
      */
     public function expand($value)
     {
-        $stream = Streams::make($this->config['stream']);
+        $stream = $this->stream();
         
         return new Collection(array_map(function ($value) use ($stream) {
             return $stream->repository()->newInstance($value);
         }, (array)$value));
+    }
+
+    /**
+     * Return the related stream.
+     */
+    public function stream()
+    {
+        return Streams::make($this->config['related']);
     }
 }

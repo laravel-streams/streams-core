@@ -2,8 +2,8 @@
 
 namespace Streams\Core\Field;
 
-use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Field\Value\Value;
+use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\Prototype;
