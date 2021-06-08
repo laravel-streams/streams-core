@@ -251,8 +251,9 @@ class StreamsServiceProvider extends ServiceProvider
          * according to it's match.
          */
         $active = $applications->first(function ($application) use ($url) {
-            return ($application->match
-                && Str::is($application->match, $url));
+            return $application->match && collect((array)$application->match)->filter(function($match) use ($url) {
+                return Str::is($match, $url);
+            })->isNotEmpty();
         });
 
         if (!$active) {
