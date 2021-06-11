@@ -33,6 +33,7 @@ use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Support\Facades\Integrator;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Support\Facades\Auth;
 use Streams\Core\Support\Facades\Applications;
 
 class StreamsServiceProvider extends ServiceProvider
@@ -152,6 +153,7 @@ class StreamsServiceProvider extends ServiceProvider
                 'url' => [
                     'previous' => URL::previous(),
                 ],
+                'user' => ($user = Auth::user()) ? $user->toArray() : null,
             ];
 
             if ($route = Request::route()) {
@@ -251,7 +253,7 @@ class StreamsServiceProvider extends ServiceProvider
          * according to it's match.
          */
         $active = $applications->first(function ($application) use ($url) {
-            return $application->match && collect((array)$application->match)->filter(function($match) use ($url) {
+            return $application->match && collect((array)$application->match)->filter(function ($match) use ($url) {
                 return Str::is($match, $url);
             })->isNotEmpty();
         });
