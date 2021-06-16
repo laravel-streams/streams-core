@@ -93,6 +93,13 @@ class Provider extends ServiceProvider
     public $middleware = [];
 
     /**
+     * The view overrides.
+     *
+     * @var array
+     */
+    public $overrides = [];
+
+    /**
      * Register common provisions.
      */
     public function register()
@@ -209,10 +216,8 @@ class Provider extends ServiceProvider
     /**
      * Register view overrides.
      */
-    public function registerStreamsViewOverrides($viewOverrides)
+    public function registerStreamsViewOverrides()
     {
-        foreach ($viewOverrides as $view => $override) {
-            View::override($view, $override);
-        }
+        Integrator::overrides($this->overrides);
     }
 }

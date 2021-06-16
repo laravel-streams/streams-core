@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Console\Application;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Config;
@@ -223,6 +224,13 @@ class Integrator
             } else {
                 Streams::register($stream);
             }
+        }
+    }
+    
+    public function overrides($overrides)
+    {
+        foreach ($overrides as $view => $override) {
+            View::override($view, $override);
         }
     }
 }
