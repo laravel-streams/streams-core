@@ -3,7 +3,6 @@
 namespace Streams\Core\Application;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\App;
 use Streams\Core\Application\Application;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Traits\HasMemory;
@@ -29,7 +28,9 @@ class ApplicationManager
 
     public function __construct()
     {
-        $this->collection = Streams::entries('core.applications')->get()->keyBy('id');
+        $this->collection = Streams::entries('core.applications')->get()->keyBy(function ($item) {
+            return $item->id;
+        });
     }
 
     /**
@@ -57,7 +58,7 @@ class ApplicationManager
         if ($active) {
             $this->active = $active;
         }
-
+        
         return $this->collection->get($this->active);
     }
 
