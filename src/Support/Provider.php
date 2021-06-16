@@ -2,10 +2,12 @@
 
 namespace Streams\Core\Support;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Facades\Integrator;
 use Streams\Core\Support\Traits\FiresCallbacks;
+use Streams\Core\View\ViewOverrides;
 
 class Provider extends ServiceProvider
 {
@@ -107,6 +109,7 @@ class Provider extends ServiceProvider
         $this->registerStreamsProviders();
         $this->registerStreamsSchedules();
         $this->registerStreamsMiddleware();
+        $this->registerStreamsViewOverrides();
 
         $this->fire('registered');
     }
@@ -201,5 +204,15 @@ class Provider extends ServiceProvider
     public function registerStreamsMiddleware()
     {
         Integrator::middleware($this->middleware);
+    }
+
+    /**
+     * Register view overrides.
+     */
+    public function registerStreamsViewOverrides($viewOverrides)
+    {
+        foreach ($viewOverrides as $view => $override) {
+            View::override($view, $override);
+        }
     }
 }
