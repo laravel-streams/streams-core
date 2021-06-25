@@ -143,7 +143,11 @@ class AssetManager
             return $this->script(null, [], $contents);
         }
 
-        return $this->style(null, [], $contents);
+        if (pathinfo($asset, PATHINFO_EXTENSION) == 'css') {
+            return $this->style(null, [], $contents);
+        }
+
+        return $contents;
     }
 
     /**
