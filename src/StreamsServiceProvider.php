@@ -326,6 +326,13 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        
+        $this->publishes([
+            base_path('vendor/anomaly/streams-platform/migrations')
+            => public_path('database/migrations')
+        ], ['migrations']);
+
+
         if (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin') {
 
             /**
