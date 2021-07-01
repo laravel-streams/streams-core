@@ -328,8 +328,13 @@ class StreamsServiceProvider extends ServiceProvider
     {
         
         $this->publishes([
-            base_path('vendor/anomaly/streams-platform/migrations')
-            => public_path('database/migrations')
+            base_path('vendor/anomaly/streams-platform/migrations/core')
+            => base_path('database/migrations')
+        ], ['migrations']);
+
+        $this->publishes([
+            base_path('vendor/anomaly/streams-platform/migrations/application')
+            => base_path('database/migrations')
         ], ['migrations']);
 
 
