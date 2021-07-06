@@ -68,7 +68,7 @@ class AssetCollection extends Collection
      */
     public function resolved()
     {
-        return $this->map(function (&$asset) {
+        return $this->map(function ($asset) {
             return Assets::resolve($asset);
         });
     }
