@@ -44,7 +44,7 @@ class BuildForms
              * Distribute the versionable entry data.
              */
             if ($builder->hasVersion()) {
-                dispatch_now(new DistributeVersion($this->builder, $builder->getVersion()));
+                dispatch_sync(new DistributeVersion($this->builder, $builder->getVersion()));
             }
         }
     }

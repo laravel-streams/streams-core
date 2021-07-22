@@ -59,7 +59,7 @@ class StreamsPlugin extends Plugin
                 'stream',
                 function ($namespace, $slug = null) {
                     return (new Decorator())->decorate(
-                        dispatch_now(new GetStream($namespace, $slug ?: $namespace))
+                        dispatch_sync(new GetStream($namespace, $slug ?: $namespace))
                     );
                 }
             ),
@@ -67,7 +67,7 @@ class StreamsPlugin extends Plugin
                 'streams',
                 function ($namespace) {
                     return (new Decorator())->decorate(
-                        dispatch_now(new GetStreams($namespace))
+                        dispatch_sync(new GetStreams($namespace))
                     );
                 }
             ),
@@ -75,7 +75,7 @@ class StreamsPlugin extends Plugin
                 'entry',
                 function ($namespace, $stream = null) {
                     return (new Decorator())->decorate(
-                        dispatch_now(new GetEntryCriteria($namespace, $stream ?: $namespace, 'first'))
+                        dispatch_sync(new GetEntryCriteria($namespace, $stream ?: $namespace, 'first'))
                     );
                 }
             ),
@@ -83,7 +83,7 @@ class StreamsPlugin extends Plugin
                 'entries',
                 function ($namespace, $stream = null) {
                     return (new Decorator())->decorate(
-                        dispatch_now(new GetEntryCriteria($namespace, $stream ?: $namespace, 'get'))
+                        dispatch_sync(new GetEntryCriteria($namespace, $stream ?: $namespace, 'get'))
                     );
                 }
             ),
@@ -91,14 +91,14 @@ class StreamsPlugin extends Plugin
                 'query',
                 function ($model = null) {
                     return (new Decorator())->decorate(
-                        dispatch_now(new GetEloquentCriteria($model, 'get'))
+                        dispatch_sync(new GetEloquentCriteria($model, 'get'))
                     );
                 }
             ),
             new \Twig_SimpleFunction(
                 'img',
                 function ($image) {
-                    return dispatch_now(new MakeImageInstance($image, 'img'));
+                    return dispatch_sync(new MakeImageInstance($image, 'img'));
                 },
                 [
                     'is_safe' => ['html'],
@@ -120,7 +120,7 @@ class StreamsPlugin extends Plugin
                         $arguments = func_get_arg(0);
                     }
 
-                    return dispatch_now(new GetTableCriteria($arguments));
+                    return dispatch_sync(new GetTableCriteria($arguments));
                 },
                 [
                     'is_safe' => ['html'],
@@ -143,7 +143,7 @@ class StreamsPlugin extends Plugin
                         $arguments = func_get_arg(0);
                     }
 
-                    return dispatch_now(new GetFormCriteria($arguments));
+                    return dispatch_sync(new GetFormCriteria($arguments));
                 },
                 [
                     'is_safe' => ['html'],
@@ -176,7 +176,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'icon',
                 function ($type, $class = null) {
-                    return (new Decorator())->decorate(dispatch_now(new GetIcon($type, $class)));
+                    return (new Decorator())->decorate(dispatch_sync(new GetIcon($type, $class)));
                 },
                 [
                     'is_safe' => ['html'],
@@ -185,7 +185,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'view',
                 function ($view, array $data = []) {
-                    return dispatch_now(new GetView($view, $data))->render();
+                    return dispatch_sync(new GetView($view, $data))->render();
                 },
                 [
                     'is_safe' => ['html'],
@@ -208,7 +208,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'buttons',
                 function ($buttons) {
-                    return dispatch_now(new GetButtons($buttons))->render();
+                    return dispatch_sync(new GetButtons($buttons))->render();
                 },
                 [
                     'is_safe' => ['html'],
@@ -217,7 +217,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'constants',
                 function () {
-                    return dispatch_now(new GetConstants())->render();
+                    return dispatch_sync(new GetConstants())->render();
                 },
                 [
                     'is_safe' => ['html'],
@@ -250,19 +250,19 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'request_time',
                 function ($decimal = 2) {
-                    return dispatch_now(new GetElapsedTime($decimal));
+                    return dispatch_sync(new GetElapsedTime($decimal));
                 }
             ),
             new \Twig_SimpleFunction(
                 'memory_usage',
                 function ($precision = 1) {
-                    return dispatch_now(new GetMemoryUsage($precision));
+                    return dispatch_sync(new GetMemoryUsage($precision));
                 }
             ),
             new \Twig_SimpleFunction(
                 'layout',
                 function ($layout, $default = 'default') {
-                    return dispatch_now(new GetLayoutName($layout, $default));
+                    return dispatch_sync(new GetLayoutName($layout, $default));
                 }
             ),
             new \Twig_SimpleFunction(
@@ -280,7 +280,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'trans',
                 function ($key, array $parameters = [], $locale = null) {
-                    return dispatch_now(new GetTranslatedString($key, $parameters, $locale));
+                    return dispatch_sync(new GetTranslatedString($key, $parameters, $locale));
                 }
             ),
             new \Twig_SimpleFunction(
