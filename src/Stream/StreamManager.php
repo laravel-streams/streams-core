@@ -61,6 +61,17 @@ class StreamManager
         }
     }
 
+    public function merge($target, array $merge)
+    {
+        $target = $this->make($target);
+
+        $target->loadPrototypeAttributes($merge);
+
+        App::make('streams.instances.' . $target->handle);
+
+        return $target;
+    }
+
     /**
      * Check if a given
      * stream exists.

@@ -10,10 +10,7 @@
     "fields": {
         "id": {
             "type": "slug",
-            "config.separator": "_"
-        },
-        "source": "array",
-        "routes": "array",
-        "meta": "array"
+            "config.separator": "-"
+        }
     }
 }
