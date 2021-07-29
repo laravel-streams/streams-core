@@ -4,7 +4,6 @@ namespace Streams\Core\View;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
-use Streams\Core\Application\Application;
 use Streams\Core\Support\Facades\Applications;
 
 class ViewTemplate
@@ -16,7 +15,7 @@ class ViewTemplate
      * @param array $payload
      * @return View
      */
-    public function parse(string $template, array $payload = [])
+    public static function parse(string $template, array $payload = [])
     {
         $view = 'support/parsed/' . md5($template);
 
@@ -44,7 +43,7 @@ class ViewTemplate
     {
         $path = self::path($template, $extension);
 
-        $base = storage_path(implode(DIRECTORY_SEPARATOR, [Application::handle()]));
+        $base = storage_path(implode(DIRECTORY_SEPARATOR, [Applications::handle()]));
 
         return 'storage::' . ltrim(str_replace($base, '', $path), '\\/');
     }
@@ -59,7 +58,7 @@ class ViewTemplate
     public static function path($template, $extension = 'blade.php')
     {
         $path = storage_path(
-            implode(DIRECTORY_SEPARATOR, [Application::handle(), 'support', 'streams', md5($template)])
+            implode(DIRECTORY_SEPARATOR, [Applications::handle(), 'support', 'streams', md5($template)])
         );
 
         if (!is_dir($directory = dirname($path))) {
