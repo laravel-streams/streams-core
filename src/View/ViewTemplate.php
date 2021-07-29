@@ -4,6 +4,7 @@ namespace Streams\Core\View;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
+use Streams\Core\Application\Application;
 use Streams\Core\Support\Facades\Applications;
 
 class ViewTemplate

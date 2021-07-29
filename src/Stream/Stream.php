@@ -542,18 +542,18 @@ class Stream implements
         $this->validators = $validators;
     }
 
-    // public function merge(array &$parent, array &$stream)
-    // {
-    //     $merged = $parent;
+    public function merge(array &$parent, array &$stream)
+    {
+        $merged = $parent;
 
-    //     foreach ($stream as $key => &$value) {
-    //         if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
-    //             $merged[$key] = $this->merge($merged[$key], $value);
-    //         } else {
-    //             $merged[$key] = $value;
-    //         }
-    //     }
+        foreach ($stream as $key => &$value) {
+            if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
+                $merged[$key] = $this->merge($merged[$key], $value);
+            } else {
+                $merged[$key] = $value;
+            }
+        }
 
-    //     return $merged;
-    // }
+        return $merged;
+    }
 }

@@ -109,6 +109,10 @@ class StreamManager
      */
     public function load($file)
     {
+        if (!file_exists($file)) {
+            throw new \Exception("File [$file] does not exist.");
+        }
+
         $stream = json_decode(file_get_contents($file), true);
 
         $handle = basename($file, '.json');
@@ -127,7 +131,7 @@ class StreamManager
     public function register(array $stream)
     {
         $stream = $this->build($stream);
-        
+
         App::instance('streams.instances.' . $stream->handle, $stream);
 
         $this->collection->put($stream->handle, $stream);
