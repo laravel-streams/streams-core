@@ -148,6 +148,26 @@ abstract class Image
     }
 
     /**
+     * Return a favicon link.
+     *
+     * @param array $attributes
+     * @return string
+     */
+    public function favicon(array $attributes = [])
+    {
+        $attributes = array_merge((array)$this->getPrototypeAttribute('attributes') ?: [], $attributes);
+
+        if (!isset($attributes['href'])) {
+            $attributes['href'] = $this->url();
+        }
+
+        $attributes['sizes'] = '56x56';
+        $attributes['type'] = 'image/' . $this->extension();
+
+        return '<link rel="icon" ' . HtmlFacade::attributes($attributes) . '>';
+    }
+
+    /**
      * Return the base64_encoded image source.
      *
      * @return string
