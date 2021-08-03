@@ -161,7 +161,10 @@ abstract class Image
             $attributes['href'] = $this->url();
         }
 
-        $attributes['sizes'] = '56x56';
+        if (!isset($attributes['sizes'])) {
+            $attributes['sizes'] = '56x56';
+        }
+
         $attributes['type'] = 'image/' . $this->extension();
 
         return '<link rel="icon" ' . HtmlFacade::attributes($attributes) . '>';
