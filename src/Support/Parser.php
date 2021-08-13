@@ -75,7 +75,7 @@ class Parser
          * if the target is a string and is in a parsable
          * format then parse the target with the payload.
          */
-        if (is_string($target) && str_contains($target, ['{', '}'])) {
+        if (is_string($target) && Str::contains($target, ['{', '}'])) {
             $target = $this->parser->render($target, $data);
         }
 
