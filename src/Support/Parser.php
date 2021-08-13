@@ -1,9 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Anomaly\Streams\Platform\Routing\UrlGenerator;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Http\Request;
 use StringTemplate\Engine;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Contracts\Support\Arrayable;
+use Anomaly\Streams\Platform\Routing\UrlGenerator;
 
 /**
  * Class Parser

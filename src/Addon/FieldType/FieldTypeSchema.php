@@ -1,12 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Illuminate\Support\Str;
+use Illuminate\Support\Fluent;
+use Illuminate\Database\Connection;
+use Illuminate\Database\Schema\Builder;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Database\Connection;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Schema\Builder;
-use Illuminate\Support\Fluent;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 
 /**
  * Class FieldTypeSchema
@@ -105,7 +106,7 @@ class FieldTypeSchema
 
         $column->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true);
 
-        if (!str_contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
+        if (!Str::contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
             $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
         }
 
@@ -245,7 +246,7 @@ class FieldTypeSchema
 
         $column->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true)->change();
 
-        if (!str_contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
+        if (!Str::contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
             $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
         }
 

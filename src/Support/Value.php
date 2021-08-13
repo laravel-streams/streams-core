@@ -1,8 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Model\EloquentModel;
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Support\Arrayable;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
  * Class Value
@@ -192,7 +193,7 @@ class Value
          * If the value looks like a render-able
          * string then render it.
          */
-        if (is_string($value) && str_contains($value, ['{{', '{%'])) {
+        if (is_string($value) && Str::contains($value, ['{{', '{%'])) {
             $value = $this->template->render($value, [$term => $entry]);
         }
 
