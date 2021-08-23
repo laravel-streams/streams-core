@@ -2,9 +2,8 @@
 
 namespace Anomaly\Streams\Platform\Model\Command;
 
+use Illuminate\Database\Eloquent\Model;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * Class CascadeDelete
@@ -19,16 +18,16 @@ class CascadeDelete
     /**
      * The eloquent model.
      *
-     * @var EloquentModel
+     * @var Model
      */
     protected $model;
 
     /**
      * Create a new CascadeDelete instance.
      *
-     * @param EloquentModel $model
+     * @param Model $model
      */
-    public function __construct(EloquentModel $model)
+    public function __construct(Model $model)
     {
         $this->model = $model;
     }
@@ -60,14 +59,14 @@ class CascadeDelete
 
             $relation = $relation->getResults();
 
-            if ($relation instanceof EloquentModel) {
+            if ($relation instanceof Model) {
                 $relation->{$action}();
             }
 
             if ($relation instanceof EloquentCollection) {
 
                 $relation->each(
-                    function (EloquentModel $item) use ($action) {
+                    function ($item) use ($action) {
                         $item->{$action}();
                     }
                 );
