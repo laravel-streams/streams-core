@@ -34,6 +34,11 @@ class StreamsController extends Controller
         'resolve_response',
     ];
 
+    public function __invoke()
+    {
+        return $this->handle();
+    }
+
     /**
      * Handle the request.
      * 
@@ -125,7 +130,7 @@ class StreamsController extends Controller
          * find it and get on with the show.
          */
         $entry = Arr::get($action, 'entry');
-
+        
         if ($entry) {
 
             if ($entry = $stream->repository()->find($entry)) {
@@ -189,15 +194,15 @@ class StreamsController extends Controller
         //------------
 
         $criteria = [];
-
-        if (!$criteria) {
-            return;
-        }
-
+        
         foreach ($parameters as $key => $value) {
             if (Str::startsWith($key, 'entry__')) {
                 $criteria[str_replace('entry__', '', $key)] = $value;
             }
+        }
+
+        if (!$criteria) {
+            return;
         }
 
         /**

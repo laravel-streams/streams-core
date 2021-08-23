@@ -91,7 +91,7 @@ class LocalImage extends Image
         if (!File::isDirectory($directory = dirname($path = base_path($this->source)))) {
             File::makeDirectory($directory, 0755, true);
         }
-        
+
         File::put($path, $intervention->encode($this->extension(), $this->quality)->encoded);
     }
 }
