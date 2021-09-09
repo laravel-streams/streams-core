@@ -50,6 +50,7 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
         \Anomaly\Streams\Platform\Addon\Console\AddonInstall::class,
         \Anomaly\Streams\Platform\Addon\Console\AddonUninstall::class,
         \Anomaly\Streams\Platform\Addon\Console\AddonReinstall::class,
+        \Anomaly\Streams\Platform\Addon\Console\AddonDisable::class,
 
         // Application Commands
         \Anomaly\Streams\Platform\Application\Console\Build::class,
