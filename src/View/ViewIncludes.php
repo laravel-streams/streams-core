@@ -45,14 +45,8 @@ class ViewIncludes extends Collection
             return null;
         }
 
-        return implode(
-            array_map(
-                function ($include) {
-                    return view($include)->render();
-                },
-                $includes->all()
-            ),
-            "\n"
-        );
+        return $includes->map(function ($include) {
+            return view($include)->render();
+        })->implode("\n");
     }
 }
