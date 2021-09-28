@@ -1,6 +1,8 @@
 {
     "name": "@streams/core",
     "version": "1.0.0",
+    "types": "resources/public/js/types/index.d.ts",
+    "main": "resources/public/js/index.js",
     "scripts": {
         "dev": "npm run development",
         "development": "mix",
@@ -8,13 +10,23 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "clean": "rimraf resources/lib/**/*.d.ts public/js"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.11.2",
-        "axios": "^0.21",
+        "inversify": "^5.1.1",
+        "inversify-inject-decorators": "^3.1.0",
+        "reflect-metadata": "^0.1.13",
+        "wtfetch": "^1.1.0"
+    },
+    "devDependencies": {
+        "@types/node": "^16.10.1",
         "laravel-mix": "^6.0",
+        "rimraf": "^3.0.2",
         "lodash": "^4.17",
-        "postcss": "^8.1"
+        "postcss": "^8.1",
+        "ts-loader": "^8.0.13",
+        "ts-node": "^10.2.1",
+        "typescript": "^4.4.3"
     }
 }

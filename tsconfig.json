@@ -1,0 +1,39 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "target": "es6",
+        "module": "CommonJS",
+        "jsx": "preserve",
+        "jsxFactory": "h",
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "noImplicitAny": false,
+        "noImplicitReturns": false,
+        "noImplicitThis": false,
+        "noImplicitUseStrict": false,
+        "inlineSourceMap": true,
+        "declaration": true,
+        "declarationDir": "resources/public/js/types",
+        "baseUrl": ".",
+        "typeRoots": [
+            "node_modules/@types",
+            "../../../node_modules/@types"
+        ],
+        "lib": [
+            "esnext",
+            "scripthost"
+        ],
+        "paths": {
+            "@/*": ["resources/lib/*"]
+        }
+    },
+    "include": [
+        "resources/lib"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
