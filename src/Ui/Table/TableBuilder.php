@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Illuminate\Support\Collection;
-use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\HttpFoundation\Response;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
@@ -27,7 +26,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 class TableBuilder
 {
 
-    use Hookable;
     use DispatchesJobs;
     use FiresCallbacks;
 
