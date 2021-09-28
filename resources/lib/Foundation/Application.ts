@@ -2,19 +2,16 @@ import { AsyncContainerModule, Container, interfaces } from 'inversify';
 import getDecorators from 'inversify-inject-decorators';
 import { Dispatcher } from '@/Dispatcher/Dispatcher';
 import { Repository } from '@/Config/Repository';
-import { Config } from '@/types/config';
+import { ApplicationInitOptions, Configuration } from '@/types/config';
 import { IServiceProvider, IServiceProviderClass } from '@/Support/ServiceProvider';
 import ServiceIdentifier = interfaces.ServiceIdentifier;
+import { makeLog } from '@/Support/utils';
 
-
-export interface ApplicationInitOptions {
-    providers?: IServiceProviderClass[];
-    config?: Config;
-}
+const log = makeLog('Application');
 
 export interface Application {
     events: Dispatcher;
-    config: Repository<Config>;
+    config: Repository<Configuration> & Configuration;
 }
 
 export class Application extends Container {
@@ -37,7 +34,7 @@ export class Application extends Container {
     }
 
     protected loadedProviders = {};
-    protected providers;
+    protected providers = [];
     protected booted          = false;
     protected started         = false;
 
@@ -52,8 +49,7 @@ export class Application extends Container {
             autoBindInjectable: true,
         });
         this.singleton('events', Dispatcher).addBindingGetter('events');
-        this.singleton('config', Repository.asProxy()).addBindingGetter('config');
-
+        this.events.any((eventName:string, ...args:any[]) => log(eventName, ' arguments: ', args))
     }
 
     public async initialize(options: ApplicationInitOptions = {}) {
@@ -63,7 +59,7 @@ export class Application extends Container {
             ...options,
         };
         this.events.emit('Application:initialize', options);
-        this.config.set(options.config);
+        this.instance('config', Repository.asProxy(options.config)).addBindingGetter('config');
 
         await this.loadProviders(options.providers);
         await this.registerProviders(this.providers);
@@ -134,11 +130,19 @@ export class Application extends Container {
         return this;
     };
 
-    public async start(): Promise<this> {
+    public async start(...args:any[]): Promise<this> {
         this.events.emit('Application:start', this);
         /* This part is ment to kick start the application. */
         /* and is currently emtpy. awaiting purpose */
-
+        /**
+         * @todo: Work out Application start
+         * Different projects will have different views on what 'starting' up might be.
+         * One would use React, Vue or any other way.
+         * My suggestion would be that the {@see Application.initialize()} options allow for a
+         * 'start' (async/Promise) callback that would be called right here, overloading it with any arguments
+         * this {@see Application.start()} method has received.
+         *
+         */
         this.events.emit('Application:started', this);
         return this;
     };
@@ -160,7 +164,6 @@ export class Application extends Container {
         return this;
     }
 
-
     public addBindingGetter(id: string, key: string = null): this {
         key        = key || id;
         const self = this;
@@ -176,6 +179,7 @@ export class Application extends Container {
 }
 
 const app                    = Application.instance;
+
 const { lazyInject: inject } = getDecorators(app);
 export {
     app,

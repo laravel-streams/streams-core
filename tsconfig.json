@@ -2,7 +2,7 @@
     "compileOnSave": false,
     "compilerOptions": {
         "target": "es6",
-        "module": "CommonJS",
+        "module": "ESNext",
         "jsx": "preserve",
         "jsxFactory": "h",
         "moduleResolution": "node",
@@ -14,9 +14,8 @@
         "noImplicitReturns": false,
         "noImplicitThis": false,
         "noImplicitUseStrict": false,
-        "inlineSourceMap": true,
         "declaration": true,
-        "declarationDir": "resources/public/js/types",
+        "declarationDir": "resources/public/types",
         "baseUrl": ".",
         "typeRoots": [
             "node_modules/@types",
@@ -24,7 +23,8 @@
         ],
         "lib": [
             "esnext",
-            "scripthost"
+            "scripthost",
+            "DOM"
         ],
         "paths": {
             "@/*": ["resources/lib/*"]

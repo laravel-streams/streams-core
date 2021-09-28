@@ -1,27 +1,33 @@
 import { Stream } from './Stream';
 import { injectable } from 'inversify';
+import { inject } from '@/Foundation';
+import { Config } from '../types/config';
 
 @injectable()
 export class Streams {
+    @inject('config') config:Config
 
-    static make(): Stream {return; }
+    public make(): Stream {
+        this.config.streams;
+        return new Stream();
+    }
 
-    static merge() {}
+    public merge() {}
 
-    static has(): boolean {return false;}
+    public has(): boolean {return false;}
 
-    static build() {}
+    public build() {}
 
-    static load() {}
+    public load() {}
 
-    static register() {}
+    public register() {}
 
-    static overload() {}
+    public overload() {}
 
-    static entries() {}
+    public entries() {}
 
-    static repository() {}
+    public repository() {}
 
-    static collection() {}
+    public collection() {}
 
 }

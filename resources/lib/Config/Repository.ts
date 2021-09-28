@@ -35,10 +35,11 @@ const enum ProxyFlags {
     UNPROXY  = '__s_unproxy'
 }
 
+
 function makeProxy<T>(repository: Repository<T>): Repository<T> & T {
     return new Proxy(repository, {
         get(target: Repository, p: string | symbol, receiver: any): any {
-            if ( Reflect.has(target, p) ) return target[ p ];
+            if ( Reflect.has(target, p) ) return Reflect.get(target,p,receiver);
             if ( p === ProxyFlags.IS_PROXY ) return true;
             if ( p === ProxyFlags.UNPROXY ) return () => target;
             let path = p.toString();

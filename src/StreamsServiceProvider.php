@@ -118,7 +118,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->extendStr();
 
         $this->publishes([
-            base_path('vendor/streams/core/resources/public')
+            dirname(__DIR__) .'/resources/public'
             => public_path('vendor/streams/core')
         ], ['public']);
     }
@@ -339,7 +339,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerStreams()
     {
-        $prefix = __DIR__ . '/../resources/streams/';
+        $prefix = dirname(__DIR__)  . '/resources/streams/';
         $streams = ['core.streams', 'core.applications'];
 
         foreach ($streams as $stream) {
@@ -349,7 +349,7 @@ class StreamsServiceProvider extends ServiceProvider
         }
 
         $this->publishes([
-            __DIR__ . '/../resources/streams/' => base_path('streams/')
+            dirname(__DIR__)  . '/resources/streams/' => base_path('streams/')
         ], 'streams');
 
         /**
@@ -400,7 +400,7 @@ class StreamsServiceProvider extends ServiceProvider
         Assets::addPath('public', public_path());
         Assets::addPath('resources', resource_path());
 
-        Assets::addPath('core', 'vendor/streams/core');
+        Assets::addPath('core', dirname(__DIR__));
 
         //Assets::add('scripts', '/vendor/streams-vendors.js'); // No
         //Assets::register('core::vendor/axios.js'); // Yes
@@ -416,7 +416,7 @@ class StreamsServiceProvider extends ServiceProvider
     {
         Images::addPath('public', public_path());
         Images::addPath('resources', resource_path());
-        Images::addPath('streams', realpath(__DIR__ . '/../resources'));
+        Images::addPath('streams', dirname(__DIR__) . '/resources');
     }
 
     /**
@@ -426,7 +426,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function addViewNamespaces()
     {
-        View::addNamespace('streams-core', base_path('vendor/streams/core/resources/views'));
+        View::addNamespace('streams-core', dirname(__DIR__) .'/resources/views');
         View::addNamespace('storage', storage_path('streams'));
     }
 
@@ -435,7 +435,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function loadTranslations()
     {
-        Lang::addNamespace('streams-core', base_path('vendor/streams/core/resources/lang'));
+        Lang::addNamespace('streams-core',  dirname(__DIR__) .'/resources/lang');
     }
 
     /**
