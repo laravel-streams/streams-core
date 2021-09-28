@@ -1,10 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Edit;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Export;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\ForceDelete;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Reorder;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\ExportAll;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\ForceDelete;
 
 /**
  * Class ActionRegistry
@@ -38,6 +39,12 @@ class ActionRegistry
             'icon'    => 'download',
             'handler' => Export::class,
             'text'    => 'streams::button.export',
+        ],
+        'export_all'       => [
+            'button'  => 'info',
+            'icon'    => 'download',
+            'handler' => ExportAll::class,
+            'text'    => 'streams::button.export_all',
         ],
         'edit'         => [
             'handler' => Edit::class,

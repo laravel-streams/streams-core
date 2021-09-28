@@ -26,6 +26,7 @@ return [
     'force_delete'   => 'Force Delete',
     'change'         => 'Change',
     'export'         => 'Export',
+    'export_all'     => 'Export All',
     'create'         => 'Create',
     'cancel'         => 'Cancel',
     'options'        => 'Options',

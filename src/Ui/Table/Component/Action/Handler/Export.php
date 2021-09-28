@@ -27,6 +27,8 @@ class Export extends ActionHandler
         $model  = $builder->getTableModel();
         $stream = $builder->getTableStream();
 
+        ob_start();
+
         $headers = [
             'Content-Disposition' => 'attachment; filename=' . $stream->getSlug() . '.csv',
             'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
@@ -36,21 +38,28 @@ class Export extends ActionHandler
         ];
 
         $callback = function () use ($selected, $model) {
+            
             $output = fopen('php://output', 'w');
 
             /* @var EloquentModel $entry */
             foreach ($selected as $k => $id) {
+                
                 if ($entry = $model->find($id)) {
+                
                     if ($k == 0) {
                         fputcsv($output, array_keys($entry->toArray()));
                     }
 
                     fputcsv($output, $entry->toArray());
+
+                    ob_flush();
                 }
             }
 
             fclose($output);
         };
+
+        ob_flush();
 
         $builder->setTableResponse($response->stream($callback, 200, $headers));
     }
