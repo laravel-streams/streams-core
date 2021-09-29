@@ -14,12 +14,10 @@
         "noImplicitReturns": false,
         "noImplicitThis": false,
         "noImplicitUseStrict": false,
-        "declaration": true,
-        "declarationDir": "resources/public/types",
         "baseUrl": ".",
         "typeRoots": [
-            "node_modules/@types",
-            "../../../node_modules/@types"
+            "../node_modules/@types",
+            "../../../../node_modules/@types"
         ],
         "lib": [
             "esnext",
@@ -27,12 +25,12 @@
             "DOM"
         ],
         "paths": {
-            "@/*": ["resources/lib/*"]
+            "@/*": ["../resources/lib/*"]
         }
     },
     "include": [
-        "resources/lib",
-        "test"
+        "../resources/lib",
+        "*"
     ],
     "exclude": [
         "node_modules"

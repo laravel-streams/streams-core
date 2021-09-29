@@ -7,3 +7,5 @@ mix-manifest.json
 /node_modules
 composer.lock
 package-lock.json
+/.nyc_output
+/coverage

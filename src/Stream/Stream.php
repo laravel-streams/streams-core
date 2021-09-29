@@ -31,6 +31,7 @@ use Streams\Core\Criteria\Contract\CriteriaInterface;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 
 /**
+ *
  * @property string handle
  * @property Repository repository
  * @property array rules
@@ -112,7 +113,7 @@ class Stream implements
     /**
      * Return the entry criteria.
      *
-     * @return CriteriaInterface
+     * @return \Streams\Core\Criteria\Criteria
      */
     public function entries()
     {
@@ -207,12 +208,12 @@ class Stream implements
                         'handler' => $validator,
                     ];
                 }
-    
+
                 $handler = Arr::get($validator, 'handler');
                 $message = Arr::get($validator, 'message');
-    
+
                 $handler = function ($attribute, $value, $parameters, Validator $validator) use ($handler) {
-    
+
                     return App::call(
                         $handler,
                         [
@@ -224,7 +225,7 @@ class Stream implements
                         'handle'
                     );
                 };
-    
+
                 $factory->extend(
                     $rule,
                     $handler,
@@ -360,7 +361,7 @@ class Stream implements
     /**
      * Specify data which should
      * be serialized to JSON.
-     * 
+     *
      * @return mixed
      */
     public function jsonSerialize()
@@ -385,7 +386,7 @@ class Stream implements
         $attributes = $callbackData->get('attributes');
 
         $attributes = Arr::undot($attributes);
-        
+
         $this->extendInput($attributes);
         $this->importInput($attributes);
         $this->normalizeInput($attributes);

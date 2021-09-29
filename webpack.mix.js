@@ -27,6 +27,14 @@ mix
     .ts('resources/lib/index.ts', '')
     .copyDirectory('resources/public', '../../../public/vendor/streams/core')
     .babelConfig(babelConfig)
+    .options({
+        terser: {
+            terserOptions: {
+                keep_classnames:true,
+                keep_fnames:true,
+            }
+        }
+    })
     .webpackConfig({
         devtool: 'inline-cheap-module-source-map',
         resolve: {
@@ -80,11 +88,8 @@ mix
                 }
             }
         ]
-        return;
     });
 
 if ( !mix.inProduction() ) {
     mix.sourceMaps();
 }
-
-mix.dumpWebpackConfig();

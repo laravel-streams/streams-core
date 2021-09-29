@@ -7,8 +7,8 @@ export interface StreamsConfiguration {
 }
 
 export interface Configuration {
-    streams?: StreamsConfiguration,
-    http?: AxiosRequestConfig
+    streams?: StreamsConfiguration | any,
+    http?: AxiosRequestConfig | any
 }
 
 export interface ApplicationInitOptions {

@@ -1,7 +1,8 @@
 import { Stream } from './Stream';
+import { Criteria } from '@/Streams/Criteria';
 
 
-export class Repository {
+export class Repository<ID extends string = string> {
     constructor(protected stream: Stream) {}
 
     all(): this {return this;}
@@ -24,7 +25,7 @@ export class Repository {
 
     newInstance(): this {return this;}
 
-    newCriteria(): this {return this;}
+    newCriteria(): Criteria<ID> {return new Criteria<ID>(this.stream);}
 
     newSelfAdapter(): this {return this;}
 

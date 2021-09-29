@@ -1,0 +1,10 @@
+{
+    "extension": ["ts"],
+    "package": "./package.json",
+    "spec": "test/**/*.test.ts",
+    "timeout": 5000,
+    "exit": true,
+    "slow": 75,
+    "ui": "bdd",
+    "require": ["ts-node/register","tsconfig-paths/register"]
+}

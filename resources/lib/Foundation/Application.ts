@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import { AsyncContainerModule, Container, interfaces } from 'inversify';
 import getDecorators from 'inversify-inject-decorators';
 import { Dispatcher } from '@/Dispatcher/Dispatcher';
@@ -5,7 +6,7 @@ import { Repository } from '@/Config/Repository';
 import { ApplicationInitOptions, Configuration } from '@/types/config';
 import { IServiceProvider, IServiceProviderClass } from '@/Support/ServiceProvider';
 import ServiceIdentifier = interfaces.ServiceIdentifier;
-import { makeLog } from '@/Support/utils';
+import { isServiceProviderClass, makeLog } from '@/Support/utils';
 
 const log = makeLog('Application');
 
@@ -47,6 +48,7 @@ export class Application extends Container {
         super({
             defaultScope      : 'Transient',
             autoBindInjectable: true,
+            skipBaseClassChecks: true,
         });
         this.singleton('events', Dispatcher).addBindingGetter('events');
         this.events.any((eventName:string, ...args:any[]) => log(eventName, ' arguments: ', args))
@@ -73,36 +75,68 @@ export class Application extends Container {
         return this;
     }
 
+    /**
+     * Will load a provider. Part of the {@see initialize} code.
+     *
+     * - instantiating it
+     * - adding it to the {@see loadedProviders} object, to prevent it from loading twice
+     * - adding it to the {@see providers} array, to have it handled in {@see registerProviders}
+     * @param Provider
+     * @protected
+     */
     protected async loadProvider(Provider: IServiceProviderClass): Promise<IServiceProvider> {
+        // Making sure we never load a provider twice
         const name = Provider.name ?? Provider.constructor.name;
         if ( name in this.loadedProviders ) {
             return this.loadedProviders[ name ];
         }
-        this.events.emit('Application:loadProvider', Provider);
-        let provider                 = new Provider(this);
-        this.loadedProviders[ name ] = provider;
-        this.providers.push(provider);
-        this.events.emit('Application:loadedProvider', provider);
 
-        // load providers that are defined in the current provider's 'providers' property
+        let provider                 = new Provider(this);
+
+        // First we load providers that are defined in the current provider's 'providers' property
         if ( 'providers' in provider && Reflect.getMetadata('providers', provider) !== true ) {
             Reflect.defineMetadata('providers', true, provider);
             await this.loadProviders(provider.providers);
         }
+
+        // Then we actually load the provider itself. This makes it so that
+        // 1. its providers defined in the 'providers' property will load & register before this one
+        this.events.emit('Application:loadProvider', Provider);
+        this.loadedProviders[ name ] = provider;
+        this.providers.push(provider);
+        this.events.emit('Application:loadedProvider', provider);
+
         return provider;
     }
 
-
-    protected async registerProviders(providers): Promise<this> {
-        await Promise.all(providers.map(async Provider => this.register(Provider)));
+    /**
+     * Registers all given {@see IServiceProvider} instances. Part of the {@see initialize} code.
+     *
+     * @param {IServiceProvider[]} providers An array of instantiated providers
+     * @protected
+     */
+    protected async registerProviders(providers:IServiceProvider[]): Promise<this> {
         this.events.emit('Application:registerProviders', providers);
         await Promise.all(providers.map(async Provider => this.register(Provider)));
         this.events.emit('Application:registeredProviders', providers);
         return this;
     }
 
-    public async register(Provider): Promise<this> {
-        let provider = await this.loadProvider(Provider);
+    /**
+     * Register a Service Provider, if not instantiated, it will load the providers instance.
+     *
+     * @see IServiceProvider
+     * @see IServiceProviderClass
+     * @see loadProvider
+     * @param {IServiceProvider|IServiceProviderClass} Provider
+     */
+    public async register(Provider:IServiceProvider|IServiceProviderClass): Promise<this> {
+        let provider:IServiceProvider;
+        if(isServiceProviderClass(Provider)) {
+            provider = await this.loadProvider(Provider);
+        } else {
+            provider = Provider
+        }
         this.events.emit('Application:registerProvider', Provider);
         if ( 'register' in provider && Reflect.getMetadata('register', provider) !== true ) {
             Reflect.defineMetadata('register', true, provider);

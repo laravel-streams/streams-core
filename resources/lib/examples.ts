@@ -1,22 +1,18 @@
 import { app } from '@/Foundation';
-import { StreamsServiceProvider } from '@/Streams';
-import { HttpServiceProvider } from '@/Http/HttpServiceProvider';
+import { Streams } from '@/Streams';
+
+export namespace examples {
+    export async function test() {
+
+        const streams = app.get<Streams>('streams');
+        const all     = await streams.all();
+        const stream  = await streams.make('users');
+        const users   = await stream.entries()
+                                    .where('id', '>', 0)
+                                    .orderBy('id')
+                                    .get();
 
 
-app
-.initialize({
-    providers: [
-        HttpServiceProvider,
-        StreamsServiceProvider,
-    ],
-    config: {
-        http: {
-
-        },
-        streams: {
-
-        }
     }
-})
-.then(app => app.boot())
-.then(app => app.start());
+
+}
