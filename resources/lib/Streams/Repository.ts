@@ -1,11 +1,21 @@
 import { Stream } from './Stream';
 import { Criteria } from '@/Streams/Criteria';
+import { inject } from '@/Foundation';
+import { Http } from '@/Streams/Http';
+import { EntryCollection } from '@/Streams/EntryCollection';
+import { Entry } from '@/Streams/Entry';
 
 
 export class Repository<ID extends string = string> {
+    @inject('streams.http') protected http:Http
+
     constructor(protected stream: Stream) {}
 
-    all(): this {return this;}
+    async all(): Promise<EntryCollection> {
+        let res = await this.http.getEntries(this.stream.id);
+        let entries = res.data.map(entry => new Entry(this.stream, entry, false))
+        return new EntryCollection(entries, res.meta as any, res.links as any)
+    }
 
     find(): this {return this;}
 
@@ -15,7 +25,11 @@ export class Repository<ID extends string = string> {
 
     findAllWhere(): this {return this;}
 
-    create(): this {return this;}
+    async create(data:any): Promise<Entry> {
+        let entry = new Entry(this.stream, data, true)
+        await entry.save()
+        return entry;
+    }
 
     save(): this {return this;}
 

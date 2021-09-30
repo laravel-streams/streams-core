@@ -17,7 +17,7 @@ export class Streams {
 
     public async make<ID extends string>(id: ID): Promise<Stream<ID>> {
         const data = await this.http.getStream(id)
-        return new Stream(data.data);
+        return new Stream(data.data,data.meta,data.links);
     }
 
     public merge() {}
@@ -32,7 +32,9 @@ export class Streams {
 
     public overload() {}
 
-    public entries() {}
+    public entries() {
+
+    }
 
     public repository() {}
 

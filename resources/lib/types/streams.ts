@@ -1,3 +1,5 @@
+import { Field } from '@/Streams';
+
 export interface IStreamMeta {
     parameters: Record<string, string>;
     query: string[];
@@ -23,7 +25,7 @@ export interface IBaseStream<ID extends string = string> {
         type: string
         [ key: string ]: any
     },
-    fields: Record<string, fields.Type>
+    fields: Record<string, fields.Type|Field>
     rules?: Record<string, string | object>
 }
 

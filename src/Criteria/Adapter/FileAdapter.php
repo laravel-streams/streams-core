@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Criteria\Adapter;
 
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
@@ -61,7 +62,7 @@ class FileAdapter extends AbstractAdapter
     }
 
     /**
-     * Constrain the query by a typical 
+     * Constrain the query by a typical
      * field, operator, value argument.
      *
      * @param string $field
@@ -100,7 +101,7 @@ class FileAdapter extends AbstractAdapter
 
     /**
      * Get the criteria results.
-     * 
+     *
      * @param array $parameters
      * @return Collection
      */
@@ -122,7 +123,7 @@ class FileAdapter extends AbstractAdapter
 
     /**
      * Count the criteria results.
-     * 
+     *
      * @param array $parameters
      * @return int
      */
@@ -315,7 +316,7 @@ class FileAdapter extends AbstractAdapter
         $file = base_path(trim($source->get('file', 'streams/data/' . $this->stream->handle . '.' . $format), '/\\'));
 
         if (!file_exists($file)) {
-            mkdir(dirname($file), 0755, true);
+            (new Filesystem())->ensureDirectoryExists(dirname($file), 0755, true);
         }
 
         if ($format == 'php') {

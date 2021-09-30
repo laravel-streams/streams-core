@@ -17,6 +17,6 @@ chai.use(sinonChai);
 
 
 export function bootstrap(): any {
-
-    return { chai, sinon };
+    return { chai, sinon};
 }
+

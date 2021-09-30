@@ -15,9 +15,9 @@ export class Http {
         return this.get('/streams', config);
     }
 
-    async postStreams(data: any, config: AxiosRequestConfig = {}) {
+    async postStream<T>(data:T, config: AxiosRequestConfig = {}):Promise<IStreamResponse<T>> {
         config.data = data;
-        return this.post('/streams', config);
+        return this.post<T>('/streams', data,config);
     }
 
     async getStream<ID extends string>(stream: ID, params: any = {}, config: AxiosRequestConfig = {}) {
@@ -41,12 +41,12 @@ export class Http {
 
     async getEntries<ID extends string>(stream: ID, params: any = {}, config: AxiosRequestConfig = {}) {
         config.params = params;
-        return this.get<any>(`/streams/${stream}/entries`, config);
+        return this.get<any[]>(`/streams/${stream}/entries`, config);
     }
 
     async postEntry<ID extends string>(stream: ID, data: any = {}, config: AxiosRequestConfig = {}) {
         config.data = data;
-        return this.post<any>(`/streams/${stream}/entries`, config);
+        return this.post<any>(`/streams/${stream}/entries`,data, config);
     }
 
 
@@ -91,15 +91,20 @@ export class Http {
         this.cancelTokenSource           = Axios.CancelToken.source();
         const config: AxiosRequestConfig = {
             baseURL: '/api',
+            params: {},
             ...this.config.http,
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
                 ...(this.config.http && this.config.http.headers ? this.config.http.headers : {}),
-            },
+            }
         };
         let streams                      = this.config.get<any>('streams');
         if ( streams?.cache?.enabled ) {
 
+        }
+        if(streams?.xdebug){
+            config.headers['Cookie'] = 'XDEBUG_SESSION=start'
+            config.params['XDEBUG_SESSION']='PHPSTORM';
         }
         if ( streams?.authentication ) {
             const { type, basic, token } = streams.authentication;
@@ -120,7 +125,6 @@ export class Http {
         try {
             const response                              = await this.axios.request<T, AxiosResponse<R>>(config);
             const { data, headers, status, statusText } = response;
-            data[ 'test' ]                              = true;
             return response.data;
         } catch (e) {
             if ( Axios.isCancel(e) ) {

@@ -49,6 +49,7 @@
         "lodash": "^4.17",
         "postcss": "^8.1",
         "rimraf": "^3.0.2",
+        "dotenv": "^10.0.0",
         "ts-loader": "^8.0.13",
         "source-map-support": "^0.5.20",
         "ts-node": "^10.2.1",
