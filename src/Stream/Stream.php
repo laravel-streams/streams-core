@@ -285,11 +285,7 @@ class Stream implements
 
     public function cache()
     {
-        if (is_object($this->cache)) {
-            return $this->cache;
-        }
-
-        return $this->cache = new StreamCache($this);
+        return $this->once(__METHOD__, fn() => new StreamCache($this));
     }
 
     /**
