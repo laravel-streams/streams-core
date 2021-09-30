@@ -283,57 +283,13 @@ class Stream implements
         return Arr::get($this->meta, $key, $default);
     }
 
-    public function cached($key)
+    public function cache()
     {
-        return Cache::store(Config::get('cache.default'))->get('ls.' . $this->handle . '.' . $key);
-    }
-
-    public function cache($key, $ttl, $target)
-    {
-        // This is handy.
-        $key = 'ls.core.' . $this->handle . '.' . $key;
-
-        $exists = Cache::store(Config::get('cache.default'))->has($key);
-
-        $result = Cache::store(Config::get('cache.default'))->remember($key, $ttl, $target);
-
-        if ($exists) {
-            return $result;
+        if (is_object($this->cache)) {
+            return $this->cache;
         }
 
-        $cacheKey = 'ls.' . $this->handle . '_cache_collection';
-
-        $collection = Cache::store(Config::get('cache.default'))->get($cacheKey, []);
-
-        $collection[] = $key;
-
-        Cache::store(Config::get('cache.default'))->remember($cacheKey, 3600, function () use ($collection) {
-            return array_unique($collection);
-        });
-
-        return $result;
-    }
-
-    public function forget($key)
-    {
-        Cache::store(Config::get('cache.default'))->forget('ls.' . $this->handle . '.' . $key);
-
-        return $this;
-    }
-
-    public function flush()
-    {
-        $cacheKey = 'ls.' . $this->handle . '_cache_collection';
-
-        $collection = Cache::store(Config::get('cache.default'))->get('ls.' . $this->handle . '_cache_collection', []);
-
-        foreach ($collection as $key) {
-            Cache::store(Config::get('cache.default'))->forget($key);
-        }
-
-        Cache::store(Config::get('cache.default'))->forget($cacheKey);
-
-        return $this;
+        return $this->cache = new StreamCache($this);
     }
 
     /**
