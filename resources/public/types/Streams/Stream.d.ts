@@ -1,0 +1,34 @@
+import { FieldCollection } from './FieldCollection';
+import { Field } from './Field';
+import { Repository } from './Repository';
+export declare class Stream {
+    handle: string;
+    protected _repository: Repository;
+    protected _rules: Array<any>;
+    protected _validators: Array<any>;
+    protected _fields: Field[] | FieldCollection;
+    get repository(): Repository;
+    entries: any;
+    validator: any;
+    hasRule: any;
+    getRule: any;
+    ruleParameters: any;
+    isRequired: any;
+    config: any;
+    meta: any;
+    cached: any;
+    cache: any;
+    forget: any;
+    flush: any;
+    toArray: any;
+    toJson: any;
+    jsonSerialize: any;
+    __toString: any;
+    onInitializing: any;
+    onInitialized: any;
+    extendInput: any;
+    importInput: any;
+    normalizeInput: any;
+    fieldsInput: any;
+    merge: any;
+}
