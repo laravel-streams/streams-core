@@ -16,7 +16,7 @@ Streams Core provides a convenient API to link [Laravel cache](https://laravel.c
 @todo document configuration
 
 ```json
-/streams/examples.json
+//streams/examples.json
 {
     "config": {
         "cache.collection": "default",
