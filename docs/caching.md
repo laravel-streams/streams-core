@@ -9,13 +9,11 @@ enabled: true
 
 ## Introduction
 
-Streams provide a convenient service to manage [Laravel cache](https://laravel.com/docs/cache) data linked to a Stream. When caching in this way, all cached items linked to a Stream can be flushed together.
+Streams Core provides a convenient API to link [Laravel cache](https://laravel.com/docs/cache) data to a Stream. When caching in this way, you can flush all cached items related to a Stream together.
 
 ### Configuration
 
-Domain-linked caching uses [Laravel cache configuration](https://laravel.com/docs/8.x/cache#configuration) for both cached data and the cache collection store itself.
-
-@todo Document configuration for this.
+@todo document configuration
 
 ```json
 /streams/examples.json
@@ -29,19 +27,19 @@ Domain-linked caching uses [Laravel cache configuration](https://laravel.com/doc
 
 ## Cache Usage
 
-You can interact with domain-linked cache stores directly using stream instances.
+#### The Cache Instance
 
-### Obtaining A Cache Instance
-
-To obtain a Stream-linked cache instance service, you may use the `cache()` method on the desired Stream instance:
+To obtain a Stream-linked cache instance, you may use the `cache()` method on the desired Stream instance:
 
 ```php
-Streams::make('examples')->cache()->get('key');
+$cache = Streams::make('examples')->cache();
+
+$cache->get('key');
 ```
 
 ### Retrieving Items
 
-The `get` method is used to retrieve items from the cache. If the item does not exist in the cache, `null` will be returned. If you wish, you may pass a second argument to the get method specifying the default value you wish to be returned if the item doesn't exist:
+Use the `get` method to retrieve items from the cache. If the item does not exist in the cache, `null` will be returned. You may pass a second argument specifying the default value to return if the item doesn't exist:
 
 ```php
 $cache = Streams::make('examples')->cache();
@@ -51,33 +49,29 @@ $value = $cache->get('key');
 $value = $cache->get('key', 'default');
 ```
 
-You may even pass a closure as the default value. The result of the closure will be returned if the specified item does not exist in the cache. Passing a closure allows you to defer the retrieval of **default** values from a database or other external service:
+You may also pass a `closure` as the default value. The get method will return the closure result if the specified item does not exist in the cache. Using a closure allows you to defer the retrieval of expensive default values until they are needed:
 
 ```php
 $stream = Streams::make('examples');
 
 $value = $stream->cache()->get('key', function () use ($stream) {
-    return $stream->entries()->get();
+    return $stream->entries()->all();
 });
 ```
 
-- [Query Cache](querying#caching)
+#### Checking Items
 
-### Checking Items
-
-To check if a cached item exists, you may use the `exists` method:
+Use the `exists` method to check if an item exists in cache:
 
 ```php
-$cache = Streams::make('examples')->cache();
-
-if ($cache->has('key')) {
-    ...
+if (Streams::make('examples')->cache()->has('key')) {
+    // We have it!
 }
 ```
 
-### Incrementing/Decrementing Values
+#### Incrementing/Decrementing Values
 
-To increment or decrement the value of a cached integer value, you may use the `increment` and `decrement` methods respectively:
+Use the `increment` and `decrement` methods to increment or decrement the value of cached integer value:
 
 ```php
 $cache = Streams::make('examples')->cache();
@@ -89,45 +83,99 @@ $cache->decrement('key');
 $cache->decrement('key', $amount);
 ```
 
-### Inserting Items
+#### Retrieve & Store
 
-You can insert an item into domain-linked cache for a given number of **seconds** using the `remember` method:
+Use the `remember` method to retrieve an item from the cache and store a default value if the requested item doesn't exist.
 
 ```php
-$stream = Streams::make('examples');
-
-$stream->cache()->remember('key', 600, function() use ($stream) {
-    return $stream->entries()->get();
+$value = Streams::make('examples')->cache()->remember('key', $seconds, function () {
+    return Streams::entries('examples')->get();
 });
 ```
 
-### Retrieving Items
+#### Retrieve & Delete
 
-You can retreive cached items using the `get` method:
-
-```php
-$favorites = Streams::make('contacts')->get('favorites', $default);
-```
-
-### Forgetting Items
-
-You can forget a specific domain-linked cached item using the `forget` method:
+Use the `pull` method to retrieve an item from the cache and then delete the item.
 
 ```php
-Streams::make('contacts')->forget('favorites');
+$value = Streams::make('examples')->cache()->pull('key');
 ```
 
-You can forget all domain-linked cached items for a stream using the `flush` method:
+
+### Storing Items
+
+Use the `put` method to store items in the cache:
 
 ```php
-Streams::make('contacts')->flush();
+Streams::make('examples')->cache()->put('key', 'value', $seconds);
 ```
 
-> Write operations automatically forget/flush cache.
+You can also pass a `DateTime` instance instead of seconds:
+
+```php
+Streams::make('examples')->cache()->put('key', 'value', now()->addMinutes(10));
+```
+
+If the storage time is not passed to the put method, the item will be stored indefinitely:
+
+```php
+Streams::make('examples')->cache()->put('key', 'value');
+```
+
+#### Store If Not Present
+
+Use the `add` method to store items in the cache only if they do not already exist:
+
+```php
+Streams::make('examples')->cache()->add('key', 'value', $seconds);
+```
+
+#### Store Forever
+
+Use the `forever` method to store items in the cache indefinitely:
+
+```php
+Streams::make('examples')->cache()->forever('key', 'value');
+```
+
+> Items that are stored "forever" may be removed under some circumstances.
+
+### Removing Items
+
+Use the `forget` method to remove items from the cache:
+
+```php
+Streams::make('examples')->cache()->forget('key');
+```
+
+You can also remove items by providing a zero or negative number of seconds:
+
+```php
+Streams::make('examples')->cache()->put('key', 'value', 0);
+
+Streams::make('examples')->cache()->put('key', 'value', -5);
+```
+
+> Stream entry changes automatically forget/flush cache items.
+
+#### Removing All Items
+
+You can clear the entire cache using the `flush` method:
+
+```php
+Streams::make('examples')->cache()->flush();
+```
+
+> The flush method only flushes linked cache.
+
 
 ## Related Documentation
 
 - [Query Cache](querying#caching)
-<!-- - [@todo Response Cache](routing#caching-responses) -->
-<!-- - [@todo View Cache](querying#caching-results) -->
-<!-- - [@todo API Cache](querying#caching-results) -->
+- [Laravel Cache](https://laravel.com/docs/cache)
+
+Todo: 
+
+- [@todo Response Cache](routing#caching-responses)
+- [@todo View Cache](querying#caching-results)
+- [@todo API Cache](querying#caching-results)

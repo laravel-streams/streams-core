@@ -124,7 +124,7 @@ class StreamCache
      * 
      * @return bool
      */
-    public function put($key, $value, $seconds): bool
+    public function put($key, $value, $seconds = null): bool
     {
         $key = 'streams.' . $this->stream->handle . '.' . $key;
 
