@@ -118,7 +118,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->extendStr();
 
         $this->publishes([
-            base_path('vendor/streams/core/resources/public')
+            realpath(__DIR__ . '/../resources/public')
             => public_path('vendor/streams/core')
         ], ['public']);
     }
