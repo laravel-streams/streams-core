@@ -1,4 +1,17 @@
 node_modules
+coverage
 docs
 tests
 src
+
+/bin
+/vendor
+/coverage
+mix-manifest.json
+/package-lock.json
+/yarn.lock
+/node_modules
+composer.lock
+package-lock.json
+/.nyc_output
+/coverage
