@@ -1,0 +1,80 @@
+{
+    "name": "@laravel-streams/core",
+    "version": "1.0.2",
+    "private": false,
+    "types": "resources/public/js/types/index.d.ts",
+    "main": "resources/public/js/index.js",
+    "scripts": {
+        "dev": "npm run development",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
+        "prod": "npm run production",
+        "production": "mix --production",
+        "clean": "rimraf resources/lib/**/*.d.ts public/js",
+        "test": "mocha"
+    },
+    "nyc": {
+        "check-coverage": true,
+        "lines": 80,
+        "statements": 80,
+        "functions": 80,
+        "branches": 80,
+        "include": [
+            "resources/lib/**/*.ts"
+        ],
+        "exclude": [
+            "test/**/*.ts"
+        ],
+        "reporter": [
+            "lcov",
+            "text-summary"
+        ],
+        "all": true
+    },
+    "dependencies": {
+        "@types/debug": "^4.1.7",
+        "axios": "^0.21.4",
+        "debug": "^4.3.2",
+        "eventemitter2": "^6.4.4",
+        "inversify": "^5.1.1",
+        "inversify-inject-decorators": "^3.1.0",
+        "reflect-metadata": "^0.1.13"
+    },
+    "devDependencies": {
+        "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+        "@babel/preset-env": "^7.15.6",
+        "@testdeck/mocha": "^0.1.2",
+        "@types/chai": "^4.2.22",
+        "@types/mocha": "^9.0.0",
+        "@types/node": "^16.10.1",
+        "@types/should": "^13.0.0",
+        "@types/should-sinon": "^0.0.8",
+        "@types/sinon": "^10.0.4",
+        "@types/sinon-chai": "^3.2.5",
+        "@types/superagent": "^4.1.13",
+        "chai": "^4.3.4",
+        "chai-http": "^4.3.0",
+        "dotenv": "^10.0.0",
+        "laravel-mix": "^6.0",
+        "lodash": "^4.17",
+        "mocha": "^9.1.2",
+        "nyc": "^15.1.0",
+        "postcss": "^8.1",
+        "rimraf": "^3.0.2",
+        "should": "^13.2.3",
+        "should-sinon": "^0.0.6",
+        "sinon": "^11.1.2",
+        "sinon-chai": "^3.7.0",
+        "source-map-support": "^0.5.20",
+        "ts-loader": "^8.3.0",
+        "ts-node": "^10.2.1",
+        "tsconfig-paths": "^3.11.0",
+        "typescript": "^4.4.3",
+        "webpack-merge": "^5.8.0"
+    },
+    "peerDependencies": {
+        "webpack": "^5.54.0"
+    }
+}
