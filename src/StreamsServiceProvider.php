@@ -116,6 +116,11 @@ class StreamsServiceProvider extends ServiceProvider
         $this->extendView();
         $this->extendArr();
         $this->extendStr();
+
+        $this->publishes([
+            base_path('vendor/streams/core/resources/public')
+            => public_path('vendor/streams/core')
+        ], ['public']);
     }
 
     /**
