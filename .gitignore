@@ -1,9 +1,12 @@
+/.nyc_output
 /bin
-/vendor
 /coverage
-mix-manifest.json
-/package-lock.json
-/yarn.lock
+/coverage
 /node_modules
+/package-lock.json
+/vendor
+/yarn.lock
+
 composer.lock
+mix-manifest.json
 package-lock.json
