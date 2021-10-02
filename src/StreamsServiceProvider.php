@@ -121,6 +121,8 @@ class StreamsServiceProvider extends ServiceProvider
             realpath(__DIR__ . '/../resources/public')
             => public_path('vendor/streams/core')
         ], ['public']);
+
+        $this->app->instance('path.streams.core', realpath(__dir__ . '/../'));
     }
 
     /**
