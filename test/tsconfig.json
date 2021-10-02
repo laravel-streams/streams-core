@@ -3,6 +3,7 @@
     "compilerOptions": {
         "target": "es6",
         "module": "commonjs",
+        "resolveJsonModule": true,
         "jsx": "preserve",
         "jsxFactory": "h",
         "moduleResolution": "node",

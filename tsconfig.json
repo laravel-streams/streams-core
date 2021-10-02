@@ -16,6 +16,7 @@
         "noImplicitUseStrict": false,
         "declaration": true,
         "declarationDir": "resources/public/types",
+        "emitDeclarationOnly": true,
         "baseUrl": ".",
         "typeRoots": [
             "node_modules/@types",
@@ -31,8 +32,7 @@
         }
     },
     "include": [
-        "resources/lib",
-        "test"
+        "resources/lib/index.ts"
     ],
     "exclude": [
         "node_modules"

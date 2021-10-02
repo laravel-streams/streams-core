@@ -1,14 +1,29 @@
 import { bootstrap } from './_support/bootstrap';
-import { app, HttpServiceProvider, Streams, StreamsServiceProvider } from '../resources/lib';
-import { Http } from '@/Streams/Http';
+import { app, HttpServiceProvider } from '../resources/lib';
 import { FS, getEnv, ProxyEnv } from './_support/utils';
+
+export interface ConfigData {
+    'hash': string;
+    'static': boolean;
+    'public': boolean;
+    'protected': boolean;
+    'private': boolean;
+    'abstract': boolean;
+    'final': boolean;
+    'inherited': boolean;
+    stuff?:ConfigData & {
+        others?:Omit<ConfigData,'stuff'>
+    }
+}
+
 
 export abstract class TestCase {
     env: ProxyEnv<any>;
-    fs:FS
+    fs: FS;
+
     before() {
         this.env = getEnv();
-        this.fs = new FS()
+        this.fs  = new FS();
         this.fs.delete('streams/clients.json');
     }
 
@@ -19,16 +34,8 @@ export abstract class TestCase {
         .initialize({
             providers: [
                 HttpServiceProvider,
-                StreamsServiceProvider,
             ],
-            config   : {
-                http: {
-                    baseURL: this.env.get('APP_URL', 'http://localhost') + '/' + this.env.get('STREAMS_API_PREFIX', 'api'),
-                },
-                streams: {
-                    xdebug: true
-                }
-            },
+            config   : {},
         })
         .then(app.boot.bind(app))
         .then(app.start.bind(app));
@@ -36,35 +43,38 @@ export abstract class TestCase {
         return app;
     }
 
-    protected async getHttp():Promise<Http> {
-        const app = await this.createApp();
-        return app.get<Http>('streams.http');
-    }
-
-    protected async getStreams():Promise<Streams>{
-        const app = await this.createApp();
-        return app.get<Streams>('streams');
-    }
-
-    protected getStreamData(id:string){
+    getConfigData():ConfigData {
         return {
-            id,
-            'name'  : id,
-            'source': {
-                'type': 'file',
-            },
-            'fields': {
-                'id'      : 'number',
-                'name'    : 'string',
-                'email'   : 'email',
-                'relative': {
-                    'type'  : 'relationship',
-                    'config': {
-                        'related': 'clients',
-                    },
+            'hash'     : '6157fc77301ecc4fb2df2962',
+            'static'   : false,
+            'public'   : false,
+            'protected': true,
+            'private'  : false,
+            'abstract' : false,
+            'final'    : true,
+            'inherited': true,
+            'stuff'    : {
+                'hash'     : '6157fc7757818d1266d0dac2',
+                'static'   : true,
+                'public'   : false,
+                'protected': false,
+                'private'  : true,
+                'abstract' : true,
+                'final'    : true,
+                'inherited': false,
+                'others'   : {
+                    'hash'     : '6157fc77b07cc4f5672803cf',
+                    'static'   : false,
+                    'public'   : true,
+                    'protected': false,
+                    'private'  : false,
+                    'abstract' : false,
+                    'final'    : false,
+                    'inherited': false,
                 },
             },
-            'ui'    : { 'table': { 'columns': [ 'id', 'email' ], 'buttons': { 'edit': { 'href': `cp/${id}/{entry.id}/edit` } } }, 'form': {} },
-        }
+        };
+
     }
+
 }
