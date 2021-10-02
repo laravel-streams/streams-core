@@ -1,4 +1,5 @@
-import { Container, interfaces } from 'inversify';
+import 'reflect-metadata';
+import { Container, injectable, interfaces, unmanaged, tagged, named, multiInject, optional, targetName, postConstruct, decorate } from 'inversify';
 import { Dispatcher } from '@/Dispatcher/Dispatcher';
 import { Repository } from '@/Config/Repository';
 import { ApplicationInitOptions, Configuration } from '@/types/config';
@@ -18,7 +19,7 @@ export declare class Application extends Container {
      */
     static getInstance(): Application;
     protected loadedProviders: {};
-    protected providers: any;
+    protected providers: any[];
     protected booted: boolean;
     protected started: boolean;
     isBooted(): boolean;
@@ -26,9 +27,32 @@ export declare class Application extends Container {
     private constructor();
     initialize(options?: ApplicationInitOptions): Promise<this>;
     protected loadProviders(Providers: IServiceProviderClass[]): Promise<this>;
+    /**
+     * Will load a provider. Part of the {@see initialize} code.
+     *
+     * - instantiating it
+     * - adding it to the {@see loadedProviders} object, to prevent it from loading twice
+     * - adding it to the {@see providers} array, to have it handled in {@see registerProviders}
+     * @param Provider
+     * @protected
+     */
     protected loadProvider(Provider: IServiceProviderClass): Promise<IServiceProvider>;
-    protected registerProviders(providers: any): Promise<this>;
-    register(Provider: any): Promise<this>;
+    /**
+     * Registers all given {@see IServiceProvider} instances. Part of the {@see initialize} code.
+     *
+     * @param {IServiceProvider[]} providers An array of instantiated providers
+     * @protected
+     */
+    protected registerProviders(providers: IServiceProvider[]): Promise<this>;
+    /**
+     * Register a Service Provider, if not instantiated, it will load the providers instance.
+     *
+     * @see IServiceProvider
+     * @see IServiceProviderClass
+     * @see loadProvider
+     * @param {IServiceProvider|IServiceProviderClass} Provider
+     */
+    register(Provider: IServiceProvider | IServiceProviderClass): Promise<this>;
     boot(): Promise<this>;
     start(...args: any[]): Promise<this>;
     singleton<T>(serviceIdentifier: ServiceIdentifier<T>, constructor: new (...args: any[]) => T): this;
@@ -38,4 +62,4 @@ export declare class Application extends Container {
 }
 declare const app: Application;
 declare const inject: (serviceIdentifier: string | symbol | interfaces.Newable<any> | interfaces.Abstract<any>) => (proto: any, key: string) => void;
-export { app, inject, };
+export { app, inject, injectable, unmanaged, tagged, named, multiInject, optional, targetName, postConstruct, decorate };

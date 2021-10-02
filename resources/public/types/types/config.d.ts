@@ -1,13 +1,13 @@
 import { Repository } from '@/Config';
 import { AxiosRequestConfig } from 'axios';
 import { IServiceProviderClass } from '@/Support';
-export declare interface StreamsConfiguration {
+export interface StreamsConfiguration {
 }
-export declare interface Configuration2 {
-    streams?: StreamsConfiguration;
-    http?: AxiosRequestConfig;
+export interface Configuration {
+    streams?: StreamsConfiguration | any;
+    http?: AxiosRequestConfig | any;
 }
-export declare interface ApplicationInitOptions {
+export interface ApplicationInitOptions {
     providers?: IServiceProviderClass[];
     config?: Configuration;
 }

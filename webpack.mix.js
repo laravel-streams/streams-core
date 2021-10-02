@@ -1,6 +1,5 @@
 const mix = require('laravel-mix');
 const path = require('path');
-const {merge} = require('webpack-merge');
 
 
 let isProd = mix.inProduction();
@@ -80,6 +79,8 @@ mix
                         target        : 'es6',
                         module        : 'esnext',
                         declaration   : true,
+                        declarationDir: path.join(__dirname,'resources/public/types'),
+                        emitDeclarationOnly: false,
                         importHelpers : true,
                         sourceMap     : isDev,
                         removeComments: !isDev,

@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { AsyncContainerModule, Container, interfaces } from 'inversify';
+import { AsyncContainerModule, Container, injectable, interfaces,unmanaged,tagged,named,multiInject,optional,targetName,postConstruct,decorate } from 'inversify';
 import getDecorators from 'inversify-inject-decorators';
 import { Dispatcher } from '@/Dispatcher/Dispatcher';
 import { Repository } from '@/Config/Repository';
@@ -218,4 +218,5 @@ const { lazyInject: inject } = getDecorators(app);
 export {
     app,
     inject,
+    injectable, unmanaged,tagged,named,multiInject,optional,targetName,postConstruct,decorate
 };
