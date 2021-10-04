@@ -32,9 +32,9 @@ class Export extends ActionHandler
         ob_start();
 
         $headers = [
-            'Content-Disposition' => 'attachment; filename=' . $stream->getSlug() . '.csv',
+            //'Content-Disposition' => 'attachment; filename=' . $stream->getSlug() . '.csv',
             'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
-            'Content-type'        => 'text/csv',
+            //'Content-type'        => 'text/csv',
             'Pragma'              => 'public',
             'Expires'             => '0',
         ];
