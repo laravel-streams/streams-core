@@ -2,7 +2,12 @@ import { ServiceProvider } from '@/Support';
 import Axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 export class HttpServiceProvider extends ServiceProvider {
+
+    /**
+     * Register the service.
+     */
     register() {
+
         const config = {
             ...this.app.config.http,
             headers: {
@@ -10,14 +15,20 @@ export class HttpServiceProvider extends ServiceProvider {
                 ...(this.app.config.http && this.app.config.http.headers ? this.app.config.http.headers : {}),
             },
         };
-        const axios  = Axios.create(config);
+
+        const axios = Axios.create(config);
+
         this.app.instance('axios', Axios);
         this.app.instance('http', axios).addBindingGetter('http');
-        this.app.instance('createHttp', (overrides: AxiosRequestConfig): AxiosInstance => {
+        this.app.instance('createHttp', (overrides: AxiosRequestConfig):
+
+            AxiosInstance => {
+
             overrides = {
                 ...config,
                 ...overrides,
             };
+
             return Axios.create(overrides);
         });
     }
@@ -25,7 +36,9 @@ export class HttpServiceProvider extends ServiceProvider {
 
 declare module '../Foundation/Application' {
     export interface Application {
+
         http: AxiosInstance;
+
         createHttp: (overrides: AxiosRequestConfig) => AxiosInstance;
     }
 }

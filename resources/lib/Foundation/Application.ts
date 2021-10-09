@@ -16,52 +16,105 @@ export interface Application {
 }
 
 export class Application extends Container {
+
+    /**
+     * The application instance.
+     */
     protected static _instance: Application;
 
+    /**
+     * Configured service providers.
+     */
+    protected providers = [];
+
+    /**
+     * Loaded service providers.
+     */
+    protected loaded = {};
+
+    /**
+     * The booted flag.
+     */
+    protected booted = false;
+
+    /**
+     * The started flag.
+     */
+    protected started = false;
+
+    /**
+     * Get/create the instance.
+     */
     public static get instance() {
-        if ( !this._instance ) {
+
+        if (!this._instance) {
             this._instance = new this();
         }
+
         return this._instance;
     }
 
     /**
-     * Returns a singleton
+     * Return a singleton
      * instance of Application
+     * 
      * @return {Application}
      */
     public static getInstance() {
         return this.instance;
     }
 
-    protected loadedProviders = {};
-    protected providers = [];
-    protected booted          = false;
-    protected started         = false;
+    /**
+     * Return whether the
+     * application has booted.
+     * 
+     * @returns bool
+     */
+    public isBooted() { return this.booted; }
 
-    public isBooted() {return this.booted;}
+    /**
+     * Return whether the
+     * application has started.
+     * 
+     * @returns bool
+     */
+    public isStarted() { return this.started; }
 
-    public isStarted() {return this.started;}
-
-
+    /**
+     * Create a new Application instance.
+     */
     private constructor() {
+
         super({
-            defaultScope      : 'Transient',
+            defaultScope: 'Transient',
             autoBindInjectable: true,
             skipBaseClassChecks: true,
         });
+
         this.singleton('events', Dispatcher).addBindingGetter('events');
-        this.events.any((eventName:string, ...args:any[]) => log(eventName, ' arguments: ', args))
+
+        this.events.any(
+            (eventName: string, ...args: any[]) => log(eventName, ' arguments: ', args)
+        );
     }
 
+    /**
+     * Initialize the application.
+     * 
+     * @param options 
+     * @returns 
+     */
     public async initialize(options: ApplicationInitOptions = {}) {
+
         options = {
             providers: [],
-            config   : {},
+            config: {},
             ...options,
         };
+
         this.events.emit('Application:initialize', options);
-        this.instance('config', Repository.asProxy(options.config)).addBindingGetter('config');
+
+        this.instance('config', new Repository(options.config)).addBindingGetter('config');
 
         await this.loadProviders(options.providers);
         await this.registerProviders(this.providers);
@@ -70,55 +123,145 @@ export class Application extends Container {
         return this;
     }
 
+    /**
+     * Boot the application.
+     * 
+     * @returns 
+     */
+    public async boot(): Promise<this> {
+
+        /**
+         * Don't boot more than once!
+         */
+        if (this.booted) {
+            return this;
+        }
+
+        this.events.emit('Application:boot', this);
+
+        for (const provider of this.providers) {
+
+            this.events.emit('Application:bootProvider', provider);
+
+            if ('boot' in provider && Reflect.getMetadata('boot', provider) !== true) {
+                Reflect.defineMetadata('boot', true, provider);
+
+                await this.loadAsync(new AsyncContainerModule(() => provider.boot()));
+            }
+
+            this.events.emit('Application:bootedProvider', provider);
+        }
+
+        // Booted baby!
+        this.booted = true;
+
+        this.events.emit('Application:booted', this);
+
+        return this;
+    };
+
+    /**
+     * Start the application.
+     * 
+     * @param args 
+     * @returns 
+     */
+    public async start(...args: any[]): Promise<this> {
+
+        this.events.emit('Application:start', this);
+
+        /* This part is ment to kick start the application. */
+        /* and is currently emtpy. awaiting purpose */
+        /**
+         * @todo: Work out Application start
+         * Different projects will have different views on what 'starting' up might be.
+         * One would use React, Vue or any other way.
+         * My suggestion would be that the {@see Application.initialize()} options allow for a
+         * 'start' (async/Promise) callback that would be called right here, overloading it with any arguments
+         * this {@see Application.start()} method has received.
+         */
+
+        this.events.emit('Application:started', this);
+
+        return this;
+    };
+
+    /**
+     * Load service providers.
+     * 
+     * @param Providers 
+     * @returns 
+     */
     protected async loadProviders(Providers: IServiceProviderClass[]): Promise<this> {
-        await Promise.all(Providers.map(async Provider => this.loadProvider(Provider)));
+
+        await Promise.all(
+            Providers.map(async Provider => this.loadProvider(Provider))
+        );
+
         return this;
     }
 
     /**
-     * Will load a provider. Part of the {@see initialize} code.
-     *
-     * - instantiating it
-     * - adding it to the {@see loadedProviders} object, to prevent it from loading twice
-     * - adding it to the {@see providers} array, to have it handled in {@see registerProviders}
-     * @param Provider
-     * @protected
+     * Load the given provider.
+     * 
+     * @param Provider 
+     * @returns 
      */
     protected async loadProvider(Provider: IServiceProviderClass): Promise<IServiceProvider> {
-        // Making sure we never load a provider twice
+
+        /**
+         * Check if the provider has already been loaded.
+         */
         const name = Provider.name ?? Provider.constructor.name;
-        if ( name in this.loadedProviders ) {
-            return this.loadedProviders[ name ];
+
+        if (name in this.loaded) {
+            return this.loaded[name];
         }
 
-        let provider                 = new Provider(this);
+        /**
+         * Instantiate the provider.
+         */
+        let provider = new Provider(this);
 
-        // First we load providers that are defined in the current provider's 'providers' property
-        if ( 'providers' in provider && Reflect.getMetadata('providers', provider) !== true ) {
+        /**
+         * Check if the provider has
+         * other providers to load
+         * and load those first.
+         */
+        if ('providers' in provider && Reflect.getMetadata('providers', provider) !== true) {
+
             Reflect.defineMetadata('providers', true, provider);
+
             await this.loadProviders(provider.providers);
         }
 
-        // Then we actually load the provider itself. This makes it so that
-        // 1. its providers defined in the 'providers' property will load & register before this one
+        /**
+         * Now load the provider itself.
+         */
         this.events.emit('Application:loadProvider', Provider);
-        this.loadedProviders[ name ] = provider;
+
+        this.loaded[name] = provider;
         this.providers.push(provider);
+
         this.events.emit('Application:loadedProvider', provider);
 
         return provider;
     }
 
     /**
-     * Registers all given {@see IServiceProvider} instances. Part of the {@see initialize} code.
+     * Register all given providers.
      *
      * @param {IServiceProvider[]} providers An array of instantiated providers
-     * @protected
+     * @returns this
      */
-    protected async registerProviders(providers:IServiceProvider[]): Promise<this> {
+    protected async registerProviders(providers: IServiceProvider[]): Promise<this> {
+
         this.events.emit('Application:registerProviders', providers);
+
         await Promise.all(providers.map(async Provider => this.register(Provider)));
+
         this.events.emit('Application:registeredProviders', providers);
+
         return this;
     }
 
@@ -130,91 +273,112 @@ export class Application extends Container {
      * @see loadProvider
      * @param {IServiceProvider|IServiceProviderClass} Provider
      */
-    public async register(Provider:IServiceProvider|IServiceProviderClass): Promise<this> {
-        let provider:IServiceProvider;
-        if(isServiceProviderClass(Provider)) {
+    public async register(Provider: IServiceProvider | IServiceProviderClass): Promise<this> {
+
+        let provider: IServiceProvider;
+
+        if (isServiceProviderClass(Provider)) {
             provider = await this.loadProvider(Provider);
         } else {
             provider = Provider
         }
+
         this.events.emit('Application:registerProvider', Provider);
-        if ( 'register' in provider && Reflect.getMetadata('register', provider) !== true ) {
+
+        if ('register' in provider && Reflect.getMetadata('register', provider) !== true) {
             Reflect.defineMetadata('register', true, provider);
             await this.loadAsync(new AsyncContainerModule(() => provider.register()));
         }
+
         this.events.emit('Application:registeredProviders', provider);
+
         return this;
     };
 
-    public async boot(): Promise<this> {
-        if ( this.booted ) {
-            return this;
-        }
-        this.events.emit('Application:boot', this);
-        for ( const provider of this.providers ) {
-            this.events.emit('Application:bootProvider', provider);
-            if ( 'boot' in provider && Reflect.getMetadata('boot', provider) !== true ) {
-                Reflect.defineMetadata('boot', true, provider);
-                await this.loadAsync(new AsyncContainerModule(() => provider.boot()));
-            }
-            this.events.emit('Application:bootedProvider', provider);
-        }
-        this.booted = true;
-        this.events.emit('Application:booted', this);
-        return this;
-    };
+    /**
+     * Register a singleton bindng.
+     * 
+     * @param serviceIdentifier 
+     * @param constructor 
+     * @returns 
+     */
+    public singleton<T>(
+        serviceIdentifier: ServiceIdentifier<T>,
+        constructor: new (...args: any[]) => T
+    ): this {
 
-    public async start(...args:any[]): Promise<this> {
-        this.events.emit('Application:start', this);
-        /* This part is ment to kick start the application. */
-        /* and is currently emtpy. awaiting purpose */
-        /**
-         * @todo: Work out Application start
-         * Different projects will have different views on what 'starting' up might be.
-         * One would use React, Vue or any other way.
-         * My suggestion would be that the {@see Application.initialize()} options allow for a
-         * 'start' (async/Promise) callback that would be called right here, overloading it with any arguments
-         * this {@see Application.start()} method has received.
-         *
-         */
-        this.events.emit('Application:started', this);
-        return this;
-    };
-
-
-    public singleton<T>(serviceIdentifier: ServiceIdentifier<T>, constructor: new (...args: any[]) => T): this {
         this.bind(serviceIdentifier).to(constructor).inSingletonScope();
+
         return this;
     }
 
-    public binding<T>(serviceIdentifier: ServiceIdentifier<T>, func: (app: this) => T, singleton: boolean = false): this {
+    /**
+     * Register a binding.
+     * 
+     * @param serviceIdentifier 
+     * @param func 
+     * @param singleton 
+     * @returns 
+     */
+    public binding<Type>(
+        serviceIdentifier: ServiceIdentifier<Type>,
+        func: (app: this) => Type,
+        singleton: boolean = false
+    ): this {
+
         let binding = this.bind(serviceIdentifier).toDynamicValue(ctx => func(this));
+
         singleton ? binding.inSingletonScope() : binding.inTransientScope();
+
         return this;
     }
 
-    public instance<T>(serviceIdentifier: ServiceIdentifier<T>, value: T): this {
+    /**
+     * Register an instance binding.
+     * 
+     * @param serviceIdentifier 
+     * @param value 
+     * @returns 
+     */
+    public instance<Type>(
+        serviceIdentifier: ServiceIdentifier<Type>,
+        value: Type
+    ): this {
+
         this.bind(serviceIdentifier).toConstantValue(value);
+
         return this;
     }
 
+    /**
+     * Add a getter for the binding.
+     * 
+     * @param id 
+     * @param key 
+     * @returns 
+     */
     public addBindingGetter(id: string, key: string = null): this {
-        key        = key || id;
+
+        key = key || id;
+
         const self = this;
+
         Object.defineProperty(self, key, {
             get() {
                 return self.get(id);
             },
             configurable: true,
-            enumerable  : true,
+            enumerable: true,
         });
+
         return this;
     }
 }
 
-const app                    = Application.instance;
+const app = Application.instance;
 
 const { lazyInject: inject } = getDecorators(app);
+
 export {
     app,
     inject,

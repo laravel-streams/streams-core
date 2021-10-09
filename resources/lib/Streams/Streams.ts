@@ -1,43 +1,59 @@
 import { Stream } from './Stream';
+import { Http } from '@/Streams/Http';
+import { Config } from '../types/config';
+
 import { injectable } from 'inversify';
 import { inject } from '@/Foundation';
-import { Config } from '../types/config';
-import { streams } from '../types/streams';
-import { Http } from '@/Streams/Http';
 
 @injectable()
 export class Streams {
+
     @inject('config') config: Config;
     @inject('streams.http') http: Http;
 
+    /**
+     * Return all streams.
+     * 
+     * @returns 
+     */
     public async all(): Promise<Stream[]> {
-        const data = await this.http.getStreams()
-        return data.data.map(data => new Stream(data))
+        
+        const data = await this.http.getStreams();
+
+        return data.data.map(data => new Stream(data));
     }
 
+    /**
+     * Make a stream instance.
+     * 
+     * @param id 
+     * @returns 
+     */
     public async make<ID extends string>(id: ID): Promise<Stream<ID>> {
+
         const data = await this.http.getStream(id)
-        return new Stream(data.data,data.meta,data.links);
+
+        return new Stream(data.data, data.meta, data.links);
     }
 
-    public merge() {}
+    public merge() { }
 
-    public has(): boolean {return false;}
+    public has(): boolean { return false; }
 
-    public build() {}
+    public build() { }
 
-    public load() {}
+    public load() { }
 
-    public register() {}
+    public register() { }
 
-    public overload() {}
+    public overload() { }
 
     public entries() {
 
     }
 
-    public repository() {}
+    public repository() { }
 
-    public collection() {}
+    public collection() { }
 
 }
