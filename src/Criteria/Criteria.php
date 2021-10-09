@@ -223,7 +223,7 @@ class Criteria
      */
     public function create(array $attributes = [])
     {
-        $this->stream->flush();
+        $this->stream->cache()->flush();
 
         return $this->adapter->create($attributes);
     }
@@ -236,7 +236,7 @@ class Criteria
      */
     public function save($entry)
     {
-        $this->stream->flush();
+        $this->stream->cache()->flush();
 
         return $this->adapter->save($entry);
     }
@@ -248,7 +248,7 @@ class Criteria
      */
     public function delete()
     {
-        $this->stream->flush();
+        $this->stream->cache()->flush();
 
         return (bool) $this->adapter->delete($this->parameters);
     }
@@ -260,7 +260,7 @@ class Criteria
      */
     public function truncate()
     {
-        $this->stream->flush();
+        $this->stream->cache()->flush();
 
         $this->adapter->truncate();
     }
