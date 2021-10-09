@@ -103,7 +103,7 @@ class FilebaseAdapter extends AbstractAdapter
         }
 
         if ($field == 'handle') {
-            $field = $this->stream->getPrototypeAttribute('config.handle', 'id');
+            $field = $this->stream->getPrototypeAttribute('config.handle') ?: 'id';
         }
 
         if ($field == 'id') {
