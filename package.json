@@ -38,8 +38,8 @@
         "axios": "^0.21.4",
         "debug": "^4.3.2",
         "eventemitter2": "^6.4.4",
-        "inversify": "^5.1.1",
-        "inversify-inject-decorators": "^3.1.0",
+        "inversify": "^5.1",
+        "inversify-inject-decorators": "^3.1",
         "reflect-metadata": "^0.1.13",
         "webpack-cli": "^4.8.0"
     },
