@@ -284,6 +284,11 @@ class Stream implements
         return Arr::get($this->meta, $key, $default);
     }
 
+    /**
+     * Return the Streams cache manager.
+     * 
+     * @return StreamCache
+     */
     public function cache()
     {
         return $this->once(__METHOD__, fn() => new StreamCache($this));

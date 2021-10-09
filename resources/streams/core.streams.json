@@ -10,7 +10,25 @@
     "fields": {
         "id": {
             "type": "slug",
-            "config.separator": "-"
+            "config.separator": "_"
+        },
+        "name": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "source": {
+            "type": "array"
+        },
+        "fields": {
+            "type": "array"
+        },
+        "ui": {
+            "type": "array"
+        },
+        "api": {
+            "type": "array"
         }
     }
 }

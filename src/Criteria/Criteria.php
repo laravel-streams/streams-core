@@ -281,8 +281,9 @@ class Criteria
 
         $path = Request::url();
 
+        $page = Arr::get($parameters, 'page');
         $total = Arr::get($parameters, 'total');
-        $perPage = Arr::get($parameters, 'per_page', 25);
+        $perPage = Arr::get($parameters, 'per_page');
         $pageName = Arr::get($parameters, 'page_name', 'page');
         $limitName = Arr::get($parameters, 'limit_name', 'limit');
 
@@ -290,8 +291,13 @@ class Criteria
             $total = $this->count();
         }
 
-        $page = (int) Request::get($pageName, 1);
-        $perPage = (int) Request::get($limitName, $perPage) ?: 9999;
+        if (!$page) {
+            $page = (int) Request::get($pageName, 1);
+        }
+
+        if (!$perPage) {
+            $perPage = (int) Request::get($limitName, $perPage) ?: 25;
+        }
 
         $offset = $page * $perPage - $perPage;
 
