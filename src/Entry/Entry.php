@@ -153,8 +153,12 @@ class Entry implements
      */
     public function toArray()
     {
-        return array_diff_key(Hydrator::dehydrate($this), array_flip([
+        return Arr::make(Hydrator::dehydrate($this, [
             'stream',
+            '__listeners',
+            '__observers',
+            '__created_at',
+            '__updated_at',
         ]));
     }
 

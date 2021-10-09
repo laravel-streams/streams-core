@@ -301,7 +301,12 @@ class Stream implements
      */
     public function toArray()
     {
-        return Arr::make(Hydrator::dehydrate($this));
+        return Arr::make(Hydrator::dehydrate($this, [
+            '__listeners',
+            '__observers',
+            '__created_at',
+            '__updated_at',
+        ]));
     }
 
     /**
