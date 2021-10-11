@@ -302,9 +302,9 @@ export class Application extends Container {
      * @param constructor
      * @returns
      */
-    public singleton<T>(
-        serviceIdentifier: ServiceIdentifier<T>,
-        constructor: new (...args: any[]) => T
+    public singleton<Type>(
+        serviceIdentifier: ServiceIdentifier<Type>,
+        constructor: new (...args: any[]) => Type
     ): this {
 
         this.bind(serviceIdentifier).to(constructor).inSingletonScope();

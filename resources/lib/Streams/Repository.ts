@@ -7,14 +7,23 @@ import { Entry } from '@/Streams/Entry';
 
 
 export class Repository<ID extends string = string> {
+    
     @inject('streams.http') protected http:Http
 
     constructor(protected stream: Stream) {}
 
+    /**
+     * Return all items.
+     * 
+     * @returns EntryCollection
+     */
     async all(): Promise<EntryCollection> {
-        let res = await this.http.getEntries<any>(this.stream.id);
-        let entries = res.data.map(entry => new Entry(this.stream, entry, false))
-        return new EntryCollection(entries, res.meta as any, res.links as any)
+        
+        let response = await this.http.getEntries<any>(this.stream.id);
+
+        let entries = response.data.map(entry => new Entry(this.stream, entry, false))
+
+        return new EntryCollection(entries, response.meta as any, response.links as any)
     }
 
     find(): this {return this;}

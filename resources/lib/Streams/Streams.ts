@@ -4,6 +4,7 @@ import { Config } from '../types/config';
 
 import { injectable } from 'inversify';
 import { inject } from '@/Foundation';
+import { Repository } from '@';
 
 @injectable()
 export class Streams {
@@ -36,23 +37,18 @@ export class Streams {
         return new Stream(data.data, data.meta, data.links);
     }
 
-    public merge() { }
-
     public has(): boolean { return false; }
-
-    public build() { }
-
-    public load() { }
-
-    public register() { }
-
-    public overload() { }
 
     public entries() {
 
     }
 
-    public repository() { }
+    public async repository<ID extends string>(id: ID) {
+
+        const stream = await this.make(id);
+
+        return new Repository(stream);
+    }
 
     public collection() { }
 
