@@ -1,10 +1,13 @@
 import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosStatic, CancelTokenSource } from 'axios';
 import { injectable, postConstruct } from 'inversify';
 import { inject } from '@/Foundation';
-import { IBaseStream, Config, IStreamResponse } from '@/types';
+import { Config, IBaseStream, IStreamLinks, IStreamMeta, IStreamResponse } from '@/types';
+import { IEntriesLinks, IEntriesMeta, IPaginatedEntriesLinks, IPaginatedEntriesMeta } from '@/Streams/EntryCollection';
+
 
 @injectable()
 export class Http {
+
     @inject('axios') Axios: AxiosStatic;
     @inject('config') config: Config;
     protected cancelTokenSource: CancelTokenSource;
@@ -15,9 +18,9 @@ export class Http {
         return this.get('/streams', config);
     }
 
-    async postStream<T>(data:T, config: AxiosRequestConfig = {}):Promise<IStreamResponse<T>> {
+    async postStream<T>(data: T, config: AxiosRequestConfig = {}): Promise<IStreamResponse<T>> {
         config.data = data;
-        return this.post<T>('/streams', data,config);
+        return this.post<T>('/streams', data, config);
     }
 
     async getStream<ID extends string>(stream: ID, params: any = {}, config: AxiosRequestConfig = {}) {
@@ -39,14 +42,15 @@ export class Http {
         return this.delete<IBaseStream<ID>>(`/streams/${stream}`, config);
     }
 
-    async getEntries<ID extends string>(stream: ID, params: any = {}, config: AxiosRequestConfig = {}) {
+    async getEntries<DATA,TYPE extends keyof Http.Responses<DATA>='entries',ID extends string=string>(stream: ID, data: any = {}, params: any = {}, config: AxiosRequestConfig = {}):Promise<Http.Responses<DATA>[TYPE]> {
+        config.data   = data;
         config.params = params;
-        return this.get<any[]>(`/streams/${stream}/entries`, config);
+        return this.get<DATA[], Http.Responses<DATA>[TYPE]>(`/streams/${stream}/entries`, config);
     }
 
     async postEntry<ID extends string>(stream: ID, data: any = {}, config: AxiosRequestConfig = {}) {
         config.data = data;
-        return this.post<any>(`/streams/${stream}/entries`,data, config);
+        return this.post<any>(`/streams/${stream}/entries`, data, config);
     }
 
 
@@ -90,21 +94,23 @@ export class Http {
         const Axios                      = this.Axios;
         this.cancelTokenSource           = Axios.CancelToken.source();
         const config: AxiosRequestConfig = {
-            baseURL: '/api',
-            params: {},
+            baseURL     : '/api',
+            params      : {},
+            responseType: 'json',
             ...this.config.http,
             headers: {
+                'Content-Type'    : 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
                 ...(this.config.http && this.config.http.headers ? this.config.http.headers : {}),
-            }
+            },
         };
         let streams                      = this.config.get<any>('streams');
         if ( streams?.cache?.enabled ) {
 
         }
-        if(streams?.xdebug){
-            config.headers['Cookie'] = 'XDEBUG_SESSION=start'
-            config.params['XDEBUG_SESSION']='PHPSTORM';
+        if ( streams?.xdebug ) {
+            config.headers[ 'Cookie' ]        = 'XDEBUG_SESSION=start';
+            config.params[ 'XDEBUG_SESSION' ] = 'PHPSTORM';
         }
         if ( streams?.authentication ) {
             const { type, basic, token } = streams.authentication;
@@ -136,3 +142,15 @@ export class Http {
 
 }
 
+
+export namespace Http {
+    export interface StreamResponse<T, M extends IStreamMeta, L = IStreamLinks<any>> extends IStreamResponse<T, M, L> {
+
+    }
+
+    export interface Responses<T> {
+        entries: StreamResponse<T, IEntriesMeta, IEntriesLinks>;
+        paginated: StreamResponse<T, IPaginatedEntriesMeta, IPaginatedEntriesLinks>;
+    }
+
+}

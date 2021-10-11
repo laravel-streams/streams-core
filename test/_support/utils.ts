@@ -103,6 +103,12 @@ export class FS {
 
     resolvePath(path: string) {return isAbsolute(path) ? path : this.path(path); }
 
+    createStream(name:string, data:any){
+        this.delete(`streams/${name}.json`);
+        this.delete(`streams/data/${name}.json`);
+        this.create(`streams/${name}.json`,data);
+    }
+
     create(path: string, data: any, override: boolean = true): boolean {
         path = this.resolvePath(path);
         if ( existsSync(path) ) {

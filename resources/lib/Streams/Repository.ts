@@ -12,7 +12,7 @@ export class Repository<ID extends string = string> {
     constructor(protected stream: Stream) {}
 
     async all(): Promise<EntryCollection> {
-        let res = await this.http.getEntries(this.stream.id);
+        let res = await this.http.getEntries<any>(this.stream.id);
         let entries = res.data.map(entry => new Entry(this.stream, entry, false))
         return new EntryCollection(entries, res.meta as any, res.links as any)
     }

@@ -13,6 +13,7 @@
         "noImplicitAny": false,
         "noImplicitReturns": false,
         "noImplicitThis": false,
+        "resolveJsonModule": true,
         "noImplicitUseStrict": false,
         "declaration": true,
         "declarationDir": "resources/public/types",
@@ -27,6 +28,7 @@
             "DOM"
         ],
         "paths": {
+            "@": ["resources/lib/index.ts"],
             "@/*": ["resources/lib/*"]
         }
     },

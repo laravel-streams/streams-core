@@ -8,6 +8,7 @@
         "moduleResolution": "node",
         "experimentalDecorators": true,
         "skipLibCheck": true,
+        "resolveJsonModule": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "noImplicitAny": false,
@@ -25,6 +26,7 @@
             "DOM"
         ],
         "paths": {
+            "@": ["../resources/lib/index.ts"],
             "@/*": ["../resources/lib/*"]
         }
     },

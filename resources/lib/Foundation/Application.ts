@@ -57,7 +57,7 @@ export class Application extends Container {
     /**
      * Return a singleton
      * instance of Application
-     * 
+     *
      * @return {Application}
      */
     public static getInstance() {
@@ -67,7 +67,7 @@ export class Application extends Container {
     /**
      * Return whether the
      * application has booted.
-     * 
+     *
      * @returns bool
      */
     public isBooted() { return this.booted; }
@@ -75,7 +75,7 @@ export class Application extends Container {
     /**
      * Return whether the
      * application has started.
-     * 
+     *
      * @returns bool
      */
     public isStarted() { return this.started; }
@@ -100,9 +100,9 @@ export class Application extends Container {
 
     /**
      * Initialize the application.
-     * 
-     * @param options 
-     * @returns 
+     *
+     * @param options
+     * @returns
      */
     public async initialize(options: ApplicationInitOptions = {}) {
 
@@ -114,7 +114,7 @@ export class Application extends Container {
 
         this.events.emit('Application:initialize', options);
 
-        this.instance('config', new Repository(options.config)).addBindingGetter('config');
+        this.instance('config', Repository.asProxy(options.config)).addBindingGetter('config');
 
         await this.loadProviders(options.providers);
         await this.registerProviders(this.providers);
@@ -125,8 +125,8 @@ export class Application extends Container {
 
     /**
      * Boot the application.
-     * 
-     * @returns 
+     *
+     * @returns
      */
     public async boot(): Promise<this> {
 
@@ -162,9 +162,9 @@ export class Application extends Container {
 
     /**
      * Start the application.
-     * 
-     * @param args 
-     * @returns 
+     *
+     * @param args
+     * @returns
      */
     public async start(...args: any[]): Promise<this> {
 
@@ -188,9 +188,9 @@ export class Application extends Container {
 
     /**
      * Load service providers.
-     * 
-     * @param Providers 
-     * @returns 
+     *
+     * @param Providers
+     * @returns
      */
     protected async loadProviders(Providers: IServiceProviderClass[]): Promise<this> {
 
@@ -203,9 +203,9 @@ export class Application extends Container {
 
     /**
      * Load the given provider.
-     * 
-     * @param Provider 
-     * @returns 
+     *
+     * @param Provider
+     * @returns
      */
     protected async loadProvider(Provider: IServiceProviderClass): Promise<IServiceProvider> {
 
@@ -297,10 +297,10 @@ export class Application extends Container {
 
     /**
      * Register a singleton bindng.
-     * 
-     * @param serviceIdentifier 
-     * @param constructor 
-     * @returns 
+     *
+     * @param serviceIdentifier
+     * @param constructor
+     * @returns
      */
     public singleton<T>(
         serviceIdentifier: ServiceIdentifier<T>,
@@ -314,11 +314,11 @@ export class Application extends Container {
 
     /**
      * Register a binding.
-     * 
-     * @param serviceIdentifier 
-     * @param func 
-     * @param singleton 
-     * @returns 
+     *
+     * @param serviceIdentifier
+     * @param func
+     * @param singleton
+     * @returns
      */
     public binding<Type>(
         serviceIdentifier: ServiceIdentifier<Type>,
@@ -335,10 +335,10 @@ export class Application extends Container {
 
     /**
      * Register an instance binding.
-     * 
-     * @param serviceIdentifier 
-     * @param value 
-     * @returns 
+     *
+     * @param serviceIdentifier
+     * @param value
+     * @returns
      */
     public instance<Type>(
         serviceIdentifier: ServiceIdentifier<Type>,
@@ -352,10 +352,10 @@ export class Application extends Container {
 
     /**
      * Add a getter for the binding.
-     * 
-     * @param id 
-     * @param key 
-     * @returns 
+     *
+     * @param id
+     * @param key
+     * @returns
      */
     public addBindingGetter(id: string, key: string = null): this {
 

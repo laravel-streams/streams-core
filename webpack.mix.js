@@ -46,9 +46,11 @@ mix
             path                                 : path.resolve('./resources/public'),
             filename                             : 'js/[name].js',
             chunkFilename                        : 'js/chunk.[name].js',
-            library                              : ['streams', 'core'],
+            library                              : {
+                name: ['streams', 'core'],
+                type: 'assign'
+            },
             publicPath                           : '/vendor/streams/core/',
-            libraryTarget                        : 'window',
             devtoolFallbackModuleFilenameTemplate: 'webpack:///[resource-path]?[hash]',
             devtoolModuleFilenameTemplate        : info => {
                 var $filename = 'sources://' + info.resourcePath;
@@ -80,6 +82,7 @@ mix
                         target        : 'es6',
                         module        : 'esnext',
                         declaration   : true,
+                        declarationDir: 'resources/public/types',
                         importHelpers : true,
                         sourceMap     : isDev,
                         removeComments: !isDev,

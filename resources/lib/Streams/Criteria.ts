@@ -1,6 +1,6 @@
 import { Stream } from './Stream';
 import { Entry } from './Entry';
-import { EntryCollection } from './EntryCollection';
+import { EntryCollection, PaginatedEntryCollection } from './EntryCollection';
 import { IBaseStream, streams } from '@/types';
 import { IStreams } from '@/types/streams';
 import { injectable } from 'inversify';
@@ -39,10 +39,12 @@ export const operators:Operator[] = [].concat(comparisonOperators).concat(logica
 export type Operator = ComparisonOperator | LogicalOperator
 
 const isOperator = (value:any):value is Operator => operators.includes(value);
+const ensureArray = (value:any) => Array.isArray(value) ? value : [value];
 
 export interface CriteriaStatement {
     name:string
-    [key:string]: any
+    value:any
+    // [key:string]: any
 }
 
 @injectable()
@@ -51,18 +53,17 @@ export class Criteria<ID extends string=string> {
     // parameters
     // adapter
 
-    protected statements:CriteriaStatement[] = []
+     statements:CriteriaStatement[] = []
 
     constructor(protected stream: Stream) {}
 
-    protected compileStatements(){
-        let params = {}
-        for(const s of this.statements){
-            let param = s;
-            delete param.name;
-            params[s.name] = s;
-        }
-        return params;
+    compileStatements(){
+        return this.statements.map(statement => ({[statement.name]: ensureArray(statement.value)}));
+    }
+
+    protected addStatement(name:string, value:any|any[]){
+        this.statements.push({name, value})
+        return this;
     }
 
     async all(): Promise<EntryCollection> {return; }
@@ -74,12 +75,12 @@ export class Criteria<ID extends string=string> {
     cache(): this {return this;}
 
     orderBy(key:string, direction:OrderByDirection='desc'): this {
-        this.statements.push({name: 'orderBy', key, direction})
+        this.addStatement( 'orderBy',[key, direction])
         return this;
     }
 
     limit(value:number): this {
-        this.statements.push({name: 'limit', value})
+        this.addStatement( 'limit',value)
         return this;}
 
     where(key:string,value:any):this
@@ -100,16 +101,16 @@ export class Criteria<ID extends string=string> {
         if(!isOperator(operator)){
             throw new Error(`Criteria where() operator "${operator}" not valid `)
         }
-        this.statements.push({name:'where',key,operator,value})
+        this.addStatement( 'where',[key,operator,value])
         return this;
     }
 
     orWhere(): this {return this;}
 
-    async get(): Promise<EntryCollection> {
-        let params = this.compileStatements();
-        const response = await this.http.getEntries(this.stream.id, params);
-        return new EntryCollection(response.data)
+    async get<T>(): Promise<EntryCollection> {
+        let query = this.compileStatements();
+        const response = await this.http.getEntries<T[],'entries'>(this.stream.id, { query },{});
+        return EntryCollection.fromResponse<T>(response, this.stream)
     }
 
     count(): number {return 0;}
@@ -122,7 +123,11 @@ export class Criteria<ID extends string=string> {
 
     truncate(): this {return this;}
 
-    paginate(): this {return this;}
+    async paginate<T>(per_page:number=100, page:number=1):Promise<PaginatedEntryCollection> {
+        let query = this.compileStatements();
+        const response = await this.http.getEntries<T[], 'paginated'>(this.stream.id, { query },{paginate:true,per_page,page});
+        return PaginatedEntryCollection.fromResponse<T>(response, this.stream)
+    }
 
     newInstance(): this {return this;}
 

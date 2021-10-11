@@ -9,10 +9,10 @@ export type IStreamLinks<K> = {
     [T in keyof K]: string
 }
 
-export interface IStreamResponse<T extends any=any, L = 'self' | 'entries'> {
+export interface IStreamResponse<T extends any=any, META extends IStreamMeta=IStreamMeta,LINKS=IStreamLinks<'self' | 'entries'>> {
     data: T;
-    meta: IStreamMeta;
-    links: IStreamLinks<L>;
+    meta: META;
+    links: LINKS;
     errors?: string[]|Record<string, string|string[]>
 }
 

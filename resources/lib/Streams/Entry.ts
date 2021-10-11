@@ -2,10 +2,10 @@ import { Stream } from '@/Streams/Stream';
 import { inject } from '@/Foundation';
 import { Http } from '@/Streams/Http';
 
-export interface Entry<ID extends string = string> {
-    id: string;
-}
-
+// export interface Entry<ID extends string = string> {
+//     id: string;
+// }
+export type IEntry<T,ID extends string = string> = Entry<ID> & T;
 export class Entry<ID extends string = string> {
     @inject('streams.http') http: Http;
 
