@@ -57,7 +57,7 @@ class Criteria
     }
 
     /**
-     * Return the first matching result.
+     * Find an entry by ID.
      * 
      * @param string $id
      * @return EntryInterface
@@ -350,14 +350,16 @@ class Criteria
         }
 
         if (method_exists($this->adapter, $method)) {
-            
+
             $this->parameters[$method][] = $arguments;
 
             return $this;
         }
 
         throw new \BadMethodCallException(sprintf(
-            'Method %s::%s does not exist.', static::class, $method
+            'Method %s::%s does not exist.',
+            static::class,
+            $method
         ));
     }
 }

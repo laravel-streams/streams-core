@@ -65,53 +65,140 @@ export class Criteria<ID extends string = string> {
      */
     constructor(protected stream: Stream) { }
 
-    find(): this { return this; }
+    /**
+     * Find an entry by ID.
+     * 
+     * @param id 
+     * @returns 
+     */
+    async find<ID extends string>(id: ID): Promise<Entry> {
+        return this.where('id', id).first();
+    }
 
-    async first(): Promise<Entry<ID> & IBaseStream<ID>> { return; }
+    /**
+     * Return the first result.
+     * 
+     * @returns 
+     */
+    async first(): Promise<Entry<ID> & IBaseStream<ID>> {
+
+        let collection = await this.limit(1).get();
+
+        return collection[0];
+    }
 
     cache(): this { return this; }
 
+    /**
+     * Order the query by field/direction.
+     * 
+     * @param key 
+     * @param direction 
+     * @returns 
+     */
     orderBy(key: string, direction: OrderByDirection = 'desc'): this {
-        this.addStatement('orderBy', [key, direction])
+
+        this.addParameter('orderBy', [key, direction]);
+
         return this;
     }
 
+    /**
+     * Limit the entries returned.
+     * 
+     * @param value 
+     * @returns 
+     */
     limit(value: number): this {
-        this.addStatement('limit', value)
+
+        this.addParameter('limit', value);
+
         return this;
     }
 
-    where(key: string, value: any): this
+    /**
+     * Constrain the query by a typical 
+     * field, operator, value argument.
+     * 
+     * @param key 
+     * @param value 
+     */
+    where(key: string, operator: Operator, value: any, nested: any): this
     where(key: string, operator: Operator, value: any): this
+    where(key: string, value: any): this
     where(...args): this {
+
         let key: string,
             operator: Operator,
-            value: any;
+            value: any,
+            nested: null;
+
         if (args.length === 2) {
             key = args[0];
             operator = '=='
             value = args[1];
-        } else { // if(args.length === 3)
+        } else if (args.length === 3) {
+            key = args[0];
+            operator = args[1]
+            value = args[2];
+        } else if (args.length === 4) {
+            key = args[0];
+            operator = args[1]
+            value = args[2];
+            nested = args[3];
+        }
+
+        if (!isOperator(operator)) {
+            throw new Error(`Criteria where() operator "${operator}" not valid `);
+        }
+
+        this.addParameter('where', [key, operator, value, nested]);
+
+        return this;
+    }
+
+    orWhere(key: string, operator: Operator, value: any): this
+    orWhere(key: string, value: any): this
+    orWhere(...args): this {
+
+        let key: string,
+            operator: Operator,
+            value: any;
+
+        if (args.length === 2) {
+            key = args[0];
+            operator = '=='
+            value = args[1];
+        } else {
             key = args[0];
             operator = args[1]
             value = args[2];
         }
+
         if (!isOperator(operator)) {
-            throw new Error(`Criteria where() operator "${operator}" not valid `)
+            throw new Error(`Criteria orWhere() operator "${operator}" not valid `);
         }
-        this.addStatement('where', [key, operator, value])
+
+        this.addParameter('where', [key, operator, value, 'or']);
+
         return this;
     }
 
-    orWhere(): this { return this; }
-
+    /**
+     * Get the criteria results.
+     * 
+     * @returns 
+     */
     async get<T>(): Promise<EntryCollection> {
+
         let query = this.compileStatements();
+
         const response = await this.http.getEntries<T[], 'entries'>(this.stream.id, { query }, {});
+
         return EntryCollection.fromResponse<T>(response, this.stream)
     }
 
-    count(): number { return 0; }
+    //count(): number { return 0; }
 
     create(): this { return this; }
 
@@ -119,19 +206,55 @@ export class Criteria<ID extends string = string> {
 
     delete(): this { return this; }
 
-    truncate(): this { return this; }
+    //truncate(): this { return this; }
 
+    /**
+     * Get paginated criteria results.
+     * 
+     * @param per_page 
+     * @param page 
+     * @returns 
+     */
     async paginate<T>(per_page: number = 100, page: number = 1): Promise<PaginatedEntryCollection> {
+
         let query = this.compileStatements();
+
         const response = await this.http.getEntries<T[], 'paginated'>(this.stream.id, { query }, { paginate: true, per_page, page });
-        return PaginatedEntryCollection.fromResponse<T>(response, this.stream)
+
+        return PaginatedEntryCollection.fromResponse<T>(response, this.stream);
     }
 
-    newInstance(): this { return this; }
+    /**
+     * Return an entry instance.
+     * 
+     * @param attributes 
+     * @returns Entry
+     */
+    public newInstance(attributes: any): Entry {
+        return new Entry(this.stream, attributes, true);
+    }
 
-    getParameters(): this { return this; }
+    /**
+     * Get the parameters.
+     * 
+     * @returns 
+     */
+    public getParameters(): any {
+        return this.parameters;
+    }
 
-    setParameters(): this { return this; }
+    /**
+     * Set the parameters.
+     * 
+     * @param parameters 
+     * @returns 
+     */
+    public setParameters(parameters: any): this {
+
+        this.parameters = parameters;
+
+        return this;
+    }
 
     /**
      * Add a statement.
@@ -140,8 +263,10 @@ export class Criteria<ID extends string = string> {
      * @param value 
      * @returns 
      */
-    protected addStatement(name: string, value: any | any[]) {
+    protected addParameter(name: string, value: any | any[]) {
+
         this.parameters.push({ name, value })
+
         return this;
     }
 

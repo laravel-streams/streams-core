@@ -59,21 +59,46 @@ export class Repository<ID extends string = string> {
     }
 
     /**
-     * Find 
+     * Find an entry by a field value.
+     * 
+     * @param field
+     * @param value
      * @returns Entry
      */
     async findBy<ID extends string, VID extends string>(field: ID, value: VID): Promise<Entry> {
 
         let criteria = this.stream.entries();
 
-        return criteria.where('id', 'IN', ids).get();
+        return criteria.where(field, value).first();
     }
 
-    findAllWhere(): this { return this; }
+    /**
+     * Find all entries by field value.
+     * 
+     * @param $field
+     * @param $operator
+     * @param $value
+     * @return EntryCollection
+     */
+    async findAllWhere<ID extends string, VID extends string>(field: ID, value: VID): Promise<EntryCollection> {
 
-    async create(data: any): Promise<Entry> {
-        let entry = new Entry(this.stream, data, true)
+        let criteria = this.stream.entries();
+
+        return criteria.where(field, value).get();
+    }
+
+    /**
+     * Create a new entry.
+     * 
+     * @param attributes 
+     * @returns 
+     */
+    async create(attributes: any): Promise<Entry> {
+        
+        let entry = this.newCriteria().newInstance(attributes);
+
         await entry.save()
+
         return entry;
     }
 
@@ -85,15 +110,12 @@ export class Repository<ID extends string = string> {
 
     newInstance(): this { return this; }
 
-    newCriteria(): Criteria<ID> { return new Criteria<ID>(this.stream); }
-
-    newSelfAdapter(): this { return this; }
-
-    newFileAdapter(): this { return this; }
-
-    newFilebaseAdapter(): this { return this; }
-
-    newDatabaseAdapter(): this { return this; }
-
-    newEloquentAdapter(): this { return this; }
+    /**
+     * Return a new entry criteria.
+     * 
+     * @returns Criteria
+     */
+    newCriteria(): Criteria<ID> {
+        return new Criteria<ID>(this.stream);
+    }
 }
