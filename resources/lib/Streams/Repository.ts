@@ -4,13 +4,19 @@ import { inject } from '@/Foundation';
 import { Http } from '@/Streams/Http';
 import { EntryCollection } from '@/Streams/EntryCollection';
 import { Entry } from '@/Streams/Entry';
+import { Collection } from '@';
 
 
 export class Repository<ID extends string = string> {
-    
-    @inject('streams.http') protected http:Http
 
-    constructor(protected stream: Stream) {}
+    @inject('streams.http') protected http: Http
+
+    /**
+     * Create a new repository instance.
+     * 
+     * @param stream
+     */
+    constructor(protected stream: Stream) { }
 
     /**
      * Return all items.
@@ -18,45 +24,67 @@ export class Repository<ID extends string = string> {
      * @returns EntryCollection
      */
     async all(): Promise<EntryCollection> {
-        
+
         let response = await this.http.getEntries<any>(this.stream.id);
 
-        let entries = response.data.map(entry => new Entry(this.stream, entry, false))
+        let entries = response.data.map(entry => new Entry(this.stream, entry, false));
 
-        return new EntryCollection(entries, response.meta as any, response.links as any)
+        return new EntryCollection(entries, response.meta as any, response.links as any);
     }
 
-    find(): this {return this;}
+    /**
+     * Find an entry by ID.
+     * 
+     * @param id
+     * @returns Entry
+     */
+    async find<ID extends string>(id: ID): Promise<Entry> {
 
-    findAll(): this {return this;}
+        let response = await this.http.getEntry(this.stream.id, id);
 
-    findBy(): this {return this;}
+        return new Entry(this.stream, response.data, true);
+    }
 
-    findAllWhere(): this {return this;}
+    /**
+     * Find all records by IDs.
+     * 
+     * @param ids
+     * @returns EntryCollection
+     */
+    async findAll(ids): Promise<EntryCollection> {
 
-    async create(data:any): Promise<Entry> {
+        let criteria = this.stream.entries();
+
+        return criteria.where('id', 'IN', ids).get();
+    }
+
+    findBy(): this { return this; }
+
+    findAllWhere(): this { return this; }
+
+    async create(data: any): Promise<Entry> {
         let entry = new Entry(this.stream, data, true)
         await entry.save()
         return entry;
     }
 
-    save(): this {return this;}
+    save(): this { return this; }
 
-    delete(): this {return this;}
+    delete(): this { return this; }
 
-    truncate(): this {return this;}
+    truncate(): this { return this; }
 
-    newInstance(): this {return this;}
+    newInstance(): this { return this; }
 
-    newCriteria(): Criteria<ID> {return new Criteria<ID>(this.stream);}
+    newCriteria(): Criteria<ID> { return new Criteria<ID>(this.stream); }
 
-    newSelfAdapter(): this {return this;}
+    newSelfAdapter(): this { return this; }
 
-    newFileAdapter(): this {return this;}
+    newFileAdapter(): this { return this; }
 
-    newFilebaseAdapter(): this {return this;}
+    newFilebaseAdapter(): this { return this; }
 
-    newDatabaseAdapter(): this {return this;}
+    newDatabaseAdapter(): this { return this; }
 
-    newEloquentAdapter(): this {return this;}
+    newEloquentAdapter(): this { return this; }
 }

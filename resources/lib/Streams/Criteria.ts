@@ -49,6 +49,7 @@ export interface CriteriaStatement {
 
 @injectable()
 export class Criteria<ID extends string=string> {
+    
     @inject('streams.http') http:Http
     // parameters
     // adapter
