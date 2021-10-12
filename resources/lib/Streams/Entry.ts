@@ -44,7 +44,6 @@ export class Entry<ID extends string = string> {
         }
         this.http.patchEntry(this._stream.id, this._data.id, this._data);
         return true;
-
     }
 
     validator() {

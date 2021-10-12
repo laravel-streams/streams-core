@@ -200,9 +200,33 @@ export class Criteria<ID extends string = string> {
 
     //count(): number { return 0; }
 
-    create(): this { return this; }
+    /**
+     * Create a new entry.
+     * 
+     * @param attributes 
+     * @returns 
+     */
+     async create(attributes: any): Promise<Entry> {
 
-    save(): this { return this; }
+        let entry = this.newInstance(attributes);
+
+        await entry.save()
+
+        return entry;
+    }
+
+    /**
+     * Save an entry.
+     * 
+     * @param entry 
+     * @returns 
+     */
+     async save(entry: Entry): Promise<Boolean> {
+
+        let result = await entry.save();
+
+        return result;
+    }
 
     delete(): this { return this; }
 
