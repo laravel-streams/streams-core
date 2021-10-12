@@ -37,11 +37,13 @@ export class Entry<ID extends string = string> {
         return this._stream;
     }
 
-    async save() {
+    async save(): Promise<Boolean> {
         if (this._fresh) {
-            return this.http.postEntry(this._stream.id, this._data);
+            this.http.postEntry(this._stream.id, this._data);
+            return true;
         }
-        return this.http.patchEntry(this._stream.id, this._data.id, this._data);
+        this.http.patchEntry(this._stream.id, this._data.id, this._data);
+        return true;
 
     }
 

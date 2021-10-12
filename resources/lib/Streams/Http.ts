@@ -235,7 +235,7 @@ export class Http {
      * @returns 
      */
     async deleteEntry<ID extends string, EID extends string>(stream: ID, entry: EID, config: AxiosRequestConfig = {}) {
-        return this.patch<any>(`/streams/${stream}/entries/${entry}`, config);
+        return this.delete<any>(`/streams/${stream}/entries/${entry}`, config);
     }
 
     /**

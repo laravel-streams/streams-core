@@ -94,7 +94,7 @@ export class Repository<ID extends string = string> {
      * @returns 
      */
     async create(attributes: any): Promise<Entry> {
-        
+
         let entry = this.newCriteria().newInstance(attributes);
 
         await entry.save()
@@ -102,13 +102,43 @@ export class Repository<ID extends string = string> {
         return entry;
     }
 
-    save(): this { return this; }
+    /**
+     * Save an entry.
+     * 
+     * @param entry 
+     * @returns 
+     */
+    async save(entry: Entry): Promise<Boolean> {
 
-    delete(): this { return this; }
+        let result = await entry.save();
+
+        return result;
+    }
+
+    /**
+     * Save an entry.
+     * 
+     * @param entry 
+     * @returns 
+     */
+    async delete(entry: any): Promise<Boolean> {
+
+        await this.http.deleteEntry(this.stream.id, entry.id);
+
+        return true;
+    }
 
     truncate(): this { return this; }
 
-    newInstance(): this { return this; }
+    /**
+     * Return a new instance.
+     * 
+     * @param attributes 
+     * @returns 
+     */
+    newInstance(attributes: any): Entry {
+        return this.newCriteria().newInstance(attributes);
+    }
 
     /**
      * Return a new entry criteria.
