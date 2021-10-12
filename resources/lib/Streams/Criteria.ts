@@ -7,7 +7,8 @@ import { injectable } from 'inversify';
 import { inject } from '@/Foundation';
 import { Http } from '@/Streams/Http';
 
-export type OrderByDirection = 'asc'|'desc'
+export type OrderByDirection = 'asc' | 'desc';
+
 export type ComparisonOperator =
     | '>'
     | '<'
@@ -17,9 +18,9 @@ export type ComparisonOperator =
     | '<='
     | '!<'
     | '!>'
-    | '<>'
+    | '<>';
 
-export const comparisonOperators:ComparisonOperator[] = [ '>','<','==','!=','>=','<=','!<','!>','<>']
+export const comparisonOperators: ComparisonOperator[] = ['>', '<', '==', '!=', '>=', '<=', '!<', '!>', '<>'];
 
 export type LogicalOperator =
     | 'BETWEEN'
@@ -32,65 +33,61 @@ export type LogicalOperator =
     | 'ANY'
     | 'LIKE'
     | 'IS NULL'
-    | 'UNIQUE'
-export const logicalOperators:LogicalOperator[] = [ 'BETWEEN','EXISTS','OR','AND','NOT','IN','ALL','ANY','LIKE','IS NULL','UNIQUE']
-export const operators:Operator[] = [].concat(comparisonOperators).concat(logicalOperators);
+    | 'UNIQUE';
 
-export type Operator = ComparisonOperator | LogicalOperator
+export const logicalOperators: LogicalOperator[] = ['BETWEEN', 'EXISTS', 'OR', 'AND', 'NOT', 'IN', 'ALL', 'ANY', 'LIKE', 'IS NULL', 'UNIQUE'];
 
-const isOperator = (value:any):value is Operator => operators.includes(value);
-const ensureArray = (value:any) => Array.isArray(value) ? value : [value];
+export const operators: Operator[] = [].concat(comparisonOperators).concat(logicalOperators);
 
-export interface CriteriaStatement {
-    name:string
-    value:any
+export type Operator = ComparisonOperator | LogicalOperator;
+
+const isOperator = (value: any): value is Operator => operators.includes(value);
+
+const ensureArray = (value: any) => Array.isArray(value) ? value : [value];
+
+export interface CriteriaParameter {
+    name: string
+    value: any
     // [key:string]: any
 }
 
 @injectable()
-export class Criteria<ID extends string=string> {
-    
-    @inject('streams.http') http:Http
-    // parameters
-    // adapter
+export class Criteria<ID extends string = string> {
 
-     statements:CriteriaStatement[] = []
+    @inject('streams.http') http: Http
 
-    constructor(protected stream: Stream) {}
+    parameters: CriteriaParameter[] = []
 
-    compileStatements(){
-        return this.statements.map(statement => ({[statement.name]: ensureArray(statement.value)}));
-    }
+    /**
+     * Create a new instance.
+     * 
+     * @param stream 
+     */
+    constructor(protected stream: Stream) { }
 
-    protected addStatement(name:string, value:any|any[]){
-        this.statements.push({name, value})
+    find(): this { return this; }
+
+    async first(): Promise<Entry<ID> & IBaseStream<ID>> { return; }
+
+    cache(): this { return this; }
+
+    orderBy(key: string, direction: OrderByDirection = 'desc'): this {
+        this.addStatement('orderBy', [key, direction])
         return this;
     }
 
-    async all(): Promise<EntryCollection> {return; }
-
-    find(): this {return this;}
-
-    async first(): Promise<Entry<ID> & IBaseStream<ID>> {return ;}
-
-    cache(): this {return this;}
-
-    orderBy(key:string, direction:OrderByDirection='desc'): this {
-        this.addStatement( 'orderBy',[key, direction])
+    limit(value: number): this {
+        this.addStatement('limit', value)
         return this;
     }
 
-    limit(value:number): this {
-        this.addStatement( 'limit',value)
-        return this;}
-
-    where(key:string,value:any):this
-    where(key:string,operator:Operator,value:any):this
-    where(...args):this{
-        let key:string,
-            operator:Operator,
-            value:any;
-        if(args.length === 2){
+    where(key: string, value: any): this
+    where(key: string, operator: Operator, value: any): this
+    where(...args): this {
+        let key: string,
+            operator: Operator,
+            value: any;
+        if (args.length === 2) {
             key = args[0];
             operator = '=='
             value = args[1];
@@ -99,40 +96,61 @@ export class Criteria<ID extends string=string> {
             operator = args[1]
             value = args[2];
         }
-        if(!isOperator(operator)){
+        if (!isOperator(operator)) {
             throw new Error(`Criteria where() operator "${operator}" not valid `)
         }
-        this.addStatement( 'where',[key,operator,value])
+        this.addStatement('where', [key, operator, value])
         return this;
     }
 
-    orWhere(): this {return this;}
+    orWhere(): this { return this; }
 
     async get<T>(): Promise<EntryCollection> {
         let query = this.compileStatements();
-        const response = await this.http.getEntries<T[],'entries'>(this.stream.id, { query },{});
+        const response = await this.http.getEntries<T[], 'entries'>(this.stream.id, { query }, {});
         return EntryCollection.fromResponse<T>(response, this.stream)
     }
 
-    count(): number {return 0;}
+    count(): number { return 0; }
 
-    create(): this {return this;}
+    create(): this { return this; }
 
-    save(): this {return this;}
+    save(): this { return this; }
 
-    delete(): this {return this;}
+    delete(): this { return this; }
 
-    truncate(): this {return this;}
+    truncate(): this { return this; }
 
-    async paginate<T>(per_page:number=100, page:number=1):Promise<PaginatedEntryCollection> {
+    async paginate<T>(per_page: number = 100, page: number = 1): Promise<PaginatedEntryCollection> {
         let query = this.compileStatements();
-        const response = await this.http.getEntries<T[], 'paginated'>(this.stream.id, { query },{paginate:true,per_page,page});
+        const response = await this.http.getEntries<T[], 'paginated'>(this.stream.id, { query }, { paginate: true, per_page, page });
         return PaginatedEntryCollection.fromResponse<T>(response, this.stream)
     }
 
-    newInstance(): this {return this;}
+    newInstance(): this { return this; }
 
-    getParameters(): this {return this;}
+    getParameters(): this { return this; }
 
-    setParameters(): this {return this;}
+    setParameters(): this { return this; }
+
+    /**
+     * Add a statement.
+     * 
+     * @param name 
+     * @param value 
+     * @returns 
+     */
+    protected addStatement(name: string, value: any | any[]) {
+        this.parameters.push({ name, value })
+        return this;
+    }
+
+    /**
+     * Return standardized parameters.
+     * 
+     * @returns 
+     */
+    protected compileStatements() {
+        return this.parameters.map(statement => ({ [statement.name]: ensureArray(statement.value) }));
+    }
 }

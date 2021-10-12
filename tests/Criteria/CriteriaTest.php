@@ -21,9 +21,8 @@ class CriteriaTest extends TestCase
     public function testCanReturnResults()
     {
         $second = Streams::entries('testing.examples')->find('second');
-        $collection = Streams::entries('testing.examples')->get();
         $first = Streams::entries('testing.examples')->first();
-        $all = Streams::entries('testing.examples')->all();
+        $all = Streams::entries('testing.examples')->get();
 
         $this->assertEquals(2, $all->count());
         $this->assertEquals("First Example", $first->name);

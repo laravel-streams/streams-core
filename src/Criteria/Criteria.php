@@ -57,16 +57,6 @@ class Criteria
     }
 
     /**
-     * Alias for get.
-     * 
-     * @return Collection
-     */
-    public function all()
-    {
-        return $this->get();
-    }
-
-    /**
      * Return the first matching result.
      * 
      * @param string $id
