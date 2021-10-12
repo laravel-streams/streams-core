@@ -3,10 +3,10 @@ import { Repository } from './Repository';
 import { Criteria } from '@/Streams/Criteria';
 import { IBaseStream, IStreamLinks, IStreamMeta } from '@/types/streams';
 
-export interface Stream<ID extends string = string> extends Omit<IBaseStream<ID>,'fields'> {}
+export interface Stream<ID extends string = string> extends Omit<IBaseStream<ID>, 'fields'> { }
 
 export class Stream<ID extends string = string> {
-    
+
     /**
      * Create a new stream instance.
      * 
@@ -19,9 +19,9 @@ export class Stream<ID extends string = string> {
         public readonly meta?: IStreamMeta,
         public readonly links?: IStreamLinks<'self' | 'entries'>,
     ) {
-        
-        if(stream.fields){
-            this.fields=new Map(Object.entries(stream.fields).map(([key,field]) => [key,new Field(field)]))
+
+        if (stream.fields) {
+            this.fields = new Map(Object.entries(stream.fields).map(([key, field]) => [key, new Field(field)]))
             delete stream.fields;
         }
 
@@ -49,24 +49,26 @@ export class Stream<ID extends string = string> {
     public fields: Map<string, Field>
 
     /**
-     * The repository getter.
+     * Return the entries repository.
+     * 
+     * @returns Repository
      */
-    get repository(): Repository<ID> {
-        
-        if ( !this._repository ) {
+     repository(): Repository<ID> {
+
+        if (!this._repository) {
             this._repository = new Repository<ID>(this);
         }
 
         return this._repository;
-    }
-
+    };
+    
     /**
      * Return the entries criteria.
      * 
      * @returns Criteria
      */
     entries(): Criteria<ID> {
-        return this.repository.newCriteria();
+        return this.repository().newCriteria();
     };
 
     // validator;

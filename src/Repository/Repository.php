@@ -53,7 +53,7 @@ class Repository implements RepositoryInterface
     {
         return $this
             ->newCriteria()
-            ->all();
+            ->get();
     }
 
     /**

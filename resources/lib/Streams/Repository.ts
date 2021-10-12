@@ -40,9 +40,9 @@ export class Repository<ID extends string = string> {
      */
     async find<ID extends string>(id: ID): Promise<Entry> {
 
-        let response = await this.http.getEntry(this.stream.id, id);
+        let criteria = this.stream.entries();
 
-        return new Entry(this.stream, response.data, true);
+        return criteria.where('id', id).first();
     }
 
     /**
@@ -58,7 +58,16 @@ export class Repository<ID extends string = string> {
         return criteria.where('id', 'IN', ids).get();
     }
 
-    findBy(): this { return this; }
+    /**
+     * Find 
+     * @returns Entry
+     */
+    async findBy<ID extends string, VID extends string>(field: ID, value: VID): Promise<Entry> {
+
+        let criteria = this.stream.entries();
+
+        return criteria.where('id', 'IN', ids).get();
+    }
 
     findAllWhere(): this { return this; }
 
