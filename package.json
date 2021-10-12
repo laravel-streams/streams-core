@@ -12,7 +12,8 @@
         "hot": "mix watch --hot",
         "prod": "npm run production",
         "production": "mix --production",
-        "clean": "rimraf resources/lib/**/*.d.ts public/js",
+        "clean": "rimraf resources/lib/**/*.d.ts public/js ./client-api",
+        "doc": "typedoc --options ./typedoc.js",
         "test": "mocha"
     },
     "nyc": {
@@ -43,7 +44,16 @@
     },
     "devDependencies": {
         "@types/debug": "^4.1.7",
-
+        "typedoc": "^0.22.5",
+        "typedoc-neo-theme": "^1.1.1",
+        "typedoc-plugin-markdown": "^3.11.3",
+        "typedoc-plugin-custom-tags": "^1.0.2",
+        "typedoc-plugin-mermaid": "^1.4.0",
+        "typedoc-plugin-external-module-name": "^4.0.6",
+        "typedoc-plugin-inline-sources": "^1.0.0",
+        "typedoc-plugin-extras": "^2.2.0",
+        "typedoc-plugin-merge-modules": "^3.0.2",
+        "typedoc-wrapper": "^6.0.0",
         "faker": "^5.5.3",
         "@types/faker": "^5.5.8",
         "@types/qs": "^6.9.7",

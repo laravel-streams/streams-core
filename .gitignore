@@ -6,7 +6,7 @@
 /package-lock.json
 /vendor
 /yarn.lock
-
+/client-api
 composer.lock
 mix-manifest.json
 package-lock.json
