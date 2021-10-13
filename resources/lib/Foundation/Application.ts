@@ -1,18 +1,38 @@
-import 'reflect-metadata'
+import 'reflect-metadata';
 import { AsyncContainerModule, Container, interfaces } from 'inversify';
 import getDecorators from 'inversify-inject-decorators';
 import { Dispatcher } from '@/Dispatcher/Dispatcher';
 import { Repository } from '@/Config/Repository';
 import { ApplicationInitOptions, Configuration } from '@/types/config';
 import { IServiceProvider, IServiceProviderClass } from '@/Support/ServiceProvider';
-import ServiceIdentifier = interfaces.ServiceIdentifier;
 import { isServiceProviderClass, makeLog } from '@/Support/utils';
+import { Constructor, ServiceProvider } from '@/Support';
+import ServiceIdentifier = interfaces.ServiceIdentifier;
 
 const log = makeLog('Application');
 
 export interface Application {
     events: Dispatcher;
     config: Repository<Configuration> & Configuration;
+}
+
+// Augment the DispatcherEvents interface with the events and payload types emitted in the application
+declare module '../Dispatcher/Dispatcher' {
+    export interface DispatcherEvents {
+        'Application:initialize': [ ApplicationInitOptions ];
+        'Application:initialized': [ Application ];
+        'Application:boot': [ Application ];
+        'Application:bootProvider': [ ServiceProvider ];
+        'Application:bootedProvider': [ ServiceProvider ];
+        'Application:booted': [ Application ];
+        'Application:start': [ Application ];
+        'Application:started': [ Application ];
+        'Application:loadProvider': [ Constructor<ServiceProvider> ];
+        'Application:loadedProvider': [ ServiceProvider ];
+        'Application:registerProviders': [ Array<Constructor<ServiceProvider>> ];
+        'Application:registerProvider': [ Constructor<ServiceProvider> ];
+        'Application:registeredProviders': [ ServiceProvider ];
+    }
 }
 
 export class Application extends Container {
@@ -47,7 +67,7 @@ export class Application extends Container {
      */
     public static get instance() {
 
-        if (!this._instance) {
+        if ( !this._instance ) {
             this._instance = new this();
         }
 
@@ -86,15 +106,15 @@ export class Application extends Container {
     private constructor() {
 
         super({
-            defaultScope: 'Transient',
-            autoBindInjectable: true,
+            defaultScope       : 'Transient',
+            autoBindInjectable : true,
             skipBaseClassChecks: true,
         });
 
         this.singleton('events', Dispatcher).addBindingGetter('events');
 
         this.events.any(
-            (eventName: string, ...args: any[]) => log(eventName, ' arguments: ', args)
+            (eventName: string, ...args: any[]) => log(eventName, ' arguments: ', args),
         );
     }
 
@@ -108,7 +128,7 @@ export class Application extends Container {
 
         options = {
             providers: [],
-            config: {},
+            config   : {},
             ...options,
         };
 
@@ -133,17 +153,17 @@ export class Application extends Container {
         /**
          * Don't boot more than once!
          */
-        if (this.booted) {
+        if ( this.booted ) {
             return this;
         }
 
         this.events.emit('Application:boot', this);
 
-        for (const provider of this.providers) {
+        for ( const provider of this.providers ) {
 
             this.events.emit('Application:bootProvider', provider);
 
-            if ('boot' in provider && Reflect.getMetadata('boot', provider) !== true) {
+            if ( 'boot' in provider && Reflect.getMetadata('boot', provider) !== true ) {
                 Reflect.defineMetadata('boot', true, provider);
 
                 await this.loadAsync(new AsyncContainerModule(() => provider.boot()));
@@ -195,7 +215,7 @@ export class Application extends Container {
     protected async loadProviders(Providers: IServiceProviderClass[]): Promise<this> {
 
         await Promise.all(
-            Providers.map(async Provider => this.loadProvider(Provider))
+            Providers.map(async Provider => this.loadProvider(Provider)),
         );
 
         return this;
@@ -214,8 +234,8 @@ export class Application extends Container {
          */
         const name = Provider.name ?? Provider.constructor.name;
 
-        if (name in this.loaded) {
-            return this.loaded[name];
+        if ( name in this.loaded ) {
+            return this.loaded[ name ];
         }
 
         /**
@@ -228,7 +248,7 @@ export class Application extends Container {
          * other providers to load
          * and load those first.
          */
-        if ('providers' in provider && Reflect.getMetadata('providers', provider) !== true) {
+        if ( 'providers' in provider && Reflect.getMetadata('providers', provider) !== true ) {
 
             Reflect.defineMetadata('providers', true, provider);
 
@@ -240,7 +260,7 @@ export class Application extends Container {
          */
         this.events.emit('Application:loadProvider', Provider);
 
-        this.loaded[name] = provider;
+        this.loaded[ name ] = provider;
         this.providers.push(provider);
 
         this.events.emit('Application:loadedProvider', provider);
@@ -277,15 +297,15 @@ export class Application extends Container {
 
         let provider: IServiceProvider;
 
-        if (isServiceProviderClass(Provider)) {
+        if ( isServiceProviderClass(Provider) ) {
             provider = await this.loadProvider(Provider);
         } else {
-            provider = Provider
+            provider = Provider;
         }
 
         this.events.emit('Application:registerProvider', Provider);
 
-        if ('register' in provider && Reflect.getMetadata('register', provider) !== true) {
+        if ( 'register' in provider && Reflect.getMetadata('register', provider) !== true ) {
             Reflect.defineMetadata('register', true, provider);
             await this.loadAsync(new AsyncContainerModule(() => provider.register()));
         }
@@ -304,7 +324,7 @@ export class Application extends Container {
      */
     public singleton<Type>(
         serviceIdentifier: ServiceIdentifier<Type>,
-        constructor: new (...args: any[]) => Type
+        constructor: new (...args: any[]) => Type,
     ): this {
 
         this.bind(serviceIdentifier).to(constructor).inSingletonScope();
@@ -323,7 +343,7 @@ export class Application extends Container {
     public binding<Type>(
         serviceIdentifier: ServiceIdentifier<Type>,
         func: (app: this) => Type,
-        singleton: boolean = false
+        singleton: boolean = false,
     ): this {
 
         let binding = this.bind(serviceIdentifier).toDynamicValue(ctx => func(this));
@@ -342,7 +362,7 @@ export class Application extends Container {
      */
     public instance<Type>(
         serviceIdentifier: ServiceIdentifier<Type>,
-        value: Type
+        value: Type,
     ): this {
 
         this.bind(serviceIdentifier).toConstantValue(value);
@@ -368,7 +388,7 @@ export class Application extends Container {
                 return self.get(id);
             },
             configurable: true,
-            enumerable: true,
+            enumerable  : true,
         });
 
         return this;
