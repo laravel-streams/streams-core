@@ -1,4 +1,4 @@
-import { suite, test } from '@testdeck/mocha';
+import { skip, suite, test } from '@testdeck/mocha';
 import { TestCase } from '../TestCase';
 import { Http } from '@/Streams/Http';
 
@@ -31,6 +31,7 @@ export class HttpTest extends TestCase {
     }
 
     @test
+    @skip(true)
     async postStreamTest() {
         this.fs.delete('streams/data/clients.json');
         this.fs.delete('streams/clients.json');
@@ -49,6 +50,7 @@ export class HttpTest extends TestCase {
     }
 
     @test
+    @skip(true)
     async postEntryTest(){
         this.fs.createStream('clients', this.getStreamData('clients'))
         const http   = await this.getHttp();
