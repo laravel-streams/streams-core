@@ -1,6 +1,7 @@
 const mix = require('laravel-mix');
 const path = require('path');
 const {merge} = require('webpack-merge');
+const {execSync} = require('child_process');
 
 
 let isProd = mix.inProduction();
@@ -25,14 +26,22 @@ const babelConfig = {
 
 mix
     .ts('resources/lib/index.ts', '')
+    .copy('resources/lib/global.d.ts', 'resources/public/types/global.d.ts')
     .copyDirectory('resources/public', '../../../public/vendor/streams/core')
     .babelConfig(babelConfig)
     .options({
         terser: {
             terserOptions: {
-                keep_classnames:true,
-                keep_fnames:true,
+                keep_classnames: true,
+                keep_fnames    : true,
             }
+        }
+    })
+    .before(() =>{
+        try {
+            execSync(`npm run dts`, {cwd: __dirname})
+        } catch (e) {
+            console.warn(e.message ? e.message : e);
         }
     })
     .webpackConfig({
@@ -64,25 +73,26 @@ mix
     })
     .override((config) => {
         let rule = config.module.rules.find(rule => rule.loader === require.resolve('ts-loader'));
-        delete rule.loader
-        delete rule.options
-        rule.use =[
+        delete rule.loader;
+        delete rule.options;
+        rule.use = [
             {
                 loader : 'babel-loader',
                 options: babelConfig,
             },
             {
-                loader: 'ts-loader',
+                loader : 'ts-loader',
                 options: {
-                    transpileOnly        : true,
-                    logLevel             : 'INFO',
-                    logInfoToStdOut      : true,
-                    happyPackMode        : true,
-                    compilerOptions      : {
+                    transpileOnly  : true,
+                    logLevel       : 'INFO',
+                    logInfoToStdOut: true,
+                    happyPackMode  : true,
+                    configFile     : path.resolve(__dirname, 'webpack.tsconfig.json'),
+                    compilerOptions: {
                         target        : 'es6',
                         module        : 'esnext',
                         declaration   : true,
-                        declarationDir: 'resources/public/types',
+                        declarationDir: path.resolve(__dirname, 'resources/public/types'),
                         importHelpers : true,
                         sourceMap     : isDev,
                         removeComments: !isDev,
@@ -90,7 +100,7 @@ mix
                     },
                 }
             }
-        ]
+        ];
     });
 
 if ( !mix.inProduction() ) {

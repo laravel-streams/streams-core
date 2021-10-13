@@ -1,0 +1,43 @@
+{
+    "compileOnSave": false,
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "jsx": "preserve",
+        "jsxFactory": "h",
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "noImplicitAny": false,
+        "noImplicitReturns": false,
+        "noImplicitThis": false,
+        "resolveJsonModule": true,
+        "noImplicitUseStrict": false,
+        "declaration": true,
+        "declarationDir": "resources/public/types",
+        "baseUrl": ".",
+        "typeRoots": [
+            "node_modules/@types",
+            "../../../node_modules/@types"
+        ],
+        "lib": [
+            "esnext",
+            "scripthost",
+            "DOM"
+        ],
+        "paths": {
+            "@": ["resources/lib/index.ts"],
+            "@/*": ["resources/lib/*"]
+        }
+    },
+    "include": [
+        "resources/lib"
+    ],
+    "exclude": [
+        "node_modules",
+        "test"
+    ]
+}
