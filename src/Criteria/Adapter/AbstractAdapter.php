@@ -61,6 +61,20 @@ abstract class AbstractAdapter implements AdapterInterface
     abstract public function where($field, $operator = null, $value = null, $nested = null);
 
     /**
+     * Constrain the query by a typical 
+     * field, operator, value argument.
+     *
+     * @param string $field
+     * @param string|null $operator
+     * @param string|null $value
+     * @param string|null $nested
+     */
+    public function orWhere($field, $operator = null, $value = null)
+    {
+        return $this->where($field, $operator, $value, 'or');
+    }
+
+    /**
      * Get the criteria results.
      * 
      * @param array $parameters
