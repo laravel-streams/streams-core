@@ -7,6 +7,7 @@ import { ApplicationInitOptions, Configuration } from '@/types/config';
 import { IServiceProvider, IServiceProviderClass } from '@/Support/ServiceProvider';
 import { isServiceProviderClass, makeLog } from '@/Support/utils';
 import { Constructor, ServiceProvider } from '@/Support';
+import { defaultConfig } from '@/defaultConfig';
 import ServiceIdentifier = interfaces.ServiceIdentifier;
 
 const log = makeLog('Application');
@@ -128,8 +129,23 @@ export class Application extends Container {
 
         options = {
             providers: [],
-            config   : {},
             ...options,
+            config: {
+                ...defaultConfig,
+                ...options.config,
+                http   : {
+                    ...defaultConfig.http,
+                    ...options.config?.http || {},
+                    etag: {
+                        ...defaultConfig.http.etag,
+                        ...options.config?.http?.etag || {},
+                    },
+                },
+                streams: {
+                    ...defaultConfig.streams,
+                    ...options.config?.streams || {},
+                },
+            },
         };
 
         this.events.emit('Application:initialize', options);
