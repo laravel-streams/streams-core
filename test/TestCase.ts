@@ -1,8 +1,8 @@
 import { bootstrap } from './_support/bootstrap';
-import { app, Application, Http, HttpServiceProvider, Stream, Streams, StreamsServiceProvider } from '@';
+import { app, Application, CoreServiceProvider, Http, HttpServiceProvider, Stream, Streams, StreamsServiceProvider } from '@';
 import { FS, getEnv, ProxyEnv } from './_support/utils';
 
-declare module '@' {
+declare module '@/Foundation/Application' {
     export interface Application {
         env: ProxyEnv<any>;
     }
@@ -16,17 +16,16 @@ export abstract class TestCase {
 
     async before() {
         this.fs = new FS();
-        this.fs.delete('streams/clients.json');
     }
 
     static async before() {
-        bootstrap();
-        await this.createApp();
+        const {env} = bootstrap();
+        await this.createApp(env);
     }
 
-    protected static async createApp() {
+    protected static async createApp(env) {
         if(!app.isBound('env')) {
-            app.instance('env', getEnv()).addBindingGetter('env');
+            app.instance('env', env).addBindingGetter('env');
         }
         if(app.isBooted()){
             return app;
@@ -34,8 +33,7 @@ export abstract class TestCase {
         await app
         .initialize({
             providers: [
-                HttpServiceProvider,
-                StreamsServiceProvider,
+                CoreServiceProvider
             ],
             config   : {
                 http   : {

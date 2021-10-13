@@ -1,7 +1,7 @@
 import { ETagCache } from './ETagCache';
 import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { injectable } from 'inversify';
-import { inject } from '@';
+import { inject } from '@/Foundation';
 
 const byLowerCase              = toFind => value => toLowerCase(value) === toFind;
 const toLowerCase              = value => value.toLowerCase();

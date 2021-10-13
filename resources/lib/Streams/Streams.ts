@@ -1,10 +1,10 @@
-import { Stream } from './Stream';
-import { Http } from '@/Streams/Http';
-import { Config } from '../types/config';
-
 import { injectable } from 'inversify';
+import { Stream } from './Stream';
+import { Http } from './Http';
+import { Config } from '@/types';
 import { inject } from '@/Foundation';
-import { Criteria, Repository } from '@';
+import { Criteria} from './Criteria';
+import {  Repository } from './Repository';
 
 @injectable()
 export class Streams {
@@ -14,8 +14,8 @@ export class Streams {
 
     /**
      * Return all streams.
-     * 
-     * @returns 
+     *
+     * @returns
      */
     public async all(): Promise<Stream[]> {
 
@@ -26,9 +26,9 @@ export class Streams {
 
     /**
      * Make a stream instance.
-     * 
-     * @param id 
-     * @returns 
+     *
+     * @param id
+     * @returns
      */
     public async make<ID extends string>(id: ID): Promise<Stream<ID>> {
 
@@ -39,8 +39,8 @@ export class Streams {
 
     /**
      * Return an entry criteria.
-     * 
-     * @param id 
+     *
+     * @param id
      * @returns Criteria
      */
     public async entries<ID extends string>(id: ID): Promise<Criteria> {
@@ -52,9 +52,9 @@ export class Streams {
 
     /**
      * Return an entry repository.
-     * 
-     * @param id 
-     * @returns 
+     *
+     * @param id
+     * @returns
      */
     public async repository<ID extends string>(id: ID): Promise<Repository> {
 

@@ -8,17 +8,19 @@
         "moduleResolution": "node",
         "experimentalDecorators": true,
         "skipLibCheck": true,
-        "resolveJsonModule": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "noImplicitAny": false,
         "noImplicitReturns": false,
         "noImplicitThis": false,
+        "resolveJsonModule": true,
         "noImplicitUseStrict": false,
+        "declaration": true,
+        "declarationDir": "resources/public/types",
         "baseUrl": ".",
         "typeRoots": [
-            "../node_modules/@types",
-            "../../../../node_modules/@types"
+            "../../node_modules/@types",
+            "../../../../../node_modules/@types"
         ],
         "lib": [
             "esnext",
@@ -26,15 +28,15 @@
             "DOM"
         ],
         "paths": {
-            "@": ["../resources/lib/index.ts"],
-            "@/*": ["../resources/lib/*"]
+            "@/*": ["*"]
         }
     },
     "include": [
-        "../resources/lib",
-        "*"
+        "*",
+        "**/*"
     ],
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "test"
     ]
 }

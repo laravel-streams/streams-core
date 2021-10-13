@@ -9,10 +9,10 @@ export class Stream<ID extends string = string> {
 
     /**
      * Create a new stream instance.
-     * 
-     * @param stream 
-     * @param meta 
-     * @param links 
+     *
+     * @param stream
+     * @param meta
+     * @param links
      */
     constructor(
         stream: IBaseStream<ID>,
@@ -50,10 +50,10 @@ export class Stream<ID extends string = string> {
 
     /**
      * Return the entries repository.
-     * 
+     *
      * @returns Repository
      */
-     repository(): Repository<ID> {
+     get repository(): Repository<ID> {
 
         if (!this._repository) {
             this._repository = new Repository<ID>(this);
@@ -61,14 +61,14 @@ export class Stream<ID extends string = string> {
 
         return this._repository;
     };
-    
+
     /**
      * Return the entries criteria.
-     * 
+     *
      * @returns Criteria
      */
     entries(): Criteria<ID> {
-        return this.repository().newCriteria();
+        return this.repository.newCriteria();
     };
 
     // validator;

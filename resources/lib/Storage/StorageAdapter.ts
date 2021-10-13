@@ -3,7 +3,6 @@ import { StorageAdapterInterface } from '@/Storage/StorageAdapterInterface';
 import { decorate, injectable } from 'inversify';
 import { Transformer } from '@/Storage/Transformer';
 
-decorate(injectable(), EventEmitter2);
 @injectable()
 export abstract class StorageAdapter extends EventEmitter2 implements StorageAdapterInterface {
     constructor(protected storage: Storage) {
@@ -23,7 +22,7 @@ export abstract class StorageAdapter extends EventEmitter2 implements StorageAda
     }
 
     public has(key: string): boolean {
-        return this.storage.getItem(key) !== undefined;
+        return !!this.storage.getItem(key);
     }
 
     public set(key: string, value: any): this {

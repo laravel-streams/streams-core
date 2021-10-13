@@ -60,16 +60,16 @@ export class Criteria<ID extends string = string> {
 
     /**
      * Create a new instance.
-     * 
-     * @param stream 
+     *
+     * @param stream
      */
     constructor(protected stream: Stream) { }
 
     /**
      * Find an entry by ID.
-     * 
-     * @param id 
-     * @returns 
+     *
+     * @param id
+     * @returns
      */
     async find<ID extends string>(id: ID): Promise<Entry> {
         return this.where('id', id).first();
@@ -77,8 +77,8 @@ export class Criteria<ID extends string = string> {
 
     /**
      * Return the first result.
-     * 
-     * @returns 
+     *
+     * @returns
      */
     async first(): Promise<Entry<ID> & IBaseStream<ID>> {
 
@@ -91,10 +91,10 @@ export class Criteria<ID extends string = string> {
 
     /**
      * Order the query by field/direction.
-     * 
-     * @param key 
-     * @param direction 
-     * @returns 
+     *
+     * @param key
+     * @param direction
+     * @returns
      */
     orderBy(key: string, direction: OrderByDirection = 'desc'): this {
 
@@ -105,9 +105,9 @@ export class Criteria<ID extends string = string> {
 
     /**
      * Limit the entries returned.
-     * 
-     * @param value 
-     * @returns 
+     *
+     * @param value
+     * @returns
      */
     limit(value: number): this {
 
@@ -117,11 +117,11 @@ export class Criteria<ID extends string = string> {
     }
 
     /**
-     * Constrain the query by a typical 
+     * Constrain the query by a typical
      * field, operator, value argument.
-     * 
-     * @param key 
-     * @param value 
+     *
+     * @param key
+     * @param value
      */
     where(key: string, operator: Operator, value: any, nested: any): this
     where(key: string, operator: Operator, value: any): this
@@ -186,8 +186,8 @@ export class Criteria<ID extends string = string> {
 
     /**
      * Get the criteria results.
-     * 
-     * @returns 
+     *
+     * @returns
      */
     async get<T>(): Promise<EntryCollection> {
 
@@ -202,9 +202,9 @@ export class Criteria<ID extends string = string> {
 
     /**
      * Create a new entry.
-     * 
-     * @param attributes 
-     * @returns 
+     *
+     * @param attributes
+     * @returns
      */
      async create(attributes: any): Promise<Entry> {
 
@@ -217,9 +217,9 @@ export class Criteria<ID extends string = string> {
 
     /**
      * Save an entry.
-     * 
-     * @param entry 
-     * @returns 
+     *
+     * @param entry
+     * @returns
      */
      async save(entry: Entry): Promise<Boolean> {
 
@@ -234,10 +234,10 @@ export class Criteria<ID extends string = string> {
 
     /**
      * Get paginated criteria results.
-     * 
-     * @param per_page 
-     * @param page 
-     * @returns 
+     *
+     * @param per_page
+     * @param page
+     * @returns
      */
     async paginate<T>(per_page: number = 100, page: number = 1): Promise<PaginatedEntryCollection> {
 
@@ -250,8 +250,8 @@ export class Criteria<ID extends string = string> {
 
     /**
      * Return an entry instance.
-     * 
-     * @param attributes 
+     *
+     * @param attributes
      * @returns Entry
      */
     public newInstance(attributes: any): Entry {
@@ -260,8 +260,8 @@ export class Criteria<ID extends string = string> {
 
     /**
      * Get the parameters.
-     * 
-     * @returns 
+     *
+     * @returns
      */
     public getParameters(): any {
         return this.parameters;
@@ -269,9 +269,9 @@ export class Criteria<ID extends string = string> {
 
     /**
      * Set the parameters.
-     * 
-     * @param parameters 
-     * @returns 
+     *
+     * @param parameters
+     * @returns
      */
     public setParameters(parameters: any): this {
 
@@ -282,10 +282,10 @@ export class Criteria<ID extends string = string> {
 
     /**
      * Add a statement.
-     * 
-     * @param name 
-     * @param value 
-     * @returns 
+     *
+     * @param name
+     * @param value
+     * @returns
      */
     protected addParameter(name: string, value: any | any[]) {
 
@@ -296,10 +296,10 @@ export class Criteria<ID extends string = string> {
 
     /**
      * Return standardized parameters.
-     * 
-     * @returns 
+     *
+     * @returns
      */
-    protected compileStatements() {
+    compileStatements() {
         return this.parameters.map(statement => ({ [statement.name]: ensureArray(statement.value) }));
     }
 }

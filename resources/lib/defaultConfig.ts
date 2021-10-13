@@ -5,6 +5,7 @@ export const defaultConfig: Configuration = {
 
     },
     http   : {
+        baseURL: '/api',
         etag: {
             enabled    : true,
             manifestKey: 'streams',

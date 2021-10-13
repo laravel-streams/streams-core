@@ -1,4 +1,4 @@
-import { ServiceProvider } from '@';
+import { ServiceProvider } from '@/Support';
 import { LocalStorageAdapter } from './LocalStorageAdapter';
 import { SessionStorageAdapter } from './SessionStorageAdapter';
 import { StorageAdapterInterface } from './StorageAdapterInterface';

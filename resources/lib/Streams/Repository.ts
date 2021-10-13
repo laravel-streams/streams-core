@@ -4,23 +4,22 @@ import { inject } from '@/Foundation';
 import { Http } from '@/Streams/Http';
 import { EntryCollection } from '@/Streams/EntryCollection';
 import { Entry } from '@/Streams/Entry';
-import { Collection } from '@';
 
 
 export class Repository<ID extends string = string> {
 
-    @inject('streams.http') protected http: Http
+    @inject('streams.http') protected http: Http;
 
     /**
      * Create a new repository instance.
-     * 
+     *
      * @param stream
      */
     constructor(protected stream: Stream) { }
 
     /**
      * Return all items.
-     * 
+     *
      * @returns EntryCollection
      */
     async all(): Promise<EntryCollection> {
@@ -34,7 +33,7 @@ export class Repository<ID extends string = string> {
 
     /**
      * Find an entry by ID.
-     * 
+     *
      * @param id
      * @returns Entry
      */
@@ -47,7 +46,7 @@ export class Repository<ID extends string = string> {
 
     /**
      * Find all records by IDs.
-     * 
+     *
      * @param ids
      * @returns EntryCollection
      */
@@ -60,7 +59,7 @@ export class Repository<ID extends string = string> {
 
     /**
      * Find an entry by a field value.
-     * 
+     *
      * @param field
      * @param value
      * @returns Entry
@@ -74,7 +73,7 @@ export class Repository<ID extends string = string> {
 
     /**
      * Find all entries by field value.
-     * 
+     *
      * @param $field
      * @param $operator
      * @param $value
@@ -89,24 +88,24 @@ export class Repository<ID extends string = string> {
 
     /**
      * Create a new entry.
-     * 
-     * @param attributes 
-     * @returns 
+     *
+     * @param attributes
+     * @returns
      */
     async create(attributes: any): Promise<Entry> {
 
         let entry = this.newCriteria().newInstance(attributes);
 
-        await entry.save()
+        await entry.save();
 
         return entry;
     }
 
     /**
      * Save an entry.
-     * 
-     * @param entry 
-     * @returns 
+     *
+     * @param entry
+     * @returns
      */
     async save(entry: Entry): Promise<Boolean> {
 
@@ -117,9 +116,9 @@ export class Repository<ID extends string = string> {
 
     /**
      * Save an entry.
-     * 
-     * @param entry 
-     * @returns 
+     *
+     * @param entry
+     * @returns
      */
     async delete(entry: any): Promise<Boolean> {
 
@@ -132,9 +131,9 @@ export class Repository<ID extends string = string> {
 
     /**
      * Return a new instance.
-     * 
-     * @param attributes 
-     * @returns 
+     *
+     * @param attributes
+     * @returns
      */
     newInstance(attributes: any): Entry {
         return this.newCriteria().newInstance(attributes);
@@ -142,7 +141,7 @@ export class Repository<ID extends string = string> {
 
     /**
      * Return a new entry criteria.
-     * 
+     *
      * @returns Criteria
      */
     newCriteria(): Criteria<ID> {

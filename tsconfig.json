@@ -15,8 +15,6 @@
         "noImplicitThis": false,
         "resolveJsonModule": true,
         "noImplicitUseStrict": false,
-        "declaration": true,
-        "declarationDir": "resources/public/types",
         "baseUrl": ".",
         "typeRoots": [
             "node_modules/@types",
@@ -37,6 +35,6 @@
         "test"
     ],
     "exclude": [
-        "node_modules"
+        "node_modules",
     ]
 }

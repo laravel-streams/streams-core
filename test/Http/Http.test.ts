@@ -32,6 +32,7 @@ export class HttpTest extends TestCase {
 
     @test
     async postStreamTest() {
+        this.fs.delete('streams/data/clients.json');
         this.fs.delete('streams/clients.json');
         const http   = await this.getHttp();
         const stream = await http.postStream(this.getStreamData('clients'));
@@ -49,7 +50,7 @@ export class HttpTest extends TestCase {
 
     @test
     async postEntryTest(){
-        this.fs.create('streams/clients.json', this.getStreamData('clients'))
+        this.fs.createStream('clients', this.getStreamData('clients'))
         const http   = await this.getHttp();
         const entry = await http.postEntry('clients', {
             name: 'Robin',
