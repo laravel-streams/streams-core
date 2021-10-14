@@ -1,6 +1,6 @@
 {
     "name": "@laravel-streams/core",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "private": false,
     "types": "resources/public/types/index.d.ts",
     "main": "resources/public/js/index.js",
@@ -88,8 +88,5 @@
         "typescript": "^4.4.3",
         "webpack-cli": "^4.8.0",
         "webpack-merge": "^5.8.0"
-    },
-    "peerDependencies": {
-        "webpack": "^5.54.0"
     }
 }
