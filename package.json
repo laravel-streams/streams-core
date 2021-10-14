@@ -1,6 +1,6 @@
 {
     "name": "@laravel-streams/core",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "private": false,
     "types": "resources/public/types/index.d.ts",
     "main": "resources/public/js/index.js",
