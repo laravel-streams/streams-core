@@ -120,8 +120,6 @@ class Entry implements
         $attributes = $this->getPrototypeAttributes();
         $allowedKeys = $this->stream()->fields->keys()->all();
 
-        // @todo Fields should seed properties data.
-        // Then we can replace this logic which is very much the same.
         $this->setPrototypeAttributes(array_intersect_key($attributes, array_flip($allowedKeys)));
 
         return $this;
