@@ -6,8 +6,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Field\Value\Value;
+use Illuminate\Support\Traits\Macroable;
 
 /**
  * Trait Prototype
@@ -100,6 +100,21 @@ trait Prototype
         foreach ($attributes as $key => $value) {
             $this->setPrototypeAttribute($key, $value);
         }
+
+        return $this;
+    }
+    
+    /**
+     * Trim non-defined attributes.
+     *
+     * @return $this
+     */
+    public function strictPrototypeAttributes()
+    {
+        $attributes = $this->getPrototypeAttributes();
+        $allowed = $this->getPrototypeProperties();
+
+        $this->setPrototypeAttributes(array_intersect_key($attributes, $allowed));
 
         return $this;
     }
@@ -206,7 +221,7 @@ trait Prototype
 
         return $this->getPrototypeAttributeValue($original, $default);
     }
-    
+
     /**
      * Get an attribute value.
      *
