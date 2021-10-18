@@ -1,2 +1,12 @@
-src/
-tests/
+/bin
+/src
+/tests
+/coverage
+/node_modules
+/package-lock.json
+/vendor
+/yarn.lock
+/client-api
+composer.lock
+mix-manifest.json
+package-lock.json
