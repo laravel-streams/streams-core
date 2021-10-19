@@ -112,6 +112,19 @@ class Entry implements
         return $this->stream()->validator($this);
     }
 
+    /**
+     * Return the entry with defined attributes only.
+     */
+    public function strict()
+    {
+        $attributes = $this->getPrototypeAttributes();
+        $allowedKeys = $this->stream()->fields->keys()->all();
+
+        $this->setPrototypeAttributes(array_intersect_key($attributes, array_flip($allowedKeys)));
+
+        return $this;
+    }
+
     // /**
     //  * Load an entry over this one.
     //  *

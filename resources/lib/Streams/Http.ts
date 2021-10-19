@@ -18,7 +18,6 @@ export class Http {
     }
 
     async postStream<T>(data: T, config: AxiosRequestConfig = {}): Promise<IStreamResponse<T>> {
-        config.data = data;
         return this.post<T>('/streams', data, config);
     }
 
@@ -27,14 +26,12 @@ export class Http {
         return this.get<IBaseStream<ID>>(`/streams/${stream}`, config);
     }
 
-    async patchStream<ID extends string>(stream: ID, params: any = {}, config: AxiosRequestConfig = {}) {
-        config.params = params;
-        return this.patch<IBaseStream<ID>>(`/streams/${stream}`, config);
+    async patchStream<ID extends string>(stream: ID, data: any = {}, config: AxiosRequestConfig = {}) {
+        return this.patch<IBaseStream<ID>>(`/streams/${stream}`, data, config);
     }
 
-    async putStream<ID extends string>(stream: ID, params: any = {}, config: AxiosRequestConfig = {}) {
-        config.params = params;
-        return this.put<IBaseStream<ID>>(`/streams/${stream}`, config);
+    async putStream<ID extends string>(stream: ID, data: any = {}, config: AxiosRequestConfig = {}) {
+        return this.put<IBaseStream<ID>>(`/streams/${stream}`, data, config);
     }
 
     async deleteStream<ID extends string>(stream: ID, config: AxiosRequestConfig = {}) {
@@ -54,7 +51,6 @@ export class Http {
     }
 
     async postEntry<ID extends string>(stream: ID, data: any = {}, config: AxiosRequestConfig = {}) {
-        config.data = data;
         return this.post<any>(`/streams/${stream}/entries`, data, config);
     }
 
@@ -64,19 +60,16 @@ export class Http {
     }
 
     async patchEntry<ID extends string, EID extends string>(stream: ID, entry: EID, data: any = {}, config: AxiosRequestConfig = {}) {
-        config.data = data;
-        return this.patch<any>(`/streams/${stream}/entries/${entry}`, config);
+        return this.patch<any>(`/streams/${stream}/entries/${entry}`, data, config);
     }
 
     async putEntry<ID extends string, EID extends string>(stream: ID, entry: EID, data: any = {}, config: AxiosRequestConfig = {}) {
-        config.data = data;
-        return this.put<any>(`/streams/${stream}/entries/${entry}`, config);
+        return this.put<any>(`/streams/${stream}/entries/${entry}`, data, config);
     }
 
     async deleteEntry<ID extends string, EID extends string>(stream: ID, entry: EID, config: AxiosRequestConfig = {}) {
         return this.patch<any>(`/streams/${stream}/entries/${entry}`, config);
     }
-
 
     getUri(config?: AxiosRequestConfig): string { return this.axios.getUri(config); }
 

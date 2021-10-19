@@ -20,7 +20,7 @@ export class ETagCache {
     }
 
     public set(key: string, etag: string, value: any) {
-        this.addToUuidManifest(key);
+        //this.addToUuidManifest(key);
         return this.storage.set(key, { etag, value });
     }
 

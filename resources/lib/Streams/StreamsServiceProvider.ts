@@ -2,6 +2,7 @@ import { Http } from '@/Streams/Http';
 import { ServiceProvider } from '@/Support';
 import { Streams } from '@/Streams/Streams';
 import { HttpServiceProvider } from '@/Http/HttpServiceProvider';
+import { app } from '@/Foundation';
 
 export class StreamsServiceProvider extends ServiceProvider {
 

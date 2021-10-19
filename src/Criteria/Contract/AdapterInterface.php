@@ -34,7 +34,17 @@ interface AdapterInterface
      * @param string|null $value
      * @return $this
      */
-    public function where($field, $operator = null, $value = null);
+    public function where($field, $operator = null, $value = null, $nested = null);
+
+    /**
+     * Add nested criteria for returning entries.
+     *
+     * @param string $field
+     * @param string|null $operator
+     * @param string|null $value
+     * @return $this
+     */
+    public function orWhere($field, $operator = null, $value = null);
 
     /**
      * Get the criteria results.
