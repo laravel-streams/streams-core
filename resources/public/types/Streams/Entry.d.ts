@@ -1,5 +1,5 @@
-import { Stream } from '@/Streams/Stream';
-import { Http } from '@/Streams/Http';
+import { Stream } from '../Streams/Stream';
+import { Http } from '../Streams/Http';
 export declare type IEntry<T, ID extends string = string> = Entry<ID> & T;
 export declare class Entry<ID extends string = string> {
     protected _stream: Stream<ID>;

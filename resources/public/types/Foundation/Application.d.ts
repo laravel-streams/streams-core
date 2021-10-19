@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import { Container, interfaces } from 'inversify';
-import { Dispatcher } from '@/Dispatcher/Dispatcher';
-import { Repository } from '@/Config/Repository';
-import { ApplicationInitOptions, Configuration } from '@/types/config';
-import { IServiceProvider, IServiceProviderClass } from '@/Support/ServiceProvider';
-import { Constructor, ServiceProvider } from '@/Support';
+import { Dispatcher } from '../Dispatcher/Dispatcher';
+import { Repository } from '../Config/Repository';
+import { ApplicationInitOptions, Configuration } from '../types/config';
+import { IServiceProvider, IServiceProviderClass } from '../Support/ServiceProvider';
+import { Constructor, ServiceProvider } from '../Support';
 import ServiceIdentifier = interfaces.ServiceIdentifier;
 export interface Application {
     events: Dispatcher;

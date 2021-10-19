@@ -2,7 +2,7 @@ const mix = require('laravel-mix');
 const path = require('path');
 const {execSync} = require('child_process');
 const parse = require('yargs-parser');
-
+const webpack = require('webpack')
 let isProd = mix.inProduction();
 let isDev = !mix.inProduction();
 
@@ -12,6 +12,8 @@ function getTarget() {
         ['window', ['streams', 'core'], 'js/[name].browser.js'],
         ['module', null, 'js/[name].esm.js'],
         ['umd', ['streams', 'core'], 'js/[name].umd.js'],
+        ['commonjs', ['streams', 'core'], 'js/[name].cjs.js'],
+        ['commonjs2', ['streams', 'core'], 'js/[name].cjs2.js'],
     ];
     const KEY = 'STREAMS_EXPORT';
     let target = targets[0];
@@ -43,7 +45,9 @@ const babelConfig = {
         '@babel/plugin-syntax-dynamic-import'
     ],
 };
+
 const webpackConfig = {
+
     devtool    : 'inline-cheap-module-source-map',
     resolve    : {
         alias: {
@@ -66,10 +70,18 @@ const webpackConfig = {
             return $filename;
         }
     },
+    optimization:{
+        moduleIds:'named',
+        chunkIds:'named',
+        minimize: true,
+    },
     experiments: {}
 };
 if ( webpackConfig.output.library.type === 'module' ) {
     webpackConfig.experiments.outputModule = true;
+}
+if(process.env.DISABLE_MINIMIZE){
+    webpackConfig.optimization.minimize=false;
 }
 
 mix
@@ -77,6 +89,7 @@ mix
     .copy('resources/lib/global.d.ts', 'resources/public/types/global.d.ts')
     .copyDirectory('resources/public', '../../../public/vendor/streams/core')
     .options({
+sourcemaps:false,
         terser: {
             terserOptions: {
                 keep_classnames: true,
@@ -87,14 +100,15 @@ mix
     .babelConfig(babelConfig)
     .webpackConfig(webpackConfig)
     .override((config) => {
+
         let rule = config.module.rules.find(rule => rule.loader === require.resolve('ts-loader'));
         delete rule.loader;
         delete rule.options;
         rule.use = [
-            {
-                loader : 'babel-loader',
-                options: babelConfig,
-            },
+            // {
+            //     loader : 'babel-loader',
+            //     options: babelConfig,
+            // },
             {
                 loader : 'ts-loader',
                 options: {
@@ -110,7 +124,8 @@ mix
                         declarationDir: path.resolve(__dirname, 'resources/public/types'),
                         importHelpers : true,
                         sourceMap     : isDev,
-                        removeComments: !isDev,
+                        removeComments: isProd,
+                        experimentalWatchApi: true,
 
                     },
                 }

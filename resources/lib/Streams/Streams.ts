@@ -1,8 +1,8 @@
 import { injectable } from 'inversify';
 import { Stream } from './Stream';
 import { Http } from './Http';
-import { Config } from '@/types';
-import { inject } from '@/Foundation';
+import { Config } from '../types';
+import { inject } from '../Foundation';
 import { Criteria} from './Criteria';
 import {  Repository } from './Repository';
 

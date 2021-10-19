@@ -1,6 +1,6 @@
-import { Repository } from '@/Config';
+import { Repository } from '../Config';
 import { AxiosRequestConfig } from 'axios';
-import { IServiceProviderClass } from '@/Support';
+import { IServiceProviderClass } from '../Support';
 export declare type Config = Repository<Configuration> & Configuration;
 export interface Configuration {
     streams?: StreamsConfiguration;

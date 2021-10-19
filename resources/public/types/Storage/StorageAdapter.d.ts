@@ -1,5 +1,5 @@
 import { EventEmitter2 } from 'eventemitter2';
-import { StorageAdapterInterface } from '@/Storage/StorageAdapterInterface';
+import { StorageAdapterInterface } from '../Storage/StorageAdapterInterface';
 export declare abstract class StorageAdapter extends EventEmitter2 implements StorageAdapterInterface {
     protected storage: Storage;
     constructor(storage: Storage);

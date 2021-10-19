@@ -1,7 +1,7 @@
 import { EventEmitter2 } from 'eventemitter2';
-import { StorageAdapterInterface } from '@/Storage/StorageAdapterInterface';
+import { StorageAdapterInterface } from '../Storage/StorageAdapterInterface';
 import { decorate, injectable } from 'inversify';
-import { Transformer } from '@/Storage/Transformer';
+import { Transformer } from '../Storage/Transformer';
 
 @injectable()
 export abstract class StorageAdapter extends EventEmitter2 implements StorageAdapterInterface {

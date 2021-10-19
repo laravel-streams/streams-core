@@ -1,2 +1,2 @@
-import { Configuration } from '@/types';
+import { Configuration } from './types';
 export declare const defaultConfig: Configuration;

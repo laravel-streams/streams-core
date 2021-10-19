@@ -1,5 +1,5 @@
-import { StorageAdapterInterface } from '@/Storage';
-import { Config } from '@/types';
+import { StorageAdapterInterface } from '../Storage';
+import { Config } from '../types';
 export interface ETagCacheValue {
     etag: string;
     value: any;

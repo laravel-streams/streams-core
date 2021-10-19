@@ -1,4 +1,4 @@
-import { ServiceProvider } from '@/Support';
+import { ServiceProvider } from '../Support';
 export declare class StreamsServiceProvider extends ServiceProvider {
     /**
      * Register the service.

@@ -1,6 +1,6 @@
-import { Stream } from '@/Streams/Stream';
-import { inject } from '@/Foundation';
-import { Http } from '@/Streams/Http';
+import { Stream } from '../Streams/Stream';
+import { inject } from '../Foundation';
+import { Http } from '../Streams/Http';
 import { config } from 'process';
 
 // export interface Entry<ID extends string = string> {

@@ -1,6 +1,6 @@
 import { Stream } from './Stream';
 import { Http } from './Http';
-import { Config } from '@/types';
+import { Config } from '../types';
 import { Criteria } from './Criteria';
 import { Repository } from './Repository';
 export declare class Streams {

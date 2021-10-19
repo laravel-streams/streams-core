@@ -1,7 +1,7 @@
-import { ServiceProvider } from '@/Support';
+import { ServiceProvider } from '../Support';
 import Axios, { AxiosInstance } from 'axios';
-import { ETagCache } from '@/Http/ETagCache';
-import { ETag } from '@/Http/ETag';
+import { ETagCache } from '../Http/ETagCache';
+import { ETag } from '../Http/ETag';
 
 export class HttpServiceProvider extends ServiceProvider {
 

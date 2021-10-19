@@ -1,4 +1,4 @@
-import { fields } from '@/types';
+import { fields } from '../types';
 export interface Field {
     config?: Record<string, any>;
     handle: string;

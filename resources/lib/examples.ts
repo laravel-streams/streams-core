@@ -1,5 +1,5 @@
-import { app } from '@/Foundation';
-import { Streams } from '@/Streams';
+import { app } from './Foundation';
+import { Streams } from './Streams';
 
 export namespace examples {
     export async function test() {

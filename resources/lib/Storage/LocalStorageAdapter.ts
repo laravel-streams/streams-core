@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import { StorageAdapter } from '@/Storage/StorageAdapter';
+import { StorageAdapter } from '../Storage/StorageAdapter';
 
 export class LocalStorageAdapter extends StorageAdapter {
     constructor() {

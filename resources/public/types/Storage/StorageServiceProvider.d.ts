@@ -1,4 +1,4 @@
-import { ServiceProvider } from '@/Support';
+import { ServiceProvider } from '../Support';
 import { StorageAdapterInterface } from './StorageAdapterInterface';
 export declare class StorageServiceProvider extends ServiceProvider {
     register(): void;

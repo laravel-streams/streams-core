@@ -1,6 +1,6 @@
-import { ServiceProvider } from '@/Support';
+import { ServiceProvider } from '../Support';
 import { AxiosInstance } from 'axios';
-import { ETag } from '@/Http/ETag';
+import { ETag } from '../Http/ETag';
 export declare class HttpServiceProvider extends ServiceProvider {
     /**
      * Register the service.

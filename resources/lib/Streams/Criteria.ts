@@ -1,11 +1,11 @@
 import { Stream } from './Stream';
 import { Entry } from './Entry';
 import { EntryCollection, PaginatedEntryCollection } from './EntryCollection';
-import { IBaseStream, streams } from '@/types';
-import { IStreams } from '@/types/streams';
+import { IBaseStream, streams } from '../types';
+import { IStreams } from '../types/streams';
 import { injectable } from 'inversify';
-import { inject } from '@/Foundation';
-import { Http } from '@/Streams/Http';
+import { inject } from '../Foundation';
+import { Http } from '../Streams/Http';
 
 export type OrderByDirection = 'asc' | 'desc';
 

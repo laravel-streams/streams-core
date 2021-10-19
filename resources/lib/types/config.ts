@@ -1,6 +1,6 @@
-import { Repository } from '@/Config';
+import { Repository } from '../Config';
 import { AxiosRequestConfig } from 'axios';
-import { IServiceProviderClass } from '@/Support';
+import { IServiceProviderClass } from '../Support';
 
 
 export type Config =

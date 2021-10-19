@@ -1,8 +1,8 @@
 import { IEntry } from './Entry';
-import { Collection } from '@/Support';
-import { IStreamLinks, IStreamMeta } from '@/types';
-import { Stream } from '@/Streams/Stream';
-import { Http } from '@/Streams/Http';
+import { Collection } from '../Support';
+import { IStreamLinks, IStreamMeta } from '../types';
+import { Stream } from '../Streams/Stream';
+import { Http } from '../Streams/Http';
 export declare type IEntriesLinks = IStreamLinks<'self' | 'streams' | 'stream'>;
 export declare type IPaginatedEntriesLinks = IStreamLinks<'next_page' | 'previous_page' | 'self' | 'first_page' | 'streams' | 'stream'>;
 export interface IEntriesMeta extends IStreamMeta {

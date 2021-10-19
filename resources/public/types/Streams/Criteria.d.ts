@@ -1,8 +1,8 @@
 import { Stream } from './Stream';
 import { Entry } from './Entry';
 import { EntryCollection, PaginatedEntryCollection } from './EntryCollection';
-import { IBaseStream } from '@/types';
-import { Http } from '@/Streams/Http';
+import { IBaseStream } from '../types';
+import { Http } from '../Streams/Http';
 export declare type OrderByDirection = 'asc' | 'desc';
 export declare type ComparisonOperator = '>' | '<' | '==' | '!=' | '>=' | '<=' | '!<' | '!>' | '<>';
 export declare const comparisonOperators: ComparisonOperator[];
