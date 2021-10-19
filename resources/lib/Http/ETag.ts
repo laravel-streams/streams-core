@@ -18,7 +18,11 @@ export class ETag {
     protected enabled: boolean = false;
 
     constructor(protected axios: AxiosInstance) {
-
+        Object.defineProperty(axios, 'etag', {
+            get         : () => {return this;},
+            configurable: true,
+            enumerable  : true,
+        });
     }
 
     enableEtag() {

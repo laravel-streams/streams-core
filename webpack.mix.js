@@ -1,11 +1,31 @@
 const mix = require('laravel-mix');
 const path = require('path');
-const {merge} = require('webpack-merge');
 const {execSync} = require('child_process');
-
+const parse = require('yargs-parser');
 
 let isProd = mix.inProduction();
 let isDev = !mix.inProduction();
+
+function getTarget() {
+    const targets = [
+        ['assign', ['streams', 'core'], 'js/[name].js'],
+        ['window', ['streams', 'core'], 'js/[name].browser.js'],
+        ['module', null, 'js/[name].esm.js'],
+        ['umd', ['streams', 'core'], 'js/[name].umd.js'],
+    ];
+    const KEY = 'STREAMS_EXPORT';
+    let target = targets[0];
+    if ( process.env[KEY] !== undefined ) {
+        let index = targets.findIndex(t => t[0] === process.env[KEY]);
+        target = targets[index];
+    }
+    return target;
+}
+
+const target = getTarget();
+let library = {type: target[0]};
+if ( target[1] !== null ) library.name = target[1];
+
 const babelConfig = {
     babelrc   : false,
     configFile: false,
@@ -23,12 +43,39 @@ const babelConfig = {
         '@babel/plugin-syntax-dynamic-import'
     ],
 };
+const webpackConfig = {
+    devtool    : 'inline-cheap-module-source-map',
+    resolve    : {
+        alias: {
+            '@': path.resolve(__dirname, 'resources/lib')
+        }
+    },
+    output     : {
+        path                                 : path.resolve('./resources/public'),
+        filename                             : target[2], //'js/[name].js',
+        chunkFilename                        : 'js/chunk.[name].js',
+        library,
+        publicPath                           : '/vendor/streams/core/',
+        devtoolFallbackModuleFilenameTemplate: 'webpack:///[resource-path]?[hash]',
+        devtoolModuleFilenameTemplate        : info => {
+            var $filename = 'sources://' + info.resourcePath;
+            $filename = 'webpack:///' + info.resourcePath; // +'?' + info.hash;
+            if ( info.resourcePath.match(/\.vue$/) && !info.allLoaders.match(/type=script/) && !info.query.match(/type=script/) ) {
+                $filename = 'webpack-generated:///' + info.resourcePath; // + '?' + info.hash;
+            }
+            return $filename;
+        }
+    },
+    experiments: {}
+};
+if ( webpackConfig.output.library.type === 'module' ) {
+    webpackConfig.experiments.outputModule = true;
+}
 
 mix
     .ts('resources/lib/index.ts', '')
     .copy('resources/lib/global.d.ts', 'resources/public/types/global.d.ts')
     .copyDirectory('resources/public', '../../../public/vendor/streams/core')
-    .babelConfig(babelConfig)
     .options({
         terser: {
             terserOptions: {
@@ -37,40 +84,8 @@ mix
             }
         }
     })
-    .before(() =>{
-        try {
-            execSync(`npm run dts`, {cwd: __dirname})
-        } catch (e) {
-            console.warn(e.message ? e.message : e);
-        }
-    })
-    .webpackConfig({
-        devtool: 'inline-cheap-module-source-map',
-        resolve: {
-            alias: {
-                '@': path.resolve(__dirname, 'resources/lib')
-            }
-        },
-        output : {
-            path                                 : path.resolve('./resources/public'),
-            filename                             : 'js/[name].js',
-            chunkFilename                        : 'js/chunk.[name].js',
-            library                              : {
-                name: ['streams', 'core'],
-                type: 'assign'
-            },
-            publicPath                           : '/vendor/streams/core/',
-            devtoolFallbackModuleFilenameTemplate: 'webpack:///[resource-path]?[hash]',
-            devtoolModuleFilenameTemplate        : info => {
-                var $filename = 'sources://' + info.resourcePath;
-                $filename = 'webpack:///' + info.resourcePath; // +'?' + info.hash;
-                if ( info.resourcePath.match(/\.vue$/) && !info.allLoaders.match(/type=script/) && !info.query.match(/type=script/) ) {
-                    $filename = 'webpack-generated:///' + info.resourcePath; // + '?' + info.hash;
-                }
-                return $filename;
-            }
-        }
-    })
+    .babelConfig(babelConfig)
+    .webpackConfig(webpackConfig)
     .override((config) => {
         let rule = config.module.rules.find(rule => rule.loader === require.resolve('ts-loader'));
         delete rule.loader;
@@ -91,7 +106,7 @@ mix
                     compilerOptions: {
                         target        : 'es6',
                         module        : 'esnext',
-                        declaration   : true,
+                        declaration   : false,
                         declarationDir: path.resolve(__dirname, 'resources/public/types'),
                         importHelpers : true,
                         sourceMap     : isDev,

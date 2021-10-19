@@ -12,7 +12,7 @@ export abstract class StorageAdapter extends EventEmitter2 implements StorageAda
         });
     }
 
-    public get<T>(key: string, defaultValue: T): T {
+    public get<T>(key: string, defaultValue?: T): T {
         if ( !this.has(key) ) {
             return defaultValue;
         }
@@ -29,7 +29,7 @@ export abstract class StorageAdapter extends EventEmitter2 implements StorageAda
         let strValue = Transformer.encode(value);
         strValue     = Transformer.compress(strValue);
         this.storage.setItem(key, strValue);
-        this.emit('set:' + key, value);
+        this.emit('set:' + key, value,key);
         return this;
     }
 

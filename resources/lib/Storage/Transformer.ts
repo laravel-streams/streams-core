@@ -2,6 +2,7 @@ import lzs from 'lz-string';
 
 export class Transformer {
     static typePrefix = '__ls_';
+    static get prefixesLength(){return this.typePrefix.length + 5}
 
     static compress(value) {
         return this.typePrefix + 'lz-s|' + lzs.compressToUTF16(value);
@@ -11,13 +12,13 @@ export class Transformer {
         let type, length, source;
 
         length = value.length;
-        if ( length < 9 ) {
+        if ( length < this.prefixesLength ) {
             // then it wasn't compressed by us
             return value;
         }
 
-        type   = value.substr(0, 8);
-        source = value.substring(9);
+        type   = value.substr(0, this.prefixesLength-1);
+        source = value.substring(this.prefixesLength);
 
         if ( type === this.typePrefix + 'lz-s' ) {
             value = lzs.decompressFromUTF16(source);
@@ -28,7 +29,7 @@ export class Transformer {
 
     static encode(value) {
         if ( Object.prototype.toString.call(value) === '[object Date]' ) {
-            return this.typePrefix + 'date|' + value.toUTCString();
+            return this.typePrefix + 'date|' + (value as Date).getTime().toString();
         }
         if ( Object.prototype.toString.call(value) === '[object RegExp]' ) {
             return this.typePrefix + 'expr|' + value.source;
@@ -41,9 +42,6 @@ export class Transformer {
         }
         if ( typeof value === 'string' ) {
             return this.typePrefix + 'strn|' + value;
-        }
-        if ( typeof value === 'function' ) {
-            return this.typePrefix + 'strn|' + value.toString();
         }
         if ( value === Object(value) ) {
             return this.typePrefix + 'objt|' + JSON.stringify(value);
@@ -58,17 +56,17 @@ export class Transformer {
         let type, length, source;
 
         length = value.length;
-        if ( length < 9 ) {
+        if ( length < this.prefixesLength ) {
             // then it wasn't encoded by us
             return value;
         }
 
-        type   = value.substr(0, 8);
-        source = value.substring(9);
+        type   = value.substr(0, this.prefixesLength-1);
+        source = value.substring(this.prefixesLength);
 
         switch ( type ) {
             case this.typePrefix + 'date':
-                return new Date(source);
+                return new Date(parseInt(source));
 
             case this.typePrefix + 'expr':
                 return new RegExp(source);

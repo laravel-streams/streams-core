@@ -3,6 +3,10 @@ import { dirname, isAbsolute, join } from 'path';
 import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
 import { config } from 'dotenv';
 
+export function getBigDataObject(){
+    return require('./package-lock-data.json');
+}
+
 export function getDotEnvPath(): string | false {
     let dirPath = __dirname;
     while ( true ) {

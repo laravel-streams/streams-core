@@ -63,11 +63,6 @@ export class HttpServiceProvider extends ServiceProvider {
             const axios = this.app.http;
             this.app.singleton('http.etag.cache', ETagCache);
             this.app.instance('http.etag', new ETag(axios));
-            Object.defineProperty(axios, 'etag', {
-                get         : () => {return this.app.get('http.etag');},
-                configurable: true,
-                enumerable  : true,
-            });
             axios.etag.enableEtag();
         }
 

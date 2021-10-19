@@ -299,7 +299,7 @@ export class Criteria<ID extends string = string> {
      *
      * @returns
      */
-    compileStatements() {
+    public compileStatements() {
         return this.parameters.map(statement => ({ [statement.name]: ensureArray(statement.value) }));
     }
 }

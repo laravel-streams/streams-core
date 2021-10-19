@@ -1,9 +1,14 @@
 import { Application } from '../Foundation/Application';
 export declare class ServiceProvider implements IServiceProvider {
     app: Application;
+    /**
+     * Create a new ServiceProvider instance.
+     *
+     * @param app
+     */
     constructor(app: Application);
 }
-export declare type Constructor<T = any> = new (...args: any[]) => T;
+export declare type Constructor<Type = any> = new (...args: any[]) => Type;
 export declare type IServiceProviderClass = {
     new (app: Application): IServiceProvider;
 };

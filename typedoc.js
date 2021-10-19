@@ -1,5 +1,3 @@
-let argv = process.argv;
-
 
 const config = {
     entryPoints: ['./resources/lib/index.ts'],
@@ -26,12 +24,9 @@ const config = {
     name          : 'Streams Platform Client Api',
 };
 
-if ( argv.includes('--neo-theme') ) {
-    config.theme = './node_modules/typedoc-neo-theme/bin/default';
-    config.plugins.push('typedoc-neo-theme');
-}
-if ( argv.includes('--markdown') ) {
-    config.plugins.push('typedoc-plugin-markdown');
+if(process.env.STREAMS_API_MD_DOCS){
+    config.plugin.push('typedoc-plugin-markdown');
+    config.out = './docs/api'
 }
 
 

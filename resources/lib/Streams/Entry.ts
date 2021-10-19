@@ -38,12 +38,16 @@ export class Entry<ID extends string = string> {
     }
 
     async save(): Promise<Boolean> {
-        if (this._fresh) {
-            this.http.postEntry(this._stream.id, this._data);
+        try {
+            if ( this._fresh ) {
+                await this.http.postEntry(this._stream.id, this._data);
+                return true;
+            }
+            await this.http.patchEntry(this._stream.id, this._data.id, this._data);
             return true;
+        } catch (e) {
+            return false;
         }
-        this.http.patchEntry(this._stream.id, this._data.id, this._data);
-        return true;
     }
 
     validator() {

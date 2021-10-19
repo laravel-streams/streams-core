@@ -1,21 +1,30 @@
 {
     "name": "@laravel-streams/core",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "private": false,
+    "publishConfig": {
+        "access": "public"
+    },
     "types": "resources/public/types/index.d.ts",
     "main": "resources/public/js/index.js",
+    "module": "resources/public/js/index.js",
     "scripts": {
-        "dev": "npm run development",
-        "development": "mix",
+        "dev": "mix",
         "watch": "mix watch",
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
         "production": "mix --production",
-        "clean": "@clean:dts @clean:doc",
+        "prod:window": "STREAMS_EXPORT=window mix --production",
+        "prod:module": "STREAMS_EXPORT=module mix --production",
+        "prod:umd": "STREAMS_EXPORT=umd mix --production",
+        "prod:all": "npm-run-all prod prod:module prod:umd prod:window",
+        "build": "npm-run-all test clean prod:all dts dts:copy doc doc:md",
+        "clean": "npm-run-all clean:dts clean:doc",
         "clean:dts": "rimraf ./resources/public/types",
         "clean:doc": "rimraf ./client-api",
         "doc": "typedoc --options ./typedoc.js",
+        "doc:md": "STREAMS_API_MD_DOCS=true typedoc --options ./typedoc.js",
         "dts": "tsc --project webpack.tsconfig.json --emitDeclarationOnly",
         "dts:copy": "cp resources/lib/global.d.ts resources/public/js/global.d.ts",
         "test": "mocha"
@@ -48,6 +57,10 @@
         "lz-string": "^1.4.4"
     },
     "devDependencies": {
+        "npm-run-all": "^4.1.5",
+        "pretender": "^3.4.7",
+        "yargs-parser": "^20.2.9",
+        "@types/yargs-parser": "^20.2.1",
         "jsdom": "^18.0.0",
         "@types/jsdom": "^16.2.13",
         "btoa": "^1.2.1",
