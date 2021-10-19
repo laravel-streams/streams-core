@@ -1,7 +1,7 @@
-import { StorageAdapterInterface } from '@/Storage';
-import { inject } from '@/Foundation';
+import { StorageAdapterInterface } from '../Storage';
+import { inject } from '../Foundation';
 import { injectable } from 'inversify';
-import { Config } from '@/types';
+import { Config } from '../types';
 
 export interface ETagCacheValue {
     etag: string;

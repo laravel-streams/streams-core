@@ -1,9 +1,9 @@
 import { Stream } from './Stream';
-import { Criteria } from '@/Streams/Criteria';
-import { inject } from '@/Foundation';
-import { Http } from '@/Streams/Http';
-import { EntryCollection } from '@/Streams/EntryCollection';
-import { Entry } from '@/Streams/Entry';
+import { Criteria } from '../Streams/Criteria';
+import { inject } from '../Foundation';
+import { Http } from '../Streams/Http';
+import { EntryCollection } from '../Streams/EntryCollection';
+import { Entry } from '../Streams/Entry';
 
 
 export class Repository<ID extends string = string> {

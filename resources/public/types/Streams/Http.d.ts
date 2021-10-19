@@ -8,8 +8,8 @@ export declare class Http {
     getStreams(params?: any, config?: AxiosRequestConfig): Promise<IStreamResponse<any, IStreamMeta, IStreamLinks<"entries" | "self">>>;
     postStream<T>(data: T, config?: AxiosRequestConfig): Promise<IStreamResponse<T>>;
     getStream<ID extends string>(stream: ID, params?: any, config?: AxiosRequestConfig): Promise<IStreamResponse<IBaseStream<ID>, IStreamMeta, IStreamLinks<"entries" | "self">>>;
-    patchStream<ID extends string>(stream: ID, params?: any, config?: AxiosRequestConfig): Promise<IStreamResponse<IBaseStream<ID>, IStreamMeta, IStreamLinks<"entries" | "self">>>;
-    putStream<ID extends string>(stream: ID, params?: any, config?: AxiosRequestConfig): Promise<IStreamResponse<IBaseStream<ID>, IStreamMeta, IStreamLinks<"entries" | "self">>>;
+    patchStream<ID extends string>(stream: ID, data?: any, config?: AxiosRequestConfig): Promise<IStreamResponse<IBaseStream<ID>, IStreamMeta, IStreamLinks<"entries" | "self">>>;
+    putStream<ID extends string>(stream: ID, data?: any, config?: AxiosRequestConfig): Promise<IStreamResponse<IBaseStream<ID>, IStreamMeta, IStreamLinks<"entries" | "self">>>;
     deleteStream<ID extends string>(stream: ID, config?: AxiosRequestConfig): Promise<IStreamResponse<IBaseStream<ID>, IStreamMeta, IStreamLinks<"entries" | "self">>>;
     getEntries<DATA, TYPE extends keyof Http.Responses<DATA> = 'entries', ID extends string = string>(stream: ID, data?: any, params?: any, config?: AxiosRequestConfig): Promise<Http.Responses<DATA>[TYPE]>;
     postEntry<ID extends string>(stream: ID, data?: any, config?: AxiosRequestConfig): Promise<IStreamResponse<any, IStreamMeta, IStreamLinks<"entries" | "self">>>;

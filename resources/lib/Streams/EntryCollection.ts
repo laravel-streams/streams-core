@@ -1,8 +1,8 @@
 import { Entry, IEntry } from './Entry';
-import { Collection } from '@/Support';
-import { IStreamLinks, IStreamMeta } from '@/types';
-import { Stream } from '@/Streams/Stream';
-import { Http } from '@/Streams/Http';
+import { Collection } from '../Support';
+import { IStreamLinks, IStreamMeta } from '../types';
+import { Stream } from '../Streams/Stream';
+import { Http } from '../Streams/Http';
 
 
 export type IEntriesLinks = IStreamLinks<'self' | 'streams' | 'stream'>;

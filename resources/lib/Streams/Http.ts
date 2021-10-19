@@ -1,8 +1,8 @@
 import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosStatic, CancelTokenSource } from 'axios';
 import { injectable, postConstruct } from 'inversify';
-import { inject } from '@/Foundation';
-import { Config, IBaseStream, IStreamLinks, IStreamMeta, IStreamResponse } from '@/types';
-import { IEntriesLinks, IEntriesMeta, IPaginatedEntriesLinks, IPaginatedEntriesMeta } from '@/Streams/EntryCollection';
+import { inject } from '../Foundation';
+import { Config, IBaseStream, IStreamLinks, IStreamMeta, IStreamResponse } from '../types';
+import { IEntriesLinks, IEntriesMeta, IPaginatedEntriesLinks, IPaginatedEntriesMeta } from '../Streams/EntryCollection';
 
 
 @injectable()

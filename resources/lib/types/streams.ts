@@ -1,4 +1,4 @@
-import { Field } from '@/Streams';
+import { Field } from '../Streams';
 
 export interface IStreamMeta {
     parameters: Record<string, string>;
@@ -139,4 +139,3 @@ export namespace entries {
 
     export interface Pages {}
 }
-

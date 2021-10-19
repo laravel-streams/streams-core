@@ -1,13 +1,13 @@
 import 'reflect-metadata';
 import { AsyncContainerModule, Container, interfaces } from 'inversify';
 import getDecorators from 'inversify-inject-decorators';
-import { Dispatcher } from '@/Dispatcher/Dispatcher';
-import { Repository } from '@/Config/Repository';
-import { ApplicationInitOptions, Configuration } from '@/types/config';
-import { IServiceProvider, IServiceProviderClass } from '@/Support/ServiceProvider';
-import { isServiceProviderClass, makeLog } from '@/Support/utils';
-import { Constructor, ServiceProvider } from '@/Support';
-import { defaultConfig } from '@/defaultConfig';
+import { Dispatcher } from '../Dispatcher/Dispatcher';
+import { Repository } from '../Config/Repository';
+import { ApplicationInitOptions, Configuration } from '../types/config';
+import { IServiceProvider, IServiceProviderClass } from '../Support/ServiceProvider';
+import { isServiceProviderClass, makeLog } from '../Support/utils';
+import { Constructor, ServiceProvider } from '../Support';
+import { defaultConfig } from '../defaultConfig';
 import ServiceIdentifier = interfaces.ServiceIdentifier;
 
 const log = makeLog('Application');

@@ -1,7 +1,7 @@
 import { Field } from './Field';
 import { Repository } from './Repository';
-import { Criteria } from '@/Streams/Criteria';
-import { IBaseStream, IStreamLinks, IStreamMeta } from '@/types/streams';
+import { Criteria } from '../Streams/Criteria';
+import { IBaseStream, IStreamLinks, IStreamMeta } from '../types/streams';
 
 export interface Stream<ID extends string = string> extends Omit<IBaseStream<ID>, 'fields'> { }
 
