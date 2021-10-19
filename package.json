@@ -1,13 +1,13 @@
 {
     "name": "@laravel-streams/core",
-    "version": "1.0.3",
+    "version": "1.0.11",
     "private": false,
     "publishConfig": {
         "access": "public"
     },
     "types": "resources/public/types/index.d.ts",
     "main": "resources/public/js/index.js",
-    "module": "resources/public/js/index.js",
+    "module": "resources/public/js/index.esm.js",
     "scripts": {
         "dev": "mix",
         "watch": "mix watch",
