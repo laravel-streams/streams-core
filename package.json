@@ -1,13 +1,12 @@
 {
     "name": "@laravel-streams/core",
-    "version": "1.0.12",
+    "version": "1.0.13",
     "publishConfig": {
         "access": "public"
     },
     "types": "resources/public/types/index.d.ts",
     "main": "resources/public/js/index.js",
-    "module": "resources/public/js/index.cjs2.js",
-    "esnext": "resources/public/js/index.esm.js",
+    "module": "resources/public/js/index.esm.js",
     "scripts": {
         "dev": "mix",
         "watch": "mix watch",
@@ -113,8 +112,5 @@
         "webpack-cli": "^4.8.0",
         "webpack-merge": "^5.8.0",
         "yargs-parser": "^20.2.9"
-    },
-    "peerDependencies": {
-        "webpack": "^5.54.0"
     }
 }

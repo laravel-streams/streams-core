@@ -29,4 +29,3 @@ export interface ApplicationInitOptions {
     providers?: IServiceProviderClass[];
     config?: Configuration;
 }
-
