@@ -1,6 +1,6 @@
 {
     "name": "@laravel-streams/core",
-    "version": "1.0.12",
+    "version": "1.0.13",
     "private": false,
     "publishConfig": {
         "access": "public"
