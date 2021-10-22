@@ -14,6 +14,7 @@ use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
+use Streams\Core\Stream\Stream;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
 class Field implements
@@ -88,7 +89,7 @@ class Field implements
             $attributes['field'] = $this;
 
             if (!App::has('streams.core.field_type.' . $this->type)) {
-                throw new \Exception("Invalid type [{$this->type}] in stream [{$this->stream->handle}]");
+                throw new \Exception("Invalid field type [{$this->type}] in stream.");
             }
 
             $type = App::make('streams.core.field_type.' . $this->type, [
