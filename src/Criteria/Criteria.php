@@ -88,8 +88,10 @@ class Criteria
      * @param null|string $key
      * @return $this
      */
-    public function cache($seconds, $key = null)
+    public function cache($seconds = null, $key = null)
     {
+        $seconds = $seconds ?: $this->stream->config('cache.ttl', 60 * 60);
+
         $this->parameters['cache'] = [$seconds, $key];
 
         return $this;
@@ -177,6 +179,10 @@ class Criteria
     {
         $cache = Arr::get($this->parameters, 'cache', false);
 
+        if ($this->stream->config('cache.enabled') === false) {
+            $cache = false;
+        }
+
         $fingerprint = $this->stream->handle . '.query__' . md5(serialize($this->parameters));
 
         if ($cache) {
@@ -204,6 +210,10 @@ class Criteria
     public function count()
     {
         $cache = Arr::get($this->parameters, 'cache', false);
+
+        if ($this->stream->config('cache.enabled') === false) {
+            $cache = false;
+        }
 
         if ($cache) {
 
