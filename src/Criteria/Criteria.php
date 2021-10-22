@@ -96,6 +96,18 @@ class Criteria
     }
 
     /**
+     * Return fresh results.
+     *
+     * @return $this
+     */
+    public function fresh()
+    {
+        unset($this->parameters['cache']);
+
+        return $this;
+    }
+
+    /**
      * Order the query by field/direction.
      *
      * @param string $field
