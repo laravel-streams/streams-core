@@ -82,7 +82,7 @@ trait Prototype
      */
     protected function initializePrototypeAttributes(array $attributes)
     {
-        $this->loadPrototypeProperties(Arr::pull($attributes, '__properties', []));
+        $this->loadPrototypeProperties($this->__properties ?? []);
 
         $this->__prototype['original'] = $attributes;
 

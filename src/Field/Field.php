@@ -27,6 +27,24 @@ class Field implements
     use FiresCallbacks;
 
     /**
+     * The initial prototype properties.
+     */
+    protected $__properties = [
+        'handle' => [
+            'type' => 'slug',
+        ],
+        'type' => [
+            'type' => 'string',
+        ],
+        'name' => [
+            'type' => 'string',
+        ],
+        'description' => [
+            'type' => 'string',
+        ],
+    ];
+
+    /**
      * Create a new class instance.
      *
      * @param array $attributes
@@ -42,7 +60,7 @@ class Field implements
         ]);
 
         $this->initializePrototypeAttributes($callbackData->get('attributes'));
-        
+
         $this->fire('initialized', [
             'field' => $this,
         ]);
