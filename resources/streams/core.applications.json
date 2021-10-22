@@ -1,12 +1,16 @@
 {
-    "handle": "core.applications",
+    "id": "core.applications",
+    "abstract": "Streams\\Core\\Application\\Application",
     "source": {
         "path": "streams/apps",
         "format": "json"
     },
-    "abstract": "Streams\\Core\\Application\\Application",
     "fields": {
-        "match": "string",
-        "config": "array"
+        "match": {
+            "type": "array"
+        },
+        "config": {
+            "type": "array"
+        }
     }
 }

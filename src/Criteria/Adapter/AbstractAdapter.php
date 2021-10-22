@@ -170,7 +170,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function newInstance(array $attributes = [])
     {
-        $prototype = $this->stream->abstract ?: Entry::class;
+        $prototype = $this->stream->config('abstract', Entry::class);
 
         $attributes['stream'] = $this->stream;
 

@@ -10,15 +10,23 @@
     "fields": {
         "id": {
             "type": "slug",
-            "config.separator": "_"
+            "config": {
+                "separator": "_"
+            }
         },
         "name": {
-            "type": "string"
+            "type": "string",
+            "rules": [
+                "max:50"
+            ]
         },
         "description": {
             "type": "string"
         },
         "source": {
+            "type": "array"
+        },
+        "config": {
             "type": "array"
         },
         "fields": {
