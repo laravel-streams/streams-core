@@ -27,6 +27,13 @@ interface EntryInterface
      * @var array
      */
     public function getAttributes();
+    
+    /**
+     * Return the last modified date if possible.
+     *
+     * @var \DatetimeInterface|null
+     */
+    public function lastModified();
 
     /**
      * Set the entry attributes.
