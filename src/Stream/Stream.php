@@ -11,7 +11,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Validation\Factory;
 use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Validator;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Streams\Core\Field\FieldCollection;
 use Streams\Core\Repository\Repository;
@@ -27,17 +26,14 @@ use Illuminate\Support\Traits\ForwardsCalls;
 use Illuminate\Validation\ValidationRuleParser;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Validation\StreamsPresenceVerifier;
-use Streams\Core\Criteria\Contract\CriteriaInterface;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 
 /**
- *
  * @property string handle
  * @property Repository repository
  * @property array rules
  * @property array validators
  * @property \Streams\Core\Field\FieldCollection|\Streams\Core\Field\Field[] fields
- *
  */
 class Stream implements
     JsonSerializable,
@@ -427,7 +423,7 @@ class Stream implements
         $route = Arr::get($attributes, 'route');
 
         if ($route && is_string($route)) {
-            $attributes['route'] = [
+            $attributes['routes'] = [
                 'view' => $route,
             ];
         }

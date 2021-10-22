@@ -2,10 +2,6 @@
 
 namespace Streams\Core\Support;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\App;
-
 /**
  * Class Process
  *

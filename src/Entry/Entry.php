@@ -13,6 +13,7 @@ use Streams\Core\Support\Traits\Fluency;
 use Streams\Core\Support\Facades\Streams;
 use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Facades\Hydrator;
+use Streams\Core\Support\Traits\HasMemory;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
 
@@ -31,6 +32,8 @@ class Entry implements
     use Fluency {
         Fluency::__construct as private constructFluency;
     }
+
+    use HasMemory;
 
     /**
      * The stream instance.
@@ -70,11 +73,7 @@ class Entry implements
      */
     public function stream()
     {
-        if ($this->stream instanceof Stream) {
-            return $this->stream;
-        }
-
-        return $this->stream = Streams::make($this->stream);
+        return $this->once(__METHOD__, fn() => Streams::make($this->stream));
     }
 
     /**

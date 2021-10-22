@@ -45,6 +45,10 @@ class StreamManager
      */
     public function make($stream)
     {
+        if ($stream instanceof Stream) {
+            return $stream;
+        }
+        
         try {
 
             if (!is_array($stream)) {
@@ -200,7 +204,7 @@ class StreamManager
         if (!App::routesAreCached()) {
 
             foreach ($stream->routes ?: [] as $key => $route) {
-
+                
                 if (is_string($route)) {
                     $route = [
                         'uri' => $route,
