@@ -40,7 +40,7 @@ return [
         'string' => \Streams\Core\Field\Type\Str::class,
 
         'url' => \Streams\Core\Field\Type\Url::class,
-        'text' => \Streams\Core\Field\Type\Str::class,
+        //'text' => \Streams\Core\Field\Type\Str::class,
         'hash' => \Streams\Core\Field\Type\Hash::class,
         'slug' => \Streams\Core\Field\Type\Slug::class,
         'email' => \Streams\Core\Field\Type\Email::class,
@@ -51,7 +51,7 @@ return [
         // Numbers
         'number' => \Streams\Core\Field\Type\Number::class,
         'integer' => \Streams\Core\Field\Type\Integer::class,
-        'float' => \Streams\Core\Field\Type\Decimal::class,
+        //'float' => \Streams\Core\Field\Type\Decimal::class,
 
         'decimal' => \Streams\Core\Field\Type\Decimal::class,
 

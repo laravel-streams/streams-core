@@ -4,22 +4,21 @@ namespace Streams\Core;
 
 use HTMLPurifier;
 use Misd\Linkify\Linkify;
-use StringTemplate\Engine;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\View\Factory;
 use Collective\Html\HtmlFacade;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
-use Streams\Core\View\ViewIncludes;
 use Streams\Core\View\ViewTemplate;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\View;
+use Streams\Core\Support\Parser;
 use Streams\Core\View\ViewOverrides;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
+use Streams\Core\Stream\StreamRouter;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Translation\Translator;
@@ -29,12 +28,13 @@ use Streams\Core\Support\Facades\Addons;
 use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Images;
 use Streams\Core\Support\Facades\Streams;
-use Streams\Core\Support\Facades\Hydrator;
-use Illuminate\Contracts\Support\Arrayable;
+use Streams\Core\Support\Macros\ArrMacros;
+use Streams\Core\Support\Macros\StrMacros;
+use Streams\Core\Support\Macros\UrlMacros;
 use Streams\Core\Support\Facades\Integrator;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
-use Illuminate\Support\Facades\Auth;
 use Streams\Core\Support\Facades\Applications;
+use Streams\Core\Support\Macros\FactoryMacros;
+use Streams\Core\Support\Macros\TranslatorMacros;
 
 class StreamsServiceProvider extends ServiceProvider
 {
@@ -118,7 +118,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->extendStr();
 
         $this->publishes([
-            dirname(__DIR__) .'/resources/public'
+            dirname(__DIR__) . '/resources/public'
             => public_path('vendor/streams/core')
         ], ['public']);
     }
@@ -132,71 +132,15 @@ class StreamsServiceProvider extends ServiceProvider
 
         $this->registerApplications();
 
-        $this->app->singleton('streams.parser_data', function () {
-
-            $parsed = parse_url(Request::url());
-
-            $data = [
-                'request' => [
-                    'url'      => Request::url(),
-                    'path'     => Request::path(),
-                    'root'     => Request::root(),
-                    'input'    => Request::input(),
-                    'full_url' => Request::fullUrl(),
-                    'segments' => Request::segments(),
-                    'uri'      => Request::getRequestUri(),
-                    'query'    => Request::getQueryString(),
-                    'parsed'   => array_merge($parsed, [
-                        'domain' => explode('.', $parsed['host'])
-                    ]),
-                ],
-                'url' => [
-                    'previous' => URL::previous(),
-                ],
-                'user' => ($user = Auth::user()) ? $user->toArray() : null,
-            ];
-
-            if ($route = Request::route()) {
-
-                $data['route'] = [
-                    'uri'                      => $route->uri(),
-                    'parameters'               => $route->parameters(),
-                    'parameters.to_urlencoded' => array_map(
-                        function ($parameter) {
-                            return urlencode($parameter);
-                        },
-                        array_filter($route->parameters())
-                    ),
-                    'parameter_names'          => $route->parameterNames(),
-                    'compiled'                 => [
-                        'static_prefix'     => $route->getCompiled()->getStaticPrefix(),
-                        'parameters_suffix' => str_replace(
-                            $route->getCompiled()->getStaticPrefix(),
-                            '',
-                            Request::getRequestUri()
-                        ),
-                    ],
-                ];
-
-                // Alias this key variable.
-                $data['route']['prefix'] = $data['route']['compiled']['static_prefix'];
-            }
-
-            return $data;
-        });
+        $this->app->singleton('streams.parser_data', fn () => Parser::data());
 
         $this->bootApplication();
 
-        // Setup and preparing utilities.
-        $this->registerAddons();
         $this->addAssets();
-        $this->addImageNamespaces();
+        $this->registerAddons();
         $this->addViewNamespaces();
+        $this->addImageNamespaces();
         $this->loadTranslations();
-        // $this->extendLang();
-        // $this->extendView();
-        // $this->extendArr();
-        // $this->extendStr();
 
         /**
          * Register core commands.
@@ -398,12 +342,9 @@ class StreamsServiceProvider extends ServiceProvider
     protected function addAssets()
     {
         Assets::addPath('public', public_path());
+        Assets::addPath('core', dirname(__DIR__));
         Assets::addPath('resources', resource_path());
 
-        Assets::addPath('core', dirname(__DIR__));
-
-        //Assets::add('scripts', '/vendor/streams-vendors.js'); // No
-        //Assets::register('core::vendor/axios.js'); // Yes
         Assets::register('core::js/core.js');
     }
 
@@ -426,7 +367,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function addViewNamespaces()
     {
-        View::addNamespace('streams-core', dirname(__DIR__) .'/resources/views');
+        View::addNamespace('core', dirname(__DIR__) . '/resources/views');
         View::addNamespace('storage', storage_path('streams'));
     }
 
@@ -435,7 +376,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function loadTranslations()
     {
-        Lang::addNamespace('streams-core',  dirname(__DIR__) .'/resources/lang');
+        Lang::addNamespace('streams-core',  dirname(__DIR__) . '/resources/lang');
     }
 
     /**
@@ -443,24 +384,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function extendUrlGenerator()
     {
-        URL::macro('streams', function ($name, $parameters = [], array $extra = [], $absolute = true) {
-
-            $parameters = Arr::make($parameters);
-
-            $extra = $extra ? '?' . http_build_query($extra) : null;
-
-            if (!$route = $this->routes->getByName($name)) {
-                return URL::to(Str::parse($name, $parameters) . $extra, [], $absolute);
-            }
-
-            $uri = $route->uri();
-
-            foreach (array_keys($parameters) as $key) {
-                $uri = str_replace("{{$key}__", "{{$key}.", $uri);
-            }
-
-            return URL::to(Str::parse($uri, $parameters) . $extra, [], $absolute);
-        });
+        URL::macro('streams', [UrlMacros::class, 'streams']);
     }
 
     /**
@@ -495,89 +419,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function extendRouter()
     {
-        Route::macro('streams', function ($uri, $route) {
-
-            /**
-             * Replace deep entry attributes with
-             * something we can reference later.
-             */
-            $uri = str_replace('entry.', 'entry__', $uri);
-
-            /**
-             * If the route is a controller...
-             */
-            if (is_string($route) && strpos($route, '@')) {
-                $route = [
-                    'uses' => $route,
-                ];
-            }
-
-            /**
-             * Assume the route is a view otherwise.
-             */
-            if (is_string($route) && !strpos($route, '@')) {
-                $route = [
-                    'view' => $route,
-                    'uses' => '\Streams\Core\Http\Controller\StreamsController@handle',
-                ];
-            }
-
-            /**
-             * Pull out route options. What's left
-             * is passed in as route action data.
-             */
-            $csrf        = Arr::pull($route, 'csrf');
-            $verb        = Arr::pull($route, 'verb', 'any');
-            $middleware  = Arr::pull($route, 'middleware', []);
-            $constraints = Arr::pull($route, 'constraints', []);
-
-            /**
-             * Ensure some default
-             * information is present.
-             */
-            if (!isset($route['uses'])) {
-                $route['uses'] = '\Streams\Core\Http\Controller\StreamsController@handle';
-            }
-
-            /**
-             * If the route contains a
-             * controller@action then
-             * create a normal route.
-             * -----------------------
-             * If the route does NOT
-             * contain an action then
-             * treat it as a resource.
-             */
-            $route = Route::{$verb}($uri, $route); // includes Single action controllers
-            // if (str_contains($route['uses'], '@')) {
-            //     $route = Route::{$verb}($uri, $route);
-            // } else {
-            //     $route = Route::resource($uri, $route['uses']); // Need flag
-            // }
-
-            /**
-             * Call constraints if
-             * any are provided.
-             */
-            if ($constraints) {
-                call_user_func_array([$route, 'constraints'], (array) $constraints);
-            }
-
-            /**
-             * Call middleware if
-             * any are provided.
-             */
-            if ($middleware) {
-                call_user_func_array([$route, 'middleware'], (array) $middleware);
-            }
-
-            /**
-             * Disable CSRF
-             */
-            if ($csrf === false) {
-                call_user_func_array([$route, 'withoutMiddleware'], ['csrf']);
-            }
-        });
+        Route::macro('streams', [StreamRouter::class, 'route']);
     }
 
     /**
@@ -585,20 +427,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function extendLang()
     {
-        Translator::macro('translate', function ($target) {
-
-            if (is_array($target) || $target instanceof SupportCollection) {
-                foreach ($target as &$value) {
-                    $value = Lang::translate($value);
-                }
-            }
-
-            if (is_string($target) && Str::contains($target, ['::', '.'])) {
-                return trans($target);
-            }
-
-            return $target;
-        });
+        Translator::macro('translate', [TranslatorMacros::class, 'translate']);
     }
 
     /**
@@ -606,39 +435,16 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function extendView()
     {
-        Factory::macro('parse', function ($template, array $payload = []) {
-            return app(ViewTemplate::class)->parse($template, $payload);
-        });
+        Factory::macro('parse', [ViewTemplate::class, 'parse']);
 
-        Factory::macro('include', function ($slot, $include = null) {
-
-            if (is_array($slot)) {
-
-                foreach ($slot as $name => $includes) {
-                    /** @noinspection SuspiciousLoopInspection */
-                    foreach ($includes as $include) {
-                        View::include($name, $include);
-                    }
-                }
-
-                return;
-            }
-
-            app(ViewIncludes::class)->include($slot, $include);
-        });
-
-        Factory::macro('includes', function ($slot, array $payload = []) {
-            return app('includes')->get($slot, function () {
-                return new EloquentCollection;
-            })->map(function ($item) use ($payload) {
-                return View::make($item, $payload)->render();
-            })->implode("\n");
-        });
+        Factory::macro('include', [FactoryMacros::class, 'include']);
+        Factory::macro('includes', [FactoryMacros::class, 'includes']);
 
         Factory::macro('override', function ($view, $override) {
             return app(ViewOverrides::class)->put($view, $override);
         });
 
+        // @todo move this to booted/event that loops and overrides instead of decorating all?
         View::composer('*', function ($view) {
             if ($override = app(ViewOverrides::class)->get($view->name())) {
                 $view->setPath(base_path($override));
@@ -678,78 +484,12 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function extendArr()
     {
-        Arr::macro('make', function ($target) {
+        Arr::macro('htmlAttributes', fn ($attributes) => HtmlFacade::attributes($attributes));
 
-            if (Arr::accessible($target)) {
-                foreach ($target as &$item) {
-                    $item = Arr::make($item);
-                }
-            }
-
-            if (is_object($target) && $target instanceof Arrayable) {
-                $target = $target->toArray();
-            }
-
-            if (is_object($target)) {
-                $target = Hydrator::dehydrate($target);
-            }
-
-            return $target;
-        });
-
-        Arr::macro('parse', function ($target, array $payload = []) {
-
-            $payload = Arr::make($payload);
-
-            foreach ($target as &$value) {
-
-                if (is_array($value)) {
-                    $value = Arr::parse($value, $payload);
-                }
-
-                if (is_string($value)) {
-                    $value = Str::parse($value, $payload);
-                }
-            }
-
-            return $target;
-        });
-
-        Arr::macro('undot', function ($array) {
-
-            foreach ($array as $key => $value) {
-
-                if (!strpos($key, '.')) {
-                    continue;
-                }
-
-                Arr::set($array, $key, $value);
-
-                // Trash the old key.
-                unset($array[$key]);
-            }
-
-            return $array;
-        });
-
-        Arr::macro('htmlAttributes', function ($attributes) {
-            return HtmlFacade::attributes($attributes);
-        });
-
-        Arr::macro('export', function ($expression, $return = false) {
-
-            $export = var_export($expression, TRUE);
-            $export = preg_replace("/^([ ]*)(.*)/m", '$1$1$2', $export);
-            $array = preg_split("/\r\n|\n|\r/", $export);
-            $array = preg_replace(["/\s*array\s\($/", "/\)(,)?$/", "/\s=>\s$/"], [NULL, ']$1', ' => ['], $array);
-            $export = join(PHP_EOL, array_filter(["["] + $array));
-
-            if ((bool)$return) {
-                return $export;
-            }
-
-            echo $export;
-        });
+        Arr::macro('make', [ArrMacros::class, 'make']);
+        Arr::macro('undot', [ArrMacros::class, 'undot']);
+        Arr::macro('parse', [ArrMacros::class, 'parse']);
+        Arr::macro('export', [ArrMacros::class, 'export']);
     }
 
     /**
@@ -757,57 +497,17 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function extendStr()
     {
-        Str::macro('humanize', function ($value, $separator = '_') {
-            return preg_replace('/[' . $separator . ']+/', ' ', strtolower(trim($value)));
-        });
 
-        Str::macro('purify', function ($value) {
-            return (new HTMLPurifier)->purify($value);
-        });
+        Str::macro('parse', [StrMacros::class, 'parse']);
+        Str::macro('humanize', [StrMacros::class, 'humanize']);
+        Str::macro('truncate', [StrMacros::class, 'truncate']);
+
+        Str::macro('purify', [HTMLPurifier::class, 'purify']);
 
         Str::macro('linkify', function ($text, array $options = []) {
             return (new Linkify($options))->process($text);
         });
 
-        Str::macro('truncate', function ($value, $limit = 100, $end = '...') {
-
-            if (strlen($value) <= $limit) {
-                return $value;
-            }
-
-            $parts  = preg_split('/([\s\n\r]+)/', $value, null, PREG_SPLIT_DELIM_CAPTURE);
-            $count  = count($parts);
-            $length = 0;
-
-            for ($last = 0; $last < $count; ++$last) {
-
-                $length += strlen($parts[$last]);
-
-                if ($length > $limit) {
-                    break;
-                }
-            }
-
-            return trim(implode(array_slice($parts, 0, $last))) . $end;
-        });
-
-        Str::macro('parse', function ($target, array $data = []) {
-
-            if (!strpos($target, '}')) {
-                return $target;
-            }
-
-            $default = App::has('streams.parser_data') ? App::make('streams.parser_data') : [];
-
-            return app(Engine::class)->render($target, array_filter(array_merge($default, [
-                'app' => [
-                    'locale' => App::getLocale(),
-                ],
-            ], Arr::make($data))));
-        });
-
-        Str::macro('markdown', function ($target) {
-            return (new \Parsedown)->parse($target);
-        });
+        Str::macro('markdown', [\Parsedown::class, 'parse']);
     }
 }

@@ -3,6 +3,7 @@
 namespace Streams\Core\Entry;
 
 use ArrayAccess;
+use Carbon\Carbon;
 use JsonSerializable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -13,8 +14,10 @@ use Streams\Core\Support\Traits\Fluency;
 use Streams\Core\Support\Facades\Streams;
 use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Facades\Hydrator;
+use Streams\Core\Support\Traits\HasMemory;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
+use Streams\Core\Field\Type\Datetime;
 
 class Entry implements
     JsonSerializable,
@@ -31,6 +34,8 @@ class Entry implements
     use Fluency {
         Fluency::__construct as private constructFluency;
     }
+
+    use HasMemory;
 
     /**
      * The stream instance.
@@ -64,17 +69,30 @@ class Entry implements
     }
 
     /**
+     * Return the last modified date if possible.
+     */
+    public function lastModified()
+    {
+        return $this->once(__METHOD__, function () {
+
+            $datetime = $this->__updated_at;
+
+            if (!$datetime instanceof Datetime) {
+                $datetime = new Carbon($datetime);
+            }
+
+            return $datetime;
+        });
+    }
+
+    /**
      * Return the entry stream.
      * 
      * @return Stream
      */
     public function stream()
     {
-        if ($this->stream instanceof Stream) {
-            return $this->stream;
-        }
-
-        return $this->stream = Streams::make($this->stream);
+        return $this->once(__METHOD__, fn () => Streams::make($this->stream));
     }
 
     /**

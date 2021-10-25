@@ -82,7 +82,7 @@ trait Prototype
      */
     protected function initializePrototypeAttributes(array $attributes)
     {
-        $this->loadPrototypeProperties(Arr::pull($attributes, '__properties', []));
+        $this->loadPrototypeProperties($this->__properties ?? []);
 
         $this->__prototype['original'] = $attributes;
 
@@ -103,7 +103,7 @@ trait Prototype
 
         return $this;
     }
-    
+
     /**
      * Trim non-defined attributes.
      *
@@ -199,6 +199,18 @@ trait Prototype
     public function setPrototypeAttributeValue($key, $value)
     {
         Arr::set($this->__prototype['attributes'], $key, $value);
+
+        return $this;
+    }
+
+    /**
+     * Set the values for all prototype attributes.
+     *
+     * @param array $values
+     */
+    public function setPrototypeAttributeValues($values)
+    {
+        $this->__prototype['attributes'] = $values;
 
         return $this;
     }
