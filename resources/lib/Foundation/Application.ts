@@ -8,6 +8,7 @@ import { IServiceProvider, IServiceProviderClass } from '../Support/ServiceProvi
 import { isServiceProviderClass, makeLog } from '../Support/utils';
 import { Constructor, ServiceProvider } from '../Support';
 import { defaultConfig } from '../defaultConfig';
+import deepmerge from 'deepmerge';
 import ServiceIdentifier = interfaces.ServiceIdentifier;
 
 const log = makeLog('Application');
@@ -20,6 +21,7 @@ export interface Application {
 // Augment the DispatcherEvents interface with the events and payload types emitted in the application
 declare module '../Dispatcher/Dispatcher' {
     export interface DispatcherEvents {
+        'Application:initialize:defaultConfig': [ Partial<Configuration> ];
         'Application:initialize': [ ApplicationInitOptions ];
         'Application:initialized': [ Application ];
         'Application:boot': [ Application ];
@@ -126,27 +128,28 @@ export class Application extends Container {
      * @returns
      */
     public async initialize(options: ApplicationInitOptions = {}) {
-
-        options = {
-            providers: [],
-            ...options,
-            config: {
-                ...defaultConfig,
-                ...options.config,
-                http   : {
-                    ...defaultConfig.http,
-                    ...options.config?.http || {},
-                    etag: {
-                        ...defaultConfig.http.etag,
-                        ...options.config?.http?.etag || {},
-                    },
-                },
-                streams: {
-                    ...defaultConfig.streams,
-                    ...options.config?.streams || {},
-                },
-            },
-        };
+        this.events.emit('Application:initialize:defaultConfig', defaultConfig);
+        options.config = deepmerge(defaultConfig, options.config);
+        // options = {
+        //     providers: [],
+        //     ...options,
+        //     config: {
+        //         ...defaultConfig,
+        //         ...options.config,
+        //         http   : {
+        //             ...defaultConfig.http,
+        //             ...options.config?.http || {},
+        //             etag: {
+        //                 ...defaultConfig.http.etag,
+        //                 ...options.config?.http?.etag || {},
+        //             },
+        //         },
+        //         streams: {
+        //             ...defaultConfig.streams,
+        //             ...options.config?.streams || {},
+        //         },
+        //     },
+        // };
 
         this.events.emit('Application:initialize', options);
 
@@ -414,7 +417,7 @@ export class Application extends Container {
 const app = Application.instance;
 
 const { lazyInject: inject } = getDecorators(app);
-
+export { injectable,id,decorate,named,optional,unmanaged,targetName,tagged,postConstruct } from 'inversify';
 export {
     app,
     inject,

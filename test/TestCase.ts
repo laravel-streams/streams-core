@@ -1,8 +1,8 @@
 import { bootstrap } from './_support/bootstrap';
-import { app, Application, CoreServiceProvider, Http, HttpServiceProvider, Stream, Streams, StreamsServiceProvider } from '@';
+import { app, Application, CoreServiceProvider,  HttpServiceProvider } from '../resources/lib';
 import { FS, getEnv, ProxyEnv } from './_support/utils';
 
-declare module '@/Foundation/Application' {
+declare module '../resources/lib/Foundation/Application' {
     export interface Application {
         env: ProxyEnv<any>;
     }
@@ -50,37 +50,4 @@ export abstract class TestCase {
         return app;
     }
 
-    protected async getHttp(): Promise<Http> {
-        return this.app.get<Http>('streams.http');
-    }
-
-    protected async getStreams(): Promise<Streams> {
-        return this.app.get<Streams>('streams');
-    }
-    protected async getStream(id:string): Promise<Stream> {
-        return await this.app.get<Streams>('streams').make(id);
-    }
-
-    protected getStreamData(id: string) {
-        return {
-            id,
-            'name'  : id,
-            'source': {
-                'type': 'file',
-            },
-            'fields': {
-                'id'      : 'number',
-                'name'    : 'string',
-                'email'   : 'email',
-                'age'     : 'number',
-                'relative': {
-                    'type'  : 'relationship',
-                    'config': {
-                        'related': 'clients',
-                    },
-                },
-            },
-            'ui'    : { 'table': { 'columns': [ 'id', 'email' ], 'buttons': { 'edit': { 'href': `cp/${id}/{entry.id}/edit` } } }, 'form': {} },
-        };
-    }
 }

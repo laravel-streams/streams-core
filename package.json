@@ -4,53 +4,46 @@
     "publishConfig": {
         "access": "public"
     },
-    "types": "resources/public/types/index.d.ts",
-    "main": "resources/public/js/index.js",
-    "module": "resources/public/js/index.esm.js",
+    "types": "./resources/public/types/index.d.ts",
+    "main": "./resources/public/js/index.js",
     "scripts": {
         "dev": "mix",
         "watch": "mix watch",
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
-        "prod": "npm run production",
-        "production": "mix --production",
-        "prod:window": "STREAMS_EXPORT=window mix --production",
-        "prod:module": "STREAMS_EXPORT=module DISABLE_MINIMIZE=true mix --production",
-        "prod:cjs": "STREAMS_EXPORT=commonjs DISABLE_MINIMIZE=true mix --production",
-        "prod:cjs2": "STREAMS_EXPORT=commonjs2 DISABLE_MINIMIZE=true mix --production",
-        "prod:umd": "STREAMS_EXPORT=umd mix --production",
-        "prod:all": "npm-run-all prod prod:module prod:umd prod:window",
-        "build": "npm-run-all test clean prod:all dts dts:copy doc doc:md",
-        "clean": "npm-run-all clean:dts clean:doc",
+        "prod": "mix --production",
+        "build": "npm-run-all test clean prod dts dts:copy doc doc:md",
+        "clean": "npm-run-all clean:js clean:dts clean:doc",
+        "clean:js": "rimraf ./resources/lib/**/*.js ./resources/public/js",
         "clean:dts": "rimraf ./resources/public/types",
         "clean:doc": "rimraf ./client-api",
         "doc": "typedoc --options ./typedoc.js",
         "doc:md": "STREAMS_API_MD_DOCS=true typedoc --options ./typedoc.js",
         "dts": "tsc --project webpack.tsconfig.json --emitDeclarationOnly",
         "dts:copy": "cp resources/lib/global.d.ts resources/public/js/global.d.ts",
-        "test": "mocha"
+        "test": "TS_NODE_PROJECT=./tsconfig.test.json mocha"
     },
-    "nyc": {
-        "check-coverage": true,
-        "lines": 80,
-        "statements": 80,
-        "functions": 80,
-        "branches": 80,
-        "include": [
-            "resources/lib/**/*.ts"
-        ],
-        "exclude": [
-            "test/**/*.ts"
-        ],
-        "reporter": [
-            "lcov",
-            "text-summary"
-        ],
-        "all": true
+    "streams": {
+        "output": {
+            "name": [
+                "streams",
+                "core"
+            ],
+            "type": "assign"
+        },
+        "src": "resources/lib",
+        "bundler": "mix",
+        "scripts": {
+            "dev": "dev",
+            "prod": "build",
+            "watch": "watch",
+            "test": "test"
+        }
     },
     "dependencies": {
         "axios": "^0.21.4",
         "debug": "^4.3.2",
+        "deepmerge": "^4.2.2",
         "eventemitter2": "^6.4.4",
         "inversify": "^5.1",
         "inversify-inject-decorators": "^3.1",
@@ -58,59 +51,8 @@
         "reflect-metadata": "^0.1.13"
     },
     "devDependencies": {
-        "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-        "@babel/preset-env": "^7.15.6",
-        "@testdeck/mocha": "^0.1.2",
-        "@types/btoa": "^1.2.3",
-        "@types/chai": "^4.2.22",
-        "@types/debug": "^4.1.7",
-        "@types/faker": "^5.5.8",
-        "@types/jsdom": "^16.2.13",
-        "@types/lz-string": "^1.3.34",
-        "@types/mocha": "^9.0.0",
-        "@types/node": "^16.10.1",
-        "@types/qs": "^6.9.7",
-        "@types/should": "^13.0.0",
-        "@types/should-sinon": "^0.0.8",
-        "@types/sinon": "^10.0.4",
-        "@types/sinon-chai": "^3.2.5",
-        "@types/superagent": "^4.1.13",
-        "@types/yargs-parser": "^20.2.1",
-        "btoa": "^1.2.1",
-        "chai": "^4.3.4",
-        "chai-http": "^4.3.0",
-        "dotenv": "^10.0.0",
-        "faker": "^5.5.3",
-        "jsdom": "^18.0.0",
-        "laravel-mix": "^6.0",
-        "lodash": "^4.17",
-        "mocha": "^9.1.2",
-        "npm-run-all": "^4.1.5",
-        "nyc": "^15.1.0",
-        "postcss": "^8.1",
-        "pretender": "^3.4.7",
-        "rimraf": "^3.0.2",
-        "should": "^13.2.3",
-        "should-sinon": "^0.0.6",
-        "sinon": "^11.1.2",
-        "sinon-chai": "^3.7.0",
-        "source-map-support": "^0.5.20",
-        "ts-loader": "^8.3.0",
-        "ts-node": "^10.2.1",
-        "tsconfig-paths": "^3.11.0",
-        "typedoc": "^0.22.5",
-        "typedoc-neo-theme": "^1.1.1",
-        "typedoc-plugin-custom-tags": "^1.0.2",
-        "typedoc-plugin-external-module-name": "^4.0.6",
-        "typedoc-plugin-extras": "^2.2.0",
-        "typedoc-plugin-inline-sources": "^1.0.0",
-        "typedoc-plugin-markdown": "^3.11.3",
-        "typedoc-plugin-merge-modules": "^3.0.2",
-        "typedoc-plugin-mermaid": "^1.4.0",
-        "typedoc-wrapper": "^6.0.0",
-        "typescript": "^4.4.3",
-        "webpack-cli": "^4.8.0",
-        "webpack-merge": "^5.8.0",
-        "yargs-parser": "^20.2.9"
+        "@types/deepmerge": "^2.2.0",
+        "@types/webpack-env": "^1.16.3",
+        "webpack-env": "^0.8.0"
     }
 }

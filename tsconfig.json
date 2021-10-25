@@ -24,17 +24,13 @@
             "esnext",
             "scripthost",
             "DOM"
-        ],
-        "paths": {
-            "@": ["resources/lib/index.ts"],
-            "@/*": ["resources/lib/*"]
-        }
+        ]
     },
     "include": [
-        "resources/lib",
-        "test"
     ],
     "exclude": [
         "node_modules",
+        "resources",
+        "test"
     ]
 }

@@ -1,0 +1,15 @@
+{
+    "compileOnSave": false,
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "target": "es6",
+        "module": "CommonJS",
+    },
+    "include": [
+        "resources/lib",
+        "test"
+    ],
+    "exclude": [
+        "node_modules",
+    ]
+}

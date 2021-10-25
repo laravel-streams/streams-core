@@ -28,10 +28,9 @@
             "scripthost",
             "DOM"
         ],
-        "paths": {
-            "@": ["resources/lib/index.ts"],
-            "@/*": ["resources/lib/*"]
-        }
+        "types": [
+            "webpack-env"
+        ]
     },
     "include": [
         "resources/lib"

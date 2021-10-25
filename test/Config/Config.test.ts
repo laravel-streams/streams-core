@@ -1,6 +1,6 @@
 import { suite, test } from '@testdeck/mocha';
 import { TestCase } from '../TestCase';
-import { Repository } from '@/Config';
+import { Repository } from '../../resources/lib/Config';
 
 @suite
 export class ConfigTest extends TestCase {
