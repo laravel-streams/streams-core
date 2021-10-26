@@ -191,7 +191,6 @@ The `multiselect` field type stores an array of selections from a list of option
 }
 ```
 
-
 ### Array
 
 The `array` field type stores array values.
@@ -286,18 +285,42 @@ The `datetime` field type stores only time.
 
 ### Object
 
-Single object of optional type.
+## Prototype
+
+Single prototype object.
+
+```json
+{
+  "type": "prototype",
+  "config": {
+    "abstract": "App\\ExampleClass"
+  }
+}
+```
 
 ### Grid
 
 Multiple entries of mixed types.
+
 ### Polymorphic
 
-Single entry of mixed types.
+Single entry of mixed type.
+
+```json
+{
+  "type": "polymorphic"
+}
+```
 
 ### Matrix
 
 Multiple objects of mixed type.
+
+```json
+{
+  "type": "matrix"
+}
+```
 
 ### Relationship
 
@@ -305,7 +328,8 @@ Multiple objects of mixed type.
 {
   "type": "relationship",
   "config": {
-    "related": "stream"
+    "related": "stream",
+    "type": "belongsTo|hasOne"
   }
 }
 ```
@@ -316,7 +340,9 @@ Multiple objects of mixed type.
 {
   "type": "multiple",
   "config": {
-    "related": "stream"
+    "related": "stream",
+    "intermediate": null,
+    "type": "belongsToMany"
   }
 }
 ```
@@ -327,7 +353,7 @@ Multiple objects of mixed type.
 {
   "type": "file",
   "config": {
-    "path": "storage/app/public/uploads"
+    "path": "storage::uploads"
   }
 }
 ```
@@ -338,11 +364,20 @@ Multiple objects of mixed type.
 {
   "type": "image",
   "config": {
-    "path": "storage/app/public/uploads/img"
+    "path": "storage::uploads/img"
   }
 }
 ```
 
 ### Collection
+
+```json
+{
+  "type": "collection",
+  "config": {
+    "abstract": "Illuminate\\Support\\Collection"
+  }
+}
+```
 
 ### Template
