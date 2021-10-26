@@ -8,7 +8,7 @@ sort: 10
 
 ## Introduction
 
-Fields represent the type and characteristics of your stream data. For example a "name" field would likely be a **string** field __type__.
+Fields represent the type and characteristics of your stream data. For example a "name" field would likely be a **string** field **type**.
 
 Fields are strictly concerned with data. Please see the [UI package](../ui/introduction) for configuring field [inputs](../ui/inputs).
 
@@ -19,9 +19,9 @@ Fields can be defined within the JSON [configuration for your streams](streams#d
 ```json
 // streams/contacts.json
 {
-    "fields": {
-        "name": "string",
-    }
+  "fields": {
+    "name": "string"
+  }
 }
 ```
 
@@ -30,33 +30,46 @@ To define more information about the field use an array:
 ```json
 // streams/contacts.json
 {
-    "fields": {
-        "name": {
-            "type": "string",
-            "name": "fields.name"
-        },
+  "fields": {
+    "name": {
+      "type": "string",
+      "name": "fields.name"
     }
+  }
 }
 ```
 
 ### Field Validation
 
-Define **rules** and **validators** for fields to merge them with other [stream validation](streams#stream-validation).
+Define [Laravel validation rules](https://laravel.com/docs/validation#available-validation-rules) for fields and they will be merged the [stream validation rules](streams#stream-validation).
 
 ```json
 // streams/contacts.json
 {
-    "rules": {
-        "name": [
-            "required",
-            "max:100"
-        ],
-        "email": [
-            "required",
-            "email:rfc,dns"
-        ],
-        "company": "required|unique"
+  "fields": {
+    "name": {
+      "rules": ["required", "max:100"]
+    },
+    "email": {
+      "rules": ["required", "email:rfc,dns"]
+    },
+    "company": {
+      "rules": ["required", "unique"]
     }
+  }
+}
+```
+
+Is the same as:
+
+```json
+// streams/contacts.json
+{
+  "rules": {
+    "name": ["required", "max:100"],
+    "email": ["required", "email:rfc,dns"],
+    "company": "required|unique"
+  }
 }
 ```
 
@@ -70,7 +83,7 @@ The `string` field type stores a string value. Other string-like fields may exte
 
 ```json
 {
-    "type": "string"
+  "type": "string"
 }
 ```
 
@@ -80,20 +93,20 @@ The `url` field type stores a URL or named route.
 
 ```json
 {
-    "type": "url"
+  "type": "url"
 }
 ```
-    
+
 ### Hash
 
 The `hash` field type stores a one-way hashed string, great for passwords.
 
 ```json
 {
-    "type": "hash",
-    "config": {
-        "prefix": "string"
-    }
+  "type": "hash",
+  "config": {
+    "prefix": "string"
+  }
 }
 ```
 
@@ -103,7 +116,7 @@ The `encrypted` field type stores a two-way encrypted string.
 
 ```json
 {
-    "type": "encrypted"
+  "type": "encrypted"
 }
 ```
 
@@ -113,7 +126,7 @@ The `markdown` field type stores markdown formatted text.
 
 ```json
 {
-    "type": "markdown"
+  "type": "markdown"
 }
 ```
 
@@ -123,13 +136,13 @@ The `select` field type stores a selection from a list of options.
 
 ```json
 {
-    "type": "select",
-    "config": {
-        "options": {
-            "first": "First Option",
-            "second": "Second Option"
-        }
+  "type": "select",
+  "config": {
+    "options": {
+      "first": "First Option",
+      "second": "Second Option"
     }
+  }
 }
 ```
 
@@ -139,10 +152,10 @@ Besides basic array and associated arrays, you may specify a callable:
 
 ```json
 {
-    "type": "select",
-    "config": {
-        "options": "\\App\\CustomOptions@handle"
-    }
+  "type": "select",
+  "config": {
+    "options": "\\App\\CustomOptions@handle"
+  }
 }
 ```
 
@@ -167,10 +180,10 @@ The `array` field type stores array values.
 
 ```json
 {
-    "type": "array",
-    "config": {
-        "format": "json" // json|yaml
-    }
+  "type": "array",
+  "config": {
+    "format": "json" // json|yaml
+  }
 }
 ```
 
@@ -180,14 +193,14 @@ The `multiselect` field type stores an array of selections from a list of option
 
 ```json
 {
-    "type": "multiselect",
-    "config": {
-        "options": {
-            "first": "First Option",
-            "second": "Second Option",
-            "third": "Third Option"
-        }
+  "type": "multiselect",
+  "config": {
+    "options": {
+      "first": "First Option",
+      "second": "Second Option",
+      "third": "Third Option"
     }
+  }
 }
 ```
 
@@ -195,7 +208,7 @@ The `multiselect` field type stores an array of selections from a list of option
 
 ```json
 {
-    "type": "boolean"
+  "type": "boolean"
 }
 ```
 
@@ -203,7 +216,7 @@ The `multiselect` field type stores an array of selections from a list of option
 
 ```json
 {
-    "type": "integer"
+  "type": "integer"
 }
 ```
 
@@ -211,7 +224,7 @@ The `multiselect` field type stores an array of selections from a list of option
 
 ```json
 {
-    "type": "datetime"
+  "type": "datetime"
 }
 ```
 
@@ -219,7 +232,7 @@ The `multiselect` field type stores an array of selections from a list of option
 
 ```json
 {
-    "type": "date"
+  "type": "date"
 }
 ```
 
@@ -227,7 +240,7 @@ The `multiselect` field type stores an array of selections from a list of option
 
 ```json
 {
-    "type": "time"
+  "type": "time"
 }
 ```
 
@@ -235,10 +248,10 @@ The `multiselect` field type stores an array of selections from a list of option
 
 ```json
 {
-    "type": "entry",
-    "config": {
-        "stream": "handle"
-    }
+  "type": "entry",
+  "config": {
+    "stream": "handle"
+  }
 }
 ```
 
@@ -246,10 +259,10 @@ The `multiselect` field type stores an array of selections from a list of option
 
 ```json
 {
-    "type": "entries",
-    "config": {
-        "stream": "handle"
-    }
+  "type": "entries",
+  "config": {
+    "stream": "handle"
+  }
 }
 ```
 
@@ -259,10 +272,10 @@ The `multiselect` field type stores an array of selections from a list of option
 
 ```json
 {
-    "type": "relationship",
-    "config": {
-        "related": "stream"
-    }
+  "type": "relationship",
+  "config": {
+    "related": "stream"
+  }
 }
 ```
 
@@ -270,10 +283,10 @@ The `multiselect` field type stores an array of selections from a list of option
 
 ```json
 {
-    "type": "multiple",
-    "config": {
-        "related": "stream"
-    }
+  "type": "multiple",
+  "config": {
+    "related": "stream"
+  }
 }
 ```
 
@@ -281,10 +294,10 @@ The `multiselect` field type stores an array of selections from a list of option
 
 ```json
 {
-    "type": "file",
-    "config": {
-        "path": "storage/app/public/uploads"
-    }
+  "type": "file",
+  "config": {
+    "path": "storage/app/public/uploads"
+  }
 }
 ```
 
@@ -292,12 +305,13 @@ The `multiselect` field type stores an array of selections from a list of option
 
 ```json
 {
-    "type": "image",
-    "config": {
-        "path": "storage/app/public/uploads/img"
-    }
+  "type": "image",
+  "config": {
+    "path": "storage/app/public/uploads/img"
+  }
 }
 ```
 
 ### Collection
+
 ### Template

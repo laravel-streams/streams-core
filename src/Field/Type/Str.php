@@ -7,18 +7,6 @@ use Streams\Core\Field\Value\StrValue;
 
 class Str extends FieldType
 {
-    /**
-     * Initialize the prototype.
-     *
-     * @param array $attributes
-     * @return $this
-     */
-    protected function initializePrototypeAttributes(array $attributes)
-    {
-        return parent::initializePrototypeAttributes(array_merge([
-            'rules' => [],
-        ], $attributes));
-    }
 
     /**
      * Modify the value for storage.
@@ -50,13 +38,6 @@ class Str extends FieldType
         return (string) $value;
     }
 
-
-    /**
-     * Expand the value.
-     *
-     * @param $value
-     * @return StrValue
-     */
     public function expand($value)
     {
         return new StrValue($value);
