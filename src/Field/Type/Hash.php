@@ -14,13 +14,7 @@ class Hash extends Str
             return $value;
         }
 
-        $prefix = $this->config('prefix', '_:');
-
-        if (Str::startsWith($value, $prefix)) {
-            throw new \Exception("Value [{$value}] is already hashed.");
-        }
-
-        return $prefix . FacadesHash::make($value);
+        return FacadesHash::make($value);
     }
 
     public function expand($value)

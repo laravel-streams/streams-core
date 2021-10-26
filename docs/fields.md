@@ -99,7 +99,7 @@ The `url` field type stores a URL or named route.
 
 ### Hash
 
-The `hash` field type stores a one-way hashed string, great for passwords.
+The `hash` field type stores a one-way hashed string.
 
 ```json
 {
@@ -167,23 +167,10 @@ class CustomOptions
 {
     public function handle($fieldType)
     {
-        $fieldType->config['options'] = [
-            // Your options
+        return [
+            // ...
         ];
     }
-}
-```
-
-### Array
-
-The `array` field type stores array values.
-
-```json
-{
-  "type": "array",
-  "config": {
-    "format": "json" // json|yaml
-  }
 }
 ```
 
@@ -204,7 +191,20 @@ The `multiselect` field type stores an array of selections from a list of option
 }
 ```
 
+
+### Array
+
+The `array` field type stores array values.
+
+```json
+{
+  "type": "array"
+}
+```
+
 ### Boolean
+
+The `boolean` field type stores true/false values.
 
 ```json
 {
@@ -214,13 +214,27 @@ The `multiselect` field type stores an array of selections from a list of option
 
 ### Integer
 
+The `integer` field type stores whole number values.
+
 ```json
 {
   "type": "integer"
 }
 ```
 
+### Decimal
+
+The `decimal` field type stores decimal number values.
+
+```json
+{
+  "type": "decimal"
+}
+```
+
 ### Datetime
+
+The `datetime` field type stores both date and time.
 
 ```json
 {
@@ -230,6 +244,8 @@ The `multiselect` field type stores an array of selections from a list of option
 
 ### Date
 
+The `datetime` field type stores only date.
+
 ```json
 {
   "type": "date"
@@ -237,6 +253,8 @@ The `multiselect` field type stores an array of selections from a list of option
 ```
 
 ### Time
+
+The `datetime` field type stores only time.
 
 ```json
 {
@@ -266,7 +284,20 @@ The `multiselect` field type stores an array of selections from a list of option
 }
 ```
 
+### Object
+
+Single object of optional type.
+
+### Grid
+
+Multiple entries of mixed types.
 ### Polymorphic
+
+Single entry of mixed types.
+
+### Matrix
+
+Multiple objects of mixed type.
 
 ### Relationship
 

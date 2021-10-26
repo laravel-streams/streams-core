@@ -43,12 +43,6 @@ class FieldType
         return $value;
     }
 
-    /**
-     * Expand the value.
-     *
-     * @param $value
-     * @return Collection
-     */
     public function expand($value)
     {
         return new Value($value);
