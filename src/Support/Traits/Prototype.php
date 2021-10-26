@@ -50,6 +50,9 @@ trait Prototype
      */
     public function __construct(array $attributes = [])
     {
+        $this->loadPrototypeAttributes($this->__attributes ?? []);
+        $this->loadPrototypeProperties($this->__properties ?? []);
+
         $this->initializePrototypeAttributes($attributes);
     }
 
@@ -82,11 +85,9 @@ trait Prototype
      */
     protected function initializePrototypeAttributes(array $attributes)
     {
-        $this->loadPrototypeProperties($this->__properties ?? []);
-
         $this->__prototype['original'] = $attributes;
 
-        return $this->setPrototypeAttributes($attributes);
+        return $this->loadPrototypeAttributes($attributes);
     }
 
     /**
