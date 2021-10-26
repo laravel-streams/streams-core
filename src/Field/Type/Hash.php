@@ -2,7 +2,7 @@
 
 namespace Streams\Core\Field\Type;
 
-use Illuminate\Support\Str;
+use Streams\Core\Field\Type\Str;
 use Streams\Core\Field\Value\HashValue;
 use Illuminate\Support\Facades\Hash as FacadesHash;
 
