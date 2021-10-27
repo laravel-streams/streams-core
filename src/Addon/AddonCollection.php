@@ -2,67 +2,49 @@
 
 namespace Streams\Core\Addon;
 
-use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Addon\Addon;
 use Illuminate\Support\Collection;
 
+/**
+ * The addon collection contains all registered addons.
+ */
 class AddonCollection extends Collection
 {
 
-    /**
-     * Return only core addons.
-     *
-     * @return AddonCollection
-     */
-    public function core()
+    protected string $vendor = '';
+
+    public function core(): AddonCollection
     {
+        $vendor = $this->vendorDirectory();
+
         return $this->filter(
-            function (Addon $addon) {
-                return Str::startsWith($addon->path, base_path('vendor'));
+            function (Addon $addon) use ($vendor) {
+                return Str::startsWith($addon->path, $vendor);
             }
         );
     }
 
-    /**
-     * Return only non-core addons.
-     *
-     * @return AddonCollection
-     */
-    public function nonCore()
+    public function nonCore(): AddonCollection
     {
+        $vendor = $this->vendorDirectory();
+
         return $this->filter(
-            function (Addon $addon) {
-                return !Str::startsWith($addon->path, base_path('vendor'));
+            function (Addon $addon) use ($vendor) {
+                return !Str::startsWith($addon->path, $vendor);
             }
         );
     }
 
-    /**
-     * Return enabled addons.
-     *
-     * @return AddonCollection
-     */
-    public function enabled()
+    protected function vendorDirectory(): string
     {
-        return $this->filter(
-            function (Addon $addon) {
-                return $addon->enabled;
-            }
-        );
-    }
+        if ($this->vendor) {
+            return $this->vendor;
+        }
 
-    /**
-     * Return disabled addons.
-     *
-     * @return AddonCollection
-     */
-    public function disabled()
-    {
-        return $this->filter(
-            function (Addon $addon) {
-                return !$addon->enabled;
-            }
-        );
+        $composer = json_decode(file_get_contents(base_path('composer.json')), true);
+
+        return $this->vendor = (string) Arr::get($composer, 'config.vendor-dir', base_path('vendor'));
     }
 }

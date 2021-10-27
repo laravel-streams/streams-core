@@ -12,11 +12,7 @@ use Streams\Core\Support\Traits\Prototype;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
 /**
- * Class Addon
- *
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
+ * Addons are composer packages of type "streams-addon".
  */
 class Addon implements Arrayable, Jsonable
 {
@@ -26,23 +22,15 @@ class Addon implements Arrayable, Jsonable
     use Macroable;
     use FiresCallbacks;
 
-    /**
-     * Get the instance as an array.
-     *
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
-        return Hydrator::dehydrate($this);
+        return Hydrator::dehydrate($this, [
+            '__observers',
+            '__listeners',
+        ]);
     }
 
-    /**
-     * Convert the object to its JSON representation.
-     *
-     * @param  int  $options
-     * @return string
-     */
-    public function toJson($options = 0)
+    public function toJson($options = 0): string
     {
         return json_encode($this->toArray(), $options);
     }

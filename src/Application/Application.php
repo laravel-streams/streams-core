@@ -9,11 +9,8 @@ use Streams\Core\Support\Traits\Prototype;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
 /**
- * Class Application
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
+ * Applications are a way to map multiple 
+ * application configurations to URL patterns.
  */
 class Application
 {
@@ -22,15 +19,18 @@ class Application
     use Prototype;
     use Macroable;
     use FiresCallbacks;
-    
+
     /**
      * Get the instance as an array.
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
-        return Hydrator::dehydrate($this);
+        return Hydrator::dehydrate($this, [
+            '__listeners',
+            '__observers'
+        ]);
     }
 
     /**
@@ -39,7 +39,7 @@ class Application
      * @param  int  $options
      * @return string
      */
-    public function toJson($options = 0)
+    public function toJson($options = 0): string
     {
         return json_encode($this->toArray(), $options);
     }

@@ -19,7 +19,7 @@ class AddonTest extends TestCase
         Addons::load(base_path('vendor/streams/core/tests/addons/test-addon'));
     }
 
-    public function testRegisters()
+    public function testAddonsRegister()
     {
         $this->assertInstanceOf(Addon::class, Addons::make('streams/test-addon'));
     }
@@ -30,9 +30,6 @@ class AddonTest extends TestCase
             'name',
             'path',
             'composer',
-            'enabled',
-            'listeners',
-            'observers',
         ], array_keys(Addons::make('streams/test-addon')->toArray()));
     }
 
@@ -42,9 +39,6 @@ class AddonTest extends TestCase
             'name',
             'path',
             'composer',
-            'enabled',
-            'listeners',
-            'observers',
         ], array_keys(json_decode(Addons::make('streams/test-addon')->toJson(), true)));
     }
 }

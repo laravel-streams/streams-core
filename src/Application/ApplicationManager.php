@@ -12,70 +12,36 @@ class ApplicationManager
 
     use HasMemory;
 
-    /**
-     * The application collection.
-     *
-     * @var Collection
-     */
-    protected $collection;
+    protected Collection $collection;
 
-    /**
-     * The active application.
-     *
-     * @var null|string
-     */
-    protected $active = null;
+    protected string $active = '';
 
     public function __construct()
     {
-        $this->collection = Streams::entries('core.applications')->get()->keyBy(function ($item) {
-            return $item->id;
-        });
+        $this->collection = Streams::entries('core.applications')->get()
+            ->keyBy(function ($item) {
+                return $item->id;
+            });
     }
 
-    /**
-     * Make an application instance.
-     *
-     * @param string|null $handle
-     * @return Application
-     */
-    public function make($handle = null)
+    public function make(string $handle = null): Application
     {
         return $this->collection->get($handle ?: $this->active);
     }
 
-    /**
-     * Return the active application.
-     *
-     * @return Application
-     */
-    public function active($active = null)
+    public function activate(Application $active): void
     {
-        if (is_object($active)) {
-            $active = $active->id;
-        }
+        $this->active = $active->id;
 
-        if ($active) {
-            $this->active = $active;
-        }
-        
+        $this->collection->put($this->active, $active);
+    }
+
+    public function active(): Application
+    {
         return $this->collection->get($this->active);
     }
 
-    /**
-     * Return the active application handle.
-     */
-    public function handle()
-    {
-        return $this->active;
-    }
-
-    /**
-     * Return the collection instance.
-     * 
-     * @return Collection
-     */
-    public function collection()
+    public function collection(): Collection
     {
         return $this->collection;
     }

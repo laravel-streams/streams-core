@@ -8,12 +8,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\View\Factory;
 use Collective\Html\HtmlFacade;
+use Streams\Core\Support\Parser;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\URL;
 use Streams\Core\View\ViewTemplate;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\View;
-use Streams\Core\Support\Parser;
 use Streams\Core\View\ViewOverrides;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Cache;
@@ -27,6 +27,7 @@ use Illuminate\Support\ServiceProvider;
 use Streams\Core\Support\Facades\Addons;
 use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Images;
+use Streams\Core\Application\Application;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Macros\ArrMacros;
 use Streams\Core\Support\Macros\StrMacros;
@@ -210,17 +211,14 @@ class StreamsServiceProvider extends ServiceProvider
 
         if (!$active) {
 
-            $active = Streams::repository('core.applications')->newInstance([
+            $active = new Application([
                 'id' => 'default',
-                'handle' => 'default',
                 'match' => '*',
             ]);
-
-            Applications::collection()->put('default', $active);
         }
 
         if ($active) {
-            Applications::active($active);
+            Applications::activate($active);
         }
     }
 

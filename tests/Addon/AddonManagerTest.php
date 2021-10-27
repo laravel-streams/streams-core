@@ -17,7 +17,7 @@ class AddonManagerTest extends TestCase
         Addons::load(base_path('vendor/streams/core/tests/addons/test-addon'));
     }
 
-    public function testLoad()
+    public function testCanMakeRegisteredAddon()
     {
         $addon = Addons::make('streams/test-addon');
 

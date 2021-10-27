@@ -2,49 +2,22 @@
 
 namespace Streams\Core\Addon;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Config;
 
 /**
- * Class AddonManager
- *
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
+ * This class is used to register and access addons.
  */
 class AddonManager
 {
-    /**
-     * The addon collection.
-     *
-     * @var Collection
-     */
-    protected $collection;
 
-    /**
-     * The disabled addons.
-     *
-     * @var array
-     */
-    protected $disabled;
+    protected AddonCollection $collection;
 
-    /**
-     * Create a new class instance.
-     */
     public function __construct()
     {
         $this->collection = new AddonCollection;
-        $this->disabled = Config::get('streams.addons.disabled', []);;
     }
 
-    /**
-     * Load an addon by path.
-     *
-     * @param string $path
-     */
-    public function load($path)
+    public function load(string $path): Addon
     {
         $path = rtrim($path, '/\\');
 
@@ -59,14 +32,9 @@ class AddonManager
         return $this->register($addon);
     }
 
-    /**
-     * Register an addon.
-     */
-    public function register($addon)
+    public function register(array $addon): Addon
     {
-        $addon['enabled'] = Arr::get($addon, 'enabled', !in_array($addon['name'], $this->disabled));
-
-        $addon = $this->build($addon);
+        $addon = new Addon($addon);
 
         App::instance('streams.addons.' . str_replace('/', '.', $addon->name), $addon);
 
@@ -75,26 +43,12 @@ class AddonManager
         return $addon;
     }
 
-    public function make($name)
+    public function make(string $name): Addon
     {
         return App::make('streams.addons.' . str_replace('/', '.', $name));
     }
 
-    /**
-     * Build an addon instance.
-     *
-     * @param $addon
-     * @return Addon
-     */
-    public function build($addon)
-    {
-        return new Addon($addon);
-    }
-
-    /**
-     * Return the addon collection.
-     */
-    public function collection()
+    public function collection(): AddonCollection
     {
         return $this->collection;
     }

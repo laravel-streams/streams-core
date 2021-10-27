@@ -4,47 +4,27 @@ namespace Streams\Core\Support\Traits;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
-use Streams\Core\Field\Field;
 
 /**
- * Class FiresCallbacks
- *
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
+ * This class adds versatile callback functionality to objects.
  */
 trait FiresCallbacks
 {
 
-    /**
-     * The local callbacks.
-     *
-     * @var array
-     */
-    protected $__callbacks = [];
+    protected array $__callbacks = [];
 
-    /**
-     * The static callbacks.
-     *
-     * @var array
-     */
-    public static $__listeners = [];
+    public static array $__listeners = [];
 
-    /**
-     * The static observers.
-     *
-     * @var array
-     */
-    public static $__observers = [];
+    public static array $__observers = [];
 
     /**
      * Register observers with the instance.
      *
-     * @param  object|array|string  $classes
+     * @param object|array|string  $classes
+     * @return void
      */
-    public static function observeCallbacks($classes)
+    public static function observeCallbacks($classes): void
     {
         // @todo Alternatively we could push this into $__listeners
         foreach (Arr::wrap($classes) as $class) {
@@ -55,11 +35,11 @@ trait FiresCallbacks
     /**
      * Register a new callback.
      *
-     * @param $name
-     * @param $callback
+     * @param string $name
+     * @param \Closure|string|object $callback
      * @return $this
      */
-    public function addCallback($name, $callback)
+    public function addCallback(string $name, $callback)
     {
         if (!isset($this->__callbacks[$name])) {
             $this->__callbacks[$name] = [];
@@ -73,11 +53,11 @@ trait FiresCallbacks
     /**
      * Register a new global listener.
      *
-     * @param $name
-     * @param $callback
+     * @param string $name
+     * @param \Closure|string|object $callback
      * @return $this
      */
-    public static function addCallbackListener($name, $callback)
+    public static function addCallbackListener(string $name, $callback)
     {
         $name = static::class . '::' . $name;
 
@@ -91,11 +71,11 @@ trait FiresCallbacks
     /**
      * Fire a set of closures by trigger.
      *
-     * @param        $name
+     * @param string $name
      * @param  array $parameters
      * @return $this
      */
-    public function fire($name, array $parameters = [])
+    public function fire(string $name, array $parameters = [])
     {
 
         /*
@@ -156,23 +136,23 @@ trait FiresCallbacks
     }
 
     /**
-     * Return if the callback exists.
+     * Return whether the callback exists.
      *
-     * @param $name
+     * @param string $name
      * @return bool
      */
-    public function hasCallback($name)
+    public function hasCallback(string $name): bool
     {
         return isset($this->__callbacks[$name]);
     }
 
     /**
-     * Return if the listener exists.
+     * Return whether a callback listener exists.
      *
-     * @param $name
+     * @param string $name
      * @return bool
      */
-    public static function hasCallbackListener($name)
+    public static function hasCallbackListener(string $name): bool
     {
         return isset(self::$__listeners[static::class . '::' . $name]);
     }

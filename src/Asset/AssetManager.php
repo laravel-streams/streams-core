@@ -8,68 +8,31 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Filesystem\Filesystem;
 
 /**
- * Class AssetManager
+ * The asset manager is a base named-asset pipeline utility:
  *
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
+ * ```php
+ * Assets::load('scripts', 'your/script.js');
+ * ```
+ * 
+ * ```blade
+ * {!! Assets::collection('scripts')->output() !!}
+ * ```
  */
 class AssetManager
 {
 
-    /**
-     * Groups of assets. Groups can
-     * be single files as well.
-     *
-     * @var array
-     */
-    protected $collections = [];
+    protected array $collections = [];
 
-    /**
-     * Resolved assets.
-     *
-     * @var array
-     */
-    protected $resolved = [];
+    protected array $resolved = [];
 
-    /**
-     * The HTML utility.
-     *
-     * @var HtmlBuilder
-     */
-    protected $html;
+    protected HtmlBuilder $html;
 
-    /**
-     * The files system.
-     *
-     * @var Filesystem
-     */
-    protected $files;
+    protected Filesystem $files;
 
-    /**
-     * Asset path hints by namespace.
-     *
-     * 'module.users' => 'the/resources/path'
-     *
-     * @var AssetPaths
-     */
-    protected $paths;
+    protected AssetPaths $paths;
 
-    /**
-     * The asset registry.
-     *
-     * @var AssetRegistry
-     */
-    protected $registry;
+    protected AssetRegistry $registry;
 
-    /**
-     * Create a new Asset instance.
-     *
-     * @param AssetRegistry $registry
-     * @param Filesystem $files
-     * @param AssetPaths $paths
-     * @param HtmlBuilder $html
-     */
     public function __construct(
         AssetRegistry $registry,
         Filesystem $files,
@@ -82,12 +45,7 @@ class AssetManager
         $this->registry = $registry;
     }
 
-    /**
-     * Return the collection.
-     *
-     * @param string $name
-     */
-    public function collection($name)
+    public function collection(string $name): AssetCollection
     {
         if (!$collection = Arr::get($this->collections, $name)) {
             $this->collections[$name] = $collection = new AssetCollection();
@@ -96,12 +54,24 @@ class AssetManager
         return $collection;
     }
 
-    public function add($collection, $asset)
+    /**
+     * @param string $collection
+     * @param string|array $assets
+     * @return void
+     */
+    public function add(string $collection, $assets): void
     {
-        $this->collection($collection)->add($asset);
+        $collection = $this->collection($collection);
+
+        foreach ((array) $assets as $key => $asset) {
+
+            $key = is_numeric($key) ? $asset : $key;
+
+            $collection->put($key, $asset);
+        }
     }
 
-    public function load($collection, $asset)
+    public function load(string $collection, string $asset): void
     {
         $this->collection($collection)->load($asset);
     }
@@ -110,10 +80,10 @@ class AssetManager
      * Register assets by name.
      *
      * @param string $name
-     * @param string|array $assets
+     * @param string|array|null $assets
      * @return $this
      */
-    public function register($name, $assets = null)
+    public function register(string $name, $assets = null)
     {
         $assets = $assets ?: $name;
 
@@ -122,14 +92,7 @@ class AssetManager
         return $this;
     }
 
-    /**
-     * Return the contents of an asset.
-     *
-     * @param $asset
-     * @param  array $filters
-     * @return string
-     */
-    public function inline($asset)
+    public function inline(string $asset): string
     {
         $asset = $this->resolve($asset);
 
@@ -150,14 +113,7 @@ class AssetManager
         return $contents;
     }
 
-    /**
-     * Return the contents of an asset.
-     *
-     * @param $asset
-     * @param  array $filters
-     * @return string
-     */
-    public function contents($asset)
+    public function contents(string $asset): string
     {
         $asset = $this->resolve($asset);
 
@@ -168,25 +124,15 @@ class AssetManager
         return file_get_contents($asset);
     }
 
-    /**
-     * Return the URL to a compiled asset collection.
-     *
-     * @param string $asset
-     * @param array $parameters
-     * @param boolean $secure
-     */
-    public function url($asset, array $parameters = [], $secure = null)
-    {
+    public function url(
+        string $asset,
+        array $parameters = [],
+        bool $secure = null
+    ): string {
         return URL::to($this->resolve($asset), $parameters, $secure);
     }
 
-    /**
-     * Return the tag for an asset.
-     *
-     * @param string $asset
-     * @param array $attributes
-     */
-    public function tag($asset, array $attributes = [])
+    public function tag(string $asset, array $attributes = []): string
     {
         $asset = $this->resolve($asset);
 
@@ -197,17 +143,12 @@ class AssetManager
         }
     }
 
-    /**
-     * Return the script tag for a collection.
-     *
-     * @param $collection
-     * @param  array $filters
-     * @param  array $attributes
-     * @param  $content
-     * @return string
-     */
-    public function script($asset, array $attributes = [], $content = null)
-    {
+    public function script(
+        string $asset = null,
+        array $attributes = [],
+        string $content = null
+    ): string {
+        
         if (!$content) {
             $attributes['src'] = $this->resolve($asset);
         }
@@ -222,15 +163,7 @@ class AssetManager
         return '<script' . $this->html->attributes($attributes) . '>' . $content . '</script>';
     }
 
-    /**
-     * Return the style tag for an asset.
-     *
-     * @param $asset
-     * @param  array $attributes
-     * @param  $content
-     * @return string
-     */
-    public function style($asset, array $attributes = [], $content = null)
+    public function style(string $asset = null, array $attributes = [], $content = null): string
     {
         $defaults = ['media' => 'all', 'type' => 'text/css', 'rel' => 'stylesheet'];
 
@@ -255,12 +188,10 @@ class AssetManager
     }
 
     /**
-     * Resolve an asset.
-     *
      * @param string $asset
-     * @return $this
+     * @return string|null
      */
-    public function resolve($asset)
+    public function resolve(string $asset)
     {
         if (isset($this->resolved[$asset])) {
             return $this->resolved[$asset];
@@ -281,38 +212,19 @@ class AssetManager
         return $this->realPath($resolved);
     }
 
-    /**
-     * Add a namespace asset hint.
-     *
-     * @param  $namespace
-     * @param  $path
-     * @return $this
-     */
-    public function addPath($namespace, $path)
+    public function addPath(string $namespace, string $path)
     {
         $this->paths->addPath($namespace, $path);
 
         return $this;
     }
 
-    /**
-     * Return the real path
-     * for a prefixed one.
-     *
-     * @param $asset
-     * @return string
-     */
-    public function realPath($asset)
+    public function realPath(string $asset)
     {
         return $this->paths->real($asset);
     }
 
-    /**
-     * Return object as a string.
-     *
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return '';
     }

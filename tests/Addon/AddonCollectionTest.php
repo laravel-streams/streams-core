@@ -45,17 +45,17 @@ class AddonCollectionTest extends TestCase
         $this->assertTrue($addons->nonCore()->count() == 0);
     }
 
-    public function testEnabled()
-    {
-        $addons = Addons::collection();
+    // public function testEnabled()
+    // {
+    //     $addons = Addons::collection();
 
-        $this->assertTrue($addons->enabled()->count() >= 1);
-    }
+    //     $this->assertTrue($addons->enabled()->count() >= 1);
+    // }
 
-    public function testDisabled()
-    {
-        $addons = Addons::collection();
+    // public function testDisabled()
+    // {
+    //     $addons = Addons::collection();
 
-        $this->assertTrue($addons->disabled()->count() == 0);
-    }
+    //     $this->assertTrue($addons->disabled()->count() == 0);
+    // }
 }

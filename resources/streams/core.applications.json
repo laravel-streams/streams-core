@@ -6,6 +6,9 @@
         "format": "json"
     },
     "fields": {
+        "handle": {
+            "type": "string"
+        },
         "match": {
             "type": "array"
         },

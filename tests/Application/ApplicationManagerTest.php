@@ -16,8 +16,17 @@ class ApplicationManagerTest extends TestCase
         $this->assertInstanceOf(Application::class, $addon);
     }
 
-    public function testHandle()
+    public function testActive()
     {
-        $this->assertEquals('default', Applications::handle());
+        $addon = new Application([
+            'id' => 'new',
+            'match' => '*',
+        ]);
+
+        $this->assertEquals('default', Applications::active()->id);
+
+        Applications::activate($addon);
+
+        $this->assertEquals('new', Applications::active()->id);
     }
 }
