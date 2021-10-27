@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Streams\Core\Support\Facades\Streams;
 use Illuminate\Pagination\AbstractPaginator;
+use Streams\Core\Entry\Contract\EntryInterface;
+use Streams\Core\Support\Traits\Streams as TraitsStreams;
 
 class EloquentAdapterTest extends TestCase
 {
@@ -40,17 +42,16 @@ class EloquentAdapterTest extends TestCase
 
     public function testCanReturnResults()
     {
+        $first = Streams::entries('testing.eloquent')->first();
         $second = Streams::entries('testing.eloquent')->find(2);
         $collection = Streams::entries('testing.eloquent')->get();
-        $first = Streams::entries('testing.eloquent')->first();
-        $all = Streams::entries('testing.eloquent')->all();
 
-        $this->assertEquals(2, $all->count());
+        $this->assertEquals(2, $collection->count());
         $this->assertEquals("John Smith", $first->name);
         $this->assertEquals("Jane Smith", $second->name);
 
-        $this->assertInstanceOf(Collection::class, $collection);
         $this->assertInstanceOf(TestModel::class, $first);
+        $this->assertInstanceOf(Collection::class, $collection);
     }
 
     public function testCanOrderResults()
@@ -180,8 +181,10 @@ class EloquentAdapterTest extends TestCase
     }
 }
 
-class TestModel extends Model
+class TestModel extends Model implements EntryInterface
 {
+
+    use TraitsStreams;
 
     public $timestamps = false;
     protected $table = 'testing';
@@ -190,4 +193,21 @@ class TestModel extends Model
         'name',
         'age',
     ];
+
+    /**
+     * Return the last modified date if possible.
+     */
+    public function lastModified()
+    {
+        return $this->once(__METHOD__, function () {
+
+            $datetime = $this->__updated_at;
+
+            if (!$datetime instanceof \Datetime) {
+                $datetime = new \Carbon\Carbon($datetime);
+            }
+
+            return $datetime;
+        });
+    }
 }

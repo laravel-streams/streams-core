@@ -18,37 +18,15 @@ class Criteria
     use Macroable;
     use HasMemory;
 
-    /**
-     * The criteria parameters.
-     *
-     * @var array
-     */
-    protected $parameters = [];
+    protected array $parameters = [];
 
-    /**
-     * The source adapter.
-     *
-     * @var AdapterInterface
-     */
-    protected $adapter;
+    protected Stream $stream;
 
-    /**
-     * The entry stream.
-     *
-     * @var Stream
-     */
-    protected $stream;
+    protected AdapterInterface $adapter;
 
-    /**
-     * Create a new class instance.
-     *
-     * @param \Streams\Core\Criteria\Contract\AdapterInterface $adapter
-     * @param \Streams\Core\Stream\Stream $stream
-     * @param array $parameters
-     */
     public function __construct(
-        AdapterInterface $adapter,
         Stream $stream,
+        AdapterInterface $adapter,
         array $parameters = []
     ) {
         $this->parameters = $parameters;
@@ -57,10 +35,8 @@ class Criteria
     }
 
     /**
-     * Find an entry by ID.
-     * 
-     * @param string $id
-     * @return EntryInterface
+     * @param integer|string $id
+     * @return null|EntryInterface
      */
     public function find($id)
     {
@@ -68,8 +44,6 @@ class Criteria
     }
 
     /**
-     * Return the first result.
-     * 
      * @return null|EntryInterface
      */
     public function first()
@@ -81,14 +55,7 @@ class Criteria
         return $this->get()->first();
     }
 
-    /**
-     * Cache the results.
-     *
-     * @param integer $seconds
-     * @param null|string $key
-     * @return $this
-     */
-    public function cache($seconds = null, $key = null)
+    public function cache(int $seconds = null, string $key = null)
     {
         $seconds = $seconds ?: $this->stream->config('cache.ttl', 60 * 60);
 
@@ -97,11 +64,6 @@ class Criteria
         return $this;
     }
 
-    /**
-     * Return fresh results.
-     *
-     * @return $this
-     */
     public function fresh()
     {
         unset($this->parameters['cache']);
@@ -109,29 +71,14 @@ class Criteria
         return $this;
     }
 
-    /**
-     * Order the query by field/direction.
-     *
-     * @param string $field
-     * @param string|null $direction
-     * @param string|null $value
-     * @return $this
-     */
-    public function orderBy($field, $direction = 'asc')
+    public function orderBy(string $field, $direction = 'asc')
     {
         $this->parameters['order_by'][] = [$field, $direction];
 
         return $this;
     }
 
-    /**
-     * Limit the entries returned.
-     *
-     * @param int $limit
-     * @param int|null $offset
-     * @return $this
-     */
-    public function limit($limit, $offset = 0)
+    public function limit(int $limit, int $offset = 0)
     {
         $this->parameters['limit'][] = [$limit, $offset];
 
@@ -144,11 +91,11 @@ class Criteria
      *
      * @param string $field
      * @param string|null $operator
-     * @param string|null $value
+     * @param mixed $value
      * @param string|null $nested
      * @return $this
      */
-    public function where($field, $operator = null, $value = null, $nested = null)
+    public function where(string $field, string $operator = null, $value = null, string $nested = null)
     {
         $this->parameters['where'][] = [$field, $operator, $value, $nested];
 
@@ -156,26 +103,19 @@ class Criteria
     }
 
     /**
-     * Add a where constraint.
-     *
      * @param string $field
      * @param string|null $operator
-     * @param string|null $value
+     * @param mixed $value
      * @return $this
      */
-    public function orWhere($field, $operator = null, $value = null)
+    public function orWhere(string $field, string $operator = null, $value = null)
     {
         $this->where($field, $operator, $value, 'or');
 
         return $this;
     }
 
-    /**
-     * Get the criteria results.
-     * 
-     * @return Collection
-     */
-    public function get()
+    public function get(): Collection
     {
         $cache = Arr::get($this->parameters, 'cache', false);
 
@@ -186,7 +126,7 @@ class Criteria
         $fingerprint = $this->stream->handle . '.query__' . md5(serialize($this->parameters));
 
         if ($cache) {
-            return $this->stream->cache(Arr::get($cache, 1) ?: $fingerprint, $cache[0], function () {
+            return $this->stream->cache()->remember(Arr::get($cache, 1) ?: $fingerprint, $cache[0], function () {
                 return $this->adapter->get(array_diff_key($this->parameters, array_flip(['cache'])));
             });
         }
@@ -219,7 +159,7 @@ class Criteria
 
             $fingerprint = $this->stream->handle . '.query.count__' . md5(serialize($this->parameters));
 
-            return $this->stream->cache(Arr::get($cache, 1) ?: $fingerprint, $cache[0], function () {
+            return $this->stream->cache()->remember(Arr::get($cache, 1) ?: $fingerprint, $cache[0], function () {
                 return $this->adapter->count(array_diff_key($this->parameters, array_flip(['cache'])));
             });
         }
@@ -240,37 +180,21 @@ class Criteria
         return $this->adapter->create($attributes);
     }
 
-    /**
-     * Save an entry.
-     *
-     * @param $entry
-     * @return bool
-     */
-    public function save($entry)
+    public function save(EntryInterface $entry)
     {
         $this->stream->cache()->flush();
 
         return $this->adapter->save($entry);
     }
 
-    /**
-     * Delete an entry.
-     *
-     * @return bool
-     */
-    public function delete()
+    public function delete(): bool
     {
         $this->stream->cache()->flush();
 
         return (bool) $this->adapter->delete($this->parameters);
     }
 
-    /**
-     * Truncate all entries.
-     *
-     * @return void
-     */
-    public function truncate()
+    public function truncate(): void
     {
         $this->stream->cache()->flush();
 

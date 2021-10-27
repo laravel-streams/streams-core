@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Validation\Validator;
+use Streams\Core\Field\Type\Datetime;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\Fluency;
 use Streams\Core\Support\Facades\Streams;
@@ -17,7 +18,6 @@ use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
-use Streams\Core\Field\Type\Datetime;
 
 class Entry implements
     JsonSerializable,

@@ -22,17 +22,16 @@ class FilebaseAdapterTest extends TestCase
 
     public function testCanReturnResults()
     {
+        $first = Streams::entries('testing.examples')->first();
         $second = Streams::entries('testing.examples')->find('second');
         $collection = Streams::entries('testing.examples')->get();
-        $first = Streams::entries('testing.examples')->first();
-        $all = Streams::entries('testing.examples')->all();
 
-        $this->assertEquals(2, $all->count());
+        $this->assertEquals(2, $collection->count());
         $this->assertEquals("First Example", $first->name);
         $this->assertEquals("Second Example", $second->name);
 
-        $this->assertInstanceOf(Collection::class, $collection);
         $this->assertInstanceOf(Entry::class, $first);
+        $this->assertInstanceOf(Collection::class, $collection);
     }
 
     public function testCanOrderResults()

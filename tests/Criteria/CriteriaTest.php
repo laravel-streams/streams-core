@@ -20,16 +20,16 @@ class CriteriaTest extends TestCase
 
     public function testCanReturnResults()
     {
-        $second = Streams::entries('testing.examples')->find('second');
         $first = Streams::entries('testing.examples')->first();
-        $all = Streams::entries('testing.examples')->get();
+        $second = Streams::entries('testing.examples')->find('second');
+        $collection = Streams::entries('testing.examples')->get();
 
-        $this->assertEquals(2, $all->count());
+        $this->assertEquals(2, $collection->count());
         $this->assertEquals("First Example", $first->name);
         $this->assertEquals("Second Example", $second->name);
 
-        $this->assertInstanceOf(Collection::class, $collection);
         $this->assertInstanceOf(Entry::class, $first);
+        $this->assertInstanceOf(Collection::class, $collection);
     }
 
     public function testCanCacheResults()
@@ -45,7 +45,7 @@ class CriteriaTest extends TestCase
                 ->cache(60)
                 ->find('third')
         );
-
+        
         unlink(base_path('vendor/streams/core/tests/data/examples/third.json'));
 
         $this->assertInstanceOf(
@@ -55,7 +55,7 @@ class CriteriaTest extends TestCase
                 ->find('third')
         );
 
-        Streams::make('testing.examples')->flush();
+        Streams::make('testing.examples')->cache()->flush();
 
         $this->assertNull(
             Streams::entries('testing.examples')
@@ -162,30 +162,30 @@ class CriteriaTest extends TestCase
         $this->assertEquals('Third Example', $entry->name);
     }
 
-    public function testCanCreateAndDelete()
-    {
-        $entry = Streams::entries('testing.examples')->newInstance([
-            'id' => 'third',
-            'name' => 'Third Example',
-        ]);
+    // public function testCanCreateAndDelete()
+    // {
+    //     $entry = Streams::entries('testing.examples')->newInstance([
+    //         'id' => 'third',
+    //         'name' => 'Third Example',
+    //     ]);
 
-        $entry->save();
+    //     $entry->save();
 
-        $this->assertEquals(3, Streams::entries('testing.examples')->count());
-
-
-        $entry->delete();
-
-        $this->assertEquals(2, Streams::entries('testing.examples')->count());
+    //     $this->assertEquals(3, Streams::entries('testing.examples')->count());
 
 
-        $entry = Streams::entries('testing.examples')->create([
-            'id' => 'third',
-            'name' => 'Third Example',
-        ]);
+    //     $entry->delete();
 
-        $this->assertEquals(3, Streams::entries('testing.examples')->count());
-    }
+    //     $this->assertEquals(2, Streams::entries('testing.examples')->count());
+
+
+    //     $entry = Streams::entries('testing.examples')->create([
+    //         'id' => 'third',
+    //         'name' => 'Third Example',
+    //     ]);
+
+    //     $this->assertEquals(3, Streams::entries('testing.examples')->count());
+    // }
 
     public function tearDown(): void
     {

@@ -127,7 +127,7 @@ class FilebaseAdapter extends AbstractAdapter
      * @param array $parameters
      * @return Collection
      */
-    public function get(array $parameters = [])
+    public function get(array $parameters = []): Collection
     {
         foreach ($parameters as $key => $call) {
 

@@ -23,17 +23,16 @@ class FileAdapterTest extends TestCase
 
     public function testCanReturnResults()
     {
+        $first = Streams::entries('testing.planets')->first();
         $second = Streams::entries('testing.planets')->find('alderaan');
         $collection = Streams::entries('testing.planets')->get();
-        $first = Streams::entries('testing.planets')->first();
-        $all = Streams::entries('testing.planets')->all();
 
-        $this->assertEquals(9, $all->count());
+        $this->assertEquals(9, $collection->count());
         $this->assertEquals("Tatooine", $first->name);
         $this->assertEquals("Alderaan", $second->name);
 
-        $this->assertInstanceOf(Collection::class, $collection);
         $this->assertInstanceOf(Entry::class, $first);
+        $this->assertInstanceOf(Collection::class, $collection);
     }
 
     public function testCanOrderResults()

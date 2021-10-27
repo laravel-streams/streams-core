@@ -10,6 +10,6 @@
         "id": "required"
     },
     "fields": {
-        "name": "text"
+        "name": "string"
     }
 }

@@ -43,17 +43,16 @@ class DatabaseAdapterTest extends TestCase
 
     public function testCanReturnResults()
     {
+        $first = Streams::entries('testing.database')->first();
         $second = Streams::entries('testing.database')->find(2);
         $collection = Streams::entries('testing.database')->get();
-        $first = Streams::entries('testing.database')->first();
-        $all = Streams::entries('testing.database')->all();
 
-        $this->assertEquals(2, $all->count());
+        $this->assertEquals(2, $collection->count());
         $this->assertEquals("John Smith", $first->name);
         $this->assertEquals("Jane Smith", $second->name);
 
-        $this->assertInstanceOf(Collection::class, $collection);
         $this->assertInstanceOf(Entry::class, $first);
+        $this->assertInstanceOf(Collection::class, $collection);
     }
 
     public function testCanOrderResults()
@@ -142,30 +141,30 @@ class DatabaseAdapterTest extends TestCase
         $this->assertEquals('Jack Smith', $entry->name);
     }
 
-    public function testCanCreateAndDelete()
-    {
-        $entry = Streams::entries('testing.database')->newInstance([
-            'name' => 'Jack Smith',
-            'age' => 5,
-        ]);
+    // public function testCanCreateAndDelete()
+    // {
+    //     $entry = Streams::entries('testing.database')->newInstance([
+    //         'name' => 'Jack Smith',
+    //         'age' => 5,
+    //     ]);
 
-        $entry->save();
+    //     $entry->save();
 
-        $this->assertEquals(3, Streams::entries('testing.database')->count());
+    //     $this->assertEquals(3, Streams::entries('testing.database')->count());
 
-        $entry->delete();
+    //     $entry->delete();
 
-        $this->assertEquals(2, Streams::entries('testing.database')->count());
+    //     $this->assertEquals(2, Streams::entries('testing.database')->count());
 
 
-        $entry = Streams::entries('testing.database')->create([
-            'name' => 'Jack Smith',
-            'age' => 5,
-        ]);
+    //     $entry = Streams::entries('testing.database')->create([
+    //         'name' => 'Jack Smith',
+    //         'age' => 5,
+    //     ]);
 
-        $this->assertEquals('Jack Smith', $entry->name);
-        $this->assertEquals(3, Streams::entries('testing.database')->count());
-    }
+    //     $this->assertEquals('Jack Smith', $entry->name);
+    //     $this->assertEquals(3, Streams::entries('testing.database')->count());
+    // }
 
     public function testCanTruncate()
     {

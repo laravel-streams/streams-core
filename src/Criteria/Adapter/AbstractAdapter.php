@@ -80,7 +80,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * @param array $parameters
      * @return Collection
      */
-    abstract public function get(array $parameters = []);
+    abstract public function get(array $parameters = []): Collection;
 
     /**
      * Count the criteria results.

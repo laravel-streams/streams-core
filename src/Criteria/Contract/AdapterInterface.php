@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Criteria\Contract;
 
+use Illuminate\Support\Collection;
 use Streams\Core\Entry\Contract\EntryInterface;
 
 interface AdapterInterface
@@ -52,7 +53,7 @@ interface AdapterInterface
      * @param array $parameters
      * @return Collection
      */
-    public function get(array $parameters = []);
+    public function get(array $parameters = []): Collection;
 
     /**
      * Count the criteria results.

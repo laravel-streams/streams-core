@@ -6,57 +6,39 @@ use Illuminate\Support\Collection;
 use Streams\Core\Entry\Contract\EntryInterface;
 use Streams\Core\Criteria\Contract\CriteriaInterface;
 
-/**
- * Interface RepositoryInterface
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 interface RepositoryInterface
 {
 
-    /**
-     * Return all entries.
-     *
-     * @return Collection
-     */
-    public function all();
+    public function all(): Collection;
 
     /**
-     * Find an entry by ID.
-     *
-     * @param $id
+     * @param integer|string $id
      * @return null|EntryInterface
      */
     public function find($id);
 
     /**
-     * Find all entries by IDs.
-     *
      * @param  array $ids
      * @return Collection
      */
-    public function findAll(array $ids);
+    public function findAll(array $ids): Collection;
 
     /**
-     * Find an entry by a field value.
-     *
-     * @param $field
-     * @param $value
+     * @param string $field
+     * @param mixed $value
      * @return EntryInterface|null
      */
-    public function findBy($field, $value);
+    public function findBy(string $field, $value);
 
     /**
      * Find all entries by field value.
      *
-     * @param $field
-     * @param $operator
-     * @param $value
+     * @param string $field
+     * @param mixed $operator
+     * @param mixed $value
      * @return Collection
      */
-    public function findAllWhere($field, $operator, $value = null);
+    public function findAllWhere(string $field, $operator, $value = null): Collection;
 
     /**
      * Find a trashed entry by it's ID.

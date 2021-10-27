@@ -27,29 +27,14 @@ class Repository implements RepositoryInterface
     use HasMemory;
     use FiresCallbacks;
 
-    /**
-     * The stream instance.
-     *
-     * @var Stream
-     */
-    protected $stream;
+    protected Stream $stream;
 
-    /**
-     * Create a new Repository instance.
-     *
-     * @param Stream $stream
-     */
     public function __construct(Stream $stream)
     {
         $this->stream = $stream;
     }
 
-    /**
-     * Return all entries.
-     *
-     * @return Collection
-     */
-    public function all()
+    public function all(): Collection
     {
         return $this
             ->newCriteria()
@@ -57,9 +42,7 @@ class Repository implements RepositoryInterface
     }
 
     /**
-     * Find an entry by ID.
-     *
-     * @param $id
+     * @param integer|string $id
      * @return null|EntryInterface
      */
     public function find($id)
@@ -69,13 +52,7 @@ class Repository implements RepositoryInterface
             ->find($id);
     }
 
-    /**
-     * Find all records by IDs.
-     *
-     * @param  array $ids
-     * @return Collection
-     */
-    public function findAll(array $ids)
+    public function findAll(array $ids): Collection
     {
         return $this
             ->newCriteria()
@@ -84,13 +61,11 @@ class Repository implements RepositoryInterface
     }
 
     /**
-     * Find an entry by a field value.
-     *
-     * @param $field
-     * @param $value
+     * @param string $field
+     * @param mixed $value
      * @return EntryInterface|null
      */
-    public function findBy($field, $value)
+    public function findBy(string $field, $value)
     {
         return $this
             ->newCriteria()
@@ -99,14 +74,12 @@ class Repository implements RepositoryInterface
     }
 
     /**
-     * Find all entries by field value.
-     * 
-     * @param $field
-     * @param $operator
-     * @param $value
+     * @param string $field
+     * @param mixed $operator
+     * @param mixed $value
      * @return Collection
      */
-    public function findAllWhere($field, $operator, $value = null)
+    public function findAllWhere(string $field, $operator, $value = null): Collection
     {
         return $this
             ->newCriteria()
@@ -114,13 +87,7 @@ class Repository implements RepositoryInterface
             ->get();
     }
 
-    /**
-     * Create a new entry.
-     *
-     * @param  array $attributes
-     * @return EntryInterface
-     */
-    public function create(array $attributes)
+    public function create(array $attributes): EntryInterface
     {
         $this->fire($this->stream->handle . '.creating', [
             'attributes' => $attributes,
@@ -137,13 +104,7 @@ class Repository implements RepositoryInterface
         return $result;
     }
 
-    /**
-     * Save an entry.
-     *
-     * @param  $entry
-     * @return bool
-     */
-    public function save($entry)
+    public function save(EntryInterface $entry): bool
     {
         $this->fire($this->stream->handle . '.saving', [
             'entry' => $entry,
@@ -157,16 +118,10 @@ class Repository implements RepositoryInterface
             'entry' => $entry,
         ]);
 
-        return $result;
+        return (bool) $result;
     }
 
-    /**
-     * Delete an entry.
-     *
-     * @param $entry
-     * @return bool
-     */
-    public function delete($entry)
+    public function delete(EntryInterface $entry): bool
     {
         $this->fire($this->stream->handle . '.deleting', [
             'entry' => $entry,
@@ -183,15 +138,10 @@ class Repository implements RepositoryInterface
             'entry' => $entry,
         ]);
 
-        return $result;
+        return (bool) $result;
     }
 
-    /**
-     * Truncate all entries.
-     *
-     * @return bool
-     */
-    public function truncate()
+    public function truncate(): bool
     {
         $this->fire($this->stream->handle . '.truncating');
 
@@ -201,28 +151,17 @@ class Repository implements RepositoryInterface
 
         $this->fire($this->stream->handle . '.truncated');
 
-        return $result;
+        return (bool) $result;
     }
 
-    /**
-     * Return a new instance.
-     *
-     * @param array $attributes
-     * @return EntryInterface
-     */
-    public function newInstance(array $attributes = [])
+    public function newInstance(array $attributes = []): EntryInterface
     {
         return $this
             ->newCriteria()
             ->newInstance($attributes);
     }
 
-    /**
-     * Return a new entry criteria.
-     *
-     * @return CriteriaInterface
-     */
-    public function newCriteria()
+    public function newCriteria(): Criteria
     {
         $default = Config::get('streams.core.default_source', 'filebase');
         $criteria = $this->stream->criteria ?: Criteria::class;
@@ -231,55 +170,30 @@ class Repository implements RepositoryInterface
 
         $default = Str::camel("new_{$this->stream->expandPrototypeAttribute('source')->get('type',$default)}_adapter");
 
-        return new $criteria($adapter ? new $adapter($this->stream) : $this->$default(), $this->stream);
+        return new $criteria($this->stream, $adapter ? new $adapter($this->stream) : $this->$default());
     }
 
-    /**
-     * Return a new self criteria.
-     * 
-     * @return SelfAdapter
-     */
-    public function newSelfAdapter()
+    public function newSelfAdapter(): SelfAdapter
     {
         return new SelfAdapter($this->stream);
     }
 
-    /**
-     * Return a new file criteria.
-     * 
-     * @return FileAdapter
-     */
-    public function newFileAdapter()
+    public function newFileAdapter(): FileAdapter
     {
         return new FileAdapter($this->stream);
     }
 
-    /**
-     * Return a new filebase criteria.
-     * 
-     * @return FilebaseAdapter
-     */
-    public function newFilebaseAdapter()
+    public function newFilebaseAdapter(): FilebaseAdapter
     {
         return new FilebaseAdapter($this->stream);
     }
 
-    /**
-     * Return a new database criteria.
-     * 
-     * @return DatabaseAdapter
-     */
-    public function newDatabaseAdapter()
+    public function newDatabaseAdapter(): DatabaseAdapter
     {
         return new DatabaseAdapter($this->stream);
     }
 
-    /**
-     * Return a new filebase criteria.
-     * 
-     * @return EloquentAdapter
-     */
-    public function newEloquentAdapter()
+    public function newEloquentAdapter(): EloquentAdapter
     {
         return new EloquentAdapter($this->stream);
     }

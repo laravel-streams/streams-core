@@ -107,7 +107,7 @@ class FileAdapter extends AbstractAdapter
      * @param array $parameters
      * @return Collection
      */
-    public function get(array $parameters = [])
+    public function get(array $parameters = []): Collection
     {
         $this->query = $this->collect($this->query);
 
