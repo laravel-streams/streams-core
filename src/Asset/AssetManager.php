@@ -109,8 +109,6 @@ class AssetManager
         if (pathinfo($asset, PATHINFO_EXTENSION) == 'css') {
             return $this->style(null, [], $contents);
         }
-
-        return $contents;
     }
 
     public function contents(string $asset): string
@@ -209,7 +207,7 @@ class AssetManager
             }, $resolved);
         }
 
-        return $this->realPath($resolved);
+        return $this->resolved[$asset] = $this->realPath($resolved);
     }
 
     public function addPath(string $namespace, string $path)

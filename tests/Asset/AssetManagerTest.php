@@ -80,6 +80,20 @@ class AssetManagerTest extends TestCase
         $this->assertEquals(['super.js' => 'super.js'], Assets::collection('scripts')->all());
     }
 
+    public function testResolve()
+    {
+        Assets::register('theme.js', 'super.js');
+        Assets::register('pack.js', ['super.js', 'another.js']);
+        
+        Assets::resolve('theme.js');
+        Assets::resolve('theme.js');
+        
+        Assets::resolve('pack.js');
+
+        $this->assertEquals('https://test.com/example.jpg', Assets::resolve('https://test.com/example.jpg'));
+        $this->assertEquals(['super.js', 'another.js'], Assets::resolve('pack.js'));
+    }
+
     public function testInline()
     {
         $this->assertEquals('<style media="all" type="text/css" rel="stylesheet">Test testing.css</style>', Assets::inline('vendor/streams/core/tests/testing.css'));
