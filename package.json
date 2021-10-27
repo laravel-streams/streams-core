@@ -6,6 +6,7 @@
     },
     "types": "./resources/public/types/index.d.ts",
     "main": "./resources/public/js/index.js",
+    "module": "./resources/lib/index.ts",
     "scripts": {
         "dev": "mix",
         "watch": "mix watch",
