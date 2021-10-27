@@ -312,7 +312,7 @@ trait Prototype
         }
 
         if ($type === 'double') {
-            $type = 'float';
+            $type = 'decimal';
         }
 
         return $type;

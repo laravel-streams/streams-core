@@ -18,9 +18,6 @@
         "integer": {
             "type": "integer"
         },
-        "decimal": {
-            "type": "float"
-        },
         "string": {
             "type": "string"
         },
