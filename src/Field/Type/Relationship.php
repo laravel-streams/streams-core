@@ -14,25 +14,6 @@ use Streams\Core\Support\Facades\Streams;
  */
 class Relationship extends FieldType
 {
-    /**
-     * Initialize the prototype.
-     *
-     * @param array $attributes
-     * @return $this
-     */
-    protected function initializePrototypeAttributes(array $attributes)
-    {
-        return parent::initializePrototypeAttributes(array_merge([
-            'rules' => [],
-        ], $attributes));
-    }
-
-    /**
-     * Expand the value.
-     *
-     * @param $value
-     * @return EntryInterface|null
-     */
     public function expand($value)
     {
         return Streams::entries($this->config['related'])->find($value);

@@ -14,6 +14,13 @@ class FieldType
     use Prototype;
     use Macroable;
 
+    protected $__attributes = [
+        'name' => '',
+        'description' => '',
+        'rules' => [],
+        'config' => [],
+    ];
+
     /**
      * Modify the value for storage.
      *
@@ -36,12 +43,6 @@ class FieldType
         return $value;
     }
 
-    /**
-     * Expand the value.
-     *
-     * @param $value
-     * @return Collection
-     */
     public function expand($value)
     {
         return new Value($value);
@@ -58,7 +59,7 @@ class FieldType
     {
         return $this->getPrototypeAttribute("config.{$key}", $default);
     }
-    
+
     /**
      * Get the instance as an array.
      *

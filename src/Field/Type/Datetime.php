@@ -6,35 +6,15 @@ use Carbon\Carbon;
 use DateTimeInterface;
 use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Date;
-use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\DatetimeValue;
 
-/**
- * Class Datetime
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 class Datetime extends Str
 {
-    /**
-     * Modify the value for storage.
-     *
-     * @param string $value
-     * @return string
-     */
     public function modify($value)
     {
         return $this->toCarbon($value)->format('Y-m-d H:i:s');
     }
 
-    /**
-     * Restore the value from storage.
-     *
-     * @param $value
-     * @return null|Carbon
-     */
     public function restore($value)
     {
         if (is_null($value)) {
@@ -44,12 +24,6 @@ class Datetime extends Str
         return $this->toCarbon($value);
     }
 
-    /**
-     * Expand the value.
-     *
-     * @param $value
-     * @return Collection
-     */
     public function expand($value)
     {
         return new DatetimeValue($value);
@@ -109,7 +83,7 @@ class Datetime extends Str
     /**
      * Determine if the given value is a standard date format.
      *
-     * @param  string  $value
+     * @param string $value
      * @return bool
      */
     protected function isStandardDateFormat($value)
