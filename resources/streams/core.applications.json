@@ -1,6 +1,8 @@
 {
     "id": "core.applications",
-    "abstract": "Streams\\Core\\Application\\Application",
+    "config": {
+        "abstract": "Streams\\Core\\Application\\Application"
+    },
     "source": {
         "path": "streams/apps",
         "format": "json"

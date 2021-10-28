@@ -54,7 +54,7 @@ interface RepositoryInterface
      * @param  array $attributes
      * @return EntryInterface
      */
-    public function create(array $attributes);
+    public function create(array $attributes): EntryInterface;
 
     /**
      * Save an entry.

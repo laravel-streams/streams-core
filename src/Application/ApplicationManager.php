@@ -24,19 +24,29 @@ class ApplicationManager
             });
     }
 
-    public function make(string $handle = null): Application
+    /**
+     * @param string|null $handle
+     * @return Application
+     */
+    public function make(string $handle = null)
     {
         return $this->collection->get($handle ?: $this->active);
     }
 
-    public function activate(Application $active): void
+    /**
+     * @param Application|Entry $active
+     */
+    public function activate($active): void
     {
         $this->active = $active->id;
 
         $this->collection->put($this->active, $active);
     }
 
-    public function active(): Application
+    /**
+     * @return Application|Entry
+     */
+    public function active()
     {
         return $this->collection->get($this->active);
     }

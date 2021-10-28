@@ -1,0 +1,13 @@
+{
+    "handle": "testing.fakers",
+    "description": "Used for testing fake data.",
+    "source": {
+        "path": "vendor/streams/core/tests/data/fakers",
+        "format": "json"
+    },
+    "fields": {
+        "string": {
+            "type": "string"
+        }
+    }
+}

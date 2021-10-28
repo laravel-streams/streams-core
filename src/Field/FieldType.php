@@ -3,6 +3,7 @@
 namespace Streams\Core\Field;
 
 use Streams\Core\Field\Value\Value;
+use Streams\Core\Field\Factory\Factory;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Facades\Hydrator;
@@ -35,8 +36,8 @@ class FieldType
     /**
      * Restore the value from storage.
      *
-     * @param $value
-     * @return string
+     * @param mixed $value
+     * @return mixed
      */
     public function restore($value)
     {
@@ -58,6 +59,11 @@ class FieldType
     public function config($key, $default = null)
     {
         return $this->getPrototypeAttribute("config.{$key}", $default);
+    }
+
+    public function factory(): Factory
+    {
+        return new Factory($this->field);
     }
 
     /**

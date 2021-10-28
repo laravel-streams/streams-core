@@ -14,7 +14,6 @@ use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
-use Streams\Core\Stream\Stream;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
 class Field implements
@@ -27,9 +26,6 @@ class Field implements
     use Macroable;
     use FiresCallbacks;
 
-    /**
-     * The initial prototype properties.
-     */
     protected $__properties = [
         'handle' => [
             'type' => 'slug',
@@ -45,11 +41,6 @@ class Field implements
         ],
     ];
 
-    /**
-     * Create a new class instance.
-     *
-     * @param array $attributes
-     */
     public function __construct(array $attributes = [])
     {
         $callbackData = new Collection([
@@ -67,22 +58,12 @@ class Field implements
         ]);
     }
 
-    /**
-     * Return the field's name.
-     * 
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         return $this->name ?: ($this->name = Str::title(Str::humanize($this->handle)));
     }
 
-    /**
-     * Return the type instance.
-     * 
-     * @return FieldType
-     */
-    public function type(array $attributes = [])
+    public function type(array $attributes = []): FieldType
     {
         return $this->once($this->handle . '.' . $this->type, function () use ($attributes) {
 

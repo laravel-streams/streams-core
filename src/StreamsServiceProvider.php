@@ -208,7 +208,7 @@ class StreamsServiceProvider extends ServiceProvider
                 return !$application->match;
             });
         }
-
+        
         if (!$active) {
 
             $active = new Application([

@@ -17,6 +17,13 @@ class AbstractAdapterTest extends TestCase
 
     public function testOrWhereConstraint()
     {
-        $this->assertEquals(2, Streams::entries('testing.examples')->where('id', 'first')->orWhere('id', 'second')->count());
+        $this->assertEquals(2, Streams::entries('testing.examples')->setParameters([
+            'where' => [
+                ['id', 'first'],
+            ],
+            'or_where' => [
+                ['id', 'second'],
+            ]
+        ])->count());
     }
 }
