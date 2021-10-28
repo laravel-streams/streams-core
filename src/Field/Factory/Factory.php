@@ -19,7 +19,7 @@ class Factory
 
     public function create()
     {
-        return $this->generator()->text();
+        return $this->generator()->text(10);
     }
 
     public function generator()
