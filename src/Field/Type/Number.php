@@ -59,4 +59,14 @@ class Number extends FieldType
     {
         return new NumberValue($value);
     }
+
+    /**
+     * Fake the value.
+     *
+     * @return NumberFactory
+     */
+    public function factory()
+    {
+        return new NumberFactory($this->field);
+    }
 }

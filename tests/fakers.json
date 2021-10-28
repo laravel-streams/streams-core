@@ -8,6 +8,9 @@
     "fields": {
         "string": {
             "type": "string"
+        },
+        "integer": {
+            "type": "integer"
         }
     }
 }

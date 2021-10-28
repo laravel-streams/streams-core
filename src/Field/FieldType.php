@@ -3,10 +3,11 @@
 namespace Streams\Core\Field;
 
 use Streams\Core\Field\Value\Value;
+use Streams\Core\Field\FieldFactory;
 use Streams\Core\Field\Factory\Factory;
 use Illuminate\Support\Traits\Macroable;
-use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Facades\Hydrator;
+use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
 
 class FieldType
@@ -49,6 +50,11 @@ class FieldType
         return new Value($value);
     }
 
+    public function factory()
+    {
+        return new Factory($this->field);
+    }
+
     /**
      * Return a field configuration value.
      *
@@ -59,11 +65,6 @@ class FieldType
     public function config($key, $default = null)
     {
         return $this->getPrototypeAttribute("config.{$key}", $default);
-    }
-
-    public function factory(): Factory
-    {
-        return new Factory($this->field);
     }
 
     /**
