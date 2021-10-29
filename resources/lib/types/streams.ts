@@ -1,22 +1,22 @@
-namespace Streams.Core.Field {
-  export type FieldType = {
+export namespace Streams.Core.Field {
+  export interface FieldType {
     name: string;
     description: string;
     rules: any;
     config: { [key: string]: any };
-  };
+  }
 }
-namespace Streams.Core.Stream {
-  export type Stream = {
+export namespace Streams.Core.Stream {
+  export interface Stream {
     handle: string;
     repository: any;
     rules: Array<any>;
     validators: Array<any>;
     fields: any | Array<any>;
-  };
+  }
 }
-namespace Streams.Ui.Button {
-  export type Button = {
+export namespace Streams.Ui.Button {
+  export interface Button {
     template: string;
     tag: string;
     url: string;
@@ -36,10 +36,10 @@ namespace Streams.Ui.Button {
     data: any;
     response: any;
     stream: Streams.Core.Stream.Stream;
-  };
+  }
 }
-namespace Streams.Ui.ControlPanel {
-  export type ControlPanel = {
+export namespace Streams.Ui.ControlPanel {
+  export interface ControlPanel {
     handle: string;
     template: string;
     async: boolean;
@@ -50,16 +50,16 @@ namespace Streams.Ui.ControlPanel {
     data: any;
     response: any;
     stream: Streams.Core.Stream.Stream;
-  };
+  }
 }
-namespace Streams.Ui.Form {
-  export type Form = {
-    values: { [key: string]: any };
+export namespace Streams.Ui.Form {
+  export interface Form {
+    values: any;
     options: { [key: string]: any };
-    rules: { [key: string]: any };
-    validators: { [key: string]: any };
+    rules: any;
+    validators: any;
     errors: Array<any>;
-    sections: Array<any>;
+    sections: any;
     fields: any | Array<Streams.Core.Field.FieldType>;
     actions: any | Array<Streams.Ui.Form.Action.Action>;
     buttons: any | Array<Streams.Ui.Button.Button>;
@@ -72,10 +72,10 @@ namespace Streams.Ui.Form {
     data: any;
     response: any;
     stream: Streams.Core.Stream.Stream;
-  };
+  }
 }
-namespace Streams.Ui.Form.Action {
-  export type Action = {
+export namespace Streams.Ui.Form.Action {
+  export interface Action {
     action: boolean;
     template: string;
     tag: string;
@@ -96,10 +96,10 @@ namespace Streams.Ui.Form.Action {
     data: any;
     response: any;
     stream: Streams.Core.Stream.Stream;
-  };
+  }
 }
-namespace Streams.Ui.Input {
-  export type Input = {
+export namespace Streams.Ui.Input {
+  export interface Input {
     handle: string;
     template: string;
     async: boolean;
@@ -110,10 +110,10 @@ namespace Streams.Ui.Input {
     data: any;
     response: any;
     stream: Streams.Core.Stream.Stream;
-  };
+  }
 }
-namespace Streams.Ui.Support {
-  export type Component = {
+export namespace Streams.Ui.Support {
+  export interface Component {
     handle: string;
     template: string;
     async: boolean;
@@ -124,13 +124,14 @@ namespace Streams.Ui.Support {
     data: any;
     response: any;
     stream: Streams.Core.Stream.Stream;
-  };
+  }
 }
-namespace Streams.Ui.Table {
-  export type Table = {
+export namespace Streams.Ui.Table {
+  export interface Table {
     rows: any | Array<Streams.Ui.Table.Row.Row>;
     views: any | Array<Streams.Ui.Table.View.View>;
-    actions: any | Array<Streams.Ui.Table.View.View>;
+    columns: any | Array<Streams.Ui.Table.Column.Column>;
+    actions: any | Array<Streams.Ui.Table.Action.Action>;
     filters: any | Array<Streams.Ui.Table.Filter.Filter>;
     buttons: any | Array<Streams.Ui.Button.Button>;
     handle: string;
@@ -143,10 +144,10 @@ namespace Streams.Ui.Table {
     data: any;
     response: any;
     stream: Streams.Core.Stream.Stream;
-  };
+  }
 }
-namespace Streams.Ui.Table.Action {
-  export type Action = {
+export namespace Streams.Ui.Table.Action {
+  export interface Action {
     action: boolean;
     template: string;
     tag: string;
@@ -167,10 +168,10 @@ namespace Streams.Ui.Table.Action {
     data: any;
     response: any;
     stream: Streams.Core.Stream.Stream;
-  };
+  }
 }
-namespace Streams.Ui.Table.Column {
-  export type Column = {
+export namespace Streams.Ui.Table.Column {
+  export interface Column {
     entry: any;
     view: string;
     direction: string;
@@ -190,10 +191,10 @@ namespace Streams.Ui.Table.Column {
     data: any;
     response: any;
     stream: Streams.Core.Stream.Stream;
-  };
+  }
 }
-namespace Streams.Ui.Table.Filter {
-  export type Filter = {
+export namespace Streams.Ui.Table.Filter {
+  export interface Filter {
     active: boolean;
     exact: boolean;
     query: any;
@@ -207,10 +208,10 @@ namespace Streams.Ui.Table.Filter {
     data: any;
     response: any;
     stream: Streams.Core.Stream.Stream;
-  };
+  }
 }
-namespace Streams.Ui.Table.Row {
-  export type Row = {
+export namespace Streams.Ui.Table.Row {
+  export interface Row {
     columns: any | Array<Streams.Ui.Table.Column.Column>;
     buttons: any | Array<Streams.Ui.Button.Button>;
     key: string | number;
@@ -226,10 +227,10 @@ namespace Streams.Ui.Table.Row {
     data: any;
     response: any;
     stream: Streams.Core.Stream.Stream;
-  };
+  }
 }
-namespace Streams.Ui.Table.View {
-  export type View = {
+export namespace Streams.Ui.Table.View {
+  export interface View {
     text: string;
     icon: string;
     label: string;
@@ -253,5 +254,5 @@ namespace Streams.Ui.Table.View {
     data: any;
     response: any;
     stream: Streams.Core.Stream.Stream;
-  };
+  }
 }

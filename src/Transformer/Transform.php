@@ -11,7 +11,7 @@ use Spatie\TypeScriptTransformer\Collectors\DefaultCollector;
 use Spatie\TypeScriptTransformer\Formatters\PrettierFormatter;
 use Spatie\TypeScriptTransformer\TypeScriptTransformer;
 use Spatie\TypeScriptTransformer\TypeScriptTransformerConfig;
-use Spatie\TypeScriptTransformer\Writers\TypeDefinitionWriter;
+
 
 class Transform
 {
