@@ -35,7 +35,7 @@ class FilebaseAdapter extends AbstractAdapter
         $format = $source->get('format', 'json');
         $format = Config::get('streams.core.sources.filebase.formats.' . $format);
 
-        $path = $source->get('path', Config::get('streams.core.data_path') . '/' . $stream->handle);
+        $path = $source->get('path', Config::get('streams.core.data_path') . '/' . $stream->id);
 
         $this->query = new Database([
             'dir' => base_path($path),
