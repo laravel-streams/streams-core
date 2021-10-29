@@ -66,6 +66,16 @@ class Stream implements
         ]);
     }
 
+    public function getIdAttribute()
+    {
+        return $this->getPrototypeAttributeValue('id') ?: $this->getPrototypeAttributeValue('handle');
+    }
+
+    public function getHandleAttribute()
+    {
+        return $this->getPrototypeAttributeValue('handle') ?: $this->getPrototypeAttributeValue('id');
+    }
+
     protected function initializePrototypeAttributes(array $attributes)
     {
         return $this->initializePrototype(array_merge([
@@ -88,7 +98,7 @@ class Stream implements
 
     public function repository(): Repository
     {
-        return $this->once(__METHOD__, fn () => $this->newRepository());
+        return $this->once($this->id . __METHOD__, fn () => $this->newRepository());
     }
 
     protected function newRepository(): Repository
@@ -100,7 +110,7 @@ class Stream implements
 
     public function factory(): EntryFactory
     {
-        return $this->once(__METHOD__, fn () => $this->newFactory());
+        return $this->once($this->id . __METHOD__, fn () => $this->newFactory());
     }
 
     protected function newFactory(): EntryFactory
@@ -160,7 +170,7 @@ class Stream implements
                     $parameters = array_filter(explode(',', Arr::get($parts, 1)));
 
                     if (!$parameters) {
-                        $parameters[] = $this->handle;
+                        $parameters[] = $this->id;
                     }
 
                     if (count($parameters) === 1) {
@@ -273,7 +283,7 @@ class Stream implements
      */
     public function cache()
     {
-        return $this->once(__METHOD__, fn () => new StreamCache($this));
+        return $this->once($this->id . __METHOD__, fn () => new StreamCache($this));
     }
 
     /**
