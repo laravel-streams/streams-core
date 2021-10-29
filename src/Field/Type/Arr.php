@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field\Type;
 
+use Streams\Core\Field\Factory\ArrGenerator;
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\ArrValue;
 
@@ -29,5 +30,10 @@ class Arr extends FieldType
     public function expand($value)
     {
         return new ArrValue($value);
+    }
+
+    public function generator(): ArrGenerator
+    {
+        return new ArrGenerator($this);
     }
 }

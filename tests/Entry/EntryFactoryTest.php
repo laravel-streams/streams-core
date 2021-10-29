@@ -21,13 +21,38 @@ class EntryFactoryTest extends TestCase
     {
         $this->createApplication();
 
+        Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
+
         Streams::entries('testing.fakers')->truncate();
     }
 
-    public function testCanCreateAFakeEntry()
+    public function testCanCreate()
     {
+        Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
+
         $fake = Streams::make('testing.fakers')->factory()->create();
 
-        $this->assertIsString($fake->string);
+        $this->assertIsNumeric($fake->id);
+    }
+
+    public function testCanCreateWithData()
+    {
+        Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
+
+        $fake = Streams::make('testing.fakers')->factory()->create([
+            'string' => 'Test String',
+        ]);
+
+        $this->assertEquals('Test String', $fake->string);
+    }
+
+    public function testCanCollect()
+    {
+        Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
+
+        $fakes = Streams::make('testing.fakers')->factory()->collect(3);
+
+        $this->assertEquals(3, $fakes->count());
+        $this->assertIsNumeric(3, $fakes->first()->id);
     }
 }

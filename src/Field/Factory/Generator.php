@@ -2,17 +2,19 @@
 
 namespace Streams\Core\Field\Factory;
 
-use Streams\Core\Field\Field;
-use Faker\Factory as FakerFactory;
+use Faker\Factory;
 use Illuminate\Support\Traits\Macroable;
+use Streams\Core\Field\FieldType;
+use Streams\Core\Support\Traits\HasMemory;
 
-class Factory
+class Generator
 {
     use Macroable;
+    use HasMemory;
 
-    protected Field $field;
+    protected FieldType $field;
 
-    public function __construct(Field $field)
+    public function __construct(FieldType $field)
     {
         $this->field = $field;
     }
@@ -24,6 +26,6 @@ class Factory
 
     public function generator()
     {
-        return FakerFactory::create();
+        return $this->once(__METHOD__, fn () => Factory::create());
     }
 }

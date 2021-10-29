@@ -6,11 +6,14 @@
         "format": "json"
     },
     "fields": {
+        "id": {
+            "type": "integer"
+        },
         "string": {
             "type": "string"
         },
-        "integer": {
-            "type": "integer"
+        "boolean": {
+            "type": "boolean"
         }
     }
 }

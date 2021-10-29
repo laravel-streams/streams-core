@@ -4,6 +4,7 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\NumberValue;
+use Streams\Core\Field\Factory\NumberGenerator;
 
 class Number extends FieldType
 {
@@ -60,13 +61,8 @@ class Number extends FieldType
         return new NumberValue($value);
     }
 
-    /**
-     * Fake the value.
-     *
-     * @return NumberFactory
-     */
-    public function factory()
+    public function generator(): NumberGenerator
     {
-        return new NumberFactory($this->field);
+        return new NumberGenerator($this);
     }
 }

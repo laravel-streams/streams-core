@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field\Type;
 
+use Streams\Core\Field\Factory\BooleanGenerator;
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\BooleanValue;
 
@@ -29,14 +30,13 @@ class Boolean extends FieldType
         return filter_var($value, FILTER_VALIDATE_BOOL);
     }
 
-    /**
-     * Expand the value.
-     *
-     * @param $value
-     * @return Collection
-     */
-    public function expand($value)
+    public function expand($value): BooleanValue
     {
         return new BooleanValue($value);
+    }
+
+    public function generator(): BooleanGenerator
+    {
+        return new BooleanGenerator($this);
     }
 }

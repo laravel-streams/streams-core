@@ -2,19 +2,15 @@
 
 namespace Streams\Core\Entry;
 
-use Carbon\Carbon;
-use Faker\Generator;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
-use Illuminate\Validation\Validator;
-use Streams\Core\Field\Type\Datetime;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
-use Streams\Core\Support\Facades\Streams;
-use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Entry\Contract\EntryInterface;
 
+/**
+ * This class helps with the creation of fake data.
+ */
 class EntryFactory
 {
 
@@ -37,10 +33,23 @@ class EntryFactory
     {
         $this->stream->fields->each(function ($field) use (&$data) {
             if (!array_key_exists($field->handle, $data)) {
-                $data[$field->handle] = $field->type()->factory()->create();
+                $data[$field->handle] = $field->type()->generator()->create();
             }
         });
 
         return $this->stream->repository()->newInstance($data);
+    }
+
+    public function collect($count = 1): Collection
+    {
+        $items = [];
+
+        for ($i = 1; $i <= $count; $i++) {
+            $items[$i] = $this->create();
+        }
+
+        $collection = $this->stream->config('collection', Collection::class);
+
+        return new $collection($items);
     }
 }
