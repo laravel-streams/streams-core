@@ -19,7 +19,6 @@ class FieldType
         'name' => '',
         'description' => '',
         'rules' => [],
-        'config' => [],
     ];
 
     /**
@@ -57,18 +56,6 @@ class FieldType
     public function generator(): Generator
     {
         return new Generator($this);
-    }
-
-    /**
-     * Return a field configuration value.
-     *
-     * @param string $key
-     * @param mixed $default
-     * @return mixed
-     */
-    public function config($key, $default = null)
-    {
-        return $this->getPrototypeAttribute("config.{$key}", $default);
     }
 
     /**
