@@ -37,12 +37,12 @@ class DatabaseAdapter extends AbstractAdapter
     {
         $this->stream = $stream;
 
-        if (!$connection = $stream->getPrototypeAttribute('source.connection')) {
+        if (!$connection = $stream->config('source.connection')) {
             $connection = Config::get('database.default');
         }
 
         $this->query = DB::connection($connection)
-            ->table($stream->getPrototypeAttribute('source.table'));
+            ->table($stream->config('source.table', $stream->id));
     }
 
     /**

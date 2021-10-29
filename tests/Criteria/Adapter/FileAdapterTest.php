@@ -135,7 +135,7 @@ class FileAdapterTest extends TestCase
         ]);
 
         Streams::repository('testing.planets')->save($entry);
-
+        
         $this->assertEquals(10, Streams::entries('testing.planets')->count());
 
         Streams::repository('testing.planets')->delete($entry);

@@ -2,11 +2,11 @@
 
 namespace Streams\Core\Criteria\Adapter;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Config;
 use Streams\Core\Entry\Contract\EntryInterface;
 
@@ -79,10 +79,6 @@ class FileAdapter extends AbstractAdapter
 
         $operator = strtoupper($operator);
 
-        if ($field == 'handle') {
-            $field = $this->stream->getPrototypeAttribute('config.handle', 'id');
-        }
-
         $method = $nested ? Str::studly($nested . '_where') : 'where';
 
         if ($operator == 'LIKE') {
@@ -150,7 +146,7 @@ class FileAdapter extends AbstractAdapter
             throw new \Exception("Entry with key [{$key}] already exists.");
         }
 
-        $format = $this->stream->getPrototypeAttribute('source.format', 'json');
+        $format = $this->stream->config('source.format', 'json');
 
         if ($format == 'csv') {
 
@@ -182,7 +178,7 @@ class FileAdapter extends AbstractAdapter
             throw new \Exception('The ID attribute is required.');
         }
 
-        $format = $this->stream->getPrototypeAttribute('source.format', 'json') ?: 'json';
+        $format = $this->stream->config('source.format', 'json') ?: 'json';
 
         if ($format == 'csv') {
 
@@ -251,10 +247,8 @@ class FileAdapter extends AbstractAdapter
 
     protected function readData()
     {
-        $source = $this->stream->expandPrototypeAttribute('source');
-
-        $format = $source->get('format');
-        $file = base_path(trim($source->get('file', Config::get('streams.core.data_path') . '/' . $this->stream->handle . '.' . ($format ?: 'json')), '/\\'));
+        $format = $this->stream->config('source.format');
+        $file = base_path(trim($this->stream->config('source.file', Config::get('streams.core.data_path') . '/' . $this->stream->handle . '.' . ($format ?: 'json')), '/\\'));
 
         $format = $format ?: pathinfo($file, PATHINFO_EXTENSION);
 
@@ -312,10 +306,8 @@ class FileAdapter extends AbstractAdapter
 
     protected function writeData()
     {
-        $source = $this->stream->expandPrototypeAttribute('source');
-
-        $format = $source->get('format', 'json') ?: 'json';
-        $file = base_path(trim($source->get('file', 'streams/data/' . $this->stream->handle . '.' . $format), '/\\'));
+        $format = $this->stream->config('source.format', 'json');
+        $file = base_path(trim($this->stream->config('source.file', 'streams/data/' . $this->stream->handle . '.' . $format), '/\\'));
 
         if (!file_exists($file)) {
             (new Filesystem())->ensureDirectoryExists(dirname($file), 0755, true);

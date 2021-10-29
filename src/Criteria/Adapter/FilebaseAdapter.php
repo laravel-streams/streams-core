@@ -30,22 +30,17 @@ class FilebaseAdapter extends AbstractAdapter
     {
         $this->stream = $stream;
 
-        $source = $stream->expandPrototypeAttribute('source');
-
-        $format = $source->get('format', 'json');
+        $format = $stream->config('source.format', 'json');
         $format = Config::get('streams.core.sources.filebase.formats.' . $format);
 
-        $path = $source->get('path', Config::get('streams.core.data_path') . '/' . $stream->id);
+        $path = $stream->config('source.path', Config::get('streams.core.data_path') . '/' . $stream->id);
 
         $this->query = new Database([
+            'pretty' => true,
+            'safe_filename' => true,
             'dir' => base_path($path),
-
-            //'backupLocation' => 'path/to/database/backup/dir',
-            'format'         => $format,
-            'cache'          => $source->get('cache', false),
-            'cache_expires'  => $source->get('ttl', 1800),
-            'pretty'         => true,
-            'safe_filename'  => true,
+            'cache' => $stream->config('cache', false),
+            'cache_expires' => $stream->config('ttl', 1800),
         ]);
     }
 
@@ -61,7 +56,7 @@ class FilebaseAdapter extends AbstractAdapter
         if ($field == 'id') {
             $field = '__id';
         }
-        
+
         $this->query = $this->query->orderBy($field, $direction);
 
         return $this;
@@ -157,7 +152,7 @@ class FilebaseAdapter extends AbstractAdapter
                 call_user_func_array([$this, $method], $parameters);
             }
         }
-        
+
         return $this->query->count();
     }
 
@@ -219,7 +214,7 @@ class FilebaseAdapter extends AbstractAdapter
                 call_user_func_array([$this, $method], $parameters);
             }
         }
-        
+
         $this->query->delete();
 
         return true;
