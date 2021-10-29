@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field\Type;
 
+use Streams\Core\Field\Factory\CollectionGenerator;
 use Streams\Core\Field\FieldType;
 
 class Collection extends FieldType
@@ -26,5 +27,10 @@ class Collection extends FieldType
         $abstract = $this->config('abstract', \Illuminate\Support\Collection::class);
 
         return new $abstract((array)$value);
+    }
+
+    public function generator(): CollectionGenerator
+    {
+        return new CollectionGenerator($this);
     }
 }

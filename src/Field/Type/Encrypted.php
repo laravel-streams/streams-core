@@ -2,10 +2,12 @@
 
 namespace Streams\Core\Field\Type;
 
+use Streams\Core\Field\FieldType;
 use Illuminate\Support\Facades\Crypt;
 use Streams\Core\Field\Value\EncryptedValue;
+use Streams\Core\Field\Factory\EncryptedGenerator;
 
-class Encrypted extends Str
+class Encrypted extends FieldType
 {
 
     /**
@@ -32,5 +34,10 @@ class Encrypted extends Str
     public function expand($value)
     {
         return new EncryptedValue($value);
+    }
+
+    public function generator(): EncryptedGenerator
+    {
+        return new EncryptedGenerator($this);
     }
 }

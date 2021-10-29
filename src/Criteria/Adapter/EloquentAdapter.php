@@ -35,9 +35,9 @@ class EloquentAdapter extends AbstractAdapter
     {
         $this->stream = $stream;
 
-        $model = $stream->getPrototypeAttribute('source.model');
+        $model = $stream->config('source.model');
 
-        $stream->setPrototypeAttribute('config.abstract', $model);
+        $stream->config('abstract', $model);
 
         $this->query = (new $model)->newQuery();
     }
@@ -165,7 +165,7 @@ class EloquentAdapter extends AbstractAdapter
      */
     public function create(array $attributes = [])
     {
-        $model = $this->stream->getPrototypeAttribute('source.model');
+        $model = $this->stream->config('source.model');
 
         $model::unguard();
         
@@ -236,7 +236,7 @@ class EloquentAdapter extends AbstractAdapter
      */
     public function newInstance(array $attributes = [])
     {
-        $model = $this->stream->getPrototypeAttribute('source.model');
+        $model = $this->stream->config('source.model');
 
         $model = new $model($attributes);
 

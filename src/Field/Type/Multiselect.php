@@ -3,8 +3,10 @@
 namespace Streams\Core\Field\Type;
 
 use Illuminate\Support\Arr;
+use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Factory\MultiselectGenerator;
 
-class Multiselect extends Select
+class Multiselect extends FieldType
 {
     /**
      * Initialize the prototype.
@@ -59,5 +61,10 @@ class Multiselect extends Select
     public function options()
     {
         return Arr::get($this->field->config, 'options', []);
+    }
+
+    public function generator(): MultiselectGenerator
+    {
+        return new MultiselectGenerator($this);
     }
 }

@@ -164,13 +164,14 @@ class Repository implements RepositoryInterface
     public function newCriteria(): Criteria
     {
         $default = Config::get('streams.core.default_source', 'filebase');
-        $criteria = $this->stream->criteria ?: Criteria::class;
 
-        $adapter = Arr::get($this->stream->source, 'adapter');
+        $criteria = $this->stream->config('criteria') ?: Criteria::class;
+        
+        $adapter = $this->stream->config('source.type', $default);
 
-        $default = Str::camel("new_{$this->stream->expandPrototypeAttribute('source')->get('type',$default)}_adapter");
+        $adapter = Str::camel("new_{$adapter}_adapter");
 
-        return new $criteria($this->stream, $adapter ? new $adapter($this->stream) : $this->$default());
+        return new $criteria($this->stream, $this->$adapter());
     }
 
     public function newSelfAdapter(): SelfAdapter

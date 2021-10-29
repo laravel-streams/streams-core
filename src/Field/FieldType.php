@@ -4,9 +4,10 @@ namespace Streams\Core\Field;
 
 use Streams\Core\Field\Value\Value;
 use Illuminate\Support\Traits\Macroable;
-use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Facades\Hydrator;
+use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
+use Streams\Core\Field\Factory\Generator;
 
 /**
  * @typescript
@@ -25,7 +26,6 @@ class FieldType
         'name' => '',
         'description' => '',
         'rules' => [],
-        'config' => [],
     ];
 
     /**
@@ -42,8 +42,8 @@ class FieldType
     /**
      * Restore the value from storage.
      *
-     * @param $value
-     * @return string
+     * @param mixed $value
+     * @return mixed
      */
     public function restore($value)
     {
@@ -55,16 +55,14 @@ class FieldType
         return new Value($value);
     }
 
-    /**
-     * Return a field configuration value.
-     *
-     * @param string $key
-     * @param mixed $default
-     * @return mixed
-     */
-    public function config($key, $default = null)
+    public function generate()
     {
-        return $this->getPrototypeAttribute("config.{$key}", $default);
+        return $this->generator()->create();
+    }
+
+    public function generator(): Generator
+    {
+        return new Generator($this);
     }
 
     /**

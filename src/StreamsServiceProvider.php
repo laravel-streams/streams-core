@@ -208,7 +208,7 @@ class StreamsServiceProvider extends ServiceProvider
                 return !$application->match;
             });
         }
-
+        
         if (!$active) {
 
             $active = new Application([
@@ -302,13 +302,10 @@ class StreamsServiceProvider extends ServiceProvider
         /**
          * Defer registering streams that extend others.
          */
-        $base = $streams->where('extends', null);
-        $extending = $streams->where('extends', '!=', null);
-
+        $base = $streams->where('extends', null)->keyBy('id');
+        $extending = $streams->where('extends', '!=', null)->keyBy('id');
+        
         foreach ((new Collection)->merge($base)->merge($extending) as $stream) {
-
-            $stream->handle = $stream->id;
-
             Streams::register(Arr::parse($stream->toArray()));
         }
     }

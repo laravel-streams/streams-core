@@ -10,7 +10,9 @@ use Streams\Core\Field\Field;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Factory;
 use Illuminate\Support\Facades\App;
+use Streams\Core\Criteria\Criteria;
 use Illuminate\Validation\Validator;
+use Streams\Core\Entry\EntryFactory;
 use Illuminate\Support\Facades\Config;
 use Streams\Core\Field\FieldCollection;
 use Streams\Core\Repository\Repository;
@@ -26,7 +28,6 @@ use Illuminate\Support\Traits\ForwardsCalls;
 use Illuminate\Validation\ValidationRuleParser;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Validation\StreamsPresenceVerifier;
-use Streams\Core\Repository\Contract\RepositoryInterface;
 
 /**
  * @typescript
@@ -35,6 +36,7 @@ use Streams\Core\Repository\Contract\RepositoryInterface;
  * @property array $rules
  * @property array $validators
  * @property \Streams\Core\Field\FieldCollection|\Streams\Core\Field\Field[] $fields
+ * This is the main access point to working with a Stream.
  */
 class Stream implements
     JsonSerializable,
@@ -53,11 +55,6 @@ class Stream implements
     use ForwardsCalls;
     use FiresCallbacks;
 
-    /**
-     * Create a new class instance.
-     *
-     * @param array $attributes
-     */
     public function __construct(array $attributes = [])
     {
         $callbackData = new Collection([
@@ -75,12 +72,16 @@ class Stream implements
         ]);
     }
 
-    /**
-     * Initialize the prototype.
-     *
-     * @param array $attributes
-     * @return $this
-     */
+    public function getIdAttribute()
+    {
+        return $this->getPrototypeAttributeValue('id') ?: $this->getPrototypeAttributeValue('handle');
+    }
+
+    public function getHandleAttribute()
+    {
+        return $this->getPrototypeAttributeValue('handle') ?: $this->getPrototypeAttributeValue('id');
+    }
+
     protected function initializePrototypeAttributes(array $attributes)
     {
         return $this->initializePrototype(array_merge([
@@ -94,37 +95,37 @@ class Stream implements
         ], $attributes));
     }
 
-    /**
-     * Return the entry repository.
-     *
-     * @todo Let's review this idea. Could use for allowing configuration of criteria too. Flat or in some kinda config array?
-     * @return RepositoryInterface
-     */
-    public function repository()
-    {
-        $repository = $this->repository ?: Repository::class;
-
-        return new $repository($this);
-    }
-
-    /**
-     * Return the entry criteria.
-     *
-     * @return \Streams\Core\Criteria\Criteria
-     */
-    public function entries()
+    public function entries(): Criteria
     {
         return $this
             ->repository()
             ->newCriteria();
     }
 
-    /**
-     * Return an entry validator with the data.
-     *
-     * @param $data
-     * @return Validator
-     */
+    public function repository(): Repository
+    {
+        return $this->once($this->id . __METHOD__, fn () => $this->newRepository());
+    }
+
+    protected function newRepository(): Repository
+    {
+        $repository  = $this->config('repository', Repository::class);
+
+        return new $repository($this);
+    }
+
+    public function factory(): EntryFactory
+    {
+        return $this->once($this->id . __METHOD__, fn () => $this->newFactory());
+    }
+
+    protected function newFactory(): EntryFactory
+    {
+        $factory  = $this->config('factory', EntryFactory::class);
+
+        return new $factory($this);
+    }
+
     public function validator($data): Validator
     {
         $data = Arr::make($data);
@@ -175,7 +176,7 @@ class Stream implements
                     $parameters = array_filter(explode(',', Arr::get($parts, 1)));
 
                     if (!$parameters) {
-                        $parameters[] = $this->handle;
+                        $parameters[] = $this->id;
                     }
 
                     if (count($parameters) === 1) {
@@ -234,7 +235,7 @@ class Stream implements
         return $factory->make($data, $rules);
     }
 
-    public function hasRule($field, $rule)
+    public function hasRule($field, $rule): bool
     {
         return (bool) $this->getRule($field, $rule);
     }
@@ -248,7 +249,7 @@ class Stream implements
         });
     }
 
-    public function ruleParameters($field, $rule)
+    public function ruleParameters($field, $rule): array
     {
         if (!$rule = $this->getRule($field, $rule)) {
             return [];
@@ -288,7 +289,7 @@ class Stream implements
      */
     public function cache()
     {
-        return $this->once(__METHOD__, fn() => new StreamCache($this));
+        return $this->once($this->id . __METHOD__, fn () => new StreamCache($this));
     }
 
     /**
@@ -349,6 +350,8 @@ class Stream implements
         $this->extendInput($attributes);
         $this->importInput($attributes);
         $this->normalizeInput($attributes);
+
+        $this->adjustInput($attributes);
 
         $callbackData->put('attributes', $attributes);
     }
@@ -437,6 +440,21 @@ class Stream implements
 
             return $rules;
         }, Arr::get($attributes, 'rules', []));
+    }
+
+    public function adjustInput(&$attributes)
+    {
+
+        // Push to config
+        // @todo remove this at some point ^_^
+        Arr::set($attributes, 'config.source', Arr::get($attributes, 'config.source', Arr::pull($attributes, 'source', [])));
+        if ($source = Arr::pull($attributes, 'source')) {
+            Arr::set($attributes, 'config.source', $source);
+        }
+
+        if ($abstract = Arr::pull($attributes, 'abstract')) {
+            Arr::set($attributes, 'config.abstract', $abstract);
+        }
     }
 
     public function fieldsInput()

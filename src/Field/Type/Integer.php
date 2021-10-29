@@ -2,6 +2,8 @@
 
 namespace Streams\Core\Field\Type;
 
+use Streams\Core\Field\Factory\IntegerGenerator;
+
 class Integer extends Number
 {
     /**
@@ -33,5 +35,10 @@ class Integer extends Number
         }
 
         return intval($value);
+    }
+
+    public function generator(): IntegerGenerator
+    {
+        return new IntegerGenerator($this);
     }
 }

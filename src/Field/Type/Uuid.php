@@ -2,11 +2,11 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\Factory\StrGenerator;
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\StrValue;
+use Streams\Core\Field\Factory\UuidGenerator;
 
-class Str extends FieldType
+class Uuid extends FieldType
 {
 
     /**
@@ -44,8 +44,8 @@ class Str extends FieldType
         return new StrValue($value);
     }
 
-    public function generator(): StrGenerator
+    public function generator(): UuidGenerator
     {
-        return new StrGenerator($this);
+        return new UuidGenerator($this);
     }
 }

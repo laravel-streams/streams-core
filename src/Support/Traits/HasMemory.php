@@ -41,7 +41,7 @@ trait HasMemory
      *
      * @param string $key
      * @param callable $callable
-     * @return null|string
+     * @return mixed
      */
     public static function once($key, $callable)
     {

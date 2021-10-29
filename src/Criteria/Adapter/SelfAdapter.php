@@ -13,10 +13,10 @@ class SelfAdapter extends FileAdapter
 
     protected function readData()
     {
-        $source = $this->stream->expandPrototypeAttribute('source');
+        $default = 'streams/' . $this->stream->handle . '.json';
 
-        $file = base_path(trim($source->get('file', 'streams/' . $this->stream->handle . '.json'), '/\\'));
-
+        $file = base_path(trim($this->stream->config('source.file', $default), '/\\'));
+dd($file);
         $keyName = $this->stream->config('key_name', 'id');
 
         $this->data = Arr::get(json_decode(file_get_contents($file), true), 'data', []);
