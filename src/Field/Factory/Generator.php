@@ -21,10 +21,10 @@ class Generator
 
     public function create()
     {
-        return $this->generator()->text();
+        return $this->faker()->text();
     }
 
-    public function generator()
+    public function faker()
     {
         return $this->once(__METHOD__, fn () => Factory::create());
     }

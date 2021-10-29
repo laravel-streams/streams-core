@@ -6,6 +6,6 @@ class BooleanGenerator extends Generator
 {
     public function create()
     {
-        return (bool) $this->generator()->numberBetween(0, 1);
+        return (bool) $this->faker()->numberBetween(0, 1);
     }
 }

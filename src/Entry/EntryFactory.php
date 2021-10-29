@@ -33,7 +33,7 @@ class EntryFactory
     {
         $this->stream->fields->each(function ($field) use (&$data) {
             if (!array_key_exists($field->handle, $data)) {
-                $data[$field->handle] = $field->type()->generator()->create();
+                $data[$field->handle] = $field->type()->generate();
             }
         });
 

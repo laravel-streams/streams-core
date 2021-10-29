@@ -7,6 +7,7 @@ use DateTimeInterface;
 use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Date;
 use Streams\Core\Field\Value\DatetimeValue;
+use Streams\Core\Field\Factory\DatetimeGenerator;
 
 class Datetime extends Str
 {
@@ -27,6 +28,11 @@ class Datetime extends Str
     public function expand($value)
     {
         return new DatetimeValue($value);
+    }
+
+    public function generator(): DatetimeGenerator
+    {
+        return new DatetimeGenerator($this);
     }
 
     /**

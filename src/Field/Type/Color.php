@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field\Type;
 
+use Streams\Core\Field\Factory\ColorGenerator;
 use Streams\Core\Field\Value\ColorValue;
 
 class Color extends Str
@@ -28,5 +29,10 @@ class Color extends Str
     public function expand($value)
     {
         return new ColorValue($value);
+    }
+
+    public function generator(): ColorGenerator
+    {
+        return new ColorGenerator($this);
     }
 }

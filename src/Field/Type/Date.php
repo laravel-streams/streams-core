@@ -2,6 +2,8 @@
 
 namespace Streams\Core\Field\Type;
 
+use Streams\Core\Field\Factory\DateGenerator;
+
 class Date extends Datetime
 {
     /**
@@ -31,5 +33,10 @@ class Date extends Datetime
             ->setHours(0)
             ->setMinutes(0)
             ->setSeconds(0);
+    }
+
+    public function generator(): DateGenerator
+    {
+        return new DateGenerator($this);
     }
 }

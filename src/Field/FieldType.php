@@ -49,6 +49,11 @@ class FieldType
         return new Value($value);
     }
 
+    public function generate()
+    {
+        return $this->generator()->create();
+    }
+
     public function generator(): Generator
     {
         return new Generator($this);

@@ -14,6 +14,9 @@
         },
         "boolean": {
             "type": "boolean"
+        },
+        "datetime": {
+            "type": "datetime"
         }
     }
 }

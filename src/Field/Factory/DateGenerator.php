@@ -2,10 +2,10 @@
 
 namespace Streams\Core\Field\Factory;
 
-class NumberGenerator extends Generator
+class DateGenerator extends DatetimeGenerator
 {
     public function create()
     {
-        return $this->faker()->randomNumber();
+        return $this->faker()->date();
     }
 }

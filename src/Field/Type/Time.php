@@ -2,6 +2,8 @@
 
 namespace Streams\Core\Field\Type;
 
+use Streams\Core\Field\Factory\TimeGenerator;
+
 class Time extends Datetime
 {
     /**
@@ -13,5 +15,10 @@ class Time extends Datetime
     public function modify($value)
     {
         return $this->toCarbon($value)->format('H:i:s');
+    }
+
+    public function generator(): TimeGenerator
+    {
+        return new TimeGenerator($this);
     }
 }
