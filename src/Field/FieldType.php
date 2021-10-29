@@ -8,6 +8,13 @@ use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\Prototype;
 
+/**
+ * @typescript
+ * @property string $name
+ * @property string $description
+ * @property mixed $rules
+ * @property array<string,mixed> $config
+ */
 class FieldType
 {
     use HasMemory;
