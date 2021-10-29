@@ -29,11 +29,12 @@ use Streams\Core\Validation\StreamsPresenceVerifier;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 
 /**
- * @property string handle
- * @property Repository repository
- * @property array rules
- * @property array validators
- * @property \Streams\Core\Field\FieldCollection|\Streams\Core\Field\Field[] fields
+ * @typescript
+ * @property string $handle
+ * @property Repository $repository
+ * @property array $rules
+ * @property array $validators
+ * @property \Streams\Core\Field\FieldCollection|\Streams\Core\Field\Field[] $fields
  */
 class Stream implements
     JsonSerializable,
@@ -282,7 +283,7 @@ class Stream implements
 
     /**
      * Return the Streams cache manager.
-     * 
+     *
      * @return StreamCache
      */
     public function cache()
