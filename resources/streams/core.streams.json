@@ -1,7 +1,6 @@
 {
-    "handle": "core.streams",
     "source": {
-        "path": "streams",
+        "path": "/streams",
         "format": "json"
     },
     "rules": {

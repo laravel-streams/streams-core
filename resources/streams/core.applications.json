@@ -1,5 +1,4 @@
 {
-    "id": "core.applications",
     "config": {
         "abstract": "Streams\\Core\\Application\\Application"
     },
