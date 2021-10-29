@@ -136,9 +136,9 @@ class StreamManager
     {
         $stream = $this->build($stream);
 
-        App::instance('streams.instances.' . $stream->handle, $stream);
+        App::instance('streams.instances.' . $stream->id, $stream);
 
-        $this->collection->put($stream->handle, $stream);
+        $this->collection->put($stream->id, $stream);
 
         $this->routeStream($stream);
 
