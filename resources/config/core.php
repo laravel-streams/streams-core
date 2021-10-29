@@ -40,6 +40,7 @@ return [
         'string' => \Streams\Core\Field\Type\Str::class,
 
         'url' => \Streams\Core\Field\Type\Url::class,
+        'uuid' => \Streams\Core\Field\Type\Uuid::class,
         //'text' => \Streams\Core\Field\Type\Str::class,
         'hash' => \Streams\Core\Field\Type\Hash::class,
         'slug' => \Streams\Core\Field\Type\Slug::class,
