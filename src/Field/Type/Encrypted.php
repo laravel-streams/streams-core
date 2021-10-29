@@ -2,11 +2,12 @@
 
 namespace Streams\Core\Field\Type;
 
+use Streams\Core\Field\FieldType;
 use Illuminate\Support\Facades\Crypt;
 use Streams\Core\Field\Value\EncryptedValue;
 use Streams\Core\Field\Factory\EncryptedGenerator;
 
-class Encrypted extends Str
+class Encrypted extends FieldType
 {
 
     /**

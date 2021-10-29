@@ -2,10 +2,11 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\Factory\ColorGenerator;
+use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\ColorValue;
+use Streams\Core\Field\Factory\ColorGenerator;
 
-class Color extends Str
+class Color extends FieldType
 {
     /**
      * Initialize the prototype.

@@ -5,11 +5,12 @@ namespace Streams\Core\Field\Type;
 use Carbon\Carbon;
 use DateTimeInterface;
 use Carbon\CarbonInterface;
+use Streams\Core\Field\FieldType;
 use Illuminate\Support\Facades\Date;
 use Streams\Core\Field\Value\DatetimeValue;
 use Streams\Core\Field\Factory\DatetimeGenerator;
 
-class Datetime extends Str
+class Datetime extends FieldType
 {
     public function modify($value)
     {
