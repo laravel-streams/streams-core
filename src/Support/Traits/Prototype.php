@@ -247,7 +247,11 @@ trait Prototype
 
         $key = array_shift($parts);
 
-        $value = $this->__prototype['attributes'][$key] ?? $this->getPrototypePropertyDefault($key, $default);
+        if (array_key_exists($key, $this->__prototype['attributes'])) {
+            $value = $this->__prototype['attributes'][$key];
+        } else {
+            $value = $this->getPrototypePropertyDefault($key, $default);
+        }
 
         if ($this->hasPrototypePropertyType($key)) {
             return $this->restorePrototypeAttributeValue($key, $value);

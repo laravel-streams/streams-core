@@ -3,6 +3,7 @@
 namespace Streams\Core\Field\Type;
 
 use Illuminate\Support\Str;
+use Streams\Core\Field\Factory\SlugGenerator;
 use Streams\Core\Field\FieldType;
 
 /**
@@ -22,7 +23,7 @@ class Slug extends FieldType
      */
     public function modify($value)
     {
-        return Str::slug($value, \Illuminate\Support\Arr::get($this->config, 'separator', '-'));
+        return Str::slug($value, $this->field->config('seperator') ?: '_');
     }
 
     // /**
@@ -35,4 +36,9 @@ class Slug extends FieldType
     // {
     //     return new DatetimeValue($value);
     // }
+
+    public function generator(): SlugGenerator
+    {
+        return new SlugGenerator($this);
+    }
 }
