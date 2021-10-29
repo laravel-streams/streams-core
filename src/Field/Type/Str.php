@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field\Type;
 
+use Streams\Core\Field\Factory\StrGenerator;
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\StrValue;
 
@@ -19,7 +20,7 @@ class Str extends FieldType
         if (is_null($value)) {
             return $value;
         }
-        
+
         return (string) $value;
     }
 
@@ -34,12 +35,17 @@ class Str extends FieldType
         if (is_null($value)) {
             return $value;
         }
-        
+
         return (string) $value;
     }
 
     public function expand($value)
     {
         return new StrValue($value);
+    }
+
+    public function generator(): StrGenerator
+    {
+        return new StrGenerator($this);
     }
 }
