@@ -2,16 +2,12 @@
 
 namespace Streams\Core\Field\Type;
 
+use Streams\Core\Stream\Stream;
+use Streams\Core\Field\FieldType;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Factory\EntryGenerator;
 
-/**
- * Class Entry
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
-class Entry extends Arr
+class Entry extends FieldType
 {
     /**
      * Initialize the prototype.
@@ -59,13 +55,13 @@ class Entry extends Arr
         return $this->stream()->newInstance($value);
     }
 
-    /**
-     * Return the related stream.
-     * 
-     * @return Stream
-     */
-    public function stream()
+    public function generator(): EntryGenerator
     {
-        return Streams::make($this->config['related']);
+        return new EntryGenerator($this);
+    }
+
+    public function stream(): Stream
+    {
+        return Streams::make($this->field->config('related'));
     }
 }

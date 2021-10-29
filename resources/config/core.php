@@ -44,6 +44,7 @@ return [
         'hash' => \Streams\Core\Field\Type\Hash::class,
         'slug' => \Streams\Core\Field\Type\Slug::class,
         'email' => \Streams\Core\Field\Type\Email::class,
+        'encrypted' => \Streams\Core\Field\Type\Encrypted::class,
 
         'markdown' => \Streams\Core\Field\Type\Markdown::class,
         'template' => \Streams\Core\Field\Type\Template::class,

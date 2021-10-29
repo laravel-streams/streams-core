@@ -81,6 +81,11 @@ class Field implements
         });
     }
 
+    public function config($key, $default = null)
+    {
+        return $this->getPrototypeAttribute("config.{$key}", $default);
+    }
+
     public function hasRule($rule)
     {
         return $this->stream->hasRule($this->handle, $rule);
