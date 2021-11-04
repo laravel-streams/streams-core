@@ -1,10 +1,12 @@
 {
     "handle": "testing.planets",
     "description": "Used for testing.",
-    "source": {
-        "file": "vendor/streams/core/tests/data/planets.json",
-        "type": "file",
-        "format": "json"
+    "config": {
+        "source": {
+            "file": "vendor/streams/core/tests/data/planets.json",
+            "type": "file",
+            "format": "json"
+        }
     },
     "rules": {
         "id": "required",

@@ -2,10 +2,10 @@
 
 namespace Streams\Core\Addon;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Addon\Addon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 
 /**
  * The addon collection contains all registered addons.
@@ -13,38 +13,26 @@ use Illuminate\Support\Collection;
 class AddonCollection extends Collection
 {
 
-    protected string $vendor = '';
+    // @todo are these even helpful? 
+    // public function core(): AddonCollection
+    // {
+    //     $vendor = App::make('vendor.path');
 
-    public function core(): AddonCollection
-    {
-        $vendor = $this->vendorDirectory();
+    //     return $this->filter(
+    //         function (Addon $addon) use ($vendor) {
+    //             return Str::startsWith($addon->path, $vendor);
+    //         }
+    //     );
+    // }
 
-        return $this->filter(
-            function (Addon $addon) use ($vendor) {
-                return Str::startsWith($addon->path, $vendor);
-            }
-        );
-    }
+    // public function nonCore(): AddonCollection
+    // {
+    //     $vendor = App::make('vendor.path');
 
-    public function nonCore(): AddonCollection
-    {
-        $vendor = $this->vendorDirectory();
-
-        return $this->filter(
-            function (Addon $addon) use ($vendor) {
-                return !Str::startsWith($addon->path, $vendor);
-            }
-        );
-    }
-
-    protected function vendorDirectory(): string
-    {
-        if ($this->vendor) {
-            return $this->vendor;
-        }
-
-        $composer = json_decode(file_get_contents(base_path('composer.json')), true);
-
-        return $this->vendor = (string) Arr::get($composer, 'config.vendor-dir', base_path('vendor'));
-    }
+    //     return $this->filter(
+    //         function (Addon $addon) use ($vendor) {
+    //             return !Str::startsWith($addon->path, $vendor);
+    //         }
+    //     );
+    // }
 }

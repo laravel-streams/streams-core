@@ -2,9 +2,9 @@
 
 namespace Streams\Core\Tests\Asset;
 
+use Tests\TestCase;
 use Streams\Core\Asset\AssetCollection;
 use Streams\Core\Support\Facades\Assets;
-use Tests\TestCase;
 
 class AssetCollectionTest extends TestCase
 {
@@ -45,53 +45,48 @@ class AssetCollectionTest extends TestCase
         }
     }
 
-    public function testAdd()
+    public function testCanAddAsset()
     {
         $assets = new AssetCollection();
 
         $assets->add('theme.js');
 
-        $this->assertEquals(['theme.js' => 'theme.js'], $assets->all());
+        $this->assertEquals(['theme.js'], $assets->values()->all());
     }
 
-    public function testLoad()
+    public function testCanLoadUnregisteredAsset()
     {
         $assets = new AssetCollection();
 
         $assets->load('load.js');
 
-        $this->assertEquals(['load.js' => 'load.js'], $assets->all());
+        $this->assertEquals(['load.js'], $assets->values()->all());
+    }
+
+    public function testCanLoadRegisteredAsset()
+    {
+        $assets = new AssetCollection();
+
+        Assets::register('testing.js', 'resolved.js');
 
         $assets->load('load.js');
 
-        $this->assertEquals(['load.js' => 'load.js'], $assets->all());
+        $this->assertEquals(['load.js'], $assets->values()->all());
     }
 
-    public function testResolved()
+    public function testOnlyLoadsAssetOnce()
     {
         $assets = new AssetCollection();
 
         Assets::register('testing.js', 'resolved.js');
 
-        $assets->load('testing.js');
+        $assets->load('load.js');
+        $assets->load('load.js');
 
-        $this->assertEquals(['resolved.js' => 'resolved.js'], $assets->resolved()->all());
+        $this->assertEquals(['load.js'], $assets->values()->all());
     }
 
-    public function testUrls()
-    {
-        $assets = new AssetCollection();
-
-        Assets::register('testing.js', 'resolved.js');
-
-        $assets->load('testing.js');
-
-        $this->assertEquals([
-            'resolved.js' => url('resolved.js'),
-        ], $assets->urls()->all());
-    }
-
-    public function testTags()
+    public function testCanResolveAssets()
     {
         $assets = new AssetCollection();
 
@@ -100,11 +95,11 @@ class AssetCollectionTest extends TestCase
         $assets->load('testing.js');
 
         $this->assertEquals([
-            'resolved.js' => '<script src="/resolved.js"></script>',
-        ], $assets->tags()->all());
+            'resolved.js'
+        ], $assets->resolved()->values()->all());
     }
 
-    public function testScripts()
+    public function testCanReturnAssetUrls()
     {
         $assets = new AssetCollection();
 
@@ -113,11 +108,39 @@ class AssetCollectionTest extends TestCase
         $assets->load('testing.js');
 
         $this->assertEquals([
-            'resolved.js' => '<script src="/resolved.js"></script>',
-        ], $assets->scripts()->all());
+            url('resolved.js'),
+        ], $assets->urls()->values()->all());
     }
 
-    public function testStyles()
+    public function testCanReturnTagsAsset()
+    {
+        $assets = new AssetCollection();
+
+        Assets::register('testing.js', 'resolved.js');
+
+        $assets->load('testing.js');
+        $assets->add('testing.css');
+
+        $this->assertEquals([
+            '<script src="/resolved.js"></script>',
+            '<link media="all" type="text/css" rel="stylesheet" href="/testing.css"/>',
+        ], $assets->tags()->values()->all());
+    }
+
+    public function testCanReturnScriptTagsForAssets()
+    {
+        $assets = new AssetCollection();
+
+        Assets::register('testing.js', 'resolved.js');
+
+        $assets->load('testing.js');
+
+        $this->assertEquals([
+            '<script src="/resolved.js"></script>',
+        ], $assets->scripts()->values()->all());
+    }
+
+    public function testCanReturnStyleTagsForAssets()
     {
         $assets = new AssetCollection();
 
@@ -126,39 +149,42 @@ class AssetCollectionTest extends TestCase
         $assets->load('testing.css');
 
         $this->assertEquals([
-            'resolved.css' => '<link media="all" type="text/css" rel="stylesheet" href="/resolved.css"/>',
-        ], $assets->styles()->all());
+            '<link media="all" type="text/css" rel="stylesheet" href="/resolved.css"/>',
+        ], $assets->styles()->values()->all());
     }
 
-    public function testInlines()
+    public function testCanReturnInlineTags()
     {
         $assets = new AssetCollection();
 
         $assets->add('vendor/streams/core/tests/testing.css');
 
         $this->assertEquals([
-            'vendor/streams/core/tests/testing.css' => '<style media="all" type="text/css" rel="stylesheet">Test testing.css</style>',
-        ], $assets->inlines()->all());
+            '<style media="all" type="text/css" rel="stylesheet">Test testing.css</style>',
+        ], $assets->inlines()->values()->all());
     }
 
-    public function testContent()
+    public function testCanReturnContentForAssets()
     {
         $assets = new AssetCollection();
 
         $assets->add('vendor/streams/core/tests/testing.css');
 
         $this->assertEquals([
-            'vendor/streams/core/tests/testing.css' => 'Test testing.css',
-        ], $assets->content()->all());
+            'Test testing.css',
+        ], $assets->content()->values()->all());
     }
 
-    public function testToString()
+    public function testCollectionToString()
     {
         $assets = new AssetCollection();
 
         $assets->add('testing.js');
         $assets->add('testing2.js');
 
-        $this->assertEquals(url('testing.js') . "\n" . url('testing2.js'), (string) $assets->urls());
+        $this->assertEquals(
+            url('testing.js') . "\n" . url('testing2.js'),
+            (string) $assets->urls()
+        );
     }
 }

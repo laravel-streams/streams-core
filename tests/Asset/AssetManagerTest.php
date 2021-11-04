@@ -25,7 +25,7 @@ class AssetManagerTest extends TestCase
 
         foreach ($filenames as $filename) {
             if (!file_exists($filename)) {
-                file_put_contents($filename, 'Test ' . basename($filename), );
+                file_put_contents($filename, 'Test ' . basename($filename),);
             }
         }
     }
@@ -84,10 +84,10 @@ class AssetManagerTest extends TestCase
     {
         Assets::register('theme.js', 'super.js');
         Assets::register('pack.js', ['super.js', 'another.js']);
-        
+
         Assets::resolve('theme.js');
         Assets::resolve('theme.js');
-        
+
         Assets::resolve('pack.js');
 
         $this->assertEquals('https://test.com/example.jpg', Assets::resolve('https://test.com/example.jpg'));
@@ -99,6 +99,8 @@ class AssetManagerTest extends TestCase
         $this->assertEquals('<style media="all" type="text/css" rel="stylesheet">Test testing.css</style>', Assets::inline('vendor/streams/core/tests/testing.css'));
 
         $this->assertEquals('<script>Test testing.js</script>', Assets::inline('vendor/streams/core/tests/testing.js'));
+
+        $this->assertEquals('', Assets::inline('vendor/streams/core/tests/testing.foo'));
     }
 
     public function testContents()
@@ -116,5 +118,10 @@ class AssetManagerTest extends TestCase
         $this->assertEquals('<link media="all" type="text/css" rel="stylesheet" href="vendor/streams/core/tests/testing.css"/>', Assets::tag('vendor/streams/core/tests/testing.css'));
 
         $this->assertEquals('<script src="vendor/streams/core/tests/testing.js"></script>', Assets::tag('vendor/streams/core/tests/testing.js'));
+    }
+
+    public function testToString()
+    {
+        $this->assertEquals('', (string) Assets::load('testing', 'testing.css'));
     }
 }

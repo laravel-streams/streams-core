@@ -10,40 +10,28 @@ use Streams\Core\Support\Facades\Addons;
 class AddonCollectionTest extends TestCase
 {
 
-    public function setUp(): void
+    public function testCollectionContainsLoadedAddons()
     {
-        $this->createApplication();
-
         Addons::load(base_path('vendor/streams/core/tests/addons/test-addon'));
-    }
 
-    public function testLoad()
-    {
-        $addon = Addons::make('streams/test-addon');
-
-        $this->assertInstanceOf(Addon::class, $addon);
-    }
-
-    public function testCollection()
-    {
         $addons = Addons::collection();
 
         $this->assertTrue($addons->count() >= 1);
     }
 
-    public function testCore()
-    {
-        $addons = Addons::collection();
+    // public function testCore()
+    // {
+    //     $addons = Addons::collection();
 
-        $this->assertTrue($addons->core()->count() >= 1);
-    }
+    //     $this->assertTrue($addons->core()->count() >= 1);
+    // }
 
-    public function testNonCore()
-    {
-        $addons = Addons::collection();
+    // public function testNonCore()
+    // {
+    //     $addons = Addons::collection();
 
-        $this->assertTrue($addons->nonCore()->count() == 0);
-    }
+    //     $this->assertTrue($addons->nonCore()->count() == 0);
+    // }
 
     // public function testEnabled()
     // {

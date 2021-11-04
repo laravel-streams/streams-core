@@ -2,9 +2,11 @@
     "handle": "testing.examples",
     "description": "Used for testing.",
     
-    "source": {
-        "path": "vendor/streams/core/tests/data/examples",
-        "format": "json"
+    "config": {
+        "source": {
+            "path": "vendor/streams/core/tests/data/examples",
+            "format": "json"
+        }
     },
 
     "rules": {

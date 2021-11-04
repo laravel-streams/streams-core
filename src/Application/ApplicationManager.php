@@ -18,35 +18,22 @@ class ApplicationManager
 
     public function __construct()
     {
-        $this->collection = Streams::entries('core.applications')->get()
-            ->keyBy(function ($item) {
-                return $item->id;
-            });
+        $this->collection = Streams::entries('core.applications')->get()->keyBy('id');
     }
 
-    /**
-     * @param string|null $handle
-     * @return Application
-     */
-    public function make(string $handle = null)
+    public function make(string $handle): Application
     {
-        return $this->collection->get($handle ?: $this->active);
+        return $this->collection->get($handle);
     }
 
-    /**
-     * @param Application|Entry $active
-     */
-    public function activate($active): void
+    public function activate(Application $active): void
     {
         $this->active = $active->id;
 
-        $this->collection->put($this->active, $active);
+        $this->collection->put($active->id, $active);
     }
 
-    /**
-     * @return Application|Entry
-     */
-    public function active()
+    public function active(): Application
     {
         return $this->collection->get($this->active);
     }

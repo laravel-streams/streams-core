@@ -2,9 +2,11 @@
     "handle": "testing.database",
     "description": "Used for testing.",
     
-    "source": {
-        "type": "database",
-        "table": "testing"
+    "config": {
+        "source": {
+            "type": "database",
+            "table": "testing"
+        }
     },
 
     "fields": {

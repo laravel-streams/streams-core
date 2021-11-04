@@ -4,28 +4,22 @@ namespace Streams\Core\Tests\Addon;
 
 use Tests\TestCase;
 use Streams\Core\Addon\Addon;
-use Illuminate\Support\Facades\App;
-use Streams\Core\Addon\AddonCollection;
 use Streams\Core\Support\Facades\Addons;
-use Streams\Core\Support\Facades\Streams;
 
 class AddonTest extends TestCase
 {
 
-    public function setUp(): void
+    public function testCanLoadAddonByAbsolutePath()
     {
-        $this->createApplication();
-
         Addons::load(base_path('vendor/streams/core/tests/addons/test-addon'));
-    }
 
-    public function testAddonsRegister()
-    {
         $this->assertInstanceOf(Addon::class, Addons::make('streams/test-addon'));
     }
 
     public function testArrayable()
     {
+        Addons::load(base_path('vendor/streams/core/tests/addons/test-addon'));
+
         $this->assertEquals([
             'name',
             'path',
@@ -35,6 +29,8 @@ class AddonTest extends TestCase
 
     public function testJsonable()
     {
+        Addons::load(base_path('vendor/streams/core/tests/addons/test-addon'));
+        
         $this->assertEquals([
             'name',
             'path',
