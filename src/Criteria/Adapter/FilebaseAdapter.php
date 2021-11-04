@@ -37,6 +37,7 @@ class FilebaseAdapter extends AbstractAdapter
 
         $this->query = new Database([
             'pretty' => true,
+            'format' => $format,
             'safe_filename' => true,
             'dir' => base_path($path),
             'cache' => $stream->config('cache', false),
