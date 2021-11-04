@@ -50,11 +50,7 @@
         "bin-dir": "bin"
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "2.x-dev",
-            "dev-develop": "2.1.x-dev"
-        },
-        "laravel": {
+       "laravel": {
             "providers": [
                 "Streams\\Core\\StreamsServiceProvider"
             ]
