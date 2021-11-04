@@ -127,6 +127,19 @@ echo $users->items(); // Return all items
 echo $users->total(); // Return total items
 ```
 
+
+### Chunk
+
+The `chunk` method allows you to chunk through large datasets without exhausting memory.
+
+```php
+Streams::entries('users')->chunk(1000, function ($users) {
+    $users->each(function ($user) {
+        echo $user->email;
+    });
+});
+```
+
 ### Caching
 
 The `cache` method allows you to cache query results. The first parameter should be the **seconds** in which to cache the results. An optional second parameter can be provided as a **key**, otherwise one will be generated based on your query **fingerprint**.
