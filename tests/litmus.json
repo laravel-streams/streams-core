@@ -2,9 +2,11 @@
     "handle": "testing.litmus",
     "description": "Used for testing.",
     
-    "source": {
-        "path": "vendor/streams/core/tests/data/litmus",
-        "format": "json"
+    "config": {
+        "source": {
+            "path": "vendor/streams/core/tests/data/litmus",
+            "format": "json"
+        }
     },
 
     "rules": {

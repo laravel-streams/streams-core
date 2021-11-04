@@ -122,4 +122,11 @@ class ImageTest extends TestCase
 
         $this->assertEquals(url('/app/vendor/streams/core/tests/adjusted.jpg'), $image->version(false)->rename('adjusted.jpg')->fit(120, 120)->url());
     }
+
+    public function testSize()
+    {
+        $image = Images::make('vendor/streams/core/tests/example.jpg');
+
+        $this->assertEquals(307714, $image->size());
+    }
 }

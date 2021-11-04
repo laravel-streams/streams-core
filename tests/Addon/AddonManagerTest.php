@@ -10,22 +10,19 @@ use Streams\Core\Support\Facades\Addons;
 class AddonManagerTest extends TestCase
 {
 
-    public function setUp(): void
+    public function testCanMakeRegisteredAddonInstance()
     {
-        $this->createApplication();
-
         Addons::load(base_path('vendor/streams/core/tests/addons/test-addon'));
-    }
 
-    public function testCanMakeRegisteredAddon()
-    {
         $addon = Addons::make('streams/test-addon');
 
         $this->assertInstanceOf(Addon::class, $addon);
     }
 
-    public function testCollection()
+    public function testCanReturnLoadedAddonsCollection()
     {
+        Addons::load(base_path('vendor/streams/core/tests/addons/test-addon'));
+        
         $addons = Addons::collection();
 
         $this->assertInstanceOf(AddonCollection::class, $addons);

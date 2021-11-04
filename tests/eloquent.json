@@ -2,9 +2,11 @@
     "handle": "testing.eloquent",
     "description": "Used for testing.",
     
-    "source": {
-        "type": "eloquent",
-        "model": "\\Streams\\Core\\Tests\\Stream\\Criteria\\Adapter\\TestModel"
+    "config": {
+        "source": {
+            "type": "eloquent",
+            "model": "\\Streams\\Core\\Tests\\Stream\\Criteria\\Adapter\\TestModel"
+        }
     },
 
     "fields": {

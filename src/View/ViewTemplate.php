@@ -19,7 +19,7 @@ class ViewTemplate
     {
         $view = 'support/parsed/' . md5($template);
 
-        $path = storage_path(implode(DIRECTORY_SEPARATOR, ['streams', Applications::handle(), $view]));
+        $path = storage_path(implode(DIRECTORY_SEPARATOR, ['streams', Applications::active()->id, $view]));
 
         if (!is_dir($directory = dirname($path))) {
             File::makeDirectory($directory, 0766, true);
@@ -43,7 +43,7 @@ class ViewTemplate
     {
         $path = self::path($template, $extension);
 
-        $base = storage_path(implode(DIRECTORY_SEPARATOR, [Applications::handle()]));
+        $base = storage_path(implode(DIRECTORY_SEPARATOR, [Applications::active()->id]));
 
         return 'storage::' . ltrim(str_replace($base, '', $path), '\\/');
     }
@@ -58,7 +58,7 @@ class ViewTemplate
     public static function path($template, $extension = 'blade.php')
     {
         $path = storage_path(
-            implode(DIRECTORY_SEPARATOR, [Applications::handle(), 'support', 'streams', md5($template)])
+            implode(DIRECTORY_SEPARATOR, [Applications::active()->id, 'support', 'streams', md5($template)])
         );
 
         if (!is_dir($directory = dirname($path))) {

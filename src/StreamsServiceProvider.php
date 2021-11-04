@@ -10,6 +10,7 @@ use Illuminate\View\Factory;
 use Collective\Html\HtmlFacade;
 use Streams\Core\Support\Parser;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
 use Streams\Core\View\ViewTemplate;
 use Illuminate\Support\Facades\Lang;
@@ -116,6 +117,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->extendLang();
         $this->extendView();
         $this->extendArr();
+        $this->extendApp();
         $this->extendStr();
 
         $this->publishes([
@@ -208,7 +210,7 @@ class StreamsServiceProvider extends ServiceProvider
                 return !$application->match;
             });
         }
-        
+
         if (!$active) {
 
             $active = new Application([
@@ -304,7 +306,7 @@ class StreamsServiceProvider extends ServiceProvider
          */
         $base = $streams->where('extends', null)->keyBy('id');
         $extending = $streams->where('extends', '!=', null)->keyBy('id');
-        
+
         foreach ((new Collection)->merge($base)->merge($extending) as $stream) {
             Streams::register(Arr::parse($stream->toArray()));
         }
@@ -488,11 +490,22 @@ class StreamsServiceProvider extends ServiceProvider
     }
 
     /**
+     * Extend the Laravel application.
+     */
+    protected function extendApp()
+    {
+        $composer = json_decode(file_get_contents(base_path('composer.json')), true);
+
+        $path = (string) base_path(Arr::get($composer, 'config.vendor-dir', 'vendor'));
+
+        $this->app['vendor.path'] = $path;
+    }
+
+    /**
      * Extend the string utility.
      */
     protected function extendStr()
     {
-
         Str::macro('parse', [StrMacros::class, 'parse']);
         Str::macro('humanize', [StrMacros::class, 'humanize']);
         Str::macro('truncate', [StrMacros::class, 'truncate']);

@@ -3,12 +3,14 @@
 namespace Streams\Core\Addon;
 
 use Illuminate\Support\Facades\App;
+use Streams\Core\Support\Traits\HasMemory;
 
 /**
  * This class is used to register and access addons.
  */
 class AddonManager
 {
+    use HasMemory;
 
     protected AddonCollection $collection;
 

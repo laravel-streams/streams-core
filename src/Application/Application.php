@@ -20,11 +20,6 @@ class Application
     use Macroable;
     use FiresCallbacks;
 
-    /**
-     * Get the instance as an array.
-     *
-     * @return array
-     */
     public function toArray(): array
     {
         return Hydrator::dehydrate($this, [
@@ -33,13 +28,7 @@ class Application
         ]);
     }
 
-    /**
-     * Convert the object to its JSON representation.
-     *
-     * @param  int  $options
-     * @return string
-     */
-    public function toJson($options = 0): string
+    public function toJson(int $options = 0): string
     {
         return json_encode($this->toArray(), $options);
     }

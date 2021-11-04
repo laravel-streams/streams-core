@@ -71,9 +71,11 @@ class AssetManager
         }
     }
 
-    public function load(string $collection, string $asset): void
+    public function load(string $collection, string $asset)
     {
         $this->collection($collection)->load($asset);
+
+        return $this;
     }
 
     /**
@@ -100,15 +102,15 @@ class AssetManager
             $asset = public_path(ltrim($asset, '/\\'));
         }
 
-        $contents = file_get_contents($asset);
-
         if (pathinfo($asset, PATHINFO_EXTENSION) == 'js') {
-            return $this->script(null, [], $contents);
+            return $this->script(null, [], file_get_contents($asset));
         }
 
         if (pathinfo($asset, PATHINFO_EXTENSION) == 'css') {
-            return $this->style(null, [], $contents);
+            return $this->style(null, [], file_get_contents($asset));
         }
+
+        return '';
     }
 
     public function contents(string $asset): string
