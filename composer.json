@@ -33,7 +33,6 @@
         "orchestra/testbench": "^5.3",
         "friendsofphp/php-cs-fixer": "^2.19",
         "helmich/phpunit-json-assert": "^3.1",
-        "spatie/laravel-typescript-transformer": "^2.0",
         "barryvdh/reflection-docblock": "^2.0.1"
     },
     "autoload": {
