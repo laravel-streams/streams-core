@@ -54,16 +54,27 @@
         "select": {
             "type": "select",
             "config.options": {
-                "foo": "Bar",
-                "baz": "Baz"
+                "foo": "Foo",
+                "bar": "Bar"
             }
+        },
+        "select_callable_options": {
+            "type": "select",
+            "config.options": "Streams\\Core\\Tests\\Field\\Type\\SelectHandler@handle"
         },
         "multiselect": {
             "type": "multiselect",
-            "config.options": {
-                "foo": "Foo",
-                "bar": "Bar",
-                "baz": "Baz"
+            "config": {
+                "options": {
+                    "foo": "Foo",
+                    "bar": "Bar"
+                }
+            }
+        },
+        "multiselect_callable_options": {
+            "type": "multiselect",
+            "config": {
+                "options": "Streams\\Core\\Tests\\Field\\Type\\MultiselectHandler@handle"
             }
         },
         "url": {
@@ -88,10 +99,16 @@
             "type": "image"
         },
         "entry": {
-            "type": "entry"
+            "type": "entry",
+            "config": {
+                "stream": "testing.examples"
+            }
         },
         "entries": {
-            "type": "entries"
+            "type": "entries",
+            "config": {
+                "stream": "testing.examples"
+            }
         }
     }
 }

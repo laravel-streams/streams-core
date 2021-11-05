@@ -55,6 +55,23 @@
         },
         "array": {
             "type": "array"
+        },
+        "select": {
+            "type": "select",
+            "config.options": {
+                "foo": "Foo",
+                "bar": "Bar"
+            }
+        },
+        "multiselect": {
+            "type": "multiselect",
+            "config.options": {
+                "foo": "Foo",
+                "bar": "Bar"
+            }
+        },
+        "color": {
+            "type": "color"
         }
     }
 }

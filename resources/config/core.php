@@ -72,7 +72,7 @@ return [
 
         // Collections
         // @todo Test me
-        'collection' => \Streams\Core\Field\Type\Collection::class,
+        // 'collection' => \Streams\Core\Field\Type\Collection::class,
 
         // Objects
         'prototype' => \Streams\Core\Field\Type\Prototype::class,

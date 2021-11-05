@@ -13,10 +13,17 @@
         "foo": "bar"
     },
     "select": "foo",
-    "multiselect": ["foo", "bar"],
+    "multiselect": [
+        "foo",
+        "bar"
+    ],
     "hash": null,
     "string": "Hello String",
     "email": "hello@example.com",
     "url": "streams.dev",
-    "color": "#111111"
+    "color": "#111111",
+    "entry": {
+        "name": "Example Name",
+        "age": 33
+    }
 }
