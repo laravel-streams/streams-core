@@ -2,12 +2,11 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\Type\Str;
+use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\HashValue;
-use Streams\Core\Field\Factory\HashGenerator;
-use Illuminate\Support\Facades\Hash as FacadesHash;
+use Illuminate\Support\Facades\Hash as HashFacade;
 
-class Hash extends Str
+class Hash extends FieldType
 {
     public function modify($value)
     {
@@ -15,7 +14,7 @@ class Hash extends Str
             return $value;
         }
 
-        return FacadesHash::make($value);
+        return HashFacade::make($value);
     }
 
     public function expand($value)
@@ -23,8 +22,8 @@ class Hash extends Str
         return new HashValue($value);
     }
 
-    public function generator(): HashGenerator
+    public function generate()
     {
-        return new HashGenerator($this);
+        return HashFacade::make($this->generator()->text(15, 50));
     }
 }

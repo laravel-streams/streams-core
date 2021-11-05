@@ -5,17 +5,10 @@ namespace Streams\Core\Field\Type;
 use Streams\Core\Field\FieldType;
 use Illuminate\Support\Facades\Crypt;
 use Streams\Core\Field\Value\EncryptedValue;
-use Streams\Core\Field\Factory\EncryptedGenerator;
 
 class Encrypted extends FieldType
 {
 
-    /**
-     * Modify the value for storage.
-     *
-     * @param string $value
-     * @return string
-     */
     public function modify($value)
     {
         if (is_null($value)) {
@@ -25,19 +18,13 @@ class Encrypted extends FieldType
         return Crypt::encrypt($value);
     }
 
-    /**
-     * Expand the value.
-     *
-     * @param $value
-     * @return Collection
-     */
     public function expand($value)
     {
         return new EncryptedValue($value);
     }
 
-    public function generator(): EncryptedGenerator
+    public function generate()
     {
-        return new EncryptedGenerator($this);
+        return Crypt::encrypt($this->generator()->text(15, 50));
     }
 }

@@ -20,7 +20,7 @@ class StrTest extends TestCase
     public function testNullValues()
     {
         $type = Streams::make('testing.litmus')->fields->string->type();
-        
+
         $this->assertNull($type->modify(null));
         $this->assertNull($type->restore(null));
     }
@@ -28,7 +28,7 @@ class StrTest extends TestCase
     public function testCastsToString()
     {
         $type = Streams::make('testing.litmus')->fields->string->type();
-        
+
         $this->assertIsString($type->modify(100));
         $this->assertIsString($type->restore(100));
     }
@@ -36,15 +36,14 @@ class StrTest extends TestCase
     public function testExpandedValue()
     {
         $test = Streams::repository('testing.litmus')->find('field_types');
-        
+
         $this->assertInstanceOf(StrValue::class, $test->expand('string'));
     }
 
     public function testCanGenerateValue()
     {
         $stream = Streams::make('testing.fakers');
-        
-        $this->assertInstanceOf(StrValue::class, $stream->fields->string->type()->generate());
-        $this->assertIsString($stream->fields->string->type()->generate()->value());
+
+        $this->assertIsString($stream->fields->string->type()->generate());
     }
 }

@@ -2,61 +2,49 @@
 
 namespace Streams\Core\Field\Type;
 
+use Illuminate\Support\Str;
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\MarkdownValue;
 
-/**
- * Class Markdown
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 class Markdown extends FieldType
 {
-    /**
-     * Initialize the prototype.
-     *
-     * @param array $attributes
-     * @return $this
-     */
-    protected function initializePrototypeAttributes(array $attributes)
-    {
-        return parent::initializePrototypeAttributes(array_merge([
-            'rules' => [],
-        ], $attributes));
-    }
 
-    /**
-     * Modify the value for storage.
-     *
-     * @param string $value
-     * @return string
-     */
     public function modify($value)
     {
+        if (is_null($value)) {
+            return $value;
+        }
+
         return (string) $value;
     }
 
-    /**
-     * Restore the value from storage.
-     *
-     * @param $value
-     * @return string
-     */
     public function restore($value)
     {
+        if (is_null($value)) {
+            return $value;
+        }
+
         return (string) $value;
     }
 
-    /**
-     * Expand the value.
-     *
-     * @param $value
-     * @return Collection
-     */
     public function expand($value)
     {
         return new MarkdownValue($value);
+    }
+
+    public function generate()
+    {
+        $title = Str::title($this->generator()->sentence());
+        $heading = Str::title($this->generator()->sentence(3));
+        $paragraph = $this->generator()->paragraph();
+        $text = $this->generator()->text(15, 25);
+        $url = $this->generator()->url();
+
+        return implode("\n\n", [
+            "# {$title}",
+            "[{$text}]({$url})",
+            "### {$heading}",
+            "{$paragraph}",
+        ]);
     }
 }

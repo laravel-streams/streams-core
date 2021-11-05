@@ -56,7 +56,7 @@ class FieldType
 
     public function generate()
     {
-        return $this->expand($this->generator()->text());
+        return $this->generator()->text();
     }
 
     public function generator()

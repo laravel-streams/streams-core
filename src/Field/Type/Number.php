@@ -50,19 +50,13 @@ class Number extends FieldType
         return $value;
     }
 
-    /**
-     * Expand the value.
-     *
-     * @param $value
-     * @return Collection
-     */
     public function expand($value)
     {
         return new NumberValue($value);
     }
 
-    public function generator(): NumberGenerator
+    public function generate()
     {
-        return new NumberGenerator($this);
+        return $this->generator()->randomNumber();
     }
 }

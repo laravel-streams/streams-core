@@ -4,6 +4,7 @@ namespace Streams\Core\Tests\Field\Type;
 
 use Tests\TestCase;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Value\IntegerValue;
 
 class IntegerTest extends TestCase
 {
@@ -13,36 +14,51 @@ class IntegerTest extends TestCase
         $this->createApplication();
 
         Streams::load(base_path('vendor/streams/core/tests/litmus.json'));
+        Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
     }
 
-    public function testCasting()
+    public function testNullValues()
+    {
+        $type = Streams::make('testing.litmus')->fields->integer->type();
+
+        $this->assertNull($type->modify(null));
+        $this->assertNull($type->restore(null));
+    }
+
+    public function testCastsToInteger()
+    {
+        $type = Streams::make('testing.litmus')->fields->integer->type();
+
+        $this->assertSame(100, $type->modify("100"));
+        $this->assertSame(100, $type->restore("100"));
+
+        $this->assertSame(1, $type->modify(1.2));
+        $this->assertSame(1, $type->restore(1.2));
+
+        $this->assertSame(-2, $type->modify(-2.4));
+        $this->assertSame(-2, $type->restore(-2.4));
+
+        $this->assertSame(1234, $type->modify("1,234"));
+        $this->assertSame(1234, $type->restore("1,234"));
+
+        $this->assertSame(1234, $type->modify("1,234.50"));
+        $this->assertSame(1234, $type->restore("1,234.50"));
+
+        $this->assertSame(-1234, $type->modify("-1,234.50"));
+        $this->assertSame(-1234, $type->restore("-1,234.50"));
+    }
+
+    public function testExpandedValue()
     {
         $test = Streams::repository('testing.litmus')->find('field_types');
 
-        $this->assertSame(100, $test->integer);
+        $this->assertInstanceOf(IntegerValue::class, $test->expand('integer'));
+    }
 
-        $test->integer = 1.2;
+    public function testCanGenerateValue()
+    {
+        $stream = Streams::make('testing.fakers');
 
-        $this->assertSame(1, $test->integer);
-
-        $test->integer = -2.4;
-
-        $this->assertSame(-2, $test->integer);
-
-        $test->integer = null;
-
-        $this->assertNull($test->integer);
-
-        $test->integer = "1,234";
-
-        $this->assertSame(1234, $test->integer);
-
-        $test->integer = "1,234.50";
-
-        $this->assertSame(1234, $test->integer);
-
-        $test->integer = "-1,234.50";
-
-        $this->assertSame(-1234, $test->integer);
+        $this->assertIsInt($stream->fields->integer->type()->generate());
     }
 }

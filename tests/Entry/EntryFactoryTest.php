@@ -40,10 +40,10 @@ class EntryFactoryTest extends TestCase
 
         $this->assertEquals(3, $fakes->count());
 
-        $this->assertIsNumeric(3, $fakes->first()->id);
+        $this->assertIsString($fakes->first()->id);
         $this->assertInstanceOf(EntryInterface::class, $fakes->first());
 
-        $this->assertIsNumeric(3, $fakes->last()->id);
+        $this->assertIsString($fakes->last()->id);
         $this->assertInstanceOf(EntryInterface::class, $fakes->last());
     }
 }

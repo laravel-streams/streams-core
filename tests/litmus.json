@@ -1,19 +1,19 @@
 {
     "handle": "testing.litmus",
     "description": "Used for testing.",
-    
     "config": {
         "source": {
             "path": "vendor/streams/core/tests/data/litmus",
             "format": "json"
         }
     },
-
     "rules": {
         "number": "required"
     },
-
     "fields": {
+        "uuid": {
+            "type": "uuid"
+        },
         "number": {
             "type": "number"
         },
@@ -25,6 +25,12 @@
         },
         "email": {
             "type": "email"
+        },
+        "markdown": {
+            "type": "markdown"
+        },
+        "template": {
+            "type": "template"
         },
         "datetime": {
             "type": "datetime"
@@ -65,6 +71,12 @@
         },
         "hash": {
             "type": "hash"
+        },
+        "encrypted": {
+            "type": "encrypted"
+        },
+        "slug": {
+            "type": "slug"
         },
         "color": {
             "type": "color"

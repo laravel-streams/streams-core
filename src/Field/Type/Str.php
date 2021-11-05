@@ -8,12 +8,6 @@ use Streams\Core\Field\Value\StrValue;
 class Str extends FieldType
 {
 
-    /**
-     * Modify the value for storage.
-     *
-     * @param string $value
-     * @return string
-     */
     public function modify($value)
     {
         if (is_null($value)) {
@@ -23,12 +17,6 @@ class Str extends FieldType
         return (string) $value;
     }
 
-    /**
-     * Restore the value from storage.
-     *
-     * @param $value
-     * @return string
-     */
     public function restore($value)
     {
         if (is_null($value)) {
@@ -45,6 +33,6 @@ class Str extends FieldType
 
     public function generate()
     {
-        return $this->expand($this->generator()->text());
+        return $this->generator()->text();
     }
 }

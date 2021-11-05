@@ -2,9 +2,10 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\Factory\IntegerGenerator;
+use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Value\IntegerValue;
 
-class Integer extends Number
+class Integer extends FieldType
 {
     /**
      * Initialize the prototype.
@@ -22,23 +23,39 @@ class Integer extends Number
         ], $attributes));
     }
 
-    /**
-     * Modify the value for storage.
-     *
-     * @param string $value
-     * @return string
-     */
     public function modify($value)
     {
-        if (is_null($value = parent::modify($value))) {
+        if (is_null($value)) {
             return $value;
+        }
+
+        if (is_string($value)) {
+            $value = preg_replace('/[^\da-z\.\-]/i', '', $value);
         }
 
         return intval($value);
     }
 
-    public function generator(): IntegerGenerator
+    public function restore($value)
     {
-        return new IntegerGenerator($this);
+        if (is_null($value)) {
+            return $value;
+        }
+
+        if (is_string($value)) {
+            $value = preg_replace('/[^\da-z\.\-]/i', '', $value);
+        }
+
+        return intval($value);
+    }
+
+    public function expand($value)
+    {
+        return new IntegerValue($value);
+    }
+
+    public function generate(): int
+    {
+        return $this->generator()->randomNumber();
     }
 }

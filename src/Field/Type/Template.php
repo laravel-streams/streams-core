@@ -7,27 +7,31 @@ use Streams\Core\Field\Value\TemplateValue;
 
 class Template extends FieldType
 {
-    /**
-     * Initialize the prototype.
-     *
-     * @param array $attributes
-     * @return $this
-     */
-    protected function initializePrototypeAttributes(array $attributes)
+    public function modify($value)
     {
-        return parent::initializePrototypeAttributes(array_merge([
-            'rules' => [],
-        ], $attributes));
+        if (is_null($value)) {
+            return $value;
+        }
+
+        return (string) $value;
     }
 
-    /**
-     * Expand the value.
-     *
-     * @param $value
-     * @return Collection
-     */
+    public function restore($value)
+    {
+        if (is_null($value)) {
+            return $value;
+        }
+
+        return (string) $value;
+    }
+
     public function expand($value)
     {
         return new TemplateValue($value);
+    }
+
+    public function generate()
+    {
+        return $this->generator()->randomHtml();
     }
 }

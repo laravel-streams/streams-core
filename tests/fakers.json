@@ -9,10 +9,37 @@
     },
     "fields": {
         "id": {
-            "type": "integer"
+            "type": "uuid"
         },
         "string": {
             "type": "string"
+        },
+        "url": {
+            "type": "url"
+        },
+        "hash": {
+            "type": "hash"
+        },
+        "slug": {
+            "type": "slug"
+        },
+        "email": {
+            "type": "email"
+        },
+        "encrypted": {
+            "type": "encrypted"
+        },
+        "markdown": {
+            "type": "markdown"
+        },
+        "template": {
+            "type": "template"
+        },
+        "number": {
+            "type": "number"
+        },
+        "integer": {
+            "type": "integer"
         },
         "boolean": {
             "type": "boolean"

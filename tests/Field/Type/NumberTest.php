@@ -14,37 +14,30 @@ class NumberTest extends TestCase
         $this->createApplication();
 
         Streams::load(base_path('vendor/streams/core/tests/litmus.json'));
+        Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
     }
 
-    public function testCasting()
+    public function testCastsToNumicValue()
     {
-        $test = Streams::repository('testing.litmus')->find('field_types');
+        $type = Streams::make('testing.litmus')->fields->number->type();
 
-        $this->assertSame(100, $test->number);
+        $this->assertSame(100, $type->modify("100"));
+        $this->assertSame(100, $type->restore("100"));
 
-        $test->number = 1.2;
+        $this->assertSame(1, $type->modify(1.2));
+        $this->assertSame(1, $type->restore(1.2));
 
-        $this->assertSame(1.2, $test->number);
+        $this->assertSame(-2, $type->modify(-2.4));
+        $this->assertSame(-2, $type->restore(-2.4));
 
-        $test->number = -2.4;
+        $this->assertSame(1234, $type->modify("1,234"));
+        $this->assertSame(1234, $type->restore("1,234"));
 
-        $this->assertSame(-2.4, $test->number);
+        $this->assertSame(1234, $type->modify("1,234.50"));
+        $this->assertSame(1234, $type->restore("1,234.50"));
 
-        $test->number = null;
-
-        $this->assertNull($test->number);
-
-        $test->number = "1,234";
-
-        $this->assertSame(1234, $test->number);
-
-        $test->number = "1,234.50";
-
-        $this->assertSame(1234.5, $test->number);
-
-        $test->number = "-1,234.50";
-
-        $this->assertSame(-1234.5, $test->number);
+        $this->assertSame(-1234, $type->modify("-1,234.50"));
+        $this->assertSame(-1234, $type->restore("-1,234.50"));
     }
 
     public function testExpandedValue()
@@ -52,5 +45,12 @@ class NumberTest extends TestCase
         $test = Streams::repository('testing.litmus')->find('field_types');
         
         $this->assertInstanceOf(NumberValue::class, $test->expand('number'));
+    }
+
+    public function testCanGenerateValue()
+    {
+        $stream = Streams::make('testing.fakers');
+
+        $this->assertIsNumeric($stream->fields->number->type()->generate());
     }
 }

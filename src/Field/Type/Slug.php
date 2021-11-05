@@ -3,22 +3,36 @@
 namespace Streams\Core\Field\Type;
 
 use Illuminate\Support\Str;
-use Streams\Core\Field\Factory\SlugGenerator;
 use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Value\StrValue;
 
 class Slug extends FieldType
 {
-    /**
-     * @param string $value
-     * @return string
-     */
     public function modify($value)
     {
+        if (is_null($value)) {
+            return $value;
+        }
+
         return Str::slug($value, $this->field->config('seperator') ?: '_');
     }
 
-    public function generator(): SlugGenerator
+    public function restore($value)
     {
-        return new SlugGenerator($this);
+        if (is_null($value)) {
+            return $value;
+        }
+        
+        return Str::slug($value, $this->field->config('seperator') ?: '_');
+    }
+
+    public function expand($value)
+    {
+        return new StrValue($value);
+    }
+    
+    public function generate()
+    {
+        return $this->modify($this->generator()->title());
     }
 }
