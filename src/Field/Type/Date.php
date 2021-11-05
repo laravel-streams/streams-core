@@ -2,41 +2,44 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\Factory\DateGenerator;
+use Carbon\Carbon;
 
 class Date extends Datetime
 {
-    /**
-     * Modify the value for storage.
-     *
-     * @param string $value
-     * @return string
-     */
     public function modify($value)
     {
+        if (is_null($value)) {
+            return $value;
+        }
+
         return $this->toCarbon($value)->format('Y-m-d');
     }
 
-    /**
-     * Restore the value from storage.
-     *
-     * @param $value
-     * @return null|Carbon
-     */
     public function restore($value)
     {
         if (is_null($value = parent::restore($value))) {
             return $value;
         }
 
-        return $value
-            ->setHours(0)
-            ->setMinutes(0)
-            ->setSeconds(0);
+        return $value->startOfDay();
     }
 
-    public function generator(): DateGenerator
+    public function generate()
     {
-        return new DateGenerator($this);
+        return $this->generator()->date();
+    }
+
+    public function toCarbon($value): Carbon
+    {
+        if ($this->isStandardDateFormat($value)) {
+            return Date::instance(Carbon::createFromFormat('Y-m-d', $value)->startOfDay());
+        }
+
+        return parent::toCarbon($value)->startOfDay();
+    }
+
+    protected function isStandardDateFormat($value): bool
+    {
+        return preg_match('/^(\d{4})-(\d{1,2})-(\d{1,2})$/', $value);
     }
 }

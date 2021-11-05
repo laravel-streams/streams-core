@@ -36,6 +36,11 @@ return [
      */
     'field_types' => [
 
+        // Numbers
+        'number' => \Streams\Core\Field\Type\Number::class,
+        'integer' => \Streams\Core\Field\Type\Integer::class,
+        'decimal' => \Streams\Core\Field\Type\Decimal::class,
+
         // Strings
         'string' => \Streams\Core\Field\Type\Str::class,
 
@@ -46,31 +51,20 @@ return [
         'email' => \Streams\Core\Field\Type\Email::class,
         'encrypted' => \Streams\Core\Field\Type\Encrypted::class,
 
+        // Markup
         'markdown' => \Streams\Core\Field\Type\Markdown::class,
         'template' => \Streams\Core\Field\Type\Template::class,
 
-        // Numbers
-        'number' => \Streams\Core\Field\Type\Number::class,
-        'integer' => \Streams\Core\Field\Type\Integer::class,
-        //'float' => \Streams\Core\Field\Type\Decimal::class,
-        'decimal' => \Streams\Core\Field\Type\Decimal::class,
-
         // Boolean
         'boolean' => \Streams\Core\Field\Type\Boolean::class,
-
-        // Arrays
-        'array' => \Streams\Core\Field\Type\Arr::class,
-
-        // Objects
-        'prototype' => \Streams\Core\Field\Type\Prototype::class,
-        'object' => \Streams\Core\Field\Type\Prototype::class,
-        'image' => \Streams\Core\Field\Type\Image::class,
-        'file' => \Streams\Core\Field\Type\File::class,
 
         // Dates
         'datetime' => \Streams\Core\Field\Type\Datetime::class,
         'date' => \Streams\Core\Field\Type\Date::class,
         'time' => \Streams\Core\Field\Type\Time::class,
+
+        // Arrays
+        'array' => \Streams\Core\Field\Type\Arr::class,
 
         // Selections
         'select' => \Streams\Core\Field\Type\Select::class,
@@ -79,6 +73,12 @@ return [
         // Collections
         // @todo Test me
         'collection' => \Streams\Core\Field\Type\Collection::class,
+
+        // Objects
+        'prototype' => \Streams\Core\Field\Type\Prototype::class,
+        'object' => \Streams\Core\Field\Type\Prototype::class,
+        'image' => \Streams\Core\Field\Type\Image::class,
+        'file' => \Streams\Core\Field\Type\File::class,
 
         // Streams
         'entry' => \Streams\Core\Field\Type\Entry::class,

@@ -2,9 +2,10 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\Factory\ArrGenerator;
+use Illuminate\Support\Str;
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\ArrValue;
+use Illuminate\Contracts\Support\Arrayable;
 
 class Arr extends FieldType
 {
@@ -16,12 +17,41 @@ class Arr extends FieldType
 
     public function modify($value)
     {
-        if (is_string($value) && $json = json_decode($value)) {
-            $value = $json;
+        if (is_null($value)) {
+            return null;
         }
 
-        if (is_string($value) && is_null($json)) {
-            $value = explode("\n", $value);
+        if (is_array($value)) {
+            return $value;
+        }
+
+        if (is_string($value) && $json = json_decode($value, true)) {
+            return $json;
+        }
+
+        if (is_string($value) && Str::isSerialized($value, false)) {
+            return (array) unserialize($value);
+        }
+
+        if (is_object($value) && $value instanceof Arrayable) {
+            return $value->toArray();
+        }
+
+        return null;
+    }
+
+    public function restore($value)
+    {
+        if (is_null($value)) {
+            return null;
+        }
+
+        if (is_string($value) && $json = json_decode($value, true)) {
+            return $json;
+        }
+
+        if (is_string($value) && Str::isSerialized($value, false)) {
+            return (array) unserialize($value);
         }
 
         return (array) $value;
@@ -32,8 +62,15 @@ class Arr extends FieldType
         return new ArrValue($value);
     }
 
-    public function generator(): ArrGenerator
+    public function generate()
     {
-        return new ArrGenerator($this);
+        for ($i = 0; $i < 10; $i++) {
+            $values[] = $this->generator()->randomElement([
+                $this->generator()->word(),
+                $this->generator()->randomNumber(),
+            ]);
+        }
+
+        return $values;
     }
 }

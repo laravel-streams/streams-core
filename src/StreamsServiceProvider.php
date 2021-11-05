@@ -509,6 +509,7 @@ class StreamsServiceProvider extends ServiceProvider
         Str::macro('parse', [StrMacros::class, 'parse']);
         Str::macro('humanize', [StrMacros::class, 'humanize']);
         Str::macro('truncate', [StrMacros::class, 'truncate']);
+        Str::macro('isSerialized', [StrMacros::class, 'isSerialized']);
 
         Str::macro('purify', [HTMLPurifier::class, 'purify']);
 

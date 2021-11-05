@@ -23,13 +23,28 @@ class Number extends FieldType
         ], $attributes));
     }
 
-    /**
-     * Modify the value for storage.
-     *
-     * @param string $value
-     * @return string
-     */
     public function modify($value)
+    {
+        if (is_null($value)) {
+            return $value;
+        }
+
+        if (is_string($value)) {
+            $value = preg_replace('/[^\da-z\.\-]/i', '', $value);
+        }
+
+        $float = floatval($value);
+        
+        if ($float && intval($float) != $float) {
+            $value = $float;
+        } else {
+            $value = intval($value);
+        }
+
+        return $value;
+    }
+
+    public function restore($value)
     {
         if (is_null($value)) {
             return $value;
@@ -57,6 +72,10 @@ class Number extends FieldType
 
     public function generate()
     {
-        return $this->generator()->randomNumber();
+        return $this->generator()->randomElement([
+            $this->generator()->randomNumber(),
+            $this->generator()->randomFloat(),
+            round($this->generator()->randomFloat(), 1),
+        ]);
     }
 }

@@ -46,6 +46,15 @@
         },
         "datetime": {
             "type": "datetime"
+        },
+        "date": {
+            "type": "date"
+        },
+        "time": {
+            "type": "time"
+        },
+        "array": {
+            "type": "array"
         }
     }
 }

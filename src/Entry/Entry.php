@@ -14,7 +14,6 @@ use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\Fluency;
 use Streams\Core\Support\Facades\Streams;
 use Illuminate\Contracts\Support\Jsonable;
-use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
@@ -184,13 +183,7 @@ class Entry implements
      */
     public function toArray()
     {
-        return Arr::make(Hydrator::dehydrate($this, [
-            'stream',
-            '__listeners',
-            '__observers',
-            '__created_at',
-            '__updated_at',
-        ]));
+        return $this->getAttributes();
     }
 
     /**
