@@ -2,7 +2,7 @@
 
 namespace Streams\Core\Field\Factory;
 
-class UrlGenerator extends StrGenerator
+class UrlGenerator extends Generator
 {
     public function create()
     {

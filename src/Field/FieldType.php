@@ -7,7 +7,6 @@ use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
-use Streams\Core\Field\Factory\Generator;
 
 /**
  * @typescript
@@ -57,12 +56,13 @@ class FieldType
 
     public function generate()
     {
-        return $this->generator()->create();
+        return $this->expand($this->generator()->text());
     }
 
-    public function generator(): Generator
+    public function generator()
     {
-        return new Generator($this);
+        // @todo app(this->config('generator))
+        return $this->once(__METHOD__, fn () => \Faker\Factory::create());
     }
 
     /**

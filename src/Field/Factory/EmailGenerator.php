@@ -2,7 +2,7 @@
 
 namespace Streams\Core\Field\Factory;
 
-class EmailGenerator extends StrGenerator
+class EmailGenerator extends Generator
 {
     public function create()
     {

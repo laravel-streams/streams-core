@@ -4,7 +4,7 @@ namespace Streams\Core\Field\Factory;
 
 use Illuminate\Support\Facades\Hash;
 
-class HashGenerator extends StrGenerator
+class HashGenerator extends Generator
 {
     public function create()
     {

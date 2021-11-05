@@ -21,7 +21,7 @@ class Generator
 
     public function create()
     {
-        return $this->faker()->text();
+        return Factory::create()->text();
     }
 
     public function faker()

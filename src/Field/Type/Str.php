@@ -2,7 +2,6 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\Factory\StrGenerator;
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\StrValue;
 
@@ -44,8 +43,8 @@ class Str extends FieldType
         return new StrValue($value);
     }
 
-    public function generator(): StrGenerator
+    public function generate()
     {
-        return new StrGenerator($this);
+        return $this->expand($this->generator()->text());
     }
 }
