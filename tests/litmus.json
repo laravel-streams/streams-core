@@ -17,6 +17,9 @@
         "number": {
             "type": "number"
         },
+        "decimal": {
+            "type": "decimal"
+        },
         "integer": {
             "type": "integer"
         },
@@ -97,6 +100,18 @@
         },
         "image": {
             "type": "image"
+        },
+        "relationship": {
+            "type": "relationship",
+            "config": {
+                "related": "testing.examples"
+            }
+        },
+        "multiple": {
+            "type": "multiple",
+            "config": {
+                "related": "testing.examples"
+            }
         },
         "entry": {
             "type": "entry",

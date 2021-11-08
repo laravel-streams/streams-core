@@ -33,6 +33,6 @@ class Slug extends FieldType
     
     public function generate()
     {
-        return $this->modify($this->generator()->title());
+        return $this->modify($this->generator()->words(2, true));
     }
 }

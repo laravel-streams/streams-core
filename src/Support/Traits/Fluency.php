@@ -21,8 +21,6 @@ use Streams\Core\Support\Facades\Hydrator;
  * 
  *      echo $object->expand('attribute'); // A new Value instance
  *
- * @link   http://pyrocms.com/
- * @author Ryan Thompson <ryan@pyrocms.com>
  */
 trait Fluency
 {
@@ -36,7 +34,23 @@ trait Fluency
 
     public function expand($key)
     {
-        return $this->expandPrototypeAttribute($key);
+        //return $this->expandPrototypeAttribute($key);
+
+        $name = Str::camel('expand_' . $key . '_attribute');
+        
+        $value = $this->getPrototypeAttribute($key);
+
+        if ($this->hasPrototypeAttributeOverride($name)) {
+            return $this->{Str::camel($name)}($value);
+        }
+
+        $type = $this->newProtocolPropertyFieldType($key);
+
+        // @todo this needs work..
+        $type->field = $this->stream()->fields->get($key);
+        $type->entry = $this;
+
+        return $type->expand($value);
     }
 
     public function setAttributes(array $attributes)

@@ -41,6 +41,9 @@
         "integer": {
             "type": "integer"
         },
+        "decimal": {
+            "type": "decimal"
+        },
         "boolean": {
             "type": "boolean"
         },
@@ -68,6 +71,12 @@
             "config.options": {
                 "foo": "Foo",
                 "bar": "Bar"
+            }
+        },
+        "entry": {
+            "type": "entry",
+            "config": {
+                "stream": "testing.examples"
             }
         },
         "color": {

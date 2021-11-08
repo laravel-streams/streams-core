@@ -5,6 +5,7 @@ namespace Streams\Core\Tests\Field\Type;
 use Carbon\Carbon;
 use Tests\TestCase;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Value\DatetimeValue;
 
 class DateTest extends TestCase
 {
@@ -25,7 +26,7 @@ class DateTest extends TestCase
         $this->assertNull($type->restore(null));
     }
 
-    public function testCastsToDatime()
+    public function testCastsToDatetime()
     {
         $type = Streams::make('testing.litmus')->fields->date->type();
 

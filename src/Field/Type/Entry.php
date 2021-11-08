@@ -49,12 +49,12 @@ class Entry extends FieldType
             $value = (array) unserialize($value);
         }
 
-        return $this->expand($value);
+        return $value;
     }
 
     public function expand($value)
     {
-        return $this->stream()->newInstance($value);
+        return $this->stream()->repository()->newInstance($value);
     }
 
     public function generate()

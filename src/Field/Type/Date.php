@@ -3,6 +3,7 @@
 namespace Streams\Core\Field\Type;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Date as DateFacade;
 
 class Date extends Datetime
 {
@@ -26,13 +27,13 @@ class Date extends Datetime
 
     public function generate()
     {
-        return $this->generator()->date();
+        return $this->toCarbon($this->generator()->date());
     }
 
     public function toCarbon($value): Carbon
     {
-        if ($this->isStandardDateFormat($value)) {
-            return Date::instance(Carbon::createFromFormat('Y-m-d', $value)->startOfDay());
+        if (is_string($value) && $this->isStandardDateFormat($value)) {
+            return DateFacade::instance(Carbon::createFromFormat('Y-m-d', $value)->startOfDay());
         }
 
         return parent::toCarbon($value)->startOfDay();

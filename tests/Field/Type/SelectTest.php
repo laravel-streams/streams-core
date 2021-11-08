@@ -65,7 +65,6 @@ class SelectTest extends TestCase
     }
 }
 
-
 class SelectHandler
 {
 

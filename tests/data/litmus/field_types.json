@@ -22,6 +22,11 @@
     "email": "hello@example.com",
     "url": "streams.dev",
     "color": "#111111",
+    "relationship": "first",
+    "multiple": [
+        "first",
+        "second"
+    ],
     "entry": {
         "name": "Example Name",
         "age": 33

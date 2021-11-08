@@ -2,6 +2,8 @@
 
 namespace Streams\Core\Field\Type;
 
+use Streams\Core\Field\Value\NumberValue;
+
 class Decimal extends Number
 {
     /**
@@ -19,18 +21,31 @@ class Decimal extends Number
         ], $attributes));
     }
 
-    /**
-     * Modify the value for storage.
-     *
-     * @param string $value
-     * @return string
-     */
     public function modify($value)
     {
         if (is_null($value = parent::modify($value))) {
             return $value;
         }
 
-        return floatval($value);
+        return round($value, $this->field->config('precision') ?: 1);
+    }
+
+    public function restore($value)
+    {
+        if (is_null($value = parent::restore($value))) {
+            return $value;
+        }
+
+        return round($value, $this->field->config('precision') ?: 1);
+    }
+
+    public function expand($value)
+    {
+        return new NumberValue($value);
+    }
+    
+    public function generate()
+    {
+        return number_format(parent::generate(), $this->field->config('precision') ?: 1, '.', '');
     }
 }

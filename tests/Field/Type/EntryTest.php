@@ -39,9 +39,8 @@ class EntryTest extends TestCase
     public function testExpandedValue()
     {
         $test = Streams::repository('testing.litmus')->find('field_types');
-dd($test->entry);
+
         $this->assertInstanceOf(EntryInterface::class, $test->expand('entry'));
-        die('Test');
     }
 
     public function testCanGenerateValue()
@@ -52,15 +51,5 @@ dd($test->entry);
 
         $this->assertInstanceOf(EntryInterface::class, $fake);
         $this->assertIsString($fake->name);
-    }
-}
-
-
-class SelectHandler
-{
-
-    public function handle(): array
-    {
-        return ['foo' => 'Bar'];
     }
 }
