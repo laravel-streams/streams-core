@@ -2,30 +2,31 @@
 
 namespace Streams\Core\Field\Type;
 
-use Illuminate\Support\Arr;
 use Streams\Core\Field\FieldType;
 use Illuminate\Support\Facades\App;
-use Streams\Core\Field\Factory\SelectGenerator;
+use Streams\Core\Field\Value\SelectValue;
 
 class Select extends FieldType
 {
 
     public function options()
     {
-        return $this->once(__METHOD__, function () {
+        $options = $this->field->config('options', []);
 
-            $options = $this->field->config('options', []);
+        if (is_string($options)) {
+            return App::call($options);
+        }
 
-            if (is_string($options)) {
-                return App::call($options);
-            }
-
-            return $options;
-        });
+        return $options;
     }
 
-    public function generator(): SelectGenerator
+    public function expand($value)
     {
-        return new SelectGenerator($this);
+        return new SelectValue($value);
+    }
+
+    public function generate()
+    {
+        return $this->generator()->randomElement(array_keys($this->options()));
     }
 }

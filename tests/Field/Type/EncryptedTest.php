@@ -2,11 +2,12 @@
 
 namespace Streams\Core\Tests\Field\Type;
 
-use Streams\Core\Field\Value\BooleanValue;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Crypt;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Value\EncryptedValue;
 
-class BooleanTest extends TestCase
+class EncryptedTest extends TestCase
 {
 
     public function setUp(): void
@@ -19,34 +20,33 @@ class BooleanTest extends TestCase
 
     public function testNullValues()
     {
-        $type = Streams::make('testing.litmus')->fields->boolean->type();
+        $type = Streams::make('testing.litmus')->fields->encrypted->type();
 
         $this->assertNull($type->modify(null));
         $this->assertNull($type->restore(null));
     }
 
-    public function testCastsToBoolean()
+    public function testCastsToEncryptedString()
     {
-        $type = Streams::make('testing.litmus')->fields->boolean->type();
+        $type = Streams::make('testing.litmus')->fields->encrypted->type();
 
-        $this->assertSame(true, $type->modify(1));
-        $this->assertSame(false, $type->restore(0));
-
-        $this->assertSame(true, $type->modify('yes'));
-        $this->assertSame(false, $type->restore('no'));
+        $this->assertSame('test', Crypt::decrypt($type->modify('test')));
+        $this->assertSame('test', $type->restore('test'));
     }
 
     public function testExpandedValue()
     {
         $test = Streams::repository('testing.litmus')->find('field_types');
 
-        $this->assertInstanceOf(BooleanValue::class, $test->expand('boolean'));
+        $this->assertInstanceOf(EncryptedValue::class, $test->expand('encrypted'));
     }
 
     public function testCanGenerateValue()
     {
         $stream = Streams::make('testing.fakers');
 
-        $this->assertIsBool($stream->fields->boolean->type()->generate());
+        $value = $stream->fields->encrypted->type()->generate();
+
+        $this->assertNotSame($value, Crypt::decrypt($value));
     }
 }

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Facade;
  * @author Ryan Thompson <ryan@pyrocms.com>
  *
  * @method static \Streams\Core\Application\Application make($handle = null)
- * @method static string active()
+ * @method static \Streams\Core\Application\Application active()
  * @method static \Streams\Core\Application\ApplicationManager switch($handle = null)
  */
 class Applications extends Facade

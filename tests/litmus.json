@@ -1,21 +1,24 @@
 {
     "handle": "testing.litmus",
     "description": "Used for testing.",
-    
     "config": {
         "source": {
             "path": "vendor/streams/core/tests/data/litmus",
             "format": "json"
         }
     },
-
     "rules": {
         "number": "required"
     },
-
     "fields": {
+        "uuid": {
+            "type": "uuid"
+        },
         "number": {
             "type": "number"
+        },
+        "decimal": {
+            "type": "decimal"
         },
         "integer": {
             "type": "integer"
@@ -25,6 +28,12 @@
         },
         "email": {
             "type": "email"
+        },
+        "markdown": {
+            "type": "markdown"
+        },
+        "template": {
+            "type": "template"
         },
         "datetime": {
             "type": "datetime"
@@ -48,16 +57,27 @@
         "select": {
             "type": "select",
             "config.options": {
-                "foo": "Bar",
-                "baz": "Baz"
+                "foo": "Foo",
+                "bar": "Bar"
             }
+        },
+        "select_callable_options": {
+            "type": "select",
+            "config.options": "Streams\\Core\\Tests\\Field\\Type\\SelectHandler@handle"
         },
         "multiselect": {
             "type": "multiselect",
-            "config.options": {
-                "foo": "Foo",
-                "bar": "Bar",
-                "baz": "Baz"
+            "config": {
+                "options": {
+                    "foo": "Foo",
+                    "bar": "Bar"
+                }
+            }
+        },
+        "multiselect_callable_options": {
+            "type": "multiselect",
+            "config": {
+                "options": "Streams\\Core\\Tests\\Field\\Type\\MultiselectHandler@handle"
             }
         },
         "url": {
@@ -65,6 +85,12 @@
         },
         "hash": {
             "type": "hash"
+        },
+        "encrypted": {
+            "type": "encrypted"
+        },
+        "slug": {
+            "type": "slug"
         },
         "color": {
             "type": "color"
@@ -75,11 +101,29 @@
         "image": {
             "type": "image"
         },
+        "relationship": {
+            "type": "relationship",
+            "config": {
+                "related": "testing.examples"
+            }
+        },
+        "multiple": {
+            "type": "multiple",
+            "config": {
+                "related": "testing.examples"
+            }
+        },
         "entry": {
-            "type": "entry"
+            "type": "entry",
+            "config": {
+                "stream": "testing.examples"
+            }
         },
         "entries": {
-            "type": "entries"
+            "type": "entries",
+            "config": {
+                "stream": "testing.examples"
+            }
         }
     }
 }

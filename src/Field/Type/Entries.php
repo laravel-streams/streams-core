@@ -70,6 +70,6 @@ class Entries extends FieldType
      */
     public function stream()
     {
-        return Streams::make($this->config['related']);
+        return Streams::make($this->config['stream']);
     }
 }

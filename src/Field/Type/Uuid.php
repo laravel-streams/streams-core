@@ -9,12 +9,6 @@ use Streams\Core\Field\Factory\UuidGenerator;
 class Uuid extends FieldType
 {
 
-    /**
-     * Modify the value for storage.
-     *
-     * @param string $value
-     * @return string
-     */
     public function modify($value)
     {
         if (is_null($value)) {
@@ -24,12 +18,6 @@ class Uuid extends FieldType
         return (string) $value;
     }
 
-    /**
-     * Restore the value from storage.
-     *
-     * @param $value
-     * @return string
-     */
     public function restore($value)
     {
         if (is_null($value)) {
@@ -44,8 +32,8 @@ class Uuid extends FieldType
         return new StrValue($value);
     }
 
-    public function generator(): UuidGenerator
+    public function generate()
     {
-        return new UuidGenerator($this);
+        return $this->generator()->uuid();
     }
 }

@@ -29,15 +29,15 @@ class EntryFactory
         $this->stream = $stream;
     }
 
-    public function create($data = []): EntryInterface
+    public function create(array $attributes = []): EntryInterface
     {
-        $this->stream->fields->each(function ($field) use (&$data) {
-            if (!array_key_exists($field->handle, $data)) {
-                $data[$field->handle] = $field->type()->generate();
+        $this->stream->fields->each(function ($field) use (&$attributes) {
+            if (!array_key_exists($field->handle, $attributes)) {
+                $attributes[$field->handle] = $field->type()->generate();
             }
         });
 
-        return $this->stream->repository()->newInstance($data);
+        return $this->stream->repository()->newInstance($attributes);
     }
 
     public function collect($count = 1): Collection

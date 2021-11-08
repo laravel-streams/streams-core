@@ -9,16 +9,78 @@
     },
     "fields": {
         "id": {
-            "type": "integer"
+            "type": "uuid"
         },
         "string": {
             "type": "string"
+        },
+        "url": {
+            "type": "url"
+        },
+        "hash": {
+            "type": "hash"
+        },
+        "slug": {
+            "type": "slug"
+        },
+        "email": {
+            "type": "email"
+        },
+        "encrypted": {
+            "type": "encrypted"
+        },
+        "markdown": {
+            "type": "markdown"
+        },
+        "template": {
+            "type": "template"
+        },
+        "number": {
+            "type": "number"
+        },
+        "integer": {
+            "type": "integer"
+        },
+        "decimal": {
+            "type": "decimal"
         },
         "boolean": {
             "type": "boolean"
         },
         "datetime": {
             "type": "datetime"
+        },
+        "date": {
+            "type": "date"
+        },
+        "time": {
+            "type": "time"
+        },
+        "array": {
+            "type": "array"
+        },
+        "select": {
+            "type": "select",
+            "config.options": {
+                "foo": "Foo",
+                "bar": "Bar"
+            }
+        },
+        "multiselect": {
+            "type": "multiselect",
+            "config.options": {
+                "foo": "Foo",
+                "bar": "Bar"
+            }
+        },
+        "entry": {
+            "type": "entry",
+            "config": {
+                "stream": "testing.examples"
+            }
+        },
+        "color": {
+            "type": "color"
         }
     }
 }

@@ -4,7 +4,6 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\NumberValue;
-use Streams\Core\Field\Factory\NumberGenerator;
 
 class Number extends FieldType
 {
@@ -23,12 +22,6 @@ class Number extends FieldType
         ], $attributes));
     }
 
-    /**
-     * Modify the value for storage.
-     *
-     * @param string $value
-     * @return string
-     */
     public function modify($value)
     {
         if (is_null($value)) {
@@ -50,19 +43,38 @@ class Number extends FieldType
         return $value;
     }
 
-    /**
-     * Expand the value.
-     *
-     * @param $value
-     * @return Collection
-     */
+    public function restore($value)
+    {
+        if (is_null($value)) {
+            return $value;
+        }
+
+        if (is_string($value)) {
+            $value = preg_replace('/[^\da-z\.\-]/i', '', $value);
+        }
+
+        $float = floatval($value);
+        
+        if ($float && intval($float) != $float) {
+            $value = $float;
+        } else {
+            $value = intval($value);
+        }
+
+        return $value;
+    }
+
     public function expand($value)
     {
         return new NumberValue($value);
     }
 
-    public function generator(): NumberGenerator
+    public function generate()
     {
-        return new NumberGenerator($this);
+        return $this->generator()->randomElement([
+            $this->generator()->randomNumber(),
+            $this->generator()->randomFloat(),
+            round($this->generator()->randomFloat(), 1),
+        ]);
     }
 }

@@ -2,23 +2,44 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\Factory\EmailGenerator;
+use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\EmailValue;
 
-class Email extends Str
+class Email extends FieldType
 {
-    
-    /**
-     * @param $value
-     * @return EmailValue
-     */
+    public function modify($value)
+    {
+        if (is_null($value)) {
+            return $value;
+        }
+
+        if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
+            return null;
+        }
+
+        return (string) $value;
+    }
+
+    public function restore($value)
+    {
+        if (is_null($value)) {
+            return $value;
+        }
+
+        if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
+            return null;
+        }
+
+        return (string) $value;
+    }
+
     public function expand($value)
     {
         return new EmailValue($value);
     }
 
-    public function generator(): EmailGenerator
+    public function generate()
     {
-        return new EmailGenerator($this);
+        return $this->generator()->email();
     }
 }

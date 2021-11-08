@@ -227,11 +227,11 @@ trait Prototype
         $parts = explode('.', $original = $key);
 
         $key = array_shift($parts);
-
+        
         if ($this->hasPrototypeAttributeOverride($name = Str::camel('get_' . $key . '_attribute'))) {
             return $this->{$name}();
         }
-
+        
         return $this->getPrototypeAttributeValue($original, $default);
     }
 
@@ -258,7 +258,7 @@ trait Prototype
         }
 
         if ($parts) {
-            return data_get($value, implode('.', $parts));
+            return data_get($value, implode('.', $parts), $default);
         }
 
         return $value;
@@ -282,6 +282,7 @@ trait Prototype
 
         $type = $this->newProtocolPropertyFieldType($key);
 
+        // @todo this is not right..
         $type->field = $key;
         $type->entry = $this;
 
@@ -332,7 +333,7 @@ trait Prototype
     {
         $type = $this->newProtocolPropertyFieldType($key);
 
-        $type->field = $key;
+        $type->field = $this->stream()->fields->get($key);
 
         return $type->restore($value);
     }

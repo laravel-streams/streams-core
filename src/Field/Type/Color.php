@@ -4,36 +4,35 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\ColorValue;
-use Streams\Core\Field\Factory\ColorGenerator;
 
 class Color extends FieldType
 {
-    /**
-     * Initialize the prototype.
-     *
-     * @param array $attributes
-     * @return $this
-     */
-    protected function initializePrototypeAttributes(array $attributes)
+
+    public function modify($value)
     {
-        return parent::initializePrototypeAttributes(array_merge([
-            'rules' => [],
-        ], $attributes));
+        if (is_null($value)) {
+            return $value;
+        }
+
+        return strtolower((string) $value);
     }
 
-    /**
-     * Expand the value.
-     *
-     * @param $value
-     * @return Collection
-     */
+    public function restore($value)
+    {
+        if (is_null($value)) {
+            return $value;
+        }
+
+        return strtolower((string) $value);
+    }
+
     public function expand($value)
     {
         return new ColorValue($value);
     }
 
-    public function generator(): ColorGenerator
+    public function generate()
     {
-        return new ColorGenerator($this);
+        return '#' . str_pad(dechex(rand(0x000000, 0xFFFFFF)), 6, 0, STR_PAD_LEFT);
     }
 }

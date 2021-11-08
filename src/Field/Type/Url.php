@@ -2,18 +2,36 @@
 
 namespace Streams\Core\Field\Type;
 
+use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\UrlValue;
-use Streams\Core\Field\Factory\UrlGenerator;
 
-class Url extends Str
+class Url extends FieldType
 {
+    public function modify($value)
+    {
+        if (is_null($value)) {
+            return $value;
+        }
+
+        return (string) $value;
+    }
+
+    public function restore($value)
+    {
+        if (is_null($value)) {
+            return $value;
+        }
+
+        return (string) $value;
+    }
+
     public function expand($value)
     {
         return new UrlValue($value);
     }
 
-    public function generator(): UrlGenerator
+    public function generate()
     {
-        return new UrlGenerator($this);
+        return $this->generator()->url();
     }
 }

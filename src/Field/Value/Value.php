@@ -15,6 +15,11 @@ class Value
         $this->value = $value;
     }
 
+    public function value()
+    {
+        return $this->value;
+    }
+
     public function __toString()
     {
         return (string) $this->value;

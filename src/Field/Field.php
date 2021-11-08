@@ -5,10 +5,12 @@ namespace Streams\Core\Field;
 use JsonSerializable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Streams\Core\Stream\Stream;
 use Streams\Core\Field\FieldType;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Traits\Macroable;
+use Streams\Core\Support\Facades\Streams;
 use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
@@ -58,6 +60,11 @@ class Field implements
         ]);
     }
 
+    public function stream()
+    {
+        return $this->remember(md5(json_encode($this->stream)) . __METHOD__, fn () => Streams::make($this->stream));
+    }
+
     public function name(): string
     {
         return $this->name ?: ($this->name = Str::title(Str::humanize($this->handle)));
@@ -72,7 +79,9 @@ class Field implements
             if (!App::has('streams.core.field_type.' . $this->type)) {
                 throw new \Exception("Invalid field type [{$this->type}] in stream.");
             }
-
+            if (is_string($attributes['field'])) {
+                dd($attributes);
+            }
             $type = App::make('streams.core.field_type.' . $this->type, [
                 'attributes' => $attributes,
             ]);

@@ -2,11 +2,13 @@
 
 namespace Streams\Core\Tests\Field\Type;
 
-use Streams\Core\Field\Value\BooleanValue;
 use Tests\TestCase;
+use Illuminate\Support\Str;
+use Streams\Core\Field\Value\StrValue;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Value\TemplateValue;
 
-class BooleanTest extends TestCase
+class TemplateTest extends TestCase
 {
 
     public function setUp(): void
@@ -19,34 +21,31 @@ class BooleanTest extends TestCase
 
     public function testNullValues()
     {
-        $type = Streams::make('testing.litmus')->fields->boolean->type();
+        $type = Streams::make('testing.litmus')->fields->template->type();
 
         $this->assertNull($type->modify(null));
         $this->assertNull($type->restore(null));
     }
 
-    public function testCastsToBoolean()
+    public function testCastsToString()
     {
-        $type = Streams::make('testing.litmus')->fields->boolean->type();
+        $type = Streams::make('testing.litmus')->fields->template->type();
 
-        $this->assertSame(true, $type->modify(1));
-        $this->assertSame(false, $type->restore(0));
-
-        $this->assertSame(true, $type->modify('yes'));
-        $this->assertSame(false, $type->restore('no'));
+        $this->assertIsString($type->modify(100));
+        $this->assertIsString($type->restore(100));
     }
 
     public function testExpandedValue()
     {
         $test = Streams::repository('testing.litmus')->find('field_types');
 
-        $this->assertInstanceOf(BooleanValue::class, $test->expand('boolean'));
+        $this->assertInstanceOf(TemplateValue::class, $test->expand('template'));
     }
 
     public function testCanGenerateValue()
     {
         $stream = Streams::make('testing.fakers');
 
-        $this->assertIsBool($stream->fields->boolean->type()->generate());
+        $this->assertStringContainsString('<html>', $stream->fields->template->type()->generate());
     }
 }
