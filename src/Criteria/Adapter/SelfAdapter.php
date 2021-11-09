@@ -16,7 +16,7 @@ class SelfAdapter extends FileAdapter
         $default = 'streams/' . $this->stream->handle . '.json';
 
         $file = base_path(trim($this->stream->config('source.file', $default), '/\\'));
-dd($file);
+
         $keyName = $this->stream->config('key_name', 'id');
 
         $this->data = Arr::get(json_decode(file_get_contents($file), true), 'data', []);
