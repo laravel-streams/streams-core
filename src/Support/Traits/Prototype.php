@@ -178,7 +178,7 @@ trait Prototype
 
             return $this;
         }
-
+        
         if ($this->hasPrototypePropertyType($key)) {
 
             $this->__prototype['attributes'][$key] = $this->modifyPrototypeAttributeValue($key, $value);
@@ -283,7 +283,7 @@ trait Prototype
         $type = $this->newProtocolPropertyFieldType($key);
 
         // @todo this is not right..
-        $type->field = $key;
+        $type->field = $this->stream()->fields->get($key);
         $type->entry = $this;
 
         return $type->expand($value);
@@ -348,7 +348,7 @@ trait Prototype
     {
         $type = $this->newProtocolPropertyFieldType($key);
 
-        $type->field = $key;
+        $type->field = $this->stream()->fields->get($key);
 
         return $type->modify($value);
     }

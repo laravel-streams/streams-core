@@ -174,9 +174,12 @@ abstract class AbstractAdapter implements AdapterInterface
 
         $attributes['stream'] = $this->stream;
 
-        $prototype = new $prototype($attributes);
+        $prototype = new $prototype([
+            'stream' => $this->stream,
+        ]);
 
         $prototype->loadPrototypeProperties($this->stream->fields->toArray());
+        $prototype->loadPrototypeAttributes($attributes);
 
         return $prototype;
     }
