@@ -68,7 +68,7 @@ class Stream implements
         $this->initializePrototypeAttributes($callbackData->get('attributes'));
 
         $this->fire('initialized', [
-            'field' => $this,
+            'stream' => $this,
         ]);
     }
 
@@ -258,6 +258,11 @@ class Stream implements
         [$rule, $parameters] = ValidationRuleParser::parse($rule);
 
         return $parameters;
+    }
+
+    public function ruleParameter($field, $rule, $key = 0)
+    {
+        return Arr::get($this->ruleParameters($field, $rule), $key);
     }
 
     public function isRequired($field)

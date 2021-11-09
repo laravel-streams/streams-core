@@ -62,7 +62,7 @@ class Field implements
 
     public function stream()
     {
-        return $this->remember(md5(json_encode($this->stream)) . __METHOD__, fn () => Streams::make($this->stream));
+        return Streams::make($this->stream);
     }
 
     public function name(): string
@@ -95,17 +95,17 @@ class Field implements
 
     public function hasRule($rule)
     {
-        return $this->stream->hasRule($this->handle, $rule);
+        return $this->stream()->hasRule($this->handle, $rule);
     }
 
     public function getRule($rule)
     {
-        return $this->stream->getRule($this->handle, $rule);
+        return $this->stream()->getRule($this->handle, $rule);
     }
 
     public function ruleParameters($rule)
     {
-        return $this->stream->ruleParameters($this->handle, $rule);
+        return $this->stream()->ruleParameters($this->handle, $rule);
     }
 
     public function ruleParameter($rule, $key = 0)
@@ -115,7 +115,7 @@ class Field implements
 
     public function isRequired()
     {
-        return $this->stream->isRequired($this->handle);
+        return $this->stream()->isRequired($this->handle);
     }
 
     public function toArray()

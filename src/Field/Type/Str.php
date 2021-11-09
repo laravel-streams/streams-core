@@ -33,6 +33,17 @@ class Str extends FieldType
 
     public function generate()
     {
-        return $this->generator()->text();
+        $min = 100;
+        $max = 200;
+
+        if ($this->field->hasRule('max')) {
+            $max = $this->field->ruleParameter('max');
+        }
+
+        if ($this->field->hasRule('min')) {
+            $min = $this->field->ruleParameter('min');
+        }
+
+        return $this->generator()->realTextBetween($min, $max);
     }
 }

@@ -11,4 +11,11 @@ class Relationship extends FieldType
     {
         return Streams::entries($this->field->config('related'))->find($value);
     }
+
+    public function generate()
+    {
+        $possible = Streams::entries($this->field->config('related'))->limit(100)->get();
+
+        return $possible->random()->id;
+    }
 }
