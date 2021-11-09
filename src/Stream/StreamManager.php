@@ -14,6 +14,7 @@ use Streams\Core\Support\Traits\Prototype;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Streams\Core\Entry\EntryFactory;
 
 class StreamManager
 {
@@ -156,28 +157,25 @@ class StreamManager
         App::instance('streams.instances.' . $instance->handle, $instance);
     }
 
-    /**
-     * Return an entry criteria.
-     * 
-     * @return Criteria
-     */
-    public function entries($stream)
+    public function entries($stream): Criteria
     {
         return $this
             ->make($stream)
             ->entries();
     }
 
-    /**
-     * Return an entry repository.
-     * 
-     * @return RepositoryInterface
-     */
-    public function repository($stream)
+    public function repository($stream): RepositoryInterface
     {
         return $this
             ->make($stream)
             ->repository();
+    }
+
+    public function factory($stream): EntryFactory
+    {
+        return $this
+            ->make($stream)
+            ->factory();
     }
 
     /**
