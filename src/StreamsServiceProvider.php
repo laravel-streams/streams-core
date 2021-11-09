@@ -145,6 +145,10 @@ class StreamsServiceProvider extends ServiceProvider
         $this->addImageNamespaces();
         $this->loadTranslations();
 
+        $this->app->singleton('streams.faker', function() {
+            return \Faker\Factory::create();
+        });
+
         /**
          * Register core commands.
          */
