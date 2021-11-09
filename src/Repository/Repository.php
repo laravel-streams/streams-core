@@ -2,7 +2,6 @@
 
 namespace Streams\Core\Repository;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
@@ -17,7 +16,6 @@ use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Criteria\Adapter\DatabaseAdapter;
 use Streams\Core\Criteria\Adapter\EloquentAdapter;
 use Streams\Core\Criteria\Adapter\FilebaseAdapter;
-use Streams\Core\Criteria\Contract\CriteriaInterface;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 
 class Repository implements RepositoryInterface

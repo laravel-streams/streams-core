@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Support\Traits;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Support\Facades\Hydrator;
 
@@ -37,7 +38,7 @@ trait Fluency
         //return $this->expandPrototypeAttribute($key);
 
         $name = Str::camel('expand_' . $key . '_attribute');
-        
+
         $value = $this->getPrototypeAttribute($key);
 
         if ($this->hasPrototypeAttributeOverride($name)) {
@@ -60,7 +61,11 @@ trait Fluency
 
     public function getAttributes()
     {
-        return $this->getPrototypeAttributes();
+        $attributes = $this->getPrototypeAttributes();
+
+        Arr::pull($attributes, 'stream');
+
+        return $attributes;
     }
 
     public function hasAttribute($key)
@@ -80,7 +85,9 @@ trait Fluency
 
     public function toArray()
     {
-        return Hydrator::dehydrate($this);
+        return Hydrator::dehydrate($this, [
+            'stream',
+        ]);
     }
 
     public function toJson($options = 0)

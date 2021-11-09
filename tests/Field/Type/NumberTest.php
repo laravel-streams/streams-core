@@ -25,7 +25,7 @@ class NumberTest extends TestCase
         $this->assertNull($type->restore(null));
     }
 
-    public function testCastsToNumicValue()
+    public function testCastsToNumericValue()
     {
         $type = Streams::make('testing.litmus')->fields->number->type();
 

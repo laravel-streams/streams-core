@@ -91,7 +91,7 @@ class Entry implements
      */
     public function stream()
     {
-        return $this->once(__METHOD__, fn () => Streams::make($this->stream));
+        return Streams::make($this->stream);
     }
 
     /**

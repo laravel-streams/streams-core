@@ -33,7 +33,7 @@ class FilebaseAdapter extends AbstractAdapter
         $format = $stream->config('source.format', 'json');
         $format = Config::get('streams.core.sources.filebase.formats.' . $format);
 
-        $path = $stream->config('source.path', Config::get('streams.core.data_path') . '/' . $stream->id);
+        $path = ltrim($stream->config('source.path', Config::get('streams.core.data_path') . '/' . $stream->id), '/\\');
 
         $this->query = new Database([
             'pretty' => true,
@@ -191,6 +191,7 @@ class FilebaseAdapter extends AbstractAdapter
          * and automated attributes.
          */
         Arr::pull($attributes, 'id');
+        Arr::pull($attributes, 'stream');
         Arr::pull($attributes, 'created_at');
         Arr::pull($attributes, 'updated_at');
 
