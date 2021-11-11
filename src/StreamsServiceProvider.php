@@ -70,10 +70,8 @@ class StreamsServiceProvider extends ServiceProvider
         'applications' => \Streams\Core\Application\ApplicationManager::class,
 
         'locator'   => \Streams\Core\Support\Locator::class,
-        'resolver'  => \Streams\Core\Support\Resolver::class,
         'hydrator'  => \Streams\Core\Support\Hydrator::class,
         'decorator' => \Streams\Core\Support\Decorator::class,
-        'evaluator' => \Streams\Core\Support\Evaluator::class,
         'integrator' => \Streams\Core\Support\Integrator::class,
         'transformer' => \Streams\Core\Support\Transformer::class,
 

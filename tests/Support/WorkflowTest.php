@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Tests\Stream;
 
+use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Support\Workflow;
 use Tests\TestCase;
 
@@ -17,26 +18,96 @@ class WorkflowTest extends TestCase
         $workflow->process();
     }
 
+    
     public function test_can_process_additionally_passed_steps()
     {
         $workflow = new ExampleWorkflow([
-            'another' => ExampleWorkflowStep::class
+            'another' => ExampleWorkflowStep::class . '@handle'
         ]);
+
+        $this->expectOutputString('First!Second!Extra!');
+        $workflow->process();
+    }
+
+    public function test_can_process_callable_arrays()
+    {
+        $workflow = new ExampleWorkflow([
+            'another' => [ExampleWorkflowStep::class, 'custom']
+        ]);
+
+        $this->expectOutputString('First!Second!Custom!');
+
+        $workflow->process();
+    }
+
+    public function test_can_add_steps()
+    {
+        $workflow = new ExampleWorkflow();
+
+        $workflow->addStep('another', ExampleWorkflowStep::class);
 
         $this->expectOutputString('First!Second!Extra!');
 
         $workflow->process();
     }
 
-    public function test_can_process_closure_steps()
+    public function test_can_add_step_to_front()
     {
-        $workflow = new ExampleWorkflow([
-            'another' => function () {
-                echo 'Closure!';
-            }
-        ]);
+        $workflow = new ExampleWorkflow();
 
-        $this->expectOutputString('First!Second!Closure!');
+        $workflow->doFirst('another', ExampleWorkflowStep::class);
+
+        $this->expectOutputString('Extra!First!Second!');
+
+        $workflow->process();
+    }
+
+    public function test_can_add_step_before_another()
+    {
+        $workflow = new ExampleWorkflow();
+
+        $workflow->doBefore('second', 'another', ExampleWorkflowStep::class);
+
+        $this->expectOutputString('First!Extra!Second!');
+
+        $workflow->process();
+    }
+
+    public function test_can_add_step_after_another()
+    {
+        $workflow = new ExampleWorkflow();
+
+        $workflow->doAfter('first', 'another', ExampleWorkflowStep::class);
+
+        $this->expectOutputString('First!Extra!Second!');
+
+        $workflow->process();
+    }
+
+    public function test_callbacks_are_fired_after_each_step()
+    {
+        $workflow = new ExampleWorkflow();
+
+        $workflow->addCallback('before_first', function() {
+            echo 'Before!';
+        });
+
+        $workflow->addCallback('after_second', function() {
+            echo 'After!';
+        });
+
+        $this->expectOutputString('Before!First!Second!After!');
+
+        $workflow->process();
+    }
+
+    public function test_callbacks_are_fired_on_pass_through_object()
+    {
+        $workflow = new ExampleWorkflow();
+
+        $workflow->passThrough(new ExamplePassThroughObject);
+
+        $this->expectOutputString('Start!First!Second!Last!');
 
         $workflow->process();
     }
@@ -44,7 +115,7 @@ class WorkflowTest extends TestCase
 
 class ExampleWorkflow extends Workflow
 {
-    protected array $steps = [
+    public array $steps = [
         'first' => ExampleWorkflow::class . '@stepOne',
         'second' => ExampleWorkflow::class . '@stepTwo',
     ];
@@ -70,5 +141,20 @@ class ExampleWorkflowStep
     public function custom()
     {
         echo 'Custom!';
+    }
+}
+
+class ExamplePassThroughObject
+{
+    use FiresCallbacks;
+
+    public function onBeforeFirst()
+    {
+        echo 'Start!';
+    }
+
+    public function onAfterSecond()
+    {
+        echo 'Last!';
     }
 }
