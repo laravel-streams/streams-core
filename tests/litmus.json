@@ -1,5 +1,5 @@
 {
-    "handle": "testing.litmus",
+    "id": "testing.litmus",
     "description": "Used for testing.",
     "config": {
         "source": {
@@ -8,7 +8,15 @@
         }
     },
     "rules": {
-        "number": "required"
+        "uuid": [
+            "required"
+        ],
+        "number": [
+            "min:10"
+        ],
+        "integer": [
+            "max:100"
+        ]
     },
     "fields": {
         "uuid": {

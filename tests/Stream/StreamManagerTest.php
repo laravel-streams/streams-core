@@ -4,13 +4,38 @@ namespace Streams\Core\Tests\Stream;
 
 use Tests\TestCase;
 use Streams\Core\Stream\Stream;
-use Illuminate\Support\Collection;
 use Streams\Core\Criteria\Criteria;
+use Streams\Core\Entry\EntryFactory;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 
 class StreamManagerTest extends TestCase
 {
+
+    public function test_can_build_a_stream_from_array()
+    {
+        $stream = Streams::build([
+            'id' => 'testing.build'
+        ]);
+
+        $this->assertInstanceOf(Stream::class, $stream);
+
+        $this->assertFalse(Streams::exists('testing.build'));
+    }
+
+    public function test_can_register_a_stream_from_array()
+    {
+        $stream = Streams::register([
+            'id' => 'testing.register',
+            'fields' => [
+                'name' => 'string',
+            ]
+        ]);
+
+        $this->assertInstanceOf(Stream::class, $stream);
+
+        $this->assertTrue(Streams::exists('testing.register'));
+    }
 
     public function test_throws_exception_if_stream_is_not_registed()
     {
@@ -19,68 +44,53 @@ class StreamManagerTest extends TestCase
         Streams::make('foo.bar');
     }
 
-    public function test_streams_can_be_registered()
+    public function test_can_load_stream_from_json_file()
     {
-        $stream = Streams::register([
-            'id' => 'testing.widgets',
-            'fields' => [
-                'name' => 'string',
-            ]
+        $stream = Streams::load(__DIR__ . '/../litmus.json');
+
+        $this->assertInstanceOf(Stream::class, $stream);
+
+        $this->assertTrue(Streams::exists('testing.litmus'));
+    }
+
+    public function test_can_overload_a_registered_stream()
+    {
+        Streams::load(__DIR__ . '/../litmus.json');
+
+        $stream = Streams::overload('testing.litmus', [
+            'description' => 'New description.',
         ]);
 
         $this->assertInstanceOf(Stream::class, $stream);
 
-        $this->assertTrue(Streams::has('testing.widgets'));
+        $this->assertSame('New description.', $stream->description);
     }
 
-    // public function testCanMakeRegisteredStreams()
-    // {
-    //     $this->assertTrue(Streams::has('testing.widgets'));
-    //     $this->assertTrue(Streams::has('testing.examples'));
+    public function test_collection_contains_registered_streams()
+    {
+        Streams::load(__DIR__ . '/../litmus.json');
 
-    //     $this->assertInstanceOf(Stream::class, Streams::make('testing.widgets'));
-    //     $this->assertInstanceOf(Stream::class, Streams::make('testing.examples'));
+        $this->assertTrue(Streams::collection()->has('testing.litmus'));
+    }
 
-    //     $this->assertTrue(Streams::entries('testing.widgets')->get()->isNotEmpty());
-    //     $this->assertTrue(Streams::entries('testing.examples')->get()->isNotEmpty());
-    // }
+    public function test_can_return_entry_criteria()
+    {
+        Streams::load(__DIR__ . '/../litmus.json');
 
-    // public function testCanBuildStreamWithoutRegistering()
-    // {
-    //     $runtime = Streams::build([
-    //         'handle' => 'testing.runtime',
-    //         'source' => [
-    //             'path' => 'vendor/streams/core/tests/data/runtime',
-    //             'format' => 'json',
-    //         ],
-    //         'fields' => [
-    //             'name' => 'string',
-    //         ],
-    //     ]);
+        $this->assertInstanceOf(Criteria::class, Streams::entries('testing.litmus'));
+    }
 
-    //     $json = Streams::build(json_decode(file_get_contents(base_path('vendor/streams/core/tests/build.json')), true));
+    public function test_can_return_entry_repository()
+    {
+        Streams::load(__DIR__ . '/../litmus.json');
 
-    //     $this->assertFalse(Streams::has('testing.runtime'));
-    //     $this->assertFalse(Streams::has('testing.build'));
+        $this->assertInstanceOf(RepositoryInterface::class, Streams::repository('testing.litmus'));
+    }
 
-    //     $this->assertInstanceOf(Stream::class, $runtime);
-    //     $this->assertInstanceOf(Stream::class, $json);
-    // }
+    public function test_can_return_entry_factory()
+    {
+        Streams::load(__DIR__ . '/../litmus.json');
 
-    // public function testCollectsRegisteredStreams()
-    // {
-    //     $this->assertTrue(Streams::collection()->isNotEmpty());
-
-    //     $this->assertInstanceOf(Collection::class, Streams::collection());
-    // }
-
-    // public function testCanReturnStreamEntryCriteria()
-    // {
-    //     $this->assertInstanceOf(Criteria::class, Streams::entries('testing.examples'));
-    // }
-
-    // public function testCanReturnStreamEntryRepository()
-    // {
-    //     $this->assertInstanceOf(RepositoryInterface::class, Streams::repository('testing.examples'));
-    // }
+        $this->assertInstanceOf(EntryFactory::class, Streams::factory('testing.litmus'));
+    }
 }

@@ -3,8 +3,8 @@
 namespace Streams\Core\Tests\Stream;
 
 use Tests\TestCase;
-use Illuminate\Support\Str;
 use Streams\Core\Criteria\Criteria;
+use Streams\Core\Entry\EntryFactory;
 use Streams\Core\Support\Facades\Streams;
 use Illuminate\Contracts\Validation\Validator;
 use Streams\Core\Repository\Contract\RepositoryInterface;
@@ -16,121 +16,75 @@ class StreamTest extends TestCase
     {
         $this->createApplication();
 
-        Streams::register([
-            'handle' => 'testing.widgets',
-            'source' => [
-                'path' => 'vendor/streams/core/tests/data/widgets',
-                'format' => 'json',
-            ],
-            'rules' => [
-                'name' => 'required|widget_validator'
-            ],
-            'validators' => [
-                'widget_validator' => [
-                    'handler' => 'Streams\Core\Tests\Stream\WidgetValidator@handle',
-                    'message' => 'Testing message',
-                ],
-            ],
-            'fields' => [
-                'name' => 'string',
-            ],
-        ]);
-
-        Streams::load(base_path('vendor/streams/core/tests/examples.json'));
-        Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
+        Streams::load(__DIR__ . '/../litmus.json');
     }
 
-    public function testSupportInterfaces()
+    public function test_is_arrayable()
     {
-        $this->assertIsArray(Streams::make('testing.examples')->toArray());
-        $this->assertJson(Streams::make('testing.examples')->toJson());
-        $this->assertJson((string) Streams::make('testing.examples'));
+        $this->assertIsArray(Streams::make('testing.litmus')->toArray());
     }
 
-    public function testCanReturnEntryCriteria()
+    public function test_is_jsonable()
     {
-        $this->assertInstanceOf(
-            Criteria::class,
-            Streams::make('testing.examples')->entries()
-        );
+        $this->assertJson(Streams::make('testing.litmus')->toJson());
+        $this->assertJson((string) Streams::make('testing.litmus'));
     }
 
-    public function testCanReturnEntryRepository()
+    public function test_can_return_entry_criteria()
     {
-        $this->assertInstanceOf(
-            RepositoryInterface::class,
-            Streams::make('testing.examples')->repository()
-        );
+        $this->assertInstanceOf(Criteria::class, Streams::entries('testing.litmus'));
     }
 
-    public function testStreamFactoryMethod()
+    public function test_can_return_entry_repository()
     {
-        $this->assertInstanceOf(
-            EntryFactory::class,
-            Streams::make('testing.fakers')->factory()
-        );
+        $this->assertInstanceOf(RepositoryInterface::class, Streams::repository('testing.litmus'));
     }
 
-    public function testStreamValidator()
+    public function test_can_return_entry_factory()
     {
-        $this->assertInstanceOf(
-            Validator::class,
-            Streams::make('testing.examples')->validator([])
-        );
-
-        $this->assertFalse(Streams::make('testing.examples')->validator([])->passes());
-        $this->assertTrue(Streams::make('testing.examples')->validator(['name' => 'First Example'])->passes());
-
-        $entry = Streams::entries('testing.examples')->first();
-
-        // Fails on ExampleValidator below
-        $this->assertTrue(Streams::make('testing.examples')->validator($entry)->passes());
-
-        $entry->name = 'No';
-        
-        $this->assertFalse(Streams::make('testing.examples')->validator($entry)->passes());
-        
-        $entry = Streams::entries('testing.widgets')->first();
-
-        // Fails on WidgetsValidator below
-        // $this->assertTrue(Streams::make('testing.widgets')->validator($entry)->passes());
-
-        // $entry->name = 'Test';
-
-        // $this->assertFalse(Streams::make('testing.widgets')->validator($entry)->passes());
+        $this->assertInstanceOf(EntryFactory::class, Streams::factory('testing.litmus'));
     }
 
-    public function testRuleAccessors()
+    public function test_can_return_validator()
     {
-        $stream = Streams::make('testing.examples');
-
-        $this->assertTrue($stream->hasRule('name', 'required'));
-        $this->assertTrue($stream->hasRule('name', 'min'));
-
-        $this->assertNull($stream->getRule('name', 'max'));
-        $this->assertEquals('min:3', $stream->getRule('name', 'min'));
-        
-        $this->assertEquals(['3'], $stream->ruleParameters('name', 'min'));
-        $this->assertEquals([], $stream->ruleParameters('name', 'max'));
-        $this->assertEquals([], $stream->ruleParameters('age', 'min'));
-        
-        $this->assertTrue($stream->isRequired('name'));
-        $this->assertFalse($stream->isRequired('age'));
+        $this->assertInstanceOf(Validator::class, Streams::make('testing.litmus')->validator([]));
     }
 
-    // public function testHtmlAttributes()
-    // {
-    //     $name = Streams::make('testing.examples');
-        
-    //     $name->htmlAttributes();
-    // }
-}
-
-class WidgetValidator
-{
-
-    public function handle($attribute, $value)
+    public function test_can_check_if_field_has_a_rule()
     {
-        return Str::startsWith($value, 'First');
+        $stream = Streams::make('testing.litmus');
+
+        $this->assertTrue($stream->hasRule('number', 'min'));
+        $this->assertFalse($stream->hasRule('number', 'max'));
+        $this->assertTrue($stream->hasRule('uuid', 'required'));
+    }
+
+    public function test_can_get_field_rule()
+    {
+        $stream = Streams::make('testing.litmus');
+
+        $this->assertNull($stream->getRule('integer', 'min'));
+        $this->assertEquals('max:100', $stream->getRule('integer', 'max'));
+    }
+
+    public function test_can_get_field_rule_parameters()
+    {
+        $stream = Streams::make('testing.litmus');
+
+        $this->assertEquals(['10'], $stream->ruleParameters('number', 'min'));
+        $this->assertEquals('10', $stream->ruleParameter('number', 'min'));
+        $this->assertNull($stream->ruleParameter('number', 'max'));
+
+        $this->assertEquals(['100'], $stream->ruleParameters('integer', 'max'));
+        $this->assertEquals('100', $stream->ruleParameter('integer', 'max'));
+        $this->assertNull($stream->ruleParameter('integer', 'min'));
+    }
+    
+    public function test_can_check_if_field_is_required()
+    {
+        $stream = Streams::make('testing.litmus');
+
+        $this->assertTrue($stream->isRequired('uuid'));
+        $this->assertFalse($stream->isRequired('integer'));
     }
 }

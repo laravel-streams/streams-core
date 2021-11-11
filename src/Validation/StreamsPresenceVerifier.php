@@ -16,7 +16,7 @@ class StreamsPresenceVerifier extends DatabasePresenceVerifier
      */
     protected function table($table)
     {
-        if (Streams::has($table)) {
+        if (Streams::exists($table)) {
             return Streams::entries($table);
         }
 

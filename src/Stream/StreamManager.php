@@ -27,6 +27,17 @@ class StreamManager
         $this->collection = new Collection;
     }
 
+    public function build(array $attributes): Stream
+    {
+        $stream = $attributes = Arr::undot($attributes);
+
+        $stream = new Stream($attributes);
+
+        $stream->fire('built', ['stream' => $stream]);
+
+        return $stream;
+    }
+
     public function register(array $stream): Stream
     {
         $stream = $this->build($stream);
@@ -40,7 +51,7 @@ class StreamManager
         return $stream;
     }
 
-    public function has(string $id): bool
+    public function exists(string $id): bool
     {
         return App::has('streams.instances.' . $id);
     }
@@ -54,50 +65,33 @@ class StreamManager
         }
     }
 
-    public function merge(string $id, array $merge): Stream
+    public function merge(string $id, array $attributes): Stream
     {
-        $target = $this->make($id);
+        $target = $this->overload($id, $attributes);
 
-        $target->loadPrototypeAttributes($merge);
-
-        App::make('streams.instances.' . $target->handle);
+        App::make('streams.instances.' . $target->id);
 
         return $target;
     }
 
-    public function build(array $attributes): Stream
-    {
-        $stream = $attributes = Arr::undot($attributes);
-
-        $stream = new Stream($attributes);
-
-        $stream->fire('built', ['stream' => $stream]);
-
-        return $stream;
-    }
-
-    public function load(string $file): Stream
-    {
-        if (!file_exists($file)) {
-            throw new \Exception("File [$file] does not exist.");
-        }
-
-        $stream = json_decode(file_get_contents($file), true);
-
-        $handle = basename($file, '.json');
-
-        Arr::set($stream, 'handle', Arr::get($stream, 'handle', $handle));
-
-        return $this->register($stream);
-    }
-
-    public function overload(int $id, array $attributes): void
+    public function overload(string $id, array $attributes): Stream
     {
         $instance = $this->make($id);
 
         $instance->loadPrototypeAttributes($attributes);
 
-        App::instance('streams.instances.' . $id, $instance);
+        return $instance;
+    }
+
+    public function load(string $file): Stream
+    {
+        $stream = json_decode(file_get_contents($file), true);
+
+        $id = basename($file, '.json');
+
+        Arr::set($stream, 'id', Arr::get($stream, 'id', $id));
+
+        return $this->register($stream);
     }
 
     public function entries(string $id): Criteria

@@ -291,7 +291,7 @@ class StreamsServiceProvider extends ServiceProvider
         $streams = ['core.streams', 'core.applications'];
 
         foreach ($streams as $stream) {
-            if (!Streams::has($stream)) {
+            if (!Streams::exists($stream)) {
                 Streams::load($prefix . $stream . '.json');
             }
         }
