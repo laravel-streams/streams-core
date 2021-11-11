@@ -213,19 +213,17 @@ class Integrator
         }
     }
 
-    public function streams($streams)
-    {
-        foreach ($streams as $id => $stream) {
+    // public function streams($streams)
+    // {
+    //     foreach ($streams as $id => $stream) {
 
-            Arr::set($stream, 'id', Arr::get($stream, 'id', $id));
-
-            if (Streams::has($stream['id'])) {
-                Streams::overload(Arr::parse($stream));
-            } else {
-                Streams::register($stream);
-            }
-        }
-    }
+    //         if (Streams::has($stream['id'])) {
+    //             Streams::overload(Arr::parse($stream));
+    //         } else {
+    //             Streams::register($stream);
+    //         }
+    //     }
+    // }
 
     public function overrides($overrides)
     {

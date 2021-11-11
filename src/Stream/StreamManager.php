@@ -2,7 +2,6 @@
 
 namespace Streams\Core\Stream;
 
-use Exception;
 use Illuminate\Support\Arr;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
@@ -28,29 +27,42 @@ class StreamManager
         $this->collection = new Collection;
     }
 
+    public function register(array $stream): Stream
+    {
+        $stream = $this->build($stream);
+
+        App::instance('streams.instances.' . $stream->id, $stream);
+
+        $this->collection->put($stream->id, $stream);
+
+        $this->route($stream);
+
+        return $stream;
+    }
+
+    public function has(string $id): bool
+    {
+        return App::has('streams.instances.' . $id);
+    }
+
     public function make(string $id): Stream
     {
         try {
             return App::make('streams.instances.' . $id);
         } catch (BindingResolutionException $e) {
-            throw new Exception("Stream [{$id}] does not exist.");
+            throw new \Exception("Stream [{$id}] is not registered.");
         }
     }
 
-    public function merge($target, array $merge)
+    public function merge(string $id, array $merge): Stream
     {
-        $target = $this->make($target);
+        $target = $this->make($id);
 
         $target->loadPrototypeAttributes($merge);
 
         App::make('streams.instances.' . $target->handle);
 
         return $target;
-    }
-
-    public function has(string $id): bool
-    {
-        return App::has('streams.instances.' . $id);
     }
 
     public function build(array $attributes): Stream
@@ -79,28 +91,13 @@ class StreamManager
         return $this->register($stream);
     }
 
-    public function register(array $stream): Stream
+    public function overload(int $id, array $attributes): void
     {
-        $stream = $this->build($stream);
+        $instance = $this->make($id);
 
-        App::instance('streams.instances.' . $stream->id, $stream);
+        $instance->loadPrototypeAttributes($attributes);
 
-        $this->collection->put($stream->id, $stream);
-
-        $this->routeStream($stream);
-
-        return $stream;
-    }
-
-    public function overload(array $stream): void
-    {
-        $instance = $this->make($stream['id']);
-
-        foreach ($stream as $key => $value) {
-            $instance->{$key} = $value;
-        }
-
-        App::instance('streams.instances.' . $instance->id, $instance);
+        App::instance('streams.instances.' . $id, $instance);
     }
 
     public function entries(string $id): Criteria
@@ -129,17 +126,8 @@ class StreamManager
         return $this->collection;
     }
 
-    /**
-     * Register the routes for a stream.
-     *
-     * @param \Streams\Core\Stream\Stream $stream
-     */
-    protected function routeStream(Stream $stream)
+    protected function route(Stream $stream): void
     {
-
-        /**
-         * If not cached.
-         */
         if (!App::routesAreCached()) {
 
             foreach ($stream->routes ?: [] as $key => $route) {
@@ -154,13 +142,13 @@ class StreamManager
                  * Automatically bind if not bound.
                  */
                 if (!isset($route['stream'])) {
-                    $route['stream'] = $stream->handle;
+                    $route['stream'] = $stream->id;
                 }
 
                 /**
                  * Automatically name if not named.
                  */
-                $route['as'] = Arr::get($route, 'as', 'streams::' . $stream->handle . '.' . $key);
+                $route['as'] = Arr::get($route, 'as', 'streams::' . $stream->id . '.' . $key);
 
                 /**
                  * Automatically group if not grouped.
