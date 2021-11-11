@@ -10,7 +10,6 @@ use Illuminate\View\Factory;
 use Collective\Html\HtmlFacade;
 use Streams\Core\Support\Parser;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
 use Streams\Core\View\ViewTemplate;
 use Illuminate\Support\Facades\Lang;
@@ -41,11 +40,6 @@ use Streams\Core\Support\Macros\TranslatorMacros;
 class StreamsServiceProvider extends ServiceProvider
 {
 
-    /**
-     * The class aliases.
-     *
-     * @var array
-     */
     public $aliases = [
         'Assets'      => \Streams\Core\Support\Facades\Assets::class,
         'Images'      => \Streams\Core\Support\Facades\Images::class,
@@ -55,11 +49,6 @@ class StreamsServiceProvider extends ServiceProvider
         'Applications' => \Streams\Core\Support\Facades\Applications::class,
     ];
 
-    /**
-     * The singleton bindings.
-     *
-     * @var array
-     */
     public $singletons = [
         'addons' => \Streams\Core\Addon\AddonManager::class,
         'assets' => \Streams\Core\Asset\AssetManager::class,
@@ -69,13 +58,11 @@ class StreamsServiceProvider extends ServiceProvider
         'messages' => \Streams\Core\Message\MessageManager::class,
         'applications' => \Streams\Core\Application\ApplicationManager::class,
 
-        'locator'   => \Streams\Core\Support\Locator::class,
         'hydrator'  => \Streams\Core\Support\Hydrator::class,
         'decorator' => \Streams\Core\Support\Decorator::class,
         'integrator' => \Streams\Core\Support\Integrator::class,
-        'transformer' => \Streams\Core\Support\Transformer::class,
 
-        ViewOverrides::class => \Streams\Core\View\ViewOverrides::class,
+        ViewOverrides::class => ViewOverrides::class,
     ];
 
     /**
@@ -143,7 +130,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->addImageNamespaces();
         $this->loadTranslations();
 
-        $this->app->singleton('streams.faker', function() {
+        $this->app->singleton('streams.faker', function () {
             return \Faker\Factory::create();
         });
 

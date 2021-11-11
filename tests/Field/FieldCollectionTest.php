@@ -10,15 +10,10 @@ use Streams\Core\Support\Facades\Streams;
 class FieldCollectionTest extends TestCase
 {
 
-    public function setUp(): void
-    {
-        $this->createApplication();
-
-        Streams::load(base_path('vendor/streams/core/tests/examples.json'));
-    }
-
     public function testFieldInstance()
     {
+        Streams::load(__DIR__ . '/../litmus.json');
+        
         $this->assertInstanceOf(FieldCollection::class, Streams::make('testing.examples')->fields);
     }
     

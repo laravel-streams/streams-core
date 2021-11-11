@@ -2,9 +2,9 @@
 
 namespace Streams\Core\Tests\Stream;
 
-use Streams\Core\Support\Traits\FiresCallbacks;
-use Streams\Core\Support\Workflow;
 use Tests\TestCase;
+use Streams\Core\Support\Workflow;
+use Streams\Core\Support\Traits\FiresCallbacks;
 
 class WorkflowTest extends TestCase
 {
