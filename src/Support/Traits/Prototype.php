@@ -178,7 +178,7 @@ trait Prototype
 
             return $this;
         }
-        
+
         if ($this->hasPrototypePropertyType($key)) {
 
             $this->__prototype['attributes'][$key] = $this->modifyPrototypeAttributeValue($key, $value);
@@ -227,11 +227,11 @@ trait Prototype
         $parts = explode('.', $original = $key);
 
         $key = array_shift($parts);
-        
+
         if ($this->hasPrototypeAttributeOverride($name = Str::camel('get_' . $key . '_attribute'))) {
             return $this->{$name}();
         }
-        
+
         return $this->getPrototypeAttributeValue($original, $default);
     }
 
@@ -283,8 +283,10 @@ trait Prototype
         $type = $this->newProtocolPropertyFieldType($key);
 
         // @todo this is not right..
-        $type->field = $this->stream()->fields->get($key);
-        $type->entry = $this;
+        if ($this->stream) {
+            $type->field = $this->stream->fields->get($key);
+            $type->entry = $this;
+        }
 
         return $type->expand($value);
     }
@@ -333,7 +335,9 @@ trait Prototype
     {
         $type = $this->newProtocolPropertyFieldType($key);
 
-        $type->field = $this->stream()->fields->get($key);
+        if ($this->stream) {
+            $type->field = $this->stream->fields->get($key);
+        }
 
         return $type->restore($value);
     }
@@ -348,7 +352,9 @@ trait Prototype
     {
         $type = $this->newProtocolPropertyFieldType($key);
 
-        $type->field = $this->stream()->fields->get($key);
+        if ($this->stream) {
+            $type->field = $this->stream->fields->get($key);
+        }
 
         return $type->modify($value);
     }
