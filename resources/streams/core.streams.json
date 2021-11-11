@@ -15,6 +15,7 @@
         },
         "name": {
             "type": "string",
+            "required": true,
             "rules": [
                 "max:50"
             ]

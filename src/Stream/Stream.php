@@ -29,15 +29,6 @@ use Illuminate\Validation\ValidationRuleParser;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Validation\StreamsPresenceVerifier;
 
-/**
- * @typescript
- * @property string $handle
- * @property Repository $repository
- * @property array $rules
- * @property array $validators
- * @property \Streams\Core\Field\FieldCollection|\Streams\Core\Field\Field[] $fields
- * This is the main access point to working with a Stream.
- */
 class Stream implements
     JsonSerializable,
     ArrayAccess,
@@ -95,6 +86,7 @@ class Stream implements
         ], $attributes));
     }
 
+
     public function entries(): Criteria
     {
         return $this
@@ -140,29 +132,6 @@ class Stream implements
         $rules = $this->getPrototypeAttribute('rules') ?: [];
         $validators = $this->getPrototypeAttribute('validators') ?: [];
 
-        $fieldRules = array_filter(
-            array_combine($this->fields->keys()->all(), $this->fields->map(function ($field) {
-                return $field->rules;
-            })->all())
-        );
-
-        $fieldValidators = array_filter(
-            array_combine($this->fields->keys()->all(), $this->fields->map(function ($field) {
-                return $field->validators;
-            })->all())
-        );
-
-        /**
-         * Merge stream and field configurations.
-         */
-        foreach ($fieldRules as $field => $configured) {
-            $rules[$field] = array_unique(array_merge(Arr::get($rules, $field, []), $configured));
-        }
-
-        foreach ($fieldValidators as $field => $configured) {
-            $validators[$field] = array_unique(array_merge(Arr::get($validators, $field, []), $configured));
-        }
-
         /**
          * Automate Unique Rule
          */
@@ -188,9 +157,6 @@ class Stream implements
             }
         });
 
-        /**
-         * Stringify rules for Laravel.
-         */
         $rules = array_map(function ($rules) {
             return implode('|', $rules);
         }, $rules);
@@ -270,39 +236,17 @@ class Stream implements
         return $this->hasRule($field, 'required');
     }
 
-    public function config($key = null, $default = null)
+    public function config(string $key, $default = null)
     {
-        if (!$key) {
-            return $this->expandPrototypeAttribute('config');
-        }
         return Arr::get($this->config, $key, $default);
     }
 
-    public function meta($key = null, $default = null)
-    {
-        if (!$key) {
-            return $this->expandPrototypeAttribute('meta');
-        }
-
-        return Arr::get($this->meta, $key, $default);
-    }
-
-    /**
-     * Return the Streams cache manager.
-     *
-     * @return StreamCache
-     */
-    public function cache()
+    public function cache(): StreamCache
     {
         return $this->once($this->id . __METHOD__, fn () => new StreamCache($this));
     }
 
-    /**
-     * Get the instance as an array.
-     *
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return Arr::make(Hydrator::dehydrate($this, [
             '__listeners',
@@ -312,34 +256,17 @@ class Stream implements
         ]));
     }
 
-    /**
-     * Convert the object to its JSON representation.
-     *
-     * @param  int  $options
-     * @return string
-     */
-    public function toJson($options = 0)
+    public function toJson($options = 0): string
     {
         return json_encode($this->toArray(), $options);
     }
 
-    /**
-     * Specify data which should
-     * be serialized to JSON.
-     *
-     * @return mixed
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }
 
-    /**
-     * Return a string representation.
-     *
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toJson();
     }
@@ -355,6 +282,7 @@ class Stream implements
         $this->extendInput($attributes);
         $this->importInput($attributes);
         $this->normalizeInput($attributes);
+        $this->consolidateValidation($attributes);
 
         $this->adjustInput($attributes);
 
@@ -445,6 +373,48 @@ class Stream implements
 
             return $rules;
         }, Arr::get($attributes, 'rules', []));
+    }
+
+    public function consolidateValidation(&$attributes)
+    {
+        $rules = Arr::get($attributes, 'rules');
+        $validators = Arr::get($attributes, 'validators');
+
+        $fields = Arr::get($attributes, 'fields');
+
+        $fieldRules = array_filter(
+            array_combine(array_keys($fields), array_map(function ($field) {
+
+                $rules = Arr::get($field, 'rules', []);
+
+                if (Arr::get($field, 'required') == true) {
+                    $rules[] = 'required';
+                }
+
+                if (Arr::get($field, 'unique') == true) {
+                    $rules[] = 'unique';
+                }
+
+                return $rules;
+            }, $fields))
+        );
+
+        $fieldValidators = array_filter(
+            array_combine(array_keys($fields), array_map(function ($field) {
+
+                $validators = Arr::get($field, 'validators', []);
+
+                return $validators;
+            }, $fields))
+        );
+
+        foreach ($fieldRules as $field => $configured) {
+            $rules[$field] = array_unique(array_merge(Arr::get($rules, $field, []), $configured));
+        }
+
+        foreach ($fieldValidators as $field => $configured) {
+            $validators[$field] = array_unique(array_merge(Arr::get($validators, $field, []), $configured));
+        }
     }
 
     public function adjustInput(&$attributes)

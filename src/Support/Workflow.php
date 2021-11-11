@@ -5,52 +5,28 @@ namespace Streams\Core\Support;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Traits\Macroable;
-use Streams\Core\Support\Traits\Prototype;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
-/**
- * Class Workflow
- *
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
- */
 class Workflow
 {
 
     use Macroable;
     use FiresCallbacks;
 
-    use Prototype {
-        Prototype::__construct as private constructPrototype;
-    }
+    protected array $steps = [];
 
-    /**
-     * The workflow steps.
-     *
-     * @var array
-     */
-    protected $steps = [];
+    protected ?string $name = null;
 
-    /**
-     * Create a new class instance.
-     *
-     * @param array $steps
-     */
+    protected ?\Closure $callback = null;
+
+    protected $object = null;
+
     public function __construct(array $steps = [])
     {
-        $this->steps = $this->named(array_merge($this->steps, $steps));
-
-        $this->constructPrototype();
+        $this->steps = array_merge($this->steps, $steps);
     }
 
-    /**
-     * Process the workflow.
-     *
-     * @param array $payload
-     * @return mixed
-     */
-    public function process(array $payload = [])
+    public function process(array $payload = []): void
     {
         foreach ($this->steps as $name => $step) {
 
@@ -65,6 +41,7 @@ class Workflow
     /**
      * Default callbacks through the provided object.
      *
+     * @todo this may need removed
      * @param mixed $object
      */
     public function passThrough($object)
@@ -78,13 +55,7 @@ class Workflow
         return $this;
     }
 
-    /**
-     * Trigger the callbacks.
-     *
-     * @param [type] $name
-     * @param array $payload
-     */
-    protected function triggerCallback($name, array $payload)
+    protected function triggerCallback(string $name, array $payload)
     {
         $callback = array_filter([
             'workflow' => $this->name ?: $this->name($this),
@@ -104,15 +75,7 @@ class Workflow
         $this->fire($name, $payload);
     }
 
-    /**
-     * Add a step to the workflow.
-     *
-     * @param string $name
-     * @param string|\Closure $step
-     * @param integer $position
-     * @return $this
-     */
-    public function add($name, $step = null, $position = null)
+    public function add(string $name, $step = null, int $position = null)
     {
         if (!$step && is_string($step)) {
 
@@ -132,57 +95,19 @@ class Workflow
         return $this;
     }
 
-    /**
-     * Push a step to first.
-     *
-     * @param string $name
-     * @param string|\Closure $step
-     * @return $this
-     */
-    public function first($name, $step = null)
+    public function first(string $name, $step = null)
     {
         return $this->add($name, $step, 0);
     }
 
-    /**
-     * Add a step before another.
-     *
-     * @param string $target
-     * @param string $name
-     * @param string|\Closure $step
-     * @return $this
-     */
-    public function before($target, $name, $step = null)
+    public function before(string $target, string $name, $step = null)
     {
         return $this->add($name, $step, array_search($target, array_keys($this->steps)));
     }
 
-    /**
-     * Add a step after another.
-     *
-     * @param string $target
-     * @param string $name
-     * @param string|\Closure $step
-     * @return $this
-     */
-    public function after($target, $name, $step = null)
+    public function after(string $target, string $name, $step = null)
     {
         return $this->add($name, $step, array_search($target, array_keys($this->steps)) + 1);
-    }
-
-    /**
-     * Add a step after another.
-     *
-     * @param string $name
-     * @param string $name
-     * @param string|\Closure $step
-     * @return $this
-     */
-    public function set($name, $step)
-    {
-        $this->steps[$name] = $step;
-
-        return $this;
     }
 
     public function getSteps(): array
@@ -197,42 +122,46 @@ class Workflow
         return $this;
     }
 
-    protected function named($steps): array
-    {
-        $named = [];
+    // protected function named($steps): array
+    // {
+    //     $named = [];
 
-        array_walk($steps, function ($step, $name) use (&$named) {
+    //     array_walk($steps, function ($step, $name) use (&$named) {
 
-            if (is_string($name)) {
+    //         if (is_string($name)) {
 
-                $named[$name] = $step;
+    //             $named[$name] = $step;
 
-                return;
-            }
+    //             return;
+    //         }
 
-            if (is_string($step)) {
+    //         // if (is_string($step)) {
 
-                $named[$this->name($step)] = $step;
+    //         //     $named[$this->name($step)] = $step;
 
-                return true;
-            }
+    //         //     return true;
+    //         // }
 
-            if (is_object($step)) {
+    //         // if (is_object($step)) {
 
-                $named[$this->name($step)] = $step;
+    //         //     $named[$this->name($step)] = $step;
 
-                return true;
-            }
+    //         //     return true;
+    //         // }
 
-            $named[$name] = $step;
-        });
+    //         $named[$name] = $step;
+    //     });
 
-        return $named;
-    }
+    //     return $named;
+    // }
 
     protected function name($step): string
     {
         if ($step == $this) {
+            return '';
+        }
+
+        if ($step instanceof \Closure) {
             return '';
         }
 
