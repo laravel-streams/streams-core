@@ -1,9 +1,9 @@
 <?php
 
-namespace Streams\Core\Tests\Stream;
+namespace Streams\Core\Tests\Support;
 
-use Streams\Core\Support\Facades\Hydrator;
 use Tests\TestCase;
+use Streams\Core\Support\Facades\Hydrator;
 
 class HydratorTest extends TestCase
 {

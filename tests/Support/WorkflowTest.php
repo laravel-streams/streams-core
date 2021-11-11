@@ -1,6 +1,6 @@
 <?php
 
-namespace Streams\Core\Tests\Stream;
+namespace Streams\Core\Tests\Support;
 
 use Tests\TestCase;
 use Streams\Core\Support\Workflow;

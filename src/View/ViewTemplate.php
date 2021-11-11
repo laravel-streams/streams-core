@@ -5,70 +5,45 @@ namespace Streams\Core\View;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Streams\Core\Support\Facades\Applications;
+use Illuminate\Contracts\View\View as ViewInterface;
 
+/**
+ * This class allows you to render arbitrary
+ * strings using Larqavel's view engine.
+ * 
+ * Views are hashed and stored in the
+ * application's storage directory.
+ * 
+ * ```
+ * ViewTemplate::make($template, $data);
+ * 
+ * View::make(ViewTemplate::path($template), $data);
+ * ```
+ * 
+ */
 class ViewTemplate
 {
-    /**
-     * Parse a string view.
-     *
-     * @param string $template
-     * @param array $payload
-     * @return View
-     */
-    public static function parse(string $template, array $payload = [])
+    public static function make(string $template, array $data = [], string $extension = 'blade.php'): ViewInterface
     {
-        $view = 'support/parsed/' . md5($template);
-
-        $path = storage_path(implode(DIRECTORY_SEPARATOR, ['streams', Applications::active()->id, $view]));
-
-        if (!is_dir($directory = dirname($path))) {
-            File::makeDirectory($directory, 0766, true);
-        }
-
-        if (!file_exists($path . '.blade.php')) {
-            file_put_contents($path . '.blade.php', $template);
-        }
-
-        return View::make('storage::' . ltrim(str_replace(storage_path('streams'), '', $path), '/\\'), $payload);
+        return View::make(self::path($template, $extension), $data);
     }
 
-    /**
-     * Make a string template.
-     *
-     * @param       $template
-     * @param string $extension
-     * @return string
-     */
-    public static function make($template, $extension = 'blade.php')
+    public static function path(string $template, string $extension = 'blade.php'): string
     {
-        $path = self::path($template, $extension);
+        $root = 'templates/' . md5($template);
 
-        $base = storage_path(implode(DIRECTORY_SEPARATOR, [Applications::active()->id]));
+        $path = implode('/', ['streams', Applications::active()->id, $root]);
 
-        return 'storage::' . ltrim(str_replace($base, '', $path), '\\/');
-    }
+        $storage = storage_path($path);
 
-    /**
-     * Return the path to a string template.
-     *
-     * @param $template
-     * @param string $extension
-     * @return string
-     */
-    public static function path($template, $extension = 'blade.php')
-    {
-        $path = storage_path(
-            implode(DIRECTORY_SEPARATOR, [Applications::active()->id, 'support', 'streams', md5($template)])
-        );
-
-        if (!is_dir($directory = dirname($path))) {
-            mkdir($directory, 0777, true);
+        if (!is_dir($directory = dirname($storage))) {
+            File::makeDirectory($directory, 0755, true);
         }
 
-        if (!file_exists($path . '.' . $extension)) {
-            file_put_contents($path . '.' . $extension, $template);
+        if (!file_exists($storage . '.' . $extension)) {
+            file_put_contents($storage . '.' . $extension, $template);
         }
 
-        return $path;
+        return 'storage::' . str_replace('/', '.', $root);
     }
 }

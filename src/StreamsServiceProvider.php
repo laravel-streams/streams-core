@@ -348,13 +348,11 @@ class StreamsServiceProvider extends ServiceProvider
 
     /**
      * Add view namespaces.
-     *
-     * @deprecated  2.0 - Remove
      */
     public function addViewNamespaces()
     {
         View::addNamespace('core', dirname(__DIR__) . '/resources/views');
-        View::addNamespace('storage', storage_path('streams'));
+        View::addNamespace('storage', storage_path('streams/' . Applications::active()->id));
     }
 
     /**
