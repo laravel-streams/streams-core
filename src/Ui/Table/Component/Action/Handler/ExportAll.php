@@ -8,6 +8,7 @@ use Illuminate\Routing\ResponseFactory;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterQuery;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewQuery;
 
 /**
  * Class ExportAll
@@ -24,9 +25,10 @@ class ExportAll extends ActionHandler
      *
      * @param \Anomaly\Streams\Platform\Ui\Table\TableBuilder $builder
      * @param \Illuminate\Routing\ResponseFactory $response
-     * @param \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterQuery $applicator
+     * @param \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterQuery $filterApplicator
+     * @param \Anomaly\Streams\Platform\Ui\Table\Component\View\ViewQuery $viewApplicator
      */
-    public function handle(TableBuilder $builder, ResponseFactory $response, FilterQuery $applicator)
+    public function handle(TableBuilder $builder, ResponseFactory $response, FilterQuery $filterApplicator, ViewQuery $viewApplicator)
     {
         $model  = $builder->getTableModel();
         $stream = $builder->getTableStream();
@@ -52,7 +54,7 @@ class ExportAll extends ActionHandler
             'Expires'             => '0',
         ];
 
-        $callback = function () use ($model, $filters, $builder, $applicator) {
+        $callback = function () use ($model, $filters, $builder, $filterApplicator, $viewApplicator) {
 
             $output = fopen('php://output', 'w');
 
@@ -61,7 +63,11 @@ class ExportAll extends ActionHandler
             $builder->fire('querying', compact('query'));
 
             foreach ($filters as $filter) {
-                $applicator->filter($builder, $filter, $query);
+                $filterApplicator->filter($builder, $filter, $query);
+            }
+
+            if ($view = $builder->getActiveTableView()) {
+                $viewApplicator->handle($builder, $query, $view);
             }
 
             /* @var EloquentModel $entry */
