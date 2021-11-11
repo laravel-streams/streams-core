@@ -215,18 +215,18 @@ class Integrator
 
     public function streams($streams)
     {
-        foreach ($streams as $handle => $stream) {
+        foreach ($streams as $id => $stream) {
 
-            Arr::set($stream, 'handle', Arr::get($stream, 'handle', $handle));
+            Arr::set($stream, 'id', Arr::get($stream, 'id', $id));
 
-            if (Streams::has($stream['handle'])) {
+            if (Streams::has($stream['id'])) {
                 Streams::overload(Arr::parse($stream));
             } else {
                 Streams::register($stream);
             }
         }
     }
-    
+
     public function overrides($overrides)
     {
         foreach ($overrides as $view => $override) {

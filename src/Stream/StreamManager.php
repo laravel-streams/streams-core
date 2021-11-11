@@ -8,61 +8,32 @@ use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Criteria\Criteria;
+use Streams\Core\Entry\EntryFactory;
 use Illuminate\Support\Facades\Route;
 use Streams\Core\Support\Traits\HasMemory;
-use Streams\Core\Support\Traits\Prototype;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Streams\Core\Entry\EntryFactory;
 
 class StreamManager
 {
 
     use HasMemory;
-    use Prototype;
     use FiresCallbacks;
 
-    /**
-     * The streams collection.
-     *
-     * @var Collection
-     */
-    protected $collection;
+    protected Collection $collection;
 
-    /**
-     * Create a new class instance.
-     */
     public function __construct()
     {
         $this->collection = new Collection;
     }
 
-    /**
-     * Make a stream instance.
-     *
-     * @param string $stream
-     * @return Stream
-     */
-    public function make($stream)
+    public function make(string $id): Stream
     {
-        if ($stream instanceof Stream) {
-            return $stream;
-        }
-        
         try {
-
-            if (!is_array($stream)) {
-                return App::make('streams.instances.' . $stream);
-            }
-
-            if (!$this->has($stream['handle'])) {
-                return $this->register($stream);
-            }
-
-            return App::make('streams.instances.' . $stream['handle']);
+            return App::make('streams.instances.' . $id);
         } catch (BindingResolutionException $e) {
-            throw new Exception("Stream [{$stream}] does not exist.");
+            throw new Exception("Stream [{$id}] does not exist.");
         }
     }
 
@@ -77,25 +48,12 @@ class StreamManager
         return $target;
     }
 
-    /**
-     * Check if a given
-     * stream exists.
-     *
-     * @param string $handle
-     * @return bool
-     */
-    public function has($handle)
+    public function has(string $id): bool
     {
-        return App::has('streams.instances.' . $handle);
+        return App::has('streams.instances.' . $id);
     }
 
-    /**
-     * Build a stream instance.
-     *
-     * @param array $attributes
-     * @return Stream
-     */
-    public function build(array $attributes)
+    public function build(array $attributes): Stream
     {
         $stream = $attributes = Arr::undot($attributes);
 
@@ -106,13 +64,7 @@ class StreamManager
         return $stream;
     }
 
-    /**
-     * Load a stream instance.
-     *
-     * @param $file
-     * @return Stream
-     */
-    public function load($file)
+    public function load(string $file): Stream
     {
         if (!file_exists($file)) {
             throw new \Exception("File [$file] does not exist.");
@@ -127,13 +79,7 @@ class StreamManager
         return $this->register($stream);
     }
 
-    /**
-     * Register a stream instance.
-     *
-     * @param array $stream
-     * @return Stream
-     */
-    public function register(array $stream)
+    public function register(array $stream): Stream
     {
         $stream = $this->build($stream);
 
@@ -146,44 +92,39 @@ class StreamManager
         return $stream;
     }
 
-    public function overload(array $stream)
+    public function overload(array $stream): void
     {
-        $instance = $this->make($stream);
+        $instance = $this->make($stream['id']);
 
         foreach ($stream as $key => $value) {
-            $instance->setPrototypeAttributeValue($key, $value);
+            $instance->{$key} = $value;
         }
 
-        App::instance('streams.instances.' . $instance->handle, $instance);
+        App::instance('streams.instances.' . $instance->id, $instance);
     }
 
-    public function entries($stream): Criteria
+    public function entries(string $id): Criteria
     {
         return $this
-            ->make($stream)
+            ->make($id)
             ->entries();
     }
 
-    public function repository($stream): RepositoryInterface
+    public function repository(string $id): RepositoryInterface
     {
         return $this
-            ->make($stream)
+            ->make($id)
             ->repository();
     }
 
-    public function factory($stream): EntryFactory
+    public function factory(string $id): EntryFactory
     {
         return $this
-            ->make($stream)
+            ->make($id)
             ->factory();
     }
 
-    /**
-     * Return the Streams collection.
-     * 
-     * @return Collection
-     */
-    public function collection()
+    public function collection(): Collection
     {
         return $this->collection;
     }
@@ -202,7 +143,7 @@ class StreamManager
         if (!App::routesAreCached()) {
 
             foreach ($stream->routes ?: [] as $key => $route) {
-                
+
                 if (is_string($route)) {
                     $route = [
                         'uri' => $route,
