@@ -65,9 +65,9 @@ class StreamManager
         }
     }
 
-    public function merge(string $id, array $attributes): Stream
+    public function extend(string $id, array $stream): Stream
     {
-        $target = $this->overload($id, $attributes);
+        $target = $this->overload($id, $stream);
 
         App::make('streams.instances.' . $target->id);
 
