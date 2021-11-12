@@ -2,12 +2,10 @@
 
 namespace Streams\Core\Support;
 
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Facades\Integrator;
 use Streams\Core\Support\Traits\FiresCallbacks;
-use Streams\Core\View\ViewOverrides;
 
 class Provider extends ServiceProvider
 {

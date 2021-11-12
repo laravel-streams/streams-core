@@ -21,59 +21,59 @@ class Integrator
 
     use FiresCallbacks;
 
-    public function integrate($details)
+    public function integrate(array $details): void
     {
         foreach ($details as $type => $payload) {
             $this->{$type}($payload);
         }
     }
 
-    public function locale($locale)
+    public function locale(string $locale): void
     {
         App::setLocale($locale);
     }
 
-    public function config($config)
+    public function config(array $config): void
     {
-        Config::set(Arr::dot(Arr::parse($config)));
+        Config::set(Arr::parse(Arr::dot($config)));
     }
 
-    public function assets($assets)
+    public function assets(array $assets): void
     {
         foreach ($assets as $name => $assets) {
             Assets::register($name, $assets);
         }
     }
 
-    public function aliases($aliases)
+    public function aliases(array $aliases): void
     {
         array_walk($aliases, function ($value, $key) {
             App::alias($key, $value);
         });
     }
 
-    public function bindings($bindings)
+    public function bindings(array $bindings): void
     {
         array_walk($bindings, function ($value, $key) {
             App::bind($key, $value);
         });
     }
 
-    public function singletons($singletons)
+    public function singletons(array $singletons): void
     {
         array_walk($singletons, function ($value, $key) {
             App::singleton($key, $value);
         });
     }
 
-    public function commands($commands)
+    public function commands(array $commands): void
     {
         Application::starting(function ($artisan) use ($commands) {
             $artisan->resolveCommands($commands);
         });
     }
 
-    public function listeners($listeners)
+    public function listeners(array $listeners): void
     {
         foreach ($listeners as $event => $classes) {
 
@@ -96,7 +96,7 @@ class Integrator
         }
     }
 
-    public function policies($policies)
+    public function policies(array $policies): void
     {
         foreach ($policies as $key => $policy) {
 
@@ -111,7 +111,7 @@ class Integrator
         }
     }
 
-    public function routes($routes)
+    public function routes(array $routes): void
     {
         foreach ($routes as $group => $routes) {
             Route::middleware($group)->group(function () use ($routes) {
@@ -122,14 +122,14 @@ class Integrator
         }
     }
 
-    public function providers($providers)
+    public function providers(array $providers): void
     {
         foreach ($providers as $provider) {
             App::register($provider);
         }
     }
 
-    public function schedules($schedules)
+    public function schedules(array $schedules): void
     {
         $schedule = App::make(Schedule::class);
 
@@ -204,7 +204,7 @@ class Integrator
         }
     }
 
-    public function middleware($middleware)
+    public function middleware(array $middleware): void
     {
         foreach ($middleware as $group => $middlewares) {
             foreach ($middlewares as $middleware) {
@@ -213,19 +213,28 @@ class Integrator
         }
     }
 
-    // public function streams($streams)
-    // {
-    //     foreach ($streams as $id => $stream) {
+    public function streams(array $streams): void
+    {
+        foreach ($streams as $id => $stream) {
 
-    //         if (Streams::has($stream['id'])) {
-    //             Streams::overload(Arr::parse($stream));
-    //         } else {
-    //             Streams::register($stream);
-    //         }
-    //     }
-    // }
+            if (Streams::has($stream['id'])) {
+                Streams::overload(Arr::parse($stream));
+            } else {
+                Streams::register($stream);
+            }
+        }
+    }
 
-    public function overrides($overrides)
+    public function includes(array $includes): void
+    {
+        foreach ($includes as $slot => $views) {
+            foreach ($views as $include) {
+                View::include($slot, $include);
+            }
+        }
+    }
+
+    public function overrides(array $overrides): void
     {
         foreach ($overrides as $view => $override) {
             View::override($view, $override);
