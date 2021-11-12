@@ -106,8 +106,9 @@ class Provider extends ServiceProvider
 
         $this->registerStreamsDefinitions();
 
-        $this->registerStreamsAssets();
-        $this->registerStreamsRoutes();
+        Integrator::assets($this->assets);
+        Integrator::routes($this->routes);
+
         $this->registerStreamsCommands();
         $this->registerStreamsPolicies();
         $this->registerStreamsListeners();
@@ -129,22 +130,6 @@ class Provider extends ServiceProvider
         // Do something.
 
         $this->fire('booted');
-    }
-
-    /**
-     * Register the named assets.
-     */
-    public function registerStreamsAssets()
-    {
-        Integrator::assets($this->assets);
-    }
-
-    /**
-     * Register the addon routes.
-     */
-    public function registerStreamsRoutes()
-    {
-        Integrator::routes($this->routes);
     }
 
     /**

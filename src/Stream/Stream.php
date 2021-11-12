@@ -377,10 +377,10 @@ class Stream implements
 
     public function consolidateValidation(&$attributes)
     {
-        $rules = Arr::get($attributes, 'rules');
-        $validators = Arr::get($attributes, 'validators');
+        $rules = Arr::get($attributes, 'rules', []);
+        $validators = Arr::get($attributes, 'validators', []);
 
-        $fields = Arr::get($attributes, 'fields');
+        $fields = Arr::get($attributes, 'fields', []);
 
         $fieldRules = array_filter(
             array_combine(array_keys($fields), array_map(function ($field) {

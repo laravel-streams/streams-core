@@ -48,7 +48,7 @@ class Integrator
     public function aliases(array $aliases): void
     {
         array_walk($aliases, function ($value, $key) {
-            App::alias($key, $value);
+            App::alias($value, $key);
         });
     }
 
@@ -77,21 +77,8 @@ class Integrator
     {
         foreach ($listeners as $event => $classes) {
 
-            foreach ($classes as $key => $listener) {
-
-                $priority = 0;
-
-                /**
-                 * If the listener is an integer
-                 * then the key is the listener
-                 * and listener is priority.
-                 */
-                if (is_integer($listener)) {
-                    $priority = $listener;
-                    $listener = $key;
-                }
-
-                Event::listen($event, $listener, $priority);
+            foreach ($classes as $listener) {
+                Event::listen($event, $listener);
             }
         }
     }
@@ -100,7 +87,7 @@ class Integrator
     {
         foreach ($policies as $key => $policy) {
 
-            if (is_array($policy) || $policy instanceof \Closure) {
+            if (!class_exists($key)) {
 
                 Gate::define($key, $policy);
 
@@ -215,12 +202,14 @@ class Integrator
 
     public function streams(array $streams): void
     {
-        foreach ($streams as $id => $stream) {
+        foreach ($streams as $key => $stream) {
 
-            if (Streams::has($stream['id'])) {
-                Streams::overload(Arr::parse($stream));
-            } else {
-                Streams::register($stream);
+            if (is_string($stream)) {
+                Streams::load($stream);
+            }
+
+            if (is_array($stream)) {
+                Streams::register(array_merge($stream, ['id' => $key]));
             }
         }
     }
