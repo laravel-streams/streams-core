@@ -360,7 +360,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function loadTranslations()
     {
-        Lang::addNamespace('streams-core',  dirname(__DIR__) . '/resources/lang');
+        Lang::addNamespace('streams',  dirname(__DIR__) . '/resources/lang');
     }
 
     /**

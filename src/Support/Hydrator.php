@@ -31,7 +31,7 @@ class Hydrator
 
         $properties = array_merge(
             $reflection->getProperties(\ReflectionProperty::IS_PROTECTED),
-            $reflection->getProperties(\ReflectionProperty::IS_PUBLIC)
+            $reflection->getProperties(\ReflectionProperty::IS_PUBLIC),
         );
 
         $accessors = array_combine(
@@ -60,6 +60,12 @@ class Hydrator
                 return $property->isPublic() ? $property->getName() : null;
             }, $properties)
         );
+
+        $nonStatic = array_keys(get_object_vars($object));
+
+        $public = array_merge($public, array_combine(array_map(function($name) {
+            return Str::snake($name);
+        }, $nonStatic), $nonStatic));
 
         $public = array_filter($public);
         $accessors = array_filter($accessors);

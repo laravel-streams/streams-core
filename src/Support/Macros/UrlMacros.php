@@ -10,14 +10,14 @@ use Illuminate\Support\Facades\Route;
 class UrlMacros
 {
 
-    static public function streams($name, $parameters = [], array $extra = [], $absolute = true)
+    static public function streams($name, $parameters = [], array $extra = [], $secure = null)
     {
         $parameters = Arr::make($parameters);
 
         $extra = $extra ? '?' . http_build_query($extra) : null;
 
-        if (!$route = Route::getByName($name)) {
-            return URL::to(Str::parse($name, $parameters) . $extra, [], $absolute);
+        if (!$route = Route::getRoutes()->getByName($name)) {
+            return URL::to(Str::parse($name, $parameters) . $extra, [], $secure);
         }
 
         $uri = $route->uri();
@@ -26,6 +26,6 @@ class UrlMacros
             $uri = str_replace("{{$key}__", "{{$key}.", $uri);
         }
 
-        return URL::to(Str::parse($uri, $parameters) . $extra, [], $absolute);
+        return URL::to(Str::parse($uri, $parameters) . $extra, [], $secure);
     }
 }

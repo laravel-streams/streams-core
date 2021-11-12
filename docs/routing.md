@@ -104,7 +104,7 @@ You can configure automatic view patterns within the `streams/route.php` [config
 The Streams platform adds support for deep parameter variables using a dot notation when using the `URL::streams()` method to [generate URLs](#generating-urls).
 
 ```php
-Route::streams('uri/{foo.bar}', 'view');
+URL::streams('uri/{foo.bar}', 'view');
 ```
 
 ### Stream Parameter

@@ -1,0 +1,5 @@
+<?php
+
+return [
+    'example' => 'Example',
+];

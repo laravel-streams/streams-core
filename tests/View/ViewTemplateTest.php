@@ -2,10 +2,10 @@
 
 namespace Streams\Core\Tests\Stream\View;
 
-use Illuminate\Support\Facades\File;
-use Illuminate\View\View;
 use Tests\TestCase;
+use Illuminate\View\View;
 use Streams\Core\View\ViewTemplate;
+use Illuminate\Support\Facades\File;
 
 class ViewTemplateTest extends TestCase
 {

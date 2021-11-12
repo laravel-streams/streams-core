@@ -10,11 +10,13 @@ use Illuminate\Contracts\Support\Arrayable;
 class ArrMacros
 {
 
-    static public function make($target)
+    static public function make($target): array
     {
         if (Arr::accessible($target)) {
             foreach ($target as &$item) {
-                $item = Arr::make($item);
+                if ($item && !is_string($item)) {
+                    $item = Arr::make($item);
+                }
             }
         }
 
@@ -29,38 +31,32 @@ class ArrMacros
         return $target;
     }
 
-    static public function undot($target)
+    static public function undot(array $array): array
     {
-        if (Arr::accessible($target)) {
-            foreach ($target as &$item) {
-                $item = Arr::make($item);
+        foreach ($array as $key => $value) {
+
+            if (!strpos($key, '.')) {
+                continue;
             }
+
+            Arr::set($array, $key, $value);
+
+            // Trash the old key.
+            unset($array[$key]);
         }
 
-        if (is_object($target) && $target instanceof Arrayable) {
-            $target = $target->toArray();
-        }
-
-        if (is_object($target)) {
-            $target = Hydrator::dehydrate($target);
-        }
-
-        return $target;
+        return $array;
     }
 
-    static public function export($expression, $return = false)
+    static public function export(array $array): string
     {
-        $export = var_export($expression, TRUE);
+        $export = var_export($array, true);
         $export = preg_replace("/^([ ]*)(.*)/m", '$1$1$2', $export);
         $array = preg_split("/\r\n|\n|\r/", $export);
-        $array = preg_replace(["/\s*array\s\($/", "/\)(,)?$/", "/\s=>\s$/"], [NULL, ']$1', ' => ['], $array);
+        $array = preg_replace(["/\s*array\s\($/", "/\)(,)?$/", "/\s=>\s$/"], [null, ']$1', ' => ['], $array);
         $export = join(PHP_EOL, array_filter(["["] + $array));
 
-        if ((bool)$return) {
-            return $export;
-        }
-
-        echo $export;
+        return $export;
     }
 
     static public function parse($target, array $payload = [])

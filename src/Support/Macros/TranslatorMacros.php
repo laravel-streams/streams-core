@@ -19,7 +19,7 @@ class TranslatorMacros
         }
 
         if (is_string($target) && Str::contains($target, ['::', '.'])) {
-            return trans($target);
+            return __($target);
         }
 
         return $target;

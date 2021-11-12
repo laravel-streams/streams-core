@@ -21,13 +21,15 @@ class StrMacros
             return $target;
         }
 
-        $default = App::has('streams.parser_data') ? App::make('streams.parser_data') : [];
-
-        return app(Engine::class)->render($target, array_filter(array_merge($default, [
-            'app' => [
-                'locale' => App::getLocale(),
-            ],
-        ], Arr::make($data))));
+        return app(Engine::class)->render($target, array_merge_recursive(
+            App::make('streams.parser_data'),
+            Arr::make($data),
+            [
+                'app' => [
+                    'locale' => App::getLocale(),
+                ]
+            ]
+        ));
     }
 
     static public function truncate($value, $limit = 100, $end = '...'): string
@@ -53,29 +55,25 @@ class StrMacros
         return trim(implode(array_slice($parts, 0, $last))) . $end;
     }
 
-    public static function isSerialized($data, $strict = true): bool
+    public static function isSerialized(string $target, $strict = true): bool
     {
-        if (!is_string($data)) {
-            return false;
-        }
+        $target = trim($target);
 
-        $data = trim($data);
-
-        if ($data == 'N;') {
+        if ($target == 'N;') {
             return true;
         }
 
-        if (strlen($data) < 4) {
+        if (strlen($target) < 4) {
             return false;
         }
 
-        if ($data[1] !== ':') {
+        if ($target[1] !== ':') {
             return false;
         }
 
         if ($strict) {
 
-            $lastc = substr($data, -1);
+            $lastc = substr($target, -1);
 
             if (';' !== $lastc && '}' !== $lastc) {
                 return false;
@@ -84,8 +82,8 @@ class StrMacros
 
         if (!$strict) {
 
-            $semicolon = strpos($data, ';');
-            $brace = strpos($data, '}');
+            $semicolon = strpos($target, ';');
+            $brace = strpos($target, '}');
 
             // Either ; or } must exist.
             if (false === $semicolon && false === $brace) {
@@ -102,27 +100,28 @@ class StrMacros
             }
         }
 
-        $token = $data[0];
+        $token = $target[0];
 
         switch ($token) {
             case 's':
                 if ($strict) {
-                    if ('"' !== substr($data, -2, 1)) {
+                    if ('"' !== substr($target, -2, 1)) {
                         return false;
                     }
-                } elseif (false === strpos($data, '"')) {
+                } elseif (false === strpos($target, '"')) {
                     return false;
                 }
                 // or else fall through
             case 'a':
             case 'O':
-                return (bool)preg_match("/^{$token}:[0-9]+:/s", $data);
+                return (bool)preg_match("/^{$token}:[0-9]+:/s", $target);
             case 'b':
             case 'i':
             case 'd':
                 $end = $strict ? '$' : '';
-                return (bool)preg_match("/^{$token}:[0-9.E-]+;$end/", $data);
+                return (bool)preg_match("/^{$token}:[0-9.E-]+;$end/", $target);
         }
+        
         return false;
     }
 }

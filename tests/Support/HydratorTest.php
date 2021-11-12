@@ -8,7 +8,7 @@ use Streams\Core\Support\Facades\Hydrator;
 class HydratorTest extends TestCase
 {
 
-    public function test_can_extract_accessible_properties()
+    public function test_can_extract_accessible_static_properties()
     {
         $data = Hydrator::dehydrate(new ExampleHydratableObject);
 
@@ -18,6 +18,15 @@ class HydratorTest extends TestCase
             'boolean' => false,
         ], $data);
     }
+
+    public function test_can_extract_non_static_properties()
+    {
+        $object = json_decode(json_encode(['foo' => 'bar']));
+
+        $data = Hydrator::dehydrate($object);
+
+        $this->assertSame(['foo' => 'bar'], $data);
+    }
 }
 
 class ExampleHydratableObject
@@ -25,9 +34,9 @@ class ExampleHydratableObject
     public string $publicValue = 'Public Test';
 
     protected string $protected = 'Protected Test';
-    
+
     protected bool $boolean = false;
-    
+
     private string $private = 'Private Test';
 
     public function getPrivate()
