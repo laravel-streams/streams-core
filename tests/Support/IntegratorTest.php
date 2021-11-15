@@ -5,6 +5,7 @@ namespace Streams\Core\Tests\Support;
 use Tests\TestCase;
 use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
+use Streams\Core\Stream\Stream;
 use Illuminate\Routing\Controller;
 use Streams\Core\Support\Provider;
 use Illuminate\Support\Facades\App;
@@ -19,7 +20,6 @@ use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Includes;
 use Streams\Core\Support\Facades\Integrator;
 use Illuminate\Routing\Route as RouteInstance;
-use Streams\Core\Stream\Stream;
 
 class IntegratorTest extends TestCase
 {

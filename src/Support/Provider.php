@@ -137,6 +137,12 @@ class Provider extends ServiceProvider
      */
     public function registerStreamsDefinitions()
     {
+        array_map(function ($stream) {
+            if (is_string($stream)) {
+                $stream = base_path($this->streams);
+            }
+        }, $this->streams);
+
         Integrator::streams($this->streams);
     }
 
