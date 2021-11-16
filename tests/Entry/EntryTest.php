@@ -28,7 +28,7 @@ class EntryTest extends TestCase
         }
     }
 
-    public function testSupportInterfaces()
+    public function test_accessibility_interfaces()
     {
         $this->assertIsArray(Streams::entries('testing.examples')->first()->toArray());
         $this->assertJson(Streams::entries('testing.examples')->first()->toJson());
@@ -36,7 +36,7 @@ class EntryTest extends TestCase
         $this->assertJson(json_encode(Streams::entries('testing.examples')->first()));
     }
 
-    public function testCanReturnStreamInstance()
+    public function test_can_return_its_stream()
     {
         $entry = Streams::entries('testing.examples')->first();
 
@@ -46,8 +46,8 @@ class EntryTest extends TestCase
     public function testCRUD()
     {
         $entry = new Entry([
-            'stream' => 'testing.examples',
             'id' => 'delete_me',
+            'stream' => 'testing.examples',
             'name' => 'This message will self-destruct.',
         ]);
 
@@ -72,7 +72,7 @@ class EntryTest extends TestCase
 
 
         $result = $entry->delete();
-
+dd('tes');
         $this->assertTrue($result);
 
         $count = Streams::entries('testing.examples')

@@ -10,7 +10,6 @@ use Streams\Core\Field\FieldType;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Traits\Macroable;
-use Streams\Core\Support\Facades\Streams;
 use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
@@ -27,6 +26,8 @@ class Field implements
     use Prototype;
     use Macroable;
     use FiresCallbacks;
+
+    public Stream $stream;
 
     protected $__properties = [
         'handle' => [
@@ -49,6 +50,8 @@ class Field implements
             'attributes' => $attributes,
         ]);
 
+        $this->stream = Arr::get($attributes, 'stream');
+
         $this->fire('initializing', [
             'callbackData' => $callbackData,
         ]);
@@ -58,11 +61,6 @@ class Field implements
         $this->fire('initialized', [
             'field' => $this,
         ]);
-    }
-
-    public function stream()
-    {
-        return Streams::make($this->stream);
     }
 
     public function name(): string
@@ -77,9 +75,9 @@ class Field implements
             $attributes['field'] = $this;
 
             if (!App::has('streams.core.field_type.' . $this->type)) {
-                throw new \Exception("Invalid field type [{$this->type}] in stream.");
+                throw new \Exception("Invalid field type [{$this->type}] in stream [{$this->stream->id}].");
             }
-            
+
             $type = App::make('streams.core.field_type.' . $this->type, [
                 'attributes' => $attributes,
             ]);
@@ -88,24 +86,24 @@ class Field implements
         });
     }
 
-    public function config($key, $default = null)
+    public function config(string $key, $default = null)
     {
         return $this->getPrototypeAttribute("config.{$key}", $default);
     }
 
-    public function hasRule($rule)
+    public function hasRule(string $rule): bool
     {
-        return $this->stream()->hasRule($this->handle, $rule);
+        return $this->stream->hasRule($this->handle, $rule);
     }
 
-    public function getRule($rule)
+    public function getRule(string $rule)
     {
-        return $this->stream()->getRule($this->handle, $rule);
+        return $this->stream->getRule($this->handle, $rule);
     }
 
     public function ruleParameters($rule)
     {
-        return $this->stream()->ruleParameters($this->handle, $rule);
+        return $this->stream->ruleParameters($this->handle, $rule);
     }
 
     public function ruleParameter($rule, $key = 0)
@@ -113,25 +111,19 @@ class Field implements
         return Arr::get($this->ruleParameters($rule), $key);
     }
 
-    public function isRequired()
+    public function isRequired(): bool
     {
-        return $this->stream()->isRequired($this->handle);
+        return $this->stream->isRequired($this->handle);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return Hydrator::dehydrate($this, [
             'stream',
         ]);
     }
 
-    /**
-     * Specify data which should
-     * be serialized to JSON.
-     * 
-     * @return mixed
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }
@@ -141,12 +133,7 @@ class Field implements
         return json_encode($this->toArray(), $options);
     }
 
-    /**
-     * Return a string representation.
-     *
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toJson();
     }
@@ -154,7 +141,7 @@ class Field implements
 
 
 
-    public function onInitializing($callbackData)
+    public function onInitializing($callbackData): void
     {
         $attributes = $callbackData->get('attributes');
 
@@ -168,43 +155,6 @@ class Field implements
         if (!isset($attributes['type'])) {
             $attributes['type'] = $attributes['handle'];
         }
-
-        $attributes['rules'] = Arr::get($attributes, 'rules', []);
-
-        if (is_string($attributes['rules'])) {
-            $attributes['rules'] = explode('|', $attributes['rules']);
-        }
-
-        if (Arr::pull($attributes, 'required') == true) {
-            $attributes['rules'][] = 'required';
-        }
-
-        /**
-         * Unique Rule
-         */
-        array_walk($attributes['rules'], function (&$rule) use ($attributes) {
-
-            if (Str::startsWith($rule, 'unique')) {
-
-                $parts = explode(':', $rule);
-                $parameters = array_filter(explode(',', Arr::get($parts, 1)));
-
-                if (!$parameters) {
-                    $parameters[] = $attributes['stream']->handle;
-                }
-
-                if (count($parameters) === 1) {
-                    $parameters[] = $attributes['handle'];
-                }
-
-                // if (count($parameters) === 2 && $this->entry && $ignore = $this->entry->{$field}) {
-                //     $parameters[] = $ignore;
-                //     $parameters[] = $field;
-                // }
-
-                $rule = 'unique:' . implode(',', $parameters);
-            }
-        });
 
         $attributes = Arr::undot($attributes);
     }

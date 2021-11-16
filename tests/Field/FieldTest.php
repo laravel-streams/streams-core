@@ -18,28 +18,40 @@ class FieldTest extends TestCase
         Streams::load(base_path('vendor/streams/core/tests/examples.json'));
     }
 
-    public function testFieldInstance()
+    public function test_fields_are_accessible_from_the_stream()
     {
         $name = Streams::make('testing.examples')->fields->get('name');
 
         $this->assertInstanceOf(Field::class, $name);
     }
 
-    public function testName()
+    public function test_can_return_field_name()
     {
         $field = Streams::make('testing.examples')->fields->get('name');
 
         $this->assertEquals('Name', $field->name());
     }
 
-    public function testType()
+    public function test_can_return_field_type()
     {
         $field = Streams::make('testing.examples')->fields->get('age');
 
         $this->assertInstanceOf(Integer::class, $field->type());
     }
 
-    public function testRuleAccessors()
+    public function test_can_identify_incorrect_types()
+    {
+        $this->expectException(\Exception::class);
+
+        Streams::build([
+            'id' => 'testing.type_failures',
+            'fields' => [
+                'test' => 'test',
+            ],
+        ])->fields->get('test');
+    }
+
+    public function test_can_access_validation_rules()
     {
         $name = Streams::make('testing.examples')->fields->get('name');
         $age = Streams::make('testing.examples')->fields->get('age');
@@ -59,11 +71,16 @@ class FieldTest extends TestCase
         $this->assertFalse($age->isRequired());
     }
 
-    public function testSupportInterfaces()
+    public function test_is_arrayable()
     {
         $this->assertIsArray(Streams::make('testing.examples')->fields->get('name')->toArray());
+    }
+
+    public function test_is_jsonable()
+    {
         $this->assertJson(Streams::make('testing.examples')->fields->get('name')->toJson());
+        
         $this->assertJson((string) Streams::make('testing.examples')->fields->get('name'));
-        $this->assertJson(json_encode(Streams::make('testing.examples')->fields->get('name')->jsonSerialize()));
+        $this->assertJson(json_encode(Streams::make('testing.examples')->fields->get('name')));
     }
 }

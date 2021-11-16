@@ -1,5 +1,5 @@
 {
-    "handle": "testing.planets",
+    "id": "testing.planets",
     "description": "Used for testing.",
     "config": {
         "source": {

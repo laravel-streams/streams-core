@@ -44,6 +44,6 @@ class Str extends FieldType
             $min = $this->field->ruleParameter('min');
         }
 
-        return $this->generator()->realTextBetween($min, $max);
+        return $this->generator()->text();
     }
 }

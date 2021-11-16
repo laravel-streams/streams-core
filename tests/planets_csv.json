@@ -1,5 +1,5 @@
 {
-    "handle": "testing.planets_csv",
+    "id": "testing.planets_csv",
     "description": "Used for testing.",
     "config": {
         "source": {

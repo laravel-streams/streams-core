@@ -33,7 +33,7 @@ class Number extends FieldType
         }
 
         $float = floatval($value);
-        
+
         if ($float && intval($float) != $float) {
             $value = $float;
         } else {
@@ -54,7 +54,7 @@ class Number extends FieldType
         }
 
         $float = floatval($value);
-        
+
         if ($float && intval($float) != $float) {
             $value = $float;
         } else {

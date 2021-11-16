@@ -1,5 +1,5 @@
 {
-    "handle": "testing.fakers",
+    "id": "testing.fakers",
     "description": "Used for testing fake data.",
     "config": {
         "source": {
