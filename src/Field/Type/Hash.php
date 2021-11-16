@@ -14,6 +14,10 @@ class Hash extends FieldType
             return $value;
         }
 
+        if (strpos($value, '$2y$') === 0 && strlen($value) == 60) {
+            return $value;
+        }
+
         return HashFacade::make($value);
     }
 
