@@ -41,7 +41,7 @@ trait Fluency
 
         $value = $this->getPrototypeAttribute($key);
 
-        if ($this->hasPrototypeAttributeOverride($name)) {
+        if ($this->hasPrototypeOverrideMethod($name)) {
             return $this->{Str::camel($name)}($value);
         }
 

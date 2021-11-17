@@ -16,7 +16,7 @@ class Relationship extends FieldType
     {
         $stream = Streams::make($this->field->config('related'));
         
-        $entries = $stream->entries($this->field->config('related'))->limit(100)->get();
+        $entries = $stream->entries()->limit(100)->get();
 
         $keyName = $stream->config('key_name', 'id');
 

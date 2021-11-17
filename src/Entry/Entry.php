@@ -66,7 +66,7 @@ class Entry implements
     {
         $name = $this->stream()->config('meta.key_name', 'id');
 
-        $value = $this->__prototype['attributes'][$name] ?? $this->getPrototypePropertyDefault($name);
+        $value = $this->__prototype['attributes'][$name] ?? $this->getPrototypeAttributeDefault($name);
 
         return $value;
     }

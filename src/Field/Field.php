@@ -88,7 +88,7 @@ class Field implements
 
     public function config(string $key, $default = null)
     {
-        return $this->getPrototypeAttribute("config.{$key}", $default);
+        return Arr::get($this->getPrototypeAttribute("config"), $key, $default);
     }
 
     public function hasRule(string $rule): bool

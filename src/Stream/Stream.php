@@ -238,7 +238,7 @@ class Stream implements
 
     public function config(string $key, $default = null)
     {
-        return Arr::get($this->config, $key, $default);
+        return Arr::get($this->getPrototypeAttribute('config'), $key, $default);
     }
 
     public function cache(): StreamCache
