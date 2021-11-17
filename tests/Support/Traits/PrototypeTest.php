@@ -8,6 +8,7 @@ use Streams\Core\Field\Value\IntegerValue;
 use Tests\TestCase;
 use Streams\Core\Field\Value\Value;
 use Streams\Core\Field\Value\NumberValue;
+use Streams\Core\Field\Value\StrValue;
 use Streams\Core\Support\Traits\Prototype;
 
 class PrototypeTest extends TestCase
@@ -105,6 +106,26 @@ class PrototypeTest extends TestCase
         $this->assertTrue($prototype->description === 'Test');
     }
 
+    public function test_can_return_original_attribute_values()
+    {
+        $prototype = new TestPrototype([
+            'name' => 'Ryan',
+            'number' => 14,
+        ]);
+
+        $prototype->loadPrototypeAttributes([
+            'name' => 'Testing',
+            'description' => 'Test',
+        ]);
+
+        $original = $prototype->getOriginalPrototypeAttributes();
+
+        $this->assertSame([
+            'name' => 'Ryan',
+            'number' => 14,
+        ], $original);
+    }
+
     public function test_can_set_attribute_values()
     {
         $prototype = new TestPrototype([
@@ -133,15 +154,36 @@ class PrototypeTest extends TestCase
         $this->assertInstanceOf(Value::class, $value);
     }
 
+    public function test_can_use_expand_hooks()
+    {
+        $prototype = new TestPrototype([
+            'test' => 'Test',
+        ]);
+
+        $prototype::macro('expandTestAttribute', function ($value) {
+            return new CustomValue($value);
+        });
+
+        $value = $prototype->expandPrototypeAttribute('test');
+
+        $this->assertInstanceOf(CustomValue::class, $value);
+    }
+
     public function test_can_guess_attribute_types()
     {
         $prototype = new TestPrototype([
+            'name' => null,
             'number' => 14,
+            'double' => 14.1,
         ]);
 
-        $value = $prototype->expandPrototypeAttribute('number');
+        $name = $prototype->expandPrototypeAttribute('name');
+        $double = $prototype->expandPrototypeAttribute('double');
+        $number = $prototype->expandPrototypeAttribute('number');
 
-        $this->assertInstanceOf(IntegerValue::class, $value);
+        $this->assertInstanceOf(StrValue::class, $name);
+        $this->assertInstanceOf(NumberValue::class, $double);
+        $this->assertInstanceOf(IntegerValue::class, $number);
     }
 }
 
@@ -167,5 +209,13 @@ class TestPrototype
 
         $this->first_name = $first;
         $this->last_name = $last;
+    }
+}
+
+class CustomValue extends Value
+{
+    public function upper()
+    {
+        return strtoupper($this->value);
     }
 }

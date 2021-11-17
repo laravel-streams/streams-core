@@ -8,6 +8,7 @@ use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Field\Value\Value;
 use Illuminate\Support\Traits\Macroable;
+use Streams\Core\Field\FieldType;
 
 /**
  * Trait Prototype
@@ -210,7 +211,7 @@ trait Prototype
         }
 
         if ($type === 'double') {
-            $type = 'decimal';
+            $type = 'number';
         }
 
         return $type;
@@ -250,13 +251,7 @@ trait Prototype
         return $type->modify($value);
     }
 
-    /**
-     * Return a new property field type.
-     *
-     * @param string $key
-     * @return FieldType
-     */
-    protected function newProtocolPropertyFieldType($key)
+    protected function newProtocolPropertyFieldType(string $key): FieldType
     {
         if (!$type = Arr::get($this->__prototype['properties'], $key . '.type')) {
             $type = $this->guessProtocolPropertyType($key);
@@ -264,6 +259,7 @@ trait Prototype
 
         $attributes = Arr::get($this->__prototype['properties'], $key, []);
 
+        // @todo tuck this away too.
         if ($this instanceof Field) {
             $attributes['field'] = $this;
         }
@@ -272,25 +268,16 @@ trait Prototype
             ->loadPrototypeAttributes($attributes);
     }
 
-    /**
-     * Check if the given attribute key
-     * has a specified property type.
-     *
-     * @param [type] $key
-     *
-     * @return bool
-     */
-    protected function hasPrototypePropertyType($key)
+    protected function hasPrototypePropertyType(string $key): bool
     {
-        return (bool) Arr::get($this->__prototype['properties'], $key . '.type');
+        return (bool) $this->getPrototypePropertyType($key);
     }
 
-    /**
-     * Load prototype properties.
-     *
-     * @param array $properties
-     * @return $this
-     */
+    protected function getPrototypePropertyType(string $key): ?string
+    {
+        return Arr::get($this->__prototype['properties'], $key . '.type');
+    }
+
     public function loadPrototypeProperties(array $properties)
     {
         foreach ($properties as $key => $value) {
@@ -300,12 +287,6 @@ trait Prototype
         return $this;
     }
 
-    /**
-     * Set the prototype properties
-     *
-     * @param array $properties
-     * @return $this
-     */
     public function setPrototypeProperties(array $properties)
     {
         $this->__prototype['properties'] = [];
@@ -317,11 +298,6 @@ trait Prototype
         return $this;
     }
 
-    /**
-     * Get the prototype properties.
-     *
-     * @return array
-     */
     public function getPrototypeProperties(): array
     {
         return $this->__prototype['properties'];
