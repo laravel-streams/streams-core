@@ -20,6 +20,10 @@ class Relationship extends FieldType
 
         $keyName = $stream->config('key_name', 'id');
 
+        if ($entries->isEmpty()) {
+            return null;
+        }
+        
         if (!$entry = $entries->random()) {
             return null;
         }
