@@ -25,6 +25,16 @@ class PrototypeTest extends TestCase
         $this->assertEquals(14, $prototype->getPrototypeAttribute('number'));
     }
 
+    public function test_can_affirm_attribute()
+    {
+        $prototype = new TestPrototype([
+            'name' => 'Ryan',
+        ]);
+
+        $this->assertTrue($prototype->hasPrototypeAttribute('name'));
+        $this->assertFalse($prototype->hasPrototypeAttribute('number'));
+    }
+
     public function test_can_set_attribute()
     {
         $prototype = new TestPrototype([
@@ -184,6 +194,82 @@ class PrototypeTest extends TestCase
         $this->assertInstanceOf(StrValue::class, $name);
         $this->assertInstanceOf(NumberValue::class, $double);
         $this->assertInstanceOf(IntegerValue::class, $number);
+    }
+
+    public function test_can_set_prototype_properties()
+    {
+        $prototype = new TestPrototype();
+
+        $prototype->setPrototypeProperties([
+            'name' => [
+                'type' => 'boolean',
+            ]
+        ]);
+
+        $prototype->loadPrototypeAttributes([
+            'name' => 'Ryan',
+        ]);
+
+        $this->assertIsBool($prototype->getPrototypeAttribute('name'));
+    }
+
+    public function test_can_get_prototype_properties()
+    {
+        $prototype = new TestPrototype();
+
+        $prototype->setPrototypeProperties([
+            'name' => [
+                'type' => 'boolean',
+            ]
+        ]);
+
+        $this->assertSame([
+            'name' => [
+                'type' => 'boolean',
+            ]
+        ], $prototype->getPrototypeProperties());
+    }
+
+    public function test_can_get_specific_prototype_property()
+    {
+        $prototype = new TestPrototype();
+
+        $prototype->setPrototypeProperties([
+            'name' => [
+                'type' => 'boolean',
+            ]
+        ]);
+
+        $this->assertSame([
+            'type' => 'boolean',
+        ], $prototype->getPrototypeProperty('name'));
+    }
+
+    public function test_can_trim_undefined_prototype_attributes()
+    {
+        $prototype = new TestPrototype();
+
+        $prototype->setPrototypeAttributes([
+            'name' => 'Ryan',
+            'number' => 10,
+        ]);
+
+        $this->assertSame([
+            'name' => 'Ryan',
+            'number' => 10,
+        ], $prototype->getPrototypeAttributes());
+
+        $prototype->setPrototypeProperties([
+            'name' => [
+                'type' => 'string',
+            ]
+        ]);
+
+        $prototype->trimUndefinedPrototypeAttributes();
+
+        $this->assertSame([
+            'name' => 'Ryan',
+        ], $prototype->getPrototypeAttributes());
     }
 }
 

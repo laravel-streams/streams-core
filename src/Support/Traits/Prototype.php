@@ -76,12 +76,7 @@ trait Prototype
         return $this;
     }
 
-    /**
-     * Trim non-defined attributes.
-     *
-     * @return $this
-     */
-    public function strictPrototypeAttributes()
+    public function trimUndefinedPrototypeAttributes()
     {
         $allowed = $this->getPrototypeProperties();
         $attributes = $this->getPrototypeAttributes();
@@ -316,37 +311,12 @@ trait Prototype
         return $this;
     }
 
-    /**
-     * Get an attribute value.
-     *
-     * @param string $key
-     * @return mixed|Value
-     */
-    public function getPrototypeProperty($key)
+    public function getPrototypeProperty(string $key): array
     {
-        $parts = explode('.', $key);
-
-        $key = array_shift($parts);
-
-        $value = $this->__prototype['properties'][$key] ?? [];
-
-        if ($parts) {
-            return data_get($value, implode('.', $parts));
-        }
-
-        return $value;
+        return $this->__prototype['properties'][$key] ?? [];
     }
 
-    /**
-     * Check if there is an override method
-     * specified on this prototype object.
-     * 
-     *
-     * @param string $name
-     *
-     * @return bool
-     */
-    protected function hasPrototypeOverrideMethod($name): bool
+    protected function hasPrototypeOverrideMethod(string $name): bool
     {
         if (self::hasMacro($name)) {
             return true;
@@ -359,15 +329,7 @@ trait Prototype
         return false;
     }
 
-    /**
-     * Check if an attribute exists.
-     * 
-     *
-     * @param string $name
-     *
-     * @return bool
-     */
-    public function hasPrototypeAttribute($key): bool
+    public function hasPrototypeAttribute(string $key): bool
     {
         if (isset($this->__prototype['attributes'][$key])) {
             return true;
