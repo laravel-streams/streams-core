@@ -70,7 +70,7 @@ class Field implements
 
     public function type(array $attributes = []): FieldType
     {
-        return $this->once($this->handle . '.' . $this->type, function () use ($attributes) {
+        return $this->once($this->stream->id . '.' . $this->handle . '.' . $this->type, function () use ($attributes) {
 
             $attributes['field'] = $this;
 
