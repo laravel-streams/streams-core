@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Criteria\Adapter;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
@@ -87,7 +88,7 @@ class EloquentAdapter extends AbstractAdapter
         }
 
         if ($field == 'handle') {
-            $field = $this->stream->getPrototypeAttribute('config.handle', 'id');
+            $field = Arr::get($this->stream->getPrototypeAttribute('config', []), 'handle', 'id');
         }
 
         $method = Str::studly($nested ? $nested . '_where' : 'where');
