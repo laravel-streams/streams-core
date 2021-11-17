@@ -25,14 +25,12 @@ use Illuminate\Support\Traits\Macroable;
  * Attributes can be expanded:
  * 
  *      echo $object->expandPrototypeAttribute('attribute'); // A new Value instance
- *
- * @link   http://pyrocms.com/
- * @author Ryan Thompson <ryan@pyrocms.com>
  */
 trait Prototype
 {
 
     use Macroable;
+    use FiresCallbacks;
 
     /**
      * The prototype information.
@@ -43,46 +41,24 @@ trait Prototype
         'original' => [],
     ];
 
-    /**
-     * Create a new Prototype instance.
-     *
-     * @param array $attributes
-     */
     public function __construct(array $attributes = [])
     {
-        $this->loadPrototypeAttributes($this->__attributes ?? []);
         $this->loadPrototypeProperties($this->__properties ?? []);
+        $this->loadPrototypeAttributes($this->__attributes ?? []);
 
         $this->initializePrototypeAttributes($attributes);
     }
 
-    /**
-     * Map attribute access to attribute data.
-     *
-     * @param string $key
-     */
-    public function __get($key)
-    {
-        return $this->getPrototypeAttribute($key);
-    }
+    // public function __get(string $key)
+    // {
+    //     return $this->getPrototypeAttribute($key);
+    // }
 
-    /**
-     * Map attribute access to attribute data.
-     *
-     * @param string $key
-     * @param mixed $value
-     */
-    public function __set($key, $value)
-    {
-        $this->setPrototypeAttribute($key, $value);
-    }
+    // public function __set(string $key, $value): void
+    // {
+    //     $this->setPrototypeAttribute($key, $value);
+    // }
 
-    /**
-     * Initialize the prototype.
-     *
-     * @param array $attributes
-     * @return $this
-     */
     protected function initializePrototypeAttributes(array $attributes)
     {
         $this->__prototype['original'] = $attributes;
@@ -90,12 +66,6 @@ trait Prototype
         return $this->loadPrototypeAttributes($attributes);
     }
 
-    /**
-     * Load prototype attributes.
-     *
-     * @param array $attributes
-     * @return $this
-     */
     public function loadPrototypeAttributes(array $attributes)
     {
         foreach ($attributes as $key => $value) {
@@ -112,20 +82,14 @@ trait Prototype
      */
     public function strictPrototypeAttributes()
     {
-        $attributes = $this->getPrototypeAttributes();
         $allowed = $this->getPrototypeProperties();
+        $attributes = $this->getPrototypeAttributes();
 
         $this->setPrototypeAttributes(array_intersect_key($attributes, $allowed));
 
         return $this;
     }
 
-    /**
-     * Set the prototype properties
-     *
-     * @param array $attributes
-     * @return $this
-     */
     public function setPrototypeAttributes(array $attributes)
     {
         $this->__prototype['attributes'] = [];
@@ -157,15 +121,10 @@ trait Prototype
         return $this->__prototype['original'];
     }
 
-    /**
-     * Set an attribute value.
-     *
-     * @param string $key
-     * @param mixed $value
-     */
-    public function setPrototypeAttribute($key, $value)
+    public function setPrototypeAttribute(string $key, $value)
     {
-        if ($this->hasPrototypeAttributeOverride($name = Str::camel('set_' . $key . '_attribute'))) {
+        dd($name = Str::camel('set_' . $key . '_attribute'));
+        if ($this->hasPrototypeAttributeAccessor($name = Str::camel('set_' . $key . '_attribute'))) {
 
             if (self::hasMacro($name)) {
 
@@ -216,23 +175,15 @@ trait Prototype
         return $this;
     }
 
-    /**
-     * Get an attribute value.
-     *
-     * @param string $key
-     * @return mixed|Value
-     */
-    public function getPrototypeAttribute($key, $default = null)
+    public function getPrototypeAttribute(string $key, $default = null)
     {
-        $parts = explode('.', $original = $key);
+        $method = Str::camel('get_' . $key . '_attribute');
 
-        $key = array_shift($parts);
-
-        if ($this->hasPrototypeAttributeOverride($name = Str::camel('get_' . $key . '_attribute'))) {
-            return $this->{$name}();
+        if ($this->hasPrototypeAttributeAccessor($method)) {
+            return $this->{$method}();
         }
 
-        return $this->getPrototypeAttributeValue($original, $default);
+        return $this->getPrototypeAttributeValue($key, $default);
     }
 
     /**
@@ -276,7 +227,7 @@ trait Prototype
 
         $value = $this->getPrototypeAttribute($key);
 
-        if ($this->hasPrototypeAttributeOverride($name)) {
+        if ($this->hasPrototypeAttributeAccessor($name)) {
             return $this->{Str::camel($name)}($value);
         }
 
@@ -479,7 +430,7 @@ trait Prototype
      *
      * @return bool
      */
-    protected function hasPrototypeAttributeOverride($name): bool
+    protected function hasPrototypeAttributeAccessor($name): bool
     {
         if (self::hasMacro($name)) {
             return true;
