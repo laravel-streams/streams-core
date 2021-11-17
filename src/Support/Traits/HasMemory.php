@@ -3,47 +3,20 @@
 namespace Streams\Core\Support\Traits;
 
 /**
- * Trait HasMemory
- *
- * @link   http://pyrocms.com/
- * @author Ryan Thompson <ryan@pyrocms.com>
+ * This class provides a semi-aware
+ * runtime cache for any object.
  */
 trait HasMemory
 {
 
-    /**
-     * The static memory.
-     *
-     * @var array
-     */
-    protected static $memory = [];
+    protected static array $memory = [];
 
-    /**
-     * Remember something.
-     *
-     * @param string $key
-     * @param callable $callable
-     * @return null|string
-     */
-    public static function remember($key, $callable)
+    public static function remember(string $key, callable $callable)
     {
-        $prefix = self::class;
-
-        if (array_key_exists($prefix . $key, self::$memory)) {
-            return self::$memory[$prefix . $key];
-        }
-
-        return self::$memory[$prefix . $key] = call_user_func($callable);
+        return self::once(self::class . $key, $callable);
     }
 
-    /**
-     * Remember something across all instances.
-     *
-     * @param string $key
-     * @param callable $callable
-     * @return mixed
-     */
-    public static function once($key, $callable)
+    public static function once(string $key, callable $callable)
     {
         if (array_key_exists($key, self::$memory)) {
             return self::$memory[$key];
@@ -52,12 +25,7 @@ trait HasMemory
         return self::$memory[$key] = call_user_func($callable);
     }
 
-    /**
-     * Forget a key.
-     *
-     * @param string $key
-     */
-    public static function forget($key)
+    public static function forget(string $key): void
     {
         $prefix = self::class;
 
@@ -70,10 +38,7 @@ trait HasMemory
         }
     }
 
-    /**
-     * Reset memory.
-     */
-    public static function resetMemory()
+    public static function resetMemory(): void
     {
         self::$memory = [];
     }

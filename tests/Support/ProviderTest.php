@@ -28,7 +28,7 @@ class ProviderTest extends TestCase
         parent::createApplication();
 
         Integrator::providers([
-            CustomTestingSecondaryProvider::class,
+            CustomProvidedTestingSecondaryProvider::class,
         ]);
     }
 
@@ -68,7 +68,7 @@ class ProviderTest extends TestCase
 
     public function test_can_register_policies()
     {
-        $user = new CustomTestingUser(['name' => 'Ryan']);
+        $user = new CustomProvidedTestingUser(['name' => 'Ryan']);
 
         $this->be($user);
 
@@ -103,7 +103,7 @@ class CustomProviderService
 {
 }
 
-class CustomArtisanCommand extends Command
+class CustomProvidedArtisanCommand extends Command
 {
     protected $signature = 'custom-artisan-command';
 }
@@ -116,7 +116,7 @@ class CustomProviderListener
     }
 }
 
-class CustomInvokablePolicy
+class CustomProvidedInvokablePolicy
 {
     public function __invoke()
     {
@@ -124,7 +124,7 @@ class CustomInvokablePolicy
     }
 }
 
-class CustomTestingPolicy
+class CustomProvidedTestingPolicy
 {
     public function test()
     {
@@ -137,19 +137,19 @@ class CustomTestingPolicy
     }
 }
 
-class CustomTestingUser extends User
+class CustomProvidedTestingUser extends User
 {
     protected $fillable = ['name'];
 }
 
-class CustomTestingController extends Controller
+class CustomProvidedTestingController extends Controller
 {
     public function __invoke()
     {
     }
 }
 
-class CustomTestingSecondaryProvider extends Provider
+class CustomProvidedTestingSecondaryProvider extends Provider
 {
 
     public $assets = [
@@ -172,13 +172,13 @@ class CustomTestingSecondaryProvider extends Provider
         'web' => [
             'foo/bar' => [
                 'as' => 'testing.foo',
-                'uses' => CustomTestingController::class,
+                'uses' => CustomProvidedTestingController::class,
             ],
         ],
     ];
 
     public $commands = [
-        CustomArtisanCommand::class,
+        CustomProvidedArtisanCommand::class,
     ];
 
     public $listeners = [
@@ -188,9 +188,9 @@ class CustomTestingSecondaryProvider extends Provider
     ];
 
     public $policies = [
-        'custom-testing-array-policy' => [CustomTestingPolicy::class, 'test'],
-        'custom-testing-invokable-policy' => CustomInvokablePolicy::class,
-        CustomProviderService::class => CustomTestingPolicy::class,
+        'custom-testing-array-policy' => [CustomProvidedTestingPolicy::class, 'test'],
+        'custom-testing-invokable-policy' => CustomProvidedInvokablePolicy::class,
+        CustomProviderService::class => CustomProvidedTestingPolicy::class,
     ];
 
     public $includes = [
