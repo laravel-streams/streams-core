@@ -49,15 +49,15 @@ trait Prototype
         $this->initializePrototypeAttributes($attributes);
     }
 
-    // public function __get(string $key)
-    // {
-    //     return $this->getPrototypeAttribute($key);
-    // }
+    public function __get(string $key)
+    {
+        return $this->getPrototypeAttribute($key);
+    }
 
-    // public function __set(string $key, $value): void
-    // {
-    //     $this->setPrototypeAttribute($key, $value);
-    // }
+    public function __set(string $key, $value): void
+    {
+        $this->setPrototypeAttribute($key, $value);
+    }
 
     protected function initializePrototypeAttributes(array $attributes)
     {
@@ -101,21 +101,11 @@ trait Prototype
         return $this;
     }
 
-    /**
-     * Get the prototype attributes.
-     *
-     * @return array
-     */
     public function getPrototypeAttributes(): array
     {
         return $this->__prototype['attributes'];
     }
 
-    /**
-     * Get the original prototype attributes.
-     *
-     * @return array
-     */
     public function getOriginalPrototypeAttributes(): array
     {
         return $this->__prototype['original'];
@@ -123,24 +113,20 @@ trait Prototype
 
     public function setPrototypeAttribute(string $key, $value)
     {
-        dd($name = Str::camel('set_' . $key . '_attribute'));
-        if ($this->hasPrototypeAttributeAccessor($name = Str::camel('set_' . $key . '_attribute'))) {
+        $method = Str::camel('set_' . $key . '_attribute');
 
-            if (self::hasMacro($name)) {
+        if ($this->hasPrototypeOverrideMethod($method)) {
 
-                $this->{$name}($value);
-
-                return $this;
-            }
-
-            $this->{$name}($value);
+            $this->{$method}($value);
 
             return $this;
         }
 
         if ($this->hasPrototypePropertyType($key)) {
 
-            $this->__prototype['attributes'][$key] = $this->modifyPrototypeAttributeValue($key, $value);
+            $modified = $this->modifyPrototypeAttributeValue($key, $value);
+
+            $this->__prototype['attributes'][$key] = $modified;
 
             return $this;
         }
@@ -150,27 +136,9 @@ trait Prototype
         return $this;
     }
 
-    /**
-     * Set the value on the prototype's attributes.
-     *
-     * @param string $key
-     * @param mixed $value
-     */
-    public function setPrototypeAttributeValue($key, $value)
+    public function setPrototypeAttributeValue(string $key, $value)
     {
         Arr::set($this->__prototype['attributes'], $key, $value);
-
-        return $this;
-    }
-
-    /**
-     * Set the values for all prototype attributes.
-     *
-     * @param array $values
-     */
-    public function setPrototypeAttributeValues($values)
-    {
-        $this->__prototype['attributes'] = $values;
 
         return $this;
     }
@@ -179,61 +147,45 @@ trait Prototype
     {
         $method = Str::camel('get_' . $key . '_attribute');
 
-        if ($this->hasPrototypeAttributeAccessor($method)) {
+        if ($this->hasPrototypeOverrideMethod($method)) {
             return $this->{$method}();
         }
 
         return $this->getPrototypeAttributeValue($key, $default);
     }
 
-    /**
-     * Get an attribute value.
-     *
-     * @param string $key
-     * @return mixed|Value
-     */
-    public function getPrototypeAttributeValue($key, $default = null)
+    public function getPrototypeAttributeValue(string $key, $default = null)
     {
-        $parts = explode('.', $key);
-
-        $key = array_shift($parts);
-
         if (array_key_exists($key, $this->__prototype['attributes'])) {
             $value = $this->__prototype['attributes'][$key];
         } else {
-            $value = $this->getPrototypePropertyDefault($key, $default);
+            $value = $this->getPrototypeAttributeDefault($key, $default);
         }
 
-        if ($this->hasPrototypePropertyType($key)) {
-            return $this->restorePrototypeAttributeValue($key, $value);
-        }
+        // if ($this->hasPrototypePropertyType($key)) {
+        //     return $this->restorePrototypeAttributeValue($key, $value);
+        // }
 
-        if ($parts) {
-            return data_get($value, implode('.', $parts), $default);
+        if (is_null($value)) {
+            $value = $default;
         }
 
         return $value;
     }
 
-    /**
-     * Expand a field value.
-     *
-     * @param string $key
-     * @return Value
-     */
-    public function expandPrototypeAttribute($key)
+    public function expandPrototypeAttribute(string $key): Value
     {
-        $name = Str::camel('expand_' . $key . '_attribute');
+        $method = Str::camel('expand_' . $key . '_attribute');
 
         $value = $this->getPrototypeAttribute($key);
 
-        if ($this->hasPrototypeAttributeAccessor($name)) {
-            return $this->{Str::camel($name)}($value);
+        if ($this->hasPrototypeOverrideMethod($method)) {
+            return $this->{$method}($value);
         }
 
         $type = $this->newProtocolPropertyFieldType($key);
 
-        // @todo this is not right..
+        // @todo this is not right.. tuck it away
         if ($this->stream) {
             $type->field = $this->stream->fields->get($key);
             $type->entry = $this;
@@ -242,28 +194,16 @@ trait Prototype
         return $type->expand($value);
     }
 
-    /**
-     * Return the default property
-     *
-     * @param string $key
-     * @param mixed $default
-     */
-    protected function getPrototypePropertyDefault($key, $default = null)
+    public function getPrototypeAttributeDefault(string $key, $default = null)
     {
         return Arr::get($this->__prototype['properties'], $key . '.default', $default);
     }
 
-    /**
-     * Guess the protocol property type.
-     *
-     * @param string $key
-     * @return string
-     */
     protected function guessProtocolPropertyType($key): string
     {
-        $default = Arr::get($this->__prototype['properties'], $key . '.default');
+        $default = $this->getPrototypeAttributeDefault($key);
 
-        $type = gettype(Arr::get($this->__prototype['attributes'], $key, $default));
+        $type = gettype($this->getPrototypeAttributeValue($key, $default));
 
         if ($type === 'NULL') {
             $type = 'string';
@@ -430,7 +370,7 @@ trait Prototype
      *
      * @return bool
      */
-    protected function hasPrototypeAttributeAccessor($name): bool
+    protected function hasPrototypeOverrideMethod($name): bool
     {
         if (self::hasMacro($name)) {
             return true;

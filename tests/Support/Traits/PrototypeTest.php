@@ -4,6 +4,7 @@ namespace Streams\Core\Tests\Support\Traits;
 
 use ArrayAccess;
 use Carbon\Carbon;
+use Streams\Core\Field\Value\IntegerValue;
 use Tests\TestCase;
 use Streams\Core\Field\Value\Value;
 use Streams\Core\Field\Value\NumberValue;
@@ -123,11 +124,24 @@ class PrototypeTest extends TestCase
 
     public function test_can_expand_attribute_values()
     {
-        $prototype = new TestPrototype();
+        $prototype = new TestPrototype([
+            'name' => 'Test',
+        ]);
 
         $value = $prototype->expandPrototypeAttribute('name');
 
         $this->assertInstanceOf(Value::class, $value);
+    }
+
+    public function test_can_guess_attribute_types()
+    {
+        $prototype = new TestPrototype([
+            'number' => 14,
+        ]);
+
+        $value = $prototype->expandPrototypeAttribute('number');
+
+        $this->assertInstanceOf(IntegerValue::class, $value);
     }
 }
 
