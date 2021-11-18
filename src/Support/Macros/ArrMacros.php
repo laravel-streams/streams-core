@@ -13,7 +13,7 @@ class ArrMacros
     static public function make($target): array
     {
         if (Arr::accessible($target)) {
-            foreach ($target as &$item) {
+            foreach ($target as $item) {
                 if ($item && !is_string($item)) {
                     $item = Arr::make($item);
                 }

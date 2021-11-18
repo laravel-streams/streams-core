@@ -20,6 +20,6 @@ class FieldTypeTest extends TestCase
     {
         $fake = Streams::make('testing.fakers')->fields->string->type()->generate();
 
-        $this->assertInstanceOf(Value::class, $fake);
+        $this->assertIsString($fake);
     }
 }

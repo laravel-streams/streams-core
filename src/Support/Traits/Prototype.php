@@ -50,12 +50,12 @@ trait Prototype
         $this->initializePrototypeAttributes($attributes);
     }
 
-    public function __get(string $key)
+    public function __get($key)
     {
         return $this->getPrototypeAttribute($key);
     }
 
-    public function __set(string $key, $value): void
+    public function __set($key, $value)
     {
         $this->setPrototypeAttribute($key, $value);
     }

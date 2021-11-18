@@ -109,12 +109,14 @@ class Provider extends ServiceProvider
         Integrator::assets($this->assets);
         Integrator::routes($this->routes);
 
+        $this->registerStreamsAliases();
         $this->registerStreamsCommands();
         $this->registerStreamsPolicies();
         $this->registerStreamsListeners();
         $this->registerStreamsProviders();
         $this->registerStreamsSchedules();
         $this->registerStreamsMiddleware();
+        $this->registerStreamsViewIncludes();
         $this->registerStreamsViewOverrides();
 
         $this->fire('registered');
@@ -137,13 +139,21 @@ class Provider extends ServiceProvider
      */
     public function registerStreamsDefinitions()
     {
-        array_map(function ($stream) {
+        array_walk($this->streams, function (&$stream) {
             if (is_string($stream)) {
-                $stream = base_path($this->streams);
+                $stream = base_path($stream);
             }
-        }, $this->streams);
+        });
 
         Integrator::streams($this->streams);
+    }
+
+    /**
+     * Register Asliases.
+     */
+    public function registerStreamsAliases()
+    {
+        Integrator::aliases($this->aliases);
     }
 
     /**
@@ -208,5 +218,13 @@ class Provider extends ServiceProvider
     public function registerStreamsViewOverrides()
     {
         Integrator::overrides($this->overrides);
+    }
+
+    /**
+     * Register view includes.
+     */
+    public function registerStreamsViewIncludes()
+    {
+        Integrator::includes($this->includes);
     }
 }

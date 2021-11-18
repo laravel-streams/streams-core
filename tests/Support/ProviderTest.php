@@ -25,7 +25,7 @@ class ProviderTest extends TestCase
 
     public function setUp(): void
     {
-        parent::createApplication();
+        $this->app = parent::createApplication();
 
         Integrator::providers([
             CustomProvidedTestingSecondaryProvider::class,
@@ -39,10 +39,10 @@ class ProviderTest extends TestCase
         $this->assertEquals(['styles.css' => 'styles.css'], Assets::collection('styles')->all());
     }
 
-    // public function test_can_register_aliases()
-    // {
-    //     $this->assertSame(CustomProviderService::class, App::getAlias('CustomProviderImplementation'));
-    // }
+    public function test_can_register_aliases()
+    {
+        $this->assertSame(CustomProviderService::class, App::getAlias('CustomProviderImplementation'));
+    }
 
     public function test_can_register_bindings()
     {
@@ -69,7 +69,7 @@ class ProviderTest extends TestCase
     public function test_can_register_policies()
     {
         $user = new CustomProvidedTestingUser(['name' => 'Ryan']);
-
+        
         $this->be($user);
 
         $this->assertTrue(Gate::allows('custom-testing-array-policy'));
@@ -153,12 +153,12 @@ class CustomProvidedTestingSecondaryProvider extends Provider
 {
 
     public $assets = [
-        'styles.css',
+        'styles.css' => 'styles.css',
     ];
 
-    // public $aliases = [
-    //     'CustomProviderImplementation' => CustomProviderService::class,
-    // ];
+    public $aliases = [
+        'CustomProviderImplementation' => CustomProviderService::class,
+    ];
 
     public $bindings = [
         'TestCustomBinding' => CustomProviderService::class,

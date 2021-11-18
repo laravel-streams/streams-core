@@ -17,6 +17,15 @@ class Time extends Datetime
         return $this->toCarbon($value)->format('H:i:s');
     }
 
+    public function restore($value)
+    {
+        if (is_null($value)) {
+            return $value;
+        }
+
+        return $this->toCarbon($value);
+    }
+
     public function generate()
     {
         return $this->generator()->time();

@@ -1,5 +1,5 @@
 {
-    "handle": "testing.eloquent",
+    "id": "testing.eloquent",
     "description": "Used for testing.",
     
     "config": {

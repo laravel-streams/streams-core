@@ -20,8 +20,8 @@ class PrototypeTest extends TestCase
     {
         $test = Streams::repository('testing.litmus')->find('field_types');
 
-        $this->assertInstanceOf(ExampleAbstract::class, $test->object);
-        $this->assertSame('bar', $test->object->foo);
+        $this->assertInstanceOf(ExampleAbstract::class, $test->expand('object'));
+        $this->assertSame('bar', $test->expand('object')->foo);
     }
 }
 
