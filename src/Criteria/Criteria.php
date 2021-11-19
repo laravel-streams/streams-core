@@ -15,8 +15,11 @@ use Streams\Core\Criteria\Contract\AdapterInterface;
 class Criteria
 {
 
-    use Macroable;
     use HasMemory;
+
+    use Macroable {
+        Macroable::__call as private callMacroable;
+    }
 
     protected array $parameters = [];
 

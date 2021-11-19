@@ -165,11 +165,20 @@ class Repository implements RepositoryInterface
 
         $criteria = $this->stream->config('criteria') ?: Criteria::class;
         
-        $adapter = $this->stream->config('source.type', $default);
+        if ($adapter = $this->stream->config('source.adapter')) {
+            $adapter = new $adapter($this->stream);
+        }
 
-        $adapter = Str::camel("new_{$adapter}_adapter");
+        if (!$adapter) {
+            
+            $adapter = $this->stream->config('source.type', $default);
 
-        return new $criteria($this->stream, $this->$adapter());
+            $adapter = Str::camel("new_{$adapter}_adapter");
+
+            $adapter = $this->$adapter();
+        }
+
+        return new $criteria($this->stream, $adapter);
     }
 
     public function newSelfAdapter(): SelfAdapter
