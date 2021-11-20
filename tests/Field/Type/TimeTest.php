@@ -16,16 +16,21 @@ class TimeTest extends TestCase
         Streams::load(base_path('vendor/streams/core/tests/litmus.json'));
     }
 
-    public function testCasting()
+    public function test_casts_value_to_carbon()
     {
         $test = Streams::repository('testing.litmus')->find('field_types');
-dd($test->time);
-        $this->assertInstanceOf(Carbon::class, $test->getPrototypeAttribute('time'));
-        
-        // $this->assertSame(strtotime('9:30 am'), $test->time->timestamp);
 
-        // $test->time = 'Yesterday 9am';
+        $this->assertInstanceOf(Carbon::class, $test->time);
+    }
+    
+    public function test_cast_strings_to_carbon()
+    {
+        $test = Streams::repository('testing.litmus')->find('field_types');
 
-        // $this->assertSame(strtotime('Today 9:00 am'), $test->time->timestamp);
+        $this->assertSame(strtotime('9:30 am'), $test->time->timestamp);
+
+        $test->time = 'Yesterday 9am';
+
+        $this->assertSame('9:00 am', $test->time->format('g:i a'));
     }
 }

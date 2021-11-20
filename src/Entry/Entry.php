@@ -36,18 +36,8 @@ class Entry implements
 
     use HasMemory;
 
-    /**
-     * The stream instance.
-     *
-     * @var Stream
-     */
-    public $stream;
+    public ?Stream $stream;
 
-    /**
-     * Create a new
-     *
-     * @param array $attributes
-     */
     public function __construct(array $attributes = [])
     {
         $this->stream = Arr::pull($attributes, 'stream');
@@ -180,55 +170,36 @@ class Entry implements
     //     return $this;
     // }
 
-    /**
-     * Get the instance as an array.
-     *
-     * @return array
-     */
     public function toArray()
     {
         return $this->getAttributes();
     }
 
-    /**
-     * Convert the object to its JSON representation.
-     *
-     * @param  int  $options
-     * @return string
-     */
     public function toJson($options = 0)
     {
         return json_encode($this->toArray(), $options);
     }
 
-    /**
-     * Specify data which should
-     * be serialized to JSON.
-     * 
-     * @return mixed
-     */
     public function jsonSerialize()
     {
         return $this->toArray();
     }
 
-    /**
-     * Return a string representation.
-     *
-     * @return string
-     */
     public function __toString()
     {
         return $this->toJson();
     }
 
-    /**
-     * Mapp methods to expanded values.
-     *
-     * @param $method
-     * @param $arguments
-     * @return mixed
-     */
+    public function __get($key)
+    {
+        return $this->getPrototypeAttribute($key);
+    }
+
+    public function __set($key, $value)
+    {
+        $this->setPrototypeAttribute($key, $value);
+    }
+
     public function __call($method, $arguments)
     {
         if (static::hasMacro($method)) {

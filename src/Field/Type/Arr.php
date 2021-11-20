@@ -17,14 +17,6 @@ class Arr extends FieldType
 
     public function modify($value)
     {
-        if (is_null($value)) {
-            return null;
-        }
-
-        if (is_array($value)) {
-            return $value;
-        }
-
         if (is_string($value) && $json = json_decode($value, true)) {
             return $json;
         }
@@ -37,15 +29,11 @@ class Arr extends FieldType
             return $value->toArray();
         }
 
-        return null;
+        return $value;
     }
 
     public function restore($value)
     {
-        if (is_null($value)) {
-            return null;
-        }
-
         if (is_string($value) && $json = json_decode($value, true)) {
             return $json;
         }

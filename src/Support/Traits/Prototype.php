@@ -158,12 +158,12 @@ trait Prototype
             $value = $this->getPrototypeAttributeDefault($key, $default);
         }
 
-        // if ($this->hasPrototypePropertyType($key)) {
-        //     return $this->restorePrototypeAttributeValue($key, $value);
-        // }
-
         if (is_null($value)) {
             $value = $default;
+        }
+
+        if ($this->hasPrototypePropertyType($key)) {
+            return $this->restorePrototypeAttributeValue($key, $value);
         }
 
         return $value;
@@ -226,6 +226,10 @@ trait Prototype
             $type->field = $this->stream->fields->get($key);
         }
 
+        if (is_null($value)) {
+            return $value;
+        }
+
         return $type->restore($value);
     }
 
@@ -241,6 +245,10 @@ trait Prototype
 
         if ($this->stream) {
             $type->field = $this->stream->fields->get($key);
+        }
+
+        if (is_null($value)) {
+            return $value;
         }
 
         return $type->modify($value);
@@ -298,13 +306,7 @@ trait Prototype
         return $this->__prototype['properties'];
     }
 
-    /**
-     * Set an attribute value.
-     *
-     * @param string $key
-     * @param mixed $value
-     */
-    public function setPrototypeProperty($key, $value)
+    public function setPrototypeProperty(string $key, $value)
     {
         $this->__prototype['properties'][$key] = $value;
 

@@ -18,14 +18,6 @@ class ArrTest extends TestCase
         Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
     }
 
-    public function testNullValues()
-    {
-        $type = Streams::make('testing.litmus')->fields->array->type();
-
-        $this->assertNull($type->modify(null));
-        $this->assertNull($type->restore(null));
-    }
-
     public function testCastsToArray()
     {
         $type = Streams::make('testing.litmus')->fields->array->type();

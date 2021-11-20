@@ -2,27 +2,17 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\Factory\TimeGenerator;
+use Carbon\Carbon;
 
 class Time extends Datetime
 {
-    /**
-     * Modify the value for storage.
-     *
-     * @param string $value
-     * @return string
-     */
-    public function modify($value)
+    public function modify($value): string
     {
         return $this->toCarbon($value)->format('H:i:s');
     }
 
-    public function restore($value)
+    public function restore($value): ?Carbon
     {
-        if (is_null($value)) {
-            return $value;
-        }
-
         return $this->toCarbon($value);
     }
 

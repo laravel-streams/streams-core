@@ -27,6 +27,11 @@ class FieldType
         'rules' => [],
     ];
 
+    public function cast($value)
+    {
+        return $this->modify($value);
+    }
+
     /**
      * Modify the value for storage.
      *

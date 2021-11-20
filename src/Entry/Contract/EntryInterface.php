@@ -4,13 +4,6 @@ namespace Streams\Core\Entry\Contract;
 
 use Streams\Core\Stream\Stream;
 
-/**
- * Interface EntryInterface
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 interface EntryInterface
 {
 
@@ -27,6 +20,14 @@ interface EntryInterface
      * @var array
      */
     public function getAttributes();
+
+    /**
+     * Return the entry attribute.
+     *
+     * @param string $key
+     * @var array
+     */
+    public function getAttribute($key);
     
     /**
      * Return the last modified date if possible.
