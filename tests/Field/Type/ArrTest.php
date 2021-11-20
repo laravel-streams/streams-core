@@ -18,44 +18,67 @@ class ArrTest extends TestCase
         Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
     }
 
-    public function testCastsToArray()
+    public function test_casts_to_array()
+    {
+        $test = Streams::repository('testing.litmus')->find('field_types');
+
+        $this->assertIsArray($test->array);
+    }
+
+    public function test_can_cast_json_to_array()
     {
         $type = Streams::make('testing.litmus')->fields->array->type();
 
-        $array = $type->generate();
+        $array = ['foo' => 'Foo', 'bar' => 'Bar'];
 
         $json = json_encode($array);
-        $serial = serialize($array);
-
-        $data = array_combine(array_map(function ($item) {
-            return (string) $item;
-        }, $array), $array);
-
-        $arrayable = new Entry($data);
-        $generic = new \stdClass($data);
-
-        $this->assertSame($array, $type->modify($array));
-        $this->assertSame($array, $type->restore($array));
-
-        $this->assertSame($array, $type->modify($json));
-        $this->assertSame($array, $type->restore($json));
-
-        $this->assertSame($array, $type->modify($serial));
-        $this->assertSame($array, $type->restore($serial));
-
-        $this->assertSame($data, $type->modify($arrayable));
         
-        $this->assertNull($type->modify($generic));
+        $this->assertSame($array, $type->cast($json));
     }
 
-    public function testExpandedValue()
+    public function test_can_cast_serialized_to_array()
+    {
+        $type = Streams::make('testing.litmus')->fields->array->type();
+
+        $array = ['foo' => 'Foo', 'bar' => 'Bar'];
+
+        $serialized = serialize($array);
+        
+        $this->assertSame($array, $type->cast($serialized));
+    }
+
+    public function test_can_cast_arrayables_to_array()
+    {
+        $type = Streams::make('testing.litmus')->fields->array->type();
+
+        $array = ['foo' => 'Foo', 'bar' => 'Bar'];
+
+        $arrayable = new Entry($array);
+
+        $this->assertSame($array, $type->cast($arrayable));
+    }
+
+    public function test_can_cast_generics_to_array()
+    {
+        $type = Streams::make('testing.litmus')->fields->array->type();
+
+        $array = ['foo' => 'Foo', 'bar' => 'Bar'];
+
+        $generic = new \stdClass();
+
+        array_walk($array, fn($value, $key) => $generic->$key = $value);
+
+        $this->assertSame($array, $type->cast($generic));
+    }
+
+    public function test_expanded_value()
     {
         $test = Streams::repository('testing.litmus')->find('field_types');
 
         $this->assertInstanceOf(ArrValue::class, $test->expand('array'));
     }
 
-    public function testCanGenerateValue()
+    public function test_can_generate_array()
     {
         $stream = Streams::make('testing.fakers');
 

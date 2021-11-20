@@ -7,7 +7,7 @@ use Streams\Core\Field\Value\BooleanValue;
 
 class Boolean extends FieldType
 {
-    public function modify($value)
+    public function cast($value)
     {
         if (is_null($value)) {
             return $value;

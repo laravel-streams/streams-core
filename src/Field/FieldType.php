@@ -29,7 +29,7 @@ class FieldType
 
     public function cast($value)
     {
-        return $this->modify($value);
+        return $this->restore($value);
     }
 
     /**
