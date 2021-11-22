@@ -18,30 +18,28 @@ class EncryptedTest extends TestCase
         Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
     }
 
-    public function testNullValues()
+    public function test_does_not_encrypt_when_retreiving_value()
     {
-        $type = Streams::make('testing.litmus')->fields->encrypted->type();
+        $test = Streams::repository('testing.litmus')->find('field_types');
 
-        $this->assertNull($type->modify(null));
-        $this->assertNull($type->restore(null));
+        $this->assertSame('itsasecret', Crypt::decrypt($test->encrypted));
     }
 
-    public function testCastsToEncryptedString()
+    public function test_casts_to_encrypted_string()
     {
         $type = Streams::make('testing.litmus')->fields->encrypted->type();
 
         $this->assertSame('test', Crypt::decrypt($type->modify('test')));
-        $this->assertSame('test', $type->restore('test'));
     }
 
-    public function testExpandedValue()
+    public function test_expanded_value()
     {
         $test = Streams::repository('testing.litmus')->find('field_types');
 
         $this->assertInstanceOf(EncryptedValue::class, $test->expand('encrypted'));
     }
 
-    public function testCanGenerateValue()
+    public function test_can_generate_value()
     {
         $stream = Streams::make('testing.fakers');
 

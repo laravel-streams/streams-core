@@ -9,23 +9,11 @@ class Email extends FieldType
 {
     public function modify($value)
     {
-        if (is_null($value)) {
-            return $value;
-        }
-
-        if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
-            return null;
-        }
-
-        return (string) $value;
+        return $this->cast($value);
     }
 
-    public function restore($value)
+    public function cast($value)
     {
-        if (is_null($value)) {
-            return $value;
-        }
-
         if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
             return null;
         }

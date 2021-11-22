@@ -9,20 +9,12 @@ class Boolean extends FieldType
 {
     public function cast($value)
     {
-        if (is_null($value)) {
-            return $value;
-        }
-
         return filter_var($value, FILTER_VALIDATE_BOOL);
     }
 
-    public function restore($value)
+    public function modify($value)
     {
-        if (is_null($value)) {
-            return $value;
-        }
-
-        return filter_var($value, FILTER_VALIDATE_BOOL);
+        return $this->cast($value) ? 1 : 0;
     }
 
     public function expand($value): BooleanValue

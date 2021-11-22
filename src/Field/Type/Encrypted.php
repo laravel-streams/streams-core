@@ -11,10 +11,6 @@ class Encrypted extends FieldType
 
     public function modify($value)
     {
-        if (is_null($value)) {
-            return $value;
-        }
-        
         return Crypt::encrypt($value);
     }
 

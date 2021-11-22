@@ -3,13 +3,14 @@
 namespace Streams\Core\Field\Type;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Date as DateFacade;
+use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Value\DateValue;
 
-class Date extends Datetime
+class Date extends FieldType
 {
     public function modify($value)
     {
-        return $this->toCarbon($value)->format('Y-m-d');
+        return $this->cast($value)->format('Y-m-d');
     }
 
     public function cast($value): Carbon
@@ -17,18 +18,38 @@ class Date extends Datetime
         return $this->toCarbon($value)->startOfDay();
     }
 
+    public function expand($value)
+    {
+        return new DateValue($value);
+    }
+
     public function generate()
     {
-        return $this->toCarbon($this->generator()->date());
+        return $this->cast($this->generator()->date());
     }
 
     public function toCarbon($value): Carbon
     {
-        if (is_string($value) && $this->isStandardDateFormat($value)) {
-            return DateFacade::instance(Carbon::createFromFormat('Y-m-d', $value)->startOfDay());
+        if ($value instanceof Carbon) {
+            return $value;
         }
 
-        return parent::toCarbon($value)->startOfDay();
+        if ($value instanceof \Datetime) {
+            return Carbon::parse(
+                $value->format('Y-m-d H:i:s'),
+                $value->getTimezone()
+            );
+        }
+
+        if (is_string($value) && $this->isStandardDateFormat($value)) {
+            return Carbon::instance(Carbon::createFromFormat('Y-m-d', $value)->startOfDay());
+        }
+
+        if (is_numeric($value)) {
+            return Carbon::createFromTimestamp($value);
+        }
+
+        return Carbon::parse($value);
     }
 
     protected function isStandardDateFormat($value): bool

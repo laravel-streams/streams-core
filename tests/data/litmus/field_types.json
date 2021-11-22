@@ -30,5 +30,14 @@
     "entry": {
         "name": "Example Name",
         "age": 33
-    }
+    },
+    "entries": [
+        {
+            "name": "First Example"
+        },
+        {
+            "name": "Second Name"
+        }
+    ],
+    "encrypted": "eyJpdiI6IksvcldaVGw1aC82OTVIOEZmb0tHblE9PSIsInZhbHVlIjoiOVdFRFlXL0JaemZiNVlTTTRjSFBXZERYWDIrbnV0VTYvSFdNN3BINmYyUT0iLCJtYWMiOiJlMGZkNWQ0ZGU4NTk0Mjc5OWVmYTQ3ZjU3ZDRjOTk1YWY2Mzg0NjU2YWZhZDI0NDc2N2Y1M2EwYzEwOTA3ODY5IiwidGFnIjoiIn0="
 }

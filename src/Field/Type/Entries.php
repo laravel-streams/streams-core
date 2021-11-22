@@ -3,24 +3,13 @@
 namespace Streams\Core\Field\Type;
 
 use Illuminate\Support\Collection;
+use Streams\Core\Entry\Contract\EntryInterface;
 use Streams\Core\Field\FieldType;
+use Streams\Core\Stream\Stream;
 use Streams\Core\Support\Facades\Streams;
 
-/**
- * Class Entries
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 class Entries extends FieldType
 {
-    /**
-     * Initialize the prototype.
-     *
-     * @param array $attributes
-     * @return $this
-     */
     protected function initializePrototypeAttributes(array $attributes)
     {
         return parent::initializePrototypeAttributes(array_merge([
@@ -28,48 +17,42 @@ class Entries extends FieldType
         ], $attributes));
     }
 
-    /**
-     * Modify the value for storage.
-     *
-     * @param string $value
-     * @return string
-     */
     public function modify($value)
     {
+        if ($value instanceof Collection) {
+            $value = $value->map(function (EntryInterface $entry) {
+                return $entry->getAttributes();
+            })->all();
+        }
+
         return $value;
     }
 
-    /**
-     * Restore the value from storage.
-     *
-     * @param $value
-     * @return string
-     */
-    public function restore($value)
+    public function cast($value)
     {
-        return $value;
-    }
+        if ($value instanceof Collection) {
+            return $value;
+        }
 
-    /**
-     * Expand the value.
-     *
-     * @param $value
-     * @return Collection
-     */
-    public function expand($value)
-    {
         $stream = $this->stream();
-        
-        return new Collection(array_map(function ($value) use ($stream) {
+
+        return $stream->repository()->newCollection(array_map(function ($value) use ($stream) {
             return $stream->repository()->newInstance($value);
         }, (array)$value));
     }
 
-    /**
-     * Return the related stream.
-     */
-    public function stream()
+    public function expand($value)
     {
-        return Streams::make($this->config['stream']);
+        return $this->cast($value);
+    }
+
+    public function generate()
+    {
+        return $this->stream()->factory()->collect(2);
+    }
+
+    public function stream(): Stream
+    {
+        return Streams::make($this->field->config('stream'));
     }
 }

@@ -11,7 +11,7 @@ class Datetime extends FieldType
 {
     public function modify($value)
     {
-        return $this->toCarbon($value)->format('Y-m-d H:i:s');
+        return $this->cast($value)->format('Y-m-d H:i:s');
     }
 
     public function cast($value): Carbon
@@ -26,7 +26,7 @@ class Datetime extends FieldType
 
     public function generate()
     {
-        return $this->generator()->dateTime();
+        return $this->cast($this->generator()->dateTime());
     }
 
     public function toCarbon($value): Carbon

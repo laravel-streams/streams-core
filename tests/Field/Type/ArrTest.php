@@ -71,6 +71,17 @@ class ArrTest extends TestCase
         $this->assertSame($array, $type->cast($generic));
     }
 
+    public function test_throws_exception_casting_unknown_strings()
+    {
+        $type = Streams::make('testing.litmus')->fields->array->type();
+
+        $value = 'I am not an array.';
+        
+        $this->expectException(\Exception::class);
+
+        $type->cast($value);
+    }
+
     public function test_expanded_value()
     {
         $test = Streams::repository('testing.litmus')->find('field_types');

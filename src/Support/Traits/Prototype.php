@@ -120,7 +120,8 @@ trait Prototype
 
         if ($this->hasPrototypePropertyType($key)) {
 
-            $modified = $this->modifyPrototypeAttributeValue($key, $value);
+            //$modified = $this->modifyPrototypeAttributeValue($key, $value);
+            $modified = $value;
 
             $this->__prototype['attributes'][$key] = $modified;
 
@@ -158,8 +159,8 @@ trait Prototype
             $value = $this->getPrototypeAttributeDefault($key, $default);
         }
 
-        if (is_null($value)) {
-            $value = $default;
+        if (is_null($value) && is_null($value = $default)) {
+            return $value;
         }
 
         if ($this->hasPrototypePropertyType($key)) {
@@ -230,7 +231,7 @@ trait Prototype
             return $value;
         }
 
-        return $type->restore($value);
+        return $type->cast($type->restore($value));
     }
 
     /**

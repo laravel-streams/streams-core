@@ -2,16 +2,12 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\Value\NumberValue;
+use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Value\DecimalValue;
 
-class Decimal extends Number
+class Decimal extends FieldType
 {
-    /**
-     * Initialize the prototype.
-     *
-     * @param array $attributes
-     * @return $this
-     */
+
     protected function initializePrototypeAttributes(array $attributes)
     {
         return parent::initializePrototypeAttributes(array_merge([
@@ -23,29 +19,37 @@ class Decimal extends Number
 
     public function modify($value)
     {
-        if (is_null($value = parent::modify($value))) {
-            return $value;
-        }
-
-        return round($value, $this->field->config('precision') ?: 1);
+        return $this->cast($value);
     }
 
-    public function restore($value)
+    public function cast($value)
     {
-        if (is_null($value = parent::restore($value))) {
-            return $value;
+        if (is_string($value)) {
+            $value = preg_replace('/[^\da-z\.\-]/i', '', $value);
         }
 
+        $float = floatval($value);
+
+        if ($float && intval($float) != $float) {
+            $value = $float;
+        } else {
+            $value = intval($value);
+        }
+        
         return round($value, $this->field->config('precision') ?: 1);
     }
 
     public function expand($value)
     {
-        return new NumberValue($value);
+        return new DecimalValue($value);
     }
     
     public function generate()
     {
-        return number_format(parent::generate(), $this->field->config('precision') ?: 1, '.', '');
+        return $this->cast($this->generator()->randomElement([
+            $this->generator()->randomNumber(),
+            $this->generator()->randomFloat(),
+            round($this->generator()->randomFloat(), 1),
+        ]));
     }
 }

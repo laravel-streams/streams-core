@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Repository;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
@@ -164,13 +165,13 @@ class Repository implements RepositoryInterface
         $default = Config::get('streams.core.default_source', 'filebase');
 
         $criteria = $this->stream->config('criteria') ?: Criteria::class;
-        
+
         if ($adapter = $this->stream->config('source.adapter')) {
             $adapter = new $adapter($this->stream);
         }
 
         if (!$adapter) {
-            
+
             $adapter = $this->stream->config('source.type', $default);
 
             $adapter = Str::camel("new_{$adapter}_adapter");
@@ -179,6 +180,13 @@ class Repository implements RepositoryInterface
         }
 
         return new $criteria($this->stream, $adapter);
+    }
+
+    public function newCollection(array $entries = []): Collection
+    {
+        $collection = Arr::get($this->stream->getPrototypeAttribute('config', []), 'collection', Collection::class);
+
+        return new $collection($entries);
     }
 
     public function newSelfAdapter(): SelfAdapter

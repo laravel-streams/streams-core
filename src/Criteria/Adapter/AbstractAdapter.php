@@ -128,9 +128,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     protected function collect($entries)
     {
-        $collection = $this->stream->getPrototypeAttribute('collection') ?: Collection::class;
-
-        $collection = new $collection;
+        $collection = $this->stream->repository()->newCollection();
 
         if ($entries instanceof Collection) {
             $entries = $entries->all();

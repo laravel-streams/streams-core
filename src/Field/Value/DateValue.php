@@ -4,6 +4,6 @@ namespace Streams\Core\Field\Value;
 
 use Carbon\Carbon;
 
-class DatetimeValue extends Value
+class DateValue extends Value
 {
 }

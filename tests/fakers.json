@@ -79,6 +79,12 @@
                 "stream": "testing.examples"
             }
         },
+        "entries": {
+            "type": "entries",
+            "config": {
+                "stream": "testing.examples"
+            }
+        },
         "color": {
             "type": "color"
         }

@@ -25,15 +25,11 @@ class EmailTest extends TestCase
         $this->assertNull($type->restore(null));
     }
 
-    public function testCastsToEmail()
+    public function test_casts_to_email()
     {
         $type = Streams::make('testing.litmus')->fields->email->type();
 
-        $this->assertNull($type->modify('test'));
-        $this->assertNull($type->restore('test'));
-
-        $this->assertSame('test@domain.com', $type->modify('test@domain.com'));
-        $this->assertSame('test@domain.com', $type->restore('test@domain.com'));
+        $this->assertSame('test@domain.com', $type->cast('test@domain.com'));
     }
 
     public function testExpandedValue()

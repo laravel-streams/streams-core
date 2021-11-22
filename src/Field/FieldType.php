@@ -29,26 +29,14 @@ class FieldType
 
     public function cast($value)
     {
-        return $this->restore($value);
+        return $value;
     }
 
-    /**
-     * Modify the value for storage.
-     *
-     * @param string $value
-     * @return string
-     */
     public function modify($value)
     {
         return $value;
     }
-
-    /**
-     * Restore the value from storage.
-     *
-     * @param mixed $value
-     * @return mixed
-     */
+    
     public function restore($value)
     {
         return $value;
