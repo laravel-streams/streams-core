@@ -3,6 +3,8 @@
 namespace Streams\Core\Tests\Field\Type;
 
 use Tests\TestCase;
+use Streams\Core\Entry\Entry;
+use Illuminate\Support\Collection;
 use Streams\Core\Field\Value\SelectValue;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Entry\Contract\EntryInterface;
@@ -19,37 +21,41 @@ class EntryTest extends TestCase
         Streams::load(base_path('vendor/streams/core/tests/examples.json'));
     }
 
-    public function testNullValues()
+    public function test_stores_values_as_array()
     {
         $type = Streams::make('testing.litmus')->fields->entry->type();
 
-        $this->assertNull($type->modify(null));
-        $this->assertNull($type->restore(null));
+        $entry = new Entry([
+            'name' => 'First Example',
+        ]);
+
+        $this->assertSame([
+            'name' => 'First Example',
+        ], $type->modify($entry));
     }
 
-    public function testCastsToEntryInterface()
+    public function test_casts_to_entry_interface()
     {
         $type = Streams::make('testing.litmus')->fields->entry->type();
 
-        // $this->assertSame('foo', $type->modify('foo'));
-        // $this->assertSame('bar', $type->restore('bar'));
-        $this->markTestSkipped();
+        $this->assertSame('First Example', $type->cast([
+            'name' => 'First Example',
+        ])->name);
     }
 
-    public function testExpandedValue()
+    public function test_expanded_value()
     {
         $test = Streams::repository('testing.litmus')->find('field_types');
 
         $this->assertInstanceOf(EntryInterface::class, $test->expand('entry'));
     }
 
-    public function testCanGenerateValue()
+    public function test_can_generate_value()
     {
         $stream = Streams::make('testing.fakers');
 
         $fake = $stream->fields->entry->type()->generate();
 
-        $this->assertInstanceOf(EntryInterface::class, $fake);
         $this->assertIsString($fake->name);
     }
 }
