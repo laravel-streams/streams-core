@@ -23,7 +23,7 @@ class TimeTest extends TestCase
         $this->assertInstanceOf(Carbon::class, $test->time);
     }
     
-    public function test_cast_strings_to_carbon()
+    public function test_casts_strings_to_carbon()
     {
         $test = Streams::repository('testing.litmus')->find('field_types');
 

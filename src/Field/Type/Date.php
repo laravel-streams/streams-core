@@ -9,20 +9,12 @@ class Date extends Datetime
 {
     public function modify($value)
     {
-        if (is_null($value)) {
-            return $value;
-        }
-
         return $this->toCarbon($value)->format('Y-m-d');
     }
 
-    public function restore($value)
+    public function cast($value): Carbon
     {
-        if (is_null($value = parent::restore($value))) {
-            return $value;
-        }
-
-        return $value->startOfDay();
+        return $this->toCarbon($value)->startOfDay();
     }
 
     public function generate()

@@ -11,19 +11,11 @@ class Datetime extends FieldType
 {
     public function modify($value)
     {
-        if (is_null($value)) {
-            return $value;
-        }
-
         return $this->toCarbon($value)->format('Y-m-d H:i:s');
     }
 
-    public function restore($value)
+    public function cast($value): Carbon
     {
-        if (is_null($value)) {
-            return $value;
-        }
-
         return $this->toCarbon($value);
     }
 

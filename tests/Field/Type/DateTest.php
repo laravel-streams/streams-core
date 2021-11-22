@@ -18,51 +18,39 @@ class DateTest extends TestCase
         Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
     }
 
-    public function testNullValues()
+    public function test_casts_value_to_carbon()
     {
-        $type = Streams::make('testing.litmus')->fields->date->type();
+        $test = Streams::repository('testing.litmus')->find('field_types');
 
-        $this->assertNull($type->modify(null));
-        $this->assertNull($type->restore(null));
+        $this->assertInstanceOf(Carbon::class, $test->datetime);
     }
 
-    public function testCastsToDatetime()
+    public function test_casts_strings_to_carbon()
     {
         $type = Streams::make('testing.litmus')->fields->date->type();
 
         $date = '2021-01-01';
         $value = '2021-01-01 9:30';
         $standard = '2021-01-01 09:30:00';
-        $carbon = new Carbon($standard);
-        $instance = new \DateTime($standard);
 
-        $timestamp = $carbon->timestamp;
-
-        $this->assertSame($carbon->format('Y-m-d'), $type->modify($carbon));
-        $this->assertSame($carbon->format('Y-m-d'), $type->modify($instance));
-        $this->assertSame($carbon->format('Y-m-d'), $type->modify($timestamp));
-
-        $this->assertSame($date, $type->restore($date)->format('Y-m-d'));
-        $this->assertSame($date, $type->restore($value)->format('Y-m-d'));
-        $this->assertSame($date, $type->restore($standard)->format('Y-m-d'));
-
-        $yesterday = new Carbon('Yesterday 9am');
-
-        $this->assertInstanceOf(Carbon::class, $type->restore('Yesterday 9am'));
-        $this->assertSame($yesterday->format('Y-m-d'), $type->modify($yesterday));
+        $this->assertSame($date, $type->cast($date)->format('Y-m-d'));
+        $this->assertSame($date, $type->cast($value)->format('Y-m-d'));
+        $this->assertSame($date, $type->cast($standard)->format('Y-m-d'));
     }
 
-    public function testExpandedValue()
+    public function test_expanded_value()
     {
         $test = Streams::repository('testing.litmus')->find('field_types');
 
         $this->assertInstanceOf(DatetimeValue::class, $test->expand('date'));
     }
 
-    public function testCanGenerateValue()
+    public function test_can_generate_value()
     {
         $stream = Streams::make('testing.fakers');
 
-        $this->assertInstanceOf(\DateTime::class, $stream->fields->date->type()->generate());
+        $fake = $stream->fields->date->type()->generate();
+
+        $this->assertInstanceOf(\DateTime::class, $fake);
     }
 }

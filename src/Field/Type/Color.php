@@ -7,17 +7,12 @@ use Streams\Core\Field\Value\ColorValue;
 
 class Color extends FieldType
 {
-
-    public function modify($value)
+    public function cast($value)
     {
-        if (is_null($value)) {
-            return $value;
-        }
-
         return strtolower((string) $value);
     }
 
-    public function restore($value)
+    public function modify($value)
     {
         if (is_null($value)) {
             return $value;
