@@ -153,13 +153,15 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     protected function make($entry)
     {
+        $data = Arr::undot($entry->toArray());
+
         return $this->newInstance(array_merge(
             [
                 'id' => $entry->getId(),
-                'created_at' => $entry->createdAt(),
-                'updated_at' => $entry->updatedAt(),
+                'created_at' => date('Y-m-d H:i:s', Arr::get($data, '__created_at', Arr::get($data, 'created_at'))),
+                'updated_at' => date('Y-m-d H:i:s', Arr::get($data, '__updated_at', Arr::get($data, 'updated_at'))),
             ],
-            Arr::undot($entry->toArray())
+            $data
         ));
     }
 
