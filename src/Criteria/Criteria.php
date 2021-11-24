@@ -120,13 +120,11 @@ class Criteria
 
     public function get(): Collection
     {
-        $cache = Arr::get($this->parameters, 'cache', false);
+        $cache = $this->stream->config('cache.enabled', false);
+        
+        $cache = Arr::get($this->parameters, 'cache', $cache);
 
-        if ($this->stream->config('cache.enabled') === false) {
-            $cache = false;
-        }
-
-        $fingerprint = $this->stream->handle . '.query__' . md5(serialize($this->parameters));
+        $fingerprint = $this->stream->handle . '.query__' . md5(json_encode($this->parameters));
 
         if ($cache) {
             return $this->stream->cache()->remember(Arr::get($cache, 1) ?: $fingerprint, $cache[0], function () {
@@ -183,15 +181,13 @@ class Criteria
      */
     public function count()
     {
-        $cache = Arr::get($this->parameters, 'cache', false);
-
-        if ($this->stream->config('cache.enabled') === false) {
-            $cache = false;
-        }
+        $cache = $this->stream->config('cache.enabled', false);
+        
+        $cache = Arr::get($this->parameters, 'cache', $cache);
 
         if ($cache) {
 
-            $fingerprint = $this->stream->handle . '.query.count__' . md5(serialize($this->parameters));
+            $fingerprint = $this->stream->handle . '.query.count__' . md5(json_encode($this->parameters));
 
             return $this->stream->cache()->remember(Arr::get($cache, 1) ?: $fingerprint, $cache[0], function () {
                 return $this->adapter->count(array_diff_key($this->parameters, array_flip(['cache'])));
