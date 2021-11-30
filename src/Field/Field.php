@@ -120,6 +120,8 @@ class Field implements
     {
         return Hydrator::dehydrate($this, [
             'stream',
+            '__listeners',
+            '__observers',
         ]);
     }
 

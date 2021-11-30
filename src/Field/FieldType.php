@@ -27,9 +27,9 @@ class FieldType
         'rules' => [],
     ];
 
-    public function default()
+    public function default($value)
     {
-        return null;
+        return $value;
     }
 
     public function cast($value)

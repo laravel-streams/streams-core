@@ -8,7 +8,7 @@ use Streams\Core\Field\Value\StrValue;
 class Uuid extends FieldType
 {
 
-    public function default()
+    public function default($value)
     {
         return $this->generate();
     }

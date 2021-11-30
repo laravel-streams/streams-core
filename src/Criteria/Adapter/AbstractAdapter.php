@@ -176,6 +176,20 @@ abstract class AbstractAdapter implements AdapterInterface
         ]);
 
         $prototype->loadPrototypeProperties($this->stream->fields->toArray());
+
+        foreach ($this->stream->fields as $field) {
+
+            if (!$default = $field->config('default')) {
+                continue;
+            }
+
+            if (array_key_exists($field->handle, $attributes)) {
+                continue;
+            }
+
+            $attributes[$field->handle] = $field->type()->default($default);
+        }
+
         $prototype->loadPrototypeAttributes($attributes);
 
         return $prototype;
