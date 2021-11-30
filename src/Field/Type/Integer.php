@@ -25,10 +25,6 @@ class Integer extends FieldType
 
     public function modify($value)
     {
-        if (is_null($value)) {
-            return $value;
-        }
-
         if (is_string($value)) {
             $value = preg_replace('/[^\da-z\.\-]/i', '', $value);
         }
@@ -38,10 +34,6 @@ class Integer extends FieldType
 
     public function restore($value)
     {
-        if (is_null($value)) {
-            return $value;
-        }
-
         if (is_string($value)) {
             $value = preg_replace('/[^\da-z\.\-]/i', '', $value);
         }

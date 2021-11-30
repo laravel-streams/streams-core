@@ -18,19 +18,22 @@ class MultiselectTest extends TestCase
         Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
     }
 
-    public function testNullValues()
-    {
-        $type = Streams::make('testing.litmus')->fields->multiselect->type();
-
-        $this->assertNull($type->modify(null));
-        $this->assertNull($type->restore(null));
-    }
-
-    public function testCastsToSelectionArray()
+    public function test_modifies_to_selection_array()
     {
         $type = Streams::make('testing.litmus')->fields->multiselect->type();
 
         $this->assertSame(['foo'], $type->modify('foo'));
+        $this->assertSame(['bar'], $type->restore('bar'));
+
+        $array = $type->generate();
+
+        $this->assertSame($array, $type->modify($array));
+    }
+
+    public function test_restores_to_selection_array()
+    {
+        $type = Streams::make('testing.litmus')->fields->multiselect->type();
+
         $this->assertSame(['bar'], $type->restore('bar'));
 
         $array = $type->generate();
@@ -44,40 +47,35 @@ class MultiselectTest extends TestCase
 
         $arrayable = new Collection($data);
 
-        $this->assertSame($array, $type->modify($array));
         $this->assertSame($array, $type->restore($array));
 
-        $this->assertSame($array, $type->modify($json));
         $this->assertSame($array, $type->restore($json));
 
-        $this->assertSame($array, $type->modify($serial));
         $this->assertSame($array, $type->restore($serial));
-
-        $this->assertSame($data, $type->modify($arrayable));
     }
 
-    public function testConfiguredOptions()
+    public function test_configured_options()
     {
         $type = Streams::make('testing.litmus')->fields->multiselect->type();
 
         $this->assertSame(['foo' => 'Foo', 'bar' => 'Bar'], $type->options());
     }
 
-    public function testCallableOptions()
+    public function test_callable_options()
     {
         $type = Streams::make('testing.litmus')->fields->multiselect_callable_options->type();
 
         $this->assertSame(['foo' => 'Bar', 'bar' => 'Baz'], $type->options());
     }
 
-    public function testExpandedValue()
+    public function test_expanded_value()
     {
         $test = Streams::repository('testing.litmus')->find('field_types');
 
         $this->assertInstanceOf(MultiselectValue::class, $test->expand('multiselect'));
     }
 
-    public function testCanGenerateValue()
+    public function test_can_generate_value()
     {
         $stream = Streams::make('testing.fakers');
 

@@ -17,15 +17,7 @@ class NumberTest extends TestCase
         Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
     }
 
-    public function testNullValues()
-    {
-        $type = Streams::make('testing.litmus')->fields->number->type();
-
-        $this->assertNull($type->modify(null));
-        $this->assertNull($type->restore(null));
-    }
-
-    public function testCastsToNumericValue()
+    public function test_casts_to_numeric_value()
     {
         $type = Streams::make('testing.litmus')->fields->number->type();
 
@@ -48,14 +40,14 @@ class NumberTest extends TestCase
         $this->assertSame(-1234.50, $type->restore("-1,234.50"));
     }
 
-    public function testExpandedValue()
+    public function test_expanded_value()
     {
         $test = Streams::repository('testing.litmus')->find('field_types');
         
         $this->assertInstanceOf(NumberValue::class, $test->expand('number'));
     }
 
-    public function testCanGenerateValue()
+    public function test_can_generate_value()
     {
         $stream = Streams::make('testing.fakers');
 

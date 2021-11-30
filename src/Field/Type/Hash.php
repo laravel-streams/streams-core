@@ -10,10 +10,6 @@ class Hash extends FieldType
 {
     public function modify($value)
     {
-        if (is_null($value)) {
-            return $value;
-        }
-
         if (strpos($value, '$2y$') === 0 && strlen($value) == 60) {
             return $value;
         }

@@ -18,11 +18,17 @@ class RelationshipTest extends TestCase
         Streams::load(base_path('vendor/streams/core/tests/examples.json'));
     }
 
-    public function testCasting()
+    public function test_restores_as_instance()
     {
         $test = Streams::repository('testing.litmus')->find('field_types');
 
-        $this->assertSame('first', $test->relationship);
+        $this->assertSame('first', $test->relationship->id);
+    }
+
+    public function test_expands_as_instance()
+    {
+        $test = Streams::repository('testing.litmus')->find('field_types');
+
         $this->assertInstanceOf(Entry::class, $test->expand('relationship'));
         $this->assertSame('First Example', $test->expand('relationship')->name);
     }

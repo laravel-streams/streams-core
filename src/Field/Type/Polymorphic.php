@@ -6,13 +6,6 @@ use Illuminate\Support\Arr;
 use Streams\Core\Field\FieldType;
 use Streams\Core\Support\Facades\Streams;
 
-/**
- * Class Polymorphic
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 class Polymorphic extends FieldType
 {
     /**

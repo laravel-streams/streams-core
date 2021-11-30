@@ -23,24 +23,8 @@ class Multiselect extends FieldType
 
     public function modify($value)
     {
-        if (is_null($value)) {
-            return null;
-        }
-
         if (is_array($value)) {
             return $value;
-        }
-
-        if (is_string($value) && $json = json_decode($value, true)) {
-            return $json;
-        }
-
-        if (is_string($value) && Str::isSerialized($value, false)) {
-            return (array) unserialize($value);
-        }
-
-        if (is_object($value) && $value instanceof Arrayable) {
-            return $value->toArray();
         }
 
         return (array) $value;
@@ -48,10 +32,10 @@ class Multiselect extends FieldType
 
     public function restore($value)
     {
-        if (is_null($value)) {
-            return null;
+        if (is_array($value)) {
+            return $value;
         }
-
+        
         if (is_string($value) && $json = json_decode($value, true)) {
             return $json;
         }

@@ -7,8 +7,17 @@ use Streams\Core\Support\Facades\Streams;
 
 class Relationship extends FieldType
 {
+    public function restore($value)
+    {
+        return $this->expand($value);
+    }
+
     public function expand($value)
     {
+        if (is_object($value)) {
+            return $value;
+        }
+        
         return Streams::entries($this->field->config('related'))->find($value);
     }
 

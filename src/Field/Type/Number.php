@@ -7,12 +7,7 @@ use Streams\Core\Field\Value\NumberValue;
 
 class Number extends FieldType
 {
-    /**
-     * Initialize the prototype.
-     *
-     * @param array $attributes
-     * @return $this
-     */
+    
     protected function initializePrototypeAttributes(array $attributes)
     {
         return parent::initializePrototypeAttributes(array_merge([
@@ -24,10 +19,6 @@ class Number extends FieldType
 
     public function modify($value)
     {
-        if (is_null($value)) {
-            return $value;
-        }
-
         if (is_string($value)) {
             $value = preg_replace('/[^\da-z\.\-]/i', '', $value);
         }

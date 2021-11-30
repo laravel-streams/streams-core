@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field\Type;
 
+use Illuminate\Support\Arr;
 use Streams\Core\Field\FieldType;
 use Illuminate\Support\Facades\App;
 
@@ -10,7 +11,7 @@ class Prototype extends FieldType
 
     public function modify($value)
     {
-        return $value;
+        return Arr::make($value);
     }
 
     public function restore($value)
@@ -20,6 +21,10 @@ class Prototype extends FieldType
 
     public function expand($value)
     {
+        if (is_object($value)) {
+            return $value;
+        }
+
         return App::make($this->field->config('abstract'), [
             'attributes' => $value,
         ]);
