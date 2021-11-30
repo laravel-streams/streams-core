@@ -4,7 +4,6 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\StrValue;
-use Streams\Core\Field\Factory\UuidGenerator;
 
 class Uuid extends FieldType
 {

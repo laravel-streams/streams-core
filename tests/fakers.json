@@ -11,6 +11,9 @@
         "id": {
             "type": "uuid"
         },
+        "uuid": {
+            "type": "uuid"
+        },
         "string": {
             "type": "string"
         },
