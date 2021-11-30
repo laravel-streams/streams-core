@@ -17,6 +17,11 @@ class Color extends FieldType
         return $this->cast($value);
     }
 
+    public function restore($value)
+    {
+        return $this->cast($value);
+    }
+
     public function expand($value)
     {
         return new ColorValue($value);

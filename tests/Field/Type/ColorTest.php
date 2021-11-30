@@ -21,7 +21,8 @@ class ColorTest extends TestCase
     {
         $type = Streams::make('testing.litmus')->fields->color->type();
 
-        $this->assertSame('#ffffff', $type->cast('#FFFFFF'));
+        $this->assertSame('#ffffff', $type->modify('#FFFFFF'));
+        $this->assertSame('#ffffff', $type->restore('#FFFFFF'));
     }
 
     public function test_expanded_value()
