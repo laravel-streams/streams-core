@@ -116,11 +116,11 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->app->singleton('streams.parser_data', fn () => Parser::data());
+        
         $this->registerStreams();
 
         $this->registerApplications();
-
-        $this->app->singleton('streams.parser_data', fn () => Parser::data());
 
         $this->bootApplication();
 
