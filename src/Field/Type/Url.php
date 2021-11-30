@@ -7,23 +7,12 @@ use Streams\Core\Field\Value\UrlValue;
 
 class Url extends FieldType
 {
-    public function modify($value)
-    {
-        if (is_null($value)) {
-            return $value;
-        }
 
-        return (string) $value;
-    }
-
-    public function restore($value)
-    {
-        if (is_null($value)) {
-            return $value;
-        }
-
-        return (string) $value;
-    }
+    protected $__attributes = [
+        'rules' => [
+            'url',
+        ],
+    ];
 
     public function expand($value)
     {

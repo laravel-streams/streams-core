@@ -9,7 +9,7 @@ use Streams\Core\Field\Value\SelectValue;
 class Select extends FieldType
 {
 
-    public function options()
+    public function options(): array
     {
         $options = $this->field->config('options', []);
 

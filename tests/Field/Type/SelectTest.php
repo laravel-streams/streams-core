@@ -17,44 +17,28 @@ class SelectTest extends TestCase
         Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
     }
 
-    public function testNullValues()
-    {
-        $type = Streams::make('testing.litmus')->fields->select->type();
-
-        $this->assertNull($type->modify(null));
-        $this->assertNull($type->restore(null));
-    }
-
-    public function testCastsToSelectionString()
-    {
-        $type = Streams::make('testing.litmus')->fields->select->type();
-
-        $this->assertSame('foo', $type->modify('foo'));
-        $this->assertSame('bar', $type->restore('bar'));
-    }
-
-    public function testConfiguredOptions()
+    public function test_configured_options()
     {
         $type = Streams::make('testing.litmus')->fields->select->type();
 
         $this->assertSame(['foo' => 'Foo', 'bar' => 'Bar'], $type->options());
     }
 
-    public function testCallableOptions()
+    public function test_callable_options()
     {
         $type = Streams::make('testing.litmus')->fields->select_callable_options->type();
 
         $this->assertSame(['foo' => 'Bar'], $type->options());
     }
 
-    public function testExpandedValue()
+    public function test_expanded_value()
     {
         $test = Streams::repository('testing.litmus')->find('field_types');
 
         $this->assertInstanceOf(SelectValue::class, $test->expand('select'));
     }
 
-    public function testCanGenerateValue()
+    public function test_can_generate_value()
     {
         $stream = Streams::make('testing.fakers');
 

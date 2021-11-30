@@ -33,4 +33,20 @@ class TimeTest extends TestCase
 
         $this->assertSame('9:00 am', $test->time->format('g:i a'));
     }
+
+    public function test_stores_time_as_standard_format()
+    {
+        $type = Streams::make('testing.litmus')->fields->time->type();
+
+        $this->assertSame('09:00:00', $type->modify('Yesterday 9am'));
+    }
+
+    public function test_can_generate_time()
+    {
+        $type = Streams::make('testing.litmus')->fields->time->type();
+
+        $time = $type->generate();
+
+        $this->assertSame($time, $type->restore($time)->format('H:i:s'));
+    }
 }

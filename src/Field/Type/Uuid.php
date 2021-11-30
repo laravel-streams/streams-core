@@ -9,22 +9,9 @@ use Streams\Core\Field\Factory\UuidGenerator;
 class Uuid extends FieldType
 {
 
-    public function modify($value)
+    public function default()
     {
-        if (is_null($value)) {
-            return $value;
-        }
-
-        return (string) $value;
-    }
-
-    public function restore($value)
-    {
-        if (is_null($value)) {
-            return $value;
-        }
-
-        return (string) $value;
+        return $this->generate();
     }
 
     public function expand($value)

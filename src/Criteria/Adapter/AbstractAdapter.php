@@ -165,13 +165,7 @@ abstract class AbstractAdapter implements AdapterInterface
         ));
     }
 
-    /**
-     * Return an entry instance.
-     *
-     * @param array $attributes
-     * @return EntryInterface
-     */
-    public function newInstance(array $attributes = [])
+    public function newInstance(array $attributes = []): EntryInterface
     {
         $prototype = $this->stream->config('abstract', Entry::class);
 

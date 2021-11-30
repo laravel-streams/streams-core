@@ -11,7 +11,7 @@ class Time extends Datetime
         return $this->toCarbon($value)->format('H:i:s');
     }
 
-    public function cast($value): Carbon
+    public function restore($value): Carbon
     {
         return $this->toCarbon($value);
     }

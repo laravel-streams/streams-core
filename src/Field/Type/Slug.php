@@ -10,19 +10,11 @@ class Slug extends FieldType
 {
     public function modify($value)
     {
-        if (is_null($value)) {
-            return $value;
-        }
-
         return Str::slug($value, $this->field->config('seperator') ?: '_');
     }
 
     public function restore($value)
     {
-        if (is_null($value)) {
-            return $value;
-        }
-        
         return Str::slug($value, $this->field->config('seperator') ?: '_');
     }
 
@@ -30,7 +22,7 @@ class Slug extends FieldType
     {
         return new StrValue($value);
     }
-    
+
     public function generate()
     {
         return $this->modify($this->generator()->words(2, true));

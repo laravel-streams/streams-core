@@ -229,13 +229,7 @@ class EloquentAdapter extends AbstractAdapter
         return $this->newInstance($entry);
     }
 
-    /**
-     * Return an entry instance.
-     *
-     * @param array $attributes
-     * @return EntryInterface
-     */
-    public function newInstance(array $attributes = [])
+    public function newInstance(array $attributes = []): EntryInterface
     {
         $model = $this->stream->config('source.model');
 

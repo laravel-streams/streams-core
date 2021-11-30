@@ -27,6 +27,11 @@ class FieldType
         'rules' => [],
     ];
 
+    public function default()
+    {
+        return null;
+    }
+
     public function cast($value)
     {
         return $value;
@@ -36,7 +41,7 @@ class FieldType
     {
         return $value;
     }
-    
+
     public function restore($value)
     {
         return $value;
