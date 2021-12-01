@@ -17,6 +17,7 @@ use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Traits\HasMemory;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
+use Streams\Core\Support\Facades\Hydrator;
 
 class Entry implements
     JsonSerializable,
@@ -172,7 +173,10 @@ class Entry implements
 
     public function toArray()
     {
-        return $this->getAttributes();
+        return array_diff_key($this->getAttributes(), array_flip([
+            '__created_at',
+            '__updated_at',
+        ]));
     }
 
     public function toJson($options = 0)

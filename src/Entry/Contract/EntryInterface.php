@@ -28,6 +28,14 @@ interface EntryInterface
      * @var array
      */
     public function getAttribute($key);
+
+    /**
+     * Return if the entry has a given attribute.
+     *
+     * @param string $key
+     * @var bool
+     */
+    public function hasAttribute($key);
     
     /**
      * Return the last modified date if possible.

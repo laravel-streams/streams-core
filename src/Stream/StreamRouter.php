@@ -74,7 +74,7 @@ class StreamRouter
          * any are provided.
          */
         if ($constraints) {
-            call_user_func_array([$route, 'constraints'], (array) $constraints);
+            call_user_func_array([$route, 'where'], (array) $constraints);
         }
 
         /**
