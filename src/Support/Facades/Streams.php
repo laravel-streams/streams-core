@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Facade;
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  *
- * @method static bool has(string $handle)
+ * @method static bool exists(string $handle)
  * @method static \Streams\Core\Stream\Stream build($stream)
  * @method static \Streams\Core\Stream\Stream load(string $file)
  * @method static \Streams\Core\Stream\Stream make(string $stream)
