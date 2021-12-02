@@ -158,25 +158,6 @@ class FilebaseAdapter extends AbstractAdapter
     }
 
     /**
-     * Create a new entry.
-     *
-     * @param array $attributes
-     * @return EntryInterface
-     */
-    public function create(array $attributes = [])
-    {
-        $id = Arr::pull($attributes, 'id');
-
-        if ($this->query->has($id)) {
-            throw new \Exception("Entry with ID [{$id}] already exists.");
-        }
-
-        $document = $this->query->get($id);
-
-        return $this->make($document->save($attributes));
-    }
-
-    /**
      * Save an entry.
      *
      * @param  EntryInterface $entry

@@ -95,7 +95,14 @@ abstract class AbstractAdapter implements AdapterInterface
      * @param array $attributes
      * @return EntryInterface
      */
-    abstract public function create(array $attributes = []);
+    public function create(array $attributes = [])
+    {
+        $entry = $this->newInstance($attributes);
+
+        $this->save($entry);
+
+        return $entry;
+    }
 
     /**
      * Save an entry.
