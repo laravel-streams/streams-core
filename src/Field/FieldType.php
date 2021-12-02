@@ -3,6 +3,7 @@
 namespace Streams\Core\Field;
 
 use Streams\Core\Field\Value\Value;
+use Streams\Core\Field\Factory\Factory;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
@@ -13,6 +14,7 @@ use Streams\Core\Support\Traits\Prototype;
  * @property string $name
  * @property string $description
  * @property mixed $rules
+ * @property Field $field
  * @property array<string,mixed> $config
  */
 class FieldType
@@ -61,6 +63,18 @@ class FieldType
     {
         // @todo app(this->config('generator))
         return $this->once(__METHOD__, fn () => \Faker\Factory::create());
+    }
+
+    public function factory(): Factory
+    {
+        $factory = $this->field->config('factory', $this->getFactoryName());
+        
+        return new $factory($this);
+    }
+
+    protected function getFactoryName()
+    {
+        return Factory::class;
     }
 
     /**

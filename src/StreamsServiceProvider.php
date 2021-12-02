@@ -93,6 +93,8 @@ class StreamsServiceProvider extends ServiceProvider
             $this->app->singleton($abstract, $concrete);
         }
 
+        $this->app->instance('faker', fn () => \Faker\Factory::create());
+
         $this->registerAliases();
 
         $this->extendUrlGenerator();

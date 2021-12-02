@@ -10,19 +10,11 @@ class Str extends FieldType
 
     public function modify($value)
     {
-        if (is_null($value)) {
-            return $value;
-        }
-
         return (string) $value;
     }
 
     public function restore($value)
     {
-        if (is_null($value)) {
-            return $value;
-        }
-
         return (string) $value;
     }
 
