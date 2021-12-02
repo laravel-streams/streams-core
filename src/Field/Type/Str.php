@@ -25,17 +25,6 @@ class Str extends FieldType
 
     public function generate()
     {
-        $min = 100;
-        $max = 200;
-
-        if ($this->field->hasRule('max')) {
-            $max = $this->field->ruleParameter('max');
-        }
-
-        if ($this->field->hasRule('min')) {
-            $min = $this->field->ruleParameter('min');
-        }
-
         return $this->generator()->text();
     }
 }
