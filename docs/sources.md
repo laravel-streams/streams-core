@@ -20,10 +20,12 @@ If no source is specified, the below defaults will be assumed.
 ```json
 // streams/{handle}.json
 {
-    "source": {
-        "format": "json",
-        "type": "filebase",
-        "path": "streams/data/{handle}"
+    "config": {
+        "source": {
+            "format": "json",
+            "type": "filebase",
+            "path": "streams/data/{handle}"
+        }
     }
 }
 ```
@@ -40,8 +42,10 @@ You can define data within on your stream configuration file.
 ```json
 // streams/contacts.json
 {
-    "source": {
-        "type": "self"
+    "config": {
+        "source": {
+            "type": "self"
+        }
     },
     "data": {
         "john": {
@@ -62,11 +66,12 @@ The flat file database powered by the fantastic [Filebase](https://github.com/tm
 ```json
 // streams/contacts.json
 {
-    ...
-    "source": {
-        "format": "json",
-        "type": "filebase",
-        "path": "streams/data/contacts"
+    "config": {
+        "source": {
+            "format": "json",
+            "type": "filebase",
+            "path": "streams/data/contacts"
+        }
     }
 }
 ```
@@ -126,9 +131,11 @@ The eloquent model source uses Laravel models to query and can return stream-enh
 ```json
 // streams/contacts.json
 {
-    "source": {
-        "type": "eloquent",
-        "model": "App\\Contact\\ContactModel"
+    "config": {
+        "source": {
+            "type": "eloquent",
+            "model": "App\\Contact\\ContactModel"
+        }
     }
 }
 ```
@@ -140,10 +147,12 @@ The Laravel database source uses generic Laravel database tables to query and re
 ```json
 // streams/contacts.json
 {
-    "source": {
-        "type": "database",
-        "table": "contacts",
-        "connection": "default"
+    "config": {
+        "source": {
+            "type": "database",
+            "table": "contacts",
+            "connection": "default"
+        }
     }
 }
 ```
