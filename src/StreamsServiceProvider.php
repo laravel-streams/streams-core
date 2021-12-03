@@ -421,7 +421,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function extendView()
     {
-        Factory::macro('parse', [ViewTemplate::class, 'parse']);
+        Factory::macro('parse', [ViewTemplate::class, 'make']);
 
         Factory::macro('include', [FactoryMacros::class, 'include']);
         Factory::macro('includes', [FactoryMacros::class, 'includes']);
