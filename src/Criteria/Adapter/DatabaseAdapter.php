@@ -142,12 +142,12 @@ class DatabaseAdapter extends AbstractAdapter
      * @param array $attributes
      * @return EntryInterface
      */
-    public function create(array $attributes = [])
-    {
-        $id = $this->query->insertGetId($attributes);
+    // public function create(array $attributes = [])
+    // {
+    //     $id = $this->query->insertGetId($attributes);
 
-        return $this->make(['id' => $id] + $attributes);
-    }
+    //     return $this->make(['id' => $id] + $attributes);
+    // }
 
     /**
      * Save an entry.
