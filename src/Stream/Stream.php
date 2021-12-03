@@ -302,7 +302,7 @@ class Stream implements
          */
         if (isset($attributes['extends'])) {
 
-            $parent = Streams::make($attributes['extends'])->toArray();
+            $parent = Streams::make($attributes['extends'])->getOriginalPrototypeAttributes();
 
             $attributes['fields'] = array_merge(Arr::pull($parent, 'fields', []), Arr::get($attributes, 'fields', []));
 
