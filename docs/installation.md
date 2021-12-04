@@ -22,11 +22,3 @@ composer update streams/core --with-dependencies
 ```
 
 You can also update your entire project using `composer update`.
-
-## Starter Package
-
-You can download the Streams starter package using Composer.
-
-```bash
-composer create-project streams/streams:1.0.x-dev
-```
