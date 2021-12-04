@@ -27,9 +27,8 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.9",
-        "mockery/mockery": "^1.3",
-        "phpunit/phpunit": "^9.0",
-        "orchestra/testbench": "^5.3",
+        "mockery/mockery": "^1.4",
+        "phpunit/phpunit": "^9.5",
         "friendsofphp/php-cs-fixer": "^2.19",
         "helmich/phpunit-json-assert": "^3.1",
         "barryvdh/reflection-docblock": "^2.0.1"
