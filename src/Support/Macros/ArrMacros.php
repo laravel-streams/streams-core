@@ -10,7 +10,7 @@ use Illuminate\Contracts\Support\Arrayable;
 class ArrMacros
 {
 
-    static public function make($target): array
+    static public function make($target)
     {
         if (Arr::accessible($target)) {
             foreach ($target as $item) {
