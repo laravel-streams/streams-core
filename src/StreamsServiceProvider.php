@@ -23,6 +23,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Translation\Translator;
 use Illuminate\Support\Facades\Request;
+use Streams\Core\Support\ComposerScripts;
 use Illuminate\Support\ServiceProvider;
 use Streams\Core\Support\Facades\Addons;
 use Streams\Core\Support\Facades\Assets;
@@ -81,6 +82,7 @@ class StreamsServiceProvider extends ServiceProvider
     {
         $this->registerConfig();
 
+        $this->registerComposerGenerated();
         $this->registerComposerJson();
         $this->registerComposerLock();
         $this->registerFieldTypes();
@@ -119,7 +121,7 @@ class StreamsServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->singleton('streams.parser_data', fn () => Parser::data());
-        
+
         $this->registerStreams();
 
         $this->registerApplications();
@@ -150,6 +152,11 @@ class StreamsServiceProvider extends ServiceProvider
                 //\Streams\Core\Addon\Console\AddonPublish::class,
             ]);
         }
+    }
+
+    protected function registerComposerGenerated()
+    {
+        $this->app->instance('composer.generated', ComposerScripts::getGenerated());
     }
 
     /**
@@ -308,19 +315,13 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerAddons()
     {
-        $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
 
-        $addons = array_filter(
-            array_merge($lock['packages'], $lock['packages-dev']),
-            function (array $package) {
-                return Arr::get($package, 'type') == 'streams-addon';
-            }
-        );
-
+        $addons    = $this->app[ 'composer.generated' ][ 'addons' ];
+        $vendorPath = $this->app[ 'composer.generated' ][ 'vendorPath' ];
         ksort($addons);
 
-        $addons = array_map(function ($addon) {
-            $addon = Addons::load(base_path('vendor/' . $addon['name']));
+        $addons = array_map(function ($addon) use ($vendorPath) {
+            $addon = Addons::load($vendorPath. '/' . $addon[ 'name' ]);
         }, $addons);
     }
 
