@@ -18,11 +18,14 @@ class ComposerScripts
     }
 
     /**
-     * @return array{basePath: string, vendorDir: string, binDir: string, vendorPath: string, binPath: string, addons: array}
+     * @return bool|array{basePath: string, vendorDir: string, binDir: string, vendorPath: string, binPath: string, addons: array}
      * @throws \JsonException
      */
     public static function getGenerated()
     {
+        if(!file_exists(static::$outputPath)){
+            return false;
+        }
         return json_decode(file_get_contents(static::$outputPath), true, 512, JSON_THROW_ON_ERROR);
     }
 

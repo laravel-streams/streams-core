@@ -315,9 +315,19 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerAddons()
     {
-
-        $addons    = $this->app[ 'composer.generated' ][ 'addons' ];
-        $vendorPath = $this->app[ 'composer.generated' ][ 'vendorPath' ];
+        if($this->app[ 'composer.generated' ] === false) {
+            $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
+            $vendorPath = base_path('vendor');
+            $addons = array_filter(
+                array_merge($lock[ 'packages' ], $lock[ 'packages-dev' ]),
+                function (array $package) {
+                    return Arr::get($package, 'type') === 'streams-addon';
+                }
+            );
+        } else {
+            $addons     = $this->app[ 'composer.generated' ][ 'addons' ];
+            $vendorPath = $this->app[ 'composer.generated' ][ 'vendorPath' ];
+        }
         ksort($addons);
 
         $addons = array_map(function ($addon) use ($vendorPath) {
