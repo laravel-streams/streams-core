@@ -4,6 +4,7 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\IntegerValue;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class Integer extends FieldType
 {
@@ -39,6 +40,11 @@ class Integer extends FieldType
         }
 
         return intval($value);
+    }
+
+    public function schema()
+    {
+        return Schema::integer($this->field->handle);
     }
 
     public function expand($value)

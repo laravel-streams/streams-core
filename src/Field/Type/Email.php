@@ -4,6 +4,7 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\EmailValue;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class Email extends FieldType
 {
@@ -19,6 +20,11 @@ class Email extends FieldType
         }
 
         return (string) $value;
+    }
+
+    public function schema()
+    {
+        return Schema::string($this->field->handle)->format('email');
     }
 
     public function expand($value)

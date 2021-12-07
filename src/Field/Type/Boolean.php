@@ -4,6 +4,7 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\BooleanValue;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class Boolean extends FieldType
 {
@@ -20,6 +21,11 @@ class Boolean extends FieldType
     public function expand($value): BooleanValue
     {
         return new BooleanValue($value);
+    }
+
+    public function schema()
+    {
+        return Schema::boolean($this->field->handle);
     }
 
     public function generate()

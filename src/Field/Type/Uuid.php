@@ -4,6 +4,7 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\StrValue;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class Uuid extends FieldType
 {
@@ -16,6 +17,11 @@ class Uuid extends FieldType
     public function expand($value)
     {
         return new StrValue($value);
+    }
+
+    public function schema()
+    {
+        return Schema::string($this->field->handle)->pattern(Schema::FORMAT_UUID);
     }
 
     public function generate()

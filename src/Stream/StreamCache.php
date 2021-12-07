@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\Config;
  */
 class StreamCache
 {
-    /**
-     * Create a new instance.
-     *
-     * @param Stream $stream
-     */
     public function __construct(Stream $stream)
     {
         $this->stream = $stream;

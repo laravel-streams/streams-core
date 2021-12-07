@@ -5,6 +5,7 @@ namespace Streams\Core\Field\Type;
 use Illuminate\Support\Str;
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\MarkdownValue;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class Markdown extends FieldType
 {
@@ -12,6 +13,11 @@ class Markdown extends FieldType
     public function expand($value)
     {
         return new MarkdownValue($value);
+    }
+
+    public function schema()
+    {
+        return Schema::string($this->field->handle);
     }
 
     public function generate()
