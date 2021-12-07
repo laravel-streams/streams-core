@@ -7,6 +7,7 @@ use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\ArrValue;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class Arr extends FieldType
 {
@@ -37,6 +38,11 @@ class Arr extends FieldType
     public function expand($value)
     {
         return new ArrValue($value);
+    }
+
+    public function schema()
+    {
+        return Schema::array($this->field->handle);
     }
 
     public function generate()
