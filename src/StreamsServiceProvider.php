@@ -17,6 +17,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\Translation\Translator;
 use Illuminate\View\Factory;
+use League\CommonMark\Environment\Environment;
+use League\CommonMark\MarkdownConverter;
 use Streams\Core\Application\Application;
 use Streams\Core\Support\ComposerScripts;
 use Streams\Core\Support\Facades\Addons;
@@ -45,6 +47,7 @@ use Streams\Core\Support\Macros\StrPurify;
 use Streams\Core\Support\Macros\StrTruncate;
 use Streams\Core\Support\Macros\TranslatorTranslate;
 use Streams\Core\Support\Macros\UrlStreams;
+use Streams\Core\Support\Markdown\StreamsMarkdownExtension;
 use Streams\Core\Support\Parser;
 use Streams\Core\View\ViewOverrides;
 
@@ -111,6 +114,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerMacros();
         $this->extendView();
         $this->extendApp();
+        $this->registerMarkdown();
 
         $this->publishes([
             dirname(__DIR__) . '/resources/public'
@@ -442,6 +446,18 @@ class StreamsServiceProvider extends ServiceProvider
         Str::macro('linkify', $this->app[ StrLinkify::class ]());
         Str::macro('markdown', $this->app[ StrMarkdown::class ]());
         Translator::macro('translate', $this->app[ TranslatorTranslate::class ]());
+    }
+
+    protected function registerMarkdown()
+    {
+        $this->app->singleton(MarkdownConverter::class, function (\Illuminate\Contracts\Foundation\Application $app) {
+            $config      = $app[ 'config' ][ 'streams.core.markdown' ];
+            $environment = new Environment($config[ 'configs' ]);
+            foreach ($config[ 'extensions' ] as $extension) {
+                $environment->addExtension(new $extension());
+            }
+            return new MarkdownConverter($environment);
+        });
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Streams\Core\Support\Macros;
 
-use Parsedown;
+use League\CommonMark\MarkdownConverter;
 
 /**
  * @param       $text
@@ -17,7 +17,7 @@ class StrMarkdown
              * @param       $text
              * @return string
              */ function ($text) {
-            return Parsedown::instance()->parse($text);
+            return app(MarkdownConverter::class)->convertToHtml($text)->getContent();
         };
     }
 
