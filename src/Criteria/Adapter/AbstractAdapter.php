@@ -172,7 +172,7 @@ abstract class AbstractAdapter implements AdapterInterface
         ));
     }
 
-    public function newInstance(array $attributes = []): EntryInterface
+    public function newInstance(array $attributes = [])
     {
         $prototype = $this->stream->config('abstract', Entry::class);
 
