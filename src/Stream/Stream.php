@@ -63,6 +63,11 @@ class Stream implements
         ]);
     }
 
+    public function name()
+    {
+        return $this->name ?: Str::title(Str::humanize($this->id));
+    }
+
     public function getIdAttribute()
     {
         return $this->getPrototypeAttributeValue('id') ?: $this->getPrototypeAttributeValue('handle');

@@ -115,7 +115,7 @@ class StreamManager
             ->factory();
     }
 
-    public function schema(string $id)
+    public function schema(string $id): StreamSchema
     {
         return $this
             ->make($id)
