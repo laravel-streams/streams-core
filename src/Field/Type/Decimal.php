@@ -4,6 +4,7 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\DecimalValue;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class Decimal extends FieldType
 {
@@ -42,6 +43,11 @@ class Decimal extends FieldType
     public function expand($value)
     {
         return new DecimalValue($value);
+    }
+
+    public function schema()
+    {
+        return Schema::number($this->field->handle)->format(Schema::FORMAT_FLOAT);
     }
     
     public function generate()

@@ -4,6 +4,7 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\StrValue;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class Str extends FieldType
 {

@@ -86,6 +86,11 @@ class Field implements
         });
     }
 
+    public function schema()
+    {
+        return $this->type()->schema();
+    }
+
     public function config(string $key, $default = null)
     {
         return Arr::get($this->getPrototypeAttribute("config"), $key, $default);

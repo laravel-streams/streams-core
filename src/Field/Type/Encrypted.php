@@ -5,6 +5,7 @@ namespace Streams\Core\Field\Type;
 use Streams\Core\Field\FieldType;
 use Illuminate\Support\Facades\Crypt;
 use Streams\Core\Field\Value\EncryptedValue;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class Encrypted extends FieldType
 {
@@ -17,6 +18,11 @@ class Encrypted extends FieldType
     public function expand($value)
     {
         return new EncryptedValue($value);
+    }
+
+    public function schema()
+    {
+        return Schema::number($this->field->handle)->format(Schema::FORMAT_PASSWORD);
     }
 
     public function generate()

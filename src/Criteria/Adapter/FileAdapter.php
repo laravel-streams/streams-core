@@ -174,9 +174,10 @@ class FileAdapter extends AbstractAdapter
     {
         $attributes = $entry->getAttributes();
 
-        if (!$id = Arr::pull($attributes, 'id')) {
+        if (!Arr::has($attributes, 'id')) {
             throw new \Exception('The ID attribute is required.');
         }
+        $id=Arr::pull($attributes, 'id');
 
         $format = $this->stream->config('source.format', 'json') ?: 'json';
 

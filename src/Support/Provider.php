@@ -98,6 +98,13 @@ class Provider extends ServiceProvider
     public $overrides = [];
 
     /**
+     * The view includes.
+     *
+     * @var array
+     */
+    public $includes = [];
+
+    /**
      * Register common provisions.
      */
     public function register()
@@ -153,6 +160,10 @@ class Provider extends ServiceProvider
      */
     public function registerStreamsAliases()
     {
+        if (!$this->aliases) {
+            return;
+        }
+
         Integrator::aliases($this->aliases);
     }
 

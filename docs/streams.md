@@ -20,13 +20,13 @@ An example could be configuring a domain model (a stream) for a website's pages,
 
 ## Defining Streams
 
-You can define stream configurations in the `streams/` directory using JSON files. The filenames serve as a `handle`, which you can use to reference the stream later.
+Using JSON files, you can define stream configurations in the `streams/` directory. The filenames serve as the stream's `id`.
 
-It is highly encouraged to use the plural form of a noun when naming Streams—for example, contacts and people. You may also use naming conventions like `business_contacts` or `neat-people`.
+It is highly encouraged to use the plural form of a noun when naming Streams—for example, contacts and people. Also, naming conventions like `business_contacts` or `neat-people` work well.
 
 ### The Basics
 
-To get started, you need only specify the `handle`, which is the filename itself, and some `fields` to describe the domain object's structure.
+To get started, you need only specify the `id`, which is the filename itself, and some `fields` to describe the domain object's structure.
 
 Let's create a little stream to hold information for a simple CRM.
 
@@ -34,14 +34,17 @@ Let's create a little stream to hold information for a simple CRM.
 // streams/contacts.json
 {
     "name": "Contacts",
-    "source": {
-        "type": "filebase",
-        "filename": "streams/data/contacts",
-        "format": "json"
+    "config": {
+        "source": {
+            "type": "filebase",
+            "filename": "streams/data/contacts",
+            "format": "json"
+        },
+        "abstract": "Streams\\Core\\Entry\\Entry",
+        "criteria": "Streams\\Core\\Criteria\\Criteria",
+        "repository": "Streams\\Core\\Repository\\Repository",
+        "collection": "Illuminate\\Support\\Collection",
     },
-    "abstract": "Streams\\Core\\Entry\\Entry",
-    "repository": "Streams\\Core\\Repository\\Repository",
-    "collection": "Illuminate\\Support\\Collection",
     "fields": {
         "name": "string",
         "email": "email",
@@ -60,9 +63,9 @@ Let's create a little stream to hold information for a simple CRM.
 - [Fields](fields)
 - [Field Types](fields#field-types)
 
-**Fields** are an essential descriptor of the domain object. They describe what properties the domain object will have available and how the property data works. Things like accessors, data mutation, and casting can be controlled by the field's **type**.
+**Fields** are an essential descriptor of the domain object. They describe what properties the domain object will have available and how the property data works. Field **types** control things like accessors, data mutation, and casting.
 
-The **fieldsconfiguration keys** serve as a `handle`, which you can use to reference the field later. For example, the above contact fields can be accessed later like this:
+The **fields configuration keys** serve as a `handle`, which you can use to reference the field later. So, for example, the above contact fields can be accessed later like this:
 
 ```php
 $entry->email;              // The email value.
