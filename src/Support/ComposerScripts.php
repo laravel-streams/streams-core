@@ -2,9 +2,9 @@
 
 namespace Streams\Core\Support;
 
-use Composer\Installer\InstallerEvent;
-use Composer\Installer\PackageEvent;
 use Composer\Script\Event;
+use Composer\Installer\PackageEvent;
+use Composer\Installer\InstallerEvent;
 
 class ComposerScripts
 {
@@ -12,7 +12,7 @@ class ComposerScripts
 
     protected static $outputPath = __DIR__ . '/../../resources/generated.json';
 
-    public static function update(Event|PackageEvent|InstallerEvent $event)
+    public static function update($event)
     {
         static::handle($event);
     }
@@ -34,7 +34,7 @@ class ComposerScripts
      * @return void
      * @throws \JsonException
      */
-    protected static function handle(Event|PackageEvent|InstallerEvent $event)
+    protected static function handle($event)
     {
         $basePath = getcwd(); // composer is always executed in project root
 
