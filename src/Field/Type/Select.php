@@ -15,7 +15,7 @@ class Select extends FieldType
         $options = $this->field->config('options', []);
 
         if (is_string($options)) {
-            return App::call($options);
+            return App::call($options, ['type', $this]);
         }
 
         return $options;

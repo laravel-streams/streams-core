@@ -63,13 +63,13 @@ Let's create a little stream to hold information for a simple CRM.
 - [Fields](fields)
 - [Field Types](fields#field-types)
 
-**Fields** are an essential descriptor of the domain object. They describe what properties the domain object will have available and how the property data works. Field **types** control things like accessors, data mutation, and casting.
+**Fields** are an essential descriptor of the domain object. They describe what properties the domain object will have and how they work. Field **types** control things like accessors, data mutation, and casting.
 
-The **fields configuration keys** serve as a `handle`, which you can use to reference the field later. So, for example, the above contact fields can be accessed later like this:
+The **field configuration keys** serve as a `handle`, which you can use to reference the field later. So, for example, you may access the above contact fields like this:
 
 ```php
-$entry->email;              // The email value.
-$entry->company->email;     // The related company's email value.
+$entry->email;
+$entry->company->email;
 ```
 
 ### Stream Routes
@@ -77,7 +77,7 @@ $entry->company->email;     // The related company's email value.
 - [Stream Routes](routing#stream-routes)
 - [Route Options](routing#route-optionss)
 
-Streams can streamline **routing** by defining routes in their configuration.
+Streams can simplify **routing** by defining associated routes in their definition.
 
 ```json
 // streams/contacts.json
@@ -105,7 +105,7 @@ You can also use an array to include other **route options**.
 
 ### Stream Validation
 
-Streams simplify **validation** by defining validation in their configuration.
+Streams simplifies **validation** by defining validation in their definition.
 
 - [Defining Rules](validation#rule-configuration)
 

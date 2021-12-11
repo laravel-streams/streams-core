@@ -1,10 +1,11 @@
 {
+    "name": "Applications",
     "config": {
+        "source": {
+            "path": "streams/apps",
+            "format": "json"
+        },
         "abstract": "Streams\\Core\\Application\\Application"
-    },
-    "source": {
-        "path": "streams/apps",
-        "format": "json"
     },
     "fields": {
         "handle": {
