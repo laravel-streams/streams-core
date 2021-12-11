@@ -108,7 +108,7 @@ class StreamsServiceProvider extends ServiceProvider
             $this->app->singleton($abstract, $concrete);
         }
 
-        $this->app->instance('faker', fn() => \Faker\Factory::create());
+        $this->app->instance('faker', fn () => \Faker\Factory::create());
 
         $this->registerAliases();
         $this->registerMacros();
@@ -119,7 +119,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->publishes([
             dirname(__DIR__) . '/resources/public'
             => public_path('vendor/streams/core'),
-        ], [ 'public' ]);
+        ], ['public']);
     }
 
     /**
@@ -127,7 +127,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->singleton('streams.parser_data', fn() => Parser::data());
+        $this->app->singleton('streams.parser_data', fn () => Parser::data());
 
         $this->registerStreams();
 
@@ -206,17 +206,17 @@ class StreamsServiceProvider extends ServiceProvider
          */
         $active = $applications->first(function ($application) use ($url) {
             return $application->match && collect((array)$application->match)->filter(function ($match) use ($url) {
-                    return Str::is($match, $url);
-                })->isNotEmpty();
+                return Str::is($match, $url);
+            })->isNotEmpty();
         });
 
-        if ( ! $active) {
+        if (!$active) {
             $active = $applications->first(function ($application) {
-                return ! $application->match;
+                return !$application->match;
             });
         }
 
-        if ( ! $active) {
+        if (!$active) {
 
             $active = new Application([
                 'stream' => Streams::make('core.applications'),
@@ -290,10 +290,10 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerStreams()
     {
         $prefix  = dirname(__DIR__) . '/resources/streams/';
-        $streams = [ 'core.streams', 'core.applications' ];
+        $streams = ['core.streams', 'core.applications'];
 
         foreach ($streams as $stream) {
-            if ( ! Streams::exists($stream)) {
+            if (!Streams::exists($stream)) {
                 Streams::load($prefix . $stream . '.json');
             }
         }
@@ -323,23 +323,23 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerAddons()
     {
-        if ($this->app[ 'composer.generated' ] === false) {
+        if ($this->app['composer.generated'] === false) {
             $lock       = json_decode(file_get_contents(base_path('composer.lock')), true);
             $vendorPath = base_path('vendor');
             $addons     = array_filter(
-                array_merge($lock[ 'packages' ], $lock[ 'packages-dev' ]),
+                array_merge($lock['packages'], $lock['packages-dev']),
                 function (array $package) {
                     return Arr::get($package, 'type') === 'streams-addon';
                 }
             );
         } else {
-            $addons     = $this->app[ 'composer.generated' ][ 'addons' ];
-            $vendorPath = $this->app[ 'composer.generated' ][ 'vendorPath' ];
+            $addons     = $this->app['composer.generated']['addons'];
+            $vendorPath = $this->app['composer.generated']['vendorPath'];
         }
         ksort($addons);
 
         $addons = array_map(function ($addon) use ($vendorPath) {
-            $addon = Addons::load($vendorPath . '/' . $addon[ 'name' ]);
+            $addon = Addons::load($vendorPath . '/' . $addon['name']);
         }, $addons);
     }
 
@@ -427,34 +427,34 @@ class StreamsServiceProvider extends ServiceProvider
 
     protected function registerMacros()
     {
-        Arr::macro('htmlAttributes', $this->app[ ArrHtmlAttributes::class ]());
-        Arr::macro('make', $this->app[ ArrMake::class ]());
-        Arr::macro('undot', $this->app[ ArrUndot::class ]());
-        Arr::macro('parse', $this->app[ ArrParse::class ]());
-        Arr::macro('export', $this->app[ ArrExport::class ]());
-        Collection::macro('hasAny', $this->app[ CollectionHasAny::class ]());
-        Factory::macro('parse', $this->app[ FactoryParse::class ]());
-        Factory::macro('include', $this->app[ FactoryInclude::class ]());
-        Factory::macro('includes', $this->app[ FactoryIncludes::class ]());
-        Factory::macro('override', $this->app[ FactoryOverride::class ]());
-        Route::macro('streams', $this->app[ RouteStreams::class ]());
-        URL::macro('streams', $this->app[ UrlStreams::class ]());
-        Str::macro('parse', $this->app[ StrParse::class ]());
-        Str::macro('humanize', $this->app[ StrHumanize::class ]());
-        Str::macro('truncate', $this->app[ StrTruncate::class ]());
-        Str::macro('isSerialized', $this->app[ StrIsSerialized::class ]());
-        Str::macro('purify', $this->app[ StrPurify::class ]());
-        Str::macro('linkify', $this->app[ StrLinkify::class ]());
-        Str::macro('markdown', $this->app[ StrMarkdown::class ]());
-        Translator::macro('translate', $this->app[ TranslatorTranslate::class ]());
+        Arr::macro('htmlAttributes', $this->app[ArrHtmlAttributes::class]());
+        Arr::macro('make', $this->app[ArrMake::class]());
+        Arr::macro('undot', $this->app[ArrUndot::class]());
+        Arr::macro('parse', $this->app[ArrParse::class]());
+        Arr::macro('export', $this->app[ArrExport::class]());
+        Collection::macro('hasAny', $this->app[CollectionHasAny::class]());
+        Factory::macro('parse', $this->app[FactoryParse::class]());
+        Factory::macro('include', $this->app[FactoryInclude::class]());
+        Factory::macro('includes', $this->app[FactoryIncludes::class]());
+        Factory::macro('override', $this->app[FactoryOverride::class]());
+        Route::macro('streams', $this->app[RouteStreams::class]());
+        URL::macro('streams', $this->app[UrlStreams::class]());
+        Str::macro('parse', $this->app[StrParse::class]());
+        Str::macro('humanize', $this->app[StrHumanize::class]());
+        Str::macro('truncate', $this->app[StrTruncate::class]());
+        Str::macro('isSerialized', $this->app[StrIsSerialized::class]());
+        Str::macro('purify', $this->app[StrPurify::class]());
+        Str::macro('linkify', $this->app[StrLinkify::class]());
+        Str::macro('markdown', $this->app[StrMarkdown::class]());
+        Translator::macro('translate', $this->app[TranslatorTranslate::class]());
     }
 
     protected function registerMarkdown()
     {
         $this->app->singleton(MarkdownConverter::class, function (\Illuminate\Contracts\Foundation\Application $app) {
-            $config      = $app[ 'config' ][ 'streams.core.markdown' ];
-            $environment = new Environment($config[ 'configs' ]);
-            foreach ($config[ 'extensions' ] as $extension) {
+            $config      = $app['config']['streams.core.markdown'];
+            $environment = new Environment($config['configs']);
+            foreach ($config['extensions'] as $extension) {
                 $environment->addExtension(new $extension());
             }
             return new MarkdownConverter($environment);
@@ -470,6 +470,6 @@ class StreamsServiceProvider extends ServiceProvider
 
         $path = (string)base_path(Arr::get($composer, 'config.vendor-dir', 'vendor'));
 
-        $this->app[ 'vendor.path' ] = $path;
+        $this->app['vendor.path'] = $path;
     }
 }

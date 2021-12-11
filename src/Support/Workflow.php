@@ -17,6 +17,11 @@ class Workflow
 
     protected ?\Closure $callback = null;
 
+    public function __construct(array $steps = [])
+    {
+        $this->steps = array_merge($this->steps, $steps);
+    }
+
     public function process(array $payload = []): void
     {
         foreach ($this->steps as $name => $step) {
