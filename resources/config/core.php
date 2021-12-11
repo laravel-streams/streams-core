@@ -76,7 +76,7 @@ return [
 
         // Objects
         'prototype'    => \Streams\Core\Field\Type\Prototype::class,
-        'object'       => \Streams\Core\Field\Type\Prototype::class,
+        'object'       => \Streams\Core\Field\Type\Structure::class,
         'image'        => \Streams\Core\Field\Type\Image::class,
         'file'         => \Streams\Core\Field\Type\File::class,
 

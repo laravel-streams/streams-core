@@ -219,6 +219,7 @@ class StreamsServiceProvider extends ServiceProvider
         if ( ! $active) {
 
             $active = new Application([
+                'stream' => Streams::make('core.applications'),
                 'id'    => 'default',
                 'match' => '*',
             ]);
