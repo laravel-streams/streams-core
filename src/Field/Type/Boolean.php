@@ -15,7 +15,7 @@ class Boolean extends FieldType
 
     public function modify($value)
     {
-        return $this->cast($value) ? 1 : 0;
+        return $this->cast($value);
     }
 
     public function expand($value): BooleanValue
