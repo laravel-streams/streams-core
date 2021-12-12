@@ -138,6 +138,8 @@ class FileAdapter extends AbstractAdapter
      */
     public function create(array $attributes = [])
     {
+        $this->fillDefaults($attributes);
+        
         $keyName = $this->stream->config('key_name', 'id');
 
         $key = Arr::get($attributes, $keyName);
@@ -308,6 +310,7 @@ class FileAdapter extends AbstractAdapter
     protected function writeData()
     {
         $format = $this->stream->config('source.format', 'json');
+        
         $file = base_path(trim($this->stream->config('source.file', 'streams/data/' . $this->stream->handle . '.' . $format), '/\\'));
 
         if (!file_exists($file)) {

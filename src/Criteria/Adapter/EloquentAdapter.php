@@ -166,6 +166,8 @@ class EloquentAdapter extends AbstractAdapter
      */
     public function create(array $attributes = [])
     {
+        $this->fillDefaults($attributes);
+        
         $model = $this->stream->config('source.model');
 
         $model::unguard();

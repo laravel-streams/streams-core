@@ -28,9 +28,9 @@ class SelfAdapter extends FileAdapter
 
     protected function writeData()
     {
-        $source = $this->stream->expandPrototypeAttribute('source');
+        $source = $this->stream->config('source.file', 'streams/' . $this->stream->handle . '.json');
 
-        $file = base_path(trim($source->get('file', 'streams/' . $this->stream->handle . '.json'), '/\\'));
+        $file = base_path(trim($source, '/\\'));
 
         $contents = json_decode(file_get_contents($file), true);
 

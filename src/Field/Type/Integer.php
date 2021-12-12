@@ -24,6 +24,15 @@ class Integer extends FieldType
         ], $attributes));
     }
 
+    public function default($value)
+    {
+        if ($value == 'increment') {
+            return $this->getNextIncrementValue();
+        }
+        
+        return $this->generate();
+    }
+
     public function modify($value)
     {
         if (is_string($value)) {
@@ -55,5 +64,16 @@ class Integer extends FieldType
     public function generate(): int
     {
         return $this->generator()->randomNumber();
+    }
+
+    public function getNextIncrementValue()
+    {
+        $last = $this->field->stream->entries()->orderBy($this->field->handle, 'DESC')->first();
+
+        if (!$last) {
+            return 1;
+        }
+
+        return $last->{$this->field->handle} + 1;
     }
 }
