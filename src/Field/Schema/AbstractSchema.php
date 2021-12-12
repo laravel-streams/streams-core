@@ -6,7 +6,7 @@ use Streams\Core\Field\FieldType;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
-class Schema
+class AbstractSchema
 {
     use Macroable;
     use FiresCallbacks;
@@ -22,13 +22,8 @@ class Schema
     {
         $schema = $this->type();
 
-        $this->fire('creating_schema', compact('schema'));
-
-        $this
-            ->format($schema)
-            ->constraints($schema);
-
-        $this->fire('created_schema', compact('schema'));
+        $this->format($schema);
+        $this->constraints($schema);
 
         return $schema;
     }
@@ -38,13 +33,11 @@ class Schema
         return Schema::string($this->field->handle);
     }
 
-    public function format(Schema $schema): self
+    public function format(Schema $schema): void
     {
-        return $this;
     }
 
-    public function constraints(Schema $schema): self
+    public function constraints(Schema $schema): void
     {
-        return $this;
     }
 }
