@@ -57,7 +57,26 @@ class FieldType
 
     public function schema()
     {
-        return Schema::string($this->field->handle);
+        $schema = Schema::string($this->field->handle)
+            ->description(__($this->field->description));
+
+        if ($min = $this->field->ruleParameter('min')) {
+            $schema = $schema->minLength($min);
+        }
+
+        if ($max = $this->field->ruleParameter('max')) {
+            $schema = $schema->maxLength($max);
+        }
+
+        if ($pattern = $this->field->hasRule('pattern')) {
+            $schema = $schema->pattern($pattern);
+        }
+
+        if ($default = $this->field->config('default')) {
+            $schema = $schema->default($default);
+        }
+
+        return $schema;
     }
 
     public function generate()

@@ -25,7 +25,13 @@ class Boolean extends FieldType
 
     public function schema()
     {
-        return Schema::boolean($this->field->handle);
+        $schema = Schema::boolean($this->field->handle);
+
+        if ($default = $this->field->config('default')) {
+            $schema = $schema->default($default);
+        }
+
+        $schema = $schema->nullable($this->field->hasRule('required'));
     }
 
     public function generate()
