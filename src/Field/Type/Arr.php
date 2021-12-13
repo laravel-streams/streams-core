@@ -42,7 +42,21 @@ class Arr extends FieldType
 
     public function schema()
     {
-        return Schema::array($this->field->handle);
+        $schema = Schema::array($this->field->handle);
+
+        if ($min = $this->field->ruleParameter('min')) {
+            $schema = $schema->minItems($min);
+        }
+
+        if ($max = $this->field->ruleParameter('max')) {
+            $schema = $schema->maxItems($max);
+        }
+
+        if ($default = $this->field->config('default')) {
+            $schema = $schema->default($default);
+        }
+
+        return $schema;
     }
 
     public function generate()
