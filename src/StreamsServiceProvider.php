@@ -316,6 +316,10 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerAddons()
     {
 
+        if (!$this->app[ 'composer.generated' ]) {
+            return; // @todo sort out.
+        }
+
         $addons    = $this->app[ 'composer.generated' ][ 'addons' ];
         $vendorPath = $this->app[ 'composer.generated' ][ 'vendorPath' ];
         ksort($addons);

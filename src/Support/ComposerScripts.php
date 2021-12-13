@@ -23,6 +23,10 @@ class ComposerScripts
      */
     public static function getGenerated()
     {
+        if (!file_exists(static::$outputPath)) {
+            return [];
+        }
+        
         return json_decode(file_get_contents(static::$outputPath), true, 512, JSON_THROW_ON_ERROR);
     }
 
