@@ -5,6 +5,7 @@ namespace Streams\Core\Field\Type;
 use Carbon\Carbon;
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\DateValue;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class Date extends FieldType
 {
@@ -21,6 +22,11 @@ class Date extends FieldType
     public function expand($value)
     {
         return new DateValue($value);
+    }
+
+    public function schema()
+    {
+        return Schema::string($this->field->handle)->format(Schema::FORMAT_DATE);
     }
 
     public function generate()

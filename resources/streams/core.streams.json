@@ -1,7 +1,9 @@
 {
-    "source": {
-        "path": "/streams",
-        "format": "json"
+    "config": {
+        "source": {
+            "path": "/streams",
+            "format": "json"
+        }
     },
     "rules": {
         "id": "required"
@@ -23,19 +25,10 @@
         "description": {
             "type": "string"
         },
-        "source": {
-            "type": "array"
-        },
         "config": {
             "type": "array"
         },
         "fields": {
-            "type": "array"
-        },
-        "ui": {
-            "type": "array"
-        },
-        "api": {
             "type": "array"
         }
     }

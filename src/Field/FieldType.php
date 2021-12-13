@@ -8,6 +8,7 @@ use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 /**
  * @typescript
@@ -54,6 +55,11 @@ class FieldType
         return new Value($value);
     }
 
+    public function schema()
+    {
+        return Schema::string($this->field->handle);
+    }
+
     public function generate()
     {
         return $this->generator()->text();
@@ -68,7 +74,7 @@ class FieldType
     public function factory(): Factory
     {
         $factory = $this->field->config('factory', $this->getFactoryName());
-        
+
         return new $factory($this);
     }
 

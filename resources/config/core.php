@@ -76,7 +76,7 @@ return [
 
         // Objects
         'prototype' => \Streams\Core\Field\Type\Prototype::class,
-        'object' => \Streams\Core\Field\Type\Prototype::class,
+        'object' => \Streams\Core\Field\Type\Structure::class,
         'image' => \Streams\Core\Field\Type\Image::class,
         'file' => \Streams\Core\Field\Type\File::class,
 
@@ -106,4 +106,37 @@ return [
      * image URLs and output.
      */
     'version_images' => env('STREAMS_VERSION_IMAGES', true),
+
+    'markdown' => [
+        'configs' => [
+            'commonmark' => [
+                'use_asterisk' => true,
+                'use_underscore' => true,
+                'enable_strong' => true,
+                'enable_em' => true,
+                'unordered_list_markers' => [ '*', '+', '-' ],
+            ],
+            'disallowed_raw_html' => [
+                'disallowed_tags' => [
+                    'title',
+                    'textarea',
+                    'style',
+                    'xmp',
+                    'iframe',
+                    'noembed',
+                    'noframes',
+                    'script',
+                    'plaintext',
+                ],
+            ],
+        ],
+        'extensions' => [
+            \League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension::class,
+            \League\CommonMark\Extension\Autolink\AutolinkExtension::class,
+            \League\CommonMark\Extension\DisallowedRawHtml\DisallowedRawHtmlExtension::class,
+            \League\CommonMark\Extension\Strikethrough\StrikethroughExtension::class,
+            \League\CommonMark\Extension\Table\TableExtension::class,
+            \League\CommonMark\Extension\TaskList\TaskListExtension::class,
+        ],
+    ],
 ];

@@ -1,0 +1,25 @@
+{
+    "name": "Fields",
+    "fields": {
+        "handle": {
+            "type": "slug",
+            "required": true,
+            "config": {
+                "separator": "_"
+            }
+        },
+        "type": {
+            "type": "select",
+            "required": true,
+            "config": {
+                "options": "Streams\\Core\\Field\\Type\\Support\\TypeOptions@handle"
+            }
+        },
+        "config": {
+            "type": "array"
+        },
+        "rules": {
+            "type": "array"
+        }
+    }
+}

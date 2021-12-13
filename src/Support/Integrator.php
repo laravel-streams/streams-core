@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Config;
 use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Streams;
@@ -47,9 +48,11 @@ class Integrator
 
     public function aliases(array $aliases): void
     {
-        array_walk($aliases, function ($value, $key) {
-            App::alias($value, $key);
-        });
+        // array_walk($aliases, function ($value, $key) {
+        //     App::alias($value, $key);
+        // });
+
+        AliasLoader::getInstance($aliases)->register();
     }
 
     public function bindings(array $bindings): void

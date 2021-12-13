@@ -7,6 +7,7 @@ use Streams\Core\Field\FieldType;
 use Illuminate\Support\Facades\App;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Field\Value\MultiselectValue;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class Multiselect extends FieldType
 {
@@ -15,7 +16,7 @@ class Multiselect extends FieldType
         $options = $this->field->config('options', []);
 
         if (is_string($options)) {
-            return App::call($options);
+            return App::call($options, ['type', $this]);
         }
 
         return $options;
@@ -50,6 +51,11 @@ class Multiselect extends FieldType
     public function expand($value)
     {
         return new MultiselectValue($value);
+    }
+
+    public function schema()
+    {
+        return Schema::array($this->field->handle);
     }
 
     public function generate()

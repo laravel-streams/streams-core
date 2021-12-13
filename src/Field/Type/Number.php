@@ -4,6 +4,7 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\NumberValue;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class Number extends FieldType
 {
@@ -58,6 +59,11 @@ class Number extends FieldType
     public function expand($value)
     {
         return new NumberValue($value);
+    }
+
+    public function schema()
+    {
+        return Schema::number($this->field->handle)->format(Schema::FORMAT_FLOAT);
     }
 
     public function generate()

@@ -63,6 +63,11 @@ class Stream implements
         ]);
     }
 
+    public function name()
+    {
+        return $this->name ?: Str::title(Str::humanize($this->id));
+    }
+
     public function getIdAttribute()
     {
         return $this->getPrototypeAttributeValue('id') ?: $this->getPrototypeAttributeValue('handle');
@@ -116,6 +121,18 @@ class Stream implements
         $factory  = $this->config('factory', EntryFactory::class);
 
         return new $factory($this);
+    }
+
+    public function schema(): StreamSchema
+    {
+        return static::once($this->id . __METHOD__, fn () => $this->newSchema());
+    }
+
+    protected function newSchema(): StreamSchema
+    {
+        $schema  = $this->config('schema', StreamSchema::class);
+
+        return new $schema($this);
     }
 
     public function validator($data): Validator
