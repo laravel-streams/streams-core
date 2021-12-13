@@ -159,14 +159,16 @@ class DatabaseAdapter extends AbstractAdapter
     {
         $attributes = $entry->getAttributes();
 
+        $keyName = $this->stream->config('key_name', 'id');
+
         // @todo Configurable key_name
-        if ($id = Arr::pull($attributes, 'id')) {
-            return $this->query->where('id', $id)->update($attributes);
+        if ($id = Arr::pull($attributes, $keyName)) {
+            return $this->query->where($keyName, $id)->update($attributes);
         }
 
         $id = $this->query->insertGetId($entry->getAttributes());
 
-        $entry->id = $id;
+        $entry->{$keyName} = $id;
 
         return true;
     }

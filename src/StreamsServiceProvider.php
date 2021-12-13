@@ -336,6 +336,7 @@ class StreamsServiceProvider extends ServiceProvider
             $addons     = $this->app['composer.generated']['addons'];
             $vendorPath = $this->app['composer.generated']['vendorPath'];
         }
+        
         ksort($addons);
 
         $addons = array_map(function ($addon) use ($vendorPath) {
