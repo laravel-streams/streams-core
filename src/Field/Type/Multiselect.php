@@ -36,7 +36,7 @@ class Multiselect extends FieldType
         if (is_array($value)) {
             return $value;
         }
-        
+
         if (is_string($value) && $json = json_decode($value, true)) {
             return $json;
         }
@@ -55,7 +55,11 @@ class Multiselect extends FieldType
 
     public function schema()
     {
-        return Schema::array($this->field->handle);
+        return Schema::array($this->field->handle)
+            ->description(__($this->field->description))
+            ->example($this->generate())
+            ->enum(...array_keys($this->options()))
+            ->nullable(!$this->field->hasRule('required'));
     }
 
     public function generate()

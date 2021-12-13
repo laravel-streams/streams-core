@@ -23,6 +23,7 @@ class AbstractSchema
         $schema = $this->type();
 
         $this->format($schema);
+        $this->descriptors($schema);
         $this->constraints($schema);
 
         return $schema;
@@ -34,6 +35,10 @@ class AbstractSchema
     }
 
     public function format(Schema $schema): void
+    {
+    }
+
+    public function descriptors(Schema $schema): void
     {
     }
 

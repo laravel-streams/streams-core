@@ -47,7 +47,8 @@ class Decimal extends FieldType
 
     public function schema()
     {
-        return Schema::number($this->field->handle)->format(Schema::FORMAT_FLOAT);
+        return Schema::number($this->field->handle)
+            ->format(Schema::FORMAT_FLOAT);
     }
     
     public function generate()

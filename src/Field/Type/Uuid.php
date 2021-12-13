@@ -21,7 +21,8 @@ class Uuid extends FieldType
 
     public function schema()
     {
-        return Schema::string($this->field->handle)->pattern(Schema::FORMAT_UUID);
+        return Schema::string($this->field->handle)
+            ->format(Schema::FORMAT_UUID);
     }
 
     public function generate()
