@@ -43,7 +43,9 @@ class Criteria
      */
     public function find($id)
     {
-        return $this->where('id', $id)->get()->first();
+        $keyName = $this->stream->config('key_name', 'id');
+        
+        return $this->where($keyName, $id)->get()->first();
     }
 
     /**
