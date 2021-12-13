@@ -7,6 +7,7 @@ use Streams\Core\Field\FieldType;
 use Streams\Core\Support\Facades\Streams;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class Entry extends FieldType
 {
@@ -36,6 +37,11 @@ class Entry extends FieldType
     public function expand($value)
     {
         return $this->cast($value);
+    }
+
+    public function schema()
+    {
+        return Streams::schema($this->field->config('stream'))->object()->objectId($this->field->handle);
     }
 
     public function generate()
