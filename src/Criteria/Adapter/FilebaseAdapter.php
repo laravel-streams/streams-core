@@ -166,6 +166,8 @@ class FilebaseAdapter extends AbstractAdapter
     public function save($entry)
     {
         $attributes = $entry->getAttributes();
+        
+        $keyName = $this->stream->config('key_name', 'id');
 
         /**
          * Remove these protected
@@ -177,7 +179,7 @@ class FilebaseAdapter extends AbstractAdapter
         Arr::pull($attributes, 'updated_at');
 
         return (bool) $this->query
-            ->get($entry->id)
+            ->get($entry->{$keyName})
             ->save($attributes);
     }
 

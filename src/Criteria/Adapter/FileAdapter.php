@@ -207,8 +207,10 @@ class FileAdapter extends AbstractAdapter
      */
     public function delete(array $parameters = [])
     {
-        $this->get($parameters)->each(function ($entry) {
-            unset($this->data[$entry->id]);
+        $keyName = $this->stream->config('key_name', 'id');
+
+        $this->get($parameters)->each(function ($entry) use ($keyName) {
+            unset($this->data[$entry->{$keyName}]);
         });
 
         $this->writeData();
