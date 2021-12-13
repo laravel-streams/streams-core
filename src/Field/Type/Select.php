@@ -29,6 +29,8 @@ class Select extends FieldType
     public function schema()
     {
         $schema = Schema::string($this->field->handle)
+            ->description(__($this->field->description))
+            ->example($this->generate())
             ->enum(...array_keys($this->options()))
             ->nullable(!$this->field->hasRule('required'));
 
