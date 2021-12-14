@@ -10,7 +10,7 @@ enabled: true
 
 ## Introduction
 
-Applications provides a fundamental pathway to configure your application based on request patterns.
+Applications provides a fundamental interface to configure your application based on request patterns.
 
 ### Defining Applications
 

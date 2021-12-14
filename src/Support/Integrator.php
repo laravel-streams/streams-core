@@ -212,7 +212,15 @@ class Integrator
             }
 
             if (is_array($stream)) {
-                Streams::register(array_merge($stream, ['id' => $key]));
+
+                $keyName = Arr::get($stream, 'config.key_name', 'id');
+
+                $key = Arr::pull($stream, $keyName, $key);
+
+                if (Streams::exists($key)) {
+                    Streams::overload($key, $stream);
+                }
+                Streams::register(array_merge($stream, [$keyName => $key]));
             }
         }
     }
