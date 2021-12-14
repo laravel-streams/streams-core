@@ -242,6 +242,6 @@ Application switching provides the backbone functionality for building localized
 }
 ```
 
-## Examples
+## Resources
 
-Examples @todo
+-   [@todo Example Applications](#example-applications)
