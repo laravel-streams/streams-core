@@ -34,4 +34,6 @@ The Streams platform uses [policies](policies) to authorize secured actions.
 
 The Streams platform makes it easy to use and integrate any authentication system or roll your own based on your projects needs.
 
-@todo Document user examples and how this can be acheived easily!
+## Resources
+
+-   [@todo Example Users](#example-users)

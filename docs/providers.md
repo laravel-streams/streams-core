@@ -26,10 +26,6 @@ class YourProvider extends Provider
 }
 ```
 
-### Integration
-
-@todo Important to note: Uses `Integrator`.
-
 ## Basic Usage
 
 ### Assets
@@ -84,8 +80,8 @@ The `streams` property specifies [streams](streams) to register.
 
 ```php
 public $streams = [
-        'contacts' => [
-            'name' => 'Contacts',
+    'contacts' => [
+        'name' => 'Contacts',
         'source' => [
             'type' => 'filebase',
             'filename' => 'streams/data/contacts',
@@ -130,8 +126,6 @@ public $providers = [
     'App\Providers\CustomProvider',
 ];
 ```
-
-
 
 ### Middleware
 

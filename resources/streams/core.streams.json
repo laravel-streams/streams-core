@@ -18,15 +18,35 @@
         "name": {
             "type": "string",
             "required": true,
-            "rules": [
-                "max:50"
-            ]
+            "rules": ["max:50"]
         },
         "description": {
             "type": "string"
         },
         "config": {
-            "type": "array"
+            "type": "prototype",
+            "config": {
+                "structure": {
+                    "source": {
+                        "type": "select",
+                        "config": {
+                            "options": []
+                        }
+                    },
+                    "schema": {
+                        "type": "string"
+                    },
+                    "criteria": {
+                        "type": "string"
+                    },
+                    "factory": {
+                        "type": "string"
+                    },
+                    "repository": {
+                        "type": "string"
+                    }
+                }
+            }
         },
         "fields": {
             "type": "array"

@@ -63,9 +63,22 @@ The URL of a remote image may also be used. The `allow_url_fopen` PHP directive 
 Remote images are cached locally. To use remote images without caching locally just use regular `<img>` tags.
 
 ### Named Images
-@todo Finish
+
+Use named images to register image variables:
+
 #### Registering Images
-#### Specifying Named Images
+
+You may regiter iamges by name using the **register** method:
+
+```php
+use Streams\Core\Support\Facades\Images;
+
+Images::register('logo.jpg', 'images/logo.jpg');
+```
+
+```blade
+@verbatim{!! Images::make('logo.jpg')->fit(300, 500)->quality(60) !!}@endverbatim
+```
 
 ## Editing Images
 

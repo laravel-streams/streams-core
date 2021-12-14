@@ -235,10 +235,9 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function bootApplication()
     {
-        // Register the active application.
+        // Get the active application.
         $active = Applications::active();
 
-        //Transformer::transform($active);
         Integrator::integrate(array_filter([
             'locale'     => $active->locale,
             'config'     => $active->config,

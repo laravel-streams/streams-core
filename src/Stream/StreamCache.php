@@ -15,7 +15,7 @@ class StreamCache
     {
         $this->stream = $stream;
 
-        $this->collections = Cache::store($stream->config('cache.collection', Config::get('cache.default')));
+        $this->collections = Cache::store($stream->config('cache.store', Config::get('cache.default')));
 
         $this->store = Cache::store($stream->config('cache.store', Config::get('cache.default')));
     }

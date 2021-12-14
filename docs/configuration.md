@@ -101,10 +101,6 @@ return [
         'select' => \Streams\Core\Field\Type\Select::class,
         'multiselect' => \Streams\Core\Field\Type\Multiselect::class,
 
-        // Collections
-        // @todo Test me
-        // 'collection' => \Streams\Core\Field\Type\Collection::class,
-
         // Objects
         'prototype' => \Streams\Core\Field\Type\Prototype::class,
         'object' => \Streams\Core\Field\Type\Structure::class,
