@@ -31,7 +31,7 @@ The following application options are available and support [parsing variables](
 
 ### Locale
 
-Set the active locale using the **locale** option:
+Set the active locale using the **locale** property:
 
 ```json
 // streams/apps/docs.json
@@ -43,7 +43,7 @@ Set the active locale using the **locale** option:
 
 ### Configuration
 
-Override configuration using the **config** option:
+Override configuration using the **config** property:
 
 ```json
 // streams/apps/docs.json
@@ -57,7 +57,7 @@ Override configuration using the **config** option:
 
 ### Streams
 
-You can overload streams using the **streams** option:
+You can overload streams using the **streams** property:
 
 ```json
 // streams/apps/docs.json
@@ -66,20 +66,147 @@ You can overload streams using the **streams** option:
     "streams": {
         "pages": {
             "source.path": "streams/data/pages/docs"
-        },
-        "docs": "@streams/docs.json" // @todo support importing
+        }
     }
 }
 ```
 
 ### Assets
+
+Use the **assets** property to register assets by name:
+
+```json
+// streams/apps/docs.json
+{
+    "match": "docs.example.com/*?preview=darkmode",
+    "assets": {
+        "variable": "epic/script.js",
+        "theme.css": "your/theme/dark.css",
+        "theme.js": "your/theme/dark.js",
+        "theme-bundle": ["theme.css", "theme.js"]
+    }
+}
+```
+
+```blade
+@verbatim{{ Asset::load("random") }}
+{{ Asset::load("theme-bundle") }}@endverbatim
+```
+
 ### Routes
+
+Use the **routes** property to register routes by middleware group:
+
+```json
+// streams/apps/docs.json
+{
+    "match": "docs.example.com/*?preview=login",
+    "routes": {
+        "web": {
+            "/login": {
+                "uses": "App\\Http\\Controller\\Alternate@login"
+            }
+        }
+    }
+}
+```
+
 ### Policies
+
+Use the **policies** property to register policies by name:
+
+```json
+// streams/apps/docs.json
+{
+    "match": "docs.example.com/*?preview=login",
+    "policies": {
+        "custom-testing-array-policy": ["Your\\Policy", "method"],
+        "custom-testing-invokable-policy": "You\\InvokablePolicy",
+        "CustomProviderService::class": "Your\\Policy"
+    }
+}
+```
+
 ### Listeners
+
+Use the **listeners** property to register listeners by event name:
+
+```json
+// streams/apps/docs.json
+{
+    "match": "docs.example.com/*?preview=feature",
+    "events": {
+        "example.event": [
+            "App\\Event\\Listener\\FeatureListener"
+        ]
+    }
+}
+```
+
+
 ### Providers
+
+The `providers` property specifies service providers to register.
+
+```json
+// streams/apps/docs.json
+{
+    "match": "docs.example.com/*?preview=feature",
+    "providers": [
+        "App\\Providers\\FeatureProvider"
+    ]
+}
+```
+
+
 ### Middleware
+
+The `middleware` property specifies grouped middleware to register.
+
+```json
+// streams/apps/docs.json
+{
+    "match": "docs.example.com/*?preview=feature",
+    "middleware": {
+        "web": [
+            "App\\Http\\Middleware\\ExampleMiddleware"
+        ]
+    }
+}
+```
+
 ### Commands
+
+The `commands` property specifies Artisan commands to register.
+
+```json
+// streams/apps/docs.json
+{
+    "match": "docs.example.com/*?preview=feature",
+    "commands": [
+        "App\\Console\\ExampleCommand"
+    ]
+}
+```
+
 ### Schedules
+
+The `schedules` property specifies [scheduled commands](https://laravel.com/docs/scheduling#scheduling-shell-commands) to register.
+
+```json
+// streams/apps/docs.json
+{
+    "match": "docs.example.com/*?preview=feature",
+    "schedules": {
+        "* * * * *": [
+            "App\\Console\\ExampleCommand",
+        ],
+        "dailyAt|13:00": [
+            "App\\Console\\AnotherCommand",
+        ]
+    }
+}
+```
 
 ## Multi-Tenancy
 
@@ -98,7 +225,7 @@ Applications provide the backbone functionality for building multi-tenancy appli
         "source.table": "users_{request.parsed.domain.0}"
     }
 }
-```
+````
 
 ## Localization
 
@@ -115,6 +242,6 @@ Application switching provides the backbone functionality for building localized
 }
 ```
 
-**@todo Talk about custom application handlers.**<br>
-**@todo Talk about deeper configuration (streams/sources) past config/locale.**<br>
-**@todo Talk about programatically manipulating applications.**
+## Examples
+
+Examples @todo

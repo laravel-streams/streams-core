@@ -1,7 +1,7 @@
 ---
 title: Caching
 category: basics
-intro: 
+intro:
 sort: 21
 stage: drafting
 enabled: true
@@ -13,14 +13,13 @@ Streams Core provides a convenient API to link [Laravel cache](https://laravel.c
 
 ### Configuration
 
-@todo document configuration
-
 ```json
 //streams/examples.json
 {
     "config": {
-        "cache.collection": "default",
-        "cache.store": "default"
+        "cache": {
+            "store": "default"
+        }
     }
 }
 ```
@@ -101,7 +100,6 @@ Use the `pull` method to retrieve an item from the cache and then delete the ite
 $value = Streams::make('examples')->cache()->pull('key');
 ```
 
-
 ### Storing Items
 
 Use the `put` method to store items in the cache:
@@ -168,14 +166,9 @@ Streams::make('examples')->cache()->flush();
 
 > The flush method only flushes linked cache.
 
-
 ## Related Documentation
 
-- [Query Cache](querying#caching)
-- [Laravel Cache](https://laravel.com/docs/cache)
-
-Todo: 
-
-- [@todo Response Cache](routing#caching-responses)
-- [@todo View Cache](querying#caching-results)
-- [@todo API Cache](querying#caching-results)
+-   [Query Cache](querying#caching)
+-   [API Cache](../api/caching)
+-   [Laravel Cache](https://laravel.com/docs/cache)
+-   [@todo Response Cache](#caching-responses)
