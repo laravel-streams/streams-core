@@ -19,9 +19,9 @@ Fields can be defined within the JSON [configuration for your streams](streams#d
 ```json
 // streams/contacts.json
 {
-  "fields": {
-    "name": "string"
-  }
+    "fields": {
+        "title": "string"
+    }
 }
 ```
 
@@ -30,12 +30,12 @@ To define more information about the field use an array:
 ```json
 // streams/contacts.json
 {
-  "fields": {
-    "name": {
-      "type": "string",
-      "name": "fields.name"
+    "fields": {
+        "title": {
+            "type": "string",
+            "rules": ["min:3"]
+        }
     }
-  }
 }
 ```
 
@@ -46,17 +46,17 @@ Define [Laravel validation rules](https://laravel.com/docs/validation#available-
 ```json
 // streams/contacts.json
 {
-  "fields": {
-    "name": {
-      "rules": ["required", "max:100"]
-    },
-    "email": {
-      "rules": ["required", "email:rfc,dns"]
-    },
-    "company": {
-      "rules": ["required", "unique"]
+    "fields": {
+        "name": {
+            "rules": ["required", "max:100"]
+        },
+        "email": {
+            "rules": ["required", "email:rfc,dns"]
+        },
+        "company": {
+            "rules": ["required", "unique"]
+        }
     }
-  }
 }
 ```
 
@@ -65,25 +65,25 @@ Is the same as:
 ```json
 // streams/contacts.json
 {
-  "rules": {
-    "name": ["required", "max:100"],
-    "email": ["required", "email:rfc,dns"],
-    "company": "required|unique"
-  }
+    "rules": {
+        "name": ["required", "max:100"],
+        "email": ["required", "email:rfc,dns"],
+        "company": "required|unique"
+    }
 }
 ```
 
 ## Field Types
 
-The field **type** is responsible for validating and casting its specific data type.
+The field **type** is responsible for validating, casting, and more for its specific data type.
 
 ### String
 
-The `string` field type stores a string value. Other string-like fields may extend the string type.
+The `string` field type stores a string value.
 
 ```json
 {
-  "type": "string"
+    "type": "string"
 }
 ```
 
@@ -93,7 +93,7 @@ The `url` field type stores a URL or named route.
 
 ```json
 {
-  "type": "url"
+    "type": "url"
 }
 ```
 
@@ -103,10 +103,7 @@ The `hash` field type stores a one-way hashed string.
 
 ```json
 {
-  "type": "hash",
-  "config": {
-    "prefix": "string"
-  }
+    "type": "hash"
 }
 ```
 
@@ -116,7 +113,7 @@ The `encrypted` field type stores a two-way encrypted string.
 
 ```json
 {
-  "type": "encrypted"
+    "type": "encrypted"
 }
 ```
 
@@ -126,7 +123,7 @@ The `markdown` field type stores markdown formatted text.
 
 ```json
 {
-  "type": "markdown"
+    "type": "markdown"
 }
 ```
 
@@ -136,13 +133,13 @@ The `select` field type stores a selection from a list of options.
 
 ```json
 {
-  "type": "select",
-  "config": {
-    "options": {
-      "first": "First Option",
-      "second": "Second Option"
+    "type": "select",
+    "config": {
+        "options": {
+            "first": "First Option",
+            "second": "Second Option"
+        }
     }
-  }
 }
 ```
 
@@ -152,10 +149,10 @@ Besides basic array and associated arrays, you may specify a callable:
 
 ```json
 {
-  "type": "select",
-  "config": {
-    "options": "\\App\\CustomOptions@handle"
-  }
+    "type": "select",
+    "config": {
+        "options": "\\App\\CustomOptions@handle"
+    }
 }
 ```
 
@@ -180,14 +177,14 @@ The `multiselect` field type stores an array of selections from a list of option
 
 ```json
 {
-  "type": "multiselect",
-  "config": {
-    "options": {
-      "first": "First Option",
-      "second": "Second Option",
-      "third": "Third Option"
+    "type": "multiselect",
+    "config": {
+        "options": {
+            "first": "First Option",
+            "second": "Second Option",
+            "third": "Third Option"
+        }
     }
-  }
 }
 ```
 
@@ -197,7 +194,7 @@ The `array` field type stores array values.
 
 ```json
 {
-  "type": "array"
+    "type": "array"
 }
 ```
 
@@ -207,7 +204,7 @@ The `boolean` field type stores true/false values.
 
 ```json
 {
-  "type": "boolean"
+    "type": "boolean"
 }
 ```
 
@@ -217,7 +214,7 @@ The `integer` field type stores whole number values.
 
 ```json
 {
-  "type": "integer"
+    "type": "integer"
 }
 ```
 
@@ -227,7 +224,7 @@ The `decimal` field type stores decimal number values.
 
 ```json
 {
-  "type": "decimal"
+    "type": "decimal"
 }
 ```
 
@@ -237,7 +234,7 @@ The `datetime` field type stores both date and time.
 
 ```json
 {
-  "type": "datetime"
+    "type": "datetime"
 }
 ```
 
@@ -247,7 +244,7 @@ The `datetime` field type stores only date.
 
 ```json
 {
-  "type": "date"
+    "type": "date"
 }
 ```
 
@@ -257,7 +254,7 @@ The `datetime` field type stores only time.
 
 ```json
 {
-  "type": "time"
+    "type": "time"
 }
 ```
 
@@ -265,10 +262,10 @@ The `datetime` field type stores only time.
 
 ```json
 {
-  "type": "entry",
-  "config": {
-    "stream": "handle"
-  }
+    "type": "entry",
+    "config": {
+        "stream": "handle"
+    }
 }
 ```
 
@@ -276,10 +273,10 @@ The `datetime` field type stores only time.
 
 ```json
 {
-  "type": "entries",
-  "config": {
-    "stream": "handle"
-  }
+    "type": "entries",
+    "config": {
+        "stream": "handle"
+    }
 }
 ```
 
@@ -291,10 +288,10 @@ Single prototype object.
 
 ```json
 {
-  "type": "prototype",
-  "config": {
-    "abstract": "App\\ExampleClass"
-  }
+    "type": "prototype",
+    "config": {
+        "abstract": "App\\ExampleClass"
+    }
 }
 ```
 
@@ -308,7 +305,7 @@ Single entry of mixed type.
 
 ```json
 {
-  "type": "polymorphic"
+    "type": "polymorphic"
 }
 ```
 
@@ -318,7 +315,7 @@ Multiple objects of mixed type.
 
 ```json
 {
-  "type": "matrix"
+    "type": "matrix"
 }
 ```
 
@@ -326,11 +323,11 @@ Multiple objects of mixed type.
 
 ```json
 {
-  "type": "relationship",
-  "config": {
-    "related": "stream",
-    "type": "belongsTo|hasOne"
-  }
+    "type": "relationship",
+    "config": {
+        "related": "stream",
+        "type": "belongsTo|hasOne"
+    }
 }
 ```
 
@@ -338,12 +335,10 @@ Multiple objects of mixed type.
 
 ```json
 {
-  "type": "multiple",
-  "config": {
-    "related": "stream",
-    "intermediate": null,
-    "type": "belongsToMany"
-  }
+    "type": "multiple",
+    "config": {
+        "related": "stream"
+    }
 }
 ```
 
@@ -351,10 +346,10 @@ Multiple objects of mixed type.
 
 ```json
 {
-  "type": "file",
-  "config": {
-    "path": "storage::uploads"
-  }
+    "type": "file",
+    "config": {
+        "path": "storage::uploads"
+    }
 }
 ```
 
@@ -362,10 +357,10 @@ Multiple objects of mixed type.
 
 ```json
 {
-  "type": "image",
-  "config": {
-    "path": "storage::uploads/img"
-  }
+    "type": "image",
+    "config": {
+        "path": "storage::uploads/img"
+    }
 }
 ```
 
@@ -373,10 +368,10 @@ Multiple objects of mixed type.
 
 ```json
 {
-  "type": "collection",
-  "config": {
-    "abstract": "Illuminate\\Support\\Collection"
-  }
+    "type": "collection",
+    "config": {
+        "abstract": "Illuminate\\Support\\Collection"
+    }
 }
 ```
 

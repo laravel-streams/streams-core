@@ -21,9 +21,9 @@ class Select extends FieldType
         return $options;
     }
 
-    public function expand($value)
+    public function getValueName()
     {
-        return new SelectValue($value);
+        return SelectValue::class;
     }
 
     public function schema()

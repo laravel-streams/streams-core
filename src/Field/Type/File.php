@@ -8,31 +8,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class File extends Str
 {
-    /**
-     * Initialize the prototype.
-     *
-     * @param array $attributes
-     * @return $this
-     */
-    protected function initializePrototypeAttributes(array $attributes)
-    {
-        return parent::initializePrototypeAttributes(array_merge([
-            'rules' => [],
-        ], $attributes));
-    }
-
-    /**
-     * Modify the value for storage.
-     *
-     * @param string $value
-     * @return string
-     */
+    
     public function modify($value)
     {
-        if (is_null($value)) {
-            return $value;
-        }
-
         if (is_string($value)) {
             return $value;
         }
@@ -52,14 +30,8 @@ class File extends Str
         throw new \Exception("Could not determine file type.");
     }
 
-    /**
-     * Expand the value.
-     *
-     * @param $value
-     * @return Collection
-     */
-    public function expand($value)
+    public function getValueName()
     {
-        return new FileValue($value);
+        return FileValue::class;
     }
 }

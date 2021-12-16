@@ -18,9 +18,9 @@ class Hash extends FieldType
         return HashFacade::make($value);
     }
 
-    public function expand($value)
+    public function getValueName()
     {
-        return new HashValue($value);
+        return HashValue::class;
     }
 
     public function schema()

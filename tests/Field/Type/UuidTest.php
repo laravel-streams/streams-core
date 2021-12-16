@@ -44,6 +44,6 @@ class UuidTest extends TestCase
     {
         $stream = Streams::make('testing.fakers');
 
-        $this->assertIsString($stream->fields->uuid->type()->default());
+        $this->assertIsString($stream->fields->uuid->type()->default(null));
     }
 }

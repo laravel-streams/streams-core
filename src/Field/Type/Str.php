@@ -4,7 +4,6 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\StrValue;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class Str extends FieldType
 {
@@ -19,9 +18,9 @@ class Str extends FieldType
         return (string) $value;
     }
 
-    public function expand($value)
+    public function getValueName()
     {
-        return new StrValue($value);
+        return StrValue::class;
     }
 
     public function generate()

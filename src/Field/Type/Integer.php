@@ -56,9 +56,9 @@ class Integer extends FieldType
         return Schema::integer($this->field->handle);
     }
 
-    public function expand($value)
+    public function getValueName()
     {
-        return new IntegerValue($value);
+        return IntegerValue::class;
     }
 
     public function generate(): int

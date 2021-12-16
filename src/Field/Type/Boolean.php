@@ -18,9 +18,9 @@ class Boolean extends FieldType
         return $this->cast($value);
     }
 
-    public function expand($value): BooleanValue
+    public function getValueName()
     {
-        return new BooleanValue($value);
+        return BooleanValue::class;
     }
 
     public function schema()

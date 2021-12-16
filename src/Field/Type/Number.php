@@ -56,9 +56,9 @@ class Number extends FieldType
         return $value;
     }
 
-    public function expand($value)
+    public function getValueName()
     {
-        return new NumberValue($value);
+        return NumberValue::class;
     }
 
     public function schema()

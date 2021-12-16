@@ -15,9 +15,9 @@ class Url extends FieldType
         ],
     ];
 
-    public function expand($value)
+    public function getValueName()
     {
-        return new UrlValue($value);
+        return UrlValue::class;
     }
 
     public function schema()
