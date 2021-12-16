@@ -48,9 +48,9 @@ class Email extends FieldType
         return $schema;
     }
 
-    public function expand($value)
+    public function getValueName()
     {
-        return new EmailValue($value);
+        return EmailValue::class;
     }
 
     public function generate()

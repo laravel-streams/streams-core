@@ -35,9 +35,9 @@ class Arr extends FieldType
         return $this->cast($value);
     }
 
-    public function expand($value)
+    public function getValueName()
     {
-        return new ArrValue($value);
+        return ArrValue::class;
     }
 
     public function schema()

@@ -48,9 +48,9 @@ class Multiselect extends FieldType
         return (array) $value;
     }
 
-    public function expand($value)
+    public function getValueName()
     {
-        return new MultiselectValue($value);
+        return MultiselectValue::class;
     }
 
     public function schema()

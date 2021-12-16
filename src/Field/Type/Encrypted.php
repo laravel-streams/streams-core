@@ -15,9 +15,9 @@ class Encrypted extends FieldType
         return Crypt::encrypt($value);
     }
 
-    public function expand($value)
+    public function getValueName()
     {
-        return new EncryptedValue($value);
+        return EncryptedValue::class;
     }
 
     public function schema()

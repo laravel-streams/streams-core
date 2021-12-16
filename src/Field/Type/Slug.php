@@ -19,9 +19,9 @@ class Slug extends FieldType
         return Str::slug($value, $this->field->config('seperator') ?: '_');
     }
 
-    public function expand($value)
+    public function getValueName()
     {
-        return new StrValue($value);
+        return StrValue::class;
     }
 
     public function schema()

@@ -19,9 +19,9 @@ class Date extends FieldType
         return $this->toCarbon($value)->startOfDay();
     }
 
-    public function expand($value)
+    public function getValueName()
     {
-        return new DateValue($value);
+        return DateValue::class;
     }
 
     public function schema()

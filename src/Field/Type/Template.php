@@ -25,9 +25,9 @@ class Template extends FieldType
         return (string) $value;
     }
 
-    public function expand($value)
+    public function getValueName()
     {
-        return new TemplateValue($value);
+        return TemplateValue::class;
     }
 
     public function generate()

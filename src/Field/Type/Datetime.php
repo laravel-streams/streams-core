@@ -20,9 +20,9 @@ class Datetime extends FieldType
         return $this->toCarbon($value);
     }
 
-    public function expand($value)
+    public function getValueName()
     {
-        return new DatetimeValue($value);
+        return DatetimeValue::class;
     }
 
     public function schema()

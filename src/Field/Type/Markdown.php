@@ -10,9 +10,9 @@ use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 class Markdown extends FieldType
 {
 
-    public function expand($value)
+    public function getValueName()
     {
-        return new MarkdownValue($value);
+        return MarkdownValue::class;
     }
 
     public function schema()

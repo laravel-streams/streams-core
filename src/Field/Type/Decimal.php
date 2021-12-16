@@ -40,9 +40,9 @@ class Decimal extends FieldType
         return round($value, $this->field->config('precision') ?: 1);
     }
 
-    public function expand($value)
+    public function getValueName()
     {
-        return new DecimalValue($value);
+        return DecimalValue::class;
     }
 
     public function schema()

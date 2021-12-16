@@ -52,7 +52,14 @@ class FieldType
 
     public function expand($value)
     {
-        return new Value($value);
+        $name = $this->field->config('expanded', $this->getValueName());
+
+        return new $name($this, $value);
+    }
+
+    public function getValueName()
+    {
+        return Value::class;
     }
 
     public function schema()

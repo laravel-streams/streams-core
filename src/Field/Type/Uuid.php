@@ -14,11 +14,6 @@ class Uuid extends FieldType
         return $this->generate();
     }
 
-    public function expand($value)
-    {
-        return new StrValue($value);
-    }
-
     public function schema()
     {
         return Schema::string($this->field->handle)
@@ -28,5 +23,10 @@ class Uuid extends FieldType
     public function generate()
     {
         return $this->generator()->uuid();
+    }
+
+    public function getValueName()
+    {
+        return StrValue::class;
     }
 }

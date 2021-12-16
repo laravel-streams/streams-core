@@ -4,18 +4,29 @@ namespace Streams\Core\Field\Value;
 
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\ForwardsCalls;
+use Streams\Core\Field\FieldType;
 
 class Value
 {
     use Macroable;
     use ForwardsCalls;
 
-    public function __construct($value)
+    protected FieldType $type;
+
+    protected mixed $value;
+
+    public function __construct(FieldType $type, $value)
     {
+        $this->type = $type;
         $this->value = $value;
     }
 
-    public function value()
+    public function getType(): FieldType
+    {
+        return $this->type;
+    }
+
+    public function getValue()
     {
         return $this->value;
     }

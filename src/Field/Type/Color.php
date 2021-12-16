@@ -22,9 +22,9 @@ class Color extends FieldType
         return $this->cast($value);
     }
 
-    public function expand($value)
+    public function getValueName()
     {
-        return new ColorValue($value);
+        return ColorValue::class;
     }
 
     public function generate()
