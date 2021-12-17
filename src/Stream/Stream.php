@@ -215,6 +215,10 @@ class Stream implements
             }
         }
 
+        // if ($this->id == 'users') {
+        //     dd($rules);
+        // }
+
         return $factory->make($data, $rules);
     }
 
@@ -432,6 +436,9 @@ class Stream implements
         foreach ($fieldValidators as $field => $configured) {
             $validators[$field] = array_unique(array_merge(Arr::get($validators, $field, []), $configured));
         }
+
+        $attributes['rules'] = $rules;
+        $attributes['validators'] = $validators;
     }
 
     public function adjustInput(&$attributes)
