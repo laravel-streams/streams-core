@@ -215,10 +215,6 @@ class Stream implements
             }
         }
 
-        // if ($this->id == 'users') {
-        //     dd($rules);
-        // }
-
         return $factory->make($data, $rules);
     }
 
