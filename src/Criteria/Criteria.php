@@ -197,7 +197,7 @@ class Criteria
 
         if ($cache) {
 
-            $fingerprint = $this->stream->handle . '.query.count__' . md5(json_encode($this->parameters));
+            $fingerprint = $this->stream->id . '.query.count__' . md5(json_encode($this->parameters));
 
             if (!is_array($cache)) {
                 $cache = [
