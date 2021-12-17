@@ -489,21 +489,21 @@ class Stream implements
                 );
             }
 
-            if ($fieldTypeRules = $field->type()->rules) {
+            if ($fieldTypeRules = $field->type()->rules()) {
                 $rules[$handle] = array_merge(
                     Arr::pull($rules, $handle, []),
                     $fieldTypeRules
                 );
             }
 
-            if ($fieldValidators = $field->type()->validators) {
+            if ($fieldValidators = $field->validators) {
                 $validators[$handle] = array_merge(
                     Arr::pull($validators, $handle, []),
                     $fieldValidators
                 );
             }
 
-            if ($fieldTypeValidators = $field->type()->validators) {
+            if ($fieldTypeValidators = $field->type()->validators()) {
                 $validators[$handle] = array_merge(
                     Arr::pull($validators, $handle, []),
                     $fieldTypeValidators

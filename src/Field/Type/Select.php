@@ -41,6 +41,13 @@ class Select extends FieldType
         return $schema;
     }
 
+    public function rules()
+    {
+        return array_merge([
+            'in:' . implode(',', array_keys($this->options()))
+        ], parent::rules());
+    }
+
     public function generate()
     {
         return $this->generator()->randomElement(array_keys($this->options()));

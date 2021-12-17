@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field;
 
+use Illuminate\Support\Arr;
 use Streams\Core\Field\Value\Value;
 use Streams\Core\Field\Factory\Factory;
 use Illuminate\Support\Traits\Macroable;
@@ -84,6 +85,16 @@ class FieldType
         }
 
         return $schema;
+    }
+
+    public function rules()
+    {
+        return Arr::get($this->field->stream->rules, $this->field->handle, []);
+    }
+
+    public function validators()
+    {
+        return Arr::get($this->field->stream->validators, $this->field->handle, []);
     }
 
     public function generate()
