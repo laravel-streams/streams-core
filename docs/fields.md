@@ -325,11 +325,11 @@ Multiple objects of mixed type.
 {
     "type": "relationship",
     "config": {
-        "related": "stream",
-        "type": "belongsTo|hasOne"
+        "related": "stream"
     }
 }
 ```
+
 
 ### Multiple
 
