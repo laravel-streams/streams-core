@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Stream;
 
+use Streams\Core\Field\Field;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Tag;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
@@ -30,13 +31,15 @@ class StreamSchema
 
     public function object(): Schema
     {
+        // @todo figure out why some property values are null
+        $props=array_filter($this->properties());
         return Schema::object($this->stream->id)
-            ->properties(...$this->properties());
+            ->properties(...$props);
     }
 
     public function properties(): array
     {
-        return $this->stream->fields->map(function ($field) {
+        return $this->stream->fields->map(function (Field  $field) {
             return $field->schema();
         })->all();
     }
