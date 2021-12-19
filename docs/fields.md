@@ -48,12 +48,15 @@ Define [Laravel validation rules](https://laravel.com/docs/validation#available-
 {
     "fields": {
         "name": {
+            "type": "string",
             "rules": ["required", "max:100"]
         },
         "email": {
+            "type": "email",
             "rules": ["required", "email:rfc,dns"]
         },
         "company": {
+            "type": "string",
             "rules": ["required", "unique"]
         }
     }
@@ -77,237 +80,9 @@ Is the same as:
 
 The field **type** is responsible for validating, casting, and more for its specific data type.
 
-### String
-
-The `string` field type stores a string value.
-
-```json
-{
-    "type": "string"
-}
-```
-
-### URL
-
-The `url` field type stores a URL or named route.
-
-```json
-{
-    "type": "url"
-}
-```
-
-### Hash
-
-The `hash` field type stores a one-way hashed string.
-
-```json
-{
-    "type": "hash"
-}
-```
-
-### Encrypted
-
-The `encrypted` field type stores a two-way encrypted string.
-
-```json
-{
-    "type": "encrypted"
-}
-```
-
-### Markdown
-
-The `markdown` field type stores markdown formatted text.
-
-```json
-{
-    "type": "markdown"
-}
-```
-
-### Select
-
-The `select` field type stores a selection from a list of options.
-
-```json
-{
-    "type": "select",
-    "config": {
-        "options": {
-            "first": "First Option",
-            "second": "Second Option"
-        }
-    }
-}
-```
-
-#### Callable Options
-
-Besides basic array and associated arrays, you may specify a callable:
-
-```json
-{
-    "type": "select",
-    "config": {
-        "options": "\\App\\CustomOptions@handle"
-    }
-}
-```
-
-The `$fieldType` can then be injected in order to set the `config.options` manually:
-
-```php
-// app/CustomOptions.php
-class CustomOptions
-{
-    public function handle($fieldType)
-    {
-        return [
-            // ...
-        ];
-    }
-}
-```
-
-### Multiselect
-
-The `multiselect` field type stores an array of selections from a list of options. The multiselect field type also supports [callable options](#callable-options).
-
-```json
-{
-    "type": "multiselect",
-    "config": {
-        "options": {
-            "first": "First Option",
-            "second": "Second Option",
-            "third": "Third Option"
-        }
-    }
-}
-```
-
-### Array
-
-The `array` field type stores array values.
-
-```json
-{
-    "type": "array"
-}
-```
-
-### Boolean
-
-The `boolean` field type stores true/false values.
-
-```json
-{
-    "type": "boolean"
-}
-```
-
-### Integer
-
-The `integer` field type stores whole number values.
-
-```json
-{
-    "type": "integer"
-}
-```
-
-### Decimal
-
-The `decimal` field type stores decimal number values.
-
-```json
-{
-    "type": "decimal"
-}
-```
-
-### Datetime
-
-The `datetime` field type stores both date and time.
-
-```json
-{
-    "type": "datetime"
-}
-```
-
-### Date
-
-The `datetime` field type stores only date.
-
-```json
-{
-    "type": "date"
-}
-```
-
-### Time
-
-The `datetime` field type stores only time.
-
-```json
-{
-    "type": "time"
-}
-```
-
-### Entry
-
-```json
-{
-    "type": "entry",
-    "config": {
-        "stream": "handle"
-    }
-}
-```
-
-### Entries
-
-```json
-{
-    "type": "entries",
-    "config": {
-        "stream": "handle"
-    }
-}
-```
-
-### Object
-
-## Prototype
-
-Single prototype object.
-
-```json
-{
-    "type": "prototype",
-    "config": {
-        "abstract": "App\\ExampleClass"
-    }
-}
-```
-
-### Grid
-
-Multiple entries of mixed types.
-
-### Polymorphic
-
-Single entry of mixed type.
-
-```json
-{
-    "type": "polymorphic"
-}
-```
+@foreach (Streams::entries('docs_core')->where('category', 'field_types')->orderBy('sort', 'ASC')->orderBy('name', 'ASC')->get() as $entry)
+ - <a href="{{ $entry->id }}">{{ $entry->title }}</a>
+@endforeach
 
 ### Matrix
 
@@ -359,7 +134,7 @@ Multiple objects of mixed type.
 {
     "type": "image",
     "config": {
-        "path": "storage::uploads/img"
+        "path": "storage::uploads.img"
     }
 }
 ```

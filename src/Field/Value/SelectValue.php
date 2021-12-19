@@ -2,12 +2,17 @@
 
 namespace Streams\Core\Field\Value;
 
+use Illuminate\Support\Arr;
+use Streams\Core\Field\Type\Select;
+
 class SelectValue extends Value
 {
 
-    public function option()
+    protected Select $type;
+
+    public function value()
     {
-        return '@todo - ' . __METHOD__ . ' - ' . $this->value;
+        return Arr::get($this->type->options(), $this->value);
     }
 
     /**
