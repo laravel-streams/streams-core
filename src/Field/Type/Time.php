@@ -3,7 +3,7 @@
 namespace Streams\Core\Field\Type;
 
 use Carbon\Carbon;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
+use Streams\Core\Field\Schema\TimeSchema;
 
 class Time extends Datetime
 {
@@ -17,10 +17,9 @@ class Time extends Datetime
         return $this->toCarbon($value);
     }
 
-    public function schema()
+    public function getSchemaName()
     {
-        return Schema::string($this->field->handle)
-            ->pattern('^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$');
+        return TimeSchema::class;
     }
 
     public function generate()

@@ -63,28 +63,16 @@ class FieldType
         return Value::class;
     }
 
-    public function schema()
+    public function schema(): FieldSchema
     {
-        $schema = Schema::string($this->field->handle)
-            ->description(__($this->field->description));
+        $schema = $this->field->config('schema', $this->getSchemaName());
 
-        if ($min = $this->field->ruleParameter('min')) {
-            $schema = $schema->minLength($min);
-        }
+        return new $schema($this);
+    }
 
-        if ($max = $this->field->ruleParameter('max')) {
-            $schema = $schema->maxLength($max);
-        }
-
-        if ($pattern = $this->field->hasRule('pattern')) {
-            $schema = $schema->pattern($pattern);
-        }
-
-        if ($default = $this->field->config('default')) {
-            $schema = $schema->default($default);
-        }
-
-        return $schema;
+    protected function getSchemaName()
+    {
+        return FieldSchema::class;
     }
 
     public function rules()

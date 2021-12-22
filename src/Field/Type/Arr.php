@@ -5,9 +5,9 @@ namespace Streams\Core\Field\Type;
 use Illuminate\Support\Str;
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\ArrValue;
+use Streams\Core\Field\Schema\ArrSchema;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class Arr extends FieldType
 {
@@ -40,23 +40,9 @@ class Arr extends FieldType
         return ArrValue::class;
     }
 
-    public function schema()
+    public function getSchemaName()
     {
-        $schema = Schema::array($this->field->handle);
-
-        if ($min = $this->field->ruleParameter('min')) {
-            $schema = $schema->minItems($min);
-        }
-
-        if ($max = $this->field->ruleParameter('max')) {
-            $schema = $schema->maxItems($max);
-        }
-
-        if ($default = $this->field->config('default')) {
-            $schema = $schema->default($default);
-        }
-
-        return $schema;
+        return ArrSchema::class;
     }
 
     public function generate()

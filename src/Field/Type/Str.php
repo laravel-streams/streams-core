@@ -4,6 +4,7 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\StrValue;
+use Streams\Core\Field\Schema\StrSchema;
 
 class Str extends FieldType
 {
@@ -18,13 +19,18 @@ class Str extends FieldType
         return (string) $value;
     }
 
+    public function generate()
+    {
+        return $this->generator()->text();
+    }
+
     public function getValueName()
     {
         return StrValue::class;
     }
 
-    public function generate()
+    public function getSchemaName()
     {
-        return $this->generator()->text();
+        return StrSchema::class;
     }
 }

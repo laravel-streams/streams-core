@@ -7,7 +7,6 @@ use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\ArrValue;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class Structure extends FieldType
 {
@@ -32,11 +31,6 @@ class Structure extends FieldType
     public function getValueName()
     {
         return ArrValue::class;
-    }
-
-    public function schema()
-    {
-        return Schema::object($this->field->handle);
     }
 
     public function generate()

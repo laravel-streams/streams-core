@@ -4,7 +4,7 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\NumberValue;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
+use Streams\Core\Field\Schema\NumberSchema;
 
 class Number extends FieldType
 {
@@ -61,9 +61,9 @@ class Number extends FieldType
         return NumberValue::class;
     }
 
-    public function schema()
+    public function getSchemaName()
     {
-        return Schema::number($this->field->handle)->format(Schema::FORMAT_FLOAT);
+        return NumberSchema::class;
     }
 
     public function generate()

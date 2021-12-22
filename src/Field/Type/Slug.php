@@ -5,7 +5,6 @@ namespace Streams\Core\Field\Type;
 use Illuminate\Support\Str;
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\StrValue;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class Slug extends FieldType
 {
@@ -24,11 +23,6 @@ class Slug extends FieldType
         return StrValue::class;
     }
 
-    public function schema()
-    {
-        return Schema::string($this->field->handle);
-    }
-    
     public function generate()
     {
         return $this->modify($this->generator()->words(2, true));

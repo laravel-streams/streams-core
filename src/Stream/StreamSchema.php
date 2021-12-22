@@ -31,16 +31,24 @@ class StreamSchema
 
     public function object(): Schema
     {
+        $required = $this->stream->fields
+            ->required()
+            ->map(fn ($field) => $field->handle)
+            ->values()
+            ->all();
+
+        $properties = array_filter($this->properties());
+
         // @todo figure out why some property values are null
-        $props=array_filter($this->properties());
         return Schema::object($this->stream->id)
-            ->properties(...$props);
+            ->properties(...$properties)
+            ->required(...array_intersect_key($properties, array_flip($required)));
     }
 
     public function properties(): array
     {
         return $this->stream->fields->map(function (Field  $field) {
-            return $field->schema();
+            return $field->schema()->property();
         })->all();
     }
 }

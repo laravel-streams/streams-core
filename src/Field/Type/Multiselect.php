@@ -5,9 +5,8 @@ namespace Streams\Core\Field\Type;
 use Illuminate\Support\Str;
 use Streams\Core\Field\FieldType;
 use Illuminate\Support\Facades\App;
-use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Field\Value\MultiselectValue;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
+use Streams\Core\Field\Schema\MultiselectSchema;
 
 class Multiselect extends FieldType
 {
@@ -53,13 +52,9 @@ class Multiselect extends FieldType
         return MultiselectValue::class;
     }
 
-    public function schema()
+    public function getSchemaName()
     {
-        return Schema::array($this->field->handle)
-            ->description(__($this->field->description))
-            ->example($this->generate())
-            ->enum(...array_keys($this->options()))
-            ->nullable(!$this->field->hasRule('required'));
+        return MultiselectSchema::class;
     }
 
     public function generate()

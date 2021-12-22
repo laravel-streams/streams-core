@@ -92,7 +92,7 @@ class Field implements
         });
     }
 
-    public function schema()
+    public function schema(): FieldSchema
     {
         return $this->type()->schema();
     }

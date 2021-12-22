@@ -5,7 +5,7 @@ namespace Streams\Core\Field\Type;
 use Streams\Core\Field\FieldType;
 use Illuminate\Support\Facades\Crypt;
 use Streams\Core\Field\Value\EncryptedValue;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
+use Streams\Core\Field\Schema\EncryptedSchema;
 
 class Encrypted extends FieldType
 {
@@ -20,9 +20,9 @@ class Encrypted extends FieldType
         return EncryptedValue::class;
     }
 
-    public function schema()
+    public function getSchemaName()
     {
-        return Schema::number($this->field->handle)->format(Schema::FORMAT_PASSWORD);
+        return EncryptedSchema::class;
     }
 
     public function generate()

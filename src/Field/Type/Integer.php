@@ -2,11 +2,10 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\IntegerValue;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
+use Streams\Core\Field\Schema\IntegerSchema;
 
-class Integer extends FieldType
+class Integer extends Number
 {
     /**
      * Initialize the prototype.
@@ -30,7 +29,7 @@ class Integer extends FieldType
             return $this->getNextIncrementValue();
         }
         
-        return $this->generate();
+        return (int) $value;
     }
 
     public function modify($value)
@@ -51,14 +50,14 @@ class Integer extends FieldType
         return intval($value);
     }
 
-    public function schema()
-    {
-        return Schema::integer($this->field->handle);
-    }
-
     public function getValueName()
     {
         return IntegerValue::class;
+    }
+
+    public function getSchemaName()
+    {
+        return IntegerSchema::class;
     }
 
     public function generate(): int

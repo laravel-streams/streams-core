@@ -4,7 +4,7 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\BooleanValue;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
+use Streams\Core\Field\Schema\BooleanSchema;
 
 class Boolean extends FieldType
 {
@@ -23,15 +23,9 @@ class Boolean extends FieldType
         return BooleanValue::class;
     }
 
-    public function schema()
+    public function getSchemaName()
     {
-        $schema = Schema::boolean($this->field->handle);
-
-        if ($default = $this->field->config('default')) {
-            $schema = $schema->default($default);
-        }
-
-        $schema = $schema->nullable($this->field->hasRule('required'));
+        return BooleanSchema::class;
     }
 
     public function generate()
