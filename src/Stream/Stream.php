@@ -26,6 +26,7 @@ use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Illuminate\Validation\ValidationRuleParser;
+use Streams\Core\Entry\EntrySchema;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Validation\StreamsPresenceVerifier;
 
@@ -123,14 +124,14 @@ class Stream implements
         return new $factory($this);
     }
 
-    public function schema(): StreamSchema
+    public function schema(): EntrySchema
     {
         return static::once($this->id . __METHOD__, fn () => $this->newSchema());
     }
 
-    protected function newSchema(): StreamSchema
+    protected function newSchema(): EntrySchema
     {
-        $schema  = $this->config('schema', StreamSchema::class);
+        $schema  = $this->config('schema', EntrySchema::class);
 
         return new $schema($this);
     }

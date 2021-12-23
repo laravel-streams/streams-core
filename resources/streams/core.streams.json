@@ -26,24 +26,45 @@
         "config": {
             "type": "prototype",
             "config": {
-                "structure": {
+                "properties": {
                     "source": {
                         "type": "select",
+                        "description": "The source type for stream data.",
+                        "docs": "https://streams.dev/docs/core/sources",
                         "config": {
-                            "options": []
+                            "options": {
+                                "filebase": "Flat File Database",
+                                "file": "Single File",
+                                "database": "Laravel Database",
+                                "self": "Store data in the stream"
+                            }
                         }
                     },
                     "schema": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The schema generation class to use."
                     },
                     "criteria": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The entry criteria class to use.",
+                        "config": {
+                            "default": "Streams\\Core\\Criteria\\Criteria"
+                        }
                     },
                     "factory": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The entry factory class to use.",
+                        "config": {
+                            "default": "Streams\\Core\\Entry\\EntryFactory"
+                        }
                     },
                     "repository": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The repository class to use.",
+                        "docs": "https://streams.dev/docs/core/repositories",
+                        "config": {
+                            "default": "Streams\\Core\\Repository\\Repository"
+                        }
                     }
                 }
             }

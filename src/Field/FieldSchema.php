@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field;
 
+use GoldSpecDigital\ObjectOrientedOAS\Objects\ExternalDocs;
 use Streams\Core\Field\FieldType;
 use Illuminate\Support\Collection;
 use Streams\Core\Support\Workflow;
@@ -57,6 +58,12 @@ class FieldSchema
 
         $schema = $schema->title(__($this->type->field->name()));
         $schema = $schema->description(__($this->type->field->description));
+
+        if ($this->type->field->docs) {
+            $schema = $schema->externalDocs(
+                ExternalDocs::create()->url($this->type->field->docs)
+            );
+        }
 
         $data->put('schema', $schema);
     }
