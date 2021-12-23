@@ -70,7 +70,14 @@
             }
         },
         "fields": {
-            "type": "array"
+            "type": "array",
+            "description": "@todo Configure allowed items",
+            "config": {
+                "items": [
+                    {"object1": "schema"},
+                    {"object2": "schema"}
+                ]
+            }
         }
     }
 }

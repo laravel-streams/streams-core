@@ -10,6 +10,10 @@ use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
+/**
+ * This class helps produce JSON schema
+ * for entry fields as properties.
+ */
 class FieldSchema
 {
     use Macroable;
@@ -63,6 +67,10 @@ class FieldSchema
             $schema = $schema->externalDocs(
                 ExternalDocs::create()->url($this->type->field->docs)
             );
+        }
+
+        if ($this->type->field->example) {
+            $schema = $schema->example($this->type->field->example);
         }
 
         $data->put('schema', $schema);
