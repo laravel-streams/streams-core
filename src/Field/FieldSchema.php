@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field;
 
+use GoldSpecDigital\ObjectOrientedOAS\Objects\ExternalDocs;
 use Streams\Core\Field\FieldType;
 use Illuminate\Support\Collection;
 use Streams\Core\Support\Workflow;
@@ -9,6 +10,10 @@ use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
+/**
+ * This class helps produce JSON schema
+ * for entry fields as properties.
+ */
 class FieldSchema
 {
     use Macroable;
@@ -57,6 +62,16 @@ class FieldSchema
 
         $schema = $schema->title(__($this->type->field->name()));
         $schema = $schema->description(__($this->type->field->description));
+
+        if ($this->type->field->docs) {
+            $schema = $schema->externalDocs(
+                ExternalDocs::create()->url($this->type->field->docs)
+            );
+        }
+
+        if ($this->type->field->example) {
+            $schema = $schema->example($this->type->field->example);
+        }
 
         $data->put('schema', $schema);
     }
