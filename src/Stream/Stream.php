@@ -81,7 +81,7 @@ class Stream implements
 
     protected function initializePrototypeAttributes(array $attributes)
     {
-        return $this->initializePrototype(array_merge([
+        return $this->initializePrototype(array_replace_recursive([
             'handle' => null,
             'routes' => [],
             'rules' => [],
