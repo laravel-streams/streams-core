@@ -34,6 +34,15 @@ class SelfAdapter extends FileAdapter
 
         $contents = json_decode(file_get_contents($file), true);
 
+        $keyName = $this->stream->config('key_name', 'id');
+
+        array_walk($this->data, function ($item, $key) use ($keyName) {
+
+            Arr::pull($item, $keyName);
+
+            $this->data[$key] = $item;
+        });
+
         $contents['data'] = $this->data;
 
         file_put_contents($file, json_encode($contents, JSON_PRETTY_PRINT));

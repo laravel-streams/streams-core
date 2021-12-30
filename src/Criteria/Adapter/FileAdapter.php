@@ -139,7 +139,7 @@ class FileAdapter extends AbstractAdapter
     public function create(array $attributes = [])
     {
         $this->fillDefaults($attributes);
-        
+
         $keyName = $this->stream->config('key_name', 'id');
 
         $key = Arr::get($attributes, $keyName);
@@ -176,10 +176,13 @@ class FileAdapter extends AbstractAdapter
     {
         $attributes = $entry->getAttributes();
 
-        if (!Arr::has($attributes, 'id')) {
+        $keyName = $this->stream->config('key_name', 'id');
+
+        if (!Arr::has($attributes, $keyName)) {
             throw new \Exception('The ID attribute is required.');
         }
-        $id=Arr::pull($attributes, 'id');
+
+        $key = Arr::get($attributes, $keyName);
 
         $format = $this->stream->config('source.format', 'json') ?: 'json';
 
@@ -189,11 +192,11 @@ class FileAdapter extends AbstractAdapter
 
             $fields = array_combine($fields, array_fill(0, count($fields), null));
 
-            $this->data[$id] = ['id' => $id] + array_merge($fields, $attributes);
+            $this->data[$key] = array_merge($fields, $attributes);
         }
 
         if ($format == 'json') {
-            $this->data[$id] = $attributes;
+            $this->data[$key] = $attributes;
         }
 
         return $this->writeData();
@@ -242,12 +245,7 @@ class FileAdapter extends AbstractAdapter
             return $entry;
         }
 
-        return $this->newInstance(array_merge(
-            [
-                'id' => Arr::get($entry, 'id'),
-            ],
-            $entry
-        ));
+        return $this->newInstance($entry);
     }
 
     protected function readData()
@@ -312,8 +310,17 @@ class FileAdapter extends AbstractAdapter
     protected function writeData()
     {
         $format = $this->stream->config('source.format', 'json');
-        
+
         $file = base_path(trim($this->stream->config('source.file', 'streams/data/' . $this->stream->handle . '.' . $format), '/\\'));
+
+        $keyName = $this->stream->config('key_name', 'id');
+
+        array_walk($this->data, function ($item, $key) use ($keyName) {
+
+            Arr::pull($item, $keyName);
+
+            $this->data[$key] = $item;
+        });
 
         if (!file_exists($file)) {
             (new Filesystem())->ensureDirectoryExists(dirname($file), 0755, true);
