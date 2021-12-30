@@ -153,7 +153,7 @@ class Stream implements
         /**
          * Automate Unique Rule
          */
-        array_walk($rules, function (&$rules, $field) {
+        array_walk($rules, function (&$rules, $field) use ($data) {
 
             foreach ($rules as &$rule) {
 
@@ -170,11 +170,15 @@ class Stream implements
                         $parameters[] = $field;
                     }
 
+                    if (isset($data[$field])) {
+                        $parameters[] = $data[$field];
+                    }
+
                     $rule = 'unique:' . implode(',', $parameters);
                 }
             }
         });
-
+        
         $rules = array_map(function ($rules) {
             return implode('|', $rules);
         }, $rules);
