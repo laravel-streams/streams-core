@@ -38,9 +38,8 @@ class EntrySchema
             ->values()
             ->all();
 
-        $properties = array_filter($this->properties());
+        $properties = $this->properties();
 
-        // @todo figure out why some property values are null
         return Schema::object($this->stream->id)
             ->properties(...$properties)
             ->required(...array_intersect_key($properties, array_flip($required)));
