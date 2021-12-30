@@ -2,7 +2,9 @@
 
 namespace Streams\Core\Field\Schema;
 
-class StrSchema extends Schema
+use Streams\Core\Field\FieldSchema;
+
+class StrSchema extends FieldSchema
 {
-    
+
 }

@@ -54,7 +54,7 @@ class StreamsController extends Controller
         $workflow = new Workflow(array_combine($this->steps, array_map(function ($step) {
             return [$this, Str::camel($step)];
         }, $this->steps)));
-
+        
         $this->fire('handling', [
             'data' => $data,
             'workflow' => $workflow

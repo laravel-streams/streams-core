@@ -5,9 +5,9 @@ namespace Streams\Core\Field\Type;
 use Streams\Core\Stream\Stream;
 use Streams\Core\Field\FieldType;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Schema\EntrySchema;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class Entry extends FieldType
 {
@@ -30,7 +30,7 @@ class Entry extends FieldType
         if ($value instanceof EntryInterface) {
             return $value;
         }
-        
+
         return $this->stream()->repository()->newInstance($value);
     }
 
@@ -39,9 +39,9 @@ class Entry extends FieldType
         return $this->cast($value);
     }
 
-    public function schema()
+    public function getSchemaName()
     {
-        return Streams::schema($this->field->config('stream'))->object()->objectId($this->field->handle);
+        return EntrySchema::class;
     }
 
     public function generate()

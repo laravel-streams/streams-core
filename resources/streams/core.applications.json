@@ -9,13 +9,27 @@
     },
     "fields": {
         "handle": {
-            "type": "string"
+            "type": "string",
+            "example": "spanish"
         },
         "match": {
-            "type": "array"
+            "type": "array",
+            "description": "An array of URL patterns that match this application.",
+            "example": [
+                "es.example.com/*"
+            ]
         },
         "config": {
-            "type": "array"
+            "type": "array",
+            "description": "An array of configuration to be merged into existing app config.",
+            "example": {
+                "app": {
+                    "name": "Corrientes"
+                },
+                "streams.core": {
+                    "data_path": "streams/data/es"
+                }
+            }
         }
     }
 }

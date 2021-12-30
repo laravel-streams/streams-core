@@ -17,6 +17,12 @@ use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
+/**
+ * @property  string $handle
+ * @property string $type
+ * @property string $name
+ * @property string $description
+ */
 class Field implements
     JsonSerializable,
     Arrayable,
@@ -86,7 +92,7 @@ class Field implements
         });
     }
 
-    public function schema()
+    public function schema(): FieldSchema
     {
         return $this->type()->schema();
     }

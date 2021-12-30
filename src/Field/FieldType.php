@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field;
 
+use Illuminate\Support\Arr;
 use Streams\Core\Field\Value\Value;
 use Streams\Core\Field\Factory\Factory;
 use Illuminate\Support\Traits\Macroable;
@@ -62,28 +63,26 @@ class FieldType
         return Value::class;
     }
 
-    public function schema()
+    public function schema(): FieldSchema
     {
-        $schema = Schema::string($this->field->handle)
-            ->description(__($this->field->description));
+        $schema = $this->field->config('schema', $this->getSchemaName());
 
-        if ($min = $this->field->ruleParameter('min')) {
-            $schema = $schema->minLength($min);
-        }
+        return new $schema($this);
+    }
 
-        if ($max = $this->field->ruleParameter('max')) {
-            $schema = $schema->maxLength($max);
-        }
+    protected function getSchemaName()
+    {
+        return FieldSchema::class;
+    }
 
-        if ($pattern = $this->field->hasRule('pattern')) {
-            $schema = $schema->pattern($pattern);
-        }
+    public function rules()
+    {
+        return Arr::get($this->field->stream->rules, $this->field->handle, []);
+    }
 
-        if ($default = $this->field->config('default')) {
-            $schema = $schema->default($default);
-        }
-
-        return $schema;
+    public function validators()
+    {
+        return Arr::get($this->field->stream->validators, $this->field->handle, []);
     }
 
     public function generate()

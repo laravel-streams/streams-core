@@ -4,7 +4,7 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\DecimalValue;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
+use Streams\Core\Field\Schema\DecimalSchema;
 
 class Decimal extends FieldType
 {
@@ -36,7 +36,7 @@ class Decimal extends FieldType
         } else {
             $value = intval($value);
         }
-        
+
         return round($value, $this->field->config('precision') ?: 1);
     }
 
@@ -45,12 +45,11 @@ class Decimal extends FieldType
         return DecimalValue::class;
     }
 
-    public function schema()
+    public function getSchemaName()
     {
-        return Schema::number($this->field->handle)
-            ->format(Schema::FORMAT_FLOAT);
+        return DecimalSchema::class;
     }
-    
+
     public function generate()
     {
         return $this->cast($this->generator()->randomElement([

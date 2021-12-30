@@ -26,6 +26,7 @@ use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Illuminate\Validation\ValidationRuleParser;
+use Streams\Core\Entry\EntrySchema;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Validation\StreamsPresenceVerifier;
 
@@ -80,7 +81,7 @@ class Stream implements
 
     protected function initializePrototypeAttributes(array $attributes)
     {
-        return $this->initializePrototype(array_merge([
+        return $this->initializePrototype(array_replace_recursive([
             'handle' => null,
             'routes' => [],
             'rules' => [],
@@ -123,14 +124,14 @@ class Stream implements
         return new $factory($this);
     }
 
-    public function schema(): StreamSchema
+    public function schema(): EntrySchema
     {
         return static::once($this->id . __METHOD__, fn () => $this->newSchema());
     }
 
-    protected function newSchema(): StreamSchema
+    protected function newSchema(): EntrySchema
     {
-        $schema  = $this->config('schema', StreamSchema::class);
+        $schema  = $this->config('schema', EntrySchema::class);
 
         return new $schema($this);
     }
@@ -152,7 +153,7 @@ class Stream implements
         /**
          * Automate Unique Rule
          */
-        array_walk($rules, function (&$rules, $field) {
+        array_walk($rules, function (&$rules, $field) use ($data) {
 
             foreach ($rules as &$rule) {
 
@@ -169,11 +170,15 @@ class Stream implements
                         $parameters[] = $field;
                     }
 
+                    if (isset($data[$field])) {
+                        $parameters[] = $data[$field];
+                    }
+
                     $rule = 'unique:' . implode(',', $parameters);
                 }
             }
         });
-
+        
         $rules = array_map(function ($rules) {
             return implode('|', $rules);
         }, $rules);
@@ -214,10 +219,6 @@ class Stream implements
                 );
             }
         }
-
-        // if ($this->id == 'users') {
-        //     dd($rules);
-        // }
 
         return $factory->make($data, $rules);
     }
@@ -487,31 +488,31 @@ class Stream implements
         $this->fields->each(function ($field, $handle) use (&$rules, &$validators) {
 
             if ($fieldRules = $field->rules) {
-                $rules[$handle] = array_merge(
+                $rules[$handle] = array_unique(array_merge(
                     Arr::pull($rules, $handle, []),
                     $fieldRules
-                );
+                ));
             }
 
-            if ($fieldTypeRules = $field->type()->rules) {
-                $rules[$handle] = array_merge(
+            if ($fieldTypeRules = $field->type()->rules()) {
+                $rules[$handle] = array_unique(array_merge(
                     Arr::pull($rules, $handle, []),
                     $fieldTypeRules
-                );
+                ));
             }
 
-            if ($fieldValidators = $field->type()->validators) {
-                $validators[$handle] = array_merge(
+            if ($fieldValidators = $field->validators) {
+                $validators[$handle] = array_unique(array_merge(
                     Arr::pull($validators, $handle, []),
                     $fieldValidators
-                );
+                ));
             }
 
-            if ($fieldTypeValidators = $field->type()->validators) {
-                $validators[$handle] = array_merge(
+            if ($fieldTypeValidators = $field->type()->validators()) {
+                $validators[$handle] = array_unique(array_merge(
                     Arr::pull($validators, $handle, []),
                     $fieldTypeValidators
-                );
+                ));
             }
         });
 

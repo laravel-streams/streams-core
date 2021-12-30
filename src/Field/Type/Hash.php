@@ -4,8 +4,8 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\HashValue;
+use Streams\Core\Field\Schema\HashSchema;
 use Illuminate\Support\Facades\Hash as HashFacade;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class Hash extends FieldType
 {
@@ -23,10 +23,9 @@ class Hash extends FieldType
         return HashValue::class;
     }
 
-    public function schema()
+    public function getSchemaName()
     {
-        return Schema::string($this->field->handle)
-            ->format(Schema::FORMAT_PASSWORD);
+        return HashSchema::class;
     }
 
     public function generate()

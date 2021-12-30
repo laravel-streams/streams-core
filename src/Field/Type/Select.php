@@ -5,7 +5,7 @@ namespace Streams\Core\Field\Type;
 use Streams\Core\Field\FieldType;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Field\Value\SelectValue;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
+use Streams\Core\Field\Schema\SelectSchema;
 
 class Select extends FieldType
 {
@@ -26,19 +26,16 @@ class Select extends FieldType
         return SelectValue::class;
     }
 
-    public function schema()
+    public function getSchemaName()
     {
-        $schema = Schema::string($this->field->handle)
-            ->description(__($this->field->description))
-            ->example($this->generate())
-            ->enum(...array_keys($this->options()))
-            ->nullable(!$this->field->hasRule('required'));
+        return SelectSchema::class;
+    }
 
-        if ($default = $this->field->config('default')) {
-            $schema = $schema->default($default);
-        }
-
-        return $schema;
+    public function rules()
+    {
+        return array_merge([
+            'in:' . implode(',', array_keys($this->options()))
+        ], parent::rules());
     }
 
     public function generate()

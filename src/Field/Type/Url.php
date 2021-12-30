@@ -4,7 +4,7 @@ namespace Streams\Core\Field\Type;
 
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\UrlValue;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
+use Streams\Core\Field\Schema\UrlSchema;
 
 class Url extends FieldType
 {
@@ -20,10 +20,9 @@ class Url extends FieldType
         return UrlValue::class;
     }
 
-    public function schema()
+    public function getSchemaName()
     {
-        return Schema::string($this->field->handle)
-            ->pattern('https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)');
+        return UrlSchema::class;
     }
 
     public function generate()

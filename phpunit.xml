@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
-    backupGlobals="false"
-    backupStaticAttributes="false" 
-    bootstrap="../../../vendor/autoload.php" 
-    colors="true"
-    convertErrorsToExceptions="true" 
-    convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true" 
-    processIsolation="false" 
-    stopOnFailure="true">
-  
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+         bootstrap="../../../vendor/autoload.php"
+         colors="true"
+         testdox="true"
+>
+
     <coverage>
         <include>
             <directory suffix=".php">./src</directory>
@@ -30,5 +25,5 @@
         <env name="VERSION_IMAGES" value="false"/>
         <env name="VERSION_ASSETS" value="false"/>
     </php>
-    
+
 </phpunit>

@@ -7,6 +7,7 @@ use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Criteria\Criteria;
+use Streams\Core\Entry\EntrySchema;
 use Streams\Core\Entry\EntryFactory;
 use Illuminate\Support\Facades\Route;
 use Streams\Core\Support\Traits\HasMemory;
@@ -29,7 +30,9 @@ class StreamManager
 
     public function build(array $attributes): Stream
     {
-        $stream = $attributes = Arr::undot($attributes);
+        $attributes = Arr::undot($attributes);
+
+        $attributes['id'] = Arr::get($attributes, 'id', md5(json_encode($attributes)));
 
         $stream = new Stream($attributes);
 
@@ -115,7 +118,7 @@ class StreamManager
             ->factory();
     }
 
-    public function schema(string $id): StreamSchema
+    public function schema(string $id): EntrySchema
     {
         return $this
             ->make($id)

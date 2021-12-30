@@ -5,6 +5,7 @@ namespace Streams\Core\Field\Type;
 use Illuminate\Support\Arr;
 use Streams\Core\Field\FieldType;
 use Illuminate\Support\Facades\App;
+use Streams\Core\Field\Schema\PrototypeSchema;
 
 class Prototype extends FieldType
 {
@@ -28,5 +29,10 @@ class Prototype extends FieldType
         return App::make($this->field->config('abstract'), [
             'attributes' => $value,
         ]);
+    }
+
+    public function getSchemaName()
+    {
+        return PrototypeSchema::class;
     }
 }

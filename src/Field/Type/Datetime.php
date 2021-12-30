@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Streams\Core\Field\FieldType;
 use Illuminate\Support\Facades\Date;
 use Streams\Core\Field\Value\DatetimeValue;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
+use Streams\Core\Field\Schema\DatetimeSchema;
 
 class Datetime extends FieldType
 {
@@ -25,9 +25,9 @@ class Datetime extends FieldType
         return DatetimeValue::class;
     }
 
-    public function schema()
+    public function getSchemaName()
     {
-        return Schema::string($this->field->handle)->format(Schema::FORMAT_DATE_TIME);
+        return DatetimeSchema::class;
     }
 
     public function generate()
