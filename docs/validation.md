@@ -21,9 +21,9 @@ The Streams platform leans heavily on native Laravel validation, streamlines the
 
 All Streams rule configurations are defined as an array of rules on the field in which they apply to.
 
-#### Field Rules
+#### Defining Rules
 
-You can define **rules** whithin [field configuration](fields#defining-fields) as well.
+You may define **rules** whithin the [field configuration](fields#defining-fields):
 
 ```json
 // streams/contacts.json
