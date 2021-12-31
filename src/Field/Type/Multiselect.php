@@ -69,4 +69,11 @@ class Multiselect extends FieldType
 
         return array_unique($values);
     }
+
+    public function rules()
+    {
+        return array_merge([
+            'in:' . implode(',', array_keys($this->options()))
+        ], parent::rules());
+    }
 }

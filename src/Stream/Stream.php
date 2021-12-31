@@ -11,8 +11,10 @@ use Illuminate\Support\Collection;
 use Illuminate\Validation\Factory;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Criteria\Criteria;
+use Streams\Core\Entry\EntrySchema;
 use Illuminate\Validation\Validator;
 use Streams\Core\Entry\EntryFactory;
+use Streams\Core\Stream\StreamCache;
 use Illuminate\Support\Facades\Config;
 use Streams\Core\Field\FieldCollection;
 use Streams\Core\Repository\Repository;
@@ -26,7 +28,6 @@ use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Illuminate\Validation\ValidationRuleParser;
-use Streams\Core\Entry\EntrySchema;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Validation\StreamsPresenceVerifier;
 
@@ -148,15 +149,14 @@ class Stream implements
          * https://gph.is/g/Eqn635a
          */
         $rules = $this->getPrototypeAttribute('rules') ?: [];
-        $validators = $this->getPrototypeAttribute('validators') ?: [];
 
-        /**
-         * Automate Unique Rule
-         */
         array_walk($rules, function (&$rules, $field) use ($data) {
 
             foreach ($rules as &$rule) {
 
+                /**
+                 * Automate unique options.
+                 */
                 if (Str::startsWith($rule, 'unique')) {
 
                     $parts = explode(':', $rule);
@@ -176,49 +176,15 @@ class Stream implements
 
                     $rule = 'unique:' . implode(',', $parameters);
                 }
+
+                /**
+                 * Instantiate custom rules.
+                 */
+                if (strpos($rule, '\\')) {
+                    $rule = new $rule;
+                }
             }
         });
-        
-        $rules = array_map(function ($rules) {
-            return implode('|', $rules);
-        }, $rules);
-
-        /**
-         * Extend the factory with custom validators.
-         */
-        foreach ($this->fields->keys() as $field) {
-            foreach (Arr::get($validators, $field, []) as $rule => $validator) {
-
-                if (is_string($validator)) {
-                    $validator = [
-                        'handler' => $validator,
-                    ];
-                }
-
-                $handler = Arr::get($validator, 'handler');
-                $message = Arr::get($validator, 'message');
-
-                $handler = function ($attribute, $value, $parameters, Validator $validator) use ($handler) {
-
-                    return App::call(
-                        $handler,
-                        [
-                            'value' => $value,
-                            'attribute' => $attribute,
-                            'validator' => $validator,
-                            'parameters' => $parameters,
-                        ],
-                        'handle'
-                    );
-                };
-
-                $factory->extend(
-                    $rule,
-                    $handler,
-                    $message
-                );
-            }
-        }
 
         return $factory->make($data, $rules);
     }
@@ -400,7 +366,6 @@ class Stream implements
     public function consolidateValidation(&$attributes)
     {
         $rules = Arr::get($attributes, 'rules', []);
-        $validators = Arr::get($attributes, 'validators', []);
 
         $fields = Arr::get($attributes, 'fields', []);
 
@@ -421,25 +386,11 @@ class Stream implements
             }, $fields))
         );
 
-        $fieldValidators = array_filter(
-            array_combine(array_keys($fields), array_map(function ($field) {
-
-                $validators = Arr::get($field, 'validators', []);
-
-                return $validators;
-            }, $fields))
-        );
-
         foreach ($fieldRules as $field => $configured) {
             $rules[$field] = array_unique(array_merge(Arr::get($rules, $field, []), $configured));
         }
 
-        foreach ($fieldValidators as $field => $configured) {
-            $validators[$field] = array_unique(array_merge(Arr::get($validators, $field, []), $configured));
-        }
-
         $attributes['rules'] = $rules;
-        $attributes['validators'] = $validators;
     }
 
     public function adjustInput(&$attributes)
@@ -483,9 +434,8 @@ class Stream implements
          * and types into the stream.
          */
         $rules = $this->rules;
-        $validators = $this->validators;
 
-        $this->fields->each(function ($field, $handle) use (&$rules, &$validators) {
+        $this->fields->each(function ($field, $handle) use (&$rules) {
 
             if ($fieldRules = $field->rules) {
                 $rules[$handle] = array_unique(array_merge(
@@ -500,24 +450,9 @@ class Stream implements
                     $fieldTypeRules
                 ));
             }
-
-            if ($fieldValidators = $field->validators) {
-                $validators[$handle] = array_unique(array_merge(
-                    Arr::pull($validators, $handle, []),
-                    $fieldValidators
-                ));
-            }
-
-            if ($fieldTypeValidators = $field->type()->validators()) {
-                $validators[$handle] = array_unique(array_merge(
-                    Arr::pull($validators, $handle, []),
-                    $fieldTypeValidators
-                ));
-            }
         });
 
         $this->rules = $rules;
-        $this->validators = $validators;
     }
 
     public function merge(array &$parent, array &$stream)
