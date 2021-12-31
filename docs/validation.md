@@ -15,32 +15,11 @@ The Streams platform provides a simple interface to leverage Laravel's own valid
 
 ## Defining Rules
 
-The Streams platform leans heavily on native Laravel validation and focuses on automating the process from domain information and allowing flexibility to adjust this behavior entirely.
+The Streams platform leans heavily on native Laravel validation, streamlines the process, and allows flexibility to adjust this behavior entirely.
 
 ### Rule Configuration
 
-Rules are generally configured and built the same way within the Streams platform. All Streams rule configurations support arrays of rules or the typical pipe deliminated string.
-
-#### Stream Rules
-
-You can also define validation rules within [stream cofiguration](streams#defining-streams).
-
-```json
-// streams/contacts.json
-{
-    "rules": {
-        "name": [
-            "required",
-            "max:100"
-        ],
-        "email": [
-            "required",
-            "email:rfc,dns"
-        ],
-        "company": "required|unique"
-    }
-}
-```
+All Streams rule configurations are defined as an array of rules on the field in which they apply to.
 
 #### Field Rules
 
@@ -52,53 +31,26 @@ You can define **rules** whithin [field configuration](fields#defining-fields) a
     "fields": {
         "name": {
             "type": "string",
-            "rules": [
-                "required",
-                "max:100"
-            ]
+            "rules": ["required", "max:100"]
         },
         "email": {
             "type": "email",
-            "rules": [
-                "required",
-                "email:rfc,dns"
-            ]
+            "rules": ["unique", "required"]
         },
         "company": {
-            "rules": "required|unique",
             "type": "relationship",
-            "stream": "companies"
+            "config": {
+                "related": "companies"
+            },
+            "rules": ["required"]
         }
     }
 }
 ```
 
-### Custom Validators
+#### Custom Rules
 
-The Streams platform supports [custom validators](https://laravel.com/docs/validation#custom-validation-rules). The **handler** or validator class is required as well as a **message** string which is translatable.
-
-#### Stream Validators
-
-Validators can also be defined on the [stream configuration](streams#defining-streams) to support all fields.
-
-```json
-// streams/contacts.json
-{
-    "rules": [
-        "name": ["custom_rule"]
-    ],
-    "validators": {
-        "custom_rule": {
-            "handler": "App\\Validators\\CustomRuleValidator",
-            "message": "The :attribute value is no good."
-        }
-    }
-}
-```
-
-#### Field Validators
-
-Validators can be defined on the [field configuration](fields#defining-fields) in which they apply.
+You may also define [custom validation rules](https://laravel.com/docs/validation#custom-validation-rules) for fields.
 
 ```json
 // streams/contacts.json
@@ -107,14 +59,9 @@ Validators can be defined on the [field configuration](fields#defining-fields) i
         "name": {
             "type": "string",
             "rules": [
-                "name": ["custom_rule"]
-            ],
-            "validators": {
-                "custom_rule": {
-                    "handler": "App\\Validators\\CustomRuleValidator",
-                    "message": "The :attribute value is no good."
-                }
-            }
+                "required",
+                "App\\Rules\\Example"
+            ]
         }
     }
 }
@@ -140,7 +87,7 @@ if ($entry->validator()->passes()) {
 
 ### Stream Validator
 
-You may also return a validator instance with your own **data** which can be an entry object or _array_ of data to validate as an entry. 
+You may also return a validator instance with your own **data** which can be an entry object or _array_ of data to validate as an entry.
 
 ```php
 use Streams\Core\Support\Facades\Streams;

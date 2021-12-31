@@ -24,13 +24,7 @@ class StreamCacheTest extends TestCase
                 'format' => 'json',
             ],
             'rules' => [
-                'name' => 'required|widget_validator'
-            ],
-            'validators' => [
-                'widget_validator' => [
-                    'handler' => 'Streams\Core\Tests\Stream\WidgetValidator@handle',
-                    'message' => 'Testing message',
-                ],
+                'name' => 'required'
             ],
             'fields' => [
                 'name' => 'string',

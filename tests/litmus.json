@@ -60,18 +60,24 @@
         },
         "object": {
             "type": "prototype",
-            "config.abstract": "Streams\\Core\\Tests\\Field\\Type\\ExampleAbstract"
+            "config": {
+                "abstract": "Streams\\Core\\Tests\\Field\\Type\\ExampleAbstract"
+            }
         },
         "select": {
             "type": "select",
-            "config.options": {
-                "foo": "Foo",
-                "bar": "Bar"
+            "config": {
+                "options": {
+                    "foo": "Foo",
+                    "bar": "Bar"
+                }
             }
         },
         "select_callable_options": {
             "type": "select",
-            "config.options": "Streams\\Core\\Tests\\Field\\Type\\SelectHandler@handle"
+            "config": {
+                "options": "Streams\\Core\\Testing\\SelectHandler@handle"
+            }
         },
         "multiselect": {
             "type": "multiselect",
@@ -85,7 +91,7 @@
         "multiselect_callable_options": {
             "type": "multiselect",
             "config": {
-                "options": "Streams\\Core\\Tests\\Field\\Type\\MultiselectHandler@handle"
+                "options": "Streams\\Core\\Testing\\MultiselectHandler@handle"
             }
         },
         "url": {

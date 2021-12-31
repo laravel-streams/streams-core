@@ -85,13 +85,3 @@ class MultiselectTest extends TestCase
         ));
     }
 }
-
-
-class MultiselectHandler
-{
-
-    public function handle(): array
-    {
-        return ['foo' => 'Bar', 'bar' => 'Baz'];
-    }
-}
