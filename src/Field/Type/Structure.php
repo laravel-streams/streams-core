@@ -7,6 +7,7 @@ use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\ArrValue;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
+use Streams\Core\Field\Schema\StructureSchema;
 
 class Structure extends FieldType
 {
@@ -31,6 +32,11 @@ class Structure extends FieldType
     public function getValueName()
     {
         return ArrValue::class;
+    }
+
+    public function getSchemaName()
+    {
+        return StructureSchema::class;
     }
 
     public function generate()

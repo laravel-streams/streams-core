@@ -41,8 +41,10 @@ class EntrySchema
         $properties = $this->properties();
 
         return Schema::object($this->stream->id)
+            ->title($this->stream->name)
+            ->description($this->stream->description)
             ->properties(...$properties)
-            ->required(...array_intersect_key($properties, array_flip($required)));
+            ->required(...array_values(array_intersect_key($properties, array_flip($required))));
     }
 
     public function properties(): array

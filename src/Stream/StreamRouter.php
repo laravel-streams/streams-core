@@ -32,7 +32,7 @@ class StreamRouter
         if (is_string($route) && !strpos($route, '@')) {
             $route = [
                 'view' => $route,
-                'uses' => '\Streams\Core\Http\Controller\StreamsController@handle',
+                'uses' => 'Streams\Core\Http\Controller\StreamsController@handle',
             ];
         }
 
@@ -50,7 +50,7 @@ class StreamRouter
          * information is present.
          */
         if (!isset($route['uses'])) {
-            $route['uses'] = '\Streams\Core\Http\Controller\StreamsController@handle';
+            $route['uses'] = 'Streams\Core\Http\Controller\StreamsController@handle';
         }
 
         /**

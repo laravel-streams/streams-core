@@ -1,42 +1,53 @@
 {
+    "name": "Streams",
+    "description": "The stream definition schema.",
     "config": {
         "source": {
             "path": "/streams",
             "format": "json"
         }
     },
-    "rules": {
-        "id": "required"
-    },
-    "fields": {
-        "id": {
+    "fields": [
+        {
+            "handle": "id",
             "type": "slug",
+            "required": true,
             "config": {
                 "separator": "_"
             }
         },
-        "name": {
+        {
+            "handle": "name",
             "type": "string",
             "required": true,
             "rules": ["max:50"]
         },
-        "description": {
+        {
+            "handle": "description",
             "type": "string"
         },
-        "config": {
+        {
+            "handle": "config",
             "type": "prototype",
             "config": {
                 "properties": {
                     "source": {
-                        "type": "select",
-                        "description": "The source type for stream data.",
-                        "docs": "https://streams.dev/docs/core/sources",
+                        "type": "prototype",
                         "config": {
-                            "options": {
-                                "filebase": "Flat File Database",
-                                "file": "Single File",
-                                "database": "Laravel Database",
-                                "self": "Store data in the stream"
+                            "properties": {
+                                "type": {
+                                    "type": "select",
+                                    "description": "The source type for stream data.",
+                                    "docs": "https://streams.dev/docs/core/sources",
+                                    "config": {
+                                        "options": {
+                                            "filebase": "Flat File Database",
+                                            "file": "Single File",
+                                            "database": "Laravel Database",
+                                            "self": "Store data in the stream"
+                                        }
+                                    }
+                                }
                             }
                         }
                     },
@@ -69,15 +80,48 @@
                 }
             }
         },
-        "fields": {
-            "type": "array",
-            "description": "@todo Configure allowed items",
+        {
+            "handle": "routes",
+            "type": "object",
             "config": {
-                "items": [
-                    {"object1": "schema"},
-                    {"object2": "schema"}
-                ]
+                "items": {
+                    "view": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "uses": {
+                        "type": "string",
+                        "config": {
+                            "default": "Streams\\Core\\Http\\Controller\\StreamsController@handle"
+                        },
+                        "example": "App\\Http\\Controller\\Example@view"
+                    },
+                    "csrf": {
+                        "type": "boolean"
+                    },
+                    "verb": {
+                        "type": "select",
+                        "config": {
+                            "options": {
+                                "any": "Any",
+                                "get": "GET",
+                                "put": "PUT",
+                                "post": "POST",
+                                "patch": "PATCH",
+                                "delete": "DELETE"
+                            },
+                            "default": "any"
+                        }
+                    },
+                    "middleware": {
+                        "type": "array",
+                        "example": ["App\\Http\\Middleware\\Example"]
+                    },
+                    "constraints": {
+                        "type": "array"
+                    }
+                }
             }
         }
-    }
+    ]
 }
