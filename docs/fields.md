@@ -8,7 +8,7 @@ sort: 10
 
 ## Introduction
 
-Fields represent the type and characteristics of your stream data. For example a "name" field would likely be a **string** field **type**.
+Fields represent the type and characteristics of your stream data. For example a "name" field would likely be a **string** field type.
 
 Fields are strictly concerned with data. Please see the [UI package](../ui/introduction) for configuring field [inputs](../ui/inputs).
 
@@ -16,26 +16,34 @@ Fields are strictly concerned with data. Please see the [UI package](../ui/intro
 
 Fields can be defined within the JSON [configuration for your streams](streams#defining-streams). You can get started by simply defining fields by `handle` and their `type` respectively.
 
+#### Basic Example
+
 ```json
 // streams/contacts.json
 {
-    "fields": {
-        "title": "string"
-    }
+    "fields": [
+        {
+            "handle": "title",
+            "type": "string"
+        }
+    ]
 }
 ```
+
+#### Full Example
 
 To define more information about the field use an array:
 
 ```json
 // streams/contacts.json
 {
-    "fields": {
-        "title": {
+    "fields": [
+        {
+            "handle": "title",
             "type": "string",
-            "rules": ["min:3"]
+            "rules": ["min:4"]
         }
-    }
+    ]
 }
 ```
 
@@ -46,33 +54,23 @@ Define [Laravel validation rules](https://laravel.com/docs/validation#available-
 ```json
 // streams/contacts.json
 {
-    "fields": {
-        "name": {
+    "fields": [
+        {
+            "handle": "name",
             "type": "string",
             "rules": ["required", "max:100"]
         },
-        "email": {
+        {
+            "handle": "email",
             "type": "email",
             "rules": ["required", "email:rfc,dns"]
         },
-        "company": {
+        {
+            "handle": "company",
             "type": "string",
             "rules": ["required", "unique"]
         }
-    }
-}
-```
-
-Is the same as:
-
-```json
-// streams/contacts.json
-{
-    "rules": {
-        "name": ["required", "max:100"],
-        "email": ["required", "email:rfc,dns"],
-        "company": "required|unique"
-    }
+    ]
 }
 ```
 
