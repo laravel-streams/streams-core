@@ -2,9 +2,9 @@
 
 namespace Streams\Core\Field\Value;
 
+use Streams\Core\Field\FieldType;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\ForwardsCalls;
-use Streams\Core\Field\FieldType;
 
 class Value
 {

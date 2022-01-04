@@ -3,6 +3,7 @@ title: Boolean Type
 link_title: Boolean
 intro: Store boolean values.
 category: field_types
+stage: drafting
 enabled: true
 sort: 0
 ---
@@ -56,3 +57,15 @@ Boolean types also provide expanded values.
 ## Configuration
 
 @todo Generate config options from class::configuration
+
+```json
+// streams/users.json
+"fields": {
+    "enabled": {
+        "type": "boolean",
+        "config": {
+            "default": false
+        }
+    }
+}
+```

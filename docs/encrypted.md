@@ -3,6 +3,7 @@ title: Encrypted Text
 link_title: Encrypted
 intro: Store non-readable text that can be decrypted.
 category: field_types
+stage: drafting
 enabled: true
 sort: 0
 ---

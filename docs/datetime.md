@@ -3,6 +3,7 @@ title: Datetime Type
 link_title: Datetime
 intro: Store datetime values.
 category: field_types
+stage: drafting
 enabled: true
 sort: 0
 ---
@@ -24,6 +25,17 @@ The `datetime` field type stores both date and time.
 
 @todo Generate config options from class::configuration
 
+```json
+// streams/example.json
+"fields": {
+    "starts_at": {
+        "type": "datetime",
+        "config": {
+            "default": "now"
+        }
+    }
+}
+```
 
 ## Data Structure
 

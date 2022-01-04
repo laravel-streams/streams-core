@@ -3,6 +3,7 @@ title: URL Type
 link_title: URL
 intro: Store URL strings.
 category: field_types
+stage: drafting
 enabled: true
 sort: 0
 ---

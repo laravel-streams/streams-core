@@ -10,6 +10,8 @@ use Streams\Core\Field\Value\Value;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Field\FieldType;
 
+use function PHPSTORM_META\type;
+
 /**
  * Trait Prototype
  * 

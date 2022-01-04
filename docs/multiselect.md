@@ -3,6 +3,7 @@ title: Multiselect Type
 link_title: Multiselect
 intro: Store multiple enumerated values.
 category: field_types
+stage: drafting
 enabled: true
 sort: 0
 ---

@@ -3,12 +3,9 @@
 namespace Streams\Core\Field\Value;
 
 use Illuminate\Support\Arr;
-use Streams\Core\Field\Type\Select;
 
 class SelectValue extends Value
 {
-
-    protected Select $type;
 
     public function value()
     {

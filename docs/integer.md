@@ -3,6 +3,7 @@ title: Integer Type
 link_title: Integer
 intro: Store integer values.
 category: field_types
+stage: drafting
 enabled: true
 sort: 0
 ---

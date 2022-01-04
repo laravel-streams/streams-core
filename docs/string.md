@@ -3,6 +3,7 @@ title: String Type
 link_title: String
 intro: Store text values.
 category: field_types
+stage: drafting
 enabled: true
 sort: 0
 ---

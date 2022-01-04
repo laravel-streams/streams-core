@@ -3,6 +3,7 @@ title: Date Type
 link_title: Date
 intro: Store date values.
 category: field_types
+stage: drafting
 enabled: true
 sort: 0
 ---
@@ -24,6 +25,17 @@ The `date` field type stores only date.
 
 @todo Generate config options from class::configuration
 
+```json
+// streams/example.json
+"fields": {
+    "starts_at": {
+        "type": "date",
+        "config": {
+            "default": "today"
+        }
+    }
+}
+```
 
 ## Data Structure
 

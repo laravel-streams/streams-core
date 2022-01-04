@@ -3,6 +3,7 @@ title: Select Type
 link_title: Select
 intro: Store enumerated values.
 category: field_types
+stage: drafting
 enabled: true
 sort: 0
 ---

@@ -1,9 +1,10 @@
 ---
 title: Hash Text
 link_title: Hash
-intro: Store non-readable hashed text.
+intro: Store non-readable, one-way hashed text.
 category: field_types
 enabled: true
+stage: drafting
 sort: 0
 ---
 
@@ -44,7 +45,9 @@ To get anything out of your stored value you will need to expand it.
 
 ```blade
 @verbatim// Expanded value
-{{ $entry->secret()->check() }}
+@if ($entry->secret()->check('check me'))
+    // Matches
+@endif
 @endverbatim
 ```
 

@@ -9,7 +9,7 @@ use Streams\Core\Field\Schema\EncryptedSchema;
 
 class Encrypted extends FieldType
 {
-
+    
     public function modify($value)
     {
         return Crypt::encrypt($value);

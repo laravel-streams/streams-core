@@ -3,6 +3,7 @@ title: Time Type
 link_title: Time
 intro: Store time values.
 category: field_types
+stage: drafting
 enabled: true
 sort: 0
 ---

@@ -17,7 +17,6 @@ use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Traits\HasMemory;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
-use Streams\Core\Support\Facades\Hydrator;
 
 class Entry implements
     JsonSerializable,

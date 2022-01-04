@@ -3,31 +3,31 @@ title: Array Type
 link_title: Array
 category: field_types
 intro: The `array` field type stores `key:value` array data.
+stage: drafting
 enabled: true
 ---
 
 ## Overview
 
-The `array` field type is the type to use for storing `key:value` data.
+The `array` field type is used for storing indexed arrays. Items can be simple or complex types. By default, any item type is valid.
 
 ```json
 // streams/example.json
 "fields": {
-    "address": {
+    "items": {
         "type": "array"
     }
 }
 ```
 
-## Data Structure
+### Data Structure
 
 ```json
 {
-    "address": {
-        "street": "3159 W 11th St",
-        "city": "Cleveland",
-        "state": "OH"
-    }
+    "items": [
+        "John Doe",
+        "Jane Smith"
+    ]
 }
 ```
 
@@ -37,21 +37,21 @@ Basic `array` access:
 
 ```blade
 @verbatim// Array access
-{{ $entry->address['city'] }}
+{{ $entry->items[0] }}
 
-@foreach ($entry->address $key => $value)
-{{ $key }}: {{ $value }}
+@foreach ($entry->items as $index => $value)
+{{ $index }}: {{ $value }}
 @endforeach
 @endverbatim
 ```
 
 ### Expanded Value
 
-The expanded value provides collection-like access to the data.
+The expanded value provides collection access to the data.
 
 ```blade
 @verbatim// Expanded value
-{{ $entry->address()->implode(', ') }}
+{{ $entry->items()->implode(', ') }}
 @endverbatim
 ```
 
@@ -64,3 +64,44 @@ The expanded value provides collection-like access to the data.
 ## Configuration
 
 @todo Generate config options from class::configuration
+
+### Items
+
+Use the `items` configuration to specify the allowed item types using field configurations. If specified, each item must be valid against any of the provided types.
+
+```json
+// streams/example.json
+"fields": {
+    "items": {
+        "type": "array",
+        "config": {
+            "items": [
+                { "type": "integer" },
+                { "type": "string" },
+                {
+                    "type": "entry",
+                    "config": {
+                        "stream": "addresses"
+                    }
+                },
+            ]
+        }
+    }
+}
+```
+
+The above configuration would validate against the following data:
+
+```json
+{
+    "items": [
+        10,
+        "John Doe",
+        {
+            "street": "3159 W 11th St",
+            "city": "Cleveland",
+            "state": "OH"
+        }
+    ]
+}
+```

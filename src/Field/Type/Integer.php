@@ -2,10 +2,11 @@
 
 namespace Streams\Core\Field\Type;
 
+use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\IntegerValue;
 use Streams\Core\Field\Schema\IntegerSchema;
 
-class Integer extends Number
+class Integer extends FieldType
 {
     /**
      * Initialize the prototype.

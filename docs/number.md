@@ -1,7 +1,7 @@
 ---
-title: Decimal Type
-link_title: Decimal
-intro: Store fixed-precision decimal values.
+title: Number Type
+link_title: Number
+intro: Store numeric values.
 category: field_types
 stage: drafting
 enabled: true
@@ -10,16 +10,13 @@ sort: 0
 
 ## Overview
 
-The `decimal` field type stores fixed-precision decimal values. If you need to support floating point numbers, check out the [number](number) field type.
+The `number` field type stores numeric values including floating point numbers. If you need to support fixed-precision numbers, check out the [decimal](decimal) field type.
 
 ```json
 // streams/example.json
 "fields": {
     "price": {
-        "type": "decimal",
-        "config": {
-            "decimals": 2
-        }
+        "type": "number"
     }
 }
 ```
