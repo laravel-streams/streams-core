@@ -143,6 +143,8 @@ class Stream implements
 
         $factory = App::make(Factory::class);
 
+        $keyName = $this->config('key_name', 'id');
+
         $factory->setPresenceVerifier(new StreamsPresenceVerifier(App::make('db')));
 
         /**
@@ -150,7 +152,7 @@ class Stream implements
          */
         $rules = $this->getPrototypeAttribute('rules') ?: [];
 
-        array_walk($rules, function (&$rules, $field) use ($data) {
+        array_walk($rules, function (&$rules, $field) use ($data, $keyName) {
 
             foreach ($rules as &$rule) {
 
@@ -170,8 +172,8 @@ class Stream implements
                         $parameters[] = $field;
                     }
 
-                    if (isset($data[$field])) {
-                        $parameters[] = $data[$field];
+                    if ($key = Arr::get($data, $keyName)) {
+                        $parameters[] = $key;
                     }
 
                     $rule = 'unique:' . implode(',', $parameters);
