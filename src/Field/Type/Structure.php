@@ -11,27 +11,19 @@ use Streams\Core\Field\Schema\StructureSchema;
 
 class Structure extends FieldType
 {
-    public function cast($value): array
-    {
-        if (is_string($value)) {
-            return $this->castFromString($value);
-        }
-
-        if (is_object($value)) {
-            return $this->castFromObject($value);
-        }
-
-        return (array) $value;
-    }
-
     public function modify($value)
     {
-        return $this->cast($value);
+        dd($value);
     }
 
-    public function getValueName()
+    public function restore($value)
     {
-        return ArrValue::class;
+        dd($value);
+    }
+
+    public function expand($value)
+    {
+        dd($value);
     }
 
     public function getSchemaName()
@@ -49,27 +41,5 @@ class Structure extends FieldType
         }
 
         return $values;
-    }
-
-    protected function castFromString(string $value): array
-    {
-        if ($json = json_decode($value, true)) {
-            return $json;
-        }
-
-        if (Str::isSerialized($value, false)) {
-            return (array) unserialize($value);
-        }
-
-        throw new \Exception("Could not convert string [$value] to array.");
-    }
-
-    protected function castFromObject(object $value): array
-    {
-        if ($value instanceof Arrayable) {
-            return $value->toArray();
-        }
-
-        return Hydrator::dehydrate($value);
     }
 }

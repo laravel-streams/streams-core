@@ -371,8 +371,14 @@ class Stream implements
 
         $fields = Arr::get($attributes, 'fields', []);
 
+        $keys = [];
+
+        array_walk($fields, function ($field, $key) use (&$keys) {
+            $keys[] = Arr::get($field, 'handle', $key);
+        });
+
         $fieldRules = array_filter(
-            array_combine(array_keys($fields), array_map(function ($field) {
+            array_combine($keys, array_map(function ($field) {
 
                 $rules = Arr::get($field, 'rules', []);
 
@@ -437,18 +443,18 @@ class Stream implements
          */
         $rules = $this->rules;
 
-        $this->fields->each(function ($field, $handle) use (&$rules) {
+        $this->fields->each(function ($field) use (&$rules) {
 
             if ($fieldRules = $field->rules) {
-                $rules[$handle] = array_unique(array_merge(
-                    Arr::pull($rules, $handle, []),
+                $rules[$field->handle] = array_unique(array_merge(
+                    Arr::pull($rules, $field->handle, []),
                     $fieldRules
                 ));
             }
 
             if ($fieldTypeRules = $field->type()->rules()) {
-                $rules[$handle] = array_unique(array_merge(
-                    Arr::pull($rules, $handle, []),
+                $rules[$field->handle] = array_unique(array_merge(
+                    Arr::pull($rules, $field->handle, []),
                     $fieldTypeRules
                 ));
             }
