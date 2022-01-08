@@ -21,6 +21,10 @@ class Arr extends FieldType
 
     public function modify($value)
     {
+        if ($value instanceof Collection) {
+            $value = $value->all();
+        }
+        
         $values = array_values($value);
 
         foreach ($values as &$value) {
