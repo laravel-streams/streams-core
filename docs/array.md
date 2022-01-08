@@ -80,9 +80,11 @@ Use the `items` configuration to specify the allowed item types using field conf
                 { "type": "integer" },
                 { "type": "string" },
                 {
-                    "type": "entry",
+                    "type": "object",
                     "config": {
-                        "stream": "addresses"
+                        "schemas": [
+                            { "stream": "addresses" }
+                        ]
                     }
                 },
             ]
