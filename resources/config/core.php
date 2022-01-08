@@ -70,18 +70,12 @@ return [
         'select' => \Streams\Core\Field\Type\Select::class,
         'multiselect' => \Streams\Core\Field\Type\Multiselect::class,
 
-        // Collections
-        // @todo Test me
-        // 'collection' => \Streams\Core\Field\Type\Collection::class,
-
         // Objects
-        'prototype' => \Streams\Core\Field\Type\Prototype::class,
         'object' => \Streams\Core\Field\Type\Structure::class,
         'image' => \Streams\Core\Field\Type\Image::class,
         'file' => \Streams\Core\Field\Type\File::class,
 
         // Streams
-        'entry' => \Streams\Core\Field\Type\Entry::class,
         'entries' => \Streams\Core\Field\Type\Entries::class,
 
         // Relationships

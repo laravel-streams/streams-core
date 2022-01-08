@@ -28,11 +28,11 @@
         },
         {
             "handle": "config",
-            "type": "prototype",
+            "type": "object",
             "config": {
                 "properties": {
                     "source": {
-                        "type": "prototype",
+                        "type": "object",
                         "config": {
                             "properties": {
                                 "type": {

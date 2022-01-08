@@ -56,7 +56,13 @@ class Field implements
             'attributes' => $attributes,
         ]);
 
-        $this->stream = Arr::get($attributes, 'stream');
+        $stream = Arr::get($attributes, 'stream');
+
+        if (!$stream instanceof Stream) {
+            $stream = new Stream($stream);
+        }
+        
+        $this->stream = $stream;
 
         $this->fire('initializing', [
             'callbackData' => $callbackData,

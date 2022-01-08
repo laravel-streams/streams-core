@@ -2,12 +2,14 @@
 
 namespace Streams\Core\Field\Type;
 
-use Illuminate\Support\Str;
 use Streams\Core\Field\FieldType;
 use Streams\Core\Field\Value\ArrValue;
 use Streams\Core\Field\Schema\ArrSchema;
+use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Collection;
+use Streams\Core\Entry\Contract\EntryInterface;
 
 class Arr extends FieldType
 {
@@ -17,22 +19,74 @@ class Arr extends FieldType
         ],
     ];
 
-    public function cast($value): array
-    {
-        if (is_string($value)) {
-            return $this->castFromString($value);
-        }
-
-        if (is_object($value)) {
-            return $this->castFromObject($value);
-        }
-
-        return (array) $value;
-    }
-
     public function modify($value)
     {
-        return $this->cast($value);
+        $values = array_values($value);
+
+        foreach ($values as &$value) {
+
+            if (is_object($value) && $value instanceof EntryInterface) {
+                $value = [
+                    '@stream' => $value->stream()->id,
+                ] + $value->getAttributes();
+            }
+
+            if (is_object($value) && in_array(Prototype::class, class_uses($value))) {
+                $value = [
+                    '@prototype' => get_class($value),
+                ] + $value->getPrototypeAttributes();
+            }
+
+            if (is_object($value) && $value instanceof Arrayable) {
+                $value = [
+                    '@abstract' => get_class($value),
+                ] + $value->toArray();
+            }
+
+            if (is_object($value)) {
+                $value = [
+                    '@abstract' => get_class($value),
+                ] + Hydrator::dehydrate($value);
+            }
+        }
+
+        return $values;
+    }
+
+    public function restore($value)
+    {
+        if (is_object($value)) {
+            return $value;
+        }
+
+        $values = array_values($value);
+
+        foreach ($values as &$value) {
+
+            if (!is_array($value)) {
+                continue;
+            }
+
+            [$meta, $value] = $this->separateMeta($value);
+
+            if (isset($meta['@stream'])) {
+                $value = $this->restoreStreamEntry($meta, $value);
+            }
+
+            if (isset($meta['@prototype'])) {
+                $value = $this->restorePrototype($meta, $value);
+            }
+
+            if (isset($meta['@abstract'])) {
+                $value = $this->restoreInstance($meta, $value);
+            }
+        }
+
+        if ($wrapper = $this->field->config('wrapper')) {
+            $values = $this->wrapArray($values, $wrapper);
+        }
+
+        return $values;
     }
 
     public function getValueName()
@@ -57,25 +111,44 @@ class Arr extends FieldType
         return $values;
     }
 
-    protected function castFromString(string $value): array
+    protected function wrapArray($array, $wrapper)
     {
-        if ($json = json_decode($value, true)) {
-            return $json;
+        if ($wrapper == 'array') {
+            return $array;
         }
 
-        if (Str::isSerialized($value, false)) {
-            return (array) unserialize($value);
+        if ($wrapper == 'collection') {
+            return new Collection($array);
         }
 
-        throw new \Exception("Could not convert string [$value] to array.");
+        return new $wrapper($array);
     }
 
-    protected function castFromObject(object $value): array
+    protected function separateMeta(array $value)
     {
-        if ($value instanceof Arrayable) {
-            return $value->toArray();
-        }
+        $meta = preg_grep('/^\@/', array_keys($value));
 
-        return Hydrator::dehydrate($value);
+        $meta = array_intersect_key($value, array_flip($meta));
+
+        array_map(function ($key) use (&$value) {
+            unset($value[$key]);
+        }, array_keys($meta));
+
+        return [$meta, $value];
+    }
+
+    protected function restoreStreamEntry(array $meta, array $value)
+    {
+        return Streams::repository($meta['@stream'])->newInstance($value);
+    }
+
+    protected function restorePrototype(array $meta, array $value)
+    {
+        return new $meta['@prototype']($value);
+    }
+
+    protected function restoreInstance(array $meta, array $value)
+    {
+        return new $meta['@instance']($value);
     }
 }
