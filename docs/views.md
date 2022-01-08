@@ -1,12 +1,10 @@
 ---
 title: Views
-category: frontend
 intro: 
-sort: 0
+category: frontend
 enabled: true
 stage: reviewing
-references:
-    - https://statamic.dev/views
+sort: 0
 ---
 
 Views contain the HTML served by the frontend of your application. You can find and define views in the `resources/views` directory. A simple view might look something like this:

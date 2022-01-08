@@ -5,7 +5,6 @@ intro: Store text values.
 category: field_types
 stage: drafting
 enabled: true
-sort: 0
 ---
 
 ## Overview

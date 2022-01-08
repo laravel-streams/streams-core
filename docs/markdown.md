@@ -5,7 +5,6 @@ intro: Store [markdown](https://commonmark.org/help/) formatted text.
 category: field_types
 stage: drafting
 enabled: true
-sort: 0
 ---
 
 ## Overview

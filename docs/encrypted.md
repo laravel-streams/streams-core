@@ -5,7 +5,6 @@ intro: Store non-readable text that can be decrypted.
 category: field_types
 stage: drafting
 enabled: true
-sort: 0
 ---
 
 ## Overview

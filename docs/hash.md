@@ -5,7 +5,6 @@ intro: Store non-readable, one-way hashed text.
 category: field_types
 enabled: true
 stage: drafting
-sort: 0
 ---
 
 ## Overview

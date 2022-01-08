@@ -5,7 +5,6 @@ intro: Relate to any stream entry.
 category: field_types
 stage: drafting
 enabled: true
-sort: 0
 ---
 
 ## Overview

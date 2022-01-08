@@ -5,7 +5,6 @@ intro: Store boolean values.
 category: field_types
 stage: drafting
 enabled: true
-sort: 0
 ---
 
 ## Overview
