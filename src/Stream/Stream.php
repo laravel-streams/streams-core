@@ -419,21 +419,21 @@ class Stream implements
     public function fieldsInput()
     {
 
-        $fields = $this->fields ?: [];
+        $fields = [];
 
         /**
          * Minimal standardization
          */
-        array_walk($fields, function (&$field, $key) {
-
+        foreach ($this->fields ?: [] as $key => &$field) {
+            
             $field = is_string($field) ? ['type' => $field] : $field;
 
             $field['handle'] = Arr::get($field, 'handle', $key);
 
             $field['stream'] = $this;
 
-            $field = new Field($field);
-        });
+            $fields[$field['handle']] = new Field($field);
+        }
 
         $this->fields = new FieldCollection($fields);
 
