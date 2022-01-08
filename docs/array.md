@@ -75,6 +75,7 @@ Use the `items` configuration to specify the allowed item types using field conf
     "items": {
         "type": "array",
         "config": {
+            "wrapper": "array|collection|App\\MyCollection",
             "items": [
                 { "type": "integer" },
                 { "type": "string" },
@@ -87,21 +88,5 @@ Use the `items` configuration to specify the allowed item types using field conf
             ]
         }
     }
-}
-```
-
-The above configuration would validate against the following data:
-
-```json
-{
-    "items": [
-        10,
-        "John Doe",
-        {
-            "street": "3159 W 11th St",
-            "city": "Cleveland",
-            "state": "OH"
-        }
-    ]
 }
 ```
