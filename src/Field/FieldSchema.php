@@ -107,7 +107,7 @@ class FieldSchema
         $schema = $data->get('schema');
 
         if (!is_null($default = $this->field->config('default'))) {
-            $schema = $schema->default($this->type->default($default));
+            $schema = $schema->default($this->field->default($default));
         }
 
         $data->put('schema', $schema);

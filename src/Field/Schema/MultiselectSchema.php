@@ -10,6 +10,6 @@ class MultiselectSchema extends ArrSchema
     public function type(): Schema
     {
         return Schema::array($this->field->handle)
-            ->items(Schema::string()->enum(...array_keys($this->type->options())));
+            ->items(Schema::string()->enum(...array_keys($this->field->options())));
     }
 }

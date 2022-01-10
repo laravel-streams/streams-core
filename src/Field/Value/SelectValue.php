@@ -9,7 +9,7 @@ class SelectValue extends Value
 
     public function value()
     {
-        return Arr::get($this->type->options(), $this->value);
+        return Arr::get($this->field->options(), $this->value);
     }
 
     /**
