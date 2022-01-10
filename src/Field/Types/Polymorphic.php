@@ -1,13 +1,13 @@
 <?php
 
-namespace Streams\Core\Field\Type;
+namespace Streams\Core\Field\Types;
 
 use Illuminate\Support\Arr;
 use Streams\Core\Field\Field;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Entry\Contract\EntryInterface;
 
-class Polymorphic extends Field
+class PolymorphicFieldType extends Field
 {
     public function modify($value)
     {

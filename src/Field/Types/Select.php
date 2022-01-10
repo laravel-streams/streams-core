@@ -1,13 +1,13 @@
 <?php
 
-namespace Streams\Core\Field\Type;
+namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Field\Value\SelectValue;
 use Streams\Core\Field\Schema\SelectSchema;
 
-class Select extends Field
+class SelectFieldType extends Field
 {
 
     public function options(): array

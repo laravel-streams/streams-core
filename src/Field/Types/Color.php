@@ -1,11 +1,11 @@
 <?php
 
-namespace Streams\Core\Field\Type;
+namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Streams\Core\Field\Value\ColorValue;
 
-class Color extends Field
+class ColorFieldType extends Field
 {
     public function cast($value)
     {

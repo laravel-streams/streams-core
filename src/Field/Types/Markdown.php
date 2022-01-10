@@ -1,12 +1,12 @@
 <?php
 
-namespace Streams\Core\Field\Type;
+namespace Streams\Core\Field\Types;
 
 use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Streams\Core\Field\Value\MarkdownValue;
 
-class Markdown extends Field
+class MarkdownFieldType extends Field
 {
 
     public function getValueName()

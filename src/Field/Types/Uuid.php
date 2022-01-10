@@ -1,12 +1,12 @@
 <?php
 
-namespace Streams\Core\Field\Type;
+namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Streams\Core\Field\Value\StrValue;
 use Streams\Core\Field\Schema\UuidSchema;
 
-class Uuid extends Field
+class UuidFieldType extends Field
 {
 
     public function default($value)

@@ -1,13 +1,13 @@
 <?php
 
-namespace Streams\Core\Field\Type;
+namespace Streams\Core\Field\Types;
 
 use Carbon\Carbon;
 use Streams\Core\Field\Field;
 use Streams\Core\Field\Value\DateValue;
 use Streams\Core\Field\Schema\DateSchema;
 
-class Date extends Field
+class DateFieldType extends Field
 {
     public function modify($value)
     {

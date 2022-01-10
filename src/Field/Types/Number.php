@@ -1,12 +1,12 @@
 <?php
 
-namespace Streams\Core\Field\Type;
+namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Streams\Core\Field\Value\NumberValue;
 use Streams\Core\Field\Schema\NumberSchema;
 
-class Number extends Field
+class NumberFieldType extends Field
 {
     
     protected function initializePrototypeAttributes(array $attributes)

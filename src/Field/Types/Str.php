@@ -1,12 +1,12 @@
 <?php
 
-namespace Streams\Core\Field\Type;
+namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Streams\Core\Field\Value\StrValue;
 use Streams\Core\Field\Schema\StrSchema;
 
-class Str extends Field
+class StrFieldType extends Field
 {
 
     public function modify($value)

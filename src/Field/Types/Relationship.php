@@ -1,11 +1,11 @@
 <?php
 
-namespace Streams\Core\Field\Type;
+namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Streams\Core\Support\Facades\Streams;
 
-class Relationship extends Field
+class RelationshipFieldType extends Field
 {
     public function restore($value)
     {

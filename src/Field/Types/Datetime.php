@@ -1,6 +1,6 @@
 <?php
 
-namespace Streams\Core\Field\Type;
+namespace Streams\Core\Field\Types;
 
 use Carbon\Carbon;
 use Streams\Core\Field\Field;
@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Date;
 use Streams\Core\Field\Value\DatetimeValue;
 use Streams\Core\Field\Schema\DatetimeSchema;
 
-class Datetime extends Field
+class DatetimeFieldType extends Field
 {
     public function modify($value)
     {

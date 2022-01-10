@@ -1,13 +1,13 @@
 <?php
 
-namespace Streams\Core\Field\Type;
+namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Streams\Core\Field\Value\HashValue;
 use Streams\Core\Field\Schema\HashSchema;
 use Illuminate\Support\Facades\Hash as HashFacade;
 
-class Hash extends Field
+class HashFieldType extends Field
 {
     public function modify($value)
     {

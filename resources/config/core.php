@@ -37,51 +37,51 @@ return [
     'field_types' => [
 
         // Numbers
-        'number' => \Streams\Core\Field\Type\Number::class,
-        'integer' => \Streams\Core\Field\Type\Integer::class,
-        'decimal' => \Streams\Core\Field\Type\Decimal::class,
+        'number' => \Streams\Core\Field\Types\NumberFieldType::class,
+        'integer' => \Streams\Core\Field\Types\IntegerFieldType::class,
+        'decimal' => \Streams\Core\Field\Types\DecimalFieldType::class,
 
         // Strings
-        'string' => \Streams\Core\Field\Type\Str::class,
+        'string' => \Streams\Core\Field\Types\StringFieldType::class,
 
-        'url' => \Streams\Core\Field\Type\Url::class,
-        'uuid' => \Streams\Core\Field\Type\Uuid::class,
-        'hash' => \Streams\Core\Field\Type\Hash::class,
-        'slug' => \Streams\Core\Field\Type\Slug::class,
-        'email' => \Streams\Core\Field\Type\Email::class,
-        'encrypted' => \Streams\Core\Field\Type\Encrypted::class,
+        'url' => \Streams\Core\Field\Types\UrlFieldType::class,
+        'uuid' => \Streams\Core\Field\Types\UuidFieldType::class,
+        'hash' => \Streams\Core\Field\Types\HashFieldType::class,
+        'slug' => \Streams\Core\Field\Types\SlugFieldType::class,
+        'email' => \Streams\Core\Field\Types\EmailFieldType::class,
+        'encrypted' => \Streams\Core\Field\Types\EncryptedFieldType::class,
 
         // Markup
-        'markdown' => \Streams\Core\Field\Type\Markdown::class,
-        'template' => \Streams\Core\Field\Type\Template::class,
+        'markdown' => \Streams\Core\Field\Types\MarkdownFieldType::class,
+        'template' => \Streams\Core\Field\Types\TemplateFieldType::class,
 
         // Boolean
-        'boolean' => \Streams\Core\Field\Type\Boolean::class,
+        'boolean' => \Streams\Core\Field\Types\BooleanFieldType::class,
 
         // Dates
-        'datetime' => \Streams\Core\Field\Type\Datetime::class,
-        'date' => \Streams\Core\Field\Type\Date::class,
-        'time' => \Streams\Core\Field\Type\Time::class,
+        'datetime' => \Streams\Core\Field\Types\DatetimeFieldType::class,
+        'date' => \Streams\Core\Field\Types\DateFieldType::class,
+        'time' => \Streams\Core\Field\Types\TimeFieldType::class,
 
         // Arrays
-        'array' => \Streams\Core\Field\Type\Arr::class,
+        'array' => \Streams\Core\Field\Types\ArrayFieldType::class,
 
         // Selections
-        'select' => \Streams\Core\Field\Type\Select::class,
-        'multiselect' => \Streams\Core\Field\Type\Multiselect::class,
+        'select' => \Streams\Core\Field\Types\SelectFieldType::class,
+        'multiselect' => \Streams\Core\Field\Types\MultiselectFieldType::class,
 
         // Objects
-        'object' => \Streams\Core\Field\Type\Structure::class,
-        'image' => \Streams\Core\Field\Type\Image::class,
-        'file' => \Streams\Core\Field\Type\File::class,
+        'object' => \Streams\Core\Field\Types\ObjectFieldType::class,
+        'image' => \Streams\Core\Field\Types\ImageFieldType::class,
+        'file' => \Streams\Core\Field\Types\FileFieldType::class,
 
         // Relationships
-        'multiple' => \Streams\Core\Field\Type\Multiple::class,
-        'polymorphic' => \Streams\Core\Field\Type\Polymorphic::class,
-        'relationship' => \Streams\Core\Field\Type\Relationship::class,
+        'multiple' => \Streams\Core\Field\Types\MultipleFieldType::class,
+        'polymorphic' => \Streams\Core\Field\Types\PolymorphicFieldType::class,
+        'relationship' => \Streams\Core\Field\Types\RelationshipFieldType::class,
 
         // Miscellaneous
-        'color' => \Streams\Core\Field\Type\Color::class,
+        'color' => \Streams\Core\Field\Types\ColorFieldType::class,
     ],
 
     /**

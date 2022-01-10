@@ -1,6 +1,6 @@
 <?php
 
-namespace Streams\Core\Field\Type\Support;
+namespace Streams\Core\Field\Types\Support;
 
 
 class TypeOptions

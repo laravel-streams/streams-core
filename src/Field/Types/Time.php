@@ -1,6 +1,6 @@
 <?php
 
-namespace Streams\Core\Field\Type;
+namespace Streams\Core\Field\Types;
 
 use Carbon\Carbon;
 use Streams\Core\Field\Schema\TimeSchema;

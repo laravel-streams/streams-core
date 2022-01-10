@@ -1,12 +1,12 @@
 <?php
 
-namespace Streams\Core\Field\Type;
+namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Streams\Core\Field\Value\DecimalValue;
 use Streams\Core\Field\Schema\DecimalSchema;
 
-class Decimal extends Field
+class DecimalFieldType extends Field
 {
 
     protected function initializePrototypeAttributes(array $attributes)

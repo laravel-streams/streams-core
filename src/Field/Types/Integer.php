@@ -1,12 +1,12 @@
 <?php
 
-namespace Streams\Core\Field\Type;
+namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Streams\Core\Field\Value\IntegerValue;
 use Streams\Core\Field\Schema\IntegerSchema;
 
-class Integer extends Field
+class IntegerFieldType extends Field
 {
     /**
      * Initialize the prototype.

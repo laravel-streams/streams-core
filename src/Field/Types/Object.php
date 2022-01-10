@@ -1,6 +1,6 @@
 <?php
 
-namespace Streams\Core\Field\Type;
+namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Streams\Core\Support\Facades\Streams;
@@ -10,7 +10,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Field\Schema\StructureSchema;
 use Streams\Core\Entry\Contract\EntryInterface;
 
-class Structure extends Field
+class ObjectFieldType extends Field
 {
     public function modify($value)
     {

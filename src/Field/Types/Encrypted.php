@@ -1,13 +1,13 @@
 <?php
 
-namespace Streams\Core\Field\Type;
+namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\Crypt;
 use Streams\Core\Field\Value\EncryptedValue;
 use Streams\Core\Field\Schema\EncryptedSchema;
 
-class Encrypted extends Field
+class EncryptedFieldType extends Field
 {
     
     public function modify($value)

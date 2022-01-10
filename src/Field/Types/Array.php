@@ -1,6 +1,6 @@
 <?php
 
-namespace Streams\Core\Field\Type;
+namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Illuminate\Support\Collection;
@@ -11,7 +11,7 @@ use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
 
-class Arr extends Field
+class ArrayFieldType extends Field
 {
     protected $__attributes = [
         'rules' => [
