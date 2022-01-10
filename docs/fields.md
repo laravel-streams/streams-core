@@ -82,7 +82,7 @@ Define [Laravel validation rules](https://laravel.com/docs/validation#available-
 
 ## Field Types
 
-The field **type** is responsible for validating, casting, and more for its specific data type.
+The field type is responsible for validating, casting, and more for its specific data type.
 
 @foreach (Streams::entries('docs_core')->where('category', 'field_types')->orderBy('sort', 'ASC')->orderBy('name', 'ASC')->get() as $entry)
  - <a href="{{ $entry->id }}">{{ $entry->title }} ({{ $entry->expand('stage')->value() }})</a>
