@@ -56,3 +56,15 @@ Boolean types also provide expanded values.
 ## Configuration
 
 @todo Generate config options from class::configuration
+
+```json
+// streams/example.json
+"fields": {
+    "count": {
+        "type": "integer",
+        "config": {
+            "default": "increment"
+        }
+    }
+}
+```
