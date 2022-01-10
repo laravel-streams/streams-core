@@ -161,9 +161,7 @@ class Field implements
 
     public function getRule($rule)
     {
-        $rules = Arr::get($this->rules, []);
-
-        return Arr::first($rules, function ($target) use ($rule) {
+        return Arr::first($this->rules, function ($target) use ($rule) {
             return strpos($target, $rule . ':') !== false || strpos($target, $rule) !== false;
         });
     }
@@ -184,9 +182,9 @@ class Field implements
         return Arr::get($this->ruleParameters($rule), $key, $default);
     }
 
-    public function isRequired($field): bool
+    public function isRequired(): bool
     {
-        return $this->hasRule($field, 'required');
+        return $this->hasRule('required');
     }
 
 

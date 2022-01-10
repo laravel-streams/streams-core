@@ -31,7 +31,7 @@ class EntrySchema
     }
 
     public function object(): Schema
-    {
+    {        
         $required = $this->stream->fields
             ->required()
             ->map(fn ($field) => $field->handle)
