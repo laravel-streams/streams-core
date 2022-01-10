@@ -11,7 +11,7 @@ sort: 2
 
 Streams architecture is designed to support systemic customization and extension.
 
-Before continuing, please familiarize yourself with [Laravel's service container](https://laravel.com/docs/8.x/container).
+Before continuing, please familiarize yourself with [Laravel's service container](https://laravel.com/docs/container).
 
 
 ## The Basics

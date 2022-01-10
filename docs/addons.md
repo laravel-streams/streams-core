@@ -30,7 +30,7 @@ Mark your composer package as a `streams-addon` using the `type` parameter:
 
 ### Service Providers
 
-A [service provider](providers) is the easiest way to integrate with Laravel and Streams. You can specify autodetected service providers using your `composer.json` file.
+Using [service providers](https://laravel.com/docs/providers) is the easiest way to integrate with Laravel and Streams. You can specify autodetected service providers using the `composer.json` file.
 
 ``` json
 // addons/example/widgets/composer.json
@@ -54,7 +54,10 @@ Using [repository paths](https://getcomposer.org/doc/05-repositories.md#path) yo
 {
     "repositories": [{
         "type": "path",
-        "url": "addons/*"
+        "url": "addons/examples/widget",
+        "options": {
+            "symlink": true
+        }
     }]
 }
 ```
