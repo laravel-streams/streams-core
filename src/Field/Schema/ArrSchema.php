@@ -12,9 +12,9 @@ class ArrSchema extends FieldSchema
 
     public function type(): Schema
     {
-        $schema = Schema::array($this->type->field->handle);
+        $schema = Schema::array($this->field->handle);
 
-        if ($items = $this->type->field->config('items')) {
+        if ($items = $this->field->config('items')) {
             
             $items = Streams::build([
                 'fields' => $items
@@ -30,11 +30,11 @@ class ArrSchema extends FieldSchema
     {
         $schema = $data->get('schema');
 
-        if ($min = $this->type->field->ruleParameter('min')) {
+        if ($min = $this->field->ruleParameter('min')) {
             $schema = $schema->minItems($min);
         }
 
-        if ($max = $this->type->field->ruleParameter('max')) {
+        if ($max = $this->field->ruleParameter('max')) {
             $schema = $schema->maxItems($max);
         }
 

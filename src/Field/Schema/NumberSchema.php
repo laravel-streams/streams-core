@@ -11,18 +11,18 @@ class NumberSchema extends FieldSchema
 
     public function type(): Schema
     {
-        return Schema::number($this->type->field->handle)->format(Schema::FORMAT_FLOAT);
+        return Schema::number($this->field->handle)->format(Schema::FORMAT_FLOAT);
     }
 
     public function limit(Collection $data): void
     {
         $schema = $data->get('schema');
 
-        if ($min = $this->type->field->ruleParameter('min')) {
+        if ($min = $this->field->ruleParameter('min')) {
             $schema = $schema->minimum($min);
         }
 
-        if ($max = $this->type->field->ruleParameter('max')) {
+        if ($max = $this->field->ruleParameter('max')) {
             $schema = $schema->maximum($max);
         }
 

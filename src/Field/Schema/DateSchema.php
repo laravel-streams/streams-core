@@ -9,6 +9,6 @@ class DateSchema extends FieldSchema
 {
     public function type(): Schema
     {
-        return Schema::string($this->type->field->handle)->format(Schema::FORMAT_DATE);
+        return Schema::string($this->field->handle)->format(Schema::FORMAT_DATE);
     }
 }

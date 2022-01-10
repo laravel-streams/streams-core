@@ -6,6 +6,7 @@ use ArrayAccess;
 use JsonSerializable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Streams\Core\Field\Field;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Factory;
 use Illuminate\Support\Facades\App;
@@ -136,7 +137,7 @@ class Stream implements
         return new $schema($this);
     }
 
-    public function validator($data): Validator
+    public function validator($data, $fresh = true): Validator
     {
         $data = Arr::make($data);
 
@@ -149,9 +150,9 @@ class Stream implements
         /**
          * https://gph.is/g/Eqn635a
          */
-        $rules = $this->getPrototypeAttribute('rules') ?: [];
+        $rules = $this->gatherFieldRules();
 
-        array_walk($rules, function (&$rules, $field) use ($data, $keyName) {
+        array_walk($rules, function (&$rules, $field) use ($fresh, $data, $keyName) {
 
             foreach ($rules as &$rule) {
 
@@ -171,7 +172,7 @@ class Stream implements
                         $parameters[] = $field;
                     }
 
-                    if ($key = Arr::get($data, $keyName)) {
+                    if (!$fresh && $key = Arr::get($data, $keyName)) {
                         $parameters[] = $key;
                     }
 
@@ -188,41 +189,6 @@ class Stream implements
         });
 
         return $factory->make($data, $rules);
-    }
-
-    public function hasRule($field, $rule): bool
-    {
-        return (bool) $this->getRule($field, $rule);
-    }
-
-    public function getRule($field, $rule)
-    {
-        $rules = Arr::get($this->rules, $field, []);
-
-        return Arr::first($rules, function ($target) use ($rule) {
-            return strpos($target, $rule . ':') !== false || strpos($target, $rule) !== false;
-        });
-    }
-
-    public function ruleParameters($field, $rule): array
-    {
-        if (!$rule = $this->getRule($field, $rule)) {
-            return [];
-        }
-
-        [$rule, $parameters] = ValidationRuleParser::parse($rule);
-
-        return $parameters;
-    }
-
-    public function ruleParameter($field, $rule, $key = 0)
-    {
-        return Arr::get($this->ruleParameters($field, $rule), $key);
-    }
-
-    public function isRequired($field)
-    {
-        return $this->hasRule($field, 'required');
     }
 
     public function config(string $key, $default = null)
@@ -271,7 +237,6 @@ class Stream implements
         $this->extendInput($attributes);
         $this->importInput($attributes);
         $this->normalizeInput($attributes);
-        $this->consolidateValidation($attributes);
 
         $this->adjustInput($attributes);
 
@@ -364,40 +329,15 @@ class Stream implements
         }, Arr::get($attributes, 'rules', []));
     }
 
-    public function consolidateValidation(&$attributes)
+    public function gatherFieldRules(): array
     {
-        $rules = Arr::get($attributes, 'rules', []);
+        $rules = [];
 
-        $fields = Arr::get($attributes, 'fields', []);
-
-        $keys = [];
-
-        array_walk($fields, function ($field, $key) use (&$keys) {
-            $keys[] = Arr::get($field, 'handle', $key);
+        $this->fields->each(function(Field $field) use (&$rules) {
+            $rules[$field->handle] = $field->rules;
         });
 
-        $fieldRules = array_filter(
-            array_combine($keys, array_map(function ($field) {
-
-                $rules = Arr::get($field, 'rules', []);
-
-                if (Arr::get($field, 'required') == true) {
-                    $rules[] = 'required';
-                }
-
-                if (Arr::get($field, 'unique') == true) {
-                    $rules[] = 'unique';
-                }
-
-                return $rules;
-            }, $fields))
-        );
-
-        foreach ($fieldRules as $field => $configured) {
-            $rules[$field] = array_unique(array_merge(Arr::get($rules, $field, []), $configured));
-        }
-
-        $attributes['rules'] = $rules;
+        return $rules;
     }
 
     public function adjustInput(&$attributes)
@@ -417,57 +357,46 @@ class Stream implements
 
     public function fieldsInput()
     {
-
         $fields = [];
 
         /**
          * Minimal standardization
          */
-        foreach ($this->fields ?: [] as $key => &$field) {
+        foreach ($this->fields ?: [] as $key => &$attributes) {
             
-            $field = is_string($field) ? ['type' => $field] : $field;
+            $attributes = is_string($attributes) ? ['type' => $attributes] : $attributes;
 
-            $field['handle'] = Arr::get($field, 'handle', $key);
+            $attributes['handle'] = Arr::get($attributes, 'handle', $key);
 
-            $field['stream'] = $this;
+            $attributes['stream'] = $this;
 
-            if (!App::has('streams.core.field_type.' . $field['type'])) {
-                throw new \Exception("Invalid field type [{$field['type']}] in stream [{$this->stream->id}].");
+            /**
+             * Process validation flags.
+             */
+            $rules = Arr::get($attributes, 'rules', []);
+
+            if (Arr::get($attributes, 'required') == true) {
+                $rules[] = 'required';
             }
 
-            $type = App::make('streams.core.field_type.' . $field['type'], [
-                'attributes' => $field,
+            if (Arr::get($attributes, 'unique') == true) {
+                $rules[] = 'unique';
+            }
+
+            $attributes['rules'] = $rules;
+            
+            if (!App::has('streams.core.field_type.' . $attributes['type'])) {
+                throw new \Exception("Invalid field type [{$attributes['type']}] in stream [{$this->stream->id}].");
+            }
+
+            $field = App::make('streams.core.field_type.' . $attributes['type'], [
+                'attributes' => $attributes,
             ]);
 
-            $fields[$field['handle']] = $type;
+            $fields[$attributes['handle']] = $field;
         }
 
         $this->fields = new FieldCollection($fields);
-
-        /**
-         * Load rules from fields
-         * and types into the stream.
-         */
-        $rules = $this->rules;
-
-        $this->fields->each(function ($field) use (&$rules) {
-
-            if ($fieldRules = $field->rules) {
-                $rules[$field->handle] = array_unique(array_merge(
-                    Arr::pull($rules, $field->handle, []),
-                    $fieldRules
-                ));
-            }
-
-            if ($fieldTypeRules = $field->rules()) {
-                $rules[$field->handle] = array_unique(array_merge(
-                    Arr::pull($rules, $field->handle, []),
-                    $fieldTypeRules
-                ));
-            }
-        });
-
-        $this->rules = $rules;
     }
 
     public function merge(array &$parent, array &$stream)

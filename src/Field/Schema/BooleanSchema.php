@@ -10,6 +10,6 @@ class BooleanSchema extends FieldSchema
 
     public function type(): Schema
     {
-        return Schema::boolean($this->type->field->handle);
+        return Schema::boolean($this->field->handle);
     }
 }

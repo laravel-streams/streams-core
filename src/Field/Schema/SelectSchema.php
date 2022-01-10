@@ -10,7 +10,7 @@ class SelectSchema extends FieldSchema
 
     public function type(): Schema
     {
-        return Schema::string($this->type->field->handle)
+        return Schema::string($this->field->handle)
             ->enum(...array_keys($this->type->options()));
     }
 }

@@ -11,10 +11,10 @@ class PrototypeSchema extends FieldSchema
     public function type(): Schema
     {
         $stream = Streams::build([
-            'fields' => $this->type->field->config('properties', []),
+            'fields' => $this->field->config('properties', []),
         ]);
 
-        return Schema::object($this->type->field->handle)
+        return Schema::object($this->field->handle)
             ->properties(...$stream->schema()->properties());
     }
 }

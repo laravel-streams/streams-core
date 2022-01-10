@@ -11,7 +11,7 @@ class EntrySchema extends FieldSchema
     public function type(): Schema
     {
         return Streams::schema(
-            $this->type->field->config('stream')
-        )->object()->objectId($this->type->field->handle);
+            $this->field->config('stream')
+        )->object()->objectId($this->field->handle);
     }
 }

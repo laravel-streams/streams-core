@@ -9,6 +9,6 @@ class IntegerSchema extends NumberSchema
 
     public function type(): Schema
     {
-        return Schema::integer($this->type->field->handle);
+        return Schema::integer($this->field->handle);
     }
 }

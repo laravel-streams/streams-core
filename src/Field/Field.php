@@ -11,12 +11,13 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Field\Factory\Factory;
 use Illuminate\Support\Traits\Macroable;
+use Streams\Core\Support\Facades\Streams;
 use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
-use Streams\Core\Support\Facades\Streams;
+use Illuminate\Validation\ValidationRuleParser;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
 /**
@@ -82,6 +83,11 @@ class Field implements
         return $this->name ?: ($this->name = Str::title(Str::humanize($this->handle)));
     }
 
+    public function config(string $key, $default = null)
+    {
+        return Arr::get($this->getPrototypeAttribute("config"), $key, $default);
+    }
+
     public function default($value)
     {
         return $value;
@@ -126,16 +132,6 @@ class Field implements
         return FieldSchema::class;
     }
 
-    public function rules()
-    {
-        return Arr::get($this->stream->rules, $this->handle, []);
-    }
-
-    public function validators()
-    {
-        return Arr::get($this->stream->validators, $this->handle, []);
-    }
-
     public function generate()
     {
         return $this->generator()->text();
@@ -159,35 +155,44 @@ class Field implements
         return Factory::class;
     }
 
-    public function config(string $key, $default = null)
+
+
+    public function hasRule($rule): bool
     {
-        return Arr::get($this->getPrototypeAttribute("config"), $key, $default);
+        return (bool) $this->getRule($rule);
     }
 
-    public function hasRule(string $rule): bool
+    public function getRule($rule)
     {
-        return $this->stream->hasRule($this->handle, $rule);
+        $rules = Arr::get($this->rules, []);
+
+        return Arr::first($rules, function ($target) use ($rule) {
+            return strpos($target, $rule . ':') !== false || strpos($target, $rule) !== false;
+        });
     }
 
-    public function getRule(string $rule)
+    public function ruleParameters($rule): array
     {
-        return $this->stream->getRule($this->handle, $rule);
+        if (!$rule = $this->getRule($rule)) {
+            return [];
+        }
+
+        [$rule, $parameters] = ValidationRuleParser::parse($rule);
+
+        return $parameters;
     }
 
-    public function ruleParameters($rule)
+    public function ruleParameter($rule, $key = 0, $default = null)
     {
-        return $this->stream->ruleParameters($this->handle, $rule);
+        return Arr::get($this->ruleParameters($rule), $key, $default);
     }
 
-    public function ruleParameter($rule, $key = 0)
+    public function isRequired($field): bool
     {
-        return Arr::get($this->ruleParameters($rule), $key);
+        return $this->hasRule($field, 'required');
     }
 
-    public function isRequired(): bool
-    {
-        return $this->stream->isRequired($this->handle);
-    }
+
 
     public function toArray(): array
     {
@@ -198,6 +203,8 @@ class Field implements
         ]);
     }
 
+
+
     public function jsonSerialize(): array
     {
         return $this->toArray();
@@ -207,6 +214,8 @@ class Field implements
     {
         return json_encode($this->toArray(), $options);
     }
+
+
 
     public function __toString(): string
     {
@@ -227,10 +236,6 @@ class Field implements
 
     public function normalizeInput(&$attributes)
     {
-        if (!isset($attributes['type'])) {
-            $attributes['type'] = $attributes['handle'];
-        }
-
         $attributes = Arr::undot($attributes);
     }
 }

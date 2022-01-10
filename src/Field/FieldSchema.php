@@ -2,13 +2,13 @@
 
 namespace Streams\Core\Field;
 
-use GoldSpecDigital\ObjectOrientedOAS\Objects\ExternalDocs;
-use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Field;
 use Illuminate\Support\Collection;
 use Streams\Core\Support\Workflow;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\ExternalDocs;
 
 /**
  * This class helps produce JSON schema
@@ -19,16 +19,16 @@ class FieldSchema
     use Macroable;
     use FiresCallbacks;
 
-    protected FieldType $type;
+    protected Field $type;
 
-    public function __construct(FieldType $type)
+    public function __construct(Field $field)
     {
-        $this->type = $type;
+        $this->field = $field;
     }
 
     public function type(): Schema
     {
-        return Schema::string($this->type->field->handle);
+        return Schema::string($this->field->handle);
     }
 
     public function property(): Schema
@@ -60,17 +60,17 @@ class FieldSchema
     {
         $schema = $data->get('schema');
 
-        $schema = $schema->title(__($this->type->field->name()));
-        $schema = $schema->description(__($this->type->field->description));
+        $schema = $schema->title(__($this->field->name()));
+        $schema = $schema->description(__($this->field->description));
 
-        if ($this->type->field->docs) {
+        if ($this->field->docs) {
             $schema = $schema->externalDocs(
-                ExternalDocs::create()->url($this->type->field->docs)
+                ExternalDocs::create()->url($this->field->docs)
             );
         }
 
-        if ($this->type->field->example) {
-            $schema = $schema->example($this->type->field->example);
+        if ($this->field->example) {
+            $schema = $schema->example($this->field->example);
         }
 
         $data->put('schema', $schema);
@@ -80,11 +80,11 @@ class FieldSchema
     {
         $schema = $data->get('schema');
 
-        if ($min = $this->type->field->ruleParameter('min')) {
+        if ($min = $this->field->ruleParameter('min')) {
             $schema = $schema->minLength($min);
         }
 
-        if ($max = $this->type->field->ruleParameter('max')) {
+        if ($max = $this->field->ruleParameter('max')) {
             $schema = $schema->maxLength($max);
         }
 
@@ -95,7 +95,7 @@ class FieldSchema
     {
         $schema = $data->get('schema');
 
-        if ($pattern = $this->type->field->ruleParameter('regex')) {
+        if ($pattern = $this->field->ruleParameter('regex')) {
             $schema = $schema->pattern($pattern);
         }
 
@@ -106,7 +106,7 @@ class FieldSchema
     {
         $schema = $data->get('schema');
 
-        if (!is_null($default = $this->type->field->config('default'))) {
+        if (!is_null($default = $this->field->config('default'))) {
             $schema = $schema->default($this->type->default($default));
         }
 
@@ -117,11 +117,11 @@ class FieldSchema
     {
         $schema = $data->get('schema');
 
-        if ($this->type->field->hasRule('nullable')) {
+        if ($this->field->hasRule('nullable')) {
             $schema = $schema->nullable(true);
         }
 
-        if ($value = $this->type->field->ruleParameter('multiple_of')) {
+        if ($value = $this->field->ruleParameter('multiple_of')) {
             $schema = $schema->multipleOf(
                 strpos($value, '.') !== false ? (float) $value : (int) $value
             );
