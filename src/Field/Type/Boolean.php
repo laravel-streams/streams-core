@@ -2,11 +2,11 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Field;
 use Streams\Core\Field\Value\BooleanValue;
 use Streams\Core\Field\Schema\BooleanSchema;
 
-class Boolean extends FieldType
+class Boolean extends Field
 {
     public function cast($value)
     {

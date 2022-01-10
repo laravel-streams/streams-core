@@ -2,11 +2,11 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Field;
 use Streams\Core\Field\Value\StrValue;
 use Streams\Core\Field\Schema\StrSchema;
 
-class Str extends FieldType
+class Str extends Field
 {
 
     public function modify($value)

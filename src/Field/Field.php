@@ -9,12 +9,14 @@ use Streams\Core\Stream\Stream;
 use Streams\Core\Field\FieldType;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
+use Streams\Core\Field\Factory\Factory;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
+use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
 /**
@@ -80,27 +82,81 @@ class Field implements
         return $this->name ?: ($this->name = Str::title(Str::humanize($this->handle)));
     }
 
-    public function type(array $attributes = []): FieldType
+    public function default($value)
     {
-        return $this->once($this->stream->id . '.' . $this->handle . '.' . $this->type, function () use ($attributes) {
+        return $value;
+    }
 
-            $attributes['field'] = $this;
+    public function cast($value)
+    {
+        return $value;
+    }
 
-            if (!App::has('streams.core.field_type.' . $this->type)) {
-                throw new \Exception("Invalid field type [{$this->type}] in stream [{$this->stream->id}].");
-            }
+    public function modify($value)
+    {
+        return $value;
+    }
 
-            $type = App::make('streams.core.field_type.' . $this->type, [
-                'attributes' => $attributes,
-            ]);
+    public function restore($value)
+    {
+        return $value;
+    }
 
-            return $type;
-        });
+    public function expand($value)
+    {
+        $name = $this->config('expanded', $this->getValueName());
+
+        return new $name($this, $value);
+    }
+
+    public function getValueName()
+    {
+        return Value::class;
     }
 
     public function schema(): FieldSchema
     {
-        return $this->type()->schema();
+        $schema = $this->config('schema', $this->getSchemaName());
+
+        return new $schema($this);
+    }
+
+    protected function getSchemaName()
+    {
+        return FieldSchema::class;
+    }
+
+    public function rules()
+    {
+        return Arr::get($this->stream->rules, $this->handle, []);
+    }
+
+    public function validators()
+    {
+        return Arr::get($this->stream->validators, $this->handle, []);
+    }
+
+    public function generate()
+    {
+        return $this->generator()->text();
+    }
+
+    public function generator()
+    {
+        // @todo app(this->config('generator))
+        return $this->once(__METHOD__, fn () => \Faker\Factory::create());
+    }
+
+    public function factory(): Factory
+    {
+        $factory = $this->config('factory', $this->getFactoryName());
+
+        return new $factory($this);
+    }
+
+    protected function getFactoryName()
+    {
+        return Factory::class;
     }
 
     public function config(string $key, $default = null)

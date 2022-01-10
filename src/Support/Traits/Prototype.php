@@ -8,9 +8,6 @@ use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Field\Value\Value;
 use Illuminate\Support\Traits\Macroable;
-use Streams\Core\Field\FieldType;
-
-use function PHPSTORM_META\type;
 
 /**
  * Trait Prototype
@@ -257,7 +254,7 @@ trait Prototype
         return $type->modify($value);
     }
 
-    protected function newProtocolPropertyFieldType(string $key): FieldType
+    protected function newProtocolPropertyFieldType(string $key): Field
     {
         if (!$type = Arr::get($this->__prototype['properties'], $key . '.type')) {
             $type = $this->guessProtocolPropertyType($key);
@@ -265,13 +262,9 @@ trait Prototype
 
         $attributes = Arr::get($this->__prototype['properties'], $key, []);
 
-        // @todo tuck this away too.
-        if ($this instanceof Field) {
-            $attributes['field'] = $this;
-        }
+        $attributes['stream'] = $this->stream;
 
-        return App::make('streams.core.field_type.' . $type)
-            ->loadPrototypeAttributes($attributes);
+        return App::make('streams.core.field_type.' . $type, compact('attributes'));
     }
 
     protected function hasPrototypePropertyType(string $key): bool

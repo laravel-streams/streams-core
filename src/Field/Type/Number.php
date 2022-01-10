@@ -2,11 +2,11 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Field;
 use Streams\Core\Field\Value\NumberValue;
 use Streams\Core\Field\Schema\NumberSchema;
 
-class Number extends FieldType
+class Number extends Field
 {
     
     protected function initializePrototypeAttributes(array $attributes)

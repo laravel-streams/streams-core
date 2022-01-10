@@ -2,10 +2,10 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Field;
 use Streams\Core\Field\Value\ColorValue;
 
-class Color extends FieldType
+class Color extends Field
 {
     public function cast($value)
     {

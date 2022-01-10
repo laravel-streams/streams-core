@@ -2,16 +2,16 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Field;
+use Illuminate\Support\Collection;
 use Streams\Core\Field\Value\ArrValue;
 use Streams\Core\Field\Schema\ArrSchema;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Collection;
 use Streams\Core\Entry\Contract\EntryInterface;
 
-class Arr extends FieldType
+class Arr extends Field
 {
     protected $__attributes = [
         'rules' => [
@@ -86,7 +86,7 @@ class Arr extends FieldType
             }
         }
 
-        if ($wrapper = $this->field->config('wrapper')) {
+        if ($wrapper = $this->config('wrapper')) {
             $values = $this->wrapArray($values, $wrapper);
         }
 

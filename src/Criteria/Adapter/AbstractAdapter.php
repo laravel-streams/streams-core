@@ -145,7 +145,7 @@ abstract class AbstractAdapter implements AdapterInterface
             $entry = $this->make($entry);
             // @todo this is where all entries get stream info.
             // Maybe we do like __stream to prevent collision 
-            $entry->stream = $this->stream;
+            //$entry->stream = $this->stream;
             $collection->push($entry);
         }, $entries);
 
@@ -181,13 +181,13 @@ abstract class AbstractAdapter implements AdapterInterface
         $prototype = new $prototype([
             'stream' => $this->stream,
         ]);
-
+        
         $prototype->loadPrototypeProperties($this->stream->fields->toArray());
 
         $this->fillDefaults($attributes);
-
+        
         $prototype->loadPrototypeAttributes($attributes);
-
+        
         return $prototype;
     }
 
@@ -203,7 +203,7 @@ abstract class AbstractAdapter implements AdapterInterface
                 continue;
             }
 
-            $attributes[$field->handle] = $field->type()->default($default);
+            $attributes[$field->handle] = $field->default($default);
         }
     }
 }

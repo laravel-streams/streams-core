@@ -2,11 +2,11 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Field;
 use Streams\Core\Field\Value\IntegerValue;
 use Streams\Core\Field\Schema\IntegerSchema;
 
-class Integer extends FieldType
+class Integer extends Field
 {
     /**
      * Initialize the prototype.
@@ -68,12 +68,12 @@ class Integer extends FieldType
 
     public function getNextIncrementValue()
     {
-        $last = $this->field->stream->entries()->orderBy($this->field->handle, 'DESC')->first();
+        $last = $this->stream->entries()->orderBy($this->handle, 'DESC')->first();
 
         if (!$last) {
             return 1;
         }
 
-        return $last->{$this->field->handle} + 1;
+        return $last->{$this->handle} + 1;
     }
 }

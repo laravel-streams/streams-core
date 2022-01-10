@@ -3,11 +3,11 @@
 namespace Streams\Core\Field\Type;
 
 use Illuminate\Support\Arr;
-use Streams\Core\Entry\Contract\EntryInterface;
-use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Field;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Entry\Contract\EntryInterface;
 
-class Polymorphic extends FieldType
+class Polymorphic extends Field
 {
     public function modify($value)
     {
@@ -32,8 +32,8 @@ class Polymorphic extends FieldType
             return $value;
         }
 
-        $stream = $this->entry->{$this->field->config('morph_type', $this->field . '_type')};
-        $key = $this->entry->{$this->field->config('foreign_key', $this->field . '_id')};
+        $stream = $this->entry->{$this->config('morph_type', $this->field . '_type')};
+        $key = $this->entry->{$this->config('foreign_key', $this->field . '_id')};
 
         return Streams::entries($stream)->find($key);
     }

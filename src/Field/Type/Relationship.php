@@ -2,10 +2,10 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Field;
 use Streams\Core\Support\Facades\Streams;
 
-class Relationship extends FieldType
+class Relationship extends Field
 {
     public function restore($value)
     {
@@ -18,12 +18,12 @@ class Relationship extends FieldType
             return $value;
         }
         
-        return Streams::entries($this->field->config('related'))->find($value);
+        return Streams::entries($this->config('related'))->find($value);
     }
 
     public function generate()
     {
-        $stream = Streams::make($this->field->config('related'));
+        $stream = Streams::make($this->config('related'));
         
         $entries = $stream->entries()->limit(100)->get();
 

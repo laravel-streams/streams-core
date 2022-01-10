@@ -3,16 +3,16 @@
 namespace Streams\Core\Field\Type;
 
 use Illuminate\Support\Str;
-use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Field\Value\MultiselectValue;
 use Streams\Core\Field\Schema\MultiselectSchema;
 
-class Multiselect extends FieldType
+class Multiselect extends Field
 {
     public function options()
     {
-        $options = $this->field->config('options', []);
+        $options = $this->config('options', []);
 
         if (is_string($options)) {
             return App::call($options, ['type', $this]);

@@ -75,9 +75,6 @@ return [
         'image' => \Streams\Core\Field\Type\Image::class,
         'file' => \Streams\Core\Field\Type\File::class,
 
-        // Streams
-        'entries' => \Streams\Core\Field\Type\Entries::class,
-
         // Relationships
         'multiple' => \Streams\Core\Field\Type\Multiple::class,
         'polymorphic' => \Streams\Core\Field\Type\Polymorphic::class,

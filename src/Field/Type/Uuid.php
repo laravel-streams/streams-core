@@ -2,11 +2,11 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Field;
 use Streams\Core\Field\Value\StrValue;
 use Streams\Core\Field\Schema\UuidSchema;
 
-class Uuid extends FieldType
+class Uuid extends Field
 {
 
     public function default($value)

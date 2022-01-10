@@ -2,11 +2,11 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Field;
 use Streams\Core\Field\Value\DecimalValue;
 use Streams\Core\Field\Schema\DecimalSchema;
 
-class Decimal extends FieldType
+class Decimal extends Field
 {
 
     protected function initializePrototypeAttributes(array $attributes)
@@ -37,7 +37,7 @@ class Decimal extends FieldType
             $value = intval($value);
         }
 
-        return round($value, $this->field->config('precision') ?: 1);
+        return round($value, $this->config('precision') ?: 1);
     }
 
     public function getValueName()

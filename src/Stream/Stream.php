@@ -6,7 +6,6 @@ use ArrayAccess;
 use JsonSerializable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Streams\Core\Field\Field;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Factory;
 use Illuminate\Support\Facades\App;
@@ -432,7 +431,15 @@ class Stream implements
 
             $field['stream'] = $this;
 
-            $fields[$field['handle']] = new Field($field);
+            if (!App::has('streams.core.field_type.' . $field['type'])) {
+                throw new \Exception("Invalid field type [{$field['type']}] in stream [{$this->stream->id}].");
+            }
+
+            $type = App::make('streams.core.field_type.' . $field['type'], [
+                'attributes' => $field,
+            ]);
+
+            $fields[$field['handle']] = $type;
         }
 
         $this->fields = new FieldCollection($fields);
@@ -452,7 +459,7 @@ class Stream implements
                 ));
             }
 
-            if ($fieldTypeRules = $field->type()->rules()) {
+            if ($fieldTypeRules = $field->rules()) {
                 $rules[$field->handle] = array_unique(array_merge(
                     Arr::pull($rules, $field->handle, []),
                     $fieldTypeRules

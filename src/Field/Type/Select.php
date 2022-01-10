@@ -2,17 +2,17 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Field\Value\SelectValue;
 use Streams\Core\Field\Schema\SelectSchema;
 
-class Select extends FieldType
+class Select extends Field
 {
 
     public function options(): array
     {
-        $options = $this->field->config('options', []);
+        $options = $this->config('options', []);
 
         if (is_string($options)) {
             return App::call($options, ['type', $this]);

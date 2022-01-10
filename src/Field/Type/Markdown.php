@@ -3,10 +3,10 @@
 namespace Streams\Core\Field\Type;
 
 use Illuminate\Support\Str;
-use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Field;
 use Streams\Core\Field\Value\MarkdownValue;
 
-class Markdown extends FieldType
+class Markdown extends Field
 {
 
     public function getValueName()

@@ -2,10 +2,10 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Field;
 use Streams\Core\Field\Value\TemplateValue;
 
-class Template extends FieldType
+class Template extends Field
 {
     public function modify($value)
     {

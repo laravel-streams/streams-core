@@ -42,10 +42,6 @@ class Entry implements
     {
         $this->stream = Arr::pull($attributes, 'stream');
 
-        if (is_string($this->stream)) {
-            $this->stream = Streams::make($this->stream);
-        }
-
         $this->constructFluency($attributes);
     }
 

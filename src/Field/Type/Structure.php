@@ -2,7 +2,7 @@
 
 namespace Streams\Core\Field\Type;
 
-use Streams\Core\Field\FieldType;
+use Streams\Core\Field\Field;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\Prototype;
@@ -10,7 +10,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Field\Schema\StructureSchema;
 use Streams\Core\Entry\Contract\EntryInterface;
 
-class Structure extends FieldType
+class Structure extends Field
 {
     public function modify($value)
     {
