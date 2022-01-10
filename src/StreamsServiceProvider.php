@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\View;
+use Streams\Core\Support\Integrator;
 use Streams\Core\View\ViewOverrides;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Cache;
@@ -34,7 +35,6 @@ use Streams\Core\Support\Macros\ArrExport;
 use Streams\Core\Support\Macros\StrPurify;
 use Streams\Core\Support\Macros\StrLinkify;
 use Streams\Core\Support\Macros\UrlStreams;
-use Streams\Core\Support\Facades\Integrator;
 use Streams\Core\Support\Macros\StrHumanize;
 use Streams\Core\Support\Macros\StrMarkdown;
 use Streams\Core\Support\Macros\StrTruncate;
@@ -49,7 +49,6 @@ use Streams\Core\Support\Macros\StrIsSerialized;
 use Streams\Core\Support\Macros\CollectionHasAny;
 use Streams\Core\Support\Macros\ArrHtmlAttributes;
 use Streams\Core\Support\Macros\TranslatorTranslate;
-use Streams\Core\Support\Markdown\StreamsMarkdownExtension;
 
 class StreamsServiceProvider extends ServiceProvider
 {
@@ -74,7 +73,6 @@ class StreamsServiceProvider extends ServiceProvider
 
         'hydrator'   => \Streams\Core\Support\Hydrator::class,
         'decorator'  => \Streams\Core\Support\Decorator::class,
-        'integrator' => \Streams\Core\Support\Integrator::class,
 
         ViewOverrides::class => ViewOverrides::class,
     ];
