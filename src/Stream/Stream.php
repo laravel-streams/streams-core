@@ -150,7 +150,9 @@ class Stream implements
         /**
          * https://gph.is/g/Eqn635a
          */
-        $rules = $this->gatherFieldRules();
+        $rules = $this->fields->map(function (Field $field) {
+            return $field->rules;
+        })->all();
 
         array_walk($rules, function (&$rules, $field) use ($fresh, $data, $keyName) {
 
@@ -329,17 +331,6 @@ class Stream implements
         }, Arr::get($attributes, 'rules', []));
     }
 
-    public function gatherFieldRules(): array
-    {
-        $rules = [];
-
-        $this->fields->each(function(Field $field) use (&$rules) {
-            $rules[$field->handle] = $field->rules;
-        });
-
-        return $rules;
-    }
-
     public function adjustInput(&$attributes)
     {
 
@@ -363,7 +354,7 @@ class Stream implements
          * Minimal standardization
          */
         foreach ($this->fields ?: [] as $key => &$attributes) {
-            
+
             $attributes = is_string($attributes) ? ['type' => $attributes] : $attributes;
 
             $attributes['handle'] = Arr::get($attributes, 'handle', $key);
@@ -384,7 +375,7 @@ class Stream implements
             }
 
             $attributes['rules'] = $rules;
-            
+
             if (!App::has('streams.core.field_type.' . $attributes['type'])) {
                 throw new \Exception("Invalid field type [{$attributes['type']}] in stream [{$this->stream->id}].");
             }
