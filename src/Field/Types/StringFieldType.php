@@ -6,7 +6,7 @@ use Streams\Core\Field\Field;
 use Streams\Core\Field\Value\StrValue;
 use Streams\Core\Field\Schema\StrSchema;
 
-class StrFieldType extends Field
+class StringFieldType extends Field
 {
 
     public function modify($value)

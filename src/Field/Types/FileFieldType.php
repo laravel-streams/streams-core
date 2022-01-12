@@ -6,7 +6,7 @@ use Illuminate\Support\Arr;
 use Streams\Core\Field\Value\FileValue;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class File extends Str
+class FileFieldType extends StringFieldType
 {
     
     public function modify($value)

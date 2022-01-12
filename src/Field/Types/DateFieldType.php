@@ -3,11 +3,10 @@
 namespace Streams\Core\Field\Types;
 
 use Carbon\Carbon;
-use Streams\Core\Field\Field;
 use Streams\Core\Field\Value\DateValue;
 use Streams\Core\Field\Schema\DateSchema;
 
-class DateFieldType extends Field
+class DateFieldType extends DatetimeFieldType
 {
     public function modify($value)
     {

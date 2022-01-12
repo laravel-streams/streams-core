@@ -5,7 +5,7 @@ namespace Streams\Core\Field\Types;
 use Carbon\Carbon;
 use Streams\Core\Field\Schema\TimeSchema;
 
-class Time extends Datetime
+class TimeFieldType extends DatetimeFieldType
 {
     public function modify($value): string
     {
