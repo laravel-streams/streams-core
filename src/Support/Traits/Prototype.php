@@ -32,10 +32,7 @@ trait Prototype
     use Macroable;
     use FiresCallbacks;
 
-    /**
-     * The prototype information.
-     */
-    protected $__prototype = [
+    protected array $__prototype = [
         'attributes' => [],
         'properties' => [],
         'original' => [],
@@ -43,10 +40,15 @@ trait Prototype
 
     public function __construct(array $attributes = [])
     {
-        $this->loadPrototypeProperties($this->__properties ?? []);
-        $this->loadPrototypeAttributes($this->__attributes ?? []);
+        // $this->bootIfNotBooted();
+        // $this->initializeTraits();
+        
+        // $this->fill($attributes);
 
-        $this->initializePrototypeAttributes($attributes);
+        // $this->syncOriginal();
+        $this->syncOriginalPrototypeAttributes($attributes);
+
+        $this->setPrototypeAttributes($attributes);
     }
 
     public function __get($key)
@@ -59,15 +61,24 @@ trait Prototype
         $this->setPrototypeAttribute($key, $value);
     }
 
-    protected function initializePrototypeAttributes(array $attributes)
+    public function syncOriginalPrototypeAttributes(array $attributes)
     {
         $this->__prototype['original'] = $attributes;
-
-        return $this->loadPrototypeAttributes($attributes);
     }
 
     public function loadPrototypeAttributes(array $attributes)
     {
+        foreach ($attributes as $key => $value) {
+            $this->setPrototypeAttribute($key, $value);
+        }
+
+        return $this;
+    }
+
+    public function setPrototypeAttributes(array $attributes)
+    {
+        $this->__prototype['attributes'] = $attributes;
+
         foreach ($attributes as $key => $value) {
             $this->setPrototypeAttribute($key, $value);
         }
@@ -80,18 +91,14 @@ trait Prototype
         $allowed = $this->getPrototypeProperties();
         $attributes = $this->getPrototypeAttributes();
 
-        $this->setPrototypeAttributes(array_intersect_key($attributes, $allowed));
+        $this->setRawPrototypeAttributes(array_intersect_key($attributes, $allowed));
 
         return $this;
     }
 
-    public function setPrototypeAttributes(array $attributes)
+    public function setRawPrototypeAttributes(array $attributes)
     {
-        $this->__prototype['attributes'] = [];
-
-        foreach ($attributes as $key => $value) {
-            $this->setPrototypeAttribute($key, $value);
-        }
+        $this->__prototype['attributes'] = $attributes;
 
         return $this;
     }

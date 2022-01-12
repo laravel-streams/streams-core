@@ -8,21 +8,12 @@ use Streams\Core\Field\Schema\IntegerSchema;
 
 class IntegerFieldType extends Field
 {
-    /**
-     * Initialize the prototype.
-     *
-     * @param array $attributes
-     * @return $this
-     */
-    protected function initializePrototypeAttributes(array $attributes)
-    {
-        return parent::initializePrototypeAttributes(array_merge([
-            'rules' => [
-                'numeric',
-                'integer',
-            ],
-        ], $attributes));
-    }
+    protected $__attributes = [
+        'rules' => [
+            'numeric',
+            'integer',
+        ],
+    ];
 
     public function default($value)
     {

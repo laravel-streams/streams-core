@@ -68,7 +68,7 @@ class Field implements
             'callbackData' => $callbackData,
         ]);
 
-        $this->initializePrototypeAttributes($callbackData->get('attributes'));
+        $this->setRawPrototypeAttributes($callbackData->get('attributes'));
 
         $this->fire('initialized', [
             'field' => $this,

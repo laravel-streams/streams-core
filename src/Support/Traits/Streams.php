@@ -128,7 +128,7 @@ trait Streams
     {
         parent::setRawAttributes($attributes, $sync);
 
-        $this->initializePrototypeAttributes($attributes);
+        $this->setRawPrototypeAttributes($attributes);
 
         if ($sync) {
             $this->__prototype['original'] = $this->__prototype['attributes'];

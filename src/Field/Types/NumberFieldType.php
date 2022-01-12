@@ -8,15 +8,11 @@ use Streams\Core\Field\Schema\NumberSchema;
 
 class NumberFieldType extends Field
 {
-    
-    protected function initializePrototypeAttributes(array $attributes)
-    {
-        return parent::initializePrototypeAttributes(array_merge([
-            'rules' => [
-                'numeric',
-            ],
-        ], $attributes));
-    }
+    protected $__attributes = [
+        'rules' => [
+            'numeric',
+        ],
+    ];
 
     public function modify($value)
     {

@@ -7,18 +7,18 @@ use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 use Streams\Core\Stream\Stream;
 use Illuminate\Routing\Controller;
-use Streams\Core\Support\Provider;
 use Illuminate\Support\Facades\App;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Gate;
+use Streams\Core\Support\Integrator;
 use Streams\Core\View\ViewOverrides;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\ServiceProvider;
 use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Includes;
-use Streams\Core\Support\Facades\Integrator;
 use Illuminate\Routing\Route as RouteInstance;
 
 class IntegratorTest extends TestCase
@@ -237,7 +237,7 @@ class CustomTestingController extends Controller
     }
 }
 
-class CustomTestingSecondaryProvider extends Provider
+class CustomTestingSecondaryProvider extends ServiceProvider
 {
 
     public function register()

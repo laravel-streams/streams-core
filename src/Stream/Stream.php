@@ -38,15 +38,21 @@ class Stream implements
     Jsonable
 {
 
-    use Prototype {
-        Prototype::initializePrototypeAttributes as private initializePrototype;
-    }
-
     use Fluency;
     use HasMemory;
     use Macroable;
     use ForwardsCalls;
     use FiresCallbacks;
+
+    protected $__attribute = [
+        'handle' => null,
+        'routes' => [],
+        'rules' => [],
+        'validators' => [],
+        'config' => [
+            'key_name' => 'id',
+        ],
+    ];
 
     public function __construct(array $attributes = [])
     {
@@ -58,7 +64,9 @@ class Stream implements
             'callbackData' => $callbackData,
         ]);
 
-        $this->initializePrototypeAttributes($callbackData->get('attributes'));
+        $this->syncOriginalPrototypeAttributes($attributes);
+
+        $this->loadPrototypeAttributes($callbackData->get('attributes'));
 
         $this->fire('initialized', [
             'stream' => $this,
@@ -79,20 +87,6 @@ class Stream implements
     {
         return $this->getPrototypeAttributeValue('handle') ?: $this->getPrototypeAttributeValue('id');
     }
-
-    protected function initializePrototypeAttributes(array $attributes)
-    {
-        return $this->initializePrototype(array_replace_recursive([
-            'handle' => null,
-            'routes' => [],
-            'rules' => [],
-            'validators' => [],
-            'config' => [
-                'key_name' => 'id',
-            ],
-        ], $attributes));
-    }
-
 
     public function entries(): Criteria
     {
