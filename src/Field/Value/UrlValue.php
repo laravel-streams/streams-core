@@ -158,6 +158,6 @@ class UrlValue extends Value
      */
     public function __toString()
     {
-        return (string)$this->object->normalize() ?: '';
+        return (string) $this->normalize() ?: '';
     }
 }
