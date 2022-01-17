@@ -297,10 +297,6 @@ class EloquentCriteria
             return $this->call($hook, $arguments);
         }
 
-        if ($this->query->hasHook($hook)) {
-            return $this->query->call($hook, $arguments);
-        }
-
         if ($this->methodExists($name) && $this->methodIsSafe($name)) {
 
             call_user_func_array([$this->query, $name], $arguments);
