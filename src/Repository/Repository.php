@@ -88,69 +88,30 @@ class Repository implements RepositoryInterface
 
     public function create(array $attributes): EntryInterface
     {
-        $this->fire($this->stream->handle . '.creating', [
-            'attributes' => $attributes,
-        ]);
-
-        $result =  $this
+        return $this
             ->newCriteria()
-            ->create($attributes); // @todo Should instantiate and use save?
-
-        $this->fire($this->stream->handle . '.created', [
-            'entry' => $result,
-        ]);
-
-        return $result;
+            ->create($attributes);
     }
 
     public function save(EntryInterface $entry): bool
     {
-        $this->fire($this->stream->handle . '.saving', [
-            'entry' => $entry,
-        ]);
-
-        $result = $this
+        return (bool) $this
             ->newCriteria()
             ->save($entry);
-
-        $this->fire($this->stream->handle . '.saved', [
-            'entry' => $entry,
-        ]);
-
-        return (bool) $result;
     }
 
     public function delete(EntryInterface $entry): bool
     {
-        $this->fire($this->stream->handle . '.deleting', [
-            'entry' => $entry,
-        ]);
-
-        $id = is_object($entry) ? $entry->id : $entry;
-
-        $result = $this
+        return (bool) $this
             ->newCriteria()
-            ->where('id', $id)
-            ->delete();
-
-        $this->fire($this->stream->handle . '.deleted', [
-            'entry' => $entry,
-        ]);
-
-        return (bool) $result;
+            ->delete($entry);
     }
 
-    public function truncate(): bool
+    public function truncate(): void
     {
-        $this->fire($this->stream->handle . '.truncating');
-
-        $result = $this
+        $this
             ->newCriteria()
             ->truncate();
-
-        $this->fire($this->stream->handle . '.truncated');
-
-        return (bool) $result;
     }
 
     public function newInstance(array $attributes = []): EntryInterface

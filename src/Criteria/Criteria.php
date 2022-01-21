@@ -44,7 +44,7 @@ class Criteria
     public function find($id)
     {
         $keyName = $this->stream->config('key_name', 'id');
-        
+
         return $this->where($keyName, $id)->get()->first();
     }
 
@@ -123,7 +123,7 @@ class Criteria
     public function get(): Collection
     {
         $cache = $this->stream->config('cache.enabled', false);
-        
+
         $cache = Arr::get($this->parameters, 'cache', $cache);
 
         if ($cache) {
@@ -143,14 +143,6 @@ class Criteria
         }
 
         return $this->adapter->get($this->parameters);
-
-        /**
-         * This needs to flush memory (HasMemory) when 
-         * $this->streams->flush() is executed.
-         */
-        // return $this->once($fingerprint, function () {
-        //     return $this->adapter->get($this->parameters);
-        // });
     }
 
     public function chunk(int $count, callable $callback): bool
@@ -192,7 +184,7 @@ class Criteria
     public function count()
     {
         $cache = $this->stream->config('cache.enabled', false);
-        
+
         $cache = Arr::get($this->parameters, 'cache', $cache);
 
         if ($cache) {
@@ -224,28 +216,69 @@ class Criteria
     {
         $this->stream->cache()->flush();
 
-        return $this->adapter->create($attributes);
+        $this->fire($this->stream->handle . '.creating', [
+            'attributes' => $attributes,
+        ]);
+
+        $result = $this->adapter->create($attributes);
+
+        $this->fire($this->stream->handle . '.created', [
+            'entry' => $result,
+        ]);
+
+        return $result;
     }
 
     public function save(EntryInterface $entry)
     {
         $this->stream->cache()->flush();
 
-        return $this->adapter->save($entry);
+        $this->fire($this->stream->handle . '.saving', [
+            'entry' => $entry,
+        ]);
+
+        $result = $this->adapter->save($entry);
+
+        $this->fire($this->stream->handle . '.saved', [
+            'entry' => $entry,
+        ]);
+
+        return (bool) $result;
     }
 
-    public function delete(): bool
+    public function delete(EntryInterface $entry = null): bool
     {
         $this->stream->cache()->flush();
 
-        return (bool) $this->adapter->delete($this->parameters);
+        $this->fire($this->stream->handle . '.deleting', [
+            'entry' => $entry,
+        ]);
+
+        if ($entry) {
+
+            $keyName = $this->stream->config('key_name', 'id');
+
+            $this->adapter->where($keyName, $entry->{$keyName});
+        }
+
+        $result = (bool) $this->adapter->delete($this->parameters);
+
+        $this->fire($this->stream->handle . '.deleted', [
+            'entry' => $entry,
+        ]);
+
+        return $result;
     }
 
     public function truncate(): void
     {
         $this->stream->cache()->flush();
 
+        $this->fire($this->stream->handle . '.truncating');
+
         $this->adapter->truncate();
+
+        $this->fire($this->stream->handle . '.truncated');
     }
 
     /**
