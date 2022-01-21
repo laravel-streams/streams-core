@@ -142,6 +142,8 @@ class StreamManager
                     ];
                 }
 
+                $key = Arr::get($route, 'handle', $key);
+
                 /**
                  * Automatically bind if not bound.
                  */

@@ -201,6 +201,8 @@ class StreamsController extends Controller
             }
         }
 
+        
+
         if (!$criteria) {
             return;
         }

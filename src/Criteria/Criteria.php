@@ -120,6 +120,11 @@ class Criteria
         return $this;
     }
 
+    /**
+     * Get results of the query.
+     *
+     * @return \Illuminate\Support\Collection
+     */
     public function get(): Collection
     {
         $cache = $this->stream->config('cache.enabled', false);
@@ -145,6 +150,14 @@ class Criteria
         return $this->adapter->get($this->parameters);
     }
 
+    /**
+     * Chunk through large query result sets.
+     *
+     * @param int $count
+     * @param callable $callback
+     *
+     * @return bool
+     */
     public function chunk(int $count, callable $callback): bool
     {
         $page = 1;
@@ -216,30 +229,30 @@ class Criteria
     {
         $this->stream->cache()->flush();
 
-        $this->fire($this->stream->handle . '.creating', [
+        $this->fire('creating', [
             'attributes' => $attributes,
         ]);
 
-        $result = $this->adapter->create($attributes);
+        $entry = $this->adapter->create($attributes);
 
-        $this->fire($this->stream->handle . '.created', [
-            'entry' => $result,
+        $entry->fire('created', [
+            'entry' => $entry,
         ]);
 
-        return $result;
+        return $entry;
     }
 
     public function save(EntryInterface $entry)
     {
         $this->stream->cache()->flush();
 
-        $this->fire($this->stream->handle . '.saving', [
+        $entry->fire('saving', [
             'entry' => $entry,
         ]);
 
         $result = $this->adapter->save($entry);
 
-        $this->fire($this->stream->handle . '.saved', [
+        $entry->fire('saved', [
             'entry' => $entry,
         ]);
 
@@ -250,11 +263,11 @@ class Criteria
     {
         $this->stream->cache()->flush();
 
-        $this->fire($this->stream->handle . '.deleting', [
-            'entry' => $entry,
-        ]);
-
         if ($entry) {
+
+            $entry->fire('deleting', [
+                'entry' => $entry,
+            ]);
 
             $keyName = $this->stream->config('key_name', 'id');
 
@@ -263,9 +276,11 @@ class Criteria
 
         $result = (bool) $this->adapter->delete($this->parameters);
 
-        $this->fire($this->stream->handle . '.deleted', [
-            'entry' => $entry,
-        ]);
+        if ($entry) {
+            $entry->fire('deleted', [
+                'entry' => $entry,
+            ]);
+        }
 
         return $result;
     }
@@ -274,11 +289,7 @@ class Criteria
     {
         $this->stream->cache()->flush();
 
-        $this->fire($this->stream->handle . '.truncating');
-
         $this->adapter->truncate();
-
-        $this->fire($this->stream->handle . '.truncated');
     }
 
     /**
