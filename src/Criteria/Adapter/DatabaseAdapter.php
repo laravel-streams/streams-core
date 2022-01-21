@@ -144,7 +144,11 @@ class DatabaseAdapter extends AbstractAdapter
      */
     public function create(array $attributes = [])
     {
-        $this->query->insert($attributes);
+        $keyName = $this->stream->config('key_name', 'id');
+
+        $id = $this->query->insertGetId($attributes);
+
+        $attributes[$keyName] = $id;
 
         return $this->make($attributes);
     }
