@@ -229,9 +229,9 @@ class Criteria
     {
         $this->stream->cache()->flush();
 
-        $this->fire('creating', [
-            'attributes' => $attributes,
-        ]);
+        // $this->fire('creating', [
+        //     'attributes' => $attributes,
+        // ]);
 
         $entry = $this->adapter->create($attributes);
 
