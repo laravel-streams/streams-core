@@ -22,7 +22,7 @@ class ArrValue extends Value
      */
     public function collect()
     {
-        return Arr::collect($this->value);
+        return collect($this->value);
     }
 
     /**
