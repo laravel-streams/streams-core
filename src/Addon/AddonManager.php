@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Addon;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Support\Traits\HasMemory;
 
@@ -12,11 +13,11 @@ class AddonManager
 {
     use HasMemory;
 
-    protected AddonCollection $collection;
+    protected Collection $collection;
 
     public function __construct()
     {
-        $this->collection = new AddonCollection;
+        $this->collection = new Collection;
     }
 
     public function load(string $path): Addon
@@ -50,7 +51,7 @@ class AddonManager
         return App::make('streams.addons.' . str_replace('/', '.', $name));
     }
 
-    public function collection(): AddonCollection
+    public function collection(): Collection
     {
         return $this->collection;
     }

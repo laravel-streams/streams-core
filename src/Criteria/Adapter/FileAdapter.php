@@ -27,7 +27,7 @@ class FileAdapter extends AbstractAdapter
 
         $this->readData();
 
-        $this->query = $this->data;
+        $this->query = new Collection($this->data);
     }
 
     /**

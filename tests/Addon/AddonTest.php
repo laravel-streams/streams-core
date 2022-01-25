@@ -16,7 +16,7 @@ class AddonTest extends TestCase
         $this->assertInstanceOf(Addon::class, Addons::make('streams/test-addon'));
     }
 
-    public function testArrayable()
+    public function testAddonsAreArrayable()
     {
         Addons::load(base_path('vendor/streams/core/tests/addons/test-addon'));
 
@@ -27,7 +27,7 @@ class AddonTest extends TestCase
         ], array_keys(Addons::make('streams/test-addon')->toArray()));
     }
 
-    public function testJsonable()
+    public function testAddonsAreJsonable()
     {
         Addons::load(base_path('vendor/streams/core/tests/addons/test-addon'));
         

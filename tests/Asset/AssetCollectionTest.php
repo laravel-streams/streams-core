@@ -45,7 +45,7 @@ class AssetCollectionTest extends TestCase
         }
     }
 
-    public function testCanAddAsset()
+    public function testCanAddAssetToCollection()
     {
         $assets = new AssetCollection();
 
@@ -54,7 +54,7 @@ class AssetCollectionTest extends TestCase
         $this->assertEquals(['theme.js'], $assets->values()->all());
     }
 
-    public function testCanLoadUnregisteredAsset()
+    public function testCanLoadUnregisteredAssets()
     {
         $assets = new AssetCollection();
 
@@ -63,7 +63,7 @@ class AssetCollectionTest extends TestCase
         $this->assertEquals(['load.js'], $assets->values()->all());
     }
 
-    public function testCanLoadRegisteredAsset()
+    public function testCanLoadRegisteredAssets()
     {
         $assets = new AssetCollection();
 
@@ -74,7 +74,7 @@ class AssetCollectionTest extends TestCase
         $this->assertEquals(['load.js'], $assets->values()->all());
     }
 
-    public function testOnlyLoadsAssetOnce()
+    public function testOnlyLoadsAssetsOnce()
     {
         $assets = new AssetCollection();
 

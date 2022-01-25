@@ -21,9 +21,9 @@ class ApplicationManager
         $this->collection = Streams::entries('core.applications')->get()->keyBy('id');
     }
 
-    public function make(string $handle): Application
+    public function make(string $id): Application
     {
-        return $this->collection->get($handle);
+        return $this->collection->get($id);
     }
 
     public function activate(Application $active): void

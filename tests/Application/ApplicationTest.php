@@ -8,7 +8,7 @@ use Streams\Core\Support\Facades\Applications;
 class ApplicationTest extends TestCase
 {
 
-    public function testArrayable()
+    public function testApplicationsAreArrayable()
     {
         $this->assertEquals([
             'id',
@@ -16,7 +16,7 @@ class ApplicationTest extends TestCase
         ], array_keys(Applications::make('default')->toArray()));
     }
 
-    public function testJsonable()
+    public function testApplicationsAreJsonable()
     {
         $this->assertEquals([
             'id',

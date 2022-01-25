@@ -7,89 +7,97 @@
             "format": "json"
         }
     },
-    "fields": {
-        "id": {
+    "fields": [
+        {
+            "handle": "id",
+            "type": "uuid",
+            "config": {
+                "default": true
+            }
+        },
+        {
+            "handle": "uuid",
             "type": "uuid"
         },
-        "uuid": {
-            "type": "uuid"
-        },
-        "string": {
+        {
+            "handle": "string",
             "type": "string"
         },
-        "url": {
+        {
+            "handle": "url",
             "type": "url"
         },
-        "hash": {
+        {
+            "handle": "hash",
             "type": "hash"
         },
-        "slug": {
+        {
+            "handle": "slug",
             "type": "slug"
         },
-        "email": {
+        {
+            "handle": "email",
             "type": "email"
         },
-        "encrypted": {
+        {
+            "handle": "encrypted",
             "type": "encrypted"
         },
-        "markdown": {
+        {
+            "handle": "markdown",
             "type": "markdown"
         },
-        "template": {
-            "type": "template"
-        },
-        "number": {
+        {
+            "handle": "number",
             "type": "number"
         },
-        "integer": {
+        {
+            "handle": "integer",
             "type": "integer"
         },
-        "decimal": {
+        {
+            "handle": "decimal",
             "type": "decimal"
         },
-        "boolean": {
+        {
+            "handle": "boolean",
             "type": "boolean"
         },
-        "datetime": {
+        {
+            "handle": "datetime",
             "type": "datetime"
         },
-        "date": {
+        {
+            "handle": "date",
             "type": "date"
         },
-        "time": {
+        {
+            "handle": "time",
             "type": "time"
         },
-        "array": {
+        {
+            "handle": "array",
             "type": "array"
         },
-        "select": {
+        {
+            "handle": "select",
             "type": "select",
             "config.options": {
                 "foo": "Foo",
                 "bar": "Bar"
             }
         },
-        "multiselect": {
+        {
+            "handle": "multiselect",
             "type": "multiselect",
             "config.options": {
                 "foo": "Foo",
                 "bar": "Bar"
             }
         },
-        "entry": {
-            "type": "entry",
-            "config": {
-                "stream": "testing.examples"
-            }
-        },
-        "entries": {
-            "type": "entries",
-            "config": {
-                "stream": "testing.examples"
-            }
-        },
-        "color": {
+        {
+            "handle": "color",
             "type": "color"
         }
-    }
+    ]
 }

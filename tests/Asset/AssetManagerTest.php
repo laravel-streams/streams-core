@@ -46,14 +46,14 @@ class AssetManagerTest extends TestCase
         }
     }
 
-    public function testAdd()
+    public function testCanAddAssetToCollection()
     {
         Assets::add('styles', 'style.css');
 
         $this->assertEquals(1, Assets::collection('styles')->count());
     }
 
-    public function testCollection()
+    public function testCanReturnAssetCollection()
     {
         Assets::add('scripts', 'theme.js');
 
@@ -61,7 +61,7 @@ class AssetManagerTest extends TestCase
         $this->assertEquals(['theme.js' => 'theme.js'], Assets::collection('scripts')->all());
     }
 
-    public function testLoad()
+    public function testCanLoadAssetsByName()
     {
         Assets::load('scripts', 'theme.js');
 
@@ -72,7 +72,7 @@ class AssetManagerTest extends TestCase
         $this->assertEquals(['theme.js' => 'theme.js'], Assets::collection('scripts')->all());
     }
 
-    public function testRegister()
+    public function testRegistersNamedAssets()
     {
         Assets::register('theme.js', 'super.js');
         Assets::load('scripts', 'theme.js');
@@ -80,7 +80,7 @@ class AssetManagerTest extends TestCase
         $this->assertEquals(['super.js' => 'super.js'], Assets::collection('scripts')->all());
     }
 
-    public function testResolve()
+    public function testResolvesNamedAssets()
     {
         Assets::register('theme.js', 'super.js');
         Assets::register('pack.js', ['super.js', 'another.js']);
@@ -94,7 +94,7 @@ class AssetManagerTest extends TestCase
         $this->assertEquals(['super.js', 'another.js'], Assets::resolve('pack.js'));
     }
 
-    public function testInline()
+    public function testReturnsInlineTags()
     {
         $this->assertEquals('<style media="all" type="text/css" rel="stylesheet">Test testing.css</style>', Assets::inline('vendor/streams/core/tests/testing.css'));
 
@@ -103,24 +103,24 @@ class AssetManagerTest extends TestCase
         $this->assertEquals('', Assets::inline('vendor/streams/core/tests/testing.foo'));
     }
 
-    public function testContents()
+    public function testReturnsAssetContents()
     {
         $this->assertEquals('Test testing.css', Assets::contents('vendor/streams/core/tests/testing.css'));
     }
 
-    public function testUrl()
+    public function testReturnsAssetUrl()
     {
         $this->assertEquals(URL::to('testing.css'), Assets::url('testing.css'));
     }
 
-    public function testTag()
+    public function testReturnsAssetTag()
     {
         $this->assertEquals('<link media="all" type="text/css" rel="stylesheet" href="vendor/streams/core/tests/testing.css"/>', Assets::tag('vendor/streams/core/tests/testing.css'));
 
         $this->assertEquals('<script src="vendor/streams/core/tests/testing.js"></script>', Assets::tag('vendor/streams/core/tests/testing.js'));
     }
 
-    public function testToString()
+    public function testAssetManagerRerturnsBlankToString()
     {
         $this->assertEquals('', (string) Assets::load('testing', 'testing.css'));
     }

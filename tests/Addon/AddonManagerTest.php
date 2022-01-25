@@ -4,7 +4,7 @@ namespace Streams\Core\Tests\Addon;
 
 use Tests\TestCase;
 use Streams\Core\Addon\Addon;
-use Streams\Core\Addon\AddonCollection;
+use Illuminate\Support\Collection;
 use Streams\Core\Support\Facades\Addons;
 
 class AddonManagerTest extends TestCase
@@ -19,12 +19,12 @@ class AddonManagerTest extends TestCase
         $this->assertInstanceOf(Addon::class, $addon);
     }
 
-    public function testCanReturnLoadedAddonsCollection()
+    public function testCanReturnCollectionOfLoadedAddons()
     {
         Addons::load(base_path('vendor/streams/core/tests/addons/test-addon'));
         
         $addons = Addons::collection();
 
-        $this->assertInstanceOf(AddonCollection::class, $addons);
+        $this->assertInstanceOf(Collection::class, $addons);
     }
 }

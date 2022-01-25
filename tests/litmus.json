@@ -18,53 +18,57 @@
             "max:100"
         ]
     },
-    "fields": {
-        "uuid": {
+    "fields": [
+        {
+            "handle": "uuid",
             "type": "uuid"
         },
-        "number": {
+        {
+            "handle": "number",
             "type": "number"
         },
-        "decimal": {
+        {
+            "handle": "decimal",
             "type": "decimal"
         },
-        "integer": {
+        {
+            "handle": "integer",
             "type": "integer"
         },
-        "string": {
+        {
+            "handle": "string",
             "type": "string"
         },
-        "email": {
+        {
+            "handle": "email",
             "type": "email"
         },
-        "markdown": {
+        {
+            "handle": "markdown",
             "type": "markdown"
         },
-        "template": {
-            "type": "template"
-        },
-        "datetime": {
+        {
+            "handle": "datetime",
             "type": "datetime"
         },
-        "date": {
+        {
+            "handle": "date",
             "type": "date"
         },
-        "time": {
+        {
+            "handle": "time",
             "type": "time"
         },
-        "boolean": {
+        {
+            "handle": "boolean",
             "type": "boolean"
         },
-        "array": {
+        {
+            "handle": "array",
             "type": "array"
         },
-        "object": {
-            "type": "prototype",
-            "config": {
-                "abstract": "Streams\\Core\\Tests\\Field\\Type\\ExampleAbstract"
-            }
-        },
-        "select": {
+        {
+            "handle": "select",
             "type": "select",
             "config": {
                 "options": {
@@ -73,13 +77,15 @@
                 }
             }
         },
-        "select_callable_options": {
+        {
+            "handle": "select_callable_options",
             "type": "select",
             "config": {
                 "options": "Streams\\Core\\Testing\\SelectHandler@handle"
             }
         },
-        "multiselect": {
+        {
+            "handle": "multiselect",
             "type": "multiselect",
             "config": {
                 "options": {
@@ -88,56 +94,54 @@
                 }
             }
         },
-        "multiselect_callable_options": {
+        {
+            "handle": "multiselect_callable_options",
             "type": "multiselect",
             "config": {
                 "options": "Streams\\Core\\Testing\\MultiselectHandler@handle"
             }
         },
-        "url": {
+        {
+            "handle": "url",
             "type": "url"
         },
-        "hash": {
+        {
+            "handle": "hash",
             "type": "hash"
         },
-        "encrypted": {
+        {
+            "handle": "encrypted",
             "type": "encrypted"
         },
-        "slug": {
+        {
+            "handle": "slug",
             "type": "slug"
         },
-        "color": {
+        {
+            "handle": "color",
             "type": "color"
         },
-        "file": {
+        {
+            "handle": "file",
             "type": "file"
         },
-        "image": {
+        {
+            "handle": "image",
             "type": "image"
         },
-        "relationship": {
+        {
+            "handle": "relationship",
             "type": "relationship",
             "config": {
                 "related": "testing.examples"
             }
         },
-        "multiple": {
+        {
+            "handle": "multiple",
             "type": "multiple",
             "config": {
                 "related": "testing.examples"
             }
-        },
-        "entry": {
-            "type": "entry",
-            "config": {
-                "stream": "testing.examples"
-            }
-        },
-        "entries": {
-            "type": "entries",
-            "config": {
-                "stream": "testing.examples"
-            }
         }
-    }
+    ]
 }

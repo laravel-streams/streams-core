@@ -53,7 +53,6 @@ return [
 
         // Markup
         'markdown' => \Streams\Core\Field\Types\MarkdownFieldType::class,
-        'template' => \Streams\Core\Field\Types\TemplateFieldType::class,
 
         // Boolean
         'boolean' => \Streams\Core\Field\Types\BooleanFieldType::class,
