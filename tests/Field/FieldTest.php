@@ -32,13 +32,6 @@ class FieldTest extends TestCase
         $this->assertEquals('Name', $field->name());
     }
 
-    public function test_can_return_field_type()
-    {
-        $field = Streams::make('testing.examples')->fields->get('age');
-
-        $this->assertInstanceOf(Integer::class, $field->type());
-    }
-
     public function test_can_identify_incorrect_types()
     {
         $this->expectException(\Exception::class);
@@ -46,7 +39,9 @@ class FieldTest extends TestCase
         Streams::build([
             'id' => 'testing.type_failures',
             'fields' => [
-                'test' => 'test',
+                'test' => [
+                    'type' => 'test',
+                ],
             ],
         ])->fields->get('test');
     }

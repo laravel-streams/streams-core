@@ -249,7 +249,7 @@ class Criteria
         $entry->fire('saving', [
             'entry' => $entry,
         ]);
-
+        
         $result = $this->adapter->save($entry);
 
         $entry->fire('saved', [

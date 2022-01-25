@@ -1,12 +1,12 @@
 <?php
 
-namespace Streams\Core\Tests\Field\Type;
+namespace Streams\Core\Tests\Field\Types;
 
 use Tests\TestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Value\IntegerValue;
 
-class IntegerTest extends TestCase
+class IntegerFieldTypeTest extends TestCase
 {
 
     public function setUp(): void
@@ -19,7 +19,7 @@ class IntegerTest extends TestCase
 
     public function test_casts_to_integer()
     {
-        $type = Streams::make('testing.litmus')->fields->integer->type();
+        $type = Streams::make('testing.litmus')->fields->integer;
 
         $this->assertSame(100, $type->modify("100"));
         $this->assertSame(100, $type->restore("100"));
@@ -51,6 +51,6 @@ class IntegerTest extends TestCase
     {
         $stream = Streams::make('testing.fakers');
 
-        $this->assertIsInt($stream->fields->integer->type()->generate());
+        $this->assertIsInt($stream->fields->integer->generate());
     }
 }

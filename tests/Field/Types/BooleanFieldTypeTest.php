@@ -1,12 +1,12 @@
 <?php
 
-namespace Streams\Core\Tests\Field\Type;
+namespace Streams\Core\Tests\Field\Types;
 
 use Tests\TestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Value\BooleanValue;
 
-class BooleanTest extends TestCase
+class BooleanFieldTypeTest extends TestCase
 {
 
     public function setUp(): void
@@ -19,13 +19,13 @@ class BooleanTest extends TestCase
 
     public function test_casts_to_boolean()
     {
-        $type = Streams::make('testing.litmus')->fields->boolean->type();
+        $type = Streams::make('testing.litmus')->fields->boolean;
 
-        $this->assertSame(true, $type->cast(1));
-        $this->assertSame(false, $type->cast(0));
+        $this->assertSame(true, $type->modify(1));
+        $this->assertSame(false, $type->modify(0));
 
-        $this->assertSame(true, $type->cast('yes'));
-        $this->assertSame(false, $type->cast('no'));
+        $this->assertSame(true, $type->modify('yes'));
+        $this->assertSame(false, $type->modify('no'));
     }
 
     public function test_expanded_value()
@@ -39,6 +39,6 @@ class BooleanTest extends TestCase
     {
         $stream = Streams::make('testing.fakers');
 
-        $this->assertIsBool($stream->fields->boolean->type()->generate());
+        $this->assertIsBool($stream->fields->boolean->generate());
     }
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace Streams\Core\Tests\Field\Type;
+namespace Streams\Core\Tests\Field\Types;
 
 use Streams\Core\Field\Value\DecimalValue;
 use Tests\TestCase;
 use Streams\Core\Field\Value\NumberValue;
 use Streams\Core\Support\Facades\Streams;
 
-class DecimalTest extends TestCase
+class DecimalFieldTypeTest extends TestCase
 {
 
     public function setUp(): void
@@ -20,19 +20,19 @@ class DecimalTest extends TestCase
 
     public function test_casts_to_decimal()
     {
-        $type = Streams::make('testing.litmus')->fields->decimal->type();
+        $type = Streams::make('testing.litmus')->fields->decimal;
 
-        $this->assertSame(100.0, $type->cast("100"));
+        $this->assertSame(100.0, $type->modify("100"));
 
-        $this->assertSame(1.2, $type->cast(1.2));
+        $this->assertSame(1.2, $type->modify(1.2));
 
-        $this->assertSame(-2.4, $type->cast(-2.4));
+        $this->assertSame(-2.4, $type->modify(-2.4));
 
-        $this->assertSame(1234.0, $type->cast("1,234"));
+        $this->assertSame(1234.0, $type->modify("1,234"));
 
-        $this->assertSame(1234.5, $type->cast("1,234.50"));
+        $this->assertSame(1234.5, $type->modify("1,234.50"));
 
-        $this->assertSame(-1234.5, $type->cast("-1,234.50"));
+        $this->assertSame(-1234.5, $type->modify("-1,234.50"));
     }
 
     public function test_expanded_value()
@@ -46,7 +46,7 @@ class DecimalTest extends TestCase
     {
         $stream = Streams::make('testing.fakers');
 
-        $fake = $stream->fields->decimal->type()->generate();
+        $fake = $stream->fields->decimal->generate();
 
         $this->assertIsNumeric($fake);
 

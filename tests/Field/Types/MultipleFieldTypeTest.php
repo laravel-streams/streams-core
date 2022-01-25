@@ -1,6 +1,6 @@
 <?php
 
-namespace Streams\Core\Tests\Field\Type;
+namespace Streams\Core\Tests\Field\Types;
 
 use Tests\TestCase;
 use Streams\Core\Entry\Entry;
@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 use Streams\Core\Criteria\Criteria;
 use Streams\Core\Support\Facades\Streams;
 
-class MultipleTest extends TestCase
+class MultipleFieldTypeTest extends TestCase
 {
 
     public function setUp(): void

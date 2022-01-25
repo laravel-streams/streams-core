@@ -1,12 +1,12 @@
 <?php
 
-namespace Streams\Core\Tests\Field\Type;
+namespace Streams\Core\Tests\Field\Types;
 
 use Tests\TestCase;
 use Streams\Core\Field\Value\SelectValue;
 use Streams\Core\Support\Facades\Streams;
 
-class SelectTest extends TestCase
+class SelectFieldTypeTest extends TestCase
 {
 
     public function setUp(): void
@@ -19,14 +19,14 @@ class SelectTest extends TestCase
 
     public function test_configured_options()
     {
-        $type = Streams::make('testing.litmus')->fields->select->type();
+        $type = Streams::make('testing.litmus')->fields->select;
 
         $this->assertSame(['foo' => 'Foo', 'bar' => 'Bar'], $type->options());
     }
 
     public function test_callable_options()
     {
-        $type = Streams::make('testing.litmus')->fields->select_callable_options->type();
+        $type = Streams::make('testing.litmus')->fields->select_callable_options;
 
         $this->assertSame(['foo' => 'Bar'], $type->options());
     }
@@ -43,8 +43,8 @@ class SelectTest extends TestCase
         $stream = Streams::make('testing.fakers');
 
         $this->assertTrue(in_array(
-            $stream->fields->select->type()->generate(),
-            array_keys($stream->fields->select->type()->options())
+            $stream->fields->select->generate(),
+            array_keys($stream->fields->select->options())
         ));
     }
 }

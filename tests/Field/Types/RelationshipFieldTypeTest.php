@@ -1,12 +1,12 @@
 <?php
 
-namespace Streams\Core\Tests\Field\Type;
+namespace Streams\Core\Tests\Field\Types;
 
 use Tests\TestCase;
 use Streams\Core\Entry\Entry;
 use Streams\Core\Support\Facades\Streams;
 
-class RelationshipTest extends TestCase
+class RelationshipFieldTypeTest extends TestCase
 {
 
     public function setUp(): void

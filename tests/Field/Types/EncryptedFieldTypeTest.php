@@ -1,13 +1,13 @@
 <?php
 
-namespace Streams\Core\Tests\Field\Type;
+namespace Streams\Core\Tests\Field\Types;
 
 use Tests\TestCase;
 use Illuminate\Support\Facades\Crypt;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Value\EncryptedValue;
 
-class EncryptedTest extends TestCase
+class EncryptedFieldTypeTest extends TestCase
 {
 
     public function setUp(): void
@@ -27,7 +27,7 @@ class EncryptedTest extends TestCase
 
     public function test_casts_to_encrypted_string()
     {
-        $type = Streams::make('testing.litmus')->fields->encrypted->type();
+        $type = Streams::make('testing.litmus')->fields->encrypted;
 
         $this->assertSame('test', Crypt::decrypt($type->modify('test')));
     }
@@ -43,7 +43,7 @@ class EncryptedTest extends TestCase
     {
         $stream = Streams::make('testing.fakers');
 
-        $value = $stream->fields->encrypted->type()->generate();
+        $value = $stream->fields->encrypted->generate();
 
         $this->assertNotSame($value, Crypt::decrypt($value));
     }

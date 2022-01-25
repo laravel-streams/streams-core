@@ -1,13 +1,13 @@
 <?php
 
-namespace Streams\Core\Tests\Field\Type;
+namespace Streams\Core\Tests\Field\Types;
 
 use Carbon\Carbon;
 use Tests\TestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Value\DatetimeValue;
 
-class DatetimeTest extends TestCase
+class DatetimeFieldTypeTest extends TestCase
 {
 
     public function setUp(): void
@@ -27,48 +27,48 @@ class DatetimeTest extends TestCase
 
     public function test_casts_carbon_to_carbon()
     {
-        $type = Streams::make('testing.litmus')->fields->datetime->type();
+        $type = Streams::make('testing.litmus')->fields->datetime;
 
         $carbon = new Carbon('2021-01-01 09:30:00');
 
-        $this->assertInstanceOf(Carbon::class, $type->cast($carbon));
+        $this->assertInstanceOf(Carbon::class, $type->modify($carbon));
 
-        $this->assertSame($carbon->format('Y-m-d H:i:s'), $type->cast($carbon)->format('Y-m-d H:i:s'));    
+        $this->assertSame($carbon->format('Y-m-d H:i:s'), $type->modify($carbon)->format('Y-m-d H:i:s'));    
     }
 
     public function test_casts_datetime_to_carbon()
     {
-        $type = Streams::make('testing.litmus')->fields->datetime->type();
+        $type = Streams::make('testing.litmus')->fields->datetime;
 
         $instance = new \Datetime('2021-01-01 09:30:00');
 
-        $this->assertInstanceOf(Carbon::class, $type->cast($instance));
+        $this->assertInstanceOf(Carbon::class, $type->modify($instance));
 
-        $this->assertSame($instance->format('Y-m-d H:i:s'), $type->cast($instance)->format('Y-m-d H:i:s'));    
+        $this->assertSame($instance->format('Y-m-d H:i:s'), $type->modify($instance)->format('Y-m-d H:i:s'));    
     }
 
     public function test_casts_timestamps_to_carbon()
     {
-        $type = Streams::make('testing.litmus')->fields->datetime->type();
+        $type = Streams::make('testing.litmus')->fields->datetime;
 
         $timestamp = (new Carbon('2021-01-01 9:30'))->timestamp;
 
-        $this->assertInstanceOf(Carbon::class, $type->cast($timestamp));
+        $this->assertInstanceOf(Carbon::class, $type->modify($timestamp));
 
-        $this->assertSame($timestamp, $type->cast($timestamp)->timestamp);
+        $this->assertSame($timestamp, $type->modify($timestamp)->timestamp);
     }
 
     public function test_casts_strings_to_carbon()
     {
-        $type = Streams::make('testing.litmus')->fields->datetime->type();
+        $type = Streams::make('testing.litmus')->fields->datetime;
 
         $value = '2021-01-01 9:30';
         $standard = '2021-01-01 09:30:00';
 
-        $this->assertInstanceOf(Carbon::class, $type->cast($value));
+        $this->assertInstanceOf(Carbon::class, $type->modify($value));
         
-        $this->assertSame($standard, $type->cast($value)->format('Y-m-d H:i:s'));
-        $this->assertSame($standard, $type->cast($standard)->format('Y-m-d H:i:s'));
+        $this->assertSame($standard, $type->modify($value)->format('Y-m-d H:i:s'));
+        $this->assertSame($standard, $type->modify($standard)->format('Y-m-d H:i:s'));
     }
 
     public function test_expanded_value()
@@ -82,6 +82,6 @@ class DatetimeTest extends TestCase
     {
         $stream = Streams::make('testing.fakers');
 
-        $this->assertInstanceOf(Carbon::class, $stream->fields->datetime->type()->generate());
+        $this->assertInstanceOf(Carbon::class, $stream->fields->datetime->generate());
     }
 }

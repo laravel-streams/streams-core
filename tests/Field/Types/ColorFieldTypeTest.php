@@ -1,12 +1,12 @@
 <?php
 
-namespace Streams\Core\Tests\Field\Type;
+namespace Streams\Core\Tests\Field\Types;
 
 use Tests\TestCase;
 use Streams\Core\Field\Value\ColorValue;
 use Streams\Core\Support\Facades\Streams;
 
-class ColorTest extends TestCase
+class ColorFieldTypeTest extends TestCase
 {
 
     public function setUp(): void
@@ -19,7 +19,7 @@ class ColorTest extends TestCase
 
     public function test_forces_lowercase()
     {
-        $type = Streams::make('testing.litmus')->fields->color->type();
+        $type = Streams::make('testing.litmus')->fields->color;
 
         $this->assertSame('#ffffff', $type->modify('#FFFFFF'));
         $this->assertSame('#ffffff', $type->restore('#FFFFFF'));
@@ -36,7 +36,7 @@ class ColorTest extends TestCase
     {
         $stream = Streams::make('testing.fakers');
 
-        $color = substr($stream->fields->color->type()->generate(), 1);
+        $color = substr($stream->fields->color->generate(), 1);
 
         $this->assertTrue(ctype_xdigit($color) && strlen($color) == 6);
     }

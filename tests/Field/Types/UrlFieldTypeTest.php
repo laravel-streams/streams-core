@@ -1,12 +1,12 @@
 <?php
 
-namespace Streams\Core\Tests\Field\Type;
+namespace Streams\Core\Tests\Field\Types;
 
 use Tests\TestCase;
 use Streams\Core\Field\Value\UrlValue;
 use Streams\Core\Support\Facades\Streams;
 
-class UrlTest extends TestCase
+class UrlFieldTypeTest extends TestCase
 {
 
     public function setUp(): void
@@ -19,7 +19,7 @@ class UrlTest extends TestCase
 
     public function test_casts_to_routable()
     {
-        $type = Streams::make('testing.litmus')->fields->url->type();
+        $type = Streams::make('testing.litmus')->fields->url;
 
         $url = url('testing');
 
@@ -39,7 +39,7 @@ class UrlTest extends TestCase
         $stream = Streams::make('testing.fakers');
 
         $this->assertNotFalse(
-            filter_var($stream->fields->url->type()->generate(), FILTER_VALIDATE_URL)
+            filter_var($stream->fields->url->generate(), FILTER_VALIDATE_URL)
         );
     }
 }

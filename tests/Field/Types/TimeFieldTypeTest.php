@@ -1,12 +1,12 @@
 <?php
 
-namespace Streams\Core\Tests\Field\Type;
+namespace Streams\Core\Tests\Field\Types;
 
 use Carbon\Carbon;
 use Tests\TestCase;
 use Streams\Core\Support\Facades\Streams;
 
-class TimeTest extends TestCase
+class TimeFieldTypeTest extends TestCase
 {
 
     public function setUp(): void
@@ -36,14 +36,14 @@ class TimeTest extends TestCase
 
     public function test_stores_time_as_standard_format()
     {
-        $type = Streams::make('testing.litmus')->fields->time->type();
+        $type = Streams::make('testing.litmus')->fields->time;
 
         $this->assertSame('09:00:00', $type->modify('Yesterday 9am'));
     }
 
     public function test_can_generate_time()
     {
-        $type = Streams::make('testing.litmus')->fields->time->type();
+        $type = Streams::make('testing.litmus')->fields->time;
 
         $time = $type->generate();
 

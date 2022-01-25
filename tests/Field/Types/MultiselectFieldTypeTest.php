@@ -1,13 +1,13 @@
 <?php
 
-namespace Streams\Core\Tests\Field\Type;
+namespace Streams\Core\Tests\Field\Types;
 
 use Tests\TestCase;
 use Illuminate\Support\Collection;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Value\MultiselectValue;
 
-class MultiselectTest extends TestCase
+class MultiselectFieldTypeTest extends TestCase
 {
 
     public function setUp(): void
@@ -20,7 +20,7 @@ class MultiselectTest extends TestCase
 
     public function test_modifies_to_selection_array()
     {
-        $type = Streams::make('testing.litmus')->fields->multiselect->type();
+        $type = Streams::make('testing.litmus')->fields->multiselect;
 
         $this->assertSame(['foo'], $type->modify('foo'));
         $this->assertSame(['bar'], $type->restore('bar'));
@@ -32,7 +32,7 @@ class MultiselectTest extends TestCase
 
     public function test_restores_to_selection_array()
     {
-        $type = Streams::make('testing.litmus')->fields->multiselect->type();
+        $type = Streams::make('testing.litmus')->fields->multiselect;
 
         $this->assertSame(['bar'], $type->restore('bar'));
 
@@ -56,14 +56,14 @@ class MultiselectTest extends TestCase
 
     public function test_configured_options()
     {
-        $type = Streams::make('testing.litmus')->fields->multiselect->type();
+        $type = Streams::make('testing.litmus')->fields->multiselect;
 
         $this->assertSame(['foo' => 'Foo', 'bar' => 'Bar'], $type->options());
     }
 
     public function test_callable_options()
     {
-        $type = Streams::make('testing.litmus')->fields->multiselect_callable_options->type();
+        $type = Streams::make('testing.litmus')->fields->multiselect_callable_options;
 
         $this->assertSame(['foo' => 'Bar', 'bar' => 'Baz'], $type->options());
     }
@@ -80,8 +80,8 @@ class MultiselectTest extends TestCase
         $stream = Streams::make('testing.fakers');
 
         $this->assertSame([], array_diff(
-            $stream->fields->multiselect->type()->generate(),
-            array_keys($stream->fields->multiselect->type()->options())
+            $stream->fields->multiselect->generate(),
+            array_keys($stream->fields->multiselect->options())
         ));
     }
 }

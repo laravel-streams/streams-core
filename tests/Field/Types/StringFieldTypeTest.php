@@ -1,14 +1,12 @@
 <?php
 
-namespace Streams\Core\Tests\Field\Type;
+namespace Streams\Core\Tests\Field\Types;
 
 use Tests\TestCase;
-use Illuminate\Support\Str;
 use Streams\Core\Field\Value\StrValue;
 use Streams\Core\Support\Facades\Streams;
-use Streams\Core\Field\Value\TemplateValue;
 
-class TemplateTest extends TestCase
+class StrFieldTypeTest extends TestCase
 {
 
     public function setUp(): void
@@ -21,7 +19,7 @@ class TemplateTest extends TestCase
 
     public function test_casts_to_string()
     {
-        $type = Streams::make('testing.litmus')->fields->template->type();
+        $type = Streams::make('testing.litmus')->fields->string;
 
         $this->assertIsString($type->modify(100));
         $this->assertIsString($type->restore(100));
@@ -29,21 +27,15 @@ class TemplateTest extends TestCase
 
     public function test_expanded_value()
     {
-        $this->markTestIncomplete('This should be "code"');
-        return;
-
         $test = Streams::repository('testing.litmus')->find('field_types');
 
-        $this->assertInstanceOf(TemplateValue::class, $test->expand('template'));
+        $this->assertInstanceOf(StrValue::class, $test->expand('string'));
     }
 
     public function test_can_generate_value()
     {
-        $this->markTestIncomplete('This should be "code"');
-        return;
-
         $stream = Streams::make('testing.fakers');
 
-        $this->assertStringContainsString('<html>', $stream->fields->template->type()->generate());
+        $this->assertIsString($stream->fields->string->generate());
     }
 }

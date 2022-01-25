@@ -1,13 +1,13 @@
 <?php
 
-namespace Streams\Core\Tests\Field\Type;
+namespace Streams\Core\Tests\Field\Types;
 
 use Tests\TestCase;
 use Illuminate\Support\Facades\Hash;
 use Streams\Core\Field\Value\HashValue;
 use Streams\Core\Support\Facades\Streams;
 
-class HashTest extends TestCase
+class HashFieldTypeTest extends TestCase
 {
 
     public function setUp(): void
@@ -27,14 +27,14 @@ class HashTest extends TestCase
 
     public function test_casts_to_hashed_string()
     {
-        $type = Streams::make('testing.litmus')->fields->hash->type();
+        $type = Streams::make('testing.litmus')->fields->hash;
 
         $this->assertTrue(Hash::check('itsasecret', $type->modify('itsasecret')));
     }
 
     public function test_will_not_double_hash_strings()
     {
-        $type = Streams::make('testing.litmus')->fields->hash->type();
+        $type = Streams::make('testing.litmus')->fields->hash;
 
         $this->assertTrue(Hash::check('itsasecret', $type->modify($type->modify('itsasecret'))));
     }
@@ -50,6 +50,6 @@ class HashTest extends TestCase
     {
         $stream = Streams::make('testing.fakers');
 
-        $this->assertIsString($stream->fields->hash->type()->generate());
+        $this->assertIsString($stream->fields->hash->generate());
     }
 }

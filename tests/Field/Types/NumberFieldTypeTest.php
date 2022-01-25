@@ -1,12 +1,12 @@
 <?php
 
-namespace Streams\Core\Tests\Field\Type;
+namespace Streams\Core\Tests\Field\Types;
 
 use Tests\TestCase;
 use Streams\Core\Field\Value\NumberValue;
 use Streams\Core\Support\Facades\Streams;
 
-class NumberTest extends TestCase
+class NumberFieldTypeTest extends TestCase
 {
 
     public function setUp(): void
@@ -19,7 +19,7 @@ class NumberTest extends TestCase
 
     public function test_casts_to_numeric_value()
     {
-        $type = Streams::make('testing.litmus')->fields->number->type();
+        $type = Streams::make('testing.litmus')->fields->number;
 
         $this->assertSame(100, $type->modify("100"));
         $this->assertSame(100, $type->restore("100"));
@@ -51,6 +51,6 @@ class NumberTest extends TestCase
     {
         $stream = Streams::make('testing.fakers');
 
-        $this->assertIsNumeric($stream->fields->number->type()->generate());
+        $this->assertIsNumeric($stream->fields->number->generate());
     }
 }

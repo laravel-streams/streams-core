@@ -1,13 +1,13 @@
 <?php
 
-namespace Streams\Core\Tests\Field\Type;
+namespace Streams\Core\Tests\Field\Types;
 
 use Tests\TestCase;
 use Illuminate\Support\Str;
 use Streams\Core\Field\Value\StrValue;
 use Streams\Core\Support\Facades\Streams;
 
-class UuidTest extends TestCase
+class UuidFieldTypeTest extends TestCase
 {
 
     public function setUp(): void
@@ -20,7 +20,7 @@ class UuidTest extends TestCase
 
     public function test_casts_to_string()
     {
-        $type = Streams::make('testing.litmus')->fields->uuid->type();
+        $type = Streams::make('testing.litmus')->fields->uuid;
 
         $this->assertIsString($type->modify((string) Str::uuid()));
         $this->assertIsString($type->restore((string) Str::uuid()));
@@ -37,13 +37,13 @@ class UuidTest extends TestCase
     {
         $stream = Streams::make('testing.fakers');
 
-        $this->assertIsString($stream->fields->uuid->type()->generate());
+        $this->assertIsString($stream->fields->uuid->generate());
     }
 
     public function test_generates_uuid_as_default()
     {
         $stream = Streams::make('testing.fakers');
 
-        $this->assertIsString($stream->fields->uuid->type()->default(null));
+        $this->assertIsString($stream->fields->uuid->default(null));
     }
 }

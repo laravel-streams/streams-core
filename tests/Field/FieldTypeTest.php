@@ -18,7 +18,7 @@ class FieldTypeTest extends TestCase
 
     public function testGenerateValue()
     {
-        $fake = Streams::make('testing.fakers')->fields->string->type()->generate();
+        $fake = Streams::make('testing.fakers')->fields->string->generate();
 
         $this->assertIsString($fake);
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Streams\Core\Tests\Field\Type;
+namespace Streams\Core\Tests\Field\Types;
 
 use Tests\TestCase;
 use Illuminate\Support\Str;
@@ -8,7 +8,7 @@ use Streams\Core\Field\Value\StrValue;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Value\MarkdownValue;
 
-class MarkdownTest extends TestCase
+class MarkdownFieldTypeTest extends TestCase
 {
 
     public function setUp(): void
@@ -30,7 +30,7 @@ class MarkdownTest extends TestCase
     {
         $stream = Streams::make('testing.fakers');
 
-        $this->assertIsString($markdown = $stream->fields->markdown->type()->generate());
+        $this->assertIsString($markdown = $stream->fields->markdown->generate());
         
         $this->assertStringContainsString('# ', $markdown);
         $this->assertStringContainsString('### ', $markdown);

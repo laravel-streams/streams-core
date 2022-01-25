@@ -40,7 +40,13 @@ class Entry implements
 
     public function __construct(array $attributes = [])
     {
-        $this->stream = Arr::pull($attributes, 'stream');
+        $stream = Arr::pull($attributes, 'stream');
+
+        if (is_string($stream)) {
+            $stream = Streams::make($stream);
+        }
+
+        $this->stream = $stream;
 
         $this->constructFluency($attributes);
     }
