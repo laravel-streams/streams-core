@@ -1,7 +1,6 @@
 /.nyc_output
 /bin
 /coverage
-/coverage
 /node_modules
 /package-lock.json
 /vendor
