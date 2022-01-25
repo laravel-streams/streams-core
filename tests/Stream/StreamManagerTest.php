@@ -5,6 +5,7 @@ namespace Streams\Core\Tests\Stream;
 use Tests\TestCase;
 use Streams\Core\Stream\Stream;
 use Streams\Core\Criteria\Criteria;
+use Streams\Core\Entry\EntrySchema;
 use Streams\Core\Entry\EntryFactory;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Repository\Contract\RepositoryInterface;
@@ -53,6 +54,20 @@ class StreamManagerTest extends TestCase
         $this->assertTrue(Streams::exists('testing.litmus'));
     }
 
+    public function test_can_extend_a_registered_stream()
+    {
+        Streams::load(__DIR__ . '/../litmus.json');
+
+        $stream = Streams::extend('testing.litmus', [
+            'id' => 'testing.litmus_extended',
+            'description' => 'Extended description.',
+        ]);
+
+        $this->assertInstanceOf(Stream::class, $stream);
+
+        $this->assertSame('Extended description.', $stream->description);
+    }
+
     public function test_can_overload_a_registered_stream()
     {
         Streams::load(__DIR__ . '/../litmus.json');
@@ -73,24 +88,51 @@ class StreamManagerTest extends TestCase
         $this->assertTrue(Streams::collection()->has('testing.litmus'));
     }
 
-    public function test_can_return_entry_criteria()
+    public function test_routes_registered_streams()
+    {
+        $stream = Streams::register([
+            'id' => 'testing.test_routes',
+            'routes' => [
+                'view' => [
+                    'uri' => 'testing/{id}',
+                ],
+                'index' => [
+                    'uri' => 'testing/{id}',
+                    'defer' => true,
+                ],
+            ]
+        ]);
+
+        $this->assertInstanceOf(Stream::class, $stream);
+
+        $this->assertTrue(Streams::exists('testing.test_routes'));
+    }
+
+    public function test_returns_entry_criteria()
     {
         Streams::load(__DIR__ . '/../litmus.json');
 
         $this->assertInstanceOf(Criteria::class, Streams::entries('testing.litmus'));
     }
 
-    public function test_can_return_entry_repository()
+    public function test_returns_entry_repository()
     {
         Streams::load(__DIR__ . '/../litmus.json');
 
         $this->assertInstanceOf(RepositoryInterface::class, Streams::repository('testing.litmus'));
     }
 
-    public function test_can_return_entry_factory()
+    public function test_returns_entry_factory()
     {
         Streams::load(__DIR__ . '/../litmus.json');
 
         $this->assertInstanceOf(EntryFactory::class, Streams::factory('testing.litmus'));
+    }
+
+    public function test_returns_schema_generator()
+    {
+        Streams::load(__DIR__ . '/../litmus.json');
+
+        $this->assertInstanceOf(EntrySchema::class, Streams::schema('testing.litmus'));
     }
 }

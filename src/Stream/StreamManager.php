@@ -72,7 +72,11 @@ class StreamManager
     {
         $target = $this->overload($id, $stream);
 
-        App::make('streams.instances.' . $target->id);
+        App::instance('streams.instances.' . $target->id, $target);
+
+        $this->collection->put($target->id, $target);
+
+        $this->route($target);
 
         return $target;
     }

@@ -54,14 +54,6 @@ class StreamRouter
         $constraints = Arr::pull($route, 'constraints', []);
 
         /**
-         * Ensure some default
-         * information is present.
-         */
-        if (!isset($route['uses'])) {
-            $route['uses'] = 'Streams\Core\Http\Controller\StreamsController@handle';
-        }
-
-        /**
          * If the route contains a
          * controller@action then
          * create a normal route.
