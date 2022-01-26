@@ -12,12 +12,12 @@ class UuidFieldType extends Field
 
     public function default($value)
     {
-        return Str::uuid();
+        return $this->generate();
     }
 
     public function generate()
     {
-        return Str::uuid();
+        return (string) Str::uuid();
     }
 
     public function getValueName()

@@ -6,7 +6,7 @@ use Tests\TestCase;
 use Streams\Core\Field\Value\StrValue;
 use Streams\Core\Support\Facades\Streams;
 
-class StrFieldTypeTest extends TestCase
+class StringFieldTypeTest extends TestCase
 {
 
     public function setUp(): void
