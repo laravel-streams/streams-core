@@ -89,20 +89,20 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     abstract public function count();
 
-    /**
-     * Create a new entry.
-     *
-     * @param array $attributes
-     * @return EntryInterface
-     */
-    public function create(array $attributes = [])
-    {
-        $entry = $this->newInstance($attributes);
+    // /**
+    //  * Create a new entry.
+    //  *
+    //  * @param array $attributes
+    //  * @return EntryInterface
+    //  */
+    // public function create(array $attributes = [])
+    // {
+    //     $entry = $this->newInstance($attributes);
 
-        $this->save($entry);
+    //     $this->save($entry);
 
-        return $entry;
-    }
+    //     return $entry;
+    // }
 
     /**
      * Save an entry.
@@ -135,7 +135,9 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     protected function collect($entries)
     {
-        $collection = $this->stream->repository()->newCollection();
+        $collection = $this->stream
+            ->repository()
+            ->newCollection();
 
         if ($entries instanceof Collection) {
             $entries = $entries->all();
@@ -162,32 +164,35 @@ abstract class AbstractAdapter implements AdapterInterface
     {
         $data = Arr::undot($entry->toArray());
 
-        return $this->newInstance(array_merge(
-            [
-                'id' => $entry->getId(),
-                'created_at' => date('Y-m-d H:i:s', Arr::get($data, '__created_at', Arr::get($data, 'created_at'))),
-                'updated_at' => date('Y-m-d H:i:s', Arr::get($data, '__updated_at', Arr::get($data, 'updated_at'))),
-            ],
-            $data
-        ));
+        unset($data['__created_at']);
+        unset($data['__updated_at']);
+
+        $keyName = $this->stream->config('key_name', 'id');
+
+        $data = array_merge([$keyName => $entry->getId()], $data);
+
+        $entry = $this->newInstance()->setRawPrototypeAttributes($data);
+
+        return $entry;
     }
 
     public function newInstance(array $attributes = [])
     {
         $prototype = $this->stream->config('abstract', Entry::class);
 
-        $attributes['stream'] = $this->stream;
+        unset($attributes['__created_at']);
+        unset($attributes['__updated_at']);
 
         $prototype = new $prototype([
             'stream' => $this->stream,
         ]);
-        
+
         $prototype->setPrototypeProperties($this->stream->fields->toArray());
 
         $this->fillDefaults($attributes);
-        
-        $prototype->setRawPrototypeAttributes($attributes);
-        
+
+        $prototype->setPrototypeAttributes($attributes);
+
         return $prototype;
     }
 

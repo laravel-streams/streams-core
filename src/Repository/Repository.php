@@ -2,7 +2,6 @@
 
 namespace Streams\Core\Repository;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
@@ -145,7 +144,7 @@ class Repository implements RepositoryInterface
 
     public function newCollection(array $entries = []): Collection
     {
-        $collection = Arr::get($this->stream->getPrototypeAttribute('config', []), 'collection', Collection::class);
+        $collection = $this->stream->config('collection', Collection::class);
 
         return new $collection($entries);
     }
