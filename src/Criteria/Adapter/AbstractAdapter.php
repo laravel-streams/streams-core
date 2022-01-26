@@ -89,21 +89,6 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     abstract public function count();
 
-    // /**
-    //  * Create a new entry.
-    //  *
-    //  * @param array $attributes
-    //  * @return EntryInterface
-    //  */
-    // public function create(array $attributes = [])
-    // {
-    //     $entry = $this->newInstance($attributes);
-
-    //     $this->save($entry);
-
-    //     return $entry;
-    // }
-
     /**
      * Save an entry.
      *

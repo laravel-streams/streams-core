@@ -137,23 +137,6 @@ class DatabaseAdapter extends AbstractAdapter
     }
 
     /**
-     * Create a new entry.
-     *
-     * @param array $attributes
-     * @return EntryInterface
-     */
-    public function create(array $attributes = [])
-    {
-        $keyName = $this->stream->config('key_name', 'id');
-
-        $id = $this->query->insertGetId($attributes);
-
-        $attributes[$keyName] = $id;
-
-        return $this->make($attributes);
-    }
-
-    /**
      * Save an entry.
      *
      * @param  EntryInterface $entry

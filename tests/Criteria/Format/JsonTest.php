@@ -13,7 +13,7 @@ class JsonTest extends TestCase
         $this->createApplication();
 
         Streams::register([
-            "handle" => "testing.examples.json",
+            "id" => "testing.examples.json",
             "description" => "Used for testing.",
 
             "source" => [

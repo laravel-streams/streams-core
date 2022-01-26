@@ -131,42 +131,6 @@ class FileAdapter extends AbstractAdapter
     }
 
     /**
-     * Create a new entry.
-     *
-     * @param array $attributes
-     * @return EntryInterface
-     */
-    public function create(array $attributes = [])
-    {
-        $this->fillDefaults($attributes);
-
-        $keyName = $this->stream->config('key_name', 'id');
-
-        $key = Arr::get($attributes, $keyName);
-
-        if (array_key_exists($key, $this->data)) {
-            throw new \Exception("Entry with key [{$key}] already exists.");
-        }
-
-        $format = $this->stream->config('source.format', 'json');
-
-        if ($format == 'csv') {
-
-            $fields = $this->stream->fields->keys()->all();
-
-            $fields = array_combine($fields, array_fill(0, count($fields), null));
-
-            $attributes = array_merge($fields, $attributes);
-        }
-
-        $this->data[$key] = $attributes;
-
-        $this->writeData();
-
-        return $this->make($attributes);
-    }
-
-    /**
      * Save an entry.
      *
      * @param  EntryInterface $entry

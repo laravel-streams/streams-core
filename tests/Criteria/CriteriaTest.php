@@ -5,9 +5,9 @@ namespace Streams\Core\Tests\Stream\Criteria;
 use Tests\TestCase;
 use Streams\Core\Entry\Entry;
 use Streams\Core\Criteria\Criteria;
+use Illuminate\Support\Facades\Crypt;
 use Streams\Core\Support\Facades\Streams;
 use Illuminate\Pagination\AbstractPaginator;
-use Illuminate\Support\Facades\Crypt;
 use Streams\Core\Criteria\Adapter\FilebaseAdapter;
 
 class CriteriaTest extends TestCase
