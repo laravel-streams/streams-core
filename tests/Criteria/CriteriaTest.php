@@ -7,6 +7,7 @@ use Streams\Core\Entry\Entry;
 use Streams\Core\Criteria\Criteria;
 use Streams\Core\Support\Facades\Streams;
 use Illuminate\Pagination\AbstractPaginator;
+use Illuminate\Support\Facades\Crypt;
 use Streams\Core\Criteria\Adapter\FilebaseAdapter;
 
 class CriteriaTest extends TestCase
@@ -121,6 +122,17 @@ class CriteriaTest extends TestCase
         $this->assertEquals(1, $query->get()->count());
     }
 
+    public function test_can_load_array_of_parameters()
+    {
+        $query = Streams::entries('testing.examples');
+
+        $query->loadParameters([
+            ['where' => ['name', 'First Example']]
+        ]);
+
+        $this->assertEquals(1, $query->get()->count());
+    }
+
     public function test_can_paginate_results()
     {
         $pagination = Streams::entries('testing.examples')->paginate(10);
@@ -156,6 +168,13 @@ class CriteriaTest extends TestCase
         $this->assertNotEquals('password_test', $entry->password);
     }
 
+    public function test_results_do_not_modify_attributes()
+    {
+        $entry = Streams::entries('testing.examples')->first('first');
+
+        $this->assertEquals('password', Crypt::decrypt($entry->password));
+    }
+
     public function test_can_create_and_delete_entries()
     {
         $entry = Streams::entries('testing.examples')->create([
@@ -177,7 +196,7 @@ class CriteriaTest extends TestCase
             'name' => 'Third Example',
         ]);
 
-        $count = Streams::entries('testing.examples')->cache(60)->count();
+        $count = Streams::entries('testing.examples')->cache()->count();
         $entry = Streams::entries('testing.examples')->cache(60)->find('third');
 
         $this->assertEquals(3, $count);
@@ -186,7 +205,7 @@ class CriteriaTest extends TestCase
         // Circumvent cache.
         unlink(base_path('vendor/streams/core/tests/data/examples/third.json'));
 
-        $count = Streams::entries('testing.examples')->cache(60)->count();
+        $count = Streams::entries('testing.examples')->cache()->count();
         $entry = Streams::entries('testing.examples')->cache(60)->find('third');
 
         $this->assertEquals(3, $count);
@@ -299,6 +318,13 @@ class CriteriaTest extends TestCase
         $entry = Streams::entries('testing.examples')->testMacro();
         
         $this->assertEquals('Second Example', $entry->name);
+    }
+
+    public function test_it_throws_exception_for_bad_methods()
+    {
+        $this->expectException(\Exception::class);
+
+        Streams::entries('testing.examples')->doesntExist();
     }
 }
 
