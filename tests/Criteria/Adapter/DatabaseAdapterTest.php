@@ -123,7 +123,7 @@ class DatabaseAdapterTest extends TestCase
         $this->assertInstanceOf(AbstractPaginator::class, $pagination);
         $this->assertEquals(2, $pagination->total());
 
-        
+
         $pagination = Streams::entries('testing.database')->paginate([
             'per_page' => 1
         ]);
@@ -141,30 +141,38 @@ class DatabaseAdapterTest extends TestCase
         $this->assertEquals('Jack Smith', $entry->name);
     }
 
-    // public function testCanCreateAndDelete()
-    // {
-    //     $entry = Streams::entries('testing.database')->newInstance([
-    //         'name' => 'Jack Smith',
-    //         'age' => 5,
-    //     ]);
+    public function testCanCreateAndDeleteEntries()
+    {
+        $entry = Streams::entries('testing.database')->newInstance([
+            'name' => 'Jack Smith',
+            'age' => 5,
+        ]);
 
-    //     $entry->save();
+        $entry->save();
 
-    //     $this->assertEquals(3, Streams::entries('testing.database')->count());
+        $this->assertEquals(3, Streams::entries('testing.database')->count());
 
-    //     $entry->delete();
+        $entry->delete();
 
-    //     $this->assertEquals(2, Streams::entries('testing.database')->count());
+        $this->assertEquals(2, Streams::entries('testing.database')->count());
+    }
 
+    public function testCanUpdateEntries()
+    {
+        $entry = Streams::entries('testing.database')
+            ->where('name', 'Jane Smith')
+            ->first();
 
-    //     $entry = Streams::entries('testing.database')->create([
-    //         'name' => 'Jack Smith',
-    //         'age' => 5,
-    //     ]);
+        $entry->age = 10;
 
-    //     $this->assertEquals('Jack Smith', $entry->name);
-    //     $this->assertEquals(3, Streams::entries('testing.database')->count());
-    // }
+        $entry->save();
+
+        $entry = Streams::entries('testing.database')
+            ->where('name', 'Jane Smith')
+            ->first();
+
+        $this->assertEquals(10, $entry->age);
+    }
 
     public function testCanTruncate()
     {

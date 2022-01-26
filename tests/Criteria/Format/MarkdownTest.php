@@ -13,7 +13,7 @@ class MarkdownTest extends TestCase
         $this->createApplication();
 
         Streams::register([
-            "handle" => "testing.examples.md",
+            "id" => "testing.examples.md",
             "description" => "Used for testing.",
 
             "source" => [

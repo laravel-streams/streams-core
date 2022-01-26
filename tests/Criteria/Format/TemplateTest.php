@@ -15,7 +15,7 @@ class TemplateTest extends TestCase
         $this->tearDown();
 
         Streams::register([
-            "handle" => "testing.examples.tpl",
+            "id" => "testing.examples.tpl",
             "description" => "Used for testing.",
 
             "source" => [

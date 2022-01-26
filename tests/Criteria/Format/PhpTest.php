@@ -13,7 +13,7 @@ class PhpTest extends TestCase
         $this->createApplication();
 
         Streams::register([
-            "handle" => "testing.examples.php",
+            "id" => "testing.examples.php",
             "description" => "Used for testing.",
 
             "source" => [

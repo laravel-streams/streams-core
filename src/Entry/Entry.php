@@ -137,40 +137,7 @@ class Entry implements
 
         return $this;
     }
-
-    // /**
-    //  * Load an entry over this one.
-    //  *
-    //  * @param $identifier
-    //  * @return $this
-    //  */
-    // protected function loadEntry($identifier)
-    // {
-    //     $loaded = $this->stream()->repository()->find($identifier);
-
-    //     $this->setPrototypeAttributes(
-    //         array_merge($this->toArray(), $loaded->toArray())
-    //     );
-
-    //     return $this;
-    // }
-
-    // /**
-    //  * Extend over another entry.
-    //  *
-    //  * @param $identifier
-    //  * @return $this
-    //  */
-    // protected function extendEntry($identifier)
-    // {
-    //     $extended = $this->stream()->repository()->find($identifier);
-
-    //     $this->setPrototypeAttributes(
-    //         array_merge($extended->toArray(), $this->toArray())
-    //     );
-
-    //     return $this;
-    // }
+    
 
     public function toArray()
     {

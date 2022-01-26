@@ -135,13 +135,6 @@ class Criteria
 
             $fingerprint = $this->stream->handle . '.query__' . md5(json_encode($this->parameters));
 
-            if (!is_array($cache)) {
-                $cache = [
-                    $this->stream->config('cache.ttl', 60 * 60),
-                    $fingerprint,
-                ];
-            }
-
             return $this->stream->cache()->remember(Arr::get($cache, 1) ?: $fingerprint, $cache[0], function () {
                 return $this->adapter->get(array_diff_key($this->parameters, array_flip(['cache'])));
             });
@@ -204,14 +197,7 @@ class Criteria
 
             $fingerprint = $this->stream->id . '.query.count__' . md5(json_encode($this->parameters));
 
-            if (!is_array($cache)) {
-                $cache = [
-                    $this->stream->config('cache.ttl', 60 * 60),
-                    $fingerprint,
-                ];
-            }
-
-            return $this->stream->cache()->remember($fingerprint, $cache[0], function () {
+            return $this->stream->cache()->remember(Arr::get($cache, 1) ?: $fingerprint, $cache[0], function () {
                 return $this->adapter->count(array_diff_key($this->parameters, array_flip(['cache'])));
             });
         }
@@ -234,6 +220,8 @@ class Criteria
         $entry->fire('creating', [
             'entry' => $entry,
         ]);
+
+        $entry->save();
 
         $entry->fire('created', [
             'entry' => $entry,

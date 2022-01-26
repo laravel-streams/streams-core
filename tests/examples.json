@@ -18,6 +18,10 @@
         {
             "handle": "age",
             "type": "integer"
+        },
+        {
+            "handle": "password",
+            "type": "encrypted"
         }
     ]
 }

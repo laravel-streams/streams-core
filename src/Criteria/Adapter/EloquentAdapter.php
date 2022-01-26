@@ -87,10 +87,6 @@ class EloquentAdapter extends AbstractAdapter
             $operator = '=';
         }
 
-        if ($field == 'handle') {
-            $field = Arr::get($this->stream->getPrototypeAttribute('config', []), 'handle', 'id');
-        }
-
         $method = Str::studly($nested ? $nested . '_where' : 'where');
 
         $this->query = $this->query->{$method}($field, $operator, $value);
@@ -159,23 +155,6 @@ class EloquentAdapter extends AbstractAdapter
     }
 
     /**
-     * Create a new entry.
-     *
-     * @param array $attributes
-     * @return EntryInterface
-     */
-    public function create(array $attributes = [])
-    {
-        $this->fillDefaults($attributes);
-        
-        $model = $this->stream->config('source.model');
-
-        $model::unguard();
-        
-        return $model::create($attributes);
-    }
-
-    /**
      * Save an entry.
      *
      * @param  Model $entry
@@ -224,11 +203,7 @@ class EloquentAdapter extends AbstractAdapter
      */
     protected function make($entry)
     {
-        if ($entry instanceof Model) {
-            return $entry;
-        }
-        
-        return $this->newInstance($entry);
+        return $entry;
     }
 
     public function newInstance(array $attributes = []): EntryInterface

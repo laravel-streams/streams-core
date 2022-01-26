@@ -13,7 +13,7 @@ class YamlTest extends TestCase
         $this->createApplication();
 
         Streams::register([
-            "handle" => "testing.examples.yaml",
+            "id" => "testing.examples.yaml",
             "description" => "Used for testing.",
 
             "source" => [
