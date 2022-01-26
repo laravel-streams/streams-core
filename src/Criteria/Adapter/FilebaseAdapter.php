@@ -98,10 +98,6 @@ class FilebaseAdapter extends AbstractAdapter
             $operator = '!=';
         }
 
-        if ($field == 'handle') {
-            $field = Arr::get($this->stream->getPrototypeAttribute('config', []), 'handle', 'id');
-        }
-
         if ($field == 'id') {
             $field = '__id';
         }
