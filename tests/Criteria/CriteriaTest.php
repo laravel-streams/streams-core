@@ -4,11 +4,10 @@ namespace Streams\Core\Tests\Stream\Criteria;
 
 use Tests\TestCase;
 use Streams\Core\Entry\Entry;
-use Illuminate\Support\Collection;
+use Streams\Core\Criteria\Criteria;
 use Streams\Core\Support\Facades\Streams;
 use Illuminate\Pagination\AbstractPaginator;
 use Streams\Core\Criteria\Adapter\FilebaseAdapter;
-use Streams\Core\Criteria\Criteria;
 
 class CriteriaTest extends TestCase
 {
@@ -31,7 +30,7 @@ class CriteriaTest extends TestCase
         }
     }
 
-    public function test_can_get_all_entries()
+    public function test_can_get_entries()
     {
         $entries = Streams::entries('testing.examples')->get();
 
@@ -90,6 +89,13 @@ class CriteriaTest extends TestCase
         );
 
         $this->assertEquals(
+            2,
+            Streams::entries('testing.examples')
+                ->where('name', 'LIKE', '% Example')
+                ->get()->count()
+        );
+
+        $this->assertEquals(
             'Second Example',
             Streams::entries('testing.examples')
                 ->where('name', 'Second Example')
@@ -104,7 +110,7 @@ class CriteriaTest extends TestCase
         );
     }
 
-    public function test_can_access_query_parameters()
+    public function test_can_get_and_set_query_parameters()
     {
         $query = Streams::entries('testing.examples')->where('name', 'Second Example');
 
@@ -140,6 +146,16 @@ class CriteriaTest extends TestCase
         $this->assertEquals('Third Example', $entry->name);
     }
 
+    public function test_new_instances_modify_attributes()
+    {
+        $entry = Streams::entries('testing.examples')->newInstance([
+            'name' => 'Modified Example',
+            'password' => 'password_test',
+        ]);
+
+        $this->assertNotEquals('password_test', $entry->password);
+    }
+
     public function test_can_create_and_delete_entries()
     {
         $entry = Streams::entries('testing.examples')->create([
@@ -149,7 +165,7 @@ class CriteriaTest extends TestCase
 
         $this->assertEquals(3, Streams::entries('testing.examples')->count());
 
-        $entry->delete();
+        Streams::entries('testing.examples')->delete($entry);
 
         $this->assertEquals(2, Streams::entries('testing.examples')->count());
     }

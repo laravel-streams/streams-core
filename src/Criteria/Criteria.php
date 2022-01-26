@@ -235,6 +235,8 @@ class Criteria
             'entry' => $entry,
         ]);
 
+        $entry->save();
+
         $entry->fire('created', [
             'entry' => $entry,
         ]);
