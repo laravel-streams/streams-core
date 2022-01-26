@@ -127,7 +127,6 @@ trait Prototype
         if ($this->hasPrototypePropertyType($key)) {
 
             $modified = $this->modifyPrototypeAttributeValue($key, $value);
-            //$modified = $value;
 
             $this->__prototype['attributes'][$key] = $modified;
 

@@ -229,11 +229,11 @@ class Criteria
     {
         $this->stream->cache()->flush();
 
-        // $this->fire('creating', [
-        //     'attributes' => $attributes,
-        // ]);
+        $entry = $this->newInstance($attributes);
 
-        $entry = $this->adapter->create($attributes);
+        $entry->fire('creating', [
+            'entry' => $entry,
+        ]);
 
         $entry->fire('created', [
             'entry' => $entry,

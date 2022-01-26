@@ -63,14 +63,6 @@ interface AdapterInterface
     public function count();
 
     /**
-     * Create a new entry.
-     *
-     * @param array $attributes
-     * @return EntryInterface
-     */
-    public function create(array $attributes = []);
-
-    /**
      * Save an entry.
      *
      * @param  EntryInterface $entry
