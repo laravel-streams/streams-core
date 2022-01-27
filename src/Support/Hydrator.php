@@ -4,7 +4,6 @@ namespace Streams\Core\Support;
 
 use ReflectionProperty;
 use Illuminate\Support\Str;
-use Streams\Core\Field\Field;
 use Streams\Core\Support\Traits\Prototype;
 
 /**
