@@ -18,6 +18,10 @@ use Streams\Core\Criteria\Adapter\EloquentAdapter;
 use Streams\Core\Criteria\Adapter\FilebaseAdapter;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 
+/**
+ * This class is responsible for top level
+ * abstraction of common criteria for entries.
+ */
 class Repository implements RepositoryInterface
 {
 
@@ -101,9 +105,17 @@ class Repository implements RepositoryInterface
 
     public function delete(EntryInterface $entry): bool
     {
-        return (bool) $this
-            ->newCriteria()
-            ->delete($entry);
+        $criteria = $this->newCriteria();
+
+        $entry->fire('deleting', [
+            'entry' => $entry,
+        ]);
+
+        $keyName = $this->stream->config('key_name', 'id');
+
+        $criteria->where($keyName, $entry->{$keyName});
+
+        return $criteria->delete();
     }
 
     public function truncate(): void

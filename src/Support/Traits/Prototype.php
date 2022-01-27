@@ -227,7 +227,7 @@ trait Prototype
     protected function restorePrototypeAttributeValue($key, $value)
     {
         $type = $this->newProtocolPropertyFieldType($key);
-
+        
         if ($this->stream) {
             $type->field = $this->stream->fields->get($key);
         }
@@ -267,7 +267,7 @@ trait Prototype
         }
 
         $attributes = Arr::get($this->__prototype['properties'], $key, []);
-
+        
         $attributes['stream'] = $this->stream;
 
         return App::make('streams.core.field_type.' . $type, compact('attributes'));

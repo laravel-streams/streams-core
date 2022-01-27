@@ -24,10 +24,8 @@ use Streams\Core\Support\Facades\Streams;
 use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
-use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Traits\ForwardsCalls;
-use Illuminate\Validation\ValidationRuleParser;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Validation\StreamsPresenceVerifier;
 
@@ -44,18 +42,33 @@ class Stream implements
     use ForwardsCalls;
     use FiresCallbacks;
 
-    protected $__attribute = [
-        'handle' => null,
-        'routes' => [],
-        'rules' => [],
-        'validators' => [],
+    protected $__attributes = [
         'config' => [
             'key_name' => 'id',
         ],
     ];
 
+    protected $__properties = [
+        'config' => [
+            'type' => 'object',
+            'config' => [
+                'default' => [
+                    'key_name' => 'id',
+                ],
+            ],
+        ],
+        'fields' => [
+            'type' => 'array',
+            'config' => [
+                'wrapper' => FieldCollection::class,
+            ],
+        ],
+    ];
+
     public function __construct(array $attributes = [])
     {
+        $attributes = array_merge_recursive($this->__attributes, $attributes);
+
         $callbackData = new Collection([
             'attributes' => $attributes,
         ]);
@@ -67,6 +80,8 @@ class Stream implements
         $this->syncOriginalPrototypeAttributes($attributes);
 
         $this->loadPrototypeAttributes($callbackData->get('attributes'));
+
+        $this->loadPrototypeProperties($this->__properties);
 
         $this->fire('initialized', [
             'stream' => $this,
@@ -189,7 +204,7 @@ class Stream implements
 
     public function config(string $key, $default = null)
     {
-        return Arr::get($this->getPrototypeAttribute('config'), $key, $default);
+        return Arr::get((array) $this->getPrototypeAttribute('config'), $key, $default);
     }
 
     public function cache(): StreamCache
@@ -344,6 +359,8 @@ class Stream implements
     {
         $fields = [];
 
+        $this->__prototype['original']['fields'] = [];
+
         /**
          * Minimal standardization
          */
@@ -352,8 +369,6 @@ class Stream implements
             $attributes = is_string($attributes) ? ['type' => $attributes] : $attributes;
 
             $attributes['handle'] = Arr::get($attributes, 'handle', $key);
-
-            $attributes['stream'] = $this;
 
             /**
              * Process validation flags.
@@ -375,13 +390,16 @@ class Stream implements
             }
 
             $field = App::make('streams.core.field_type.' . $attributes['type'], [
-                'attributes' => $attributes,
+                'attributes' => $attributes + ['stream' => $this],
             ]);
 
             $fields[$attributes['handle']] = $field;
+
+            // Sync originals with fully expanded field definitions.
+            $this->__prototype['original']['fields'][$attributes['handle']] = $attributes;
         }
 
-        $this->fields = new FieldCollection($fields);
+        $this->setPrototypeAttributeValue('fields', new FieldCollection($fields));
     }
 
     public function merge(array &$parent, array &$stream)

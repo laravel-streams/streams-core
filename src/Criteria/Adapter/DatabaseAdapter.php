@@ -13,26 +13,8 @@ use Streams\Core\Entry\Contract\EntryInterface;
 
 class DatabaseAdapter extends AbstractAdapter
 {
-
-    /**
-     * The database query.
-     *
-     * @var Builder
-     */
     protected $query;
 
-    /**
-     * The entry stream.
-     *
-     * @var Stream
-     */
-    protected $stream;
-
-    /**
-     * Create a new class instance.
-     *
-     * @param Stream $stream
-     */
     public function __construct(Stream $stream)
     {
         $this->stream = $stream;
@@ -45,44 +27,21 @@ class DatabaseAdapter extends AbstractAdapter
             ->table($stream->config('source.table', $stream->id));
     }
 
-    /**
-     * Order the query by field/direction.
-     *
-     * @param string $field
-     * @param string|null $direction
-     * @param string|null $value
-     */
-    public function orderBy($field, $direction = 'asc')
+    public function orderBy($field, $direction = 'asc'): self
     {
         $this->query = $this->query->orderBy($field, $direction);
 
         return $this;
     }
 
-    /**
-     * Limit the entries returned.
-     *
-     * @param int $limit
-     * @param int|null $offset
-     */
-    public function limit($limit, $offset = 0)
+    public function limit($limit, $offset = 0): self
     {
         $this->query = $this->query->take($limit)->skip($offset);
 
         return $this;
     }
 
-    /**
-     * Constrain the query by a typical 
-     * field, operator, value argument.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
-     * @param string|null $nested
-     * @return $this
-     */
-    public function where($field, $operator = null, $value = null, $nested = null)
+    public function where($field, $operator = null, $value = null, $nested = null): self
     {
         if (!$value) {
             $value = $operator;
@@ -96,53 +55,21 @@ class DatabaseAdapter extends AbstractAdapter
         return $this;
     }
 
-    /**
-     * Get the criteria results.
-     * 
-     * @param array $parameters
-     * @return Collection
-     */
     public function get(array $parameters = []): Collection
     {
-        foreach ($parameters as $key => $call) {
-
-            $method = Str::camel($key);
-
-            foreach ($call as $parameters) {
-                call_user_func_array([$this, $method], $parameters);
-            }
-        }
+        $this->callParameterMethods($parameters);
 
         return $this->collect($this->query->get());
     }
 
-    /**
-     * Count the criteria results.
-     * 
-     * @param array $parameters
-     * @return int
-     */
-    public function count(array $parameters = [])
+    public function count(array $parameters = []): int
     {
-        foreach ($parameters as $key => $call) {
-
-            $method = Str::camel($key);
-
-            foreach ($call as $parameters) {
-                call_user_func_array([$this, $method], $parameters);
-            }
-        }
+        $this->callParameterMethods($parameters);
         
         return $this->query->count();
     }
 
-    /**
-     * Save an entry.
-     *
-     * @param  EntryInterface $entry
-     * @return bool
-     */
-    public function save($entry)
+    public function save($entry): bool
     {
         $attributes = $entry->getAttributes();
 
@@ -160,43 +87,19 @@ class DatabaseAdapter extends AbstractAdapter
         return true;
     }
 
-    /**
-     * Delete results.
-     *
-     * @param array $parameters
-     * @return bool
-     */
-    public function delete(array $parameters = [])
+    public function delete(array $parameters = []): bool
     {
-        foreach ($parameters as $key => $call) {
-
-            $method = Str::camel($key);
-
-            foreach ($call as $parameters) {
-                call_user_func_array([$this, $method], $parameters);
-            }
-        }
+        $this->callParameterMethods($parameters);
 
         return $this->query->delete();
     }
-
-    /**
-     * Truncate all entries.
-     *
-     * @return void
-     */
-    public function truncate()
+    
+    public function truncate(): void
     {
         $this->query->truncate();
     }
 
-    /**
-     * Return an entry interface from a file.
-     *
-     * @param $entry
-     * @return EntryInterface
-     */
-    protected function make($entry)
+    protected function make($entry): EntryInterface
     {
         return $this->newInstance((array) $entry);
     }

@@ -12,6 +12,12 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Streams\Core\Entry\Contract\EntryInterface;
 use Streams\Core\Criteria\Contract\AdapterInterface;
 
+/**
+ * Criteria serve as the abstraction layer
+ * for building queries. The logic is passed
+ * through to the adapters to handle the storage
+ * specific strategies of applying the query logic.
+ */
 class Criteria
 {
 
@@ -247,30 +253,11 @@ class Criteria
         return (bool) $result;
     }
 
-    public function delete(EntryInterface $entry = null): bool
+    public function delete(): bool
     {
         $this->stream->cache()->flush();
 
-        if ($entry) {
-
-            $entry->fire('deleting', [
-                'entry' => $entry,
-            ]);
-
-            $keyName = $this->stream->config('key_name', 'id');
-
-            $this->adapter->where($keyName, $entry->{$keyName});
-        }
-
-        $result = (bool) $this->adapter->delete($this->parameters);
-
-        if ($entry) {
-            $entry->fire('deleted', [
-                'entry' => $entry,
-            ]);
-        }
-
-        return $result;
+        return $this->adapter->delete($this->parameters);
     }
 
     public function truncate(): void

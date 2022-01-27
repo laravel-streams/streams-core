@@ -52,6 +52,17 @@ class Hydrator
             }, $properties)
         );
 
+        $typed = array_filter(
+            array_combine(
+                array_map(function (ReflectionProperty $property) {
+                    return Str::snake($property->getName());
+                }, $properties),
+                array_map(function (ReflectionProperty $property) {
+                    return ($type = $property->getType()) ? $type->getName() : null;
+                }, $properties)
+            )
+        );
+
         $public = array_combine(
             array_map(function (ReflectionProperty $property) {
                 return Str::snake($property->getName());
@@ -80,7 +91,16 @@ class Hydrator
         /**
          * Access the public attributes.
          */
-        array_walk($public, function (&$attribute) use ($object) {
+        array_walk($public, function (&$attribute) use ($typed, $object) {
+            
+            /**
+             * If the property is typed but not
+             * initialized then skip it entirely.
+             */
+            if (isset($typed[$attribute]) && !isset($object->{$attribute})) {
+                return;
+            }
+
             $attribute = $object->{$attribute};
         });
 

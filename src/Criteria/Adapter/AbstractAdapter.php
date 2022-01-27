@@ -4,6 +4,7 @@ namespace Streams\Core\Criteria\Adapter;
 
 use Filebase\Database;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Streams\Core\Entry\Entry;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
@@ -12,121 +13,50 @@ use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Entry\Contract\EntryInterface;
 use Streams\Core\Criteria\Contract\AdapterInterface;
 
+/**
+ * Adapters act as drivers to satisfy the
+ * query building needs of the higher criteria.
+ */
 abstract class AbstractAdapter implements AdapterInterface
 {
 
     use Macroable;
     use HasMemory;
 
-    /**
-     * The database query.
-     *
-     * @var Database
-     */
     protected $query;
 
-    /**
-     * The entry stream.
-     *
-     * @var Stream
-     */
-    protected $stream;
+    protected Stream $stream;
 
-    /**
-     * Order the query by field/direction.
-     *
-     * @param string $field
-     * @param string|null $direction
-     * @param string|null $value
-     */
-    abstract public function orderBy($field, $direction = 'asc');
+    abstract public function orderBy($field, $direction = 'asc'): self;
 
-    /**
-     * Limit the entries returned.
-     *
-     * @param int $limit
-     * @param int|null $offset
-     */
-    abstract public function limit($limit, $offset = 0);
+    abstract public function limit($limit, $offset = 0): self;
 
-    /**
-     * Constrain the query by a typical 
-     * field, operator, value argument.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
-     * @param string|null $nested
-     */
-    abstract public function where($field, $operator = null, $value = null, $nested = null);
+    abstract public function where($field, $operator = null, $value = null, $nested = null): self;
 
-    /**
-     * Constrain the query by a typical 
-     * field, operator, value argument.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
-     * @param string|null $nested
-     */
-    public function orWhere($field, $operator = null, $value = null)
+    public function orWhere($field, $operator = null, $value = null): self
     {
         return $this->where($field, $operator, $value, 'or');
     }
 
-    /**
-     * Get the criteria results.
-     * 
-     * @param array $parameters
-     * @return Collection
-     */
     abstract public function get(array $parameters = []): Collection;
 
-    /**
-     * Count the criteria results.
-     * 
-     * @return int
-     */
-    abstract public function count();
+    abstract public function count(array $parameters = []): int;
 
-    /**
-     * Save an entry.
-     *
-     * @param  EntryInterface $entry
-     * @return bool
-     */
-    abstract public function save(EntryInterface $entry);
+    abstract public function delete(array $parameters = []): bool;
 
-    /**
-     * Delete an entry.
-     *
-     * @param array $parameters
-     * @return bool
-     */
-    abstract public function delete(array $parameters = []);
+    abstract public function save(EntryInterface $entry): bool;
 
-    /**
-     * Truncate all entries.
-     *
-     * @return void
-     */
-    abstract public function truncate();
+    abstract public function truncate(): void;
 
-    /**
-     * Return an entry collection.
-     *
-     * @param array $entries
-     * @return Collection
-     */
-    protected function collect($entries)
+    protected function collect($entries): Collection
     {
-        $collection = $this->stream
-            ->repository()
-            ->newCollection();
-
         if ($entries instanceof Collection) {
             $entries = $entries->all();
         }
+
+        $collection = $this->stream
+            ->repository()
+            ->newCollection();
 
         array_map(function ($entry) use ($collection) {
             $entry = $this->make($entry);
@@ -139,8 +69,30 @@ abstract class AbstractAdapter implements AdapterInterface
         return $collection;
     }
 
+    public function newInstance(array $attributes = []): EntryInterface
+    {
+        $prototype = $this->stream->config('abstract', Entry::class);
+
+        unset($attributes['__created_at']);
+        unset($attributes['__updated_at']);
+
+        $prototype = new $prototype([
+            'stream' => $this->stream,
+        ]);
+
+        $prototype->setPrototypeProperties(
+            $this->stream->getOriginalPrototypeAttributes()['fields']
+        );
+
+        $this->fillDefaults($attributes);
+
+        $prototype->setPrototypeAttributes($attributes);
+
+        return $prototype;
+    }
+
     /**
-     * Return an entry interface from a file.
+     * Return an entry interface from data.
      *
      * @param $entry
      * @return EntryInterface
@@ -161,27 +113,19 @@ abstract class AbstractAdapter implements AdapterInterface
         return $entry;
     }
 
-    public function newInstance(array $attributes = [])
+    protected function callParameterMethods(array $parameters): void
     {
-        $prototype = $this->stream->config('abstract', Entry::class);
+        foreach ($parameters as $key => $call) {
 
-        unset($attributes['__created_at']);
-        unset($attributes['__updated_at']);
+            $method = Str::camel($key);
 
-        $prototype = new $prototype([
-            'stream' => $this->stream,
-        ]);
-
-        $prototype->setPrototypeProperties($this->stream->fields->toArray());
-
-        $this->fillDefaults($attributes);
-
-        $prototype->setPrototypeAttributes($attributes);
-
-        return $prototype;
+            foreach ($call as $parameters) {
+                call_user_func_array([$this, $method], $parameters);
+            }
+        }
     }
 
-    protected function fillDefaults(array &$attributes)
+    protected function fillDefaults(array &$attributes): void
     {
         foreach ($this->stream->fields as $field) {
 

@@ -58,15 +58,19 @@ class Field implements
 
         $stream = Arr::get($attributes, 'stream');
 
-        if (!$stream instanceof Stream) {
+        if ($stream && !$stream instanceof Stream) {
             $stream = new Stream($stream);
         }
         
-        $this->stream = $stream;
+        if ($stream) {
+            $this->stream = $stream;
+        }
 
         $this->fire('initializing', [
             'callbackData' => $callbackData,
         ]);
+
+        $this->syncOriginalPrototypeAttributes($callbackData->get('attributes'));
 
         $this->setRawPrototypeAttributes($callbackData->get('attributes'));
 

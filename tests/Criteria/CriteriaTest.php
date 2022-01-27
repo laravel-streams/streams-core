@@ -184,7 +184,9 @@ class CriteriaTest extends TestCase
 
         $this->assertEquals(3, Streams::entries('testing.examples')->count());
 
-        Streams::entries('testing.examples')->delete($entry);
+        Streams::entries('testing.examples')
+            ->where('id', $entry->id)
+            ->delete();
 
         $this->assertEquals(2, Streams::entries('testing.examples')->count());
     }
