@@ -80,7 +80,9 @@ abstract class AbstractAdapter implements AdapterInterface
             'stream' => $this->stream,
         ]);
 
-        $prototype->setPrototypeProperties($this->stream->fields->toArray());
+        $prototype->setPrototypeProperties(
+            $this->stream->getOriginalPrototypeAttributes()['fields']
+        );
 
         $this->fillDefaults($attributes);
 

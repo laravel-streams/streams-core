@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field\Types;
 
+use Illuminate\Support\Arr;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Collection;
 use Streams\Core\Field\Value\ArrValue;
@@ -25,7 +26,7 @@ class ArrayFieldType extends Field
             $value = $value->all();
         }
         
-        $values = array_values($value);
+        $values = (array) $value;
 
         foreach ($values as &$value) {
 
@@ -63,7 +64,7 @@ class ArrayFieldType extends Field
             return $value;
         }
 
-        $values = array_values($value);
+        $values = (array) $value;
 
         foreach ($values as &$value) {
 
@@ -153,6 +154,6 @@ class ArrayFieldType extends Field
 
     protected function restoreInstance(array $meta, array $value)
     {
-        return new $meta['@instance']($value);
+        return new $meta['@abstract']($value);
     }
 }

@@ -16,13 +16,20 @@ todo:
 
 The Streams platform leans heavily on domain-driven design (DDD). We call these domain abstractions `streams`, hence our namesake.
 
-An example could be configuring a domain model (a stream) for a website's pages, users of an application, or feedback submissions from a form.
+An example could be configuring a domain model (a stream) for a website's pages, users of an application, or feedback submissions from a form. Streams describe your data structures.
 
 ## Defining Streams
 
 Using JSON files, you can define stream configurations in the `streams/` directory. The filenames serve as the stream's `id`.
 
 It is highly encouraged to use the plural form of a noun when naming Streams—for example, contacts and people. Also, naming conventions like `business_contacts` or `neat-people` work well.
+
+```files
+├── streams/
+│   ├── users.json
+│   ├── pages.json
+│   └── contacts.json
+```
 
 ### The Basics
 
@@ -34,6 +41,7 @@ Let's create a little stream to hold information for a simple CRM.
 // streams/contacts.json
 {
     "name": "Contacts",
+    "description": "A simple address book.",
     "config": {
         "source": {
             "type": "filebase",
