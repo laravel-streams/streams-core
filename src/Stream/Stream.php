@@ -24,10 +24,8 @@ use Streams\Core\Support\Facades\Streams;
 use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
-use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Traits\ForwardsCalls;
-use Illuminate\Validation\ValidationRuleParser;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Validation\StreamsPresenceVerifier;
 
@@ -52,7 +50,7 @@ class Stream implements
 
     protected $__properties = [
         'config' => [
-            'type' => 'array',
+            'type' => 'object',
             'config' => [
                 'default' => [
                     'key_name' => 'id',
