@@ -18,6 +18,10 @@ use Streams\Core\Criteria\Adapter\EloquentAdapter;
 use Streams\Core\Criteria\Adapter\FilebaseAdapter;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 
+/**
+ * This class is responsible for top level
+ * abstraction of common criteria for entries.
+ */
 class Repository implements RepositoryInterface
 {
 

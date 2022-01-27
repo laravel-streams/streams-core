@@ -12,6 +12,12 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Streams\Core\Entry\Contract\EntryInterface;
 use Streams\Core\Criteria\Contract\AdapterInterface;
 
+/**
+ * Criteria serve as the abstraction layer
+ * for building queries. The logic is passed
+ * through to the adapters to handle the storage
+ * specific strategies of applying the query logic.
+ */
 class Criteria
 {
 

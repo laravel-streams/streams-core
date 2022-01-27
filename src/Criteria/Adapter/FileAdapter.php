@@ -12,15 +12,9 @@ use Streams\Core\Entry\Contract\EntryInterface;
 
 class FileAdapter extends AbstractAdapter
 {
-
     protected $data = [];
     protected $query = [];
 
-    /**
-     * Create a new class instance.
-     *
-     * @param Stream $stream
-     */
     public function __construct(Stream $stream)
     {
         $this->stream = $stream;
@@ -30,27 +24,14 @@ class FileAdapter extends AbstractAdapter
         $this->query = new Collection($this->data);
     }
 
-    /**
-     * Order the query by field/direction.
-     *
-     * @param string $field
-     * @param string|null $direction
-     * @param string|null $value
-     */
-    public function orderBy($field, $direction = 'asc')
+    public function orderBy($field, $direction = 'asc'): self
     {
         $this->query = $this->query->sortBy($field, SORT_REGULAR, strtolower($direction) === 'desc' ? true : false);
 
         return $this;
     }
 
-    /**
-     * Limit the entries returned.
-     *
-     * @param int $limit
-     * @param int|null $offset
-     */
-    public function limit($limit, $offset = 0)
+    public function limit($limit, $offset = 0): self
     {
         if ($offset) {
             $this->query = $this->query->skip($offset);
@@ -61,16 +42,7 @@ class FileAdapter extends AbstractAdapter
         return $this;
     }
 
-    /**
-     * Constrain the query by a typical
-     * field, operator, value argument.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
-     * @param string|null $nested
-     */
-    public function where($field, $operator = null, $value = null, $nested = null)
+    public function where($field, $operator = null, $value = null, $nested = null): self
     {
         if (!$value) {
             $value = $operator;
@@ -97,12 +69,6 @@ class FileAdapter extends AbstractAdapter
         return $this;
     }
 
-    /**
-     * Get the criteria results.
-     *
-     * @param array $parameters
-     * @return Collection
-     */
     public function get(array $parameters = []): Collection
     {
         $this->query = $this->collect($this->query);
@@ -112,24 +78,12 @@ class FileAdapter extends AbstractAdapter
         return $this->query;
     }
 
-    /**
-     * Count the criteria results.
-     *
-     * @param array $parameters
-     * @return int
-     */
-    public function count(array $parameters = [])
+    public function count(array $parameters = []):int
     {
         return $this->get($parameters)->count();
     }
 
-    /**
-     * Save an entry.
-     *
-     * @param  EntryInterface $entry
-     * @return bool
-     */
-    public function save($entry)
+    public function save($entry): bool
     {
         $attributes = $entry->getAttributes();
 
@@ -159,13 +113,7 @@ class FileAdapter extends AbstractAdapter
         return $this->writeData();
     }
 
-    /**
-     * Delete results.
-     *
-     * @param array $parameters
-     * @return bool
-     */
-    public function delete(array $parameters = [])
+    public function delete(array $parameters = []): bool
     {
         $keyName = $this->stream->config('key_name', 'id');
 
@@ -178,25 +126,14 @@ class FileAdapter extends AbstractAdapter
         return true;
     }
 
-    /**
-     * Truncate all entries.
-     *
-     * @return void
-     */
-    public function truncate()
+    public function truncate(): void
     {
         $this->data = [];
 
         $this->writeData();
     }
 
-    /**
-     * Return an entry interface from a file.
-     *
-     * @param $entry
-     * @return EntryInterface
-     */
-    protected function make($entry)
+    protected function make($entry): EntryInterface
     {
         if ($entry instanceof EntryInterface) {
             return $entry;
@@ -254,7 +191,7 @@ class FileAdapter extends AbstractAdapter
                 }
 
                 $row = array_combine($fields, $row);
-
+                
                 $this->data[Arr::get($row, $keyName, $i)] = $row;
 
                 $i++;
@@ -273,9 +210,6 @@ class FileAdapter extends AbstractAdapter
         $keyName = $this->stream->config('key_name', 'id');
 
         array_walk($this->data, function ($item, $key) use ($keyName) {
-
-            Arr::pull($item, $keyName);
-
             $this->data[$key] = $item;
         });
 

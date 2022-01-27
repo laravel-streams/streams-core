@@ -21,11 +21,6 @@ class FilebaseAdapter extends AbstractAdapter
      */
     protected $query;
 
-    /**
-     * Create a new class instance.
-     *
-     * @param Stream $stream
-     */
     public function __construct(Stream $stream)
     {
         $this->stream = $stream;
@@ -45,14 +40,7 @@ class FilebaseAdapter extends AbstractAdapter
         ]);
     }
 
-    /**
-     * Order the query by field/direction.
-     *
-     * @param string $field
-     * @param string|null $direction
-     * @param string|null $value
-     */
-    public function orderBy($field, $direction = 'asc')
+    public function orderBy($field, $direction = 'asc'): self
     {
         if ($field == 'id') {
             $field = '__id';
@@ -63,29 +51,14 @@ class FilebaseAdapter extends AbstractAdapter
         return $this;
     }
 
-    /**
-     * Limit the entries returned.
-     *
-     * @param int $limit
-     * @param int|null $offset
-     */
-    public function limit($limit, $offset = 0)
+    public function limit($limit, $offset = 0): self
     {
         $this->query = $this->query->limit($limit, $offset);
 
         return $this;
     }
 
-    /**
-     * Constrain the query by a typical 
-     * field, operator, value argument.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
-     * @param string|null $nested
-     */
-    public function where($field, $operator = null, $value = null, $nested = null)
+    public function where($field, $operator = null, $value = null, $nested = null): self
     {
         if (!$value) {
             $value = $operator;
@@ -117,12 +90,6 @@ class FilebaseAdapter extends AbstractAdapter
         return $this;
     }
 
-    /**
-     * Get the criteria results.
-     * 
-     * @param array $parameters
-     * @return Collection
-     */
     public function get(array $parameters = []): Collection
     {
         $this->callParameterMethods($parameters);
@@ -130,26 +97,14 @@ class FilebaseAdapter extends AbstractAdapter
         return $this->collect($this->query->resultDocuments());
     }
 
-    /**
-     * Count the criteria results.
-     * 
-     * @param array $parameters
-     * @return int
-     */
-    public function count(array $parameters = [])
+    public function count(array $parameters = []): int
     {
         $this->callParameterMethods($parameters);
 
         return $this->query->count();
     }
 
-    /**
-     * Save an entry.
-     *
-     * @param  EntryInterface $entry
-     * @return bool
-     */
-    public function save($entry)
+    public function save($entry): bool
     {
         $attributes = $entry->getAttributes();
         
@@ -169,13 +124,7 @@ class FilebaseAdapter extends AbstractAdapter
             ->save($attributes);
     }
 
-    /**
-     * Delete results.
-     *
-     * @param array $parameters
-     * @return bool
-     */
-    public function delete(array $parameters = [])
+    public function delete(array $parameters = []): bool
     {
         $this->callParameterMethods($parameters);
 
@@ -184,12 +133,7 @@ class FilebaseAdapter extends AbstractAdapter
         return true;
     }
 
-    /**
-     * Truncate all entries.
-     *
-     * @return void
-     */
-    public function truncate()
+    public function truncate(): void
     {
         $this->query->truncate();
     }
