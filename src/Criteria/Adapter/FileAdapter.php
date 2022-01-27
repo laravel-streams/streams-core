@@ -107,14 +107,7 @@ class FileAdapter extends AbstractAdapter
     {
         $this->query = $this->collect($this->query);
 
-        foreach ($parameters as $key => $call) {
-
-            $method = Str::camel($key);
-
-            foreach ($call as $parameters) {
-                call_user_func_array([$this, $method], $parameters);
-            }
-        }
+        $this->callParameterMethods($parameters);
 
         return $this->query;
     }

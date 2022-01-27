@@ -125,14 +125,7 @@ class FilebaseAdapter extends AbstractAdapter
      */
     public function get(array $parameters = []): Collection
     {
-        foreach ($parameters as $key => $call) {
-
-            $method = Str::camel($key);
-
-            foreach ($call as $parameters) {
-                call_user_func_array([$this, $method], $parameters);
-            }
-        }
+        $this->callParameterMethods($parameters);
 
         return $this->collect($this->query->resultDocuments());
     }
@@ -145,14 +138,7 @@ class FilebaseAdapter extends AbstractAdapter
      */
     public function count(array $parameters = [])
     {
-        foreach ($parameters as $key => $call) {
-
-            $method = Str::camel($key);
-
-            foreach ($call as $parameters) {
-                call_user_func_array([$this, $method], $parameters);
-            }
-        }
+        $this->callParameterMethods($parameters);
 
         return $this->query->count();
     }
@@ -191,14 +177,7 @@ class FilebaseAdapter extends AbstractAdapter
      */
     public function delete(array $parameters = [])
     {
-        foreach ($parameters as $key => $call) {
-
-            $method = Str::camel($key);
-
-            foreach ($call as $parameters) {
-                call_user_func_array([$this, $method], $parameters);
-            }
-        }
+        $this->callParameterMethods($parameters);
 
         $this->query->delete();
 

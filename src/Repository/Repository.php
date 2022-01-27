@@ -101,9 +101,17 @@ class Repository implements RepositoryInterface
 
     public function delete(EntryInterface $entry): bool
     {
-        return (bool) $this
-            ->newCriteria()
-            ->delete($entry);
+        $criteria = $this->newCriteria();
+
+        $entry->fire('deleting', [
+            'entry' => $entry,
+        ]);
+
+        $keyName = $this->stream->config('key_name', 'id');
+
+        $criteria->where($keyName, $entry->{$keyName});
+
+        return $criteria->delete();
     }
 
     public function truncate(): void

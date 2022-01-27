@@ -4,6 +4,7 @@ namespace Streams\Core\Criteria\Adapter;
 
 use Filebase\Database;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Streams\Core\Entry\Entry;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
@@ -137,6 +138,18 @@ abstract class AbstractAdapter implements AdapterInterface
         }, $entries);
 
         return $collection;
+    }
+
+    protected function callParameterMethods(array $parameters)
+    {
+        foreach ($parameters as $key => $call) {
+
+            $method = Str::camel($key);
+
+            foreach ($call as $parameters) {
+                call_user_func_array([$this, $method], $parameters);
+            }
+        }
     }
 
     /**
