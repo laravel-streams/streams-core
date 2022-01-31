@@ -133,7 +133,9 @@ class Criteria
      */
     public function get(): Collection
     {
-        if ($cache = $this->stream->config('cache.enabled', false)) {
+        $enabled = $this->stream->config('cache.enabled', false);
+
+        if ($enabled && !isset($this->parameters['cache'])) {
             $this->cache();
         }
 
@@ -197,7 +199,9 @@ class Criteria
      */
     public function count()
     {
-        if ($cache = $this->stream->config('cache.enabled', false)) {
+        $enabled = $this->stream->config('cache.enabled', false);
+
+        if ($enabled && !isset($this->parameters['cache'])) {
             $this->cache();
         }
 
