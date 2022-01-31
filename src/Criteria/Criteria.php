@@ -133,9 +133,13 @@ class Criteria
      */
     public function get(): Collection
     {
-        $cache = $this->stream->config('cache.enabled', false);
+        $enabled = $this->stream->config('cache.enabled', false);
 
-        $cache = Arr::get($this->parameters, 'cache', $cache);
+        if ($enabled && !isset($this->parameters['cache'])) {
+            $this->cache();
+        }
+
+        $cache = Arr::get($this->parameters, 'cache');
 
         if ($cache) {
 
@@ -195,9 +199,13 @@ class Criteria
      */
     public function count()
     {
-        $cache = $this->stream->config('cache.enabled', false);
+        $enabled = $this->stream->config('cache.enabled', false);
 
-        $cache = Arr::get($this->parameters, 'cache', $cache);
+        if ($enabled && !isset($this->parameters['cache'])) {
+            $this->cache();
+        }
+
+        $cache = Arr::get($this->parameters, 'cache');
 
         if ($cache) {
 
