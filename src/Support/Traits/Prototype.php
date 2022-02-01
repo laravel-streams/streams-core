@@ -42,13 +42,21 @@ trait Prototype
     {
         // $this->bootIfNotBooted();
         // $this->initializeTraits();
-        
+
         // $this->fill($attributes);
 
         // $this->syncOriginal();
+        if ($this->__attributes) {
+            $attributes = array_merge_recursive($this->__attributes, $attributes);
+        }
+
         $this->syncOriginalPrototypeAttributes($attributes);
 
         $this->setPrototypeAttributes($attributes);
+
+        if (isset($this->__properties)) {
+            $this->loadPrototypeProperties($this->__properties);
+        }
     }
 
     public function __get($key)
@@ -158,8 +166,8 @@ trait Prototype
 
     public function getPrototypeAttributeValue(string $key, $default = null)
     {
-        if (array_key_exists($key, $this->__prototype['attributes'])) {
-            $value = $this->__prototype['attributes'][$key];
+        if ($this->hasPrototypeAttribute($key)) {
+            $value = $this->getPrototypeAttributeFromArray($key);
         } else {
             $value = $this->getPrototypeAttributeDefault($key, $default);
         }
@@ -173,6 +181,11 @@ trait Prototype
         }
 
         return $value;
+    }
+
+    public function getPrototypeAttributeFromArray(string $key)
+    {
+        return Arr::get($this->__prototype['attributes'], $key);
     }
 
     public function expandPrototypeAttribute(string $key): Value
@@ -227,7 +240,7 @@ trait Prototype
     protected function restorePrototypeAttributeValue($key, $value)
     {
         $type = $this->newProtocolPropertyFieldType($key);
-        
+
         if ($this->stream) {
             $type->field = $this->stream->fields->get($key);
         }
@@ -267,7 +280,7 @@ trait Prototype
         }
 
         $attributes = Arr::get($this->__prototype['properties'], $key, []);
-        
+
         $attributes['stream'] = $this->stream;
 
         return App::make('streams.core.field_type.' . $type, compact('attributes'));
@@ -335,7 +348,7 @@ trait Prototype
 
     public function hasPrototypeAttribute(string $key): bool
     {
-        if (isset($this->__prototype['attributes'][$key])) {
+        if (array_key_exists($key, $this->__prototype['attributes'])) {
             return true;
         }
 

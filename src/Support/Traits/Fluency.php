@@ -78,6 +78,11 @@ trait Fluency
         return $this->getPrototypeAttribute($key);
     }
 
+    public function getRawAttribute($key)
+    {
+        return $this->getPrototypeAttributeFromArray($key);
+    }
+
     public function setAttribute($key, $value)
     {
         return $this->setPrototypeAttribute($key, $value);
