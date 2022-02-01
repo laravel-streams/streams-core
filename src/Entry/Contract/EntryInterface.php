@@ -30,6 +30,14 @@ interface EntryInterface
     public function getAttribute($key);
 
     /**
+     * Return the unprocessed entry attribute.
+     *
+     * @param string $key
+     * @var array
+     */
+    public function getRawAttribute($key);
+
+    /**
      * Return if the entry has a given attribute.
      *
      * @param string $key
