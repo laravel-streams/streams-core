@@ -32,7 +32,7 @@ class EntryFactory
     public function create(array $attributes = []): EntryInterface
     {
         $this->stream->fields->each(function ($field) use (&$attributes) {
-            if (!array_key_exists($field->handle, $attributes)) {
+            if (!array_key_exists($field->handle, $attributes) && !$field->config('default')) {
                 $attributes[$field->handle] = $field->generate();
             }
         });
