@@ -67,7 +67,7 @@ class Stream implements
 
     public function __construct(array $attributes = [])
     {
-        $attributes = array_merge_recursive($this->__attributes, $attributes);
+        $attributes = array_merge_recursive_distinct($this->__attributes, $attributes);
 
         $callbackData = new Collection([
             'attributes' => $attributes,
