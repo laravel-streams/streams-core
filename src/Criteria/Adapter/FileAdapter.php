@@ -157,7 +157,7 @@ class FileAdapter extends AbstractAdapter
         }
 
         $keyName = $this->stream->config('key_name', 'id');
-        dump($keyName);
+        
         if ($format == 'php') {
 
             $this->data = include $file;
