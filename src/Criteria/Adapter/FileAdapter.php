@@ -86,7 +86,7 @@ class FileAdapter extends AbstractAdapter
     public function save($entry): bool
     {
         $attributes = $entry->getAttributes();
-
+dump($attributes);
         $keyName = $this->stream->config('key_name', 'id');
 
         if (!Arr::has($attributes, $keyName)) {
@@ -160,18 +160,24 @@ class FileAdapter extends AbstractAdapter
         
         if ($format == 'php') {
 
-            $this->data = include $file;
+            $data = include $file;
 
-            array_walk($this->data, function ($item, $key) use ($keyName) {
+            array_walk($data, function ($item, $key) use ($keyName) {
+
+                $key = Arr::get($item, $keyName, $key);
+
                 $this->data[$key] = [$keyName => $key] + $item;
             });
         }
 
         if ($format == 'json') {
 
-            $this->data = json_decode(file_get_contents($file), true);
+            $data = json_decode(file_get_contents($file), true);
 
-            array_walk($this->data, function ($item, $key) use ($keyName) {
+            array_walk($data, function ($item, $key) use ($keyName) {
+
+                $key = Arr::get($item, $keyName, $key);
+
                 $this->data[$key] = [$keyName => $key] + $item;
             });
         }
@@ -191,8 +197,10 @@ class FileAdapter extends AbstractAdapter
                 }
 
                 $row = array_combine($fields, $row);
+
+                $key = Arr::get($row, $keyName, $key);
                 
-                $this->data[Arr::get($row, $keyName, $i)] = $row;
+                $this->data[$key] = [$keyName => $key] + $row;
 
                 $i++;
             }
@@ -205,13 +213,20 @@ class FileAdapter extends AbstractAdapter
     {
         $format = $this->stream->config('source.format', 'json');
 
-        $file = base_path(trim($this->stream->config('source.file', 'streams/data/' . $this->stream->handle . '.' . $format), '/\\'));
+        $file = base_path(trim($this->stream->config('source.file', Config::get('streams.core.data_path') . '/' . $this->stream->handle . '.' . ($format ?: 'json')), '/\\'));
 
         $keyName = $this->stream->config('key_name', 'id');
 
-        array_walk($this->data, function ($item, $key) use ($keyName) {
-            $this->data[$key] = $item;
+        $data = [];
+
+        array_walk($this->data, function ($item, $key) use (&$data, $keyName) {
+            
+            $key = Arr::get($item, $keyName) ?: $key;
+
+            $data[(string) $key] = $item;
         });
+
+        $this->data = $data;
 
         if (!file_exists($file)) {
             (new Filesystem())->ensureDirectoryExists(dirname($file), 0755, true);
