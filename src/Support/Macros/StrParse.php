@@ -31,7 +31,7 @@ class StrParse
                 return $target;
             }
 
-            return app(Engine::class)->render($target, array_merge_recursive_distinct(
+            return app(Engine::class)->render($target, array_merge_recursive(
                 App::make('streams.parser_data'),
                 Arr::make($data),
                 [
