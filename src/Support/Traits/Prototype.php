@@ -85,7 +85,7 @@ trait Prototype
 
     public function setPrototypeAttributes(array $attributes)
     {
-        $this->__prototype['attributes'] = $attributes;
+        $this->__prototype['attributes'] = [];
 
         foreach ($attributes as $key => $value) {
             $this->setPrototypeAttribute($key, $value);
