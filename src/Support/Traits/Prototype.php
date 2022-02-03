@@ -47,7 +47,7 @@ trait Prototype
 
         // $this->syncOriginal();
         if ($this->__attributes) {
-            $attributes = array_merge_recursive($this->__attributes, $attributes);
+            $attributes = array_replace_recursive($this->__attributes, $attributes);
         }
 
         $this->syncOriginalPrototypeAttributes($attributes);

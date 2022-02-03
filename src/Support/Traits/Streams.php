@@ -32,7 +32,7 @@ trait Streams
     {
         $this->loadPrototypeProperties($attributes);
 
-        $attributes = array_merge_recursive_distinct($this->getPrototypeAttributes(), $attributes);
+        $attributes = array_replace_recursive($this->getPrototypeAttributes(), $attributes);
 
         $this->setPrototypeAttributes($attributes);
 
