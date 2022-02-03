@@ -86,7 +86,7 @@ class FileAdapter extends AbstractAdapter
     public function save($entry): bool
     {
         $attributes = $entry->getAttributes();
-dump($attributes);
+
         $keyName = $this->stream->config('key_name', 'id');
 
         if (!Arr::has($attributes, $keyName)) {
