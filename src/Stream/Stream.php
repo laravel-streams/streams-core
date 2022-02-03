@@ -185,6 +185,7 @@ class Stream implements
 
                     if (!$fresh && $key = Arr::get($data, $keyName)) {
                         $parameters[] = $key;
+                        $parameters[] = $keyName;
                     }
 
                     $rule = 'unique:' . implode(',', $parameters);
