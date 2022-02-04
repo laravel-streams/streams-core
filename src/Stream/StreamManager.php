@@ -85,6 +85,11 @@ class StreamManager
     {
         $instance = $this->make($id);
 
+        $attributes = array_replace_recursive(
+            $instance->getPrototypeAttributes(),
+            $attributes
+        );
+
         $instance->loadPrototypeAttributes($attributes);
 
         return $instance;
