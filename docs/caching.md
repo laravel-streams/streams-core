@@ -18,7 +18,9 @@ Streams Core provides a convenient API to link [Laravel cache](https://laravel.c
 {
     "config": {
         "cache": {
-            "store": "default"
+            "enabled": "true",
+            "store": "default",
+            "ttl": 3600
         }
     }
 }
