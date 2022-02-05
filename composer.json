@@ -26,6 +26,7 @@
         "league/commonmark": "^2.1"
     },
     "require-dev": {
+        "streams/testing": "^1.0",
         "mockery/mockery": "^1.4",
         "phpunit/phpunit": "^9.5",
         "friendsofphp/php-cs-fixer": "^2.19",
