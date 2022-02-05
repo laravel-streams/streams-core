@@ -2,13 +2,13 @@
 
 namespace Streams\Core\Tests\Appilcation;
 
-use Tests\TestCase;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Applications;
 
-class ApplicationTest extends TestCase
+class ApplicationTest extends CoreTestCase
 {
 
-    public function testApplicationsAreArrayable()
+    public function test_applications_are_arrayable()
     {
         $this->assertEquals([
             'id',
@@ -16,7 +16,7 @@ class ApplicationTest extends TestCase
         ], array_keys(Applications::make('default')->toArray()));
     }
 
-    public function testApplicationsAreJsonable()
+    public function test_applications_are_jsonable()
     {
         $this->assertEquals([
             'id',

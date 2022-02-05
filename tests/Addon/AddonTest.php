@@ -2,23 +2,16 @@
 
 namespace Streams\Core\Tests\Addon;
 
-use Tests\TestCase;
 use Streams\Core\Addon\Addon;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Addons;
 
-class AddonTest extends TestCase
+class AddonTest extends CoreTestCase
 {
 
-    public function testCanLoadAddonByAbsolutePath()
+    public function test_addons_are_arrayable()
     {
-        Addons::load(base_path('vendor/streams/core/tests/addons/test-addon'));
-
-        $this->assertInstanceOf(Addon::class, Addons::make('streams/test-addon'));
-    }
-
-    public function testAddonsAreArrayable()
-    {
-        Addons::load(base_path('vendor/streams/core/tests/addons/test-addon'));
+        Addons::load(base_path('addons/streams/test-addon'));
 
         $this->assertEquals([
             'name',
@@ -27,9 +20,9 @@ class AddonTest extends TestCase
         ], array_keys(Addons::make('streams/test-addon')->toArray()));
     }
 
-    public function testAddonsAreJsonable()
+    public function test_addons_are_jsonable()
     {
-        Addons::load(base_path('vendor/streams/core/tests/addons/test-addon'));
+        Addons::load(base_path('addons/streams/test-addon'));
         
         $this->assertEquals([
             'name',
