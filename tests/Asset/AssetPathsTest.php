@@ -2,13 +2,13 @@
 
 namespace Streams\Core\Tests\Asset;
 
-use Tests\TestCase;
 use Streams\Core\Asset\AssetPaths;
+use Streams\Core\Tests\CoreTestCase;
 
-class AssetPathsTest extends TestCase
+class AssetPathsTest extends CoreTestCase
 {
 
-    public function testAccessors()
+    public function test_it_sets_and_gets_paths()
     {
         $paths = new AssetPaths;
 
@@ -21,7 +21,7 @@ class AssetPathsTest extends TestCase
         ], $paths->getPaths());
     }
 
-    public function testRegister()
+    public function test_it_registers_paths()
     {
         $paths = new AssetPaths;
 
@@ -30,5 +30,14 @@ class AssetPathsTest extends TestCase
         $this->assertEquals('vendor/core/tests', $paths->getPath('core-tests'));
         $this->assertEquals('/vendor/core/tests/example.js', $paths->real('core-tests::example.js'));
         $this->assertEquals('/vendor/core/tests/example.js', $paths->real('core-tests::example.js?v=12345'));
+    }
+
+    public function test_it_throws_exception_if_not_registered()
+    {
+        $paths = new AssetPaths;
+
+        $this->expectException(\Exception::class);
+
+        $paths->real('foo-bar::test.css');
     }
 }

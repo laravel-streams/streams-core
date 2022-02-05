@@ -15,7 +15,7 @@ class AssetCollection extends Collection
 
     public function add($asset): void
     {
-        $this->put($asset, $asset);
+        $this->put($asset, Assets::realPath($asset));
     }
 
     public function load(string $name): AssetCollection

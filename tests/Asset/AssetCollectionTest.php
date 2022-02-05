@@ -8,43 +8,6 @@ use Streams\Core\Support\Facades\Assets;
 
 class AssetCollectionTest extends CoreTestCase
 {
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        // $filenames = [
-        //     public_path('vendor/streams/test-addon/js/testing.js'),
-        //     public_path('vendor/streams/test-addon/css/testing.css'),
-        // ];
-
-        // if (!is_dir(dirname($filenames[0]))) {
-        //     mkdir(dirname($filenames[0]), 0777, true);
-        // }
-
-        // foreach ($filenames as $filename) {
-        //     if (!file_exists($filename)) {
-        //         file_put_contents($filename, 'Test ' . basename($filename),);
-        //     }
-        // }
-    }
-
-    // protected function tearDown(): void
-    // {
-    //     parent::tearDown();
-
-    //     $filenames = [
-    //         public_path('vendor/streams/test-addon/js/testing.js'),
-    //         public_path('vendor/streams/test-addon/css/testing.css'),
-    //     ];
-
-    //     foreach ($filenames as $filename) {
-    //         if (file_exists($filename)) {
-    //             unlink($filename);
-    //         }
-    //     }
-    // }
-
     public function test_it_adds_assets()
     {
         $assets = new AssetCollection();
@@ -144,10 +107,12 @@ class AssetCollectionTest extends CoreTestCase
     {
         $assets = new AssetCollection();
 
-        $assets->add('addons/streams/test-addon/css/testing.css');
+        $assets->add('vendor/testing/css/example.css');
+
+        $content = file_get_contents(public_path('vendor/testing/css/example.css'));
 
         $this->assertEquals([
-            '<style media="all" type="text/css" rel="stylesheet">Test testing.css</style>',
+            '<style media="all" type="text/css" rel="stylesheet">' . $content . '</style>',
         ], $assets->inlines()->values()->all());
     }
 
@@ -155,11 +120,11 @@ class AssetCollectionTest extends CoreTestCase
     {
         $assets = new AssetCollection();
 
-        $assets->add('addons/streams/test-addon/css/testing.css');
+        $assets->add('vendor/testing/css/example.css');
 
-        $this->assertEquals([
-            'Test testing.css',
-        ], $assets->content()->values()->all());
+        $content = file_get_contents(public_path('vendor/testing/css/example.css'));
+
+        $this->assertEquals([$content], $assets->content()->values()->all());
     }
 
     public function test_to_string_returns_empty_string()

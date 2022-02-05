@@ -2,13 +2,13 @@
 
 namespace Streams\Core\Tests\Asset;
 
-use Tests\TestCase;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Asset\AssetRegistry;
 
-class AssetRegistryTest extends TestCase
+class AssetRegistryTest extends CoreTestCase
 {
 
-    public function testRegister()
+    public function test_it_registers_named_assets()
     {
         $registry = new AssetRegistry;
 
