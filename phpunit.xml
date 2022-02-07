@@ -25,6 +25,7 @@
         <env name="APP_REFERENCE" value="testing"/>
         <env name="VERSION_IMAGES" value="false"/>
         <env name="VERSION_ASSETS" value="false"/>
+        <env name="APP_KEY" value="base64:aiGINJ0oFnqrMGUwJYWJuhe6meZoW+GqppwDJD4YZeM="/>
     </php>
 
 </phpunit>
