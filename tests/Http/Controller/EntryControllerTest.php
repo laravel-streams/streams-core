@@ -47,6 +47,40 @@ class EntryControllerTest extends CoreTestCase
         $response->assertSee('Return of the Jedi');
     }
 
+    public function test_it_resolves_views_from_stream()
+    {
+        Route::streams('testing-resolve-entries-view', [
+            'stream' => 'planets',
+        ]);
+
+        Route::streams('testing-resolve-entry-view', [
+            'stream' => 'planets',
+            'entry' => 5,
+        ]);
+
+        $response = $this->get('testing-resolve-entries-view');
+
+        $response->assertSee('Hoth');
+        $response->assertSee('Dagobah');
+
+        $response = $this->get('testing-resolve-entry-view');
+
+        $response->assertSee('Dagobah');
+    }
+
+    public function test_it_resolves_views_from_names()
+    {
+        Route::streams('testing-resolve-named-view', [
+            'as' => 'people.view',
+            'stream' => 'people',
+            'entry' => 3,
+        ]);
+
+        $response = $this->get('testing-resolve-named-view');
+
+        $response->assertSee('R2-D2');
+    }
+
     public function test_it_returns_404_when_entry_does_not_exist()
     {
         $response = $this->get('films/600');
