@@ -6,7 +6,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
-use Streams\Core\Support\Workflow;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -19,14 +18,6 @@ class EntryController extends Controller
 
     use FiresCallbacks;
 
-    protected $steps = [
-        'resolve_stream',
-        'resolve_entry',
-        'resolve_view',
-        'resolve_redirect',
-        'resolve_response',
-    ];
-
     public function __invoke()
     {
         $data = collect();
@@ -34,25 +25,16 @@ class EntryController extends Controller
         $data->put('route', Request::route());
         $data->put('action', Request::route()->action);
 
-        $workflow = new Workflow(array_combine($this->steps, array_map(function ($step) {
-            return [$this, Str::camel($step)];
-        }, $this->steps)));
-
-        $this->fire('handling', [
-            'data' => $data,
-            'workflow' => $workflow
-        ]);
-
-        $workflow
-            ->passThrough($this)
-            ->process(['data' => $data]);
-
-        $this->fire('responding', ['data' => $data]);
+        $this->resolveStream($data);
+        $this->resolveEntry($data);
+        $this->resolveView($data);
+        $this->resolveRedirect($data);
+        $this->resolveResponse($data);
 
         return $data->get('response');
     }
 
-    public function resolveStream(Collection $data)
+    protected function resolveStream(Collection $data): void
     {
         $action = $data->get('action');
 
@@ -63,10 +45,6 @@ class EntryController extends Controller
             return;
         }
 
-        /**
-         * Try and use the route parameters
-         * to resolve the stream otherwise.
-         */
         $parameters = Request::route()->parameters;
 
         if (isset($parameters['stream'])) {
@@ -77,7 +55,7 @@ class EntryController extends Controller
         }
     }
 
-    public function resolveEntry(Collection $data): void
+    protected function resolveEntry(Collection $data): void
     {
         if (!$stream = $data->get('stream')) {
             return;
@@ -92,10 +70,6 @@ class EntryController extends Controller
             return;
         }
 
-        /**
-         * Try and use the route parameters
-         * to resolve an entry otherwise.
-         */
         $parameters = Request::route()->parameters();
 
         if (isset($parameters['id'])) {
@@ -142,31 +116,13 @@ class EntryController extends Controller
         }
     }
 
-    public function resolveView(Collection $data): void
+    protected function resolveView(Collection $data): void
     {
         if ($data->has('response')) {
             return;
         }
 
-        if ($data->has('entry') && $data->get('entry') === null) {
-            return;
-        }
-
         $action = $data->get('action');
-
-        // /**
-        //  * Check if the entry is 
-        //  * overriding the view.
-        //  */
-        // if (
-        //     ($entry = $data->get('entry'))
-        //     && $view = $entry->getAttribute('__view')
-        // ) {
-
-        //     $data->put('view', $view);
-
-        //     return;
-        // }
 
         if (isset($action['view'])) {
 
@@ -175,108 +131,49 @@ class EntryController extends Controller
             return;
         }
 
-        /**
-         * We at least need a stream to
-         * continue figuring out a view.
-         */
-        if (!$stream = $data->get('stream')) {
-            return;
-        }
+        $name = Arr::get($action, 'as');
 
-        /**
-         * Try the stream template.
-         */
-        if ($stream->template) {
-            $data->put('view', $stream->template);
-        }
+        if ($name && View::exists($name)) {
 
-        /**
-         * Fallback to the route name to try
-         * and guess a view template to use.
-         */
-        if (!$name = Arr::get($action, 'as')) {
-            return;
-        }
-
-        if (Str::is('streams::*.*', $name)) {
-            $name = explode('.', str_replace('streams::', '', $name));
-        }
-
-        if (View::exists($view = "{$name[0]}.{$name[1]}")) {
-
-            $data->put('view', $view);
+            $data->put('view', $name);
 
             return;
         }
 
-        if ($name[1] == 'view' && View::exists($view = Str::singular($name[0]))) {
+        $stream = $data->get('stream');
+        $entry = $data->get('entry');
 
-            $data->put('view', $view);
+        $plural = Str::plural($stream->id);
+        $singular = Str::singular($stream->id);
+
+        if ($entry && View::exists($singular)) {
+
+            $data->put('view', $singular);
+
+            return;
+        }
+
+        if (!$entry && View::exists($plural)) {
+
+            $data->put('view', $plural);
 
             return;
         }
     }
 
-    /**
-     * Resolve the redirect.
-     *
-     * @param \Illuminate\Support\Collection $data
-     */
-    public function resolveRedirect(Collection $data)
+    protected function resolveRedirect(Collection $data): void
     {
-
         $action = $data->get('action');
 
-        /**
-         * If a redirect is set
-         * then use it as is.
-         */
         if (isset($action['redirect'])) {
 
             $data->put('redirect', Str::parse($action['redirect'], $data->toArray()));
 
             return;
         }
-
-        /**
-         * We at least need a stream to
-         * continue figuring out a view.
-         */
-        if (!$stream = $data->get('stream')) {
-            return;
-        }
-
-        // @todo: Stream redirects?
-
-        /**
-         * We at least need an entry to
-         * continue figuring out a view.
-         */
-        if (!$entry = $data->get('entry')) {
-            return;
-        }
-
-        /**
-         * Check if the entry is 
-         * overriding the view.
-         */
-        if (
-            $entry
-            && $redirect = $entry->getAttribute('streams__redirect')
-        ) {
-
-            $data->put('response', Redirect::to($redirect));
-
-            return;
-        }
     }
 
-    /**
-     * Resolve the response.
-     *
-     * @param \Illuminate\Support\Collection $data
-     */
-    public function resolveResponse(Collection $data)
+    protected function resolveResponse(Collection $data): void
     {
         if ($data->has('response')) {
             return;

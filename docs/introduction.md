@@ -18,7 +18,6 @@ Streams Core helps you take Laravel basics further and in less time.
 - [Views](views)
 - [Routing](routing)
 - [Security](security)
-- [Integration](providers)
 
 ### Frontend Support
 

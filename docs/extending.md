@@ -20,7 +20,7 @@ Below is essential knowledge on how to extend streams core.
 
 ### Macros
 
-All basic services and components are "macroable" and allow direct extension via Laravel **macros**. Typically, you should declare collection macros in the **boot** method of a [service provider](providers).
+All basic services and components are "macroable" and allow direct extension via Laravel **macros**. Typically, you should declare collection macros in the **boot** method of a service provider.
 
 ```php
 use Streams\Core\Stream\Stream;

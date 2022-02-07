@@ -163,7 +163,7 @@ class StreamManager
                 /**
                  * Automatically name if not named.
                  */
-                $route['as'] = Arr::get($route, 'as', 'streams::' . $stream->id . '.' . $key);
+                $route['as'] = Arr::get($route, 'as', $stream->id . '.' . $key);
 
                 /**
                  * Automatically group if not grouped.
