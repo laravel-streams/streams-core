@@ -21,10 +21,6 @@ The Streams platform has a couple of ways it routes requests, which are listed b
 
 You can configure routes just as you would in a regular Laravel application using the `routes/web.php` file.
 
-### Service Providers
-
-You may use the enhanced [service providers](providers#routing) that come with the Streams platform to define routes.
-
 ### Streams Router
 
 The Streams platform provides a `Route::streams()` method for defining routes. *All streams-specific routing approaches pass through this method.*
@@ -264,7 +260,7 @@ Redirects highlight a good use case to leverage the fact that route options are 
 
 ```php
 Route::streams('uri/{entry.name}', [
-    'redirect' => '/new/uri/{stream.handle}/{entry.name}',
+    'redirect' => '/new/uri/{stream.id}/{entry.name}',
     'status_code' => 301, // Default
 ]);
 ```
