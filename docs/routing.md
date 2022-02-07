@@ -46,7 +46,7 @@ Route::streams('uri', [
 The first argument is the URI and the second is either:
 
 - The name of the [view](views) to render.
-- A [Controller](controllers)`@verbatim@method@endverbatim` string.
+- A callable string.
 - An array of [route options](#route-options).
 
 ### Stream Routes
@@ -59,12 +59,17 @@ Define stream routes using a `action => options` format, where `options` is agai
 // streams/contacts.json
 {
     "routes": {
-        "index": "contacts",
-        "view": "contacts/{id}",
-    },
-    "profile": {
-        "uri": "contacts/{id}",
-        "view": "profile"
+        "index": {
+            "uri": "contacts",
+            "view": "contacts"
+        },
+        "view": {
+            "uri": "contacts/{id}",
+            "view": "contact"
+        },
+        "profile": {
+            "uri": "contacts/{id}",
+            "view": "profile"
         }
     }
 }
@@ -86,9 +91,18 @@ Unless a view is specified, the associated requests will attempt to resolve a vi
 // streams/contacts.json
 {
     "routes": {
-        "index": "contacts",    // resources/contacts/index.php
-        "view": "contacts/{id}", // resources/contacts/view.php
-        "rss": "contacts/{id}/rss" // resources/contacts/rss.php
+        "index": {
+            "uri": "contacts"
+            // resources/contacts/index.php
+        },
+        "view": {
+            "uri": "contacts/{id}"
+            // resources/contacts/view.php
+        },
+        "rss": {
+            "uri": "contacts/{id}/rss"
+            // resources/contacts/rss.php
+        }
     }
 }
 ```
