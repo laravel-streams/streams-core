@@ -2,50 +2,13 @@
 
 namespace Streams\Core\Tests\Asset;
 
-use Tests\TestCase;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Asset\AssetCollection;
 use Streams\Core\Support\Facades\Assets;
 
-class AssetCollectionTest extends TestCase
+class AssetCollectionTest extends CoreTestCase
 {
-
-    public function setUp(): void
-    {
-        $this->createApplication();
-
-        $filenames = [
-            public_path('vendor/streams/core/tests/testing.js'),
-            public_path('vendor/streams/core/tests/testing.css'),
-        ];
-
-        if (!is_dir(dirname($filenames[0]))) {
-            mkdir(dirname($filenames[0]), 0777, true);
-        }
-
-        foreach ($filenames as $filename) {
-            if (!file_exists($filename)) {
-                file_put_contents($filename, 'Test ' . basename($filename),);
-            }
-        }
-    }
-
-    public function tearDown(): void
-    {
-        $this->createApplication();
-
-        $filenames = [
-            public_path('vendor/streams/core/tests/testing.js'),
-            public_path('vendor/streams/core/tests/testing.css'),
-        ];
-
-        foreach ($filenames as $filename) {
-            if (file_exists($filename)) {
-                unlink($filename);
-            }
-        }
-    }
-
-    public function testCanAddAssetToCollection()
+    public function test_it_adds_assets()
     {
         $assets = new AssetCollection();
 
@@ -54,7 +17,7 @@ class AssetCollectionTest extends TestCase
         $this->assertEquals(['theme.js'], $assets->values()->all());
     }
 
-    public function testCanLoadUnregisteredAssets()
+    public function test_it_loads_unregistered_assets()
     {
         $assets = new AssetCollection();
 
@@ -63,7 +26,7 @@ class AssetCollectionTest extends TestCase
         $this->assertEquals(['load.js'], $assets->values()->all());
     }
 
-    public function testCanLoadRegisteredAssets()
+    public function test_it_loads_registered_assets()
     {
         $assets = new AssetCollection();
 
@@ -74,7 +37,7 @@ class AssetCollectionTest extends TestCase
         $this->assertEquals(['load.js'], $assets->values()->all());
     }
 
-    public function testOnlyLoadsAssetsOnce()
+    public function test_it_only_loads_assets_once()
     {
         $assets = new AssetCollection();
 
@@ -86,20 +49,7 @@ class AssetCollectionTest extends TestCase
         $this->assertEquals(['load.js'], $assets->values()->all());
     }
 
-    public function testCanResolveAssets()
-    {
-        $assets = new AssetCollection();
-
-        Assets::register('testing.js', 'resolved.js');
-
-        $assets->load('testing.js');
-
-        $this->assertEquals([
-            'resolved.js'
-        ], $assets->resolved()->values()->all());
-    }
-
-    public function testCanReturnAssetUrls()
+    public function test_it_returns_asset_urls()
     {
         $assets = new AssetCollection();
 
@@ -112,7 +62,7 @@ class AssetCollectionTest extends TestCase
         ], $assets->urls()->values()->all());
     }
 
-    public function testCanReturnTagsAsset()
+    public function test_it_returns_asset_tags()
     {
         $assets = new AssetCollection();
 
@@ -127,7 +77,7 @@ class AssetCollectionTest extends TestCase
         ], $assets->tags()->values()->all());
     }
 
-    public function testCanReturnScriptTagsForAssets()
+    public function test_it_returns_script_tags()
     {
         $assets = new AssetCollection();
 
@@ -140,7 +90,7 @@ class AssetCollectionTest extends TestCase
         ], $assets->scripts()->values()->all());
     }
 
-    public function testCanReturnStyleTagsForAssets()
+    public function test_it_returns_style_tags()
     {
         $assets = new AssetCollection();
 
@@ -153,29 +103,31 @@ class AssetCollectionTest extends TestCase
         ], $assets->styles()->values()->all());
     }
 
-    public function testCanReturnInlineTags()
+    public function test_it_returns_inline_asset_tags()
     {
         $assets = new AssetCollection();
 
-        $assets->add('vendor/streams/core/tests/testing.css');
+        $assets->add('vendor/testing/css/example.css');
+
+        $content = file_get_contents(public_path('vendor/testing/css/example.css'));
 
         $this->assertEquals([
-            '<style media="all" type="text/css" rel="stylesheet">Test testing.css</style>',
+            '<style media="all" type="text/css" rel="stylesheet">' . $content . '</style>',
         ], $assets->inlines()->values()->all());
     }
 
-    public function testCanReturnContentForAssets()
+    public function test_it_returns_asset_contents()
     {
         $assets = new AssetCollection();
 
-        $assets->add('vendor/streams/core/tests/testing.css');
+        $assets->add('vendor/testing/css/example.css');
 
-        $this->assertEquals([
-            'Test testing.css',
-        ], $assets->content()->values()->all());
+        $content = file_get_contents(public_path('vendor/testing/css/example.css'));
+
+        $this->assertEquals([$content], $assets->content()->values()->all());
     }
 
-    public function testCollectionToString()
+    public function test_to_string_returns_empty_string()
     {
         $assets = new AssetCollection();
 

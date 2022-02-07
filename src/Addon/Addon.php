@@ -16,7 +16,6 @@ use Streams\Core\Support\Traits\FiresCallbacks;
  */
 class Addon implements Arrayable, Jsonable
 {
-
     use Prototype;
     use HasMemory;
     use Macroable;

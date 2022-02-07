@@ -14,14 +14,7 @@ use Illuminate\Support\Facades\Response;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
-/**
- * Class StreamsController
- *
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
- */
-class StreamsController extends Controller
+class EntryController extends Controller
 {
 
     use FiresCallbacks;
@@ -36,16 +29,6 @@ class StreamsController extends Controller
 
     public function __invoke()
     {
-        return $this->handle();
-    }
-
-    /**
-     * Handle the request.
-     * 
-     * @return Response
-     */
-    public function handle()
-    {
         $data = collect();
 
         $data->put('route', Request::route());
@@ -54,7 +37,7 @@ class StreamsController extends Controller
         $workflow = new Workflow(array_combine($this->steps, array_map(function ($step) {
             return [$this, Str::camel($step)];
         }, $this->steps)));
-        
+
         $this->fire('handling', [
             'data' => $data,
             'workflow' => $workflow
@@ -65,19 +48,10 @@ class StreamsController extends Controller
             ->process(['data' => $data]);
 
         $this->fire('responding', ['data' => $data]);
-        
-        if ($response = $data->get('response')) {
-            return $response;
-        }
 
-        abort(404);
+        return $data->get('response');
     }
 
-    /**
-     * Resolve the stream.
-     *
-     * @param \Illuminate\Support\Collection $data
-     */
     public function resolveStream(Collection $data)
     {
         $action = $data->get('action');
@@ -103,39 +77,17 @@ class StreamsController extends Controller
         }
     }
 
-    /**
-     * Resolve the entry.
-     *
-     * @param \Illuminate\Support\Collection $data
-     */
-    public function resolveEntry(Collection $data)
+    public function resolveEntry(Collection $data): void
     {
-        $action = $data->get('action');
-
-        /**
-         * We at least need a stream to
-         * continue figuring out a view.
-         */
         if (!$stream = $data->get('stream')) {
             return;
         }
 
-        /**
-         * @todo this needs to be broken into resolveEntryIdentifier and if found but no entry THEN 404 if also no criteria
-         * @todo criteria lookup should work similarly. Then we can get away without nested IFs and only 2.
-         */
+        $action = $data->get('action', []);
 
-        /**
-         * If the entry is explicitly set then
-         * find it and get on with the show.
-         */
-        $entry = Arr::get($action, 'entry');
-        
-        if ($entry) {
+        if ($entry = Arr::get($action, 'entry')) {
 
-            if ($entry = $stream->repository()->find($entry)) {
-                $data->put('entry', $entry);
-            }
+            $data->put('entry', $stream->repository()->find($entry));
 
             return;
         }
@@ -144,49 +96,18 @@ class StreamsController extends Controller
          * Try and use the route parameters
          * to resolve an entry otherwise.
          */
-        $parameters = Request::route()->parameters;
+        $parameters = Request::route()->parameters();
 
         if (isset($parameters['id'])) {
 
-            if ($entry = $stream->repository()->find($parameters['id'])) {
-                $data->put('entry', $entry);
-            }
+            $data->put('entry', $stream->repository()->find($parameters['id']));
 
             return;
         }
 
         if (isset($parameters['entry'])) {
 
-            if ($entry = $stream->repository()->find($parameters['entry'])) {
-                $data->put('entry', $entry);
-            }
-
-            return;
-        }
-        
-        /**
-         * Try and resolve entry
-         * from post input ID.
-         */
-        if (Request::query('id')) {
-
-            if ($entry = $stream->repository()->find(Request::query('id'))) {
-                $data->put('entry', $entry);
-            }
-
-            return;
-        }
-
-        /**
-         * Try and resolve entry
-         * from post entry query.
-         */
-        
-        if (Request::query('entry')) {
-
-            if ($entry = $stream->repository()->find(Request::query('entry'))) {
-                $data->put('entry', $entry);
-            }
+            $data->put('entry', $stream->repository()->find($parameters['entry']));
 
             return;
         }
@@ -194,23 +115,17 @@ class StreamsController extends Controller
         //------------
 
         $criteria = [];
-        
+
         foreach ($parameters as $key => $value) {
             if (Str::startsWith($key, 'entry__')) {
                 $criteria[str_replace('entry__', '', $key)] = $value;
             }
         }
 
-        
-
         if (!$criteria) {
             return;
         }
 
-        /**
-         * Try and loop over parameters
-         * to query a result from them.
-         */
         $query = $stream->entries();
 
         foreach ($criteria as $key => $value) {
@@ -220,43 +135,39 @@ class StreamsController extends Controller
         $results = $query->limit(1)->get();
 
         if ($results->count() == 1) {
-            
+
             $data->put('entry', $results->first());
 
             return;
         }
-
-        abort(404);
     }
 
-    /**
-     * Resolve the view.
-     *
-     * @param \Illuminate\Support\Collection $data
-     */
-    public function resolveView(Collection $data)
+    public function resolveView(Collection $data): void
     {
-
-        $action = $data->get('action');
-
-        /**
-         * Check if the entry is 
-         * overriding the view.
-         */
-        if (
-            ($entry = $data->get('entry'))
-            && $view = $entry->getAttribute('__template')
-        ) {
-
-            $data->put('view', $view);
-
+        if ($data->has('response')) {
             return;
         }
 
-        /**
-         * If the view is set
-         * then use it as is.
-         */
+        if ($data->has('entry') && $data->get('entry') === null) {
+            return;
+        }
+
+        $action = $data->get('action');
+
+        // /**
+        //  * Check if the entry is 
+        //  * overriding the view.
+        //  */
+        // if (
+        //     ($entry = $data->get('entry'))
+        //     && $view = $entry->getAttribute('__view')
+        // ) {
+
+        //     $data->put('view', $view);
+
+        //     return;
+        // }
+
         if (isset($action['view'])) {
 
             $data->put('view', $action['view']);
@@ -286,7 +197,7 @@ class StreamsController extends Controller
         if (!$name = Arr::get($action, 'as')) {
             return;
         }
-        
+
         if (Str::is('streams::*.*', $name)) {
             $name = explode('.', str_replace('streams::', '', $name));
         }
@@ -368,6 +279,13 @@ class StreamsController extends Controller
     public function resolveResponse(Collection $data)
     {
         if ($data->has('response')) {
+            return;
+        }
+
+        if ($data->has('entry') && $data->get('entry') === null) {
+
+            $data->put('response', abort(404));
+
             return;
         }
 

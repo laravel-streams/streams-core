@@ -139,7 +139,7 @@ class StreamManager
         return $this->collection;
     }
 
-    protected function route(Stream $stream): void
+    public function route(Stream $stream): void
     {
         if (!App::routesAreCached()) {
 
@@ -186,7 +186,7 @@ class StreamManager
                 /**
                  * Register the route.
                  */
-                Route::streams(Arr::get($route, 'uri'), $route);
+                Route::streams(Arr::pull($route, 'uri'), $route);
             }
         }
     }
