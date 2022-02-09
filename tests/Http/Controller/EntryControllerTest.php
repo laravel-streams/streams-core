@@ -32,6 +32,15 @@ class EntryControllerTest extends CoreTestCase
         App::register(TestServiceProvider::class);
     }
 
+    public function test_it_returns_generic_views()
+    {
+        Route::streams('test-generic-view', 'streams-testing::test');
+
+        $response = $this->get('test-generic-view');
+
+        $response->assertSee('Hello World');
+    }
+
     public function test_it_returns_stream_views()
     {
         $response = $this->get('films');
@@ -88,6 +97,17 @@ class EntryControllerTest extends CoreTestCase
         $response->assertStatus(404);
     }
 
+    public function test_it_returns_404_when_response_unknown()
+    {
+        Route::streams('test-unknown-404', [
+            'stream' => 'vehicles',
+        ]);
+
+        $response = $this->get('test-unknown-404');
+
+        $response->assertStatus(404);
+    }
+
     public function test_it_resolves_route_actions()
     {
         Route::streams('testing-route-actions', [
@@ -139,5 +159,27 @@ class EntryControllerTest extends CoreTestCase
         $response = $this->get('testing-query-parameters/Hoth');
 
         $response->assertSee('Hoth');
+    }
+
+    public function test_it_returns_404_when_query_parameters_return_empty()
+    {
+        Route::streams('testing-404-query-parameters/{entry.name}', [
+            'stream' => 'vehicles',
+        ]);
+
+        $response = $this->get('testing-404-query-parameters/Test');
+
+        $response->assertStatus(404);
+    }
+
+    public function test_it_resolves_redirects()
+    {
+        Route::streams('test-redirect-route', [
+            'redirect' => 'test-redirect-destination',
+        ]);
+
+        $response = $this->get('test-redirect-route');
+
+        $response->assertStatus(302);
     }
 }

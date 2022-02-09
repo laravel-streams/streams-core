@@ -44,17 +44,6 @@ class Criteria
     }
 
     /**
-     * @param integer|string $id
-     * @return null|EntryInterface
-     */
-    public function find($id)
-    {
-        $keyName = $this->stream->config('key_name', 'id');
-
-        return $this->where($keyName, $id)->get()->first();
-    }
-
-    /**
      * @return null|EntryInterface
      */
     public function first()

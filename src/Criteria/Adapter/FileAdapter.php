@@ -55,10 +55,10 @@ class FileAdapter extends AbstractAdapter
 
         if ($operator == 'LIKE') {
             $this->query = $this->query->filter(function ($entry) use ($field, $value) {
-                return Str::is(
-                    strtolower(str_replace('%', '*', $value)),
-                    strtolower($entry[$field])
-                );
+                return strpos(
+                    strtolower($entry[$field]),
+                    strtolower(str_replace('%', '', $value))
+                ) !== false;
             });
         } elseif ($operator == 'IN') {
             $this->query = $this->query->whereIn($field, $value);
