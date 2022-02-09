@@ -41,6 +41,9 @@ class Json implements FormatInterface
 
         $data = array_merge($meta, $data);
 
+        Arr::pull($data, '__created_at');
+        Arr::pull($data, '__updated_at');
+
         return json_encode($data);
     }
 

@@ -42,6 +42,9 @@ class Markdown implements FormatInterface
 
         $data = array_merge($meta, $data);
 
+        Arr::pull($data, '__created_at');
+        Arr::pull($data, '__updated_at');
+
         $body = Arr::pull($data, 'body');
 
         $encoded = $data ? Yaml::dump($data) : null;
