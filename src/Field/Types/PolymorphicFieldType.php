@@ -35,6 +35,6 @@ class PolymorphicFieldType extends Field
         $stream = $this->entry->{$this->config('morph_type', $this->field . '_type')};
         $key = $this->entry->{$this->config('foreign_key', $this->field . '_id')};
 
-        return Streams::entries($stream)->find($key);
+        return Streams::repository($stream)->find($key);
     }
 }
