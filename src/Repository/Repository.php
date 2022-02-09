@@ -54,7 +54,7 @@ class Repository implements RepositoryInterface
         return $this
             ->newCriteria()
             ->where($keyName, $id)
-            ->first($id);
+            ->first();
     }
 
     public function findAll(array $ids): Collection
