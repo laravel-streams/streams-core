@@ -31,7 +31,7 @@ class EntryController extends Controller
         $this->resolveRedirect($data);
         $this->resolveResponse($data);
 
-        return $data->get('response');
+        return $data->get('response') ?: abort(404);
     }
 
     protected function resolveStream(Collection $data): void
@@ -118,10 +118,6 @@ class EntryController extends Controller
 
     protected function resolveView(Collection $data): void
     {
-        if ($data->has('response')) {
-            return;
-        }
-
         $action = $data->get('action');
 
         if (isset($action['view'])) {
@@ -143,6 +139,10 @@ class EntryController extends Controller
         $stream = $data->get('stream');
         $entry = $data->get('entry');
 
+        if (!$stream) {
+            return;
+        }
+
         $plural = Str::plural($stream->id);
         $singular = Str::singular($stream->id);
 
@@ -159,6 +159,8 @@ class EntryController extends Controller
 
             return;
         }
+
+        return;
     }
 
     protected function resolveRedirect(Collection $data): void
@@ -175,15 +177,8 @@ class EntryController extends Controller
 
     protected function resolveResponse(Collection $data): void
     {
-        if ($data->has('response')) {
-            return;
-        }
-
         if ($data->has('entry') && $data->get('entry') === null) {
-
-            $data->put('response', abort(404));
-
-            return;
+            abort(404);
         }
 
         if ($redirect = $data->get('redirect')) {

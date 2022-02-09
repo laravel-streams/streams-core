@@ -44,17 +44,6 @@ class Criteria
     }
 
     /**
-     * @param integer|string $id
-     * @return null|EntryInterface
-     */
-    public function find($id)
-    {
-        $keyName = $this->stream->config('key_name', 'id');
-
-        return $this->where($keyName, $id)->get()->first();
-    }
-
-    /**
      * @return null|EntryInterface
      */
     public function first()
@@ -150,7 +139,7 @@ class Criteria
             });
         }
 
-        return $this->adapter->get($this->parameters);
+        return $this->adapter->get($this->flushParameters());
     }
 
     /**
@@ -216,7 +205,7 @@ class Criteria
             });
         }
 
-        return $this->adapter->count($this->parameters);
+        return $this->adapter->count($this->flushParameters());
     }
 
     /**
@@ -265,7 +254,7 @@ class Criteria
     {
         $this->stream->cache()->flush();
 
-        return $this->adapter->delete($this->parameters);
+        return $this->adapter->delete($this->flushParameters());
     }
 
     public function truncate(): void
@@ -352,15 +341,13 @@ class Criteria
         return $this;
     }
 
-    public function loadParameters(array $parameters = [])
+    protected function flushParameters(): array
     {
-        foreach ($parameters as $parameter) {
-            foreach ($parameter as $method => $arguments) {
-                $this->parameters[$method][] = $arguments;
-            }
-        }
+        $parameters = $this->parameters;
 
-        return $this;
+        $this->parameters = [];
+
+        return $parameters;
     }
 
     public function __call($method, $arguments = [])

@@ -12,16 +12,14 @@ use Streams\Core\Entry\Contract\EntryInterface;
 
 class FileAdapter extends AbstractAdapter
 {
-    protected $data = [];
-    protected $query = [];
+    public $data = [];
+    public $query;
 
     public function __construct(Stream $stream)
     {
         $this->stream = $stream;
 
         $this->readData();
-
-        $this->query = new Collection($this->data);
     }
 
     public function orderBy($field, $direction = 'asc'): self
@@ -33,11 +31,7 @@ class FileAdapter extends AbstractAdapter
 
     public function limit($limit, $offset = 0): self
     {
-        if ($offset) {
-            $this->query = $this->query->skip($offset);
-        }
-
-        $this->query = $this->query->take($limit);
+        $this->query = $this->query->slice($offset, $limit);
 
         return $this;
     }
@@ -55,10 +49,10 @@ class FileAdapter extends AbstractAdapter
 
         if ($operator == 'LIKE') {
             $this->query = $this->query->filter(function ($entry) use ($field, $value) {
-                return Str::is(
-                    strtolower(str_replace('%', '*', $value)),
-                    strtolower($entry[$field])
-                );
+                return strpos(
+                    strtolower($entry[$field]),
+                    strtolower(str_replace('%', '', $value))
+                ) !== false;
             });
         } elseif ($operator == 'IN') {
             $this->query = $this->query->whereIn($field, $value);
@@ -71,10 +65,10 @@ class FileAdapter extends AbstractAdapter
 
     public function get(array $parameters = []): Collection
     {
-        $this->query = $this->collect($this->query);
-
+        $this->query = $this->collect($this->data);
+        
         $this->callParameterMethods($parameters);
-
+        
         return $this->query;
     }
 
@@ -88,10 +82,6 @@ class FileAdapter extends AbstractAdapter
         $attributes = $entry->getAttributes();
 
         $keyName = $this->stream->config('key_name', 'id');
-
-        if (!Arr::has($attributes, $keyName)) {
-            throw new \Exception('The ID attribute is required.');
-        }
 
         $key = Arr::get($attributes, $keyName);
 

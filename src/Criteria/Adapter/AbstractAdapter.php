@@ -2,7 +2,6 @@
 
 namespace Streams\Core\Criteria\Adapter;
 
-use Filebase\Database;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Entry\Entry;
