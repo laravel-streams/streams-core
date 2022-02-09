@@ -341,17 +341,6 @@ class Criteria
         return $this;
     }
 
-    public function loadParameters(array $parameters = [])
-    {
-        foreach ($parameters as $parameter) {
-            foreach ($parameter as $method => $arguments) {
-                $this->parameters[$method][] = $arguments;
-            }
-        }
-
-        return $this;
-    }
-
     public function __call($method, $arguments = [])
     {
         if (static::hasMacro($method)) {
