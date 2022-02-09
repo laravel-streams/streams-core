@@ -18,7 +18,7 @@ class RelationshipFieldType extends Field
             return $value;
         }
         
-        return Streams::entries($this->config('related'))->find($value);
+        return Streams::repository($this->config('related'))->find($value);
     }
 
     public function generate()
