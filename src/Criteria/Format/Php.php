@@ -33,6 +33,9 @@ class Php implements FormatInterface
 
         $data = array_merge($meta, $data);
 
+        Arr::pull($data, '__created_at');
+        Arr::pull($data, '__updated_at');
+
         return "<?php\n\nreturn " . Arr::export($data, true) . ';';
     }
 
