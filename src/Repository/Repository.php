@@ -49,16 +49,21 @@ class Repository implements RepositoryInterface
      */
     public function find($id)
     {
+        $keyName = $this->stream->config('key_name', 'id');
+
         return $this
             ->newCriteria()
+            ->where($keyName, $id)
             ->find($id);
     }
 
     public function findAll(array $ids): Collection
     {
+        $keyName = $this->stream->config('key_name', 'id');
+
         return $this
             ->newCriteria()
-            ->where('id', 'IN', $ids)
+            ->where($keyName, 'IN', $ids)
             ->get();
     }
 
