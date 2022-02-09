@@ -109,7 +109,7 @@ Unless a view is specified, the associated requests will attempt to resolve a vi
 
 You can configure automatic view patterns within the `streams/route.php` [configuration file](configuration). The process ignores the views if they do not exist.
 
-## Parameters
+## Route Parameters
 
 The Streams platform adds support for deep parameter variables using a dot notation when using the `URL::streams()` method to [generate URLs](#generating-urls).
 

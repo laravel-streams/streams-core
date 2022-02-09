@@ -2,118 +2,145 @@
 
 namespace Streams\Core\Tests\Stream\Criteria;
 
-use Tests\TestCase;
-use Streams\Core\Entry\Entry;
 use Streams\Core\Criteria\Criteria;
-use Illuminate\Support\Facades\Crypt;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Illuminate\Pagination\AbstractPaginator;
-use Streams\Core\Criteria\Adapter\FilebaseAdapter;
+use Streams\Core\Criteria\Adapter\FileAdapter;
 
-class CriteriaTest extends TestCase
+class CriteriaTest extends CoreTestCase
 {
 
-    public function setUp(): void
+    public function test_it_returns_entries()
     {
-        $this->createApplication();
+        $entries = Streams::entries('films')->get();
 
-        Streams::load(base_path('vendor/streams/core/tests/examples.json'));
+        $this->assertEquals(7, $entries->count());
     }
 
-    public function tearDown(): void
+    public function test_it_caches_results()
     {
-        $this->createApplication();
+        $entries = Streams::entries('films')->cache()->get();
+        $count = Streams::entries('films')->cache()->count();
 
-        $filename = base_path('vendor/streams/core/tests/data/examples/third.json');
+        $this->assertEquals(7, $entries->count());
+        $this->assertEquals(7, $count);
 
-        if (file_exists($filename)) {
-            unlink($filename);
-        }
+        $file = base_path('streams/data/films.json');
+
+        $json = json_decode(file_get_contents($file), true);
+
+        unset($json[4]);
+
+        file_put_contents($file, json_encode($json, JSON_PRETTY_PRINT));
+
+        $entries = Streams::entries('films')->cache()->get();
+        $count = Streams::entries('films')->cache()->count();
+
+        $this->assertEquals(7, $entries->count());
+        $this->assertEquals(7, $count);
     }
 
-    public function test_can_get_entries()
+    public function test_it_caches_when_stream_cache_is_enabled()
     {
-        $entries = Streams::entries('testing.examples')->get();
+        $stream = Streams::overload('planets', [
+            'config' => [
+                'cache' => [
+                    'enabled' => true,
+                ],
+            ],
+        ]);
+
+        $entries = $stream->entries()->get();
+        $count = $stream->entries()->count();
+
+        $this->assertEquals(10, $entries->count());
+        $this->assertEquals(10, $count);
+
+        $file = base_path('streams/data/planets.json');
+
+        $json = json_decode(file_get_contents($file), true);
+
+        unset($json[4]);
+
+        file_put_contents($file, json_encode($json, JSON_PRETTY_PRINT));
+
+        $entries = $stream->entries()->get();
+        $count = $stream->entries()->count();
+
+        $this->assertEquals(10, $entries->count());
+        $this->assertEquals(10, $count);
+    }
+
+    public function test_can_flush_cache()
+    {
+        $this->test_it_caches_results();
+
+        Streams::repository('films')->create($this->filmData());
+
+        $entries = Streams::entries('films')->cache()->get();
+
+        $this->assertEquals(7, $entries->count());
+    }
+
+    public function test_cache_can_be_bypassed()
+    {
+        $entries = Streams::entries('films')->cache()->get();
+
+        $this->assertEquals(7, $entries->count());
+
+        $file = base_path('streams/data/films.json');
+
+        $json = json_decode(file_get_contents($file), true);
+
+        unset($json[4]);
+
+        file_put_contents($file, json_encode($json, JSON_PRETTY_PRINT));
+
+        $entries = Streams::entries('films')->fresh()->get();
+
+        $this->assertEquals(6, $entries->count());
+    }
+
+    public function test_it_returns_the_first_result()
+    {
+        $entry = Streams::entries('films')->first();
+
+        $this->assertEquals('A New Hope', $entry->title);
+    }
+
+    public function test_it_orders_results()
+    {
+        $entry = Streams::entries('films')->orderBy('title', 'DESC')->first();
+
+        $this->assertEquals('The Phantom Menace', $entry->title);
+    }
+
+    public function test_it_limits_results()
+    {
+        $entries = Streams::entries('films')->limit(2)->get();
 
         $this->assertEquals(2, $entries->count());
     }
 
-    public function test_can_return_the_first_result()
+    public function test_it_counts_results()
     {
-        $entry = Streams::entries('testing.examples')->first();
-
-        $this->assertEquals('First Example', $entry->name);
+        $this->assertEquals(7, Streams::entries('films')->count());
     }
 
-    public function test_can_find_an_entry_by_id()
-    {
-        $entry = Streams::entries('testing.examples')->find('second');
-
-        $this->assertEquals('Second Example', $entry->name);
-    }
-
-    public function test_can_order_results()
-    {
-        $entry = Streams::entries('testing.examples')->orderBy('name', 'DESC')->first();
-
-        $this->assertEquals('Second Example', $entry->name);
-    }
-
-    public function test_can_limit_results()
-    {
-        $entries = Streams::entries('testing.examples')->limit(1)->get();
-
-        $this->assertEquals(1, $entries->count());
-    }
-
-    public function test_can_count_results()
-    {
-        $this->assertEquals(2, Streams::entries('testing.examples')->count());
-    }
-
-    public function test_can_constrain_results()
+    public function test_it_filters_results()
     {
         $this->assertEquals(
-            1,
-            Streams::entries('testing.examples')
-                ->where('name', 'Second Example')
-                ->get()
+            3,
+            Streams::entries('films')
+                ->where('opening_crawl', 'LIKE', '%Skywalker%')
                 ->count()
         );
-
-        $this->assertEquals(
-            2,
-            Streams::entries('testing.examples')
-                ->where('name', 'Second Example')
-                ->orWhere('name', 'First Example')
-                ->get()->count()
-        );
-
-        $this->assertEquals(
-            2,
-            Streams::entries('testing.examples')
-                ->where('name', 'LIKE', '% Example')
-                ->get()->count()
-        );
-
-        $this->assertEquals(
-            'Second Example',
-            Streams::entries('testing.examples')
-                ->where('name', 'Second Example')
-                ->first()->name
-        );
-
-        $this->assertEquals(
-            'First Example',
-            Streams::entries('testing.examples')
-                ->where('name', '!=', 'Second Example')
-                ->first()->name
-        );
     }
 
-    public function test_can_get_and_set_query_parameters()
+    public function test_it_gets_and_sets_query_parameters()
     {
-        $query = Streams::entries('testing.examples')->where('name', 'Second Example');
+        $query = Streams::entries('films')->where('title', 'A New Hope');
 
         $this->assertEquals(1, $query->get()->count());
 
@@ -122,211 +149,146 @@ class CriteriaTest extends TestCase
         $this->assertEquals(1, $query->get()->count());
     }
 
-    public function test_can_load_array_of_parameters()
+    public function test_it_paginates_results()
     {
-        $query = Streams::entries('testing.examples');
-
-        $query->loadParameters([
-            ['where' => ['name', 'First Example']]
-        ]);
-
-        $this->assertEquals(1, $query->get()->count());
-    }
-
-    public function test_can_paginate_results()
-    {
-        $pagination = Streams::entries('testing.examples')->paginate(10);
+        $pagination = Streams::entries('films')->paginate();
 
         $this->assertInstanceOf(AbstractPaginator::class, $pagination);
-        $this->assertEquals(2, $pagination->total());
+        $this->assertEquals(7, $pagination->total());
 
-
-        $pagination = Streams::entries('testing.examples')->paginate([
-            'per_page' => 1
-        ]);
+        $pagination = Streams::entries('films')->paginate(2);
 
         $this->assertInstanceOf(AbstractPaginator::class, $pagination);
-        $this->assertEquals(2, $pagination->total());
+        $this->assertEquals(7, $pagination->total());
     }
 
-    public function test_can_return_new_instances()
+    public function test_it_returns_new_instances()
     {
-        $entry = Streams::entries('testing.examples')->newInstance([
-            'name' => 'Third Example',
-        ]);
+        $entry = Streams::entries('films')->newInstance($this->filmData());
 
-        $this->assertEquals('Third Example', $entry->name);
+        $this->assertEquals(8, $entry->episode_id);
+        $this->assertEquals('Star Wars: The Last Jedi', $entry->title);
     }
 
-    public function test_new_instances_modify_attributes()
+    public function test_it_creates_entries()
     {
-        $entry = Streams::entries('testing.examples')->newInstance([
-            'name' => 'Modified Example',
-            'password' => 'password_test',
-        ]);
+        $entry = Streams::entries('films')->create($this->filmData());
 
-        $this->assertNotEquals('password_test', $entry->password);
+        $this->assertEquals(8, Streams::entries('films')->count());
     }
 
-    public function test_results_do_not_modify_attributes()
+    public function test_it_deletes_entries()
     {
-        $entry = Streams::entries('testing.examples')->first('first');
-
-        $this->assertEquals('password', Crypt::decrypt($entry->password));
-    }
-
-    public function test_can_create_and_delete_entries()
-    {
-        $entry = Streams::entries('testing.examples')->create([
-            'id' => 'third',
-            'name' => 'Third Example',
-        ]);
-
-        $this->assertEquals(3, Streams::entries('testing.examples')->count());
-
-        Streams::entries('testing.examples')
-            ->where('id', $entry->id)
+        Streams::entries('films')
+            ->where('episode_id', 4)
             ->delete();
 
-        $this->assertEquals(2, Streams::entries('testing.examples')->count());
+        $this->assertEquals(6, Streams::entries('films')->count());
     }
 
-    public function test_can_cache_results()
+    public function test_it_truncates_entries()
     {
-        Streams::entries('testing.examples')->create([
-            'id' => 'third',
-            'name' => 'Third Example',
-        ]);
+        Streams::entries('films')->truncate();
 
-        $count = Streams::entries('testing.examples')->cache()->count();
-        $entry = Streams::entries('testing.examples')->cache(60)->find('third');
-
-        $this->assertEquals(3, $count);
-        $this->assertInstanceOf(Entry::class, $entry);
-
-        // Circumvent cache.
-        unlink(base_path('vendor/streams/core/tests/data/examples/third.json'));
-
-        $count = Streams::entries('testing.examples')->cache()->count();
-        $entry = Streams::entries('testing.examples')->cache(60)->find('third');
-
-        $this->assertEquals(3, $count);
-        $this->assertInstanceOf(Entry::class, $entry);
-    }
-
-    public function test_can_flush_cache()
-    {
-        Streams::entries('testing.examples')->create([
-            'id' => 'third',
-            'name' => 'Third Example',
-        ]);
-
-        Streams::entries('testing.examples')->cache(60)->find('third');
-
-        // Circumvent cache.
-        unlink(base_path('vendor/streams/core/tests/data/examples/third.json'));
-
-        Streams::make('testing.examples')->cache()->flush();
-
-        $entry = Streams::entries('testing.examples')->cache(60)->find('third');
-
-        $this->assertNull($entry);
-    }
-
-    public function test_can_bypass_cache()
-    {
-        Streams::entries('testing.examples')->create([
-            'id' => 'third',
-            'name' => 'Third Example',
-        ]);
-
-        Streams::entries('testing.examples')->cache(60)->find('third');
-
-        // Circumvent cache.
-        unlink(base_path('vendor/streams/core/tests/data/examples/third.json'));
-
-        $entry = Streams::entries('testing.examples')->fresh()->find('third');
-
-        $this->assertNull($entry);
+        $this->assertEquals(0, Streams::entries('films')->count());
     }
 
     public function test_can_chunk_results()
     {
-        Streams::entries('testing.examples')->chunk(1, function ($entries) {
+        Streams::entries('films')->chunk(1, function ($entries) {
             $entries->each(function ($entry) {
-                echo $entry->name;
+                echo $entry->title;
             });
         });
 
-        $this->expectOutputString('First ExampleSecond Example');
+        $expected = '';
+
+        Streams::entries('films')->get()->each(function($film) use (&$expected) {
+            $expected .= $film->title;
+        });
+
+        $this->expectOutputString($expected);
     }
 
-    public function test_can_stop_chunking_results()
+    public function test_it_can_stop_chunking_results()
     {
-        Streams::entries('testing.examples')->chunk(1, function ($entries) {
+        Streams::entries('films')->chunk(1, function ($entries) {
             $entries->each(function ($entry) {
-                echo $entry->name;
+                echo $entry->title;
             });
             return false;
         });
 
-        $this->expectOutputString('First Example');
+        $this->expectOutputString('A New Hope');
     }
 
-    public function test_streams_can_define_custom_criteria()
+    public function test_it_uses_stream_defined_criteria()
     {
-        $stream = Streams::build([
-            'id' => 'testing.custom_criteria',
+        $stream = Streams::overload('films', [
             'config' => [
-                'source' => [
-                    'path' => 'vendor/streams/core/tests/data/examples',
-                    'format' => 'json'
-                ],
                 'criteria' => CustomExamplesCriteria::class,
-            ]
+            ],
         ]);
 
         $this->assertInstanceOf(CustomExamplesCriteria::class, $stream->entries());
 
         $entry = $stream->entries()->test();
 
-        $this->assertEquals('Second Example', $entry->name);
+        $this->assertEquals('The Phantom Menace', $entry->title);
     }
 
-    public function test_streams_can_define_custom_adapter()
+    public function test_it_uses_stream_defined_adapter()
     {
-        $stream = Streams::build([
-            'id' => 'testing.custom_adapter',
+        $stream = Streams::overload('films', [
             'config' => [
                 'source' => [
+
+                    // @todo Should this be moved up into config?
                     'adapter' => CustomExamplesAdapter::class,
-                    'path' => 'vendor/streams/core/tests/data/examples',
-                    'format' => 'json'
                 ],
-            ]
+            ],
         ]);
 
         $entry = $stream->entries()->testMethod()->first();
 
-        $this->assertEquals('Second Example', $entry->name);
+        $this->assertEquals('The Phantom Menace', $entry->title);
     }
 
-    public function test_criteria_are_macroable()
+    public function test_it_supports_macros()
     {
-        Streams::entries('testing.examples')->macro('testMacro', function() {
-            return $this->orderBy('name', 'DESC')->first();
+        Streams::entries('films')->macro('testMacro', function() {
+            return $this->orderBy('title', 'DESC')->first();
         });
 
-        $entry = Streams::entries('testing.examples')->testMacro();
+        $entry = Streams::entries('films')->testMacro();
         
-        $this->assertEquals('Second Example', $entry->name);
+        $this->assertEquals('The Phantom Menace', $entry->title);
     }
 
     public function test_it_throws_exception_for_bad_methods()
     {
         $this->expectException(\Exception::class);
 
-        Streams::entries('testing.examples')->doesntExist();
+        Streams::entries('films')->doesntExist();
+    }
+
+    protected function filmData()
+    {
+        return [
+            'title' => 'Star Wars: The Last Jedi',
+            'director' => 'Rian Johnson',
+            'producer' => 'Kathleen Kennedy, Ram Bergman, J. J. Abrams',
+            'release_date' => '2017-12-15',
+            'opening_crawl' => 'The FIRST ORDER reigns. Having decimated the peaceful Republic, Supreme Leader Snoke now deploys his merciless legions to seize military control of the galaxy.
+
+Only General Leia Organa\'s band of RESISTANCE fighters stand against the rising tyranny, certain that Jedi Master Luke Skywalker will return and restore a spark of hope to the fight.
+
+"But the Resistance has been exposed. As the First Order speeds toward the rebel base, the brave heroes mount a desperate escape....',
+            'characters' => [1, 5],
+            'planets' => [],
+            'starships' => [9],
+            'species' => [1],
+        ];
     }
 }
 
@@ -335,14 +297,14 @@ class CustomExamplesCriteria extends Criteria
 {
     public function test()
     {
-        return $this->orderBy('name', 'DESC')->first();
+        return $this->orderBy('title', 'DESC')->first();
     }
 }
 
-class CustomExamplesAdapter extends FilebaseAdapter
+class CustomExamplesAdapter extends FileAdapter
 {
     public function testMethod()
     {
-        return $this->orderBy('name', 'DESC');
+        return $this->orderBy('title', 'DESC');
     }
 }
