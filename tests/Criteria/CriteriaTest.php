@@ -142,9 +142,11 @@ class CriteriaTest extends CoreTestCase
     {
         $query = Streams::entries('films')->where('title', 'A New Hope');
 
+        $parameters = $query->getParameters();
+
         $this->assertEquals(1, $query->get()->count());
 
-        $query->setParameters($query->getParameters());
+        $query->setParameters($parameters);
 
         $this->assertEquals(1, $query->get()->count());
     }
@@ -172,9 +174,22 @@ class CriteriaTest extends CoreTestCase
 
     public function test_it_creates_entries()
     {
-        $entry = Streams::entries('films')->create($this->filmData());
+        Streams::entries('films')->create($this->filmData());
 
         $this->assertEquals(8, Streams::entries('films')->count());
+    }
+
+    public function test_is_saves_entries()
+    {
+        $entry = Streams::entries('films')->first();
+
+        $entry->title = 'Test Title';
+
+        Streams::entries('films')->save($entry);
+
+        $entry = Streams::entries('films')->first();
+
+        $this->assertEquals('Test Title', $entry->title);
     }
 
     public function test_it_deletes_entries()

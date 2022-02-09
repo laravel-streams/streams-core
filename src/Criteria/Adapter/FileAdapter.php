@@ -12,16 +12,14 @@ use Streams\Core\Entry\Contract\EntryInterface;
 
 class FileAdapter extends AbstractAdapter
 {
-    protected $data = [];
-    protected $query = [];
+    public $data = [];
+    public $query;
 
     public function __construct(Stream $stream)
     {
         $this->stream = $stream;
 
         $this->readData();
-
-        $this->query = new Collection($this->data);
     }
 
     public function orderBy($field, $direction = 'asc'): self
@@ -33,11 +31,7 @@ class FileAdapter extends AbstractAdapter
 
     public function limit($limit, $offset = 0): self
     {
-        if ($offset) {
-            $this->query = $this->query->skip($offset);
-        }
-
-        $this->query = $this->query->take($limit);
+        $this->query = $this->query->slice($offset, $limit);
 
         return $this;
     }
@@ -72,13 +66,13 @@ class FileAdapter extends AbstractAdapter
     public function get(array $parameters = []): Collection
     {
         $this->query = $this->collect($this->data);
-
+        
         $this->callParameterMethods($parameters);
-
+        
         return $this->query;
     }
 
-    public function count(array $parameters = []):int
+    public function count(array $parameters = []): int
     {
         return $this->get($parameters)->count();
     }
@@ -88,10 +82,6 @@ class FileAdapter extends AbstractAdapter
         $attributes = $entry->getAttributes();
 
         $keyName = $this->stream->config('key_name', 'id');
-
-        if (!Arr::has($attributes, $keyName)) {
-            throw new \Exception('The ID attribute is required.');
-        }
 
         $key = Arr::get($attributes, $keyName);
 
@@ -157,7 +147,7 @@ class FileAdapter extends AbstractAdapter
         }
 
         $keyName = $this->stream->config('key_name', 'id');
-        
+
         if ($format == 'php') {
 
             $data = include $file;
@@ -198,8 +188,14 @@ class FileAdapter extends AbstractAdapter
 
                 $row = array_combine($fields, $row);
 
-                $key = Arr::get($row, $keyName, $key);
-                
+                foreach ($row as $key => $value) {
+                    if (!is_numeric($value) && $json = json_decode($value)) {
+                        $row[$key] = $json;
+                    }
+                }
+
+                $key = Arr::get($row, $keyName, $i + 1);
+
                 $this->data[$key] = [$keyName => $key] + $row;
 
                 $i++;
@@ -220,7 +216,7 @@ class FileAdapter extends AbstractAdapter
         $data = [];
 
         array_walk($this->data, function ($item, $key) use (&$data, $keyName) {
-            
+
             $key = Arr::get($item, $keyName) ?: $key;
 
             $data[(string) $key] = $item;
@@ -247,6 +243,13 @@ class FileAdapter extends AbstractAdapter
             fputcsv($handle, $this->stream->fields->keys()->all());
 
             array_map(function ($item) use ($handle) {
+
+                foreach ($item as $key => $value) {
+                    if (is_array($value)) {
+                        $item[$key] = json_encode($value);
+                    }
+                }
+
                 fputcsv($handle, $item);
             }, $this->data);
 
