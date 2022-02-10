@@ -1,17 +1,17 @@
 <?php
 
-namespace Streams\Core\Tests\Stream\Criteria\Adapter;
+namespace Streams\Core\Tests\Criteria\Adapter;
 
-use Tests\TestCase;
 use Streams\Core\Entry\Entry;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Streams\Core\Tests\CoreTestCase;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Streams\Core\Support\Facades\Streams;
 use Illuminate\Pagination\AbstractPaginator;
 
-class DatabaseAdapterTest extends TestCase
+class DatabaseAdapterTest extends CoreTestCase
 {
 
     public function setUp(): void

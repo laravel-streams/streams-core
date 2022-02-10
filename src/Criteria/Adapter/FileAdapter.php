@@ -12,8 +12,8 @@ use Streams\Core\Entry\Contract\EntryInterface;
 
 class FileAdapter extends AbstractAdapter
 {
-    public $data = [];
-    public $query;
+    protected $data = [];
+    protected $query;
 
     public function __construct(Stream $stream)
     {
@@ -66,9 +66,9 @@ class FileAdapter extends AbstractAdapter
     public function get(array $parameters = []): Collection
     {
         $this->query = $this->collect($this->data);
-        
+
         $this->callParameterMethods($parameters);
-        
+
         return $this->query;
     }
 
@@ -125,10 +125,6 @@ class FileAdapter extends AbstractAdapter
 
     protected function make($entry): EntryInterface
     {
-        if ($entry instanceof EntryInterface) {
-            return $entry;
-        }
-
         return $this->newInstance($entry);
     }
 

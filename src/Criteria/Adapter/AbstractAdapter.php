@@ -84,7 +84,7 @@ abstract class AbstractAdapter implements AdapterInterface
         );
 
         $this->fillDefaults($attributes);
-
+        
         $prototype->setPrototypeAttributes($attributes);
 
         return $prototype;

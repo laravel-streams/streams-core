@@ -1,6 +1,6 @@
 <?php
 
-namespace Streams\Core\Tests\Stream\Criteria;
+namespace Streams\Core\Tests\Criteria;
 
 use Streams\Core\Criteria\Criteria;
 use Streams\Core\Tests\CoreTestCase;
@@ -74,13 +74,17 @@ class CriteriaTest extends CoreTestCase
 
     public function test_can_flush_cache()
     {
-        $this->test_it_caches_results();
+        $entries = Streams::entries('films')->cache()->get();
+        $count = Streams::entries('films')->cache()->count();
+
+        $this->assertEquals(7, $entries->count());
+        $this->assertEquals(7, $count);
 
         Streams::repository('films')->create($this->filmData());
 
         $entries = Streams::entries('films')->cache()->get();
 
-        $this->assertEquals(7, $entries->count());
+        $this->assertEquals(8, $entries->count());
     }
 
     public function test_cache_can_be_bypassed()
@@ -89,17 +93,11 @@ class CriteriaTest extends CoreTestCase
 
         $this->assertEquals(7, $entries->count());
 
-        $file = base_path('streams/data/films.json');
-
-        $json = json_decode(file_get_contents($file), true);
-
-        unset($json[4]);
-
-        file_put_contents($file, json_encode($json, JSON_PRETTY_PRINT));
+        $this->removeData();
 
         $entries = Streams::entries('films')->fresh()->get();
 
-        $this->assertEquals(6, $entries->count());
+        $this->assertEquals(0, $entries->count());
     }
 
     public function test_it_returns_the_first_result()
@@ -134,6 +132,41 @@ class CriteriaTest extends CoreTestCase
             3,
             Streams::entries('films')
                 ->where('opening_crawl', 'LIKE', '%Skywalker%')
+                ->count()
+        );
+
+        $this->assertEquals(
+            2,
+            Streams::entries('films')
+                ->where('episode_id', 'IN', [1, 2])
+                ->count()
+        );
+
+        $this->assertEquals(
+            3,
+            Streams::entries('films')
+                ->where('episode_id', '<', 4)
+                ->count()
+        );
+
+        $this->assertEquals(
+            4,
+            Streams::entries('films')
+                ->where('episode_id', '<=', 4)
+                ->count()
+        );
+
+        $this->assertEquals(
+            3,
+            Streams::entries('films')
+                ->where('episode_id', '>', 4)
+                ->count()
+        );
+
+        $this->assertEquals(
+            4,
+            Streams::entries('films')
+                ->where('episode_id', '>=', 4)
                 ->count()
         );
     }
@@ -304,6 +337,12 @@ Only General Leia Organa\'s band of RESISTANCE fighters stand against the rising
             'starships' => [9],
             'species' => [1],
         ];
+    }
+
+    protected function removeData()
+    {
+        // This is for file adapters only.
+        unlink(base_path('streams/data/films.' . Streams::make('films')->config('source.format', 'json')));
     }
 }
 

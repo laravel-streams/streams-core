@@ -1,9 +1,9 @@
 <?php
 
-namespace Streams\Core\Tests\Stream\Criteria\Adapter;
+namespace Streams\Core\Tests\Criteria\Adapter;
 
-use Tests\TestCase;
 use Illuminate\Support\Collection;
+use Streams\Core\Tests\CoreTestCase;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
@@ -12,7 +12,7 @@ use Illuminate\Pagination\AbstractPaginator;
 use Streams\Core\Entry\Contract\EntryInterface;
 use Streams\Core\Support\Traits\Streams as TraitsStreams;
 
-class EloquentAdapterTest extends TestCase
+class EloquentAdapterTest extends CoreTestCase
 {
 
     public function setUp(): void
