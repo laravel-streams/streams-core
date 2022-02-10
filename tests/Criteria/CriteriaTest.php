@@ -102,9 +102,9 @@ class CriteriaTest extends CoreTestCase
 
     public function test_it_returns_the_first_result()
     {
-        $entry = Streams::entries('films')->first();
+        $entry = Streams::entries('films')->orderBy('episode_id', 'ASC')->first();
 
-        $this->assertEquals('A New Hope', $entry->title);
+        $this->assertEquals('The Phantom Menace', $entry->title);
     }
 
     public function test_it_orders_results()
@@ -243,7 +243,7 @@ class CriteriaTest extends CoreTestCase
 
     public function test_can_chunk_results()
     {
-        Streams::entries('films')->chunk(1, function ($entries) {
+        Streams::entries('films')->orderBy('episode_id', 'ASC')->chunk(1, function ($entries) {
             $entries->each(function ($entry) {
                 echo $entry->title;
             });
@@ -251,7 +251,7 @@ class CriteriaTest extends CoreTestCase
 
         $expected = '';
 
-        Streams::entries('films')->get()->each(function($film) use (&$expected) {
+        Streams::entries('films')->orderBy('episode_id', 'ASC')->get()->each(function($film) use (&$expected) {
             $expected .= $film->title;
         });
 
@@ -260,14 +260,14 @@ class CriteriaTest extends CoreTestCase
 
     public function test_it_can_stop_chunking_results()
     {
-        Streams::entries('films')->chunk(1, function ($entries) {
+        Streams::entries('films')->orderBy('episode_id', 'ASC')->chunk(1, function ($entries) {
             $entries->each(function ($entry) {
                 echo $entry->title;
             });
             return false;
         });
 
-        $this->expectOutputString('A New Hope');
+        $this->expectOutputString('The Phantom Menace');
     }
 
     public function test_it_uses_stream_defined_criteria()

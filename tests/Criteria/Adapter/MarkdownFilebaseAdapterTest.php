@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\File;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Tests\Criteria\CriteriaTest;
 
-class JsonFilebaseAdapterTest extends CriteriaTest
+class MarkdownFilebaseAdapterTest extends CriteriaTest
 {
     
     protected function setUp():void
@@ -16,9 +16,9 @@ class JsonFilebaseAdapterTest extends CriteriaTest
         Streams::extend('films', [
             'config' => [
                 'source' => [
-                    'format' => 'json',
+                    'format' => 'md',
                     'type' => 'filebase',
-                    'path' => 'streams/data/films/json',
+                    'path' => 'streams/data/films/md',
                 ],
             ],
         ]);
@@ -51,7 +51,7 @@ class JsonFilebaseAdapterTest extends CriteriaTest
     protected function removeData()
     {
         // This is for file adapters only.
-        File::deleteDirectory(base_path('streams/data/films/' . Streams::make('films')->config('source.format', 'json')));
+        File::deleteDirectory(base_path('streams/data/films/' . Streams::make('films')->config('source.format', 'md')));
     }
 
 }
