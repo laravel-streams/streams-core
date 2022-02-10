@@ -96,7 +96,7 @@ class FileAdapter extends AbstractAdapter
             $this->data[$key] = array_merge($fields, $attributes);
         }
 
-        if (in_array($format, ['json', 'php'])) {
+        if (in_array($format, ['json'])) {
             $this->data[$key] = $attributes;
         }
 
@@ -143,18 +143,6 @@ class FileAdapter extends AbstractAdapter
         }
 
         $keyName = $this->stream->config('key_name', 'id');
-
-        if ($format == 'php') {
-
-            $data = (array) eval(str_replace('<?php', '', file_get_contents($file)));
-
-            array_walk($data, function ($item, $key) use ($keyName) {
-
-                $key = Arr::get($item, $keyName, $key);
-
-                $this->data[$key] = [$keyName => $key] + $item;
-            });
-        }
 
         if ($format == 'json') {
 
@@ -222,10 +210,6 @@ class FileAdapter extends AbstractAdapter
         
         if (!file_exists($file)) {
             File::ensureDirectoryExists(dirname($file), 0755, true);
-        }
-
-        if ($format == 'php') {
-            file_put_contents($file, "<?php\n\nreturn " . Arr::export($this->data, true) . ';');
         }
 
         if ($format == 'json') {

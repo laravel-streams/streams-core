@@ -22,7 +22,6 @@ return [
             'default_format' => env('STREAMS_DEFAULT_FORMAT', 'json'),
 
             'formats' => [
-                'php' => \Streams\Core\Criteria\Format\Php::class,
                 'json' => \Streams\Core\Criteria\Format\Json::class,
                 'yaml' => \Streams\Core\Criteria\Format\Yaml::class,
                 'md' => \Streams\Core\Criteria\Format\Markdown::class,
