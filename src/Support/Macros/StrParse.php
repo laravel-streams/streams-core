@@ -2,14 +2,12 @@
 
 namespace Streams\Core\Support\Macros;
 
-use Illuminate\Contracts\Support\Arrayable;
+use StringTemplate\Engine;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
-use Streams\Core\Support\Facades\Hydrator;
-use StringTemplate\Engine;
 
 /**
-  * @param mixed  $target
+ * @param mixed  $target
  * @param array $data
  * @return array|string|string[]
  *
@@ -19,28 +17,28 @@ class StrParse
     public function __invoke()
     {
         return
+            
             /**
-                          * @param mixed  $target
+             * @param mixed  $target
              * @param array $data
              * @return array|string|string[]
              *
-             */ function ($target, array $data = [])
-        {
+             */
+            function ($target, array $data = []) {
 
-            if (!strpos($target, '}')) {
-                return $target;
-            }
+                if (!strpos($target, '}')) {
+                    return $target;
+                }
 
-            return app(Engine::class)->render($target, array_replace_recursive(
-                App::make('streams.parser_data'),
-                Arr::make($data),
-                [
-                    'app' => [
-                        'locale' => App::getLocale(),
+                return app(Engine::class)->render($target, array_replace_recursive(
+                    App::make('streams.parser_data'),
+                    Arr::make($data),
+                    [
+                        'app' => [
+                            'locale' => App::getLocale(),
+                        ]
                     ]
-                ]
-            ));
-        };
+                ));
+            };
     }
-
 }
