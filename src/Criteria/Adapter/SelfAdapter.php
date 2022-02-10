@@ -6,10 +6,8 @@ use Illuminate\Support\Arr;
 
 class SelfAdapter extends FileAdapter
 {
-
     protected $data = [];
     protected $query = [];
-
 
     protected function readData()
     {
