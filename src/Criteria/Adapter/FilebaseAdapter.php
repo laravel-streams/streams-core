@@ -28,7 +28,7 @@ class FilebaseAdapter extends AbstractAdapter
         $format = Config::get('streams.core.sources.filebase.formats.' . $format);
 
         $path = ltrim($stream->config('source.path', Config::get('streams.core.data_path') . '/' . $stream->id), '/\\');
-
+        
         $this->query = new Database([
             'pretty' => true,
             'format' => $format,

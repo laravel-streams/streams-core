@@ -78,13 +78,13 @@ abstract class AbstractAdapter implements AdapterInterface
         $prototype = new $prototype([
             'stream' => $this->stream,
         ]);
-
+        
         $prototype->setPrototypeProperties(
             $this->stream->getOriginalPrototypeAttributes()['fields']
         );
-
+        
         $this->fillDefaults($attributes);
-
+        
         $prototype->setPrototypeAttributes($attributes);
 
         return $prototype;
@@ -99,16 +99,25 @@ abstract class AbstractAdapter implements AdapterInterface
     protected function make($entry)
     {
         $data = Arr::undot($entry->toArray());
-
+        
         unset($data['__created_at']);
         unset($data['__updated_at']);
 
         $keyName = $this->stream->config('key_name', 'id');
 
         $data = array_merge([$keyName => $entry->getId()], $data);
+        
+        $prototype = $this->stream->config('abstract', Entry::class);
 
-        $entry = $this->newInstance()->setRawPrototypeAttributes($data);
+        unset($data['__created_at']);
+        unset($data['__updated_at']);
 
+        $entry = new $prototype([
+            'stream' => $this->stream,
+        ]);
+
+        $entry = $entry->setRawPrototypeAttributes($data);
+        
         return $entry;
     }
 
