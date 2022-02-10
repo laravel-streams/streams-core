@@ -6,7 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
-use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Config;
 use Streams\Core\Entry\Contract\EntryInterface;
 
@@ -96,7 +96,7 @@ class FileAdapter extends AbstractAdapter
             $this->data[$key] = array_merge($fields, $attributes);
         }
 
-        if ($format == 'json') {
+        if (in_array($format, ['json', 'php'])) {
             $this->data[$key] = $attributes;
         }
 
@@ -150,7 +150,7 @@ class FileAdapter extends AbstractAdapter
 
         if ($format == 'php') {
 
-            $data = include $file;
+            $data = (array) eval(str_replace('<?php', '', file_get_contents($file)));
 
             array_walk($data, function ($item, $key) use ($keyName) {
 
@@ -218,14 +218,14 @@ class FileAdapter extends AbstractAdapter
         array_walk($this->data, function ($item, $key) use (&$data, $keyName) {
 
             $key = Arr::get($item, $keyName) ?: $key;
-
+            
             $data[(string) $key] = $item;
         });
 
         $this->data = $data;
-
+        
         if (!file_exists($file)) {
-            (new Filesystem())->ensureDirectoryExists(dirname($file), 0755, true);
+            File::ensureDirectoryExists(dirname($file), 0755, true);
         }
 
         if ($format == 'php') {
