@@ -13,9 +13,14 @@ class StrValue extends Value
         return explode("\n", $this->value);
     }
 
+    public function render(array $payload = [])
+    {
+        return Str::markdown(View::parse($this->value, $payload));
+    }
+
     public function __call($method, $arguments)
     {
-        return Str::{$method}(...$arguments);
+        return Str::{$method}($this->value, ...$arguments);
     }
 
     /**
