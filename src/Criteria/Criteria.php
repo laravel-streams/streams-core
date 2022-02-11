@@ -139,7 +139,7 @@ class Criteria
             });
         }
 
-        return $this->adapter->get($this->flushParameters());
+        return $this->adapter->get($this->parameters);
     }
 
     /**
@@ -205,7 +205,7 @@ class Criteria
             });
         }
 
-        return $this->adapter->count($this->flushParameters());
+        return $this->adapter->count($this->parameters);
     }
 
     /**
@@ -254,7 +254,7 @@ class Criteria
     {
         $this->stream->cache()->flush();
 
-        return $this->adapter->delete($this->flushParameters());
+        return $this->adapter->delete($this->parameters);
     }
 
     public function truncate(): void
@@ -339,15 +339,6 @@ class Criteria
         $this->parameters = $parameters;
 
         return $this;
-    }
-
-    protected function flushParameters(): array
-    {
-        $parameters = $this->parameters;
-
-        $this->parameters = [];
-
-        return $parameters;
     }
 
     public function __call($method, $arguments = [])
