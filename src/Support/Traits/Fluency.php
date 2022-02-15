@@ -45,10 +45,8 @@ trait Fluency
             return $this->{Str::camel($name)}($value);
         }
 
-        $type = $this->newProtocolPropertyFieldType($key);
+        $type = $this->stream()->fields->get($key);
 
-        // @todo this needs work..
-        $type->field = $this->stream()->fields->get($key);
         $type->entry = $this;
 
         return $type->expand($value);
