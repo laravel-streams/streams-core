@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Installer\Console\Command;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Symfony\Component\Console\Input\ArgvInput;
 
 /**
  * Class SetDatabasePrefix
@@ -19,9 +20,15 @@ class SetDatabasePrefix
      */
     public function handle()
     {
-        app('db')->getSchemaBuilder()->getConnection()->setTablePrefix(env('APPLICATION_REFERENCE') . '_');
+        /*
+         * The INSTALLED variable in the .env file for the site module has been made dynamic.
+         * Owner : Vedat Akdoğan
+         */
+        $app = (new ArgvInput())->getParameterOption('--app', env('APPLICATION_REFERENCE', 'default'));
+
+        app('db')->getSchemaBuilder()->getConnection()->setTablePrefix($app . '_');
         app('db')->getSchemaBuilder()->getConnection()->getSchemaGrammar()->setTablePrefix(
-            env('APPLICATION_REFERENCE') . '_'
+            $app . '_'
         );
     }
 }

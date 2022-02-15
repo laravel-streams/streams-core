@@ -11,7 +11,7 @@
         "laravel/framework": "^8.0",
         "laravel/helpers": "^1.0",
         "laravel/scout": "^8.2",
-        "doctrine/dbal": "^2.6", 
+        "doctrine/dbal": "^2.6",
         "intervention/image": "^2.5.0",
         "laravelcollective/html": "^6.1",
         "twig/twig": "^2.10",
@@ -28,7 +28,9 @@
         "ezyang/htmlpurifier": "~4.0",
         "tubalmartin/cssmin": "~4.0",
         "fzaninotto/faker": "~1.4",
-        "leafo/scssphp": "^0.8.4"
+        "leafo/scssphp": "^0.8.4",
+        "pyrocms/accelerant-theme": "^1.2",
+        "pyrocms/starter-theme": "^1.0"
     },
     "autoload": {
         "psr-4": {
