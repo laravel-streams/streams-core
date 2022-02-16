@@ -2,28 +2,11 @@
 
 namespace Streams\Core\Support\Macros;
 
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Arr;
-use Streams\Core\Support\Facades\Hydrator;
-
-/**
-  * @param        $value
- * @param int    $limit
- * @param string $end
- * @return string
- */
 class StrTruncate
 {
     public function __invoke()
     {
-        return
-            /**
-                          * @param        $value
-             * @param int    $limit
-             * @param string $end
-             * @return string
-             */ function($value, $limit = 100, $end = '...')
-        {
+        return function ($value, $limit = 100, $end = '...'): string {
 
             if (strlen($value) <= $limit) {
                 return $value;
@@ -45,5 +28,4 @@ class StrTruncate
             return trim(implode(array_slice($parts, 0, $last))) . $end;
         };
     }
-
 }

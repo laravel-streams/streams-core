@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 class StreamRouter
 {
-
-    static public function route($uri, $route)
+    static public function route(string $uri, string|array $route): void
     {
 
         /**

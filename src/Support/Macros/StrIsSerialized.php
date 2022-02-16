@@ -2,28 +2,12 @@
 
 namespace Streams\Core\Support\Macros;
 
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Arr;
-use Streams\Core\Support\Facades\Hydrator;
-
-/**
-  * @param mixed $target
- * @param bool $strict
- * @return bool
- *
- */
 class StrIsSerialized
 {
     public function __invoke()
     {
-        return
-            /**
-                          * @param mixed $target
-             * @param bool $strict
-             * @return bool
-             *
-             */ function (string $target, $strict = true)
-        {
+        return function (string $target, $strict = true): bool {
+
             $target = trim($target);
 
             if ($target == 'N;') {
@@ -78,7 +62,7 @@ class StrIsSerialized
                     } elseif (false === strpos($target, '"')) {
                         return false;
                     }
-                // or else fall through
+                    // or else fall through
                 case 'a':
                 case 'O':
                     return (bool)preg_match("/^{$token}:[0-9]+:/s", $target);
@@ -92,5 +76,4 @@ class StrIsSerialized
             return false;
         };
     }
-
 }

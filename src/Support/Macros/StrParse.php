@@ -6,39 +6,31 @@ use StringTemplate\Engine;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 
-/**
- * @param mixed  $target
- * @param array $data
- * @return array|string|string[]
- *
- */
 class StrParse
 {
+    public function __construct(protected Engine $parser)
+    {
+    }
+
     public function __invoke()
     {
-        return
-            
-            /**
-             * @param mixed  $target
-             * @param array $data
-             * @return array|string|string[]
-             *
-             */
-            function ($target, array $data = []) {
+        $parser = $this->parser;
 
-                if (!strpos($target, '}')) {
-                    return $target;
-                }
+        return function ($target, array $data = []) use ($parser): string {
 
-                return app(Engine::class)->render($target, array_replace_recursive(
-                    App::make('streams.parser_data'),
-                    Arr::make($data),
-                    [
-                        'app' => [
-                            'locale' => App::getLocale(),
-                        ]
+            if (!strpos($target, '}')) {
+                return $target;
+            }
+
+            return $parser->render($target, array_replace_recursive(
+                App::make('streams.parser_data'),
+                Arr::make($data),
+                [
+                    'app' => [
+                        'locale' => App::getLocale(),
                     ]
-                ));
-            };
+                ]
+            ));
+        };
     }
 }

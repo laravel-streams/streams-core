@@ -6,7 +6,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
-use Streams\Core\Field\Value\Value;
 use Illuminate\Support\Traits\Macroable;
 
 /**
@@ -188,7 +187,7 @@ trait Prototype
         return Arr::get($this->__prototype['attributes'], $key);
     }
 
-    public function expandPrototypeAttribute(string $key): Value
+    public function expandPrototypeAttribute(string $key)
     {
         $method = Str::camel('expand_' . $key . '_attribute');
 
@@ -200,11 +199,7 @@ trait Prototype
 
         $type = $this->newProtocolPropertyFieldType($key);
 
-        // @todo this is not right.. tuck it away
-        if ($this->stream) {
-            $type->field = $this->stream->fields->get($key);
-            $type->entry = $this;
-        }
+        $type->entry = $this;
 
         return $type->expand($value);
     }
@@ -353,35 +348,5 @@ trait Prototype
         }
 
         return false;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Arrayable Methods
-    |--------------------------------------------------------------------------
-    */
-
-    public function offsetExists($offset): bool
-    {
-        return array_key_exists($offset, $this->__prototype['attributes']);
-    }
-
-    public function offsetGet($offset)
-    {
-        return $this->__prototype['attributes'][$offset];
-    }
-
-    public function offsetSet($offset, $value): void
-    {
-        if (null === $offset) {
-            $this->__prototype['attributes'][] = $value;
-        } else {
-            $this->__prototype['attributes'][$offset] = $value;
-        }
-    }
-
-    public function offsetUnset($offset): void
-    {
-        unset($this->__prototype['attributes'][$offset]);
     }
 }

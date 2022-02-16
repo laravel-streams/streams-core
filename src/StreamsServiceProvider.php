@@ -393,43 +393,26 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerMacros()
     {
         Arr::macro('make', $this->app[\Streams\Core\Support\Macros\ArrMake::class]());
-        Arr::macro('undot', $this->app[\Streams\Core\Support\Macros\ArrUndot::class]());
         Arr::macro('parse', $this->app[\Streams\Core\Support\Macros\ArrParse::class]());
         Arr::macro('export', $this->app[\Streams\Core\Support\Macros\ArrExport::class]());
         Arr::macro('htmlAttributes', $this->app[\Streams\Core\Support\Macros\ArrHtmlAttributes::class]());
 
-        Factory::macro('parse', $this->app[\Streams\Core\Support\Macros\FactoryParse::class]());
-        Factory::macro('include', $this->app[\Streams\Core\Support\Macros\FactoryInclude::class]());
-        Factory::macro('includes', $this->app[\Streams\Core\Support\Macros\FactoryIncludes::class]());
-        Factory::macro('override', $this->app[\Streams\Core\Support\Macros\FactoryOverride::class]());
+        // @todo or use these directly?
+        // Factory::macro('parse', $this->app[\Streams\Core\Support\Macros\FactoryParse::class]());
+        // Factory::macro('include', $this->app[\Streams\Core\Support\Macros\FactoryInclude::class]());
+        // Factory::macro('includes', $this->app[\Streams\Core\Support\Macros\FactoryIncludes::class]());
+        // Factory::macro('override', $this->app[\Streams\Core\Support\Macros\FactoryOverride::class]());
 
         Str::macro('parse', $this->app[\Streams\Core\Support\Macros\StrParse::class]());
-        Str::macro('purify', $this->app[\Streams\Core\Support\Macros\StrPurify::class]());
-        Str::macro('linkify', $this->app[\Streams\Core\Support\Macros\StrLinkify::class]());
         Str::macro('humanize', $this->app[\Streams\Core\Support\Macros\StrHumanize::class]());
         Str::macro('truncate', $this->app[\Streams\Core\Support\Macros\StrTruncate::class]());
-        Str::macro('markdown', $this->app[\Streams\Core\Support\Macros\StrMarkdown::class]());
         Str::macro('isSerialized', $this->app[\Streams\Core\Support\Macros\StrIsSerialized::class]());
-
-        Collection::macro('hasAny', $this->app[\Streams\Core\Support\Macros\CollectionHasAny::class]());
 
         Route::macro('streams', $this->app[\Streams\Core\Support\Macros\RouteStreams::class]());
 
         URL::macro('streams', $this->app[\Streams\Core\Support\Macros\UrlStreams::class]());
 
         Translator::macro('translate', $this->app[\Streams\Core\Support\Macros\TranslatorTranslate::class]());
-    }
-
-    protected function registerMarkdown()
-    {
-        $this->app->singleton(MarkdownConverter::class, function (\Illuminate\Contracts\Foundation\Application $app) {
-            $config      = $app['config']['streams.core.markdown'];
-            $environment = new Environment($config['configs']);
-            foreach ($config['extensions'] as $extension) {
-                $environment->addExtension(new $extension());
-            }
-            return new MarkdownConverter($environment);
-        });
     }
 
     /**

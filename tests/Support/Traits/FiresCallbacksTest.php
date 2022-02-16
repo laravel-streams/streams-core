@@ -2,13 +2,13 @@
 
 namespace Streams\Core\Tests\Support\Traits;
 
-use Tests\TestCase;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
-class FiresCallbacksTest extends TestCase
+class FiresCallbacksTest extends CoreTestCase
 {
 
-    public function test_can_add_callbacks()
+    public function test_it_adds_callbacks()
     {
         $instance = new CallbacksTestClass;
 
@@ -21,7 +21,7 @@ class FiresCallbacksTest extends TestCase
         $this->expectOutputString('Testing');
     }
 
-    public function test_can_observe_callbacks()
+    public function test_it_observes_callbacks()
     {
         CallbacksTestClass::observeCallbacks(TestCallbackObserver::class);
 
@@ -32,7 +32,7 @@ class FiresCallbacksTest extends TestCase
         $this->expectOutputString('Observed');
     }
 
-    public function test_can_listen_for_callbacks()
+    public function test_it_listens_for_callbacks()
     {
         CallbacksTestClass::addCallbackListener('test_listener', function () {
             echo 'Listen!';
@@ -45,7 +45,7 @@ class FiresCallbacksTest extends TestCase
         $this->expectOutputString('Listen!');
     }
 
-    public function test_callbacks_are_specific_to_instance()
+    public function test_it_isolates_callbacks_to_instances()
     {
         $instance = new CallbacksTestClass;
 
@@ -60,7 +60,7 @@ class FiresCallbacksTest extends TestCase
         $this->expectOutputString('');
     }
 
-    public function test_callbacks_are_detectable()
+    public function test_it_detects_callbacks()
     {
         $instance = new CallbacksTestClass;
 
@@ -71,7 +71,7 @@ class FiresCallbacksTest extends TestCase
         $this->assertTrue($instance->hasCallback('testing'));
     }
 
-    public function test_listeners_are_detectable()
+    public function test_it_detects_listeners()
     {
         CallbacksTestClass::addCallbackListener('detect_listener', function () {
             echo 'Listen!';

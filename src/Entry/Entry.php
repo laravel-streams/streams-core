@@ -2,7 +2,6 @@
 
 namespace Streams\Core\Entry;
 
-use ArrayAccess;
 use Carbon\Carbon;
 use JsonSerializable;
 use Illuminate\Support\Arr;
@@ -21,7 +20,6 @@ use Streams\Core\Entry\Contract\EntryInterface;
 class Entry implements
     JsonSerializable,
     EntryInterface,
-    ArrayAccess,
     Arrayable,
     Jsonable
 {
@@ -142,6 +140,7 @@ class Entry implements
     public function toArray()
     {
         return array_diff_key($this->getAttributes(), array_flip([
+            '__prototype',
             '__created_at',
             '__updated_at',
         ]));

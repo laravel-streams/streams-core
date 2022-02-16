@@ -2,19 +2,17 @@
 
 namespace Streams\Core\Tests\Support\Traits;
 
-use ArrayAccess;
-use Carbon\Carbon;
-use Streams\Core\Field\Value\IntegerValue;
-use Tests\TestCase;
 use Streams\Core\Field\Value\Value;
-use Streams\Core\Field\Value\NumberValue;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Field\Value\StrValue;
+use Streams\Core\Field\Value\NumberValue;
+use Streams\Core\Field\Value\IntegerValue;
 use Streams\Core\Support\Traits\Prototype;
 
-class PrototypeTest extends TestCase
+class PrototypeTest extends CoreTestCase
 {
 
-    public function test_can_get_attribute()
+    public function test_it_has_access_to_attributes()
     {
         $prototype = new TestPrototype([
             'name' => 'Ryan',
@@ -25,7 +23,7 @@ class PrototypeTest extends TestCase
         $this->assertEquals(14, $prototype->getPrototypeAttribute('number'));
     }
 
-    public function test_can_affirm_attribute()
+    public function test_it_affirms_attributes()
     {
         $prototype = new TestPrototype([
             'name' => 'Ryan',
@@ -35,7 +33,7 @@ class PrototypeTest extends TestCase
         $this->assertFalse($prototype->hasPrototypeAttribute('number'));
     }
 
-    public function test_can_set_attribute()
+    public function test_it_sets_attribute()
     {
         $prototype = new TestPrototype([
             'name' => 'Ryan',
@@ -47,7 +45,7 @@ class PrototypeTest extends TestCase
         $this->assertEquals(7, $prototype->number);
     }
 
-    public function test_can_use_accessor_methods()
+    public function test_it_supports_accessor_methods()
     {
         $prototype = new TestPrototype([
             'first_name' => 'Ryan',
@@ -60,7 +58,7 @@ class PrototypeTest extends TestCase
         );
     }
 
-    public function test_can_use_accessor_hooks()
+    public function test_it_supports_accessor_hooks()
     {
         $prototype = new TestPrototype([
             'first_name' => 'Ryan',
@@ -77,7 +75,7 @@ class PrototypeTest extends TestCase
         );
     }
 
-    public function test_can_use_mutator_methods()
+    public function test_it_supports_mutator_methods()
     {
         $prototype = new TestPrototype();
 
@@ -86,7 +84,7 @@ class PrototypeTest extends TestCase
         $this->assertEquals('Ryan', $prototype->first_name);
     }
 
-    public function test_can_use_mutator_hooks()
+    public function test_it_supports_mutator_hooks()
     {
         $prototype = new TestPrototype();
 
@@ -99,7 +97,7 @@ class PrototypeTest extends TestCase
         $this->assertEquals(date('Y') - 33, $prototype->birth_year);
     }
 
-    public function test_can_load_attribute_values()
+    public function test_it_loads_attribute_values()
     {
         $prototype = new TestPrototype([
             'name' => 'Ryan',
@@ -116,7 +114,7 @@ class PrototypeTest extends TestCase
         $this->assertTrue($prototype->description === 'Test');
     }
 
-    public function test_can_return_original_attribute_values()
+    public function test_it_returns_original_attribute_values()
     {
         $prototype = new TestPrototype([
             'name' => 'Ryan',
@@ -132,11 +130,14 @@ class PrototypeTest extends TestCase
 
         $this->assertSame([
             'name' => 'Ryan',
+            'description' => 'None',
+            'price' => 0.0,
+            'status' => null,
             'number' => 14,
         ], $original);
     }
 
-    public function test_can_set_attribute_values()
+    public function test_it_supports_setting_all_attributes_at_once()
     {
         $prototype = new TestPrototype([
             'name' => 'Ryan',
@@ -153,7 +154,7 @@ class PrototypeTest extends TestCase
         $this->assertTrue($prototype->description === 'Test');
     }
 
-    public function test_can_expand_attribute_values()
+    public function test_it_expands_attribute_values()
     {
         $prototype = new TestPrototype([
             'name' => 'Test',
@@ -164,7 +165,7 @@ class PrototypeTest extends TestCase
         $this->assertInstanceOf(Value::class, $value);
     }
 
-    public function test_can_use_expand_hooks()
+    public function test_it_supports_expand_hooks()
     {
         $prototype = new TestPrototype([
             'test' => 'Test',
@@ -179,7 +180,7 @@ class PrototypeTest extends TestCase
         $this->assertInstanceOf(CustomValue::class, $value);
     }
 
-    public function test_can_guess_attribute_types()
+    public function test_it_guesses_undefined_attribute_types()
     {
         $prototype = new TestPrototype([
             'name' => null,
@@ -196,7 +197,7 @@ class PrototypeTest extends TestCase
         $this->assertInstanceOf(IntegerValue::class, $number);
     }
 
-    public function test_can_set_prototype_properties()
+    public function test_it_sets_prototype_properties()
     {
         $prototype = new TestPrototype();
 
@@ -213,7 +214,7 @@ class PrototypeTest extends TestCase
         $this->assertIsBool($prototype->getPrototypeAttribute('name'));
     }
 
-    public function test_can_get_prototype_properties()
+    public function test_it_returns_prototype_properties()
     {
         $prototype = new TestPrototype();
 
@@ -228,24 +229,13 @@ class PrototypeTest extends TestCase
                 'type' => 'boolean',
             ]
         ], $prototype->getPrototypeProperties());
-    }
-
-    public function test_can_get_specific_prototype_property()
-    {
-        $prototype = new TestPrototype();
-
-        $prototype->setPrototypeProperties([
-            'name' => [
-                'type' => 'boolean',
-            ]
-        ]);
 
         $this->assertSame([
             'type' => 'boolean',
         ], $prototype->getPrototypeProperty('name'));
     }
 
-    public function test_can_trim_undefined_prototype_attributes()
+    public function test_it_trims_undefined_prototype_attributes()
     {
         $prototype = new TestPrototype();
 
@@ -298,7 +288,7 @@ class TestPrototype
     }
 }
 
-class CustomValue extends Value
+class CustomValue
 {
     public function upper()
     {

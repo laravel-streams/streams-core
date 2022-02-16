@@ -2,7 +2,6 @@
 
 namespace Streams\Core\Stream;
 
-use ArrayAccess;
 use JsonSerializable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -31,7 +30,6 @@ use Streams\Core\Validation\StreamsPresenceVerifier;
 
 class Stream implements
     JsonSerializable,
-    ArrayAccess,
     Arrayable,
     Jsonable
 {
