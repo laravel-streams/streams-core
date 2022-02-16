@@ -11,6 +11,7 @@ use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Symfony\Component\Console\Input\ArgvInput;
 
 /**
  * Class EloquentQueryBuilder
@@ -287,10 +288,25 @@ class EloquentQueryBuilder extends Builder
         $model = $this->getModel();
         $query = $this->getQuery();
 
+        /*
+         * The INSTALLED variable in the .env file for the site module has been made dynamic.
+         * Owner : Vedat Akdoğan
+         */
+
+        $app = (new ArgvInput())->getParameterOption('--app', env('APPLICATION_REFERENCE', 'default'));
+
+        $is_installed = env('INSTALLED');
+
+        if (env('APPLICATION_REFERENCE', 'default') != $app) {
+
+            $app_config = \Dotenv\Dotenv::parse(file_get_contents(base_path('resources/' . $app . '/.env')));
+            $is_installed = filter_var($app_config['INSTALLED'], FILTER_VALIDATE_BOOLEAN);
+        }
+
         if ($query->orders === null) {
             if ($model instanceof AssignmentModel) {
                 $query->orderBy('streams_assignments.sort_order', 'ASC');
-            } elseif ($model instanceof StreamModel && env('INSTALLED')) { // Ensure migrations are complete.
+            } elseif ($model instanceof StreamModel && $is_installed) { // Ensure migrations are complete.
                 $query->orderBy('streams_streams.sort_order', 'ASC');
             } elseif ($model instanceof EntryInterface) {
                 if ($model->getStream()->isSortable()) {

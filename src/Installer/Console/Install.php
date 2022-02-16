@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
 use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
 use Anomaly\Streams\Platform\Application\Command\ReloadEnvironmentFile;
 use Anomaly\Streams\Platform\Application\Command\WriteEnvironmentFile;
+use Anomaly\Streams\Platform\Console\Kernel;
 use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
 use Anomaly\Streams\Platform\Installer\Console\Command\ConfigureDatabase;
 use Anomaly\Streams\Platform\Installer\Console\Command\ConfirmLicense;
@@ -98,6 +99,11 @@ class Install extends Command
 
                     $this->call('env:set', ['line' => 'INSTALLED=true']);
 
+                    if ($this->option('app'))
+                    {
+                        $this->call('env:set', ['line' => 'APPLICATION_REFERENCE='.$this->option('app')]);
+                    }
+
                     $this->dispatchNow(new ReloadEnvironmentFile());
                     $this->dispatchNow(new AutoloadEntryModels()); // Don't forget!
 
@@ -113,6 +119,18 @@ class Install extends Command
 
         $this->dispatchNow(new LoadBaseMigrations($installers));
         $this->dispatchNow(new LoadBaseSeeders($installers));
+
+        $installers->push(
+            new Installer(
+                'Set default .env values',
+                function () {
+                    $this->call(
+                        'env:set',
+                        ['line' => 'APPLICATION_REFERENCE=default']
+                    );
+                }
+            )
+        );
 
         $this->dispatchNow(new RunInstallers($installers, $this));
     }
