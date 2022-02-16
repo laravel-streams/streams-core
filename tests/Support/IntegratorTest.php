@@ -20,8 +20,9 @@ use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Includes;
 use Illuminate\Routing\Route as RouteInstance;
+use Streams\Core\Tests\CoreTestCase;
 
-class IntegratorTest extends TestCase
+class IntegratorTest extends CoreTestCase
 {
 
     public function test_can_integrate_array_of_details()

@@ -2,14 +2,14 @@
 
 namespace Streams\Core\Tests\Support;
 
-use Tests\TestCase;
 use Streams\Core\Support\Workflow;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
-class WorkflowTest extends TestCase
+class WorkflowTest extends CoreTestCase
 {
 
-    public function test_can_process_steps()
+    public function test_it_processes_steps()
     {
         $workflow = new ExampleWorkflow();
 
@@ -19,7 +19,7 @@ class WorkflowTest extends TestCase
     }
 
     
-    public function test_can_process_additionally_passed_steps()
+    public function test_it_processes_additionally_passed_steps()
     {
         $workflow = new ExampleWorkflow([
             'another' => ExampleWorkflowStep::class . '@handle'
@@ -29,7 +29,7 @@ class WorkflowTest extends TestCase
         $workflow->process();
     }
 
-    public function test_can_process_callable_arrays()
+    public function test_it_processes_callable_arrays()
     {
         $workflow = new ExampleWorkflow([
             'another' => [ExampleWorkflowStep::class, 'custom']
@@ -40,7 +40,7 @@ class WorkflowTest extends TestCase
         $workflow->process();
     }
 
-    public function test_can_add_steps()
+    public function test_it_appends_steps()
     {
         $workflow = new ExampleWorkflow();
 
@@ -51,7 +51,7 @@ class WorkflowTest extends TestCase
         $workflow->process();
     }
 
-    public function test_can_add_step_to_front()
+    public function test_it_prepends_steps()
     {
         $workflow = new ExampleWorkflow();
 
@@ -62,7 +62,7 @@ class WorkflowTest extends TestCase
         $workflow->process();
     }
 
-    public function test_can_add_step_before_another()
+    public function test_it_adds_steps_before_another()
     {
         $workflow = new ExampleWorkflow();
 
@@ -73,7 +73,7 @@ class WorkflowTest extends TestCase
         $workflow->process();
     }
 
-    public function test_can_add_step_after_another()
+    public function test_it_adds_steps_after_another()
     {
         $workflow = new ExampleWorkflow();
 
@@ -84,7 +84,7 @@ class WorkflowTest extends TestCase
         $workflow->process();
     }
 
-    public function test_callbacks_are_fired_after_each_step()
+    public function test_it_fires_callbacks_after_each_step()
     {
         $workflow = new ExampleWorkflow();
 
@@ -101,7 +101,7 @@ class WorkflowTest extends TestCase
         $workflow->process();
     }
 
-    public function test_callbacks_are_fired_on_pass_through_object()
+    public function test_it_fires_callbacks_using_pass_through_object()
     {
         $workflow = new ExampleWorkflow();
 
@@ -138,7 +138,7 @@ class ExampleWorkflowStep
         echo 'Extra!';
     }
 
-    public function custom()
+    static public function custom()
     {
         echo 'Custom!';
     }
