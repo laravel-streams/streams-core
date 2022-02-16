@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\View;
 use Streams\Core\Support\Integrator;
-use Streams\Core\View\ViewOverrides;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +26,7 @@ use Streams\Core\Support\Facades\Images;
 use Streams\Core\Application\Application;
 use Streams\Core\Support\ComposerScripts;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Support\Facades\Overrides;
 use League\CommonMark\Environment\Environment;
 use Streams\Core\Support\Facades\Applications;
 
@@ -34,27 +34,28 @@ class StreamsServiceProvider extends ServiceProvider
 {
 
     public $aliases = [
-        'Assets'       => \Streams\Core\Support\Facades\Assets::class,
-        'Images'       => \Streams\Core\Support\Facades\Images::class,
-        'Streams'      => \Streams\Core\Support\Facades\Streams::class,
-        'Includes'     => \Streams\Core\Support\Facades\Includes::class,
-        'Messages'     => \Streams\Core\Support\Facades\Messages::class,
+        'Assets' => \Streams\Core\Support\Facades\Assets::class,
+        'Images' => \Streams\Core\Support\Facades\Images::class,
+        'Streams' => \Streams\Core\Support\Facades\Streams::class,
+        'Includes' => \Streams\Core\Support\Facades\Includes::class,
+        'Messages' => \Streams\Core\Support\Facades\Messages::class,
+        'overrides' => \Streams\Core\Support\Facades\Overrides::class,
         'Applications' => \Streams\Core\Support\Facades\Applications::class,
     ];
 
     public $singletons = [
-        'addons'       => \Streams\Core\Addon\AddonManager::class,
-        'assets'       => \Streams\Core\Asset\AssetManager::class,
-        'images'       => \Streams\Core\Image\ImageManager::class,
-        'includes'     => \Streams\Core\View\ViewIncludes::class,
-        'streams'      => \Streams\Core\Stream\StreamManager::class,
-        'messages'     => \Streams\Core\Message\MessageManager::class,
+        'addons' => \Streams\Core\Addon\AddonManager::class,
+        'assets' => \Streams\Core\Asset\AssetManager::class,
+        'images' => \Streams\Core\Image\ImageManager::class,
+        'includes' => \Streams\Core\View\ViewIncludes::class,
+        'streams' => \Streams\Core\Stream\StreamManager::class,
+        'messages' => \Streams\Core\Message\MessageManager::class,
         'applications' => \Streams\Core\Application\ApplicationManager::class,
 
         'hydrator'   => \Streams\Core\Support\Hydrator::class,
         'decorator'  => \Streams\Core\Support\Decorator::class,
 
-        ViewOverrides::class => ViewOverrides::class,
+        'overrides' => \Streams\Core\View\ViewOverrides::class,
     ];
 
     /**
@@ -355,9 +356,8 @@ class StreamsServiceProvider extends ServiceProvider
     protected function extendView()
     {
 
-        // @todo move this to booted/event that loops and overrides instead of decorating all?
         View::composer('*', function ($view) {
-            if ($override = app(ViewOverrides::class)->get($view->name())) {
+            if ($override = Overrides::get($view->name())) {
                 $view->setPath(base_path($override));
             }
         });

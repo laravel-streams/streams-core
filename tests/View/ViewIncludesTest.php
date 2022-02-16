@@ -2,20 +2,20 @@
 
 namespace Streams\Core\Tests\Stream\View;
 
-use Tests\TestCase;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Includes;
 
-class ViewIncludesTest extends TestCase
+class ViewIncludesTest extends CoreTestCase
 {
 
-    public function test_can_register_view_includes()
+    public function test_it_registers_view_includes()
     {
         Includes::include('slot', 'welcome.blade.php');
 
         $this->assertTrue(Includes::get('slot')->contains('welcome.blade.php'));
     }
 
-    public function test_can_override_an_included_view()
+    public function test_it_overrides_included_views()
     {
         Includes::include('slot', 'welcome.blade.php');
 

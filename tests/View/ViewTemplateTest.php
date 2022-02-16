@@ -2,24 +2,26 @@
 
 namespace Streams\Core\Tests\Stream\View;
 
-use Tests\TestCase;
 use Illuminate\View\View;
 use Streams\Core\View\ViewTemplate;
 use Illuminate\Support\Facades\File;
+use Streams\Core\Tests\CoreTestCase;
 
-class ViewTemplateTest extends TestCase
+class ViewTemplateTest extends CoreTestCase
 {
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         $templates = storage_path('streams/default/templates');
 
         if (is_dir($templates)) {
             File::deleteDirectory($templates);
         }
+
+        parent::tearDown();
     }
 
-    public function test_can_render_string_templates()
+    public function test_it_renders_string_templates()
     {
         $view = ViewTemplate::make('Hi {{ $name }}', [
             'name' => 'Ryan',
@@ -30,7 +32,7 @@ class ViewTemplateTest extends TestCase
         $this->assertSame('Hi Ryan', $view->render());
     }
 
-    public function test_can_return_view_paths()
+    public function test_it_returns_template_paths()
     {
         $path = ViewTemplate::path('Hi {{ $name }}');
 
