@@ -2,29 +2,15 @@
 
 namespace Streams\Core\Support\Macros;
 
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Str;
-use Streams\Core\Support\Facades\Hydrator;
 
-/**
-  * @param mixed $target
- * @return mixed
- *
- */
 class TranslatorTranslate
 {
     public function __invoke()
     {
-        return
-            /**
-                          * @param mixed $target
-             * @return mixed
-             *
-             */ function ($target)
-        {
+        return function (string|array $target): string|array {
 
             if (is_array($target) || $target instanceof Collection) {
                 foreach ($target as &$value) {
@@ -39,5 +25,4 @@ class TranslatorTranslate
             return $target;
         };
     }
-
 }

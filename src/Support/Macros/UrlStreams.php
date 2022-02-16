@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Support\Macros;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\URL;
@@ -11,7 +12,7 @@ class UrlStreams
 {
     public function __invoke()
     {
-        return function (string $name, array $parameters = [], array $extra = [], bool|null $secure = null) {
+        return function (string $name, array|Arrayable $parameters = [], array $extra = [], bool|null $secure = null) {
 
             $parameters = Arr::make($parameters);
 

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Gate;
 use Streams\Core\Support\Integrator;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\View\ViewOverrides;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Config;
@@ -19,13 +20,13 @@ use Illuminate\Support\ServiceProvider;
 use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Includes;
+use Streams\Core\Support\Facades\Overrides;
 use Illuminate\Routing\Route as RouteInstance;
-use Streams\Core\Tests\CoreTestCase;
 
 class IntegratorTest extends CoreTestCase
 {
 
-    public function test_can_integrate_array_of_details()
+    public function test_it_integrates_arrays_of_services()
     {
         Integrator::integrate([
             'locale' => 'de',
@@ -34,14 +35,14 @@ class IntegratorTest extends CoreTestCase
         $this->assertSame('de', App::getLocale());
     }
 
-    public function test_can_set_app_locale()
+    public function test_it_sets_app_locale()
     {
         Integrator::locale('de');
 
         $this->assertSame('de', App::getLocale());
     }
 
-    public function test_can_set_config_values()
+    public function test_it_sets_config_values()
     {
         Integrator::config([
             'app.name' => 'Streams Testing',
@@ -50,7 +51,7 @@ class IntegratorTest extends CoreTestCase
         $this->assertSame('Streams Testing', Config::get('app.name'));
     }
 
-    public function test_can_register_assets()
+    public function test_it_registers_assets()
     {
         Integrator::assets([
             'styles.css',
@@ -61,7 +62,7 @@ class IntegratorTest extends CoreTestCase
         $this->assertEquals(['styles.css' => 'styles.css'], Assets::collection('styles')->all());
     }
 
-    public function test_can_register_aliases()
+    public function test_it_registers_aliases()
     {
         Integrator::aliases([
             'CustomIntegratorImplementation' => CustomIntegratorService::class,
@@ -70,7 +71,7 @@ class IntegratorTest extends CoreTestCase
         $this->assertSame(CustomIntegratorService::class, App::getAlias('CustomIntegratorImplementation'));
     }
 
-    public function test_can_register_bindings()
+    public function test_it_registers_bindings()
     {
         Integrator::bindings([
             'TestCustomBinding' => CustomIntegratorService::class,
@@ -79,7 +80,7 @@ class IntegratorTest extends CoreTestCase
         $this->assertInstanceOf(CustomIntegratorService::class, App::make('TestCustomBinding'));
     }
 
-    public function test_can_register_singletons()
+    public function test_it_registers_singletons()
     {
         Integrator::singletons([
             'TestCustomBinding' => CustomIntegratorService::class,
@@ -88,7 +89,7 @@ class IntegratorTest extends CoreTestCase
         $this->assertInstanceOf(CustomIntegratorService::class, App::make('TestCustomBinding'));
     }
 
-    public function test_can_register_artisan_commands()
+    public function test_it_registers_artisan_commands()
     {
         Integrator::commands([
             CustomArtisanCommand::class,
@@ -97,7 +98,7 @@ class IntegratorTest extends CoreTestCase
         $this->assertTrue(Arr::has(Artisan::all(), 'custom-artisan-command'));
     }
 
-    public function test_can_register_event_listeners()
+    public function test_it_registers_event_listeners()
     {
         Integrator::listeners([
             'custom-testing-event' => [
@@ -110,7 +111,7 @@ class IntegratorTest extends CoreTestCase
         event('custom-testing-event');
     }
 
-    public function test_can_register_policies()
+    public function test_it_registers_policies()
     {
         $user = new CustomTestingUser(['name' => 'Ryan']);
 
@@ -131,7 +132,7 @@ class IntegratorTest extends CoreTestCase
         $this->assertTrue(Gate::allows('viewAny', new CustomIntegratorService));
     }
 
-    public function test_can_register_routes()
+    public function test_it_registers_routes()
     {
         Integrator::routes([
             'web' => [
@@ -145,7 +146,7 @@ class IntegratorTest extends CoreTestCase
         $this->assertInstanceOf(RouteInstance::class, Route::getRoutes()->getByName('testing.foo'));
     }
     
-    public function test_can_register_service_providers()
+    public function test_it_registers_service_providers()
     {
         Integrator::providers([
             CustomTestingSecondaryProvider::class,
@@ -154,7 +155,7 @@ class IntegratorTest extends CoreTestCase
         $this->assertInstanceOf(CustomIntegratorService::class, App::make('TestCustomProviderBinding'));
     }
 
-    public function test_can_register_view_includes()
+    public function test_it_registers_view_includes()
     {
         Integrator::includes([
             'slot' => [
@@ -165,26 +166,26 @@ class IntegratorTest extends CoreTestCase
         $this->assertTrue(Includes::slot('slot')->contains('welcome.blade.php'));
     }
 
-    public function test_can_register_view_overrides()
+    public function test_it_registers_view_overrides()
     {
         Integrator::overrides([
-            'welcome.blade.php' => 'override.blade.php',
+            'welcome.blade.php' => 'testing.blade.php',
         ]);
 
-        $this->assertSame('override.blade.php', app(ViewOverrides::class)->get('welcome.blade.php'));
+        $this->assertSame('testing.blade.php', Overrides::get('welcome.blade.php'));
     }
 
-    public function test_can_register_streams()
+    public function test_it_registers_streams()
     {
         Integrator::streams([
             'testing.array.stream' => [
                 'name' => 'Testing Array Stream',
             ],
-            base_path('vendor/streams/core/tests/litmus.json'),
+            'vendor/streams/testing/resources/streams/streams_testing.json',
         ]);
 
         $this->assertSame('Testing Array Stream', Streams::make('testing.array.stream')->name);
-        $this->assertInstanceOf(Stream::class, Streams::make('testing.litmus'));
+        $this->assertInstanceOf(Stream::class, Streams::make('streams_testing'));
     }
 }
 

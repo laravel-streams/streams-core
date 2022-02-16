@@ -24,16 +24,14 @@ use Streams\Core\Support\Facades\Addons;
 use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Images;
 use Streams\Core\Application\Application;
-use Streams\Core\Support\ComposerScripts;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Overrides;
-use League\CommonMark\Environment\Environment;
 use Streams\Core\Support\Facades\Applications;
 
 class StreamsServiceProvider extends ServiceProvider
 {
 
-    public $aliases = [
+    public array $aliases = [
         'Assets' => \Streams\Core\Support\Facades\Assets::class,
         'Images' => \Streams\Core\Support\Facades\Images::class,
         'Streams' => \Streams\Core\Support\Facades\Streams::class,
@@ -43,7 +41,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Applications' => \Streams\Core\Support\Facades\Applications::class,
     ];
 
-    public $singletons = [
+    public array $singletons = [
         'addons' => \Streams\Core\Addon\AddonManager::class,
         'assets' => \Streams\Core\Asset\AssetManager::class,
         'images' => \Streams\Core\Image\ImageManager::class,
@@ -58,23 +56,12 @@ class StreamsServiceProvider extends ServiceProvider
         'overrides' => \Streams\Core\View\ViewOverrides::class,
     ];
 
-    /**
-     * The regular bindings.
-     *
-     * @var array
-     */
-    public $bindings = [];
+    public array $bindings = [];
 
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
+    public function register(): void
     {
         $this->registerConfig();
 
-        $this->registerComposerGenerated();
         $this->registerComposerJson();
         $this->registerComposerLock();
         $this->registerFieldTypes();
@@ -91,7 +78,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerMacros();
         $this->extendView();
         $this->extendApp();
-        $this->registerMarkdown();
 
         $this->publishes([
             dirname(__DIR__) . '/resources/public'
@@ -99,10 +85,7 @@ class StreamsServiceProvider extends ServiceProvider
         ], ['public']);
     }
 
-    /**
-     * Boot the service provider.
-     */
-    public function boot()
+    public function boot(): void
     {
         $this->app->singleton('streams.parser_data', fn () => Parser::data());
 
@@ -127,15 +110,7 @@ class StreamsServiceProvider extends ServiceProvider
         // }
     }
 
-    protected function registerComposerGenerated()
-    {
-        $this->app->instance('composer.generated', ComposerScripts::getGenerated());
-    }
-
-    /**
-     * Register the composer file data.
-     */
-    protected function registerComposerJson()
+    protected function registerComposerJson(): void
     {
         $this->app->singleton(
             'composer.json',
@@ -145,10 +120,7 @@ class StreamsServiceProvider extends ServiceProvider
         );
     }
 
-    /**
-     * Register the composer lock file data.
-     */
-    protected function registerComposerLock()
+    protected function registerComposerLock(): void
     {
         $this->app->singleton(
             'composer.lock',
@@ -158,10 +130,7 @@ class StreamsServiceProvider extends ServiceProvider
         );
     }
 
-    /**
-     * Register the applications.
-     */
-    protected function registerApplications()
+    protected function registerApplications(): void
     {
         $url = Request::fullUrl();
         $applications = Applications::collection();
@@ -196,10 +165,7 @@ class StreamsServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     * Register the applications.
-     */
-    protected function bootApplication()
+    protected function bootApplication(): void
     {
         // Get the active application.
         $active = Applications::active();
@@ -214,29 +180,19 @@ class StreamsServiceProvider extends ServiceProvider
         ]));
     }
 
-    /**
-     * Register the field types.
-     * @todo Finish up
-     */
-    protected function registerFieldTypes()
+    protected function registerFieldTypes(): void
     {
         foreach (Config::get('streams.core.field_types', []) as $type => $class) {
             $this->app->bind('streams.core.field_type.' . $type, $class);
         }
     }
 
-    /**
-     * Register Aliases.
-     */
-    protected function registerAliases()
+    protected function registerAliases(): void
     {
         AliasLoader::getInstance($this->aliases)->register();
     }
 
-    /**
-     * Register config.
-     */
-    protected function registerConfig()
+    protected function registerConfig(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../resources/config/core.php', 'streams.core');
 
@@ -249,10 +205,7 @@ class StreamsServiceProvider extends ServiceProvider
         ], 'config');
     }
 
-    /**
-     * Register UI streams.
-     */
-    protected function registerStreams()
+    protected function registerStreams(): void
     {
         $prefix  = dirname(__DIR__) . '/resources/streams/';
         $streams = ['core.streams', 'core.applications'];
@@ -283,36 +236,34 @@ class StreamsServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     * Register addons.
-     */
-    protected function registerAddons()
+    protected function registerAddons(): void
     {
-        if ($this->app['composer.generated'] === false) {
-            $lock       = json_decode(file_get_contents(base_path('composer.lock')), true);
-            $vendorPath = base_path('vendor');
-            $addons     = array_filter(
-                array_merge($lock['packages'], $lock['packages-dev']),
-                function (array $package) {
-                    return Arr::get($package, 'type') === 'streams-addon';
-                }
-            );
-        } else {
-            $addons     = $this->app['composer.generated']['addons'];
-            $vendorPath = $this->app['composer.generated']['vendorPath'];
+        $composer = json_decode(file_get_contents(getcwd() . '/composer.json'), true);
+        $lock = json_decode(file_get_contents(getcwd() . '/composer.lock'), true);
+
+        if ($directory = Arr::get($composer, 'config.vendor-dir', 'vendor')) {
+            $directory = realpath($directory);
         }
+
+        if (!$directory) {
+            $directory = getcwd() . '/vendor';
+        }
+
+        $addons = array_filter(
+            array_merge($lock['packages'], $lock['packages-dev']),
+            function (array $package) {
+                return Arr::get($package, 'type') === 'streams-addon';
+            }
+        );
 
         ksort($addons);
 
-        $addons = array_map(function ($addon) use ($vendorPath) {
-            $addon = Addons::load($vendorPath . '/' . $addon['name']);
+        $addons = array_map(function ($addon) use ($directory) {
+            $addon = Addons::load($directory . '/' . $addon['name']);
         }, $addons);
     }
 
-    /**
-     * Add the asset namespace hints.
-     */
-    protected function addAssets()
+    protected function addAssets(): void
     {
         Assets::addPath('public', public_path());
         Assets::addPath('core', dirname(__DIR__));
@@ -321,39 +272,25 @@ class StreamsServiceProvider extends ServiceProvider
         Assets::register('core::js/core.js');
     }
 
-    /**
-     * Add the image namespace hints.
-     *
-     * @return void
-     */
-    private function addImageNamespaces()
+    protected function addImageNamespaces(): void
     {
         Images::addPath('public', public_path());
         Images::addPath('resources', resource_path());
         Images::addPath('streams', dirname(__DIR__) . '/resources');
     }
 
-    /**
-     * Add view namespaces.
-     */
-    public function addViewNamespaces()
+    protected function addViewNamespaces(): void
     {
         View::addNamespace('core', dirname(__DIR__) . '/resources/views');
         View::addNamespace('storage', storage_path('streams/' . Applications::active()->id));
     }
 
-    /**
-     * Load translations.
-     */
-    public function loadTranslations()
+    protected function loadTranslations(): void
     {
         Lang::addNamespace('streams', dirname(__DIR__) . '/resources/lang');
     }
 
-    /**
-     * Extend the view system.
-     */
-    protected function extendView()
+    protected function extendView(): void
     {
 
         View::composer('*', function ($view) {
@@ -390,7 +327,7 @@ class StreamsServiceProvider extends ServiceProvider
         });
     }
 
-    protected function registerMacros()
+    protected function registerMacros(): void
     {
         Arr::macro('make', $this->app[\Streams\Core\Support\Macros\ArrMake::class]());
         Arr::macro('parse', $this->app[\Streams\Core\Support\Macros\ArrParse::class]());
@@ -415,10 +352,7 @@ class StreamsServiceProvider extends ServiceProvider
         Translator::macro('translate', $this->app[\Streams\Core\Support\Macros\TranslatorTranslate::class]());
     }
 
-    /**
-     * Extend the Laravel application.
-     */
-    protected function extendApp()
+    protected function extendApp(): void
     {
         $composer = json_decode(file_get_contents(base_path('composer.json')), true);
 

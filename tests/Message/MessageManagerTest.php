@@ -2,13 +2,12 @@
 
 namespace Streams\Core\Tests\Message;
 
-use Tests\TestCase;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Messages;
 
-class MessageManagerTest extends TestCase
+class MessageManagerTest extends CoreTestCase
 {
-
-    public function testCanAddMessage()
+    public function test_it_adds_messages()
     {
         Messages::add('success', 'Test success!');
 
@@ -33,7 +32,7 @@ class MessageManagerTest extends TestCase
         ], Messages::get());
     }
 
-    public function testCanPullMessages()
+    public function test_it_pulls_messages()
     {
         Messages::add('success', 'Test success!');
 
@@ -56,7 +55,7 @@ class MessageManagerTest extends TestCase
         $this->assertEquals([], Messages::get());
     }
 
-    public function testError()
+    public function test_it_adds_error_messages()
     {
         Messages::error('Test error!');
 
@@ -68,7 +67,7 @@ class MessageManagerTest extends TestCase
         ], Messages::get());
     }
 
-    public function testInfo()
+    public function test_it_adds_info_messages()
     {
         Messages::info('Test info!');
 
@@ -80,7 +79,7 @@ class MessageManagerTest extends TestCase
         ], Messages::get());
     }
 
-    public function testSuccess()
+    public function test_it_adds_success_messages()
     {
         Messages::success('Test success!');
 
@@ -92,7 +91,7 @@ class MessageManagerTest extends TestCase
         ], Messages::get());
     }
 
-    public function testWarning()
+    public function test_it_adds_warning_messages()
     {
         Messages::warning('Test warning!');
 
@@ -104,7 +103,7 @@ class MessageManagerTest extends TestCase
         ], Messages::get());
     }
 
-    public function testDanger()
+    public function test_it_adds_danger_messages()
     {
         Messages::danger('Test danger!');
 
@@ -116,7 +115,7 @@ class MessageManagerTest extends TestCase
         ], Messages::get());
     }
 
-    public function testImportant()
+    public function test_it_adds_important_messages()
     {
         Messages::important('Test important!');
 
@@ -128,7 +127,7 @@ class MessageManagerTest extends TestCase
         ], Messages::get());
     }
     
-    public function testCanFlushMessages()
+    public function test_it_flushes_messages()
     {
         Messages::add('success', 'Test success!');
 
