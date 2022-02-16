@@ -67,7 +67,7 @@ When defining a child view, use the Blade `@verbatim@extends@endverbatim` direct
 
 Partials are reusable views intended to be included in many other views and even within other partials. You can use any view as a "partial" by using the [include](https://laravel.com/docs/blade#including-subviews) directive.
 
-```
+```blade
 // Import /resources/views/partials/assets.blade.php
 @verbatim@include('partials.assets')@endverbatim
 ```

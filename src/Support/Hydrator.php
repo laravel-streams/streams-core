@@ -91,13 +91,16 @@ class Hydrator
         /**
          * Access the public attributes.
          */
-        array_walk($public, function (&$attribute) use ($typed, $object) {
+        array_walk($public, function (&$attribute, $key) use ($typed, $object) {
             
             /**
              * If the property is typed but not
              * initialized then skip it entirely.
              */
-            if (isset($typed[$attribute]) && !isset($object->{$attribute})) {
+            if (isset($typed[$key]) && !isset($object->{$attribute})) {
+
+                $attribute = null;
+
                 return;
             }
 
