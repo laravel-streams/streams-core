@@ -2,27 +2,15 @@
 
 namespace Streams\Core\Support\Macros;
 
-use Illuminate\Contracts\View\View as ViewInterface;
 use Streams\Core\View\ViewOverrides;
+use Streams\Core\Support\Facades\Overrides;
 
-/**
- * @param $view
- * @param $override
- * @return ViewInterface
- */
 class FactoryOverride
 {
     public function __invoke()
     {
-        return
-            /**
-             * @param $view
-             * @param $override
-             * @return ViewInterface
-             */ function ($view, $override)
-    {
-        return app(ViewOverrides::class)->put($view, $override);
-    };
+        return function (string $view, string $override): ViewOverrides {
+            return Overrides::put($view, $override);
+        };
     }
-
 }

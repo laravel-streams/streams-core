@@ -4,41 +4,13 @@ namespace Streams\Core\Message;
 
 use Illuminate\Session\Store;
 
-/**
- * Class MessageManager
- *
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
- */
 class MessageManager
 {
-
-    /**
-     * The session store.
-     *
-     * @var Store
-     */
-    protected $session;
-
-    /**
-     * Create a new MessageManager instance.
-     *
-     * @param Store $session
-     */
-    public function __construct(Store $session)
+    public function __construct(protected Store $session)
     {
-        $this->session = $session;
     }
 
-    /**
-     * Add a message.
-     *
-     * @param $type
-     * @param $message
-     * @return MessageManager
-     */
-    public function add($type, $message)
+    public function add(string $type, string|array $message): static
     {
         if (is_string($message)) {
             $message = [
@@ -47,18 +19,11 @@ class MessageManager
         }
 
         $message['type'] = $type;
-        
+
         return $this->merge(md5(json_encode($message)), $message);
     }
 
-    /**
-     * Merge a message onto the session.
-     *
-     * @param string $type
-     * @param array $message
-     * @return $this
-     */
-    protected function merge(string $key, array $message)
+    protected function merge(string $key, array $message): static
     {
         $messages = $this->session->get('messages', []);
 
@@ -69,110 +34,59 @@ class MessageManager
         return $this;
     }
 
-    /**
-     * Get messages.
-     *
-     * @return array
-     */
-    public function get()
+    public function get(): array
     {
         return $this->session->get('messages', []);
     }
 
-    /**
-     * Pull the messages.
-     *
-     * @return array
-     */
-    public function pull()
+    public function pull(): array
     {
         return $this->session->pull('messages', []);
     }
 
-    /**
-     * Add an error message.
-     *
-     * @param $message
-     * @return $this
-     */
-    public function error($message)
+    public function error(string|array $message): static
     {
         $this->add(__FUNCTION__, $message);
 
         return $this;
     }
 
-    /**
-     * Add an info message.
-     *
-     * @param $message
-     * @return $this
-     */
-    public function info($message)
+    public function info(string|array $message): static
     {
         $this->add(__FUNCTION__, $message);
 
         return $this;
     }
 
-    /**
-     * Add a success message.
-     *
-     * @param $message
-     * @return $this
-     */
-    public function success($message)
+    public function success(string|array $message): static
     {
         $this->add(__FUNCTION__, $message);
 
         return $this;
     }
 
-    /**
-     * Add a warning message.
-     *
-     * @param $message
-     * @return $this
-     */
-    public function warning($message)
+    public function warning(string|array $message): static
     {
         $this->add(__FUNCTION__, $message);
 
         return $this;
     }
 
-    /**
-     * Add a danger message.
-     *
-     * @param $message
-     * @return $this
-     */
-    public function danger($message)
+    public function danger(string|array $message): static
     {
         $this->add(__FUNCTION__, $message);
 
         return $this;
     }
 
-    /**
-     * Add a important message.
-     *
-     * @param $message
-     * @return $this
-     */
-    public function important($message)
+    public function important(string|array $message): static
     {
         $this->add(__FUNCTION__, $message);
 
         return $this;
     }
 
-    /**
-     * Flush the messages.
-     *
-     * @return $this
-     */
-    public function flush()
+    public function flush(): static
     {
         $this->session->forget('messages');
 

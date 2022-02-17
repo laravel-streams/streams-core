@@ -2,13 +2,13 @@
 
 namespace Streams\Core\Tests\Support\Traits;
 
-use Tests\TestCase;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Traits\HasMemory;
 
-class HasMemoryTest extends TestCase
+class HasMemoryTest extends CoreTestCase
 {
 
-    public function test_can_remember_things()
+    public function test_it_remembers_things()
     {
         $instance = new MemoryTestClass;
 
@@ -23,9 +23,21 @@ class HasMemoryTest extends TestCase
         });
 
         $this->assertSame('Test', $value);
+
+        $value = $instance->once('test_once', function () {
+            return 'Test';
+        });
+
+        $this->assertSame('Test', $value);
+
+        $value = $instance->once('test_once', function () {
+            return 'Different';
+        });
+
+        $this->assertSame('Test', $value);
     }
 
-    public function test_can_inherit_memory()
+    public function test_it_inherits_memory()
     {
         $instance = new AnotherMemoryTestClass;
 
@@ -44,15 +56,13 @@ class HasMemoryTest extends TestCase
         $this->assertSame('Test', $value);
     }
 
-    public function test_can_forget_things()
+    public function test_it_forgets_things()
     {
         $instance = new MemoryTestClass;
 
-        $value = $instance->remember('test', function () {
+        $instance->remember('test', function () {
             return 'Test';
         });
-
-        $this->assertSame('Test', $value);
 
         $instance->forget('test');
 
@@ -61,25 +71,45 @@ class HasMemoryTest extends TestCase
         });
 
         $this->assertSame('Different', $value);
-    }
 
-    public function test_can_forget_everything()
-    {
-        $instance = new MemoryTestClass;
-
-        $value = $instance->remember('forget_everything', function () {
+        $instance->once('test_once', function () {
             return 'Test';
         });
 
-        $this->assertSame('Test', $value);
+        $instance->forget('test_once');
 
-        $instance->resetMemory();
-
-        $value = $instance->remember('forget_everything', function () {
+        $value = $instance->once('test_once', function () {
             return 'Different';
         });
 
         $this->assertSame('Different', $value);
+    }
+
+    public function test_it_resets_memory()
+    {
+        $instance = new MemoryTestClass;
+
+        $instance->remember('forget_me', function () {
+            return 'Test';
+        });
+
+        $instance->once('forget_once', function () {
+            return 'Test Once';
+        });
+
+        $instance->resetMemory();
+
+        $value = $instance->remember('forget_me', function () {
+            return 'Different';
+        });
+
+        $this->assertSame('Different', $value);
+
+        $value = $instance->once('forget_once', function () {
+            return 'Test Value';
+        });
+
+        $this->assertSame('Test Value', $value);
     }
 }
 

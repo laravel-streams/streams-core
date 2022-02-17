@@ -2,65 +2,50 @@
 
 namespace Streams\Core\Tests\Image;
 
-use Tests\TestCase;
-use Streams\Core\Image\Image;
-use Illuminate\Support\Facades\URL;
-use Streams\Core\Image\ImageCollection;
+use Streams\Core\Tests\CoreTestCase;
+use Streams\Core\Image\Type\LocalImage;
+use Streams\Core\Image\Type\RemoteImage;
 use Streams\Core\Support\Facades\Images;
+use Streams\Core\Image\Type\StorageImage;
 
-class ImageManagerTest extends TestCase
+class ImageManagerTest extends CoreTestCase
 {
-
-    public function setUp(): void
+    public function test_it_makes_public_images()
     {
-        $this->createApplication();
-
-        $filenames = [
-            public_path('vendor/streams/core/tests/example.jpg'),
-            public_path('vendor/streams/core/tests/example.png'),
-        ];
-
-        if (!is_dir(dirname($filenames[0]))) {
-            mkdir(dirname($filenames[0]), 0777, true);
-        }
-
-        foreach ($filenames as $filename) {
-            if (!file_exists($filename)) {
-                copy(base_path('vendor/streams/core/tests/' . basename($filename)), $filename);
-            }
-        }
+        $this->assertInstanceOf(LocalImage::class, Images::make('public/vendor/testing/img/example.jpg'));
     }
 
-    public function tearDown(): void
+    public function test_it_makes_remote_images()
     {
-        $this->createApplication();
-
-        $filenames = [
-            public_path('vendor/streams/core/tests/example.jpg'),
-            public_path('vendor/streams/core/tests/example.png'),
-        ];
-
-        foreach ($filenames as $filename) {
-            if (file_exists($filename)) {
-                unlink($filename);
-            }
-        }
+        $this->assertInstanceOf(RemoteImage::class, Images::make('https://source.unsplash.com/random'));
     }
 
-    public function testMake()
+    public function test_it_makes_storage_images()
     {
-        $this->assertInstanceOf(Image::class, Images::make('vendor/streams/core/tests/example.jpg'));
-        $this->assertInstanceOf(Image::class, Images::make('https://source.unsplash.com/random'));
+        $this->assertInstanceOf(StorageImage::class, Images::make('local://vendor/testing/img/example.jpg'));
+    }
 
+    public function test_it_throws_an_exception_for_unknown_sources()
+    {
         $this->expectException(\exception::class);
 
         Images::make('---');
     }
 
-    public function testRegister()
+    public function test_it_registers_images_by_name()
     {
-        Images::register('test.jpg', 'vendor/streams/core/tests/example.jpg');
+        Images::register('test.jpg', 'public/vendor/testing/img/example.jpg');
 
-        $this->assertInstanceOf(Image::class, Images::make('test.jpg'));
+        $this->assertInstanceOf(LocalImage::class, Images::make('test.jpg'));
+    }
+
+    public function test_it_adds_path_hints()
+    {
+        Images::addPath('public-testing', base_path('public/vendor/testing'));
+
+        $this->assertInstanceOf(
+            LocalImage::class,
+            Images::make('public-testing::img/example.jpg')
+        );
     }
 }

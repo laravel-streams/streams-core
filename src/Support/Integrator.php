@@ -7,7 +7,6 @@ use Illuminate\Support\Str;
 use Illuminate\Console\Application;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\AliasLoader;
@@ -15,6 +14,8 @@ use Illuminate\Support\Facades\Config;
 use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Streams;
 use Illuminate\Console\Scheduling\Schedule;
+use Streams\Core\Support\Facades\Includes;
+use Streams\Core\Support\Facades\Overrides;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
 class Integrator
@@ -48,11 +49,11 @@ class Integrator
 
     public static function aliases(array $aliases): void
     {
-        // array_walk($aliases, function ($value, $key) {
-        //     App::alias($value, $key);
-        // });
+        array_walk($aliases, function ($value, $key) {
+            App::alias($value, $key);
+        });
 
-        AliasLoader::getInstance($aliases)->register();
+        //AliasLoader::getInstance($aliases)->register();
     }
 
     public static function bindings(array $bindings): void
@@ -217,9 +218,6 @@ class Integrator
 
                 $key = Arr::pull($stream, $keyName, $key);
 
-                if (Streams::exists($key)) {
-                    Streams::overload($key, $stream);
-                }
                 Streams::register(array_merge($stream, [$keyName => $key]));
             }
         }
@@ -229,7 +227,7 @@ class Integrator
     {
         foreach ($includes as $slot => $views) {
             foreach ($views as $include) {
-                View::include($slot, $include);
+                Includes::include($slot, $include);
             }
         }
     }
@@ -237,7 +235,7 @@ class Integrator
     public static function overrides(array $overrides): void
     {
         foreach ($overrides as $view => $override) {
-            View::override($view, $override);
+            Overrides::put($view, $override);
         }
     }
 }

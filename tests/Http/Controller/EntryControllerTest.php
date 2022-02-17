@@ -2,10 +2,8 @@
 
 namespace Streams\Core\Tests\Http\Controller;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Route;
 use Streams\Core\Tests\CoreTestCase;
-use Streams\Testing\TestServiceProvider;
+use Illuminate\Support\Facades\Route;
 use Streams\Core\Support\Facades\Streams;
 
 class EntryControllerTest extends CoreTestCase
@@ -18,27 +16,25 @@ class EntryControllerTest extends CoreTestCase
             'routes' => [
                 'index' => [
                     'uri' => 'films',
-                    'view' => 'streams-testing::films',
+                    'view' => 'films',
                 ],
                 'view' => [
                     'uri' => 'films/{id}',
-                    'view' => 'streams-testing::film',
+                    'view' => 'film',
                 ],
             ],
         ]);
 
         Streams::route($stream);
-
-        App::register(TestServiceProvider::class);
     }
 
     public function test_it_returns_generic_views()
     {
-        Route::streams('test-generic-view', 'streams-testing::test');
+        Route::streams('test-generic-view', 'welcome');
 
         $response = $this->get('test-generic-view');
 
-        $response->assertSee('Hello World');
+        $response->assertSee('Welcome');
     }
 
     public function test_it_returns_stream_views()
@@ -111,7 +107,7 @@ class EntryControllerTest extends CoreTestCase
     public function test_it_resolves_route_actions()
     {
         Route::streams('testing-route-actions', [
-            'view' => 'streams-testing::entry',
+            'view' => 'entry',
             'stream' => 'planets',
             'entry' => 4,
         ]);
@@ -124,15 +120,15 @@ class EntryControllerTest extends CoreTestCase
     public function test_it_resolves_uri_parameters()
     {
         Route::streams('testing-uri-parameters/{stream}', [
-            'view' => 'streams-testing::entries',
+            'view' => 'entries',
         ]);
 
         Route::streams('testing-uri-parameters/{stream}/{id}', [
-            'view' => 'streams-testing::entry',
+            'view' => 'entry',
         ]);
 
         Route::streams('testing-uri-entry-parameter/{stream}/{entry}', [
-            'view' => 'streams-testing::entry',
+            'view' => 'entry',
         ]);
 
         $response = $this->get('testing-uri-parameters/planets');
@@ -152,7 +148,7 @@ class EntryControllerTest extends CoreTestCase
     public function test_it_resolves_query_parameters()
     {
         Route::streams('testing-query-parameters/{entry.name}', [
-            'view' => 'streams-testing::entry',
+            'view' => 'entry',
             'stream' => 'planets',
         ]);
 

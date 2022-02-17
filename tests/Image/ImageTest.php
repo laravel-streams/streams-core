@@ -2,131 +2,260 @@
 
 namespace Streams\Core\Tests\Image;
 
-use Tests\TestCase;
-use Illuminate\Support\Str;
+use Streams\Core\Image\Image;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\File;
+use Streams\Core\Tests\CoreTestCase;
+use Collective\Html\HtmlServiceProvider;
 use Streams\Core\Support\Facades\Images;
 
-class ImageTest extends TestCase
+class ImageTest extends CoreTestCase
 {
-
-    public function setUp(): void
+    protected function setUp(): void
     {
-        $this->createApplication();
+        parent::setUp();
 
-        $filenames = [
-            public_path('vendor/streams/core/tests/example.jpg'),
-            public_path('vendor/streams/core/tests/example.png'),
-        ];
+        File::deleteDirectory(public_path('app/public'));
 
-        if (!is_dir(dirname($filenames[0]))) {
-            mkdir(dirname($filenames[0]), 0777, true);
-        }
-
-        foreach ($filenames as $filename) {
-            if (!file_exists($filename)) {
-                copy(base_path('vendor/streams/core/tests/' . basename($filename)), $filename);
-            }
-        }
+        App::register(HtmlServiceProvider::class);
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
-        $this->createApplication();
+        File::deleteDirectory(public_path('app/public'));   
 
-        $filenames = [
-            public_path('vendor/streams/core/tests/example.jpg'),
-            public_path('vendor/streams/core/tests/adjusted.jpg'),
-            public_path('vendor/streams/core/tests/example.png'),
-            public_path('app/vendor/streams/core/tests/example.jpg'),
-            public_path('app/vendor/streams/core/tests/adjusted.jpg'),
-            public_path('app/vendor/streams/core/tests/example.png'),
-        ];
-
-        foreach ($filenames as $filename) {
-            if (file_exists($filename)) {
-                unlink($filename);
-            }
-        }
+        parent::tearDown();
     }
 
-    public function testImg()
+    public function test_it_returns_img_tags()
     {
-        $image = Images::make('vendor/streams/core/tests/example.jpg');
+        $image = Images::make('public/vendor/testing/img/example.jpg');
 
-        $this->assertEquals('<img src="' . url('/app/vendor/streams/core/tests/example.jpg') . '" alt="Example">', $image->version(false)->img());
-        $this->assertEquals('<img src="' . url('/app/vendor/streams/core/tests/example.jpg') . '" alt="Test">', $image->version(false)->img('Test'));
-        $this->assertEquals('<img src="' . url('/app/vendor/streams/core/tests/example.jpg?v=test') . '" alt="Example">', $image->version('test')->img());
+        $url = url('app/public/vendor/testing/img/example.jpg');
+
+        $this->assertEquals(
+            '<img src="' . $url . '" alt="Example">',
+            $image->version(false)->img()
+        );
+
+        $this->assertEquals(
+            '<img src="' . $url . '" alt="Test">',
+            $image->version(false)->img('Test')
+        );
+
+        $this->assertEquals(
+            '<img src="' . $url . '?v=test" alt="Example">',
+            $image->version('test')->img()
+        );
+
+        $this->assertEquals(
+            '<img width="800px" src="' . $url . '" alt="Alternative">',
+            $image->version(false)->img('Alternative', [
+                'width' => '800px'
+            ])
+        );
     }
 
-    public function testVersion()
+    public function test_it_returns_picture_elements()
     {
-        $image = Images::make('vendor/streams/core/tests/example.jpg');
+        $image = Images::make('public/vendor/testing/img/example.jpg');
 
-        $this->assertEquals(url('/app/vendor/streams/core/tests/example.jpg?v=latest'), $image->version('latest')->url());
-        $this->assertEquals(url('/app/vendor/streams/core/tests/example.jpg?v=' . filemtime(base_path('vendor/streams/core/tests/example.jpg'))), $image->version(true)->url());
+        $small = Images::make('public/vendor/testing/img/example.jpg')
+            ->resize(400, 400)
+            ->quality(60)
+            ->url();
+
+        $medium = Images::make('public/vendor/testing/img/example.jpg')
+            ->resize(800, 800)
+            ->quality(90)
+            ->url();
+
+        $this->assertEquals("<picture>
+<source media=\"(min-width: 600px)\" srcset=\"" . $small . "\">
+<source media=\"(min-width: 1600px)\" srcset=\"" . $medium . "\">
+<img src=\"" . $image->url() . "\" alt=\"Example\">
+</picture>", $image->picture([
+            '(min-width: 600px)' => [
+                'resize'  => [400, 400],
+                'quality' => 60
+            ],
+            '(min-width: 1600px)' => [
+                'resize'  => [800, 800],
+                'quality' => 90
+            ]
+        ]));
     }
 
-    // public function testPicture()
-    // {
-    //     $image = Images::make('vendor/streams/core/tests/example.jpg');
-
-    //     $image->sources([
-    //         '(min-width: 600px)' => [
-    //             'resize'  => 400,
-    //             'quality' => 60
-    //         ],
-    //         '(min-width: 1600px)' => [
-    //             'resize'  => 800,
-    //             'quality' => 90
-    //         ],
-    //         'fallback' => [
-    //             'resize'  => 1800
-    //         ]
-    //     ]);
-
-    //     $this->assertEquals('<img src="https://streams.local:8890/app/vendor/streams/core/tests/example.jpg" alt="Example">', $image->picture());
-    // }
-
-    public function testBase64()
+    public function test_it_supports_srcset()
     {
-        $image = Images::make('vendor/streams/core/tests/example.jpg');
+        $image = Images::make('public/vendor/testing/img/example.jpg');
+
+        $small = Images::make('public/vendor/testing/img/example.jpg')
+            ->resize(400, 400)
+            ->quality(60)
+            ->url();
+
+        $medium = Images::make('public/vendor/testing/img/example.jpg')
+            ->resize(800, 800)
+            ->quality(90)
+            ->url();
+
+        $this->assertEquals("<img srcset=\"" . $small . " 400w, " . $medium . " 800w\" sizes=\"(min-width: 600px) 400px, (min-width: 1600px) 800px\" src=\"" . url('app/public/vendor/testing/img/example.jpg') . "\" alt=\"Example\">", $image->srcset([
+            '(min-width: 600px) 400px' => [
+                'intrinsic' => 400,
+                'resize' => [400, 400],
+                'quality' => 60
+            ],
+            '(min-width: 1600px) 800px' => [
+                'intrinsic' => 800,
+                'resize' => [800, 800],
+                'quality' => 90
+            ]
+        ])->img());
+    }
+
+    public function test_it_returns_links()
+    {
+        $image = Images::make('public/vendor/testing/img/example.jpg');
+
+        $small = Images::make('public/vendor/testing/img/example.jpg')
+            ->resize(192, 192)
+            ->url();
+
+        $medium = Images::make('public/vendor/testing/img/example.jpg')
+            ->resize(512, 512)
+            ->url();
+
+        $this->assertEquals("<link href=\"" . $small . "\" type=\"image/jpg\">
+<link href=\"" . $medium . "\" type=\"image/jpg\">", $image->links([
+            'android' => [
+                'resize' => [192, 192],
+                'sizes' => '192x192',
+            ],
+            'ios' => [
+                'resize' => [512, 512],
+                'sizes' => '512x512',
+            ]
+        ]));
+    }
+
+    public function test_it_returns_base64_data()
+    {
+        $image = Images::make('public/vendor/testing/img/example.jpg');
 
         $this->assertStringStartsWith('data:image/jpg;base64,', $image->base64());
+
+        $image = Images::make('public/vendor/testing/img/example.svg');
+
+        $this->assertStringStartsWith('data:image/svg+xml;base64,', $image->base64());
     }
 
-    public function testInline()
+    public function test_it_returns_inline_images()
     {
-        $image = Images::make('vendor/streams/core/tests/example.jpg');
+        $image = Images::make('public/vendor/testing/img/example.jpg');
 
-        $this->assertTrue(Str::is('<img src="data:image/jpg;base64,*" alt="Example">', $image->inline()));
+        $output = $image->inline();
+
+        $this->assertStringContainsString('alt="Example"', $output);
+        $this->assertStringContainsString('<img src="data:image/jpg;base64,', $output);
     }
 
-    public function testCss()
+    public function test_it_returns_urls()
     {
-        $image = Images::make('vendor/streams/core/tests/example.jpg');
+        $image = Images::make('public/vendor/testing/img/example.jpg');
 
-        $this->assertEquals('url(' . url('/app/vendor/streams/core/tests/example.jpg') . ')', $image->version(false)->css());
+        $url = url('app/public/vendor/testing/img/example.jpg?v=test');
+
+        $this->assertSame($url, $image->version('test')->url());
     }
 
-    public function testExtension()
+    public function test_it_returns_css_urls()
     {
-        $image = Images::make('vendor/streams/core/tests/example.jpg');
+        $image = Images::make('public/vendor/testing/img/example.jpg');
 
-        $this->assertEquals('jpg', $image->extension());
-        $this->assertEquals('jpg', $image->extension());
+        $url = url('app/public/vendor/testing/img/example.jpg?v=test');
+
+        $this->assertSame('url(' . $url . ')', $image->version('test')->css());
     }
 
-    public function testAlterations()
+    public function test_it_returns_image_extensions()
     {
-        $image = Images::make('vendor/streams/core/tests/example.jpg');
+        $image = Images::make('public/vendor/testing/img/example.jpg');
 
-        $this->assertEquals(url('/app/vendor/streams/core/tests/adjusted.jpg'), $image->version(false)->rename('adjusted.jpg')->fit(120, 120)->url());
+        $this->assertSame('jpg', $image->extension());
     }
 
-    public function testSize()
+    public function test_it_returns_image_size()
     {
-        $image = Images::make('vendor/streams/core/tests/example.jpg');
+        $image = Images::make('public/vendor/testing/img/example.jpg');
 
-        $this->assertEquals(307714, $image->size());
+        $this->assertSame(263356, $image->size());
+    }
+
+    public function test_it_renames_output_files()
+    {
+        $image = Images::make('public/vendor/testing/img/example.jpg');
+
+        $this->assertEquals(
+            url('/app/public/vendor/testing/img/adjusted.jpg'),
+            $image->version(false)->rename('adjusted.jpg')->fit(120, 120)->url()
+        );
+    }
+
+    public function test_it_supports_macros()
+    {
+        Image::macro('thumbnail', function () {
+
+            $this->resize(120, 120);
+            $this->quality(50);
+
+            return $this;
+        });
+
+        Image::macro('rotationTest', ImageRotationMacro::class);
+
+        $image = Images::make('public/vendor/testing/img/example.jpg');
+
+        $image->thumbnail();
+
+        $this->assertSame(50, $image->quality);
+        $this->assertSame(120, $image->alterations['resize'][0]);
+
+        $image->rotationTest();
+
+        $this->assertTrue(isset($image->alterations['rotate']));
+    }
+
+    public function test_it_translates_grayscale()
+    {
+        $image = Images::make('public/vendor/testing/img/example.jpg');
+
+        $image->grayscale();
+
+        $this->assertTrue(isset($image->alterations['greyscale']));
+    }
+
+    public function test_it_returns_img_tag_for_to_string_method()
+    {
+        $image = Images::make('public/vendor/testing/img/example.jpg');
+
+        $url = url('app/public/vendor/testing/img/example.jpg');
+
+        $this->assertEquals(
+            '<img src="' . $url . '" alt="Example">',
+            (string) $image->version(false)
+        );
+    }
+}
+
+class ImageRotationMacro
+{
+    public function __construct(protected Image $image)
+    {
+    }
+
+    public function __invoke()
+    {
+        $this->image->rotate(180);
     }
 }

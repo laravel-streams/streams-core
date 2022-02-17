@@ -5,23 +5,12 @@ namespace Streams\Core\Support\Macros;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-/**
-  * @param mixed $target
- * @param array $payload
- * @return mixed
- *
- */
 class ArrParse
 {
     public function __invoke()
     {
-        return
-            /**
-                          * @param mixed $target
-             * @param array $payload
-             * @return mixed
-             *
-             */ function ($target, array $payload = []) {
+        return function ($target, array $payload = []): array {
+
             $payload = Arr::make($payload);
 
             foreach ($target as &$value) {
@@ -38,5 +27,4 @@ class ArrParse
             return $target;
         };
     }
-
 }

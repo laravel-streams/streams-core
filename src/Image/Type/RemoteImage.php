@@ -2,57 +2,80 @@
 
 namespace Streams\Core\Image\Type;
 
+use Illuminate\Support\Arr;
 use Streams\Core\Image\Image;
 use Intervention\Image\ImageManagerStatic;
 use Intervention\Image\Image as InterventionImage;
 
-/**
- * Class RemoteImage
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
-class RemoteImage extends LocalImage
+class RemoteImage extends Image
 {
-
-    /**
-     * Return the last modified timestamp.
-     * 
-     * @return int
-     */
-    public function lastModified()
+    public function assetUrl(): string
     {
-        try {
-            return filemtime($this->source);
-        } catch (\Exception $e) {
-            return null;
+        return $this->source;
+    }
+
+    public function exists(): bool
+    {
+        $ch = curl_init($this->source);
+
+        curl_setopt($ch, CURLOPT_NOBODY, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+        curl_exec($ch);
+
+        $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        curl_close($ch);
+
+        if ($status == 200) {
+            return true;
         }
+
+        return false;
     }
 
-    /**
-     * Return the output image instance.
-     *
-     * @return Image
-     */
-    protected function output()
+    public function size(): int
     {
-        $output = $this->attributes;
+        $headers = get_headers($this->source, 1);
 
-        $path = parse_url($this->source)['path'];
-
-        $output['source'] = ltrim(str_replace(base_path(), '', public_path('app/' . ltrim(dirname($path) . '/' . $this->filename(), '/\\'))), '/\\');
-
-        return new self($output);
+        return $headers['Content-Length'];
     }
 
-    /**
-     * Return an Intervention instance.
-     *
-     * @return InterventionImage
-     */
-    protected function intervention()
+    public function lastModified(): int
+    {
+        $headers = get_headers($this->source, 1);
+
+        if ($modified = Arr::get($headers, 'Last-Modified')) {
+            $modified = strtotime($modified);
+        }
+
+        return $modified ?: 0;
+    }
+
+    protected function intervention(): InterventionImage
     {
         return ImageManagerStatic::make($this->source);
+    }
+
+    protected function output(): Image
+    {
+        return $this;
+        // $output = $this->attributes;
+
+        // $path = parse_url($this->source)['path'];
+
+        // $output['source'] = ltrim(str_replace(base_path(), '', public_path('app/' . ltrim(dirname($path) . '/' . $this->filename(), '/\\'))), '/\\');
+
+        // return new self($output);
+    }
+
+    public function save(InterventionImage $intervention): void
+    {
+        // Remote images do not get saved.
+    }
+
+    public function data(): string
+    {
+        return file_get_contents($this->source);
     }
 }

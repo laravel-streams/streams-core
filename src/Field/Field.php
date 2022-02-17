@@ -113,6 +113,10 @@ class Field implements
     {
         $name = $this->config('expanded', $this->getValueName());
 
+        if (isset($this->stream)) {
+            $this->field = $this->stream->fields->get($this->handle);
+        }
+
         return new $name($this, $value);
     }
 
@@ -220,7 +224,6 @@ class Field implements
     {
         return $this->toJson();
     }
-
 
 
 
