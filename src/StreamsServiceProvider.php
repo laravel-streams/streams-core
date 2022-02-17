@@ -242,9 +242,9 @@ class StreamsServiceProvider extends ServiceProvider
         $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
 
         if ($directory = Arr::get($composer, 'config.vendor-dir')) {
-            $directory = realpath(base_path($directory));
+            $directory = base_path($directory);
         }
-
+        
         if (!$directory) {
             $directory = base_path('vendor');
         }
@@ -259,7 +259,9 @@ class StreamsServiceProvider extends ServiceProvider
         ksort($addons);
 
         $addons = array_map(function ($addon) use ($directory) {
-            $addon = Addons::load($directory . '/' . $addon['name']);
+            if (file_exists($directory . '/' . $addon['name'] . '/composer.json')) {
+                $addon = Addons::load($directory . '/' . $addon['name']);
+            }
         }, $addons);
     }
 

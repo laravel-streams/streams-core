@@ -29,11 +29,8 @@ class Repository implements RepositoryInterface
     use HasMemory;
     use FiresCallbacks;
 
-    protected Stream $stream;
-
-    public function __construct(Stream $stream)
+    public function __construct(protected Stream $stream)
     {
-        $this->stream = $stream;
     }
 
     public function all(): Collection
@@ -43,11 +40,7 @@ class Repository implements RepositoryInterface
             ->get();
     }
 
-    /**
-     * @param integer|string $id
-     * @return null|EntryInterface
-     */
-    public function find($id)
+    public function find(string|int $id): EntryInterface|null
     {
         $keyName = $this->stream->config('key_name', 'id');
 
@@ -67,12 +60,7 @@ class Repository implements RepositoryInterface
             ->get();
     }
 
-    /**
-     * @param string $field
-     * @param mixed $value
-     * @return EntryInterface|null
-     */
-    public function findBy(string $field, $value)
+    public function findBy(string $field, $value): EntryInterface|null
     {
         return $this
             ->newCriteria()
@@ -80,18 +68,19 @@ class Repository implements RepositoryInterface
             ->first();
     }
 
-    /**
-     * @param string $field
-     * @param mixed $operator
-     * @param mixed $value
-     * @return Collection
-     */
     public function findAllWhere(string $field, $operator, $value = null): Collection
     {
         return $this
             ->newCriteria()
             ->where($field, $operator, $value)
             ->get();
+    }
+
+    public function count(): int
+    {
+        return $this
+            ->newCriteria()
+            ->count();
     }
 
     public function create(array $attributes): EntryInterface

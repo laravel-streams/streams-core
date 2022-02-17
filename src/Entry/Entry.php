@@ -68,9 +68,10 @@ class Entry implements
     {
         return $this->once(__METHOD__, function () {
 
+            // @todo this should be configured
             $datetime = $this->__updated_at;
 
-            if (!$datetime instanceof Datetime) {
+            if (!$datetime instanceof \Datetime) {
                 $datetime = new Carbon($datetime);
             }
 

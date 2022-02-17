@@ -7,7 +7,6 @@ use Streams\Core\Support\Facades\Includes;
 
 class ViewIncludesTest extends CoreTestCase
 {
-
     public function test_it_registers_view_includes()
     {
         Includes::include('slot', 'welcome.blade.php');

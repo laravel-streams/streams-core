@@ -44,6 +44,13 @@ interface EntryInterface
      * @var bool
      */
     public function hasAttribute($key);
+
+    /**
+     * Remove any non-defined attributes.
+     * 
+     * @return void
+     */
+    public function strict();
     
     /**
      * Return the last modified date if possible.

@@ -50,7 +50,7 @@ class FileAdapter extends AbstractAdapter
         if ($operator == 'LIKE') {
             $this->query = $this->query->filter(function ($entry) use ($field, $value) {
                 return strpos(
-                    strtolower($entry[$field]),
+                    strtolower(data_get($entry, $field)),
                     strtolower(str_replace('%', '', $value))
                 ) !== false;
             });
