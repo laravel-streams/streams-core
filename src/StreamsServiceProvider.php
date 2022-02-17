@@ -238,15 +238,15 @@ class StreamsServiceProvider extends ServiceProvider
 
     protected function registerAddons(): void
     {
-        $composer = json_decode(file_get_contents(getcwd() . '/composer.json'), true);
-        $lock = json_decode(file_get_contents(getcwd() . '/composer.lock'), true);
+        $composer = json_decode(file_get_contents(base_path('composer.json')), true);
+        $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
 
-        if ($directory = Arr::get($composer, 'config.vendor-dir', 'vendor')) {
-            $directory = realpath($directory);
+        if ($directory = Arr::get($composer, 'config.vendor-dir')) {
+            $directory = realpath(base_path($directory));
         }
 
         if (!$directory) {
-            $directory = getcwd() . '/vendor';
+            $directory = base_path('vendor');
         }
 
         $addons = array_filter(

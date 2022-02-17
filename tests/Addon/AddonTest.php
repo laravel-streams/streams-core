@@ -7,7 +7,6 @@ use Streams\Core\Support\Facades\Addons;
 
 class AddonTest extends CoreTestCase
 {
-
     public function test_it_is_arrayable()
     {
         $this->assertEquals([
