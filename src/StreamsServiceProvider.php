@@ -334,8 +334,7 @@ class StreamsServiceProvider extends ServiceProvider
         Arr::macro('export', $this->app[\Streams\Core\Support\Macros\ArrExport::class]());
         Arr::macro('htmlAttributes', $this->app[\Streams\Core\Support\Macros\ArrHtmlAttributes::class]());
 
-        // @todo or use these directly?
-        // Factory::macro('parse', $this->app[\Streams\Core\Support\Macros\FactoryParse::class]());
+        Factory::macro('parse', $this->app[\Streams\Core\Support\Macros\FactoryParse::class]());
         // Factory::macro('include', $this->app[\Streams\Core\Support\Macros\FactoryInclude::class]());
         // Factory::macro('includes', $this->app[\Streams\Core\Support\Macros\FactoryIncludes::class]());
         // Factory::macro('override', $this->app[\Streams\Core\Support\Macros\FactoryOverride::class]());
