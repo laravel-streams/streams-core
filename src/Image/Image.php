@@ -2,121 +2,44 @@
 
 namespace Streams\Core\Image;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Collective\Html\HtmlFacade;
 use Intervention\Image\Constraint;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Traits\Macroable;
+use Streams\Core\Support\Facades\Images;
 use Streams\Core\Support\Traits\Prototype;
 use Intervention\Image\Image as InterventionImage;
 
-/**
- * Class Image
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 abstract class Image
 {
     use Macroable;
     use Prototype;
 
-    /**
-     * Return the image asset URL.
-     * 
-     * @return string
-     */
-    abstract public function assetUrl();
+    abstract public function assetUrl(): string;
 
-    /**
-     * Return if the image exists.
-     * 
-     * @return bool
-     */
-    abstract public function exists();
+    abstract public function exists(): bool;
 
-    /**
-     * Return the image size.
-     * 
-     * return int
-     */
-    abstract public function size();
+    abstract public function size(): int;
 
-    /**
-     * Return the last modified timestamp.
-     * 
-     * @return int
-     */
-    abstract public function lastModified();
+    abstract public function lastModified(): int;
 
-    /**
-     * Return the output image instance.
-     *
-     * @return Image
-     */
-    abstract protected function output();
+    abstract public function data(): string;
 
-    /**
-     * Return an Intervention instance.
-     *
-     * @return InterventionImage
-     */
-    abstract protected function intervention();
+    abstract protected function output(): Image;
 
-    /**
-     * Save the contents of the image.
-     * 
-     * @param InterventionImage $intervention
-     */
-    abstract public function save(InterventionImage $intervention);
+    abstract protected function intervention(): InterventionImage;
 
-    /**
-     * Set the picture sources.
-     *
-     * @param array $sources
-     * @return $this
-     */
-    public function sources(array $sources = [])
+    abstract public function save(InterventionImage $intervention): void;
+
+    public function img(string $alt = null, array $attributes = []): string
     {
-        $this->sources = $sources;
-
-        return $this;
-    }
-
-    /**
-     * Set the versioning option.
-     *
-     * @param $version
-     * @return $this
-     */
-    public function version($version = true)
-    {
-        $this->version = $version;
-
-        return $this;
-    }
-
-    /**
-     * Return the image tag to an image.
-     *
-     * @param  array $attributes
-     * @return string
-     */
-    public function img($alt = null, array $attributes = [])
-    {
-        $attributes = !$alt ? $attributes : [];
-
         $attributes = array_merge((array)$this->getPrototypeAttribute('attributes') ?: [], $attributes);
 
         if (!isset($attributes['src'])) {
             $attributes['src'] = $this->url();
-        }
-
-        if ($srcset = $this->srcsets) {
-            $attributes['srcset'] = $srcset;
         }
 
         if ($alt) {
@@ -127,55 +50,78 @@ abstract class Image
             $attributes['alt'] = $this->altTag();
         }
 
-        return '<img' . HtmlFacade::attributes($attributes) . '>';
+        return '<img' . Arr::htmlAttributes($attributes) . '>';
     }
 
-    /**
-     * Return a picture tag.
-     *
-     * @return string
-     */
-    public function picture(array $attributes = [])
+    public function picture(array $sources = []): string
     {
-        $sources = implode("\n", array_map(function ($source) {
-            dd($source);
-            return $source->source();
-        }, $this->sources ?: []));
+        foreach ($sources as $media => &$source) {
 
-        $sources .= "\n" . $this->img($attributes);
+            $image = Images::make(Arr::pull($source, 'source', $this->source));
+
+            $image->addAttribute('media', $media);
+
+            foreach ($source as $method => $arguments) {
+                if (is_array($arguments)) {
+                    call_user_func_array([$image, $method], $arguments);
+                } else {
+                    call_user_func([$image, $method], $arguments);
+                }
+            }
+
+            $source = $image->source();
+        }
+
+        $sources = implode("\n", $sources);
+
+        $sources .= "\n" . $this->img();
 
         return "<picture>\n{$sources}\n</picture>";
     }
 
-    /**
-     * Return a favicon link.
-     *
-     * @param array $attributes
-     * @return string
-     */
-    public function favicon(array $attributes = [])
+    protected function source(array $attributes = []): string
     {
-        $attributes = array_merge((array)$this->getPrototypeAttribute('attributes') ?: [], $attributes);
+        $attributes = array_merge(
+            $this->attributes ?: [],
+            ['srcset' => $this->url()],
+            $attributes
+        );
 
+        return '<source' . Arr::htmlAttributes($attributes) . '>';
+    }
+
+    public function links(array $sources = []): string
+    {
+        foreach ($sources as &$source) {
+
+            $image = Images::make(Arr::pull($source, 'source', $this->source));
+
+            foreach ($source as $method => $arguments) {
+                if (is_array($arguments)) {
+                    call_user_func_array([$image, $method], $arguments);
+                } else {
+                    call_user_func([$image, $method], $arguments);
+                }
+            }
+
+            $source = $image->link();
+        }
+
+        return implode("\n", $sources);
+    }
+
+    protected function link(): string
+    {
         if (!isset($attributes['href'])) {
             $attributes['href'] = $this->url();
         }
 
-        if (!isset($attributes['sizes'])) {
-            $attributes['sizes'] = '56x56';
-        }
-
         $attributes['type'] = 'image/' . $this->extension();
 
-        return '<link rel="icon" ' . HtmlFacade::attributes($attributes) . '>';
+        return '<link' . Arr::htmlAttributes($attributes) . '>';
     }
 
-    /**
-     * Return the base64_encoded image source.
-     *
-     * @return string
-     */
-    public function base64()
+    public function base64(): string
     {
         $extension = $this->extension();
 
@@ -186,16 +132,19 @@ abstract class Image
         return 'data:image/' . $extension . ';base64,' . base64_encode($this->data());
     }
 
-    /**
-     * Return the URL to an image.
-     *
-     * @param  array $parameters
-     * @param  null $secure
-     * @return string
-     */
-    public function url(array $parameters = [], $secure = null)
+    public function inline($alt = null, array $attributes = []): string
     {
-        if (Config::get('streams.core.version_images', true) && $this->version !== false) {
+        $attributes['src'] = $this->base64();
+
+        return $this->version(false)->img($alt, $attributes);
+    }
+
+    public function url(array $parameters = [], $secure = null): string
+    {
+        if (
+            Config::get('streams.core.version_images', true)
+            && $this->version !== false
+        ) {
             $parameters['v'] = is_bool($this->version) ? $this->lastModified() : $this->version;
         }
 
@@ -204,90 +153,12 @@ abstract class Image
         return URL::asset($this->outputImage()->assetUrl($secure) . $parameters, $secure);
     }
 
-    /**
-     * Return the image tag to a
-     * data encoded inline image.
-     *
-     * @param  null $alt
-     * @param  array $attributes
-     * @return string
-     */
-    public function inline($alt = null, array $attributes = [])
-    {
-        $attributes['src'] = $this->base64();
-
-        return $this->version(false)->img($alt, $attributes);
-    }
-
-    /**
-     * Return the CSS URL for background images.
-     *
-     * @return string
-     */
-    public function css()
+    public function css(): string
     {
         return 'url(' . $this->url() . ')';
     }
 
-    /**
-     * Return the image contents.
-     *
-     * @return string
-     */
-    public function data()
-    {
-        return file_get_contents($this->url());
-    }
-
-    /**
-     * Return a source tag.
-     *
-     * @param array $attributes
-     * @return string
-     */
-    public function source(array $attributes = [])
-    {
-        $attributes = array_merge($this->attributes(['srcset' => $this->srcset() ?: $this->url()]), $attributes);
-
-        return '<source' . HtmlFacade::attributes($attributes) . '>';
-    }
-
-    /**
-     * Set the filename.
-     *
-     * @param $filename
-     * @return $this
-     */
-    public function rename($filename)
-    {
-        $this->filename = $filename;
-
-        return $this;
-    }
-
-    /**
-     * Return a guessed alt tag.
-     * 
-     * @return string
-     */
-    public function altTag()
-    {
-        $name = $this->filename ?: $this->getPrototypeAttribute('original');
-
-        return ucwords(
-            Str::humanize(
-                basename($name, '.' . pathinfo($name, PATHINFO_EXTENSION)),
-                '^a-zA-Z0-9'
-            )
-        );
-    }
-
-    /**
-     * Return the image extension.
-     *
-     * @return string
-     */
-    public function extension()
+    public function extension(): string
     {
         if ($this->extension) {
             return $this->extension;
@@ -296,108 +167,59 @@ abstract class Image
         return $this->extension = pathinfo($this->source, PATHINFO_EXTENSION);
     }
 
-    /**
-     * Return if the image needs to be published.
-     *
-     * @param Image $output
-     * @return bool
-     */
-    protected function shouldPublish(Image $output)
+    public function srcset(array $sources): static
     {
-        /**
-         * If the image doesn't exist
-         * we need to publish it.
-         */
-        if (!$output->exists()) {
-            return true;
-        }
+        $sizes = array_keys($sources);
 
-        /**
-         * If the image is outdated
-         * we need to publish it.
-         */
-        if ($output->lastModified() < $this->lastModified()) {
-            return true;
-        }
+        foreach ($sources as &$source) {
 
-        /**
-         * If debug mode is enabled and request
-         * is no-cache then we force publish.
-         */
-        if (Config::get('app.debug') && Request::isNoCache()) {
-            return true;
-        }
+            $image = Images::make(Arr::pull($source, 'source', $this->source));
 
-        return false;
-    }
+            $intrinsic = Arr::pull($source, 'intrinsic');
 
-    /**
-     * Publish an image to the publish directory.
-     *
-     * @param Image $output
-     * @return void
-     */
-    protected function publish(Image $output)
-    {
-        $intervention = $this->intervention();
-
-        if (function_exists('exif_read_data') && $intervention->exif('Orientation') > 1) {
-            $intervention->orientate();
-        }
-
-        foreach ($this->alterations ?: [] as $method => $arguments) {
-            if (is_array($arguments)) {
-                call_user_func_array([$intervention, $method], $arguments);
-            } else {
-                call_user_func([$intervention, $method], $arguments);
+            if ($intrinsic && is_numeric($intrinsic)) {
+                $intrinsic = $intrinsic . 'w';
             }
+
+            foreach ($source as $method => $arguments) {
+                if (is_array($arguments)) {
+                    call_user_func_array([$image, $method], $arguments);
+                } else {
+                    call_user_func([$image, $method], $arguments);
+                }
+            }
+
+            $source = implode(' ', array_filter([$image->url(), $intrinsic]));
         }
 
-        $output->save($intervention);
+        $this->addAttribute('srcset', implode(', ', $sources));
+        $this->addAttribute('sizes', implode(', ', $sizes));
+
+        return $this;
     }
 
-    /**
-     * Get the cached asset path of the image.
-     *
-     * @return Image
-     */
-    protected function outputImage()
+    public function quality(int $quality): static
     {
-        $output = $this->output();
+        $this->quality = $quality;
 
-        if ($this->shouldPublish($output)) {
-            $this->publish($output);
-        }
-
-        return $output;
+        return $this;
     }
 
-    /**
-     * Return the generated filename.
-     * 
-     * @return string
-     */
-    protected function filename()
+    public function rename(string $filename): static
     {
-        if ($this->filename) {
-            return $this->filename;
-        }
+        $this->filename = $filename;
 
-        if (!$this->alterations && !$this->quality) {
-            return $this->getPrototypeAttribute('original');
-        }
-
-        return md5($this->getPrototypeAttribute('original') . json_encode([$this->alterations, $this->quality])) . '.' . $this->extension();
+        return $this;
     }
 
-    /**
-     * Add an alteration.
-     *
-     * @param  $method
-     * @param  array $arguments
-     * @return $this
-     */
-    public function addAlteration($method, $arguments = [])
+    public function version(bool|string $version = true): static
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+
+    public function addAlteration(string $method, array $arguments = []): static
     {
         if ($method == 'resize') {
             $this->guessResizeArguments($arguments);
@@ -412,13 +234,7 @@ abstract class Image
         return $this;
     }
 
-    /**
-     * Guess the resize callback value
-     * from a boolean.
-     *
-     * @param array $arguments
-     */
-    protected function guessResizeArguments(array &$arguments)
+    protected function guessResizeArguments(array &$arguments): void
     {
         $arguments = array_pad($arguments, 3, null);
 
@@ -434,14 +250,7 @@ abstract class Image
         }
     }
 
-    /**
-     * Add an attribute
-     *
-     * @param string $name
-     * @param string $value
-     * @return $this
-     */
-    public function addAttribute($name, $value)
+    public function addAttribute(string $name, string|array $value): static
     {
         $attributes = $this->getPrototypeAttribute('attributes', []);
 
@@ -452,15 +261,7 @@ abstract class Image
         return $this;
     }
 
-    /**
-     * Return if a method is an alteration
-     * method for Intervention.
-     *
-     * @param string $method
-     *
-     * @return bool
-     */
-    protected function isAlteration(string $method)
+    protected function isAlteration(string $method): bool
     {
         return in_array($method, [
             'blur',
@@ -474,7 +275,7 @@ abstract class Image
             'flip',
             'gamma',
             'greyscale',
-            'grayscale', // Mapped
+            'grayscale',
             'heighten',
             'insert',
             'interlace',
@@ -491,18 +292,87 @@ abstract class Image
         ]);
     }
 
-    /**
-     * Map Intervention methods through alterations.
-     *
-     * @param string $method
-     * @param array $parameters
-     * @return $this
-     */
-    public function __call($method, array $parameters = [])
+    protected function altTag(): string
+    {
+        $name = $this->filename ?: $this->getPrototypeAttribute('original');
+
+        return ucwords(
+            Str::humanize(
+                basename($name, '.' . pathinfo($name, PATHINFO_EXTENSION)),
+                '^a-zA-Z0-9'
+            )
+        );
+    }
+
+    protected function shouldPublish(Image $output): bool
+    {
+        if (!$output->exists()) {
+            return true;
+        }
+
+        if ($output->lastModified() < $this->lastModified()) {
+            return true;
+        }
+
+        if (Config::get('app.debug') && Request::isNoCache()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected function publish(Image $output): void
+    {
+        $intervention = $this->intervention();
+
+        if (
+            function_exists('exif_read_data')
+            && $intervention->exif('Orientation') > 1
+        ) {
+            $intervention->orientate();
+        }
+
+        foreach ($this->alterations ?: [] as $method => $arguments) {
+            if (is_array($arguments)) {
+                call_user_func_array([$intervention, $method], $arguments);
+            } else {
+                call_user_func([$intervention, $method], $arguments);
+            }
+        }
+
+        $output->save($intervention);
+    }
+
+    protected function outputImage(): Image
+    {
+        $output = $this->output();
+
+        if ($this->shouldPublish($output)) {
+            $this->publish($output);
+        }
+
+        return $output;
+    }
+
+    protected function filename(): string
+    {
+        if ($this->filename) {
+            return $this->filename;
+        }
+
+        if (!$this->alterations && !$this->quality) {
+            return $this->getPrototypeAttribute('original');
+        }
+
+        return md5($this->getPrototypeAttribute('original')
+            . json_encode([$this->alterations, $this->quality]))
+            . '.' . $this->extension();
+    }
+
+    public function __call(string $method, array $parameters = [])
     {
         if ($this->isAlteration($method)) {
 
-            // Map gray to grey.
             if ($method == 'grayscale') {
                 $method = 'greyscale';
             }
@@ -515,7 +385,10 @@ abstract class Image
             $macro = static::$macros[$method];
 
             if ($macro instanceof \Closure) {
-                return call_user_func_array($macro->bindTo($this, static::class), $parameters);
+                return call_user_func_array(
+                    $macro->bindTo($this, static::class),
+                    $parameters
+                );
             }
 
             return $macro(...$parameters);
@@ -526,12 +399,7 @@ abstract class Image
         return $this;
     }
 
-    /**
-     * Return string output.
-     *
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->img();
     }

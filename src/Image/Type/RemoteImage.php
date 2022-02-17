@@ -6,22 +6,10 @@ use Streams\Core\Image\Image;
 use Intervention\Image\ImageManagerStatic;
 use Intervention\Image\Image as InterventionImage;
 
-/**
- * Class RemoteImage
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 class RemoteImage extends LocalImage
 {
 
-    /**
-     * Return the last modified timestamp.
-     * 
-     * @return int
-     */
-    public function lastModified()
+    public function lastModified(): int
     {
         try {
             return filemtime($this->source);
@@ -30,12 +18,12 @@ class RemoteImage extends LocalImage
         }
     }
 
-    /**
-     * Return the output image instance.
-     *
-     * @return Image
-     */
-    protected function output()
+    protected function intervention(): InterventionImage
+    {
+        return ImageManagerStatic::make($this->source);
+    }
+
+    protected function output(): Image
     {
         $output = $this->attributes;
 
@@ -46,13 +34,8 @@ class RemoteImage extends LocalImage
         return new self($output);
     }
 
-    /**
-     * Return an Intervention instance.
-     *
-     * @return InterventionImage
-     */
-    protected function intervention()
+    public function data(): string
     {
-        return ImageManagerStatic::make($this->source);
+        return file_get_contents($this->source);
     }
 }

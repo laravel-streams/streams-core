@@ -228,7 +228,7 @@ class StreamsServiceProvider extends ServiceProvider
         /**
          * Defer registering streams that extend others.
          */
-        $base      = $streams->where('extends', null)->keyBy('id');
+        $base = $streams->where('extends', null)->keyBy('id');
         $extending = $streams->where('extends', '!=', null)->keyBy('id');
 
         foreach ((new Collection)->merge($base)->merge($extending) as $stream) {

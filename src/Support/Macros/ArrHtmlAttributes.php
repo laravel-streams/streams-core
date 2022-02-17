@@ -34,7 +34,7 @@ class ArrHtmlAttributes
 
             $attributes = array_filter($attributes);
 
-            return count($attributes) > 0 ? implode(' ', $attributes) : '';
+            return count($attributes) > 0 ? ' ' . implode(' ', $attributes) : '';
         };
     }
 }

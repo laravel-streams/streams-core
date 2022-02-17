@@ -349,4 +349,9 @@ trait Prototype
 
         return false;
     }
+
+    public function __isset($name)
+    {
+        return $this->hasPrototypeAttribute($name);
+    }
 }

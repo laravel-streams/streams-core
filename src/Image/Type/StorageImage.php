@@ -3,26 +3,13 @@
 namespace Streams\Core\Image\Type;
 
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 use Streams\Core\Image\Image;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic;
 use Intervention\Image\Image as InterventionImage;
 
-/**
- * Class StorageImage
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 class StorageImage extends Image
 {
-
-    /**
-     * Create a new StorageImage instance.
-     *
-     * @param array $attributes
-     */
     public function __construct(array $attributes)
     {
         if (!Str::is('*://*', $attributes['source'])) {
@@ -37,77 +24,47 @@ class StorageImage extends Image
         parent::__construct($attributes);
     }
 
-    /**
-     * Return the asset URL.
-     * 
-     * @return string
-     */
-    public function assetUrl()
+    public function assetUrl(): string
     {
         return Storage::disk($this->disk)->url($this->path);
     }
 
-    /**
-     * Return if the image exists.
-     * 
-     * @return bool
-     */
-    public function exists()
+    public function exists(): bool
     {
         return Storage::disk($this->disk)->exists($this->path);
     }
 
-    /**
-     * Save the contents of the image.
-     * 
-     * @param InterventionImage $intervention
-     */
-    public function save(InterventionImage $intervention)
+    public function save(InterventionImage $intervention): void
     {
         Storage::disk($this->disk)->put($this->path, $intervention->encode($this->extension(), $this->quality)->encoded);
     }
 
-    /**
-     * Return the image size.
-     * 
-     * return int
-     */
-    public function size()
+    public function size(): int
     {
         return Storage::disk($this->disk)->size($this->path);
     }
 
-    /**
-     * Return the last modified timestamp.
-     * 
-     * @return int
-     */
-    public function lastModified()
+    public function lastModified(): int
     {
         return Storage::disk($this->disk)->lastModified($this->path);
     }
 
-    /**
-     * Return an Intervention instance.
-     *
-     * @return InterventionImage
-     */
-    protected function intervention()
+    protected function intervention(): InterventionImage
     {
         return ImageManagerStatic::make(Storage::disk($this->disk)->get($this->path));
     }
 
-    /**
-     * Return the output image instance.
-     *
-     * @return Image
-     */
-    protected function output()
+    protected function output(): Image
     {
         $output = $this->attributes;
 
         $output['source'] = dirname($this->path) . '/' . $this->filename();
 
         return new self($output);
+    }
+
+    public function data(): string
+    {
+        return Storage::disk($this->disk)->get($this->path);
     }
 }

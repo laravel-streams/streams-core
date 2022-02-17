@@ -135,7 +135,7 @@ class Entry implements
 
         return $this;
     }
-    
+
 
     public function toArray()
     {

@@ -2,67 +2,34 @@
 
 namespace Streams\Core\Image\Type;
 
-use Illuminate\Support\Facades\File;
 use Streams\Core\Image\Image;
+use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManagerStatic;
 use Intervention\Image\Image as InterventionImage;
 
-/**
- * Class LocalImage
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 class LocalImage extends Image
 {
-
-    /**
-     * Return the image asset URL.
-     * 
-     * @return string
-     */
-    public function assetUrl()
+    public function assetUrl(): string
     {
         return str_replace(public_path(), '', base_path($this->source));
     }
 
-    /**
-     * Return if the image exists.
-     * 
-     * @return bool
-     */
-    public function exists()
+    public function exists(): bool
     {
         return File::exists(base_path($this->source));
     }
 
-    /**
-     * Return the image size.
-     * 
-     * return int
-     */
-    public function size()
+    public function size(): int
     {
         return File::size(base_path($this->source));
     }
 
-    /**
-     * Return the last modified timestamp.
-     * 
-     * @return int
-     */
-    public function lastModified()
+    public function lastModified(): int
     {
         return File::lastModified(base_path($this->source));
     }
 
-    /**
-     * Return the output image instance.
-     *
-     * @return Image
-     */
-    protected function output()
+    protected function output(): Image
     {
         $output = $this->attributes;
 
@@ -71,27 +38,22 @@ class LocalImage extends Image
         return new self($output);
     }
 
-    /**
-     * Return an Intervention instance.
-     *
-     * @return InterventionImage
-     */
-    protected function intervention()
+    protected function intervention(): InterventionImage
     {
         return ImageManagerStatic::make(base_path($this->source));
     }
 
-    /**
-     * Save the contents of the image.
-     * 
-     * @param InterventionImage $intervention
-     */
-    public function save(InterventionImage $intervention)
+    public function save(InterventionImage $intervention): void
     {
         if (!File::isDirectory($directory = dirname($path = base_path($this->source)))) {
             File::makeDirectory($directory, 0755, true);
         }
 
         File::put($path, $intervention->encode($this->extension(), $this->quality)->encoded);
+    }
+
+    public function data(): string
+    {
+        return file_get_contents(base_path($this->source));
     }
 }

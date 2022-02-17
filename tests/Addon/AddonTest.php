@@ -2,32 +2,27 @@
 
 namespace Streams\Core\Tests\Addon;
 
-use Streams\Core\Addon\Addon;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Addons;
 
 class AddonTest extends CoreTestCase
 {
 
-    public function test_addons_are_arrayable()
+    public function test_it_is_arrayable()
     {
-        Addons::load(base_path('addons/streams/test-addon'));
-
         $this->assertEquals([
             'name',
             'path',
             'composer',
-        ], array_keys(Addons::make('streams/test-addon')->toArray()));
+        ], array_keys(Addons::make('streams/testing')->toArray()));
     }
 
-    public function test_addons_are_jsonable()
+    public function test_it_is_jsonable()
     {
-        Addons::load(base_path('addons/streams/test-addon'));
-        
         $this->assertEquals([
             'name',
             'path',
             'composer',
-        ], array_keys(json_decode(Addons::make('streams/test-addon')->toJson(), true)));
+        ], array_keys(json_decode(Addons::make('streams/testing')->toJson(), true)));
     }
 }

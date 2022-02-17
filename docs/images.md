@@ -266,30 +266,30 @@ Images::make('img/foo.jpg')
     ]);
 ```
 
-#### sources()
+#### srcset()
 
 ```php
 Images::make('img/foo.jpg')
-    ->srcsets([
-        '(min-width: 600px)' => [
-            'resize'  => 400,
+    ->srcset([
+        '(min-width: 600px) 400px' => [
+            'intrinsic' => 400,
+            'resize' => 400,
             'quality' => 60
         ],
-        '(min-width: 1600px)' => [
-            'resize'  => 800,
+        '(min-width: 1600px) 800px' => [
+            'intrinsic' => 800,
+            'resize' => 800,
             'quality' => 90
-        ],
-        'fallback' => [
-            'resize'  => 1800
         ]
-    ]);
+    ])->img();
 ```
 
 #### picture()
 
 ```php
 Images::make('img/foo.jpg')
-    ->sources([
+    ->resize(1800) // Fallback
+    ->picture([
         '(min-width: 600px)' => [
             'resize'  => 400,
             'quality' => 60
@@ -297,9 +297,6 @@ Images::make('img/foo.jpg')
         '(min-width: 1600px)' => [
             'resize'  => 800,
             'quality' => 90
-        ],
-        'fallback' => [
-            'resize'  => 1800
         ]
-    ])->picture();
+    ]);
 ```

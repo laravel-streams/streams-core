@@ -13,11 +13,8 @@ class AddonManager
 {
     use HasMemory;
 
-    protected Collection $collection;
-
-    public function __construct()
+    public function __construct(protected Collection $collection)
     {
-        $this->collection = new Collection;
     }
 
     public function load(string $path): Addon

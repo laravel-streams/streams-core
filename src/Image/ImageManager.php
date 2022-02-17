@@ -6,7 +6,6 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Streams\Core\Image\ImageRegistry;
 use Streams\Core\Image\Type\LocalImage;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Image\Type\RemoteImage;
 use Streams\Core\Image\Type\StorageImage;
@@ -18,39 +17,13 @@ class ImageManager
     use Macroable;
     use FiresCallbacks;
 
-    /**
-     * Image path hints by namespace.
-     *
-     * @var ImagePaths
-     */
-    protected $paths;
-
-    /**
-     * The image registry.
-     *
-     * @var ImageRegistry
-     */
-    protected $registry;
-
-    /**
-     * Create a new Image instance.
-     *
-     * @param ImagePaths $paths
-     * @param ImageRegistry $registry
-     */
-    public function __construct(ImagePaths $paths, ImageRegistry $registry)
-    {
-        $this->paths    = $paths;
-        $this->registry = $registry;
+    public function __construct(
+        protected ImagePaths $paths,
+        protected ImageRegistry $registry
+    ) {
     }
 
-    /**
-     * Make a new image instance.
-     *
-     * @param  mixed $source
-     * @return Image
-     */
-    public function make($source)
+    public function make(string|array $source): Image
     {
         $attributes = is_array($source) ? $source : compact('source');
 
@@ -88,13 +61,13 @@ class ImageManager
          * If the image is a local filed
          * AND using the storage system.
          */
-        if (
-            !isset($attributes['type'])
-            && is_string($attributes['source'])
-            && Storage::disk('public')->exists($attributes['source'])
-        ) {
-            $attributes['type'] = 'storage';
-        }
+        // if (
+        //     !isset($attributes['type'])
+        //     && is_string($attributes['source'])
+        //     && Storage::disk('public')->exists($attributes['source'])
+        // ) {
+        //     $attributes['type'] = 'storage';
+        // }
 
         /**
          * If the image is a local file
@@ -135,77 +108,39 @@ class ImageManager
         return $image;
     }
 
-    /**
-     * Register a named image.
-     *
-     * @param string $name
-     * @param mixed $image
-     * @return $this
-     */
-    public function register($name, $image)
+    public function register(string $name, string $image): static
     {
         $this->registry->register($name, $image);
 
         return $this;
     }
 
-    /**
-     * Add a path hint.
-     *
-     * @param $namespace
-     * @param $path
-     * @return $this
-     */
-    public function addPath($namespace, $path)
+    public function addPath(string $namespace, string $path): static
     {
         $this->paths->addPath($namespace, $path);
 
         return $this;
     }
 
-    /**
-     * Resolve a hinted/named image.
-     *
-     * @param $image
-     * @return string|null
-     */
-    protected function resolve($image)
-    {
-        return ltrim(str_replace(base_path(), '', $this->paths->real(
-            $this->registry->resolve($image) ?: $image
-        )), '/\\');
-    }
-
-    /**
-     * Return a new remote image.
-     *
-     * @param array $attributes
-     * @return RemoteImage
-     */
-    public function newRemoteImage(array $attributes)
+    public function newRemoteImage(array $attributes): RemoteImage
     {
         return new RemoteImage($attributes);
     }
 
-    /**
-     * Return a new storage image.
-     *
-     * @param array $attributes
-     * @return StorageImage
-     */
-    public function newStorageImage(array $attributes)
+    public function newStorageImage(array $attributes): StorageImage
     {
         return new StorageImage($attributes);
     }
 
-    /**
-     * Return a new local image.
-     *
-     * @param array $attributes
-     * @return LocalImage
-     */
-    public function newLocalImage(array $attributes)
+    public function newLocalImage(array $attributes): LocalImage
     {
         return new LocalImage($attributes);
+    }
+
+    protected function resolve(string $image): string
+    {
+        return ltrim(str_replace(base_path(), '', $this->paths->real(
+            $this->registry->resolve($image) ?: $image
+        )), '/\\');
     }
 }

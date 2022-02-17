@@ -30,11 +30,11 @@ class EntryControllerTest extends CoreTestCase
 
     public function test_it_returns_generic_views()
     {
-        Route::streams('test-generic-view', 'test');
+        Route::streams('test-generic-view', 'welcome');
 
         $response = $this->get('test-generic-view');
 
-        $response->assertSee('Hello World');
+        $response->assertSee('Welcome');
     }
 
     public function test_it_returns_stream_views()

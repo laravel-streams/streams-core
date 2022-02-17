@@ -181,11 +181,11 @@ class IntegratorTest extends CoreTestCase
             'testing.array.stream' => [
                 'name' => 'Testing Array Stream',
             ],
-            'vendor/streams/testing/resources/streams/streams_testing.json',
+            'vendor/streams/testing/laravel/streams/films.json',
         ]);
 
+        $this->assertInstanceOf(Stream::class, Streams::make('films'));
         $this->assertSame('Testing Array Stream', Streams::make('testing.array.stream')->name);
-        $this->assertInstanceOf(Stream::class, Streams::make('streams_testing'));
     }
 }
 
