@@ -2,11 +2,11 @@
 
 namespace Streams\Core\Tests\Image;
 
-use Illuminate\Support\Str;
+use Streams\Core\Image\Image;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\File;
 use Streams\Core\Tests\CoreTestCase;
 use Collective\Html\HtmlServiceProvider;
-use Illuminate\Support\Facades\File;
 use Streams\Core\Support\Facades\Images;
 
 class ImageTest extends CoreTestCase
@@ -16,7 +16,7 @@ class ImageTest extends CoreTestCase
         parent::setUp();
 
         File::deleteDirectory(public_path('app/public'));
-        
+
         App::register(HtmlServiceProvider::class);
     }
 
@@ -61,12 +61,12 @@ class ImageTest extends CoreTestCase
         $image = Images::make('public/vendor/testing/img/example.jpg');
 
         $small = Images::make('public/vendor/testing/img/example.jpg')
-            ->resize(400)
+            ->resize(400, 400)
             ->quality(60)
             ->url();
 
         $medium = Images::make('public/vendor/testing/img/example.jpg')
-            ->resize(800)
+            ->resize(800, 800)
             ->quality(90)
             ->url();
 
@@ -76,11 +76,11 @@ class ImageTest extends CoreTestCase
 <img src=\"" . $image->url() . "\" alt=\"Example\">
 </picture>", $image->picture([
             '(min-width: 600px)' => [
-                'resize'  => 400,
+                'resize'  => [400, 400],
                 'quality' => 60
             ],
             '(min-width: 1600px)' => [
-                'resize'  => 800,
+                'resize'  => [800, 800],
                 'quality' => 90
             ]
         ]));
@@ -91,24 +91,24 @@ class ImageTest extends CoreTestCase
         $image = Images::make('public/vendor/testing/img/example.jpg');
 
         $small = Images::make('public/vendor/testing/img/example.jpg')
-            ->resize(400)
+            ->resize(400, 400)
             ->quality(60)
             ->url();
 
         $medium = Images::make('public/vendor/testing/img/example.jpg')
-            ->resize(800)
+            ->resize(800, 800)
             ->quality(90)
             ->url();
 
         $this->assertEquals("<img srcset=\"" . $small . " 400w, " . $medium . " 800w\" sizes=\"(min-width: 600px) 400px, (min-width: 1600px) 800px\" src=\"" . url('app/public/vendor/testing/img/example.jpg') . "\" alt=\"Example\">", $image->srcset([
             '(min-width: 600px) 400px' => [
                 'intrinsic' => 400,
-                'resize' => 400,
+                'resize' => [400, 400],
                 'quality' => 60
             ],
             '(min-width: 1600px) 800px' => [
                 'intrinsic' => 800,
-                'resize' => 800,
+                'resize' => [800, 800],
                 'quality' => 90
             ]
         ])->img());
@@ -185,6 +185,13 @@ class ImageTest extends CoreTestCase
         $this->assertSame('jpg', $image->extension());
     }
 
+    public function test_it_returns_image_size()
+    {
+        $image = Images::make('public/vendor/testing/img/example.jpg');
+
+        $this->assertSame(263356, $image->size());
+    }
+
     public function test_it_renames_output_files()
     {
         $image = Images::make('public/vendor/testing/img/example.jpg');
@@ -193,5 +200,62 @@ class ImageTest extends CoreTestCase
             url('/app/public/vendor/testing/img/adjusted.jpg'),
             $image->version(false)->rename('adjusted.jpg')->fit(120, 120)->url()
         );
+    }
+
+    public function test_it_supports_macros()
+    {
+        Image::macro('thumbnail', function () {
+
+            $this->resize(120, 120);
+            $this->quality(50);
+
+            return $this;
+        });
+
+        Image::macro('rotationTest', ImageRotationMacro::class);
+
+        $image = Images::make('public/vendor/testing/img/example.jpg');
+
+        $image->thumbnail();
+
+        $this->assertSame(50, $image->quality);
+        $this->assertSame(120, $image->alterations['resize'][0]);
+
+        $image->rotationTest();
+
+        $this->assertTrue(isset($image->alterations['rotate']));
+    }
+
+    public function test_it_translates_grayscale()
+    {
+        $image = Images::make('public/vendor/testing/img/example.jpg');
+
+        $image->grayscale();
+
+        $this->assertTrue(isset($image->alterations['greyscale']));
+    }
+
+    public function test_it_returns_img_tag_for_to_string_method()
+    {
+        $image = Images::make('public/vendor/testing/img/example.jpg');
+
+        $url = url('app/public/vendor/testing/img/example.jpg');
+
+        $this->assertEquals(
+            '<img src="' . $url . '" alt="Example">',
+            (string) $image->version(false)
+        );
+    }
+}
+
+class ImageRotationMacro
+{
+    public function __construct(protected Image $image)
+    {
+    }
+
+    public function __invoke()
+    {
+        $this->image->rotate(180);
     }
 }

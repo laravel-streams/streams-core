@@ -238,9 +238,9 @@ abstract class Image
     {
         $arguments = array_pad($arguments, 3, null);
 
-        if (end($arguments) instanceof \Closure) {
-            return;
-        }
+        // if (end($arguments) instanceof \Closure) {
+        //     return;
+        // }
 
         if (array_pop($arguments) !== false) {
             $arguments[] = function (Constraint $constraint) {
@@ -306,6 +306,10 @@ abstract class Image
 
     protected function shouldPublish(Image $output): bool
     {
+        if (Str::startsWith($this->source, 'http')) {
+            return false;
+        }
+
         if (!$output->exists()) {
             return true;
         }
@@ -380,7 +384,7 @@ abstract class Image
             return $this->addAlteration($method, $parameters);
         }
 
-        if ($this->hasMacro(Str::snake($method))) {
+        if ($this->hasMacro($method)) {
 
             $macro = static::$macros[$method];
 
@@ -391,7 +395,7 @@ abstract class Image
                 );
             }
 
-            return $macro(...$parameters);
+            return (new $macro($this))(...$parameters);
         }
 
         $this->addAttribute($method, array_shift($parameters));

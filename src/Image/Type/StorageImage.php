@@ -2,7 +2,6 @@
 
 namespace Streams\Core\Image\Type;
 
-use Illuminate\Support\Str;
 use Streams\Core\Image\Image;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic;
@@ -12,10 +11,6 @@ class StorageImage extends Image
 {
     public function __construct(array $attributes)
     {
-        if (!Str::is('*://*', $attributes['source'])) {
-            $attributes['source'] = 'public://' . ltrim($attributes['source'], '/\\');
-        }
-
         list($disk, $path) = explode('://', $attributes['source']);
 
         $attributes['disk'] = $disk;
@@ -56,11 +51,9 @@ class StorageImage extends Image
 
     protected function output(): Image
     {
-        $output = $this->attributes;
-
-        $output['source'] = dirname($this->path) . '/' . $this->filename();
-
-        return new self($output);
+        return new static([
+            'source' => 'public://' . dirname($this->path) . '/' . $this->filename(),
+        ]);
     }
 
     public function data(): string
