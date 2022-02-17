@@ -14,7 +14,7 @@ class NumberFieldType extends Field
         ],
     ];
 
-    public function modify($value)
+    public function cast($value): float|int
     {
         if (is_string($value)) {
             $value = preg_replace('/[^\da-z\.\-]/i', '', $value);
@@ -31,25 +31,14 @@ class NumberFieldType extends Field
         return $value;
     }
 
+    public function modify($value)
+    {
+        return $this->cast($value);
+    }
+
     public function restore($value)
     {
-        if (is_null($value)) {
-            return $value;
-        }
-
-        if (is_string($value)) {
-            $value = preg_replace('/[^\da-z\.\-]/i', '', $value);
-        }
-
-        $float = floatval($value);
-
-        if ($float && intval($float) != $float) {
-            $value = $float;
-        } else {
-            $value = intval($value);
-        }
-
-        return $value;
+        return $this->cast($value);
     }
 
     public function getValueName()

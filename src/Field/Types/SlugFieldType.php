@@ -4,7 +4,7 @@ namespace Streams\Core\Field\Types;
 
 use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Value\StrValue;
+use Streams\Core\Field\Value\StringValue;
 
 class SlugFieldType extends Field
 {
@@ -20,7 +20,7 @@ class SlugFieldType extends Field
 
     public function getValueName()
     {
-        return StrValue::class;
+        return StringValue::class;
     }
 
     public function generate()

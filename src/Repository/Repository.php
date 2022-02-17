@@ -155,7 +155,7 @@ class Repository implements RepositoryInterface
         return new $collection($entries);
     }
 
-    public function newSelfAdapter(): SelfAdapter
+    public function newSelfAdapter(): staticAdapter
     {
         return new SelfAdapter($this->stream);
     }

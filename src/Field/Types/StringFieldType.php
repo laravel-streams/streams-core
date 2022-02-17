@@ -3,20 +3,24 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Value\StrValue;
 use Streams\Core\Field\Schema\StrSchema;
+use Streams\Core\Field\Value\StringValue;
 
 class StringFieldType extends Field
 {
-
-    public function modify($value)
+    public function cast($value)
     {
         return (string) $value;
     }
 
+    public function modify($value)
+    {
+        return $this->cast($value);
+    }
+
     public function restore($value)
     {
-        return (string) $value;
+        return $this->cast($value);
     }
 
     public function generate()
@@ -26,7 +30,7 @@ class StringFieldType extends Field
 
     public function getValueName()
     {
-        return StrValue::class;
+        return StringValue::class;
     }
 
     public function getSchemaName()

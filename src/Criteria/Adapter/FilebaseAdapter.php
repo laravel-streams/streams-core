@@ -39,7 +39,7 @@ class FilebaseAdapter extends AbstractAdapter
         ]);
     }
 
-    public function orderBy($field, $direction = 'asc'): self
+    public function orderBy($field, $direction = 'asc'): static
     {
         if ($field == 'id') {
             $field = '__id';
@@ -50,14 +50,14 @@ class FilebaseAdapter extends AbstractAdapter
         return $this;
     }
 
-    public function limit($limit, $offset = 0): self
+    public function limit($limit, $offset = 0): static
     {
         $this->query = $this->query->limit($limit, $offset);
 
         return $this;
     }
 
-    public function where($field, $operator = null, $value = null, $nested = null): self
+    public function where($field, $operator = null, $value = null, $nested = null): static
     {
         if (!$value) {
             $value = $operator;

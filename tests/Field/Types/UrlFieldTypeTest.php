@@ -2,44 +2,30 @@
 
 namespace Streams\Core\Tests\Field\Types;
 
-use Tests\TestCase;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Field\Value\UrlValue;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Types\UrlFieldType;
 
-class UrlFieldTypeTest extends TestCase
+class UrlFieldTypeTest extends CoreTestCase
 {
-
-    public function setUp(): void
+    public function test_it_casts_to_routable()
     {
-        $this->createApplication();
-
-        Streams::load(base_path('vendor/streams/core/tests/litmus.json'));
-        Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
-    }
-
-    public function test_casts_to_routable()
-    {
-        $type = Streams::make('testing.litmus')->fields->url;
+        $field = new UrlFieldType([
+            'stream' => Streams::make('films')
+        ]);
 
         $url = url('testing');
 
-        $this->assertSame($url, $type->modify($url));
-        $this->assertSame($url, $type->restore($url));
+        $this->assertSame($url, $field->cast($url));
     }
 
-    public function test_expanded_value()
+    public function test_it_returns_url_value()
     {
-        $test = Streams::repository('testing.litmus')->find('field_types');
+        $field = new UrlFieldType([
+            'stream' => Streams::make('films')
+        ]);
 
-        $this->assertInstanceOf(UrlValue::class, $test->expand('url'));
-    }
-
-    public function test_can_generate_value()
-    {
-        $stream = Streams::make('testing.fakers');
-
-        $this->assertNotFalse(
-            filter_var($stream->fields->url->generate(), FILTER_VALIDATE_URL)
-        );
+        $this->assertInstanceOf(UrlValue::class, $field->expand(url('testing')));
     }
 }

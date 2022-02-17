@@ -2,49 +2,57 @@
 
 namespace Streams\Core\Tests\Field\Types;
 
-use Tests\TestCase;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Field\Value\SelectValue;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Types\SelectFieldType;
 
-class SelectFieldTypeTest extends TestCase
+class SelectFieldTypeTest extends CoreTestCase
 {
-
-    public function setUp(): void
+    public function test_it_supports_enumerated_options()
     {
-        $this->createApplication();
+        $field = new SelectFieldType([
+            'stream' => Streams::make('films'),
+            'config' => [
+                'options' => [
+                    'foo' => 'Foo',
+                    'bar' => 'Bar'
+                ],
+            ],
+        ]);
 
-        Streams::load(base_path('vendor/streams/core/tests/litmus.json'));
-        Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
+        $this->assertSame(['foo' => 'Foo', 'bar' => 'Bar'], $field->options());
     }
 
-    public function test_configured_options()
+    public function test_it_supports_callable_options()
     {
-        $type = Streams::make('testing.litmus')->fields->select;
+        $field = new SelectFieldType([
+            'stream' => Streams::make('films'),
+            'config' => [
+                'options' => CallableSelectOptions::class,
+            ],
+        ]);
 
-        $this->assertSame(['foo' => 'Foo', 'bar' => 'Bar'], $type->options());
+        $this->assertSame(['baz' => 'Baz', 'qux' => 'Qux'], $field->options());
     }
 
-    public function test_callable_options()
+    public function test_it_returns_select_value()
     {
-        $type = Streams::make('testing.litmus')->fields->select_callable_options;
+        $field = new SelectFieldType([
+            'stream' => Streams::make('films'),
+        ]);
 
-        $this->assertSame(['foo' => 'Bar'], $type->options());
+        $this->assertInstanceOf(SelectValue::class, $field->expand('foo'));
     }
+}
 
-    public function test_expanded_value()
+class CallableSelectOptions
+{
+    public function __invoke()
     {
-        $test = Streams::repository('testing.litmus')->find('field_types');
-
-        $this->assertInstanceOf(SelectValue::class, $test->expand('select'));
-    }
-
-    public function test_can_generate_value()
-    {
-        $stream = Streams::make('testing.fakers');
-
-        $this->assertTrue(in_array(
-            $stream->fields->select->generate(),
-            array_keys($stream->fields->select->options())
-        ));
+        return [
+            'baz' => 'Baz',
+            'qux' => 'Qux',
+        ];
     }
 }

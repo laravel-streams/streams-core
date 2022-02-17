@@ -2,80 +2,93 @@
 
 namespace Streams\Core\Tests\Field;
 
-use Tests\TestCase;
-use Streams\Core\Field\Field;
-use Streams\Core\Field\Type\Integer;
-use Streams\Core\Stream\Stream;
+use Streams\Core\Field\FieldSchema;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Value\IntegerValue;
 
-class FieldTest extends TestCase
+class FieldTest extends CoreTestCase
 {
-
-    public function setUp(): void
+    public function test_it_is_arrayable()
     {
-        $this->createApplication();
-
-        Streams::load(base_path('vendor/streams/core/tests/examples.json'));
+        $this->assertIsArray(Streams::make('films')->fields->get('title')->toArray());
     }
 
-    public function test_fields_are_accessible_from_the_stream()
+    public function test_it_is_jsonable()
     {
-        $name = Streams::make('testing.examples')->fields->get('name');
+        $this->assertJson(Streams::make('films')->fields->get('title')->toJson());
 
-        $this->assertInstanceOf(Field::class, $name);
+        $this->assertJson((string) Streams::make('films')->fields->get('title'));
+        $this->assertJson(json_encode(Streams::make('films')->fields->get('title')));
     }
 
-    public function test_can_return_field_name()
+    public function test_it_returns_name()
     {
-        $field = Streams::make('testing.examples')->fields->get('name');
+        $field = Streams::make('films')->fields->get('episode_id');
 
-        $this->assertEquals('Name', $field->name());
+        $this->assertEquals('Episode Id', $field->name());
     }
 
-    public function test_can_identify_incorrect_types()
+    public function test_it_returns_config()
+    {
+        $field = Streams::make('films')->fields->get('episode_id');
+
+        $this->assertEquals('increment', $field->config('default'));
+    }
+
+    public function test_it_returns_default_value()
+    {
+        $id = Streams::make('films')->fields->get('episode_id');
+        $planets = Streams::make('films')->fields->get('planets');
+
+        $this->assertEquals(8, $id->default($id->config('default')));
+        $this->assertEquals([], $planets->default([]));
+    }
+
+    public function test_it_throws_exception_if_type_does_not_exist()
     {
         $this->expectException(\Exception::class);
 
         Streams::build([
-            'id' => 'testing.type_failures',
+            'id' => 'no_such_type',
             'fields' => [
                 'test' => [
                     'type' => 'test',
                 ],
             ],
-        ])->fields->get('test');
+        ]);
     }
 
-    public function test_can_access_validation_rules()
+    public function test_it_expands_values()
     {
-        $name = Streams::make('testing.examples')->fields->get('name');
-        $age = Streams::make('testing.examples')->fields->get('age');
-        
-        $this->assertTrue($name->hasRule('required'));
-        $this->assertTrue($name->hasRule('min'));
+        $field = Streams::make('films')->fields->get('episode_id');
 
-        $this->assertNull($name->getRule('max'));
-        $this->assertEquals('min:3', $name->getRule('min'));
-
-        $this->assertEquals(['3'], $name->ruleParameters('min'));
-        $this->assertEquals('3', $name->ruleParameter('min'));
-        $this->assertEquals([], $name->ruleParameters('max'));
-        $this->assertEquals([], $age->ruleParameters('min'));
-        
-        $this->assertTrue($name->isRequired());
-        $this->assertFalse($age->isRequired());
+        $this->assertInstanceOf(IntegerValue::class, $field->expand(8));
     }
 
-    public function test_is_arrayable()
+    public function test_it_returns_schema()
     {
-        $this->assertIsArray(Streams::make('testing.examples')->fields->get('name')->toArray());
+        $field = Streams::make('films')->fields->get('episode_id');
+
+        $this->assertInstanceOf(FieldSchema::class, $field->schema());
     }
 
-    public function test_is_jsonable()
+    public function test_it_detects_rules()
     {
-        $this->assertJson(Streams::make('testing.examples')->fields->get('name')->toJson());
-        
-        $this->assertJson((string) Streams::make('testing.examples')->fields->get('name'));
-        $this->assertJson(json_encode(Streams::make('testing.examples')->fields->get('name')));
+        $field = Streams::make('films')->fields->get('episode_id');
+
+        $this->assertTrue($field->isRequired());
+        $this->assertTrue($field->hasRule('unique'));
+    }
+
+    public function test_it_returns_rule_parameters()
+    {
+        $field = Streams::make('films')->fields->get('title');
+
+        $this->assertSame(['25'], $field->ruleParameters('max'));
+        $this->assertSame('25', $field->ruleParameter('max'));
+
+        $this->assertSame([], $field->ruleParameters('min'));
+        $this->assertNull($field->ruleParameter('min'));
     }
 }

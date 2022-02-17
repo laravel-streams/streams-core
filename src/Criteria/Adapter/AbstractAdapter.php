@@ -26,13 +26,13 @@ abstract class AbstractAdapter implements AdapterInterface
 
     protected Stream $stream;
 
-    abstract public function orderBy($field, $direction = 'asc'): self;
+    abstract public function orderBy($field, $direction = 'asc'): static;
 
-    abstract public function limit($limit, $offset = 0): self;
+    abstract public function limit($limit, $offset = 0): static;
 
-    abstract public function where($field, $operator = null, $value = null, $nested = null): self;
+    abstract public function where($field, $operator = null, $value = null, $nested = null): static;
 
-    public function orWhere($field, $operator = null, $value = null): self
+    public function orWhere($field, $operator = null, $value = null): static
     {
         return $this->where($field, $operator, $value, 'or');
     }

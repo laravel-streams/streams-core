@@ -27,21 +27,21 @@ class DatabaseAdapter extends AbstractAdapter
             ->table($stream->config('source.table', $stream->id));
     }
 
-    public function orderBy($field, $direction = 'asc'): self
+    public function orderBy($field, $direction = 'asc'): static
     {
         $this->query = $this->query->orderBy($field, $direction);
 
         return $this;
     }
 
-    public function limit($limit, $offset = 0): self
+    public function limit($limit, $offset = 0): static
     {
         $this->query = $this->query->take($limit)->skip($offset);
 
         return $this;
     }
 
-    public function where($field, $operator = null, $value = null, $nested = null): self
+    public function where($field, $operator = null, $value = null, $nested = null): static
     {
         if (!$value) {
             $value = $operator;

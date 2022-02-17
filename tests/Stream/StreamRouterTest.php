@@ -2,17 +2,16 @@
 
 namespace Streams\Core\Tests\Stream;
 
-use Tests\TestCase;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
+use Streams\Core\Tests\CoreTestCase;
 
-class StreamRouterTest extends TestCase
+class StreamRouterTest extends CoreTestCase
 {
-
-    public function test_registers_routes()
+    public function test_it_registers_routes()
     {
         Router::streams('testing/{id}', [
-            'stream' => 'testing.examples',
+            'stream' => 'films',
             'defer' => true
         ]);
 

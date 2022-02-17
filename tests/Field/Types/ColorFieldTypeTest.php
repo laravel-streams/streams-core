@@ -2,42 +2,29 @@
 
 namespace Streams\Core\Tests\Field\Types;
 
-use Tests\TestCase;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Field\Value\ColorValue;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Types\ColorFieldType;
 
-class ColorFieldTypeTest extends TestCase
+class ColorFieldTypeTest extends CoreTestCase
 {
-
-    public function setUp(): void
+    public function test_it_forces_lowercase()
     {
-        $this->createApplication();
+        $field = new ColorFieldType([
+            'stream' => Streams::make('films')
+        ]);
 
-        Streams::load(base_path('vendor/streams/core/tests/litmus.json'));
-        Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
+        $this->assertSame('#ffffff', $field->modify('#FFFFFF'));
+        $this->assertSame('#ffffff', $field->restore('#FFFFFF'));
     }
 
-    public function test_forces_lowercase()
+    public function test_it_returns_color_value()
     {
-        $type = Streams::make('testing.litmus')->fields->color;
+        $field = new ColorFieldType([
+            'stream' => Streams::make('films')
+        ]);
 
-        $this->assertSame('#ffffff', $type->modify('#FFFFFF'));
-        $this->assertSame('#ffffff', $type->restore('#FFFFFF'));
-    }
-
-    public function test_expanded_value()
-    {
-        $test = Streams::repository('testing.litmus')->find('field_types');
-
-        $this->assertInstanceOf(ColorValue::class, $test->expand('color'));
-    }
-
-    public function test_can_generate_value()
-    {
-        $stream = Streams::make('testing.fakers');
-
-        $color = substr($stream->fields->color->generate(), 1);
-
-        $this->assertTrue(ctype_xdigit($color) && strlen($color) == 6);
+        $this->assertInstanceOf(ColorValue::class, $field->expand('#ffffff'));
     }
 }

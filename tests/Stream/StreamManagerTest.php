@@ -2,18 +2,18 @@
 
 namespace Streams\Core\Tests\Stream;
 
-use Tests\TestCase;
 use Streams\Core\Stream\Stream;
 use Streams\Core\Criteria\Criteria;
 use Streams\Core\Entry\EntrySchema;
-use Streams\Core\Entry\EntryFactory;
+use Streams\Core\Tests\CoreTestCase;
+use Illuminate\Support\Facades\Route;
+use Streams\Core\Repository\Repository;
 use Streams\Core\Support\Facades\Streams;
-use Streams\Core\Repository\Contract\RepositoryInterface;
 
-class StreamManagerTest extends TestCase
+class StreamManagerTest extends CoreTestCase
 {
 
-    public function test_can_build_a_stream_from_array()
+    public function test_it_builds_streams()
     {
         $stream = Streams::build([
             'id' => 'testing.build'
@@ -24,7 +24,7 @@ class StreamManagerTest extends TestCase
         $this->assertFalse(Streams::exists('testing.build'));
     }
 
-    public function test_can_register_a_stream_from_array()
+    public function test_it_registers_streams()
     {
         $stream = Streams::register([
             'id' => 'testing.register',
@@ -38,60 +38,52 @@ class StreamManagerTest extends TestCase
         $this->assertTrue(Streams::exists('testing.register'));
     }
 
-    public function test_throws_exception_if_stream_is_not_registed()
+    public function test_it_throws_exception_if_stream_is_not_registed()
     {
         $this->expectException(\Exception::class);
 
         Streams::make('foo.bar');
     }
 
-    public function test_can_load_stream_from_json_file()
+    public function test_it_loads_streams_from_file()
     {
-        $stream = Streams::load(__DIR__ . '/../litmus.json');
+        $stream = Streams::load(base_path('streams/films.json'));
 
         $this->assertInstanceOf(Stream::class, $stream);
 
-        $this->assertTrue(Streams::exists('testing.litmus'));
+        $this->assertTrue(Streams::exists('films'));
     }
 
-    public function test_can_extend_a_registered_stream()
+    public function test_it_extends_registered_streams()
     {
-        Streams::load(__DIR__ . '/../litmus.json');
-
-        $stream = Streams::extend('testing.litmus', [
-            'id' => 'testing.litmus_extended',
-            'description' => 'Extended description.',
+        $stream = Streams::extend('films', [
+            'id' => 'animated_films',
+            'description' => 'Animated films.',
         ]);
 
-        $this->assertInstanceOf(Stream::class, $stream);
-
-        $this->assertSame('Extended description.', $stream->description);
+        $this->assertSame('Animated films.', $stream->description);
     }
 
-    public function test_can_overload_a_registered_stream()
+    public function test_it_overloads_registered_streams()
     {
-        Streams::load(__DIR__ . '/../litmus.json');
-
-        $stream = Streams::overload('testing.litmus', [
+        $stream = Streams::overload('films', [
             'description' => 'New description.',
         ]);
 
-        $this->assertInstanceOf(Stream::class, $stream);
-
         $this->assertSame('New description.', $stream->description);
+
+        $this->assertNull(Streams::make('films')->description);
     }
 
-    public function test_collection_contains_registered_streams()
+    public function test_it_returns_registered_streams()
     {
-        Streams::load(__DIR__ . '/../litmus.json');
-
-        $this->assertTrue(Streams::collection()->has('testing.litmus'));
+        $this->assertTrue(Streams::collection()->has('films'));
     }
 
-    public function test_routes_registered_streams()
+    public function test_it_routes_registered_streams()
     {
         $stream = Streams::register([
-            'id' => 'testing.test_routes',
+            'id' => 'test_routes',
             'routes' => [
                 'view' => [
                     'uri' => 'testing/{id}',
@@ -105,34 +97,21 @@ class StreamManagerTest extends TestCase
 
         $this->assertInstanceOf(Stream::class, $stream);
 
-        $this->assertTrue(Streams::exists('testing.test_routes'));
+        $this->assertTrue(Route::has('test_routes.view'));
     }
 
-    public function test_returns_entry_criteria()
+    public function test_it_returns_entry_criteria()
     {
-        Streams::load(__DIR__ . '/../litmus.json');
-
-        $this->assertInstanceOf(Criteria::class, Streams::entries('testing.litmus'));
+        $this->assertInstanceOf(Criteria::class, Streams::entries('films'));
     }
 
-    public function test_returns_entry_repository()
+    public function test_it_returns_entry_repository()
     {
-        Streams::load(__DIR__ . '/../litmus.json');
-
-        $this->assertInstanceOf(RepositoryInterface::class, Streams::repository('testing.litmus'));
-    }
-
-    public function test_returns_entry_factory()
-    {
-        Streams::load(__DIR__ . '/../litmus.json');
-
-        $this->assertInstanceOf(EntryFactory::class, Streams::factory('testing.litmus'));
+        $this->assertInstanceOf(Repository::class, Streams::repository('films'));
     }
 
     public function test_returns_schema_generator()
     {
-        Streams::load(__DIR__ . '/../litmus.json');
-
-        $this->assertInstanceOf(EntrySchema::class, Streams::schema('testing.litmus'));
+        $this->assertInstanceOf(EntrySchema::class, Streams::schema('films'));
     }
 }

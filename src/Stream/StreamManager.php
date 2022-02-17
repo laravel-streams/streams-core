@@ -83,7 +83,7 @@ class StreamManager
 
     public function overload(string $id, array $attributes): Stream
     {
-        $instance = $this->make($id);
+        $instance = clone $this->make($id);
 
         foreach ($attributes as $key => &$value) {
             

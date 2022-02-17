@@ -28,7 +28,7 @@ class Filter extends BaseObject
     /** @var array|null */
     protected $vars;
 
-    public static function equals($var, bool $strict): self
+    public static function equals($var, bool $strict): static
     {
         $instance       = new static();
         $instance->func = self::FUNC_EQUALS;
@@ -36,7 +36,7 @@ class Filter extends BaseObject
         return $instance;
     }
 
-    public function vars(array $vars): self
+    public function vars(array $vars): static
     {
         $instance = clone $this;
 

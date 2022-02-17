@@ -15,31 +15,32 @@ class IntegerFieldType extends Field
         ],
     ];
 
+    public function cast($value): int
+    {
+        if (is_string($value)) {
+            $value = preg_replace('/[^\da-z\.\-]/i', '', $value);
+        }
+
+        return intval($value);
+    }
+
     public function default($value)
     {
         if ($value == 'increment') {
             return $this->getNextIncrementValue();
         }
-        
+
         return (int) $value;
     }
 
     public function modify($value)
     {
-        if (is_string($value)) {
-            $value = preg_replace('/[^\da-z\.\-]/i', '', $value);
-        }
-
-        return intval($value);
+        return $this->cast($value);
     }
 
     public function restore($value)
     {
-        if (is_string($value)) {
-            $value = preg_replace('/[^\da-z\.\-]/i', '', $value);
-        }
-
-        return intval($value);
+        return $this->cast($value);
     }
 
     public function getValueName()

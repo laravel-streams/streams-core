@@ -3,90 +3,70 @@
 namespace Streams\Core\Tests\Field\Types;
 
 use Carbon\Carbon;
-use Tests\TestCase;
-use Streams\Core\Support\Facades\Streams;
-use Streams\Core\Field\Value\DatetimeValue;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Field\Value\DateValue;
+use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Types\DateFieldType;
 
-class DateFieldTypeTest extends TestCase
+class DateFieldTypeTest extends CoreTestCase
 {
-
-    public function setUp(): void
+    public function test_it_returns_carbon_values()
     {
-        $this->createApplication();
+        $entry = Streams::repository('films')->find(4);
 
-        Streams::load(base_path('vendor/streams/core/tests/litmus.json'));
-        Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
+        $this->assertInstanceOf(Carbon::class, $entry->created);
     }
 
-    public function test_casts_value_to_carbon()
+    public function test_it_casts_carbon_to_carbon()
     {
-        $test = Streams::repository('testing.litmus')->find('field_types');
-
-        $this->assertInstanceOf(Carbon::class, $test->date);
-    }
-
-    public function test_casts_carbon_to_carbon()
-    {
-        $type = Streams::make('testing.litmus')->fields->date;
+        $field = new DateFieldType([
+            'stream' => Streams::make('films')
+        ]);
 
         $carbon = new Carbon('2021-01-01');
 
-        $this->assertInstanceOf(Carbon::class, $type->modify($carbon));
-
-        $this->assertSame($carbon->format('Y-m-d'), $type->modify($carbon)->format('Y-m-d'));
+        $this->assertInstanceOf(Carbon::class, $field->cast($carbon));
     }
 
-    public function test_casts_datetime_to_carbon()
+    public function test_it_casts_datetime_to_carbon()
     {
-        $type = Streams::make('testing.litmus')->fields->date;
+        $field = new DateFieldType([
+            'stream' => Streams::make('films')
+        ]);
 
         $instance = new \Datetime('2021-01-01');
 
-        $this->assertInstanceOf(Carbon::class, $type->modify($instance));
-
-        $this->assertSame($instance->format('Y-m-d'), $type->modify($instance)->format('Y-m-d'));
+        $this->assertInstanceOf(Carbon::class, $field->cast($instance));
     }
 
-    public function test_casts_timestamps_to_carbon()
+    public function test_it_casts_timestamps_to_carbon()
     {
-        $type = Streams::make('testing.litmus')->fields->date;
+        $field = new DateFieldType([
+            'stream' => Streams::make('films')
+        ]);
 
         $timestamp = (new Carbon('2021-01-01'))->timestamp;
 
-        $this->assertInstanceOf(Carbon::class, $type->modify($timestamp));
-
-        $this->assertSame($timestamp, $type->modify($timestamp)->timestamp);
+        $this->assertInstanceOf(Carbon::class, $field->cast($timestamp));
     }
 
-    public function test_casts_strings_to_carbon()
+    public function test_it_casts_strings_to_carbon()
     {
-        $type = Streams::make('testing.litmus')->fields->date;
+        $field = new DateFieldType([
+            'stream' => Streams::make('films')
+        ]);
 
         $date = '2021-01-01';
-        $value = '2021-01-01 9:30';
-        $standard = '2021-01-01 09:30:00';
 
-        $this->assertInstanceOf(Carbon::class, $type->modify($value));
-
-        $this->assertSame($date, $type->modify($date)->format('Y-m-d'));
-        $this->assertSame($date, $type->modify($value)->format('Y-m-d'));
-        $this->assertSame($date, $type->modify($standard)->format('Y-m-d'));
+        $this->assertInstanceOf(Carbon::class, $field->cast($date));
     }
 
-    public function test_expanded_value()
+    public function test_it_returns_date_value()
     {
-        $test = Streams::repository('testing.litmus')->find('field_types');
+        $field = new DateFieldType([
+            'stream' => Streams::make('films')
+        ]);
 
-        $this->assertInstanceOf(DateValue::class, $test->expand('date'));
-    }
-
-    public function test_can_generate_value()
-    {
-        $stream = Streams::make('testing.fakers');
-
-        $fake = $stream->fields->date->generate();
-
-        $this->assertInstanceOf(\DateTime::class, $fake);
+        $this->assertInstanceOf(DateValue::class, $field->expand('2021-01-01'));
     }
 }

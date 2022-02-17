@@ -4,6 +4,7 @@ namespace Streams\Core\Tests\Entry;
 
 use Carbon\Carbon;
 use Streams\Core\Entry\Entry;
+use Streams\Core\Field\Value\IntegerValue;
 use Streams\Core\Stream\Stream;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
@@ -52,6 +53,33 @@ class EntryTest extends CoreTestCase
         $entry = Streams::repository('films')->find(4);
 
         $this->assertInstanceOf(Carbon::class, $entry->lastModified());
+    }
+
+    public function test_it_supports_macros()
+    {
+        Entry::macro('episode', function() {
+            return 'ID: ' . $this->episode_id;
+        });
+
+        $entry = Streams::repository('films')->find(4);
+
+        $this->assertSame('ID: 4', $entry->episode());
+    }
+
+    public function test_it_automatically_expands_fields()
+    {
+        $entry = Streams::repository('films')->find(4);
+
+        $this->assertInstanceOf(IntegerValue::class, $entry->episodeId());
+    }
+
+    public function test_it_throws_exceptions_for_unmapped_methods()
+    {
+        $entry = Streams::repository('films')->find(4);
+
+        $this->expectException(\Exception::class);
+
+        $entry->noSuchMethod();
     }
 
     public function test_it_can_save()

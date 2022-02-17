@@ -12,7 +12,7 @@ class FieldCollection extends Collection
         return $this->get($key);
     }
 
-    public function required($required = true): self
+    public function required($required = true): static
     {
         return $this->filter(fn ($field) => $field->hasRule('required') === $required);
     }
