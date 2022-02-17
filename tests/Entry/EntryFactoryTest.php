@@ -2,50 +2,37 @@
 
 namespace Streams\Core\Tests\Entry;
 
-use Tests\TestCase;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Entry\Contract\EntryInterface;
 
-class EntryFactoryTest extends TestCase
+class EntryFactoryTest extends CoreTestCase
 {
-
-    public function test_can_create_entries()
+    public function test_it_creates_entries()
     {
-        Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
-        Streams::load(base_path('vendor/streams/core/tests/examples.json'));
+        $integer = Streams::make('films')->factory()->create();
 
-        $fake = Streams::make('testing.fakers')->factory()->create();
+        $this->assertInstanceOf(EntryInterface::class, $integer);
 
-        $this->assertInstanceOf(EntryInterface::class, $fake);
-
-        $this->assertIsNumeric($fake->integer);
+        $this->assertEquals(8, $integer->episode_id);
     }
 
-    public function test_can_create_entries_with_specific_values()
+    public function test_it_creates_entries_with_specified_values()
     {
-        Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
-        Streams::load(base_path('vendor/streams/core/tests/examples.json'));
-
-        $fake = Streams::factory('testing.fakers')->create([
-            'string' => 'Test String',
+        $entry = Streams::factory('films')->create([
+            'title' => 'Test String',
         ]);
 
-        $this->assertEquals('Test String', $fake->string);
+        $this->assertEquals('Test String', $entry->title);
     }
 
-    public function test_can_create_multiple_entries()
+    public function test_it_creates_multiple_entries()
     {
-        Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
-        Streams::load(base_path('vendor/streams/core/tests/examples.json'));
+        $entries = Streams::factory('films')->collect(3);
 
-        $fakes = Streams::factory('testing.fakers')->collect(3);
+        $this->assertEquals(3, $entries->count());
 
-        $this->assertEquals(3, $fakes->count());
-
-        $this->assertIsString($fakes->first()->id);
-        $this->assertInstanceOf(EntryInterface::class, $fakes->first());
-
-        $this->assertIsString($fakes->last()->id);
-        $this->assertInstanceOf(EntryInterface::class, $fakes->last());
+        $this->assertEquals(8, $entries->first()->episode_id);
+        $this->assertEquals(10, $entries->last()->episode_id);
     }
 }

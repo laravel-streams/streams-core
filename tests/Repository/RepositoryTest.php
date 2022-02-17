@@ -2,105 +2,182 @@
 
 namespace Streams\Core\Tests\Stream\Repository;
 
+use Illuminate\Support\Collection;
+use Streams\Core\Criteria\Adapter\FileAdapter;
+use Streams\Core\Criteria\Criteria;
 use Streams\Core\Entry\Entry;
 use Streams\Core\Stream\Stream;
-use Tests\TestCase;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 
-class RepositoryTest extends TestCase
+class RepositoryTest extends CoreTestCase
 {
-
-    public function setUp(): void
+    public function test_it_returns_all_results()
     {
-        $this->createApplication();
+        $entries = Streams::repository('films')->all();
 
-        Streams::load(base_path('vendor/streams/core/tests/examples.json'));
-
-        $filename = base_path('vendor/streams/core/tests/data/examples/third.json');
-
-        if (file_exists($filename)) {
-            unlink($filename);
-        }
+        $this->assertEquals(7, $entries->count());
     }
 
-    public function tearDown(): void
+    public function test_it_finds_results_by_id()
     {
-        $filename = base_path('vendor/streams/core/tests/data/examples/third.json');
+        $entry = Streams::repository('films')->find(4);
 
-        if (file_exists($filename)) {
-            unlink($filename);
-        }
+        $this->assertEquals('A New Hope', $entry->title);
     }
 
-    public function test_can_return_all_results()
+    public function test_it_finds_all_results_matching_ids()
     {
-        $all = Streams::repository('testing.examples')->all();
-        
-        $this->assertEquals(2, $all->count());
+        $entries = Streams::repository('films')->findAll([3, 4]);
+
+        $this->assertEquals(2, $entries->count());
     }
 
-    public function test_can_find_result_by_id()
+    public function test_it_finds_results_by_specified_value()
     {
-        $first = Streams::repository('testing.examples')->find('first');
-        
-        $this->assertEquals("First Example", $first->name);
+        $second = Streams::repository('films')->findBy('title', 'A New Hope');
+
+        $this->assertEquals('A New Hope', $second->title);
     }
 
-    public function test_can_find_all_results_matching_ids()
+    public function test_it_finds_all_by_specified_value()
     {
-        $both = Streams::repository('testing.examples')->findAll(['first', 'second']);
+        $entries = Streams::repository('films')
+            ->findAllWhere('opening_crawl', 'LIKE', '%Jedi%');
 
-        $this->assertEquals(2, $both->count());
+        $this->assertEquals(4, $entries->count());
     }
 
-    public function test_can_find_by_specified_value()
+    public function test_it_creates_entries()
     {
-        $second = Streams::repository('testing.examples')->findBy('name', 'Second Example');
+        Streams::repository('films')->create($this->filmData());
 
-        $this->assertEquals("Second Example", $second->name);
+        $this->assertEquals(8, Streams::repository('films')->count());
     }
 
-    public function test_can_find_all_by_specified_value()
+    public function test_is_saves_entries()
     {
-        $examples = Streams::repository('testing.examples')->findAllWhere('name', 'LIKE', '%Example%');
+        $entry = Streams::repository('films')->find(4);
 
-        $this->assertEquals(2, $examples->count());
+        $entry->title = 'Test Title';
+
+        Streams::repository('films')->save($entry);
+
+        $entry = Streams::repository('films')->find(4);
+
+        $this->assertEquals('Test Title', $entry->title);
     }
 
-    public function test_can_create_and_delete_entries()
+    public function test_it_deletes_entries()
     {
-        $this->tearDown();
+        $entry = Streams::repository('films')->find(4);
 
-        $entry = Streams::repository('testing.examples')->create([
-            'id' => 'third',
-            'name' => 'Third Example',
+        Streams::repository('films')->delete($entry);
+
+        $this->assertEquals(6, Streams::repository('films')->count());
+    }
+
+    public function test_it_returns_new_instances()
+    {
+        $entry = Streams::repository('films')->newInstance($this->filmData());
+
+        $this->assertEquals(8, $entry->episode_id);
+        $this->assertEquals('Star Wars: The Last Jedi', $entry->title);
+    }
+
+    public function test_it_truncates_entries()
+    {
+        Streams::repository('films')->truncate();
+
+        $this->assertEquals(0, Streams::repository('films')->count());
+    }
+
+    public function test_it_returns_new_criteria()
+    {
+        $this->assertInstanceOf(
+            Criteria::class,
+            Streams::repository('films')->newCriteria()
+        );
+    }
+
+    public function test_it_returns_stream_defined_criteria()
+    {
+        $stream = Streams::overload('films', [
+            'config' => [
+                'criteria' => CustomCriteria::class,
+            ],
         ]);
 
-        $this->assertEquals(3, Streams::entries('testing.examples')->count());
-        
-
-        $entry->name = 'THIRD EXAMPLE!';
-        
-        Streams::repository('testing.examples')->save($entry);
-        
-        $updated = Streams::repository('testing.examples')->find('third');
-        
-        $this->assertEquals('THIRD EXAMPLE!', $updated->name);
-
-
-        Streams::repository('testing.examples')->delete($entry);
-
-        $this->assertEquals(2, Streams::entries('testing.examples')->count());
+        $this->assertInstanceOf(
+            CustomCriteria::class,
+            $stream->repository('films')->newCriteria()
+        );
     }
 
-    public function test_can_create_new_instance()
+    public function test_it_uses_stream_defined_adapter()
     {
-        $entry = Streams::repository('testing.examples')->newInstance([
-            'id' => 'example',
-            'name' => 'Example',
+        $stream = Streams::overload('films', [
+            'config' => [
+                'source' => [
+                    'adapter' => CustomAdapter::class,
+                ],
+            ],
         ]);
 
-        $this->assertInstanceOf(Entry::class, $entry);
-        $this->assertInstanceOf(Stream::class, $entry->stream);
+        $entry = $stream->repository()
+            ->newCriteria()
+            ->testMethod()
+            ->first();
+
+        $this->assertEquals('The Phantom Menace', $entry->title);
+    }
+
+    public function test_it_returns_stream_defined_collections()
+    {
+        $stream = Streams::overload('films', [
+            'config' => [
+                'collection' => CustomCollection::class,
+            ],
+        ]);
+
+        $this->assertInstanceOf(
+            CustomCollection::class,
+            $stream->repository('films')->all()
+        );
+    }
+
+    protected function filmData()
+    {
+        return [
+            'title' => 'Star Wars: The Last Jedi',
+            'director' => 'Rian Johnson',
+            'producer' => 'Kathleen Kennedy, Ram Bergman, J. J. Abrams',
+            'release_date' => '2017-12-15',
+            'opening_crawl' => 'The FIRST ORDER reigns. Having decimated the peaceful Republic, Supreme Leader Snoke now deploys his merciless legions to seize military control of the galaxy.
+
+Only General Leia Organa\'s band of RESISTANCE fighters stand against the rising tyranny, certain that Jedi Master Luke Skywalker will return and restore a spark of hope to the fight.
+
+"But the Resistance has been exposed. As the First Order speeds toward the rebel base, the brave heroes mount a desperate escape....',
+            'characters' => [1, 5],
+            'planets' => [],
+            'starships' => [9],
+            'species' => [1],
+        ];
+    }
+}
+
+class CustomCriteria extends Criteria
+{
+}
+
+class CustomCollection extends Collection
+{
+}
+
+class CustomAdapter extends FileAdapter
+{
+    public function testMethod()
+    {
+        return $this->orderBy('title', 'DESC');
     }
 }

@@ -32,7 +32,7 @@ class Document extends Schema
     protected $id;
 
 
-    public function schema(?string $uri): self
+    public function schema(?string $uri): static
     {
         $instance = clone $this;
 
@@ -42,7 +42,7 @@ class Document extends Schema
     }
 
 
-    public function id(?string $id): self
+    public function id(?string $id): static
     {
         $instance = clone $this;
 
@@ -52,7 +52,7 @@ class Document extends Schema
     }
 
 
-    public function defs(Schema ...$defs): self
+    public function defs(Schema ...$defs): static
     {
         $instance = clone $this;
 

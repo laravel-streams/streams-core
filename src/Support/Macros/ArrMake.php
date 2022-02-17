@@ -10,8 +10,8 @@ class ArrMake
 {
     public function __invoke()
     {
-        return function ($target): array {
-            
+        return function ($target) {
+
             if (is_object($target) && $target instanceof Arrayable) {
                 $target = $target->toArray();
             }
@@ -20,8 +20,16 @@ class ArrMake
                 $target = Hydrator::dehydrate($target);
             }
 
+            if (
+                is_string($target)
+                || is_bool($target)
+                || is_numeric($target)
+            ) {
+                return $target;
+            }
+
             foreach ($target as &$item) {
-                if ($item && !is_string($item)) {
+                if ($item) {
                     $item = Arr::make($item);
                 }
             }

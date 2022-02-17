@@ -39,7 +39,7 @@ class Schema extends BaseSchema
         return $this;
     }
 
-    public function defs(Schema ...$defs): self
+    public function defs(Schema ...$defs): static
     {
         $instance = clone $this;
 

@@ -9,12 +9,12 @@ class TimeFieldType extends DatetimeFieldType
 {
     public function modify($value): string
     {
-        return $this->toCarbon($value)->format('H:i:s');
+        return $this->cast($value)->format('H:i:s');
     }
 
     public function restore($value): Carbon
     {
-        return $this->toCarbon($value);
+        return $this->cast($value);
     }
 
     public function getSchemaName()

@@ -2,17 +2,26 @@
 
 namespace Streams\Core\Tests\Field;
 
-use Tests\TestCase;
 use Streams\Core\Field\Field;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 
-class FieldCollectionTest extends TestCase
+class FieldCollectionTest extends CoreTestCase
 {
 
-    public function test_maps_keys_to_getter()
+    public function test_it_maps_handles_to_property_access()
     {
-        Streams::load(__DIR__ . '/../litmus.json');
+        $this->assertInstanceOf(
+            Field::class,
+            Streams::make('films')->fields->episode_id
+        );
+    }
 
-        $this->assertInstanceOf(Field::class, Streams::make('testing.litmus')->fields->uuid);
+    public function test_it_returns_required_fields()
+    {
+        $this->assertEquals(
+            2,
+            Streams::make('films')->fields->required()->count()
+        );
     }
 }

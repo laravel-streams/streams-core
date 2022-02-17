@@ -3,10 +3,11 @@
 namespace Streams\Core\Field\Types;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Collection;
-use Streams\Core\Field\Value\ArrValue;
 use Streams\Core\Field\Schema\ArrSchema;
+use Streams\Core\Field\Value\ArrayValue;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
@@ -64,7 +65,15 @@ class ArrayFieldType extends Field
             return $value;
         }
 
-        $values = (array) $value;
+        if (is_string($value) && $json = json_decode($value, true)) {
+            $value = $json;
+        }
+
+        if (is_string($value) && Str::isSerialized($value)) {
+            $value = unserialize($value);
+        }
+
+        $values = Arr::make($value);
 
         foreach ($values as &$value) {
 
@@ -96,7 +105,7 @@ class ArrayFieldType extends Field
 
     public function getValueName()
     {
-        return ArrValue::class;
+        return ArrayValue::class;
     }
 
     public function getSchemaName()

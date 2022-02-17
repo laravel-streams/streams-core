@@ -5,14 +5,7 @@ namespace Streams\Core\Field\Value;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
-/**
- * Class ArrValue
- * 
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
-class ArrValue extends Value
+class ArrayValue extends Value
 {
 
     /**

@@ -2,40 +2,28 @@
 
 namespace Streams\Core\Tests\Field\Types;
 
-use Tests\TestCase;
-use Streams\Core\Field\Value\StrValue;
+use Streams\Core\Tests\CoreTestCase;
+use Streams\Core\Field\Value\StringValue;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Types\StringFieldType;
 
-class StringFieldTypeTest extends TestCase
+class StringFieldTypeTest extends CoreTestCase
 {
-
-    public function setUp(): void
-    {
-        $this->createApplication();
-
-        Streams::load(base_path('vendor/streams/core/tests/litmus.json'));
-        Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
-    }
-
     public function test_casts_to_string()
     {
-        $type = Streams::make('testing.litmus')->fields->string;
+        $field = new StringFieldType([
+            'stream' => Streams::make('films')
+        ]);
 
-        $this->assertIsString($type->modify(100));
-        $this->assertIsString($type->restore(100));
+        $this->assertSame('100', $field->cast(100));
     }
 
-    public function test_expanded_value()
+    public function test_it_returns_string_value()
     {
-        $test = Streams::repository('testing.litmus')->find('field_types');
+        $field = new StringFieldType([
+            'stream' => Streams::make('films')
+        ]);
 
-        $this->assertInstanceOf(StrValue::class, $test->expand('string'));
-    }
-
-    public function test_can_generate_value()
-    {
-        $stream = Streams::make('testing.fakers');
-
-        $this->assertIsString($stream->fields->string->generate());
+        $this->assertInstanceOf(StringValue::class, $field->expand('example'));
     }
 }

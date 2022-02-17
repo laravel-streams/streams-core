@@ -22,21 +22,21 @@ class FileAdapter extends AbstractAdapter
         $this->readData();
     }
 
-    public function orderBy($field, $direction = 'asc'): self
+    public function orderBy($field, $direction = 'asc'): static
     {
         $this->query = $this->query->sortBy($field, SORT_REGULAR, strtolower($direction) === 'desc' ? true : false);
 
         return $this;
     }
 
-    public function limit($limit, $offset = 0): self
+    public function limit($limit, $offset = 0): static
     {
         $this->query = $this->query->slice($offset, $limit);
 
         return $this;
     }
 
-    public function where($field, $operator = null, $value = null, $nested = null): self
+    public function where($field, $operator = null, $value = null, $nested = null): static
     {
         if (!$value) {
             $value = $operator;
@@ -50,7 +50,7 @@ class FileAdapter extends AbstractAdapter
         if ($operator == 'LIKE') {
             $this->query = $this->query->filter(function ($entry) use ($field, $value) {
                 return strpos(
-                    strtolower($entry[$field]),
+                    strtolower(data_get($entry, $field)),
                     strtolower(str_replace('%', '', $value))
                 ) !== false;
             });

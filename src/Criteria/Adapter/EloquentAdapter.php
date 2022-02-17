@@ -25,21 +25,21 @@ class EloquentAdapter extends AbstractAdapter
         $this->query = (new $model)->newQuery();
     }
 
-    public function orderBy($field, $direction = 'asc'): self
+    public function orderBy($field, $direction = 'asc'): static
     {
         $this->query = $this->query->orderBy($field, $direction);
 
         return $this;
     }
 
-    public function limit($limit, $offset = 0): self
+    public function limit($limit, $offset = 0): static
     {
         $this->query = $this->query->take($limit)->skip($offset);
 
         return $this;
     }
 
-    public function where($field, $operator = null, $value = null, $nested = null): self
+    public function where($field, $operator = null, $value = null, $nested = null): static
     {
         if (!$value) {
             $value = $operator;
@@ -53,7 +53,7 @@ class EloquentAdapter extends AbstractAdapter
         return $this;
     }
 
-    public function withTrashed($toggle): self
+    public function withTrashed($toggle): static
     {
         if ($toggle) {
             $this->query = $this->query->withTrashed();
@@ -62,7 +62,7 @@ class EloquentAdapter extends AbstractAdapter
         return $this;
     }
 
-    public function with($relations): self
+    public function with($relations): static
     {
         $this->query = $this->query->with($relations);
 

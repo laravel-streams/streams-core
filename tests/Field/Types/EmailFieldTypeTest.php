@@ -2,41 +2,29 @@
 
 namespace Streams\Core\Tests\Field\Types;
 
-use Tests\TestCase;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Field\Value\EmailValue;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Types\EmailFieldType;
 
-class EmailFieldTypeTest extends TestCase
+class EmailFieldTypeTest extends CoreTestCase
 {
 
-    public function setUp(): void
+    public function test_it_casts_non_emails_to_null()
     {
-        $this->createApplication();
+        $field = new EmailFieldType([
+            'stream' => Streams::make('films')
+        ]);
 
-        Streams::load(base_path('vendor/streams/core/tests/litmus.json'));
-        Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
+        $this->assertNull($field->cast('test'));
     }
 
-    public function test_casts_to_email()
+    public function test_it_returns_email_values()
     {
-        $type = Streams::make('testing.litmus')->fields->email;
+        $field = new EmailFieldType([
+            'stream' => Streams::make('films')
+        ]);
 
-        $this->assertSame('test@domain.com', $type->modify('test@domain.com'));
-    }
-
-    public function test_expanded_value()
-    {
-        $test = Streams::repository('testing.litmus')->find('field_types');
-
-        $this->assertInstanceOf(EmailValue::class, $test->expand('email'));
-    }
-
-    public function test_can_generate_value()
-    {
-        $stream = Streams::make('testing.fakers');
-
-        $this->assertNotFalse(
-            filter_var($stream->fields->email->generate(), FILTER_VALIDATE_EMAIL)
-        );
+        $this->assertInstanceOf(EmailValue::class, $field->expand('test@email.com'));
     }
 }

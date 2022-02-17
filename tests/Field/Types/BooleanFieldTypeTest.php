@@ -2,43 +2,19 @@
 
 namespace Streams\Core\Tests\Field\Types;
 
-use Tests\TestCase;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Value\BooleanValue;
+use Streams\Core\Field\Types\BooleanFieldType;
 
-class BooleanFieldTypeTest extends TestCase
+class BooleanFieldTypeTest extends CoreTestCase
 {
-
-    public function setUp(): void
+    public function test_it_returns_boolean_value()
     {
-        $this->createApplication();
+        $field = new BooleanFieldType([
+            'stream' => Streams::make('films')
+        ]);
 
-        Streams::load(base_path('vendor/streams/core/tests/litmus.json'));
-        Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
-    }
-
-    public function test_casts_to_boolean()
-    {
-        $type = Streams::make('testing.litmus')->fields->boolean;
-
-        $this->assertSame(true, $type->modify(1));
-        $this->assertSame(false, $type->modify(0));
-
-        $this->assertSame(true, $type->modify('yes'));
-        $this->assertSame(false, $type->modify('no'));
-    }
-
-    public function test_expanded_value()
-    {
-        $test = Streams::repository('testing.litmus')->find('field_types');
-
-        $this->assertInstanceOf(BooleanValue::class, $test->expand('boolean'));
-    }
-
-    public function test_can_generate_value()
-    {
-        $stream = Streams::make('testing.fakers');
-
-        $this->assertIsBool($stream->fields->boolean->generate());
+        $this->assertInstanceOf(BooleanValue::class, $field->expand(true));
     }
 }

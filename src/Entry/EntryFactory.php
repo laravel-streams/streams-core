@@ -13,7 +13,6 @@ use Streams\Core\Entry\Contract\EntryInterface;
  */
 class EntryFactory
 {
-
     use Macroable {
         Macroable::__call as private callMacroable;
     }
@@ -22,11 +21,8 @@ class EntryFactory
 
     public int $count = 1;
 
-    public Stream $stream;
-
-    public function __construct(Stream $stream)
+    public function __construct(public Stream $stream)
     {
-        $this->stream = $stream;
     }
 
     public function create(array $attributes = []): EntryInterface
@@ -44,8 +40,17 @@ class EntryFactory
     {
         $items = [];
 
+        $keyName = $this->stream->config('key_name', 'id');
+
         for ($i = 1; $i <= $count; $i++) {
-            $items[$i] = $this->create();
+
+            $entry = $this->create();
+
+            if (is_numeric($entry->{$keyName})) {
+                $entry->{$keyName} = $entry->{$keyName} + ($i - 1);
+            }
+
+            $items[$i] = $entry;
         }
 
         $collection = $this->stream->config('collection', Collection::class);

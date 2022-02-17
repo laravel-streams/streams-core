@@ -4,7 +4,7 @@ namespace Streams\Core\Field\Value;
 
 use Collective\Html\HtmlFacade;
 
-class EmailValue extends StrValue
+class EmailValue extends StringValue
 {
 
     /**

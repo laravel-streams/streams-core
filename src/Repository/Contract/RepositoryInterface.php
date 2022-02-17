@@ -11,34 +11,15 @@ interface RepositoryInterface
 
     public function all(): Collection;
 
-    /**
-     * @param integer|string $id
-     * @return null|EntryInterface
-     */
-    public function find($id);
+    public function find(string|int $id): EntryInterface|null;
 
-    /**
-     * @param  array $ids
-     * @return Collection
-     */
     public function findAll(array $ids): Collection;
 
-    /**
-     * @param string $field
-     * @param mixed $value
-     * @return EntryInterface|null
-     */
-    public function findBy(string $field, $value);
+    public function findBy(string $field, $value): EntryInterface|null;
 
-    /**
-     * Find all entries by field value.
-     *
-     * @param string $field
-     * @param mixed $operator
-     * @param mixed $value
-     * @return Collection
-     */
     public function findAllWhere(string $field, $operator, $value = null): Collection;
+
+    public function count(): int;
 
     /**
      * Find a trashed entry by it's ID.
@@ -48,29 +29,11 @@ interface RepositoryInterface
      */
     //public function findTrashed($id);
 
-    /**
-     * Create a new entry.
-     *
-     * @param  array $attributes
-     * @return EntryInterface
-     */
     public function create(array $attributes): EntryInterface;
 
-    /**
-     * Save an entry.
-     *
-     * @param  EntryInterface $entry
-     * @return bool
-     */
-    public function save(EntryInterface $entry);
+    public function save(EntryInterface $entry): bool;
 
-    /**
-     * Delete an entry.
-     *
-     * @param  EntryInterface $entry
-     * @return bool
-     */
-    public function delete(EntryInterface $entry);
+    public function delete(EntryInterface $entry): bool;
 
     /**
      * Force delete an entry.
@@ -88,12 +51,7 @@ interface RepositoryInterface
      */
     //public function restore(EntryInterface $entry);
 
-    /**
-     * Truncate the entries.
-     *
-     * @return void
-     */
-    public function truncate();
+    public function truncate(): void;
 
     /**
      * Return a new instance.

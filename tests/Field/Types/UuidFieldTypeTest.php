@@ -2,48 +2,32 @@
 
 namespace Streams\Core\Tests\Field\Types;
 
-use Tests\TestCase;
 use Illuminate\Support\Str;
-use Streams\Core\Field\Value\StrValue;
+use Streams\Core\Tests\CoreTestCase;
+use Streams\Core\Field\Value\StringValue;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Types\UuidFieldType;
 
-class UuidFieldTypeTest extends TestCase
+class UuidFieldTypeTest extends CoreTestCase
 {
-
-    public function setUp(): void
+    public function test_it_returns_default_value()
     {
-        $this->createApplication();
+        $field = new UuidFieldType([
+            'stream' => Streams::make('films')
+        ]);
 
-        Streams::load(base_path('vendor/streams/core/tests/litmus.json'));
-        Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
+        $this->assertIsString($field->default(true));
     }
 
-    public function test_casts_to_string()
+    public function test_it_returns_string_value()
     {
-        $type = Streams::make('testing.litmus')->fields->uuid;
+        $field = new UuidFieldType([
+            'stream' => Streams::make('films')
+        ]);
 
-        $this->assertIsString($type->modify((string) Str::uuid()));
-        $this->assertIsString($type->restore((string) Str::uuid()));
-    }
-
-    public function test_expanded_value()
-    {
-        $test = Streams::repository('testing.litmus')->find('field_types');
-
-        $this->assertInstanceOf(StrValue::class, $test->expand('uuid'));
-    }
-
-    public function test_can_generate_value()
-    {
-        $stream = Streams::make('testing.fakers');
-
-        $this->assertIsString($stream->fields->uuid->generate());
-    }
-
-    public function test_generates_uuid_as_default()
-    {
-        $stream = Streams::make('testing.fakers');
-
-        $this->assertIsString($stream->fields->uuid->default(null));
+        $this->assertInstanceOf(
+            StringValue::class,
+            $field->expand((string) Str::uuid())
+        );
     }
 }

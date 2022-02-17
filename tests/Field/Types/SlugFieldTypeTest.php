@@ -2,42 +2,32 @@
 
 namespace Streams\Core\Tests\Field\Types;
 
-use Tests\TestCase;
-use Streams\Core\Field\Value\StrValue;
+use Streams\Core\Tests\CoreTestCase;
+use Streams\Core\Field\Value\StringValue;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Types\SlugFieldType;
 
-class SlugFieldTypeTest extends TestCase
+class SlugFieldTypeTest extends CoreTestCase
 {
-
-    public function setUp(): void
+    public function test_it_casts_to_slug_string()
     {
-        $this->createApplication();
+        $field = new SlugFieldType([
+            'stream' => Streams::make('films'),
+            'config' => [
+                'type' => '_',
+            ],
+        ]);
 
-        Streams::load(base_path('vendor/streams/core/tests/litmus.json'));
-        Streams::load(base_path('vendor/streams/core/tests/fakers.json'));
+        $this->assertSame('test_slug', $field->modify('Test Slug'));
+        $this->assertSame('test_slug', $field->restore('Test Slug'));
     }
 
-    public function test_casts_to_slug_string()
+    public function test_it_returns_string_value()
     {
-        $field = Streams::make('testing.litmus')->fields->slug;
+        $field = new SlugFieldType([
+            'stream' => Streams::make('films')
+        ]);
 
-        $type = $field;
-
-        $this->assertSame('test_slug', $type->modify('Test Slug'));
-        $this->assertSame('test_slug', $type->restore('Test Slug'));
-    }
-
-    public function test_expanded_value()
-    {
-        $test = Streams::repository('testing.litmus')->find('field_types');
-
-        $this->assertInstanceOf(StrValue::class, $test->expand('slug'));
-    }
-
-    public function test_can_generate_value()
-    {
-        $stream = Streams::make('testing.fakers');
-
-        $this->assertStringContainsString('_', $stream->fields->slug->generate());
+        $this->assertInstanceOf(StringValue::class, $field->expand('example'));
     }
 }

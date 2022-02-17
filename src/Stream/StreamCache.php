@@ -2,22 +2,23 @@
 
 namespace Streams\Core\Stream;
 
+use Illuminate\Cache\Repository;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 
-/**
- * @property \Streams\Core\Field\FieldCollection|\Streams\Core\Field\Field[] fields
- *
- */
 class StreamCache
 {
+    protected Repository $store;
+    protected Repository $collections;
+
     public function __construct(Stream $stream)
     {
         $this->stream = $stream;
 
-        $this->collections = Cache::store($stream->config('cache.store', Config::get('cache.default')));
+        $store = $stream->config('cache.store', Config::get('cache.default'));
 
-        $this->store = Cache::store($stream->config('cache.store', Config::get('cache.default')));
+        $this->store = Cache::store($store);
+        $this->collections = Cache::store($store);
     }
 
     /**

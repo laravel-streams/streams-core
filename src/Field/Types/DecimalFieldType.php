@@ -20,7 +20,7 @@ class DecimalFieldType extends Field
         return $this->cast($value);
     }
 
-    public function cast($value)
+    public function cast($value): float
     {
         if (is_string($value)) {
             $value = preg_replace('/[^\da-z\.\-]/i', '', $value);

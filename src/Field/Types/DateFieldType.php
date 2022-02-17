@@ -13,6 +13,11 @@ class DateFieldType extends DatetimeFieldType
         return $this->cast($value)->format('Y-m-d');
     }
 
+    public function restore($value)
+    {
+        return $this->cast($value);
+    }
+
     public function cast($value): Carbon
     {
         return $this->toCarbon($value)->startOfDay();
