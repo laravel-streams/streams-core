@@ -242,7 +242,7 @@ class StreamsServiceProvider extends ServiceProvider
         $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
 
         if ($directory = Arr::get($composer, 'config.vendor-dir')) {
-            $directory = realpath($directory);
+            $directory = realpath(base_path($directory));
         }
 
         if (!$directory) {
