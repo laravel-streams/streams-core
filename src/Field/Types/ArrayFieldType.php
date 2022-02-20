@@ -27,7 +27,7 @@ class ArrayFieldType extends Field
             $value = $value->all();
         }
         
-        if (is_string($value) && $json = json_decode($value, true)) {
+        if (is_string($value) && ($json = json_decode($value, true)) !== false) {
             $value = $json;
         }
 
@@ -73,7 +73,7 @@ class ArrayFieldType extends Field
             return $value;
         }
 
-        if (is_string($value) && $json = json_decode($value, true)) {
+        if (is_string($value) && ($json = json_decode($value, true)) !== false) {
             $value = $json;
         }
 
