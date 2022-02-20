@@ -6,13 +6,6 @@ use Illuminate\Support\Arr;
 use Filebase\Format\FormatInterface;
 use Symfony\Component\Yaml\Yaml as Parser;
 
-/**
- * Class Yaml
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 class Yaml implements FormatInterface
 {
 

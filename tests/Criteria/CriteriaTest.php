@@ -341,7 +341,6 @@ Only General Leia Organa\'s band of RESISTANCE fighters stand against the rising
 
     protected function removeData()
     {
-        // This is for file adapters only.
         unlink(base_path('streams/data/films.' . Streams::make('films')->config('source.format', 'json')));
     }
 }

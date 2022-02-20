@@ -2,189 +2,94 @@
 
 namespace Streams\Core\Tests\Criteria\Adapter;
 
-use Streams\Core\Entry\Entry;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Streams\Core\Tests\CoreTestCase;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Streams\Core\Support\Facades\Streams;
-use Illuminate\Pagination\AbstractPaginator;
+use Streams\Core\Tests\Criteria\CriteriaTest;
 
-class DatabaseAdapterTest extends CoreTestCase
+class DatabaseAdapterTest extends CriteriaTest
 {
 
-    // public function setUp(): void
-    // {
-    //     $this->createApplication();
+    protected function setUp(): void
+    {
+        parent::setUp();
 
-    //     Streams::load(base_path('vendor/streams/core/tests/database.json'));
+        Schema::dropIfExists('films');
 
-    //     $this->tearDown();
+        Schema::create('films', function (Blueprint $table) {
+            $table->id('episode_id');
+            $table->dateTime('created')->nullable();
+            $table->dateTime('edited')->nullable();
+            $table->string('title')->nullable();
+            $table->text('opening_crawl')->nullable();
+            $table->string('director')->nullable();
+            $table->string('producer')->nullable();
+            $table->date('release_date')->nullable();
+            $table->string('characters')->nullable();
+            $table->string('starships')->nullable();
+            $table->string('vehicles')->nullable();
+            $table->string('planets')->nullable();
+            $table->string('species')->nullable();
+        });
 
-    //     Schema::create('testing', function (Blueprint $table) {
-    //         $table->id();
-    //         $table->string('name');
-    //         $table->integer('age');
-    //     });
+        foreach (Streams::entries('films')->get() as $film) {
 
-    //     DB::table('testing')->insert([
-    //         'id' => 1,
-    //         'name' => 'John Smith',
-    //         'age' => 30,
-    //     ]);
+            $data = $film->toArray();
 
-    //     DB::table('testing')->insert([
-    //         'id' => 2,
-    //         'name' => 'Jane Smith',
-    //         'age' => 40,
-    //     ]);
-    // }
+            $data['characters'] = json_encode($data['characters']);
+            $data['starships'] = json_encode($data['starships']);
+            $data['vehicles'] = json_encode($data['vehicles']);
+            $data['planets'] = json_encode($data['planets']);
+            $data['species'] = json_encode($data['species']);
 
-    // public function testCanReturnResults()
-    // {
-    //     $first = Streams::entries('testing.database')->first();
-    //     $second = Streams::entries('testing.database')->find(2);
-    //     $collection = Streams::entries('testing.database')->get();
+            DB::table('films')->insert($data);
+        }
 
-    //     $this->assertEquals(2, $collection->count());
-    //     $this->assertEquals("John Smith", $first->name);
-    //     $this->assertEquals("Jane Smith", $second->name);
+        Streams::extend('films', [
+            'config' => [
+                'source' => [
+                    'type' => 'database',
+                    'table' => 'films',
+                ],
+            ],
+        ]);
+    }
 
-    //     $this->assertInstanceOf(Entry::class, $first);
-    //     $this->assertInstanceOf(Collection::class, $collection);
-    // }
+    protected function tearDown(): void
+    {
+        Schema::dropIfExists('films');
 
-    // public function testCanOrderResults()
-    // {
-    //     $this->assertEquals(
-    //         "Jane Smith",
-    //         Streams::entries('testing.database')
-    //             ->orderBy('name', 'asc')
-    //             ->first()->name
-    //     );
-    // }
+        parent::tearDown();
+    }
 
-    // public function testCanLimitResults()
-    // {
-    //     $this->assertEquals(
-    //         "Jane Smith",
-    //         Streams::entries('testing.database')
-    //             ->limit(1, 1)
-    //             ->get()
-    //             ->first()->name
-    //     );
-    // }
+    //public function test_it_returns_entries()
+    //public function test_it_caches_results()
+    //public function test_it_caches_when_stream_cache_is_enabled()
+    //public function test_can_flush_cache()
+    //public function test_cache_can_be_bypassed()
+    //public function test_it_returns_the_first_result()
+    //public function test_it_orders_results()
+    //public function test_it_limits_results()
+    //public function test_it_counts_results()
+    //public function test_it_filters_results()
+    //public function test_it_gets_and_sets_query_parameters()
+    //public function test_it_paginates_results()
+    //public function test_it_returns_new_instances()
+    //public function test_it_creates_entries()
+    //public function test_is_saves_entries()
+    //public function test_it_deletes_entries()
+    //public function test_it_truncates_entries()
+    //public function test_can_chunk_results()
+    //public function test_it_can_stop_chunking_results()
+    //public function test_it_uses_stream_defined_criteria()
+    //public function test_it_uses_stream_defined_adapter()
+    //public function test_it_supports_macros()
+    //public function test_it_throws_exception_for_bad_methods()
 
-    // public function testCanConstrainResults()
-    // {
-    //     $this->assertEquals(
-    //         1,
-    //         Streams::entries('testing.database')
-    //             ->where('name', 'Jane Smith')
-    //             ->get()
-    //             ->count()
-    //     );
-
-    //     $this->assertEquals(
-    //         2,
-    //         Streams::entries('testing.database')
-    //             ->where('name', 'Jane Smith')
-    //             ->orWhere('name', 'John Smith')
-    //             ->get()->count()
-    //     );
-
-    //     $this->assertEquals(
-    //         'Jane Smith',
-    //         Streams::entries('testing.database')
-    //             ->where('name', 'Jane Smith')
-    //             ->first()->name
-    //     );
-
-    //     $this->assertEquals(
-    //         'John Smith',
-    //         Streams::entries('testing.database')
-    //             ->where('name', '!=', 'Jane Smith')
-    //             ->first()->name
-    //     );
-    // }
-
-    // public function testCanCountResults()
-    // {
-    //     $this->assertEquals(2, Streams::entries('testing.database')->count());
-
-    //     $this->assertEquals(1, Streams::entries('testing.database')->where('name', 'John Smith')->count());
-    // }
-
-    // public function testCanPaginateResults()
-    // {
-    //     $pagination = Streams::entries('testing.database')->paginate(10);
-
-    //     $this->assertInstanceOf(AbstractPaginator::class, $pagination);
-    //     $this->assertEquals(2, $pagination->total());
-
-
-    //     $pagination = Streams::entries('testing.database')->paginate([
-    //         'per_page' => 1
-    //     ]);
-
-    //     $this->assertInstanceOf(AbstractPaginator::class, $pagination);
-    //     $this->assertEquals(2, $pagination->total());
-    // }
-
-    // public function testCanReturnNewInstances()
-    // {
-    //     $entry = Streams::entries('testing.database')->newInstance([
-    //         'name' => 'Jack Smith',
-    //     ]);
-
-    //     $this->assertEquals('Jack Smith', $entry->name);
-    // }
-
-    // public function testCanCreateAndDeleteEntries()
-    // {
-    //     $entry = Streams::entries('testing.database')->newInstance([
-    //         'name' => 'Jack Smith',
-    //         'age' => 5,
-    //     ]);
-
-    //     $entry->save();
-
-    //     $this->assertEquals(3, Streams::entries('testing.database')->count());
-
-    //     $entry->delete();
-
-    //     $this->assertEquals(2, Streams::entries('testing.database')->count());
-    // }
-
-    // public function testCanUpdateEntries()
-    // {
-    //     $entry = Streams::entries('testing.database')
-    //         ->where('name', 'Jane Smith')
-    //         ->first();
-
-    //     $entry->age = 10;
-
-    //     $entry->save();
-
-    //     $entry = Streams::entries('testing.database')
-    //         ->where('name', 'Jane Smith')
-    //         ->first();
-
-    //     $this->assertEquals(10, $entry->age);
-    // }
-
-    // public function testCanTruncate()
-    // {
-    //     Streams::repository('testing.database')->truncate();
-
-    //     $this->assertEquals(0, Streams::entries('testing.database')->count());
-
-    //     $this->setUp();
-    // }
-
-    // public function tearDown(): void
-    // {
-    //     Schema::dropIfExists('testing');
-    // }
+    protected function removeData()
+    {
+        DB::table('films')->truncate();
+    }
 }

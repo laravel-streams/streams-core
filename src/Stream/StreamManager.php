@@ -72,8 +72,10 @@ class StreamManager
     {
         $target = $this->overload($id, $stream);
 
+        $target::resetMemory();
+        
         App::instance('streams.instances.' . $target->id, $target);
-
+        
         $this->collection->put($target->id, $target);
 
         $this->route($target);

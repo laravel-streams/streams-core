@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\HasMemory;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 use Streams\Core\Entry\Contract\EntryInterface;
 use Streams\Core\Criteria\Contract\AdapterInterface;
 
@@ -66,7 +67,7 @@ class Criteria
 
     public function fresh()
     {
-        unset($this->parameters['cache']);
+        $this->parameters['cache'] = false;
 
         return $this;
     }
@@ -123,19 +124,19 @@ class Criteria
     public function get(): Collection
     {
         $enabled = $this->stream->config('cache.enabled', false);
-
+        
         if ($enabled && !isset($this->parameters['cache'])) {
             $this->cache();
         }
-
-        $cache = Arr::get($this->parameters, 'cache');
-
+        
+        $cache = Arr::pull($this->parameters, 'cache');
+        
         if ($cache) {
 
             $fingerprint = $this->stream->handle . '.query__' . md5(json_encode($this->parameters));
 
             return $this->stream->cache()->remember(Arr::get($cache, 1) ?: $fingerprint, $cache[0], function () {
-                return $this->adapter->get(array_diff_key($this->parameters, array_flip(['cache'])));
+                return $this->adapter->get($this->parameters);
             });
         }
 
