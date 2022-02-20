@@ -80,10 +80,10 @@ class CriteriaTest extends CoreTestCase
         $this->assertEquals(7, $entries->count());
         $this->assertEquals(7, $count);
 
-        Streams::repository('films')->create($this->filmData());
+        $result = Streams::repository('films')->create($this->filmData());
 
         $entries = Streams::entries('films')->cache()->get();
-
+        
         $this->assertEquals(8, $entries->count());
     }
 
@@ -341,7 +341,6 @@ Only General Leia Organa\'s band of RESISTANCE fighters stand against the rising
 
     protected function removeData()
     {
-        // This is for file adapters only.
         unlink(base_path('streams/data/films.' . Streams::make('films')->config('source.format', 'json')));
     }
 }

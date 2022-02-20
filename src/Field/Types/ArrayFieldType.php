@@ -27,7 +27,15 @@ class ArrayFieldType extends Field
             $value = $value->all();
         }
         
-        $values = (array) $value;
+        if (is_string($value) && ($json = json_decode($value, true)) !== false) {
+            $value = $json;
+        }
+
+        if (is_string($value) && Str::isSerialized($value)) {
+            $value = unserialize($value);
+        }
+
+        $values = Arr::make($value);
 
         foreach ($values as &$value) {
 
@@ -65,7 +73,7 @@ class ArrayFieldType extends Field
             return $value;
         }
 
-        if (is_string($value) && $json = json_decode($value, true)) {
+        if (is_string($value) && ($json = json_decode($value, true)) !== false) {
             $value = $json;
         }
 

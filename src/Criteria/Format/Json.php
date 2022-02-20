@@ -4,15 +4,7 @@ namespace Streams\Core\Criteria\Format;
 
 use Illuminate\Support\Arr;
 use Filebase\Format\FormatInterface;
-use Illuminate\Support\Facades\Auth;
 
-/**
- * Class Json
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 class Json implements FormatInterface
 {
 

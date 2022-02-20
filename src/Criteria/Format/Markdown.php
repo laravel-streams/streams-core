@@ -5,15 +5,7 @@ namespace Streams\Core\Criteria\Format;
 use Illuminate\Support\Arr;
 use Symfony\Component\Yaml\Yaml;
 use Filebase\Format\FormatInterface;
-use Illuminate\Support\Facades\Auth;
 
-/**
- * Class Markdown
- *
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
 class Markdown implements FormatInterface
 {
 
@@ -60,11 +52,6 @@ class Markdown implements FormatInterface
      */
     public static function decode($data)
     {
-        // @todo unused - delete?
-        // if (is_array($data) && isset($data['body'])) {
-        //     $data = $data['body'];
-        // }
-
         $pattern = '/^[\s\r\n]?---[\s\r\n]?$/sm';
 
         $parts = preg_split($pattern, PHP_EOL . ltrim($data));
