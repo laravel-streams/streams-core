@@ -80,10 +80,10 @@ class CriteriaTest extends CoreTestCase
         $this->assertEquals(7, $entries->count());
         $this->assertEquals(7, $count);
 
-        Streams::repository('films')->create($this->filmData());
+        $result = Streams::repository('films')->create($this->filmData());
 
         $entries = Streams::entries('films')->cache()->get();
-
+        
         $this->assertEquals(8, $entries->count());
     }
 

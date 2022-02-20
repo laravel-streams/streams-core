@@ -124,13 +124,13 @@ class Criteria
     public function get(): Collection
     {
         $enabled = $this->stream->config('cache.enabled', false);
-        
+
         if ($enabled && !isset($this->parameters['cache'])) {
             $this->cache();
         }
-        
+
         $cache = Arr::pull($this->parameters, 'cache');
-        
+
         if ($cache) {
 
             $fingerprint = $this->stream->handle . '.query__' . md5(json_encode($this->parameters));
@@ -241,7 +241,7 @@ class Criteria
         $entry->fire('saving', [
             'entry' => $entry,
         ]);
-        
+
         $result = $this->adapter->save($entry);
 
         $entry->fire('saved', [

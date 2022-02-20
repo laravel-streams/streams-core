@@ -47,6 +47,18 @@ class DatabaseAdapter extends AbstractAdapter
             $operator = '=';
         }
 
+        // @todo needs work.
+        if (strtoupper($operator) == 'IN') {
+
+            if (!$nested) {
+                $this->query->whereIn($field, $value);
+            } else {
+                $this->query->orWhereIn($field, $value);
+            }
+
+            return $this;
+        }
+
         $method = Str::studly($nested ? $nested . '_where' : 'where');
 
         $this->query = $this->query->{$method}($field, $operator, $value);
@@ -64,7 +76,7 @@ class DatabaseAdapter extends AbstractAdapter
     public function count(array $parameters = []): int
     {
         $this->callParameterMethods($parameters);
-        
+
         return $this->query->count();
     }
 
@@ -74,12 +86,23 @@ class DatabaseAdapter extends AbstractAdapter
 
         $keyName = $this->stream->config('key_name', 'id');
 
-        // @todo Configurable key_name
-        if ($id = Arr::pull($attributes, $keyName)) {
-            return $this->query->where($keyName, $id)->update($attributes);
+        $id = Arr::get($attributes, $keyName);
+
+        if ($id) {
+            $this->query->where($keyName, $id);
         }
 
-        $id = $this->query->insertGetId($entry->getAttributes());
+        if ($this->query->exists()) {
+            return $this->query->update($attributes);
+        }
+
+        foreach ($attributes as $key => &$value) {
+            if (is_array($value)) {
+                $value = json_encode($value);
+            }
+        }
+
+        $id = $this->query->insertGetId($attributes);
 
         $entry->{$keyName} = $id;
 
@@ -92,7 +115,7 @@ class DatabaseAdapter extends AbstractAdapter
 
         return $this->query->delete();
     }
-    
+
     public function truncate(): void
     {
         $this->query->truncate();
