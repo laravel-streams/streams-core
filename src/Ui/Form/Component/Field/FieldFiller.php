@@ -67,10 +67,12 @@ class FieldFiller
          * in the remaining fill fields in place
          * of the fill marker.
          */
-        if (($position = array_search('*', $fields)) !== false) {
-            array_splice($fields, $position, null, $fill);
+        if (array_search('*', $fields) !== false) {
+            foreach ($fill as $field) {
+                $fields[] = $field;
+            }
         }
-
+        
         /**
          * Remove the fill symbol.
          */
