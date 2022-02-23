@@ -385,7 +385,7 @@ class Stream implements
             $attributes['rules'] = $rules;
 
             if (!App::has('streams.core.field_type.' . $attributes['type'])) {
-                throw new \Exception("Invalid field type [{$attributes['type']}] in stream [{$this->stream->id}].");
+                throw new \Exception("Invalid field type [{$attributes['type']}] in stream [{$this->id}].");
             }
 
             $field = App::make('streams.core.field_type.' . $attributes['type'], [
